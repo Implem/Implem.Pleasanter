@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
@@ -26,11 +27,6 @@ namespace Implem.Pleasanter.Libraries.Security
             ManagePermission = 256,             // 00000000000000000000000100000000
             ManageTenant = 1073741824,          // 01000000000000000000000000000000
             ManageService = 2147483648,         // 10000000000000000000000000000000
-
-            ReadOnly = 17,                      // 00000000000000000000000000010001
-            ReadWrite = 31,                     // 00000000000000000000000000011111
-            Leader = 255,                       // 00000000000000000000000011111111
-            Manager = 511,                      // 00000000000000000000000111111111
         }
 
         public static Types Get(string name)
@@ -51,6 +47,16 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "ManageService": return Types.ManageService;
                 default: return Types.NotSet;
             }
+        }
+
+        public static Types General()
+        {
+            return (Types)Parameters.Permissions.General;
+        }
+
+        public static Types Manager()
+        {
+            return (Types)Parameters.Permissions.Manager;
         }
 
         public enum ColumnPermissionTypes

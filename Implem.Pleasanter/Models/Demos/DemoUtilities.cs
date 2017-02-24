@@ -476,7 +476,7 @@ namespace Implem.Pleasanter.Models
                             .ReferenceId(siteId)
                             .DeptId(0)
                             .UserId(idHash["User1"])
-                            .PermissionType(Permissions.Types.Manager)));
+                            .PermissionType(Permissions.Manager())));
                 idHash.Where(o => o.Key.StartsWith("Dept")).Select(o => o.Value).ForEach(deptId =>
                 {
                     Rds.ExecuteNonQuery(statements:
@@ -486,7 +486,7 @@ namespace Implem.Pleasanter.Models
                                 .ReferenceId(siteId)
                                 .DeptId(deptId)
                                 .UserId(0)
-                                .PermissionType(Permissions.Types.ReadWrite)));
+                                .PermissionType(Permissions.General())));
                 });
             });
         }

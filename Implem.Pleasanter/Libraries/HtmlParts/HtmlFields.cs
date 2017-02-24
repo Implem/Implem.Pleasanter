@@ -767,6 +767,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             bool _checked = false,
             bool disabled = false,
+            string dataId = null,
             string onChange = null,
             string action = null,
             string method = null,
@@ -789,6 +790,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlCss: controlCss,
                             _checked: _checked,
                             disabled: disabled,
+                            dataId: dataId,
                             onChange: onChange,
                             action: action,
                             method: method));

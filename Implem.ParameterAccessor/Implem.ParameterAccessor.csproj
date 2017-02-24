@@ -53,6 +53,7 @@
     <Compile Include="Parts\General.cs" />
     <Compile Include="Parts\Mail.cs" />
     <Compile Include="Parts\Path.cs" />
+    <Compile Include="Parts\Permissions.cs" />
     <Compile Include="Parts\SysLog.cs" />
     <Compile Include="Parts\Rds.cs" />
     <Compile Include="Parts\Service.cs" />

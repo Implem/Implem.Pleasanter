@@ -12,6 +12,7 @@ namespace Implem.DefinitionAccessor
         public static General General;
         public static Mail Mail;
         public static Path Path;
+        public static Permissions Permissions;
         public static Rds Rds;
         public static Service Service;
         public static SysLog SysLog;

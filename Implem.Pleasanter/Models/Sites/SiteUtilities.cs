@@ -578,7 +578,7 @@ namespace Implem.Pleasanter.Models
         public static string SiteTop()
         {
             var hb = new HtmlBuilder();
-            var pt = Permissions.Admins() | Permissions.Types.Manager;
+            var pt = Permissions.Admins() | Permissions.Manager();
             var verType = Versions.VerTypes.Latest;
             var siteConditions = SiteInfo.SiteMenu.SiteConditions(0);
             return hb.Template(
@@ -656,7 +656,7 @@ namespace Implem.Pleasanter.Models
                 : SiteSettingsUtilities.SitesSiteSettings(0);
             var pt = siteModel != null
                 ? siteModel.PermissionType
-                : Permissions.Admins() | Permissions.Types.Manager;
+                : Permissions.Admins() | Permissions.Manager();
             return hb.Div(id: "SiteMenu", action: () => hb
                 .Nav(css: "cf", _using: siteModel != null, action: () => hb
                     .Ul(css: "nav-sites", action: () => hb

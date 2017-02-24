@@ -204,14 +204,11 @@ namespace Implem.Pleasanter.Models
         {
             get
             {
-                switch (PermissionType)
-                {
-                    case Permissions.Types.ReadOnly: return Displays.ReadOnly();
-                    case Permissions.Types.ReadWrite: return Displays.ReadWrite();
-                    case Permissions.Types.Leader: return Displays.Leader();
-                    case Permissions.Types.Manager: return Displays.Manager();
-                    default: return string.Empty;
-                }
+                var permissionType = PermissionType.ToLong();
+                return Parameters.Permissions.Pattern.ContainsValue(permissionType)
+                    ? Displays.Get(Parameters.Permissions.Pattern.First(o =>
+                        o.Value == permissionType).Key)
+                    : Displays.Special();
             }
         }
 

@@ -72,7 +72,11 @@ namespace Implem.Pleasanter.Models
                             action: () => hb
                                 .EditorTabs()
                                 .Fields(siteModel: siteModel, ss: ss))
-                        .Hidden(controlId: "MethodType", value: "edit")));
+                        .Hidden(controlId: "MethodType", value: "edit"))
+                .Div(attributes: new HtmlAttributes()
+                    .Id("PermissionsDialog")
+                    .Class("dialog")
+                    .Title(Displays.AdvancedSetting())));
         }
 
         /// <summary>
@@ -197,37 +201,13 @@ namespace Implem.Pleasanter.Models
                 commandOptionAction: () => hb
                     .Div(css: "command-left", action: () => hb
                         .Button(
-                            controlId: "ReadOnly",
+                            controlId: "OpenPermissionsDialog",
                             controlCss: "button-icon post",
-                            text: Displays.ReadOnly(),
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-person",
+                            text: Displays.AdvancedSetting(),
+                            onClick: "$p.openPermissionsDialog($(this));",
+                            icon: "ui-icon-gear",
                             action: "Set",
-                            method: "put")
-                        .Button(
-                            controlId: "ReadWrite",
-                            controlCss: "button-icon post",
-                            text: Displays.ReadWrite(),
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-person",
-                            action: "Set",
-                            method: "put")
-                        .Button(
-                            controlId: "Leader",
-                            controlCss: "button-icon post",
-                            text: Displays.Leader(),
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-person",
-                            action: "Set",
-                            method: "put")
-                        .Button(
-                            controlId: "Manager",
-                            controlCss: "button-icon post",
-                            text: Displays.Manager(),
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-person",
-                            action: "Set",
-                            method: "put")
+                            method: "delete")
                         .Button(
                             controlId: "Delete",
                             controlCss: "button-icon post",
@@ -326,7 +306,7 @@ namespace Implem.Pleasanter.Models
                                     sourceCollection.Add(new PermissionModel(
                                         referenceType,
                                         referenceId,
-                                        Permissions.Types.ReadWrite,
+                                        Permissions.General(),
                                         dataRow)));
             Rds.ExecuteTable(
                 transactional: false,
@@ -347,7 +327,7 @@ namespace Implem.Pleasanter.Models
                                     sourceCollection.Add(new PermissionModel(
                                         referenceType,
                                         referenceId,
-                                        Permissions.Types.ReadWrite,
+                                        Permissions.General(),
                                         dataRow)));
             Rds.ExecuteTable(
                 transactional: false,
@@ -373,7 +353,7 @@ namespace Implem.Pleasanter.Models
                                     sourceCollection.Add(new PermissionModel(
                                         referenceType,
                                         referenceId,
-                                        Permissions.Types.ReadWrite,
+                                        Permissions.General(),
                                         dataRow)));
             return sourceCollection;
         }
@@ -493,29 +473,11 @@ namespace Implem.Pleasanter.Models
             {
                 switch (Forms.ControlId())
                 {
-                    case "ReadOnly":
-                        res.SetPermissionType(
-                            siteModel,
-                            permissionDestination,
-                            Permissions.Types.ReadOnly);
-                        break;
-                    case "ReadWrite":
-                        res.SetPermissionType(
-                            siteModel,
-                            permissionDestination,
-                            Permissions.Types.ReadWrite);
-                        break;
-                    case "Leader":
-                        res.SetPermissionType(
-                            siteModel,
-                            permissionDestination,
-                            Permissions.Types.Leader);
-                        break;
-                    case "Manager":
-                        res.SetPermissionType(
-                            siteModel,
-                            permissionDestination,
-                            Permissions.Types.Manager);
+                    case "OpenPermissionsDialog":
+                        OpenPermissionsDialog(
+                            res,
+                            siteModel.Session_PermissionDestinationCollection(),
+                            siteId);
                         break;
                     case "Add":
                         siteModel.Session_PermissionDestinationCollection().AddRange(
@@ -523,8 +485,7 @@ namespace Implem.Pleasanter.Models
                                 permissionSource.Contains(o.PermissionId)));
                         siteModel.Session_PermissionDestinationCollection().Where(o =>
                             permissionSource.Contains(o.PermissionId))
-                                .ForEach(o =>
-                                    o.PermissionType = Permissions.Types.ReadWrite);
+                                .ForEach(o => o.PermissionType = Permissions.General());
                         siteModel.Session_PermissionSourceCollection().RemoveAll(o =>
                             permissionSource.Contains(o.PermissionId));
                         res
@@ -534,6 +495,18 @@ namespace Implem.Pleasanter.Models
                             .Html("#PermissionSource", PermissionListItem(siteModel, Types.Source))
                             .SetFormData("PermissionDestination", permissionSource.ToJson())
                             .SetFormData("PermissionSource", string.Empty);
+                        break;
+                    case "PermissionPattern":
+                        res.ReplaceAll(
+                            "#PermissionParts",
+                            new HtmlBuilder().PermissionParts(
+                                (Permissions.Types)Forms.Long("PermissionPattern")));
+                        break;
+                    case "ChangePermissions":
+                        res.ChangePermissions(
+                            siteModel,
+                            permissionDestination,
+                            GetPermissionTypeByForm());
                         break;
                     case "Delete":
                         siteModel.Session_PermissionSourceCollection().AddRange(
@@ -580,7 +553,102 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void SetPermissionType(
+        private static void OpenPermissionsDialog(
+            ResponseCollection res, PermissionCollection current, long siteId)
+        {
+            var selected = Forms.List("PermissionDestination");
+            if (!selected.Any())
+            {
+                res.Message(Messages.SelectTargets());
+            }
+            else
+            {
+                res.Html(
+                    "#PermissionsDialog",
+                    PermissionsDialog(
+                        current.FirstOrDefault(o => o.PermissionId == selected.First()).PermissionType,
+                        siteId));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder PermissionsDialog(Permissions.Types pt, long siteId)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("PermissionsForm")
+                    .Action(Locations.ItemAction(siteId, "Permissions")),
+                action: () => hb
+                    .FieldDropDown(
+                        controlId: "PermissionPattern",
+                        controlCss: " auto-postback",
+                        labelText: Displays.Pattern(),
+                        optionCollection: Parameters.Permissions.Pattern
+                            .ToDictionary(
+                                o => o.Value.ToString(),
+                                o => new ControlData(Displays.Get(o.Key))),
+                        selectedValue: pt.ToLong().ToString(),
+                        addSelectedValue: false,
+                        action: "Set",
+                        method: "post")
+                    .PermissionParts(pt)
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "ChangePermissions",
+                            text: Displays.Change(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.changePermissions($(this));",
+                            icon: "ui-icon-disk",
+                            action: "Set",
+                            method: "post")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        private static HtmlBuilder PermissionParts(this HtmlBuilder hb, Permissions.Types pt)
+        {
+            return hb.FieldSet(
+                id: "PermissionParts",
+                css: " enclosed",
+                legendText: Displays.Permissions(),
+                action: () => hb
+                    .PermissionPart(pt, Permissions.Types.Read)
+                    .PermissionPart(pt, Permissions.Types.Create)
+                    .PermissionPart(pt, Permissions.Types.Update)
+                    .PermissionPart(pt, Permissions.Types.Delete)
+                    .PermissionPart(pt, Permissions.Types.DownloadFile)
+                    .PermissionPart(pt, Permissions.Types.Export)
+                    .PermissionPart(pt, Permissions.Types.Import)
+                    .PermissionPart(pt, Permissions.Types.ManageSite)
+                    .PermissionPart(pt, Permissions.Types.ManagePermission));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder PermissionPart(
+            this HtmlBuilder hb, Permissions.Types pt, Permissions.Types type)
+        {
+            return hb.FieldCheckBox(
+                controlId: type.ToString(),
+                fieldCss: "field-auto-thin w200",
+                controlCss: " always-send",
+                labelText: Displays.Get(type.ToString()),
+                _checked: (pt & type) > 0,
+                dataId: type.ToLong().ToString());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void ChangePermissions(
             this ResponseCollection res,
             SiteModel siteModel,
             List<string> permissionDestination,
@@ -591,10 +659,30 @@ namespace Implem.Pleasanter.Models
                     .Where(o => (o.PermissionId == permissionType_ItemId))
                     .First()
                     .PermissionType = pt);
-            res.Html("#PermissionDestination", PermissionListItem(
-                siteModel,
-                Types.Destination,
-                permissionDestination));
+            res
+                .CloseDialog()
+                .Html("#PermissionDestination", PermissionListItem(
+                    siteModel,
+                    Types.Destination,
+                    permissionDestination));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Permissions.Types GetPermissionTypeByForm()
+        {
+            var pt = Permissions.Types.NotSet;
+            if (Forms.Bool("Read")) pt |= Permissions.Types.Read;
+            if (Forms.Bool("Create")) pt |= Permissions.Types.Create;
+            if (Forms.Bool("Update")) pt |= Permissions.Types.Update;
+            if (Forms.Bool("Delete")) pt |= Permissions.Types.Delete;
+            if (Forms.Bool("DownloadFile")) pt |= Permissions.Types.DownloadFile;
+            if (Forms.Bool("Export")) pt |= Permissions.Types.Export;
+            if (Forms.Bool("Import")) pt |= Permissions.Types.Import;
+            if (Forms.Bool("ManageSite")) pt |= Permissions.Types.ManageSite;
+            if (Forms.Bool("ManagePermission")) pt |= Permissions.Types.ManagePermission;
+            return pt;
         }
     }
 }

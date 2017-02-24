@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DownloadFile",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "DownloadFile"
+        },
+        {
+            "Language": "ja",
+            "Body": "ダウンロード"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Pattern",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Pattern"
+        },
+        {
+            "Language": "ja",
+            "Body": "パターン"
+        }
+    ]
+}

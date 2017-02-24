@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ManageSite",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Manage site"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイトの管理"
+        }
+    ]
+}

@@ -254,7 +254,7 @@ namespace Implem.Pleasanter.Models
                 case "Sites": return SiteUtilities.EditorNew(
                     ReferenceId != 0
                         ? Site.PermissionType
-                        : Permissions.Types.Manager,
+                        : Permissions.Manager(),
                     ReferenceId);
                 case "Issues": return IssueUtilities.EditorNew(Site);
                 case "Results": return ResultUtilities.EditorNew(Site);
@@ -415,7 +415,7 @@ namespace Implem.Pleasanter.Models
                 case "Sites": return SiteUtilities.Create(
                     pt: Site.SiteId != 0
                         ? Site.PermissionType
-                        : Permissions.Types.Manager,
+                        : Permissions.Manager(),
                     parentId: Site.SiteId,
                     inheritPermission: Site.InheritPermission);
                 case "Issues": return IssueUtilities.Create(

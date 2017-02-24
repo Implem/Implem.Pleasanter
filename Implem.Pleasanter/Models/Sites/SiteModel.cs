@@ -529,7 +529,7 @@ namespace Implem.Pleasanter.Models
                             .ReferenceId(raw: Def.Sql.Identity)
                             .DeptId(0)
                             .UserId(Sessions.UserId())
-                            .PermissionType(Permissions.Types.Manager),
+                            .PermissionType(Permissions.Manager()),
                         _using: InheritPermission == 0)
                 });
             SiteId = newId != 0 ? newId : SiteId;
@@ -804,7 +804,7 @@ namespace Implem.Pleasanter.Models
         {
             return new HtmlBuilder().SiteMenu(
                 ss: SiteSettings,
-                pt: Permissions.Types.Manager,
+                pt: Permissions.Manager(),
                 siteId: destinationId,
                 referenceType: ReferenceType,
                 title: SiteInfo.SiteMenu.Get(destinationId).Title,
