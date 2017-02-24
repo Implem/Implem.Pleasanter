@@ -244,21 +244,21 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Cancel(),
                         onClick: "$p.closeDialog($(this));",
                         icon: "ui-icon-cancel"))
-            .Hidden(controlId: "OutgoingMails_Location", value: Location())
-            .Hidden(
-                controlId: "OutgoingMails_Reply",
-                value: outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected
-                    ? "1"
-                    : "0")
-            .Hidden(
-                controlId: "To",
-                value: MailDefault(outgoingMailModel, ss.MailToDefault, "to"))
-            .Hidden(
-                controlId: "Cc",
-                value: MailDefault(outgoingMailModel, ss.MailCcDefault, "cc"))
-            .Hidden(
-                controlId: "Bcc",
-                value: MailDefault(outgoingMailModel, ss.MailBccDefault, "bcc"));
+                .Hidden(controlId: "OutgoingMails_Location", value: Location())
+                .Hidden(
+                    controlId: "OutgoingMails_Reply",
+                    value: outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected
+                        ? "1"
+                        : "0")
+                .Hidden(
+                    controlId: "To",
+                    value: MailDefault(outgoingMailModel, ss.MailToDefault, "to"))
+                .Hidden(
+                    controlId: "Cc",
+                    value: MailDefault(outgoingMailModel, ss.MailCcDefault, "cc"))
+                .Hidden(
+                    controlId: "Bcc",
+                    value: MailDefault(outgoingMailModel, ss.MailBccDefault, "bcc"));
         }
 
         /// <summary>
