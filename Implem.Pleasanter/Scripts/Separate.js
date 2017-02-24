@@ -1,10 +1,12 @@
 ﻿$p.openSeparateSettingsDialog = function ($control) {
-    $p.syncSend($control);
-    $('#SeparateSettingsDialog').dialog({
-        modal: true,
-        width: '700px',
-        appendTo: '.main-form'
-    });
+    var error = $p.syncSend($control);
+    if (error === 0) {
+        $('#SeparateSettingsDialog').dialog({
+            modal: true,
+            width: '700px',
+            appendTo: '.main-form'
+        });
+    }
 }
 
 $p.separateSettings = function () {
