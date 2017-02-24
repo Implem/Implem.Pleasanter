@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "DownloadFile",
+    "Id": "Send",
     "Type": 110,
     "Languages": [
         {
-            "Body": "DownloadFile"
+            "Body": "Send"
         },
         {
             "Language": "ja",
-            "Body": "ダウンロード"
+            "Body": "送信"
         }
     ]
 }

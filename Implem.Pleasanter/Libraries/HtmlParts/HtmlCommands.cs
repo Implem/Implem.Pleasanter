@@ -102,7 +102,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: "Edit",
                                     method: "put",
                                     accessKey: "m",
-                                    _using: mailButton && pt.CanUpdate())
+                                    _using: mailButton && pt.CanSendMail())
                                 .Button(
                                     text: Displays.Delete(),
                                     controlCss: "button-icon",

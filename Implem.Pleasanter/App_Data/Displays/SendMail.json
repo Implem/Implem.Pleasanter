@@ -3,11 +3,11 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Send"
+            "Body": "Send mail"
         },
         {
             "Language": "ja",
-            "Body": "送信"
+            "Body": "メール送信"
         }
     ]
 }

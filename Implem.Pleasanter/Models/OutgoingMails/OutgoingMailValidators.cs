@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Models
             out string data)
         {
             data = null;
-            if (!pt.CanUpdate())
+            if (!pt.CanSendMail())
             {
                 return Error.Types.HasNotPermission;
             }

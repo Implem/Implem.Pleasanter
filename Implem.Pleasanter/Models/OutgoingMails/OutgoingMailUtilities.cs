@@ -232,7 +232,7 @@ namespace Implem.Pleasanter.Models
                     .Button(
                         controlId: "OutgoingMails_Send",
                         controlCss: "button-icon validate",
-                        text: Displays.SendMail(),
+                        text: Displays.Send(),
                         onClick: "$p.sendMail($(this));",
                         icon: "ui-icon-mail-closed",
                         action: "Send",

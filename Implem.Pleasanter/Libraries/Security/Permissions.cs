@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.Security
             Create = 2,                         // 00000000000000000000000000000010
             Update = 4,                         // 00000000000000000000000000000100
             Delete = 8,                         // 00000000000000000000000000001000
-            DownloadFile = 16,                  // 00000000000000000000000000010000
+            SendMail = 16,                      // 00000000000000000000000000010000
             Export = 32,                        // 00000000000000000000000000100000
             Import = 64,                        // 00000000000000000000000001000000
             ManageSite = 128,                   // 00000000000000000000000010000000
@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "Create": return Types.Create;
                 case "Update": return Types.Update;
                 case "Delete": return Types.Delete;
-                case "DownloadFile": return Types.DownloadFile;
+                case "SendMail": return Types.SendMail;
                 case "Export": return Types.Export;
                 case "Import": return Types.Import;
                 case "ManageSite": return Types.ManageSite;
@@ -205,9 +205,9 @@ namespace Implem.Pleasanter.Libraries.Security
             }
         }
 
-        public static bool CanDownloadFile(this Types self)
+        public static bool CanSendMail(this Types self)
         {
-            return (self & Types.DownloadFile) != 0;
+            return (self & Types.SendMail) != 0;
         }
 
         public static bool CanExport(this Types self)

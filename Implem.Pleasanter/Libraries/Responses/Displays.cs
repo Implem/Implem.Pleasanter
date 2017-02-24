@@ -134,7 +134,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Difference(params string[] data) { return Get("Difference", data); }
         public static string Disabled(params string[] data) { return Get("Disabled", data); }
         public static string DisplayName(params string[] data) { return Get("DisplayName", data); }
-        public static string DownloadFile(params string[] data) { return Get("DownloadFile", data); }
         public static string EarnedValue(params string[] data) { return Get("EarnedValue", data); }
         public static string Edit(params string[] data) { return Get("Edit", data); }
         public static string Editor(params string[] data) { return Get("Editor", data); }
@@ -239,6 +238,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string MailAddress(params string[] data) { return Get("MailAddress", data); }
         public static string MailAddressHasNotSet(params string[] data) { return Get("MailAddressHasNotSet", data); }
         public static string MailTransmissionCompletion(params string[] data) { return Get("MailTransmissionCompletion", data); }
+        public static string ManagePermission(params string[] data) { return Get("ManagePermission", data); }
         public static string ManagePermissions(params string[] data) { return Get("ManagePermissions", data); }
         public static string Manager(params string[] data) { return Get("Manager", data); }
         public static string ManageSite(params string[] data) { return Get("ManageSite", data); }
@@ -331,6 +331,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SelectableMembers(params string[] data) { return Get("SelectableMembers", data); }
         public static string SelectOne(params string[] data) { return Get("SelectOne", data); }
         public static string SelectTargets(params string[] data) { return Get("SelectTargets", data); }
+        public static string Send(params string[] data) { return Get("Send", data); }
         public static string SendMail(params string[] data) { return Get("SendMail", data); }
         public static string SentAcceptanceMail (params string[] data) { return Get("SentAcceptanceMail ", data); }
         public static string SentMail(params string[] data) { return Get("SentMail", data); }

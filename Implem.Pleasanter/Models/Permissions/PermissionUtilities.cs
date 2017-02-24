@@ -623,7 +623,7 @@ namespace Implem.Pleasanter.Models
                     .PermissionPart(pt, Permissions.Types.Create)
                     .PermissionPart(pt, Permissions.Types.Update)
                     .PermissionPart(pt, Permissions.Types.Delete)
-                    .PermissionPart(pt, Permissions.Types.DownloadFile)
+                    .PermissionPart(pt, Permissions.Types.SendMail)
                     .PermissionPart(pt, Permissions.Types.Export)
                     .PermissionPart(pt, Permissions.Types.Import)
                     .PermissionPart(pt, Permissions.Types.ManageSite)
@@ -677,7 +677,7 @@ namespace Implem.Pleasanter.Models
             if (Forms.Bool("Create")) pt |= Permissions.Types.Create;
             if (Forms.Bool("Update")) pt |= Permissions.Types.Update;
             if (Forms.Bool("Delete")) pt |= Permissions.Types.Delete;
-            if (Forms.Bool("DownloadFile")) pt |= Permissions.Types.DownloadFile;
+            if (Forms.Bool("SendMail")) pt |= Permissions.Types.SendMail;
             if (Forms.Bool("Export")) pt |= Permissions.Types.Export;
             if (Forms.Bool("Import")) pt |= Permissions.Types.Import;
             if (Forms.Bool("ManageSite")) pt |= Permissions.Types.ManageSite;
