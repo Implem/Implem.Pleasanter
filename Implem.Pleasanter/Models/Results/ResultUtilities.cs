@@ -1021,7 +1021,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return new ResponseCollection().Message(invalid.Message()).ToJson();
+                default: return invalid.MessageJson();
             }
             if (resultModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -1070,7 +1070,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return new ResponseCollection().Message(invalid.Message()).ToJson();
+                default: return invalid.MessageJson();
             }
             resultModel.ResultId = 0;
             if (ss.EditorColumns.Contains("Title"))

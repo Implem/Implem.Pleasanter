@@ -1058,7 +1058,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return new ResponseCollection().Message(invalid.Message()).ToJson();
+                default: return invalid.MessageJson();
             }
             if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -1111,7 +1111,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return new ResponseCollection().Message(invalid.Message()).ToJson();
+                default: return invalid.MessageJson();
             }
             issueModel.IssueId = 0;
             if (ss.EditorColumns.Contains("Title"))
@@ -1272,7 +1272,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return new ResponseCollection().Message(invalid.Message()).ToJson();
+                default: return invalid.MessageJson();
             }
             return new ResponseCollection()
                 .Html(
@@ -1293,7 +1293,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return new ResponseCollection().Message(invalid.Message()).ToJson();
+                default: return invalid.MessageJson();
             }
             var number = Forms.Int("SeparateNumber");
             if (number >= 2)

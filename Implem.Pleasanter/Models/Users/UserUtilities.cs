@@ -685,7 +685,7 @@ namespace Implem.Pleasanter.Models
                         .Val("#Users_TenantManager", userModel.SavedTenantManager)
                         .ClearFormData("Users_TenantManager")
                         .ToJson();
-                default: return new ResponseCollection().Message(invalid.Message()).ToJson();
+                default: return invalid.MessageJson();
             }
             if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
             {

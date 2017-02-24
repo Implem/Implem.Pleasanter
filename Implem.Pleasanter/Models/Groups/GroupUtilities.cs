@@ -604,7 +604,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return new ResponseCollection().Message(invalid.Message()).ToJson();
+                default: return invalid.MessageJson();
             }
             if (groupModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
