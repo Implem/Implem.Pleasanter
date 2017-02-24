@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Editor(string referenceType, long referenceId)
+        public static string Editor(string referenceType, long id)
         {
             if (MailAddressUtilities.From() == string.Empty)
             {
@@ -137,8 +137,16 @@ namespace Implem.Pleasanter.Models
                     .Message(Messages.MailAddressHasNotSet())
                     .ToJson();
             }
-            var siteModel = new ItemModel(referenceId).GetSite();
+            var siteModel = new ItemModel(id).GetSite();
             var ss = siteModel.SitesSiteSettings();
+            var invalid = OutgoingMailValidators.OnEditing(Permissions.GetById(id));
+            switch (invalid)
+            {
+                case Error.Types.None:
+                    break;
+                default:
+                    return invalid.MessageJson();
+            }
             var outgoingMailModel = new OutgoingMailModel().Get(
                 where: Rds.OutgoingMailsWhere().OutgoingMailId(
                     Forms.Long("OutgoingMails_OutgoingMailId")));
@@ -160,7 +168,7 @@ namespace Implem.Pleasanter.Models
                                 attributes: new HtmlAttributes()
                                     .Id("OutgoingMailForm")
                                     .Action(Locations.Action(
-                                        referenceType, referenceId, "OutgoingMails")),
+                                        referenceType, id, "OutgoingMails")),
                                 action: () => hb
                                     .Editor(
                                         ss: ss,
@@ -170,7 +178,7 @@ namespace Implem.Pleasanter.Models
                                 attributes: new HtmlAttributes()
                                     .Id("OutgoingMailDestinationForm")
                                     .Action(Locations.Action(
-                                        referenceType, referenceId, "OutgoingMails")),
+                                        referenceType, id, "OutgoingMails")),
                                 action: () => hb
                                     .Destinations(
                                         ss: ss,
