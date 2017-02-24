@@ -919,7 +919,8 @@ namespace Implem.Pleasanter.Models
                         onClick: "$p.openSeparateSettingsDialog($(this));",
                         icon: "ui-icon-extlink",
                         action: "EditSeparateSettings",
-                        method: "post")
+                        method: "post",
+                        _using: ss.PermissionType.CanUpdate())
                     : hb;
         }
 
@@ -1261,6 +1262,12 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss, Permissions.Types pt, long issueId)
         {
             var issueModel = new IssueModel(ss, issueId);
+            var invalid = IssueValidators.OnUpdating(ss, pt, issueModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return new ResponseCollection().Message(invalid.Message()).ToJson();
+            }
             return new ResponseCollection()
                 .Html(
                     "#SeparateSettingsDialog",
@@ -1276,6 +1283,12 @@ namespace Implem.Pleasanter.Models
         public static string Separate(SiteSettings ss, Permissions.Types pt, long issueId)
         {
             var issueModel = new IssueModel(ss, issueId);
+            var invalid = IssueValidators.OnUpdating(ss, pt, issueModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return new ResponseCollection().Message(invalid.Message()).ToJson();
+            }
             var number = Forms.Int("SeparateNumber");
             if (number >= 2)
             {
