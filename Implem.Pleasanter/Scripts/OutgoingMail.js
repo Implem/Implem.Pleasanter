@@ -1,13 +1,16 @@
 ﻿$p.openOutgoingMailDialog = function ($control) {
+    var error = 0;
     if ($('#OutgoingMails_Title').length === 0) {
-        $p.syncSend($control, 'OutgoingMailsForm');
+        error = $p.syncSend($control, 'OutgoingMailsForm');
     }
-    $('#OutgoingMailDialog').dialog({
-        modal: true,
-        width: '90%',
-        height: 'auto',
-        dialogClass: 'outgoing-mail'
-    });
+    if (error === 0) {
+        $('#OutgoingMailDialog').dialog({
+            modal: true,
+            width: '90%',
+            height: 'auto',
+            dialogClass: 'outgoing-mail'
+        });
+    }
 }
 
 $p.openOutgoingMailReplyDialog = function ($control) {
