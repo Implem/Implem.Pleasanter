@@ -142,10 +142,8 @@ namespace Implem.Pleasanter.Models
             var invalid = OutgoingMailValidators.OnEditing(Permissions.GetById(id));
             switch (invalid)
             {
-                case Error.Types.None:
-                    break;
-                default:
-                    return invalid.MessageJson();
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
             }
             var outgoingMailModel = new OutgoingMailModel().Get(
                 where: Rds.OutgoingMailsWhere().OutgoingMailId(
