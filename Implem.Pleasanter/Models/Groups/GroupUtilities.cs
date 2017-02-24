@@ -172,7 +172,7 @@ namespace Implem.Pleasanter.Models
                                 .Or(Rds.GroupMembersWhere()
                                     .DeptId(Sessions.DeptId())
                                     .UserId(Sessions.UserId()))),
-                        _using: !Permissions.CanEditTenant())),
+                        _using: !Permissions.CanManageTenant())),
                 orderBy: view.OrderBy(ss, Rds.GroupsOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)),
                 offset: offset,

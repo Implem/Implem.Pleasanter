@@ -158,15 +158,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
                                 .Text(text: Displays.SiteSettings())),
-                    _using: siteId != 0 && pt.CanEditSite())
+                    _using: siteId != 0 && pt.CanManageSite())
                 .Li(
                     action: () => hb
                         .A(
                             href: Locations.ItemEdit(siteId, "Permissions"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-locked")
-                                .Text(text: Displays.EditPermissions())),
-                    _using: siteId != 0 && pt.CanEditPermission())
+                                .Text(text: Displays.ManagePermissions())),
+                    _using: siteId != 0 && pt.CanManagePermission())
                 .Li(
                     action: () => hb
                         .A(
@@ -174,7 +174,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
                                 .Text(text: Displays.DeptAdmin())),
-                    _using: pt.CanEditTenant())
+                    _using: pt.CanManageTenant())
                 .Li(
                     action: () => hb
                         .A(
@@ -189,7 +189,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
                                 .Text(text: Displays.UserAdmin())),
-                    _using: pt.CanEditTenant()));
+                    _using: pt.CanManageTenant()));
         }
 
         private static HtmlBuilder AccountMenu(this HtmlBuilder hb)

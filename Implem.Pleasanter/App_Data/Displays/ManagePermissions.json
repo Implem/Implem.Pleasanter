@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "EditPermissions",
+    "Id": "ManagePermissions",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Edit Permissions"
+            "Body": "Manage permissions"
         },
         {
             "Language": "ja",
-            "Body": "権限設定の編集"
+            "Body": "権限の管理"
         }
     ]
 }

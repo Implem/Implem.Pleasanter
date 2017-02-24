@@ -701,7 +701,7 @@
     <Content Include="App_Data\Displays\EarnedValue.json" />
     <Content Include="App_Data\Displays\Edit.json" />
     <Content Include="App_Data\Displays\Editor.json" />
-    <Content Include="App_Data\Displays\EditPermissions.json" />
+    <Content Include="App_Data\Displays\ManagePermissions.json" />
     <Content Include="App_Data\Displays\EditProfile.json" />
     <Content Include="App_Data\Displays\EditScript.json" />
     <Content Include="App_Data\Displays\EditSettings.json" />

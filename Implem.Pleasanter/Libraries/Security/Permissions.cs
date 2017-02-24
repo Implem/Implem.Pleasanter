@@ -22,10 +22,10 @@ namespace Implem.Pleasanter.Libraries.Security
             DownloadFile = 16,                  // 00000000000000000000000000010000
             Export = 32,                        // 00000000000000000000000000100000
             Import = 64,                        // 00000000000000000000000001000000
-            EditSite = 128,                     // 00000000000000000000000010000000
-            EditPermission = 256,               // 00000000000000000000000100000000
-            EditTenant = 1073741824,            // 01000000000000000000000000000000
-            EditService = 2147483648,           // 10000000000000000000000000000000
+            ManageSite = 128,                   // 00000000000000000000000010000000
+            ManagePermission = 256,             // 00000000000000000000000100000000
+            ManageTenant = 1073741824,          // 01000000000000000000000000000000
+            ManageService = 2147483648,         // 10000000000000000000000000000000
 
             ReadOnly = 17,                      // 00000000000000000000000000010001
             ReadWrite = 31,                     // 00000000000000000000000000011111
@@ -45,10 +45,10 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "DownloadFile": return Types.DownloadFile;
                 case "Export": return Types.Export;
                 case "Import": return Types.Import;
-                case "EditSite": return Types.EditSite;
-                case "EditPermission": return Types.EditPermission;
-                case "EditTenant": return Types.EditTenant;
-                case "EditService": return Types.EditService;
+                case "ManageSite": return Types.ManageSite;
+                case "ManagePermission": return Types.ManagePermission;
+                case "ManageTenant": return Types.ManageTenant;
+                case "ManageService": return Types.ManageService;
                 default: return Types.NotSet;
             }
         }
@@ -137,11 +137,11 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
-                    return self.CanEditTenant();
+                    return self.CanManageTenant();
                 case "groups":
                     return CanReadGroup();
                 case "users":
-                    return self.CanEditTenant() ||
+                    return self.CanManageTenant() ||
                         Sessions.UserId() == Routes.Id();
                 default:
                     return (self & Types.Read) != 0;
@@ -154,7 +154,7 @@ namespace Implem.Pleasanter.Libraries.Security
             {
                 case "depts":
                 case "users":
-                    return self.CanEditTenant();
+                    return self.CanManageTenant();
                 case "groups":
                     return CanEditGroup();
                 default:
@@ -167,11 +167,11 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
-                    return self.CanEditTenant();
+                    return self.CanManageTenant();
                 case "groups":
                     return CanEditGroup();
                 case "users":
-                    return self.CanEditTenant() ||
+                    return self.CanManageTenant() ||
                         Sessions.UserId() == Routes.Id();
                 default:
                     return (self & Types.Update) != 0;
@@ -188,11 +188,11 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
-                    return self.CanEditTenant();
+                    return self.CanManageTenant();
                 case "groups":
                     return CanEditGroup();
                 case "users":
-                    return self.CanEditTenant() &&
+                    return self.CanManageTenant() &&
                         Sessions.UserId() != Routes.Id();
                 default:
                     return (self & Types.Delete) != 0;
@@ -214,24 +214,24 @@ namespace Implem.Pleasanter.Libraries.Security
             return (self & Types.Import) != 0;
         }
 
-        public static bool CanEditSite(this Types self)
+        public static bool CanManageSite(this Types self)
         {
-            return (self & Types.EditSite) != 0;
+            return (self & Types.ManageSite) != 0;
         }
 
-        public static bool CanEditPermission(this Types self)
+        public static bool CanManagePermission(this Types self)
         {
-            return (self & Types.EditPermission) != 0;
+            return (self & Types.ManagePermission) != 0;
         }
 
-        public static bool CanEditTenant(this Types self)
+        public static bool CanManageTenant(this Types self)
         {
-            return (self & Types.EditTenant) != 0;
+            return (self & Types.ManageTenant) != 0;
         }
 
-        public static bool CanEditService(this Types self)
+        public static bool CanManageService(this Types self)
         {
-            return (self & Types.EditService) != 0;
+            return (self & Types.ManageService) != 0;
         }
 
         public static ColumnPermissionTypes ColumnPermissionType(
@@ -280,19 +280,19 @@ namespace Implem.Pleasanter.Libraries.Security
                 (self.UpdatePermission & Admins(pt)) != 0;
         }
 
-        public static bool CanEditTenant()
+        public static bool CanManageTenant()
         {
-            return Sessions.User().TenantAdmin;
+            return Sessions.User().TenantManager;
         }
 
         public static bool CanReadGroup()
         {
-            return Routes.Id() == 0 || CanEditTenant() || Groups().Any();
+            return Routes.Id() == 0 || CanManageTenant() || Groups().Any();
         }
 
         public static bool CanEditGroup()
         {
-            return Routes.Id() == 0 || CanEditTenant() || Groups().Any(o => o["Admin"].ToBool());
+            return Routes.Id() == 0 || CanManageTenant() || Groups().Any(o => o["Admin"].ToBool());
         }
 
         private static EnumerableRowCollection<DataRow> Groups()
@@ -316,8 +316,8 @@ namespace Implem.Pleasanter.Libraries.Security
         public static Types Admins(this Types pt)
         {
             var user = Sessions.User();
-            if (user.TenantAdmin) pt |= Types.EditTenant;
-            if (user.ServiceAdmin) pt |= Types.EditService;
+            if (user.TenantManager) pt |= Types.ManageTenant;
+            if (user.ServiceManager) pt |= Types.ManageService;
             return pt;
         }
     }

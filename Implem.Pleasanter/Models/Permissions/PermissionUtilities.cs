@@ -43,10 +43,10 @@ namespace Implem.Pleasanter.Models
                 pt: siteModel.PermissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Edit,
-                allowAccess: siteModel.PermissionType.CanEditPermission(),
+                allowAccess: siteModel.PermissionType.CanManagePermission(),
                 siteId: siteModel.SiteId,
                 referenceType: "Permissions",
-                title: siteModel.Title.Value + " - " + Displays.EditPermissions(),
+                title: siteModel.Title.Value + " - " + Displays.ManagePermissions(),
                 useNavigationMenu: false,
                 action: () => hb
                     .Editor(siteModel: siteModel, ss: ss));
@@ -436,7 +436,7 @@ namespace Implem.Pleasanter.Models
         public static string Update(long siteId)
         {
             var siteModel = new SiteModel(siteId, setByForm: true);
-            if (siteModel.PermissionType.CanEditPermission())
+            if (siteModel.PermissionType.CanManagePermission())
             {
                 var statements = new List<SqlStatement>();
                 statements.Add(Rds.PhysicalDeletePermissions(

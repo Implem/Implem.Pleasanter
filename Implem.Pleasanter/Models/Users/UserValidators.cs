@@ -149,8 +149,8 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.InvalidRequest;
                         }
                         break;
-                    case "Users_TenantAdmin":
-                        if (!ss.GetColumn("TenantAdmin").CanCreate(pt))
+                    case "Users_TenantManager":
+                        if (!ss.GetColumn("TenantManager").CanCreate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -211,7 +211,7 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnUpdating(
             SiteSettings ss, Permissions.Types pt, UserModel userModel)
         {
-            if (Forms.Exists("Users_TenantAdmin") && userModel.Self())
+            if (Forms.Exists("Users_TenantManager") && userModel.Self())
             {
                 return Error.Types.PermissionNotSelfChange;
             }
@@ -355,8 +355,8 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.InvalidRequest;
                         }
                         break;
-                    case "Users_TenantAdmin":
-                        if (!ss.GetColumn("TenantAdmin").CanUpdate(pt))
+                    case "Users_TenantManager":
+                        if (!ss.GetColumn("TenantManager").CanUpdate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -426,7 +426,7 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnRestoring()
         {
-            if (!Permissions.Admins().CanEditTenant())
+            if (!Permissions.Admins().CanManageTenant())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -447,7 +447,7 @@ namespace Implem.Pleasanter.Models
             {
                 return error;
             }
-            if (!pt.CanEditTenant() && !userModel.Self())
+            if (!pt.CanManageTenant() && !userModel.Self())
             {
                 return Error.Types.HasNotPermission;
             }

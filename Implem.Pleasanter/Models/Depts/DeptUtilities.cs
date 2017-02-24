@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Models
                 pt: pt,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: Sessions.User().TenantAdmin,
+                allowAccess: Sessions.User().TenantManager,
                 referenceType: "Depts",
                 title: Displays.Depts() + " - " + Displays.List(),
                 action: () =>

@@ -139,7 +139,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Editor(params string[] data) { return Get("Editor", data); }
         public static string EditorFormat(params string[] data) { return Get("EditorFormat", data); }
         public static string EditorSettings(params string[] data) { return Get("EditorSettings", data); }
-        public static string EditPermissions(params string[] data) { return Get("EditPermissions", data); }
         public static string EditProfile(params string[] data) { return Get("EditProfile", data); }
         public static string EditScript(params string[] data) { return Get("EditScript", data); }
         public static string EditSettings(params string[] data) { return Get("EditSettings", data); }
@@ -239,6 +238,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string MailAddress(params string[] data) { return Get("MailAddress", data); }
         public static string MailAddressHasNotSet(params string[] data) { return Get("MailAddressHasNotSet", data); }
         public static string MailTransmissionCompletion(params string[] data) { return Get("MailTransmissionCompletion", data); }
+        public static string ManagePermissions(params string[] data) { return Get("ManagePermissions", data); }
         public static string Manager(params string[] data) { return Get("Manager", data); }
         public static string Max(params string[] data) { return Get("Max", data); }
         public static string MaxColumns(params string[] data) { return Get("MaxColumns", data); }
@@ -495,8 +495,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_PasswordChangeTime(params string[] data) { return Get("Users_PasswordChangeTime", data); }
         public static string Users_NumberOfLogins(params string[] data) { return Get("Users_NumberOfLogins", data); }
         public static string Users_NumberOfDenial(params string[] data) { return Get("Users_NumberOfDenial", data); }
-        public static string Users_TenantAdmin(params string[] data) { return Get("Users_TenantAdmin", data); }
-        public static string Users_ServiceAdmin(params string[] data) { return Get("Users_ServiceAdmin", data); }
+        public static string Users_TenantManager(params string[] data) { return Get("Users_TenantManager", data); }
+        public static string Users_ServiceManager(params string[] data) { return Get("Users_ServiceManager", data); }
         public static string Users_Developer(params string[] data) { return Get("Users_Developer", data); }
         public static string Users_OldPassword(params string[] data) { return Get("Users_OldPassword", data); }
         public static string Users_ChangedPassword(params string[] data) { return Get("Users_ChangedPassword", data); }

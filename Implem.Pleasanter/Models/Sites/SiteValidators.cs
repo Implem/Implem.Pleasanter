@@ -110,7 +110,7 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnRestoring()
         {
-            if (!Permissions.Admins().CanEditTenant())
+            if (!Permissions.Admins().CanManageTenant())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -127,15 +127,15 @@ namespace Implem.Pleasanter.Models
             Permissions.Types source,
             Permissions.Types destination)
         {
-            if (currentId != 0 && !current.CanEditSite())
+            if (currentId != 0 && !current.CanManageSite())
             {
                 return Error.Types.HasNotPermission;
             }
-            if (!source.CanEditSite())
+            if (!source.CanManageSite())
             {
                 return Error.Types.HasNotPermission;
             }
-            if (destinationId != 0 && !destination.CanEditSite())
+            if (destinationId != 0 && !destination.CanManageSite())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -147,7 +147,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnSorting(long siteId, Permissions.Types pt)
         {
-            if (siteId != 0 && !pt.CanEditSite())
+            if (siteId != 0 && !pt.CanManageSite())
             {
                 return Error.Types.HasNotPermission;
             }

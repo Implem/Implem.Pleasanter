@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Models
                             .Invoke("setSwitchTargets")
                             .ToJson();
                     default:
-                        return pt.CanEditSite()
+                        return pt.CanManageSite()
                             ? EditorResponse(
                                 siteModel, Messages.Created(siteModel.Title.ToString())).ToJson()
                             : new ResponseCollection().Href(
@@ -994,7 +994,7 @@ namespace Implem.Pleasanter.Models
                 case BaseModel.MethodTypes.New:
                     return siteModel.PermissionType.CanCreate();
                 default:
-                    return siteModel.PermissionType.CanEditSite();
+                    return siteModel.PermissionType.CanManageSite();
             }
         }
 
@@ -1141,13 +1141,13 @@ namespace Implem.Pleasanter.Models
                                 selectedValue: siteModel.ReferenceType,
                                 methodType: siteModel.MethodType))
                     .VerUpCheckBox(siteModel);
-                if (siteModel.PermissionType.CanEditPermission() &&
+                if (siteModel.PermissionType.CanManagePermission() &&
                     siteModel.MethodType != BaseModel.MethodTypes.New)
                 {
                     hb.FieldAnchor(
                         controlContainerCss: "m-l30",
                         iconCss: "ui-icon-person a",
-                        text: Displays.EditPermissions(),
+                        text: Displays.ManagePermissions(),
                         href: Locations.ItemEdit(siteModel.SiteId, "Permissions"));
                 }
             });

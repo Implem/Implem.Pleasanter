@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Models
                 pt: pt,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: Sessions.User().TenantAdmin,
+                allowAccess: Sessions.User().TenantManager,
                 referenceType: "Users",
                 title: Displays.Users() + " - " + Displays.List(),
                 action: () =>
@@ -542,7 +542,7 @@ namespace Implem.Pleasanter.Models
                         case "PasswordChangeTime": hb.Field(ss, column, userModel.MethodType, userModel.PasswordChangeTime?.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                         case "NumberOfLogins": hb.Field(ss, column, userModel.MethodType, userModel.NumberOfLogins.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                         case "NumberOfDenial": hb.Field(ss, column, userModel.MethodType, userModel.NumberOfDenial.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "TenantAdmin": hb.Field(ss, column, userModel.MethodType, userModel.TenantAdmin.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
+                        case "TenantManager": hb.Field(ss, column, userModel.MethodType, userModel.TenantManager.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                         case "OldPassword": hb.Field(ss, column, userModel.MethodType, userModel.OldPassword.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                         case "ChangedPassword": hb.Field(ss, column, userModel.MethodType, userModel.ChangedPassword.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                         case "ChangedPasswordValidator": hb.Field(ss, column, userModel.MethodType, userModel.ChangedPasswordValidator.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
@@ -574,7 +574,7 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-person",
                         selector: "#ChangePasswordDialog");
                 }
-                if (Sessions.User().TenantAdmin)
+                if (Sessions.User().TenantManager)
                 {
                     hb.Button(
                         text: Displays.ResetPassword(),
@@ -625,7 +625,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static List<int> GetSwitchTargets(SiteSettings ss, int userId)
         {
-            if (Permissions.Admins().CanEditTenant())
+            if (Permissions.Admins().CanManageTenant())
             {
                 var view = Views.GetBySession(ss);
                 var switchTargets = Rds.ExecuteTable(
@@ -682,8 +682,8 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 case Error.Types.PermissionNotSelfChange:
                     return Messages.ResponsePermissionNotSelfChange()
-                        .Val("#Users_TenantAdmin", userModel.SavedTenantAdmin)
-                        .ClearFormData("Users_TenantAdmin")
+                        .Val("#Users_TenantManager", userModel.SavedTenantManager)
+                        .ClearFormData("Users_TenantManager")
                         .ToJson();
                 default: return new ResponseCollection().Message(invalid.Message()).ToJson();
             }

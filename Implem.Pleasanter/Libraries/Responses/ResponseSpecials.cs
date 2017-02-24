@@ -600,10 +600,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static UsersResponseCollection NumberOfDenial(this UsersResponseCollection res, string value) { return res.Val("#Users_NumberOfDenial", value); }
         public static UsersResponseCollection NumberOfDenial_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumberOfDenial", res.UserModel.NumberOfDenial.ToResponse()); }
         public static UsersResponseCollection NumberOfDenial_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumberOfDenial", value); }
-        public static UsersResponseCollection TenantAdmin(this UsersResponseCollection res) { return res.Val("#Users_TenantAdmin", res.UserModel.TenantAdmin.ToResponse()); }
-        public static UsersResponseCollection TenantAdmin(this UsersResponseCollection res, string value) { return res.Val("#Users_TenantAdmin", value); }
-        public static UsersResponseCollection TenantAdmin_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_TenantAdmin", res.UserModel.TenantAdmin.ToResponse()); }
-        public static UsersResponseCollection TenantAdmin_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_TenantAdmin", value); }
+        public static UsersResponseCollection TenantManager(this UsersResponseCollection res) { return res.Val("#Users_TenantManager", res.UserModel.TenantManager.ToResponse()); }
+        public static UsersResponseCollection TenantManager(this UsersResponseCollection res, string value) { return res.Val("#Users_TenantManager", value); }
+        public static UsersResponseCollection TenantManager_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_TenantManager", res.UserModel.TenantManager.ToResponse()); }
+        public static UsersResponseCollection TenantManager_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_TenantManager", value); }
         public static UsersResponseCollection OldPassword(this UsersResponseCollection res) { return res.Val("#Users_OldPassword", res.UserModel.OldPassword.ToResponse()); }
         public static UsersResponseCollection OldPassword(this UsersResponseCollection res, string value) { return res.Val("#Users_OldPassword", value); }
         public static UsersResponseCollection OldPassword_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_OldPassword", res.UserModel.OldPassword.ToResponse()); }

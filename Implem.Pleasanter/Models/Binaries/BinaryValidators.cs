@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnUpdating(Permissions.Types pt)
         {
-            if (!pt.CanEditSite())
+            if (!pt.CanManageSite())
             {
                 return Error.Types.HasNotPermission;
             }

@@ -46,8 +46,8 @@ namespace Implem.Pleasanter.Models
         public Time PasswordChangeTime = null;
         public int NumberOfLogins = 0;
         public int NumberOfDenial = 0;
-        public bool TenantAdmin = false;
-        public bool ServiceAdmin = false;
+        public bool TenantManager = false;
+        public bool ServiceManager = false;
         public bool Developer = false;
         public string OldPassword = string.Empty;
         public string ChangedPassword = string.Empty;
@@ -84,8 +84,8 @@ namespace Implem.Pleasanter.Models
         public DateTime SavedPasswordChangeTime = 0.ToDateTime();
         public int SavedNumberOfLogins = 0;
         public int SavedNumberOfDenial = 0;
-        public bool SavedTenantAdmin = false;
-        public bool SavedServiceAdmin = false;
+        public bool SavedTenantManager = false;
+        public bool SavedServiceManager = false;
         public bool SavedDeveloper = false;
         public string SavedOldPassword = string.Empty;
         public string SavedChangedPassword = string.Empty;
@@ -114,8 +114,8 @@ namespace Implem.Pleasanter.Models
         public bool PasswordChangeTime_Updated { get { return PasswordChangeTime.Value != SavedPasswordChangeTime && PasswordChangeTime.Value != null; } }
         public bool NumberOfLogins_Updated { get { return NumberOfLogins != SavedNumberOfLogins; } }
         public bool NumberOfDenial_Updated { get { return NumberOfDenial != SavedNumberOfDenial; } }
-        public bool TenantAdmin_Updated { get { return TenantAdmin != SavedTenantAdmin; } }
-        public bool ServiceAdmin_Updated { get { return ServiceAdmin != SavedServiceAdmin; } }
+        public bool TenantManager_Updated { get { return TenantManager != SavedTenantManager; } }
+        public bool ServiceManager_Updated { get { return ServiceManager != SavedServiceManager; } }
         public bool Developer_Updated { get { return Developer != SavedDeveloper; } }
 
         public List<string> Session_MailAddresses()
@@ -343,7 +343,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_PasswordChangeTime": PasswordChangeTime = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
                     case "Users_NumberOfLogins": NumberOfLogins = Forms.Data(controlId).ToInt(); break;
                     case "Users_NumberOfDenial": NumberOfDenial = Forms.Data(controlId).ToInt(); break;
-                    case "Users_TenantAdmin": TenantAdmin = Forms.Data(controlId).ToBool(); break;
+                    case "Users_TenantManager": TenantManager = Forms.Data(controlId).ToBool(); break;
                     case "Users_OldPassword": OldPassword = Forms.Data(controlId).ToString().Sha512Cng(); break;
                     case "Users_ChangedPassword": ChangedPassword = Forms.Data(controlId).ToString().Sha512Cng(); break;
                     case "Users_ChangedPasswordValidator": ChangedPasswordValidator = Forms.Data(controlId).ToString().Sha512Cng(); break;
@@ -416,8 +416,8 @@ namespace Implem.Pleasanter.Models
                     case "PasswordChangeTime": PasswordChangeTime = new Time(dataRow, "PasswordChangeTime"); SavedPasswordChangeTime = PasswordChangeTime.Value; break;
                     case "NumberOfLogins": NumberOfLogins = dataRow[name].ToInt(); SavedNumberOfLogins = NumberOfLogins; break;
                     case "NumberOfDenial": NumberOfDenial = dataRow[name].ToInt(); SavedNumberOfDenial = NumberOfDenial; break;
-                    case "TenantAdmin": TenantAdmin = dataRow[name].ToBool(); SavedTenantAdmin = TenantAdmin; break;
-                    case "ServiceAdmin": ServiceAdmin = dataRow[name].ToBool(); SavedServiceAdmin = ServiceAdmin; break;
+                    case "TenantManager": TenantManager = dataRow[name].ToBool(); SavedTenantManager = TenantManager; break;
+                    case "ServiceManager": ServiceManager = dataRow[name].ToBool(); SavedServiceManager = ServiceManager; break;
                     case "Developer": Developer = dataRow[name].ToBool(); SavedDeveloper = Developer; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
@@ -482,8 +482,8 @@ namespace Implem.Pleasanter.Models
                 FirstName = FirstName,
                 LastName = LastName,
                 FirstAndLastNameOrders = FirstAndLastNameOrder,
-                TenantAdmin = TenantAdmin,
-                ServiceAdmin = ServiceAdmin
+                TenantManager = TenantManager,
+                ServiceManager = ServiceManager
             };
         }
 

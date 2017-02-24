@@ -700,8 +700,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Users_PasswordChangeTime": orderBy.Users_PasswordChangeTime(data.Value); break;
                         case "Users_NumberOfLogins": orderBy.Users_NumberOfLogins(data.Value); break;
                         case "Users_NumberOfDenial": orderBy.Users_NumberOfDenial(data.Value); break;
-                        case "Users_TenantAdmin": orderBy.Users_TenantAdmin(data.Value); break;
-                        case "Users_ServiceAdmin": orderBy.Users_ServiceAdmin(data.Value); break;
+                        case "Users_TenantManager": orderBy.Users_TenantManager(data.Value); break;
+                        case "Users_ServiceManager": orderBy.Users_ServiceManager(data.Value); break;
                         case "Users_Developer": orderBy.Users_Developer(data.Value); break;
                         case "Users_Comments": orderBy.Users_Comments(data.Value); break;
                         case "Users_Creator": orderBy.Users_Creator(data.Value); break;

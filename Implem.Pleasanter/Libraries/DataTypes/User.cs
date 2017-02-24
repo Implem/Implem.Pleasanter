@@ -19,8 +19,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string FirstName;
         public string LastName;
         public Names.FirstAndLastNameOrders FirstAndLastNameOrders;
-        public bool TenantAdmin;
-        public bool ServiceAdmin;
+        public bool TenantManager;
+        public bool ServiceManager;
 
         public enum UserTypes : int
         {
@@ -45,8 +45,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .FirstName()
                             .LastName()
                             .FirstAndLastNameOrder()
-                            .TenantAdmin()
-                            .ServiceAdmin(),
+                            .TenantManager()
+                            .ServiceManager(),
                         where: Rds.UsersWhere()
                             .UserId(userId)));
                 if (dataTable.Rows.Count == 1)
@@ -77,8 +77,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             FirstName = dataRow.String("FirstName");
             LastName = dataRow.String("LastName");
             FirstAndLastNameOrders = (Names.FirstAndLastNameOrders)dataRow["FirstAndLastNameOrder"];
-            TenantAdmin = dataRow.Bool("TenantAdmin");
-            ServiceAdmin = dataRow.Bool("ServiceAdmin");
+            TenantManager = dataRow.Bool("TenantManager");
+            ServiceManager = dataRow.Bool("ServiceManager");
         }
 
         private void SetAnonymouse()
@@ -86,8 +86,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             TenantId = 0;
             Id = UserTypes.Anonymous.ToInt();
             DeptId = 0;
-            TenantAdmin = false;
-            ServiceAdmin = false;
+            TenantManager = false;
+            ServiceManager = false;
         }
 
         public string FullName()

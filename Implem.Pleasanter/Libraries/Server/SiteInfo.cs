@@ -52,8 +52,8 @@ namespace Implem.Pleasanter.Libraries.Server
                             .FirstName()
                             .LastName()
                             .FirstAndLastNameOrder()
-                            .TenantAdmin()
-                            .ServiceAdmin(),
+                            .TenantManager()
+                            .ServiceManager(),
                         _using: monitor.UsersUpdated || force)
                 });
                 if (monitor.DeptsUpdated || force)

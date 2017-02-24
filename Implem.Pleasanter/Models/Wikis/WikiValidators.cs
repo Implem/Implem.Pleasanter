@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnRestoring()
         {
-            if (!Permissions.Admins().CanEditTenant())
+            if (!Permissions.Admins().CanManageTenant())
             {
                 return Error.Types.HasNotPermission;
             }

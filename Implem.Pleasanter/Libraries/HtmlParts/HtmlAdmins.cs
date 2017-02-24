@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Template(
                 pt: pt,
                 methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
-                allowAccess: Sessions.User().TenantAdmin,
+                allowAccess: Sessions.User().TenantManager,
                 title: Displays.Admin(),
                 verType: Versions.VerTypes.Latest,
                 useNavigationMenu: false,
