@@ -1107,6 +1107,12 @@ namespace Implem.Pleasanter.Models
         public static string Copy(SiteSettings ss, Permissions.Types pt, long issueId)
         {
             var issueModel = new IssueModel(ss, issueId, setByForm: true);
+            var invalid = IssueValidators.OnCreating(ss, pt, issueModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return new ResponseCollection().Message(invalid.Message()).ToJson();
+            }
             issueModel.IssueId = 0;
             if (ss.EditorColumns.Contains("Title"))
             {

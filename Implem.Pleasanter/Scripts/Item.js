@@ -32,9 +32,11 @@ $p.create = function ($control) {
 }
 
 $p.copy = function ($control) {
-    $p.closeDialog($control);
-    $p.syncSend($control);
-    history.pushState(null, null, $('#BaseUrl').val() + $('#Id').val());
+    var error = $p.syncSend($control);
+    if (error === 0) {
+        $p.closeDialog($control);
+        history.pushState(null, null, $('#BaseUrl').val() + $('#Id').val());
+    }
 }
 
 $p.search = function (searchWord, redirect, offset) {
