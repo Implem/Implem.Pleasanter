@@ -14,7 +14,6 @@ namespace Implem.Pleasanter.Libraries.Security
     {
         public enum Types : long
         {
-                                                // |-Sys--||Tenant||-General------|
             NotSet = 0,                         // 00000000000000000000000000000000
             Read = 1,                           // 00000000000000000000000000000001
             Create = 2,                         // 00000000000000000000000000000010
@@ -25,16 +24,13 @@ namespace Implem.Pleasanter.Libraries.Security
             Import = 64,                        // 00000000000000000000000001000000
             EditSite = 128,                     // 00000000000000000000000010000000
             EditPermission = 256,               // 00000000000000000000000100000000
-            EditProfile = 4194304,              // 00000000010000000000000000000000
-            EditTenant = 8388608,               // 00000000100000000000000000000000
+            EditTenant = 1073741824,            // 01000000000000000000000000000000
             EditService = 2147483648,           // 10000000000000000000000000000000
 
             ReadOnly = 17,                      // 00000000000000000000000000010001
             ReadWrite = 31,                     // 00000000000000000000000000011111
             Leader = 255,                       // 00000000000000000000000011111111
             Manager = 511,                      // 00000000000000000000000111111111
-            TenantAdmin = 16711680,             // 00000000111111110000000000000000
-            ServiceAdmin = 4278190080           // 11111111000000000000000000000000
         }
 
         public static Types Get(string name)
@@ -51,7 +47,6 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "Import": return Types.Import;
                 case "EditSite": return Types.EditSite;
                 case "EditPermission": return Types.EditPermission;
-                case "EditProfile": return Types.EditProfile;
                 case "EditTenant": return Types.EditTenant;
                 case "EditService": return Types.EditService;
                 default: return Types.NotSet;
@@ -63,21 +58,6 @@ namespace Implem.Pleasanter.Libraries.Security
             Deny,
             Read,
             Update
-        }
-
-        public static Types CurrentType()
-        {
-            var pt = Types.NotSet;
-            var userModel = Sessions.User();
-            if (userModel.TenantAdmin)
-            {
-                pt |= Types.TenantAdmin;
-            }
-            if (userModel.ServiceAdmin)
-            {
-                pt |= Types.TenantAdmin;
-            }
-            return pt;
         }
 
         public static Types GetById(long id)
@@ -244,17 +224,12 @@ namespace Implem.Pleasanter.Libraries.Security
             return (self & Types.EditPermission) != 0;
         }
 
-        public static bool CanEditProfile(this Types self)
-        {
-            return (self & Types.EditProfile) != 0;
-        }
-
         public static bool CanEditTenant(this Types self)
         {
             return (self & Types.EditTenant) != 0;
         }
 
-        public static bool CanEditSys(this Types self)
+        public static bool CanEditService(this Types self)
         {
             return (self & Types.EditService) != 0;
         }
@@ -341,8 +316,8 @@ namespace Implem.Pleasanter.Libraries.Security
         public static Types Admins(this Types pt)
         {
             var user = Sessions.User();
-            if (user.TenantAdmin) pt |= Types.TenantAdmin;
-            if (user.ServiceAdmin) pt |= Types.ServiceAdmin;
+            if (user.TenantAdmin) pt |= Types.EditTenant;
+            if (user.ServiceAdmin) pt |= Types.EditService;
             return pt;
         }
     }
