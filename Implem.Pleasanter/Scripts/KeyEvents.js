@@ -1,4 +1,7 @@
 ﻿$(function () {
+    $(document).on('keypress', 'input', function (e) {
+        return e.which !== 13;
+    });
     $(document).on('keydown', '[class^="control-"]', function (e) {
         if (e.keyCode === 9) {
             var controlId = $(this).attr('id');
