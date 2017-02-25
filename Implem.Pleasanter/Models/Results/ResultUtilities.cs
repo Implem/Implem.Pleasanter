@@ -589,8 +589,10 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew(SiteModel siteModel)
         {
-            return Editor(siteModel, new ResultModel(
-                siteModel.ResultsSiteSettings(), methodType: BaseModel.MethodTypes.New));
+            return siteModel.PermissionType.CanCreate()
+                ? Editor(siteModel, new ResultModel(
+                    siteModel.ResultsSiteSettings(), methodType: BaseModel.MethodTypes.New))
+                : new HtmlBuilder().NotFoundTemplate().ToString();
         }
 
         public static string Editor(SiteModel siteModel, long resultId, bool clearSessions)
