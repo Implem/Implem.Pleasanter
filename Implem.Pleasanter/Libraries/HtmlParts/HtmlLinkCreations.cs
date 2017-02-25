@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -37,7 +38,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 column: Rds.LinksColumn()
                     .SourceId()
                     .SiteTitle(),
-                where: Rds.LinksWhere().DestinationId(ss.SiteId));
+                where: Rds.LinksWhere()
+                    .DestinationId(ss.SiteId)
+                    .SiteId_In(ss.Sources?
+                        .Where(o => o.PermissionType.CanCreate())
+                        .Select(o => o.SiteId)));
         }
 
         private static HtmlBuilder LinkCreations(
