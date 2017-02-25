@@ -173,7 +173,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss.ReferenceType = dataRow["ReferenceType"].ToString();
                 ss.ParentId = dataRow["ParentId"].ToLong();
                 ss.InheritPermission = dataRow["InheritPermission"].ToLong();
-                ss.PermissionType = (Permissions.Types)dataRow["InheritPermission"];
+                ss.PermissionType = (Permissions.Types)dataRow["PermissionType"];
                 ss.SetChoiceHash();
                 ssList.Add(ss);
             });
