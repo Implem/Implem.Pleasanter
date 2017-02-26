@@ -69,6 +69,7 @@ namespace Implem.Pleasanter.Models
                             o => new ControlData(o.Title.Value)),
                         selectedValue: exportSettingModel.ExportSettingId.ToString(),
                         addSelectedValue: false))
+                    .Message(Messages.Updated(exportSettingModel.Title.ToString()))
                     .Val("#ExportSettings_Title", exportSettingModel.Title.Value)
                     .ToJson();
             }
