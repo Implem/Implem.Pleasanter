@@ -395,6 +395,14 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string ChangeInherit(long siteId)
         {
+            var siteModel = new SiteModel(siteId, setByForm: true);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            var invalid = PermissionValidators.OnUpdating(siteModel.SiteSettings);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
             var inheritPermission = Forms.Long("Sites_InheritPermission");
             var hb = new HtmlBuilder();
             if (siteId == inheritPermission)
@@ -415,29 +423,28 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(siteId, setByForm: true);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
-            if (siteModel.SiteSettings.CanManagePermission())
+            var invalid = PermissionValidators.OnUpdating(siteModel.SiteSettings);
+            switch (invalid)
             {
-                var statements = new List<SqlStatement>();
-                statements.Add(Rds.PhysicalDeletePermissions(
-                    where: Rds.PermissionsWhere().ReferenceId(siteId)));
-                if (siteModel.InheritPermission == siteId)
-                {
-                    siteModel.Session_PermissionDestinationCollection()
-                        .ForEach(permissionModel =>
-                            statements.Add(Insert(permissionModel, siteId)));
-                }
-                statements.Add(Rds.UpdateSites(
-                    verUp: false,
-                    where: Rds.SitesWhere().SiteId(siteModel.SiteId),
-                    param: Rds.SitesParam().InheritPermission(siteModel.InheritPermission)));
-                Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
-                SiteInfo.SetSiteUserHash(siteModel.InheritPermission, reload: true);
-                return Messages.ResponseUpdated("permissions").ToJson();
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
             }
-            else
+            var statements = new List<SqlStatement>();
+            statements.Add(Rds.PhysicalDeletePermissions(
+                where: Rds.PermissionsWhere().ReferenceId(siteId)));
+            if (siteModel.InheritPermission == siteId)
             {
-                return Messages.ResponseHasNotPermission().ToJson();
+                siteModel.Session_PermissionDestinationCollection()
+                    .ForEach(permissionModel =>
+                        statements.Add(Insert(permissionModel, siteId)));
             }
+            statements.Add(Rds.UpdateSites(
+                verUp: false,
+                where: Rds.SitesWhere().SiteId(siteModel.SiteId),
+                param: Rds.SitesParam().InheritPermission(siteModel.InheritPermission)));
+            Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
+            SiteInfo.SetSiteUserHash(siteModel.InheritPermission, reload: true);
+            return Messages.ResponseUpdated("permissions").ToJson();
         }
 
         /// <summary>
@@ -460,6 +467,13 @@ namespace Implem.Pleasanter.Models
         public static string Set(long siteId)
         {
             var siteModel = new SiteModel(siteId, setByForm: true);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            var invalid = PermissionValidators.OnUpdating(siteModel.SiteSettings);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
             var res = new ResponseCollection();
             var permissionDestination = Forms.List("PermissionDestination");
             var permissionSource = Forms.List("PermissionSource");
@@ -533,6 +547,13 @@ namespace Implem.Pleasanter.Models
         public static string Search(long siteId)
         {
             var siteModel = new SiteModel(siteId, setByForm: true);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            var invalid = PermissionValidators.OnUpdating(siteModel.SiteSettings);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
             var res = new ResponseCollection();
             var permissionDestination = Forms.Data("PermissionDestination")
                 .Deserialize<List<string>>()?

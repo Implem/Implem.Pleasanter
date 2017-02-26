@@ -6,5 +6,16 @@ namespace Implem.Pleasanter.Models
 {
     public static class PermissionValidators
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnUpdating(SiteSettings ss)
+        {
+            if (!ss.CanManagePermission())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
     }
 }
