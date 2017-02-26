@@ -637,7 +637,6 @@ namespace Implem.Pleasanter.Models
 
         public ResultModel(
             SiteSettings ss,
-            Permissions.Types pt,
             DataRow dataRow)
         {
             OnConstructing();

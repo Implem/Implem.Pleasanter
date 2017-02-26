@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -10,11 +11,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Notes(
             this HtmlBuilder hb,
-            Permissions.Types pt,
+            SiteSettings ss,
             Versions.VerTypes verType)
         {
             var notes = new Dictionary<string, string>();
-            if (!pt.CanUpdate())
+            if (!ss.CanUpdate())
             {
                 notes.Add("readonly", Displays.CanNotUpdate());
             }

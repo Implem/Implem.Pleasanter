@@ -1,11 +1,8 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Libraries.Settings;
-namespace Implem.Pleasanter.Libraries.Scripts
+﻿namespace Implem.Pleasanter.Libraries.Scripts
 {
     public static class JavaScripts
     {
-        public static string ViewMode(SiteSettings ss, Permissions.Types pt, string viewMode)
+        public static string ViewMode(string viewMode)
         {
             switch (viewMode)
             {

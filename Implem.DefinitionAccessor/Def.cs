@@ -394,7 +394,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetCases": Code.Model_GetCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetCases, definitionRow, CodeXls); break;
                     case "Model_UpdateByKambanCases": Code.Model_UpdateByKambanCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByKambanCases, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsParameter": Code.Model_SiteSettingsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParameter, definitionRow, CodeXls); break;
-                    case "Model_PermissionTypeParameter": Code.Model_PermissionTypeParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionTypeParameter, definitionRow, CodeXls); break;
                     case "Model_ParentIdParameter": Code.Model_ParentIdParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ParentIdParameter, definitionRow, CodeXls); break;
                     case "Model_InheritPermissionParameter": Code.Model_InheritPermissionParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InheritPermissionParameter, definitionRow, CodeXls); break;
                     case "Model_SwitchTargetsParameter": Code.Model_SwitchTargetsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchTargetsParameter, definitionRow, CodeXls); break;
@@ -404,14 +403,10 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetParentId": Code.Model_SetParentId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetParentId, definitionRow, CodeXls); break;
                     case "Model_SetInheritPermission": Code.Model_SetInheritPermission = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetInheritPermission, definitionRow, CodeXls); break;
                     case "Model_SetSwitchTargets": Code.Model_SetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSwitchTargets, definitionRow, CodeXls); break;
-                    case "Model_EditorParam": Code.Model_EditorParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorParam, definitionRow, CodeXls); break;
                     case "Model_SiteSettings": Code.Model_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettings, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsWithParameterName": Code.Model_SiteSettingsWithParameterName = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWithParameterName, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsWithParameterNameLower": Code.Model_SiteSettingsWithParameterNameLower = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWithParameterNameLower, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsParam": Code.Model_SiteSettingsParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParam, definitionRow, CodeXls); break;
-                    case "Model_PermissionType": Code.Model_PermissionType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionType, definitionRow, CodeXls); break;
-                    case "Model_PermissionTypeWithParameterName": Code.Model_PermissionTypeWithParameterName = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionTypeWithParameterName, definitionRow, CodeXls); break;
-                    case "Model_PermissionTypeWithParameterNameLower": Code.Model_PermissionTypeWithParameterNameLower = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionTypeWithParameterNameLower, definitionRow, CodeXls); break;
                     case "Collection": Code.Collection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection, definitionRow, CodeXls); break;
                     case "Collection_SiteSettings": Code.Collection_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettings, definitionRow, CodeXls); break;
                     case "Collection_SiteSettingsArgument": Code.Collection_SiteSettingsArgument = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettingsArgument, definitionRow, CodeXls); break;
@@ -432,7 +427,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_GridSqlWhereSiteId": Code.Model_Utilities_GridSqlWhereSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridSqlWhereSiteId, definitionRow, CodeXls); break;
                     case "Model_Utilities_Editor": Code.Model_Utilities_Editor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Editor, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteSettingsUtilities": Code.Model_Utilities_SiteSettingsUtilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteSettingsUtilities, definitionRow, CodeXls); break;
-                    case "Model_Utilities_PermissionTypesAdmins": Code.Model_Utilities_PermissionTypesAdmins = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PermissionTypesAdmins, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorItem": Code.Model_Utilities_EditorItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetSwitchTargets": Code.Model_Utilities_SetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldCases": Code.Model_Utilities_FieldCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases, definitionRow, CodeXls); break;
@@ -989,7 +983,6 @@ namespace Implem.DefinitionAccessor
                     case "Sites_ReferenceType": Column.Sites_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_ReferenceType, definitionRow, ColumnXls); break;
                     case "Sites_ParentId": Column.Sites_ParentId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_ParentId, definitionRow, ColumnXls); break;
                     case "Sites_InheritPermission": Column.Sites_InheritPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_InheritPermission, definitionRow, ColumnXls); break;
-                    case "Sites_PermissionType": Column.Sites_PermissionType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_PermissionType, definitionRow, ColumnXls); break;
                     case "Sites_SiteSettings": Column.Sites_SiteSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_SiteSettings, definitionRow, ColumnXls); break;
                     case "Sites_Ancestors": Column.Sites_Ancestors = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Ancestors, definitionRow, ColumnXls); break;
                     case "Sites_PermissionSourceCollection": Column.Sites_PermissionSourceCollection = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_PermissionSourceCollection, definitionRow, ColumnXls); break;
@@ -2386,6 +2379,7 @@ namespace Implem.DefinitionAccessor
                 {
                     case "BeginTransaction": Sql.BeginTransaction = definitionRow[1].ToString(); SetSqlTable(SqlTable.BeginTransaction, definitionRow, SqlXls); break;
                     case "CommitTransaction": Sql.CommitTransaction = definitionRow[1].ToString(); SetSqlTable(SqlTable.CommitTransaction, definitionRow, SqlXls); break;
+                    case "CanRead": Sql.CanRead = definitionRow[1].ToString(); SetSqlTable(SqlTable.CanRead, definitionRow, SqlXls); break;
                     case "SiteDepts": Sql.SiteDepts = definitionRow[1].ToString(); SetSqlTable(SqlTable.SiteDepts, definitionRow, SqlXls); break;
                     case "ProgressRateDelay": Sql.ProgressRateDelay = definitionRow[1].ToString(); SetSqlTable(SqlTable.ProgressRateDelay, definitionRow, SqlXls); break;
                     case "MoveTarget": Sql.MoveTarget = definitionRow[1].ToString(); SetSqlTable(SqlTable.MoveTarget, definitionRow, SqlXls); break;
@@ -3290,7 +3284,6 @@ namespace Implem.DefinitionAccessor
         public string Model_GetCases;
         public string Model_UpdateByKambanCases;
         public string Model_SiteSettingsParameter;
-        public string Model_PermissionTypeParameter;
         public string Model_ParentIdParameter;
         public string Model_InheritPermissionParameter;
         public string Model_SwitchTargetsParameter;
@@ -3300,14 +3293,10 @@ namespace Implem.DefinitionAccessor
         public string Model_SetParentId;
         public string Model_SetInheritPermission;
         public string Model_SetSwitchTargets;
-        public string Model_EditorParam;
         public string Model_SiteSettings;
         public string Model_SiteSettingsWithParameterName;
         public string Model_SiteSettingsWithParameterNameLower;
         public string Model_SiteSettingsParam;
-        public string Model_PermissionType;
-        public string Model_PermissionTypeWithParameterName;
-        public string Model_PermissionTypeWithParameterNameLower;
         public string Collection;
         public string Collection_SiteSettings;
         public string Collection_SiteSettingsArgument;
@@ -3328,7 +3317,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_GridSqlWhereSiteId;
         public string Model_Utilities_Editor;
         public string Model_Utilities_SiteSettingsUtilities;
-        public string Model_Utilities_PermissionTypesAdmins;
         public string Model_Utilities_EditorItem;
         public string Model_Utilities_SetSwitchTargets;
         public string Model_Utilities_FieldCases;
@@ -3710,7 +3698,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetCases = new CodeDefinition();
         public CodeDefinition Model_UpdateByKambanCases = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsParameter = new CodeDefinition();
-        public CodeDefinition Model_PermissionTypeParameter = new CodeDefinition();
         public CodeDefinition Model_ParentIdParameter = new CodeDefinition();
         public CodeDefinition Model_InheritPermissionParameter = new CodeDefinition();
         public CodeDefinition Model_SwitchTargetsParameter = new CodeDefinition();
@@ -3720,14 +3707,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetParentId = new CodeDefinition();
         public CodeDefinition Model_SetInheritPermission = new CodeDefinition();
         public CodeDefinition Model_SetSwitchTargets = new CodeDefinition();
-        public CodeDefinition Model_EditorParam = new CodeDefinition();
         public CodeDefinition Model_SiteSettings = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsWithParameterName = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsWithParameterNameLower = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsParam = new CodeDefinition();
-        public CodeDefinition Model_PermissionType = new CodeDefinition();
-        public CodeDefinition Model_PermissionTypeWithParameterName = new CodeDefinition();
-        public CodeDefinition Model_PermissionTypeWithParameterNameLower = new CodeDefinition();
         public CodeDefinition Collection = new CodeDefinition();
         public CodeDefinition Collection_SiteSettings = new CodeDefinition();
         public CodeDefinition Collection_SiteSettingsArgument = new CodeDefinition();
@@ -3748,7 +3731,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_GridSqlWhereSiteId = new CodeDefinition();
         public CodeDefinition Model_Utilities_Editor = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteSettingsUtilities = new CodeDefinition();
-        public CodeDefinition Model_Utilities_PermissionTypesAdmins = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldCases = new CodeDefinition();
@@ -4576,7 +4558,6 @@ namespace Implem.DefinitionAccessor
         public string Sites_ReferenceType;
         public string Sites_ParentId;
         public string Sites_InheritPermission;
-        public string Sites_PermissionType;
         public string Sites_SiteSettings;
         public string Sites_Ancestors;
         public string Sites_PermissionSourceCollection;
@@ -5229,7 +5210,6 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Sites_ReferenceType = new ColumnDefinition();
         public ColumnDefinition Sites_ParentId = new ColumnDefinition();
         public ColumnDefinition Sites_InheritPermission = new ColumnDefinition();
-        public ColumnDefinition Sites_PermissionType = new ColumnDefinition();
         public ColumnDefinition Sites_SiteSettings = new ColumnDefinition();
         public ColumnDefinition Sites_Ancestors = new ColumnDefinition();
         public ColumnDefinition Sites_PermissionSourceCollection = new ColumnDefinition();
@@ -7016,6 +6996,7 @@ namespace Implem.DefinitionAccessor
     {
         public string BeginTransaction;
         public string CommitTransaction;
+        public string CanRead;
         public string SiteDepts;
         public string ProgressRateDelay;
         public string MoveTarget;
@@ -7045,6 +7026,7 @@ namespace Implem.DefinitionAccessor
     {
         public SqlDefinition BeginTransaction = new SqlDefinition();
         public SqlDefinition CommitTransaction = new SqlDefinition();
+        public SqlDefinition CanRead = new SqlDefinition();
         public SqlDefinition SiteDepts = new SqlDefinition();
         public SqlDefinition ProgressRateDelay = new SqlDefinition();
         public SqlDefinition MoveTarget = new SqlDefinition();

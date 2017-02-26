@@ -35,11 +35,13 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static void UpdateIssues(
-            SiteModel siteModel, long id, IEnumerable<int> selected = null, bool hasFormula = false)
+            SiteModel siteModel,
+            long id,
+            IEnumerable<int> selected = null,
+            bool hasFormula = false)
         {
             new IssueCollection(
                 ss: siteModel.SiteSettings,
-                pt: siteModel.PermissionType,
                 where: Rds.IssuesWhere()
                     .SiteId(siteModel.SiteId)
                     .IssueId(id, _using: id != 0))
@@ -54,11 +56,13 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static void UpdateResults(
-            SiteModel siteModel, long id, IEnumerable<int> selected = null, bool hasFormula = false)
+            SiteModel siteModel,
+            long id,
+            IEnumerable<int> selected = null,
+            bool hasFormula = false)
         {
             new ResultCollection(
                 ss: siteModel.SiteSettings,
-                pt: siteModel.PermissionType,
                 where: Rds.ResultsWhere()
                     .SiteId(siteModel.SiteId)
                     .ResultId(id, _using: id != 0))
@@ -73,11 +77,13 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static void UpdateWikis(
-            SiteModel siteModel, long id, IEnumerable<int> selected = null, bool hasFormula = false)
+            SiteModel siteModel,
+            long id,
+            IEnumerable<int> selected = null,
+            bool hasFormula = false)
         {
             new WikiCollection(
                 ss: siteModel.SiteSettings,
-                pt: siteModel.PermissionType,
                 where: Rds.WikisWhere()
                     .SiteId(siteModel.SiteId)
                     .WikiId(id, _using: id != 0))

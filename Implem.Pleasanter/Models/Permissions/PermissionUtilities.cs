@@ -37,27 +37,26 @@ namespace Implem.Pleasanter.Models
         public static string Editor(long siteId)
         {
             var siteModel = new SiteModel(siteId, clearSessions: true);
-            var ss = siteModel.PermissionsSiteSettings();
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
             var hb = new HtmlBuilder();
             hb.Template(
-                pt: siteModel.PermissionType,
+                ss: siteModel.SiteSettings,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Edit,
-                allowAccess: siteModel.PermissionType.CanManagePermission(),
+                allowAccess: siteModel.SiteSettings.CanManagePermission(),
                 siteId: siteModel.SiteId,
                 referenceType: "Permissions",
                 title: siteModel.Title.Value + " - " + Displays.ManagePermissions(),
                 useNavigationMenu: false,
                 action: () => hb
-                    .Editor(siteModel: siteModel, ss: ss));
+                    .Editor(siteModel: siteModel));
             return hb.ToString();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Editor(
-            this HtmlBuilder hb, SiteModel siteModel, SiteSettings ss)
+        private static HtmlBuilder Editor(this HtmlBuilder hb, SiteModel siteModel)
         {
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
@@ -71,7 +70,7 @@ namespace Implem.Pleasanter.Models
                             css: "max",
                             action: () => hb
                                 .EditorTabs()
-                                .Fields(siteModel: siteModel, ss: ss))
+                                .Fields(siteModel: siteModel))
                         .Hidden(controlId: "MethodType", value: "edit"))
                 .Div(attributes: new HtmlAttributes()
                     .Id("PermissionsDialog")
@@ -94,8 +93,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Fields(
-            this HtmlBuilder hb, SiteModel siteModel, SiteSettings ss)
+        private static HtmlBuilder Fields(this HtmlBuilder hb, SiteModel siteModel)
         {
             SetPermissionCollectionSession(siteModel);
             return hb.FieldSet(
@@ -105,8 +103,8 @@ namespace Implem.Pleasanter.Models
                     .Div(id: "Selectables", action: () => hb
                         .Selectables(siteModel: siteModel))
                     .MainCommands(
+                        ss: siteModel.SiteSettings,
                         siteId: siteModel.SiteId,
-                        pt: siteModel.PermissionType,
                         verType: Versions.VerTypes.Latest,
                         updateButton: true));
         }
@@ -147,7 +145,7 @@ namespace Implem.Pleasanter.Models
                         .TenantId(Sessions.TenantId())
                         .SiteId(siteId, _operator: "<>")
                         .InheritPermission(raw: "[Sites].[SiteId]")
-                        .PermissionType(_operator: " is not null "),
+                        .Add(raw: Def.Sql.CanRead),
                     orderBy: Rds.SitesOrderBy().Title()))
                         .AsEnumerable()
                         .ToDictionary(
@@ -416,7 +414,8 @@ namespace Implem.Pleasanter.Models
         public static string Update(long siteId)
         {
             var siteModel = new SiteModel(siteId, setByForm: true);
-            if (siteModel.PermissionType.CanManagePermission())
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            if (siteModel.SiteSettings.CanManagePermission())
             {
                 var statements = new List<SqlStatement>();
                 statements.Add(Rds.PhysicalDeletePermissions(
@@ -574,7 +573,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder PermissionsDialog(Permissions.Types pt, long siteId)
+        private static HtmlBuilder PermissionsDialog(Permissions.Types permissionType, long siteId)
         {
             var hb = new HtmlBuilder();
             return hb.Form(
@@ -590,11 +589,11 @@ namespace Implem.Pleasanter.Models
                             .ToDictionary(
                                 o => o.Value.ToString(),
                                 o => new ControlData(Displays.Get(o.Key))),
-                        selectedValue: pt.ToLong().ToString(),
+                        selectedValue: permissionType.ToLong().ToString(),
                         addSelectedValue: false,
                         action: "Set",
                         method: "post")
-                    .PermissionParts(pt)
+                    .PermissionParts(permissionType)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -615,36 +614,37 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder PermissionParts(this HtmlBuilder hb, Permissions.Types pt)
+        private static HtmlBuilder PermissionParts(
+            this HtmlBuilder hb, Permissions.Types permissionType)
         {
             return hb.FieldSet(
                 id: "PermissionParts",
                 css: " enclosed",
                 legendText: Displays.Permissions(),
                 action: () => hb
-                    .PermissionPart(pt, Permissions.Types.Read)
-                    .PermissionPart(pt, Permissions.Types.Create)
-                    .PermissionPart(pt, Permissions.Types.Update)
-                    .PermissionPart(pt, Permissions.Types.Delete)
-                    .PermissionPart(pt, Permissions.Types.SendMail)
-                    .PermissionPart(pt, Permissions.Types.Export)
-                    .PermissionPart(pt, Permissions.Types.Import)
-                    .PermissionPart(pt, Permissions.Types.ManageSite)
-                    .PermissionPart(pt, Permissions.Types.ManagePermission));
+                    .PermissionPart(permissionType, Permissions.Types.Read)
+                    .PermissionPart(permissionType, Permissions.Types.Create)
+                    .PermissionPart(permissionType, Permissions.Types.Update)
+                    .PermissionPart(permissionType, Permissions.Types.Delete)
+                    .PermissionPart(permissionType, Permissions.Types.SendMail)
+                    .PermissionPart(permissionType, Permissions.Types.Export)
+                    .PermissionPart(permissionType, Permissions.Types.Import)
+                    .PermissionPart(permissionType, Permissions.Types.ManageSite)
+                    .PermissionPart(permissionType, Permissions.Types.ManagePermission));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static HtmlBuilder PermissionPart(
-            this HtmlBuilder hb, Permissions.Types pt, Permissions.Types type)
+            this HtmlBuilder hb, Permissions.Types permissionType, Permissions.Types type)
         {
             return hb.FieldCheckBox(
                 controlId: type.ToString(),
                 fieldCss: "field-auto-thin w200",
                 controlCss: " always-send",
                 labelText: Displays.Get(type.ToString()),
-                _checked: (pt & type) > 0,
+                _checked: (permissionType & type) > 0,
                 dataId: type.ToLong().ToString());
         }
 
@@ -655,13 +655,13 @@ namespace Implem.Pleasanter.Models
             this ResponseCollection res,
             SiteModel siteModel,
             List<string> permissionDestination,
-            Permissions.Types pt)
+            Permissions.Types permissionType)
         {
             permissionDestination.ForEach(permissionType_ItemId =>
                 siteModel.Session_PermissionDestinationCollection()
                     .Where(o => (o.PermissionId == permissionType_ItemId))
                     .First()
-                    .PermissionType = pt);
+                    .PermissionType = permissionType);
             res
                 .CloseDialog()
                 .Html("#PermissionDestination", PermissionListItem(
@@ -675,17 +675,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Permissions.Types GetPermissionTypeByForm()
         {
-            var pt = Permissions.Types.NotSet;
-            if (Forms.Bool("Read")) pt |= Permissions.Types.Read;
-            if (Forms.Bool("Create")) pt |= Permissions.Types.Create;
-            if (Forms.Bool("Update")) pt |= Permissions.Types.Update;
-            if (Forms.Bool("Delete")) pt |= Permissions.Types.Delete;
-            if (Forms.Bool("SendMail")) pt |= Permissions.Types.SendMail;
-            if (Forms.Bool("Export")) pt |= Permissions.Types.Export;
-            if (Forms.Bool("Import")) pt |= Permissions.Types.Import;
-            if (Forms.Bool("ManageSite")) pt |= Permissions.Types.ManageSite;
-            if (Forms.Bool("ManagePermission")) pt |= Permissions.Types.ManagePermission;
-            return pt;
+            var permissionType = Permissions.Types.NotSet;
+            if (Forms.Bool("Read")) permissionType |= Permissions.Types.Read;
+            if (Forms.Bool("Create")) permissionType |= Permissions.Types.Create;
+            if (Forms.Bool("Update")) permissionType |= Permissions.Types.Update;
+            if (Forms.Bool("Delete")) permissionType |= Permissions.Types.Delete;
+            if (Forms.Bool("SendMail")) permissionType |= Permissions.Types.SendMail;
+            if (Forms.Bool("Export")) permissionType |= Permissions.Types.Export;
+            if (Forms.Bool("Import")) permissionType |= Permissions.Types.Import;
+            if (Forms.Bool("ManageSite")) permissionType |= Permissions.Types.ManageSite;
+            if (Forms.Bool("ManagePermission")) permissionType |= Permissions.Types.ManagePermission;
+            return permissionType;
         }
     }
 }

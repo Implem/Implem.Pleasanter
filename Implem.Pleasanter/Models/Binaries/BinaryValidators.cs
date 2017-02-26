@@ -6,18 +6,18 @@ namespace Implem.Pleasanter.Models
 {
     public static class BinaryValidators
     {
-        public static Error.Types OnGetting(Permissions.Types pt)
+        public static Error.Types OnGetting(SiteSettings ss)
         {
-            if (!pt.CanRead())
+            if (!ss.CanRead())
             {
                 return Error.Types.HasNotPermission;
             }
             return Error.Types.None;
         }
 
-        public static Error.Types OnUpdating(Permissions.Types pt)
+        public static Error.Types OnUpdating(SiteSettings ss)
         {
-            if (!pt.CanManageSite())
+            if (!ss.CanManageSite())
             {
                 return Error.Types.HasNotPermission;
             }

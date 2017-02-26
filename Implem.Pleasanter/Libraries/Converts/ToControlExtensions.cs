@@ -1,5 +1,4 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -7,7 +6,7 @@ namespace Implem.Pleasanter.Libraries.Converts
 {
     public static class ToControlExtensions
     {
-        public static string ToControl(this Enum self, Column column, Permissions.Types pt)
+        public static string ToControl(this Enum self, Column column, SiteSettings ss)
         {
             switch (column.TypeName)
             {
@@ -17,36 +16,36 @@ namespace Implem.Pleasanter.Libraries.Converts
             }
         }
 
-        public static string ToControl(this bool self, Column column, Permissions.Types pt)
+        public static string ToControl(this bool self, Column column, SiteSettings ss)
         {
             return self.ToString();
         }
 
-        public static string ToControl(this DateTime self, Column column, Permissions.Types pt)
+        public static string ToControl(this DateTime self, Column column, SiteSettings ss)
         {
             return column.DisplayControl(self.ToLocal());
         }
 
-        public static string ToControl(this string self, Column column, Permissions.Types pt)
+        public static string ToControl(this string self, Column column, SiteSettings ss)
         {
             return self;
         }
 
-        public static string ToControl(this int self, Column column, Permissions.Types pt)
+        public static string ToControl(this int self, Column column, SiteSettings ss)
         {
             return self.ToString(column.StringFormat);
         }
 
-        public static string ToControl(this long self, Column column, Permissions.Types pt)
+        public static string ToControl(this long self, Column column, SiteSettings ss)
         {
             return self.ToString(column.StringFormat);
         }
 
-        public static string ToControl(this decimal self, Column column, Permissions.Types pt)
+        public static string ToControl(this decimal self, Column column, SiteSettings ss)
         {
             return column.ControlType == "Spinner"
                 ? column.Display(self, format: false)
-                : column.Display(self, pt);
+                : column.Display(self, ss);
         }
     }
 }

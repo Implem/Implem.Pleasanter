@@ -26,11 +26,11 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static string UpdateOrCreate(
-            Permissions.Types pt, string referenceType, long referenceId)
+            SiteSettings ss, string referenceType, long referenceId)
         {
             var exportSettingModel = new ExportSettingModel(
                 referenceType, referenceId, withTitle: true);
-            var invalid = ExportSettingValidator.OnUpdatingOrCreating(pt);
+            var invalid = ExportSettingValidator.OnUpdatingOrCreating(ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -45,7 +45,6 @@ namespace Implem.Pleasanter.Models
                 exportSettingModel.Title = new Title(0, Unique.New(
                     new ExportSettingCollection(
                         SiteSettingsUtilities.ExportSettingsSiteSettings(),
-                        Permissions.Types.NotSet,
                         where: Rds.ExportSettingsWhere()
                             .ReferenceId(exportSettingModel.ReferenceId))
                                 .Select(o => o.Title?.Value),
@@ -117,7 +116,8 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("ExportSettingsForm")
-                            .Action(Locations.ItemAction(referenceId, "ExportSettings")),
+                            .Action(Locations.Action(
+                                referenceType, referenceId, "ExportSettings")),
                         action: () => hb
                             .Columns(
                                 exportSettingModel.ExportColumns,
@@ -145,7 +145,6 @@ namespace Implem.Pleasanter.Models
         {
             return new ExportSettingCollection(
                 SiteSettingsUtilities.ExportSettingsSiteSettings(),
-                Permissions.Types.NotSet,
                 where: Rds.ExportSettingsWhere()
                     .ReferenceType(referenceType)
                     .ReferenceId(referenceId),
@@ -213,7 +212,6 @@ namespace Implem.Pleasanter.Models
         {
             var exportSettingCollection = new ExportSettingCollection(
                 SiteSettingsUtilities.ExportSettingsSiteSettings(),
-                Permissions.Types.NotSet,
                 where: Rds.ExportSettingsWhere()
                     .ReferenceType(referenceType)
                     .ReferenceId(referenceId));

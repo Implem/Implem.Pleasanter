@@ -28,7 +28,6 @@ namespace Implem.Pleasanter.Models
         public string ReferenceType = "Sites";
         public long ParentId = 0;
         public long InheritPermission = 0;
-        public Permissions.Types PermissionType = (Permissions.Types)31;
         public SiteCollection Ancestors = null;
         public PermissionCollection PermissionSourceCollection = null;
         public PermissionCollection PermissionDestinationCollection = null;
@@ -40,7 +39,6 @@ namespace Implem.Pleasanter.Models
         public string SavedReferenceType = "Sites";
         public long SavedParentId = 0;
         public long SavedInheritPermission = 0;
-        public long SavedPermissionType = 31;
         public string SavedSiteSettings = string.Empty;
         public SiteCollection SavedAncestors = null;
         public PermissionCollection SavedPermissionSourceCollection = null;
@@ -128,7 +126,6 @@ namespace Implem.Pleasanter.Models
                 case "ReferenceType": return ReferenceType;
                 case "ParentId": return ParentId.ToString();
                 case "InheritPermission": return InheritPermission.ToString();
-                case "PermissionType": return PermissionType.ToLong().ToString();
                 case "SiteSettings": return SiteSettings.RecordingJson();
                 case "Ancestors": return Ancestors.ToString();
                 case "PermissionSourceCollection": return PermissionSourceCollection.ToString();
@@ -479,7 +476,6 @@ namespace Implem.Pleasanter.Models
                     case "ReferenceType": ReferenceType = dataRow[name].ToString(); SavedReferenceType = ReferenceType; break;
                     case "ParentId": ParentId = dataRow[name].ToLong(); SavedParentId = ParentId; break;
                     case "InheritPermission": InheritPermission = dataRow[name].ToLong(); SavedInheritPermission = InheritPermission; break;
-                    case "PermissionType": PermissionType = GetPermissionType(dataRow); SavedPermissionType = PermissionType.ToLong(); break;
                     case "SiteSettings": SiteSettings = GetSiteSettings(dataRow); SavedSiteSettings = SiteSettings.RecordingJson(); break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
@@ -534,7 +530,7 @@ namespace Implem.Pleasanter.Models
                 });
             SiteId = newId != 0 ? newId : SiteId;
             Get();
-            SiteSettings = SiteSettingsUtilities.Get(SiteId, ReferenceType);
+            SiteSettings = SiteSettingsUtilities.Get(this);
             switch (ReferenceType)
             {
                 case "Wikis":
@@ -804,7 +800,6 @@ namespace Implem.Pleasanter.Models
         {
             return new HtmlBuilder().SiteMenu(
                 ss: SiteSettings,
-                pt: Permissions.Manager(),
                 siteId: destinationId,
                 referenceType: ReferenceType,
                 title: SiteInfo.SiteMenu.Get(destinationId).Title,

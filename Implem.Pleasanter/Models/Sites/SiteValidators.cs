@@ -6,10 +6,9 @@ namespace Implem.Pleasanter.Models
 {
     public static class SiteValidators
     {
-        public static Error.Types OnCreating(
-            SiteSettings ss, Permissions.Types pt, SiteModel siteModel)
+        public static Error.Types OnCreating(SiteSettings ss, SiteModel siteModel)
         {
-            if (!pt.CanCreate())
+            if (!ss.CanCreate())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -18,31 +17,31 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Sites_Title":
-                        if (!ss.GetColumn("Title").CanCreate(pt))
+                        if (!ss.GetColumn("Title").CanCreate(ss))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_Body":
-                        if (!ss.GetColumn("Body").CanCreate(pt))
+                        if (!ss.GetColumn("Body").CanCreate(ss))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_ReferenceType":
-                        if (!ss.GetColumn("ReferenceType").CanCreate(pt))
+                        if (!ss.GetColumn("ReferenceType").CanCreate(ss))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_InheritPermission":
-                        if (!ss.GetColumn("InheritPermission").CanCreate(pt))
+                        if (!ss.GetColumn("InheritPermission").CanCreate(ss))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanCreate(pt))
+                        if (!ss.GetColumn("Timestamp").CanCreate(ss))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -52,10 +51,9 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public static Error.Types OnUpdating(
-            SiteSettings ss, Permissions.Types pt, SiteModel siteModel)
+        public static Error.Types OnUpdating(SiteSettings ss, SiteModel siteModel)
         {
-            if (!pt.CanUpdate())
+            if (!ss.CanUpdate())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -64,31 +62,31 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Sites_Title":
-                        if (!ss.GetColumn("Title").CanUpdate(pt))
+                        if (!ss.GetColumn("Title").CanUpdate(ss))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_Body":
-                        if (!ss.GetColumn("Body").CanUpdate(pt))
+                        if (!ss.GetColumn("Body").CanUpdate(ss))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_ReferenceType":
-                        if (!ss.GetColumn("ReferenceType").CanUpdate(pt))
+                        if (!ss.GetColumn("ReferenceType").CanUpdate(ss))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_InheritPermission":
-                        if (!ss.GetColumn("InheritPermission").CanUpdate(pt))
+                        if (!ss.GetColumn("InheritPermission").CanUpdate(ss))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanUpdate(pt))
+                        if (!ss.GetColumn("Timestamp").CanUpdate(ss))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -98,10 +96,9 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public static Error.Types OnDeleting(
-            SiteSettings ss, Permissions.Types pt, SiteModel siteModel)
+        public static Error.Types OnDeleting(SiteSettings ss, SiteModel siteModel)
         {
-            if (!pt.CanDelete())
+            if (!ss.CanDelete())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -110,7 +107,7 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnRestoring()
         {
-            if (!Permissions.Admins().CanManageTenant())
+            if (!Permissions.CanManageTenant())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -123,9 +120,9 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnMoving(
             long currentId,
             long destinationId,
-            Permissions.Types current,
-            Permissions.Types source,
-            Permissions.Types destination)
+            SiteSettings current,
+            SiteSettings source,
+            SiteSettings destination)
         {
             if (currentId != 0 && !current.CanManageSite())
             {
@@ -145,9 +142,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnSorting(long siteId, Permissions.Types pt)
+        public static Error.Types OnSorting(SiteSettings ss)
         {
-            if (siteId != 0 && !pt.CanManageSite())
+            if (ss.SiteId != 0 && !ss.CanManageSite())
             {
                 return Error.Types.HasNotPermission;
             }

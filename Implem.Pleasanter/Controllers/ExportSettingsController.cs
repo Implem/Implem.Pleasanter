@@ -1,6 +1,6 @@
 ﻿using Implem.Pleasanter.Filters;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = ExportSettingUtilities.UpdateOrCreate(
-                pt: Permissions.GetBySiteId(id),
+                ss: SiteSettingsUtilities.GetByReference(reference, id),
                 referenceType: SiteInfo.IndexReferenceType(reference, id),
                 referenceId: id);
             log.Finish(json.Length);

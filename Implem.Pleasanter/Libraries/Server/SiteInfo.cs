@@ -21,21 +21,11 @@ namespace Implem.Pleasanter.Libraries.Server
         public static void Reflesh(bool force = false)
         {
             var monitor = new UpdateMonitor();
-            if (monitor.Updated || force)
+            if (monitor.DeptsUpdated || monitor.UsersUpdated || force)
             {
                 var tenantId = Sessions.TenantId();
                 var dataSet = Rds.ExecuteDataSet(statements: new SqlStatement[]
                 {
-                    Rds.SelectSites(
-                        dataTableName: "Sites",
-                        column: Rds.SitesColumn()
-                            .TenantId()
-                            .ReferenceType()
-                            .ParentId()
-                            .Title(),
-                        where: Rds.SitesWhere()
-                            .TenantId(tenantId, _using: tenantId != 0)
-                            .PermissionType(_operator: ">0")),
                     Rds.SelectDepts(
                         dataTableName: "Depts",
                         column: Rds.DeptsColumn()
@@ -72,14 +62,17 @@ namespace Implem.Pleasanter.Libraries.Server
                             dataRow => dataRow["UserId"].ToInt(),
                             dataRow => new User(dataRow));
                 }
-                if (monitor.PermissionsUpdated || monitor.GroupsUpdated || force)
-                {
-                    SiteUserHash = new Dictionary<long, List<int>>();
-                }
-                if (monitor.SitesUpdated || force)
-                {
-                    SiteMenu = new SiteMenu();
-                }
+            }
+            if (monitor.PermissionsUpdated || monitor.GroupsUpdated || force)
+            {
+                SiteUserHash = new Dictionary<long, List<int>>();
+            }
+            if (monitor.SitesUpdated || force)
+            {
+                SiteMenu = new SiteMenu();
+            }
+            if (monitor.Updated || force)
+            {
                 monitor.Update();
             }
         }
@@ -182,13 +175,6 @@ namespace Implem.Pleasanter.Libraries.Server
             return referenceType.ToLower() == "items"
                 ? new SiteModel(referenceId).ReferenceType
                 : referenceType;
-        }
-
-        public static bool IsItem()
-        {
-            return Url.RouteData("reference") != null
-                ? Url.RouteData("reference").ToLower() == "items"
-                : Routes.Controller() == "items";
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
-using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -8,7 +8,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder RecordHeader(
             this HtmlBuilder hb,
-            Permissions.Types pt,
+            SiteSettings ss,
             BaseModel baseModel,
             string tableName,
             bool switcher = true)
@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .RecordInfo(baseModel: baseModel, tableName: tableName))
                     .Div(id: "RecordSwitchers", action: () => hb
                         .RecordSwitchers(switcher: switcher)))
-                    .Notes(pt: pt, verType: baseModel.VerType)
+                    .Notes(ss: ss, verType: baseModel.VerType)
                 : hb;
         }
     }

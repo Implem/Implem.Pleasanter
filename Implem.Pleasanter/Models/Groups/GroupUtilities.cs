@@ -25,16 +25,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Index(SiteSettings ss, Permissions.Types pt)
+        public static string Index(SiteSettings ss)
         {
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(ss);
-            var groupCollection = GroupCollection(
-                ss,
-                Permissions.Admins(),
-                view);
+            var groupCollection = GroupCollection(ss, view);
             return hb.Template(
-                pt: pt,
+                ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: true,
@@ -54,13 +51,12 @@ namespace Implem.Pleasanter.Models
                                     aggregations: groupCollection.Aggregations)
                                 .Div(id: "ViewModeContainer", action: () => hb
                                     .Grid(
-                                        groupCollection: groupCollection,
-                                        pt: pt,
                                         ss: ss,
+                                        groupCollection: groupCollection,
                                         view: view))
                                 .MainCommands(
+                                    ss: ss,
                                     siteId: ss.SiteId,
-                                    pt: pt,
                                     verType: Versions.VerTypes.Latest)
                                 .Div(css: "margin-bottom")
                                 .Hidden(controlId: "TableName", value: "Groups")
@@ -82,22 +78,20 @@ namespace Implem.Pleasanter.Models
         private static string ViewModeTemplate(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types pt,
             GroupCollection groupCollection,
             View view,
             string viewMode,
             Action viewModeBody)
         {
             return hb.Template(
-                pt: pt,
+                ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: pt.CanRead(),
+                allowAccess: ss.CanRead(),
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Groups",
-                script: Libraries.Scripts.JavaScripts.ViewMode(
-                    ss: ss, pt: pt, viewMode: viewMode),
+                script: Libraries.Scripts.JavaScripts.ViewMode(viewMode),
                 userScript: ss.GridScript,
                 userStyle: ss.GridStyle,
                 action: () => hb
@@ -114,8 +108,8 @@ namespace Implem.Pleasanter.Models
                                 aggregations: groupCollection.Aggregations)
                             .Div(id: "ViewModeContainer", action: () => viewModeBody())
                             .MainCommands(
+                                ss: ss,
                                 siteId: ss.SiteId,
-                                pt: pt,
                                 verType: Versions.VerTypes.Latest,
                                 bulkMoveButton: true,
                                 bulkDeleteButton: true,
@@ -132,15 +126,14 @@ namespace Implem.Pleasanter.Models
                     .ToString();
         }
 
-        public static string IndexJson(SiteSettings ss, Permissions.Types pt)
+        public static string IndexJson(SiteSettings ss)
         {
             var view = Views.GetBySession(ss);
-            var groupCollection = GroupCollection(ss, pt, view);
+            var groupCollection = GroupCollection(ss, view);
             return new ResponseCollection()
                 .Html("#ViewModeContainer", new HtmlBuilder().Grid(
                     ss: ss,
                     groupCollection: groupCollection,
-                    pt: pt,
                     view: view))
                 .View(ss: ss, view: view)
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
@@ -153,14 +146,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static GroupCollection GroupCollection(
-            SiteSettings ss,
-            Permissions.Types pt,
-            View view,
-            int offset = 0)
+            SiteSettings ss, View view, int offset = 0)
         {
             return new GroupCollection(
                 ss: ss,
-                pt: pt,
                 column: GridSqlColumnCollection(ss),
                 where: view.Where(ss, Rds.GroupsWhere()
                     .TenantId(Sessions.TenantId())
@@ -184,7 +173,6 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Grid(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types pt,
             GroupCollection groupCollection,
             View view)
         {
@@ -221,14 +209,13 @@ namespace Implem.Pleasanter.Models
 
         public static string GridRows(
             SiteSettings ss,
-            Permissions.Types pt,
             ResponseCollection res = null,
             int offset = 0,
             bool clearCheck = false,
             Message message = null)
         {
             var view = Views.GetBySession(ss);
-            var groupCollection = GroupCollection(ss, pt, view, offset);
+            var groupCollection = GroupCollection(ss, view, offset);
             return (res ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -379,13 +366,12 @@ namespace Implem.Pleasanter.Models
         public static string Editor(GroupModel groupModel)
         {
             var hb = new HtmlBuilder();
-            var pt = Permissions.Admins();
             return hb.Template(
-                pt: pt,
+                ss: groupModel.SiteSettings,
                 verType: groupModel.VerType,
                 methodType: groupModel.MethodType,
                 allowAccess:
-                    pt.CanRead() &&
+                    SiteSettingsUtilities.GroupsSiteSettings().CanRead() &&
                     groupModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 referenceType: "Groups",
                 title: groupModel.MethodType == BaseModel.MethodTypes.New
@@ -396,7 +382,6 @@ namespace Implem.Pleasanter.Models
                     hb
                         .Editor(
                             ss: groupModel.SiteSettings,
-                            pt: pt,
                             groupModel: groupModel)
                         .Hidden(controlId: "TableName", value: "Groups")
                         .Hidden(controlId: "Id", value: groupModel.GroupId.ToString());
@@ -407,10 +392,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder Editor(
-            this HtmlBuilder hb,
-            SiteSettings ss,
-            Permissions.Types pt,
-            GroupModel groupModel)
+            this HtmlBuilder hb, SiteSettings ss, GroupModel groupModel)
         {
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
@@ -422,7 +404,7 @@ namespace Implem.Pleasanter.Models
                             : Locations.Action("Groups")),
                     action: () => hb
                         .RecordHeader(
-                            pt: pt,
+                            ss: groupModel.SiteSettings,
                             baseModel: groupModel,
                             tableName: "Groups")
                         .Div(id: "EditorComments", action: () => hb
@@ -433,7 +415,6 @@ namespace Implem.Pleasanter.Models
                             .EditorTabs(groupModel: groupModel)
                             .FieldSetGeneral(
                                 ss: ss,
-                                pt: pt,
                                 groupModel: groupModel)
                             .FieldSetMembers(groupModel: groupModel)
                             .FieldSet(
@@ -443,8 +424,8 @@ namespace Implem.Pleasanter.Models
                                     .DataMethod("get"),
                                 _using: groupModel.MethodType != BaseModel.MethodTypes.New)
                             .MainCommands(
+                                ss: ss,
                                 siteId: 0,
-                                pt: pt,
                                 verType: groupModel.VerType,
                                 referenceType: "Groups",
                                 referenceId: groupModel.GroupId,
@@ -500,7 +481,6 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types pt,
             GroupModel groupModel)
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
@@ -509,10 +489,38 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (column.ColumnName)
                     {
-                        case "GroupId": hb.Field(ss, column, groupModel.MethodType, groupModel.GroupId.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "Ver": hb.Field(ss, column, groupModel.MethodType, groupModel.Ver.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "GroupName": hb.Field(ss, column, groupModel.MethodType, groupModel.GroupName.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "Body": hb.Field(ss, column, groupModel.MethodType, groupModel.Body.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
+                        case "GroupId":
+                            hb.Field(
+                                ss,
+                                column,
+                                groupModel.MethodType,
+                                groupModel.GroupId.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "Ver":
+                            hb.Field(
+                                ss,
+                                column,
+                                groupModel.MethodType,
+                                groupModel.Ver.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "GroupName":
+                            hb.Field(
+                                ss,
+                                column,
+                                groupModel.MethodType,
+                                groupModel.GroupName.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "Body":
+                            hb.Field(
+                                ss,
+                                column,
+                                groupModel.MethodType,
+                                groupModel.Body.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
                     }
                 });
                 hb.VerUpCheckBox(groupModel);
@@ -526,15 +534,12 @@ namespace Implem.Pleasanter.Models
         }
 
         private static HtmlBuilder EditorExtensions(
-            this HtmlBuilder hb,
-            GroupModel groupModel,
-            SiteSettings ss)
+            this HtmlBuilder hb, GroupModel groupModel, SiteSettings ss)
         {
             return hb;
         }
 
-        public static string EditorJson(
-            SiteSettings ss, Permissions.Types pt, int groupId)
+        public static string EditorJson(SiteSettings ss, int groupId)
         {
             return EditorResponse(new GroupModel(ss, groupId))
                 .ToJson();
@@ -574,10 +579,10 @@ namespace Implem.Pleasanter.Models
             return switchTargets;
         }
 
-        public static string Create(SiteSettings ss, Permissions.Types pt)
+        public static string Create(SiteSettings ss)
         {
             var groupModel = new GroupModel(ss, 0, setByForm: true);
-            var invalid = GroupValidators.OnCreating(ss, pt, groupModel);
+            var invalid = GroupValidators.OnCreating(ss, groupModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -597,10 +602,10 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Update(SiteSettings ss, Permissions.Types pt, int groupId)
+        public static string Update(SiteSettings ss, int groupId)
         {
             var groupModel = new GroupModel(ss, groupId, setByForm: true);
-            var invalid = GroupValidators.OnUpdating(ss, pt, groupModel);
+            var invalid = GroupValidators.OnUpdating(ss, groupModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -620,14 +625,14 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var res = new GroupsResponseCollection(groupModel);
-                return ResponseByUpdate(pt, res, groupModel)
+                return ResponseByUpdate(res, groupModel)
                     .PrependComment(groupModel.Comments, groupModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            Permissions.Types pt, GroupsResponseCollection res, GroupModel groupModel)
+            GroupsResponseCollection res, GroupModel groupModel)
         {
             return res
                 .Ver()
@@ -642,11 +647,10 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
-        public static string Delete(
-            SiteSettings ss, Permissions.Types pt, int groupId)
+        public static string Delete(SiteSettings ss, int groupId)
         {
             var groupModel = new GroupModel(ss, groupId);
-            var invalid = GroupValidators.OnDeleting(ss, pt, groupModel);
+            var invalid = GroupValidators.OnDeleting(ss, groupModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -687,8 +691,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Histories(
-            SiteSettings ss, Permissions.Types pt, int groupId)
+        public static string Histories(SiteSettings ss, int groupId)
         {
             var groupModel = new GroupModel(ss, groupId);
             var columns = ss.GetHistoryColumns();
@@ -704,7 +707,6 @@ namespace Implem.Pleasanter.Models
                     .TBody(action: () =>
                         new GroupCollection(
                             ss: ss,
-                            pt: pt,
                             where: Rds.GroupsWhere().GroupId(groupModel.GroupId),
                             orderBy: Rds.GroupsOrderBy().Ver(SqlOrderBy.Types.desc),
                             tableType: Sqls.TableTypes.NormalAndHistory)
@@ -727,8 +729,7 @@ namespace Implem.Pleasanter.Models
                 .Html("#FieldSetHistories", hb).ToJson();
         }
 
-        public static string History(
-            SiteSettings ss, Permissions.Types pt, int groupId)
+        public static string History(SiteSettings ss, int groupId)
         {
             var groupModel = new GroupModel(ss, groupId);
             groupModel.Get(
@@ -749,7 +750,6 @@ namespace Implem.Pleasanter.Models
         {
             return GridRows(
                 SiteSettingsUtilities.GroupsSiteSettings(),
-                Permissions.Admins(),
                 offset: DataViewGrid.Offset());
         }
 

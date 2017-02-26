@@ -99,7 +99,6 @@ namespace Implem.Pleasanter.Models
 
         public WikiModel(
             SiteSettings ss,
-            Permissions.Types pt,
             DataRow dataRow)
         {
             OnConstructing();

@@ -142,12 +142,15 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         /// <param name="dataRow"></param>
         public PermissionModel(
-            string referenceType, long referenceId, Permissions.Types pt, DataRow dataRow)
+            string referenceType,
+            long referenceId,
+            Permissions.Types permissionType,
+            DataRow dataRow)
         {
             OnConstructing();
             ReferenceType = referenceType;
             ReferenceId = referenceId;
-            PermissionType = pt;
+            PermissionType = permissionType;
             Set(dataRow);
             OnConstructed();
         }
@@ -210,14 +213,6 @@ namespace Implem.Pleasanter.Models
                         o.Value == permissionType).Key)
                     : Displays.Special();
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public bool Check(Permissions.Types pt)
-        {
-            return (PermissionType & pt) != 0;
         }
     }
 }

@@ -3,8 +3,8 @@ using Implem.Pleasanter.Libraries.Images;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Template(
             this HtmlBuilder hb,
-            Permissions.Types pt,
+            SiteSettings ss,
             Versions.VerTypes verType,
             BaseModel.MethodTypes methodType,
             bool allowAccess,
@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb
                 .MainContainer(
-                    pt: pt,
+                    ss: ss,
                     verType: verType,
                     methodType: methodType,
                     allowAccess: allowAccess,
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder MainContainer(
             this HtmlBuilder hb,
-            Permissions.Types pt,
+            SiteSettings ss,
             Versions.VerTypes verType,
             BaseModel.MethodTypes methodType,
             bool allowAccess,
@@ -75,14 +75,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(id: "MainContainer", action: () => hb
                 .Header(
-                    pt: pt,
+                    ss: ss,
                     siteId: siteId,
                     referenceType: referenceType,
                     allowAccess: allowAccess,
                     useNavigationMenu: useNavigationMenu,
                     useSearch: useSearch)
                 .Content(
-                    pt: pt,
+                    ss: ss,
                     allowAccess: allowAccess,
                     siteId: siteId,
                     title: title,
@@ -101,7 +101,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Content(
             this HtmlBuilder hb,
-            Permissions.Types pt,
+            SiteSettings ss,
             bool allowAccess,
             long siteId = 0,
             string title = "",
@@ -116,11 +116,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     hb.Nav(css: "both cf", action: () => hb
                         .Breadcrumb(
                             siteId: siteId,
-                            pt: pt,
+                            ss: ss,
                             _using: useBreadcrumb));
                     if (useTitle)
                     {
-                        hb.Title(pt: pt, siteId: siteId, text: title);
+                        hb.Title(ss: ss, siteId: siteId, text: title);
                     }
                     action();
                     hb.P(id: "Message", css: "message", action: () => hb
@@ -133,19 +133,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Raw(text: Messages.NotFound().Html))
                         .MainCommands(
                             siteId: siteId,
-                            pt: pt,
+                            ss: ss,
                             verType: Versions.VerTypes.Latest);
                 }
             });
         }
 
         private static HtmlBuilder Title(
-            this HtmlBuilder hb, Permissions.Types pt, long siteId, string text)
+            this HtmlBuilder hb, SiteSettings ss, long siteId, string text)
         {
             if (text != string.Empty)
             {
-                if (BinaryUtilities.ExistsSiteImage(
-                    pt, siteId, ImageData.SizeTypes.Icon))
+                if (BinaryUtilities.ExistsSiteImage(ss, siteId, ImageData.SizeTypes.Icon))
                 {
                     hb.Img(
                         src: Locations.Get(
@@ -154,7 +153,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             "Binaries",
                             "SiteImageIcon",
                             BinaryUtilities.SiteImagePrefix(
-                                pt, siteId, ImageData.SizeTypes.Icon)),
+                                ss, siteId, ImageData.SizeTypes.Icon)),
                         css: "site-image-icon");
                 }
                 return hb.Header(id: "HeaderTitleContainer", action: () => hb
@@ -179,7 +178,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder NotFoundTemplate(this HtmlBuilder hb)
         {
             return hb.Template(
-                pt: Permissions.Types.NotSet,
+                ss: new SiteSettings(),
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.NotSet,
                 allowAccess: false,

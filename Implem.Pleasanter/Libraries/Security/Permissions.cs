@@ -1,5 +1,4 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
@@ -66,224 +65,227 @@ namespace Implem.Pleasanter.Libraries.Security
             Update
         }
 
-        public static Types GetById(long id)
+        public static Dictionary<long, Types> Get(IEnumerable<long> targets)
         {
-            var user = Sessions.User();
-            return ((Types)Rds.ExecuteScalar_long(statements:
+            return Hash(Rds.ExecuteTable(statements:
                 Rds.SelectPermissions(
+                    distinct: true,
                     column: Rds.PermissionsColumn()
-                        .PermissionType(function: Sqls.Functions.Max),
+                        .ReferenceId()
+                        .PermissionType(),
                     where: Rds.PermissionsWhere()
                         .ReferenceType("Sites")
-                        .ReferenceId(sub: Rds.SelectSites(
-                            column: Rds.SitesColumn().InheritPermission(),
-                            where: Rds.SitesWhere()
-                                .TenantId(Sessions.TenantId())
-                                .SiteId(sub: Rds.SelectItems(
-                                    column: Rds.ItemsColumn().SiteId(),
-                                    where: Rds.ItemsWhere().ReferenceId(id)))))
-                        .Add(raw: "([Permissions].[DeptId]={0} or [Permissions].[UserId]={1})"
-                            .Params(user.DeptId, user.Id)))))
-                                .Admins();
+                        .ReferenceId_In(targets)
+                        .Or(Rds.PermissionsWhere()
+                            .GroupId_In(sub: Rds.SelectGroupMembers(
+                                column: Rds.GroupMembersColumn().GroupId(),
+                                where: Rds.GroupMembersWhere()
+                                    .Add(raw: DeptOrUser("GroupMembers"))))
+                            .Add(raw: DeptOrUser("Permissions")))))
+                                .AsEnumerable());
         }
 
-        public static Types GetBySiteId(long siteId)
+        private static string DeptOrUser(string tableName)
         {
-            var user = Sessions.User();
-            return ((Types)Rds.ExecuteScalar_long(statements:
-                Rds.SelectPermissions(
-                    column: Rds.PermissionsColumn()
-                        .PermissionType(function: Sqls.Functions.Max),
-                    where: Rds.PermissionsWhere()
-                        .ReferenceType("Sites")
-                        .ReferenceId(sub: Rds.SelectSites(
-                            column: Rds.SitesColumn().InheritPermission(),
-                            where: Rds.SitesWhere()
-                                .TenantId(Sessions.TenantId())
-                                .SiteId(siteId)))
-                        .Add(raw: "([Permissions].[DeptId]={0} or [Permissions].[UserId]={1})"
-                            .Params(user.DeptId, user.Id)))))
-                                .Admins();
+            return "([{0}].[DeptId]=@_D or [{0}].[UserId]=@_U)".Params(tableName);
         }
 
-        public static Dictionary<long, Types> GetBySites(IEnumerable<long> sites)
+        private static Dictionary<long, Types> Hash(EnumerableRowCollection<DataRow> dataRows)
         {
-            var user = Sessions.User();
-            return Rds.ExecuteTable(statements: 
+            var hash = dataRows
+                .Select(o => o["ReferenceId"].ToLong())
+                .Distinct()
+                .ToDictionary(o => o, o => Types.NotSet);
+            dataRows.ForEach(dataRow =>
+                hash[dataRow["ReferenceId"].ToLong()] |=
+                    (Types)dataRow["PermissionType"].ToLong());
+            return hash;
+        }
+
+        public static Types Get(string controller, long id)
+        {
+            return controller.ToLower() == "items"
+                ? Get(InheritPermission(id))
+                : Types.NotSet;
+        }
+
+        public static Types Get(long siteId)
+        {
+            var data = Get(new List<long> { siteId });
+            return data.Count() == 1
+                ? data.First().Value
+                : Types.NotSet;
+        }
+
+        public static long InheritPermission(long id)
+        {
+            return Rds.ExecuteScalar_long(statements:
                 Rds.SelectSites(
-                    column: Rds.SitesColumn()
-                        .SiteId()
-                        .Add(sub: Rds.SelectPermissions(
-                            column: Rds.PermissionsColumn()
-                                .PermissionType(function: Sqls.Functions.Max),
-                            where: Rds.PermissionsWhere()
-                                .ReferenceType("Sites")
-                                .ReferenceId(_operator: "=[InheritPermission]")
-                                .Add(raw: "([DeptId]={0} or [UserId]={1})".Params(
-                                    user.DeptId, user.Id))), _as: "PermissionType"),
+                    column: Rds.SitesColumn().InheritPermission(),
+                    where: Rds.SitesWhere()
+                        .SiteId(sub: Rds.SelectItems(
+                            column: Rds.ItemsColumn().SiteId(),
+                            where: Rds.ItemsWhere().ReferenceId(id)))));
+        }
+
+        public static IEnumerable<long> AllowSites(IEnumerable<long> sites)
+        {
+            var user = Sessions.User();
+            return Rds.ExecuteTable(statements:
+                Rds.SelectSites(
+                    column: Rds.SitesColumn().SiteId(),
                     where: Rds.SitesWhere()
                         .TenantId(Sessions.TenantId())
-                        .SiteId_In(sites)))
+                        .SiteId_In(sites)
+                        .Add(raw: Def.Sql.CanRead)))
                             .AsEnumerable()
-                            .ToDictionary(
-                                o => o["SiteId"].ToLong(),
-                                o => (Types)o["PermissionType"].ToLong());
+                            .Select(o => o["SiteId"].ToLong());
         }
 
-        public static List<long> AllowSites(IEnumerable<long> sites)
-        {
-            return GetBySites(sites)
-                .Where(o => o.Value.CanRead())
-                .Select(o => o.Key)
-                .ToList();
-        }
-
-        public static bool CanRead(this Types self)
+        public static bool CanRead(this SiteSettings ss)
         {
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
-                    return self.CanManageTenant();
+                    return CanManageTenant();
                 case "groups":
                     return CanReadGroup();
                 case "users":
-                    return self.CanManageTenant() ||
+                    return CanManageTenant() ||
                         Sessions.UserId() == Routes.Id();
                 default:
-                    return (self & Types.Read) != 0;
+                    return (ss.PermissionType & Types.Read) != 0;
             }
         }
 
-        public static bool CanCreate(this Types self)
+        public static bool CanCreate(this SiteSettings ss)
         {
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
                 case "users":
-                    return self.CanManageTenant();
+                    return CanManageTenant();
                 case "groups":
                     return CanEditGroup();
                 default:
-                    return (self & Types.Create) != 0;
+                    return (ss.PermissionType & Types.Create) != 0;
             }
         }
 
-        public static bool CanUpdate(this Types self)
+        public static bool CanUpdate(this SiteSettings ss)
         {
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
-                    return self.CanManageTenant();
+                    return CanManageTenant();
                 case "groups":
                     return CanEditGroup();
                 case "users":
-                    return self.CanManageTenant() ||
+                    return CanManageTenant() ||
                         Sessions.UserId() == Routes.Id();
                 default:
-                    return (self & Types.Update) != 0;
+                    return (ss.PermissionType & Types.Update) != 0;
             }
         }
 
-        public static bool CanMove(Types source, Types destination)
+        public static bool CanMove(SiteSettings source, SiteSettings destination)
         {
             return source.CanUpdate() && destination.CanUpdate();
         }
 
-        public static bool CanDelete(this Types self)
+        public static bool CanDelete(this SiteSettings ss)
         {
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
-                    return self.CanManageTenant();
+                    return CanManageTenant();
                 case "groups":
                     return CanEditGroup();
                 case "users":
-                    return self.CanManageTenant() &&
+                    return CanManageTenant() &&
                         Sessions.UserId() != Routes.Id();
                 default:
-                    return (self & Types.Delete) != 0;
+                    return (ss.PermissionType & Types.Delete) != 0;
             }
         }
 
-        public static bool CanSendMail(this Types self)
+        public static bool CanSendMail(this SiteSettings ss)
         {
-            return (self & Types.SendMail) != 0;
+            switch (ss.ReferenceType.ToLower())
+            {
+                case "depts":
+                    return CanManageTenant();
+                case "groups":
+                    return CanEditGroup();
+                case "users":
+                    return CanManageTenant() ||
+                        Sessions.UserId() == Routes.Id();
+                default:
+                    return (ss.PermissionType & Types.SendMail) != 0;
+            }
         }
 
-        public static bool CanExport(this Types self)
+        public static bool CanExport(this SiteSettings ss)
         {
-            return (self & Types.Export) != 0;
+            return (ss.PermissionType & Types.Export) != 0;
         }
 
-        public static bool CanImport(this Types self)
+        public static bool CanImport(this SiteSettings ss)
         {
-            return (self & Types.Import) != 0;
+            return (ss.PermissionType & Types.Import) != 0;
         }
 
-        public static bool CanManageSite(this Types self)
+        public static bool CanManageSite(this SiteSettings ss)
         {
-            return (self & Types.ManageSite) != 0;
+            return (ss.PermissionType & Types.ManageSite) != 0;
         }
 
-        public static bool CanManagePermission(this Types self)
+        public static bool CanManagePermission(this SiteSettings ss)
         {
-            return (self & Types.ManagePermission) != 0;
-        }
-
-        public static bool CanManageTenant(this Types self)
-        {
-            return (self & Types.ManageTenant) != 0;
-        }
-
-        public static bool CanManageService(this Types self)
-        {
-            return (self & Types.ManageService) != 0;
+            return (ss.PermissionType & Types.ManagePermission) != 0;
         }
 
         public static ColumnPermissionTypes ColumnPermissionType(
-            this Column self, Types pt)
+            this Column self, SiteSettings ss)
         {
             switch(Url.RouteData("action").ToLower())
             {
                 case "new":
                     return
-                        self.CanCreate(pt)
+                        self.CanCreate(ss)
                             ? ColumnPermissionTypes.Update
-                            : self.CanRead(pt)
+                            : self.CanRead(ss)
                                 ? ColumnPermissionTypes.Read
                                 : ColumnPermissionTypes.Deny;
                 default:
                     return
-                        self.CanUpdate(pt)
+                        self.CanUpdate(ss)
                             ? ColumnPermissionTypes.Update
-                            : self.CanRead(pt)
+                            : self.CanRead(ss)
                                 ? ColumnPermissionTypes.Read
                                 : ColumnPermissionTypes.Deny;
             }
         }
 
-        public static bool CanRead(
-            this Column self, Types pt)
+        public static bool CanRead(this Column self, SiteSettings ss)
         {
             return
                 self.ReadPermission == 0 ||
-                (self.ReadPermission & Admins(pt)) != 0;
+                (self.ReadPermission & Admins(ss.PermissionType)) != 0;
         }
 
-        public static bool CanCreate(
-            this Column self, Types pt)
+        public static bool CanCreate(this Column self, SiteSettings ss)
         {
             return
                 self.CreatePermission == 0 ||
-                (self.CreatePermission & Admins(pt)) != 0;
+                (self.CreatePermission & Admins(ss.PermissionType)) != 0;
         }
 
-        public static bool CanUpdate(
-            this Column self, Types pt)
+        public static bool CanUpdate(this Column self, SiteSettings ss)
         {
             return
                 self.UpdatePermission == 0 ||
-                (self.UpdatePermission & Admins(pt)) != 0;
+                (self.UpdatePermission & Admins(ss.PermissionType)) != 0;
         }
 
         public static bool CanManageTenant()
@@ -319,12 +321,12 @@ namespace Implem.Pleasanter.Libraries.Security
             return Types.NotSet.Admins();
         }
 
-        public static Types Admins(this Types pt)
+        public static Types Admins(this Types type)
         {
             var user = Sessions.User();
-            if (user.TenantManager) pt |= Types.ManageTenant;
-            if (user.ServiceManager) pt |= Types.ManageService;
-            return pt;
+            if (user.TenantManager) type |= Types.ManageTenant;
+            if (user.ServiceManager) type |= Types.ManageService;
+            return type;
         }
     }
 }

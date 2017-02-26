@@ -560,7 +560,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Sites_ReferenceType(params string[] data) { return Get("Sites_ReferenceType", data); }
         public static string Sites_ParentId(params string[] data) { return Get("Sites_ParentId", data); }
         public static string Sites_InheritPermission(params string[] data) { return Get("Sites_InheritPermission", data); }
-        public static string Sites_PermissionType(params string[] data) { return Get("Sites_PermissionType", data); }
         public static string Sites_SiteSettings(params string[] data) { return Get("Sites_SiteSettings", data); }
         public static string Sites_Ancestors(params string[] data) { return Get("Sites_Ancestors", data); }
         public static string Sites_PermissionSourceCollection(params string[] data) { return Get("Sites_PermissionSourceCollection", data); }

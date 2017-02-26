@@ -116,14 +116,12 @@ namespace Implem.Pleasanter.Models
                     .Text(text: Displays.Get(selectedValue)));
         }
 
-        public static string Create(
-            Permissions.Types pt,
-            long parentId,
-            long inheritPermission)
+        public static string Create(long parentId, long inheritPermission)
         {
             var siteModel = new SiteModel(parentId, inheritPermission, setByForm: true);
-            var ss = siteModel.SiteSettings;
-            var invalid = SiteValidators.OnCreating(ss, pt, siteModel);
+            var ss = siteModel.SitesSiteSettings();
+            if (parentId == 0) ss.PermissionType = Permissions.Types.Create;
+            var invalid = SiteValidators.OnCreating(ss, siteModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -144,12 +142,12 @@ namespace Implem.Pleasanter.Models
                         return new ResponseCollection()
                             .ReplaceAll(
                                 "#MainContainer",
-                                WikiUtilities.Editor(siteModel, wikiModel))
+                                WikiUtilities.Editor(wikiModel))
                             .Val("#BackUrl", Locations.ItemIndex(siteModel.ParentId))
                             .Invoke("setSwitchTargets")
                             .ToJson();
                     default:
-                        return pt.CanManageSite()
+                        return ss.CanManageSite()
                             ? EditorResponse(
                                 siteModel, Messages.Created(siteModel.Title.ToString())).ToJson()
                             : new ResponseCollection().Href(
@@ -158,10 +156,10 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Update(SiteSettings ss, Permissions.Types pt, long siteId)
+        public static string Update(SiteSettings ss, long siteId)
         {
             var siteModel = new SiteModel(siteId, setByForm: true);
-            var invalid = SiteValidators.OnUpdating(ss, pt, siteModel);
+            var invalid = SiteValidators.OnUpdating(ss, siteModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -183,14 +181,14 @@ namespace Implem.Pleasanter.Models
                 var res = new SitesResponseCollection(siteModel);
                 res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
                     .Breadcrumb(ss.SiteId));
-                return ResponseByUpdate(pt, res, siteModel)
+                return ResponseByUpdate(res, siteModel)
                     .PrependComment(siteModel.Comments, siteModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            Permissions.Types pt, SitesResponseCollection res, SiteModel siteModel)
+            SitesResponseCollection res, SiteModel siteModel)
         {
             return res
                 .Ver()
@@ -227,8 +225,7 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(siteId);
             var ss = siteModel.SiteSettings;
-            var pt = siteModel.PermissionType;
-            var invalid = SiteValidators.OnDeleting(ss, pt, siteModel);
+            var invalid = SiteValidators.OnDeleting(ss, siteModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -272,7 +269,6 @@ namespace Implem.Pleasanter.Models
         public static string Histories(SiteModel siteModel)
         {
             var ss = siteModel.SitesSiteSettings();
-            var pt = siteModel.PermissionType;
             var columns = ss.GetHistoryColumns();
             var hb = new HtmlBuilder();
             hb.Table(
@@ -310,7 +306,6 @@ namespace Implem.Pleasanter.Models
         public static string History(SiteModel siteModel)
         {
             var ss = siteModel.SitesSiteSettings();
-            var pt = siteModel.PermissionType;
             siteModel.Get(
                 where: Rds.SitesWhere()
                     .SiteId(siteModel.SiteId)
@@ -378,9 +373,9 @@ namespace Implem.Pleasanter.Models
             var invalid = SiteValidators.OnMoving(
                 id,
                 destinationId,
-                siteModel.PermissionType,
-                Permissions.GetById(sourceId),
-                Permissions.GetById(destinationId));
+                SiteSettingsUtilities.Get(siteModel),
+                SiteSettingsUtilities.Get(sourceId),
+                SiteSettingsUtilities.Get(destinationId));
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -416,7 +411,7 @@ namespace Implem.Pleasanter.Models
         public static string SortSiteMenu(long siteId)
         {
             var siteModel = new SiteModel(siteId);
-            var invalid = SiteValidators.OnSorting(siteId, siteModel.PermissionType);
+            var invalid = SiteValidators.OnSorting(SiteSettingsUtilities.Get(siteModel));
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -462,9 +457,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Editor(long siteId, bool clearSessions)
         {
-            return Editor(
-                new SiteModel(
-                    siteId, clearSessions, methodType: BaseModel.MethodTypes.Edit));
+            var siteModel = new SiteModel(
+                siteId, clearSessions, methodType: BaseModel.MethodTypes.Edit);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            return Editor(siteModel);
         }
 
         /// <summary>
@@ -578,11 +574,12 @@ namespace Implem.Pleasanter.Models
         public static string SiteTop()
         {
             var hb = new HtmlBuilder();
-            var pt = Permissions.Admins() | Permissions.Manager();
+            var ss = new SiteSettings();
+            ss.PermissionType = Permissions.Admins() | Permissions.Manager();
             var verType = Versions.VerTypes.Latest;
             var siteConditions = SiteInfo.SiteMenu.SiteConditions(0);
             return hb.Template(
-                pt: pt,
+                ss: ss,
                 verType: verType,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: true,
@@ -599,8 +596,8 @@ namespace Implem.Pleasanter.Models
                             .SiteMenu(siteModel: null, siteConditions: siteConditions)
                             .SiteMenuData());
                     hb.MainCommands(
+                        ss: ss,
                         siteId: 0,
-                        pt: pt,
                         verType: verType,
                         backButton: false);
                 }).ToString();
@@ -615,11 +612,11 @@ namespace Implem.Pleasanter.Models
             var ss = siteModel.SitesSiteSettings();
             var siteConditions = SiteInfo.SiteMenu.SiteConditions(siteModel.SiteId);
             return hb.Template(
-                pt: siteModel.PermissionType,
+                ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess:
-                    siteModel.PermissionType.CanRead() &&
+                    siteModel.SiteSettings.CanRead() &&
                     siteModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
@@ -638,8 +635,8 @@ namespace Implem.Pleasanter.Models
                     if (ss.SiteId != 0)
                     {
                         hb.MainCommands(
+                            ss: ss,
                             siteId: siteModel.SiteId,
-                            pt: siteModel.PermissionType,
                             verType: Versions.VerTypes.Latest);
                     }
                 }).ToString();
@@ -654,8 +651,8 @@ namespace Implem.Pleasanter.Models
             var ss = siteModel != null
                 ? siteModel.SiteSettings
                 : SiteSettingsUtilities.SitesSiteSettings(0);
-            var pt = siteModel != null
-                ? siteModel.PermissionType
+            ss.PermissionType = siteModel != null
+                ? siteModel.SiteSettings.PermissionType
                 : Permissions.Admins() | Permissions.Manager();
             return hb.Div(id: "SiteMenu", action: () => hb
                 .Nav(css: "cf", _using: siteModel != null, action: () => hb
@@ -666,7 +663,6 @@ namespace Implem.Pleasanter.Models
                         Menu(ss.SiteId).ForEach(siteModelChild => hb
                             .SiteMenu(
                                 ss: ss,
-                                pt: pt,
                                 siteId: siteModelChild.SiteId,
                                 referenceType: siteModelChild.ReferenceType,
                                 title: siteModelChild.Title.Value,
@@ -682,7 +678,6 @@ namespace Implem.Pleasanter.Models
             return siteModel.SiteId != 0
                 ? hb.SiteMenu(
                     ss: siteModel.SiteSettings,
-                    pt: siteModel.PermissionType,
                     siteId: siteModel.ParentId,
                     referenceType: "Sites",
                     title: Displays.ToParent(),
@@ -696,7 +691,6 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder SiteMenu(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types pt,
             long siteId,
             string referenceType,
             string title,
@@ -704,9 +698,9 @@ namespace Implem.Pleasanter.Models
             IEnumerable<SiteCondition> siteConditions = null)
         {
             var hasImage = BinaryUtilities.ExistsSiteImage(
-                pt, siteId, Libraries.Images.ImageData.SizeTypes.Thumbnail);
+                ss, siteId, Libraries.Images.ImageData.SizeTypes.Thumbnail);
             var siteImagePrefix = BinaryUtilities.SiteImagePrefix(
-                pt, siteId, Libraries.Images.ImageData.SizeTypes.Thumbnail);
+                ss, siteId, Libraries.Images.ImageData.SizeTypes.Thumbnail);
             return hb.Li(
                 attributes: new HtmlAttributes()
                     .Class(Libraries.Styles.Css.Class("nav-site " + referenceType.ToLower() +
@@ -910,12 +904,11 @@ namespace Implem.Pleasanter.Models
                 column: Rds.SitesColumn()
                     .SiteId()
                     .Title()
-                    .ReferenceType()
-                    .PermissionType(),
+                    .ReferenceType(),
                 where: Rds.SitesWhere()
                     .TenantId(Sessions.TenantId())
                     .ParentId(parentId)
-                    .PermissionType(_operator: ">0"));
+                    .Add(raw: Def.Sql.CanRead));
             var orderModel = new OrderModel(parentId, "Sites");
             siteDataRows.ForEach(siteModel =>
             {
@@ -944,15 +937,19 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string EditorNew(Permissions.Types pt, long siteId)
+        public static string EditorNew(long siteId)
         {
             return Editor(
                 new SiteModel()
                 {
-                    SiteSettings = new SiteSettings("Sites"),
+                    SiteSettings = new SiteSettings("Sites")
+                    {
+                        PermissionType = siteId == 0
+                            ? Permissions.Manager()
+                            : Permissions.Get(siteId)
+                    },
                     MethodType = BaseModel.MethodTypes.New,
-                    SiteId = siteId,
-                    PermissionType = pt
+                    SiteId = siteId
                 });
         }
 
@@ -963,7 +960,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             return hb.Template(
-                pt: siteModel.PermissionType,
+                ss: siteModel.SiteSettings,
                 verType: siteModel.VerType,
                 methodType: siteModel.MethodType,
                 allowAccess: AllowAccess(siteModel),
@@ -992,9 +989,9 @@ namespace Implem.Pleasanter.Models
             switch (siteModel.MethodType)
             {
                 case BaseModel.MethodTypes.New:
-                    return siteModel.PermissionType.CanCreate();
+                    return siteModel.SiteSettings.CanCreate();
                 default:
-                    return siteModel.PermissionType.CanManageSite();
+                    return siteModel.SiteSettings.CanManageSite();
             }
         }
 
@@ -1011,7 +1008,7 @@ namespace Implem.Pleasanter.Models
                         .Action(Locations.ItemAction(siteModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
-                            pt: siteModel.PermissionType,
+                            ss: siteModel.SiteSettings,
                             baseModel: siteModel,
                             tableName: "Sites",
                             switcher: false)
@@ -1029,8 +1026,8 @@ namespace Implem.Pleasanter.Models
                                     .DataMethod("get"),
                                 _using: siteModel.MethodType != BaseModel.MethodTypes.New)
                             .MainCommands(
+                                ss: siteModel.SiteSettings,
                                 siteId: siteModel.SiteId,
-                                pt: siteModel.PermissionType,
                                 verType: siteModel.VerType,
                                 referenceType: "items",
                                 referenceId: siteModel.SiteId,
@@ -1046,7 +1043,7 @@ namespace Implem.Pleasanter.Models
                             css: "control-hidden always-send",
                             value: siteModel.Timestamp)
                         .Hidden(controlId: "Id", value: siteModel.SiteId.ToString()))
-                .OutgoingMailsForm("Sites", siteModel.SiteId, siteModel.Ver)
+                .OutgoingMailsForm("items", siteModel.SiteId, siteModel.Ver)
                 .CopyDialog("items", siteModel.SiteId)
                 .OutgoingMailDialog()
                 .Div(attributes: new HtmlAttributes()
@@ -1141,7 +1138,7 @@ namespace Implem.Pleasanter.Models
                                 selectedValue: siteModel.ReferenceType,
                                 methodType: siteModel.MethodType))
                     .VerUpCheckBox(siteModel);
-                if (siteModel.PermissionType.CanManagePermission() &&
+                if (siteModel.SiteSettings.CanManagePermission() &&
                     siteModel.MethodType != BaseModel.MethodTypes.New)
                 {
                     hb.FieldAnchor(

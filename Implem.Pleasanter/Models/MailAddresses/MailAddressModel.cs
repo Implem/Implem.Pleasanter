@@ -71,7 +71,6 @@ namespace Implem.Pleasanter.Models
 
         public MailAddressModel(
             SiteSettings ss,
-            Permissions.Types pt,
             DataRow dataRow)
         {
             OnConstructing();

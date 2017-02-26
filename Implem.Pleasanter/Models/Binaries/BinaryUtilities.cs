@@ -26,11 +26,11 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static bool ExistsSiteImage(
-            Permissions.Types pt,
+            SiteSettings ss,
             long referenceId,
             Libraries.Images.ImageData.SizeTypes sizeType)
         {
-            var invalid = BinaryValidators.OnGetting(pt);
+            var invalid = BinaryValidators.OnGetting(ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -54,11 +54,11 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static string SiteImagePrefix(
-            Permissions.Types pt,
+            SiteSettings ss,
             long referenceId,
             Libraries.Images.ImageData.SizeTypes sizeType)
         {
-            var invalid = BinaryValidators.OnGetting(pt);
+            var invalid = BinaryValidators.OnGetting(ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -72,7 +72,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static byte[] SiteImageThumbnail(SiteModel siteModel)
         {
-            var invalid = BinaryValidators.OnGetting(siteModel.PermissionType);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            var invalid = BinaryValidators.OnGetting(siteModel.SiteSettings);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -88,7 +89,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static byte[] SiteImageIcon(SiteModel siteModel)
         {
-            var invalid = BinaryValidators.OnGetting(siteModel.PermissionType);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            var invalid = BinaryValidators.OnGetting(siteModel.SiteSettings);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -104,11 +106,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string UpdateSiteImage(SiteModel siteModel)
         {
-            var invalid = BinaryValidators.OnUpdating(siteModel.PermissionType);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            var invalid = BinaryValidators.OnUpdating(siteModel.SiteSettings);
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return null;
+                default: return invalid.MessageJson();
             }
             var error = new BinaryModel(siteModel.SiteId).UpdateSiteImage(
                 Forms.File(Libraries.Images.ImageData.Types.SiteImage.ToString()));

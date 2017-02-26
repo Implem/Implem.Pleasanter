@@ -1,11 +1,10 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.ViewModes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.ViewModes;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,7 +16,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder BurnDown(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types pt,
             IEnumerable<DataRow> dataRows,
             string ownerLabelText,
             Column column)
@@ -31,8 +29,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ownerLabelText: ownerLabelText,
                     column: column)
                 .MainCommands(
+                    ss: ss,
                     siteId: ss.SiteId,
-                    pt: pt,
                     verType: Versions.VerTypes.Latest,
                     importButton: true,
                     exportButton: true);

@@ -25,16 +25,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Index(SiteSettings ss, Permissions.Types pt)
+        public static string Index(SiteSettings ss)
         {
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(ss);
-            var userCollection = UserCollection(
-                ss,
-                Permissions.Admins(),
-                view);
+            var userCollection = UserCollection(ss, view);
             return hb.Template(
-                pt: pt,
+                ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: Sessions.User().TenantManager,
@@ -55,13 +52,12 @@ namespace Implem.Pleasanter.Models
                                     aggregations: userCollection.Aggregations)
                                 .Div(id: "ViewModeContainer", action: () => hb
                                     .Grid(
-                                        userCollection: userCollection,
-                                        pt: pt,
                                         ss: ss,
+                                        userCollection: userCollection,
                                         view: view))
                                 .MainCommands(
+                                    ss: ss,
                                     siteId: ss.SiteId,
-                                    pt: pt,
                                     verType: Versions.VerTypes.Latest)
                                 .Div(css: "margin-bottom")
                                 .Hidden(controlId: "TableName", value: "Users")
@@ -83,22 +79,20 @@ namespace Implem.Pleasanter.Models
         private static string ViewModeTemplate(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types pt,
             UserCollection userCollection,
             View view,
             string viewMode,
             Action viewModeBody)
         {
             return hb.Template(
-                pt: pt,
+                ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: pt.CanRead(),
+                allowAccess: ss.CanRead(),
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Users",
-                script: Libraries.Scripts.JavaScripts.ViewMode(
-                    ss: ss, pt: pt, viewMode: viewMode),
+                script: Libraries.Scripts.JavaScripts.ViewMode(viewMode),
                 userScript: ss.GridScript,
                 userStyle: ss.GridStyle,
                 action: () => hb
@@ -115,8 +109,8 @@ namespace Implem.Pleasanter.Models
                                 aggregations: userCollection.Aggregations)
                             .Div(id: "ViewModeContainer", action: () => viewModeBody())
                             .MainCommands(
+                                ss: ss,
                                 siteId: ss.SiteId,
-                                pt: pt,
                                 verType: Versions.VerTypes.Latest,
                                 bulkMoveButton: true,
                                 bulkDeleteButton: true,
@@ -133,15 +127,14 @@ namespace Implem.Pleasanter.Models
                     .ToString();
         }
 
-        public static string IndexJson(SiteSettings ss, Permissions.Types pt)
+        public static string IndexJson(SiteSettings ss)
         {
             var view = Views.GetBySession(ss);
-            var userCollection = UserCollection(ss, pt, view);
+            var userCollection = UserCollection(ss, view);
             return new ResponseCollection()
                 .Html("#ViewModeContainer", new HtmlBuilder().Grid(
                     ss: ss,
                     userCollection: userCollection,
-                    pt: pt,
                     view: view))
                 .View(ss: ss, view: view)
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
@@ -151,14 +144,10 @@ namespace Implem.Pleasanter.Models
         }
 
         private static UserCollection UserCollection(
-            SiteSettings ss,
-            Permissions.Types pt,
-            View view,
-            int offset = 0)
+            SiteSettings ss, View view, int offset = 0)
         {
             return new UserCollection(
                 ss: ss,
-                pt: pt,
                 column: GridSqlColumnCollection(ss),
                 where: view.Where(ss, Rds.UsersWhere().TenantId(Sessions.TenantId())),
                 orderBy: view.OrderBy(ss, Rds.UsersOrderBy()
@@ -172,7 +161,6 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Grid(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types pt,
             UserCollection userCollection,
             View view)
         {
@@ -209,14 +197,13 @@ namespace Implem.Pleasanter.Models
 
         public static string GridRows(
             SiteSettings ss,
-            Permissions.Types pt,
             ResponseCollection res = null,
             int offset = 0,
             bool clearCheck = false,
             Message message = null)
         {
             var view = Views.GetBySession(ss);
-            var userCollection = UserCollection(ss, pt, view, offset);
+            var userCollection = UserCollection(ss, view, offset);
             return (res ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -391,13 +378,12 @@ namespace Implem.Pleasanter.Models
         public static string Editor(UserModel userModel)
         {
             var hb = new HtmlBuilder();
-            var pt = Permissions.Admins();
             return hb.Template(
-                pt: pt,
+                ss: userModel.SiteSettings,
                 verType: userModel.VerType,
                 methodType: userModel.MethodType,
                 allowAccess:
-                    pt.CanRead() &&
+                    SiteSettingsUtilities.UsersSiteSettings().CanRead() &&
                     userModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 referenceType: "Users",
                 title: userModel.MethodType == BaseModel.MethodTypes.New
@@ -408,7 +394,6 @@ namespace Implem.Pleasanter.Models
                     hb
                         .Editor(
                             ss: userModel.SiteSettings,
-                            pt: pt,
                             userModel: userModel)
                         .Hidden(controlId: "TableName", value: "Users")
                         .Hidden(controlId: "Id", value: userModel.UserId.ToString());
@@ -419,10 +404,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder Editor(
-            this HtmlBuilder hb,
-            SiteSettings ss,
-            Permissions.Types pt,
-            UserModel userModel)
+            this HtmlBuilder hb, SiteSettings ss, UserModel userModel)
         {
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
@@ -434,7 +416,7 @@ namespace Implem.Pleasanter.Models
                             : Locations.Action("Users")),
                     action: () => hb
                         .RecordHeader(
-                            pt: pt,
+                            ss: ss,
                             baseModel: userModel,
                             tableName: "Users")
                         .Div(id: "EditorComments", action: () => hb
@@ -443,10 +425,7 @@ namespace Implem.Pleasanter.Models
                                 verType: userModel.VerType))
                         .Div(id: "EditorTabsContainer", action: () => hb
                             .EditorTabs(userModel: userModel)
-                            .FieldSetGeneral(
-                                ss: ss,
-                                pt: pt,
-                                userModel: userModel)
+                            .FieldSetGeneral(ss: ss, userModel: userModel)
                             .FieldSetMailAddresses(userModel: userModel)
                             .FieldSet(
                                 attributes: new HtmlAttributes()
@@ -455,8 +434,8 @@ namespace Implem.Pleasanter.Models
                                     .DataMethod("get"),
                                 _using: userModel.MethodType != BaseModel.MethodTypes.New)
                             .MainCommands(
+                                ss: ss,
                                 siteId: 0,
-                                pt: pt,
                                 verType: userModel.VerType,
                                 referenceType: "Users",
                                 referenceId: userModel.UserId,
@@ -512,7 +491,6 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types pt,
             UserModel userModel)
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
@@ -521,34 +499,230 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (column.ColumnName)
                     {
-                        case "UserId": hb.Field(ss, column, userModel.MethodType, userModel.UserId.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "Ver": hb.Field(ss, column, userModel.MethodType, userModel.Ver.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "LoginId": hb.Field(ss, column, userModel.MethodType, userModel.LoginId.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "Disabled": hb.Field(ss, column, userModel.MethodType, userModel.Disabled.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "Password": hb.Field(ss, column, userModel.MethodType, userModel.Password.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "PasswordValidate": hb.Field(ss, column, userModel.MethodType, userModel.PasswordValidate.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "PasswordDummy": hb.Field(ss, column, userModel.MethodType, userModel.PasswordDummy.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "RememberMe": hb.Field(ss, column, userModel.MethodType, userModel.RememberMe.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "LastName": hb.Field(ss, column, userModel.MethodType, userModel.LastName.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "FirstName": hb.Field(ss, column, userModel.MethodType, userModel.FirstName.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "Birthday": hb.Field(ss, column, userModel.MethodType, userModel.Birthday?.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "Gender": hb.Field(ss, column, userModel.MethodType, userModel.Gender.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "Language": hb.Field(ss, column, userModel.MethodType, userModel.Language.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "TimeZone": hb.Field(ss, column, userModel.MethodType, userModel.TimeZone.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "DeptId": hb.Field(ss, column, userModel.MethodType, userModel.DeptId.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "FirstAndLastNameOrder": hb.Field(ss, column, userModel.MethodType, userModel.FirstAndLastNameOrder.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "LastLoginTime": hb.Field(ss, column, userModel.MethodType, userModel.LastLoginTime?.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "PasswordExpirationTime": hb.Field(ss, column, userModel.MethodType, userModel.PasswordExpirationTime?.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "PasswordChangeTime": hb.Field(ss, column, userModel.MethodType, userModel.PasswordChangeTime?.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "NumberOfLogins": hb.Field(ss, column, userModel.MethodType, userModel.NumberOfLogins.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "NumberOfDenial": hb.Field(ss, column, userModel.MethodType, userModel.NumberOfDenial.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "TenantManager": hb.Field(ss, column, userModel.MethodType, userModel.TenantManager.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "OldPassword": hb.Field(ss, column, userModel.MethodType, userModel.OldPassword.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "ChangedPassword": hb.Field(ss, column, userModel.MethodType, userModel.ChangedPassword.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "ChangedPasswordValidator": hb.Field(ss, column, userModel.MethodType, userModel.ChangedPasswordValidator.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "AfterResetPassword": hb.Field(ss, column, userModel.MethodType, userModel.AfterResetPassword.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "AfterResetPasswordValidator": hb.Field(ss, column, userModel.MethodType, userModel.AfterResetPasswordValidator.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "DemoMailAddress": hb.Field(ss, column, userModel.MethodType, userModel.DemoMailAddress.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
+                        case "UserId":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.UserId.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "Ver":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.Ver.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "LoginId":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.LoginId.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "Disabled":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.Disabled.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "Password":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.Password.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "PasswordValidate":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.PasswordValidate.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "PasswordDummy":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.PasswordDummy.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "RememberMe":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.RememberMe.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "LastName":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.LastName.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "FirstName":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.FirstName.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "Birthday":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.Birthday?.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "Gender":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.Gender.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "Language":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.Language.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "TimeZone":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.TimeZone.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "DeptId":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.DeptId.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "FirstAndLastNameOrder":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.FirstAndLastNameOrder.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "LastLoginTime":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.LastLoginTime?.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "PasswordExpirationTime":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.PasswordExpirationTime?.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "PasswordChangeTime":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.PasswordChangeTime?.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "NumberOfLogins":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.NumberOfLogins.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "NumberOfDenial":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.NumberOfDenial.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "TenantManager":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.TenantManager.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "OldPassword":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.OldPassword.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "ChangedPassword":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.ChangedPassword.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "ChangedPasswordValidator":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.ChangedPasswordValidator.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "AfterResetPassword":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.AfterResetPassword.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "AfterResetPasswordValidator":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.AfterResetPasswordValidator.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
+                        case "DemoMailAddress":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.DemoMailAddress.ToControl(column, ss),
+                                column.ColumnPermissionType(ss));
+                            break;
                     }
                 });
                 hb.VerUpCheckBox(userModel);
@@ -591,17 +765,14 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder EditorExtensions(
-            this HtmlBuilder hb,
-            UserModel userModel,
-            SiteSettings ss)
+            this HtmlBuilder hb, UserModel userModel, SiteSettings ss)
         {
             return hb
                 .ChangePasswordDialog(userId: userModel.UserId, ss: ss)
                 .ResetPasswordDialog(userId: userModel.UserId, ss: ss);
         }
 
-        public static string EditorJson(
-            SiteSettings ss, Permissions.Types pt, int userId)
+        public static string EditorJson(SiteSettings ss, int userId)
         {
             return EditorResponse(new UserModel(ss, userId))
                 .ToJson();
@@ -625,7 +796,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static List<int> GetSwitchTargets(SiteSettings ss, int userId)
         {
-            if (Permissions.Admins().CanManageTenant())
+            if (Permissions.CanManageTenant())
             {
                 var view = Views.GetBySession(ss);
                 var switchTargets = Rds.ExecuteTable(
@@ -650,10 +821,10 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Create(SiteSettings ss, Permissions.Types pt)
+        public static string Create(SiteSettings ss)
         {
             var userModel = new UserModel(ss, 0, setByForm: true);
-            var invalid = UserValidators.OnCreating(ss, pt, userModel);
+            var invalid = UserValidators.OnCreating(ss, userModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -673,10 +844,10 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Update(SiteSettings ss, Permissions.Types pt, int userId)
+        public static string Update(SiteSettings ss, int userId)
         {
             var userModel = new UserModel(ss, userId, setByForm: true);
-            var invalid = UserValidators.OnUpdating(ss, pt, userModel);
+            var invalid = UserValidators.OnUpdating(ss, userModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -701,14 +872,14 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var res = new UsersResponseCollection(userModel);
-                return ResponseByUpdate(pt, res, userModel)
+                return ResponseByUpdate(res, userModel)
                     .PrependComment(userModel.Comments, userModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            Permissions.Types pt, UsersResponseCollection res, UserModel userModel)
+            UsersResponseCollection res, UserModel userModel)
         {
             return res
                 .Ver()
@@ -723,11 +894,10 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
-        public static string Delete(
-            SiteSettings ss, Permissions.Types pt, int userId)
+        public static string Delete(SiteSettings ss, int userId)
         {
             var userModel = new UserModel(ss, userId);
-            var invalid = UserValidators.OnDeleting(ss, pt, userModel);
+            var invalid = UserValidators.OnDeleting(ss, userModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -768,8 +938,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Histories(
-            SiteSettings ss, Permissions.Types pt, int userId)
+        public static string Histories(SiteSettings ss, int userId)
         {
             var userModel = new UserModel(ss, userId);
             var columns = ss.GetHistoryColumns();
@@ -785,7 +954,6 @@ namespace Implem.Pleasanter.Models
                     .TBody(action: () =>
                         new UserCollection(
                             ss: ss,
-                            pt: pt,
                             where: Rds.UsersWhere().UserId(userModel.UserId),
                             orderBy: Rds.UsersOrderBy().Ver(SqlOrderBy.Types.desc),
                             tableType: Sqls.TableTypes.NormalAndHistory)
@@ -808,8 +976,7 @@ namespace Implem.Pleasanter.Models
                 .Html("#FieldSetHistories", hb).ToJson();
         }
 
-        public static string History(
-            SiteSettings ss, Permissions.Types pt, int userId)
+        public static string History(SiteSettings ss, int userId)
         {
             var userModel = new UserModel(ss, userId);
             userModel.Get(
@@ -826,15 +993,14 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string AddMailAddresses(
-            SiteSettings ss, Permissions.Types pt, int userId)
+        public static string AddMailAddresses(SiteSettings ss, int userId)
         {
             var userModel = new UserModel(SiteSettingsUtilities.UsersSiteSettings(), userId);
             var mailAddress = Forms.Data("MailAddress").Trim();
             var selected = Forms.List("MailAddresses");
             var badMailAddress = string.Empty;
             var invalid = UserValidators.OnAddingMailAddress(
-                pt, userModel, mailAddress, out badMailAddress);
+                ss, userModel, mailAddress, out badMailAddress);
             switch (invalid)
             {
                 case Error.Types.None:
@@ -853,11 +1019,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string DeleteMailAddresses(
-            SiteSettings ss, Permissions.Types pt, int userId)
+        public static string DeleteMailAddresses(SiteSettings ss, int userId)
         {
             var userModel = new UserModel(SiteSettingsUtilities.UsersSiteSettings(), userId);
-            var invalid = UserValidators.OnUpdating(ss, pt, userModel);
+            var invalid = UserValidators.OnUpdating(ss, userModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -980,7 +1145,6 @@ namespace Implem.Pleasanter.Models
         {
             return GridRows(
                 SiteSettingsUtilities.UsersSiteSettings(),
-                Permissions.Admins(),
                 offset: DataViewGrid.Offset());
         }
 
@@ -992,7 +1156,7 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var ss = SiteSettingsUtilities.UsersSiteSettings();
             return hb.Template(
-                pt: Permissions.Admins(),
+                ss: ss,
                 verType: Versions.VerTypes.Latest,
                 useBreadcrumb: false,
                 useTitle: false,

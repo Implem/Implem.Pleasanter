@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using System.Web;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -14,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var error = HttpContext.Current.Session["error"] as ExceptionContext;
             var hb = new HtmlBuilder();
             return hb.Template(
-                pt: Permissions.Types.NotSet,
+                ss: new SiteSettings(),
                 verType: Versions.VerTypes.Latest,
                 methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
                 allowAccess: true,

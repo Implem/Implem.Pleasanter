@@ -1,5 +1,6 @@
 ﻿using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Models
 {
     public static class ExportSettingValidator
@@ -7,9 +8,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnUpdatingOrCreating(Permissions.Types pt)
+        public static Error.Types OnUpdatingOrCreating(SiteSettings ss)
         {
-            if (!pt.CanCreate() || !pt.CanUpdate())
+            if (!ss.CanCreate() || !ss.CanUpdate())
             {
                 return Error.Types.HasNotPermission;
             }

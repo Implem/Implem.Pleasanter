@@ -1,11 +1,10 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.ViewModes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.ViewModes;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -22,7 +21,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string aggregateType,
             string value,
             int? columns,
-            Permissions.Types pt,
             IEnumerable<KambanElement> data)
         {
             return hb.Div(id: "Kamban", css: "both", action: () =>
@@ -81,8 +79,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         columns: columns,
                         data: data)
                     .MainCommands(
+                        ss: ss,
                         siteId: ss.SiteId,
-                        pt: pt,
                         verType: Versions.VerTypes.Latest,
                         importButton: true,
                         exportButton: true);

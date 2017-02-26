@@ -3,7 +3,6 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -21,7 +20,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string title,
             decimal workValue,
-            Column column, Permissions.Types pt)
+            Column column,
+            SiteSettings ss)
         {
             var max = Parameters.General.SeparateMax;
             var min = Parameters.General.SeparateMin;
@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " w100",
                         labelText: Displays.WorkValue() + "-1",
-                        text: workValue.ToControl(column, pt),
+                        text: workValue.ToControl(column, ss),
                         dataValue: workValue.ToString())
                     .Hidden(
                         controlId: "WorkValueUnit",

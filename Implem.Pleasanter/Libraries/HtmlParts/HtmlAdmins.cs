@@ -1,17 +1,17 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlAdmins
     {
         public static string AdminsIndex(this HtmlBuilder hb)
         {
-            var pt = Permissions.Admins();
+            var ss = new SiteSettings();
             return hb.Template(
-                pt: pt,
+                ss: ss,
                 methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
                 allowAccess: Sessions.User().TenantManager,
                 title: Displays.Admin(),
@@ -45,8 +45,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Text(Displays.Users()))
                                         .StackStyles()))))
                     .MainCommands(
+                        ss: ss,
                         siteId: 0,
-                        pt: pt,
                         verType: Versions.VerTypes.Latest))
                             .ToString();
         }

@@ -145,10 +145,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .THead(action: () => hb
                                     .IssuesHeader(ss: ss))
                                 .TBody(action: () => hb
-                                    .Issues(
-                                        ss: ss,
-                                        pt: ss.PermissionType,
-                                        dataRows: dataRows));
+                                    .Issues(ss: ss, dataRows: dataRows));
                             break;
                         case "Results":
                             hb
@@ -162,10 +159,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .THead(action: () => hb
                                     .ResultsHeader(ss: ss))
                                 .TBody(action: () => hb
-                                    .Results(
-                                        ss: ss,
-                                        pt: ss.PermissionType,
-                                        dataRows: dataRows));
+                                    .Results(ss: ss, dataRows: dataRows));
                             break;
                     }
                 }
@@ -194,12 +188,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Issues(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types pt,
             EnumerableRowCollection<DataRow> dataRows)
         {
             dataRows.ForEach(dataRow =>
             {
-                var issueModel = new IssueModel(ss, pt, dataRow);
+                var issueModel = new IssueModel(ss, dataRow);
                 hb.Tr(
                     attributes: new HtmlAttributes()
                         .Class("grid-row")
@@ -974,12 +967,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Results(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types pt,
             EnumerableRowCollection<DataRow> dataRows)
         {
             dataRows.ForEach(dataRow =>
             {
-                var resultModel = new ResultModel(ss, pt, dataRow);
+                var resultModel = new ResultModel(ss, dataRow);
                 hb.Tr(
                     attributes: new HtmlAttributes()
                         .Class("grid-row")

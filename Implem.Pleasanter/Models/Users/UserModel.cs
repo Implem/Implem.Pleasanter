@@ -169,7 +169,6 @@ namespace Implem.Pleasanter.Models
 
         public UserModel(
             SiteSettings ss,
-            Permissions.Types pt,
             DataRow dataRow)
         {
             OnConstructing();
@@ -751,7 +750,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ToControl(Column column, Permissions.Types pt)
+        public string ToControl(Column column, SiteSettings ss)
         {
             return UserId.ToString();
         }

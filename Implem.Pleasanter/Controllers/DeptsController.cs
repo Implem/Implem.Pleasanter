@@ -19,8 +19,7 @@ namespace Implem.Pleasanter.Controllers
             {
                 var log = new SysLogModel();
                 var html = DeptUtilities.Index(
-                    SiteSettingsUtilities.DeptsSiteSettings(),
-                    Permissions.Admins());
+                    ss: SiteSettingsUtilities.DeptsSiteSettings());
                 ViewBag.HtmlBody = html;
                 log.Finish(html.Length);
                 return View();
@@ -29,8 +28,7 @@ namespace Implem.Pleasanter.Controllers
             {
                 var log = new SysLogModel();
                 var json = DeptUtilities.IndexJson(
-                    SiteSettingsUtilities.DeptsSiteSettings(),
-                    Permissions.Admins());
+                    ss: SiteSettingsUtilities.DeptsSiteSettings());
                 log.Finish(json.Length);
                 return Content(json);
             }
@@ -61,9 +59,8 @@ namespace Implem.Pleasanter.Controllers
             {
                 var log = new SysLogModel();
                 var json = DeptUtilities.EditorJson(
-                    SiteSettingsUtilities.DeptsSiteSettings(),
-                    Permissions.Admins(),
-                    id);
+                    ss: SiteSettingsUtilities.DeptsSiteSettings(),
+                    deptId: id);
                 log.Finish(json.Length);
                 return Content(json);
             }
@@ -92,8 +89,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = DeptUtilities.Create(
-                SiteSettingsUtilities.DeptsSiteSettings(),
-                Permissions.Admins());
+                ss: SiteSettingsUtilities.DeptsSiteSettings());
             log.Finish(json.Length);
             return json;
         }
@@ -103,9 +99,8 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = DeptUtilities.Update(
-                SiteSettingsUtilities.DeptsSiteSettings(),
-                Permissions.Admins(),
-                id);
+                ss: SiteSettingsUtilities.DeptsSiteSettings(),
+                deptId: id);
             log.Finish(json.Length);
             return json;
         }
@@ -116,7 +111,6 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel();
             var json = DeptUtilities.Delete(
                 ss: SiteSettingsUtilities.UsersSiteSettings(),
-                pt: Permissions.Admins(),
                 deptId: id);
             log.Finish(json.Length);
             return json;
@@ -127,9 +121,8 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = DeptUtilities.Update(
-                SiteSettingsUtilities.DeptsSiteSettings(),
-                Permissions.Admins(),
-                id);
+                ss: SiteSettingsUtilities.DeptsSiteSettings(),
+                deptId: id);
             log.Finish(json.Length);
             return json;
         }
@@ -140,7 +133,6 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel();
             var json = DeptUtilities.Histories(
                 ss: SiteSettingsUtilities.DeptsSiteSettings(),
-                pt: Permissions.Admins(),
                 deptId: id);
             log.Finish(json.Length);
             return json;
@@ -152,7 +144,6 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel();
             var json = DeptUtilities.History(
                 ss: SiteSettingsUtilities.DeptsSiteSettings(),
-                pt: Permissions.Admins(),
                 deptId: id);
             log.Finish(json.Length);
             return json;

@@ -1,13 +1,13 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlHeaders
     {
         public static HtmlBuilder Header(
             this HtmlBuilder hb,
-            Permissions.Types pt,
+            SiteSettings ss,
             long siteId,
             string referenceType,
             bool allowAccess,
@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Span(id: "ProductLogo", action: () => hb
                                 .Text(text: Displays.ProductName()))))
                 .NavigationMenu(
-                    pt: pt,
+                    ss: ss,
                     siteId: siteId,
                     referenceType: referenceType,
                     allowAccess: allowAccess,

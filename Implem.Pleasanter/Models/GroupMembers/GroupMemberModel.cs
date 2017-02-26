@@ -37,7 +37,6 @@ namespace Implem.Pleasanter.Models
 
         public GroupMemberModel(
             SiteSettings ss,
-            Permissions.Types pt,
             DataRow dataRow)
         {
             OnConstructing();

@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("OutgoingMailsForm")
-                    .Action(Locations.ItemAction(referenceId, "OutgoingMails")),
+                    .Action(Locations.Action(referenceType, referenceId, "OutgoingMails")),
                 action: () =>
                     new OutgoingMailCollection(
                         where: Rds.OutgoingMailsWhere()
@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Editor(string referenceType, long id)
+        public static string Editor(string reference, long id)
         {
             if (MailAddressUtilities.From() == string.Empty)
             {
@@ -137,9 +137,8 @@ namespace Implem.Pleasanter.Models
                     .Message(Messages.MailAddressHasNotSet())
                     .ToJson();
             }
-            var siteModel = new ItemModel(id).GetSite();
-            var ss = siteModel.SitesSiteSettings();
-            var invalid = OutgoingMailValidators.OnEditing(Permissions.GetById(id));
+            var ss = SiteSettingsUtilities.GetByReference(reference, id);
+            var invalid = OutgoingMailValidators.OnEditing(ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -166,7 +165,7 @@ namespace Implem.Pleasanter.Models
                                 attributes: new HtmlAttributes()
                                     .Id("OutgoingMailForm")
                                     .Action(Locations.Action(
-                                        referenceType, id, "OutgoingMails")),
+                                        reference, id, "OutgoingMails")),
                                 action: () => hb
                                     .Editor(
                                         ss: ss,
@@ -176,11 +175,9 @@ namespace Implem.Pleasanter.Models
                                 attributes: new HtmlAttributes()
                                     .Id("OutgoingMailDestinationForm")
                                     .Action(Locations.Action(
-                                        referenceType, id, "OutgoingMails")),
+                                        reference, id, "OutgoingMails")),
                                 action: () => hb
-                                    .Destinations(
-                                        ss: ss,
-                                        referenceId: siteModel.InheritPermission)))))
+                                    .Destinations(ss: ss)))))
                 .Invoke("initOutgoingMailDialog")
                 .Focus("#OutgoingMails_Body")
                 .ToJson();
@@ -335,11 +332,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Destinations(
-            this HtmlBuilder hb, SiteSettings ss, long referenceId)
+        private static HtmlBuilder Destinations(this HtmlBuilder hb, SiteSettings ss)
         {
             var addressBook = AddressBook(ss);
-            var searchRangeDefault = SiteInfo.IsItem()
+            var searchRangeDefault = ss.SiteId != 0
                 ? addressBook.Count > 0
                     ? "DefaultAddressBook"
                     : "SiteUser"
@@ -369,7 +365,7 @@ namespace Implem.Pleasanter.Models
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h500",
                             listItemCollection: Destinations(
-                                referenceId: referenceId,
+                                referenceId: ss.InheritPermission,
                                 addressBook: addressBook,
                                 searchRange: searchRangeDefault),
                             selectedValueCollection: new List<string>())
@@ -545,7 +541,9 @@ namespace Implem.Pleasanter.Models
             var outgoingMailModel = new OutgoingMailModel(reference, id);
             var invalidMailAddress = string.Empty;
             var invalid = OutgoingMailValidators.OnSending(
-                Permissions.GetById(id), outgoingMailModel, out invalidMailAddress);
+                SiteSettingsUtilities.GetByReference(reference, id),
+                outgoingMailModel,
+                out invalidMailAddress);
             switch (invalid)
             {
                 case Error.Types.None:

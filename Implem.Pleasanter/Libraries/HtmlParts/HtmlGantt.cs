@@ -1,12 +1,10 @@
-﻿using Implem.Pleasanter.Libraries.ViewModes;
-using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.ViewModes;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlGantts
@@ -15,7 +13,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             SiteSettings ss,
             string groupBy,
-            Permissions.Types pt,
             IEnumerable<DataRow> dataRows)
         {
             return hb.Div(css: "both", action: () => hb
@@ -34,8 +31,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         groupBy: groupBy,
                         dataRows: dataRows))
                 .MainCommands(
+                    ss: ss,
                     siteId: ss.SiteId,
-                    pt: pt,
                     verType: Versions.VerTypes.Latest,
                     importButton: true,
                     exportButton: true));

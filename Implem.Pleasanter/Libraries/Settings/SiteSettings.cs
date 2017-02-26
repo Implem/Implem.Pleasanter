@@ -92,6 +92,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
+        public SiteSettings(long id)
+        {
+        }
+
         public SiteSettings(string referenceType)
         {
             ReferenceType = referenceType;
@@ -135,7 +139,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ReferenceType()
                         .ParentId()
                         .InheritPermission()
-                        .PermissionType()
                         .SiteSettings(),
                     where: Rds.SitesWhere()
                         .SiteId_In(sub: Rds.SelectLinks(
@@ -150,7 +153,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ReferenceType()
                         .ParentId()
                         .InheritPermission()
-                        .PermissionType()
                         .SiteSettings(),
                     where: Rds.SitesWhere()
                         .SiteId_In(sub: Rds.SelectLinks(
@@ -160,6 +162,27 @@ namespace Implem.Pleasanter.Libraries.Settings
             });
             Destinations = SiteSettingsList(dataSet.Tables["Destinations"]);
             Sources = SiteSettingsList(dataSet.Tables["Sources"]);
+            SetPermissions();
+        }
+
+        private void SetPermissions()
+        {
+            var targets = new List<long> { InheritPermission };
+            targets.AddRange(Destinations?.Select(o => o.InheritPermission));
+            targets.AddRange(Sources?.Select(o => o.InheritPermission));
+            var permissions = Permissions.Get(targets.Distinct());
+            SetPermissions(this, permissions);
+            Destinations?.ForEach(o => SetPermissions(o, permissions));
+            Sources?.ForEach(o => SetPermissions(o, permissions));
+        }
+
+        private void SetPermissions(
+            SiteSettings ss, Dictionary<long, Permissions.Types> permissions)
+        {
+            if (permissions.ContainsKey(ss.InheritPermission))
+            {
+                ss.PermissionType = permissions[ss.InheritPermission];
+            }
         }
 
         private List<SiteSettings> SiteSettingsList(DataTable dataTable)
@@ -173,7 +196,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss.ReferenceType = dataRow["ReferenceType"].ToString();
                 ss.ParentId = dataRow["ParentId"].ToLong();
                 ss.InheritPermission = dataRow["InheritPermission"].ToLong();
-                ss.PermissionType = (Permissions.Types)dataRow["PermissionType"];
                 ss.SetChoiceHash();
                 ssList.Add(ss);
             });
@@ -719,14 +741,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Aggregations?.ToDictionary(
                 o => o.Id.ToString(),
                 o => new ControlData((o.GroupBy == "[NotGroupBy]"
-                    ? Displays.NoClassification() 
-                    : GetColumn(o.GroupBy).LabelText) +
-                        " (" +
-                        Displays.Get(o.Type.ToString()) +
-                        (o.Target != string.Empty
-                            ? ": " + GetColumn(o.Target).LabelText
-                            : string.Empty) +
-                        ")"));
+                    ? Displays.NoClassification()
+                    : GetColumn(o.GroupBy)?.LabelText) +
+                        " (" + Displays.Get(o.Type.ToString()) +
+                            (o.Target != string.Empty
+                                ? ": " + GetColumn(o.Target)?.LabelText
+                                : string.Empty) + ")"));
         }
 
         public Dictionary<string, ControlData> AggregationSource()

@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 where: Rds.LinksWhere()
                     .DestinationId(ss.SiteId)
                     .SiteId_In(ss.Sources?
-                        .Where(o => o.PermissionType.CanCreate())
+                        .Where(o => o.CanCreate())
                         .Select(o => o.SiteId)));
         }
 

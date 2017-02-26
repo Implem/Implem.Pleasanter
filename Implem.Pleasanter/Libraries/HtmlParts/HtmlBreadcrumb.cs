@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -10,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlBreadcrumb
     {
         public static HtmlBuilder Breadcrumb(
-            this HtmlBuilder hb, long siteId, Permissions.Types pt, bool _using)
+            this HtmlBuilder hb, SiteSettings ss, long siteId, bool _using)
         {
             if (!Sessions.LoggedIn() || !_using)
             {
@@ -24,11 +25,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "depts":
                     return Breadcrumb(hb, controller, Displays.Depts());
                 case "groups":
-                    return pt.CanManageTenant()
+                    return Permissions.CanManageTenant()
                         ? Breadcrumb(hb, controller, Displays.Groups())
                         : Breadcrumb(hb);
                 case "users":
-                    return pt.CanManageTenant()
+                    return Permissions.CanManageTenant()
                         ? Breadcrumb(hb, controller, Displays.Users())
                         : Breadcrumb(hb);
                 case "items":

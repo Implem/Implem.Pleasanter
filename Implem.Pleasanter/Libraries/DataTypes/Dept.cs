@@ -2,7 +2,6 @@
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Data;
 namespace Implem.Pleasanter.Libraries.DataTypes
@@ -27,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Name = dataRow["DeptName"].ToString();
         }
 
-        public string ToControl(Column column, Permissions.Types pt)
+        public string ToControl(Column column, SiteSettings ss)
         {
             return Id.ToString();
         }

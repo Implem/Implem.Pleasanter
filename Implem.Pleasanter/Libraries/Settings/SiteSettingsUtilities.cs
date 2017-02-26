@@ -1,5 +1,4 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
-using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
@@ -15,8 +14,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? dataRow["SiteSettings"]
                     .ToString()
                     .Deserialize<SiteSettings>() ??
-                        Get(dataRow["SiteId"].ToLong(),
-                            dataRow["ReferenceType"].ToString())
+                        Get(dataRow["ReferenceType"].ToString(),
+                            dataRow["SiteId"].ToLong())
                 : null;
         }
 
@@ -30,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return views?.FirstOrDefault(o => o.Id == id);
         }
 
-        public static SiteSettings Get(long siteId, string referenceType)
+        public static SiteSettings Get(string referenceType, long siteId)
         {
             switch (referenceType)
             {
@@ -42,6 +41,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public static SiteSettings Get(long siteId, bool setAllChoices = false)
+        {
+            return Get(new SiteModel(siteId), setAllChoices);
+        }
+
         public static SiteSettings Get(SiteModel siteModel, bool setAllChoices = false)
         {
             switch (siteModel.ReferenceType)
@@ -51,6 +55,33 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Results": return ResultsSiteSettings(siteModel, setAllChoices);
                 case "Wikis": return WikisSiteSettings(siteModel, setAllChoices);
                 default: return new SiteSettings() { SiteId = siteModel.SiteId };
+            }
+        }
+
+        public static SiteSettings GetByReference(string reference, long id)
+        {
+            switch (reference.ToLower())
+            {
+                case "tenants": return TenantsSiteSettings();
+                case "demos": return DemosSiteSettings();
+                case "syslogs": return SysLogsSiteSettings();
+                case "depts": return DeptsSiteSettings();
+                case "groups": return GroupsSiteSettings();
+                case "groupmembers": return GroupMembersSiteSettings();
+                case "users": return UsersSiteSettings();
+                case "mailaddresses": return MailAddressesSiteSettings();
+                case "outgoingmails": return OutgoingMailsSiteSettings();
+                case "searchindexes": return SearchIndexesSiteSettings();
+                case "items": return ItemsSiteSettings();
+                case "orders": return OrdersSiteSettings();
+                case "exportsettings": return ExportSettingsSiteSettings();
+                case "links": return LinksSiteSettings();
+                case "binaries": return BinariesSiteSettings();
+                case "sites": return SitesSiteSettings(new ItemModel(id).GetSite());
+                case "issues": return IssuesSiteSettings(new ItemModel(id).GetSite());
+                case "results": return ResultsSiteSettings(new ItemModel(id).GetSite());
+                case "wikis": return WikisSiteSettings(new ItemModel(id).GetSite());
+                default: return null;
             }
         }
 
@@ -185,7 +216,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Sites";
             ss.ParentId = siteModel.ParentId;
             ss.InheritPermission = siteModel.InheritPermission;
-            ss.PermissionType = siteModel.PermissionType;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
             ss.SetLinkedSiteSettings();
@@ -210,7 +240,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Issues";
             ss.ParentId = siteModel.ParentId;
             ss.InheritPermission = siteModel.InheritPermission;
-            ss.PermissionType = siteModel.PermissionType;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
             ss.SetLinkedSiteSettings();
@@ -237,7 +266,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Results";
             ss.ParentId = siteModel.ParentId;
             ss.InheritPermission = siteModel.InheritPermission;
-            ss.PermissionType = siteModel.PermissionType;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
             ss.SetLinkedSiteSettings();
@@ -264,7 +292,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Wikis";
             ss.ParentId = siteModel.ParentId;
             ss.InheritPermission = siteModel.InheritPermission;
-            ss.PermissionType = siteModel.PermissionType;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
             ss.SetLinkedSiteSettings();

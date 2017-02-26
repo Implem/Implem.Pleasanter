@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -11,7 +12,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder NavigationMenu(
             this HtmlBuilder hb,
-            Permissions.Types pt,
+            SiteSettings ss,
             long siteId,
             string referenceType,
             bool allowAccess,
@@ -24,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     css: "ui-widget-header",
                     action: () => hb
                         .NavigationMenu(
-                            pt: pt,
+                            ss: ss,
                             siteId: siteId,
                             referenceType: referenceType,
                             allowAccess: allowAccess,
@@ -35,7 +36,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder NavigationMenu(
             this HtmlBuilder hb,
-            Permissions.Types pt,
+            SiteSettings ss,
             long siteId,
             string referenceType,
             bool allowAccess,
@@ -52,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: () => hb
                                         .Span(css: "ui-icon ui-icon-plus")
                                         .Text(text: Displays.New()))),
-                        _using: pt.CanCreate() && !EditorActions())
+                        _using: ss.CanCreate() && !EditorActions())
                     .Li(
                         css: "sub-menu",
                         action: () => hb
@@ -72,7 +73,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
                                     .Text(text: Displays.Setting()))
-                            .SettingsMenu(siteId: siteId, pt: pt))
+                            .SettingsMenu(siteId: siteId, ss: ss))
                     .Li(
                         css: "sub-menu",
                         action: () => hb
@@ -148,7 +149,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder SettingsMenu(
-            this HtmlBuilder hb, Permissions.Types pt, long siteId)
+            this HtmlBuilder hb, SiteSettings ss, long siteId)
         {
             return hb.Ul(id: "SettingsMenu", css: "menu", action: () => hb
                 .Li(
@@ -158,7 +159,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
                                 .Text(text: Displays.SiteSettings())),
-                    _using: siteId != 0 && pt.CanManageSite())
+                    _using: siteId != 0 && ss.CanManageSite())
                 .Li(
                     action: () => hb
                         .A(
@@ -166,7 +167,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-locked")
                                 .Text(text: Displays.ManagePermissions())),
-                    _using: siteId != 0 && pt.CanManagePermission())
+                    _using: siteId != 0 && ss.CanManagePermission())
                 .Li(
                     action: () => hb
                         .A(
@@ -174,7 +175,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
                                 .Text(text: Displays.DeptAdmin())),
-                    _using: pt.CanManageTenant())
+                    _using: Permissions.CanManageTenant())
                 .Li(
                     action: () => hb
                         .A(
@@ -189,7 +190,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
                                 .Text(text: Displays.UserAdmin())),
-                    _using: pt.CanManageTenant()));
+                    _using: Permissions.CanManageTenant()));
         }
 
         private static HtmlBuilder AccountMenu(this HtmlBuilder hb)

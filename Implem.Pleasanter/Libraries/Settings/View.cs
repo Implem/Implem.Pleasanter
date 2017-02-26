@@ -717,7 +717,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Sites_ReferenceType": orderBy.Sites_ReferenceType(data.Value); break;
                         case "Sites_ParentId": orderBy.Sites_ParentId(data.Value); break;
                         case "Sites_InheritPermission": orderBy.Sites_InheritPermission(data.Value); break;
-                        case "Sites_PermissionType": orderBy.Sites_PermissionType(data.Value); break;
                         case "Sites_SiteSettings": orderBy.Sites_SiteSettings(data.Value); break;
                         case "Sites_Comments": orderBy.Sites_Comments(data.Value); break;
                         case "Sites_Creator": orderBy.Sites_Creator(data.Value); break;

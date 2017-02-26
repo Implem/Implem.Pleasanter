@@ -26,12 +26,11 @@ namespace Implem.Pleasanter.Libraries.Security
                 : userModel.Allow(Forms.Data("ReturnUrl"), atLogin: true);
         }
 
-        public static string Reset(
-            SiteSettings ss, Permissions.Types pt, int userId)
+        public static string Reset(SiteSettings ss, int userId)
         {
             var userModel = new UserModel(
                 SiteSettingsUtilities.UsersSiteSettings(), userId, setByForm: true);
-            var invalid = UserValidators.OnUpdating(ss, pt, userModel);
+            var invalid = UserValidators.OnUpdating(ss, userModel);
             switch (invalid)
             {
                 case Error.Types.None: break;

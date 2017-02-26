@@ -26,7 +26,6 @@ namespace Implem.Pleasanter.Models
 
         public GroupMemberCollection(
             SiteSettings ss,
-            Permissions.Types pt,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -43,7 +42,7 @@ namespace Implem.Pleasanter.Models
         {
             if (get)
             {
-                Set(ss, pt, Get(
+                Set(ss, Get(
                     column: column,
                     join: join,
                     where: where,
@@ -61,22 +60,20 @@ namespace Implem.Pleasanter.Models
 
         public GroupMemberCollection(
             SiteSettings ss,
-            Permissions.Types pt,
             DataTable dataTable)
         {
-            Set(ss, pt, dataTable);
+            Set(ss, dataTable);
         }
 
         private GroupMemberCollection Set(
             SiteSettings ss,
-            Permissions.Types pt,
             DataTable dataTable)
         {
             if (dataTable.Rows.Count > 0)
             {
                 foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    Add(new GroupMemberModel(ss, pt, dataRow));
+                    Add(new GroupMemberModel(ss, dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }
@@ -89,11 +86,10 @@ namespace Implem.Pleasanter.Models
 
         public GroupMemberCollection(
             SiteSettings ss,
-            Permissions.Types pt,
             string commandText,
             SqlParamCollection param = null)
         {
-            Set(ss, pt, Get(commandText, param));
+            Set(ss, Get(commandText, param));
         }
 
         private DataTable Get(

@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             DisplayValue = Value.ToLocal();
         }
 
-        public virtual string ToControl(Column column, Permissions.Types pt)
+        public virtual string ToControl(Column column, SiteSettings ss)
         {
             return Value.InRange()
                 ? column.DisplayControl(DisplayValue)

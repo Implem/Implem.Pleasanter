@@ -155,7 +155,7 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var searchIndexes = text.SearchIndexes();
             return hb.Template(
-                pt: Permissions.Types.Read,
+                ss: new SiteSettings(),
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.NotSet,
                 allowAccess: true,

@@ -39,7 +39,6 @@ namespace Implem.Pleasanter.Models
 
         public ItemModel(
             SiteSettings ss,
-            Permissions.Types pt,
             DataRow dataRow)
         {
             OnConstructing();
@@ -94,11 +93,9 @@ namespace Implem.Pleasanter.Models
             {
                 case "Sites": return SiteUtilities.SiteMenu(Site);
                 case "Issues": return IssueUtilities.Index(
-                    ss: Site.IssuesSiteSettings(),
-                    pt: Site.PermissionType);
+                    ss: Site.IssuesSiteSettings());
                 case "Results": return ResultUtilities.Index(
-                    ss: Site.ResultsSiteSettings(),
-                    pt: Site.PermissionType);
+                    ss: Site.ResultsSiteSettings());
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -110,11 +107,9 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.IndexJson(
-                    ss: Site.IssuesSiteSettings(),
-                    pt: Site.PermissionType);
+                    ss: Site.IssuesSiteSettings());
                 case "Results": return ResultUtilities.IndexJson(
-                    ss: Site.ResultsSiteSettings(),
-                    pt: Site.PermissionType);
+                    ss: Site.ResultsSiteSettings());
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -126,8 +121,7 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.Gantt(
-                    ss: Site.IssuesSiteSettings(setAllChoices: true),
-                    pt: Site.PermissionType);
+                    ss: Site.IssuesSiteSettings(setAllChoices: true));
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -139,8 +133,7 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.GanttJson(
-                    ss: Site.IssuesSiteSettings(setAllChoices: true),
-                    pt: Site.PermissionType);
+                    ss: Site.IssuesSiteSettings(setAllChoices: true));
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -152,8 +145,7 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.BurnDown(
-                    ss: Site.IssuesSiteSettings(),
-                    pt: Site.PermissionType);
+                    ss: Site.IssuesSiteSettings());
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -165,8 +157,7 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.BurnDownJson(
-                    ss: Site.IssuesSiteSettings(),
-                    pt: Site.PermissionType);
+                    ss: Site.IssuesSiteSettings());
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -189,11 +180,9 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.TimeSeries(
-                    ss: Site.IssuesSiteSettings(setAllChoices: true),
-                    pt: Site.PermissionType);
+                    ss: Site.IssuesSiteSettings(setAllChoices: true));
                 case "Results": return ResultUtilities.TimeSeries(
-                    ss: Site.ResultsSiteSettings(setAllChoices: true),
-                    pt: Site.PermissionType);
+                    ss: Site.ResultsSiteSettings(setAllChoices: true));
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -205,11 +194,9 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.TimeSeriesJson(
-                    ss: Site.IssuesSiteSettings(setAllChoices: true),
-                    pt: Site.PermissionType);
+                    ss: Site.IssuesSiteSettings(setAllChoices: true));
                 case "Results": return ResultUtilities.TimeSeriesJson(
-                    ss: Site.ResultsSiteSettings(setAllChoices: true),
-                    pt: Site.PermissionType);
+                    ss: Site.ResultsSiteSettings(setAllChoices: true));
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -221,11 +208,9 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.Kamban(
-                    ss: Site.IssuesSiteSettings(setAllChoices: true),
-                    pt: Site.PermissionType);
+                    ss: Site.IssuesSiteSettings(setAllChoices: true));
                 case "Results": return ResultUtilities.Kamban(
-                    ss: Site.ResultsSiteSettings(setAllChoices: true),
-                    pt: Site.PermissionType);
+                    ss: Site.ResultsSiteSettings(setAllChoices: true));
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -237,11 +222,9 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.KambanJson(
-                    ss: Site.IssuesSiteSettings(setAllChoices: true),
-                    pt: Site.PermissionType);
+                    ss: Site.IssuesSiteSettings(setAllChoices: true));
                 case "Results": return ResultUtilities.KambanJson(
-                    ss: Site.ResultsSiteSettings(setAllChoices: true),
-                    pt: Site.PermissionType);
+                    ss: Site.ResultsSiteSettings(setAllChoices: true));
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -251,11 +234,7 @@ namespace Implem.Pleasanter.Models
             SetSite(siteOnly: true);
             switch (Site.ReferenceType)
             {
-                case "Sites": return SiteUtilities.EditorNew(
-                    ReferenceId != 0
-                        ? Site.PermissionType
-                        : Permissions.Manager(),
-                    ReferenceId);
+                case "Sites": return SiteUtilities.EditorNew(ReferenceId);
                 case "Issues": return IssueUtilities.EditorNew(Site);
                 case "Results": return ResultUtilities.EditorNew(Site);
                 case "Wikis": return WikiUtilities.EditorNew(Site);
@@ -280,9 +259,18 @@ namespace Implem.Pleasanter.Models
             switch (ReferenceType)
             {
                 case "Sites": return SiteUtilities.Editor(ReferenceId, clearSessions: true);
-                case "Issues": return IssueUtilities.Editor(Site, ReferenceId, clearSessions: true);
-                case "Results": return ResultUtilities.Editor(Site, ReferenceId, clearSessions: true);
-                case "Wikis": return WikiUtilities.Editor(Site, ReferenceId, clearSessions: true);
+                case "Issues": return IssueUtilities.Editor(
+                    ss: Site.IssuesSiteSettings(),
+                    issueId: ReferenceId,
+                    clearSessions: true);
+                case "Results": return ResultUtilities.Editor(
+                    ss: Site.ResultsSiteSettings(),
+                    resultId: ReferenceId,
+                    clearSessions: true);
+                case "Wikis": return WikiUtilities.Editor(
+                    ss: Site.WikisSiteSettings(),
+                    wikiId: ReferenceId,
+                    clearSessions: true);
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -304,13 +292,9 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.Export(
-                    Site.IssuesSiteSettings(),
-                    Site.PermissionType,
-                    siteModel: Site);
+                    Site.IssuesSiteSettings(), siteModel: Site);
                 case "Results": return ResultUtilities.Export(
-                    Site.ResultsSiteSettings(),
-                    Site.PermissionType,
-                    siteModel: Site);
+                    Site.ResultsSiteSettings(), siteModel: Site);
                 default: return null;
             }
         }
@@ -397,11 +381,9 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.GridRows(
                     ss: Site.IssuesSiteSettings(),
-                    pt: Site.PermissionType,
                     offset: DataViewGrid.Offset());
                 case "Results": return ResultUtilities.GridRows(
                     ss: Site.ResultsSiteSettings(),
-                    pt: Site.PermissionType,
                     offset: DataViewGrid.Offset());
                 default: return Messages.ResponseNotFound().ToJson();
             }
@@ -413,17 +395,12 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Sites": return SiteUtilities.Create(
-                    pt: Site.SiteId != 0
-                        ? Site.PermissionType
-                        : Permissions.Manager(),
                     parentId: Site.SiteId,
                     inheritPermission: Site.InheritPermission);
                 case "Issues": return IssueUtilities.Create(
-                    ss: Site.IssuesSiteSettings(),
-                    pt: Site.PermissionType);
+                    ss: Site.IssuesSiteSettings());
                 case "Results": return ResultUtilities.Create(
-                    ss: Site.ResultsSiteSettings(),
-                    pt: Site.PermissionType);
+                    ss: Site.ResultsSiteSettings());
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -434,13 +411,13 @@ namespace Implem.Pleasanter.Models
             switch (ReferenceType)
             {
                 case "Sites": return SiteUtilities
-                    .Update(Site.SitesSiteSettings(), Site.PermissionType, ReferenceId);
+                    .Update(Site.SitesSiteSettings(), ReferenceId);
                 case "Issues": return IssueUtilities
-                    .Update(Site.IssuesSiteSettings(), Site.PermissionType, ReferenceId);
+                    .Update(Site.IssuesSiteSettings(), ReferenceId);
                 case "Results": return ResultUtilities
-                    .Update(Site.ResultsSiteSettings(), Site.PermissionType, ReferenceId);
+                    .Update(Site.ResultsSiteSettings(), ReferenceId);
                 case "Wikis": return WikiUtilities
-                    .Update(Site.WikisSiteSettings(), Site.PermissionType, ReferenceId);
+                    .Update(Site.WikisSiteSettings(), ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -451,13 +428,13 @@ namespace Implem.Pleasanter.Models
             switch (ReferenceType)
             {
                 case "Sites": return SiteUtilities
-                    .Update(Site.SitesSiteSettings(), Site.PermissionType, ReferenceId);
+                    .Update(Site.SitesSiteSettings(), ReferenceId);
                 case "Issues": return IssueUtilities
-                    .Update(Site.IssuesSiteSettings(), Site.PermissionType, ReferenceId);
+                    .Update(Site.IssuesSiteSettings(), ReferenceId);
                 case "Results": return ResultUtilities
-                    .Update(Site.ResultsSiteSettings(), Site.PermissionType, ReferenceId);
+                    .Update(Site.ResultsSiteSettings(), ReferenceId);
                 case "Wikis": return WikiUtilities
-                    .Update(Site.WikisSiteSettings(), Site.PermissionType, ReferenceId);
+                    .Update(Site.WikisSiteSettings(), ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -470,11 +447,9 @@ namespace Implem.Pleasanter.Models
                 case "Sites": return SiteUtilities.Copy(Site);
                 case "Issues": return IssueUtilities.Copy(
                     ss: Site.IssuesSiteSettings(),
-                    pt: Site.PermissionType,
                     issueId: ReferenceId);
                 case "Results": return ResultUtilities.Copy(
                     ss: Site.ResultsSiteSettings(),
-                    pt: Site.PermissionType,
                     resultId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
@@ -527,11 +502,9 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.Move(
                     ss: Site.IssuesSiteSettings(),
-                    pt: Site.PermissionType,
                     issueId: ReferenceId);
                 case "Results": return ResultUtilities.Move(
                     ss: Site.ResultsSiteSettings(),
-                    pt: Site.PermissionType,
                     resultId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
@@ -542,10 +515,8 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (Site.ReferenceType)
             {
-                case "Issues": return IssueUtilities.BulkMove(
-                    Site.IssuesSiteSettings(), Site.PermissionType);
-                case "Results": return ResultUtilities.BulkMove(
-                    Site.ResultsSiteSettings(), Site.PermissionType);
+                case "Issues": return IssueUtilities.BulkMove(Site.IssuesSiteSettings());
+                case "Results": return ResultUtilities.BulkMove(Site.ResultsSiteSettings());
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -558,15 +529,12 @@ namespace Implem.Pleasanter.Models
                 case "Sites": return SiteUtilities.Delete(siteId: ReferenceId);
                 case "Issues": return IssueUtilities.Delete(
                     ss: Site.IssuesSiteSettings(),
-                    pt: Site.PermissionType,
                     issueId: ReferenceId);
                 case "Results": return ResultUtilities.Delete(
                     ss: Site.ResultsSiteSettings(),
-                    pt: Site.PermissionType,
                     resultId: ReferenceId);
                 case "Wikis": return WikiUtilities.Delete(
                     ss: Site.WikisSiteSettings(),
-                    pt: Site.PermissionType,
                     wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
@@ -577,10 +545,8 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (Site.ReferenceType)
             {
-                case "Issues": return IssueUtilities.BulkDelete(
-                    Site.PermissionType, Site.IssuesSiteSettings());
-                case "Results": return ResultUtilities.BulkDelete(
-                    Site.PermissionType, Site.ResultsSiteSettings());
+                case "Issues": return IssueUtilities.BulkDelete(Site.IssuesSiteSettings());
+                case "Results": return ResultUtilities.BulkDelete(Site.ResultsSiteSettings());
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -607,7 +573,6 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.EditSeparateSettings(
                     ss: Site.IssuesSiteSettings(),
-                    pt: Site.PermissionType,
                     issueId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
@@ -620,7 +585,6 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.Separate(
                     ss: Site.IssuesSiteSettings(),
-                    pt: Site.PermissionType,
                     issueId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
@@ -634,15 +598,12 @@ namespace Implem.Pleasanter.Models
                 case "Sites": return SiteUtilities.Histories(siteModel: Site);
                 case "Issues": return IssueUtilities.Histories(
                     ss: Site.IssuesSiteSettings(),
-                    pt: Site.PermissionType,
                     issueId: ReferenceId);
                 case "Results": return ResultUtilities.Histories(
                     ss: Site.ResultsSiteSettings(),
-                    pt: Site.PermissionType,
                     resultId: ReferenceId);
                 case "Wikis": return WikiUtilities.Histories(
                     ss: Site.WikisSiteSettings(),
-                    pt: Site.PermissionType,
                     wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
@@ -656,15 +617,12 @@ namespace Implem.Pleasanter.Models
                 case "Sites": return SiteUtilities.History(siteModel: Site);
                 case "Issues": return IssueUtilities.History(
                     ss: Site.IssuesSiteSettings(),
-                    pt: Site.PermissionType,
                     issueId: ReferenceId);
                 case "Results": return ResultUtilities.History(
                     ss: Site.ResultsSiteSettings(),
-                    pt: Site.PermissionType,
                     resultId: ReferenceId);
                 case "Wikis": return WikiUtilities.History(
                     ss: Site.WikisSiteSettings(),
-                    pt: Site.PermissionType,
                     wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
@@ -677,17 +635,11 @@ namespace Implem.Pleasanter.Models
             {
                 case "Sites": return SiteUtilities.EditorJson(ReferenceId);
                 case "Issues": return IssueUtilities.EditorJson(
-                    Site.IssuesSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId);
+                    Site.IssuesSiteSettings(), ReferenceId);
                 case "Results": return ResultUtilities.EditorJson(
-                    Site.ResultsSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId);
+                    Site.ResultsSiteSettings(), ReferenceId);
                 case "Wikis": return WikiUtilities.EditorJson(
-                    Site.WikisSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId);
+                    Site.WikisSiteSettings(), ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -698,11 +650,9 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.UpdateByKamban(
-                	Site.IssuesSiteSettings(setAllChoices: true),
-                	Site.PermissionType);
+                    Site.IssuesSiteSettings(setAllChoices: true));
                 case "Results": return ResultUtilities.UpdateByKamban(
-                	Site.ResultsSiteSettings(setAllChoices: true),
-                	Site.PermissionType);
+                    Site.ResultsSiteSettings(setAllChoices: true));
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
