@@ -114,6 +114,15 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
+        public static Error.Types OnExporting(SiteSettings ss)
+        {
+            if (!ss.CanExport())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

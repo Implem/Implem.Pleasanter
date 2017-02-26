@@ -8,9 +8,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnUpdatingOrCreating(SiteSettings ss)
+        public static Error.Types OnExporting(SiteSettings ss)
         {
-            if (!ss.CanCreate() || !ss.CanUpdate())
+            if (!ss.CanExport())
             {
                 return Error.Types.HasNotPermission;
             }

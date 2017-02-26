@@ -2797,6 +2797,12 @@ namespace Implem.Pleasanter.Models
 
         public static ResponseFile Export(SiteSettings ss, SiteModel siteModel)
         {
+            var invalid = IssueValidators.OnExporting(ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return null;
+            }
             var view = Views.GetBySession(ss);
             var issueCollection = new IssueCollection(
                 ss: ss,

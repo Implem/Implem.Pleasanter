@@ -13,6 +13,8 @@
 }
 
 $p.export = function ($control) {
-    $p.send($control);
-    location.href = $('.main-form').attr('action').replace('_action_', 'export');
+    error = $p.syncSend($control);
+    if (error === 0) {
+        location.href = $('.main-form').attr('action').replace('_action_', 'export');
+    }
 }

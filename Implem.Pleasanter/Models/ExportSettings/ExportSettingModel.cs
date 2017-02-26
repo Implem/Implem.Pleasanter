@@ -373,8 +373,15 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Set()
+        public string Set(string reference, long id)
         {
+            var invalid = ExportSettingValidator.OnExporting(
+                SiteSettingsUtilities.GetByReference(reference, id));
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
             var res = new ExportSettingsResponseCollection(this);
             ExportColumns = Session_ExportColumns();
             ExportColumns.SetExport(

@@ -71,8 +71,16 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var responseFile = new ItemModel(id).Export();
-            log.Finish(responseFile.Length);
-            return responseFile.ToFile();
+            if (responseFile != null)
+            {
+                log.Finish(responseFile.Length);
+                return responseFile.ToFile();
+            }
+            else
+            {
+                log.Finish(0);
+                return null;
+            }
         }
 
         [HttpPost]

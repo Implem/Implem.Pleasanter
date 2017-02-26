@@ -25,12 +25,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string UpdateOrCreate(
-            SiteSettings ss, string referenceType, long referenceId)
+        public static string UpdateOrCreate(string reference, long id)
         {
             var exportSettingModel = new ExportSettingModel(
-                referenceType, referenceId, withTitle: true);
-            var invalid = ExportSettingValidator.OnUpdatingOrCreating(ss);
+                reference, id, withTitle: true);
+            var invalid = ExportSettingValidator.OnExporting(
+                SiteSettingsUtilities.GetByReference(reference, id));
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -64,7 +64,7 @@ namespace Implem.Pleasanter.Models
                     .Html(
                         "#ExportSettings_ExportSettingId",
                         new HtmlBuilder().OptionCollection(
-                        optionCollection: Collection(referenceType, referenceId).ToDictionary(
+                        optionCollection: Collection(reference, id).ToDictionary(
                             o => o.ExportSettingId.ToString(),
                             o => new ControlData(o.Title.Value)),
                         selectedValue: exportSettingModel.ExportSettingId.ToString(),
@@ -78,12 +78,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Delete(string referenceType, long referenceId)
+        public static string Delete(string reference, long id)
         {
             var exportSettingModel = new ExportSettingModel(
-                referenceType,
-                referenceId,
-                withTitle: true);
+                reference, id, withTitle: true);
+            var invalid = ExportSettingValidator.OnExporting(
+                SiteSettingsUtilities.GetByReference(reference, id));
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
             var error = exportSettingModel.Delete();
             if (error.Has())
             {
@@ -91,25 +96,32 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return EditorJson(referenceType, referenceId);
+                return EditorJson(reference, id);
             }
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string EditorJson(string referenceType, long referenceId)
+        public static string EditorJson(string reference, long id)
         {
-            return EditorResponse(new ResponseCollection(), referenceType, referenceId).ToJson();
+            var invalid = ExportSettingValidator.OnExporting(
+                SiteSettingsUtilities.GetByReference(reference, id));
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            return EditorResponse(new ResponseCollection(), reference, id).ToJson();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         public static ResponseCollection EditorResponse(
-            this ResponseCollection res, string referenceType, long referenceId)
+            this ResponseCollection res, string reference, long id)
         {
-            var exportSettingModel = ExportSetting(referenceType, referenceId);
+            var exportSettingModel = ExportSetting(reference, id);
             SetSessions(exportSettingModel);
             var hb = new HtmlBuilder();
             return res
@@ -118,37 +130,37 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("ExportSettingsForm")
                             .Action(Locations.Action(
-                                referenceType, referenceId, "ExportSettings")),
+                                reference, id, "ExportSettings")),
                         action: () => hb
                             .Columns(
                                 exportSettingModel.ExportColumns,
                                 exportSettingModel.GetSiteSettings())
-                            .Settings(referenceType, referenceId)
+                            .Settings(reference, id)
                             .P(css: "message-dialog")
-                            .Commands(referenceType, referenceId)));
+                            .Commands(reference, id)));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static ExportSettingModel ExportSetting(string referenceType, long referenceId)
+        private static ExportSettingModel ExportSetting(string reference, long id)
         {
-            var exportSettingCollection = Collection(referenceType, referenceId);
+            var exportSettingCollection = Collection(reference, id);
             return exportSettingCollection.Count > 0
                 ? exportSettingCollection.FirstOrDefault()
-                : new ExportSettingModel(referenceType, referenceId);
+                : new ExportSettingModel(reference, id);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ExportSettingCollection Collection(string referenceType, long referenceId)
+        public static ExportSettingCollection Collection(string reference, long id)
         {
             return new ExportSettingCollection(
                 SiteSettingsUtilities.ExportSettingsSiteSettings(),
                 where: Rds.ExportSettingsWhere()
-                    .ReferenceType(referenceType)
-                    .ReferenceId(referenceId),
+                    .ReferenceType(reference)
+                    .ReferenceId(id),
                 orderBy: Rds.ExportSettingsOrderBy()
                     .Title());
         }
@@ -209,13 +221,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Settings(this HtmlBuilder hb, string referenceType, long referenceId)
+        private static HtmlBuilder Settings(this HtmlBuilder hb, string reference, long id)
         {
             var exportSettingCollection = new ExportSettingCollection(
                 SiteSettingsUtilities.ExportSettingsSiteSettings(),
                 where: Rds.ExportSettingsWhere()
-                    .ReferenceType(referenceType)
-                    .ReferenceId(referenceId));
+                    .ReferenceType(reference)
+                    .ReferenceId(id));
             var exportSettingModel = exportSettingCollection.FirstOrDefault();
             return hb.FieldSet(
                 css: "fieldset enclosed-auto w400 h400",
@@ -270,8 +282,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Commands(
-            this HtmlBuilder hb, string referenceType, long referenceId)
+        private static HtmlBuilder Commands(this HtmlBuilder hb, string reference, long id)
         {
             return hb.Div(
                 css: "command-center",
@@ -295,12 +306,19 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Change()
+        public static string Change(string reference, long id)
         {
             var exportSettingModel = new ExportSettingModel(
                 SiteSettingsUtilities.ExportSettingsSiteSettings())
                     .Get(where: Rds.ExportSettingsWhere()
                         .ExportSettingId(Forms.Long("ExportSettings_ExportSettingId")));
+            var invalid = ExportSettingValidator.OnExporting(
+                SiteSettingsUtilities.GetByReference(reference, id));
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
             SetSessions(exportSettingModel);
             exportSettingModel.Session_ExportColumns(Jsons.ToJson(exportSettingModel.ExportColumns));
             return new ResponseCollection()
