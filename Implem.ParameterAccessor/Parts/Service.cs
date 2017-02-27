@@ -4,6 +4,7 @@
     {
         public string Name;
         public string TimeZoneDefault;
+        public string DefaultPassword;
         public bool RequireHttps;
         public bool ImportData;
         public bool Demo;

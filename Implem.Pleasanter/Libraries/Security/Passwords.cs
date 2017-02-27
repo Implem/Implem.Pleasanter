@@ -17,10 +17,5 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             return UserUtilities.ResetPassword(userId);
         }
-
-        public static string Default()
-        {
-            return "pleasanter";
-        }
     }
 }
