@@ -993,10 +993,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string ChangePassword(int id)
+        public static string ChangePassword(int userId)
         {
             var userModel = new UserModel(
-                SiteSettingsUtilities.UsersSiteSettings(), id, setByForm: true);
+                SiteSettingsUtilities.UsersSiteSettings(), userId, setByForm: true);
             var invalid = UserValidators.OnPasswordChanging(userModel);
             switch (invalid)
             {
