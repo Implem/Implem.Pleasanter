@@ -238,9 +238,7 @@ namespace Implem.Pleasanter.Controllers
         public string ResetPassword(int id)
         {
             var log = new SysLogModel();
-            var json = Passwords.Reset(
-                ss: SiteSettingsUtilities.UsersSiteSettings(),
-                userId: id);
+            var json = Passwords.Reset(id);
             log.Finish(json.Length);
             return json;
         }

@@ -1031,6 +1031,40 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string ResetPassword(int userId)
+        {
+            var userModel = new UserModel(
+                SiteSettingsUtilities.UsersSiteSettings(), userId, setByForm: true);
+            var invalid = UserValidators.OnPasswordResetting();
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = userModel.ResetPassword();
+            return error.Has()
+                ? error.MessageJson()
+                : new UsersResponseCollection(userModel)
+                    .PasswordExpirationTime()
+                    .PasswordChangeTime()
+                    .AfterResetPassword(string.Empty)
+                    .AfterResetPasswordValidator(string.Empty)
+                    .Ver()
+                    .Timestamp()
+                    .Val("#VerUp", false)
+                    .Disabled("#VerUp", false)
+                    .Html("#HeaderTitle", userModel.Title.Value)
+                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                        baseModel: userModel, tableName: "Users"))
+                    .ClearFormData()
+                    .CloseDialog()
+                    .Message(Messages.PasswordResetCompleted())
+                    .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string AddMailAddresses(SiteSettings ss, int userId)
         {
             var userModel = new UserModel(SiteSettingsUtilities.UsersSiteSettings(), userId);

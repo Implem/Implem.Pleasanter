@@ -716,6 +716,7 @@ namespace Implem.Pleasanter.Models
                     .Password(AfterResetPassword)
                     .PasswordExpirationTime(PasswordExpirationTime.Value)
                     .PasswordChangeTime(raw: "getdate()")));
+            Get();
             return Error.Types.None;
         }
 

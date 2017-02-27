@@ -22,28 +22,9 @@ namespace Implem.Pleasanter.Libraries.Security
                 : userModel.Allow(Forms.Data("ReturnUrl"), atLogin: true);
         }
 
-        public static string Reset(SiteSettings ss, int userId)
+        public static string Reset(int userId)
         {
-            var userModel = new UserModel(
-                SiteSettingsUtilities.UsersSiteSettings(), userId, setByForm: true);
-            var invalid = UserValidators.OnUpdating(ss, userModel);
-            switch (invalid)
-            {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson();
-            }
-            var error = userModel.ResetPassword();
-            return error.Has()
-                ? error.MessageJson()
-                : new UsersResponseCollection(userModel)
-                    .PasswordExpirationTime(userModel.PasswordExpirationTime.ToString())
-                    .PasswordChangeTime(userModel.PasswordChangeTime.ToString())
-                    .UpdatedTime(userModel.UpdatedTime.ToString())
-                    .AfterResetPassword(string.Empty)
-                    .AfterResetPasswordValidator(string.Empty)
-                    .ClearFormData()
-                    .CloseDialog()
-                    .Message(Messages.PasswordResetCompleted()).ToJson();
+            return UserUtilities.ResetPassword(userId);
         }
 
         public static string Default()

@@ -466,6 +466,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static Error.Types OnPasswordResetting()
+        {
+            if (!Permissions.CanManageTenant())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Error.Types OnAddingMailAddress(
             SiteSettings ss,
             UserModel userModel,
