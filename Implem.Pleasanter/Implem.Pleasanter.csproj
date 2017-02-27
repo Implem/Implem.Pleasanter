@@ -333,7 +333,6 @@
     <Compile Include="Libraries\Search\Indexes.cs" />
     <Compile Include="Libraries\Search\WordBreaker.cs" />
     <Compile Include="Libraries\Security\Authentications.cs" />
-    <Compile Include="Libraries\Security\Passwords.cs" />
     <Compile Include="Libraries\Security\Permissions.cs" />
     <Compile Include="Libraries\Server\Applications.cs" />
     <Compile Include="Libraries\Server\Pages.cs" />
