@@ -1025,6 +1025,24 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string ChangePasswordAtLogin()
+        {
+            var userModel = new UserModel(Forms.Data("Users_LoginId"));
+            var invalid = UserValidators.OnPasswordChangingAtLogin(userModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = userModel.ChangePasswordAtLogin();
+            return error.Has()
+                ? error.MessageJson()
+                : userModel.Allow(Forms.Data("ReturnUrl"), atLogin: true);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string ResetPassword(int userId)
         {
             var userModel = new UserModel(

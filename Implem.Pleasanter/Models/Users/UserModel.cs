@@ -683,25 +683,14 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types ChangePasswordAtLogin()
         {
-            if (Password == ChangedPassword)
-            {
-                return Error.Types.PasswordNotChanged;
-            }
-            else if (!GetByCredentials(LoginId, Password))
-            {
-                return Error.Types.IncorrectCurrentPassword;
-            }
-            else
-            {
-                PasswordExpirationPeriod();
-                Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
-                    where: Rds.UsersWhereDefault(this),
-                    param: Rds.UsersParam()
-                        .Password(ChangedPassword)
-                        .PasswordExpirationTime(PasswordExpirationTime.Value)
-                        .PasswordChangeTime(raw: "getdate()")));
-                return Error.Types.None;
-            }
+            PasswordExpirationPeriod();
+            Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
+                where: Rds.UsersWhereDefault(this),
+                param: Rds.UsersParam()
+                    .Password(ChangedPassword)
+                    .PasswordExpirationTime(PasswordExpirationTime.Value)
+                    .PasswordChangeTime(raw: "getdate()")));
+            return Error.Types.None;
         }
 
         /// <summary>

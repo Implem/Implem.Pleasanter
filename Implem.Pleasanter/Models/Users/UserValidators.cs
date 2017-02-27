@@ -466,6 +466,22 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static Error.Types OnPasswordChangingAtLogin(UserModel userModel)
+        {
+            if (userModel.Password == userModel.ChangedPassword)
+            {
+                return Error.Types.PasswordNotChanged;
+            }
+            else if (!userModel.GetByCredentials(userModel.LoginId, userModel.Password))
+            {
+                return Error.Types.IncorrectCurrentPassword;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Error.Types OnPasswordResetting()
         {
             if (!Permissions.CanManageTenant())
