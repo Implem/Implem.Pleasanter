@@ -1018,12 +1018,11 @@ namespace Implem.Pleasanter.Models
                     .Timestamp()
                     .Val("#VerUp", false)
                     .Disabled("#VerUp", false)
-                    .Html("#HeaderTitle", userModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         baseModel: userModel, tableName: "Users"))
                     .CloseDialog()
-                    .Message(Messages.ChangingPasswordComplete())
                     .ClearFormData()
+                    .Message(Messages.ChangingPasswordComplete())
                     .ToJson();
             }
         }
@@ -1053,11 +1052,10 @@ namespace Implem.Pleasanter.Models
                     .Timestamp()
                     .Val("#VerUp", false)
                     .Disabled("#VerUp", false)
-                    .Html("#HeaderTitle", userModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         baseModel: userModel, tableName: "Users"))
-                    .ClearFormData()
                     .CloseDialog()
+                    .ClearFormData()
                     .Message(Messages.PasswordResetCompleted())
                     .ToJson();
         }
