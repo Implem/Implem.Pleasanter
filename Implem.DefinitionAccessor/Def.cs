@@ -583,10 +583,10 @@ namespace Implem.DefinitionAccessor
                     case "ItemsInitializer": Code.ItemsInitializer = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ItemsInitializer, definitionRow, CodeXls); break;
                     case "ItemsInitializer_InitItems": Code.ItemsInitializer_InitItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ItemsInitializer_InitItems, definitionRow, CodeXls); break;
                     case "SiteSettings": Code.SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings, definitionRow, CodeXls); break;
-                    case "SiteSettings_Get": Code.SiteSettings_Get = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_Get, definitionRow, CodeXls); break;
                     case "SiteSettings_GetCases": Code.SiteSettings_GetCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetCases, definitionRow, CodeXls); break;
-                    case "SiteSettings_GetByItem": Code.SiteSettings_GetByItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetByItem, definitionRow, CodeXls); break;
                     case "SiteSettings_GetByItemCases": Code.SiteSettings_GetByItemCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetByItemCases, definitionRow, CodeXls); break;
+                    case "SiteSettings_GetByReferenceCases": Code.SiteSettings_GetByReferenceCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetByReferenceCases, definitionRow, CodeXls); break;
+                    case "SiteSettings_GetByItemReferenceCases": Code.SiteSettings_GetByItemReferenceCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetByItemReferenceCases, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels": Code.SiteSettings_GetModels = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Choices": Code.SiteSettings_GetModels_Choices = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Choices, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items": Code.SiteSettings_GetModels_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items, definitionRow, CodeXls); break;
@@ -3473,10 +3473,10 @@ namespace Implem.DefinitionAccessor
         public string ItemsInitializer;
         public string ItemsInitializer_InitItems;
         public string SiteSettings;
-        public string SiteSettings_Get;
         public string SiteSettings_GetCases;
-        public string SiteSettings_GetByItem;
         public string SiteSettings_GetByItemCases;
+        public string SiteSettings_GetByReferenceCases;
+        public string SiteSettings_GetByItemReferenceCases;
         public string SiteSettings_GetModels;
         public string SiteSettings_GetModels_Choices;
         public string SiteSettings_GetModels_Items;
@@ -3887,10 +3887,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition ItemsInitializer = new CodeDefinition();
         public CodeDefinition ItemsInitializer_InitItems = new CodeDefinition();
         public CodeDefinition SiteSettings = new CodeDefinition();
-        public CodeDefinition SiteSettings_Get = new CodeDefinition();
         public CodeDefinition SiteSettings_GetCases = new CodeDefinition();
-        public CodeDefinition SiteSettings_GetByItem = new CodeDefinition();
         public CodeDefinition SiteSettings_GetByItemCases = new CodeDefinition();
+        public CodeDefinition SiteSettings_GetByReferenceCases = new CodeDefinition();
+        public CodeDefinition SiteSettings_GetByItemReferenceCases = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Choices = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items = new CodeDefinition();
