@@ -2021,7 +2021,7 @@ namespace Implem.Pleasanter.Models
             return hb
                 .FieldDropDown(
                     controlId: "FormatSelector",
-                    controlCss: " not-transport",
+                    controlCss: " not-send",
                     labelText: Displays.Format(),
                     optionCollection: formats
                         .ToDictionary(o => o.String, o => Displays.Get(o.Name)),

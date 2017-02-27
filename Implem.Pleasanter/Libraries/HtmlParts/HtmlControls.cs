@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb
                     .Div(attributes: new HtmlAttributes()
                         .Id(controlId + ".viewer")
-                        .Class("control-markup not-transport")
+                        .Class("control-markup not-send")
                         .OnDblClick("$p.editMarkdown($(this));"))
                     .Div(
                         attributes: new HtmlAttributes()

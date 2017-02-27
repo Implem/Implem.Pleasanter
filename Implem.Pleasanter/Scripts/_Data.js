@@ -8,7 +8,7 @@
 
 $p.setData = function ($control, data) {
     var controlId = $control.attr('id');
-    if (!$control.hasClass('not-transport')) {
+    if (!$control.hasClass('not-send')) {
         if (data === undefined) data = $p.getData($control);
         switch ($control.prop('type')) {
             case 'checkbox':

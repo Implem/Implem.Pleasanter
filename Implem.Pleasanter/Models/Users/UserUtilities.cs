@@ -1204,7 +1204,7 @@ namespace Implem.Pleasanter.Models
                             .P(css: "hidden", action: () => hb
                                 .TextBox(
                                     textType: HtmlTypes.TextTypes.Password,
-                                    controlCss: " dummy not-transport"))
+                                    controlCss: " dummy not-send"))
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
