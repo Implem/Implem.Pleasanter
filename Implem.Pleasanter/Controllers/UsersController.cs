@@ -213,7 +213,7 @@ namespace Implem.Pleasanter.Controllers
         public string ChangePassword(int id)
         {
             var log = new SysLogModel();
-            var json = Passwords.Change(id);
+            var json = UserUtilities.ChangePassword(id);
             log.Finish(json.Length);
             return json;
         }
@@ -226,7 +226,7 @@ namespace Implem.Pleasanter.Controllers
         public string ChangePasswordAtLogin()
         {
             var log = new SysLogModel();
-            var json = Passwords.ChangeAtLogin();
+            var json = UserUtilities.ChangePasswordAtLogin();
             log.Finish(json.Length);
             return json;
         }
@@ -238,7 +238,7 @@ namespace Implem.Pleasanter.Controllers
         public string ResetPassword(int id)
         {
             var log = new SysLogModel();
-            var json = Passwords.Reset(id);
+            var json = UserUtilities.ResetPassword(id);
             log.Finish(json.Length);
             return json;
         }
