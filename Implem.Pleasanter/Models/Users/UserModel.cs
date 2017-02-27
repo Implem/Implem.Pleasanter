@@ -578,7 +578,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private bool GetByCredentials(string loginId, string password)
+        public bool GetByCredentials(string loginId, string password)
         {
             Get(where: Rds.UsersWhere()
                 .LoginId(loginId)
@@ -665,45 +665,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ChangePassword()
+        public Error.Types ChangePassword()
         {
-            var res = new UsersResponseCollection(this);
-            if (UserId == Sessions.UserId())
-            {
-                if (OldPassword == ChangedPassword)
-                {
-                    return Messages.ResponsePasswordNotChanged().ToJson();
-                }
-                if (GetByCredentials(LoginId, OldPassword))
-                {
-                    PasswordExpirationPeriod();
-                    Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
-                        where: Rds.UsersWhereDefault(this),
-                        param: Rds.UsersParam()
-                            .Password(ChangedPassword)
-                            .PasswordExpirationTime(PasswordExpirationTime.Value)
-                            .PasswordChangeTime(raw: "getdate()")));
-                    res
-                        .PasswordExpirationTime(PasswordExpirationTime.ToString())
-                        .PasswordChangeTime(PasswordChangeTime.ToString())
-                        .UpdatedTime(UpdatedTime.ToString())
-                        .OldPassword(string.Empty)
-                        .ChangedPassword(string.Empty)
-                        .ChangedPasswordValidator(string.Empty)
-                        .ClearFormData()
-                        .CloseDialog()
-                        .Message(Messages.ChangingPasswordComplete());
-                }
-                else
-                {
-                    res.Message(Messages.IncorrectCurrentPassword());
-                }
-            }
-            else
-            {
-                res.Message(Messages.HasNotPermission());
-            }
-            return res.ToJson();
+            PasswordExpirationPeriod();
+            Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
+                where: Rds.UsersWhereDefault(this),
+                param: Rds.UsersParam()
+                    .Password(ChangedPassword)
+                    .PasswordExpirationTime(PasswordExpirationTime.Value)
+                    .PasswordChangeTime(raw: "getdate()")));
+            Get();
+            return Error.Types.None;
         }
 
         /// <summary>

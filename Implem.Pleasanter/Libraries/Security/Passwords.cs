@@ -10,8 +10,7 @@ namespace Implem.Pleasanter.Libraries.Security
     {
         public static string Change(int id)
         {
-            return new UserModel(SiteSettingsUtilities.UsersSiteSettings(), id, setByForm: true)
-                .ChangePassword();
+            return UserUtilities.ChangePassword(id);
         }
 
         public static string ChangeAtLogin()

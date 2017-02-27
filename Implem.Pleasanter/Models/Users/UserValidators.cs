@@ -1,6 +1,7 @@
 ﻿using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Models
 {
@@ -433,6 +434,29 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnExporting(SiteSettings ss)
         {
             if (!ss.CanExport())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnPasswordChanging(UserModel userModel)
+        {
+            if (userModel.UserId == Sessions.UserId())
+            {
+                if (userModel.OldPassword == userModel.ChangedPassword)
+                {
+                    return Error.Types.PasswordNotChanged;
+                }
+                if (!userModel.GetByCredentials(userModel.LoginId, userModel.OldPassword))
+                {
+                    return Error.Types.IncorrectCurrentPassword;
+                }
+            }
+            else
             {
                 return Error.Types.HasNotPermission;
             }
