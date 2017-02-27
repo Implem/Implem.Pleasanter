@@ -1004,13 +1004,9 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = userModel.ChangePassword();
-            if (error.Has())
-            {
-                return error.MessageJson();
-            }
-            else
-            {
-                return new UsersResponseCollection(userModel)
+            return error.Has()
+                ? error.MessageJson()
+                : new UsersResponseCollection(userModel)
                     .OldPassword(string.Empty)
                     .ChangedPassword(string.Empty)
                     .ChangedPasswordValidator(string.Empty)
@@ -1024,7 +1020,6 @@ namespace Implem.Pleasanter.Models
                     .ClearFormData()
                     .Message(Messages.ChangingPasswordComplete())
                     .ToJson();
-            }
         }
 
         /// <summary>
