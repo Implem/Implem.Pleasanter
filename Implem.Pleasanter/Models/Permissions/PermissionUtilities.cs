@@ -395,7 +395,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string ChangeInherit(long siteId)
         {
-            var siteModel = new SiteModel(siteId, setByForm: true);
+            var siteModel = new SiteModel(siteId);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
             var invalid = PermissionValidators.OnUpdating(siteModel.SiteSettings);
             switch (invalid)
@@ -421,7 +421,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Update(long siteId)
         {
-            var siteModel = new SiteModel(siteId, setByForm: true);
+            var siteModel = new SiteModel(siteId);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
             var invalid = PermissionValidators.OnUpdating(siteModel.SiteSettings);
             switch (invalid)
