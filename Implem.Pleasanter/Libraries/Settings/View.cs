@@ -431,7 +431,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             where.Add(raw: "[" + columnName + "]=1");
                             break;
                         case ColumnUtilities.CheckFilterTypes.Off:
-                            where.Add(raw: "($[{0}] is null or $[{0}]=0)"
+                            where.Add(raw: "([{0}] is null or [{0}]=0)"
                                 .Params(columnName));
                             break;
                     }
