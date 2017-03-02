@@ -1186,9 +1186,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     results?.Any() == true ||
                                     searchIndexes?.Any() == true)
                                 .Or(Rds.ItemsWhere()
-                                    .ReferenceType("Wikis")
-                                    .ReferenceId_In(selectedValues, _using:
-                                        selectedValues?.Any() == true))
+                                        .ReferenceType("Wikis")
+                                        .ReferenceId_In(selectedValues),
+                                    _using: selectedValues?.Any() == true)
                                 .ReferenceType("Sites", _operator: "<>")
                                 .SiteId(link.SiteId)))
                                     .AsEnumerable();
