@@ -466,8 +466,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Copy_Sites": Code.Model_Utilities_Copy_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Copy_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_Move": Code.Model_Utilities_Move = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Move, definitionRow, CodeXls); break;
                     case "Model_Utilities_Delete": Code.Model_Utilities_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Delete, definitionRow, CodeXls); break;
-                    case "Model_Utilities_DeleteParams": Code.Model_Utilities_DeleteParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DeleteParams, definitionRow, CodeXls); break;
-                    case "Model_Utilities_DeleteParams_Sites": Code.Model_Utilities_DeleteParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DeleteParams_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_RedirectAfterDelete": Code.Model_Utilities_RedirectAfterDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_RedirectAfterDelete, definitionRow, CodeXls); break;
                     case "Model_Utilities_RedirectAfterDeleteNotItem": Code.Model_Utilities_RedirectAfterDeleteNotItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_RedirectAfterDeleteNotItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_RedirectAfterDeleteItem": Code.Model_Utilities_RedirectAfterDeleteItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_RedirectAfterDeleteItem, definitionRow, CodeXls); break;
@@ -3359,8 +3357,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Copy_Sites;
         public string Model_Utilities_Move;
         public string Model_Utilities_Delete;
-        public string Model_Utilities_DeleteParams;
-        public string Model_Utilities_DeleteParams_Sites;
         public string Model_Utilities_RedirectAfterDelete;
         public string Model_Utilities_RedirectAfterDeleteNotItem;
         public string Model_Utilities_RedirectAfterDeleteItem;
@@ -3776,8 +3772,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Copy_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_Move = new CodeDefinition();
         public CodeDefinition Model_Utilities_Delete = new CodeDefinition();
-        public CodeDefinition Model_Utilities_DeleteParams = new CodeDefinition();
-        public CodeDefinition Model_Utilities_DeleteParams_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_RedirectAfterDelete = new CodeDefinition();
         public CodeDefinition Model_Utilities_RedirectAfterDeleteNotItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_RedirectAfterDeleteItem = new CodeDefinition();

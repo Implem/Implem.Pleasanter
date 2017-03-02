@@ -517,7 +517,9 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return SiteUtilities.Delete(siteId: ReferenceId);
+                case "Sites": return SiteUtilities.Delete(
+                    ss: Site.SitesSiteSettings(),
+                    siteId: ReferenceId);
                 case "Issues": return IssueUtilities.Delete(
                     ss: Site.IssuesSiteSettings(),
                     issueId: ReferenceId);

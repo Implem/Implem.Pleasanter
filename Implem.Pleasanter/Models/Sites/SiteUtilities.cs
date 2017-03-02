@@ -226,10 +226,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Delete(long siteId)
+        public static string Delete(SiteSettings ss, long siteId)
         {
             var siteModel = new SiteModel(siteId);
-            var ss = siteModel.SiteSettings;
             var invalid = SiteValidators.OnDeleting(ss, siteModel);
             switch (invalid)
             {
