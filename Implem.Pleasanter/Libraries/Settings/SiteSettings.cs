@@ -1211,6 +1211,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             column: Rds.WikisColumn().Body(),
                             where: Rds.WikisWhere().SiteId(siteId)))
                                 .SplitReturn()
+                                .Where(o => o.Trim() != string.Empty)
                                 .GroupBy(o => o.Split_1st())
                                 .Select(o => o.First())
                     : dataRows
