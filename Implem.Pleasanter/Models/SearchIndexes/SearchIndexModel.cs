@@ -40,12 +40,9 @@ namespace Implem.Pleasanter.Models
         public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
         public bool Priority_Updated { get { return Priority != SavedPriority; } }
 
-        public SearchIndexModel(
-            SiteSettings ss,
-            DataRow dataRow)
+        public SearchIndexModel(DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = ss;
             Set(dataRow);
             OnConstructed();
         }

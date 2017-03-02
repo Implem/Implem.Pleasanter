@@ -20,7 +20,6 @@ namespace Implem.Pleasanter.Models
         public HttpContext HttpContext;
         public Databases.AccessStatuses AccessStatus = Databases.AccessStatuses.Initialized;
         public MethodTypes MethodType = MethodTypes.NotSet;
-        public SiteSettings SiteSettings;
         public virtual long UrlId { get { return 0; } }
         public Versions.VerTypes VerType = Versions.VerTypes.Latest;
         public int Ver = 1;

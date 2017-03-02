@@ -51,8 +51,7 @@ namespace Implem.Pleasanter.Models
         public bool UserId_Updated { get { return UserId != SavedUserId; } }
         public bool PermissionType_Updated { get { return PermissionType.ToLong() != SavedPermissionType; } }
 
-        public PermissionModel(
-            DataRow dataRow)
+        public PermissionModel(DataRow dataRow)
         {
             OnConstructing();
             Set(dataRow);

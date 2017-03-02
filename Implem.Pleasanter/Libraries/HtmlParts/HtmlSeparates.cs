@@ -18,13 +18,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder SeparateSettings(
             this HtmlBuilder hb,
+            SiteSettings ss,
             string title,
-            decimal workValue,
-            Column column,
-            SiteSettings ss)
+            decimal workValue)
         {
             var max = Parameters.General.SeparateMax;
             var min = Parameters.General.SeparateMin;
+            var column = ss.GetColumn("WorkValue");
             return hb.Div(id: "SeparateSettings", action: () => hb
                 .FieldSpinner(
                     controlId: "SeparateNumber",

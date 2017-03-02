@@ -49,17 +49,16 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public WikiModel(SiteSettings ss)
-        {
-            SiteSettings = ss;
-        }
-
-        public WikiModel(long wikiId, long siteId, bool setByForm = false)
+        public WikiModel(
+            SiteSettings ss, 
+            long wikiId,
+            long siteId,
+            bool setByForm = false)
         {
             WikiId = wikiId;
             SiteId = siteId;
-            if (setByForm) SetByForm();
-            Get();
+            if (setByForm) SetByForm(ss);
+            Get(ss);
         }
 
         public WikiModel()
@@ -67,43 +66,38 @@ namespace Implem.Pleasanter.Models
         }
 
         public WikiModel(
-            SiteSettings ss,
+            SiteSettings ss, 
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
             SiteId = ss.SiteId;
-            SiteSettings = ss;
-            if (setByForm) SetByForm();
+            if (setByForm) SetByForm(ss);
             MethodType = methodType;
             OnConstructed();
         }
 
         public WikiModel(
-            SiteSettings ss,
+            SiteSettings ss, 
             long wikiId,
             bool clearSessions = false,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteSettings = ss;
             WikiId = wikiId;
             SiteId = ss.SiteId;
-            Get();
+            Get(ss);
             if (clearSessions) ClearSessions();
-            if (setByForm) SetByForm();
+            if (setByForm) SetByForm(ss);
             MethodType = methodType;
             OnConstructed();
         }
 
-        public WikiModel(
-            SiteSettings ss,
-            DataRow dataRow)
+        public WikiModel(SiteSettings ss, DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = ss;
-            Set(dataRow);
+            Set(ss, dataRow);
             OnConstructed();
         }
 
@@ -120,6 +114,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public WikiModel Get(
+            SiteSettings ss, 
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -129,9 +124,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(Rds.ExecuteTable(statements: Rds.SelectWikis(
+            Set(ss, Rds.ExecuteTable(statements: Rds.SelectWikis(
                 tableType: tableType,
-                column: column ?? Rds.WikisEditorColumns(SiteSettings),
+                column: column ?? Rds.WikisEditorColumns(ss),
                 join: join ??  Rds.WikisJoinDefault(),
                 where: where ?? Rds.WikisWhereDefault(this),
                 orderBy: orderBy ?? null,
@@ -167,6 +162,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types Create(
+            SiteSettings ss, 
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool notice = false,
@@ -186,27 +182,27 @@ namespace Implem.Pleasanter.Models
                         tableType: tableType,
                         param: param ?? Rds.WikisParamDefault(
                             this, setDefault: true, paramAll: paramAll)),
-                    InsertLinks(SiteSettings, selectIdentity: true),
+                    InsertLinks(ss, selectIdentity: true),
                 });
             WikiId = newId != 0 ? newId : WikiId;
             if (notice)
             {
-                CheckNotificationConditions();
-                Notice("Created");
+                CheckNotificationConditions(ss);
+                Notice(ss, "Created");
             }
-            Get();
+            Get(ss);
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateItems(
                     param: Rds.ItemsParam()
-                        .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this)),
+                        .Title(WikiUtilities.TitleDisplayValue(ss, this)),
                     where: Rds.ItemsWhere().ReferenceId(WikiId)));
-            Libraries.Search.Indexes.Create(SiteSettings, WikiId);
+            Libraries.Search.Indexes.Create(ss, WikiId);
             return Error.Types.None;
         }
 
-        public Error.Types Update(bool notice = false, bool paramAll = false)
+        public Error.Types Update(SiteSettings ss, bool notice = false,bool paramAll = false)
         {
-            if (notice) CheckNotificationConditions(before: true);
+            if (notice) CheckNotificationConditions(ss, before: true);
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var count = Rds.ExecuteScalar_int(
@@ -223,16 +219,17 @@ namespace Implem.Pleasanter.Models
             if (count == 0) return Error.Types.UpdateConflicts;
             if (notice)
             {
-                CheckNotificationConditions();
-                Notice("Updated");
+                CheckNotificationConditions(ss);
+                Notice(ss, "Updated");
             }
-            Get();
-            UpdateRelatedRecords();
+            Get(ss);
+            UpdateRelatedRecords(ss);
             SiteInfo.Reflesh();
             return Error.Types.None;
         }
 
         public void UpdateRelatedRecords(
+            SiteSettings ss, 
             bool addUpdatedTimeParam = true,
             bool addUpdatorParam = true,
             bool updateItems = true)
@@ -245,18 +242,18 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(WikiId),
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
-                            .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this)),
+                            .Title(WikiUtilities.TitleDisplayValue(ss, this)),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam,
                         _using: updateItems),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(WikiId)),
-                    InsertLinks(SiteSettings),
+                    InsertLinks(ss),
                     Rds.UpdateSites(
                         where: Rds.SitesWhere().SiteId(SiteId),
                         param: Rds.SitesParam().Title(Title.Value))
                 });
-            Libraries.Search.Indexes.Create(SiteSettings, WikiId);
+            Libraries.Search.Indexes.Create(ss, WikiId);
         }
 
         private SqlInsert InsertLinks(SiteSettings ss, bool selectIdentity = false)
@@ -273,6 +270,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types UpdateOrCreate(
+            SiteSettings ss, 
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
@@ -293,15 +291,15 @@ namespace Implem.Pleasanter.Models
                         param: param ?? Rds.WikisParamDefault(this, setDefault: true))
                 });
             WikiId = newId != 0 ? newId : WikiId;
-            Get();
-            Libraries.Search.Indexes.Create(SiteSettings, WikiId);
+            Get(ss);
+            Libraries.Search.Indexes.Create(ss, WikiId);
             return Error.Types.None;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types Delete(bool notice = false)
+        public Error.Types Delete(SiteSettings ss, bool notice = false)
         {
             Rds.ExecuteNonQuery(
                 transactional: true,
@@ -316,11 +314,11 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteSites(
                         where: Rds.SitesWhere().SiteId(SiteId))
                 });
-            if (notice) Notice("Deleted");
+            if (notice) Notice(ss, "Deleted");
             return Error.Types.None;
         }
 
-        public Error.Types Restore(long wikiId)
+        public Error.Types Restore(SiteSettings ss, long wikiId)
         {
             WikiId = wikiId;
             Rds.ExecuteNonQuery(
@@ -333,22 +331,23 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreWikis(
                         where: Rds.WikisWhere().WikiId(WikiId))
                 });
-            Libraries.Search.Indexes.Create(SiteSettings, WikiId);
+            Libraries.Search.Indexes.Create(ss, WikiId);
             return Error.Types.None;
         }
 
-        public Error.Types PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+        public Error.Types PhysicalDelete(
+            SiteSettings ss, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: Rds.PhysicalDeleteWikis(
                     tableType: tableType,
                     param: Rds.WikisParam().SiteId(SiteId).WikiId(WikiId)));
-            Libraries.Search.Indexes.Create(SiteSettings, WikiId);
+            Libraries.Search.Indexes.Create(ss, WikiId);
             return Error.Types.None;
         }
 
-        private void SetByForm()
+        private void SetByForm(SiteSettings ss)
         {
             Forms.Keys().ForEach(controlId =>
             {
@@ -374,14 +373,14 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
-            SetByFormula();
+            SetByFormula(ss);
         }
 
-        public void UpdateFormulaColumns(IEnumerable<int> selected = null)
+        public void UpdateFormulaColumns(SiteSettings ss, IEnumerable<int> selected = null)
         {
-            SetByFormula();
+            SetByFormula(ss);
             var param = Rds.WikisParam();
-            SiteSettings.Formulas?
+            ss.Formulas?
                 .Where(o => selected == null || selected.Contains(o.Id))
                 .ForEach(formulaSet =>
                 {
@@ -398,14 +397,14 @@ namespace Implem.Pleasanter.Models
                     addUpdatorParam: false));
         }
 
-        private void SetByFormula()
+        private void SetByFormula(SiteSettings ss)
         {
-            SiteSettings.Formulas?.ForEach(formulaSet =>
+            ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
                 var formula = formulaSet.Formula;
-                var view = SiteSettings.Views?.Get(formulaSet.Condition);
-                if (view != null && !Matched(view))
+                var view = ss.Views?.Get(formulaSet.Condition);
+                if (view != null && !Matched(ss, view))
                 {
                     if (formulaSet.OutOfCondition != null)
                     {
@@ -426,14 +425,14 @@ namespace Implem.Pleasanter.Models
             });
         }
 
-        private bool Matched(View view)
+        private bool Matched(SiteSettings ss, View view)
         {
             if (view.ColumnFilterHash != null)
             {
                 foreach (var filter in view.ColumnFilterHash)
                 {
                     var match = true;
-                    var column = SiteSettings.GetColumn(filter.Key);
+                    var column = ss.GetColumn(filter.Key);
                     switch (filter.Key)
                     {
                         case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
@@ -445,33 +444,33 @@ namespace Implem.Pleasanter.Models
             return true;
         }
 
-        private void CheckNotificationConditions(bool before = false)
+        private void CheckNotificationConditions(SiteSettings ss, bool before = false)
         {
-            if (SiteSettings.Notifications.Any())
+            if (ss.Notifications.Any())
             {
-                SiteSettings.EnableNotifications(
+                ss.EnableNotifications(
                     before: before,
                     dataSet: Rds.ExecuteDataSet(statements:
-                        SiteSettings.Notifications.Select((o, i) =>
+                        ss.Notifications.Select((o, i) =>
                             Rds.SelectWikis(
                                 column: Rds.WikisColumn().WikiId(),
-                                where: SiteSettings.Views?.Get(before
+                                where: ss.Views?.Get(before
                                     ? o.BeforeCondition
                                     : o.AfterCondition)?
                                         .Where(
-                                            SiteSettings,
+                                            ss,
                                             Rds.WikisWhere().WikiId(WikiId)) ??
                                                 Rds.WikisWhere().WikiId(WikiId)))
                                                     .ToArray()));
             }
         }
 
-        private void Notice(string type)
+        private void Notice(SiteSettings ss, string type)
         {
-            var title = WikiUtilities.TitleDisplayValue(SiteSettings, this);
+            var title = WikiUtilities.TitleDisplayValue(ss, this);
             var url = Url.AbsoluteUri().Replace(
                 Url.AbsolutePath(), Locations.ItemEdit(WikiId));
-            SiteSettings.Notifications.Where(o => o.Enabled).ForEach(notification =>
+            ss.Notifications.Where(o => o.Enabled).ForEach(notification =>
             {
                 switch (type)
                 {
@@ -479,10 +478,10 @@ namespace Implem.Pleasanter.Models
                         notification.Send(
                             Displays.Created(title).ToString(),
                             url,
-                            NoticeBody(notification));
+                            NoticeBody(ss, notification));
                         break;
                     case "Updated":
-                        var body = NoticeBody(notification, update: true);
+                        var body = NoticeBody(ss, notification, update: true);
                         if (body.Length > 0)
                         {
                             notification.Send(
@@ -495,16 +494,16 @@ namespace Implem.Pleasanter.Models
                         notification.Send(
                             Displays.Deleted(title).ToString(),
                             url,
-                            NoticeBody(notification));
+                            NoticeBody(ss, notification));
                         break;
                 }
             });
         }
 
-        private string NoticeBody(Notification notification, bool update = false)
+        private string NoticeBody(SiteSettings ss, Notification notification, bool update = false)
         {
             var body = new System.Text.StringBuilder();
-            notification.MonitorChangesColumnCollection(SiteSettings).ForEach(column =>
+            notification.MonitorChangesColumnCollection(ss).ForEach(column =>
             {
                 switch (column.ColumnName)
                 {
@@ -523,17 +522,17 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private void Set(DataTable dataTable)
+        private void Set(SiteSettings ss, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(dataTable.Rows[0]); break;
+                case 1: Set(ss, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(DataRow dataRow)
+        private void Set(SiteSettings ss, DataRow dataRow)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -554,9 +553,9 @@ namespace Implem.Pleasanter.Models
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }
-            if (SiteSettings != null)
+            if (ss != null)
             {
-                Title.DisplayValue = WikiUtilities.TitleDisplayValue(SiteSettings, this);
+                Title.DisplayValue = WikiUtilities.TitleDisplayValue(ss, this);
             }
         }
     }

@@ -602,17 +602,16 @@ namespace Implem.Pleasanter.Models
 
         public List<long> SwitchTargets;
 
-        public IssueModel(SiteSettings ss)
-        {
-            SiteSettings = ss;
-        }
-
-        public IssueModel(long issueId, long siteId, bool setByForm = false)
+        public IssueModel(
+            SiteSettings ss, 
+            long issueId,
+            long siteId,
+            bool setByForm = false)
         {
             IssueId = issueId;
             SiteId = siteId;
-            if (setByForm) SetByForm();
-            Get();
+            if (setByForm) SetByForm(ss);
+            Get(ss);
         }
 
         public IssueModel()
@@ -620,7 +619,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public IssueModel(
-            SiteSettings ss,
+            SiteSettings ss, 
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -628,14 +627,13 @@ namespace Implem.Pleasanter.Models
             SiteId = ss.SiteId;
             Manager = SiteInfo.User(Sessions.UserId());
             Owner = SiteInfo.User(Sessions.UserId());
-            SiteSettings = ss;
-            if (setByForm) SetByForm();
+            if (setByForm) SetByForm(ss);
             MethodType = methodType;
             OnConstructed();
         }
 
         public IssueModel(
-            SiteSettings ss,
+            SiteSettings ss, 
             long issueId,
             bool clearSessions = false,
             bool setByForm = false,
@@ -643,24 +641,20 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteSettings = ss;
             IssueId = issueId;
             SiteId = ss.SiteId;
-            Get();
+            Get(ss);
             if (clearSessions) ClearSessions();
-            if (setByForm) SetByForm();
+            if (setByForm) SetByForm(ss);
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed();
         }
 
-        public IssueModel(
-            SiteSettings ss,
-            DataRow dataRow)
+        public IssueModel(SiteSettings ss, DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = ss;
-            Set(dataRow);
+            Set(ss, dataRow);
             OnConstructed();
         }
 
@@ -677,6 +671,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public IssueModel Get(
+            SiteSettings ss, 
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -686,9 +681,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(Rds.ExecuteTable(statements: Rds.SelectIssues(
+            Set(ss, Rds.ExecuteTable(statements: Rds.SelectIssues(
                 tableType: tableType,
-                column: column ?? Rds.IssuesEditorColumns(SiteSettings),
+                column: column ?? Rds.IssuesEditorColumns(ss),
                 join: join ??  Rds.IssuesJoinDefault(),
                 where: where ?? Rds.IssuesWhereDefault(this),
                 orderBy: orderBy ?? null,
@@ -835,6 +830,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types Create(
+            SiteSettings ss, 
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool notice = false,
@@ -854,28 +850,28 @@ namespace Implem.Pleasanter.Models
                         tableType: tableType,
                         param: param ?? Rds.IssuesParamDefault(
                             this, setDefault: true, paramAll: paramAll)),
-                    InsertLinks(SiteSettings, selectIdentity: true),
+                    InsertLinks(ss, selectIdentity: true),
                 });
             IssueId = newId != 0 ? newId : IssueId;
-            SynchronizeSummary();
+            SynchronizeSummary(ss);
             if (notice)
             {
-                CheckNotificationConditions();
-                Notice("Created");
+                CheckNotificationConditions(ss);
+                Notice(ss, "Created");
             }
-            Get();
+            Get(ss);
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateItems(
                     param: Rds.ItemsParam()
-                        .Title(IssueUtilities.TitleDisplayValue(SiteSettings, this)),
+                        .Title(IssueUtilities.TitleDisplayValue(ss, this)),
                     where: Rds.ItemsWhere().ReferenceId(IssueId)));
-            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
+            Libraries.Search.Indexes.Create(ss, IssueId);
             return Error.Types.None;
         }
 
-        public Error.Types Update(bool notice = false, bool paramAll = false)
+        public Error.Types Update(SiteSettings ss, bool notice = false,bool paramAll = false)
         {
-            if (notice) CheckNotificationConditions(before: true);
+            if (notice) CheckNotificationConditions(ss, before: true);
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var count = Rds.ExecuteScalar_int(
@@ -890,18 +886,19 @@ namespace Implem.Pleasanter.Models
                         countRecord: true)
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
-            SynchronizeSummary();
+            SynchronizeSummary(ss);
             if (notice)
             {
-                CheckNotificationConditions();
-                Notice("Updated");
+                CheckNotificationConditions(ss);
+                Notice(ss, "Updated");
             }
-            Get();
-            UpdateRelatedRecords();
+            Get(ss);
+            UpdateRelatedRecords(ss);
             return Error.Types.None;
         }
 
         public void UpdateRelatedRecords(
+            SiteSettings ss, 
             bool addUpdatedTimeParam = true,
             bool addUpdatorParam = true,
             bool updateItems = true)
@@ -914,15 +911,15 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(IssueId),
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
-                            .Title(IssueUtilities.TitleDisplayValue(SiteSettings, this)),
+                            .Title(IssueUtilities.TitleDisplayValue(ss, this)),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam,
                         _using: updateItems),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(IssueId)),
-                    InsertLinks(SiteSettings)
+                    InsertLinks(ss)
                 });
-            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
+            Libraries.Search.Indexes.Create(ss, IssueId);
         }
 
         private SqlInsert InsertLinks(SiteSettings ss, bool selectIdentity = false)
@@ -965,6 +962,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types UpdateOrCreate(
+            SiteSettings ss, 
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
@@ -985,12 +983,12 @@ namespace Implem.Pleasanter.Models
                         param: param ?? Rds.IssuesParamDefault(this, setDefault: true))
                 });
             IssueId = newId != 0 ? newId : IssueId;
-            Get();
-            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
+            Get(ss);
+            Libraries.Search.Indexes.Create(ss, IssueId);
             return Error.Types.None;
         }
 
-        public Error.Types Move(long siteId)
+        public Error.Types Move(SiteSettings ss, long siteId)
         {
             SiteId = siteId;
             Rds.ExecuteNonQuery(statements: new SqlStatement[]
@@ -1002,15 +1000,14 @@ namespace Implem.Pleasanter.Models
                     where: Rds.IssuesWhere().IssueId(IssueId),
                     param: Rds.IssuesParam().SiteId(SiteId))
             });
-            SiteSettings = new SiteModel(siteId).IssuesSiteSettings();
-            Get();
-            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
+            Get(ss);
+            Libraries.Search.Indexes.Create(ss, IssueId);
             return Error.Types.None;
         }
 
-        public Error.Types Delete(bool notice = false)
+        public Error.Types Delete(SiteSettings ss, bool notice = false)
         {
-            if (notice) CheckNotificationConditions(before: true);
+            if (notice) CheckNotificationConditions(ss, before: true);
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -1020,17 +1017,17 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteIssues(
                         where: Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId))
                 });
-            SynchronizeSummary();
+            SynchronizeSummary(ss);
             if (notice)
             {
-                CheckNotificationConditions();
-                Notice("Deleted");
+                CheckNotificationConditions(ss);
+                Notice(ss, "Deleted");
             }
-            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
+            Libraries.Search.Indexes.Create(ss, IssueId);
             return Error.Types.None;
         }
 
-        public Error.Types Restore(long issueId)
+        public Error.Types Restore(SiteSettings ss, long issueId)
         {
             IssueId = issueId;
             Rds.ExecuteNonQuery(
@@ -1043,22 +1040,23 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreIssues(
                         where: Rds.IssuesWhere().IssueId(IssueId))
                 });
-            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
+            Libraries.Search.Indexes.Create(ss, IssueId);
             return Error.Types.None;
         }
 
-        public Error.Types PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+        public Error.Types PhysicalDelete(
+            SiteSettings ss, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: Rds.PhysicalDeleteIssues(
                     tableType: tableType,
                     param: Rds.IssuesParam().SiteId(SiteId).IssueId(IssueId)));
-            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
+            Libraries.Search.Indexes.Create(ss, IssueId);
             return Error.Types.None;
         }
 
-        private void SetByForm()
+        private void SetByForm(SiteSettings ss)
         {
             Forms.Keys().ForEach(controlId =>
             {
@@ -1068,8 +1066,8 @@ namespace Implem.Pleasanter.Models
                     case "Issues_Body": Body = Forms.Data(controlId).ToString(); break;
                     case "Issues_StartTime": StartTime = Forms.DateTime(controlId).ToUniversal(); ProgressRate.StartTime = StartTime; break;
                     case "Issues_CompletionTime": CompletionTime = new CompletionTime(Forms.Data(controlId).ToDateTime(), Status, byForm: true); ProgressRate.CompletionTime = CompletionTime.Value; break;
-                    case "Issues_WorkValue": WorkValue = new WorkValue(SiteSettings.GetColumn("WorkValue").Round(Forms.Decimal(controlId)), ProgressRate.Value); break;
-                    case "Issues_ProgressRate": ProgressRate = new ProgressRate(CreatedTime, StartTime, CompletionTime, SiteSettings.GetColumn("ProgressRate").Round(Forms.Decimal(controlId))); WorkValue.ProgressRate = ProgressRate.Value; break;
+                    case "Issues_WorkValue": WorkValue = new WorkValue(ss.GetColumn("WorkValue").Round(Forms.Decimal(controlId)), ProgressRate.Value); break;
+                    case "Issues_ProgressRate": ProgressRate = new ProgressRate(CreatedTime, StartTime, CompletionTime, ss.GetColumn("ProgressRate").Round(Forms.Decimal(controlId))); WorkValue.ProgressRate = ProgressRate.Value; break;
                     case "Issues_Status": Status = new Status(Forms.Data(controlId).ToInt()); CompletionTime.Status = Status; break;
                     case "Issues_Manager": Manager = SiteInfo.User(Forms.Int(controlId)); break;
                     case "Issues_Owner": Owner = SiteInfo.User(Forms.Int(controlId)); break;
@@ -1099,32 +1097,32 @@ namespace Implem.Pleasanter.Models
                     case "Issues_ClassX": ClassX = Forms.Data(controlId).ToString(); break;
                     case "Issues_ClassY": ClassY = Forms.Data(controlId).ToString(); break;
                     case "Issues_ClassZ": ClassZ = Forms.Data(controlId).ToString(); break;
-                    case "Issues_NumA": NumA = SiteSettings.GetColumn("NumA").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumB": NumB = SiteSettings.GetColumn("NumB").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumC": NumC = SiteSettings.GetColumn("NumC").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumD": NumD = SiteSettings.GetColumn("NumD").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumE": NumE = SiteSettings.GetColumn("NumE").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumF": NumF = SiteSettings.GetColumn("NumF").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumG": NumG = SiteSettings.GetColumn("NumG").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumH": NumH = SiteSettings.GetColumn("NumH").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumI": NumI = SiteSettings.GetColumn("NumI").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumJ": NumJ = SiteSettings.GetColumn("NumJ").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumK": NumK = SiteSettings.GetColumn("NumK").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumL": NumL = SiteSettings.GetColumn("NumL").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumM": NumM = SiteSettings.GetColumn("NumM").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumN": NumN = SiteSettings.GetColumn("NumN").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumO": NumO = SiteSettings.GetColumn("NumO").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumP": NumP = SiteSettings.GetColumn("NumP").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumQ": NumQ = SiteSettings.GetColumn("NumQ").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumR": NumR = SiteSettings.GetColumn("NumR").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumS": NumS = SiteSettings.GetColumn("NumS").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumT": NumT = SiteSettings.GetColumn("NumT").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumU": NumU = SiteSettings.GetColumn("NumU").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumV": NumV = SiteSettings.GetColumn("NumV").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumW": NumW = SiteSettings.GetColumn("NumW").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumX": NumX = SiteSettings.GetColumn("NumX").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumY": NumY = SiteSettings.GetColumn("NumY").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumZ": NumZ = SiteSettings.GetColumn("NumZ").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumA": NumA = ss.GetColumn("NumA").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumB": NumB = ss.GetColumn("NumB").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumC": NumC = ss.GetColumn("NumC").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumD": NumD = ss.GetColumn("NumD").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumE": NumE = ss.GetColumn("NumE").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumF": NumF = ss.GetColumn("NumF").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumG": NumG = ss.GetColumn("NumG").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumH": NumH = ss.GetColumn("NumH").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumI": NumI = ss.GetColumn("NumI").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumJ": NumJ = ss.GetColumn("NumJ").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumK": NumK = ss.GetColumn("NumK").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumL": NumL = ss.GetColumn("NumL").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumM": NumM = ss.GetColumn("NumM").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumN": NumN = ss.GetColumn("NumN").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumO": NumO = ss.GetColumn("NumO").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumP": NumP = ss.GetColumn("NumP").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumQ": NumQ = ss.GetColumn("NumQ").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumR": NumR = ss.GetColumn("NumR").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumS": NumS = ss.GetColumn("NumS").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumT": NumT = ss.GetColumn("NumT").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumU": NumU = ss.GetColumn("NumU").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumV": NumV = ss.GetColumn("NumV").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumW": NumW = ss.GetColumn("NumW").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumX": NumX = ss.GetColumn("NumX").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumY": NumY = ss.GetColumn("NumY").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumZ": NumZ = ss.GetColumn("NumZ").Round(Forms.Decimal(controlId)); break;
                     case "Issues_DateA": DateA = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
                     case "Issues_DateB": DateB = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
                     case "Issues_DateC": DateC = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
@@ -1221,34 +1219,34 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
-            SetByFormula();
+            SetByFormula(ss);
         }
 
-        private void SynchronizeSummary()
+        private void SynchronizeSummary(SiteSettings ss)
         {
-            SiteSettings.Summaries.ForEach(summary =>
+            ss.Summaries.ForEach(summary =>
             {
                 var id = SynchronizeSummaryDestinationId(summary.LinkColumn);
                 var savedId = SynchronizeSummaryDestinationId(summary.LinkColumn, saved: true);
                 if (id != 0)
                 {
-                    SynchronizeSummary(summary, id);
+                    SynchronizeSummary(ss, summary, id);
                 }
                 if (savedId != 0 && id != savedId)
                 {
-                    SynchronizeSummary(summary, savedId);
+                    SynchronizeSummary(ss, summary, savedId);
                 }
             });
-            SynchronizeSourceSummary();
+            SynchronizeSourceSummary(ss);
         }
 
-        private void SynchronizeSummary(Summary summary, long id)
+        private void SynchronizeSummary(SiteSettings ss, Summary summary, long id)
         {
-            var destinationSs = SiteSettings.Destinations?.Get(summary.SiteId);
+            var destinationSs = ss.Destinations?.Get(summary.SiteId);
             if (destinationSs != null)
             {
                 Summaries.Synchronize(
-                    SiteSettings,
+                    ss,
                     summary.SiteId,
                     summary.DestinationReferenceType,
                     summary.DestinationColumn,
@@ -1259,16 +1257,16 @@ namespace Implem.Pleasanter.Models
                     summary.LinkColumn,
                     summary.Type,
                     summary.SourceColumn,
-                    SiteSettings.Views?.Get(summary.SourceCondition),
+                    ss.Views?.Get(summary.SourceCondition),
                     id);
                 FormulaUtilities.Update(id);
             }
         }
 
-        private void SynchronizeSourceSummary()
+        private void SynchronizeSourceSummary(SiteSettings ss)
         {
             var executed = false;
-            SiteSettings.Sources.ForEach(sourceSs =>
+            ss.Sources.ForEach(sourceSs =>
                 sourceSs.Summaries
                     .Where(o => sourceSs.Views?.Get(o.DestinationCondition) != null)
                     .ForEach(summary =>
@@ -1278,7 +1276,7 @@ namespace Implem.Pleasanter.Models
                             summary.SiteId,
                             summary.DestinationReferenceType,
                             summary.DestinationColumn,
-                            SiteSettings.Views?.Get(summary.DestinationCondition),
+                            ss.Views?.Get(summary.DestinationCondition),
                             summary.SetZeroWhenOutOfCondition == true,
                             sourceSs.SiteId,
                             "Issues",
@@ -1326,11 +1324,11 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void UpdateFormulaColumns(IEnumerable<int> selected = null)
+        public void UpdateFormulaColumns(SiteSettings ss, IEnumerable<int> selected = null)
         {
-            SetByFormula();
+            SetByFormula(ss);
             var param = Rds.IssuesParam();
-            SiteSettings.Formulas?
+            ss.Formulas?
                 .Where(o => selected == null || selected.Contains(o.Id))
                 .ForEach(formulaSet =>
                 {
@@ -1374,14 +1372,14 @@ namespace Implem.Pleasanter.Models
                     addUpdatorParam: false));
         }
 
-        private void SetByFormula()
+        private void SetByFormula(SiteSettings ss)
         {
-            SiteSettings.Formulas?.ForEach(formulaSet =>
+            ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
                 var formula = formulaSet.Formula;
-                var view = SiteSettings.Views?.Get(formulaSet.Condition);
-                if (view != null && !Matched(view))
+                var view = ss.Views?.Get(formulaSet.Condition);
+                if (view != null && !Matched(ss, view))
                 {
                     if (formulaSet.OutOfCondition != null)
                     {
@@ -1427,118 +1425,118 @@ namespace Implem.Pleasanter.Models
                 {
                     case "WorkValue":
                         WorkValue.Value = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumA":
                         NumA = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumB":
                         NumB = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumC":
                         NumC = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumD":
                         NumD = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumE":
                         NumE = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumF":
                         NumF = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumG":
                         NumG = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumH":
                         NumH = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumI":
                         NumI = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumJ":
                         NumJ = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumK":
                         NumK = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumL":
                         NumL = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumM":
                         NumM = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumN":
                         NumN = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumO":
                         NumO = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumP":
                         NumP = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumQ":
                         NumQ = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumR":
                         NumR = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumS":
                         NumS = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumT":
                         NumT = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumU":
                         NumU = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumV":
                         NumV = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumW":
                         NumW = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumX":
                         NumX = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumY":
                         NumY = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumZ":
                         NumZ = formula?.GetResult(
-                            data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     default: break;
                 }
             });
         }
 
-        private bool Matched(View view)
+        private bool Matched(SiteSettings ss, View view)
         {
             if (view.Incomplete == true && !Status.Incomplete())
             {
@@ -1549,7 +1547,7 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
-            if (view.NearCompletionTime == true && !CompletionTime.Near(SiteSettings))
+            if (view.NearCompletionTime == true && !CompletionTime.Near(ss))
             {
                 return false;
             }
@@ -1566,7 +1564,7 @@ namespace Implem.Pleasanter.Models
                 foreach (var filter in view.ColumnFilterHash)
                 {
                     var match = true;
-                    var column = SiteSettings.GetColumn(filter.Key);
+                    var column = ss.GetColumn(filter.Key);
                     switch (filter.Key)
                     {
                         case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
@@ -1689,33 +1687,33 @@ namespace Implem.Pleasanter.Models
             return true;
         }
 
-        private void CheckNotificationConditions(bool before = false)
+        private void CheckNotificationConditions(SiteSettings ss, bool before = false)
         {
-            if (SiteSettings.Notifications.Any())
+            if (ss.Notifications.Any())
             {
-                SiteSettings.EnableNotifications(
+                ss.EnableNotifications(
                     before: before,
                     dataSet: Rds.ExecuteDataSet(statements:
-                        SiteSettings.Notifications.Select((o, i) =>
+                        ss.Notifications.Select((o, i) =>
                             Rds.SelectIssues(
                                 column: Rds.IssuesColumn().IssueId(),
-                                where: SiteSettings.Views?.Get(before
+                                where: ss.Views?.Get(before
                                     ? o.BeforeCondition
                                     : o.AfterCondition)?
                                         .Where(
-                                            SiteSettings,
+                                            ss,
                                             Rds.IssuesWhere().IssueId(IssueId)) ??
                                                 Rds.IssuesWhere().IssueId(IssueId)))
                                                     .ToArray()));
             }
         }
 
-        private void Notice(string type)
+        private void Notice(SiteSettings ss, string type)
         {
-            var title = IssueUtilities.TitleDisplayValue(SiteSettings, this);
+            var title = IssueUtilities.TitleDisplayValue(ss, this);
             var url = Url.AbsoluteUri().Replace(
                 Url.AbsolutePath(), Locations.ItemEdit(IssueId));
-            SiteSettings.Notifications.Where(o => o.Enabled).ForEach(notification =>
+            ss.Notifications.Where(o => o.Enabled).ForEach(notification =>
             {
                 switch (type)
                 {
@@ -1723,10 +1721,10 @@ namespace Implem.Pleasanter.Models
                         notification.Send(
                             Displays.Created(title).ToString(),
                             url,
-                            NoticeBody(notification));
+                            NoticeBody(ss, notification));
                         break;
                     case "Updated":
-                        var body = NoticeBody(notification, update: true);
+                        var body = NoticeBody(ss, notification, update: true);
                         if (body.Length > 0)
                         {
                             notification.Send(
@@ -1739,16 +1737,16 @@ namespace Implem.Pleasanter.Models
                         notification.Send(
                             Displays.Deleted(title).ToString(),
                             url,
-                            NoticeBody(notification));
+                            NoticeBody(ss, notification));
                         break;
                 }
             });
         }
 
-        private string NoticeBody(Notification notification, bool update = false)
+        private string NoticeBody(SiteSettings ss, Notification notification, bool update = false)
         {
             var body = new System.Text.StringBuilder();
-            notification.MonitorChangesColumnCollection(SiteSettings).ForEach(column =>
+            notification.MonitorChangesColumnCollection(ss).ForEach(column =>
             {
                 switch (column.ColumnName)
                 {
@@ -1904,17 +1902,17 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private void Set(DataTable dataTable)
+        private void Set(SiteSettings ss, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(dataTable.Rows[0]); break;
+                case 1: Set(ss, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(DataRow dataRow)
+        private void Set(SiteSettings ss, DataRow dataRow)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -2073,9 +2071,9 @@ namespace Implem.Pleasanter.Models
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }
-            if (SiteSettings != null)
+            if (ss != null)
             {
-                Title.DisplayValue = IssueUtilities.TitleDisplayValue(SiteSettings, this);
+                Title.DisplayValue = IssueUtilities.TitleDisplayValue(ss, this);
             }
         }
     }

@@ -31,13 +31,11 @@ namespace Implem.Pleasanter.Models
             var mailAddress = Forms.Data("Users_DemoMailAddress");
             var tenantModel = new TenantModel()
             {
-                SiteSettings = SiteSettingsUtilities.TenantsSiteSettings(),
                 TenantName = mailAddress
             };
             tenantModel.Create();
             var demoModel = new DemoModel()
             {
-                SiteSettings = SiteSettingsUtilities.DemosSiteSettings(),
                 TenantId = tenantModel.TenantId,
                 Passphrase = passphrase,
                 MailAddress = mailAddress
@@ -45,7 +43,6 @@ namespace Implem.Pleasanter.Models
             demoModel.Create();
             demoModel.Initialize(new OutgoingMailModel()
             {
-                SiteSettings = SiteSettingsUtilities.OutgoingMailsSiteSettings(),
                 Title = new Title(Displays.DemoMailTitle()),
                 Body = Displays.DemoMailBody(Url.Server(), passphrase),
                 From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
@@ -62,11 +59,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static bool Login()
         {
-            var demoModel = new DemoModel().Get(where: Rds.DemosWhere()
-                .Passphrase(QueryStrings.Data("passphrase"))
-                .CreatedTime(
-                    DateTime.Now.AddDays(Parameters.Service.DemoUsagePeriod * -1),
-                    _operator: ">="));
+            var demoModel = new DemoModel().Get(
+                where: Rds.DemosWhere()
+                    .Passphrase(QueryStrings.Data("passphrase"))
+                    .CreatedTime(
+                        DateTime.Now.AddDays(Parameters.Service.DemoUsagePeriod * -1),
+                        _operator: ">="));
             if (demoModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 var loginId = LoginId(demoModel, "User1");
@@ -328,7 +326,7 @@ namespace Implem.Pleasanter.Models
                         for (var d = 0; d < days -1; d++)
                         {
                             issueModel.VerUp = true;
-                            issueModel.Update();
+                            issueModel.Update(ss);
                             var recordingTime = d > 0
                                 ? startTime
                                     .AddDays(d)

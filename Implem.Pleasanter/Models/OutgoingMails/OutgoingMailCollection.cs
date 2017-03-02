@@ -57,14 +57,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public OutgoingMailCollection(
-            DataTable dataTable)
+        public OutgoingMailCollection(DataTable dataTable)
         {
             Set(dataTable);
         }
 
-        private OutgoingMailCollection Set(
-            DataTable dataTable)
+        private OutgoingMailCollection Set(DataTable dataTable)
         {
             if (dataTable.Rows.Count > 0)
             {
@@ -82,8 +80,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public OutgoingMailCollection(
-            string commandText,
-            SqlParamCollection param = null)
+            string commandText, SqlParamCollection param = null)
         {
             Set(Get(commandText, param));
         }

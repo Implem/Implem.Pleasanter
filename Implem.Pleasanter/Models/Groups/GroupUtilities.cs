@@ -344,14 +344,14 @@ namespace Implem.Pleasanter.Models
                     .Text(text: gridDesign)));
         }
 
-        public static string EditorNew()
+        public static string EditorNew(SiteSettings ss)
         {
-            return Editor(new GroupModel(
+            return Editor(ss, new GroupModel(
                 SiteSettingsUtilities.GroupsSiteSettings(),
                 methodType: BaseModel.MethodTypes.New));
         }
 
-        public static string Editor(int groupId, bool clearSessions)
+        public static string Editor(SiteSettings ss, int groupId, bool clearSessions)
         {
             var groupModel = new GroupModel(
                 SiteSettingsUtilities.GroupsSiteSettings(),
@@ -360,14 +360,14 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Edit);
             groupModel.SwitchTargets = GetSwitchTargets(
                 SiteSettingsUtilities.GroupsSiteSettings(), groupModel.GroupId);
-            return Editor(groupModel);
+            return Editor(ss, groupModel);
         }
 
-        public static string Editor(GroupModel groupModel)
+        public static string Editor(SiteSettings ss, GroupModel groupModel)
         {
             var hb = new HtmlBuilder();
             return hb.Template(
-                ss: groupModel.SiteSettings,
+                ss: ss,
                 verType: groupModel.VerType,
                 methodType: groupModel.MethodType,
                 allowAccess:
@@ -381,7 +381,7 @@ namespace Implem.Pleasanter.Models
                 {
                     hb
                         .Editor(
-                            ss: groupModel.SiteSettings,
+                            ss: ss,
                             groupModel: groupModel)
                         .Hidden(controlId: "TableName", value: "Groups")
                         .Hidden(controlId: "Id", value: groupModel.GroupId.ToString());
@@ -404,7 +404,7 @@ namespace Implem.Pleasanter.Models
                             : Locations.Action("Groups")),
                     action: () => hb
                         .RecordHeader(
-                            ss: groupModel.SiteSettings,
+                            ss: ss,
                             baseModel: groupModel,
                             tableName: "Groups")
                         .Div(id: "EditorComments", action: () => hb
@@ -541,17 +541,20 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(SiteSettings ss, int groupId)
         {
-            return EditorResponse(new GroupModel(ss, groupId))
+            return EditorResponse(ss, new GroupModel(ss, groupId))
                 .ToJson();
         }
 
         private static ResponseCollection EditorResponse(
-            GroupModel groupModel, Message message = null, string switchTargets = null)
+            SiteSettings ss, 
+            GroupModel groupModel,
+            Message message = null,
+            string switchTargets = null)
         {
             groupModel.MethodType = BaseModel.MethodTypes.Edit;
             return new GroupsResponseCollection(groupModel)
                 .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(groupModel))
+                .ReplaceAll("#MainContainer", Editor(ss, groupModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                 .Invoke("setCurrentIndex")
                 .Message(message)
@@ -588,7 +591,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = groupModel.Create();
+            var error = groupModel.Create(ss);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -596,6 +599,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 return EditorResponse(
+                    ss,
                     groupModel,
                     Messages.Created(groupModel.Title.Value),
                     GetSwitchTargets(ss, groupModel.GroupId).Join()).ToJson();
@@ -615,7 +619,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts().ToJson();
             }
-            var error = groupModel.Update();
+            var error = groupModel.Update(ss);
             if (error.Has())
             {
                 return error == Error.Types.UpdateConflicts
@@ -625,14 +629,16 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var res = new GroupsResponseCollection(groupModel);
-                return ResponseByUpdate(res, groupModel)
+                return ResponseByUpdate(res, ss, groupModel)
                     .PrependComment(groupModel.Comments, groupModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            GroupsResponseCollection res, GroupModel groupModel)
+            GroupsResponseCollection res,
+            SiteSettings ss, 
+            GroupModel groupModel)
         {
             return res
                 .Ver()
@@ -656,7 +662,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = groupModel.Delete();
+            var error = groupModel.Delete(ss);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -670,7 +676,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(int groupId)
+        public static string Restore(SiteSettings ss, int groupId)
         {
             var groupModel = new GroupModel();
             var invalid = GroupValidators.OnRestoring();
@@ -679,7 +685,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = groupModel.Restore(groupId);
+            var error = groupModel.Restore(ss, groupId);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -733,6 +739,7 @@ namespace Implem.Pleasanter.Models
         {
             var groupModel = new GroupModel(ss, groupId);
             groupModel.Get(
+                ss, 
                 where: Rds.GroupsWhere()
                     .GroupId(groupModel.GroupId)
                     .Ver(Forms.Int("Ver")),
@@ -740,7 +747,7 @@ namespace Implem.Pleasanter.Models
             groupModel.VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            return EditorResponse(groupModel).ToJson();
+            return EditorResponse(ss, groupModel).ToJson();
         }
 
         /// <summary>

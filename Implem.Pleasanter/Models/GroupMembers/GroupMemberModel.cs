@@ -35,12 +35,9 @@ namespace Implem.Pleasanter.Models
         public bool UserId_Updated { get { return UserId != SavedUserId; } }
         public bool Admin_Updated { get { return Admin != SavedAdmin; } }
 
-        public GroupMemberModel(
-            SiteSettings ss,
-            DataRow dataRow)
+        public GroupMemberModel(DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = ss;
             Set(dataRow);
             OnConstructed();
         }

@@ -130,12 +130,9 @@ namespace Implem.Pleasanter.Models
         public bool InDebug_Updated { get { return InDebug != SavedInDebug; } }
         public bool AssemblyVersion_Updated { get { return AssemblyVersion != SavedAssemblyVersion && AssemblyVersion != null; } }
 
-        public SysLogModel(
-            SiteSettings ss,
-            DataRow dataRow)
+        public SysLogModel(DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = ss;
             Set(dataRow);
             OnConstructed();
         }

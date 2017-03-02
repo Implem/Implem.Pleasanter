@@ -37,12 +37,9 @@ namespace Implem.Pleasanter.Models
         public bool SiteId_Updated { get { return SiteId != SavedSiteId; } }
         public bool Title_Updated { get { return Title != SavedTitle && Title != null; } }
 
-        public ItemModel(
-            SiteSettings ss,
-            DataRow dataRow)
+        public ItemModel(DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = ss;
             Set(dataRow);
             OnConstructed();
         }
@@ -302,9 +299,7 @@ namespace Implem.Pleasanter.Models
         public string SearchDropDown()
         {
             SetSite();
-            var ss = Site.SiteSettings;
-            ss.InheritPermission = ss.SiteId;
-            ss.Init();
+            var ss = SiteSettingsUtilities.Get(Site);
             var controlId = Forms.Data("DropDownSearchTarget");
             var column = ss.Columns.FirstOrDefault(o =>
                 controlId.EndsWith(ss.ReferenceType + "_" + o.ColumnName));
@@ -324,9 +319,7 @@ namespace Implem.Pleasanter.Models
         public string SelectSearchDropDown()
         {
             SetSite();
-            var ss = Site.SiteSettings;
-            ss.InheritPermission = ss.SiteId;
-            ss.Init();
+            var ss = SiteSettingsUtilities.Get(Site);
             var controlId = Forms.Data("DropDownSearchTarget");
             var column = ss.Columns.FirstOrDefault(o =>
                 controlId.EndsWith(ss.ReferenceType + "_" + o.ColumnName));
@@ -427,8 +420,6 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return SiteUtilities
-                    .Update(Site.SitesSiteSettings(), ReferenceId);
                 case "Issues": return IssueUtilities
                     .Update(Site.IssuesSiteSettings(), ReferenceId);
                 case "Results": return ResultUtilities
@@ -559,9 +550,15 @@ namespace Implem.Pleasanter.Models
             switch (ReferenceType)
             {
                 case "Sites": return SiteUtilities.Restore(siteId: ReferenceId);
-                case "Issues": return IssueUtilities.Restore(issueId: ReferenceId);
-                case "Results": return ResultUtilities.Restore(resultId: ReferenceId);
-                case "Wikis": return WikiUtilities.Restore(wikiId: ReferenceId);
+                case "Issues": return IssueUtilities.Restore(
+                    ss: SiteSettingsUtilities.IssuesSiteSettings(Site),
+                    issueId: ReferenceId);
+                case "Results": return ResultUtilities.Restore(
+                    ss: SiteSettingsUtilities.ResultsSiteSettings(Site),
+                    resultId: ReferenceId);
+                case "Wikis": return WikiUtilities.Restore(
+                    ss: SiteSettingsUtilities.WikisSiteSettings(Site),
+                    wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

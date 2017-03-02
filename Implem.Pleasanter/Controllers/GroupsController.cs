@@ -38,7 +38,8 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult New(long id = 0)
         {
             var log = new SysLogModel();
-            var html = GroupUtilities.EditorNew();
+            var html = GroupUtilities.EditorNew(
+                SiteSettingsUtilities.GroupsSiteSettings());
             ViewBag.HtmlBody = html;
             log.Finish(html.Length);
             return View();
@@ -50,7 +51,10 @@ namespace Implem.Pleasanter.Controllers
             if (!Request.IsAjaxRequest())
             {
                 var log = new SysLogModel();
-                var html = GroupUtilities.Editor(id, clearSessions: true);
+                var html = GroupUtilities.Editor(
+                    SiteSettingsUtilities.GroupsSiteSettings(),
+                    id,
+                    clearSessions: true);
                 ViewBag.HtmlBody = html;
                 log.Finish(html.Length);
                 return View();

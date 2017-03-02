@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,8 +48,10 @@ namespace Implem.Pleasanter.Libraries.Models
                     .IssueId(id, _using: id != 0))
                         .ForEach(issueModel =>
                         {
-                            if (hasFormula) issueModel.UpdateFormulaColumns(selected);
+                            var ss = SiteSettingsUtilities.Get(siteModel);
+                            if (hasFormula) issueModel.UpdateFormulaColumns(ss, selected);
                             issueModel.UpdateRelatedRecords(
+                                ss: ss,
                                 addUpdatedTimeParam: false,
                                 addUpdatorParam: false,
                                 updateItems: false);
@@ -68,8 +71,10 @@ namespace Implem.Pleasanter.Libraries.Models
                     .ResultId(id, _using: id != 0))
                         .ForEach(resultModel =>
                         {
-                            if (hasFormula) resultModel.UpdateFormulaColumns(selected);
+                            var ss = SiteSettingsUtilities.Get(siteModel);
+                            if (hasFormula) resultModel.UpdateFormulaColumns(ss, selected);
                             resultModel.UpdateRelatedRecords(
+                                ss: ss,
                                 addUpdatedTimeParam: false,
                                 addUpdatorParam: false,
                                 updateItems: false);
@@ -89,8 +94,10 @@ namespace Implem.Pleasanter.Libraries.Models
                     .WikiId(id, _using: id != 0))
                         .ForEach(wikiModel =>
                         {
-                            if (hasFormula) wikiModel.UpdateFormulaColumns(selected);
+                            var ss = SiteSettingsUtilities.Get(siteModel);
+                            if (hasFormula) wikiModel.UpdateFormulaColumns(ss, selected);
                             wikiModel.UpdateRelatedRecords(
+                                ss: ss,
                                 addUpdatedTimeParam: false,
                                 addUpdatorParam: false,
                                 updateItems: false);

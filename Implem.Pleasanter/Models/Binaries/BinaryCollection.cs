@@ -25,7 +25,6 @@ namespace Implem.Pleasanter.Models
         public Aggregations Aggregations = new Aggregations();
 
         public BinaryCollection(
-            SiteSettings ss,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -42,7 +41,7 @@ namespace Implem.Pleasanter.Models
         {
             if (get)
             {
-                Set(ss, Get(
+                Set(Get(
                     column: column,
                     join: join,
                     where: where,
@@ -58,22 +57,18 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public BinaryCollection(
-            SiteSettings ss,
-            DataTable dataTable)
+        public BinaryCollection(DataTable dataTable)
         {
-            Set(ss, dataTable);
+            Set(dataTable);
         }
 
-        private BinaryCollection Set(
-            SiteSettings ss,
-            DataTable dataTable)
+        private BinaryCollection Set(DataTable dataTable)
         {
             if (dataTable.Rows.Count > 0)
             {
                 foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    Add(new BinaryModel(ss, dataRow));
+                    Add(new BinaryModel(dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }
@@ -85,11 +80,9 @@ namespace Implem.Pleasanter.Models
         }
 
         public BinaryCollection(
-            SiteSettings ss,
-            string commandText,
-            SqlParamCollection param = null)
+            string commandText, SqlParamCollection param = null)
         {
-            Set(ss, Get(commandText, param));
+            Set(Get(commandText, param));
         }
 
         private DataTable Get(

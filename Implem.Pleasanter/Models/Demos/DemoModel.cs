@@ -51,26 +51,22 @@ namespace Implem.Pleasanter.Models
         }
 
         public DemoModel(
-            SiteSettings ss,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteSettings = ss;
             if (setByForm) SetByForm();
             MethodType = methodType;
             OnConstructed();
         }
 
         public DemoModel(
-            SiteSettings ss,
             int demoId,
             bool clearSessions = false,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteSettings = ss;
             DemoId = demoId;
             Get();
             if (clearSessions) ClearSessions();
@@ -79,12 +75,9 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public DemoModel(
-            SiteSettings ss,
-            DataRow dataRow)
+        public DemoModel(DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = ss;
             Set(dataRow);
             OnConstructed();
         }
@@ -208,7 +201,8 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public Error.Types PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+        public Error.Types PhysicalDelete(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
                 transactional: true,

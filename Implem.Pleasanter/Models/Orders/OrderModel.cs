@@ -35,12 +35,9 @@ namespace Implem.Pleasanter.Models
         public bool OwnerId_Updated { get { return OwnerId != SavedOwnerId; } }
         public bool Data_Updated { get { return Data.ToJson() != SavedData && Data.ToJson() != null; } }
 
-        public OrderModel(
-            SiteSettings ss,
-            DataRow dataRow)
+        public OrderModel(DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = ss;
             Set(dataRow);
             OnConstructed();
         }

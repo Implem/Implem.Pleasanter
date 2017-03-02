@@ -95,8 +95,7 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public OutgoingMailModel(
-            DataRow dataRow)
+        public OutgoingMailModel(DataRow dataRow)
         {
             OnConstructing();
             Set(dataRow);
@@ -174,7 +173,8 @@ namespace Implem.Pleasanter.Models
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
             Get();
-            Libraries.Search.Indexes.Create(SiteSettings, ReferenceId);
+            Libraries.Search.Indexes.Create(
+                SiteSettingsUtilities.OutgoingMailsSiteSettings(), ReferenceId);
             return Error.Types.None;
         }
 
@@ -223,7 +223,8 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public Error.Types PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+        public Error.Types PhysicalDelete(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
                 transactional: true,
@@ -318,7 +319,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public OutgoingMailModel(string reference, long referenceId)
         {
-            SiteSettings = SiteSettingsUtilities.OutgoingMailsSiteSettings();
             if (reference.ToLower() == "items")
             {
                 var itemModel = new ItemModel(referenceId);

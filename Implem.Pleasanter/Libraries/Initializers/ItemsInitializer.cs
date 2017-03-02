@@ -77,10 +77,12 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .IssueId()
                         .Ver())).AsEnumerable().ForEach(dataRow =>
                     {
+                        var siteId = dataRow["SiteId"].ToLong();
                         var ss = new SiteModel().Get(where:
-                            Rds.SitesWhere().SiteId(dataRow["SiteId"].ToLong()))?
+                            Rds.SitesWhere().SiteId(siteId))?
                                 .IssuesSiteSettings();
                         var issueModel = new IssueModel(ss).Get(
+                            ss: ss,
                             tableType: Sqls.TableTypes.Normal,
                             where: Rds.IssuesWhere()
                                 .SiteId(dataRow["SiteId"].ToLong())
@@ -112,10 +114,12 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .IssueId()
                         .Ver())).AsEnumerable().ForEach(dataRow =>
                     {
+                        var siteId = dataRow["SiteId"].ToLong();
                         var ss = new SiteModel().Get(where:
-                            Rds.SitesWhere().SiteId(dataRow["SiteId"].ToLong()))?
+                            Rds.SitesWhere().SiteId(siteId))?
                                 .IssuesSiteSettings();
                         var issueModel = new IssueModel(ss).Get(
+                            ss: ss,
                             tableType: Sqls.TableTypes.Deleted,
                             where: Rds.IssuesWhere()
                                 .SiteId(dataRow["SiteId"].ToLong())
@@ -146,10 +150,12 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .ResultId()
                         .Ver())).AsEnumerable().ForEach(dataRow =>
                     {
+                        var siteId = dataRow["SiteId"].ToLong();
                         var ss = new SiteModel().Get(where:
-                            Rds.SitesWhere().SiteId(dataRow["SiteId"].ToLong()))?
+                            Rds.SitesWhere().SiteId(siteId))?
                                 .ResultsSiteSettings();
                         var resultModel = new ResultModel(ss).Get(
+                            ss: ss,
                             tableType: Sqls.TableTypes.Normal,
                             where: Rds.ResultsWhere()
                                 .SiteId(dataRow["SiteId"].ToLong())
@@ -181,10 +187,12 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .ResultId()
                         .Ver())).AsEnumerable().ForEach(dataRow =>
                     {
+                        var siteId = dataRow["SiteId"].ToLong();
                         var ss = new SiteModel().Get(where:
-                            Rds.SitesWhere().SiteId(dataRow["SiteId"].ToLong()))?
+                            Rds.SitesWhere().SiteId(siteId))?
                                 .ResultsSiteSettings();
                         var resultModel = new ResultModel(ss).Get(
+                            ss: ss,
                             tableType: Sqls.TableTypes.Deleted,
                             where: Rds.ResultsWhere()
                                 .SiteId(dataRow["SiteId"].ToLong())
@@ -215,10 +223,12 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .WikiId()
                         .Ver())).AsEnumerable().ForEach(dataRow =>
                     {
+                        var siteId = dataRow["SiteId"].ToLong();
                         var ss = new SiteModel().Get(where:
-                            Rds.SitesWhere().SiteId(dataRow["SiteId"].ToLong()))?
+                            Rds.SitesWhere().SiteId(siteId))?
                                 .WikisSiteSettings();
                         var wikiModel = new WikiModel(ss).Get(
+                            ss: ss,
                             tableType: Sqls.TableTypes.Normal,
                             where: Rds.WikisWhere()
                                 .SiteId(dataRow["SiteId"].ToLong())
@@ -250,10 +260,12 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .WikiId()
                         .Ver())).AsEnumerable().ForEach(dataRow =>
                     {
+                        var siteId = dataRow["SiteId"].ToLong();
                         var ss = new SiteModel().Get(where:
-                            Rds.SitesWhere().SiteId(dataRow["SiteId"].ToLong()))?
+                            Rds.SitesWhere().SiteId(siteId))?
                                 .WikisSiteSettings();
                         var wikiModel = new WikiModel(ss).Get(
+                            ss: ss,
                             tableType: Sqls.TableTypes.Deleted,
                             where: Rds.WikisWhere()
                                 .SiteId(dataRow["SiteId"].ToLong())

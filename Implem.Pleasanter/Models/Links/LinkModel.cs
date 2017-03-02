@@ -39,8 +39,7 @@ namespace Implem.Pleasanter.Models
         public bool DestinationId_Updated { get { return DestinationId != SavedDestinationId; } }
         public bool SourceId_Updated { get { return SourceId != SavedSourceId; } }
 
-        public LinkModel(
-            DataRow dataRow)
+        public LinkModel(DataRow dataRow)
         {
             OnConstructing();
             Set(dataRow);

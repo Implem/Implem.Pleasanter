@@ -57,14 +57,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public PermissionCollection(
-            DataTable dataTable)
+        public PermissionCollection(DataTable dataTable)
         {
             Set(dataTable);
         }
 
-        private PermissionCollection Set(
-            DataTable dataTable)
+        private PermissionCollection Set(DataTable dataTable)
         {
             if (dataTable.Rows.Count > 0)
             {
@@ -82,8 +80,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public PermissionCollection(
-            string commandText,
-            SqlParamCollection param = null)
+            string commandText, SqlParamCollection param = null)
         {
             Set(Get(commandText, param));
         }

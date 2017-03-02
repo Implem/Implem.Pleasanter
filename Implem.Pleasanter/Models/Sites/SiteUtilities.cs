@@ -79,11 +79,14 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(long siteId)
         {
-            return EditorResponse(new SiteModel(siteId)).ToJson();
+            return EditorResponse(new SiteModel(siteId))
+                .ToJson();
         }
 
         private static ResponseCollection EditorResponse(
-            SiteModel siteModel, Message message = null, string switchTargets = null)
+            SiteModel siteModel,
+            Message message = null,
+            string switchTargets = null)
         {
             siteModel.MethodType = BaseModel.MethodTypes.Edit;
             return new SitesResponseCollection(siteModel)
@@ -138,11 +141,13 @@ namespace Implem.Pleasanter.Models
                 {
                     case "Wikis":
                         var wikiModel = new WikiModel(siteModel.WikisSiteSettings())
-                            .Get(where: Rds.WikisWhere().SiteId(siteModel.SiteId));
+                            .Get(
+                                ss: ss,
+                                where: Rds.WikisWhere().SiteId(siteModel.SiteId));
                         return new ResponseCollection()
                             .ReplaceAll(
                                 "#MainContainer",
-                                WikiUtilities.Editor(wikiModel))
+                                WikiUtilities.Editor(ss, wikiModel))
                             .Val("#BackUrl", Locations.ItemIndex(siteModel.ParentId))
                             .Invoke("setSwitchTargets")
                             .ToJson();
@@ -179,8 +184,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var res = new SitesResponseCollection(siteModel);
-                res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
-                    .Breadcrumb(ss.SiteId));
+                res.ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(siteId));
                 return ResponseByUpdate(res, siteModel)
                     .PrependComment(siteModel.Comments, siteModel.VerType)
                     .ToJson();
@@ -188,7 +192,8 @@ namespace Implem.Pleasanter.Models
         }
 
         private static ResponseCollection ResponseByUpdate(
-            SitesResponseCollection res, SiteModel siteModel)
+            SitesResponseCollection res,
+            SiteModel siteModel)
         {
             return res
                 .Ver()

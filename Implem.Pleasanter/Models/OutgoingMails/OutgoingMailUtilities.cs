@@ -191,9 +191,9 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             OutgoingMailModel outgoingMailModel)
         {
-            outgoingMailModel.SiteSettings = SiteSettingsUtilities.OutgoingMailsSiteSettings();
-            var titleColumn = outgoingMailModel.SiteSettings.GetColumn("Title");
-            var bodyColumn = outgoingMailModel.SiteSettings.GetColumn("Body");
+            var outgoingMailSs = SiteSettingsUtilities.OutgoingMailsSiteSettings();
+            var titleColumn = outgoingMailSs.GetColumn("Title");
+            var bodyColumn = outgoingMailSs.GetColumn("Body");
             return hb
                 .FieldBasket(
                     controlId: "OutgoingMails_To",

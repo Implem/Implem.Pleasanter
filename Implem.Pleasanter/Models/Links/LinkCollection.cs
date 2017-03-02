@@ -57,14 +57,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public LinkCollection(
-            DataTable dataTable)
+        public LinkCollection(DataTable dataTable)
         {
             Set(dataTable);
         }
 
-        private LinkCollection Set(
-            DataTable dataTable)
+        private LinkCollection Set(DataTable dataTable)
         {
             if (dataTable.Rows.Count > 0)
             {
@@ -82,8 +80,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public LinkCollection(
-            string commandText,
-            SqlParamCollection param = null)
+            string commandText, SqlParamCollection param = null)
         {
             Set(Get(commandText, param));
         }

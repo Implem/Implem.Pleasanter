@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Models
     public class SiteModel : BaseItemModel
     {
         public long Id { get { return SiteId; } }
+        public SiteSettings SiteSettings;
         public override long UrlId { get { return SiteId; } }
         public int TenantId = Sessions.TenantId();
         public string ReferenceType = "Sites";
@@ -156,7 +157,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteSettings = this.SitesSiteSettings();
             ParentId = parentId;
             InheritPermission = inheritPermission;
             if (setByForm) SetByForm();
@@ -181,8 +181,7 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public SiteModel(
-            DataRow dataRow)
+        public SiteModel(DataRow dataRow)
         {
             OnConstructing();
             Set(dataRow);
@@ -379,7 +378,8 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public Error.Types PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+        public Error.Types PhysicalDelete(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
                 transactional: true,
@@ -421,14 +421,14 @@ namespace Implem.Pleasanter.Models
             SetSiteSettings();
         }
 
-        private bool Matched(View view)
+        private bool Matched(SiteSettings ss, View view)
         {
             if (view.ColumnFilterHash != null)
             {
                 foreach (var filter in view.ColumnFilterHash)
                 {
                     var match = true;
-                    var column = SiteSettings.GetColumn(filter.Key);
+                    var column = ss.GetColumn(filter.Key);
                     switch (filter.Key)
                     {
                         case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
@@ -541,7 +541,7 @@ namespace Implem.Pleasanter.Models
                         Body = Body,
                         Comments = Comments
                     };
-                    wikiModel.Create();
+                    wikiModel.Create(SiteSettings);
                     break;
                 default:
                     Libraries.Search.Indexes.Create(SiteSettings, SiteId);

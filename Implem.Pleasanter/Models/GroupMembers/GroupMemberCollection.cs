@@ -25,7 +25,6 @@ namespace Implem.Pleasanter.Models
         public Aggregations Aggregations = new Aggregations();
 
         public GroupMemberCollection(
-            SiteSettings ss,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -42,7 +41,7 @@ namespace Implem.Pleasanter.Models
         {
             if (get)
             {
-                Set(ss, Get(
+                Set(Get(
                     column: column,
                     join: join,
                     where: where,
@@ -58,22 +57,18 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public GroupMemberCollection(
-            SiteSettings ss,
-            DataTable dataTable)
+        public GroupMemberCollection(DataTable dataTable)
         {
-            Set(ss, dataTable);
+            Set(dataTable);
         }
 
-        private GroupMemberCollection Set(
-            SiteSettings ss,
-            DataTable dataTable)
+        private GroupMemberCollection Set(DataTable dataTable)
         {
             if (dataTable.Rows.Count > 0)
             {
                 foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    Add(new GroupMemberModel(ss, dataRow));
+                    Add(new GroupMemberModel(dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }
@@ -85,11 +80,9 @@ namespace Implem.Pleasanter.Models
         }
 
         public GroupMemberCollection(
-            SiteSettings ss,
-            string commandText,
-            SqlParamCollection param = null)
+            string commandText, SqlParamCollection param = null)
         {
-            Set(ss, Get(commandText, param));
+            Set(Get(commandText, param));
         }
 
         private DataTable Get(

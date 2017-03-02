@@ -25,7 +25,6 @@ namespace Implem.Pleasanter.Models
         public Aggregations Aggregations = new Aggregations();
 
         public ExportSettingCollection(
-            SiteSettings ss,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -42,7 +41,7 @@ namespace Implem.Pleasanter.Models
         {
             if (get)
             {
-                Set(ss, Get(
+                Set(Get(
                     column: column,
                     join: join,
                     where: where,
@@ -58,22 +57,18 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public ExportSettingCollection(
-            SiteSettings ss,
-            DataTable dataTable)
+        public ExportSettingCollection(DataTable dataTable)
         {
-            Set(ss, dataTable);
+            Set(dataTable);
         }
 
-        private ExportSettingCollection Set(
-            SiteSettings ss,
-            DataTable dataTable)
+        private ExportSettingCollection Set(DataTable dataTable)
         {
             if (dataTable.Rows.Count > 0)
             {
                 foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    Add(new ExportSettingModel(ss, dataRow));
+                    Add(new ExportSettingModel(dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }
@@ -85,11 +80,9 @@ namespace Implem.Pleasanter.Models
         }
 
         public ExportSettingCollection(
-            SiteSettings ss,
-            string commandText,
-            SqlParamCollection param = null)
+            string commandText, SqlParamCollection param = null)
         {
-            Set(ss, Get(commandText, param));
+            Set(Get(commandText, param));
         }
 
         private DataTable Get(

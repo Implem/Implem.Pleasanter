@@ -108,7 +108,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case Types.Mail:
                     new OutgoingMailModel()
                     {
-                        SiteSettings = SiteSettingsUtilities.OutgoingMailsSiteSettings(),
                         Title = new Title(Prefix + title),
                         Body = "{0}\n{1}".Params(url, body),
                         From = new System.Net.Mail.MailAddress(

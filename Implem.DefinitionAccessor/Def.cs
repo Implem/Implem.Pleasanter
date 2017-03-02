@@ -264,6 +264,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_InheritBaseItem": Code.Model_InheritBaseItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InheritBaseItem, definitionRow, CodeXls); break;
                     case "Model_IConvertable": Code.Model_IConvertable = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IConvertable, definitionRow, CodeXls); break;
                     case "Model_ItemProperties": Code.Model_ItemProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ItemProperties, definitionRow, CodeXls); break;
+                    case "Model_ItemProperties_Sites": Code.Model_ItemProperties_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ItemProperties_Sites, definitionRow, CodeXls); break;
                     case "Model_UrlId": Code.Model_UrlId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UrlId, definitionRow, CodeXls); break;
                     case "Model_SessionProperties": Code.Model_SessionProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SessionProperties, definitionRow, CodeXls); break;
                     case "Model_PropertyValue": Code.Model_PropertyValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue, definitionRow, CodeXls); break;
@@ -393,7 +394,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_EditorJsonCases": Code.Model_EditorJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorJsonCases, definitionRow, CodeXls); break;
                     case "Model_GetCases": Code.Model_GetCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetCases, definitionRow, CodeXls); break;
                     case "Model_UpdateByKambanCases": Code.Model_UpdateByKambanCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByKambanCases, definitionRow, CodeXls); break;
-                    case "Model_SiteSettingsParameter": Code.Model_SiteSettingsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParameter, definitionRow, CodeXls); break;
                     case "Model_ParentIdParameter": Code.Model_ParentIdParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ParentIdParameter, definitionRow, CodeXls); break;
                     case "Model_InheritPermissionParameter": Code.Model_InheritPermissionParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InheritPermissionParameter, definitionRow, CodeXls); break;
                     case "Model_SwitchTargetsParameter": Code.Model_SwitchTargetsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchTargetsParameter, definitionRow, CodeXls); break;
@@ -404,9 +404,13 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetInheritPermission": Code.Model_SetInheritPermission = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetInheritPermission, definitionRow, CodeXls); break;
                     case "Model_SetSwitchTargets": Code.Model_SetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_SiteSettings": Code.Model_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettings, definitionRow, CodeXls); break;
+                    case "Model_SiteSettingsOnly": Code.Model_SiteSettingsOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsOnly, definitionRow, CodeXls); break;
+                    case "Model_SiteSettings_Sites": Code.Model_SiteSettings_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettings_Sites, definitionRow, CodeXls); break;
+                    case "Model_SiteSettings_SitesOnly": Code.Model_SiteSettings_SitesOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettings_SitesOnly, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsWithParameterName": Code.Model_SiteSettingsWithParameterName = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWithParameterName, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsWithParameterNameLower": Code.Model_SiteSettingsWithParameterNameLower = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWithParameterNameLower, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsParam": Code.Model_SiteSettingsParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParam, definitionRow, CodeXls); break;
+                    case "Model_SiteSettingsParamOnly": Code.Model_SiteSettingsParamOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParamOnly, definitionRow, CodeXls); break;
                     case "Collection": Code.Collection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection, definitionRow, CodeXls); break;
                     case "Collection_SiteSettings": Code.Collection_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettings, definitionRow, CodeXls); break;
                     case "Collection_SiteSettingsArgument": Code.Collection_SiteSettingsArgument = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettingsArgument, definitionRow, CodeXls); break;
@@ -433,7 +437,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_FieldCases_Item": Code.Model_Utilities_FieldCases_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases_Item, definitionRow, CodeXls); break;
                     case "Model_Utilities_Links": Code.Model_Utilities_Links = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Links, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorJson": Code.Model_Utilities_EditorJson = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorJson, definitionRow, CodeXls); break;
-                    case "Model_Utilities_EditorJson_Sites": Code.Model_Utilities_EditorJson_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorJson_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorResponse": Code.Model_Utilities_EditorResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetSwitchTargets": Code.Model_Utilities_GetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Utilities_SqlWhereTenantId": Code.Model_Utilities_SqlWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SqlWhereTenantId, definitionRow, CodeXls); break;
@@ -3154,6 +3157,7 @@ namespace Implem.DefinitionAccessor
         public string Model_InheritBaseItem;
         public string Model_IConvertable;
         public string Model_ItemProperties;
+        public string Model_ItemProperties_Sites;
         public string Model_UrlId;
         public string Model_SessionProperties;
         public string Model_PropertyValue;
@@ -3283,7 +3287,6 @@ namespace Implem.DefinitionAccessor
         public string Model_EditorJsonCases;
         public string Model_GetCases;
         public string Model_UpdateByKambanCases;
-        public string Model_SiteSettingsParameter;
         public string Model_ParentIdParameter;
         public string Model_InheritPermissionParameter;
         public string Model_SwitchTargetsParameter;
@@ -3294,9 +3297,13 @@ namespace Implem.DefinitionAccessor
         public string Model_SetInheritPermission;
         public string Model_SetSwitchTargets;
         public string Model_SiteSettings;
+        public string Model_SiteSettingsOnly;
+        public string Model_SiteSettings_Sites;
+        public string Model_SiteSettings_SitesOnly;
         public string Model_SiteSettingsWithParameterName;
         public string Model_SiteSettingsWithParameterNameLower;
         public string Model_SiteSettingsParam;
+        public string Model_SiteSettingsParamOnly;
         public string Collection;
         public string Collection_SiteSettings;
         public string Collection_SiteSettingsArgument;
@@ -3323,7 +3330,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_FieldCases_Item;
         public string Model_Utilities_Links;
         public string Model_Utilities_EditorJson;
-        public string Model_Utilities_EditorJson_Sites;
         public string Model_Utilities_EditorResponse;
         public string Model_Utilities_GetSwitchTargets;
         public string Model_Utilities_SqlWhereTenantId;
@@ -3568,6 +3574,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InheritBaseItem = new CodeDefinition();
         public CodeDefinition Model_IConvertable = new CodeDefinition();
         public CodeDefinition Model_ItemProperties = new CodeDefinition();
+        public CodeDefinition Model_ItemProperties_Sites = new CodeDefinition();
         public CodeDefinition Model_UrlId = new CodeDefinition();
         public CodeDefinition Model_SessionProperties = new CodeDefinition();
         public CodeDefinition Model_PropertyValue = new CodeDefinition();
@@ -3697,7 +3704,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_EditorJsonCases = new CodeDefinition();
         public CodeDefinition Model_GetCases = new CodeDefinition();
         public CodeDefinition Model_UpdateByKambanCases = new CodeDefinition();
-        public CodeDefinition Model_SiteSettingsParameter = new CodeDefinition();
         public CodeDefinition Model_ParentIdParameter = new CodeDefinition();
         public CodeDefinition Model_InheritPermissionParameter = new CodeDefinition();
         public CodeDefinition Model_SwitchTargetsParameter = new CodeDefinition();
@@ -3708,9 +3714,13 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetInheritPermission = new CodeDefinition();
         public CodeDefinition Model_SetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_SiteSettings = new CodeDefinition();
+        public CodeDefinition Model_SiteSettingsOnly = new CodeDefinition();
+        public CodeDefinition Model_SiteSettings_Sites = new CodeDefinition();
+        public CodeDefinition Model_SiteSettings_SitesOnly = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsWithParameterName = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsWithParameterNameLower = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsParam = new CodeDefinition();
+        public CodeDefinition Model_SiteSettingsParamOnly = new CodeDefinition();
         public CodeDefinition Collection = new CodeDefinition();
         public CodeDefinition Collection_SiteSettings = new CodeDefinition();
         public CodeDefinition Collection_SiteSettingsArgument = new CodeDefinition();
@@ -3737,7 +3747,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_FieldCases_Item = new CodeDefinition();
         public CodeDefinition Model_Utilities_Links = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorJson = new CodeDefinition();
-        public CodeDefinition Model_Utilities_EditorJson_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Utilities_SqlWhereTenantId = new CodeDefinition();

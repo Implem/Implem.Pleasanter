@@ -44,14 +44,13 @@ namespace Implem.Pleasanter.Models
             {
                 exportSettingModel.Title = new Title(0, Unique.New(
                     new ExportSettingCollection(
-                        SiteSettingsUtilities.ExportSettingsSiteSettings(),
                         where: Rds.ExportSettingsWhere()
                             .ReferenceId(exportSettingModel.ReferenceId))
                                 .Select(o => o.Title?.Value),
                     Displays.Setting()));
             }
-            var error = exportSettingModel.UpdateOrCreate(where:
-                Rds.ExportSettingsWhere()
+            var error = exportSettingModel.UpdateOrCreate(
+                where: Rds.ExportSettingsWhere()
                     .ReferenceId(exportSettingModel.ReferenceId)
                     .Title(exportSettingModel.Title.Value));
             if (error.Has())
@@ -157,7 +156,6 @@ namespace Implem.Pleasanter.Models
         public static ExportSettingCollection Collection(string reference, long id)
         {
             return new ExportSettingCollection(
-                SiteSettingsUtilities.ExportSettingsSiteSettings(),
                 where: Rds.ExportSettingsWhere()
                     .ReferenceType(reference)
                     .ReferenceId(id),
@@ -224,7 +222,6 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Settings(this HtmlBuilder hb, string reference, long id)
         {
             var exportSettingCollection = new ExportSettingCollection(
-                SiteSettingsUtilities.ExportSettingsSiteSettings(),
                 where: Rds.ExportSettingsWhere()
                     .ReferenceType(reference)
                     .ReferenceId(id));
@@ -308,10 +305,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Change(string reference, long id)
         {
-            var exportSettingModel = new ExportSettingModel(
-                SiteSettingsUtilities.ExportSettingsSiteSettings())
-                    .Get(where: Rds.ExportSettingsWhere()
-                        .ExportSettingId(Forms.Long("ExportSettings_ExportSettingId")));
+            var exportSettingModel = new ExportSettingModel()
+                .Get(where: Rds.ExportSettingsWhere()
+                    .ExportSettingId(Forms.Long("ExportSettings_ExportSettingId")));
             var invalid = ExportSettingValidator.OnExporting(
                 SiteSettingsUtilities.GetByReference(reference, id));
             switch (invalid)

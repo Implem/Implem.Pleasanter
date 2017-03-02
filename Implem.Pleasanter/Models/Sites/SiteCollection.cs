@@ -57,14 +57,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public SiteCollection(
-            DataTable dataTable)
+        public SiteCollection(DataTable dataTable)
         {
             Set(dataTable);
         }
 
-        private SiteCollection Set(
-            DataTable dataTable)
+        private SiteCollection Set(DataTable dataTable)
         {
             if (dataTable.Rows.Count > 0)
             {
@@ -82,8 +80,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public SiteCollection(
-            string commandText,
-            SqlParamCollection param = null)
+            string commandText, SqlParamCollection param = null)
         {
             Set(Get(commandText, param));
         }

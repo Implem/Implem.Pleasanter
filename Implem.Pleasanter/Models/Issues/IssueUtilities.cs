@@ -590,7 +590,7 @@ namespace Implem.Pleasanter.Models
         {
             var ss = siteModel.IssuesSiteSettings();
             return ss.CanCreate()
-                ? Editor(new IssueModel(ss, methodType: BaseModel.MethodTypes.New))
+                ? Editor(ss, new IssueModel(ss, methodType: BaseModel.MethodTypes.New))
                 : new HtmlBuilder().NotFoundTemplate().ToString();
         }
 
@@ -603,36 +603,36 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Edit);
             issueModel.SwitchTargets = GetSwitchTargets(
                 ss, issueModel.IssueId, issueModel.SiteId);
-            return Editor(issueModel);
+            return Editor(ss, issueModel);
         }
 
-        public static string Editor(IssueModel issueModel)
+        public static string Editor(SiteSettings ss, IssueModel issueModel)
         {
             var hb = new HtmlBuilder();
             return hb.Template(
-                ss: issueModel.SiteSettings,
+                ss: ss,
                 verType: issueModel.VerType,
                 methodType: issueModel.MethodType,
                 allowAccess:
-                    issueModel.SiteSettings.CanRead() &&
+                    ss.CanRead() &&
                     issueModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 siteId: issueModel.SiteId,
                 referenceType: "Issues",
                 title: issueModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.New()
                     : issueModel.Title.DisplayValue,
-                useTitle: issueModel.SiteSettings.EditorColumns.Contains("Title"),
+                useTitle: ss.EditorColumns.Contains("Title"),
                 userScript: issueModel.MethodType == BaseModel.MethodTypes.New
-                    ? issueModel.SiteSettings.NewScript
-                    : issueModel.SiteSettings.EditScript,
+                    ? ss.NewScript
+                    : ss.EditScript,
                 userStyle: issueModel.MethodType == BaseModel.MethodTypes.New
-                    ? issueModel.SiteSettings.NewStyle
-                    : issueModel.SiteSettings.EditStyle,
+                    ? ss.NewStyle
+                    : ss.EditStyle,
                 action: () =>
                 {
                     hb
                         .Editor(
-                            ss: issueModel.SiteSettings,
+                            ss: ss,
                             issueModel: issueModel)
                         .Hidden(controlId: "TableName", value: "Issues")
                         .Hidden(controlId: "Id", value: issueModel.IssueId.ToString());
@@ -654,7 +654,7 @@ namespace Implem.Pleasanter.Models
                             : issueModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
-                            ss: issueModel.SiteSettings,
+                            ss: ss,
                             baseModel: issueModel,
                             tableName: "Issues")
                         .Div(id: "EditorComments", action: () => hb
@@ -673,7 +673,7 @@ namespace Implem.Pleasanter.Models
                                     .DataMethod("get"),
                                 _using: issueModel.MethodType != BaseModel.MethodTypes.New)
                             .MainCommands(
-                                ss: issueModel.SiteSettings,
+                                ss: ss,
                                 siteId: issueModel.SiteId,
                                 verType: issueModel.VerType,
                                 referenceType: "items",
@@ -1919,18 +1919,21 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(SiteSettings ss, long issueId)
         {
-            return EditorResponse(new IssueModel(ss, issueId))
+            return EditorResponse(ss, new IssueModel(ss, issueId))
                 .ToJson();
         }
 
         private static ResponseCollection EditorResponse(
-            IssueModel issueModel, Message message = null, string switchTargets = null)
+            SiteSettings ss, 
+            IssueModel issueModel,
+            Message message = null,
+            string switchTargets = null)
         {
             var siteModel = new SiteModel(issueModel.SiteId);
             issueModel.MethodType = BaseModel.MethodTypes.Edit;
             return new IssuesResponseCollection(issueModel)
                 .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(issueModel))
+                .ReplaceAll("#MainContainer", Editor(ss, issueModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                 .Invoke("setCurrentIndex")
                 .Message(message)
@@ -1959,10 +1962,12 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseCollection FieldResponse(
-            this ResponseCollection res, IssueModel issueModel)
+            this ResponseCollection res,
+            SiteSettings ss,
+            IssueModel issueModel)
         {
-            issueModel.SiteSettings.EditorColumns
-                .Select(o => issueModel.SiteSettings.GetColumn(o))
+            ss.EditorColumns
+                .Select(o => ss.GetColumn(o))
                 .Where(o => o != null)
                 .ForEach(column =>
                 {
@@ -1971,137 +1976,137 @@ namespace Implem.Pleasanter.Models
                         case "WorkValue":
                             res.Val(
                                 "#Issues_WorkValue",
-                                issueModel.WorkValue.ToControl(column, issueModel.SiteSettings));
+                                issueModel.WorkValue.ToControl(column, ss));
                             break;
                         case "NumA":
                             res.Val(
                                 "#Issues_NumA",
-                                issueModel.NumA.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumA.ToControl(column, ss));
                             break;
                         case "NumB":
                             res.Val(
                                 "#Issues_NumB",
-                                issueModel.NumB.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumB.ToControl(column, ss));
                             break;
                         case "NumC":
                             res.Val(
                                 "#Issues_NumC",
-                                issueModel.NumC.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumC.ToControl(column, ss));
                             break;
                         case "NumD":
                             res.Val(
                                 "#Issues_NumD",
-                                issueModel.NumD.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumD.ToControl(column, ss));
                             break;
                         case "NumE":
                             res.Val(
                                 "#Issues_NumE",
-                                issueModel.NumE.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumE.ToControl(column, ss));
                             break;
                         case "NumF":
                             res.Val(
                                 "#Issues_NumF",
-                                issueModel.NumF.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumF.ToControl(column, ss));
                             break;
                         case "NumG":
                             res.Val(
                                 "#Issues_NumG",
-                                issueModel.NumG.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumG.ToControl(column, ss));
                             break;
                         case "NumH":
                             res.Val(
                                 "#Issues_NumH",
-                                issueModel.NumH.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumH.ToControl(column, ss));
                             break;
                         case "NumI":
                             res.Val(
                                 "#Issues_NumI",
-                                issueModel.NumI.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumI.ToControl(column, ss));
                             break;
                         case "NumJ":
                             res.Val(
                                 "#Issues_NumJ",
-                                issueModel.NumJ.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumJ.ToControl(column, ss));
                             break;
                         case "NumK":
                             res.Val(
                                 "#Issues_NumK",
-                                issueModel.NumK.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumK.ToControl(column, ss));
                             break;
                         case "NumL":
                             res.Val(
                                 "#Issues_NumL",
-                                issueModel.NumL.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumL.ToControl(column, ss));
                             break;
                         case "NumM":
                             res.Val(
                                 "#Issues_NumM",
-                                issueModel.NumM.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumM.ToControl(column, ss));
                             break;
                         case "NumN":
                             res.Val(
                                 "#Issues_NumN",
-                                issueModel.NumN.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumN.ToControl(column, ss));
                             break;
                         case "NumO":
                             res.Val(
                                 "#Issues_NumO",
-                                issueModel.NumO.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumO.ToControl(column, ss));
                             break;
                         case "NumP":
                             res.Val(
                                 "#Issues_NumP",
-                                issueModel.NumP.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumP.ToControl(column, ss));
                             break;
                         case "NumQ":
                             res.Val(
                                 "#Issues_NumQ",
-                                issueModel.NumQ.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumQ.ToControl(column, ss));
                             break;
                         case "NumR":
                             res.Val(
                                 "#Issues_NumR",
-                                issueModel.NumR.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumR.ToControl(column, ss));
                             break;
                         case "NumS":
                             res.Val(
                                 "#Issues_NumS",
-                                issueModel.NumS.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumS.ToControl(column, ss));
                             break;
                         case "NumT":
                             res.Val(
                                 "#Issues_NumT",
-                                issueModel.NumT.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumT.ToControl(column, ss));
                             break;
                         case "NumU":
                             res.Val(
                                 "#Issues_NumU",
-                                issueModel.NumU.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumU.ToControl(column, ss));
                             break;
                         case "NumV":
                             res.Val(
                                 "#Issues_NumV",
-                                issueModel.NumV.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumV.ToControl(column, ss));
                             break;
                         case "NumW":
                             res.Val(
                                 "#Issues_NumW",
-                                issueModel.NumW.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumW.ToControl(column, ss));
                             break;
                         case "NumX":
                             res.Val(
                                 "#Issues_NumX",
-                                issueModel.NumX.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumX.ToControl(column, ss));
                             break;
                         case "NumY":
                             res.Val(
                                 "#Issues_NumY",
-                                issueModel.NumY.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumY.ToControl(column, ss));
                             break;
                         case "NumZ":
                             res.Val(
                                 "#Issues_NumZ",
-                                issueModel.NumZ.ToControl(column, issueModel.SiteSettings));
+                                issueModel.NumZ.ToControl(column, ss));
                             break;
                         default: break;
                     }
@@ -2118,7 +2123,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = issueModel.Create(notice: true);
+            var error = issueModel.Create(ss);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -2126,6 +2131,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 return EditorResponse(
+                    ss,
                     issueModel,
                     Messages.Created(issueModel.Title.Value),
                     GetSwitchTargets(
@@ -2147,7 +2153,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts().ToJson();
             }
-            var error = issueModel.Update(notice: true);
+            var error = issueModel.Update(ss, notice: true);
             if (error.Has())
             {
                 return error == Error.Types.UpdateConflicts
@@ -2161,27 +2167,28 @@ namespace Implem.Pleasanter.Models
                     "#Issues_RemainingWorkValue",
                     ss.GetColumn("RemainingWorkValue")
                         .Display(issueModel.RemainingWorkValue, ss));
-                return ResponseByUpdate(res, issueModel)
+                return ResponseByUpdate(res, ss, issueModel)
                     .PrependComment(issueModel.Comments, issueModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            IssuesResponseCollection res, IssueModel issueModel)
+            IssuesResponseCollection res,
+            SiteSettings ss, 
+            IssueModel issueModel)
         {
             return res
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
-                .FieldResponse(issueModel)
+                .FieldResponse(ss, issueModel)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", issueModel.Title.DisplayValue)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                     baseModel: issueModel, tableName: "Issues"))
                 .Html("#Links", new HtmlBuilder().Links(
-                    ss: issueModel.SiteSettings,
-                    id: issueModel.IssueId))
+                    ss: ss, id: issueModel.IssueId))
                 .Message(Messages.Updated(issueModel.Title.ToString()))
                 .RemoveComment(issueModel.DeleteCommentId, _using: issueModel.DeleteCommentId != 0)
                 .ClearFormData();
@@ -2205,7 +2212,7 @@ namespace Implem.Pleasanter.Models
             {
                 issueModel.Comments.Clear();
             }
-            var error = issueModel.Create(paramAll: true);
+            var error = issueModel.Create(ss, paramAll: true);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -2213,6 +2220,7 @@ namespace Implem.Pleasanter.Models
             else
             {
             return EditorResponse(
+                ss,
                 issueModel,
                 Messages.Copied(issueModel.Title.Value),
                 GetSwitchTargets(
@@ -2231,14 +2239,14 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = issueModel.Move(siteId);
+            var error = issueModel.Move(ss, siteId);
             if (error.Has())
             {
                 return error.MessageJson();
             }
             else
             {
-                return EditorResponse(issueModel)
+                return EditorResponse(ss, issueModel)
                     .Message(Messages.Moved(issueModel.Title.Value))
                     .Val("#BackUrl", Locations.ItemIndex(siteId))
                     .ToJson();
@@ -2254,7 +2262,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = issueModel.Delete(notice: true);
+            var error = issueModel.Delete(ss);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -2268,7 +2276,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(long issueId)
+        public static string Restore(SiteSettings ss, long issueId)
         {
             var issueModel = new IssueModel();
             var invalid = IssueValidators.OnRestoring();
@@ -2277,7 +2285,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = issueModel.Restore(issueId);
+            var error = issueModel.Restore(ss, issueId);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -2331,6 +2339,7 @@ namespace Implem.Pleasanter.Models
         {
             var issueModel = new IssueModel(ss, issueId);
             issueModel.Get(
+                ss, 
                 where: Rds.IssuesWhere()
                     .IssueId(issueModel.IssueId)
                     .Ver(Forms.Int("Ver")),
@@ -2338,7 +2347,7 @@ namespace Implem.Pleasanter.Models
             issueModel.VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            return EditorResponse(issueModel).ToJson();
+            return EditorResponse(ss, issueModel).ToJson();
         }
 
         public static string EditSeparateSettings(SiteSettings ss, long issueId)
@@ -2354,10 +2363,9 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#SeparateSettingsDialog",
                     new HtmlBuilder().SeparateSettings(
-                        issueModel.Title.Value,
-                        issueModel.WorkValue.Value,
-                        issueModel.SiteSettings.GetColumn("WorkValue"),
-                        ss))
+                        ss: ss,
+                        title: issueModel.Title.Value,
+                        workValue: issueModel.WorkValue.Value))
                 .Invoke("separateSettings")
                 .ToJson();
         }
@@ -2381,7 +2389,7 @@ namespace Implem.Pleasanter.Models
                 for (var index = 2; index <= number; index++)
                 {
                     issueModel.IssueId = 0;
-                    issueModel.Create(paramAll: true);
+                    issueModel.Create(ss, paramAll: true);
                     idHash.Add(index, issueModel.IssueId);
                     timestampHash.Add(index, issueModel.Timestamp);
                 }
@@ -2410,9 +2418,9 @@ namespace Implem.Pleasanter.Models
                         issueModel.Comments = comments.Deserialize<Comments>();
                     }
                     issueModel.Comments.Prepend(addComment);
-                    issueModel.Update(paramAll: true);
+                    issueModel.Update(ss, paramAll: true);
                 }
-                return EditorResponse(issueModel, Messages.Separated()).ToJson();
+                return EditorResponse(ss, issueModel, Messages.Separated()).ToJson();
             }
             else
             {
@@ -2761,13 +2769,12 @@ namespace Implem.Pleasanter.Models
                     paramHash, ss.GetColumn("CompletionTime"));
                 if (errorCompletionTime != null) return errorCompletionTime;
                 paramHash.Values.ForEach(param =>
-                    new IssueModel(ss)
+                    new IssueModel()
                     {
                         SiteId = siteModel.SiteId,
                         Title = new Title(param.FirstOrDefault(o =>
-                            o.Name == "Title").Value.ToString()),
-                        SiteSettings = ss
-                    }.Create(param: param));
+                            o.Name == "Title").Value.ToString())
+                    }.Create(ss, param: param));
                 return GridRows(ss, res
                     .WindowScrollTop()
                     .CloseDialog("#ImportSettingsDialog")
@@ -3204,7 +3211,7 @@ namespace Implem.Pleasanter.Models
             var issueModel = new IssueModel(
                 ss, Forms.Long("KambanId"), setByForm: true);
             issueModel.VerUp = Versions.MustVerUp(issueModel);
-            issueModel.Update(notice: true);
+            issueModel.Update(ss, notice: true);
             return KambanJson(ss);
         }
 

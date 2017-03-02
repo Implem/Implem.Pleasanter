@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Models
         public Aggregations Aggregations = new Aggregations();
 
         public WikiCollection(
-            SiteSettings ss,
+            SiteSettings ss, 
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -59,16 +59,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public WikiCollection(
-            SiteSettings ss,
-            DataTable dataTable)
+        public WikiCollection(SiteSettings ss, DataTable dataTable)
         {
             Set(ss, dataTable);
         }
 
-        private WikiCollection Set(
-            SiteSettings ss,
-            DataTable dataTable)
+        private WikiCollection Set(SiteSettings ss, DataTable dataTable)
         {
             if (dataTable.Rows.Count > 0)
             {
@@ -86,9 +82,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public WikiCollection(
-            SiteSettings ss,
-            string commandText,
-            SqlParamCollection param = null)
+            SiteSettings ss, string commandText, SqlParamCollection param = null)
         {
             Set(ss, Get(commandText, param));
         }

@@ -82,26 +82,22 @@ namespace Implem.Pleasanter.Models
         }
 
         public ExportSettingModel(
-            SiteSettings ss,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteSettings = ss;
             if (setByForm) SetByForm();
             MethodType = methodType;
             OnConstructed();
         }
 
         public ExportSettingModel(
-            SiteSettings ss,
             long exportSettingId,
             bool clearSessions = false,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteSettings = ss;
             ExportSettingId = exportSettingId;
             Get();
             if (clearSessions) ClearSessions();
@@ -110,12 +106,9 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public ExportSettingModel(
-            SiteSettings ss,
-            DataRow dataRow)
+        public ExportSettingModel(DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = ss;
             Set(dataRow);
             OnConstructed();
         }
@@ -242,7 +235,8 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public Error.Types PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+        public Error.Types PhysicalDelete(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
                 transactional: true,
@@ -339,14 +333,13 @@ namespace Implem.Pleasanter.Models
             {
                 Title.Value = Forms.Data("ExportSettings_Title");
                 Get(where: Rds.ExportSettingsWhere()
-                    .ReferenceType(ReferenceType)
-                    .ReferenceId(ReferenceId)
-                    .Title(Title.Value));
+                        .ReferenceType(ReferenceType)
+                        .ReferenceId(ReferenceId)
+                        .Title(Title.Value));
             }
             else
             {
-                Get(
-                    where: Rds.ExportSettingsWhere()
+                Get(where: Rds.ExportSettingsWhere()
                         .ReferenceType(ReferenceType)
                         .ReferenceId(ReferenceId),
                     orderBy: Rds.ExportSettingsOrderBy()

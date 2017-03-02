@@ -88,8 +88,9 @@ namespace Implem.Pleasanter.Models
                 Rds.SelectWikis(
                     column: Rds.WikisColumn().WikiId(),
                     where: Rds.WikisWhere().SiteId(siteModel.SiteId)));
+            var ss = SiteSettingsUtilities.Get(siteModel);
             return wikiId == 0
-                ? Editor(new WikiModel(
+                ? Editor(ss, new WikiModel(
                     siteModel.WikisSiteSettings(), methodType: BaseModel.MethodTypes.New))
                 : new HtmlBuilder().NotFoundTemplate().ToString();
         }
@@ -101,36 +102,36 @@ namespace Implem.Pleasanter.Models
                 wikiId: wikiId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            return Editor(wikiModel);
+            return Editor(ss, wikiModel);
         }
 
-        public static string Editor(WikiModel wikiModel)
+        public static string Editor(SiteSettings ss, WikiModel wikiModel)
         {
             var hb = new HtmlBuilder();
             return hb.Template(
-                ss: wikiModel.SiteSettings,
+                ss: ss,
                 verType: wikiModel.VerType,
                 methodType: wikiModel.MethodType,
                 allowAccess:
-                    wikiModel.SiteSettings.CanRead() &&
+                    ss.CanRead() &&
                     wikiModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 siteId: wikiModel.SiteId,
                 referenceType: "Wikis",
                 title: wikiModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.New()
                     : wikiModel.Title.DisplayValue,
-                useTitle: wikiModel.SiteSettings.EditorColumns.Contains("Title"),
+                useTitle: ss.EditorColumns.Contains("Title"),
                 userScript: wikiModel.MethodType == BaseModel.MethodTypes.New
-                    ? wikiModel.SiteSettings.NewScript
-                    : wikiModel.SiteSettings.EditScript,
+                    ? ss.NewScript
+                    : ss.EditScript,
                 userStyle: wikiModel.MethodType == BaseModel.MethodTypes.New
-                    ? wikiModel.SiteSettings.NewStyle
-                    : wikiModel.SiteSettings.EditStyle,
+                    ? ss.NewStyle
+                    : ss.EditStyle,
                 action: () =>
                 {
                     hb
                         .Editor(
-                            ss: wikiModel.SiteSettings,
+                            ss: ss,
                             wikiModel: wikiModel)
                         .Hidden(controlId: "TableName", value: "Wikis")
                         .Hidden(controlId: "Id", value: wikiModel.WikiId.ToString());
@@ -155,7 +156,7 @@ namespace Implem.Pleasanter.Models
                             : wikiModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
-                            ss: wikiModel.SiteSettings,
+                            ss: ss,
                             baseModel: wikiModel,
                             tableName: "Wikis")
                         .Div(id: "EditorComments", action: () => hb
@@ -165,7 +166,7 @@ namespace Implem.Pleasanter.Models
                         .Div(id: "EditorTabsContainer", action: () => hb
                             .EditorTabs(wikiModel: wikiModel)
                             .FieldSetGeneral(
-                                ss: wikiModel.SiteSettings,
+                                ss: ss,
                                 wikiModel: wikiModel)
                             .FieldSet(
                                 attributes: new HtmlAttributes()
@@ -174,7 +175,7 @@ namespace Implem.Pleasanter.Models
                                     .DataMethod("get"),
                                 _using: wikiModel.MethodType != BaseModel.MethodTypes.New)
                             .MainCommands(
-                                ss: wikiModel.SiteSettings,
+                                ss: ss,
                                 siteId: wikiModel.SiteId,
                                 verType: wikiModel.VerType,
                                 referenceType: "items",
@@ -279,18 +280,21 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(SiteSettings ss, long wikiId)
         {
-            return EditorResponse(new WikiModel(ss, wikiId))
+            return EditorResponse(ss, new WikiModel(ss, wikiId))
                 .ToJson();
         }
 
         private static ResponseCollection EditorResponse(
-            WikiModel wikiModel, Message message = null, string switchTargets = null)
+            SiteSettings ss, 
+            WikiModel wikiModel,
+            Message message = null,
+            string switchTargets = null)
         {
             var siteModel = new SiteModel(wikiModel.SiteId);
             wikiModel.MethodType = BaseModel.MethodTypes.Edit;
             return new WikisResponseCollection(wikiModel)
                 .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(wikiModel))
+                .ReplaceAll("#MainContainer", Editor(ss, wikiModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                 .Invoke("setCurrentIndex")
                 .Message(message)
@@ -298,10 +302,12 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseCollection FieldResponse(
-            this ResponseCollection res, WikiModel wikiModel)
+            this ResponseCollection res,
+            SiteSettings ss,
+            WikiModel wikiModel)
         {
-            wikiModel.SiteSettings.EditorColumns
-                .Select(o => wikiModel.SiteSettings.GetColumn(o))
+            ss.EditorColumns
+                .Select(o => ss.GetColumn(o))
                 .Where(o => o != null)
                 .ForEach(column =>
                 {
@@ -326,7 +332,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts().ToJson();
             }
-            var error = wikiModel.Update(notice: true);
+            var error = wikiModel.Update(ss, notice: true);
             if (error.Has())
             {
                 return error == Error.Types.UpdateConflicts
@@ -336,29 +342,29 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var res = new WikisResponseCollection(wikiModel);
-                res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
-                    .Breadcrumb(ss.SiteId));
-                return ResponseByUpdate(res, wikiModel)
+                res.ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(wikiId));
+                return ResponseByUpdate(res, ss, wikiModel)
                     .PrependComment(wikiModel.Comments, wikiModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            WikisResponseCollection res, WikiModel wikiModel)
+            WikisResponseCollection res,
+            SiteSettings ss, 
+            WikiModel wikiModel)
         {
             return res
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
-                .FieldResponse(wikiModel)
+                .FieldResponse(ss, wikiModel)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", wikiModel.Title.DisplayValue)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                     baseModel: wikiModel, tableName: "Wikis"))
                 .Html("#Links", new HtmlBuilder().Links(
-                    ss: wikiModel.SiteSettings,
-                    id: wikiModel.WikiId))
+                    ss: ss, id: wikiModel.WikiId))
                 .Message(Messages.Updated(wikiModel.Title.ToString()))
                 .RemoveComment(wikiModel.DeleteCommentId, _using: wikiModel.DeleteCommentId != 0)
                 .ClearFormData();
@@ -373,7 +379,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = wikiModel.Delete(notice: true);
+            var error = wikiModel.Delete(ss);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -393,7 +399,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(long wikiId)
+        public static string Restore(SiteSettings ss, long wikiId)
         {
             var wikiModel = new WikiModel();
             var invalid = WikiValidators.OnRestoring();
@@ -402,7 +408,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = wikiModel.Restore(wikiId);
+            var error = wikiModel.Restore(ss, wikiId);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -456,6 +462,7 @@ namespace Implem.Pleasanter.Models
         {
             var wikiModel = new WikiModel(ss, wikiId);
             wikiModel.Get(
+                ss, 
                 where: Rds.WikisWhere()
                     .WikiId(wikiModel.WikiId)
                     .Ver(Forms.Int("Ver")),
@@ -463,7 +470,7 @@ namespace Implem.Pleasanter.Models
             wikiModel.VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            return EditorResponse(wikiModel).ToJson();
+            return EditorResponse(ss, wikiModel).ToJson();
         }
 
         public static string TitleDisplayValue(SiteSettings ss, WikiModel wikiModel)

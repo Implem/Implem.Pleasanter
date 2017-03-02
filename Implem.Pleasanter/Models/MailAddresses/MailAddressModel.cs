@@ -41,26 +41,22 @@ namespace Implem.Pleasanter.Models
         }
 
         public MailAddressModel(
-            SiteSettings ss,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteSettings = ss;
             if (setByForm) SetByForm();
             MethodType = methodType;
             OnConstructed();
         }
 
         public MailAddressModel(
-            SiteSettings ss,
             long mailAddressId,
             bool clearSessions = false,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteSettings = ss;
             MailAddressId = mailAddressId;
             Get();
             if (clearSessions) ClearSessions();
@@ -69,12 +65,9 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public MailAddressModel(
-            SiteSettings ss,
-            DataRow dataRow)
+        public MailAddressModel(DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = ss;
             Set(dataRow);
             OnConstructed();
         }
@@ -198,7 +191,8 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public Error.Types PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+        public Error.Types PhysicalDelete(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
                 transactional: true,

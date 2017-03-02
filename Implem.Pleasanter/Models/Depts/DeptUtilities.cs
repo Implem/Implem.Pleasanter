@@ -333,14 +333,14 @@ namespace Implem.Pleasanter.Models
                     .Text(text: gridDesign)));
         }
 
-        public static string EditorNew()
+        public static string EditorNew(SiteSettings ss)
         {
-            return Editor(new DeptModel(
+            return Editor(ss, new DeptModel(
                 SiteSettingsUtilities.DeptsSiteSettings(),
                 methodType: BaseModel.MethodTypes.New));
         }
 
-        public static string Editor(int deptId, bool clearSessions)
+        public static string Editor(SiteSettings ss, int deptId, bool clearSessions)
         {
             var deptModel = new DeptModel(
                 SiteSettingsUtilities.DeptsSiteSettings(),
@@ -349,14 +349,14 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Edit);
             deptModel.SwitchTargets = GetSwitchTargets(
                 SiteSettingsUtilities.DeptsSiteSettings(), deptModel.DeptId);
-            return Editor(deptModel);
+            return Editor(ss, deptModel);
         }
 
-        public static string Editor(DeptModel deptModel)
+        public static string Editor(SiteSettings ss, DeptModel deptModel)
         {
             var hb = new HtmlBuilder();
             return hb.Template(
-                ss: deptModel.SiteSettings,
+                ss: ss,
                 verType: deptModel.VerType,
                 methodType: deptModel.MethodType,
                 allowAccess:
@@ -370,7 +370,7 @@ namespace Implem.Pleasanter.Models
                 {
                     hb
                         .Editor(
-                            ss: deptModel.SiteSettings,
+                            ss: ss,
                             deptModel: deptModel)
                         .Hidden(controlId: "TableName", value: "Depts")
                         .Hidden(controlId: "Id", value: deptModel.DeptId.ToString());
@@ -524,17 +524,20 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(SiteSettings ss, int deptId)
         {
-            return EditorResponse(new DeptModel(ss, deptId))
+            return EditorResponse(ss, new DeptModel(ss, deptId))
                 .ToJson();
         }
 
         private static ResponseCollection EditorResponse(
-            DeptModel deptModel, Message message = null, string switchTargets = null)
+            SiteSettings ss, 
+            DeptModel deptModel,
+            Message message = null,
+            string switchTargets = null)
         {
             deptModel.MethodType = BaseModel.MethodTypes.Edit;
             return new DeptsResponseCollection(deptModel)
                 .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(deptModel))
+                .ReplaceAll("#MainContainer", Editor(ss, deptModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                 .Invoke("setCurrentIndex")
                 .Message(message)
@@ -571,7 +574,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = deptModel.Create();
+            var error = deptModel.Create(ss);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -579,6 +582,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 return EditorResponse(
+                    ss,
                     deptModel,
                     Messages.Created(deptModel.Title.Value),
                     GetSwitchTargets(ss, deptModel.DeptId).Join()).ToJson();
@@ -598,7 +602,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts().ToJson();
             }
-            var error = deptModel.Update();
+            var error = deptModel.Update(ss);
             if (error.Has())
             {
                 return error == Error.Types.UpdateConflicts
@@ -608,14 +612,16 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var res = new DeptsResponseCollection(deptModel);
-                return ResponseByUpdate(res, deptModel)
+                return ResponseByUpdate(res, ss, deptModel)
                     .PrependComment(deptModel.Comments, deptModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            DeptsResponseCollection res, DeptModel deptModel)
+            DeptsResponseCollection res,
+            SiteSettings ss, 
+            DeptModel deptModel)
         {
             return res
                 .Ver()
@@ -639,7 +645,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = deptModel.Delete();
+            var error = deptModel.Delete(ss);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -653,7 +659,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(int deptId)
+        public static string Restore(SiteSettings ss, int deptId)
         {
             var deptModel = new DeptModel();
             var invalid = DeptValidators.OnRestoring();
@@ -662,7 +668,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = deptModel.Restore(deptId);
+            var error = deptModel.Restore(ss, deptId);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -716,6 +722,7 @@ namespace Implem.Pleasanter.Models
         {
             var deptModel = new DeptModel(ss, deptId);
             deptModel.Get(
+                ss, 
                 where: Rds.DeptsWhere()
                     .DeptId(deptModel.DeptId)
                     .Ver(Forms.Int("Ver")),
@@ -723,7 +730,7 @@ namespace Implem.Pleasanter.Models
             deptModel.VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            return EditorResponse(deptModel).ToJson();
+            return EditorResponse(ss, deptModel).ToJson();
         }
 
         /// <summary>
