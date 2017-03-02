@@ -231,7 +231,7 @@ namespace Implem.Pleasanter.Models
             SetSite(siteOnly: true);
             switch (Site.ReferenceType)
             {
-                case "Sites": return SiteUtilities.EditorNew(ReferenceId);
+                case "Sites": return SiteUtilities.EditorNew(Site);
                 case "Issues": return IssueUtilities.EditorNew(Site);
                 case "Results": return ResultUtilities.EditorNew(Site);
                 case "Wikis": return WikiUtilities.EditorNew(Site);

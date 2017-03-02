@@ -942,19 +942,19 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string EditorNew(long siteId)
+        public static string EditorNew(SiteModel siteModel)
         {
             return Editor(
                 new SiteModel()
                 {
                     SiteSettings = new SiteSettings("Sites")
                     {
-                        PermissionType = siteId == 0
+                        PermissionType = siteModel.SiteId == 0
                             ? Permissions.Manager()
-                            : Permissions.Get(siteId)
+                            : Permissions.Get(siteModel.InheritPermission)
                     },
                     MethodType = BaseModel.MethodTypes.New,
-                    SiteId = siteId
+                    SiteId = siteModel.SiteId
                 });
         }
 
