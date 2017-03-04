@@ -541,8 +541,7 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(SiteSettings ss, int groupId)
         {
-            return EditorResponse(ss, new GroupModel(ss, groupId))
-                .ToJson();
+            return EditorResponse(ss, new GroupModel(ss, groupId)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(

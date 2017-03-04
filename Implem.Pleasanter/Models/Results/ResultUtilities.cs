@@ -1848,8 +1848,7 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(SiteSettings ss, long resultId)
         {
-            return EditorResponse(ss, new ResultModel(ss, resultId))
-                .ToJson();
+            return EditorResponse(ss, new ResultModel(ss, resultId)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(

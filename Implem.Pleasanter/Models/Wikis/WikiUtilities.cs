@@ -280,8 +280,7 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(SiteSettings ss, long wikiId)
         {
-            return EditorResponse(ss, new WikiModel(ss, wikiId))
-                .ToJson();
+            return EditorResponse(ss, new WikiModel(ss, wikiId)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(

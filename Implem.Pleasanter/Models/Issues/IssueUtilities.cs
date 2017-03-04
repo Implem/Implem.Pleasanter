@@ -1919,8 +1919,7 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(SiteSettings ss, long issueId)
         {
-            return EditorResponse(ss, new IssueModel(ss, issueId))
-                .ToJson();
+            return EditorResponse(ss, new IssueModel(ss, issueId)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
