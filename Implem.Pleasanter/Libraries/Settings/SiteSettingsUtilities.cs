@@ -72,15 +72,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "mailaddresses": return MailAddressesSiteSettings();
                 case "outgoingmails": return OutgoingMailsSiteSettings();
                 case "searchindexes": return SearchIndexesSiteSettings();
-                case "items": return ItemsSiteSettings();
                 case "orders": return OrdersSiteSettings();
                 case "exportsettings": return ExportSettingsSiteSettings();
                 case "links": return LinksSiteSettings();
                 case "binaries": return BinariesSiteSettings();
-                case "sites": return SitesSiteSettings(new ItemModel(id).GetSite());
-                case "issues": return IssuesSiteSettings(new ItemModel(id).GetSite());
-                case "results": return ResultsSiteSettings(new ItemModel(id).GetSite());
-                case "wikis": return WikisSiteSettings(new ItemModel(id).GetSite());
+                case "items": return Get(new ItemModel(id).GetSite());
                 default: return null;
             }
         }
