@@ -30,10 +30,11 @@ $p.sendMail = function ($control) {
 }
 
 $p.initOutgoingMailDialog = function () {
+    var body = $('#' + $p.tableName() + '_Body').val();
+    body = body !== undefined ? body + '\n\n' : '';
     if ($('#OutgoingMails_Reply').val() !== '1') {
         $('#OutgoingMails_Title').val($('#HeaderTitle').text());
-        $('#OutgoingMails_Body').val($('#' + $p.tableName() + '_Body').val() +
-            '\n\n' + $('#OutgoingMails_Location').val());
+        $('#OutgoingMails_Body').val(body + $('#OutgoingMails_Location').val());
     }
     $p.addMailAddress($('#OutgoingMails_To'), $('#To').val());
     $p.addMailAddress($('#OutgoingMails_Cc'), $('#Cc').val());
