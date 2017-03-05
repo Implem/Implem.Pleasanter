@@ -359,9 +359,11 @@ namespace Implem.Pleasanter.Models
         {
             var error = Create();
             if (error.Has()) return error;
-            switch (Parameters.Mail.SmtpProvider)
+            Host = Parameters.Mail.SmtpHost;
+            Port = Parameters.Mail.SmtpPort;
+            switch (Host)
             {
-                case "SendGrid": SendBySendGrid(); break;
+                case "smtp.sendgrid.net": SendBySendGrid(); break;
                 default: SendBySmtp(); break;
             }
             SentTime = new Time(DateTime.Now);
@@ -376,8 +378,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SendBySmtp()
         {
-            Host = Parameters.Mail.SmtpHost;
-            Port = Parameters.Mail.SmtpPort;
             new Smtp(
                 Host,
                 Port,
@@ -395,7 +395,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SendBySendGrid()
         {
-            Host = "smtp.sendgrid.net";
             new SendGridMail(
                 Host,
                 From,

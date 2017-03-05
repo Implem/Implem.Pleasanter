@@ -45,8 +45,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 sendGridMessage.Subject = Subject;
                 sendGridMessage.Text = Body;
                 new SendGrid.Web(new System.Net.NetworkCredential(
-                    Parameters.Mail.SendGridSmtpUser,
-                    Parameters.Mail.SendGridSmtpPassword))
+                    Parameters.Mail.SmtpUserName,
+                    Parameters.Mail.SmtpPassword))
                         .DeliverAsync(sendGridMessage);
             });
         }
