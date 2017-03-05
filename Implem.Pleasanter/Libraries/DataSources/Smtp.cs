@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Mails;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.Mails;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -50,6 +51,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 smtpClient.Host = Host;
                 smtpClient.Port = Port;
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                if (Parameters.Mail.SmtpUserName != null &&
+                    Parameters.Mail.SmtpPassword != null)
+                {
+                    smtpClient.Credentials = new System.Net.NetworkCredential(
+                        Parameters.Mail.SmtpUserName, Parameters.Mail.SmtpPassword);
+                }
+                smtpClient.EnableSsl = Parameters.Mail.SmtpEnableSsl;
                 smtpClient.Send(mailMessage);
                 smtpClient.Dispose();
             });
