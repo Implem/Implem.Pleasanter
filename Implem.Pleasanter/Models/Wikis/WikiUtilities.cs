@@ -378,7 +378,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = wikiModel.Delete(ss);
+            var error = wikiModel.Delete(ss, notice: true);
             if (error.Has())
             {
                 return error.MessageJson();

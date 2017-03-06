@@ -2122,7 +2122,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = issueModel.Create(ss);
+            var error = issueModel.Create(ss, notice: true);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -2261,7 +2261,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = issueModel.Delete(ss);
+            var error = issueModel.Delete(ss, notice: true);
             if (error.Has())
             {
                 return error.MessageJson();
