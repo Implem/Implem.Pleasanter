@@ -1719,7 +1719,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var users = new List<long>();
                     Rds.ExecuteTable(statements: Rds.SelectIssues(
-                        tableType: Sqls.TableTypes.NormalAndHistory,
+                        tableType: Sqls.TableTypes.All,
                         distinct: true,
                         column: Rds.IssuesColumn()
                             .Manager()

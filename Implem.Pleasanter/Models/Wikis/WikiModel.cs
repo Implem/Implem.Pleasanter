@@ -476,7 +476,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var users = new List<long>();
                     Rds.ExecuteTable(statements: Rds.SelectWikis(
-                        tableType: Sqls.TableTypes.NormalAndHistory,
+                        tableType: Sqls.TableTypes.All,
                         distinct: true,
                         column: Rds.WikisColumn()
                             .Creator()

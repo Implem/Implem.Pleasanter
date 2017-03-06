@@ -1665,7 +1665,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var users = new List<long>();
                     Rds.ExecuteTable(statements: Rds.SelectResults(
-                        tableType: Sqls.TableTypes.NormalAndHistory,
+                        tableType: Sqls.TableTypes.All,
                         distinct: true,
                         column: Rds.ResultsColumn()
                             .Manager()
