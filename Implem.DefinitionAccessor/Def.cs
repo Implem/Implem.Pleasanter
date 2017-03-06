@@ -360,6 +360,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Matched_Issues": Code.Model_Matched_Issues = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Issues, definitionRow, CodeXls); break;
                     case "Model_Matched_ColumnCases": Code.Model_Matched_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_Notice": Code.Model_Notice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Notice, definitionRow, CodeXls); break;
+                    case "Model_Notice_RelatedColumnCases": Code.Model_Notice_RelatedColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Notice_RelatedColumnCases, definitionRow, CodeXls); break;
+                    case "Model_Notice_RelatedDataColumnCases": Code.Model_Notice_RelatedDataColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Notice_RelatedDataColumnCases, definitionRow, CodeXls); break;
                     case "Model_NoticeColumnCases": Code.Model_NoticeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NoticeColumnCases, definitionRow, CodeXls); break;
                     case "Model_SwitchItems": Code.Model_SwitchItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems, definitionRow, CodeXls); break;
                     case "Model_IndexCases": Code.Model_IndexCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexCases, definitionRow, CodeXls); break;
@@ -3250,6 +3252,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Matched_Issues;
         public string Model_Matched_ColumnCases;
         public string Model_Notice;
+        public string Model_Notice_RelatedColumnCases;
+        public string Model_Notice_RelatedDataColumnCases;
         public string Model_NoticeColumnCases;
         public string Model_SwitchItems;
         public string Model_IndexCases;
@@ -3664,6 +3668,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Matched_Issues = new CodeDefinition();
         public CodeDefinition Model_Matched_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_Notice = new CodeDefinition();
+        public CodeDefinition Model_Notice_RelatedColumnCases = new CodeDefinition();
+        public CodeDefinition Model_Notice_RelatedDataColumnCases = new CodeDefinition();
         public CodeDefinition Model_NoticeColumnCases = new CodeDefinition();
         public CodeDefinition Model_SwitchItems = new CodeDefinition();
         public CodeDefinition Model_IndexCases = new CodeDefinition();

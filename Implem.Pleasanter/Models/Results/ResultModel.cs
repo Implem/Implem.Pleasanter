@@ -1661,6 +1661,28 @@ namespace Implem.Pleasanter.Models
                 Url.AbsolutePath(), Locations.ItemEdit(ResultId));
             ss.Notifications.Where(o => o.Enabled).ForEach(notification =>
             {
+                if (notification.HasRelatedUsers())
+                {
+                    var users = new List<long>();
+                    Rds.ExecuteTable(statements: Rds.SelectResults(
+                        tableType: Sqls.TableTypes.NormalAndHistory,
+                        distinct: true,
+                        column: Rds.ResultsColumn()
+                            .Manager()
+                            .Owner()
+                            .Creator()
+                            .Updator(),
+                        where: Rds.ResultsWhere().ResultId(ResultId)))
+                            .AsEnumerable()
+                            .ForEach(dataRow =>
+                            {
+                                users.Add(dataRow["Manager"].ToLong());
+                                users.Add(dataRow["Owner"].ToLong());
+                                users.Add(dataRow["Creator"].ToLong());
+                                users.Add(dataRow["Updator"].ToLong());
+                            });
+                    notification.ReplaceRelatedUsers(users);
+                }
                 switch (type)
                 {
                     case "Created":

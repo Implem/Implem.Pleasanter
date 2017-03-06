@@ -3,9 +3,11 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.Settings
@@ -102,7 +104,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void Send(string title, string url, string body)
         {
-            var from = MailAddressUtilities.From(withFullName: true);
+            var from = MailAddressUtilities.Get(Sessions.UserId(), withFullName: true);
             switch (Type)
             {
                 case Types.Mail:
@@ -141,6 +143,29 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => ss.GetColumn(o))
                 .Where(o => o != null)
                 .ToList();
+        }
+
+        public bool HasRelatedUsers()
+        {
+            return Type == Types.Mail && Address.Contains("[RelatedUsers]");
+        }
+
+        public void ReplaceRelatedUsers(IEnumerable<long> users)
+        {
+            Address = Address.Replace(
+                "[RelatedUsers]",
+                Rds.ExecuteTable(statements: Rds.SelectMailAddresses(
+                    column: Rds.MailAddressesColumn()
+                        .OwnerId()
+                        .MailAddress(),
+                    where: Rds.MailAddressesWhere()
+                        .OwnerId_In(users.Distinct())))
+                            .AsEnumerable()
+                            .GroupBy(o => o["OwnerId"])
+                            .Select(o => MailAddressUtilities.Get(
+                                SiteInfo.UserFullName(o.First()["OwnerId"].ToInt()),
+                                o.First()["MailAddress"].ToString()))
+                            .Join(";"));
         }
     }
 }

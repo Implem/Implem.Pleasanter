@@ -472,6 +472,24 @@ namespace Implem.Pleasanter.Models
                 Url.AbsolutePath(), Locations.ItemEdit(WikiId));
             ss.Notifications.Where(o => o.Enabled).ForEach(notification =>
             {
+                if (notification.HasRelatedUsers())
+                {
+                    var users = new List<long>();
+                    Rds.ExecuteTable(statements: Rds.SelectWikis(
+                        tableType: Sqls.TableTypes.NormalAndHistory,
+                        distinct: true,
+                        column: Rds.WikisColumn()
+                            .Creator()
+                            .Updator(),
+                        where: Rds.WikisWhere().WikiId(WikiId)))
+                            .AsEnumerable()
+                            .ForEach(dataRow =>
+                            {
+                                users.Add(dataRow["Creator"].ToLong());
+                                users.Add(dataRow["Updator"].ToLong());
+                            });
+                    notification.ReplaceRelatedUsers(users);
+                }
                 switch (type)
                 {
                     case "Created":

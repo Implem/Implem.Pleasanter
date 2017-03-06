@@ -130,7 +130,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Editor(string reference, long id)
         {
-            if (MailAddressUtilities.From() == string.Empty)
+            if (MailAddressUtilities.Get(Sessions.UserId()) == string.Empty)
             {
                 return new ResponseCollection()
                     .CloseDialog()
@@ -527,10 +527,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        /// <returns></returns>
         public static System.Net.Mail.MailAddress From()
         {
-            return new System.Net.Mail.MailAddress(MailAddressUtilities.From(withFullName: true));
+            return new System.Net.Mail.MailAddress(MailAddressUtilities.Get(
+                Sessions.UserId(), withFullName: true));
         }
 
         /// <summary>
