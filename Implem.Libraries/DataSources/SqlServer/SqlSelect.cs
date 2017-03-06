@@ -25,76 +25,199 @@ namespace Implem.Libraries.DataSources.SqlServer
             switch (TableType)
             {
                 case Sqls.TableTypes.History:
-                    SqlColumnCollection?.Add(new SqlColumn("1 as [IsHistory]", adHoc: true));
-                    goto case Sqls.TableTypes.HistoryWithoutFlag;
+                    AddTableTypeColumn("History");
+                    BuildHistoryWithoutFlag(
+                        sqlContainer,
+                        sqlCommand,
+                        commandText,
+                        commandCount,
+                        Sqls.UnionTypes.None);
+                    break;
                 case Sqls.TableTypes.HistoryWithoutFlag:
-                    BuildCommandText(
-                        sqlContainer: sqlContainer,
-                        sqlCommand: sqlCommand,
-                        commandText: commandText,
-                        tableType: Sqls.TableTypes.History,
-                        from:  "from " + HistoryTableBracket + "\n",
-                        unionType: TableType == Sqls.TableTypes.NormalAndHistory
-                            ? Sqls.UnionTypes.Union
-                            : Sqls.UnionTypes.None,
-                        orderBy: true,
-                        countRecord: CountRecord,
-                        commandCount: commandCount);
+                    BuildHistoryWithoutFlag(
+                        sqlContainer,
+                        sqlCommand,
+                        commandText,
+                        commandCount,
+                        Sqls.UnionTypes.None);
                     break;
                 case Sqls.TableTypes.NormalAndDeleted:
-                    SqlColumnCollection?.Add(new SqlColumn("0 as [IsDeleted]", adHoc: true));
-                    BuildCommandText(
-                        sqlContainer: sqlContainer,
-                        sqlCommand: sqlCommand,
-                        commandText: commandText,
-                        tableType: Sqls.TableTypes.Normal,
-                        from: "from " + TableBracket + "\n",
-                        unionType: Sqls.UnionTypes.None,
-                        orderBy: false,
-                        countRecord: false,
-                        commandCount: commandCount);
-                    DataTableName = null;
-                    goto case Sqls.TableTypes.Deleted;
+                    BuildNormalAndDeleted(
+                        sqlContainer,
+                        sqlCommand,
+                        commandText,
+                        commandCount);
+                    break;
                 case Sqls.TableTypes.NormalAndHistory:
-                    SqlColumnCollection?.Add(new SqlColumn("0 as [IsHistory]", adHoc: true));
-                    BuildCommandText(
-                        sqlContainer: sqlContainer,
-                        sqlCommand: sqlCommand,
-                        commandText: commandText,
-                        tableType: Sqls.TableTypes.Normal,
-                        from: "from " + TableBracket + "\n",
-                        unionType: Sqls.UnionTypes.None,
-                        orderBy: false,
-                        countRecord: false,
-                        commandCount: commandCount);
-                    DataTableName = null;
-                    goto case Sqls.TableTypes.History;
+                    BuildNormalAndHistory(
+                        sqlContainer,
+                        sqlCommand,
+                        commandText,
+                        commandCount);
+                    break;
                 case Sqls.TableTypes.Deleted:
-                    SqlColumnCollection?.Add(new SqlColumn("1 as [IsDeleted]", adHoc: true));
-                    BuildCommandText(
-                        sqlContainer: sqlContainer,
-                        sqlCommand: sqlCommand,
-                        commandText: commandText,
-                        tableType: Sqls.TableTypes.Deleted,
-                        from: "from " + DeletedTableBracket + "\n",
-                        unionType: TableType == Sqls.TableTypes.NormalAndDeleted
-                            ? Sqls.UnionTypes.Union
-                            : Sqls.UnionTypes.None,
-                        orderBy: true,
-                        countRecord: CountRecord,
-                        commandCount: commandCount);
+                    BuildDeleted(
+                        sqlContainer,
+                        sqlCommand,
+                        commandText,
+                        commandCount,
+                        Sqls.UnionTypes.None);
+                    break;
+                case Sqls.TableTypes.All:
+                    AddTableTypeColumn("Normal");
+                    BuildNormal(sqlContainer, sqlCommand, commandText, commandCount);
+                    DataTableName = null;
+                    BuildDeleted(
+                        sqlContainer,
+                        sqlCommand,
+                        commandText,
+                        commandCount,
+                        Sqls.UnionTypes.Union);
+                    AddTableTypeColumn("History");
+                    BuildHistoryWithoutFlag(
+                        sqlContainer,
+                        sqlCommand,
+                        commandText,
+                        commandCount,
+                        Sqls.UnionTypes.Union);
                     break;
                 default:
-                    BuildCommandText(
-                        sqlContainer: sqlContainer,
-                        sqlCommand: sqlCommand,
-                        commandText: commandText,
-                        tableType: Sqls.TableTypes.Normal,
-                        from: "from " + TableBracket + "\n",
-                        unionType: UnionType,
-                        orderBy: true,
-                        countRecord: CountRecord,
-                        commandCount: commandCount);
+                    BuildNormal(sqlContainer, sqlCommand, commandText, commandCount);
+                    break;
+            }
+        }
+
+        private void BuildHistoryWithoutFlag(
+            SqlContainer sqlContainer,
+            SqlCommand sqlCommand,
+            StringBuilder commandText,
+            int? commandCount,
+            Sqls.UnionTypes unionType)
+        {
+            BuildCommandText(
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: Sqls.TableTypes.History,
+                from: "from " + HistoryTableBracket + "\n",
+                unionType: unionType,
+                orderBy: true,
+                countRecord: CountRecord,
+                commandCount: commandCount);
+        }
+
+        private void BuildNormalAndDeleted(
+            SqlContainer sqlContainer,
+            SqlCommand sqlCommand,
+            StringBuilder commandText,
+            int? commandCount)
+        {
+            AddTableTypeColumn("Normal");
+            BuildCommandText(
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: Sqls.TableTypes.Normal,
+                from: "from " + TableBracket + "\n",
+                unionType: Sqls.UnionTypes.None,
+                orderBy: false,
+                countRecord: false,
+                commandCount: commandCount);
+            DataTableName = null;
+            BuildDeleted(
+                sqlContainer,
+                sqlCommand,
+                commandText,
+                commandCount,
+                Sqls.UnionTypes.Union);
+        }
+
+        private void BuildNormalAndHistory(
+            SqlContainer sqlContainer,
+            SqlCommand sqlCommand,
+            StringBuilder commandText,
+            int? commandCount)
+        {
+            AddTableTypeColumn("Normal");
+            BuildCommandText(
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: Sqls.TableTypes.Normal,
+                from: "from " + TableBracket + "\n",
+                unionType: Sqls.UnionTypes.None,
+                orderBy: false,
+                countRecord: false,
+                commandCount: commandCount);
+            DataTableName = null;
+            AddTableTypeColumn("History");
+            BuildHistoryWithoutFlag(
+                sqlContainer,
+                sqlCommand,
+                commandText,
+                commandCount,
+                Sqls.UnionTypes.Union);
+        }
+
+        private void BuildDeleted(
+            SqlContainer sqlContainer,
+            SqlCommand sqlCommand,
+            StringBuilder commandText,
+            int? commandCount,
+            Sqls.UnionTypes unionType)
+        {
+            AddTableTypeColumn("Deleted");
+            BuildCommandText(
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: Sqls.TableTypes.Deleted,
+                from: "from " + DeletedTableBracket + "\n",
+                unionType: unionType,
+                orderBy: true,
+                countRecord: CountRecord,
+                commandCount: commandCount);
+        }
+
+        private void BuildNormal(
+            SqlContainer sqlContainer,
+            SqlCommand sqlCommand,
+            StringBuilder commandText,
+            int? commandCount)
+        {
+            BuildCommandText(
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: Sqls.TableTypes.Normal,
+                from: "from " + TableBracket + "\n",
+                unionType: UnionType,
+                orderBy: true,
+                countRecord: CountRecord,
+                commandCount: commandCount);
+        }
+
+        private void AddTableTypeColumn(string type)
+        {
+            var history = type == "History" ? "1" : "0";
+            var deleted = type == "Deleted" ? "1" : "0";
+            switch (TableType)
+            {
+                case Sqls.TableTypes.NormalAndDeleted:
+                    SqlColumnCollection?.Add(new SqlColumn(
+                        deleted + " as [IsDeleted]", adHoc: true));
+                    break;
+                case Sqls.TableTypes.NormalAndHistory:
+                    SqlColumnCollection?.Add(new SqlColumn(
+                        history + " as [IsHistory]", adHoc: true));
+                    break;
+                case Sqls.TableTypes.All:
+                    SqlColumnCollection?.Add(new SqlColumn(
+                        deleted + " as [IsDeleted]", adHoc: true));
+                    SqlColumnCollection?.Add(new SqlColumn(
+                        history + " as [IsHistory]", adHoc: true));
+                    break;
+                default:
                     break;
             }
         }

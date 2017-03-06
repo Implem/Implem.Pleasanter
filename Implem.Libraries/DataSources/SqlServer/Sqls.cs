@@ -18,7 +18,8 @@ namespace Implem.Libraries.DataSources.SqlServer
             HistoryWithoutFlag,
             NormalAndDeleted,
             NormalAndHistory,
-            Deleted
+            Deleted,
+            All
         }
 
         public enum LogicalOperatorTypes
