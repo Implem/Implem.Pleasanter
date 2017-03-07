@@ -308,12 +308,12 @@ namespace Implem.Pleasanter.Models
 
         public static string History(SiteModel siteModel)
         {
-            var ss = siteModel.SitesSiteSettings();
             siteModel.Get(
                 where: Rds.SitesWhere()
                     .SiteId(siteModel.SiteId)
                     .Ver(Forms.Int("Ver")),
                 tableType: Sqls.TableTypes.NormalAndHistory);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
             siteModel.VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
