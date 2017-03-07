@@ -23,6 +23,7 @@ namespace Implem.Pleasanter
             var log = new SysLogModel();
             SiteInfo.Reflesh();
             UsersInitializer.Initialize();
+            StatusesInitializer.Initialize();
             ItemsInitializer.Initialize();
             SiteSettingsMigrator.Migrate();
             SetConfigrations();

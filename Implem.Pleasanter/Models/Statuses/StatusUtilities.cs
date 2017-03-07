@@ -39,8 +39,47 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Dictionary<Types, DateTime> Monitors()
         {
+            var hash = MonitorHash();
+            MonitorDataRows(hash).ForEach(dataRow =>
+            {
+                var type = (Types)dataRow["StatusId"].ToInt();
+                if (hash.ContainsKey(type))
+                {
+                    hash[type] = dataRow["UpdatedTime"].ToDateTime();
+                }
+            });
+            return hash;
+        }
+
+        public static bool Initialized()
+        {
+            var hash = MonitorHash();
+            return MonitorDataRows(hash).Count() == hash.Count;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static EnumerableRowCollection<DataRow> MonitorDataRows(
+            Dictionary<Types, DateTime> hash = null)
+        {
+            hash = hash ?? MonitorHash();
+            return Rds.ExecuteTable(statements: Rds.SelectStatuses(
+                column: Rds.StatusesColumn()
+                    .StatusId()
+                    .UpdatedTime(),
+                where: Rds.StatusesWhere()
+                    .StatusId_In(hash.Keys.Select(o => o.ToInt()))))
+                        .AsEnumerable();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Dictionary<Types, DateTime> MonitorHash()
+        {
             var now = DateTime.Now;
-            var hash = new Dictionary<Types, DateTime>
+            return new Dictionary<Types, DateTime>
             {
                 { Types.DeptsUpdated, now },
                 { Types.GroupsUpdated, now },
@@ -48,22 +87,6 @@ namespace Implem.Pleasanter.Models
                 { Types.PermissionsUpdated, now },
                 { Types.SitesUpdated, now }
             };
-            Rds.ExecuteTable(statements: Rds.SelectStatuses(
-                column: Rds.StatusesColumn()
-                    .StatusId()
-                    .UpdatedTime(),
-                where: Rds.StatusesWhere()
-                    .StatusId_In(hash.Keys.Select(o => o.ToInt()))))
-                        .AsEnumerable()
-                        .ForEach(dataRow =>
-                        {
-                            var type = (Types)dataRow["StatusId"].ToInt();
-                            if (hash.ContainsKey(type))
-                            {
-                                hash[type] = dataRow["UpdatedTime"].ToDateTime();
-                            }
-                        });
-            return hash;
         }
 
         /// <summary>
