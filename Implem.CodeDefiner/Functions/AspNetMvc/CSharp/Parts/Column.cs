@@ -117,6 +117,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.NotItem && Def.ExistsTable(columnDefinition.TableName, o => o.ItemId > 0)) return true;
             if (codeDefinition.ItemOnly && !Def.ExistsTable(columnDefinition.TableName, o => o.ItemId > 0)) return true;
             if (codeDefinition.GenericUi && !Def.ExistsTable(columnDefinition.TableName, o => o.GenericUi)) return true;
+            if (codeDefinition.UpdateMonitor && !Def.ExistsTable(columnDefinition.TableName, o => o.UpdateMonitor)) return true;
             if (codeDefinition.ControlType != string.Empty && codeDefinition.ControlType != columnDefinition.ControlType) return true;
             if (codeDefinition.NotNull && columnDefinition.Nullable) return true;
             if (codeDefinition.Like && !columnDefinition.Like) return true;
