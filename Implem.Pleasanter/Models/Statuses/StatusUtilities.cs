@@ -34,6 +34,9 @@ namespace Implem.Pleasanter.Models
             SitesUpdated = 250
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Dictionary<Types, DateTime> Monitors()
         {
             var now = DateTime.Now;
