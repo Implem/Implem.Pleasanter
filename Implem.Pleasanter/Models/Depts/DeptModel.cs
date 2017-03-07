@@ -130,7 +130,8 @@ namespace Implem.Pleasanter.Models
                         tableType: tableType,
                         selectIdentity: true,
                         param: param ?? Rds.DeptsParamDefault(
-                            this, setDefault: true, paramAll: paramAll))
+                            this, setDefault: true, paramAll: paramAll)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
                 });
             DeptId = newId != 0 ? newId : DeptId;
             Get(ss);
@@ -150,7 +151,8 @@ namespace Implem.Pleasanter.Models
                         where: Rds.DeptsWhereDefault(this)
                             .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: Rds.DeptsParamDefault(this, paramAll: paramAll),
-                        countRecord: true)
+                        countRecord: true),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
             Get(ss);
@@ -171,7 +173,8 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateOrInsertDepts(
                         selectIdentity: true,
                         where: where ?? Rds.DeptsWhereDefault(this),
-                        param: param ?? Rds.DeptsParamDefault(this, setDefault: true))
+                        param: param ?? Rds.DeptsParamDefault(this, setDefault: true)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
                 });
             DeptId = newId != 0 ? newId : DeptId;
             Get(ss);
@@ -185,7 +188,8 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.DeleteDepts(
-                        where: Rds.DeptsWhere().DeptId(DeptId))
+                        where: Rds.DeptsWhere().DeptId(DeptId)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
                 });
             if (SiteInfo.DeptHash.Keys.Contains(DeptId))
             {
@@ -203,7 +207,8 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreDepts(
-                        where: Rds.DeptsWhere().DeptId(DeptId))
+                        where: Rds.DeptsWhere().DeptId(DeptId)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
                 });
             return Error.Types.None;
         }

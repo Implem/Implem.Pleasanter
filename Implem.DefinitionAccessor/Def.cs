@@ -363,6 +363,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Notice_RelatedColumnCases": Code.Model_Notice_RelatedColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Notice_RelatedColumnCases, definitionRow, CodeXls); break;
                     case "Model_Notice_RelatedDataColumnCases": Code.Model_Notice_RelatedDataColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Notice_RelatedDataColumnCases, definitionRow, CodeXls); break;
                     case "Model_NoticeColumnCases": Code.Model_NoticeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NoticeColumnCases, definitionRow, CodeXls); break;
+                    case "Model_UpdateStatus": Code.Model_UpdateStatus = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateStatus, definitionRow, CodeXls); break;
                     case "Model_SwitchItems": Code.Model_SwitchItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems, definitionRow, CodeXls); break;
                     case "Model_IndexCases": Code.Model_IndexCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexCases, definitionRow, CodeXls); break;
                     case "Model_IndexJsonCases": Code.Model_IndexJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexJsonCases, definitionRow, CodeXls); break;
@@ -696,6 +697,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("ItemOnly")) { newCodeDefinition.ItemOnly = definitionRow["ItemOnly"].ToBool(); newCodeDefinition.SavedItemOnly = newCodeDefinition.ItemOnly; }
                 if (definitionRow.ContainsKey("NotItem")) { newCodeDefinition.NotItem = definitionRow["NotItem"].ToBool(); newCodeDefinition.SavedNotItem = newCodeDefinition.NotItem; }
                 if (definitionRow.ContainsKey("GenericUi")) { newCodeDefinition.GenericUi = definitionRow["GenericUi"].ToBool(); newCodeDefinition.SavedGenericUi = newCodeDefinition.GenericUi; }
+                if (definitionRow.ContainsKey("UpdateMonitor")) { newCodeDefinition.UpdateMonitor = definitionRow["UpdateMonitor"].ToBool(); newCodeDefinition.SavedUpdateMonitor = newCodeDefinition.UpdateMonitor; }
                 if (definitionRow.ContainsKey("Session")) { newCodeDefinition.Session = definitionRow["Session"].ToBool(); newCodeDefinition.SavedSession = newCodeDefinition.Session; }
                 if (definitionRow.ContainsKey("GridColumn")) { newCodeDefinition.GridColumn = definitionRow["GridColumn"].ToBool(); newCodeDefinition.SavedGridColumn = newCodeDefinition.GridColumn; }
                 if (definitionRow.ContainsKey("FilterColumn")) { newCodeDefinition.FilterColumn = definitionRow["FilterColumn"].ToBool(); newCodeDefinition.SavedFilterColumn = newCodeDefinition.FilterColumn; }
@@ -772,6 +774,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("ItemOnly")) { definition.ItemOnly = definitionRow["ItemOnly"].ToBool(); definition.SavedItemOnly = definition.ItemOnly; }
             if (definitionRow.ContainsKey("NotItem")) { definition.NotItem = definitionRow["NotItem"].ToBool(); definition.SavedNotItem = definition.NotItem; }
             if (definitionRow.ContainsKey("GenericUi")) { definition.GenericUi = definitionRow["GenericUi"].ToBool(); definition.SavedGenericUi = definition.GenericUi; }
+            if (definitionRow.ContainsKey("UpdateMonitor")) { definition.UpdateMonitor = definitionRow["UpdateMonitor"].ToBool(); definition.SavedUpdateMonitor = definition.UpdateMonitor; }
             if (definitionRow.ContainsKey("Session")) { definition.Session = definitionRow["Session"].ToBool(); definition.SavedSession = definition.Session; }
             if (definitionRow.ContainsKey("GridColumn")) { definition.GridColumn = definitionRow["GridColumn"].ToBool(); definition.SavedGridColumn = definition.GridColumn; }
             if (definitionRow.ContainsKey("FilterColumn")) { definition.FilterColumn = definitionRow["FilterColumn"].ToBool(); definition.SavedFilterColumn = definition.FilterColumn; }
@@ -883,6 +886,8 @@ namespace Implem.DefinitionAccessor
                     case "SysLogs_Title": Column.SysLogs_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Title, definitionRow, ColumnXls); break;
                     case "SysLogs_InDebug": Column.SysLogs_InDebug = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_InDebug, definitionRow, ColumnXls); break;
                     case "SysLogs_AssemblyVersion": Column.SysLogs_AssemblyVersion = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_AssemblyVersion, definitionRow, ColumnXls); break;
+                    case "Statuses_StatusId": Column.Statuses_StatusId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_StatusId, definitionRow, ColumnXls); break;
+                    case "Statuses_Value": Column.Statuses_Value = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_Value, definitionRow, ColumnXls); break;
                     case "Depts_TenantId": Column.Depts_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_TenantId, definitionRow, ColumnXls); break;
                     case "Depts_DeptId": Column.Depts_DeptId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_DeptId, definitionRow, ColumnXls); break;
                     case "Depts_DeptCode": Column.Depts_DeptCode = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_DeptCode, definitionRow, ColumnXls); break;
@@ -1319,6 +1324,14 @@ namespace Implem.DefinitionAccessor
                     case "SysLogs_UpdatedTime": Column.SysLogs_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_UpdatedTime, definitionRow, ColumnXls); break;
                     case "SysLogs_VerUp": Column.SysLogs_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_VerUp, definitionRow, ColumnXls); break;
                     case "SysLogs_Timestamp": Column.SysLogs_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Timestamp, definitionRow, ColumnXls); break;
+                    case "Statuses_Ver": Column.Statuses_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_Ver, definitionRow, ColumnXls); break;
+                    case "Statuses_Comments": Column.Statuses_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_Comments, definitionRow, ColumnXls); break;
+                    case "Statuses_Creator": Column.Statuses_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_Creator, definitionRow, ColumnXls); break;
+                    case "Statuses_Updator": Column.Statuses_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_Updator, definitionRow, ColumnXls); break;
+                    case "Statuses_CreatedTime": Column.Statuses_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_CreatedTime, definitionRow, ColumnXls); break;
+                    case "Statuses_UpdatedTime": Column.Statuses_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_UpdatedTime, definitionRow, ColumnXls); break;
+                    case "Statuses_VerUp": Column.Statuses_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_VerUp, definitionRow, ColumnXls); break;
+                    case "Statuses_Timestamp": Column.Statuses_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_Timestamp, definitionRow, ColumnXls); break;
                     case "Depts_Ver": Column.Depts_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Ver, definitionRow, ColumnXls); break;
                     case "Depts_Comments": Column.Depts_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Comments, definitionRow, ColumnXls); break;
                     case "Depts_Creator": Column.Depts_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Creator, definitionRow, ColumnXls); break;
@@ -1541,6 +1554,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("OrderByColumns")) { newColumnDefinition.OrderByColumns = definitionRow["OrderByColumns"].ToString(); newColumnDefinition.SavedOrderByColumns = newColumnDefinition.OrderByColumns; }
                 if (definitionRow.ContainsKey("ItemId")) { newColumnDefinition.ItemId = definitionRow["ItemId"].ToInt(); newColumnDefinition.SavedItemId = newColumnDefinition.ItemId; }
                 if (definitionRow.ContainsKey("GenericUi")) { newColumnDefinition.GenericUi = definitionRow["GenericUi"].ToBool(); newColumnDefinition.SavedGenericUi = newColumnDefinition.GenericUi; }
+                if (definitionRow.ContainsKey("UpdateMonitor")) { newColumnDefinition.UpdateMonitor = definitionRow["UpdateMonitor"].ToBool(); newColumnDefinition.SavedUpdateMonitor = newColumnDefinition.UpdateMonitor; }
                 if (definitionRow.ContainsKey("FieldCss")) { newColumnDefinition.FieldCss = definitionRow["FieldCss"].ToString(); newColumnDefinition.SavedFieldCss = newColumnDefinition.FieldCss; }
                 if (definitionRow.ContainsKey("ControlCss")) { newColumnDefinition.ControlCss = definitionRow["ControlCss"].ToString(); newColumnDefinition.SavedControlCss = newColumnDefinition.ControlCss; }
                 if (definitionRow.ContainsKey("MarkDown")) { newColumnDefinition.MarkDown = definitionRow["MarkDown"].ToBool(); newColumnDefinition.SavedMarkDown = newColumnDefinition.MarkDown; }
@@ -1651,6 +1665,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("OrderByColumns")) { definition.OrderByColumns = definitionRow["OrderByColumns"].ToString(); definition.SavedOrderByColumns = definition.OrderByColumns; }
             if (definitionRow.ContainsKey("ItemId")) { definition.ItemId = definitionRow["ItemId"].ToInt(); definition.SavedItemId = definition.ItemId; }
             if (definitionRow.ContainsKey("GenericUi")) { definition.GenericUi = definitionRow["GenericUi"].ToBool(); definition.SavedGenericUi = definition.GenericUi; }
+            if (definitionRow.ContainsKey("UpdateMonitor")) { definition.UpdateMonitor = definitionRow["UpdateMonitor"].ToBool(); definition.SavedUpdateMonitor = definition.UpdateMonitor; }
             if (definitionRow.ContainsKey("FieldCss")) { definition.FieldCss = definitionRow["FieldCss"].ToString(); definition.SavedFieldCss = definition.FieldCss; }
             if (definitionRow.ContainsKey("ControlCss")) { definition.ControlCss = definitionRow["ControlCss"].ToString(); definition.SavedControlCss = definition.ControlCss; }
             if (definitionRow.ContainsKey("MarkDown")) { definition.MarkDown = definitionRow["MarkDown"].ToBool(); definition.SavedMarkDown = definition.MarkDown; }
@@ -2534,6 +2549,7 @@ namespace Implem.DefinitionAccessor
                         case "ItemOnly": codeDefinition.ItemOnly = optionValue.ToBool(); break;
                         case "NotItem": codeDefinition.NotItem = optionValue.ToBool(); break;
                         case "GenericUi": codeDefinition.GenericUi = optionValue.ToBool(); break;
+                        case "UpdateMonitor": codeDefinition.UpdateMonitor = optionValue.ToBool(); break;
                         case "Session": codeDefinition.Session = optionValue.ToBool(); break;
                         case "GridColumn": codeDefinition.GridColumn = optionValue.ToBool(); break;
                         case "FilterColumn": codeDefinition.FilterColumn = optionValue.ToBool(); break;
@@ -2640,6 +2656,7 @@ namespace Implem.DefinitionAccessor
                         case "OrderByColumns": columnDefinition.OrderByColumns = optionValue.ToString(); break;
                         case "ItemId": columnDefinition.ItemId = optionValue.ToInt(); break;
                         case "GenericUi": columnDefinition.GenericUi = optionValue.ToBool(); break;
+                        case "UpdateMonitor": columnDefinition.UpdateMonitor = optionValue.ToBool(); break;
                         case "FieldCss": columnDefinition.FieldCss = optionValue.ToString(); break;
                         case "ControlCss": columnDefinition.ControlCss = optionValue.ToString(); break;
                         case "MarkDown": columnDefinition.MarkDown = optionValue.ToBool(); break;
@@ -2864,6 +2881,7 @@ namespace Implem.DefinitionAccessor
         public bool ItemOnly; public bool SavedItemOnly;
         public bool NotItem; public bool SavedNotItem;
         public bool GenericUi; public bool SavedGenericUi;
+        public bool UpdateMonitor; public bool SavedUpdateMonitor;
         public bool Session; public bool SavedSession;
         public bool GridColumn; public bool SavedGridColumn;
         public bool FilterColumn; public bool SavedFilterColumn;
@@ -2941,6 +2959,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("ItemOnly")) ItemOnly = propertyCollection["ItemOnly"].ToBool(); else ItemOnly = false;
             if (propertyCollection.ContainsKey("NotItem")) NotItem = propertyCollection["NotItem"].ToBool(); else NotItem = false;
             if (propertyCollection.ContainsKey("GenericUi")) GenericUi = propertyCollection["GenericUi"].ToBool(); else GenericUi = false;
+            if (propertyCollection.ContainsKey("UpdateMonitor")) UpdateMonitor = propertyCollection["UpdateMonitor"].ToBool(); else UpdateMonitor = false;
             if (propertyCollection.ContainsKey("Session")) Session = propertyCollection["Session"].ToBool(); else Session = false;
             if (propertyCollection.ContainsKey("GridColumn")) GridColumn = propertyCollection["GridColumn"].ToBool(); else GridColumn = false;
             if (propertyCollection.ContainsKey("FilterColumn")) FilterColumn = propertyCollection["FilterColumn"].ToBool(); else FilterColumn = false;
@@ -3018,6 +3037,7 @@ namespace Implem.DefinitionAccessor
                     case "ItemOnly": return ItemOnly;
                     case "NotItem": return NotItem;
                     case "GenericUi": return GenericUi;
+                    case "UpdateMonitor": return UpdateMonitor;
                     case "Session": return Session;
                     case "GridColumn": return GridColumn;
                     case "FilterColumn": return FilterColumn;
@@ -3095,6 +3115,7 @@ namespace Implem.DefinitionAccessor
             ItemOnly = SavedItemOnly;
             NotItem = SavedNotItem;
             GenericUi = SavedGenericUi;
+            UpdateMonitor = SavedUpdateMonitor;
             Session = SavedSession;
             GridColumn = SavedGridColumn;
             FilterColumn = SavedFilterColumn;
@@ -3255,6 +3276,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Notice_RelatedColumnCases;
         public string Model_Notice_RelatedDataColumnCases;
         public string Model_NoticeColumnCases;
+        public string Model_UpdateStatus;
         public string Model_SwitchItems;
         public string Model_IndexCases;
         public string Model_IndexJsonCases;
@@ -3671,6 +3693,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Notice_RelatedColumnCases = new CodeDefinition();
         public CodeDefinition Model_Notice_RelatedDataColumnCases = new CodeDefinition();
         public CodeDefinition Model_NoticeColumnCases = new CodeDefinition();
+        public CodeDefinition Model_UpdateStatus = new CodeDefinition();
         public CodeDefinition Model_SwitchItems = new CodeDefinition();
         public CodeDefinition Model_IndexCases = new CodeDefinition();
         public CodeDefinition Model_IndexJsonCases = new CodeDefinition();
@@ -4024,6 +4047,7 @@ namespace Implem.DefinitionAccessor
         public string OrderByColumns; public string SavedOrderByColumns;
         public int ItemId; public int SavedItemId;
         public bool GenericUi; public bool SavedGenericUi;
+        public bool UpdateMonitor; public bool SavedUpdateMonitor;
         public string FieldCss; public string SavedFieldCss;
         public string ControlCss; public string SavedControlCss;
         public bool MarkDown; public bool SavedMarkDown;
@@ -4135,6 +4159,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("OrderByColumns")) OrderByColumns = propertyCollection["OrderByColumns"].ToString(); else OrderByColumns = string.Empty;
             if (propertyCollection.ContainsKey("ItemId")) ItemId = propertyCollection["ItemId"].ToInt(); else ItemId = 0;
             if (propertyCollection.ContainsKey("GenericUi")) GenericUi = propertyCollection["GenericUi"].ToBool(); else GenericUi = false;
+            if (propertyCollection.ContainsKey("UpdateMonitor")) UpdateMonitor = propertyCollection["UpdateMonitor"].ToBool(); else UpdateMonitor = false;
             if (propertyCollection.ContainsKey("FieldCss")) FieldCss = propertyCollection["FieldCss"].ToString(); else FieldCss = string.Empty;
             if (propertyCollection.ContainsKey("ControlCss")) ControlCss = propertyCollection["ControlCss"].ToString(); else ControlCss = string.Empty;
             if (propertyCollection.ContainsKey("MarkDown")) MarkDown = propertyCollection["MarkDown"].ToBool(); else MarkDown = false;
@@ -4246,6 +4271,7 @@ namespace Implem.DefinitionAccessor
                     case "OrderByColumns": return OrderByColumns;
                     case "ItemId": return ItemId;
                     case "GenericUi": return GenericUi;
+                    case "UpdateMonitor": return UpdateMonitor;
                     case "FieldCss": return FieldCss;
                     case "ControlCss": return ControlCss;
                     case "MarkDown": return MarkDown;
@@ -4357,6 +4383,7 @@ namespace Implem.DefinitionAccessor
             OrderByColumns = SavedOrderByColumns;
             ItemId = SavedItemId;
             GenericUi = SavedGenericUi;
+            UpdateMonitor = SavedUpdateMonitor;
             FieldCss = SavedFieldCss;
             ControlCss = SavedControlCss;
             MarkDown = SavedMarkDown;
@@ -4462,6 +4489,8 @@ namespace Implem.DefinitionAccessor
         public string SysLogs_Title;
         public string SysLogs_InDebug;
         public string SysLogs_AssemblyVersion;
+        public string Statuses_StatusId;
+        public string Statuses_Value;
         public string Depts_TenantId;
         public string Depts_DeptId;
         public string Depts_DeptCode;
@@ -4898,6 +4927,14 @@ namespace Implem.DefinitionAccessor
         public string SysLogs_UpdatedTime;
         public string SysLogs_VerUp;
         public string SysLogs_Timestamp;
+        public string Statuses_Ver;
+        public string Statuses_Comments;
+        public string Statuses_Creator;
+        public string Statuses_Updator;
+        public string Statuses_CreatedTime;
+        public string Statuses_UpdatedTime;
+        public string Statuses_VerUp;
+        public string Statuses_Timestamp;
         public string Depts_Ver;
         public string Depts_Comments;
         public string Depts_Creator;
@@ -5114,6 +5151,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SysLogs_Title = new ColumnDefinition();
         public ColumnDefinition SysLogs_InDebug = new ColumnDefinition();
         public ColumnDefinition SysLogs_AssemblyVersion = new ColumnDefinition();
+        public ColumnDefinition Statuses_StatusId = new ColumnDefinition();
+        public ColumnDefinition Statuses_Value = new ColumnDefinition();
         public ColumnDefinition Depts_TenantId = new ColumnDefinition();
         public ColumnDefinition Depts_DeptId = new ColumnDefinition();
         public ColumnDefinition Depts_DeptCode = new ColumnDefinition();
@@ -5550,6 +5589,14 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SysLogs_UpdatedTime = new ColumnDefinition();
         public ColumnDefinition SysLogs_VerUp = new ColumnDefinition();
         public ColumnDefinition SysLogs_Timestamp = new ColumnDefinition();
+        public ColumnDefinition Statuses_Ver = new ColumnDefinition();
+        public ColumnDefinition Statuses_Comments = new ColumnDefinition();
+        public ColumnDefinition Statuses_Creator = new ColumnDefinition();
+        public ColumnDefinition Statuses_Updator = new ColumnDefinition();
+        public ColumnDefinition Statuses_CreatedTime = new ColumnDefinition();
+        public ColumnDefinition Statuses_UpdatedTime = new ColumnDefinition();
+        public ColumnDefinition Statuses_VerUp = new ColumnDefinition();
+        public ColumnDefinition Statuses_Timestamp = new ColumnDefinition();
         public ColumnDefinition Depts_Ver = new ColumnDefinition();
         public ColumnDefinition Depts_Comments = new ColumnDefinition();
         public ColumnDefinition Depts_Creator = new ColumnDefinition();

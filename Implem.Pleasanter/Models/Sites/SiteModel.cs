@@ -269,7 +269,8 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SitesWhereDefault(this)
                             .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: Rds.SitesParamDefault(this, paramAll: paramAll),
-                        countRecord: true)
+                        countRecord: true),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
             SiteSettingsUtilities.UpdateTitles(SiteSettings);
@@ -324,7 +325,8 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateOrInsertSites(
                         selectIdentity: true,
                         where: where ?? Rds.SitesWhereDefault(this),
-                        param: param ?? Rds.SitesParamDefault(this, setDefault: true))
+                        param: param ?? Rds.SitesParamDefault(this, setDefault: true)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
                 });
             SiteId = newId != 0 ? newId : SiteId;
             Get();
@@ -372,7 +374,8 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreItems(
                         where: Rds.ItemsWhere().ReferenceId(SiteId)),
                     Rds.RestoreSites(
-                        where: Rds.SitesWhere().SiteId(SiteId))
+                        where: Rds.SitesWhere().SiteId(SiteId)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
                 });
             Libraries.Search.Indexes.Create(SiteSettings, SiteId);
             return Error.Types.None;

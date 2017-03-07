@@ -458,6 +458,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SysLogs_Title(params string[] data) { return Get("SysLogs_Title", data); }
         public static string SysLogs_InDebug(params string[] data) { return Get("SysLogs_InDebug", data); }
         public static string SysLogs_AssemblyVersion(params string[] data) { return Get("SysLogs_AssemblyVersion", data); }
+        public static string Statuses_StatusId(params string[] data) { return Get("Statuses_StatusId", data); }
+        public static string Statuses_Value(params string[] data) { return Get("Statuses_Value", data); }
         public static string Depts_TenantId(params string[] data) { return Get("Depts_TenantId", data); }
         public static string Depts_DeptId(params string[] data) { return Get("Depts_DeptId", data); }
         public static string Depts_DeptCode(params string[] data) { return Get("Depts_DeptCode", data); }
@@ -894,6 +896,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SysLogs_UpdatedTime(params string[] data) { return Get("SysLogs_UpdatedTime", data); }
         public static string SysLogs_VerUp(params string[] data) { return Get("SysLogs_VerUp", data); }
         public static string SysLogs_Timestamp(params string[] data) { return Get("SysLogs_Timestamp", data); }
+        public static string Statuses_Ver(params string[] data) { return Get("Statuses_Ver", data); }
+        public static string Statuses_Comments(params string[] data) { return Get("Statuses_Comments", data); }
+        public static string Statuses_Creator(params string[] data) { return Get("Statuses_Creator", data); }
+        public static string Statuses_Updator(params string[] data) { return Get("Statuses_Updator", data); }
+        public static string Statuses_CreatedTime(params string[] data) { return Get("Statuses_CreatedTime", data); }
+        public static string Statuses_UpdatedTime(params string[] data) { return Get("Statuses_UpdatedTime", data); }
+        public static string Statuses_VerUp(params string[] data) { return Get("Statuses_VerUp", data); }
+        public static string Statuses_Timestamp(params string[] data) { return Get("Statuses_Timestamp", data); }
         public static string Depts_Ver(params string[] data) { return Get("Depts_Ver", data); }
         public static string Depts_Comments(params string[] data) { return Get("Depts_Comments", data); }
         public static string Depts_Creator(params string[] data) { return Get("Depts_Creator", data); }
@@ -1047,6 +1057,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Tenants(params string[] data) { return Get("Tenants", data); }
         public static string Demos(params string[] data) { return Get("Demos", data); }
         public static string SysLogs(params string[] data) { return Get("SysLogs", data); }
+        public static string Statuses(params string[] data) { return Get("Statuses", data); }
         public static string Depts(params string[] data) { return Get("Depts", data); }
         public static string Groups(params string[] data) { return Get("Groups", data); }
         public static string GroupMembers(params string[] data) { return Get("GroupMembers", data); }

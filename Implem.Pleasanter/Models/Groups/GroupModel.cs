@@ -132,7 +132,8 @@ namespace Implem.Pleasanter.Models
                         param: param ?? Rds.GroupMembersParam()
                             .GroupId(raw: Def.Sql.Identity)
                             .UserId(Sessions.UserId())
-                            .Admin(true))
+                            .Admin(true)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
                 });
             GroupId = newId != 0 ? newId : GroupId;
             Get(ss);
@@ -152,7 +153,8 @@ namespace Implem.Pleasanter.Models
                         where: Rds.GroupsWhereDefault(this)
                             .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: Rds.GroupsParamDefault(this, paramAll: paramAll),
-                        countRecord: true)
+                        countRecord: true),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
             Get(ss);
@@ -198,7 +200,8 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateOrInsertGroups(
                         selectIdentity: true,
                         where: where ?? Rds.GroupsWhereDefault(this),
-                        param: param ?? Rds.GroupsParamDefault(this, setDefault: true))
+                        param: param ?? Rds.GroupsParamDefault(this, setDefault: true)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
                 });
             GroupId = newId != 0 ? newId : GroupId;
             Get(ss);
@@ -215,7 +218,8 @@ namespace Implem.Pleasanter.Models
                         where: Rds.GroupsWhere().GroupId(GroupId)),
                     Rds.PhysicalDeleteGroupMembers(
                         where: Rds.GroupMembersWhere()
-                            .GroupId(GroupId))
+                            .GroupId(GroupId)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
                 });
             return Error.Types.None;
         }
@@ -229,7 +233,8 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreGroups(
-                        where: Rds.GroupsWhere().GroupId(GroupId))
+                        where: Rds.GroupsWhere().GroupId(GroupId)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
                 });
             return Error.Types.None;
         }

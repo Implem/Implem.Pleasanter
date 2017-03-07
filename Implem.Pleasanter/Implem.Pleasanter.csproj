@@ -419,6 +419,10 @@
     <Compile Include="Models\Sites\SiteModel.cs" />
     <Compile Include="Models\Sites\SiteUtilities.cs" />
     <Compile Include="Models\Sites\SiteValidators.cs" />
+    <Compile Include="Models\Statuses\StatusCollection.cs" />
+    <Compile Include="Models\Statuses\StatusModel.cs" />
+    <Compile Include="Models\Statuses\StatusUtilities.cs" />
+    <Compile Include="Models\Statuses\StatusValidators.cs" />
     <Compile Include="Models\SysLogs\SysLogCollection.cs" />
     <Compile Include="Models\SysLogs\SysLogModel.cs" />
     <Compile Include="Models\SysLogs\SysLogUtilities.cs" />

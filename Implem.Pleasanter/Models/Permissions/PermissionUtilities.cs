@@ -442,6 +442,7 @@ namespace Implem.Pleasanter.Models
                 verUp: false,
                 where: Rds.SitesWhere().SiteId(siteModel.SiteId),
                 param: Rds.SitesParam().InheritPermission(siteModel.InheritPermission)));
+            statements.Add(StatusUtilities.UpdateStatus(StatusUtilities.Types.PermissionsUpdated));
             Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
             SiteInfo.SetSiteUserHash(siteModel.InheritPermission, reload: true);
             return Messages.ResponseUpdated("permissions").ToJson();

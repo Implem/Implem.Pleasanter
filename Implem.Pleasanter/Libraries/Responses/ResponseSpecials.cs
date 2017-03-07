@@ -46,6 +46,28 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class StatusesResponseCollection : ResponseCollection
+    {
+        public StatusModel StatusModel;
+
+        public StatusesResponseCollection(StatusModel statusModel)
+        {
+            StatusModel = statusModel;
+        }
+
+        public StatusesResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public StatusesResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class DeptsResponseCollection : ResponseCollection
     {
         public DeptModel DeptModel;
@@ -440,6 +462,22 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static DemosResponseCollection Timestamp(this DemosResponseCollection res, string value) { return res.Val("#Demos_Timestamp", value); }
         public static DemosResponseCollection Timestamp_FormData(this DemosResponseCollection res) { return res.ValAndFormData("#Demos_Timestamp", res.DemoModel.Timestamp.ToResponse()); }
         public static DemosResponseCollection Timestamp_FormData(this DemosResponseCollection res, string value) { return res.ValAndFormData("#Demos_Timestamp", value); }
+        public static StatusesResponseCollection Ver(this StatusesResponseCollection res) { return res.Val("#Statuses_Ver", res.StatusModel.Ver.ToResponse()); }
+        public static StatusesResponseCollection Ver(this StatusesResponseCollection res, string value) { return res.Val("#Statuses_Ver", value); }
+        public static StatusesResponseCollection Ver_FormData(this StatusesResponseCollection res) { return res.ValAndFormData("#Statuses_Ver", res.StatusModel.Ver.ToResponse()); }
+        public static StatusesResponseCollection Ver_FormData(this StatusesResponseCollection res, string value) { return res.ValAndFormData("#Statuses_Ver", value); }
+        public static StatusesResponseCollection CreatedTime(this StatusesResponseCollection res) { return res.Val("#Statuses_CreatedTime", res.StatusModel.CreatedTime.ToResponse()); }
+        public static StatusesResponseCollection CreatedTime(this StatusesResponseCollection res, string value) { return res.Val("#Statuses_CreatedTime", value); }
+        public static StatusesResponseCollection CreatedTime_FormData(this StatusesResponseCollection res) { return res.ValAndFormData("#Statuses_CreatedTime", res.StatusModel.CreatedTime.ToResponse()); }
+        public static StatusesResponseCollection CreatedTime_FormData(this StatusesResponseCollection res, string value) { return res.ValAndFormData("#Statuses_CreatedTime", value); }
+        public static StatusesResponseCollection UpdatedTime(this StatusesResponseCollection res) { return res.Val("#Statuses_UpdatedTime", res.StatusModel.UpdatedTime.ToResponse()); }
+        public static StatusesResponseCollection UpdatedTime(this StatusesResponseCollection res, string value) { return res.Val("#Statuses_UpdatedTime", value); }
+        public static StatusesResponseCollection UpdatedTime_FormData(this StatusesResponseCollection res) { return res.ValAndFormData("#Statuses_UpdatedTime", res.StatusModel.UpdatedTime.ToResponse()); }
+        public static StatusesResponseCollection UpdatedTime_FormData(this StatusesResponseCollection res, string value) { return res.ValAndFormData("#Statuses_UpdatedTime", value); }
+        public static StatusesResponseCollection Timestamp(this StatusesResponseCollection res) { return res.Val("#Statuses_Timestamp", res.StatusModel.Timestamp.ToResponse()); }
+        public static StatusesResponseCollection Timestamp(this StatusesResponseCollection res, string value) { return res.Val("#Statuses_Timestamp", value); }
+        public static StatusesResponseCollection Timestamp_FormData(this StatusesResponseCollection res) { return res.ValAndFormData("#Statuses_Timestamp", res.StatusModel.Timestamp.ToResponse()); }
+        public static StatusesResponseCollection Timestamp_FormData(this StatusesResponseCollection res, string value) { return res.ValAndFormData("#Statuses_Timestamp", value); }
         public static DeptsResponseCollection DeptId(this DeptsResponseCollection res) { return res.Val("#Depts_DeptId", res.DeptModel.DeptId.ToResponse()); }
         public static DeptsResponseCollection DeptId(this DeptsResponseCollection res, string value) { return res.Val("#Depts_DeptId", value); }
         public static DeptsResponseCollection DeptId_FormData(this DeptsResponseCollection res) { return res.ValAndFormData("#Depts_DeptId", res.DeptModel.DeptId.ToResponse()); }

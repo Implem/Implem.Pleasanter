@@ -223,7 +223,8 @@ namespace Implem.Pleasanter.Models
                         tableType: tableType,
                         selectIdentity: true,
                         param: param ?? Rds.UsersParamDefault(
-                            this, setDefault: true, paramAll: paramAll))
+                            this, setDefault: true, paramAll: paramAll)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
                 });
             UserId = newId != 0 ? newId : UserId;
             Get(ss);
@@ -243,7 +244,8 @@ namespace Implem.Pleasanter.Models
                         where: Rds.UsersWhereDefault(this)
                             .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: Rds.UsersParamDefault(this, paramAll: paramAll),
-                        countRecord: true)
+                        countRecord: true),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
             Get(ss);
@@ -265,7 +267,8 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateOrInsertUsers(
                         selectIdentity: true,
                         where: where ?? Rds.UsersWhereDefault(this),
-                        param: param ?? Rds.UsersParamDefault(this, setDefault: true))
+                        param: param ?? Rds.UsersParamDefault(this, setDefault: true)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
                 });
             UserId = newId != 0 ? newId : UserId;
             Get(ss);
@@ -279,7 +282,8 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.DeleteUsers(
-                        where: Rds.UsersWhere().UserId(UserId))
+                        where: Rds.UsersWhere().UserId(UserId)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
                 });
             if (SiteInfo.UserHash.Keys.Contains(UserId))
             {
@@ -297,7 +301,8 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreUsers(
-                        where: Rds.UsersWhere().UserId(UserId))
+                        where: Rds.UsersWhere().UserId(UserId)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
                 });
             return Error.Types.None;
         }

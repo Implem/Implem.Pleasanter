@@ -400,11 +400,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static void MoveSiteMenu(long sourceId, long destinationId)
         {
-            Rds.ExecuteNonQuery(statements: Rds.UpdateSites(
-                where: Rds.SitesWhere()
-                    .TenantId(Sessions.TenantId())
-                    .SiteId(sourceId),
-                param: Rds.SitesParam().ParentId(destinationId)));
+            Rds.ExecuteNonQuery(
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.UpdateSites(
+                        where: Rds.SitesWhere()
+                            .TenantId(Sessions.TenantId())
+                            .SiteId(sourceId),
+                        param: Rds.SitesParam().ParentId(destinationId)),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
+                });
             SiteInfo.Reflesh();
         }
 
