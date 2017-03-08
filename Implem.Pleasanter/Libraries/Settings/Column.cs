@@ -265,6 +265,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     new ControlData(string.Empty));
             }
             ChoiceHash?.Values
+                .Where(o => !editChoices.ContainsKey(o.Value))
                 .GroupBy(o => o.Value)
                 .Select(o => o.FirstOrDefault())
                 .ForEach(choice =>
