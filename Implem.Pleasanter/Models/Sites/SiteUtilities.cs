@@ -79,7 +79,7 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(long siteId)
         {
-            return EditorResponse(new SiteModel(siteId)).ToJson();
+            return EditorResponse(new SiteModel(siteId, initSiteSettings: true)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
@@ -983,7 +983,12 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .Editor(siteModel: siteModel)
                     .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
-                    .Hidden(controlId: "ReferenceType", value: "Sites")).ToString();
+                    .Hidden(controlId: "ReferenceType", value: "Sites")
+                    .Hidden(
+                        controlId: "SwitchTargets",
+                        css: "always-send",
+                        value: siteModel.SiteId.ToString(),
+                        _using: !Request.IsAjax())).ToString();
         }
 
         /// <summary>

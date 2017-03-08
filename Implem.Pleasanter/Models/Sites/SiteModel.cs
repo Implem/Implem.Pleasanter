@@ -166,6 +166,7 @@ namespace Implem.Pleasanter.Models
 
         public SiteModel(
             long siteId,
+            bool initSiteSettings = false,
             bool clearSessions = false,
             bool setByForm = false,
             List<long> switchTargets = null,
@@ -174,6 +175,7 @@ namespace Implem.Pleasanter.Models
             OnConstructing();
             SiteId = siteId;
             Get();
+            if (initSiteSettings) SiteSettings = SiteSettingsUtilities.Get(this);
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();
             SwitchTargets = switchTargets;
