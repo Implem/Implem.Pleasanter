@@ -254,22 +254,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool insertBlank = false, bool shorten = false, bool addNotSet = false)
         {
             var tenantId = Sessions.TenantId();
-            var editChoices = new Dictionary<string, ControlData>();
-            if (!HasChoices()) return editChoices;
+            var hash = new Dictionary<string, ControlData>();
+            if (!HasChoices()) return hash;
             if (insertBlank && CanEmpty())
             {
-                editChoices.Add(
+                hash.Add(
                     UserColumn
                         ? User.UserTypes.Anonymous.ToInt().ToString()
                         : string.Empty,
                     new ControlData(string.Empty));
             }
             ChoiceHash?.Values
-                .Where(o => !editChoices.ContainsKey(o.Value))
+                .Where(o => !hash.ContainsKey(o.Value))
                 .GroupBy(o => o.Value)
                 .Select(o => o.FirstOrDefault())
                 .ForEach(choice =>
-                    editChoices.Add(
+                    hash.Add(
                         choice.Value,
                         new ControlData(
                             text: choice.Text,
@@ -277,9 +277,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             style: choice.Style)));
             if (addNotSet && Nullable)
             {
-                editChoices.Add("\t", new ControlData(Displays.NotSet()));
+                hash.Add("\t", new ControlData(Displays.NotSet()));
             }
-            return editChoices;
+            return hash;
         }
 
         private bool CanEmpty()
