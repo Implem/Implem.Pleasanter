@@ -51,6 +51,9 @@ namespace Implem.Pleasanter.Models
             return hash;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static bool Initialized()
         {
             var hash = MonitorHash();
