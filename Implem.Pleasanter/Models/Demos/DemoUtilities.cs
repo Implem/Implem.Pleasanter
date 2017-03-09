@@ -193,10 +193,31 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static void InitializeSites(DemoModel demoModel, Dictionary<string, long> idHash)
         {
-            var topId = Def.DemoDefinitionCollection.First(o =>
-                o.Type == "Sites" && o.ParentId == string.Empty).Id;
+            Def.DemoDefinitionCollection
+                .Where(o => o.Type == "Sites" && o.ParentId == string.Empty)
+                .ForEach(o => InitializeSites(demoModel, idHash, o.Id));
+            new SiteCollection(where: Rds.SitesWhere().TenantId(demoModel.TenantId))
+                .ForEach(siteModel =>
+                {
+                    Rds.ExecuteNonQuery(statements: Rds.UpdateItems(
+                        param: Rds.ItemsParam()
+                            .SiteId(siteModel.SiteId)
+                            .Title(siteModel.Title.DisplayValue),
+                        where: Rds.ItemsWhere().ReferenceId(siteModel.SiteId),
+                        addUpdatorParam: false,
+                        addUpdatedTimeParam: false));
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializeSites(
+            DemoModel demoModel, Dictionary<string, long> idHash, string topId)
+        {
             Def.DemoDefinitionCollection
                 .Where(o => o.Type == "Sites")
+                .Where(o => o.Id == topId || o.ParentId == topId)
                 .ForEach(demoDefinition =>
                     idHash.Add(demoDefinition.Id, Rds.ExecuteScalar_long(statements:
                         new SqlStatement[]
@@ -228,17 +249,6 @@ namespace Implem.Pleasanter.Models
                                     .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
                                 addUpdatorParam: false)
                         })));
-            new SiteCollection(where: Rds.SitesWhere().TenantId(demoModel.TenantId))
-                .ForEach(siteModel =>
-                {
-                    Rds.ExecuteNonQuery(statements: Rds.UpdateItems(
-                        param: Rds.ItemsParam()
-                            .SiteId(siteModel.SiteId)
-                            .Title(siteModel.Title.DisplayValue),
-                        where: Rds.ItemsWhere().ReferenceId(siteModel.SiteId),
-                        addUpdatorParam: false,
-                        addUpdatedTimeParam: false));
-                });
         }
 
         /// <summary>
