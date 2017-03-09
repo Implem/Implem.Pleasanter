@@ -25,12 +25,21 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string Set(string reference, long id)
+        {
+            var ss = SiteSettingsUtilities.GetByReference(reference, id);
+            return new ExportSettingModel(ss.ReferenceType, id).Set(ss, id);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string UpdateOrCreate(string reference, long id)
         {
+            var ss = SiteSettingsUtilities.GetByReference(reference, id);
             var exportSettingModel = new ExportSettingModel(
-                reference, id, withTitle: true);
-            var invalid = ExportSettingValidator.OnExporting(
-                SiteSettingsUtilities.GetByReference(reference, id));
+                ss.ReferenceType, id, withTitle: true);
+            var invalid = ExportSettingValidator.OnExporting(ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -63,7 +72,7 @@ namespace Implem.Pleasanter.Models
                     .Html(
                         "#ExportSettings_ExportSettingId",
                         new HtmlBuilder().OptionCollection(
-                        optionCollection: Collection(reference, id).ToDictionary(
+                        optionCollection: Collection(ss.ReferenceType, id).ToDictionary(
                             o => o.ExportSettingId.ToString(),
                             o => new ControlData(o.Title.Value)),
                         selectedValue: exportSettingModel.ExportSettingId.ToString(),
@@ -79,10 +88,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Delete(string reference, long id)
         {
-            var exportSettingModel = new ExportSettingModel(
-                reference, id, withTitle: true);
-            var invalid = ExportSettingValidator.OnExporting(
-                SiteSettingsUtilities.GetByReference(reference, id));
+            var ss = SiteSettingsUtilities.GetByReference(reference, id);
+            var exportSettingModel = new ExportSettingModel(ss.ReferenceType, id, withTitle: true);
+            var invalid = ExportSettingValidator.OnExporting(ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -95,7 +103,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return EditorJson(reference, id);
+                return EditorJson(ss, reference, id);
             }
         }
 
@@ -104,23 +112,27 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string EditorJson(string reference, long id)
         {
-            var invalid = ExportSettingValidator.OnExporting(
-                SiteSettingsUtilities.GetByReference(reference, id));
+            return EditorJson(SiteSettingsUtilities.GetByReference(reference, id), reference, id);
+        }
+
+        private static string EditorJson(SiteSettings ss, string reference, long id)
+        {
+            var invalid = ExportSettingValidator.OnExporting(ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            return EditorResponse(new ResponseCollection(), reference, id).ToJson();
+            return EditorResponse(new ResponseCollection(), ss, reference, id).ToJson();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         public static ResponseCollection EditorResponse(
-            this ResponseCollection res, string reference, long id)
+            this ResponseCollection res, SiteSettings ss, string reference, long id)
         {
-            var exportSettingModel = ExportSetting(reference, id);
+            var exportSettingModel = ExportSetting(ss.ReferenceType, id);
             SetSessions(exportSettingModel);
             var hb = new HtmlBuilder();
             return res
@@ -134,9 +146,9 @@ namespace Implem.Pleasanter.Models
                             .Columns(
                                 exportSettingModel.ExportColumns,
                                 exportSettingModel.GetSiteSettings())
-                            .Settings(reference, id)
+                            .Settings(ss.ReferenceType, id)
                             .P(css: "message-dialog")
-                            .Commands(reference, id)));
+                            .Commands()));
         }
 
         /// <summary>
@@ -153,11 +165,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ExportSettingCollection Collection(string reference, long id)
+        public static ExportSettingCollection Collection(string referenceType, long id)
         {
             return new ExportSettingCollection(
                 where: Rds.ExportSettingsWhere()
-                    .ReferenceType(reference)
+                    .ReferenceType(referenceType)
                     .ReferenceId(id),
                 orderBy: Rds.ExportSettingsOrderBy()
                     .Title());
@@ -219,11 +231,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Settings(this HtmlBuilder hb, string reference, long id)
+        private static HtmlBuilder Settings(this HtmlBuilder hb, string referenceType, long id)
         {
             var exportSettingCollection = new ExportSettingCollection(
                 where: Rds.ExportSettingsWhere()
-                    .ReferenceType(reference)
+                    .ReferenceType(referenceType)
                     .ReferenceId(id));
             var exportSettingModel = exportSettingCollection.FirstOrDefault();
             return hb.FieldSet(
@@ -279,7 +291,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Commands(this HtmlBuilder hb, string reference, long id)
+        private static HtmlBuilder Commands(this HtmlBuilder hb)
         {
             return hb.Div(
                 css: "command-center",

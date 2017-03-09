@@ -366,10 +366,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Set(string reference, long id)
+        public string Set(SiteSettings ss, long id)
         {
-            var invalid = ExportSettingValidator.OnExporting(
-                SiteSettingsUtilities.GetByReference(reference, id));
+            var invalid = ExportSettingValidator.OnExporting(ss);
             switch (invalid)
             {
                 case Error.Types.None: break;

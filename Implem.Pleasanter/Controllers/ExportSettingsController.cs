@@ -13,8 +13,7 @@ namespace Implem.Pleasanter.Controllers
         public string Edit(string reference, long id)
         {
             var log = new SysLogModel();
-            var json = ExportSettingUtilities.EditorJson(
-                SiteInfo.IndexReferenceType(reference, id), id);
+            var json = ExportSettingUtilities.EditorJson(reference, id);
             log.Finish(json.Length);
             return json;
         }
@@ -32,9 +31,7 @@ namespace Implem.Pleasanter.Controllers
         public string Set(string reference, long id)
         {
             var log = new SysLogModel();
-            var json = new ExportSettingModel(
-                SiteInfo.IndexReferenceType(reference, id), id)
-                    .Set(reference, id);
+            var json = ExportSettingUtilities.Set(reference, id);
             log.Finish(json.Length);
             return json;
         }
@@ -43,9 +40,7 @@ namespace Implem.Pleasanter.Controllers
         public string UpdateOrCreate(string reference, long id)
         {
             var log = new SysLogModel();
-            var json = ExportSettingUtilities.UpdateOrCreate(
-                reference: SiteInfo.IndexReferenceType(reference, id),
-                id: id);
+            var json = ExportSettingUtilities.UpdateOrCreate(reference, id);
             log.Finish(json.Length);
             return json;
         }
@@ -54,9 +49,7 @@ namespace Implem.Pleasanter.Controllers
         public string Delete(string reference, long id)
         {
             var log = new SysLogModel();
-            var json = ExportSettingUtilities.Delete(
-                reference: SiteInfo.IndexReferenceType(reference, id),
-                id: id);
+            var json = ExportSettingUtilities.Delete(reference, id);
             log.Finish(json.Length);
             return json;
         }
