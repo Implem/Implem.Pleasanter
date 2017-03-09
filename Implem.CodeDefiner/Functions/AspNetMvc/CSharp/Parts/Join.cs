@@ -162,10 +162,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             string tableNameAlias)
         {
             return columnDefinition.OrderByColumns == string.Empty
-                ? columnDefinition.ComputeColumn == string.Empty
-                    ? "\"" + ColumnName(columnDefinition, tableNameAlias) + "\""
-                    : "\"" + columnDefinition.ComputeColumn
-                        .ReplaceTableName(columnDefinition, tableNameAlias) + "\""
+                ? "\"" + ColumnBracket(columnDefinition) + "\""
                 : columnDefinition.OrderByColumns.Split(',')
                     .Select(o => "\"" + o
                         .ReplaceTableName(columnDefinition, tableNameAlias) + "\"")
