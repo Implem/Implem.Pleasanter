@@ -115,6 +115,9 @@ namespace Implem.Pleasanter.Models
             return EditorJson(SiteSettingsUtilities.GetByReference(reference, id), reference, id);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static string EditorJson(SiteSettings ss, string reference, long id)
         {
             var invalid = ExportSettingValidator.OnExporting(ss);
