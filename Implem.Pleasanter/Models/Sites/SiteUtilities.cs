@@ -271,7 +271,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Histories(SiteModel siteModel)
         {
-            var ss = siteModel.SitesSiteSettings();
+            var ss = siteModel.SiteSettings;
             var columns = ss.GetHistoryColumns();
             var hb = new HtmlBuilder();
             hb.Table(
@@ -308,15 +308,6 @@ namespace Implem.Pleasanter.Models
 
         public static string History(SiteModel siteModel)
         {
-            siteModel.Get(
-                where: Rds.SitesWhere()
-                    .SiteId(siteModel.SiteId)
-                    .Ver(Forms.Int("Ver")),
-                tableType: Sqls.TableTypes.NormalAndHistory);
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
-            siteModel.VerType =  Forms.Bool("Latest")
-                ? Versions.VerTypes.Latest
-                : Versions.VerTypes.History;
             return EditorResponse(siteModel).ToJson();
         }
 
@@ -618,7 +609,7 @@ namespace Implem.Pleasanter.Models
         public static string SiteMenu(SiteModel siteModel)
         {
             var hb = new HtmlBuilder();
-            var ss = siteModel.SitesSiteSettings();
+            var ss = siteModel.SiteSettings;
             var siteConditions = SiteInfo.SiteMenu.SiteConditions(siteModel.SiteId);
             return hb.Template(
                 ss: ss,
@@ -946,20 +937,19 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string EditorNew(SiteModel siteModel)
+        public static string EditorNew(SiteSettings ss)
         {
-            return Editor(
-                new SiteModel()
+            return Editor(new SiteModel()
+            {
+                SiteSettings = new SiteSettings("Sites")
                 {
-                    SiteSettings = new SiteSettings("Sites")
-                    {
-                        PermissionType = siteModel.SiteId == 0
-                            ? Permissions.Manager()
-                            : Permissions.Get(siteModel.InheritPermission)
-                    },
-                    MethodType = BaseModel.MethodTypes.New,
-                    SiteId = siteModel.SiteId
-                });
+                    PermissionType = ss.SiteId == 0
+                        ? Permissions.Manager()
+                        : Permissions.Get(ss.InheritPermission)
+                },
+                MethodType = BaseModel.MethodTypes.New,
+                SiteId = ss.SiteId
+            });
         }
 
         /// <summary>

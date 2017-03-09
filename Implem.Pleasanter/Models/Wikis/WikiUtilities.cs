@@ -79,19 +79,10 @@ namespace Implem.Pleasanter.Models
                     .Text(text: gridDesign)));
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string EditorNew(SiteModel siteModel)
+        public static string EditorNew(SiteSettings ss)
         {
-            var wikiId = Rds.ExecuteScalar_long(statements:
-                Rds.SelectWikis(
-                    column: Rds.WikisColumn().WikiId(),
-                    where: Rds.WikisWhere().SiteId(siteModel.SiteId)));
-            var ss = SiteSettingsUtilities.Get(siteModel);
-            return wikiId == 0
-                ? Editor(ss, new WikiModel(
-                    siteModel.WikisSiteSettings(), methodType: BaseModel.MethodTypes.New))
+            return ss.CanCreate()
+                ? Editor(ss, new WikiModel(ss, methodType: BaseModel.MethodTypes.New))
                 : new HtmlBuilder().NotFoundTemplate().ToString();
         }
 
@@ -514,6 +505,22 @@ namespace Implem.Pleasanter.Models
                     : dataRow["Title"].ToString();
                 default: return string.Empty;
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string EditorNew(SiteModel siteModel)
+        {
+            var wikiId = Rds.ExecuteScalar_long(statements:
+                Rds.SelectWikis(
+                    column: Rds.WikisColumn().WikiId(),
+                    where: Rds.WikisWhere().SiteId(siteModel.SiteId)));
+            var ss = SiteSettingsUtilities.Get(siteModel);
+            return wikiId == 0
+                ? Editor(ss, new WikiModel(
+                    siteModel.WikisSiteSettings(), methodType: BaseModel.MethodTypes.New))
+                : new HtmlBuilder().NotFoundTemplate().ToString();
         }
     }
 }

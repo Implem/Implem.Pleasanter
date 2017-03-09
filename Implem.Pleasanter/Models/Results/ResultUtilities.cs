@@ -576,9 +576,8 @@ namespace Implem.Pleasanter.Models
                     .Text(text: gridDesign)));
         }
 
-        public static string EditorNew(SiteModel siteModel)
+        public static string EditorNew(SiteSettings ss)
         {
-            var ss = siteModel.ResultsSiteSettings();
             return ss.CanCreate()
                 ? Editor(ss, new ResultModel(ss, methodType: BaseModel.MethodTypes.New))
                 : new HtmlBuilder().NotFoundTemplate().ToString();

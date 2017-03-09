@@ -84,29 +84,25 @@ namespace Implem.Pleasanter.Models
             {
                 return SiteUtilities.SiteTop();
             }
-            SetSite();
+            SetSite(initSiteSettings: true);
             ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Sites": return SiteUtilities.SiteMenu(Site);
-                case "Issues": return IssueUtilities.Index(
-                    ss: Site.IssuesSiteSettings());
-                case "Results": return ResultUtilities.Index(
-                    ss: Site.ResultsSiteSettings());
+                case "Issues": return IssueUtilities.Index(ss: Site.SiteSettings);
+                case "Results": return ResultUtilities.Index(ss: Site.SiteSettings);
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
 
         public string IndexJson()
         {
-            SetSite();
+            SetSite(initSiteSettings: true);
             ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
-                case "Issues": return IssueUtilities.IndexJson(
-                    ss: Site.IssuesSiteSettings());
-                case "Results": return ResultUtilities.IndexJson(
-                    ss: Site.ResultsSiteSettings());
+                case "Issues": return IssueUtilities.IndexJson(ss: Site.SiteSettings);
+                case "Results": return ResultUtilities.IndexJson(ss: Site.SiteSettings);
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -137,35 +133,32 @@ namespace Implem.Pleasanter.Models
 
         public string BurnDown()
         {
-            SetSite();
+            SetSite(initSiteSettings: true);
             ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
-                case "Issues": return IssueUtilities.BurnDown(
-                    ss: Site.IssuesSiteSettings());
+                case "Issues": return IssueUtilities.BurnDown(ss: Site.SiteSettings);
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
 
         public string BurnDownJson()
         {
-            SetSite();
+            SetSite(initSiteSettings: true);
             ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
-                case "Issues": return IssueUtilities.BurnDownJson(
-                    ss: Site.IssuesSiteSettings());
+                case "Issues": return IssueUtilities.BurnDownJson(ss: Site.SiteSettings);
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
 
         public string BurnDownRecordDetailsJson()
         {
-            SetSite();
+            SetSite(initSiteSettings: true);
             switch (Site.ReferenceType)
             {
-                case "Issues": return IssueUtilities
-                    .BurnDownRecordDetails(Site.IssuesSiteSettings());
+                case "Issues": return IssueUtilities.BurnDownRecordDetails(Site.SiteSettings);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -228,13 +221,13 @@ namespace Implem.Pleasanter.Models
 
         public string New()
         {
-            SetSite(siteOnly: true);
+            SetSite(siteOnly: true, initSiteSettings: true);
             switch (Site.ReferenceType)
             {
-                case "Sites": return SiteUtilities.EditorNew(Site);
-                case "Issues": return IssueUtilities.EditorNew(Site);
-                case "Results": return ResultUtilities.EditorNew(Site);
-                case "Wikis": return WikiUtilities.EditorNew(Site);
+                case "Sites": return SiteUtilities.EditorNew(Site.SiteSettings);
+                case "Issues": return IssueUtilities.EditorNew(Site.SiteSettings);
+                case "Results": return ResultUtilities.EditorNew(Site.SiteSettings);
+                case "Wikis": return WikiUtilities.EditorNew(Site.SiteSettings);
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -593,38 +586,32 @@ namespace Implem.Pleasanter.Models
 
         public string Histories()
         {
-            SetSite();
+            SetSite(initSiteSettings: true);
             switch (ReferenceType)
             {
                 case "Sites": return SiteUtilities.Histories(siteModel: Site);
                 case "Issues": return IssueUtilities.Histories(
-                    ss: Site.IssuesSiteSettings(),
-                    issueId: ReferenceId);
+                    ss: Site.SiteSettings, issueId: ReferenceId);
                 case "Results": return ResultUtilities.Histories(
-                    ss: Site.ResultsSiteSettings(),
-                    resultId: ReferenceId);
+                    ss: Site.SiteSettings, resultId: ReferenceId);
                 case "Wikis": return WikiUtilities.Histories(
-                    ss: Site.WikisSiteSettings(),
-                    wikiId: ReferenceId);
+                    ss: Site.SiteSettings, wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
 
         public string History()
         {
-            SetSite();
+            SetSite(initSiteSettings: true);
             switch (ReferenceType)
             {
                 case "Sites": return SiteUtilities.History(siteModel: Site);
                 case "Issues": return IssueUtilities.History(
-                    ss: Site.IssuesSiteSettings(),
-                    issueId: ReferenceId);
+                    ss: Site.SiteSettings, issueId: ReferenceId);
                 case "Results": return ResultUtilities.History(
-                    ss: Site.ResultsSiteSettings(),
-                    resultId: ReferenceId);
+                    ss: Site.SiteSettings, resultId: ReferenceId);
                 case "Wikis": return WikiUtilities.History(
-                    ss: Site.WikisSiteSettings(),
-                    wikiId: ReferenceId);
+                    ss: Site.SiteSettings, wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -670,16 +657,38 @@ namespace Implem.Pleasanter.Models
             return Site.SynchronizeFormulas();
         }
 
-        private void SetSite(bool siteOnly = false)
+        private void SetSite(bool siteOnly = false, bool initSiteSettings = false)
         {
-            Site = GetSite(siteOnly);
+            Site = GetSite(siteOnly, initSiteSettings);
         }
 
-        public SiteModel GetSite(bool siteOnly = false)
+        public SiteModel GetSite(bool siteOnly = false, bool initSiteSettings = false)
         {
-            return siteOnly
-                ? new SiteModel(ReferenceId)
-                : new SiteModel(ReferenceType == "Sites" ? ReferenceId : SiteId);
+            if (Forms.Exists("Ver"))
+            {
+                var siteModel = new SiteModel();
+                siteModel.Get(
+                    where: Rds.SitesWhere()
+                        .SiteId(ReferenceId)
+                        .Ver(Forms.Int("Ver")),
+                    tableType: Sqls.TableTypes.NormalAndHistory);
+                siteModel.VerType =  Forms.Bool("Latest")
+                    ? Versions.VerTypes.Latest
+                    : Versions.VerTypes.History;
+                if (initSiteSettings)
+                {
+                    siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+                }
+                return siteModel;
+            }
+            else
+            {
+                return siteOnly
+                    ? new SiteModel(ReferenceId, initSiteSettings: initSiteSettings)
+                    : new SiteModel(
+                        ReferenceType == "Sites" ? ReferenceId : SiteId,
+                        initSiteSettings: initSiteSettings);
+            }
         }
 
         private void SetBySession()

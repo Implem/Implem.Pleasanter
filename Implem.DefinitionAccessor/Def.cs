@@ -481,9 +481,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Histories": Code.Model_Utilities_Histories = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Histories, definitionRow, CodeXls); break;
                     case "Model_Utilities_HistoriesParams": Code.Model_Utilities_HistoriesParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_HistoriesParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_HistoriesParams_Sites": Code.Model_Utilities_HistoriesParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_HistoriesParams_Sites, definitionRow, CodeXls); break;
-                    case "Model_Utilities_HistoryParams": Code.Model_Utilities_HistoryParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_HistoryParams, definitionRow, CodeXls); break;
-                    case "Model_Utilities_HistoryParams_Sites": Code.Model_Utilities_HistoryParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_HistoryParams_Sites, definitionRow, CodeXls); break;
-                    case "Model_Utilities_SetSiteSettingsToSites": Code.Model_Utilities_SetSiteSettingsToSites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetSiteSettingsToSites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_History": Code.Model_Utilities_History = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_History, definitionRow, CodeXls); break;
+                    case "Model_Utilities_History_Sites": Code.Model_Utilities_History_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_History_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SetSiteSettings": Code.Model_Utilities_SetSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetSiteSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_TitleDisplay": Code.Model_Utilities_TitleDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TitleDisplay, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseLinks": Code.Model_Utilities_ResponseLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseLinks, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteModel": Code.Model_Utilities_SiteModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteModel, definitionRow, CodeXls); break;
@@ -3398,9 +3398,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Histories;
         public string Model_Utilities_HistoriesParams;
         public string Model_Utilities_HistoriesParams_Sites;
-        public string Model_Utilities_HistoryParams;
-        public string Model_Utilities_HistoryParams_Sites;
-        public string Model_Utilities_SetSiteSettingsToSites;
+        public string Model_Utilities_History;
+        public string Model_Utilities_History_Sites;
+        public string Model_Utilities_SetSiteSettings;
         public string Model_Utilities_TitleDisplay;
         public string Model_Utilities_ResponseLinks;
         public string Model_Utilities_SiteModel;
@@ -3819,9 +3819,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Histories = new CodeDefinition();
         public CodeDefinition Model_Utilities_HistoriesParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_HistoriesParams_Sites = new CodeDefinition();
-        public CodeDefinition Model_Utilities_HistoryParams = new CodeDefinition();
-        public CodeDefinition Model_Utilities_HistoryParams_Sites = new CodeDefinition();
-        public CodeDefinition Model_Utilities_SetSiteSettingsToSites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_History = new CodeDefinition();
+        public CodeDefinition Model_Utilities_History_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SetSiteSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_TitleDisplay = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseLinks = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteModel = new CodeDefinition();
