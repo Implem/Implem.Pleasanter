@@ -177,7 +177,7 @@ namespace Implem.Pleasanter.Models
                                 .Password(password)
                                 .LastName(demoDefinition.Title.Split_1st(' '))
                                 .FirstName(demoDefinition.Title.Split_2nd(' '))
-                                .DeptId(idHash[demoDefinition.ParentId].ToInt())
+                                .DeptId(idHash.Get(demoDefinition.ParentId).ToInt())
                                 .FirstAndLastNameOrder(demoDefinition.ClassA == "1"
                                     ? Names.FirstAndLastNameOrders.FirstNameIsFirst
                                     : Names.FirstAndLastNameOrders.LastNameIsFirst)
@@ -232,8 +232,8 @@ namespace Implem.Pleasanter.Models
                                 selectIdentity: true,
                                 param: Rds.ItemsParam()
                                     .ReferenceType("Sites")
-                                    .Creator(idHash[demoDefinition.Creator])
-                                    .Updator(idHash[demoDefinition.Updator])
+                                    .Creator(idHash.Get(demoDefinition.Creator))
+                                    .Updator(idHash.Get(demoDefinition.Updator))
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
                                     .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
                                 addUpdatorParam: false),
@@ -245,12 +245,12 @@ namespace Implem.Pleasanter.Models
                                     .Title(demoDefinition.Title)
                                     .ReferenceType(demoDefinition.ClassA)
                                     .ParentId(idHash.ContainsKey(demoDefinition.ParentId)
-                                        ? idHash[demoDefinition.ParentId]
+                                        ? idHash.Get(demoDefinition.ParentId)
                                         : 0)
                                     .InheritPermission(idHash, topId, demoDefinition.ParentId)
                                     .SiteSettings(demoDefinition.Body.Replace(idHash))
-                                    .Creator(idHash[demoDefinition.Creator])
-                                    .Updator(idHash[demoDefinition.Updator])
+                                    .Creator(idHash.Get(demoDefinition.Creator))
+                                    .Updator(idHash.Get(demoDefinition.Updator))
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
                                     .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
                                 addUpdatorParam: false)
@@ -268,7 +268,7 @@ namespace Implem.Pleasanter.Models
         {
             return parentId == string.Empty
                 ? self.InheritPermission(raw: Def.Sql.Identity)
-                : self.InheritPermission(idHash[topId]);
+                : self.InheritPermission(idHash.Get(topId));
         }
 
         /// <summary>
@@ -288,15 +288,15 @@ namespace Implem.Pleasanter.Models
                             selectIdentity: true,
                             param: Rds.ItemsParam()
                                 .ReferenceType("Issues")
-                                .Creator(idHash[demoDefinition.Creator])
-                                .Updator(idHash[demoDefinition.Updator])
+                                .Creator(idHash.Get(demoDefinition.Creator))
+                                .Updator(idHash.Get(demoDefinition.Updator))
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
                                 .UpdatedTime(demoDefinition.CreatedTime.DemoTime(demoModel)),
                             addUpdatorParam: false),
                         Rds.InsertIssues(
                             selectIdentity: true,
                             param: Rds.IssuesParam()
-                                .SiteId(idHash[demoDefinition.ParentId])
+                                .SiteId(idHash.Get(demoDefinition.ParentId))
                                 .IssueId(raw: Def.Sql.Identity)
                                 .Title(demoDefinition.Title)
                                 .Body(demoDefinition.Body.Replace(idHash))
@@ -306,8 +306,8 @@ namespace Implem.Pleasanter.Models
                                 .WorkValue(demoDefinition.WorkValue)
                                 .ProgressRate(0)
                                 .Status(demoDefinition.Status)
-                                .Manager(idHash[demoDefinition.Manager])
-                                .Owner(idHash[demoDefinition.Owner])
+                                .Manager(idHash.Get(demoDefinition.Manager))
+                                .Owner(idHash.Get(demoDefinition.Owner))
                                 .ClassA(demoDefinition.ClassA.Replace(idHash))
                                 .ClassB(demoDefinition.ClassB.Replace(idHash))
                                 .ClassC(demoDefinition.ClassC.Replace(idHash))
@@ -317,15 +317,15 @@ namespace Implem.Pleasanter.Models
                                 .NumD(demoDefinition.NumD)
                                 .NumE(demoDefinition.NumE)
                                 .Comments(Comments(demoModel, idHash, demoDefinition.Id))
-                                .Creator(idHash[demoDefinition.Creator])
-                                .Updator(idHash[demoDefinition.Updator])
+                                .Creator(idHash.Get(demoDefinition.Creator))
+                                .Updator(idHash.Get(demoDefinition.Updator))
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
                                 .UpdatedTime(demoDefinition.CreatedTime.DemoTime(demoModel)),
                             addUpdatorParam: false)
                     });
                     idHash.Add(demoDefinition.Id, issueId);
                     var siteModel = new SiteModel().Get(
-                        where: Rds.SitesWhere().SiteId(idHash[demoDefinition.ParentId]));
+                        where: Rds.SitesWhere().SiteId(idHash.Get(demoDefinition.ParentId)));
                     var ss = siteModel.IssuesSiteSettings();
                     var issueModel = new IssueModel(ss, issueId);
                     Rds.ExecuteNonQuery(statements:
@@ -421,21 +421,21 @@ namespace Implem.Pleasanter.Models
                             selectIdentity: true,
                             param: Rds.ItemsParam()
                                 .ReferenceType("Results")
-                                .Creator(idHash[demoDefinition.Creator])
-                                .Updator(idHash[demoDefinition.Updator])
+                                .Creator(idHash.Get(demoDefinition.Creator))
+                                .Updator(idHash.Get(demoDefinition.Updator))
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
                                 .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
                             addUpdatorParam: false),
                         Rds.InsertResults(
                             selectIdentity: true,
                             param: Rds.ResultsParam()
-                                .SiteId(idHash[demoDefinition.ParentId])
+                                .SiteId(idHash.Get(demoDefinition.ParentId))
                                 .ResultId(raw: Def.Sql.Identity)
                                 .Title(demoDefinition.Title)
                                 .Body(demoDefinition.Body.Replace(idHash))
                                 .Status(demoDefinition.Status)
-                                .Manager(idHash[demoDefinition.Manager])
-                                .Owner(idHash[demoDefinition.Owner])
+                                .Manager(idHash.Get(demoDefinition.Manager))
+                                .Owner(idHash.Get(demoDefinition.Owner))
                                 .ClassA(demoDefinition.ClassA.Replace(idHash))
                                 .ClassB(demoDefinition.ClassB.Replace(idHash))
                                 .ClassC(demoDefinition.ClassC.Replace(idHash))
@@ -445,15 +445,15 @@ namespace Implem.Pleasanter.Models
                                 .NumD(demoDefinition.NumD)
                                 .NumE(demoDefinition.NumE)
                                 .Comments(Comments(demoModel, idHash, demoDefinition.Id))
-                                .Creator(idHash[demoDefinition.Creator])
-                                .Updator(idHash[demoDefinition.Updator])
+                                .Creator(idHash.Get(demoDefinition.Creator))
+                                .Updator(idHash.Get(demoDefinition.Updator))
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
                                 .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
                             addUpdatorParam: false)
                     });
                     idHash.Add(demoDefinition.Id, resultId);
                     var siteModel = new SiteModel().Get(
-                        where: Rds.SitesWhere().SiteId(idHash[demoDefinition.ParentId]));
+                        where: Rds.SitesWhere().SiteId(idHash.Get(demoDefinition.ParentId)));
                     var ss = siteModel.ResultsSiteSettings();
                     var resultModel = new ResultModel(ss, resultId);
                     Rds.ExecuteNonQuery(statements:
@@ -478,16 +478,16 @@ namespace Implem.Pleasanter.Models
                 .ForEach(demoDefinition =>
                     Rds.ExecuteNonQuery(statements:
                         Rds.InsertLinks(param: Rds.LinksParam()
-                            .DestinationId(idHash[demoDefinition.ClassB])
-                            .SourceId(idHash[demoDefinition.Id]))));
+                            .DestinationId(idHash.Get(demoDefinition.ClassB))
+                            .SourceId(idHash.Get(demoDefinition.Id)))));
             Def.DemoDefinitionCollection
                 .Where(o => o.ClassA.RegexExists("^#[A-Za-z0-9]+?#$"))
                 .ForEach(demoDefinition =>
                     Rds.ExecuteNonQuery(statements:
                         Rds.InsertLinks(param: Rds.LinksParam()
-                            .DestinationId(idHash[demoDefinition.ClassA
-                                .Substring(1, demoDefinition.ClassA.Length - 2)])
-                            .SourceId(idHash[demoDefinition.Id]))));
+                            .DestinationId(idHash.Get(demoDefinition.ClassA
+                                .Substring(1, demoDefinition.ClassA.Length - 2)))
+                            .SourceId(idHash.Get(demoDefinition.Id)))));
         }
 
         /// <summary>
@@ -503,7 +503,7 @@ namespace Implem.Pleasanter.Models
                             .ReferenceType("Sites")
                             .ReferenceId(siteId)
                             .DeptId(0)
-                            .UserId(idHash["User1"])
+                            .UserId(idHash.Get("User1"))
                             .PermissionType(Permissions.Manager())));
                 idHash.Where(o => o.Key.StartsWith("Dept")).Select(o => o.Value).ForEach(deptId =>
                 {
@@ -537,7 +537,7 @@ namespace Implem.Pleasanter.Models
                     {
                         CommentId = data.Index,
                         CreatedTime = data.DemoDefinition.CreatedTime.DemoTime(demoModel),
-                        Creator = idHash[data.DemoDefinition.Creator].ToInt(),
+                        Creator = idHash.Get(data.DemoDefinition.Creator).ToInt(),
                         Body = data.DemoDefinition.Body.Replace(idHash)
                     }));
             return comments.ToJson();
@@ -551,9 +551,19 @@ namespace Implem.Pleasanter.Models
             foreach (var id in self.RegexValues("#[A-Za-z0-9]+?#").Distinct())
             {
                 self = self.Replace(
-                    id, idHash[id.ToString().Substring(1, id.Length - 2)].ToString());
+                    id, idHash.Get(id.ToString().Substring(1, id.Length - 2)).ToString());
             }
             return self;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static long Get(this Dictionary<string, long> idHash, string key)
+        {
+            return idHash.ContainsKey(key)
+                ? idHash[key]
+                : 0;
         }
 
         /// <summary>
