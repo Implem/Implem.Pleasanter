@@ -738,15 +738,18 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, ControlData> AggregationDestination()
         {
-            return Aggregations?.ToDictionary(
-                o => o.Id.ToString(),
-                o => new ControlData((o.GroupBy == "[NotGroupBy]"
-                    ? Displays.NoClassification()
-                    : GetColumn(o.GroupBy)?.LabelText) +
-                        " (" + Displays.Get(o.Type.ToString()) +
-                            (o.Target != string.Empty
-                                ? ": " + GetColumn(o.Target)?.LabelText
-                                : string.Empty) + ")"));
+            return Aggregations?
+                .GroupBy(o => o.Id)
+                .Select(o => o.First())
+                .ToDictionary(
+                    o => o.Id.ToString(),
+                    o => new ControlData((o.GroupBy == "[NotGroupBy]"
+                        ? Displays.NoClassification()
+                        : GetColumn(o.GroupBy)?.LabelText) +
+                            " (" + Displays.Get(o.Type.ToString()) +
+                                (o.Target != string.Empty
+                                    ? ": " + GetColumn(o.Target)?.LabelText
+                                    : string.Empty) + ")"));
         }
 
         public Dictionary<string, ControlData> AggregationSource()
