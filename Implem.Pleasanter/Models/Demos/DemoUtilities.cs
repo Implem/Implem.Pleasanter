@@ -121,8 +121,14 @@ namespace Implem.Pleasanter.Models
             InitializeUsers(demoModel, idHash, password);
             SiteInfo.Reflesh(force: true);
             InitializeSites(demoModel, idHash);
-            InitializeIssues(demoModel, idHash);
-            InitializeResults(demoModel, idHash);
+            Def.DemoDefinitionCollection
+                .Where(o => o.Type == "Sites")
+                .OrderBy(o => o.Id)
+                .ForEach(o =>
+                {
+                    InitializeIssues(demoModel, o.Id, idHash);
+                    InitializeResults(demoModel, o.Id, idHash);
+                });
             InitializeLinks(demoModel, idHash);
             InitializePermissions(idHash);
             Rds.ExecuteNonQuery(statements: Rds.UpdateDemos(
@@ -268,9 +274,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void InitializeIssues(DemoModel demoModel, Dictionary<string, long> idHash)
+        private static void InitializeIssues(
+            DemoModel demoModel, string parentId, Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
+                .Where(o => o.ParentId == parentId)
                 .Where(o => o.Type == "Issues")
                 .ForEach(demoDefinition =>
                 {
@@ -303,6 +311,11 @@ namespace Implem.Pleasanter.Models
                                 .ClassA(demoDefinition.ClassA.Replace(idHash))
                                 .ClassB(demoDefinition.ClassB.Replace(idHash))
                                 .ClassC(demoDefinition.ClassC.Replace(idHash))
+                                .NumA(demoDefinition.NumA)
+                                .NumB(demoDefinition.NumB)
+                                .NumC(demoDefinition.NumC)
+                                .NumD(demoDefinition.NumD)
+                                .NumE(demoDefinition.NumE)
                                 .Comments(Comments(demoModel, idHash, demoDefinition.Id))
                                 .Creator(idHash[demoDefinition.Creator])
                                 .Updator(idHash[demoDefinition.Updator])
@@ -394,9 +407,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void InitializeResults(DemoModel demoModel, Dictionary<string, long> idHash)
+        private static void InitializeResults(
+            DemoModel demoModel, string parentId, Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
+                .Where(o => o.ParentId == parentId)
                 .Where(o => o.Type == "Results")
                 .ForEach(demoDefinition =>
                 {
@@ -424,6 +439,11 @@ namespace Implem.Pleasanter.Models
                                 .ClassA(demoDefinition.ClassA.Replace(idHash))
                                 .ClassB(demoDefinition.ClassB.Replace(idHash))
                                 .ClassC(demoDefinition.ClassC.Replace(idHash))
+                                .NumA(demoDefinition.NumA)
+                                .NumB(demoDefinition.NumB)
+                                .NumC(demoDefinition.NumC)
+                                .NumD(demoDefinition.NumD)
+                                .NumE(demoDefinition.NumE)
                                 .Comments(Comments(demoModel, idHash, demoDefinition.Id))
                                 .Creator(idHash[demoDefinition.Creator])
                                 .Updator(idHash[demoDefinition.Updator])

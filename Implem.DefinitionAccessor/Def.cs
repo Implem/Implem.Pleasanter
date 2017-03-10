@@ -2294,6 +2294,8 @@ namespace Implem.DefinitionAccessor
                     case "Site4": Demo.Site4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site4, definitionRow, DemoXls); break;
                     case "Site5": Demo.Site5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site5, definitionRow, DemoXls); break;
                     case "Site6": Demo.Site6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site6, definitionRow, DemoXls); break;
+                    case "Site7": Demo.Site7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site7, definitionRow, DemoXls); break;
+                    case "Site8": Demo.Site8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site8, definitionRow, DemoXls); break;
                     case "DefineNetworks": Demo.DefineNetworks = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineNetworks, definitionRow, DemoXls); break;
                     case "DefineServers": Demo.DefineServers = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineServers, definitionRow, DemoXls); break;
                     case "DefineSecurity": Demo.DefineSecurity = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineSecurity, definitionRow, DemoXls); break;
@@ -2318,6 +2320,13 @@ namespace Implem.DefinitionAccessor
                     case "Transition": Demo.Transition = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transition, definitionRow, DemoXls); break;
                     case "Report": Demo.Report = definitionRow[1].ToString(); SetDemoTable(DemoTable.Report, definitionRow, DemoXls); break;
                     case "Issue1": Demo.Issue1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue1, definitionRow, DemoXls); break;
+                    case "Issue2": Demo.Issue2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue2, definitionRow, DemoXls); break;
+                    case "Issue3": Demo.Issue3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue3, definitionRow, DemoXls); break;
+                    case "Issue4": Demo.Issue4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue4, definitionRow, DemoXls); break;
+                    case "Issue5": Demo.Issue5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue5, definitionRow, DemoXls); break;
+                    case "Issue6": Demo.Issue6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue6, definitionRow, DemoXls); break;
+                    case "Issue7": Demo.Issue7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue7, definitionRow, DemoXls); break;
+                    case "Issue8": Demo.Issue8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue8, definitionRow, DemoXls); break;
                     case "Result1": Demo.Result1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result1, definitionRow, DemoXls); break;
                     case "Result2": Demo.Result2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result2, definitionRow, DemoXls); break;
                     case "Result3": Demo.Result3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result3, definitionRow, DemoXls); break;
@@ -2327,6 +2336,15 @@ namespace Implem.DefinitionAccessor
                     case "Result7": Demo.Result7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result7, definitionRow, DemoXls); break;
                     case "Result8": Demo.Result8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result8, definitionRow, DemoXls); break;
                     case "Result9": Demo.Result9 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result9, definitionRow, DemoXls); break;
+                    case "Result10": Demo.Result10 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result10, definitionRow, DemoXls); break;
+                    case "Result11": Demo.Result11 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result11, definitionRow, DemoXls); break;
+                    case "Result12": Demo.Result12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result12, definitionRow, DemoXls); break;
+                    case "Result13": Demo.Result13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result13, definitionRow, DemoXls); break;
+                    case "Result14": Demo.Result14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result14, definitionRow, DemoXls); break;
+                    case "Result15": Demo.Result15 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result15, definitionRow, DemoXls); break;
+                    case "Result16": Demo.Result16 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result16, definitionRow, DemoXls); break;
+                    case "Result17": Demo.Result17 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result17, definitionRow, DemoXls); break;
+                    case "Result18": Demo.Result18 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result18, definitionRow, DemoXls); break;
                     case "Comment1": Demo.Comment1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment1, definitionRow, DemoXls); break;
                     case "Comment2": Demo.Comment2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment2, definitionRow, DemoXls); break;
                     case "Comment3": Demo.Comment3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment3, definitionRow, DemoXls); break;
@@ -2352,6 +2370,11 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("ClassA")) { newDemoDefinition.ClassA = definitionRow["ClassA"].ToString(); newDemoDefinition.SavedClassA = newDemoDefinition.ClassA; }
                 if (definitionRow.ContainsKey("ClassB")) { newDemoDefinition.ClassB = definitionRow["ClassB"].ToString(); newDemoDefinition.SavedClassB = newDemoDefinition.ClassB; }
                 if (definitionRow.ContainsKey("ClassC")) { newDemoDefinition.ClassC = definitionRow["ClassC"].ToString(); newDemoDefinition.SavedClassC = newDemoDefinition.ClassC; }
+                if (definitionRow.ContainsKey("NumA")) { newDemoDefinition.NumA = definitionRow["NumA"].ToDecimal(); newDemoDefinition.SavedNumA = newDemoDefinition.NumA; }
+                if (definitionRow.ContainsKey("NumB")) { newDemoDefinition.NumB = definitionRow["NumB"].ToDecimal(); newDemoDefinition.SavedNumB = newDemoDefinition.NumB; }
+                if (definitionRow.ContainsKey("NumC")) { newDemoDefinition.NumC = definitionRow["NumC"].ToDecimal(); newDemoDefinition.SavedNumC = newDemoDefinition.NumC; }
+                if (definitionRow.ContainsKey("NumD")) { newDemoDefinition.NumD = definitionRow["NumD"].ToDecimal(); newDemoDefinition.SavedNumD = newDemoDefinition.NumD; }
+                if (definitionRow.ContainsKey("NumE")) { newDemoDefinition.NumE = definitionRow["NumE"].ToDecimal(); newDemoDefinition.SavedNumE = newDemoDefinition.NumE; }
                 if (definitionRow.ContainsKey("Manager")) { newDemoDefinition.Manager = definitionRow["Manager"].ToString(); newDemoDefinition.SavedManager = newDemoDefinition.Manager; }
                 if (definitionRow.ContainsKey("Owner")) { newDemoDefinition.Owner = definitionRow["Owner"].ToString(); newDemoDefinition.SavedOwner = newDemoDefinition.Owner; }
                 if (definitionRow.ContainsKey("Creator")) { newDemoDefinition.Creator = definitionRow["Creator"].ToString(); newDemoDefinition.SavedCreator = newDemoDefinition.Creator; }
@@ -2377,6 +2400,11 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("ClassA")) { definition.ClassA = definitionRow["ClassA"].ToString(); definition.SavedClassA = definition.ClassA; }
             if (definitionRow.ContainsKey("ClassB")) { definition.ClassB = definitionRow["ClassB"].ToString(); definition.SavedClassB = definition.ClassB; }
             if (definitionRow.ContainsKey("ClassC")) { definition.ClassC = definitionRow["ClassC"].ToString(); definition.SavedClassC = definition.ClassC; }
+            if (definitionRow.ContainsKey("NumA")) { definition.NumA = definitionRow["NumA"].ToDecimal(); definition.SavedNumA = definition.NumA; }
+            if (definitionRow.ContainsKey("NumB")) { definition.NumB = definitionRow["NumB"].ToDecimal(); definition.SavedNumB = definition.NumB; }
+            if (definitionRow.ContainsKey("NumC")) { definition.NumC = definitionRow["NumC"].ToDecimal(); definition.SavedNumC = definition.NumC; }
+            if (definitionRow.ContainsKey("NumD")) { definition.NumD = definitionRow["NumD"].ToDecimal(); definition.SavedNumD = definition.NumD; }
+            if (definitionRow.ContainsKey("NumE")) { definition.NumE = definitionRow["NumE"].ToDecimal(); definition.SavedNumE = definition.NumE; }
             if (definitionRow.ContainsKey("Manager")) { definition.Manager = definitionRow["Manager"].ToString(); definition.SavedManager = definition.Manager; }
             if (definitionRow.ContainsKey("Owner")) { definition.Owner = definitionRow["Owner"].ToString(); definition.SavedOwner = definition.Owner; }
             if (definitionRow.ContainsKey("Creator")) { definition.Creator = definitionRow["Creator"].ToString(); definition.SavedCreator = definition.Creator; }
@@ -2803,6 +2831,11 @@ namespace Implem.DefinitionAccessor
                         case "ClassA": demoDefinition.ClassA = optionValue.ToString(); break;
                         case "ClassB": demoDefinition.ClassB = optionValue.ToString(); break;
                         case "ClassC": demoDefinition.ClassC = optionValue.ToString(); break;
+                        case "NumA": demoDefinition.NumA = optionValue.ToDecimal(); break;
+                        case "NumB": demoDefinition.NumB = optionValue.ToDecimal(); break;
+                        case "NumC": demoDefinition.NumC = optionValue.ToDecimal(); break;
+                        case "NumD": demoDefinition.NumD = optionValue.ToDecimal(); break;
+                        case "NumE": demoDefinition.NumE = optionValue.ToDecimal(); break;
                         case "Manager": demoDefinition.Manager = optionValue.ToString(); break;
                         case "Owner": demoDefinition.Owner = optionValue.ToString(); break;
                         case "Creator": demoDefinition.Creator = optionValue.ToString(); break;
@@ -6806,6 +6839,11 @@ namespace Implem.DefinitionAccessor
         public string ClassA; public string SavedClassA;
         public string ClassB; public string SavedClassB;
         public string ClassC; public string SavedClassC;
+        public decimal NumA; public decimal SavedNumA;
+        public decimal NumB; public decimal SavedNumB;
+        public decimal NumC; public decimal SavedNumC;
+        public decimal NumD; public decimal SavedNumD;
+        public decimal NumE; public decimal SavedNumE;
         public string Manager; public string SavedManager;
         public string Owner; public string SavedOwner;
         public string Creator; public string SavedCreator;
@@ -6832,6 +6870,11 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("ClassA")) ClassA = propertyCollection["ClassA"].ToString(); else ClassA = string.Empty;
             if (propertyCollection.ContainsKey("ClassB")) ClassB = propertyCollection["ClassB"].ToString(); else ClassB = string.Empty;
             if (propertyCollection.ContainsKey("ClassC")) ClassC = propertyCollection["ClassC"].ToString(); else ClassC = string.Empty;
+            if (propertyCollection.ContainsKey("NumA")) NumA = propertyCollection["NumA"].ToDecimal(); else NumA = 0;
+            if (propertyCollection.ContainsKey("NumB")) NumB = propertyCollection["NumB"].ToDecimal(); else NumB = 0;
+            if (propertyCollection.ContainsKey("NumC")) NumC = propertyCollection["NumC"].ToDecimal(); else NumC = 0;
+            if (propertyCollection.ContainsKey("NumD")) NumD = propertyCollection["NumD"].ToDecimal(); else NumD = 0;
+            if (propertyCollection.ContainsKey("NumE")) NumE = propertyCollection["NumE"].ToDecimal(); else NumE = 0;
             if (propertyCollection.ContainsKey("Manager")) Manager = propertyCollection["Manager"].ToString(); else Manager = string.Empty;
             if (propertyCollection.ContainsKey("Owner")) Owner = propertyCollection["Owner"].ToString(); else Owner = string.Empty;
             if (propertyCollection.ContainsKey("Creator")) Creator = propertyCollection["Creator"].ToString(); else Creator = string.Empty;
@@ -6858,6 +6901,11 @@ namespace Implem.DefinitionAccessor
                     case "ClassA": return ClassA;
                     case "ClassB": return ClassB;
                     case "ClassC": return ClassC;
+                    case "NumA": return NumA;
+                    case "NumB": return NumB;
+                    case "NumC": return NumC;
+                    case "NumD": return NumD;
+                    case "NumE": return NumE;
                     case "Manager": return Manager;
                     case "Owner": return Owner;
                     case "Creator": return Creator;
@@ -6884,6 +6932,11 @@ namespace Implem.DefinitionAccessor
             ClassA = SavedClassA;
             ClassB = SavedClassB;
             ClassC = SavedClassC;
+            NumA = SavedNumA;
+            NumB = SavedNumB;
+            NumC = SavedNumC;
+            NumD = SavedNumD;
+            NumE = SavedNumE;
             Manager = SavedManager;
             Owner = SavedOwner;
             Creator = SavedCreator;
@@ -6931,6 +6984,8 @@ namespace Implem.DefinitionAccessor
         public string Site4;
         public string Site5;
         public string Site6;
+        public string Site7;
+        public string Site8;
         public string DefineNetworks;
         public string DefineServers;
         public string DefineSecurity;
@@ -6955,6 +7010,13 @@ namespace Implem.DefinitionAccessor
         public string Transition;
         public string Report;
         public string Issue1;
+        public string Issue2;
+        public string Issue3;
+        public string Issue4;
+        public string Issue5;
+        public string Issue6;
+        public string Issue7;
+        public string Issue8;
         public string Result1;
         public string Result2;
         public string Result3;
@@ -6964,6 +7026,15 @@ namespace Implem.DefinitionAccessor
         public string Result7;
         public string Result8;
         public string Result9;
+        public string Result10;
+        public string Result11;
+        public string Result12;
+        public string Result13;
+        public string Result14;
+        public string Result15;
+        public string Result16;
+        public string Result17;
+        public string Result18;
         public string Comment1;
         public string Comment2;
         public string Comment3;
@@ -7010,6 +7081,8 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Site4 = new DemoDefinition();
         public DemoDefinition Site5 = new DemoDefinition();
         public DemoDefinition Site6 = new DemoDefinition();
+        public DemoDefinition Site7 = new DemoDefinition();
+        public DemoDefinition Site8 = new DemoDefinition();
         public DemoDefinition DefineNetworks = new DemoDefinition();
         public DemoDefinition DefineServers = new DemoDefinition();
         public DemoDefinition DefineSecurity = new DemoDefinition();
@@ -7034,6 +7107,13 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Transition = new DemoDefinition();
         public DemoDefinition Report = new DemoDefinition();
         public DemoDefinition Issue1 = new DemoDefinition();
+        public DemoDefinition Issue2 = new DemoDefinition();
+        public DemoDefinition Issue3 = new DemoDefinition();
+        public DemoDefinition Issue4 = new DemoDefinition();
+        public DemoDefinition Issue5 = new DemoDefinition();
+        public DemoDefinition Issue6 = new DemoDefinition();
+        public DemoDefinition Issue7 = new DemoDefinition();
+        public DemoDefinition Issue8 = new DemoDefinition();
         public DemoDefinition Result1 = new DemoDefinition();
         public DemoDefinition Result2 = new DemoDefinition();
         public DemoDefinition Result3 = new DemoDefinition();
@@ -7043,6 +7123,15 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Result7 = new DemoDefinition();
         public DemoDefinition Result8 = new DemoDefinition();
         public DemoDefinition Result9 = new DemoDefinition();
+        public DemoDefinition Result10 = new DemoDefinition();
+        public DemoDefinition Result11 = new DemoDefinition();
+        public DemoDefinition Result12 = new DemoDefinition();
+        public DemoDefinition Result13 = new DemoDefinition();
+        public DemoDefinition Result14 = new DemoDefinition();
+        public DemoDefinition Result15 = new DemoDefinition();
+        public DemoDefinition Result16 = new DemoDefinition();
+        public DemoDefinition Result17 = new DemoDefinition();
+        public DemoDefinition Result18 = new DemoDefinition();
         public DemoDefinition Comment1 = new DemoDefinition();
         public DemoDefinition Comment2 = new DemoDefinition();
         public DemoDefinition Comment3 = new DemoDefinition();
