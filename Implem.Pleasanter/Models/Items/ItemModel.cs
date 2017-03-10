@@ -664,7 +664,7 @@ namespace Implem.Pleasanter.Models
 
         public SiteModel GetSite(bool siteOnly = false, bool initSiteSettings = false)
         {
-            if (Forms.Exists("Ver"))
+            if (ReferenceType == "Sites" && Forms.Exists("Ver"))
             {
                 var siteModel = new SiteModel();
                 siteModel.Get(
