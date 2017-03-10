@@ -995,6 +995,7 @@
     <Content Include="App_Data\Displays\Pattern.json" />
     <Content Include="App_Data\Displays\ManagePermission.json" />
     <Content Include="App_Data\Displays\Send.json" />
+    <Content Include="App_Data\Displays\InputMailAddress.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

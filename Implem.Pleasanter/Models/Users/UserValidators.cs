@@ -505,6 +505,10 @@ namespace Implem.Pleasanter.Models
             {
                 return error;
             }
+            if (mailAddress.Trim() == string.Empty)
+            {
+                return Error.Types.InputMailAddress;
+            }
             if (!Permissions.CanManageTenant() && !userModel.Self())
             {
                 return Error.Types.HasNotPermission;

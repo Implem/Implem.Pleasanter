@@ -193,6 +193,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.IncorrectCurrentPassword(data), "alert-error");
         }
 
+        public static Message InputMailAddress(params string[] data)
+        {
+            return Get(Displays.InputMailAddress(data), "alert-error");
+        }
+
         public static Message InvalidCsvData(params string[] data)
         {
             return Get(Displays.InvalidCsvData(data), "alert-error");
@@ -476,6 +481,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseIncorrectCurrentPassword(params string[] data)
         {
             return ResponseMessage(IncorrectCurrentPassword(data));
+        }
+
+        public static ResponseCollection ResponseInputMailAddress(params string[] data)
+        {
+            return ResponseMessage(InputMailAddress(data));
         }
 
         public static ResponseCollection ResponseInvalidCsvData(params string[] data)

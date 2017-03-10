@@ -193,6 +193,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string InCopying(params string[] data) { return Get("InCopying", data); }
         public static string IncorrectCurrentPassword(params string[] data) { return Get("IncorrectCurrentPassword", data); }
         public static string Index(params string[] data) { return Get("Index", data); }
+        public static string InputMailAddress(params string[] data) { return Get("InputMailAddress", data); }
         public static string InvalidCsvData(params string[] data) { return Get("InvalidCsvData", data); }
         public static string InvalidFormula(params string[] data) { return Get("InvalidFormula", data); }
         public static string InvalidRequest(params string[] data) { return Get("InvalidRequest", data); }
