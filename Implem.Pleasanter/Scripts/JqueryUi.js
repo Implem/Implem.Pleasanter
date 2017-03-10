@@ -77,11 +77,14 @@
             }
             $control.addClass('applied');
         });
-        $('.status:not(.applied)').each(function () {
+        $('.control-dropdown:not(.applied)').each(function () {
             var $control = $(this);
-            $control
-                .addClass($control.find('option:selected').attr('data-class'))
-                .addClass('applied');
+            var selectedCss = $control.find('option:selected').attr('data-class');
+            if (selectedCss !== undefined) {
+                $control
+                    .addClass(selectedCss)
+                    .addClass('applied');
+            }
         });
         $('.control-markdown:not(.applied)').each(function () {
             var $control = $(this);
