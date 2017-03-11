@@ -16,6 +16,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Kamban(
             this HtmlBuilder hb,
             SiteSettings ss,
+            View view,
             string groupByX,
             string groupByY,
             string aggregateType,
@@ -72,6 +73,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         method: "post")
                     .KambanBody(
                         ss: ss,
+                        view: view,
                         groupByX: ss.GetColumn(groupByX),
                         groupByY: ss.GetColumn(groupByY),
                         aggregateType: aggregateType,
@@ -90,6 +92,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder KambanBody(
             this HtmlBuilder hb,
             SiteSettings ss,
+            View view,
             Column groupByX,
             Column groupByY,
             string aggregateType,
@@ -99,24 +102,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long changedItemId = 0)
         {
             var choicesY = CorrectedChoices(
-                groupByY, groupByY?.EditChoices(insertBlank: true));
+                groupByY, groupByY?.Choices(view));
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Id("KambanBody")
                     .DataAction("UpdateByKamban")
                     .DataMethod("post"),
-                action: () => groupByX.EditChoices(
-                    insertBlank: true)
-                        .Chunk(columns.ToInt())
-                        .ForEach(choicesX => hb
-                            .Table(
-                                ss: ss,
-                                choicesX: CorrectedChoices(groupByX, choicesX),
-                                choicesY: choicesY,
-                                aggregateType: aggregateType,
-                                value: value,
-                                data: data,
-                                changedItemId: changedItemId)));
+                action: () => groupByX.Choices(view)
+                    .Chunk(columns.ToInt())
+                    .ForEach(choicesX => hb
+                        .Table(
+                            ss: ss,
+                            choicesX: CorrectedChoices(groupByX, choicesX),
+                            choicesY: choicesY,
+                            aggregateType: aggregateType,
+                            value: value,
+                            data: data,
+                            changedItemId: changedItemId)));
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
@@ -129,6 +131,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         o => o.Key != string.Empty ? o.Key : "0",
                         o => o.Value)
                 : null;
+        }
+
+        private static Dictionary<string, ControlData> Choices(this Column column, View view)
+        {
+            var selected = view.ColumnFilter(column.ColumnName)?.Deserialize<List<string>>();
+            return column
+                .EditChoices(insertBlank: true)
+                .Where(o => selected?.Any() != true || selected.Contains(o.Key))
+                .ToDictionary(o => o.Key, o => o.Value);
         }
 
         private static HtmlBuilder Table(

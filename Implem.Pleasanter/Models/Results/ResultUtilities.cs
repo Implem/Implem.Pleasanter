@@ -3207,6 +3207,7 @@ namespace Implem.Pleasanter.Models
             return !bodyOnly
                 ? hb.Kamban(
                     ss: ss,
+                    view: view,
                     groupByX: groupByX,
                     groupByY: groupByY,
                     aggregateType: aggregateType,
@@ -3221,6 +3222,7 @@ namespace Implem.Pleasanter.Models
                         KambanColumns(ss, groupByX, groupByY, value)))
                 : hb.KambanBody(
                     ss: ss,
+                    view: view,
                     groupByX: ss.GetColumn(groupByX),
                     groupByY: ss.GetColumn(groupByY),
                     aggregateType: aggregateType,
