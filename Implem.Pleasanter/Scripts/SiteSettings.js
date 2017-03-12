@@ -86,3 +86,8 @@ $p.addSummary = function ($control) {
     $p.setData($('#SummarySourceColumn'));
     $p.send($control);
 }
+
+$p.synchronizeSummaries = function ($control) {
+    $p.setData($('#EditSummary'));
+    $p.send($control);
+}

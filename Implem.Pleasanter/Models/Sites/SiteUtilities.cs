@@ -2307,7 +2307,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "SynchronizeSummaries",
                         controlCss: "button-icon",
                         text: Displays.Synchronize(),
-                        onClick: "$p.send($(this));",
+                        onClick: "$p.synchronizeSummaries($(this));",
                         icon: "ui-icon-refresh",
                         action: "SynchronizeSummaries",
                         method: "put",
