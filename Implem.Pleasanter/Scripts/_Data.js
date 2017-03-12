@@ -59,6 +59,11 @@ $p.setData = function ($control, data) {
     }
 }
 
+$p.setAndSend = function (selector, $control) {
+    $p.setData($(selector));
+    $p.send($control);
+}
+
 $p.setMustData = function ($form, action) {
     if (action !== undefined && action.toLowerCase() === 'create') {
         $form.find('[class*="control-"]').each(function () {
