@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $(document).on('keypress', 'form[data-enter] input', function (e) {
+    $(document).on('keypress', 'form[data-enter] input:not([type="button"])', function (e) {
         if (e.which === 13) {
             $($(this).closest('form').attr('data-enter')).click();
         }
