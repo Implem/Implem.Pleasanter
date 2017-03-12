@@ -1157,7 +1157,8 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("ChangePasswordForm")
-                            .Action(Locations.Action("Users", userId)),
+                            .Action(Locations.Action("Users", userId))
+                            .DataEnter("#ChangePassword"),
                         action: () => hb
                             .Field(
                                 ss: ss,
@@ -1171,6 +1172,7 @@ namespace Implem.Pleasanter.Models
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
+                                    controlId: "ChangePassword",
                                     text: Displays.Change(),
                                     controlCss: "button-icon validate",
                                     onClick: "$p.send($(this));",
@@ -1199,7 +1201,8 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("ResetPasswordForm")
-                            .Action(Locations.Action("Users", userId)),
+                            .Action(Locations.Action("Users", userId))
+                            .DataEnter("#ResetPassword"),
                         action: () => hb
                             .Field(
                                 ss: ss,
@@ -1214,6 +1217,7 @@ namespace Implem.Pleasanter.Models
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
+                                    controlId: "ResetPassword",
                                     text: Displays.Reset(),
                                     controlCss: "button-icon validate",
                                     onClick: "$p.send($(this));",
@@ -1331,7 +1335,8 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("ChangePasswordForm")
-                            .Action(Locations.Action("Users")),
+                            .Action(Locations.Action("Users"))
+                            .DataEnter("#ChangePassword"),
                         action: () => hb
                             .Field(
                                 ss: ss,
@@ -1342,6 +1347,7 @@ namespace Implem.Pleasanter.Models
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
+                                    controlId: "ChangePassword",
                                     text: Displays.Change(),
                                     controlCss: "button-icon validate",
                                     onClick: "$p.changePasswordAtLogin($(this));",
