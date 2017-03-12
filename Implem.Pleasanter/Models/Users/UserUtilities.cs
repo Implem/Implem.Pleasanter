@@ -1261,9 +1261,10 @@ namespace Implem.Pleasanter.Models
                             .Id("UserForm")
                             .Class("main-form")
                             .Action(Locations.Get("users", "_action_?ReturnUrl="
-                                + Url.Encode(returnUrl))),
+                                + Url.Encode(returnUrl)))
+                            .DataEnter("#Login"),
                         action: () => hb
-                            .FieldSet(id: "Login", action: () => hb
+                            .FieldSet(id: "LoginFieldSet", action: () => hb
                                 .Div(action: () => hb
                                     .Field(
                                         ss: ss,
@@ -1279,6 +1280,7 @@ namespace Implem.Pleasanter.Models
                                         column: ss.GetColumn("RememberMe")))
                                 .Div(id: "LoginCommands cf", action: () => hb
                                     .Button(
+                                        controlId: "Login",
                                         controlCss: "button-icon button-right-justified validate",
                                         text: Displays.Login(),
                                         onClick: "$p.send($(this));",

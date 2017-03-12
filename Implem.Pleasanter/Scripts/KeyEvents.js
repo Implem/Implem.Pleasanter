@@ -1,4 +1,9 @@
 ﻿$(function () {
+    $(document).on('keypress', 'form[data-enter] input', function (e) {
+        if (e.which === 13) {
+            $($(this).closest('form').attr('data-enter')).click();
+        }
+    });
     $(document).on('keypress', 'input', function (e) {
         return e.which !== 13;
     });

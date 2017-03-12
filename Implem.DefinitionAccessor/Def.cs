@@ -1747,7 +1747,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Logo": Css._sharp_Logo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Logo, definitionRow, CssXls); break;
                     case "_sharp_CorpLogo": Css._sharp_CorpLogo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CorpLogo, definitionRow, CssXls); break;
                     case "_sharp_ProductLogo": Css._sharp_ProductLogo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ProductLogo, definitionRow, CssXls); break;
-                    case "_sharp_Login": Css._sharp_Login = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Login, definitionRow, CssXls); break;
+                    case "_sharp_LoginFieldSet": Css._sharp_LoginFieldSet = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_LoginFieldSet, definitionRow, CssXls); break;
                     case "_sharp_LoginCommands": Css._sharp_LoginCommands = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_LoginCommands, definitionRow, CssXls); break;
                     case "_sharp_Demo": Css._sharp_Demo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Demo, definitionRow, CssXls); break;
                     case "_sharp_DemoFields": Css._sharp_DemoFields = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DemoFields, definitionRow, CssXls); break;
@@ -2296,6 +2296,8 @@ namespace Implem.DefinitionAccessor
                     case "Site6": Demo.Site6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site6, definitionRow, DemoXls); break;
                     case "Site7": Demo.Site7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site7, definitionRow, DemoXls); break;
                     case "Site8": Demo.Site8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site8, definitionRow, DemoXls); break;
+                    case "Site9": Demo.Site9 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site9, definitionRow, DemoXls); break;
+                    case "Site10": Demo.Site10 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site10, definitionRow, DemoXls); break;
                     case "DefineNetworks": Demo.DefineNetworks = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineNetworks, definitionRow, DemoXls); break;
                     case "DefineServers": Demo.DefineServers = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineServers, definitionRow, DemoXls); break;
                     case "DefineSecurity": Demo.DefineSecurity = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineSecurity, definitionRow, DemoXls); break;
@@ -2327,6 +2329,14 @@ namespace Implem.DefinitionAccessor
                     case "Opportunity5": Demo.Opportunity5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Opportunity5, definitionRow, DemoXls); break;
                     case "Opportunity6": Demo.Opportunity6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Opportunity6, definitionRow, DemoXls); break;
                     case "Opportunity7": Demo.Opportunity7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Opportunity7, definitionRow, DemoXls); break;
+                    case "Acceptance1": Demo.Acceptance1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Acceptance1, definitionRow, DemoXls); break;
+                    case "Acceptance2": Demo.Acceptance2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Acceptance2, definitionRow, DemoXls); break;
+                    case "Acceptance3": Demo.Acceptance3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Acceptance3, definitionRow, DemoXls); break;
+                    case "Acceptance4": Demo.Acceptance4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Acceptance4, definitionRow, DemoXls); break;
+                    case "Acceptance5": Demo.Acceptance5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Acceptance5, definitionRow, DemoXls); break;
+                    case "Acceptance6": Demo.Acceptance6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Acceptance6, definitionRow, DemoXls); break;
+                    case "Acceptance7": Demo.Acceptance7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Acceptance7, definitionRow, DemoXls); break;
+                    case "Acceptance8": Demo.Acceptance8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Acceptance8, definitionRow, DemoXls); break;
                     case "Result1": Demo.Result1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result1, definitionRow, DemoXls); break;
                     case "Customer1": Demo.Customer1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Customer1, definitionRow, DemoXls); break;
                     case "Customer2": Demo.Customer2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Customer2, definitionRow, DemoXls); break;
@@ -2354,6 +2364,11 @@ namespace Implem.DefinitionAccessor
                     case "Comment7": Demo.Comment7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment7, definitionRow, DemoXls); break;
                     case "Comment8": Demo.Comment8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment8, definitionRow, DemoXls); break;
                     case "Comment9": Demo.Comment9 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment9, definitionRow, DemoXls); break;
+                    case "Comment10": Demo.Comment10 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment10, definitionRow, DemoXls); break;
+                    case "Comment11": Demo.Comment11 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment11, definitionRow, DemoXls); break;
+                    case "Comment12": Demo.Comment12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment12, definitionRow, DemoXls); break;
+                    case "Comment13": Demo.Comment13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment13, definitionRow, DemoXls); break;
+                    case "Comment14": Demo.Comment14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment14, definitionRow, DemoXls); break;
                     default: break;
                 }
             });
@@ -6069,7 +6084,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Logo;
         public string _sharp_CorpLogo;
         public string _sharp_ProductLogo;
-        public string _sharp_Login;
+        public string _sharp_LoginFieldSet;
         public string _sharp_LoginCommands;
         public string _sharp_Demo;
         public string _sharp_DemoFields;
@@ -6457,7 +6472,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Logo = new CssDefinition();
         public CssDefinition _sharp_CorpLogo = new CssDefinition();
         public CssDefinition _sharp_ProductLogo = new CssDefinition();
-        public CssDefinition _sharp_Login = new CssDefinition();
+        public CssDefinition _sharp_LoginFieldSet = new CssDefinition();
         public CssDefinition _sharp_LoginCommands = new CssDefinition();
         public CssDefinition _sharp_Demo = new CssDefinition();
         public CssDefinition _sharp_DemoFields = new CssDefinition();
@@ -6987,6 +7002,8 @@ namespace Implem.DefinitionAccessor
         public string Site6;
         public string Site7;
         public string Site8;
+        public string Site9;
+        public string Site10;
         public string DefineNetworks;
         public string DefineServers;
         public string DefineSecurity;
@@ -7018,6 +7035,14 @@ namespace Implem.DefinitionAccessor
         public string Opportunity5;
         public string Opportunity6;
         public string Opportunity7;
+        public string Acceptance1;
+        public string Acceptance2;
+        public string Acceptance3;
+        public string Acceptance4;
+        public string Acceptance5;
+        public string Acceptance6;
+        public string Acceptance7;
+        public string Acceptance8;
         public string Result1;
         public string Customer1;
         public string Customer2;
@@ -7045,6 +7070,11 @@ namespace Implem.DefinitionAccessor
         public string Comment7;
         public string Comment8;
         public string Comment9;
+        public string Comment10;
+        public string Comment11;
+        public string Comment12;
+        public string Comment13;
+        public string Comment14;
     }
 
     public class DemoTable
@@ -7085,6 +7115,8 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Site6 = new DemoDefinition();
         public DemoDefinition Site7 = new DemoDefinition();
         public DemoDefinition Site8 = new DemoDefinition();
+        public DemoDefinition Site9 = new DemoDefinition();
+        public DemoDefinition Site10 = new DemoDefinition();
         public DemoDefinition DefineNetworks = new DemoDefinition();
         public DemoDefinition DefineServers = new DemoDefinition();
         public DemoDefinition DefineSecurity = new DemoDefinition();
@@ -7116,6 +7148,14 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Opportunity5 = new DemoDefinition();
         public DemoDefinition Opportunity6 = new DemoDefinition();
         public DemoDefinition Opportunity7 = new DemoDefinition();
+        public DemoDefinition Acceptance1 = new DemoDefinition();
+        public DemoDefinition Acceptance2 = new DemoDefinition();
+        public DemoDefinition Acceptance3 = new DemoDefinition();
+        public DemoDefinition Acceptance4 = new DemoDefinition();
+        public DemoDefinition Acceptance5 = new DemoDefinition();
+        public DemoDefinition Acceptance6 = new DemoDefinition();
+        public DemoDefinition Acceptance7 = new DemoDefinition();
+        public DemoDefinition Acceptance8 = new DemoDefinition();
         public DemoDefinition Result1 = new DemoDefinition();
         public DemoDefinition Customer1 = new DemoDefinition();
         public DemoDefinition Customer2 = new DemoDefinition();
@@ -7143,6 +7183,11 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Comment7 = new DemoDefinition();
         public DemoDefinition Comment8 = new DemoDefinition();
         public DemoDefinition Comment9 = new DemoDefinition();
+        public DemoDefinition Comment10 = new DemoDefinition();
+        public DemoDefinition Comment11 = new DemoDefinition();
+        public DemoDefinition Comment12 = new DemoDefinition();
+        public DemoDefinition Comment13 = new DemoDefinition();
+        public DemoDefinition Comment14 = new DemoDefinition();
     }
 
     public class SqlDefinition
