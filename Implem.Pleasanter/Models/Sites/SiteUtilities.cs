@@ -2298,7 +2298,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "DeleteSummaries",
                         controlCss: "button-icon",
                         text: Displays.Delete(),
-                        onClick: "$p.send($(this));",
+                        onClick: "$p.deleteSummaries($(this));",
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "post",
