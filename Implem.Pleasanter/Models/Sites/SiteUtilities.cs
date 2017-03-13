@@ -2631,6 +2631,7 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.SummarySourceColumn(),
                         optionCollection: ss.Columns
                             .Where(o => o.Computable)
+                            .Where(o => o.TypeName != "datetime")
                             .ToDictionary(o => o.ColumnName, o => o.LabelText),
                         selectedValue: sourceColumn,
                         action: "SetSiteSettings",
