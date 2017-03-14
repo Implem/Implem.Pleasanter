@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System;
@@ -322,6 +323,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             GeneralsWhere(ss, where);
             ColumnsWhere(ss, where);
             SearchWhere(ss, where);
+            Permissions.CanRead(ss, where);
             return where;
         }
 

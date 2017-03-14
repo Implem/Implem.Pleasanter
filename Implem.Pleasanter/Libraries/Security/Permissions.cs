@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
@@ -85,6 +86,25 @@ namespace Implem.Pleasanter.Libraries.Security
                                 .AsEnumerable());
         }
 
+        public static SqlWhereCollection CanRead(SiteSettings ss, SqlWhereCollection where)
+        {
+            return !ss.CanRead()
+                ? where.Add(
+                    subLeft: Rds.SelectPermissions(
+                        column: Rds.PermissionsColumn().PermissionType(),
+                        where: Rds.PermissionsWhere()
+                            .ReferenceType(ss.ReferenceType)
+                            .ReferenceId(raw: ss.IdColumnBracket())
+                            .Or(Rds.PermissionsWhere()
+                                .GroupId_In(sub: Rds.SelectGroupMembers(
+                                    column: Rds.GroupMembersColumn().GroupId(),
+                                    where: Rds.GroupMembersWhere()
+                                        .Add(raw: DeptOrUser("GroupMembers"))))
+                                .Add(raw: DeptOrUser("Permissions")))),
+                    _operator: " & 1 = 1")
+                : where;
+        }
+
         private static string DeptOrUser(string tableName)
         {
             return "([{0}].[DeptId]=@_D or [{0}].[UserId]=@_U)".Params(tableName);
@@ -140,6 +160,11 @@ namespace Implem.Pleasanter.Libraries.Security
                         .Add(raw: Def.Sql.CanRead)))
                             .AsEnumerable()
                             .Select(o => o["SiteId"].ToLong());
+        }
+
+        public static bool HasPermission(this SiteSettings ss)
+        {
+            return ss.PermissionType != null;
         }
 
         public static bool CanRead(this SiteSettings ss)
@@ -316,12 +341,7 @@ namespace Implem.Pleasanter.Libraries.Security
                                 .AsEnumerable();
         }
 
-        public static Types Admins()
-        {
-            return Types.NotSet.Admins();
-        }
-
-        public static Types Admins(this Types type)
+        public static Types? Admins(this Types? type)
         {
             var user = Sessions.User();
             if (user.TenantManager) type |= Types.ManageTenant;

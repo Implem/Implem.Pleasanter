@@ -792,15 +792,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private Permissions.Types GetPermissionType(DataRow dataRow)
-        {
-            return Permissions.Admins(
-                (Permissions.Types)dataRow["PermissionType"].ToLong());
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public HtmlBuilder ReplaceSiteMenu(long sourceId, long destinationId)
         {
             return new HtmlBuilder().SiteMenu(

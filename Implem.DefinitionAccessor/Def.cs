@@ -605,6 +605,7 @@ namespace Implem.DefinitionAccessor
                     case "View_Search_TableCases": Code.View_Search_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Search_TableCases, definitionRow, CodeXls); break;
                     case "View_Sorter_TableCases": Code.View_Sorter_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Sorter_TableCases, definitionRow, CodeXls); break;
                     case "View_Sorter_ColumnCases": Code.View_Sorter_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Sorter_ColumnCases, definitionRow, CodeXls); break;
+                    case "View_IdColumnCases": Code.View_IdColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_IdColumnCases, definitionRow, CodeXls); break;
                     case "HtmlLinks": Code.HtmlLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks, definitionRow, CodeXls); break;
                     case "HtmlLinks_DataSetTableCases": Code.HtmlLinks_DataSetTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_DataSetTableCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_SelectStatementTableCases": Code.HtmlLinks_SelectStatementTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_SelectStatementTableCases, definitionRow, CodeXls); break;
@@ -2454,6 +2455,7 @@ namespace Implem.DefinitionAccessor
                 {
                     case "BeginTransaction": Sql.BeginTransaction = definitionRow[1].ToString(); SetSqlTable(SqlTable.BeginTransaction, definitionRow, SqlXls); break;
                     case "CommitTransaction": Sql.CommitTransaction = definitionRow[1].ToString(); SetSqlTable(SqlTable.CommitTransaction, definitionRow, SqlXls); break;
+                    case "HasPermission": Sql.HasPermission = definitionRow[1].ToString(); SetSqlTable(SqlTable.HasPermission, definitionRow, SqlXls); break;
                     case "CanRead": Sql.CanRead = definitionRow[1].ToString(); SetSqlTable(SqlTable.CanRead, definitionRow, SqlXls); break;
                     case "SiteDepts": Sql.SiteDepts = definitionRow[1].ToString(); SetSqlTable(SqlTable.SiteDepts, definitionRow, SqlXls); break;
                     case "ProgressRateDelay": Sql.ProgressRateDelay = definitionRow[1].ToString(); SetSqlTable(SqlTable.ProgressRateDelay, definitionRow, SqlXls); break;
@@ -3581,6 +3583,7 @@ namespace Implem.DefinitionAccessor
         public string View_Search_TableCases;
         public string View_Sorter_TableCases;
         public string View_Sorter_ColumnCases;
+        public string View_IdColumnCases;
         public string HtmlLinks;
         public string HtmlLinks_DataSetTableCases;
         public string HtmlLinks_SelectStatementTableCases;
@@ -4002,6 +4005,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition View_Search_TableCases = new CodeDefinition();
         public CodeDefinition View_Sorter_TableCases = new CodeDefinition();
         public CodeDefinition View_Sorter_ColumnCases = new CodeDefinition();
+        public CodeDefinition View_IdColumnCases = new CodeDefinition();
         public CodeDefinition HtmlLinks = new CodeDefinition();
         public CodeDefinition HtmlLinks_DataSetTableCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_SelectStatementTableCases = new CodeDefinition();
@@ -7228,6 +7232,7 @@ namespace Implem.DefinitionAccessor
     {
         public string BeginTransaction;
         public string CommitTransaction;
+        public string HasPermission;
         public string CanRead;
         public string SiteDepts;
         public string ProgressRateDelay;
@@ -7258,6 +7263,7 @@ namespace Implem.DefinitionAccessor
     {
         public SqlDefinition BeginTransaction = new SqlDefinition();
         public SqlDefinition CommitTransaction = new SqlDefinition();
+        public SqlDefinition HasPermission = new SqlDefinition();
         public SqlDefinition CanRead = new SqlDefinition();
         public SqlDefinition SiteDepts = new SqlDefinition();
         public SqlDefinition ProgressRateDelay = new SqlDefinition();

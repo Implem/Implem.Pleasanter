@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: ss.CanRead(),
+                allowAccess: ss.HasPermission(),
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Issues",

@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public long InheritPermission;
         [NonSerialized]
-        public Permissions.Types PermissionType;
+        public Permissions.Types? PermissionType;
         [NonSerialized]
         public Databases.AccessStatuses AccessStatus;
         [NonSerialized]

@@ -575,7 +575,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var ss = new SiteSettings();
-            ss.PermissionType = Permissions.Admins() | Permissions.Manager();
+            ss.PermissionType = Permissions.Manager();
             var verType = Versions.VerTypes.Latest;
             var siteConditions = SiteInfo.SiteMenu.SiteConditions(0);
             return hb.Template(
@@ -616,7 +616,7 @@ namespace Implem.Pleasanter.Models
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess:
-                    siteModel.SiteSettings.CanRead() &&
+                    siteModel.SiteSettings.HasPermission() &&
                     siteModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
@@ -653,7 +653,7 @@ namespace Implem.Pleasanter.Models
                 : SiteSettingsUtilities.SitesSiteSettings(0);
             ss.PermissionType = siteModel != null
                 ? siteModel.SiteSettings.PermissionType
-                : Permissions.Admins() | Permissions.Manager();
+                : Permissions.Manager();
             return hb.Div(id: "SiteMenu", action: () => hb
                 .Nav(css: "cf", _using: siteModel != null, action: () => hb
                     .Ul(css: "nav-sites", action: () => hb
@@ -908,7 +908,7 @@ namespace Implem.Pleasanter.Models
                 where: Rds.SitesWhere()
                     .TenantId(Sessions.TenantId())
                     .ParentId(parentId)
-                    .Add(raw: Def.Sql.CanRead));
+                    .Add(raw: Def.Sql.HasPermission));
             var orderModel = new OrderModel(parentId, "Sites");
             siteDataRows.ForEach(siteModel =>
             {
