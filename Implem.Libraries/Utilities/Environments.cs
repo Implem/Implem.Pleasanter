@@ -1,5 +1,4 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
-using System;
+﻿using System;
 namespace Implem.Libraries.Utilities
 {
     public static class Environments
