@@ -139,7 +139,8 @@ namespace Implem.Pleasanter.Models
                 switch (siteModel.ReferenceType)
                 {
                     case "Wikis":
-                        var wikiModel = new WikiModel(siteModel.WikisSiteSettings(siteModel.SiteId))
+                        ss = siteModel.WikisSiteSettings(siteModel.SiteId);
+                        var wikiModel = new WikiModel(ss)
                             .Get(
                                 ss: ss,
                                 where: Rds.WikisWhere().SiteId(siteModel.SiteId));
