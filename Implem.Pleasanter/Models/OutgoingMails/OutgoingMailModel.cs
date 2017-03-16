@@ -340,7 +340,7 @@ namespace Implem.Pleasanter.Models
         public string GetDestinations()
         {
             var siteModel = new ItemModel(ReferenceId).GetSite();
-            var ss = siteModel.SitesSiteSettings();
+            var ss = siteModel.SitesSiteSettings(ReferenceId);
             return new OutgoingMailsResponseCollection(this)
                 .Html("#OutgoingMails_MailAddresses",
                     new HtmlBuilder().SelectableItems(

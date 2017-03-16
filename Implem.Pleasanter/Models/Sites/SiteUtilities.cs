@@ -121,7 +121,7 @@ namespace Implem.Pleasanter.Models
         public static string Create(long parentId, long inheritPermission)
         {
             var siteModel = new SiteModel(parentId, inheritPermission, setByForm: true);
-            var ss = siteModel.SitesSiteSettings();
+            var ss = siteModel.SitesSiteSettings(parentId);
             if (parentId == 0) ss.PermissionType = Permissions.Types.Create;
             var invalid = SiteValidators.OnCreating(ss, siteModel);
             switch (invalid)
@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.Models
                 switch (siteModel.ReferenceType)
                 {
                     case "Wikis":
-                        var wikiModel = new WikiModel(siteModel.WikisSiteSettings())
+                        var wikiModel = new WikiModel(siteModel.WikisSiteSettings(siteModel.SiteId))
                             .Get(
                                 ss: ss,
                                 where: Rds.WikisWhere().SiteId(siteModel.SiteId));
@@ -367,9 +367,9 @@ namespace Implem.Pleasanter.Models
             var invalid = SiteValidators.OnMoving(
                 id,
                 destinationId,
-                SiteSettingsUtilities.Get(siteModel),
-                SiteSettingsUtilities.Get(sourceId),
-                SiteSettingsUtilities.Get(destinationId));
+                SiteSettingsUtilities.Get(siteModel, id),
+                SiteSettingsUtilities.Get(sourceId, sourceId),
+                SiteSettingsUtilities.Get(destinationId, destinationId));
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -411,7 +411,7 @@ namespace Implem.Pleasanter.Models
         public static string SortSiteMenu(long siteId)
         {
             var siteModel = new SiteModel(siteId);
-            var invalid = SiteValidators.OnSorting(SiteSettingsUtilities.Get(siteModel));
+            var invalid = SiteValidators.OnSorting(SiteSettingsUtilities.Get(siteModel, siteId));
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -459,7 +459,7 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(
                 siteId, clearSessions, methodType: BaseModel.MethodTypes.Edit);
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteId);
             return Editor(siteModel);
         }
 

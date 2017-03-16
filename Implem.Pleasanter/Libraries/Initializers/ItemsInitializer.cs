@@ -80,7 +80,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         var siteId = dataRow["SiteId"].ToLong();
                         var ss = new SiteModel().Get(where:
                             Rds.SitesWhere().SiteId(siteId))?
-                                .IssuesSiteSettings();
+                                .IssuesSiteSettings(dataRow["IssueId"].ToLong());
                         var issueModel = new IssueModel(ss).Get(
                             ss: ss,
                             tableType: Sqls.TableTypes.Normal,
@@ -117,7 +117,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         var siteId = dataRow["SiteId"].ToLong();
                         var ss = new SiteModel().Get(where:
                             Rds.SitesWhere().SiteId(siteId))?
-                                .IssuesSiteSettings();
+                                .IssuesSiteSettings(dataRow["IssueId"].ToLong());
                         var issueModel = new IssueModel(ss).Get(
                             ss: ss,
                             tableType: Sqls.TableTypes.Deleted,
@@ -153,7 +153,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         var siteId = dataRow["SiteId"].ToLong();
                         var ss = new SiteModel().Get(where:
                             Rds.SitesWhere().SiteId(siteId))?
-                                .ResultsSiteSettings();
+                                .ResultsSiteSettings(dataRow["ResultId"].ToLong());
                         var resultModel = new ResultModel(ss).Get(
                             ss: ss,
                             tableType: Sqls.TableTypes.Normal,
@@ -190,7 +190,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         var siteId = dataRow["SiteId"].ToLong();
                         var ss = new SiteModel().Get(where:
                             Rds.SitesWhere().SiteId(siteId))?
-                                .ResultsSiteSettings();
+                                .ResultsSiteSettings(dataRow["ResultId"].ToLong());
                         var resultModel = new ResultModel(ss).Get(
                             ss: ss,
                             tableType: Sqls.TableTypes.Deleted,
@@ -226,7 +226,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         var siteId = dataRow["SiteId"].ToLong();
                         var ss = new SiteModel().Get(where:
                             Rds.SitesWhere().SiteId(siteId))?
-                                .WikisSiteSettings();
+                                .WikisSiteSettings(dataRow["WikiId"].ToLong());
                         var wikiModel = new WikiModel(ss).Get(
                             ss: ss,
                             tableType: Sqls.TableTypes.Normal,
@@ -263,7 +263,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         var siteId = dataRow["SiteId"].ToLong();
                         var ss = new SiteModel().Get(where:
                             Rds.SitesWhere().SiteId(siteId))?
-                                .WikisSiteSettings();
+                                .WikisSiteSettings(dataRow["WikiId"].ToLong());
                         var wikiModel = new WikiModel(ss).Get(
                             ss: ss,
                             tableType: Sqls.TableTypes.Deleted,

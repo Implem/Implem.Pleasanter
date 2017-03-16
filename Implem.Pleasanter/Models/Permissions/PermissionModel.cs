@@ -22,7 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public class PermissionModel : BaseModel
     {
-        public string ReferenceType = "Sites";
         public long ReferenceId = 0;
         public int DeptId = 0;
         public int GroupId = 0;
@@ -33,7 +32,6 @@ namespace Implem.Pleasanter.Models
         public string FullName2 = string.Empty;
         public Names.FirstAndLastNameOrders FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)1;
         public Permissions.Types PermissionType = (Permissions.Types)31;
-        public string SavedReferenceType = "Sites";
         public long SavedReferenceId = 0;
         public int SavedDeptId = 0;
         public int SavedGroupId = 0;
@@ -44,7 +42,6 @@ namespace Implem.Pleasanter.Models
         public string SavedFullName2 = string.Empty;
         public int SavedFirstAndLastNameOrder = 1;
         public long SavedPermissionType = 31;
-        public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
         public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
         public bool DeptId_Updated { get { return DeptId != SavedDeptId; } }
         public bool GroupId_Updated { get { return GroupId != SavedGroupId; } }
@@ -114,7 +111,6 @@ namespace Implem.Pleasanter.Models
                 var name = dataColumn.ColumnName;
                 switch(name)
                 {
-                    case "ReferenceType": if (dataRow[name] != DBNull.Value) { ReferenceType = dataRow[name].ToString(); SavedReferenceType = ReferenceType; } break;
                     case "ReferenceId": if (dataRow[name] != DBNull.Value) { ReferenceId = dataRow[name].ToLong(); SavedReferenceId = ReferenceId; } break;
                     case "DeptId": if (dataRow[name] != DBNull.Value) { DeptId = dataRow[name].ToInt(); SavedDeptId = DeptId; } break;
                     case "GroupId": if (dataRow[name] != DBNull.Value) { GroupId = dataRow[name].ToInt(); SavedGroupId = GroupId; } break;
@@ -141,13 +137,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         /// <param name="dataRow"></param>
         public PermissionModel(
-            string referenceType,
             long referenceId,
             Permissions.Types permissionType,
             DataRow dataRow)
         {
             OnConstructing();
-            ReferenceType = referenceType;
             ReferenceId = referenceId;
             PermissionType = permissionType;
             Set(dataRow);

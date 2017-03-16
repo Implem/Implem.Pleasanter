@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     .IssueId(id, _using: id != 0))
                         .ForEach(issueModel =>
                         {
-                            var ss = SiteSettingsUtilities.Get(siteModel);
+                            var ss = SiteSettingsUtilities.Get(siteModel, id);
                             if (hasFormula) issueModel.UpdateFormulaColumns(ss, selected);
                             issueModel.UpdateRelatedRecords(
                                 ss: ss,
@@ -71,7 +71,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     .ResultId(id, _using: id != 0))
                         .ForEach(resultModel =>
                         {
-                            var ss = SiteSettingsUtilities.Get(siteModel);
+                            var ss = SiteSettingsUtilities.Get(siteModel, id);
                             if (hasFormula) resultModel.UpdateFormulaColumns(ss, selected);
                             resultModel.UpdateRelatedRecords(
                                 ss: ss,
@@ -94,7 +94,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     .WikiId(id, _using: id != 0))
                         .ForEach(wikiModel =>
                         {
-                            var ss = SiteSettingsUtilities.Get(siteModel);
+                            var ss = SiteSettingsUtilities.Get(siteModel, id);
                             if (hasFormula) wikiModel.UpdateFormulaColumns(ss, selected);
                             wikiModel.UpdateRelatedRecords(
                                 ss: ss,

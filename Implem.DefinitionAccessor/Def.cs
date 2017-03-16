@@ -514,6 +514,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Validator_OnUpdatingCases": Code.Model_Validator_OnUpdatingCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnUpdatingCases, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods_Binaries": Code.Model_ValidatorMethods_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods_Binaries, definitionRow, CodeXls); break;
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
+                    case "Rds_IdColumnCases": Code.Rds_IdColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_IdColumnCases, definitionRow, CodeXls); break;
                     case "Rds_SqlStatement": Code.Rds_SqlStatement = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlStatement, definitionRow, CodeXls); break;
                     case "Rds_SqlSelect": Code.Rds_SqlSelect = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlSelect, definitionRow, CodeXls); break;
                     case "Rds_SqlExists": Code.Rds_SqlExists = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlExists, definitionRow, CodeXls); break;
@@ -605,7 +606,6 @@ namespace Implem.DefinitionAccessor
                     case "View_Search_TableCases": Code.View_Search_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Search_TableCases, definitionRow, CodeXls); break;
                     case "View_Sorter_TableCases": Code.View_Sorter_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Sorter_TableCases, definitionRow, CodeXls); break;
                     case "View_Sorter_ColumnCases": Code.View_Sorter_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Sorter_ColumnCases, definitionRow, CodeXls); break;
-                    case "View_IdColumnCases": Code.View_IdColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_IdColumnCases, definitionRow, CodeXls); break;
                     case "HtmlLinks": Code.HtmlLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks, definitionRow, CodeXls); break;
                     case "HtmlLinks_DataSetTableCases": Code.HtmlLinks_DataSetTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_DataSetTableCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_SelectStatementTableCases": Code.HtmlLinks_SelectStatementTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_SelectStatementTableCases, definitionRow, CodeXls); break;
@@ -952,7 +952,6 @@ namespace Implem.DefinitionAccessor
                     case "MailAddresses_MailAddressId": Column.MailAddresses_MailAddressId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.MailAddresses_MailAddressId, definitionRow, ColumnXls); break;
                     case "MailAddresses_MailAddress": Column.MailAddresses_MailAddress = definitionRow[1].ToString(); SetColumnTable(ColumnTable.MailAddresses_MailAddress, definitionRow, ColumnXls); break;
                     case "MailAddresses_Title": Column.MailAddresses_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.MailAddresses_Title, definitionRow, ColumnXls); break;
-                    case "Permissions_ReferenceType": Column.Permissions_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_ReferenceType, definitionRow, ColumnXls); break;
                     case "Permissions_ReferenceId": Column.Permissions_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_ReferenceId, definitionRow, ColumnXls); break;
                     case "Permissions_DeptId": Column.Permissions_DeptId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_DeptId, definitionRow, ColumnXls); break;
                     case "Permissions_GroupId": Column.Permissions_GroupId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_GroupId, definitionRow, ColumnXls); break;
@@ -3492,6 +3491,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Validator_OnUpdatingCases;
         public string Model_ValidatorMethods_Binaries;
         public string Rds;
+        public string Rds_IdColumnCases;
         public string Rds_SqlStatement;
         public string Rds_SqlSelect;
         public string Rds_SqlExists;
@@ -3583,7 +3583,6 @@ namespace Implem.DefinitionAccessor
         public string View_Search_TableCases;
         public string View_Sorter_TableCases;
         public string View_Sorter_ColumnCases;
-        public string View_IdColumnCases;
         public string HtmlLinks;
         public string HtmlLinks_DataSetTableCases;
         public string HtmlLinks_SelectStatementTableCases;
@@ -3914,6 +3913,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Validator_OnUpdatingCases = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods_Binaries = new CodeDefinition();
         public CodeDefinition Rds = new CodeDefinition();
+        public CodeDefinition Rds_IdColumnCases = new CodeDefinition();
         public CodeDefinition Rds_SqlStatement = new CodeDefinition();
         public CodeDefinition Rds_SqlSelect = new CodeDefinition();
         public CodeDefinition Rds_SqlExists = new CodeDefinition();
@@ -4005,7 +4005,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition View_Search_TableCases = new CodeDefinition();
         public CodeDefinition View_Sorter_TableCases = new CodeDefinition();
         public CodeDefinition View_Sorter_ColumnCases = new CodeDefinition();
-        public CodeDefinition View_IdColumnCases = new CodeDefinition();
         public CodeDefinition HtmlLinks = new CodeDefinition();
         public CodeDefinition HtmlLinks_DataSetTableCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_SelectStatementTableCases = new CodeDefinition();
@@ -4625,7 +4624,6 @@ namespace Implem.DefinitionAccessor
         public string MailAddresses_MailAddressId;
         public string MailAddresses_MailAddress;
         public string MailAddresses_Title;
-        public string Permissions_ReferenceType;
         public string Permissions_ReferenceId;
         public string Permissions_DeptId;
         public string Permissions_GroupId;
@@ -5287,7 +5285,6 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition MailAddresses_MailAddressId = new ColumnDefinition();
         public ColumnDefinition MailAddresses_MailAddress = new ColumnDefinition();
         public ColumnDefinition MailAddresses_Title = new ColumnDefinition();
-        public ColumnDefinition Permissions_ReferenceType = new ColumnDefinition();
         public ColumnDefinition Permissions_ReferenceId = new ColumnDefinition();
         public ColumnDefinition Permissions_DeptId = new ColumnDefinition();
         public ColumnDefinition Permissions_GroupId = new ColumnDefinition();

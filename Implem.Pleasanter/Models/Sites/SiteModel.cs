@@ -175,7 +175,7 @@ namespace Implem.Pleasanter.Models
             OnConstructing();
             SiteId = siteId;
             Get();
-            if (initSiteSettings) SiteSettings = SiteSettingsUtilities.Get(this);
+            if (initSiteSettings) SiteSettings = SiteSettingsUtilities.Get(this, siteId);
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();
             SwitchTargets = switchTargets;
@@ -526,7 +526,6 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam().SiteId(raw: Def.Sql.Identity)),
                     Rds.InsertPermissions(
                         param: Rds.PermissionsParam()
-                            .ReferenceType("Sites")
                             .ReferenceId(raw: Def.Sql.Identity)
                             .DeptId(0)
                             .UserId(Sessions.UserId())
@@ -535,7 +534,7 @@ namespace Implem.Pleasanter.Models
                 });
             SiteId = newId != 0 ? newId : SiteId;
             Get();
-            SiteSettings = SiteSettingsUtilities.Get(this);
+            SiteSettings = SiteSettingsUtilities.Get(this, SiteId);
             switch (ReferenceType)
             {
                 case "Wikis":
@@ -1202,7 +1201,7 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        SiteSettingsUtilities.Get(this);
+                        SiteSettingsUtilities.Get(this, SiteId);
                         OpenSummaryDialog(res, summary);
                     }
                 }
@@ -1389,7 +1388,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    SiteSettingsUtilities.Get(this);
+                    SiteSettingsUtilities.Get(this, SiteId);
                     OpenFormulaDialog(res, formulaSet);
                 }
             }
@@ -1539,7 +1538,7 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        SiteSettingsUtilities.Get(this);
+                        SiteSettingsUtilities.Get(this, SiteId);
                         OpenViewDialog(res, view);
                     }
                 }
@@ -1562,7 +1561,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddViewFilter(ResponseCollection res)
         {
-            SiteSettingsUtilities.Get(this);
+            SiteSettingsUtilities.Get(this, SiteId);
             res
                 .Append(
                     "#ViewFiltersTab .items",
@@ -1638,7 +1637,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    SiteSettingsUtilities.Get(this);
+                    SiteSettingsUtilities.Get(this, SiteId);
                     OpenNotificationDialog(res, notification);
                 }
             }

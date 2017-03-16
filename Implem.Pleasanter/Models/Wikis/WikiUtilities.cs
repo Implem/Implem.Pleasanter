@@ -516,10 +516,10 @@ namespace Implem.Pleasanter.Models
                 Rds.SelectWikis(
                     column: Rds.WikisColumn().WikiId(),
                     where: Rds.WikisWhere().SiteId(siteModel.SiteId)));
-            var ss = SiteSettingsUtilities.Get(siteModel);
+            var ss = SiteSettingsUtilities.Get(siteModel, wikiId);
             return wikiId == 0
                 ? Editor(ss, new WikiModel(
-                    siteModel.WikisSiteSettings(), methodType: BaseModel.MethodTypes.New))
+                    siteModel.WikisSiteSettings(wikiId), methodType: BaseModel.MethodTypes.New))
                 : new HtmlBuilder().NotFoundTemplate().ToString();
         }
     }

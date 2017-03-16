@@ -66,24 +66,27 @@ namespace Implem.Pleasanter.Libraries.Security
             Update
         }
 
-        public static Dictionary<long, Types> Get(IEnumerable<long> targets)
+        public static Dictionary<long, Types> Get(
+            IEnumerable<long> targets, long inheritPermission = 0, long referenceId = 0)
         {
-            return Hash(Rds.ExecuteTable(statements:
-                Rds.SelectPermissions(
-                    distinct: true,
-                    column: Rds.PermissionsColumn()
-                        .ReferenceId()
-                        .PermissionType(),
-                    where: Rds.PermissionsWhere()
-                        .ReferenceType("Sites")
-                        .ReferenceId_In(targets)
-                        .Or(Rds.PermissionsWhere()
-                            .GroupId_In(sub: Rds.SelectGroupMembers(
-                                column: Rds.GroupMembersColumn().GroupId(),
-                                where: Rds.GroupMembersWhere()
-                                    .Add(raw: DeptOrUser("GroupMembers"))))
-                            .Add(raw: DeptOrUser("Permissions")))))
-                                .AsEnumerable());
+            return Hash(
+                dataRows: Rds.ExecuteTable(statements:
+                    Rds.SelectPermissions(
+                        distinct: true,
+                        column: Rds.PermissionsColumn()
+                            .ReferenceId()
+                            .PermissionType(),
+                        where: Rds.PermissionsWhere()
+                            .ReferenceId_In(targets)
+                            .Or(Rds.PermissionsWhere()
+                                .GroupId_In(sub: Rds.SelectGroupMembers(
+                                    column: Rds.GroupMembersColumn().GroupId(),
+                                    where: Rds.GroupMembersWhere()
+                                        .Add(raw: DeptOrUser("GroupMembers"))))
+                                .Add(raw: DeptOrUser("Permissions")))))
+                                    .AsEnumerable(),
+                inheritPermission: inheritPermission,
+                referenceId: referenceId);
         }
 
         public static SqlWhereCollection CanRead(SiteSettings ss, SqlWhereCollection where)
@@ -93,7 +96,6 @@ namespace Implem.Pleasanter.Libraries.Security
                     subLeft: Rds.SelectPermissions(
                         column: Rds.PermissionsColumn().PermissionType(),
                         where: Rds.PermissionsWhere()
-                            .ReferenceType(ss.ReferenceType)
                             .ReferenceId(raw: ss.IdColumnBracket())
                             .Or(Rds.PermissionsWhere()
                                 .GroupId_In(sub: Rds.SelectGroupMembers(
@@ -110,15 +112,22 @@ namespace Implem.Pleasanter.Libraries.Security
             return "([{0}].[DeptId]=@_D or [{0}].[UserId]=@_U)".Params(tableName);
         }
 
-        private static Dictionary<long, Types> Hash(EnumerableRowCollection<DataRow> dataRows)
+        private static Dictionary<long, Types> Hash(
+            EnumerableRowCollection<DataRow> dataRows, long inheritPermission, long referenceId)
         {
             var hash = dataRows
                 .Select(o => o["ReferenceId"].ToLong())
                 .Distinct()
                 .ToDictionary(o => o, o => Types.NotSet);
             dataRows.ForEach(dataRow =>
-                hash[dataRow["ReferenceId"].ToLong()] |=
-                    (Types)dataRow["PermissionType"].ToLong());
+            {
+                var key = dataRow["ReferenceId"].ToLong();
+                if (key == referenceId && inheritPermission != referenceId)
+                {
+                    key = inheritPermission;
+                }
+                hash[key] |= (Types)dataRow["PermissionType"].ToLong();
+            });
             return hash;
         }
 

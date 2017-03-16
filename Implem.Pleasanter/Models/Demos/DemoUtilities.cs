@@ -326,7 +326,7 @@ namespace Implem.Pleasanter.Models
                     idHash.Add(demoDefinition.Id, issueId);
                     var siteModel = new SiteModel().Get(
                         where: Rds.SitesWhere().SiteId(idHash.Get(demoDefinition.ParentId)));
-                    var ss = siteModel.IssuesSiteSettings();
+                    var ss = siteModel.IssuesSiteSettings(issueId);
                     var issueModel = new IssueModel(ss, issueId);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
@@ -454,7 +454,7 @@ namespace Implem.Pleasanter.Models
                     idHash.Add(demoDefinition.Id, resultId);
                     var siteModel = new SiteModel().Get(
                         where: Rds.SitesWhere().SiteId(idHash.Get(demoDefinition.ParentId)));
-                    var ss = siteModel.ResultsSiteSettings();
+                    var ss = siteModel.ResultsSiteSettings(resultId);
                     var resultModel = new ResultModel(ss, resultId);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
@@ -500,7 +500,6 @@ namespace Implem.Pleasanter.Models
                 Rds.ExecuteNonQuery(statements:
                     Rds.InsertPermissions(
                         param: Rds.PermissionsParam()
-                            .ReferenceType("Sites")
                             .ReferenceId(siteId)
                             .DeptId(0)
                             .UserId(idHash.Get("User1"))
@@ -510,7 +509,6 @@ namespace Implem.Pleasanter.Models
                     Rds.ExecuteNonQuery(statements:
                         Rds.InsertPermissions(
                             param: Rds.PermissionsParam()
-                                .ReferenceType("Sites")
                                 .ReferenceId(siteId)
                                 .DeptId(deptId)
                                 .UserId(0)

@@ -121,7 +121,6 @@ namespace Implem.Pleasanter.Libraries.Server
                             column: Rds.PermissionsColumn()
                                 .PermissionType(function: Sqls.Functions.Max),
                             where: Rds.PermissionsWhere()
-                                .ReferenceType("Sites")
                                 .ReferenceId(siteId)
                                 .Or(Rds.PermissionsWhere()
                                     .DeptId(raw: deptRaw)

@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Models
         public static string Editor(long siteId)
         {
             var siteModel = new SiteModel(siteId, clearSessions: true);
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteId);
             var hb = new HtmlBuilder();
             hb.Template(
                 ss: siteModel.SiteSettings,
@@ -173,9 +173,9 @@ namespace Implem.Pleasanter.Models
         private static void SetPermissionCollectionSession(SiteModel siteModel)
         {
             siteModel.Session_PermissionDestinationCollection(
-                DestinationCollection("Sites", siteModel.SiteId));
+                DestinationCollection(siteModel.SiteId));
             siteModel.Session_PermissionSourceCollection(
-                SourceCollection("Sites", siteModel.SiteId, Forms.Data("SearchText")));
+                SourceCollection(siteModel.SiteId, Forms.Data("SearchText")));
         }
 
         /// <summary>
@@ -257,23 +257,19 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static PermissionCollection DestinationCollection(
-            string referenceType, long referenceId)
+        private static PermissionCollection DestinationCollection(long referenceId)
         {
             return new PermissionCollection(
-                where: Rds.PermissionsWhere()
-                    .ReferenceType(referenceType)
-                    .ReferenceId(referenceId));
+                where: Rds.PermissionsWhere().ReferenceId(referenceId));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static PermissionCollection SourceCollection(
-            string referenceType, long referenceId, string searchText)
+        private static PermissionCollection SourceCollection(long referenceId, string searchText)
         {
             return !searchText.IsNullOrEmpty()
-                ? GetSourceCollection(referenceType, referenceId, searchText)
+                ? GetSourceCollection(referenceId, searchText)
                 : new PermissionCollection(get: false);
         }
 
@@ -281,7 +277,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static PermissionCollection GetSourceCollection(
-            string referenceType, long referenceId, string searchText)
+            long referenceId, string searchText)
         {
             var sourceCollection = new PermissionCollection(get: false);
             Rds.ExecuteTable(
@@ -302,7 +298,6 @@ namespace Implem.Pleasanter.Models
                                 .AsEnumerable()
                                 .ForEach(dataRow =>
                                     sourceCollection.Add(new PermissionModel(
-                                        referenceType,
                                         referenceId,
                                         Permissions.General(),
                                         dataRow)));
@@ -323,7 +318,6 @@ namespace Implem.Pleasanter.Models
                                 .AsEnumerable()
                                 .ForEach(dataRow =>
                                     sourceCollection.Add(new PermissionModel(
-                                        referenceType,
                                         referenceId,
                                         Permissions.General(),
                                         dataRow)));
@@ -349,7 +343,6 @@ namespace Implem.Pleasanter.Models
                                 .AsEnumerable()
                                 .ForEach(dataRow =>
                                     sourceCollection.Add(new PermissionModel(
-                                        referenceType,
                                         referenceId,
                                         Permissions.General(),
                                         dataRow)));
@@ -396,7 +389,7 @@ namespace Implem.Pleasanter.Models
         public static string ChangeInherit(long siteId)
         {
             var siteModel = new SiteModel(siteId);
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteId);
             var invalid = PermissionValidators.OnUpdating(siteModel.SiteSettings);
             switch (invalid)
             {
@@ -422,7 +415,7 @@ namespace Implem.Pleasanter.Models
         public static string Update(long siteId)
         {
             var siteModel = new SiteModel(siteId);
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteId);
             var invalid = PermissionValidators.OnUpdating(siteModel.SiteSettings);
             switch (invalid)
             {
@@ -454,7 +447,6 @@ namespace Implem.Pleasanter.Models
         private static SqlInsert Insert(PermissionModel permissionModel, long siteId)
         {
             return Rds.InsertPermissions(param: Rds.PermissionsParam()
-                .ReferenceType(raw: "'Sites'")
                 .ReferenceId(raw: siteId.ToString())
                 .PermissionType(raw: permissionModel.PermissionType.ToLong().ToString())
                 .DeptId(raw: permissionModel.DeptId.ToString())
@@ -468,7 +460,7 @@ namespace Implem.Pleasanter.Models
         public static string Set(long siteId)
         {
             var siteModel = new SiteModel(siteId, setByForm: true);
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteId);
             var invalid = PermissionValidators.OnUpdating(siteModel.SiteSettings);
             switch (invalid)
             {
@@ -548,7 +540,7 @@ namespace Implem.Pleasanter.Models
         public static string Search(long siteId)
         {
             var siteModel = new SiteModel(siteId, setByForm: true);
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteId);
             var invalid = PermissionValidators.OnUpdating(siteModel.SiteSettings);
             switch (invalid)
             {
@@ -561,7 +553,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o != string.Empty)
                 .ToList();
             siteModel.Session_PermissionSourceCollection(
-                SourceCollection("Sites", siteModel.SiteId, Forms.Data("SearchText")));
+                SourceCollection(siteModel.SiteId, Forms.Data("SearchText")));
             siteModel.Session_PermissionSourceCollection().RemoveAll(o =>
                 siteModel.Session_PermissionDestinationCollection()
                     .Any(p => p.PermissionId == o.PermissionId));

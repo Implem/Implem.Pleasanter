@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static byte[] SiteImageThumbnail(SiteModel siteModel)
         {
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
             var invalid = BinaryValidators.OnGetting(siteModel.SiteSettings);
             switch (invalid)
             {
@@ -89,7 +89,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static byte[] SiteImageIcon(SiteModel siteModel)
         {
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
             var invalid = BinaryValidators.OnGetting(siteModel.SiteSettings);
             switch (invalid)
             {
@@ -106,7 +106,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string UpdateSiteImage(SiteModel siteModel)
         {
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
             var invalid = BinaryValidators.OnUpdating(siteModel.SiteSettings);
             switch (invalid)
             {

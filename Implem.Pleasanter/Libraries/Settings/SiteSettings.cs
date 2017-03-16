@@ -162,15 +162,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             });
             Destinations = SiteSettingsList(dataSet.Tables["Destinations"]);
             Sources = SiteSettingsList(dataSet.Tables["Sources"]);
-            SetPermissions();
         }
 
-        private void SetPermissions()
+        public void SetPermissions(long referenceId)
         {
-            var targets = new List<long> { InheritPermission };
+            var targets = new List<long> { InheritPermission, referenceId };
             targets.AddRange(Destinations?.Select(o => o.InheritPermission));
             targets.AddRange(Sources?.Select(o => o.InheritPermission));
-            var permissions = Permissions.Get(targets.Distinct());
+            var permissions = ReferenceType == "Sites"
+                ? Permissions.Get(targets.Distinct())
+                : Permissions.Get(targets.Distinct(), InheritPermission, referenceId);
             SetPermissions(this, permissions);
             Destinations?.ForEach(o => SetPermissions(o, permissions));
             Sources?.ForEach(o => SetPermissions(o, permissions));

@@ -2231,7 +2231,7 @@ namespace Implem.Pleasanter.Models
         {
             var siteId = Forms.Long("MoveTargets");
             var issueModel = new IssueModel(ss, issueId);
-            var invalid = IssueValidators.OnMoving(ss, SiteSettingsUtilities.Get(siteId));
+            var invalid = IssueValidators.OnMoving(ss, SiteSettingsUtilities.Get(siteId, issueId));
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -2429,7 +2429,7 @@ namespace Implem.Pleasanter.Models
         public static string BulkMove(SiteSettings ss)
         {
             var siteId = Forms.Long("MoveTargets");
-            if (Permissions.CanMove(ss, SiteSettingsUtilities.Get(siteId)))
+            if (Permissions.CanMove(ss, SiteSettingsUtilities.Get(siteId, siteId)))
             {
                 var count = 0;
                 if (Forms.Bool("GridCheckAll"))
@@ -2573,7 +2573,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Import(SiteModel siteModel)
         {
-            var ss = siteModel.IssuesSiteSettings();
+            var ss = siteModel.IssuesSiteSettings(siteModel.SiteId);
             if (!ss.CanCreate())
             {
                 return Messages.ResponseHasNotPermission().ToJson();
@@ -2818,7 +2818,8 @@ namespace Implem.Pleasanter.Models
             var exportColumns = (Sessions.PageSession(
                 siteModel.Id, 
                 "ExportSettings_ExportColumns").ToString().Deserialize<ExportColumns>());
-            var columnHash = exportColumns.ColumnHash(siteModel.IssuesSiteSettings());
+            var columnHash = exportColumns.ColumnHash(
+                siteModel.IssuesSiteSettings(siteModel.SiteId));
             if (Sessions.PageSession(siteModel.Id, "ExportSettings_AddHeader").ToBool())
             {
                 var header = new List<string>();

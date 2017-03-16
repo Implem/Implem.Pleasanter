@@ -520,7 +520,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string MailAddresses_MailAddressId(params string[] data) { return Get("MailAddresses_MailAddressId", data); }
         public static string MailAddresses_MailAddress(params string[] data) { return Get("MailAddresses_MailAddress", data); }
         public static string MailAddresses_Title(params string[] data) { return Get("MailAddresses_Title", data); }
-        public static string Permissions_ReferenceType(params string[] data) { return Get("Permissions_ReferenceType", data); }
         public static string Permissions_ReferenceId(params string[] data) { return Get("Permissions_ReferenceId", data); }
         public static string Permissions_DeptId(params string[] data) { return Get("Permissions_DeptId", data); }
         public static string Permissions_GroupId(params string[] data) { return Get("Permissions_GroupId", data); }

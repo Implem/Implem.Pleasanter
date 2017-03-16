@@ -462,7 +462,6 @@ namespace Implem.Pleasanter.Models
                         Sqls.SqlJoinCollection(joinMailAddresses, joinPermissions),
                         Rds.UsersWhere()
                             .MailAddresses_OwnerType("Users")
-                            .Permissions_ReferenceType("Sites")
                             .Permissions_ReferenceId(referenceId)
                             .SearchText(searchText)
                             .Users_TenantId(Sessions.TenantId()));
