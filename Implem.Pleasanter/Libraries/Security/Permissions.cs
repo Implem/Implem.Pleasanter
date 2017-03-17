@@ -303,23 +303,17 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanRead(this Column self, SiteSettings ss)
         {
-            return
-                self.ReadPermission == 0 ||
-                (self.ReadPermission & Admins(ss.PermissionType)) != 0;
+            return Can(Admins(ss.PermissionType), self.ReadPermission);
         }
 
         public static bool CanCreate(this Column self, SiteSettings ss)
         {
-            return
-                self.CreatePermission == 0 ||
-                (self.CreatePermission & Admins(ss.PermissionType)) != 0;
+            return Can(Admins(ss.PermissionType), self.CreatePermission);
         }
 
         public static bool CanUpdate(this Column self, SiteSettings ss)
         {
-            return
-                self.UpdatePermission == 0 ||
-                (self.UpdatePermission & Admins(ss.PermissionType)) != 0;
+            return Can(Admins(ss.PermissionType), self.UpdatePermission);
         }
 
         public static bool CanManageTenant()
@@ -340,6 +334,11 @@ namespace Implem.Pleasanter.Libraries.Security
         private static bool Can(this SiteSettings ss, Types type)
         {
             return (ss.PermissionType & type) == type;
+        }
+
+        private static bool Can(Types? type, Types require)
+        {
+            return require == 0 || (type & require) == require;
         }
 
         private static EnumerableRowCollection<DataRow> Groups()
