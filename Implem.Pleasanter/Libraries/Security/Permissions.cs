@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.Security
                             .ReferenceId()
                             .PermissionType(),
                         where: Rds.PermissionsWhere()
-                            .ReferenceId_In(targets)
+                            .ReferenceId_In(targets.Where(o => o != 0))
                             .Or(Rds.PermissionsWhere()
                                 .GroupId_In(sub: Rds.SelectGroupMembers(
                                     column: Rds.GroupMembersColumn().GroupId(),
