@@ -261,22 +261,22 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanExport(this SiteSettings ss)
         {
-            return (ss.PermissionType & Types.Export) != 0;
+            return ss.Can(Types.Export);
         }
 
         public static bool CanImport(this SiteSettings ss)
         {
-            return (ss.PermissionType & Types.Import) != 0;
+            return ss.Can(Types.Import);
         }
 
         public static bool CanManageSite(this SiteSettings ss)
         {
-            return (ss.PermissionType & Types.ManageSite) != 0;
+            return ss.Can(Types.ManageSite);
         }
 
         public static bool CanManagePermission(this SiteSettings ss)
         {
-            return (ss.PermissionType & Types.ManagePermission) != 0;
+            return ss.Can(Types.ManagePermission);
         }
 
         public static ColumnPermissionTypes ColumnPermissionType(
@@ -335,6 +335,11 @@ namespace Implem.Pleasanter.Libraries.Security
         public static bool CanEditGroup()
         {
             return Routes.Id() == 0 || CanManageTenant() || Groups().Any(o => o["Admin"].ToBool());
+        }
+
+        private static bool Can(this SiteSettings ss, Types type)
+        {
+            return (ss.PermissionType & type) == type;
         }
 
         private static EnumerableRowCollection<DataRow> Groups()
