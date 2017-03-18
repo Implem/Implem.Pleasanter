@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Html;
 using System;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Responses
@@ -90,6 +91,18 @@ namespace Implem.Pleasanter.Libraries.Responses
         public ResponseCollection Remove(string target, bool _using = true)
         {
             return _using ? Add("Remove", target, string.Empty) : this;
+        }
+
+        public ResponseCollection Attr(string target, string name, string value, bool _using = true)
+        {
+            return _using
+                ? Add("Attr", target, new { Name = name, Value = value }.ToJson())
+                : this;
+        }
+
+        public ResponseCollection RemoveAttr(string target, string name, bool _using = true)
+        {
+            return _using ? Add("RemoveAttr", target, name) : this;
         }
 
         public ResponseCollection Focus(string target = "", bool _using = true)

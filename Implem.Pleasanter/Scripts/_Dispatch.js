@@ -64,6 +64,13 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
         case 'Remove':
             $(target).remove();
             break;
+        case 'Attr':
+            var json = JSON.parse(value);
+            $(target).attr(json.Name, json.Value);
+            break;
+        case 'RemoveAttr':
+            $(target).removeAttr(value);
+            break;
         case 'Focus':
             if (target === '') {
                 $('#' + data.ControlId).focus();
