@@ -196,7 +196,6 @@
     <Compile Include="Controllers\ExportSettingsController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\OutgoingMailsController.cs" />
-    <Compile Include="Controllers\PermissionsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
     <Compile Include="Filters\RefleshSiteInfoAttribute.cs" />
@@ -996,6 +995,7 @@
     <Content Include="App_Data\Displays\ManagePermission.json" />
     <Content Include="App_Data\Displays\Send.json" />
     <Content Include="App_Data\Displays\InputMailAddress.json" />
+    <Content Include="App_Data\Displays\InheritPermission.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

@@ -312,6 +312,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertIdentitySet": Code.Model_InsertIdentitySet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentitySet, definitionRow, CodeXls); break;
                     case "Model_Update": Code.Model_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update, definitionRow, CodeXls); break;
                     case "Model_UpdateParams": Code.Model_UpdateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams, definitionRow, CodeXls); break;
+                    case "Model_UpdateParams_Sites": Code.Model_UpdateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Sites, definitionRow, CodeXls); break;
+                    case "Model_UpdatePermissions": Code.Model_UpdatePermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissions, definitionRow, CodeXls); break;
+                    case "Model_SiteTrue": Code.Model_SiteTrue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteTrue, definitionRow, CodeXls); break;
                     case "Model_Update_Sites": Code.Model_Update_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update_Sites, definitionRow, CodeXls); break;
                     case "Model_UpdateRelatedRecords": Code.Model_UpdateRelatedRecords = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateRelatedRecords, definitionRow, CodeXls); break;
                     case "Model_OnUpdatedNotice": Code.Model_OnUpdatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatedNotice, definitionRow, CodeXls); break;
@@ -460,9 +463,13 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_CreatedResponse_Items": Code.Model_Utilities_CreatedResponse_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse_Sites": Code.Model_Utilities_CreatedResponse_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update": Code.Model_Utilities_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UpdateParameters_Sites": Code.Model_Utilities_UpdateParameters_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateParameters_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update_NewModel": Code.Model_Utilities_Update_NewModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_NewModel, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update_NewModel_Sites": Code.Model_Utilities_Update_NewModel_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_NewModel_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateInvalid_Users": Code.Model_Utilities_UpdateInvalid_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateInvalid_Users, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UpdateNotItems": Code.Model_Utilities_UpdateNotItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateNotItems, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UpdateItems": Code.Model_Utilities_UpdateItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateItems, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UpdateItems_Sites": Code.Model_Utilities_UpdateItems_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateItems_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_OnUpdated_Issues": Code.Model_Utilities_OnUpdated_Issues = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnUpdated_Issues, definitionRow, CodeXls); break;
                     case "Model_Utilities_OnUpdated_Breadcrumb": Code.Model_Utilities_OnUpdated_Breadcrumb = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnUpdated_Breadcrumb, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseByUpdate_FieldResponse": Code.Model_Utilities_ResponseByUpdate_FieldResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseByUpdate_FieldResponse, definitionRow, CodeXls); break;
@@ -996,8 +1003,6 @@ namespace Implem.DefinitionAccessor
                     case "Sites_InheritPermission": Column.Sites_InheritPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_InheritPermission, definitionRow, ColumnXls); break;
                     case "Sites_SiteSettings": Column.Sites_SiteSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_SiteSettings, definitionRow, ColumnXls); break;
                     case "Sites_Ancestors": Column.Sites_Ancestors = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Ancestors, definitionRow, ColumnXls); break;
-                    case "Sites_PermissionSourceCollection": Column.Sites_PermissionSourceCollection = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_PermissionSourceCollection, definitionRow, ColumnXls); break;
-                    case "Sites_PermissionDestinationCollection": Column.Sites_PermissionDestinationCollection = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_PermissionDestinationCollection, definitionRow, ColumnXls); break;
                     case "Sites_SiteMenu": Column.Sites_SiteMenu = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_SiteMenu, definitionRow, ColumnXls); break;
                     case "Sites_MonitorChangesColumns": Column.Sites_MonitorChangesColumns = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_MonitorChangesColumns, definitionRow, ColumnXls); break;
                     case "Sites_TitleColumns": Column.Sites_TitleColumns = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_TitleColumns, definitionRow, ColumnXls); break;
@@ -3289,6 +3294,9 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertIdentitySet;
         public string Model_Update;
         public string Model_UpdateParams;
+        public string Model_UpdateParams_Sites;
+        public string Model_UpdatePermissions;
+        public string Model_SiteTrue;
         public string Model_Update_Sites;
         public string Model_UpdateRelatedRecords;
         public string Model_OnUpdatedNotice;
@@ -3437,9 +3445,13 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_CreatedResponse_Items;
         public string Model_Utilities_CreatedResponse_Sites;
         public string Model_Utilities_Update;
+        public string Model_Utilities_UpdateParameters_Sites;
         public string Model_Utilities_Update_NewModel;
         public string Model_Utilities_Update_NewModel_Sites;
         public string Model_Utilities_UpdateInvalid_Users;
+        public string Model_Utilities_UpdateNotItems;
+        public string Model_Utilities_UpdateItems;
+        public string Model_Utilities_UpdateItems_Sites;
         public string Model_Utilities_OnUpdated_Issues;
         public string Model_Utilities_OnUpdated_Breadcrumb;
         public string Model_Utilities_ResponseByUpdate_FieldResponse;
@@ -3711,6 +3723,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertIdentitySet = new CodeDefinition();
         public CodeDefinition Model_Update = new CodeDefinition();
         public CodeDefinition Model_UpdateParams = new CodeDefinition();
+        public CodeDefinition Model_UpdateParams_Sites = new CodeDefinition();
+        public CodeDefinition Model_UpdatePermissions = new CodeDefinition();
+        public CodeDefinition Model_SiteTrue = new CodeDefinition();
         public CodeDefinition Model_Update_Sites = new CodeDefinition();
         public CodeDefinition Model_UpdateRelatedRecords = new CodeDefinition();
         public CodeDefinition Model_OnUpdatedNotice = new CodeDefinition();
@@ -3859,9 +3874,13 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_CreatedResponse_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UpdateParameters_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update_NewModel = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update_NewModel_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateInvalid_Users = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UpdateNotItems = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UpdateItems = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UpdateItems_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_OnUpdated_Issues = new CodeDefinition();
         public CodeDefinition Model_Utilities_OnUpdated_Breadcrumb = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseByUpdate_FieldResponse = new CodeDefinition();
@@ -4668,8 +4687,6 @@ namespace Implem.DefinitionAccessor
         public string Sites_InheritPermission;
         public string Sites_SiteSettings;
         public string Sites_Ancestors;
-        public string Sites_PermissionSourceCollection;
-        public string Sites_PermissionDestinationCollection;
         public string Sites_SiteMenu;
         public string Sites_MonitorChangesColumns;
         public string Sites_TitleColumns;
@@ -5329,8 +5346,6 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Sites_InheritPermission = new ColumnDefinition();
         public ColumnDefinition Sites_SiteSettings = new ColumnDefinition();
         public ColumnDefinition Sites_Ancestors = new ColumnDefinition();
-        public ColumnDefinition Sites_PermissionSourceCollection = new ColumnDefinition();
-        public ColumnDefinition Sites_PermissionDestinationCollection = new ColumnDefinition();
         public ColumnDefinition Sites_SiteMenu = new ColumnDefinition();
         public ColumnDefinition Sites_MonitorChangesColumns = new ColumnDefinition();
         public ColumnDefinition Sites_TitleColumns = new ColumnDefinition();

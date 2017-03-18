@@ -155,7 +155,7 @@ namespace Implem.Pleasanter.Models
                                 comments: wikiModel.Comments,
                                 verType: wikiModel.VerType))
                         .Div(id: "EditorTabsContainer", action: () => hb
-                            .EditorTabs(wikiModel: wikiModel)
+                            .EditorTabs(wikiModel: wikiModel, ss: ss)
                             .FieldSetGeneral(
                                 ss: ss,
                                 wikiModel: wikiModel)
@@ -165,6 +165,12 @@ namespace Implem.Pleasanter.Models
                                     .DataAction("Histories")
                                     .DataMethod("get"),
                                 _using: wikiModel.MethodType != BaseModel.MethodTypes.New)
+                            .FieldSet(
+                                attributes: new HtmlAttributes()
+                                    .Id("FieldSetPermissions")
+                                    .DataAction("Permissions")
+                                    .DataMethod("get"),
+                                _using: ss.CanManagePermission())
                             .MainCommands(
                                 ss: ss,
                                 siteId: wikiModel.SiteId,
@@ -193,19 +199,25 @@ namespace Implem.Pleasanter.Models
                 .OutgoingMailDialog());
         }
 
-        private static HtmlBuilder EditorTabs(this HtmlBuilder hb, WikiModel wikiModel)
+        private static HtmlBuilder EditorTabs(
+            this HtmlBuilder hb, SiteSettings ss, WikiModel wikiModel)
         {
             return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 
                         text: Displays.Basic()))
-                .Li(
-                    _using: wikiModel.MethodType != BaseModel.MethodTypes.New,
+                .Li(_using: wikiModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
                             href: "#FieldSetHistories",
-                            text: Displays.ChangeHistoryList())));
+                            text: Displays.ChangeHistoryList()))
+                .Li(_using: ss.CanManagePermission() &&
+                        wikiModel.MethodType != BaseModel.MethodTypes.New,
+                    action: () => hb
+                        .A(
+                            href: "#FieldSetPermissions",
+                            text: Displays.ManagePermission())));
         }
 
         private static HtmlBuilder FieldSetGeneral(
@@ -322,7 +334,11 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts().ToJson();
             }
-            var error = wikiModel.Update(ss, notice: true);
+            var error = wikiModel.Update(
+                ss: ss,
+                notice: true,
+                permissions: Forms.List("CurrentPermissionsAll"),
+                permissionChanged: Forms.Exists("CurrentPermissionsAll"));
             if (error.Has())
             {
                 return error == Error.Types.UpdateConflicts

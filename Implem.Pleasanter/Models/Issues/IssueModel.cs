@@ -836,22 +836,22 @@ namespace Implem.Pleasanter.Models
             bool notice = false,
             bool paramAll = false)
         {
-            var newId = Rds.ExecuteScalar_long(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.InsertItems(
-                        selectIdentity: true,
-                        param: Rds.ItemsParam()
-                            .ReferenceType("Issues")
-                            .SiteId(SiteId)
-                            .Title(Title.Value)),
-                    Rds.InsertIssues(
-                        tableType: tableType,
-                        param: param ?? Rds.IssuesParamDefault(
-                            this, setDefault: true, paramAll: paramAll)),
+            var statements = new List<SqlStatement>
+            {
+                Rds.InsertItems(
+                    selectIdentity: true,
+                    param: Rds.ItemsParam()
+                        .ReferenceType("Issues")
+                        .SiteId(SiteId)
+                        .Title(Title.Value)),
+                Rds.InsertIssues(
+                    tableType: tableType,
+                    param: param ?? Rds.IssuesParamDefault(
+                        this, setDefault: true, paramAll: paramAll)),
                     InsertLinks(ss, selectIdentity: true),
-                });
+            };
+            var newId = Rds.ExecuteScalar_long(
+                transactional: true, statements: statements.ToArray());
             IssueId = newId != 0 ? newId : IssueId;
             SynchronizeSummary(ss);
             if (notice)
@@ -869,22 +869,31 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public Error.Types Update(SiteSettings ss, bool notice = false,bool paramAll = false)
+        public Error.Types Update(
+            SiteSettings ss,
+            bool notice = false,
+            IEnumerable<string> permissions = null,
+            bool permissionChanged = false,
+            bool paramAll = false)
         {
             if (notice) CheckNotificationConditions(ss, before: true);
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateIssues(
+                    verUp: VerUp,
+                    where: Rds.IssuesWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: Rds.IssuesParamDefault(this, paramAll: paramAll),
+                    countRecord: true)
+            };
+            if (permissionChanged)
+            {
+                statements.UpdatePermissions(ss, IssueId, permissions);
+            }
             var count = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateIssues(
-                        verUp: VerUp,
-                        where: Rds.IssuesWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                        param: Rds.IssuesParamDefault(this, paramAll: paramAll),
-                        countRecord: true)
-                });
+                transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             SynchronizeSummary(ss);
             if (notice)
@@ -967,21 +976,21 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null)
         {
             SetBySession();
+            var statements = new List<SqlStatement>
+            {
+                Rds.InsertItems(
+                    selectIdentity: true,
+                    param: Rds.ItemsParam()
+                        .ReferenceType("Issues")
+                        .SiteId(SiteId)
+                        .Title(Title.Value)),
+                Rds.UpdateOrInsertIssues(
+                    selectIdentity: true,
+                    where: where ?? Rds.IssuesWhereDefault(this),
+                    param: param ?? Rds.IssuesParamDefault(this, setDefault: true))
+            };
             var newId = Rds.ExecuteScalar_long(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.InsertItems(
-                        selectIdentity: true,
-                        param: Rds.ItemsParam()
-                            .ReferenceType("Issues")
-                            .SiteId(SiteId)
-                            .Title(Title.Value)),
-                    Rds.UpdateOrInsertIssues(
-                        selectIdentity: true,
-                        where: where ?? Rds.IssuesWhereDefault(this),
-                        param: param ?? Rds.IssuesParamDefault(this, setDefault: true))
-                });
+                transactional: true, statements: statements.ToArray());
             IssueId = newId != 0 ? newId : IssueId;
             Get(ss);
             Libraries.Search.Indexes.Create(ss, IssueId);
@@ -1056,7 +1065,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        private void SetByForm(SiteSettings ss)
+        public void SetByForm(SiteSettings ss)
         {
             Forms.Keys().ForEach(controlId =>
             {

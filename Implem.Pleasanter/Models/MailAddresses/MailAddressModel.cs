@@ -111,36 +111,37 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            var newId = Rds.ExecuteScalar_long(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.InsertMailAddresses(
-                        tableType: tableType,
+            var statements = new List<SqlStatement>
+            {
+                Rds.InsertMailAddresses(
+                    tableType: tableType,
                         selectIdentity: true,
-                        param: param ?? Rds.MailAddressesParamDefault(
-                            this, setDefault: true, paramAll: paramAll))
-                });
+                    param: param ?? Rds.MailAddressesParamDefault(
+                        this, setDefault: true, paramAll: paramAll))
+            };
+            var newId = Rds.ExecuteScalar_long(
+                transactional: true, statements: statements.ToArray());
             MailAddressId = newId != 0 ? newId : MailAddressId;
             Get();
             return Error.Types.None;
         }
 
-        public Error.Types Update(bool paramAll = false)
+        public Error.Types Update(
+            bool paramAll = false)
         {
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateMailAddresses(
+                    verUp: VerUp,
+                    where: Rds.MailAddressesWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: Rds.MailAddressesParamDefault(this, paramAll: paramAll),
+                    countRecord: true)
+            };
             var count = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateMailAddresses(
-                        verUp: VerUp,
-                        where: Rds.MailAddressesWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                        param: Rds.MailAddressesParamDefault(this, paramAll: paramAll),
-                        countRecord: true)
-                });
+                transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             Get();
             return Error.Types.None;
@@ -151,15 +152,15 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null)
         {
             SetBySession();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateOrInsertMailAddresses(
+                    selectIdentity: true,
+                    where: where ?? Rds.MailAddressesWhereDefault(this),
+                    param: param ?? Rds.MailAddressesParamDefault(this, setDefault: true))
+            };
             var newId = Rds.ExecuteScalar_long(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateOrInsertMailAddresses(
-                        selectIdentity: true,
-                        where: where ?? Rds.MailAddressesWhereDefault(this),
-                        param: param ?? Rds.MailAddressesParamDefault(this, setDefault: true))
-                });
+                transactional: true, statements: statements.ToArray());
             MailAddressId = newId != 0 ? newId : MailAddressId;
             Get();
             return Error.Types.None;
@@ -202,7 +203,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        private void SetByForm()
+        public void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>
             {

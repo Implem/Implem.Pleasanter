@@ -193,6 +193,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string InCopying(params string[] data) { return Get("InCopying", data); }
         public static string IncorrectCurrentPassword(params string[] data) { return Get("IncorrectCurrentPassword", data); }
         public static string Index(params string[] data) { return Get("Index", data); }
+        public static string InheritPermission(params string[] data) { return Get("InheritPermission", data); }
         public static string InputMailAddress(params string[] data) { return Get("InputMailAddress", data); }
         public static string InvalidCsvData(params string[] data) { return Get("InvalidCsvData", data); }
         public static string InvalidFormula(params string[] data) { return Get("InvalidFormula", data); }
@@ -564,8 +565,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Sites_InheritPermission(params string[] data) { return Get("Sites_InheritPermission", data); }
         public static string Sites_SiteSettings(params string[] data) { return Get("Sites_SiteSettings", data); }
         public static string Sites_Ancestors(params string[] data) { return Get("Sites_Ancestors", data); }
-        public static string Sites_PermissionSourceCollection(params string[] data) { return Get("Sites_PermissionSourceCollection", data); }
-        public static string Sites_PermissionDestinationCollection(params string[] data) { return Get("Sites_PermissionDestinationCollection", data); }
         public static string Sites_SiteMenu(params string[] data) { return Get("Sites_SiteMenu", data); }
         public static string Sites_MonitorChangesColumns(params string[] data) { return Get("Sites_MonitorChangesColumns", data); }
         public static string Sites_TitleColumns(params string[] data) { return Get("Sites_TitleColumns", data); }

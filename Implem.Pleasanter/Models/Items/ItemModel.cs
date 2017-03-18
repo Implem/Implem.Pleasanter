@@ -396,8 +396,7 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return SiteUtilities
-                    .Update(Site.SitesSiteSettings(ReferenceId), ReferenceId);
+                case "Sites": return SiteUtilities.Update(siteModel: Site, siteId: ReferenceId);
                 case "Issues": return IssueUtilities
                     .Update(Site.IssuesSiteSettings(ReferenceId), ReferenceId);
                 case "Results": return ResultUtilities
@@ -413,8 +412,7 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return SiteUtilities
-                    .Update(Site.SitesSiteSettings(ReferenceId), ReferenceId);
+                case "Sites": return SiteUtilities.Update(siteModel: Site, siteId: ReferenceId);
                 case "Issues": return IssueUtilities
                     .Update(Site.IssuesSiteSettings(ReferenceId), ReferenceId);
                 case "Results": return ResultUtilities

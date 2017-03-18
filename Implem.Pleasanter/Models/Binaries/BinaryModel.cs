@@ -148,36 +148,37 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false)
         {
             Size = Bin.Length;
-            var newId = Rds.ExecuteScalar_long(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.InsertBinaries(
-                        tableType: tableType,
+            var statements = new List<SqlStatement>
+            {
+                Rds.InsertBinaries(
+                    tableType: tableType,
                         selectIdentity: true,
-                        param: param ?? Rds.BinariesParamDefault(
-                            this, setDefault: true, paramAll: paramAll))
-                });
+                    param: param ?? Rds.BinariesParamDefault(
+                        this, setDefault: true, paramAll: paramAll))
+            };
+            var newId = Rds.ExecuteScalar_long(
+                transactional: true, statements: statements.ToArray());
             BinaryId = newId != 0 ? newId : BinaryId;
             Get();
             return Error.Types.None;
         }
 
-        public Error.Types Update(bool paramAll = false)
+        public Error.Types Update(
+            bool paramAll = false)
         {
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateBinaries(
+                    verUp: VerUp,
+                    where: Rds.BinariesWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: Rds.BinariesParamDefault(this, paramAll: paramAll),
+                    countRecord: true)
+            };
             var count = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateBinaries(
-                        verUp: VerUp,
-                        where: Rds.BinariesWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                        param: Rds.BinariesParamDefault(this, paramAll: paramAll),
-                        countRecord: true)
-                });
+                transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             Get();
             return Error.Types.None;
@@ -188,15 +189,15 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null)
         {
             SetBySession();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateOrInsertBinaries(
+                    selectIdentity: true,
+                    where: where ?? Rds.BinariesWhereDefault(this),
+                    param: param ?? Rds.BinariesParamDefault(this, setDefault: true))
+            };
             var newId = Rds.ExecuteScalar_long(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateOrInsertBinaries(
-                        selectIdentity: true,
-                        where: where ?? Rds.BinariesWhereDefault(this),
-                        param: param ?? Rds.BinariesParamDefault(this, setDefault: true))
-                });
+                transactional: true, statements: statements.ToArray());
             BinaryId = newId != 0 ? newId : BinaryId;
             Get();
             return Error.Types.None;
@@ -239,7 +240,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        private void SetByForm()
+        public void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>
             {

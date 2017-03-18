@@ -135,6 +135,39 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public PermissionModel(
+            long referenceId,
+            int deptId,
+            int groupId,
+            int userId,
+            Permissions.Types permissionType)
+        {
+            ReferenceId = referenceId;
+            if (deptId != 0)
+            {
+                DeptId = deptId;
+                DeptName = SiteInfo.Dept(DeptId).Name;
+            }
+            if (groupId != 0)
+            {
+                GroupId = groupId;
+                GroupName = new GroupModel(
+                    SiteSettingsUtilities.GroupsSiteSettings(), GroupId).GroupName;
+            }
+            if (userId != 0)
+            {
+                UserId = userId;
+                var user = SiteInfo.User(UserId);
+                FirstAndLastNameOrder = user.FirstAndLastNameOrders;
+                FullName1 = user.FirstName + " " + user.LastName;
+                FullName2 = user.LastName + " " + user.FirstName;
+            }
+            PermissionType = permissionType;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         /// <param name="dataRow"></param>
         public PermissionModel(
             long referenceId,
@@ -155,17 +188,18 @@ namespace Implem.Pleasanter.Models
         {
             get
             {
+                var type = PermissionType.ToLong();
                 if (DeptId != 0)
                 {
-                    return "Dept," + DeptId;
+                    return "Dept,{0},{1}".Params(DeptId, type);
                 }
                 else if (GroupId != 0)
                 {
-                    return "Group," + GroupId;
+                    return "Group,{0},{1}".Params(GroupId, type);
                 }
                 else
                 {
-                    return "User," + UserId;
+                    return "User,{0},{1}".Params(UserId, type);
                 }
             }
         }

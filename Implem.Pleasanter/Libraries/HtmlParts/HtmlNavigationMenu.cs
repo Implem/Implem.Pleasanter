@@ -163,14 +163,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Li(
                     action: () => hb
                         .A(
-                            href: Locations.ItemEdit(siteId, "Permissions"),
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-locked")
-                                .Text(text: Displays.ManagePermissions())),
-                    _using: siteId != 0 && ss.CanManagePermission())
-                .Li(
-                    action: () => hb
-                        .A(
                             href: Locations.Index("Depts"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")

@@ -141,36 +141,37 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            var newId = Rds.ExecuteScalar_long(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.InsertOutgoingMails(
-                        tableType: tableType,
+            var statements = new List<SqlStatement>
+            {
+                Rds.InsertOutgoingMails(
+                    tableType: tableType,
                         selectIdentity: true,
-                        param: param ?? Rds.OutgoingMailsParamDefault(
-                            this, setDefault: true, paramAll: paramAll))
-                });
+                    param: param ?? Rds.OutgoingMailsParamDefault(
+                        this, setDefault: true, paramAll: paramAll))
+            };
+            var newId = Rds.ExecuteScalar_long(
+                transactional: true, statements: statements.ToArray());
             OutgoingMailId = newId != 0 ? newId : OutgoingMailId;
             Get();
             return Error.Types.None;
         }
 
-        public Error.Types Update(bool paramAll = false)
+        public Error.Types Update(
+            bool paramAll = false)
         {
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateOutgoingMails(
+                    verUp: VerUp,
+                    where: Rds.OutgoingMailsWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: Rds.OutgoingMailsParamDefault(this, paramAll: paramAll),
+                    countRecord: true)
+            };
             var count = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateOutgoingMails(
-                        verUp: VerUp,
-                        where: Rds.OutgoingMailsWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                        param: Rds.OutgoingMailsParamDefault(this, paramAll: paramAll),
-                        countRecord: true)
-                });
+                transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             Get();
             Libraries.Search.Indexes.Create(
@@ -183,15 +184,15 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null)
         {
             SetBySession();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateOrInsertOutgoingMails(
+                    selectIdentity: true,
+                    where: where ?? Rds.OutgoingMailsWhereDefault(this),
+                    param: param ?? Rds.OutgoingMailsParamDefault(this, setDefault: true))
+            };
             var newId = Rds.ExecuteScalar_long(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateOrInsertOutgoingMails(
-                        selectIdentity: true,
-                        where: where ?? Rds.OutgoingMailsWhereDefault(this),
-                        param: param ?? Rds.OutgoingMailsParamDefault(this, setDefault: true))
-                });
+                transactional: true, statements: statements.ToArray());
             OutgoingMailId = newId != 0 ? newId : OutgoingMailId;
             Get();
             return Error.Types.None;
@@ -234,7 +235,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        private void SetByForm()
+        public void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>
             {

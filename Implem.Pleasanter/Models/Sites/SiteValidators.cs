@@ -92,6 +92,16 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.InvalidRequest;
                         }
                         break;
+                    case "SearchPermissionElements":
+                    case "OpenPermissionsDialog":
+                    case "AddPermissions":
+                    case "DeletePermissions":
+                    case "InheritPermission":
+                        if (!ss.CanManagePermission())
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
                 }
             }
             return Error.Types.None;

@@ -161,9 +161,11 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Update(SiteSettings ss, long siteId)
+        public static string Update(SiteModel siteModel, long siteId)
         {
-            var siteModel = new SiteModel(siteId, setByForm: true);
+            siteModel.SetByForm();
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteId);
+            var ss = siteModel.SiteSettings;
             var invalid = SiteValidators.OnUpdating(ss, siteModel);
             switch (invalid)
             {
@@ -174,7 +176,17 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts().ToJson();
             }
-            var error = siteModel.Update();
+            if (Forms.Exists("InheritPermission"))
+            {
+                siteModel.InheritPermission = Forms.Long("InheritPermission");
+                ss.InheritPermission = siteModel.InheritPermission;
+            }
+            var error = siteModel.Update(
+                ss: ss,
+                permissions: Forms.List("CurrentPermissionsAll"),
+                permissionChanged:
+                    Forms.Exists("InheritPermission") ||
+                    Forms.Exists("CurrentPermissionsAll"));
             if (error.Has())
             {
                 return error == Error.Types.UpdateConflicts
@@ -560,10 +572,16 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.Scripts()));
                             break;
                     }
-                    hb.Li(action: () => hb
-                        .A(
-                            href: "#FieldSetHistories",
-                            text: Displays.ChangeHistoryList()));
+                    hb
+                        .Li(action: () => hb
+                            .A(
+                                href: "#FieldSetHistories",
+                                text: Displays.ChangeHistoryList()))
+                        .Li(action: () => hb
+                            .A(
+                                href: "#FieldSetPermissions",
+                                text: Displays.Permissions(),
+                                _using: siteModel.SiteSettings.CanManagePermission()));
                 }
                 hb.Hidden(controlId: "TableName", value: "Sites");
             });
@@ -1030,6 +1048,12 @@ namespace Implem.Pleasanter.Models
                                     .DataAction("Histories")
                                     .DataMethod("get"),
                                 _using: siteModel.MethodType != BaseModel.MethodTypes.New)
+                            .FieldSet(
+                                attributes: new HtmlAttributes()
+                                    .Id("FieldSetPermissions")
+                                    .DataAction("Permissions")
+                                    .DataMethod("get"),
+                                _using: siteModel.SiteSettings.CanManagePermission())
                             .MainCommands(
                                 ss: siteModel.SiteSettings,
                                 siteId: siteModel.SiteId,
@@ -1078,7 +1102,8 @@ namespace Implem.Pleasanter.Models
                 .Div(attributes: new HtmlAttributes()
                     .Id("NotificationDialog")
                     .Class("dialog")
-                    .Title(Displays.Notifications())));
+                    .Title(Displays.Notifications()))
+                .PermissionsDialog());
         }
 
         /// <summary>
@@ -1143,15 +1168,6 @@ namespace Implem.Pleasanter.Models
                                 selectedValue: siteModel.ReferenceType,
                                 methodType: siteModel.MethodType))
                     .VerUpCheckBox(siteModel);
-                if (siteModel.SiteSettings.CanManagePermission() &&
-                    siteModel.MethodType != BaseModel.MethodTypes.New)
-                {
-                    hb.FieldAnchor(
-                        controlContainerCss: "m-l30",
-                        iconCss: "ui-icon-person a",
-                        text: Displays.ManagePermissions(),
-                        href: Locations.ItemEdit(siteModel.SiteId, "Permissions"));
-                }
             });
             if (siteModel.MethodType != BaseModel.MethodTypes.New)
             {

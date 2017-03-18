@@ -118,47 +118,52 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            var newId = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.InsertGroups(
-                        tableType: tableType,
+            var statements = new List<SqlStatement>
+            {
+                Rds.InsertGroups(
+                    tableType: tableType,
                         selectIdentity: true,
-                        param: param ?? Rds.GroupsParamDefault(
-                            this, setDefault: true, paramAll: paramAll)),
+                    param: param ?? Rds.GroupsParamDefault(
+                        this, setDefault: true, paramAll: paramAll)),
                     Rds.InsertGroupMembers(
                         tableType: tableType,
                         param: param ?? Rds.GroupMembersParam()
                             .GroupId(raw: Def.Sql.Identity)
                             .UserId(Sessions.UserId())
                             .Admin(true)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
-                });
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
+            };
+            var newId = Rds.ExecuteScalar_int(
+                transactional: true, statements: statements.ToArray());
             GroupId = newId != 0 ? newId : GroupId;
             Get(ss);
             return Error.Types.None;
         }
 
-        public Error.Types Update(SiteSettings ss, bool notice = false,bool paramAll = false)
+        public Error.Types Update(
+            SiteSettings ss,
+            bool notice = false,
+            IEnumerable<string> permissions = null,
+            bool permissionChanged = false,
+            bool paramAll = false)
         {
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateGroups(
+                    verUp: VerUp,
+                    where: Rds.GroupsWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: Rds.GroupsParamDefault(this, paramAll: paramAll),
+                    countRecord: true),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
+            };
             var count = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateGroups(
-                        verUp: VerUp,
-                        where: Rds.GroupsWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                        param: Rds.GroupsParamDefault(this, paramAll: paramAll),
-                        countRecord: true),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
-                });
+                transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             Get(ss);
-            var statements = new List<SqlStatement>
+            statements = new List<SqlStatement>
             {
                 Rds.PhysicalDeleteGroupMembers(
                     where: Rds.GroupMembersWhere()
@@ -193,16 +198,16 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null)
         {
             SetBySession();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateOrInsertGroups(
+                    selectIdentity: true,
+                    where: where ?? Rds.GroupsWhereDefault(this),
+                    param: param ?? Rds.GroupsParamDefault(this, setDefault: true)),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
+            };
             var newId = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateOrInsertGroups(
-                        selectIdentity: true,
-                        where: where ?? Rds.GroupsWhereDefault(this),
-                        param: param ?? Rds.GroupsParamDefault(this, setDefault: true)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
-                });
+                transactional: true, statements: statements.ToArray());
             GroupId = newId != 0 ? newId : GroupId;
             Get(ss);
             return Error.Types.None;
@@ -219,7 +224,7 @@ namespace Implem.Pleasanter.Models
                     Rds.PhysicalDeleteGroupMembers(
                         where: Rds.GroupMembersWhere()
                             .GroupId(GroupId)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
                 });
             return Error.Types.None;
         }
@@ -234,7 +239,7 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.RestoreGroups(
                         where: Rds.GroupsWhere().GroupId(GroupId)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
                 });
             return Error.Types.None;
         }
@@ -250,7 +255,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        private void SetByForm(SiteSettings ss)
+        public void SetByForm(SiteSettings ss)
         {
             Forms.Keys().ForEach(controlId =>
             {

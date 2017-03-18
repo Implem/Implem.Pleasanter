@@ -30,8 +30,6 @@ namespace Implem.Pleasanter.Models
         public long ParentId = 0;
         public long InheritPermission = 0;
         public SiteCollection Ancestors = null;
-        public PermissionCollection PermissionSourceCollection = null;
-        public PermissionCollection PermissionDestinationCollection = null;
         public int SiteMenu = 0;
         public List<string> MonitorChangesColumns = null;
         public List<string> TitleColumns = null;
@@ -42,8 +40,6 @@ namespace Implem.Pleasanter.Models
         public long SavedInheritPermission = 0;
         public string SavedSiteSettings = string.Empty;
         public SiteCollection SavedAncestors = null;
-        public PermissionCollection SavedPermissionSourceCollection = null;
-        public PermissionCollection SavedPermissionDestinationCollection = null;
         public int SavedSiteMenu = 0;
         public List<string> SavedMonitorChangesColumns = null;
         public List<string> SavedTitleColumns = null;
@@ -63,30 +59,6 @@ namespace Implem.Pleasanter.Models
         public void  Session_SiteSettings(object value)
         {
             this.PageSession("SiteSettings", value);
-        }
-
-        public PermissionCollection Session_PermissionSourceCollection()
-        {
-            return this.PageSession("PermissionSourceCollection") != null
-                ? this.PageSession("PermissionSourceCollection") as PermissionCollection ?? new PermissionCollection()
-                : PermissionSourceCollection;
-        }
-
-        public void  Session_PermissionSourceCollection(object value)
-        {
-            this.PageSession("PermissionSourceCollection", value);
-        }
-
-        public PermissionCollection Session_PermissionDestinationCollection()
-        {
-            return this.PageSession("PermissionDestinationCollection") != null
-                ? this.PageSession("PermissionDestinationCollection") as PermissionCollection ?? new PermissionCollection()
-                : PermissionDestinationCollection;
-        }
-
-        public void  Session_PermissionDestinationCollection(object value)
-        {
-            this.PageSession("PermissionDestinationCollection", value);
         }
 
         public List<string> Session_MonitorChangesColumns()
@@ -129,8 +101,6 @@ namespace Implem.Pleasanter.Models
                 case "InheritPermission": return InheritPermission.ToString();
                 case "SiteSettings": return SiteSettings.RecordingJson();
                 case "Ancestors": return Ancestors.ToString();
-                case "PermissionSourceCollection": return PermissionSourceCollection.ToString();
-                case "PermissionDestinationCollection": return PermissionDestinationCollection.ToString();
                 case "SiteMenu": return SiteMenu.ToString();
                 case "MonitorChangesColumns": return MonitorChangesColumns.ToString();
                 case "TitleColumns": return TitleColumns.ToString();
@@ -205,8 +175,6 @@ namespace Implem.Pleasanter.Models
         public void ClearSessions()
         {
             Session_SiteSettings(null);
-            Session_PermissionSourceCollection(null);
-            Session_PermissionDestinationCollection(null);
             Session_MonitorChangesColumns(null);
             Session_TitleColumns(null);
         }
@@ -258,24 +226,32 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public Error.Types Update(bool paramAll = false)
+        public Error.Types Update(
+            SiteSettings ss,
+            IEnumerable<string> permissions = null,
+            bool permissionChanged = false,
+            bool paramAll = false)
         {
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateSites(
+                    verUp: VerUp,
+                    where: Rds.SitesWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: Rds.SitesParamDefault(this, paramAll: paramAll),
+                    countRecord: true),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
+            };
+            if (permissionChanged)
+            {
+                statements.UpdatePermissions(ss, SiteId, permissions, site: true);
+            }
             var count = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateSites(
-                        verUp: VerUp,
-                        where: Rds.SitesWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                        param: Rds.SitesParamDefault(this, paramAll: paramAll),
-                        countRecord: true),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
-                });
+                transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
-            SiteSettingsUtilities.UpdateTitles(SiteSettings);
+            SiteSettingsUtilities.UpdateTitles(ss);
             Get();
             UpdateRelatedRecords();
             SiteInfo.Reflesh();
@@ -314,22 +290,22 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null)
         {
             SetBySession();
+            var statements = new List<SqlStatement>
+            {
+                Rds.InsertItems(
+                    selectIdentity: true,
+                    param: Rds.ItemsParam()
+                        .ReferenceType("Sites")
+                        .SiteId(SiteId)
+                        .Title(Title.Value)),
+                Rds.UpdateOrInsertSites(
+                    selectIdentity: true,
+                    where: where ?? Rds.SitesWhereDefault(this),
+                    param: param ?? Rds.SitesParamDefault(this, setDefault: true)),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
+            };
             var newId = Rds.ExecuteScalar_long(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.InsertItems(
-                        selectIdentity: true,
-                        param: Rds.ItemsParam()
-                            .ReferenceType("Sites")
-                            .SiteId(SiteId)
-                            .Title(Title.Value)),
-                    Rds.UpdateOrInsertSites(
-                        selectIdentity: true,
-                        where: where ?? Rds.SitesWhereDefault(this),
-                        param: param ?? Rds.SitesParamDefault(this, setDefault: true)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
-                });
+                transactional: true, statements: statements.ToArray());
             SiteId = newId != 0 ? newId : SiteId;
             Get();
             Libraries.Search.Indexes.Create(SiteSettings, SiteId);
@@ -377,7 +353,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(SiteId)),
                     Rds.RestoreSites(
                         where: Rds.SitesWhere().SiteId(SiteId)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
                 });
             Libraries.Search.Indexes.Create(SiteSettings, SiteId);
             return Error.Types.None;
@@ -395,7 +371,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        private void SetByForm()
+        public void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>
             {
@@ -448,8 +424,6 @@ namespace Implem.Pleasanter.Models
         private void SetBySession()
         {
             if (!Forms.HasData("Sites_SiteSettings")) SiteSettings = Session_SiteSettings();
-            if (!Forms.HasData("Sites_PermissionSourceCollection")) PermissionSourceCollection = Session_PermissionSourceCollection();
-            if (!Forms.HasData("Sites_PermissionDestinationCollection")) PermissionDestinationCollection = Session_PermissionDestinationCollection();
             if (!Forms.HasData("Sites_MonitorChangesColumns")) MonitorChangesColumns = Session_MonitorChangesColumns();
             if (!Forms.HasData("Sites_TitleColumns")) TitleColumns = Session_TitleColumns();
         }

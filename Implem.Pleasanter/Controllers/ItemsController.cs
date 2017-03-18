@@ -374,6 +374,42 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        [HttpGet]
+        public string Permissions(long id)
+        {
+            var log = new SysLogModel();
+            var json = PermissionUtilities.Editor(id);
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string SearchPermissionElements(long id)
+        {
+            var log = new SysLogModel();
+            var json = PermissionUtilities.SearchPermissionElements(id);
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string OpenPermissionsDialog(long id)
+        {
+            var log = new SysLogModel();
+            var json = PermissionUtilities.OpenPermissionsDialog(id);
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Delete)]
+        public string SetPermissions(string table, long id)
+        {
+            var log = new SysLogModel();
+            var json = PermissionUtilities.SetPermissions(id);
+            log.Finish(json.Length);
+            return json;
+        }
+
         [HttpPost]
         public string BurnDownRecordDetails(long id)
         {

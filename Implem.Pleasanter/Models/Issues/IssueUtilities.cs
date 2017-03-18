@@ -661,7 +661,7 @@ namespace Implem.Pleasanter.Models
                                 comments: issueModel.Comments,
                                 verType: issueModel.VerType))
                         .Div(id: "EditorTabsContainer", action: () => hb
-                            .EditorTabs(issueModel: issueModel)
+                            .EditorTabs(issueModel: issueModel, ss: ss)
                             .FieldSetGeneral(
                                 ss: ss,
                                 issueModel: issueModel)
@@ -671,6 +671,13 @@ namespace Implem.Pleasanter.Models
                                     .DataAction("Histories")
                                     .DataMethod("get"),
                                 _using: issueModel.MethodType != BaseModel.MethodTypes.New)
+                            .FieldSet(
+                                attributes: new HtmlAttributes()
+                                    .Id("FieldSetPermissions")
+                                    .DataAction("Permissions")
+                                    .DataMethod("get"),
+                                _using: ss.CanManagePermission() &&
+                                    issueModel.MethodType != BaseModel.MethodTypes.New)
                             .MainCommands(
                                 ss: ss,
                                 siteId: issueModel.SiteId,
@@ -704,22 +711,29 @@ namespace Implem.Pleasanter.Models
                 .CopyDialog("items", issueModel.IssueId)
                 .MoveDialog()
                 .OutgoingMailDialog()
+                .PermissionsDialog()
                 .EditorExtensions(issueModel: issueModel, ss: ss));
         }
 
-        private static HtmlBuilder EditorTabs(this HtmlBuilder hb, IssueModel issueModel)
+        private static HtmlBuilder EditorTabs(
+            this HtmlBuilder hb, SiteSettings ss, IssueModel issueModel)
         {
             return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 
                         text: Displays.Basic()))
-                .Li(
-                    _using: issueModel.MethodType != BaseModel.MethodTypes.New,
+                .Li(_using: issueModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
                             href: "#FieldSetHistories",
-                            text: Displays.ChangeHistoryList())));
+                            text: Displays.ChangeHistoryList()))
+                .Li(_using: ss.CanManagePermission() &&
+                        issueModel.MethodType != BaseModel.MethodTypes.New,
+                    action: () => hb
+                        .A(
+                            href: "#FieldSetPermissions",
+                            text: Displays.ManagePermission())));
         }
 
         private static HtmlBuilder FieldSetGeneral(
@@ -2151,7 +2165,11 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts().ToJson();
             }
-            var error = issueModel.Update(ss, notice: true);
+            var error = issueModel.Update(
+                ss: ss,
+                notice: true,
+                permissions: Forms.List("CurrentPermissionsAll"),
+                permissionChanged: Forms.Exists("CurrentPermissionsAll"));
             if (error.Has())
             {
                 return error == Error.Types.UpdateConflicts

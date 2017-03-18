@@ -495,12 +495,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static void InitializePermissions(Dictionary<string, long> idHash)
         {
-            idHash.Where(o => o.Key.StartsWith("Site")).Select(o => o.Value).ForEach(siteId =>
+            Def.DemoDefinitionCollection
+                .Where(o => o.Type == "Sites")
+                .Where(o => o.ParentId == string.Empty)
+                .Select(o => o.Id)
+                .ForEach(id =>
             {
                 Rds.ExecuteNonQuery(statements:
                     Rds.InsertPermissions(
                         param: Rds.PermissionsParam()
-                            .ReferenceId(siteId)
+                            .ReferenceId(idHash.Get(id))
                             .DeptId(0)
                             .UserId(idHash.Get("User1"))
                             .PermissionType(Permissions.Manager())));
@@ -509,7 +513,7 @@ namespace Implem.Pleasanter.Models
                     Rds.ExecuteNonQuery(statements:
                         Rds.InsertPermissions(
                             param: Rds.PermissionsParam()
-                                .ReferenceId(siteId)
+                                .ReferenceId(idHash.Get(id))
                                 .DeptId(deptId)
                                 .UserId(0)
                                 .PermissionType(Permissions.General())));

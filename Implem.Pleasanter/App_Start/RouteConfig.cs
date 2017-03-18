@@ -22,7 +22,7 @@ namespace Implem.Pleasanter
                 }
             );
             routes.MapRoute(
-                name: "Permissions",
+                name: "Others",
                 url: "{reference}/{id}/{controller}/{action}",
                 defaults: new
                 {
@@ -32,7 +32,7 @@ namespace Implem.Pleasanter
                 {
                     Reference = "[A-Za-z][A-Za-z0-9_]*",
                     Id = "[0-9]+",
-                    Controller = "ExportSettings|Binaries|OutgoingMails|Permissions",
+                    Controller = "ExportSettings|Binaries|OutgoingMails",
                     Action = "[A-Za-z][A-Za-z0-9_]*"
                 }
             );

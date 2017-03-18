@@ -11,6 +11,17 @@
 }
 
 $p.changePermissions = function ($control) {
-    $p.getData($control).PermissionDestination = $p.getData($('.main-form')).PermissionDestination;
+    $p.setData($('#CurrentPermissions'));
+    var data = $p.getData($control);
+    var mainFormData = $p.getData($('.main-form'));
+    data.CurrentPermissions = mainFormData.CurrentPermissions;
+    data.CurrentPermissionsAll = mainFormData.CurrentPermissionsAll;
+    $p.send($control);
+}
+
+$p.setPermissions = function ($control) {
+    $p.setData($('#CurrentPermissions'));
+    $p.setData($('#SourcePermissions'));
+    $p.setData($('#SearchPermissionElements'));
     $p.send($control);
 }

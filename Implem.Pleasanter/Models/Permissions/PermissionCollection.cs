@@ -135,5 +135,25 @@ namespace Implem.Pleasanter.Models
                     commandText: commandText,
                     param: param ?? null));
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public PermissionCollection(long referenceId, IEnumerable<string> permissions)
+        {
+            permissions?.ForEach(line =>
+            {
+                var parts = line.Split(',');
+                if (parts.Count() == 3)
+                {
+                    Add(new PermissionModel(
+                        referenceId,
+                        parts[0] == "Dept" ? parts[1].ToInt() : 0,
+                        parts[0] == "Group" ? parts[1].ToInt() : 0,
+                        parts[0] == "User" ? parts[1].ToInt() : 0,
+                        (Permissions.Types)parts[2].ToLong()));
+                }
+            });
+        }
     }
 }

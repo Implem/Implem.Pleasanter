@@ -110,36 +110,37 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            var newId = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.InsertTenants(
-                        tableType: tableType,
+            var statements = new List<SqlStatement>
+            {
+                Rds.InsertTenants(
+                    tableType: tableType,
                         selectIdentity: true,
-                        param: param ?? Rds.TenantsParamDefault(
-                            this, setDefault: true, paramAll: paramAll))
-                });
+                    param: param ?? Rds.TenantsParamDefault(
+                        this, setDefault: true, paramAll: paramAll))
+            };
+            var newId = Rds.ExecuteScalar_int(
+                transactional: true, statements: statements.ToArray());
             TenantId = newId != 0 ? newId : TenantId;
             Get();
             return Error.Types.None;
         }
 
-        public Error.Types Update(bool paramAll = false)
+        public Error.Types Update(
+            bool paramAll = false)
         {
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateTenants(
+                    verUp: VerUp,
+                    where: Rds.TenantsWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: Rds.TenantsParamDefault(this, paramAll: paramAll),
+                    countRecord: true)
+            };
             var count = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateTenants(
-                        verUp: VerUp,
-                        where: Rds.TenantsWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                        param: Rds.TenantsParamDefault(this, paramAll: paramAll),
-                        countRecord: true)
-                });
+                transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             Get();
             return Error.Types.None;
@@ -150,15 +151,15 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null)
         {
             SetBySession();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateOrInsertTenants(
+                    selectIdentity: true,
+                    where: where ?? Rds.TenantsWhereDefault(this),
+                    param: param ?? Rds.TenantsParamDefault(this, setDefault: true))
+            };
             var newId = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateOrInsertTenants(
-                        selectIdentity: true,
-                        where: where ?? Rds.TenantsWhereDefault(this),
-                        param: param ?? Rds.TenantsParamDefault(this, setDefault: true))
-                });
+                transactional: true, statements: statements.ToArray());
             TenantId = newId != 0 ? newId : TenantId;
             Get();
             return Error.Types.None;
@@ -201,7 +202,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        private void SetByForm()
+        public void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>
             {

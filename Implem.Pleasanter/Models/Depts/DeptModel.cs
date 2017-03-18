@@ -122,38 +122,43 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            var newId = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.InsertDepts(
-                        tableType: tableType,
+            var statements = new List<SqlStatement>
+            {
+                Rds.InsertDepts(
+                    tableType: tableType,
                         selectIdentity: true,
-                        param: param ?? Rds.DeptsParamDefault(
-                            this, setDefault: true, paramAll: paramAll)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
-                });
+                    param: param ?? Rds.DeptsParamDefault(
+                        this, setDefault: true, paramAll: paramAll)),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
+            };
+            var newId = Rds.ExecuteScalar_int(
+                transactional: true, statements: statements.ToArray());
             DeptId = newId != 0 ? newId : DeptId;
             Get(ss);
             return Error.Types.None;
         }
 
-        public Error.Types Update(SiteSettings ss, bool notice = false,bool paramAll = false)
+        public Error.Types Update(
+            SiteSettings ss,
+            bool notice = false,
+            IEnumerable<string> permissions = null,
+            bool permissionChanged = false,
+            bool paramAll = false)
         {
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateDepts(
+                    verUp: VerUp,
+                    where: Rds.DeptsWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: Rds.DeptsParamDefault(this, paramAll: paramAll),
+                    countRecord: true),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
+            };
             var count = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateDepts(
-                        verUp: VerUp,
-                        where: Rds.DeptsWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                        param: Rds.DeptsParamDefault(this, paramAll: paramAll),
-                        countRecord: true),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
-                });
+                transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             Get(ss);
             SiteInfo.Reflesh();
@@ -166,16 +171,16 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null)
         {
             SetBySession();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateOrInsertDepts(
+                    selectIdentity: true,
+                    where: where ?? Rds.DeptsWhereDefault(this),
+                    param: param ?? Rds.DeptsParamDefault(this, setDefault: true)),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
+            };
             var newId = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateOrInsertDepts(
-                        selectIdentity: true,
-                        where: where ?? Rds.DeptsWhereDefault(this),
-                        param: param ?? Rds.DeptsParamDefault(this, setDefault: true)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
-                });
+                transactional: true, statements: statements.ToArray());
             DeptId = newId != 0 ? newId : DeptId;
             Get(ss);
             return Error.Types.None;
@@ -189,7 +194,7 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.DeleteDepts(
                         where: Rds.DeptsWhere().DeptId(DeptId)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
                 });
             if (SiteInfo.DeptHash.Keys.Contains(DeptId))
             {
@@ -208,7 +213,7 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.RestoreDepts(
                         where: Rds.DeptsWhere().DeptId(DeptId)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
                 });
             return Error.Types.None;
         }
@@ -224,7 +229,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        private void SetByForm(SiteSettings ss)
+        public void SetByForm(SiteSettings ss)
         {
             Forms.Keys().ForEach(controlId =>
             {

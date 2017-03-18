@@ -215,38 +215,43 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false)
         {
             PasswordExpirationPeriod();
-            var newId = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.InsertUsers(
-                        tableType: tableType,
+            var statements = new List<SqlStatement>
+            {
+                Rds.InsertUsers(
+                    tableType: tableType,
                         selectIdentity: true,
-                        param: param ?? Rds.UsersParamDefault(
-                            this, setDefault: true, paramAll: paramAll)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
-                });
+                    param: param ?? Rds.UsersParamDefault(
+                        this, setDefault: true, paramAll: paramAll)),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
+            };
+            var newId = Rds.ExecuteScalar_int(
+                transactional: true, statements: statements.ToArray());
             UserId = newId != 0 ? newId : UserId;
             Get(ss);
             return Error.Types.None;
         }
 
-        public Error.Types Update(SiteSettings ss, bool notice = false,bool paramAll = false)
+        public Error.Types Update(
+            SiteSettings ss,
+            bool notice = false,
+            IEnumerable<string> permissions = null,
+            bool permissionChanged = false,
+            bool paramAll = false)
         {
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateUsers(
+                    verUp: VerUp,
+                    where: Rds.UsersWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: Rds.UsersParamDefault(this, paramAll: paramAll),
+                    countRecord: true),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
+            };
             var count = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateUsers(
-                        verUp: VerUp,
-                        where: Rds.UsersWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                        param: Rds.UsersParamDefault(this, paramAll: paramAll),
-                        countRecord: true),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
-                });
+                transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             Get(ss);
             UpdateMailAddresses();
@@ -260,16 +265,16 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null)
         {
             SetBySession();
+            var statements = new List<SqlStatement>
+            {
+                Rds.UpdateOrInsertUsers(
+                    selectIdentity: true,
+                    where: where ?? Rds.UsersWhereDefault(this),
+                    param: param ?? Rds.UsersParamDefault(this, setDefault: true)),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
+            };
             var newId = Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateOrInsertUsers(
-                        selectIdentity: true,
-                        where: where ?? Rds.UsersWhereDefault(this),
-                        param: param ?? Rds.UsersParamDefault(this, setDefault: true)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
-                });
+                transactional: true, statements: statements.ToArray());
             UserId = newId != 0 ? newId : UserId;
             Get(ss);
             return Error.Types.None;
@@ -283,7 +288,7 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.DeleteUsers(
                         where: Rds.UsersWhere().UserId(UserId)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
                 });
             if (SiteInfo.UserHash.Keys.Contains(UserId))
             {
@@ -302,7 +307,7 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.RestoreUsers(
                         where: Rds.UsersWhere().UserId(UserId)),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
                 });
             return Error.Types.None;
         }
@@ -318,7 +323,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        private void SetByForm(SiteSettings ss)
+        public void SetByForm(SiteSettings ss)
         {
             Forms.Keys().ForEach(controlId =>
             {
