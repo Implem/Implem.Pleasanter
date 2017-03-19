@@ -947,6 +947,10 @@ namespace Implem.Pleasanter.Models
         {
             var userModel = new UserModel(ss, userId);
             var columns = ss.GetHistoryColumns();
+            if (!ss.CanRead())
+            {
+                return Error.Types.HasNotPermission.MessageJson();
+            }
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),

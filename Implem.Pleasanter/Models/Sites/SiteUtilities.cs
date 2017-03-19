@@ -284,8 +284,12 @@ namespace Implem.Pleasanter.Models
 
         public static string Histories(SiteModel siteModel)
         {
-            var ss = new SiteSettings("Sites");
-            var columns = ss.GetHistoryColumns();
+            var ss = siteModel.SiteSettings;
+            var columns = new SiteSettings("Sites").GetHistoryColumns();
+            if (!ss.CanRead())
+            {
+                return Error.Types.HasNotPermission.MessageJson();
+            }
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),

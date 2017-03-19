@@ -683,6 +683,10 @@ namespace Implem.Pleasanter.Models
         {
             var deptModel = new DeptModel(ss, deptId);
             var columns = ss.GetHistoryColumns();
+            if (!ss.CanRead())
+            {
+                return Error.Types.HasNotPermission.MessageJson();
+            }
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),
