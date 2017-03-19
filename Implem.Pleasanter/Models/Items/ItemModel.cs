@@ -616,16 +616,16 @@ namespace Implem.Pleasanter.Models
 
         public string EditorJson()
         {
-            SetSite();
+            SetSite(initSiteSettings: true);
             switch (ReferenceType)
             {
-                case "Sites": return SiteUtilities.EditorJson(ReferenceId);
+                case "Sites": return SiteUtilities.EditorJson(Site);
                 case "Issues": return IssueUtilities.EditorJson(
-                    Site.IssuesSiteSettings(ReferenceId), ReferenceId);
+                    Site.SiteSettings, ReferenceId);
                 case "Results": return ResultUtilities.EditorJson(
-                    Site.ResultsSiteSettings(ReferenceId), ReferenceId);
+                    Site.SiteSettings, ReferenceId);
                 case "Wikis": return WikiUtilities.EditorJson(
-                    Site.WikisSiteSettings(ReferenceId), ReferenceId);
+                    Site.SiteSettings, ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -662,9 +662,10 @@ namespace Implem.Pleasanter.Models
 
         public SiteModel GetSite(bool siteOnly = false, bool initSiteSettings = false)
         {
+            SiteModel siteModel;
             if (ReferenceType == "Sites" && Forms.Exists("Ver"))
             {
-                var siteModel = new SiteModel();
+                siteModel = new SiteModel();
                 siteModel.Get(
                     where: Rds.SitesWhere()
                         .SiteId(ReferenceId)
@@ -673,20 +674,18 @@ namespace Implem.Pleasanter.Models
                 siteModel.VerType =  Forms.Bool("Latest")
                     ? Versions.VerTypes.Latest
                     : Versions.VerTypes.History;
-                if (initSiteSettings)
-                {
-                    siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, ReferenceId);
-                }
-                return siteModel;
             }
             else
             {
-                return siteOnly
-                    ? new SiteModel(ReferenceId, initSiteSettings: initSiteSettings)
-                    : new SiteModel(
-                        ReferenceType == "Sites" ? ReferenceId : SiteId,
-                        initSiteSettings: initSiteSettings);
+                siteModel = siteOnly
+                    ? new SiteModel(ReferenceId)
+                    : new SiteModel(ReferenceType == "Sites" ? ReferenceId : SiteId);
             }
+            if (initSiteSettings)
+            {
+                siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, ReferenceId);
+            }
+            return siteModel;
         }
 
         private void SetBySession()

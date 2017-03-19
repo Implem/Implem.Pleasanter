@@ -77,9 +77,9 @@ namespace Implem.Pleasanter.Models
                     .Text(text: gridDesign)));
         }
 
-        public static string EditorJson(long siteId)
+        public static string EditorJson(SiteModel siteModel)
         {
-            return EditorResponse(new SiteModel(siteId, initSiteSettings: true)).ToJson();
+            return EditorResponse(siteModel).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
@@ -475,7 +475,9 @@ namespace Implem.Pleasanter.Models
         public static string Editor(long siteId, bool clearSessions)
         {
             var siteModel = new SiteModel(
-                siteId, clearSessions, methodType: BaseModel.MethodTypes.Edit);
+                siteId: siteId,
+                clearSessions: clearSessions,
+                methodType: BaseModel.MethodTypes.Edit);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteId);
             return Editor(siteModel);
         }

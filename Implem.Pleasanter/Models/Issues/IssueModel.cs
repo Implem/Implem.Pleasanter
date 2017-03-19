@@ -871,6 +871,7 @@ namespace Implem.Pleasanter.Models
                         .Title(IssueUtilities.TitleDisplayValue(ss, this)),
                     where: Rds.ItemsWhere().ReferenceId(IssueId)));
             Libraries.Search.Indexes.Create(ss, IssueId);
+            if (ss.PermissionForCreating != null) ss.SetPermissions(IssueId);
             return Error.Types.None;
         }
 

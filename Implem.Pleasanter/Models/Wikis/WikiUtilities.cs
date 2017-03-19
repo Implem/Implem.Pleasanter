@@ -103,9 +103,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 verType: wikiModel.VerType,
                 methodType: wikiModel.MethodType,
-                allowAccess:
-                    ss.CanRead() &&
-                    wikiModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                allowAccess: AllowAccess(ss, wikiModel),
                 siteId: wikiModel.SiteId,
                 referenceType: "Wikis",
                 title: wikiModel.MethodType == BaseModel.MethodTypes.New
@@ -127,6 +125,14 @@ namespace Implem.Pleasanter.Models
                         .Hidden(controlId: "TableName", value: "Wikis")
                         .Hidden(controlId: "Id", value: wikiModel.WikiId.ToString());
                 }).ToString();
+        }
+
+        private static bool AllowAccess(SiteSettings ss, WikiModel wikiModel)
+        {
+            return
+                ((wikiModel.MethodType == BaseModel.MethodTypes.Edit && ss.CanRead()) ||
+                (wikiModel.MethodType == BaseModel.MethodTypes.New && ss.CanCreate())) &&
+                wikiModel.AccessStatus != Databases.AccessStatuses.NotFound;
         }
 
         /// <summary>

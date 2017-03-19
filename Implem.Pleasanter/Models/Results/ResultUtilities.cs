@@ -602,9 +602,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 verType: resultModel.VerType,
                 methodType: resultModel.MethodType,
-                allowAccess:
-                    ss.CanRead() &&
-                    resultModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                allowAccess: AllowAccess(ss, resultModel),
                 siteId: resultModel.SiteId,
                 referenceType: "Results",
                 title: resultModel.MethodType == BaseModel.MethodTypes.New
@@ -626,6 +624,14 @@ namespace Implem.Pleasanter.Models
                         .Hidden(controlId: "TableName", value: "Results")
                         .Hidden(controlId: "Id", value: resultModel.ResultId.ToString());
                 }).ToString();
+        }
+
+        private static bool AllowAccess(SiteSettings ss, ResultModel resultModel)
+        {
+            return
+                ((resultModel.MethodType == BaseModel.MethodTypes.Edit && ss.CanRead()) ||
+                (resultModel.MethodType == BaseModel.MethodTypes.New && ss.CanCreate())) &&
+                resultModel.AccessStatus != Databases.AccessStatuses.NotFound;
         }
 
         private static HtmlBuilder Editor(
