@@ -71,6 +71,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GridScript;
         public string NewScript;
         public string EditScript;
+        public Dictionary<string, Permissions.Types> PermissionForCreating;
         // compatibility Version 1.002
         public Dictionary<string, long> LinkColumnSiteIdHash;
         // compatibility Version 1.003
@@ -254,6 +255,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (GridScript == string.Empty) self.GridScript = null;
             if (NewScript == string.Empty) self.NewScript = null;
             if (EditScript == string.Empty) self.EditScript = null;
+            if (PermissionForCreating?.Any(o => o.Value > 0) != true) PermissionForCreating = null;
             var removeCollection = new HashSet<string>();
             self.Columns.ForEach(column =>
             {
@@ -859,6 +861,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridScript": GridScript = value; break;
                 case "NewScript": NewScript = value; break;
                 case "EditScript": EditScript = value; break;
+                case "CurrentPermissionForCreatingAll": SetPermissionForCreating(value); break;
             }
         }
 
@@ -1322,6 +1325,40 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                     }
                 });
+        }
+
+        public Permission GetPermissionForCreating(string key)
+        {
+            return PermissionForCreating?.ContainsKey(key) == true
+                ? new Permission(this, key, 0, PermissionForCreating[key])
+                : new Permission(this, key, 0, Permissions.Types.NotSet, source: true);
+        }
+
+        private void SetPermissionForCreating(string value)
+        {
+            PermissionForCreating = GetPermissions(value.Deserialize<List<string>>())
+                .ToDictionary(o => o.Name, o => o.Type);
+        }
+
+        public List<Permission> GetPermissions(
+            List<string> formData, Permissions.Types? type = null)
+        {
+            var data = new List<Permission>();
+            formData?.ForEach(line =>
+            {
+                var part = line.Split(',');
+                if (part.Count() == 3)
+                {
+                    data.Add(new Permission(
+                        this,
+                        part[0],
+                        part[1].ToInt(),
+                        type != null
+                            ? (Permissions.Types)type
+                            : (Permissions.Types)part[2].ToLong()));
+                }
+            });
+            return data;
         }
     }
 }

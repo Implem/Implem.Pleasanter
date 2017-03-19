@@ -585,7 +585,12 @@ namespace Implem.Pleasanter.Models
                             .A(
                                 href: "#FieldSetPermissions",
                                 text: Displays.Permissions(),
-                                _using: siteModel.SiteSettings.CanManagePermission()));
+                                _using: siteModel.SiteSettings.CanManagePermission()))
+                        .Li(action: () => hb
+                            .A(
+                                href: "#FieldSetPermissionForCreating",
+                                text: Displays.PermissionForCreating(),
+                                _using: EnablePermissionForCreating(siteModel)));
                 }
                 hb.Hidden(controlId: "TableName", value: "Sites");
             });
@@ -1058,6 +1063,12 @@ namespace Implem.Pleasanter.Models
                                     .DataAction("Permissions")
                                     .DataMethod("get"),
                                 _using: siteModel.SiteSettings.CanManagePermission())
+                            .FieldSet(
+                                attributes: new HtmlAttributes()
+                                    .Id("FieldSetPermissionForCreating")
+                                    .DataAction("PermissionForCreating")
+                                    .DataMethod("get"),
+                                _using: EnablePermissionForCreating(siteModel))
                             .MainCommands(
                                 ss: siteModel.SiteSettings,
                                 siteId: siteModel.SiteId,
@@ -1107,7 +1118,23 @@ namespace Implem.Pleasanter.Models
                     .Id("NotificationDialog")
                     .Class("dialog")
                     .Title(Displays.Notifications()))
-                .PermissionsDialog());
+                .PermissionsDialog()
+                .PermissionForCreatingDialog());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool EnablePermissionForCreating(SiteModel siteModel)
+        {
+            switch (siteModel.ReferenceType)
+            {
+                case "Issues":
+                case "Results":
+                    return siteModel.SiteSettings.CanManagePermission();
+                default:
+                    return false;
+            }
         }
 
         /// <summary>

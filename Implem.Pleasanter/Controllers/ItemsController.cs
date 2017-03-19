@@ -378,7 +378,7 @@ namespace Implem.Pleasanter.Controllers
         public string Permissions(long id)
         {
             var log = new SysLogModel();
-            var json = PermissionUtilities.Editor(id);
+            var json = PermissionUtilities.Permission(id);
             log.Finish(json.Length);
             return json;
         }
@@ -392,6 +392,15 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Delete)]
+        public string SetPermissions(long id)
+        {
+            var log = new SysLogModel();
+            var json = PermissionUtilities.SetPermissions(id);
+            log.Finish(json.Length);
+            return json;
+        }
+
         [HttpPost]
         public string OpenPermissionsDialog(long id)
         {
@@ -401,11 +410,29 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Delete)]
-        public string SetPermissions(string table, long id)
+        [HttpGet]
+        public string PermissionForCreating(long id)
         {
             var log = new SysLogModel();
-            var json = PermissionUtilities.SetPermissions(id);
+            var json = PermissionUtilities.PermissionForCreating(id);
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Delete)]
+        public string SetPermissionForCreating(long id)
+        {
+            var log = new SysLogModel();
+            var json = PermissionUtilities.SetPermissionForCreating(id);
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string OpenPermissionForCreatingDialog(long id)
+        {
+            var log = new SysLogModel();
+            var json = PermissionUtilities.OpenPermissionForCreatingDialog(id);
             log.Finish(json.Length);
             return json;
         }

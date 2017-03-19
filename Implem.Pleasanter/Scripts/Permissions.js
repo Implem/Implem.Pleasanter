@@ -1,4 +1,11 @@
-﻿$p.openPermissionsDialog = function ($control) {
+﻿$p.setPermissions = function ($control) {
+    $p.setData($('#CurrentPermissions'));
+    $p.setData($('#SourcePermissions'));
+    $p.setData($('#SearchPermissionElements'));
+    $p.send($control);
+}
+
+$p.openPermissionsDialog = function ($control) {
     $p.data.PermissionsForm = {};
     var error = $p.syncSend($control);
     if (error === 0) {
@@ -19,9 +26,29 @@ $p.changePermissions = function ($control) {
     $p.send($control);
 }
 
-$p.setPermissions = function ($control) {
-    $p.setData($('#CurrentPermissions'));
-    $p.setData($('#SourcePermissions'));
-    $p.setData($('#SearchPermissionElements'));
+$p.setPermissionForCreating = function ($control) {
+    $p.setData($('#CurrentPermissionForCreating'));
+    $p.setData($('#SourcePermissionForCreating'));
+    $p.send($control);
+}
+
+$p.openPermissionForCreatingDialog = function ($control) {
+    $p.data.PermissionForCreatingForm = {};
+    var error = $p.syncSend($control);
+    if (error === 0) {
+        $('#PermissionForCreatingDialog').dialog({
+            modal: true,
+            width: '700px',
+            appendTo: '#Editor'
+        });
+    }
+}
+
+$p.changePermissionForCreating = function ($control) {
+    $p.setData($('#CurrentPermissionForCreating'));
+    var data = $p.getData($control);
+    var mainFormData = $p.getData($('.main-form'));
+    data.CurrentPermissionForCreating = mainFormData.CurrentPermissionForCreating;
+    data.CurrentPermissionForCreatingAll = mainFormData.CurrentPermissionForCreatingAll;
     $p.send($control);
 }

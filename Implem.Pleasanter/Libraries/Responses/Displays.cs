@@ -304,6 +304,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string PasswordResetCompleted(params string[] data) { return Get("PasswordResetCompleted", data); }
         public static string Pattern(params string[] data) { return Get("Pattern", data); }
         public static string PermissionDestination(params string[] data) { return Get("PermissionDestination", data); }
+        public static string PermissionForCreating(params string[] data) { return Get("PermissionForCreating", data); }
         public static string PermissionNotSelfChange(params string[] data) { return Get("PermissionNotSelfChange", data); }
         public static string PermissionSetting(params string[] data) { return Get("PermissionSetting", data); }
         public static string PermissionSource(params string[] data) { return Get("PermissionSource", data); }

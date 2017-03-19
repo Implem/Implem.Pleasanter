@@ -307,6 +307,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SelectIdentity": Code.Model_SelectIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SelectIdentity, definitionRow, CodeXls); break;
                     case "Model_InsertGroupMember": Code.Model_InsertGroupMember = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertGroupMember, definitionRow, CodeXls); break;
                     case "Model_InsertLinksByCreate": Code.Model_InsertLinksByCreate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksByCreate, definitionRow, CodeXls); break;
+                    case "Model_CreatePermissions": Code.Model_CreatePermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreatePermissions, definitionRow, CodeXls); break;
                     case "Model_Insert": Code.Model_Insert = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Insert, definitionRow, CodeXls); break;
                     case "Model_InsertIdentity": Code.Model_InsertIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentity, definitionRow, CodeXls); break;
                     case "Model_InsertIdentitySet": Code.Model_InsertIdentitySet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentitySet, definitionRow, CodeXls); break;
@@ -519,6 +520,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Validator_OnCreatingCases": Code.Model_Validator_OnCreatingCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnCreatingCases, definitionRow, CodeXls); break;
                     case "Model_Validator_OnUpdating_Users": Code.Model_Validator_OnUpdating_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnUpdating_Users, definitionRow, CodeXls); break;
                     case "Model_Validator_OnUpdatingCases": Code.Model_Validator_OnUpdatingCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnUpdatingCases, definitionRow, CodeXls); break;
+                    case "Model_Validator_OnUpdatingPermissions": Code.Model_Validator_OnUpdatingPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnUpdatingPermissions, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods_Binaries": Code.Model_ValidatorMethods_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods_Binaries, definitionRow, CodeXls); break;
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
                     case "Rds_IdColumnCases": Code.Rds_IdColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_IdColumnCases, definitionRow, CodeXls); break;
@@ -3289,6 +3291,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SelectIdentity;
         public string Model_InsertGroupMember;
         public string Model_InsertLinksByCreate;
+        public string Model_CreatePermissions;
         public string Model_Insert;
         public string Model_InsertIdentity;
         public string Model_InsertIdentitySet;
@@ -3501,6 +3504,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Validator_OnCreatingCases;
         public string Model_Validator_OnUpdating_Users;
         public string Model_Validator_OnUpdatingCases;
+        public string Model_Validator_OnUpdatingPermissions;
         public string Model_ValidatorMethods_Binaries;
         public string Rds;
         public string Rds_IdColumnCases;
@@ -3718,6 +3722,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SelectIdentity = new CodeDefinition();
         public CodeDefinition Model_InsertGroupMember = new CodeDefinition();
         public CodeDefinition Model_InsertLinksByCreate = new CodeDefinition();
+        public CodeDefinition Model_CreatePermissions = new CodeDefinition();
         public CodeDefinition Model_Insert = new CodeDefinition();
         public CodeDefinition Model_InsertIdentity = new CodeDefinition();
         public CodeDefinition Model_InsertIdentitySet = new CodeDefinition();
@@ -3930,6 +3935,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Validator_OnCreatingCases = new CodeDefinition();
         public CodeDefinition Model_Validator_OnUpdating_Users = new CodeDefinition();
         public CodeDefinition Model_Validator_OnUpdatingCases = new CodeDefinition();
+        public CodeDefinition Model_Validator_OnUpdatingPermissions = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods_Binaries = new CodeDefinition();
         public CodeDefinition Rds = new CodeDefinition();
         public CodeDefinition Rds_IdColumnCases = new CodeDefinition();

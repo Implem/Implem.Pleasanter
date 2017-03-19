@@ -850,6 +850,11 @@ namespace Implem.Pleasanter.Models
                         this, setDefault: true, paramAll: paramAll)),
                     InsertLinks(ss, selectIdentity: true),
             };
+            statements.CreatePermissions(ss, ss.Columns
+                .Where(o => o.UserColumn)
+                .ToDictionary(o =>
+                    o.ColumnName,
+                    o => SiteInfo.User(PropertyValue(o.ColumnName).ToInt())));
             var newId = Rds.ExecuteScalar_long(
                 transactional: true, statements: statements.ToArray());
             IssueId = newId != 0 ? newId : IssueId;
