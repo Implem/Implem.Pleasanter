@@ -159,7 +159,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
                                 .Text(text: Displays.SiteSettings())),
-                    _using: siteId != 0 && ss.CanManageSite())
+                    _using: siteId != 0 && ss.CanManageSite(site: true))
                 .Li(
                     action: () => hb
                         .A(
