@@ -284,7 +284,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Histories(SiteModel siteModel)
         {
-            var ss = siteModel.SiteSettings;
+            var ss = new SiteSettings("Sites");
             var columns = ss.GetHistoryColumns();
             var hb = new HtmlBuilder();
             hb.Table(
