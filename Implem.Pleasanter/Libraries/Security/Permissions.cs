@@ -188,7 +188,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant() ||
                         Sessions.UserId() == Routes.Id();
                 default:
-                    return (ss.PermissionType & Types.Read) != 0;
+                    return ss.Can(Types.Read);
             }
         }
 
@@ -202,7 +202,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "groups":
                     return CanEditGroup();
                 default:
-                    return (ss.PermissionType & Types.Create) != 0;
+                    return ss.Can(Types.Create);
             }
         }
 
@@ -218,7 +218,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant() ||
                         Sessions.UserId() == Routes.Id();
                 default:
-                    return (ss.PermissionType & Types.Update) != 0;
+                    return ss.Can(Types.Update);
             }
         }
 
@@ -239,7 +239,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant() &&
                         Sessions.UserId() != Routes.Id();
                 default:
-                    return (ss.PermissionType & Types.Delete) != 0;
+                    return ss.Can(Types.Delete);
             }
         }
 
@@ -255,7 +255,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant() ||
                         Sessions.UserId() == Routes.Id();
                 default:
-                    return (ss.PermissionType & Types.SendMail) != 0;
+                    return ss.Can(Types.SendMail);
             }
         }
 
