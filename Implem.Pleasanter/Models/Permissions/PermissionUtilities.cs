@@ -56,6 +56,8 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(
                 id: "FieldSetPermissionEditor",
+                css: " enclosed",
+                legendText: Displays.PermissionSetting(),
                 action: () => hb
                     .Inherit(siteModel: siteModel, site: site)
                     .Div(id: "PermissionEditor", action: () => hb
@@ -171,7 +173,7 @@ namespace Implem.Pleasanter.Models
                 controlId: "SourcePermissions",
                 fieldCss: "field-vertical",
                 controlContainerCss: "container-selectable",
-                controlWrapperCss: " h550",
+                controlWrapperCss: " h300",
                 labelText: Displays.OptionList(),
                 listItemCollection: permissionCollection
                     .OrderBy(o => o.PermissionId)
