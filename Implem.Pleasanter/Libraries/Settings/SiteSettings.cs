@@ -167,8 +167,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetPermissions(long referenceId)
         {
             var targets = new List<long> { InheritPermission, referenceId };
-            targets.AddRange(Destinations?.Select(o => o.InheritPermission));
-            targets.AddRange(Sources?.Select(o => o.InheritPermission));
+            targets.AddRange(Destinations?.Select(o => o.InheritPermission) ?? new List<long>());
+            targets.AddRange(Sources?.Select(o => o.InheritPermission) ?? new List<long>());
             var permissions = ReferenceType == "Sites"
                 ? Permissions.Get(targets.Distinct())
                 : Permissions.Get(targets.Distinct(), InheritPermission, referenceId);
