@@ -66,8 +66,7 @@ namespace Implem.Pleasanter.Libraries.Security
             Update
         }
 
-        public static Dictionary<long, Types> Get(
-            IEnumerable<long> targets, long inheritPermission = 0, long referenceId = 0)
+        public static Dictionary<long, Types> Get(IEnumerable<long> targets)
         {
             return Hash(
                 dataRows: Rds.ExecuteTable(statements:
@@ -84,14 +83,12 @@ namespace Implem.Pleasanter.Libraries.Security
                                     where: Rds.GroupMembersWhere()
                                         .Add(raw: DeptOrUser("GroupMembers"))))
                                 .Add(raw: DeptOrUser("Permissions")))))
-                                    .AsEnumerable(),
-                inheritPermission: inheritPermission,
-                referenceId: referenceId);
+                                    .AsEnumerable());
         }
 
         public static SqlWhereCollection CanRead(SiteSettings ss, SqlWhereCollection where)
         {
-            return !ss.CanRead()
+            return !ss.CanRead(site: true)
                 ? where.Add(
                     subLeft: Rds.SelectPermissions(
                         column: Rds.PermissionsColumn().PermissionType(),
@@ -112,8 +109,7 @@ namespace Implem.Pleasanter.Libraries.Security
             return "([{0}].[DeptId]=@_D or [{0}].[UserId]=@_U)".Params(tableName);
         }
 
-        private static Dictionary<long, Types> Hash(
-            EnumerableRowCollection<DataRow> dataRows, long inheritPermission, long referenceId)
+        private static Dictionary<long, Types> Hash(EnumerableRowCollection<DataRow> dataRows)
         {
             var hash = dataRows
                 .Select(o => o["ReferenceId"].ToLong())
@@ -122,10 +118,6 @@ namespace Implem.Pleasanter.Libraries.Security
             dataRows.ForEach(dataRow =>
             {
                 var key = dataRow["ReferenceId"].ToLong();
-                if (key == referenceId && inheritPermission != referenceId)
-                {
-                    key = inheritPermission;
-                }
                 hash[key] |= (Types)dataRow["PermissionType"].ToLong();
             });
             return hash;
@@ -173,10 +165,10 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool HasPermission(this SiteSettings ss)
         {
-            return ss.PermissionType != null;
+            return ss.PermissionType != null || ss.ItemPermissionType != null;
         }
 
-        public static bool CanRead(this SiteSettings ss)
+        public static bool CanRead(this SiteSettings ss, bool site = false)
         {
             switch (Routes.Controller().ToLower())
             {
@@ -188,11 +180,11 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant() ||
                         Sessions.UserId() == Routes.Id();
                 default:
-                    return ss.Can(Types.Read);
+                    return ss.Can(Types.Read, site);
             }
         }
 
-        public static bool CanCreate(this SiteSettings ss)
+        public static bool CanCreate(this SiteSettings ss, bool site = false)
         {
             switch (Routes.Controller().ToLower())
             {
@@ -202,11 +194,11 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "groups":
                     return CanEditGroup();
                 default:
-                    return ss.Can(Types.Create);
+                    return ss.Can(Types.Create, site);
             }
         }
 
-        public static bool CanUpdate(this SiteSettings ss)
+        public static bool CanUpdate(this SiteSettings ss, bool site = false)
         {
             switch (Routes.Controller().ToLower())
             {
@@ -218,7 +210,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant() ||
                         Sessions.UserId() == Routes.Id();
                 default:
-                    return ss.Can(Types.Update);
+                    return ss.Can(Types.Update, site);
             }
         }
 
@@ -227,7 +219,7 @@ namespace Implem.Pleasanter.Libraries.Security
             return source.CanUpdate() && destination.CanUpdate();
         }
 
-        public static bool CanDelete(this SiteSettings ss)
+        public static bool CanDelete(this SiteSettings ss, bool site = false)
         {
             switch (Routes.Controller().ToLower())
             {
@@ -239,11 +231,11 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant() &&
                         Sessions.UserId() != Routes.Id();
                 default:
-                    return ss.Can(Types.Delete);
+                    return ss.Can(Types.Delete, site);
             }
         }
 
-        public static bool CanSendMail(this SiteSettings ss)
+        public static bool CanSendMail(this SiteSettings ss, bool site = false)
         {
             switch (ss.ReferenceType.ToLower())
             {
@@ -255,28 +247,28 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant() ||
                         Sessions.UserId() == Routes.Id();
                 default:
-                    return ss.Can(Types.SendMail);
+                    return ss.Can(Types.SendMail, site);
             }
         }
 
-        public static bool CanExport(this SiteSettings ss)
+        public static bool CanExport(this SiteSettings ss, bool site = false)
         {
-            return ss.Can(Types.Export);
+            return ss.Can(Types.Export, site);
         }
 
-        public static bool CanImport(this SiteSettings ss)
+        public static bool CanImport(this SiteSettings ss, bool site = false)
         {
-            return ss.Can(Types.Import);
+            return ss.Can(Types.Import, site);
         }
 
-        public static bool CanManageSite(this SiteSettings ss)
+        public static bool CanManageSite(this SiteSettings ss, bool site = false)
         {
-            return ss.Can(Types.ManageSite);
+            return ss.Can(Types.ManageSite, site);
         }
 
-        public static bool CanManagePermission(this SiteSettings ss)
+        public static bool CanManagePermission(this SiteSettings ss, bool site = false)
         {
-            return ss.Can(Types.ManagePermission);
+            return ss.Can(Types.ManagePermission, site);
         }
 
         public static ColumnPermissionTypes ColumnPermissionType(
@@ -301,19 +293,19 @@ namespace Implem.Pleasanter.Libraries.Security
             }
         }
 
-        public static bool CanRead(this Column self, SiteSettings ss)
+        public static bool CanRead(this Column self, SiteSettings ss, bool site = false)
         {
-            return Can(Admins(ss.PermissionType), self.ReadPermission);
+            return Can(Admins(ss.GetPermissionType(site)), self.ReadPermission);
         }
 
-        public static bool CanCreate(this Column self, SiteSettings ss)
+        public static bool CanCreate(this Column self, SiteSettings ss, bool site = false)
         {
-            return Can(Admins(ss.PermissionType), self.CreatePermission);
+            return Can(Admins(ss.GetPermissionType(site)), self.CreatePermission);
         }
 
-        public static bool CanUpdate(this Column self, SiteSettings ss)
+        public static bool CanUpdate(this Column self, SiteSettings ss, bool site = false)
         {
-            return Can(Admins(ss.PermissionType), self.UpdatePermission);
+            return Can(Admins(ss.GetPermissionType(site)), self.UpdatePermission);
         }
 
         public static bool CanManageTenant()
@@ -331,9 +323,9 @@ namespace Implem.Pleasanter.Libraries.Security
             return Routes.Id() == 0 || CanManageTenant() || Groups().Any(o => o["Admin"].ToBool());
         }
 
-        private static bool Can(this SiteSettings ss, Types type)
+        private static bool Can(this SiteSettings ss, Types type, bool site)
         {
-            return (ss.PermissionType & type) == type;
+            return (ss.GetPermissionType(site) & type) == type;
         }
 
         private static bool Can(Types? type, Types require)

@@ -36,6 +36,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Permissions.Types? PermissionType;
         [NonSerialized]
+        public Permissions.Types? ItemPermissionType;
+        [NonSerialized]
         public Databases.AccessStatuses AccessStatus;
         [NonSerialized]
         public Dictionary<string, Column> ColumnHash;
@@ -170,20 +172,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             var targets = new List<long> { InheritPermission, referenceId };
             targets.AddRange(Destinations?.Select(o => o.InheritPermission) ?? new List<long>());
             targets.AddRange(Sources?.Select(o => o.InheritPermission) ?? new List<long>());
-            var permissions = ReferenceType == "Sites"
-                ? Permissions.Get(targets.Distinct())
-                : Permissions.Get(targets.Distinct(), InheritPermission, referenceId);
-            SetPermissions(this, permissions);
+            var permissions = Permissions.Get(targets.Distinct());
+            SetPermissions(this, permissions, referenceId);
             Destinations?.ForEach(o => SetPermissions(o, permissions));
             Sources?.ForEach(o => SetPermissions(o, permissions));
         }
 
         private void SetPermissions(
-            SiteSettings ss, Dictionary<long, Permissions.Types> permissions)
+            SiteSettings ss, Dictionary<long, Permissions.Types> permissions, long referenceId = 0)
         {
             if (permissions.ContainsKey(ss.InheritPermission))
             {
                 ss.PermissionType = permissions[ss.InheritPermission];
+            }
+            if (referenceId != 0 && permissions.ContainsKey(referenceId))
+            {
+                ss.ItemPermissionType = permissions[referenceId];
             }
         }
 
@@ -1325,6 +1329,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                     }
                 });
+        }
+
+        public Permissions.Types GetPermissionType(bool site = false)
+        {
+            var permission = Permissions.Types.NotSet;
+            if (PermissionType != null)
+            {
+                permission |= (Permissions.Types)PermissionType;
+            }
+            if (ItemPermissionType != null && !site)
+            {
+                permission |= (Permissions.Types)ItemPermissionType;
+            }
+            return permission;
         }
 
         public Permission GetPermissionForCreating(string key)
