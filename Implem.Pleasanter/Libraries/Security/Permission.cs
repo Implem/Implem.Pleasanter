@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Security
 {
@@ -19,9 +20,34 @@ namespace Implem.Pleasanter.Libraries.Security
             SiteSettings ss, string name, int id, Permissions.Types type, bool source = false)
         {
             SiteSettings = ss;
-            Id = id;
             Name = name;
+            Id = id;
             Type = type;
+            Source = source;
+        }
+
+        public Permission(SiteSettings ss, DataRow dataRow, bool source = false)
+        {
+            SiteSettings = ss;
+            if (dataRow.Int("DeptId") != 0)
+            {
+                Name = "Dept";
+                Id = dataRow.Int("DeptId");
+            }
+            else if (dataRow.Int("GroupId") != 0)
+            {
+                Name = "Group";
+                Id = dataRow.Int("GroupId");
+            }
+            else if (dataRow.Int("UserId") != 0)
+            {
+                Name = "User";
+                Id = dataRow.Int("UserId");
+            }
+            if (dataRow.Table.Columns.Contains("PermissionType"))
+            {
+                Type = (Permissions.Types)dataRow["PermissionType"].ToLong();
+            }
             Source = source;
         }
 
