@@ -537,7 +537,7 @@ namespace Implem.Pleasanter.Models
                 .ForEach(data =>
                     comments.Add(new Comment
                     {
-                        CommentId = data.Index,
+                        CommentId = data.Index + 1,
                         CreatedTime = data.DemoDefinition.CreatedTime.DemoTime(demoModel),
                         Creator = idHash.Get(data.DemoDefinition.Creator).ToInt(),
                         Body = data.DemoDefinition.Body.Replace(idHash)
