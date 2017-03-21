@@ -91,16 +91,17 @@ namespace Implem.Pleasanter.Libraries.Security
             return !ss.CanRead(site: true)
                 ? where.Add(
                     subLeft: Rds.SelectPermissions(
-                        column: Rds.PermissionsColumn().PermissionType(),
+                        column: Rds.PermissionsColumn().PermissionsCount(),
                         where: Rds.PermissionsWhere()
                             .ReferenceId(raw: ss.IdColumnBracket())
+                            .PermissionType(_operator: " & 1 = 1")
                             .Or(Rds.PermissionsWhere()
                                 .GroupId_In(sub: Rds.SelectGroupMembers(
                                     column: Rds.GroupMembersColumn().GroupId(),
                                     where: Rds.GroupMembersWhere()
                                         .Add(raw: DeptOrUser("GroupMembers"))))
                                 .Add(raw: DeptOrUser("Permissions")))),
-                    _operator: " & 1 = 1")
+                    _operator: ">0")
                 : where;
         }
 
