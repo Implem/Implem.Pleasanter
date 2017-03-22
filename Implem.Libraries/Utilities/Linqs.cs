@@ -5,6 +5,13 @@ namespace Implem.Libraries.Utilities
 {
     public static class Linqs
     {
+        public static V Get<K, V>(this IDictionary<K, V> self, K key)
+        {
+            return self?.ContainsKey(key) == true
+                ? self[key]
+                : default(V);
+        }
+
         public static void RemoveAll<K, V>(
             this IDictionary<K, V> self, Func<K, V, bool> peredicate)
         {
