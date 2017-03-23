@@ -122,7 +122,10 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(parentId, inheritPermission, setByForm: true);
             var ss = siteModel.SitesSiteSettings(parentId);
-            if (parentId == 0) ss.PermissionType = Permissions.Types.Create;
+            if (parentId == 0)
+            {
+                ss.PermissionType = (Permissions.Types)Parameters.Permissions.Manager;
+            }
             var invalid = SiteValidators.OnCreating(ss, siteModel);
             switch (invalid)
             {
