@@ -84,6 +84,7 @@ namespace Implem.Pleasanter.Models
             string viewMode,
             Action viewModeBody)
         {
+            ss.SetColumnAccessControls();
             return hb.Template(
                 ss: ss,
                 verType: Versions.VerTypes.Latest,

@@ -603,7 +603,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             data.AllowedUsers = columnAccessControl.AllowedUsers;
         }
 
-        public void SetColumnAccessControls(List<string> mine)
+        public void SetColumnAccessControls(List<string> mine = null)
         {
             CreateColumnAccessControls.ForEach(o =>
                 GetColumn(o.ColumnName).CanCreate = o.Allowed(PermissionType, mine));

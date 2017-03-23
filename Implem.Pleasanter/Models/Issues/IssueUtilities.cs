@@ -47,6 +47,7 @@ namespace Implem.Pleasanter.Models
             string viewMode,
             Action viewModeBody)
         {
+            ss.SetColumnAccessControls();
             return hb.Template(
                 ss: ss,
                 verType: Versions.VerTypes.Latest,
@@ -201,7 +202,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
-            var columns = ss.GetGridColumns();
+            var columns = ss.GetGridColumns().Where(o => o.CanRead);
             ss.Links?
                 .Where(o => ss.GridColumns.Contains(o.ColumnName))
                 .Where(o => ss.GetColumn(o.ColumnName).UseSearch == true)
