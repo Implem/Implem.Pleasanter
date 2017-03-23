@@ -140,7 +140,7 @@ namespace Implem.Pleasanter.Models
                 {
                     case "Wikis":
                         ss = siteModel.WikisSiteSettings(siteModel.SiteId);
-                        var wikiModel = new WikiModel(ss)
+                        var wikiModel = new WikiModel(ss, methodType: BaseModel.MethodTypes.Edit)
                             .Get(
                                 ss: ss,
                                 where: Rds.WikisWhere().SiteId(siteModel.SiteId));
