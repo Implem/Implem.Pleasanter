@@ -2113,5 +2113,16 @@ namespace Implem.Pleasanter.Models
                 Title.DisplayValue = IssueUtilities.TitleDisplayValue(ss, this);
             }
         }
+
+        public List<string> Mine()
+        {
+            var mine = new List<string>();
+            var userId = Sessions.UserId();
+            if (SavedManager == userId) mine.Add("Manager");
+            if (SavedOwner == userId) mine.Add("Owner");
+            if (SavedCreator == userId) mine.Add("Creator");
+            if (SavedUpdator == userId) mine.Add("Updator");
+            return mine;
+        }
     }
 }

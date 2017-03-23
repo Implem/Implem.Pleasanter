@@ -378,6 +378,7 @@ namespace Implem.Pleasanter.Models
         public static string Editor(SiteSettings ss, UserModel userModel)
         {
             var hb = new HtmlBuilder();
+            ss.SetColumnAccessControls(userModel.Mine());
             return hb.Template(
                 ss: ss,
                 verType: userModel.VerType,
@@ -493,6 +494,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             UserModel userModel)
         {
+            var mine = userModel.Mine();
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
                 ss.GetEditorColumns().ForEach(column =>
@@ -504,7 +506,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.UserId.ToControl(column, ss),
+                                userModel.UserId.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "Ver":
@@ -512,7 +514,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.Ver.ToControl(column, ss),
+                                userModel.Ver.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "LoginId":
@@ -520,7 +522,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.LoginId.ToControl(column, ss),
+                                userModel.LoginId.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "Disabled":
@@ -528,7 +530,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.Disabled.ToControl(column, ss),
+                                userModel.Disabled.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "Password":
@@ -536,7 +538,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.Password.ToControl(column, ss),
+                                userModel.Password.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "PasswordValidate":
@@ -544,7 +546,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.PasswordValidate.ToControl(column, ss),
+                                userModel.PasswordValidate.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "PasswordDummy":
@@ -552,7 +554,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.PasswordDummy.ToControl(column, ss),
+                                userModel.PasswordDummy.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "RememberMe":
@@ -560,7 +562,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.RememberMe.ToControl(column, ss),
+                                userModel.RememberMe.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "LastName":
@@ -568,7 +570,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.LastName.ToControl(column, ss),
+                                userModel.LastName.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "FirstName":
@@ -576,7 +578,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.FirstName.ToControl(column, ss),
+                                userModel.FirstName.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "Birthday":
@@ -584,7 +586,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.Birthday?.ToControl(column, ss),
+                                userModel.Birthday?.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "Gender":
@@ -592,7 +594,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.Gender.ToControl(column, ss),
+                                userModel.Gender.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "Language":
@@ -600,7 +602,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.Language.ToControl(column, ss),
+                                userModel.Language.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "TimeZone":
@@ -608,7 +610,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.TimeZone.ToControl(column, ss),
+                                userModel.TimeZone.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "DeptId":
@@ -616,7 +618,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.DeptId.ToControl(column, ss),
+                                userModel.DeptId.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "FirstAndLastNameOrder":
@@ -624,7 +626,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.FirstAndLastNameOrder.ToControl(column, ss),
+                                userModel.FirstAndLastNameOrder.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "LastLoginTime":
@@ -632,7 +634,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.LastLoginTime?.ToControl(column, ss),
+                                userModel.LastLoginTime?.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "PasswordExpirationTime":
@@ -640,7 +642,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.PasswordExpirationTime?.ToControl(column, ss),
+                                userModel.PasswordExpirationTime?.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "PasswordChangeTime":
@@ -648,7 +650,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.PasswordChangeTime?.ToControl(column, ss),
+                                userModel.PasswordChangeTime?.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "NumberOfLogins":
@@ -656,7 +658,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.NumberOfLogins.ToControl(column, ss),
+                                userModel.NumberOfLogins.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "NumberOfDenial":
@@ -664,7 +666,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.NumberOfDenial.ToControl(column, ss),
+                                userModel.NumberOfDenial.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "TenantManager":
@@ -672,7 +674,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.TenantManager.ToControl(column, ss),
+                                userModel.TenantManager.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "OldPassword":
@@ -680,7 +682,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.OldPassword.ToControl(column, ss),
+                                userModel.OldPassword.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "ChangedPassword":
@@ -688,7 +690,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.ChangedPassword.ToControl(column, ss),
+                                userModel.ChangedPassword.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "ChangedPasswordValidator":
@@ -696,7 +698,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.ChangedPasswordValidator.ToControl(column, ss),
+                                userModel.ChangedPasswordValidator.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "AfterResetPassword":
@@ -704,7 +706,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.AfterResetPassword.ToControl(column, ss),
+                                userModel.AfterResetPassword.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "AfterResetPasswordValidator":
@@ -712,7 +714,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.AfterResetPasswordValidator.ToControl(column, ss),
+                                userModel.AfterResetPasswordValidator.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "DemoMailAddress":
@@ -720,7 +722,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.DemoMailAddress.ToControl(column, ss),
+                                userModel.DemoMailAddress.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                     }

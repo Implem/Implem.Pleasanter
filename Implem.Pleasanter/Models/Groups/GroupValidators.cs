@@ -13,30 +13,25 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission;
             }
+            ss.SetColumnAccessControls(groupModel.Mine());
             foreach(var controlId in Forms.Keys())
             {
                 switch (controlId)
                 {
                     case "Groups_TenantId":
-                        if (!ss.GetColumn("TenantId").CanCreate(ss))
+                        if (!ss.GetColumn("TenantId").CanCreate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Groups_GroupName":
-                        if (!ss.GetColumn("GroupName").CanCreate(ss))
+                        if (!ss.GetColumn("GroupName").CanCreate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Groups_Body":
-                        if (!ss.GetColumn("Body").CanCreate(ss))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Groups_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanCreate(ss))
+                        if (!ss.GetColumn("Body").CanCreate)
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -52,30 +47,25 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission;
             }
+            ss.SetColumnAccessControls(groupModel.Mine());
             foreach(var controlId in Forms.Keys())
             {
                 switch (controlId)
                 {
                     case "Groups_TenantId":
-                        if (!ss.GetColumn("TenantId").CanUpdate(ss))
+                        if (!ss.GetColumn("TenantId").CanUpdate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Groups_GroupName":
-                        if (!ss.GetColumn("GroupName").CanUpdate(ss))
+                        if (!ss.GetColumn("GroupName").CanUpdate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Groups_Body":
-                        if (!ss.GetColumn("Body").CanUpdate(ss))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Groups_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanUpdate(ss))
+                        if (!ss.GetColumn("Body").CanUpdate)
                         {
                             return Error.Types.InvalidRequest;
                         }

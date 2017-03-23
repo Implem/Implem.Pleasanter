@@ -496,6 +496,7 @@ namespace Implem.Pleasanter.Models
                             "#PermissionParts",
                             new HtmlBuilder().PermissionParts(
                                 controlId: "PermissionParts",
+                                labelText: Displays.Permissions(),
                                 permissionType: (Permissions.Types)Forms.Long(
                                     "PermissionPattern")));
                         break;
@@ -615,7 +616,9 @@ namespace Implem.Pleasanter.Models
                         action: "SetPermissions",
                         method: "post")
                     .PermissionParts(
-                        controlId: "PermissionParts", permissionType: permissionType)
+                        controlId: "PermissionParts",
+                        labelText: Displays.Permissions(),
+                        permissionType: permissionType)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -637,12 +640,14 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder PermissionParts(
-            this HtmlBuilder hb, string controlId, Permissions.Types permissionType)
+            this HtmlBuilder hb, string controlId,
+            string labelText,
+            Permissions.Types permissionType)
         {
             return hb.FieldSet(
                 id: controlId,
                 css: " enclosed",
-                legendText: Displays.Permissions(),
+                legendText: labelText,
                 action: () => hb
                     .PermissionPart(permissionType, Permissions.Types.Read)
                     .PermissionPart(permissionType, Permissions.Types.Create)
@@ -897,6 +902,7 @@ namespace Implem.Pleasanter.Models
                             "#PermissionForCreatingParts",
                             new HtmlBuilder().PermissionParts(
                                 controlId: "PermissionForCreatingParts",
+                                labelText: Displays.Permissions(),
                                 permissionType: (Permissions.Types)Forms.Long(
                                     "PermissionForCreatingPattern")));
                         break;
@@ -985,7 +991,9 @@ namespace Implem.Pleasanter.Models
                         action: "SetPermissionForCreating",
                         method: "post")
                     .PermissionParts(
-                        controlId: "PermissionForCreatingParts", permissionType: permissionType)
+                        controlId: "PermissionForCreatingParts",
+                        labelText: Displays.Permissions(),
+                        permissionType: permissionType)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -1001,6 +1009,267 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string ColumnAccessControl(long referenceId)
+        {
+            var ss = SiteSettingsUtilities.Get(new ItemModel(referenceId).GetSite(), referenceId);
+            if (!ss.CanManagePermission())
+            {
+                return Error.Types.HasNotPermission.MessageJson();
+            }
+            return new ResponseCollection()
+                .Html(
+                    "#FieldSetColumnAccessControl",
+                    new HtmlBuilder().ColumnAccessControl(ss))
+                .RemoveAttr("#FieldSetColumnAccessControl", "data-action")
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ColumnAccessControl(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb.FieldSet(
+                id: "FieldSetColumnAccessControl",
+                css: " enclosed",
+                legendText: Displays.ColumnAccessControl(),
+                action: () => hb
+                    .Div(
+                        id: "ColumnAccessControl",
+                        action: () => hb
+                            .ColumnAccessControl(
+                                ss: ss,
+                                type: "Create",
+                                labelText: Displays.CreateColumnAccessControl())
+                            .ColumnAccessControl(
+                                ss: ss,
+                                type: "Read",
+                                labelText: Displays.ReadColumnAccessControl())
+                            .ColumnAccessControl(
+                                ss: ss,
+                                type: "Update",
+                                labelText: Displays.UpdateColumnAccessControl())));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ColumnAccessControl(
+            this HtmlBuilder hb, SiteSettings ss, string type, string labelText)
+        {
+            return hb.FieldSelectable(
+                controlId: type + "ColumnAccessControl",
+                fieldCss: "field-vertical",
+                controlContainerCss: "container-selectable",
+                controlWrapperCss: " h300",
+                controlCss: " send-all",
+                labelText: labelText,
+                listItemCollection: ss.ColumnAccessControlOptions(type),
+                commandOptionPositionIsTop: true,
+                commandOptionAction: () => hb
+                    .Div(css: "command-left", action: () => hb
+                        .Button(
+                            controlId: type + "OpenColumnAccessControlDialog",
+                            controlCss: "button-icon post",
+                            text: Displays.AdvancedSetting(),
+                            onClick: "$p.openColumnAccessControlDialog($(this));",
+                            icon: "ui-icon-gear",
+                            action: "OpenColumnAccessControlDialog",
+                            method: "post")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ColumnAccessControlDialog(this HtmlBuilder hb)
+        {
+            return hb.Div(attributes: new HtmlAttributes()
+                .Id("ColumnAccessControlDialog")
+                .Class("dialog")
+                .Title(Displays.AdvancedSetting()));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string SetColumnAccessControl(long referenceId)
+        {
+            var itemModel = new ItemModel(referenceId);
+            var siteModel = new SiteModel(itemModel.SiteId, setByForm: true);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, referenceId);
+            var invalid = PermissionValidators.OnUpdating(siteModel.SiteSettings);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var res = new ResponseCollection();
+            var type = Forms.Data("ColumnAccessControlType");
+            var selected = Forms.List("ColumnAccessControl")
+                .Select(o => o.Deserialize<ColumnAccessControl>())
+                .ToList();
+            var columnAccessControl = Forms.List("ColumnAccessControlAll")
+                .Select(o => ColumnAccessControl(o.Deserialize<ColumnAccessControl>(), selected));
+            var listItemCollection = siteModel.SiteSettings.ColumnAccessControlOptions(
+                type, columnAccessControl);
+            res
+                .CloseDialog()
+                .Html("#" + type + "ColumnAccessControl", new HtmlBuilder().SelectableItems(
+                    listItemCollection: listItemCollection,
+                    selectedValueTextCollection: columnAccessControl
+                        .Where(o => selected.Any(p => p.ColumnName == o.ColumnName))
+                        .Select(o => o.ToJson())))
+                .SetData("#" + type + "ColumnAccessControl");
+            return res.ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static ColumnAccessControl ColumnAccessControl(
+            ColumnAccessControl columnAccessControl, List<ColumnAccessControl> selected)
+        {
+            var allowdUsers = new Dictionary<string, bool>
+            {
+                { "Creator", Forms.Bool("CreatorAllowed") },
+                { "Updator", Forms.Bool("UpdatorAllowed") },
+                { "Manager", Forms.Bool("ManagerAllowed") },
+                { "Owner", Forms.Bool("OwnerAllowed") },
+            }
+            .Where(o => o.Value)
+            .Select(o => o.Key);
+            if (selected.Any(o => o.ColumnName == columnAccessControl.ColumnName))
+            {
+                columnAccessControl.AllowedType = GetPermissionTypeByForm();
+                columnAccessControl.AllowedUsers = allowdUsers;
+            }
+            return columnAccessControl;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string OpenColumnAccessControlDialog(long referenceId)
+        {
+            var ss = SiteSettingsUtilities.Get(new ItemModel(referenceId).GetSite(), referenceId);
+            if (!ss.CanManagePermission())
+            {
+                return Error.Types.HasNotPermission.MessageJson();
+            }
+            var res = new ResponseCollection();
+            var type = ColumnAccessControlType();
+            var selected = Forms.List(type + "ColumnAccessControl");
+            if (!selected.Any())
+            {
+                return res.Message(Messages.SelectTargets()).ToJson();
+            }
+            else
+            {
+                return res.Html("#ColumnAccessControlDialog", ColumnAccessControlDialog(
+                    ss: ss,
+                    type: type,
+                    columnAccessControl: selected.FirstOrDefault()
+                        .Deserialize<ColumnAccessControl>(),
+                    referenceId: referenceId)).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string ColumnAccessControlType()
+        {
+            switch (Forms.ControlId())
+            {
+                case "CreateOpenColumnAccessControlDialog": return "Create";
+                case "ReadOpenColumnAccessControlDialog": return "Read";
+                case "UpdateOpenColumnAccessControlDialog": return "Update";
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ColumnAccessControlDialog(
+            SiteSettings ss,
+            string type,
+            ColumnAccessControl columnAccessControl,
+            long referenceId)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ColumnAccessControlForm")
+                    .Action(Locations.ItemAction(referenceId)),
+                action: () => hb
+                    .PermissionParts(
+                        controlId: "ColumnAccessControlParts",
+                        labelText: Displays.RequiredPermission(),
+                        permissionType: columnAccessControl.AllowedType)
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.AllowedUsers(),
+                        action: () => hb
+                            .AllowedUser(
+                                ss: ss,
+                                columnAccessControl: columnAccessControl,
+                                columnName: "Creator")
+                            .AllowedUser(
+                                ss: ss,
+                                columnAccessControl: columnAccessControl,
+                                columnName: "Updator")
+                            .AllowedUser(
+                                ss: ss,
+                                columnAccessControl: columnAccessControl,
+                                columnName: "Manager")
+                            .AllowedUser(
+                                ss: ss,
+                                columnAccessControl: columnAccessControl,
+                                columnName: "Owner"),
+                        _using: type != "Create")
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "ChangeColumnAccessControl",
+                            text: Displays.Change(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.changeColumnAccessControl($(this), '" + type + "');",
+                            icon: "ui-icon-disk",
+                            action: "SetColumnAccessControl",
+                            method: "post")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel"))
+                    .Hidden(controlId: "ColumnAccessControlType", value: type)
+                    .Hidden(
+                        controlId: "ColumnAccessControlNullableOnly",
+                        value: ss.ColumnAccessControlNullableOnly(type).ToString()));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder AllowedUser(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            ColumnAccessControl columnAccessControl,
+            string columnName)
+        {
+            return hb.FieldCheckBox(
+                fieldCss: "field-auto-thin w200",
+                controlCss: " always-send",
+                controlId: columnName + "Allowed",
+                labelText: ss.GetColumn(columnName)?.LabelText,
+                _checked: columnAccessControl.AllowedUsers?.Contains(columnName) == true);
         }
     }
 }

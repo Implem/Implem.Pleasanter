@@ -1548,9 +1548,9 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("JoinExpression")) { newColumnDefinition.JoinExpression = definitionRow["JoinExpression"].ToString(); newColumnDefinition.SavedJoinExpression = newColumnDefinition.JoinExpression; }
                 if (definitionRow.ContainsKey("Like")) { newColumnDefinition.Like = definitionRow["Like"].ToBool(); newColumnDefinition.SavedLike = newColumnDefinition.Like; }
                 if (definitionRow.ContainsKey("WhereSpecial")) { newColumnDefinition.WhereSpecial = definitionRow["WhereSpecial"].ToBool(); newColumnDefinition.SavedWhereSpecial = newColumnDefinition.WhereSpecial; }
-                if (definitionRow.ContainsKey("ReadPermission")) { newColumnDefinition.ReadPermission = definitionRow["ReadPermission"].ToString(); newColumnDefinition.SavedReadPermission = newColumnDefinition.ReadPermission; }
-                if (definitionRow.ContainsKey("CreatePermission")) { newColumnDefinition.CreatePermission = definitionRow["CreatePermission"].ToString(); newColumnDefinition.SavedCreatePermission = newColumnDefinition.CreatePermission; }
-                if (definitionRow.ContainsKey("UpdatePermission")) { newColumnDefinition.UpdatePermission = definitionRow["UpdatePermission"].ToString(); newColumnDefinition.SavedUpdatePermission = newColumnDefinition.UpdatePermission; }
+                if (definitionRow.ContainsKey("ReadAccessControl")) { newColumnDefinition.ReadAccessControl = definitionRow["ReadAccessControl"].ToString(); newColumnDefinition.SavedReadAccessControl = newColumnDefinition.ReadAccessControl; }
+                if (definitionRow.ContainsKey("CreateAccessControl")) { newColumnDefinition.CreateAccessControl = definitionRow["CreateAccessControl"].ToString(); newColumnDefinition.SavedCreateAccessControl = newColumnDefinition.CreateAccessControl; }
+                if (definitionRow.ContainsKey("UpdateAccessControl")) { newColumnDefinition.UpdateAccessControl = definitionRow["UpdateAccessControl"].ToString(); newColumnDefinition.SavedUpdateAccessControl = newColumnDefinition.UpdateAccessControl; }
                 if (definitionRow.ContainsKey("NotEditSelf")) { newColumnDefinition.NotEditSelf = definitionRow["NotEditSelf"].ToBool(); newColumnDefinition.SavedNotEditSelf = newColumnDefinition.NotEditSelf; }
                 if (definitionRow.ContainsKey("SearchIndexPriority")) { newColumnDefinition.SearchIndexPriority = definitionRow["SearchIndexPriority"].ToInt(); newColumnDefinition.SavedSearchIndexPriority = newColumnDefinition.SearchIndexPriority; }
                 if (definitionRow.ContainsKey("NotForm")) { newColumnDefinition.NotForm = definitionRow["NotForm"].ToBool(); newColumnDefinition.SavedNotForm = newColumnDefinition.NotForm; }
@@ -1659,9 +1659,9 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("JoinExpression")) { definition.JoinExpression = definitionRow["JoinExpression"].ToString(); definition.SavedJoinExpression = definition.JoinExpression; }
             if (definitionRow.ContainsKey("Like")) { definition.Like = definitionRow["Like"].ToBool(); definition.SavedLike = definition.Like; }
             if (definitionRow.ContainsKey("WhereSpecial")) { definition.WhereSpecial = definitionRow["WhereSpecial"].ToBool(); definition.SavedWhereSpecial = definition.WhereSpecial; }
-            if (definitionRow.ContainsKey("ReadPermission")) { definition.ReadPermission = definitionRow["ReadPermission"].ToString(); definition.SavedReadPermission = definition.ReadPermission; }
-            if (definitionRow.ContainsKey("CreatePermission")) { definition.CreatePermission = definitionRow["CreatePermission"].ToString(); definition.SavedCreatePermission = definition.CreatePermission; }
-            if (definitionRow.ContainsKey("UpdatePermission")) { definition.UpdatePermission = definitionRow["UpdatePermission"].ToString(); definition.SavedUpdatePermission = definition.UpdatePermission; }
+            if (definitionRow.ContainsKey("ReadAccessControl")) { definition.ReadAccessControl = definitionRow["ReadAccessControl"].ToString(); definition.SavedReadAccessControl = definition.ReadAccessControl; }
+            if (definitionRow.ContainsKey("CreateAccessControl")) { definition.CreateAccessControl = definitionRow["CreateAccessControl"].ToString(); definition.SavedCreateAccessControl = definition.CreateAccessControl; }
+            if (definitionRow.ContainsKey("UpdateAccessControl")) { definition.UpdateAccessControl = definitionRow["UpdateAccessControl"].ToString(); definition.SavedUpdateAccessControl = definition.UpdateAccessControl; }
             if (definitionRow.ContainsKey("NotEditSelf")) { definition.NotEditSelf = definitionRow["NotEditSelf"].ToBool(); definition.SavedNotEditSelf = definition.NotEditSelf; }
             if (definitionRow.ContainsKey("SearchIndexPriority")) { definition.SearchIndexPriority = definitionRow["SearchIndexPriority"].ToInt(); definition.SavedSearchIndexPriority = definition.SearchIndexPriority; }
             if (definitionRow.ContainsKey("NotForm")) { definition.NotForm = definitionRow["NotForm"].ToBool(); definition.SavedNotForm = definition.NotForm; }
@@ -2705,9 +2705,9 @@ namespace Implem.DefinitionAccessor
                         case "JoinExpression": columnDefinition.JoinExpression = optionValue.ToString(); break;
                         case "Like": columnDefinition.Like = optionValue.ToBool(); break;
                         case "WhereSpecial": columnDefinition.WhereSpecial = optionValue.ToBool(); break;
-                        case "ReadPermission": columnDefinition.ReadPermission = optionValue.ToString(); break;
-                        case "CreatePermission": columnDefinition.CreatePermission = optionValue.ToString(); break;
-                        case "UpdatePermission": columnDefinition.UpdatePermission = optionValue.ToString(); break;
+                        case "ReadAccessControl": columnDefinition.ReadAccessControl = optionValue.ToString(); break;
+                        case "CreateAccessControl": columnDefinition.CreateAccessControl = optionValue.ToString(); break;
+                        case "UpdateAccessControl": columnDefinition.UpdateAccessControl = optionValue.ToString(); break;
                         case "NotEditSelf": columnDefinition.NotEditSelf = optionValue.ToBool(); break;
                         case "SearchIndexPriority": columnDefinition.SearchIndexPriority = optionValue.ToInt(); break;
                         case "NotForm": columnDefinition.NotForm = optionValue.ToBool(); break;
@@ -4129,9 +4129,9 @@ namespace Implem.DefinitionAccessor
         public string JoinExpression; public string SavedJoinExpression;
         public bool Like; public bool SavedLike;
         public bool WhereSpecial; public bool SavedWhereSpecial;
-        public string ReadPermission; public string SavedReadPermission;
-        public string CreatePermission; public string SavedCreatePermission;
-        public string UpdatePermission; public string SavedUpdatePermission;
+        public string ReadAccessControl; public string SavedReadAccessControl;
+        public string CreateAccessControl; public string SavedCreateAccessControl;
+        public string UpdateAccessControl; public string SavedUpdateAccessControl;
         public bool NotEditSelf; public bool SavedNotEditSelf;
         public int SearchIndexPriority; public int SavedSearchIndexPriority;
         public bool NotForm; public bool SavedNotForm;
@@ -4241,9 +4241,9 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("JoinExpression")) JoinExpression = propertyCollection["JoinExpression"].ToString(); else JoinExpression = string.Empty;
             if (propertyCollection.ContainsKey("Like")) Like = propertyCollection["Like"].ToBool(); else Like = false;
             if (propertyCollection.ContainsKey("WhereSpecial")) WhereSpecial = propertyCollection["WhereSpecial"].ToBool(); else WhereSpecial = false;
-            if (propertyCollection.ContainsKey("ReadPermission")) ReadPermission = propertyCollection["ReadPermission"].ToString(); else ReadPermission = string.Empty;
-            if (propertyCollection.ContainsKey("CreatePermission")) CreatePermission = propertyCollection["CreatePermission"].ToString(); else CreatePermission = string.Empty;
-            if (propertyCollection.ContainsKey("UpdatePermission")) UpdatePermission = propertyCollection["UpdatePermission"].ToString(); else UpdatePermission = string.Empty;
+            if (propertyCollection.ContainsKey("ReadAccessControl")) ReadAccessControl = propertyCollection["ReadAccessControl"].ToString(); else ReadAccessControl = string.Empty;
+            if (propertyCollection.ContainsKey("CreateAccessControl")) CreateAccessControl = propertyCollection["CreateAccessControl"].ToString(); else CreateAccessControl = string.Empty;
+            if (propertyCollection.ContainsKey("UpdateAccessControl")) UpdateAccessControl = propertyCollection["UpdateAccessControl"].ToString(); else UpdateAccessControl = string.Empty;
             if (propertyCollection.ContainsKey("NotEditSelf")) NotEditSelf = propertyCollection["NotEditSelf"].ToBool(); else NotEditSelf = false;
             if (propertyCollection.ContainsKey("SearchIndexPriority")) SearchIndexPriority = propertyCollection["SearchIndexPriority"].ToInt(); else SearchIndexPriority = 0;
             if (propertyCollection.ContainsKey("NotForm")) NotForm = propertyCollection["NotForm"].ToBool(); else NotForm = false;
@@ -4353,9 +4353,9 @@ namespace Implem.DefinitionAccessor
                     case "JoinExpression": return JoinExpression;
                     case "Like": return Like;
                     case "WhereSpecial": return WhereSpecial;
-                    case "ReadPermission": return ReadPermission;
-                    case "CreatePermission": return CreatePermission;
-                    case "UpdatePermission": return UpdatePermission;
+                    case "ReadAccessControl": return ReadAccessControl;
+                    case "CreateAccessControl": return CreateAccessControl;
+                    case "UpdateAccessControl": return UpdateAccessControl;
                     case "NotEditSelf": return NotEditSelf;
                     case "SearchIndexPriority": return SearchIndexPriority;
                     case "NotForm": return NotForm;
@@ -4465,9 +4465,9 @@ namespace Implem.DefinitionAccessor
             JoinExpression = SavedJoinExpression;
             Like = SavedLike;
             WhereSpecial = SavedWhereSpecial;
-            ReadPermission = SavedReadPermission;
-            CreatePermission = SavedCreatePermission;
-            UpdatePermission = SavedUpdatePermission;
+            ReadAccessControl = SavedReadAccessControl;
+            CreateAccessControl = SavedCreateAccessControl;
+            UpdateAccessControl = SavedUpdateAccessControl;
             NotEditSelf = SavedNotEditSelf;
             SearchIndexPriority = SavedSearchIndexPriority;
             NotForm = SavedNotForm;

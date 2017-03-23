@@ -366,6 +366,7 @@ namespace Implem.Pleasanter.Models
         public static string Editor(SiteSettings ss, GroupModel groupModel)
         {
             var hb = new HtmlBuilder();
+            ss.SetColumnAccessControls(groupModel.Mine());
             return hb.Template(
                 ss: ss,
                 verType: groupModel.VerType,
@@ -483,6 +484,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             GroupModel groupModel)
         {
+            var mine = groupModel.Mine();
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
                 ss.GetEditorColumns().ForEach(column =>
@@ -494,7 +496,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 groupModel.MethodType,
-                                groupModel.GroupId.ToControl(column, ss),
+                                groupModel.GroupId.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "Ver":
@@ -502,7 +504,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 groupModel.MethodType,
-                                groupModel.Ver.ToControl(column, ss),
+                                groupModel.Ver.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "GroupName":
@@ -510,7 +512,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 groupModel.MethodType,
-                                groupModel.GroupName.ToControl(column, ss),
+                                groupModel.GroupName.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "Body":
@@ -518,7 +520,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 groupModel.MethodType,
-                                groupModel.Body.ToControl(column, ss),
+                                groupModel.Body.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                     }

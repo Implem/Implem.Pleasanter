@@ -355,6 +355,7 @@ namespace Implem.Pleasanter.Models
         public static string Editor(SiteSettings ss, DeptModel deptModel)
         {
             var hb = new HtmlBuilder();
+            ss.SetColumnAccessControls(deptModel.Mine());
             return hb.Template(
                 ss: ss,
                 verType: deptModel.VerType,
@@ -458,6 +459,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             DeptModel deptModel)
         {
+            var mine = deptModel.Mine();
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
                 ss.GetEditorColumns().ForEach(column =>
@@ -469,7 +471,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 deptModel.MethodType,
-                                deptModel.DeptId.ToControl(column, ss),
+                                deptModel.DeptId.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "Ver":
@@ -477,7 +479,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 deptModel.MethodType,
-                                deptModel.Ver.ToControl(column, ss),
+                                deptModel.Ver.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "DeptCode":
@@ -485,7 +487,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 deptModel.MethodType,
-                                deptModel.DeptCode.ToControl(column, ss),
+                                deptModel.DeptCode.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "DeptName":
@@ -493,7 +495,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 deptModel.MethodType,
-                                deptModel.DeptName.ToControl(column, ss),
+                                deptModel.DeptName.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "Body":
@@ -501,7 +503,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 deptModel.MethodType,
-                                deptModel.Body.ToControl(column, ss),
+                                deptModel.Body.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                     }

@@ -60,12 +60,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public bool RecordedTime;
         [NonSerialized]
-        public Permissions.Types ReadPermission;
-        [NonSerialized]
-        public Permissions.Types CreatePermission;
-        [NonSerialized]
-        public Permissions.Types UpdatePermission;
-        [NonSerialized]
         public bool NotSelect;
         [NonSerialized]
         public bool NotUpdate;
@@ -117,6 +111,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? FloatClear;
         [NonSerialized]
         public Dictionary<string, Choice> ChoiceHash;
+        [NonSerialized]
+        public bool CanCreate = true;
+        [NonSerialized]
+        public bool CanRead = true;
+        [NonSerialized]
+        public bool CanUpdate = true;
         // compatibility
         public bool? GridVisible;
         public bool? FilterVisible;
@@ -357,9 +357,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : str;
         }
 
-        public string Display(decimal value, SiteSettings ss)
+        public string Display(SiteSettings ss, decimal value)
         {
-            return Display(value) + (EditorReadOnly.ToBool() || !this.CanUpdate(ss)
+            return Display(value) + (EditorReadOnly.ToBool() || !CanUpdate
                 ? Unit
                 : string.Empty);
         }

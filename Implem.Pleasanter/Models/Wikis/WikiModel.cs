@@ -585,5 +585,14 @@ namespace Implem.Pleasanter.Models
                 Title.DisplayValue = WikiUtilities.TitleDisplayValue(ss, this);
             }
         }
+
+        public List<string> Mine()
+        {
+            var mine = new List<string>();
+            var userId = Sessions.UserId();
+            if (SavedCreator == userId) mine.Add("Creator");
+            if (SavedUpdator == userId) mine.Add("Updator");
+            return mine;
+        }
     }
 }

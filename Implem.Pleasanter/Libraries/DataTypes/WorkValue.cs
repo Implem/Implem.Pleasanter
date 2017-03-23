@@ -33,9 +33,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             ProgressRate = progressRate;
         }
 
-        public string ToControl(Column column, SiteSettings ss)
+        public string ToControl(SiteSettings ss, Column column)
         {
-            return column.Display(Value, ss);
+            return column.Display(ss, Value);
         }
 
         public string ToResponse()

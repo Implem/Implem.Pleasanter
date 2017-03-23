@@ -178,8 +178,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "groups":
                     return CanReadGroup();
                 case "users":
-                    return CanManageTenant() ||
-                        Sessions.UserId() == Routes.Id();
+                    return CanManageTenant() || Sessions.UserId() == Routes.Id();
                 default:
                     return ss.Can(Types.Read, site);
             }
@@ -195,7 +194,13 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "groups":
                     return CanEditGroup();
                 default:
-                    return ss.Can(Types.Create, site);
+                    switch (ss.ReferenceType)
+                    {
+                        case "Sites":
+                            return ss.Can(Types.ManageSite, site);
+                        default:
+                            return ss.Can(Types.Create, site);
+                    }
             }
         }
 
@@ -208,10 +213,15 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "groups":
                     return CanEditGroup();
                 case "users":
-                    return CanManageTenant() ||
-                        Sessions.UserId() == Routes.Id();
+                    return CanManageTenant() || Sessions.UserId() == Routes.Id();
                 default:
-                    return ss.Can(Types.Update, site);
+                    switch (ss.ReferenceType)
+                    {
+                        case "Sites":
+                            return ss.Can(Types.ManageSite, site);
+                        default:
+                            return ss.Can(Types.Create, site);
+                    }
             }
         }
 
@@ -232,7 +242,13 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant() &&
                         Sessions.UserId() != Routes.Id();
                 default:
-                    return ss.Can(Types.Delete, site);
+                    switch (ss.ReferenceType)
+                    {
+                        case "Sites":
+                            return ss.Can(Types.ManageSite, site);
+                        default:
+                            return ss.Can(Types.Create, site);
+                    }
             }
         }
 
@@ -245,8 +261,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "groups":
                     return CanEditGroup();
                 case "users":
-                    return CanManageTenant() ||
-                        Sessions.UserId() == Routes.Id();
+                    return CanManageTenant() || Sessions.UserId() == Routes.Id();
                 default:
                     return ss.Can(Types.SendMail, site);
             }
@@ -272,41 +287,21 @@ namespace Implem.Pleasanter.Libraries.Security
             return ss.Can(Types.ManagePermission, site);
         }
 
-        public static ColumnPermissionTypes ColumnPermissionType(
-            this Column self, SiteSettings ss)
+        public static ColumnPermissionTypes ColumnPermissionType(this Column self, SiteSettings ss)
         {
             switch(Url.RouteData("action").ToLower())
             {
                 case "new":
-                    return
-                        self.CanCreate(ss)
-                            ? ColumnPermissionTypes.Update
-                            : self.CanRead(ss)
-                                ? ColumnPermissionTypes.Read
-                                : ColumnPermissionTypes.Deny;
+                    return self.CanCreate
+                        ? ColumnPermissionTypes.Update
+                        : ColumnPermissionTypes.Deny;
                 default:
-                    return
-                        self.CanUpdate(ss)
-                            ? ColumnPermissionTypes.Update
-                            : self.CanRead(ss)
-                                ? ColumnPermissionTypes.Read
-                                : ColumnPermissionTypes.Deny;
+                    return self.CanRead && self.CanUpdate
+                        ? ColumnPermissionTypes.Update
+                        : self.CanRead
+                            ? ColumnPermissionTypes.Read
+                            : ColumnPermissionTypes.Deny;
             }
-        }
-
-        public static bool CanRead(this Column self, SiteSettings ss, bool site = false)
-        {
-            return Can(Admins(ss.GetPermissionType(site)), self.ReadPermission);
-        }
-
-        public static bool CanCreate(this Column self, SiteSettings ss, bool site = false)
-        {
-            return Can(Admins(ss.GetPermissionType(site)), self.CreatePermission);
-        }
-
-        public static bool CanUpdate(this Column self, SiteSettings ss, bool site = false)
-        {
-            return Can(Admins(ss.GetPermissionType(site)), self.UpdatePermission);
         }
 
         public static bool CanManageTenant()
@@ -327,11 +322,6 @@ namespace Implem.Pleasanter.Libraries.Security
         private static bool Can(this SiteSettings ss, Types type, bool site)
         {
             return (ss.GetPermissionType(site) & type) == type;
-        }
-
-        private static bool Can(Types? type, Types require)
-        {
-            return require == 0 || (type & require) == require;
         }
 
         private static EnumerableRowCollection<DataRow> Groups()

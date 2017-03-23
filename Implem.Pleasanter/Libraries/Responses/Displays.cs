@@ -53,6 +53,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string AggregationTarget(params string[] data) { return Get("AggregationTarget", data); }
         public static string AggregationType(params string[] data) { return Get("AggregationType", data); }
         public static string All(params string[] data) { return Get("All", data); }
+        public static string AllowedUsers(params string[] data) { return Get("AllowedUsers", data); }
         public static string AlreadyAdded(params string[] data) { return Get("AlreadyAdded", data); }
         public static string And(params string[] data) { return Get("And", data); }
         public static string Authentication(params string[] data) { return Get("Authentication", data); }
@@ -85,6 +86,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CodeDefinerMvcCompleted(params string[] data) { return Get("CodeDefinerMvcCompleted", data); }
         public static string CodeDefinerRdsCompleted(params string[] data) { return Get("CodeDefinerRdsCompleted", data); }
         public static string Column(params string[] data) { return Get("Column", data); }
+        public static string ColumnAccessControl(params string[] data) { return Get("ColumnAccessControl", data); }
         public static string ColumnList(params string[] data) { return Get("ColumnList", data); }
         public static string CommentDeleted(params string[] data) { return Get("CommentDeleted", data); }
         public static string Comments(params string[] data) { return Get("Comments", data); }
@@ -100,6 +102,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CopyWithComments(params string[] data) { return Get("CopyWithComments", data); }
         public static string Count(params string[] data) { return Get("Count", data); }
         public static string Create(params string[] data) { return Get("Create", data); }
+        public static string CreateColumnAccessControl(params string[] data) { return Get("CreateColumnAccessControl", data); }
         public static string Created(params string[] data) { return Get("Created", data); }
         public static string CreatedTime(params string[] data) { return Get("CreatedTime", data); }
         public static string Csv(params string[] data) { return Get("Csv", data); }
@@ -315,6 +318,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Quantity(params string[] data) { return Get("Quantity", data); }
         public static string Quarter(params string[] data) { return Get("Quarter", data); }
         public static string Read(params string[] data) { return Get("Read", data); }
+        public static string ReadColumnAccessControl(params string[] data) { return Get("ReadColumnAccessControl", data); }
         public static string ReadOnly(params string[] data) { return Get("ReadOnly", data); }
         public static string ReadOnlyBecausePreviousVer(params string[] data) { return Get("ReadOnlyBecausePreviousVer", data); }
         public static string ReadWrite(params string[] data) { return Get("ReadWrite", data); }
@@ -322,6 +326,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Reload(params string[] data) { return Get("Reload", data); }
         public static string Reply(params string[] data) { return Get("Reply", data); }
         public static string Required(params string[] data) { return Get("Required", data); }
+        public static string RequiredPermission(params string[] data) { return Get("RequiredPermission", data); }
         public static string RequireMailAddresses(params string[] data) { return Get("RequireMailAddresses", data); }
         public static string Reset(params string[] data) { return Get("Reset", data); }
         public static string ResetOrder(params string[] data) { return Get("ResetOrder", data); }
@@ -375,6 +380,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string UncheckAll(params string[] data) { return Get("UncheckAll", data); }
         public static string Unit(params string[] data) { return Get("Unit", data); }
         public static string Update(params string[] data) { return Get("Update", data); }
+        public static string UpdateColumnAccessControl(params string[] data) { return Get("UpdateColumnAccessControl", data); }
         public static string UpdateConflicts(params string[] data) { return Get("UpdateConflicts", data); }
         public static string Updated(params string[] data) { return Get("Updated", data); }
         public static string UpdatedTime(params string[] data) { return Get("UpdatedTime", data); }

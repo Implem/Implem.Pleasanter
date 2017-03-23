@@ -13,24 +13,19 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission;
             }
+            ss.SetColumnAccessControls(wikiModel.Mine());
             foreach(var controlId in Forms.Keys())
             {
                 switch (controlId)
                 {
                     case "Wikis_Title":
-                        if (!ss.GetColumn("Title").CanCreate(ss))
+                        if (!ss.GetColumn("Title").CanCreate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Wikis_Body":
-                        if (!ss.GetColumn("Body").CanCreate(ss))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanCreate(ss))
+                        if (!ss.GetColumn("Body").CanCreate)
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -46,24 +41,19 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission;
             }
+            ss.SetColumnAccessControls(wikiModel.Mine());
             foreach(var controlId in Forms.Keys())
             {
                 switch (controlId)
                 {
                     case "Wikis_Title":
-                        if (!ss.GetColumn("Title").CanUpdate(ss))
+                        if (!ss.GetColumn("Title").CanUpdate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Wikis_Body":
-                        if (!ss.GetColumn("Body").CanUpdate(ss))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanUpdate(ss))
+                        if (!ss.GetColumn("Body").CanUpdate)
                         {
                             return Error.Types.InvalidRequest;
                         }

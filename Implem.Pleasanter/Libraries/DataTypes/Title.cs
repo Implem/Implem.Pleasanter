@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Value = value;
         }
 
-        public string ToControl(Column column, SiteSettings ss)
+        public string ToControl(SiteSettings ss, Column column)
         {
             return Value;
         }

@@ -3,7 +3,6 @@ using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -40,7 +39,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             DisplayValue = Value.ToLocal();
         }
 
-        public virtual string ToControl(Column column, SiteSettings ss)
+        public virtual string ToControl(SiteSettings ss, Column column)
         {
             return Value.InRange()
                 ? column.DisplayControl(DisplayValue)

@@ -13,36 +13,31 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission;
             }
+            ss.SetColumnAccessControls(siteModel.Mine());
             foreach(var controlId in Forms.Keys())
             {
                 switch (controlId)
                 {
                     case "Sites_Title":
-                        if (!ss.GetColumn("Title").CanCreate(ss))
+                        if (!ss.GetColumn("Title").CanCreate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_Body":
-                        if (!ss.GetColumn("Body").CanCreate(ss))
+                        if (!ss.GetColumn("Body").CanCreate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_ReferenceType":
-                        if (!ss.GetColumn("ReferenceType").CanCreate(ss))
+                        if (!ss.GetColumn("ReferenceType").CanCreate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_InheritPermission":
-                        if (!ss.GetColumn("InheritPermission").CanCreate(ss))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Sites_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanCreate(ss))
+                        if (!ss.GetColumn("InheritPermission").CanCreate)
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -58,36 +53,31 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission;
             }
+            ss.SetColumnAccessControls(siteModel.Mine());
             foreach(var controlId in Forms.Keys())
             {
                 switch (controlId)
                 {
                     case "Sites_Title":
-                        if (!ss.GetColumn("Title").CanUpdate(ss))
+                        if (!ss.GetColumn("Title").CanUpdate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_Body":
-                        if (!ss.GetColumn("Body").CanUpdate(ss))
+                        if (!ss.GetColumn("Body").CanUpdate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_ReferenceType":
-                        if (!ss.GetColumn("ReferenceType").CanUpdate(ss))
+                        if (!ss.GetColumn("ReferenceType").CanUpdate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_InheritPermission":
-                        if (!ss.GetColumn("InheritPermission").CanUpdate(ss))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Sites_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanUpdate(ss))
+                        if (!ss.GetColumn("InheritPermission").CanUpdate)
                         {
                             return Error.Types.InvalidRequest;
                         }

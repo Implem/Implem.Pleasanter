@@ -240,6 +240,7 @@
     <Compile Include="Libraries\Responses\Displays.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
+    <Compile Include="Libraries\Settings\ColumnAccessControl.cs" />
     <Compile Include="Libraries\Settings\DateColumnExtensions.cs" />
     <Compile Include="Libraries\Settings\FormulaSet.cs" />
     <Compile Include="Libraries\Settings\NumColumnExtensions.cs" />
@@ -998,6 +999,12 @@
     <Content Include="App_Data\Displays\InputMailAddress.json" />
     <Content Include="App_Data\Displays\InheritPermission.json" />
     <Content Include="App_Data\Displays\PermissionForCreating.json" />
+    <Content Include="App_Data\Displays\RequiredPermission.json" />
+    <Content Include="App_Data\Displays\ColumnAccessControl.json" />
+    <Content Include="App_Data\Displays\AllowedUsers.json" />
+    <Content Include="App_Data\Displays\ReadColumnAccessControl.json" />
+    <Content Include="App_Data\Displays\UpdateColumnAccessControl.json" />
+    <Content Include="App_Data\Displays\CreateColumnAccessControl.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

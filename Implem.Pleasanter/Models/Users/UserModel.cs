@@ -437,6 +437,15 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public List<string> Mine()
+        {
+            var mine = new List<string>();
+            var userId = Sessions.UserId();
+            if (SavedCreator == userId) mine.Add("Creator");
+            if (SavedUpdator == userId) mine.Add("Updator");
+            return mine;
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -727,7 +736,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ToControl(Column column, SiteSettings ss)
+        public string ToControl(SiteSettings ss, Column column)
         {
             return UserId.ToString();
         }

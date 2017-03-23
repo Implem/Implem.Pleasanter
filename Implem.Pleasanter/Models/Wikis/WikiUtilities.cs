@@ -99,6 +99,7 @@ namespace Implem.Pleasanter.Models
         public static string Editor(SiteSettings ss, WikiModel wikiModel)
         {
             var hb = new HtmlBuilder();
+            ss.SetColumnAccessControls(wikiModel.Mine());
             return hb.Template(
                 ss: ss,
                 verType: wikiModel.VerType,
@@ -231,6 +232,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             WikiModel wikiModel)
         {
+            var mine = wikiModel.Mine();
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
                 ss.GetEditorColumns().ForEach(column =>
@@ -242,7 +244,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 wikiModel.MethodType,
-                                wikiModel.WikiId.ToControl(column, ss),
+                                wikiModel.WikiId.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "Ver":
@@ -250,7 +252,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 wikiModel.MethodType,
-                                wikiModel.Ver.ToControl(column, ss),
+                                wikiModel.Ver.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "Title":
@@ -258,7 +260,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 wikiModel.MethodType,
-                                wikiModel.Title.ToControl(column, ss),
+                                wikiModel.Title.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                         case "Body":
@@ -266,7 +268,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 wikiModel.MethodType,
-                                wikiModel.Body.ToControl(column, ss),
+                                wikiModel.Body.ToControl(ss, column),
                                 column.ColumnPermissionType(ss));
                             break;
                     }
@@ -314,6 +316,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             WikiModel wikiModel)
         {
+            var mine = wikiModel.Mine();
             ss.EditorColumns
                 .Select(o => ss.GetColumn(o))
                 .Where(o => o != null)

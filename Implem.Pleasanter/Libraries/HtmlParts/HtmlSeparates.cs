@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlSeparates
@@ -20,7 +21,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             SiteSettings ss,
             string title,
-            decimal workValue)
+            decimal workValue,
+            List<string> mine)
         {
             var max = Parameters.General.SeparateMax;
             var min = Parameters.General.SeparateMin;
@@ -53,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " w100",
                         labelText: Displays.WorkValue() + "-1",
-                        text: workValue.ToControl(column, ss),
+                        text: workValue.ToControl(ss, column),
                         dataValue: workValue.ToString())
                     .Hidden(
                         controlId: "WorkValueUnit",

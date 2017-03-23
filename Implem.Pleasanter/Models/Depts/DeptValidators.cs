@@ -13,30 +13,25 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission;
             }
+            ss.SetColumnAccessControls(deptModel.Mine());
             foreach(var controlId in Forms.Keys())
             {
                 switch (controlId)
                 {
                     case "Depts_DeptCode":
-                        if (!ss.GetColumn("DeptCode").CanCreate(ss))
+                        if (!ss.GetColumn("DeptCode").CanCreate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Depts_DeptName":
-                        if (!ss.GetColumn("DeptName").CanCreate(ss))
+                        if (!ss.GetColumn("DeptName").CanCreate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Depts_Body":
-                        if (!ss.GetColumn("Body").CanCreate(ss))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Depts_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanCreate(ss))
+                        if (!ss.GetColumn("Body").CanCreate)
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -52,30 +47,25 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission;
             }
+            ss.SetColumnAccessControls(deptModel.Mine());
             foreach(var controlId in Forms.Keys())
             {
                 switch (controlId)
                 {
                     case "Depts_DeptCode":
-                        if (!ss.GetColumn("DeptCode").CanUpdate(ss))
+                        if (!ss.GetColumn("DeptCode").CanUpdate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Depts_DeptName":
-                        if (!ss.GetColumn("DeptName").CanUpdate(ss))
+                        if (!ss.GetColumn("DeptName").CanUpdate)
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Depts_Body":
-                        if (!ss.GetColumn("Body").CanUpdate(ss))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Depts_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanUpdate(ss))
+                        if (!ss.GetColumn("Body").CanUpdate)
                         {
                             return Error.Types.InvalidRequest;
                         }

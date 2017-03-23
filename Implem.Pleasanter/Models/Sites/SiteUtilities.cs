@@ -592,7 +592,12 @@ namespace Implem.Pleasanter.Models
                             .A(
                                 href: "#FieldSetPermissionForCreating",
                                 text: Displays.PermissionForCreating(),
-                                _using: EnablePermissionForCreating(siteModel)));
+                                _using: EnableAdvancedPermissions(siteModel)))
+                        .Li(action: () => hb
+                            .A(
+                                href: "#FieldSetColumnAccessControl",
+                                text: Displays.ColumnAccessControl(),
+                                _using: EnableAdvancedPermissions(siteModel)));
                 }
                 hb.Hidden(controlId: "TableName", value: "Sites");
             });
@@ -1070,7 +1075,13 @@ namespace Implem.Pleasanter.Models
                                     .Id("FieldSetPermissionForCreating")
                                     .DataAction("PermissionForCreating")
                                     .DataMethod("get"),
-                                _using: EnablePermissionForCreating(siteModel))
+                                _using: EnableAdvancedPermissions(siteModel))
+                            .FieldSet(
+                                attributes: new HtmlAttributes()
+                                    .Id("FieldSetColumnAccessControl")
+                                    .DataAction("ColumnAccessControl")
+                                    .DataMethod("get"),
+                                _using: EnableAdvancedPermissions(siteModel))
                             .MainCommands(
                                 ss: siteModel.SiteSettings,
                                 siteId: siteModel.SiteId,
@@ -1121,13 +1132,14 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.Notifications()))
                 .PermissionsDialog()
-                .PermissionForCreatingDialog());
+                .PermissionForCreatingDialog()
+                .ColumnAccessControlDialog());
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool EnablePermissionForCreating(SiteModel siteModel)
+        private static bool EnableAdvancedPermissions(SiteModel siteModel)
         {
             switch (siteModel.ReferenceType)
             {

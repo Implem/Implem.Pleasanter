@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
-        public string ToControl(Column column, SiteSettings ss)
+        public string ToControl(SiteSettings ss, Column column)
         {
             return string.Empty;
         }

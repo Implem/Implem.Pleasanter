@@ -41,6 +41,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Databases.AccessStatuses AccessStatus;
         [NonSerialized]
         public Dictionary<string, Column> ColumnHash;
+        [NonSerialized]
+        public Dictionary<string, ColumnDefinition> ColumnDefinitionHash;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
@@ -74,6 +76,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string NewScript;
         public string EditScript;
         public Dictionary<string, Permissions.Types> PermissionForCreating;
+        public List<ColumnAccessControl> CreateColumnAccessControls;
+        public List<ColumnAccessControl> ReadColumnAccessControls;
+        public List<ColumnAccessControl> UpdateColumnAccessControls;
         // compatibility Version 1.002
         public Dictionary<string, long> LinkColumnSiteIdHash;
         // compatibility Version 1.003
@@ -115,6 +120,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             GridPageSize = GridPageSize ?? Parameters.General.GridPageSize;
             FirstDayOfWeek = FirstDayOfWeek ?? Parameters.General.FirstDayOfWeek;
             FirstMonth = FirstMonth ?? Parameters.General.FirstMonth;
+            UpdateColumnDefinitionHash();
             UpdateGridColumns();
             UpdateFilterColumns();
             UpdateEditorColumns();
@@ -123,6 +129,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateHistoryColumns();
             UpdateColumns();
             UpdateColumnHash();
+            var accessControlColumns = Columns
+                .Where(o => o.EditorColumn || o.ColumnName == "Comments")
+                .Where(o => !o.NotEditorSettings)
+                .Where(o => !o.Id_Ver)
+                .ToList();
+            Update_CreateColumnAccessControls(accessControlColumns);
+            Update_ReadColumnAccessControls(accessControlColumns);
+            Update_UpdateColumnAccessControls(accessControlColumns);
             if (Aggregations == null) Aggregations = new List<Aggregation>();
             if (Links == null) Links = new List<Link>();
             if (Summaries == null) Summaries = new SettingList<Summary>();
@@ -259,7 +273,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (GridScript == string.Empty) self.GridScript = null;
             if (NewScript == string.Empty) self.NewScript = null;
             if (EditScript == string.Empty) self.EditScript = null;
-            if (PermissionForCreating?.Any(o => o.Value > 0) != true) PermissionForCreating = null;
+            if (PermissionForCreating?.Any(o => o.Value > 0) != true) self.PermissionForCreating = null;
+            self.CreateColumnAccessControls?.RemoveAll(o => o.IsDefault(this, "Create"));
+            if (self.CreateColumnAccessControls?.Any() != true) self.CreateColumnAccessControls = null;
+            self.ReadColumnAccessControls?.RemoveAll(o => o.IsDefault(this, "Read"));
+            if (self.ReadColumnAccessControls?.Any() != true) self.ReadColumnAccessControls = null;
+            self.UpdateColumnAccessControls?.RemoveAll(o => o.IsDefault(this, "Update"));
+            if (self.UpdateColumnAccessControls?.Any() != true) self.UpdateColumnAccessControls = null;
             var removeCollection = new HashSet<string>();
             self.Columns.ForEach(column =>
             {
@@ -315,6 +335,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             return self.ToJson();
         }
 
+        private void UpdateColumnDefinitionHash()
+        {
+            ColumnDefinitionHash = Def.ColumnDefinitionCollection
+                .Where(o => o.TableName == ReferenceType)
+                .ToDictionary(o => o.ColumnName, o => o);
+        }
+
         private void UpdateGridColumns()
         {
             if (GridColumns == null)
@@ -326,12 +353,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else
             {
-                GridColumns.RemoveAll(o =>
-                    !Def.ColumnDefinitionCollection.Any(p =>
-                        p.ColumnName == o &&
-                        p.TableName == ReferenceType &&
-                        p.GridColumn > 0));
+                GridColumns.RemoveAll(o => !GridColumn(ColumnDefinitionHash.Get(o)));
             }
+        }
+
+        private bool GridColumn(ColumnDefinition columnDefinition)
+        {
+            return columnDefinition?.GridColumn > 0;
         }
 
         private void UpdateFilterColumns()
@@ -345,12 +373,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else
             {
-                FilterColumns.RemoveAll(o =>
-                    !Def.ColumnDefinitionCollection.Any(p =>
-                        p.ColumnName == o &&
-                        p.TableName == ReferenceType &&
-                        p.FilterColumn > 0));
+                FilterColumns.RemoveAll(o => !FilterColumn(ColumnDefinitionHash.Get(o)));
             }
+        }
+
+        private bool FilterColumn(ColumnDefinition columnDefinition)
+        {
+            return columnDefinition?.FilterColumn > 0;
         }
 
         private void UpdateEditorColumns()
@@ -364,13 +393,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else
             {
-                EditorColumns.RemoveAll(o =>
-                    !Def.ColumnDefinitionCollection.Any(p =>
-                        p.ColumnName == o &&
-                        p.TableName == ReferenceType &&
-                        p.EditorColumn &&
-                        !p.NotEditorSettings));
+                EditorColumns.RemoveAll(o => !EditorColumn(ColumnDefinitionHash.Get(o)));
             }
+        }
+
+        private bool EditorColumn(ColumnDefinition columnDefinition)
+        {
+            return
+                columnDefinition?.EditorColumn == true &&
+                columnDefinition?.NotEditorSettings != true;
         }
 
         private void UpdateTitleColumns()
@@ -384,13 +415,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else
             {
-                TitleColumns.RemoveAll(o =>
-                    !Def.ColumnDefinitionCollection.Any(p =>
-                        p.TableName == ReferenceType &&
-                        p.ColumnName == o &&
-                        p.TitleColumn > 0 &&
-                        !p.NotEditorSettings));
+                TitleColumns.RemoveAll(o => !TitleColumn(ColumnDefinitionHash.Get(o)));
             }
+        }
+
+        private bool TitleColumn(ColumnDefinition columnDefinition)
+        {
+            return
+                columnDefinition?.TitleColumn > 0 &&
+                columnDefinition?.NotEditorSettings != true;
         }
 
         private void UpdateLinkColumns()
@@ -404,12 +437,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else
             {
-                LinkColumns.RemoveAll(o =>
-                    !Def.ColumnDefinitionCollection.Any(p =>
-                        p.TableName == ReferenceType &&
-                        p.ColumnName == o &&
-                        p.LinkColumn > 0));
+                LinkColumns.RemoveAll(o => !LinkColumn(ColumnDefinitionHash.Get(o)));
             }
+        }
+
+        private bool LinkColumn(ColumnDefinition columnDefinition)
+        {
+            return columnDefinition?.LinkColumn > 0;
         }
 
         private void UpdateHistoryColumns()
@@ -423,34 +457,31 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else
             {
-                HistoryColumns.RemoveAll(o =>
-                    !Def.ColumnDefinitionCollection.Any(p =>
-                        p.TableName == ReferenceType &&
-                        p.ColumnName == o &&
-                        p.HistoryColumn > 0));
+                HistoryColumns.RemoveAll(o => !HistoryColumn(ColumnDefinitionHash.Get(o)));
             }
+        }
+
+        private bool HistoryColumn(ColumnDefinition columnDefinition)
+        {
+            return columnDefinition?.LinkColumn > 0;
         }
 
         private void UpdateColumns(bool onSerializing = false)
         {
             if (Columns == null) Columns = new List<Column>();
-            Def.ColumnDefinitionCollection
-                .Where(o => o.TableName == ReferenceType)
-                .ForEach(columnDefinition =>
+            ColumnDefinitionHash?.Values.ForEach(columnDefinition =>
+            {
+                if (!onSerializing)
                 {
-                    if (!onSerializing)
+                    if (!Columns.Exists(o =>
+                        o.ColumnName == columnDefinition.ColumnName))
                     {
-                        if (!Columns.Exists(o =>
-                            o.ColumnName == columnDefinition.ColumnName))
-                        {
-                            Columns.Add(new Column(columnDefinition.ColumnName));
-                        }
-                        UpdateColumn(columnDefinition);
+                        Columns.Add(new Column(columnDefinition.ColumnName));
                     }
-                });
-            Columns.RemoveAll(o =>
-                !Def.ColumnDefinitionCollection.Any(p =>
-                    p.TableName == ReferenceType && p.ColumnName == o.ColumnName));
+                    UpdateColumn(columnDefinition);
+                }
+            });
+            Columns.RemoveAll(o => !ColumnDefinitionHash.ContainsKey(o.ColumnName));
         }
 
         private void UpdateColumn(ColumnDefinition columnDefinition)
@@ -497,9 +528,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.Size = columnDefinition.Size;
                 column.Nullable = columnDefinition.Nullable;
                 column.RecordedTime = columnDefinition.Default == "now";
-                column.ReadPermission = Permissions.Get(columnDefinition.ReadPermission);
-                column.CreatePermission = Permissions.Get(columnDefinition.CreatePermission);
-                column.UpdatePermission = Permissions.Get(columnDefinition.UpdatePermission);
                 column.NotSelect = columnDefinition.NotSelect;
                 column.NotUpdate = columnDefinition.NotUpdate;
                 column.EditSelf = !columnDefinition.NotEditSelf;
@@ -530,6 +558,59 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void UpdateColumnHash()
         {
             ColumnHash = Columns.ToDictionary(o => o.ColumnName, o => o);
+        }
+
+        private void Update_CreateColumnAccessControls(IEnumerable<Column> columns)
+        {
+            var columnAccessControls = columns
+                .Where(o => o.Nullable)
+                .Select(column => new ColumnAccessControl(this, column, "Create"))
+                .ToList();
+            CreateColumnAccessControls?.ForEach(o =>
+                SetColumnAccessControl(columnAccessControls, o));
+            CreateColumnAccessControls = columnAccessControls;
+        }
+
+        private void Update_ReadColumnAccessControls(IEnumerable<Column> columns)
+        {
+            var columnAccessControls = columns
+                .Select(column => new ColumnAccessControl(this, column, "Read"))
+                .ToList();
+            ReadColumnAccessControls?.ForEach(o =>
+                SetColumnAccessControl(columnAccessControls, o));
+            ReadColumnAccessControls = columnAccessControls;
+
+        }
+
+        private void Update_UpdateColumnAccessControls(IEnumerable<Column> columns)
+        {
+            var columnAccessControls = columns
+                .Select(column => new ColumnAccessControl(this, column, "Update"))
+                .ToList();
+            UpdateColumnAccessControls?.ForEach(o =>
+                SetColumnAccessControl(columnAccessControls, o));
+            UpdateColumnAccessControls = columnAccessControls;
+
+        }
+
+        private void SetColumnAccessControl(
+            IEnumerable<ColumnAccessControl> columnAccessControls,
+            ColumnAccessControl columnAccessControl)
+        {
+            var data = columnAccessControls.FirstOrDefault(o =>
+                o.ColumnName == columnAccessControl.ColumnName);
+            data.AllowedType = columnAccessControl.AllowedType;
+            data.AllowedUsers = columnAccessControl.AllowedUsers;
+        }
+
+        public void SetColumnAccessControls(List<string> mine)
+        {
+            CreateColumnAccessControls.ForEach(o =>
+                GetColumn(o.ColumnName).CanCreate = o.Allowed(PermissionType, mine));
+            ReadColumnAccessControls.ForEach(o =>
+                GetColumn(o.ColumnName).CanRead = o.Allowed(PermissionType, mine));
+            UpdateColumnAccessControls.ForEach(o =>
+                GetColumn(o.ColumnName).CanUpdate = o.Allowed(PermissionType, mine));
         }
 
         private decimal DefaultMax(ColumnDefinition columnDefinition)
@@ -743,6 +824,38 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName));
         }
 
+        public Dictionary<string, ControlData> ColumnAccessControlOptions(
+            string type, IEnumerable<ColumnAccessControl> columnAccessControls = null)
+        {
+            var nullableOnly = ColumnAccessControlNullableOnly(type);
+            return columnAccessControls != null
+                ? columnAccessControls
+                    .ToDictionary(o => o.ToJson(), o => o.ControlData(this, type))
+                : ColumnAccessControl(type)
+                    .OrderBy(o => o.No)
+                    .ToDictionary(o => o.ToJson(), o => o.ControlData(this, type));
+        }
+
+        private List<ColumnAccessControl> ColumnAccessControl(string type)
+        {
+            switch (type)
+            {
+                case "Create": return CreateColumnAccessControls;
+                case "Read": return ReadColumnAccessControls;
+                case "Update": return UpdateColumnAccessControls;
+                default: return null;
+            }
+        }
+
+        public bool ColumnAccessControlNullableOnly(string type)
+        {
+            switch (type)
+            {
+                case "Create": return true;
+                default: return false;
+            }
+        }
+
         public Dictionary<string, ControlData> AggregationDestination()
         {
             return Aggregations?
@@ -866,6 +979,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NewScript": NewScript = value; break;
                 case "EditScript": EditScript = value; break;
                 case "CurrentPermissionForCreatingAll": SetPermissionForCreating(value); break;
+                case "CreateColumnAccessControlAll": SetCreateColumnAccessControl(value); break;
+                case "ReadColumnAccessControlAll": SetReadColumnAccessControl(value); break;
+                case "UpdateColumnAccessControlAll": SetUpdateColumnAccessControl(value); break;
             }
         }
 
@@ -1356,6 +1472,30 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             PermissionForCreating = GetPermissions(value.Deserialize<List<string>>())
                 .ToDictionary(o => o.Name, o => o.Type);
+        }
+
+        private void SetCreateColumnAccessControl(string value)
+        {
+            CreateColumnAccessControls = value.Deserialize<List<string>>()
+                .Select(o => o.Deserialize<ColumnAccessControl>())
+                .Where(o => !o.IsDefault(this, "Create"))
+                .ToList();
+        }
+
+        private void SetReadColumnAccessControl(string value)
+        {
+            ReadColumnAccessControls = value.Deserialize<List<string>>()
+                .Select(o => o.Deserialize<ColumnAccessControl>())
+                .Where(o => !o.IsDefault(this, "Read"))
+                .ToList();
+        }
+
+        private void SetUpdateColumnAccessControl(string value)
+        {
+            UpdateColumnAccessControls = value.Deserialize<List<string>>()
+                .Select(o => o.Deserialize<ColumnAccessControl>())
+                .Where(o => !o.IsDefault(this, "Update"))
+                .ToList();
         }
 
         public List<Permission> GetPermissions(
