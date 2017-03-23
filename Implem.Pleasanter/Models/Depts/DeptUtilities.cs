@@ -236,7 +236,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
-            var columns = ss.GetGridColumns();
+            var columns = ss.GetGridColumns().Where(o => o.CanRead);
             return hb
                 .THead(
                     _using: addHeader,
@@ -473,7 +473,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 deptModel.MethodType,
                                 deptModel.DeptId.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "Ver":
                             hb.Field(
@@ -481,7 +481,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 deptModel.MethodType,
                                 deptModel.Ver.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DeptCode":
                             hb.Field(
@@ -489,7 +489,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 deptModel.MethodType,
                                 deptModel.DeptCode.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DeptName":
                             hb.Field(
@@ -497,7 +497,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 deptModel.MethodType,
                                 deptModel.DeptName.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "Body":
                             hb.Field(
@@ -505,7 +505,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 deptModel.MethodType,
                                 deptModel.Body.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                     }
                 });

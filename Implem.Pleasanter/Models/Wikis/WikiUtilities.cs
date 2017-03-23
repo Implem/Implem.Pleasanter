@@ -245,7 +245,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 wikiModel.MethodType,
                                 wikiModel.WikiId.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "Ver":
                             hb.Field(
@@ -253,7 +253,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 wikiModel.MethodType,
                                 wikiModel.Ver.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "Title":
                             hb.Field(
@@ -261,7 +261,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 wikiModel.MethodType,
                                 wikiModel.Title.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "Body":
                             hb.Field(
@@ -269,7 +269,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 wikiModel.MethodType,
                                 wikiModel.Body.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                     }
                 });

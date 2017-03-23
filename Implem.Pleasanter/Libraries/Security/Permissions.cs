@@ -287,7 +287,7 @@ namespace Implem.Pleasanter.Libraries.Security
             return ss.Can(Types.ManagePermission, site);
         }
 
-        public static ColumnPermissionTypes ColumnPermissionType(this Column self, SiteSettings ss)
+        public static ColumnPermissionTypes ColumnPermissionType(this Column self)
         {
             switch(Url.RouteData("action").ToLower())
             {

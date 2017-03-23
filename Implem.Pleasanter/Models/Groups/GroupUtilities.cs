@@ -249,7 +249,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
-            var columns = ss.GetGridColumns();
+            var columns = ss.GetGridColumns().Where(o => o.CanRead);
             return hb
                 .THead(
                     _using: addHeader,
@@ -498,7 +498,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 groupModel.MethodType,
                                 groupModel.GroupId.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "Ver":
                             hb.Field(
@@ -506,7 +506,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 groupModel.MethodType,
                                 groupModel.Ver.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "GroupName":
                             hb.Field(
@@ -514,7 +514,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 groupModel.MethodType,
                                 groupModel.GroupName.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "Body":
                             hb.Field(
@@ -522,7 +522,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 groupModel.MethodType,
                                 groupModel.Body.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                     }
                 });

@@ -202,7 +202,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
-            var columns = ss.GetGridColumns();
+            var columns = ss.GetGridColumns().Where(o => o.CanRead);
             ss.Links?
                 .Where(o => ss.GridColumns.Contains(o.ColumnName))
                 .Where(o => ss.GetColumn(o.ColumnName).UseSearch == true)
@@ -752,7 +752,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ResultId.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "Ver":
                             hb.Field(
@@ -760,7 +760,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.Ver.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "Title":
                             hb.Field(
@@ -768,7 +768,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.Title.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "Body":
                             hb.Field(
@@ -776,7 +776,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.Body.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "Status":
                             hb.Field(
@@ -784,7 +784,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.Status.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "Manager":
                             hb.Field(
@@ -792,7 +792,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.Manager.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "Owner":
                             hb.Field(
@@ -800,7 +800,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.Owner.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassA":
                             hb.Field(
@@ -808,7 +808,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassA.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassB":
                             hb.Field(
@@ -816,7 +816,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassB.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassC":
                             hb.Field(
@@ -824,7 +824,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassC.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassD":
                             hb.Field(
@@ -832,7 +832,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassD.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassE":
                             hb.Field(
@@ -840,7 +840,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassE.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassF":
                             hb.Field(
@@ -848,7 +848,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassF.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassG":
                             hb.Field(
@@ -856,7 +856,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassG.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassH":
                             hb.Field(
@@ -864,7 +864,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassH.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassI":
                             hb.Field(
@@ -872,7 +872,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassI.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassJ":
                             hb.Field(
@@ -880,7 +880,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassJ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassK":
                             hb.Field(
@@ -888,7 +888,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassK.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassL":
                             hb.Field(
@@ -896,7 +896,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassL.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassM":
                             hb.Field(
@@ -904,7 +904,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassM.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassN":
                             hb.Field(
@@ -912,7 +912,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassN.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassO":
                             hb.Field(
@@ -920,7 +920,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassO.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassP":
                             hb.Field(
@@ -928,7 +928,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassP.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassQ":
                             hb.Field(
@@ -936,7 +936,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassQ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassR":
                             hb.Field(
@@ -944,7 +944,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassR.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassS":
                             hb.Field(
@@ -952,7 +952,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassS.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassT":
                             hb.Field(
@@ -960,7 +960,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassT.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassU":
                             hb.Field(
@@ -968,7 +968,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassU.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassV":
                             hb.Field(
@@ -976,7 +976,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassV.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassW":
                             hb.Field(
@@ -984,7 +984,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassW.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassX":
                             hb.Field(
@@ -992,7 +992,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassX.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassY":
                             hb.Field(
@@ -1000,7 +1000,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassY.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "ClassZ":
                             hb.Field(
@@ -1008,7 +1008,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.ClassZ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumA":
                             hb.Field(
@@ -1016,7 +1016,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumA.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumB":
                             hb.Field(
@@ -1024,7 +1024,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumB.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumC":
                             hb.Field(
@@ -1032,7 +1032,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumC.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumD":
                             hb.Field(
@@ -1040,7 +1040,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumD.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumE":
                             hb.Field(
@@ -1048,7 +1048,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumE.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumF":
                             hb.Field(
@@ -1056,7 +1056,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumF.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumG":
                             hb.Field(
@@ -1064,7 +1064,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumG.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumH":
                             hb.Field(
@@ -1072,7 +1072,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumH.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumI":
                             hb.Field(
@@ -1080,7 +1080,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumI.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumJ":
                             hb.Field(
@@ -1088,7 +1088,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumJ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumK":
                             hb.Field(
@@ -1096,7 +1096,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumK.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumL":
                             hb.Field(
@@ -1104,7 +1104,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumL.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumM":
                             hb.Field(
@@ -1112,7 +1112,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumM.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumN":
                             hb.Field(
@@ -1120,7 +1120,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumN.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumO":
                             hb.Field(
@@ -1128,7 +1128,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumO.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumP":
                             hb.Field(
@@ -1136,7 +1136,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumP.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumQ":
                             hb.Field(
@@ -1144,7 +1144,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumQ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumR":
                             hb.Field(
@@ -1152,7 +1152,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumR.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumS":
                             hb.Field(
@@ -1160,7 +1160,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumS.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumT":
                             hb.Field(
@@ -1168,7 +1168,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumT.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumU":
                             hb.Field(
@@ -1176,7 +1176,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumU.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumV":
                             hb.Field(
@@ -1184,7 +1184,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumV.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumW":
                             hb.Field(
@@ -1192,7 +1192,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumW.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumX":
                             hb.Field(
@@ -1200,7 +1200,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumX.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumY":
                             hb.Field(
@@ -1208,7 +1208,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumY.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "NumZ":
                             hb.Field(
@@ -1216,7 +1216,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.NumZ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateA":
                             hb.Field(
@@ -1224,7 +1224,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateA.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateB":
                             hb.Field(
@@ -1232,7 +1232,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateB.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateC":
                             hb.Field(
@@ -1240,7 +1240,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateC.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateD":
                             hb.Field(
@@ -1248,7 +1248,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateD.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateE":
                             hb.Field(
@@ -1256,7 +1256,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateE.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateF":
                             hb.Field(
@@ -1264,7 +1264,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateF.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateG":
                             hb.Field(
@@ -1272,7 +1272,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateG.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateH":
                             hb.Field(
@@ -1280,7 +1280,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateH.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateI":
                             hb.Field(
@@ -1288,7 +1288,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateI.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateJ":
                             hb.Field(
@@ -1296,7 +1296,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateJ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateK":
                             hb.Field(
@@ -1304,7 +1304,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateK.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateL":
                             hb.Field(
@@ -1312,7 +1312,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateL.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateM":
                             hb.Field(
@@ -1320,7 +1320,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateM.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateN":
                             hb.Field(
@@ -1328,7 +1328,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateN.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateO":
                             hb.Field(
@@ -1336,7 +1336,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateO.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateP":
                             hb.Field(
@@ -1344,7 +1344,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateP.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateQ":
                             hb.Field(
@@ -1352,7 +1352,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateQ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateR":
                             hb.Field(
@@ -1360,7 +1360,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateR.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateS":
                             hb.Field(
@@ -1368,7 +1368,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateS.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateT":
                             hb.Field(
@@ -1376,7 +1376,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateT.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateU":
                             hb.Field(
@@ -1384,7 +1384,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateU.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateV":
                             hb.Field(
@@ -1392,7 +1392,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateV.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateW":
                             hb.Field(
@@ -1400,7 +1400,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateW.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateX":
                             hb.Field(
@@ -1408,7 +1408,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateX.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateY":
                             hb.Field(
@@ -1416,7 +1416,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateY.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DateZ":
                             hb.Field(
@@ -1424,7 +1424,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DateZ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionA":
                             hb.Field(
@@ -1432,7 +1432,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionA.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionB":
                             hb.Field(
@@ -1440,7 +1440,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionB.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionC":
                             hb.Field(
@@ -1448,7 +1448,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionC.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionD":
                             hb.Field(
@@ -1456,7 +1456,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionD.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionE":
                             hb.Field(
@@ -1464,7 +1464,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionE.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionF":
                             hb.Field(
@@ -1472,7 +1472,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionF.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionG":
                             hb.Field(
@@ -1480,7 +1480,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionG.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionH":
                             hb.Field(
@@ -1488,7 +1488,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionH.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionI":
                             hb.Field(
@@ -1496,7 +1496,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionI.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionJ":
                             hb.Field(
@@ -1504,7 +1504,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionJ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionK":
                             hb.Field(
@@ -1512,7 +1512,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionK.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionL":
                             hb.Field(
@@ -1520,7 +1520,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionL.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionM":
                             hb.Field(
@@ -1528,7 +1528,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionM.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionN":
                             hb.Field(
@@ -1536,7 +1536,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionN.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionO":
                             hb.Field(
@@ -1544,7 +1544,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionO.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionP":
                             hb.Field(
@@ -1552,7 +1552,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionP.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionQ":
                             hb.Field(
@@ -1560,7 +1560,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionQ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionR":
                             hb.Field(
@@ -1568,7 +1568,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionR.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionS":
                             hb.Field(
@@ -1576,7 +1576,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionS.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionT":
                             hb.Field(
@@ -1584,7 +1584,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionT.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionU":
                             hb.Field(
@@ -1592,7 +1592,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionU.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionV":
                             hb.Field(
@@ -1600,7 +1600,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionV.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionW":
                             hb.Field(
@@ -1608,7 +1608,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionW.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionX":
                             hb.Field(
@@ -1616,7 +1616,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionX.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionY":
                             hb.Field(
@@ -1624,7 +1624,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionY.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "DescriptionZ":
                             hb.Field(
@@ -1632,7 +1632,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.DescriptionZ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckA":
                             hb.Field(
@@ -1640,7 +1640,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckA.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckB":
                             hb.Field(
@@ -1648,7 +1648,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckB.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckC":
                             hb.Field(
@@ -1656,7 +1656,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckC.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckD":
                             hb.Field(
@@ -1664,7 +1664,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckD.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckE":
                             hb.Field(
@@ -1672,7 +1672,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckE.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckF":
                             hb.Field(
@@ -1680,7 +1680,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckF.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckG":
                             hb.Field(
@@ -1688,7 +1688,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckG.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckH":
                             hb.Field(
@@ -1696,7 +1696,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckH.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckI":
                             hb.Field(
@@ -1704,7 +1704,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckI.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckJ":
                             hb.Field(
@@ -1712,7 +1712,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckJ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckK":
                             hb.Field(
@@ -1720,7 +1720,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckK.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckL":
                             hb.Field(
@@ -1728,7 +1728,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckL.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckM":
                             hb.Field(
@@ -1736,7 +1736,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckM.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckN":
                             hb.Field(
@@ -1744,7 +1744,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckN.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckO":
                             hb.Field(
@@ -1752,7 +1752,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckO.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckP":
                             hb.Field(
@@ -1760,7 +1760,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckP.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckQ":
                             hb.Field(
@@ -1768,7 +1768,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckQ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckR":
                             hb.Field(
@@ -1776,7 +1776,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckR.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckS":
                             hb.Field(
@@ -1784,7 +1784,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckS.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckT":
                             hb.Field(
@@ -1792,7 +1792,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckT.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckU":
                             hb.Field(
@@ -1800,7 +1800,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckU.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckV":
                             hb.Field(
@@ -1808,7 +1808,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckV.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckW":
                             hb.Field(
@@ -1816,7 +1816,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckW.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckX":
                             hb.Field(
@@ -1824,7 +1824,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckX.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckY":
                             hb.Field(
@@ -1832,7 +1832,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckY.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                         case "CheckZ":
                             hb.Field(
@@ -1840,7 +1840,7 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 resultModel.MethodType,
                                 resultModel.CheckZ.ToControl(ss, column),
-                                column.ColumnPermissionType(ss));
+                                column.ColumnPermissionType());
                             break;
                     }
                 });
