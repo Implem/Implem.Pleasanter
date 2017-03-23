@@ -1005,6 +1005,8 @@
     <Content Include="App_Data\Displays\ReadColumnAccessControl.json" />
     <Content Include="App_Data\Displays\UpdateColumnAccessControl.json" />
     <Content Include="App_Data\Displays\CreateColumnAccessControl.json" />
+    <Content Include="App_Data\Displays\RecordAccessControl.json" />
+    <Content Include="App_Data\Displays\SiteAccessControl.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

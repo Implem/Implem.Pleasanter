@@ -37,14 +37,13 @@ namespace Implem.Pleasanter.Models
         public static string Permission(long referenceId)
         {
             var itemModel = new ItemModel(referenceId);
+            var selector = "#" + Forms.ControlId();
             return new ResponseCollection()
-                .Html(
-                    "#FieldSetPermissions",
-                    new HtmlBuilder().Permission(
-                        siteModel: itemModel.GetSite(),
-                        referenceId: referenceId,
-                        site: itemModel.ReferenceType == "Sites"))
-                .RemoveAttr("#FieldSetPermissions", "data-action")
+                .Html(selector, new HtmlBuilder().Permission(
+                    siteModel: itemModel.GetSite(),
+                    referenceId: referenceId,
+                    site: itemModel.ReferenceType == "Sites"))
+                .RemoveAttr(selector, "data-action")
                 .ToJson();
         }
 
@@ -715,9 +714,9 @@ namespace Implem.Pleasanter.Models
             }
             return new ResponseCollection()
                 .Html(
-                    "#FieldSetPermissionForCreating",
+                    "#FieldSetRecordAccessControl",
                     new HtmlBuilder().PermissionForCreating(ss))
-                .RemoveAttr("#FieldSetPermissionForCreating", "data-action")
+                .RemoveAttr("#FieldSetRecordAccessControl", "data-action")
                 .ToJson();
         }
 
@@ -728,7 +727,7 @@ namespace Implem.Pleasanter.Models
         {
             var permissions = PermissionForCreating(ss);
             return hb.FieldSet(
-                id: "FieldSetPermissionForCreating",
+                id: "FieldSetRecordAccessControl",
                 css: " enclosed",
                 legendText: Displays.PermissionForCreating(),
                 action: () => hb

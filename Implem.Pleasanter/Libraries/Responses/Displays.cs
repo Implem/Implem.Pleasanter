@@ -322,6 +322,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ReadOnly(params string[] data) { return Get("ReadOnly", data); }
         public static string ReadOnlyBecausePreviousVer(params string[] data) { return Get("ReadOnlyBecausePreviousVer", data); }
         public static string ReadWrite(params string[] data) { return Get("ReadWrite", data); }
+        public static string RecordAccessControl(params string[] data) { return Get("RecordAccessControl", data); }
         public static string Register(params string[] data) { return Get("Register", data); }
         public static string Reload(params string[] data) { return Get("Reload", data); }
         public static string Reply(params string[] data) { return Get("Reply", data); }
@@ -349,6 +350,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SeparateSettings(params string[] data) { return Get("SeparateSettings", data); }
         public static string Setting(params string[] data) { return Get("Setting", data); }
         public static string SetZeroWhenOutOfCondition(params string[] data) { return Get("SetZeroWhenOutOfCondition", data); }
+        public static string SiteAccessControl(params string[] data) { return Get("SiteAccessControl", data); }
         public static string SiteImageSettingsEditor(params string[] data) { return Get("SiteImageSettingsEditor", data); }
         public static string SiteSettings(params string[] data) { return Get("SiteSettings", data); }
         public static string SiteUser(params string[] data) { return Get("SiteUser", data); }

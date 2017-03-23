@@ -585,13 +585,13 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.ChangeHistoryList()))
                         .Li(action: () => hb
                             .A(
-                                href: "#FieldSetPermissions",
-                                text: Displays.Permissions(),
+                                href: "#FieldSetSiteAccessControl",
+                                text: Displays.SiteAccessControl(),
                                 _using: siteModel.SiteSettings.CanManagePermission()))
                         .Li(action: () => hb
                             .A(
-                                href: "#FieldSetPermissionForCreating",
-                                text: Displays.PermissionForCreating(),
+                                href: "#FieldSetRecordAccessControl",
+                                text: Displays.RecordAccessControl(),
                                 _using: EnableAdvancedPermissions(siteModel)))
                         .Li(action: () => hb
                             .A(
@@ -1062,25 +1062,25 @@ namespace Implem.Pleasanter.Models
                                 attributes: new HtmlAttributes()
                                     .Id("FieldSetHistories")
                                     .DataAction("Histories")
-                                    .DataMethod("get"),
+                                    .DataMethod("post"),
                                 _using: siteModel.MethodType != BaseModel.MethodTypes.New)
                             .FieldSet(
                                 attributes: new HtmlAttributes()
-                                    .Id("FieldSetPermissions")
+                                    .Id("FieldSetSiteAccessControl")
                                     .DataAction("Permissions")
-                                    .DataMethod("get"),
+                                    .DataMethod("post"),
                                 _using: siteModel.SiteSettings.CanManagePermission())
                             .FieldSet(
                                 attributes: new HtmlAttributes()
-                                    .Id("FieldSetPermissionForCreating")
+                                    .Id("FieldSetRecordAccessControl")
                                     .DataAction("PermissionForCreating")
-                                    .DataMethod("get"),
+                                    .DataMethod("post"),
                                 _using: EnableAdvancedPermissions(siteModel))
                             .FieldSet(
                                 attributes: new HtmlAttributes()
                                     .Id("FieldSetColumnAccessControl")
                                     .DataAction("ColumnAccessControl")
-                                    .DataMethod("get"),
+                                    .DataMethod("post"),
                                 _using: EnableAdvancedPermissions(siteModel))
                             .MainCommands(
                                 ss: siteModel.SiteSettings,

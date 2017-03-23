@@ -170,13 +170,13 @@ namespace Implem.Pleasanter.Models
                                 attributes: new HtmlAttributes()
                                     .Id("FieldSetHistories")
                                     .DataAction("Histories")
-                                    .DataMethod("get"),
+                                    .DataMethod("post"),
                                 _using: wikiModel.MethodType != BaseModel.MethodTypes.New)
                             .FieldSet(
                                 attributes: new HtmlAttributes()
-                                    .Id("FieldSetPermissions")
+                                    .Id("FieldSetRecordAccessControl")
                                     .DataAction("Permissions")
-                                    .DataMethod("get"),
+                                    .DataMethod("post"),
                                 _using: ss.CanManagePermission())
                             .MainCommands(
                                 ss: ss,
@@ -223,8 +223,8 @@ namespace Implem.Pleasanter.Models
                         wikiModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
-                            href: "#FieldSetPermissions",
-                            text: Displays.ManagePermission())));
+                            href: "#FieldSetRecordAccessControl",
+                            text: Displays.RecordAccessControl())));
         }
 
         private static HtmlBuilder FieldSetGeneral(

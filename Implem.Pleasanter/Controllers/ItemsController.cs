@@ -356,7 +356,7 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        [HttpGet]
+        [HttpPost]
         public string Histories(long id)
         {
             var log = new SysLogModel();
@@ -374,7 +374,7 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        [HttpGet]
+        [HttpPost]
         public string Permissions(long id)
         {
             var log = new SysLogModel();
@@ -410,7 +410,7 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        [HttpGet]
+        [HttpPost]
         public string PermissionForCreating(long id)
         {
             var log = new SysLogModel();
@@ -437,7 +437,7 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        [HttpGet]
+        [HttpPost]
         public string ColumnAccessControl(long id)
         {
             var log = new SysLogModel();
