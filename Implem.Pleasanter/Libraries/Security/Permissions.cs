@@ -164,6 +164,17 @@ namespace Implem.Pleasanter.Libraries.Security
                             .Select(o => o["SiteId"].ToLong());
         }
 
+        public static bool Allowed(
+            this List<ColumnAccessControl> columnAccessControls,
+            Column column,
+            Types? type,
+            List<string> mine)
+        {
+            return columnAccessControls?
+                .FirstOrDefault(o => o.ColumnName == column.ColumnName)?
+                .Allowed(type, mine) == true;
+        }
+
         public static bool HasPermission(this SiteSettings ss)
         {
             return ss.PermissionType != null || ss.ItemPermissionType != null;

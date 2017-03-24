@@ -292,29 +292,93 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var mine = userModel.Mine();
                 switch (column.ColumnName)
                 {
-                    case "UserId": return hb.Td(column: column, value: userModel.UserId);
-                    case "Ver": return hb.Td(column: column, value: userModel.Ver);
-                    case "LoginId": return hb.Td(column: column, value: userModel.LoginId);
-                    case "Disabled": return hb.Td(column: column, value: userModel.Disabled);
-                    case "LastName": return hb.Td(column: column, value: userModel.LastName);
-                    case "FirstName": return hb.Td(column: column, value: userModel.FirstName);
-                    case "Birthday": return hb.Td(column: column, value: userModel.Birthday);
-                    case "Gender": return hb.Td(column: column, value: userModel.Gender);
-                    case "Language": return hb.Td(column: column, value: userModel.Language);
-                    case "TimeZoneInfo": return hb.Td(column: column, value: userModel.TimeZoneInfo);
-                    case "Dept": return hb.Td(column: column, value: userModel.Dept);
-                    case "LastLoginTime": return hb.Td(column: column, value: userModel.LastLoginTime);
-                    case "PasswordExpirationTime": return hb.Td(column: column, value: userModel.PasswordExpirationTime);
-                    case "PasswordChangeTime": return hb.Td(column: column, value: userModel.PasswordChangeTime);
-                    case "NumberOfLogins": return hb.Td(column: column, value: userModel.NumberOfLogins);
-                    case "NumberOfDenial": return hb.Td(column: column, value: userModel.NumberOfDenial);
-                    case "Comments": return hb.Td(column: column, value: userModel.Comments);
-                    case "Creator": return hb.Td(column: column, value: userModel.Creator);
-                    case "Updator": return hb.Td(column: column, value: userModel.Updator);
-                    case "CreatedTime": return hb.Td(column: column, value: userModel.CreatedTime);
-                    case "UpdatedTime": return hb.Td(column: column, value: userModel.UpdatedTime);
+                    case "UserId":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.UserId)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Ver":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.Ver)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "LoginId":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.LoginId)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Disabled":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.Disabled)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "LastName":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.LastName)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "FirstName":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.FirstName)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Birthday":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.Birthday)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Gender":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.Gender)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Language":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.Language)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "TimeZoneInfo":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.TimeZoneInfo)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Dept":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.Dept)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "LastLoginTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.LastLoginTime)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "PasswordExpirationTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.PasswordExpirationTime)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "PasswordChangeTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.PasswordChangeTime)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "NumberOfLogins":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.NumberOfLogins)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "NumberOfDenial":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.NumberOfDenial)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Comments":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.Comments)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Creator":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.Creator)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Updator":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.Updator)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "CreatedTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.CreatedTime)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "UpdatedTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.UpdatedTime)
+                            : hb.Td(column: column, value: string.Empty);
                     default: return hb;
                 }
             }

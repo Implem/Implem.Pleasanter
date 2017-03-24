@@ -291,18 +291,49 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var mine = deptModel.Mine();
                 switch (column.ColumnName)
                 {
-                    case "DeptId": return hb.Td(column: column, value: deptModel.DeptId);
-                    case "Ver": return hb.Td(column: column, value: deptModel.Ver);
-                    case "DeptCode": return hb.Td(column: column, value: deptModel.DeptCode);
-                    case "Dept": return hb.Td(column: column, value: deptModel.Dept);
-                    case "Body": return hb.Td(column: column, value: deptModel.Body);
-                    case "Comments": return hb.Td(column: column, value: deptModel.Comments);
-                    case "Creator": return hb.Td(column: column, value: deptModel.Creator);
-                    case "Updator": return hb.Td(column: column, value: deptModel.Updator);
-                    case "CreatedTime": return hb.Td(column: column, value: deptModel.CreatedTime);
-                    case "UpdatedTime": return hb.Td(column: column, value: deptModel.UpdatedTime);
+                    case "DeptId":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: deptModel.DeptId)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Ver":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: deptModel.Ver)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "DeptCode":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: deptModel.DeptCode)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Dept":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: deptModel.Dept)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Body":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: deptModel.Body)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Comments":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: deptModel.Comments)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Creator":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: deptModel.Creator)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Updator":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: deptModel.Updator)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "CreatedTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: deptModel.CreatedTime)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "UpdatedTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: deptModel.UpdatedTime)
+                            : hb.Td(column: column, value: string.Empty);
                     default: return hb;
                 }
             }

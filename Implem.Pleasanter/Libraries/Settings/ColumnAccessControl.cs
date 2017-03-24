@@ -64,9 +64,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return true;
             }
-            else if (AllowedType > 0)
+            else if (AllowedType > 0 && (AllowedType & type) == AllowedType)
             {
-                return (AllowedType & type) == AllowedType;
+                return true;
             }
             else if (mine == null)
             {

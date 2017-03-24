@@ -304,17 +304,45 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var mine = groupModel.Mine();
                 switch (column.ColumnName)
                 {
-                    case "GroupId": return hb.Td(column: column, value: groupModel.GroupId);
-                    case "Ver": return hb.Td(column: column, value: groupModel.Ver);
-                    case "GroupName": return hb.Td(column: column, value: groupModel.GroupName);
-                    case "Body": return hb.Td(column: column, value: groupModel.Body);
-                    case "Comments": return hb.Td(column: column, value: groupModel.Comments);
-                    case "Creator": return hb.Td(column: column, value: groupModel.Creator);
-                    case "Updator": return hb.Td(column: column, value: groupModel.Updator);
-                    case "CreatedTime": return hb.Td(column: column, value: groupModel.CreatedTime);
-                    case "UpdatedTime": return hb.Td(column: column, value: groupModel.UpdatedTime);
+                    case "GroupId":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: groupModel.GroupId)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Ver":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: groupModel.Ver)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "GroupName":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: groupModel.GroupName)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Body":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: groupModel.Body)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Comments":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: groupModel.Comments)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Creator":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: groupModel.Creator)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Updator":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: groupModel.Updator)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "CreatedTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: groupModel.CreatedTime)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "UpdatedTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: groupModel.UpdatedTime)
+                            : hb.Td(column: column, value: string.Empty);
                     default: return hb;
                 }
             }

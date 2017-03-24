@@ -34,18 +34,49 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var mine = siteModel.Mine();
                 switch (column.ColumnName)
                 {
-                    case "SiteId": return hb.Td(column: column, value: siteModel.SiteId);
-                    case "UpdatedTime": return hb.Td(column: column, value: siteModel.UpdatedTime);
-                    case "Ver": return hb.Td(column: column, value: siteModel.Ver);
-                    case "Title": return hb.Td(column: column, value: siteModel.Title);
-                    case "Body": return hb.Td(column: column, value: siteModel.Body);
-                    case "TitleBody": return hb.Td(column: column, value: siteModel.TitleBody);
-                    case "Comments": return hb.Td(column: column, value: siteModel.Comments);
-                    case "Creator": return hb.Td(column: column, value: siteModel.Creator);
-                    case "Updator": return hb.Td(column: column, value: siteModel.Updator);
-                    case "CreatedTime": return hb.Td(column: column, value: siteModel.CreatedTime);
+                    case "SiteId":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: siteModel.SiteId)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "UpdatedTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: siteModel.UpdatedTime)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Ver":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: siteModel.Ver)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Title":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: siteModel.Title)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Body":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: siteModel.Body)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "TitleBody":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: siteModel.TitleBody)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Comments":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: siteModel.Comments)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Creator":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: siteModel.Creator)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Updator":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: siteModel.Updator)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "CreatedTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: siteModel.CreatedTime)
+                            : hb.Td(column: column, value: string.Empty);
                     default: return hb;
                 }
             }

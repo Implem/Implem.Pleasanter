@@ -34,19 +34,53 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var mine = wikiModel.Mine();
                 switch (column.ColumnName)
                 {
-                    case "SiteId": return hb.Td(column: column, value: wikiModel.SiteId);
-                    case "UpdatedTime": return hb.Td(column: column, value: wikiModel.UpdatedTime);
-                    case "WikiId": return hb.Td(column: column, value: wikiModel.WikiId);
-                    case "Ver": return hb.Td(column: column, value: wikiModel.Ver);
-                    case "Title": return hb.Td(column: column, value: wikiModel.Title);
-                    case "Body": return hb.Td(column: column, value: wikiModel.Body);
-                    case "TitleBody": return hb.Td(column: column, value: wikiModel.TitleBody);
-                    case "Comments": return hb.Td(column: column, value: wikiModel.Comments);
-                    case "Creator": return hb.Td(column: column, value: wikiModel.Creator);
-                    case "Updator": return hb.Td(column: column, value: wikiModel.Updator);
-                    case "CreatedTime": return hb.Td(column: column, value: wikiModel.CreatedTime);
+                    case "SiteId":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: wikiModel.SiteId)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "UpdatedTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: wikiModel.UpdatedTime)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "WikiId":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: wikiModel.WikiId)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Ver":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: wikiModel.Ver)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Title":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: wikiModel.Title)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Body":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: wikiModel.Body)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "TitleBody":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: wikiModel.TitleBody)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Comments":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: wikiModel.Comments)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Creator":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: wikiModel.Creator)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "Updator":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: wikiModel.Updator)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "CreatedTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: wikiModel.CreatedTime)
+                            : hb.Td(column: column, value: string.Empty);
                     default: return hb;
                 }
             }

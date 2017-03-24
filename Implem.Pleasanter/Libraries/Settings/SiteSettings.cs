@@ -680,11 +680,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .FirstOrDefault();
         }
 
-        public IEnumerable<Column> GetGridColumns()
+        public IEnumerable<Column> GetGridColumns(bool checkPermission = false)
         {
             return GridColumns
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
+                .Where(o => !checkPermission || o.CanRead || ReadColumnAccessControls?.Any(p =>
+                    p.ColumnName == o.ColumnName && p.AllowedUsers?.Any() == true) == true)
                 .ToList();
         }
 
