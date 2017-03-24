@@ -409,6 +409,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_EditorJsonCases": Code.Model_EditorJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorJsonCases, definitionRow, CodeXls); break;
                     case "Model_GetCases": Code.Model_GetCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetCases, definitionRow, CodeXls); break;
                     case "Model_UpdateByKambanCases": Code.Model_UpdateByKambanCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByKambanCases, definitionRow, CodeXls); break;
+                    case "Model_Mine": Code.Model_Mine = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Mine, definitionRow, CodeXls); break;
+                    case "Model_MineColumnCases": Code.Model_MineColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_MineColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetSiteSettings": Code.Model_SetSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettings, definitionRow, CodeXls); break;
                     case "Model_SetPermissionType": Code.Model_SetPermissionType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetPermissionType, definitionRow, CodeXls); break;
                     case "Model_SiteSettings": Code.Model_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettings, definitionRow, CodeXls); break;
@@ -1577,6 +1579,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("EnumColumn")) { newColumnDefinition.EnumColumn = definitionRow["EnumColumn"].ToBool(); newColumnDefinition.SavedEnumColumn = newColumnDefinition.EnumColumn; }
                 if (definitionRow.ContainsKey("NotEditorSettings")) { newColumnDefinition.NotEditorSettings = definitionRow["NotEditorSettings"].ToBool(); newColumnDefinition.SavedNotEditorSettings = newColumnDefinition.NotEditorSettings; }
                 if (definitionRow.ContainsKey("ControlType")) { newColumnDefinition.ControlType = definitionRow["ControlType"].ToString(); newColumnDefinition.SavedControlType = newColumnDefinition.ControlType; }
+                if (definitionRow.ContainsKey("EditorReadOnly")) { newColumnDefinition.EditorReadOnly = definitionRow["EditorReadOnly"].ToBool(); newColumnDefinition.SavedEditorReadOnly = newColumnDefinition.EditorReadOnly; }
                 if (definitionRow.ContainsKey("GridFormat")) { newColumnDefinition.GridFormat = definitionRow["GridFormat"].ToString(); newColumnDefinition.SavedGridFormat = newColumnDefinition.GridFormat; }
                 if (definitionRow.ContainsKey("EditorFormat")) { newColumnDefinition.EditorFormat = definitionRow["EditorFormat"].ToString(); newColumnDefinition.SavedEditorFormat = newColumnDefinition.EditorFormat; }
                 if (definitionRow.ContainsKey("ExportFormat")) { newColumnDefinition.ExportFormat = definitionRow["ExportFormat"].ToString(); newColumnDefinition.SavedExportFormat = newColumnDefinition.ExportFormat; }
@@ -1688,6 +1691,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("EnumColumn")) { definition.EnumColumn = definitionRow["EnumColumn"].ToBool(); definition.SavedEnumColumn = definition.EnumColumn; }
             if (definitionRow.ContainsKey("NotEditorSettings")) { definition.NotEditorSettings = definitionRow["NotEditorSettings"].ToBool(); definition.SavedNotEditorSettings = definition.NotEditorSettings; }
             if (definitionRow.ContainsKey("ControlType")) { definition.ControlType = definitionRow["ControlType"].ToString(); definition.SavedControlType = definition.ControlType; }
+            if (definitionRow.ContainsKey("EditorReadOnly")) { definition.EditorReadOnly = definitionRow["EditorReadOnly"].ToBool(); definition.SavedEditorReadOnly = definition.EditorReadOnly; }
             if (definitionRow.ContainsKey("GridFormat")) { definition.GridFormat = definitionRow["GridFormat"].ToString(); definition.SavedGridFormat = definition.GridFormat; }
             if (definitionRow.ContainsKey("EditorFormat")) { definition.EditorFormat = definitionRow["EditorFormat"].ToString(); definition.SavedEditorFormat = definition.EditorFormat; }
             if (definitionRow.ContainsKey("ExportFormat")) { definition.ExportFormat = definitionRow["ExportFormat"].ToString(); definition.SavedExportFormat = definition.ExportFormat; }
@@ -2734,6 +2738,7 @@ namespace Implem.DefinitionAccessor
                         case "EnumColumn": columnDefinition.EnumColumn = optionValue.ToBool(); break;
                         case "NotEditorSettings": columnDefinition.NotEditorSettings = optionValue.ToBool(); break;
                         case "ControlType": columnDefinition.ControlType = optionValue.ToString(); break;
+                        case "EditorReadOnly": columnDefinition.EditorReadOnly = optionValue.ToBool(); break;
                         case "GridFormat": columnDefinition.GridFormat = optionValue.ToString(); break;
                         case "EditorFormat": columnDefinition.EditorFormat = optionValue.ToString(); break;
                         case "ExportFormat": columnDefinition.ExportFormat = optionValue.ToString(); break;
@@ -3393,6 +3398,8 @@ namespace Implem.DefinitionAccessor
         public string Model_EditorJsonCases;
         public string Model_GetCases;
         public string Model_UpdateByKambanCases;
+        public string Model_Mine;
+        public string Model_MineColumnCases;
         public string Model_SetSiteSettings;
         public string Model_SetPermissionType;
         public string Model_SiteSettings;
@@ -3824,6 +3831,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_EditorJsonCases = new CodeDefinition();
         public CodeDefinition Model_GetCases = new CodeDefinition();
         public CodeDefinition Model_UpdateByKambanCases = new CodeDefinition();
+        public CodeDefinition Model_Mine = new CodeDefinition();
+        public CodeDefinition Model_MineColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetSiteSettings = new CodeDefinition();
         public CodeDefinition Model_SetPermissionType = new CodeDefinition();
         public CodeDefinition Model_SiteSettings = new CodeDefinition();
@@ -4158,6 +4167,7 @@ namespace Implem.DefinitionAccessor
         public bool EnumColumn; public bool SavedEnumColumn;
         public bool NotEditorSettings; public bool SavedNotEditorSettings;
         public string ControlType; public string SavedControlType;
+        public bool EditorReadOnly; public bool SavedEditorReadOnly;
         public string GridFormat; public string SavedGridFormat;
         public string EditorFormat; public string SavedEditorFormat;
         public string ExportFormat; public string SavedExportFormat;
@@ -4270,6 +4280,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("EnumColumn")) EnumColumn = propertyCollection["EnumColumn"].ToBool(); else EnumColumn = false;
             if (propertyCollection.ContainsKey("NotEditorSettings")) NotEditorSettings = propertyCollection["NotEditorSettings"].ToBool(); else NotEditorSettings = false;
             if (propertyCollection.ContainsKey("ControlType")) ControlType = propertyCollection["ControlType"].ToString(); else ControlType = string.Empty;
+            if (propertyCollection.ContainsKey("EditorReadOnly")) EditorReadOnly = propertyCollection["EditorReadOnly"].ToBool(); else EditorReadOnly = false;
             if (propertyCollection.ContainsKey("GridFormat")) GridFormat = propertyCollection["GridFormat"].ToString(); else GridFormat = string.Empty;
             if (propertyCollection.ContainsKey("EditorFormat")) EditorFormat = propertyCollection["EditorFormat"].ToString(); else EditorFormat = string.Empty;
             if (propertyCollection.ContainsKey("ExportFormat")) ExportFormat = propertyCollection["ExportFormat"].ToString(); else ExportFormat = string.Empty;
@@ -4382,6 +4393,7 @@ namespace Implem.DefinitionAccessor
                     case "EnumColumn": return EnumColumn;
                     case "NotEditorSettings": return NotEditorSettings;
                     case "ControlType": return ControlType;
+                    case "EditorReadOnly": return EditorReadOnly;
                     case "GridFormat": return GridFormat;
                     case "EditorFormat": return EditorFormat;
                     case "ExportFormat": return ExportFormat;
@@ -4494,6 +4506,7 @@ namespace Implem.DefinitionAccessor
             EnumColumn = SavedEnumColumn;
             NotEditorSettings = SavedNotEditorSettings;
             ControlType = SavedControlType;
+            EditorReadOnly = SavedEditorReadOnly;
             GridFormat = SavedGridFormat;
             EditorFormat = SavedEditorFormat;
             ExportFormat = SavedExportFormat;

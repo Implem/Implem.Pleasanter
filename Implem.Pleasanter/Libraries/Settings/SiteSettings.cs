@@ -531,7 +531,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.Step = column.Step;
                     }
-                    if (column.EditorReadOnly == true)
+                    if (column.EditorReadOnly != columnDefinition.EditorReadOnly)
                     {
                         enabled = true;
                         newColumn.EditorReadOnly = column.EditorReadOnly;
@@ -815,7 +815,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.Min = column.Min ?? columnDefinition.Min;
                 column.Max = column.Max ?? DefaultMax(columnDefinition);
                 column.Step = column.Step ?? DefaultStep(columnDefinition);
-                column.EditorReadOnly = column.EditorReadOnly ?? false;
+                column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
                 column.CheckFilterControlType = column.CheckFilterControlType ?? ColumnUtilities.CheckFilterControlTypes.OnOnly;
