@@ -315,7 +315,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             });
             Aggregations?.ForEach(aggregations =>
             {
-                if (ss.Notifications == null)
+                if (ss.Aggregations == null)
                 {
                     ss.Aggregations = new List<Aggregation>();
                 }
@@ -323,7 +323,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             });
             Links?.ForEach(link =>
             {
-                if (ss.Notifications == null)
+                if (ss.Links == null)
                 {
                     ss.Links = new List<Link>();
                 }
@@ -345,45 +345,45 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.Formulas.Add(formulas.GetRecordingData());
             });
-            if (AddressBook == string.Empty)
+            if (!AddressBook.IsNullOrEmpty())
             {
-                ss.AddressBook = null;
+                ss.AddressBook = AddressBook;
             }
-            if (MailToDefault == string.Empty)
+            if (!MailToDefault.IsNullOrEmpty())
             {
-                ss.MailToDefault = null;
+                ss.MailToDefault = MailToDefault;
             }
-            if (MailCcDefault == string.Empty)
+            if (!MailCcDefault.IsNullOrEmpty())
             {
-                ss.MailCcDefault = null;
+                ss.MailCcDefault = MailCcDefault;
             }
-            if (MailBccDefault == string.Empty)
+            if (!MailBccDefault.IsNullOrEmpty())
             {
-                ss.MailBccDefault = null;
+                ss.MailBccDefault = MailBccDefault;
             }
-            if (GridStyle == string.Empty)
+            if (!GridStyle.IsNullOrEmpty())
             {
-                ss.GridStyle = null;
+                ss.GridStyle = GridStyle;
             }
-            if (NewStyle == string.Empty)
+            if (!NewStyle.IsNullOrEmpty())
             {
-                ss.NewStyle = null;
+                ss.NewStyle = NewStyle;
             }
-            if (EditStyle == string.Empty)
+            if (!EditStyle.IsNullOrEmpty())
             {
-                ss.EditStyle = null;
+                ss.EditStyle = EditStyle;
             }
-            if (GridScript == string.Empty)
+            if (!GridScript.IsNullOrEmpty())
             {
-                ss.GridScript = null;
+                ss.GridScript = GridScript;
             }
-            if (NewScript == string.Empty)
+            if (!NewScript.IsNullOrEmpty())
             {
-                ss.NewScript = null;
+                ss.NewScript = NewScript;
             }
-            if (EditScript == string.Empty)
+            if (!EditScript.IsNullOrEmpty())
             {
-                ss.EditScript = null;
+                ss.EditScript = EditScript;
             }
             PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
             {
