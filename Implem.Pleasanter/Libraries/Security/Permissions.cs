@@ -172,7 +172,7 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             return columnAccessControls?
                 .FirstOrDefault(o => o.ColumnName == column.ColumnName)?
-                .Allowed(type, mine) == true;
+                .Allowed(type, mine) != false;
         }
 
         public static bool HasPermission(this SiteSettings ss)
