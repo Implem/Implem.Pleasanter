@@ -147,7 +147,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool HasRelatedUsers()
         {
-            return Type == Types.Mail && Address.Contains("[RelatedUsers]");
+            return Type == Types.Mail && Address?.Contains("[RelatedUsers]") == true;
         }
 
         public void ReplaceRelatedUsers(IEnumerable<long> users)
