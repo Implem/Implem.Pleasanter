@@ -902,8 +902,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var data = columnAccessControls.FirstOrDefault(o =>
                 o.ColumnName == columnAccessControl.ColumnName);
-            data.AllowedType = columnAccessControl.AllowedType;
-            data.AllowedUsers = columnAccessControl.AllowedUsers;
+            if (data != null)
+            {
+                data.AllowedType = columnAccessControl.AllowedType;
+                data.AllowedUsers = columnAccessControl.AllowedUsers;
+            }
         }
 
         public void SetColumnAccessControls(List<string> mine = null)
