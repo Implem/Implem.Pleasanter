@@ -6,6 +6,7 @@ namespace Implem.Libraries.DataSources.SqlServer
     public class SqlSelect : SqlStatement
     {
         public string DataTableName;
+        public string As;
         public bool Distinct;
         public int Top;
         public int PageSize;
@@ -99,7 +100,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 tableType: Sqls.TableTypes.History,
-                from: "from " + HistoryTableBracket + "\n",
+                from: From(HistoryTableBracket, As),
                 unionType: unionType,
                 orderBy: true,
                 countRecord: CountRecord,
@@ -118,7 +119,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 tableType: Sqls.TableTypes.Normal,
-                from: "from " + TableBracket + "\n",
+                from: From(TableBracket, As),
                 unionType: Sqls.UnionTypes.None,
                 orderBy: false,
                 countRecord: false,
@@ -144,7 +145,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 tableType: Sqls.TableTypes.Normal,
-                from: "from " + TableBracket + "\n",
+                from: From(TableBracket, As),
                 unionType: Sqls.UnionTypes.None,
                 orderBy: false,
                 countRecord: false,
@@ -172,7 +173,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 tableType: Sqls.TableTypes.Deleted,
-                from: "from " + DeletedTableBracket + "\n",
+                from: From(DeletedTableBracket, As),
                 unionType: unionType,
                 orderBy: true,
                 countRecord: CountRecord,
@@ -190,7 +191,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 tableType: Sqls.TableTypes.Normal,
-                from: "from " + TableBracket + "\n",
+                from: From(TableBracket, As),
                 unionType: UnionType,
                 orderBy: true,
                 countRecord: CountRecord,
@@ -288,6 +289,13 @@ namespace Implem.Libraries.DataSources.SqlServer
                 AddParam(sqlCommand, "_Offset", Offset, commandCount);
                 AddParam(sqlCommand, "_PageSize", PageSize, commandCount);
             }
+        }
+
+        private static string From(string tableBlacket, string _as)
+        {
+            return "from " + tableBlacket + (!_as.IsNullOrEmpty()
+                ? "as [" + _as + "]"
+                : string.Empty) + "\n";
         }
     }
 }
