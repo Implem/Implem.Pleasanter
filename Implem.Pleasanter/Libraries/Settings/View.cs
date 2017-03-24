@@ -295,26 +295,84 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public void SetRecordingData()
+        public View GetRecordingData()
         {
-            if (!Incomplete.ToBool()) Incomplete = null;
-            if (!Own.ToBool()) Own = null;
-            if (!NearCompletionTime.ToBool()) NearCompletionTime = null;
-            if (!Delay.ToBool()) Delay = null;
-            if (!Overdue.ToBool()) Overdue = null;
-            ColumnFilterHash?.RemoveAll((key, value) => value == "[]");
-            if (!ColumnFilterHash?.Any() == true) ColumnFilterHash = null;
-            if (!ColumnSorterHash?.Any() == true) ColumnSorterHash = null;
-            if (Search == string.Empty) Search = null;
-            if (GanttGroupBy == string.Empty) GanttGroupBy = null;
-            if (TimeSeriesGroupBy == string.Empty) TimeSeriesGroupBy = null;
-            if (TimeSeriesAggregateType == string.Empty) TimeSeriesAggregateType = null;
-            if (TimeSeriesValue == string.Empty) TimeSeriesValue = null;
-            if (KambanGroupByX == string.Empty) KambanGroupByX = null;
-            if (KambanGroupByY == string.Empty) KambanGroupByY = null;
-            if (KambanAggregateType == string.Empty) KambanAggregateType = null;
-            if (KambanValue == string.Empty) KambanValue = null;
-            if (KambanColumns == Parameters.General.KambanColumns) KambanColumns = null;
+            var view = new View();
+            view.Id = Id;
+            view.Name = Name;
+            if (Incomplete == true)
+            {
+                view.Incomplete = true;
+            }
+            if (Own == true)
+            {
+                view.Own = true;
+            }
+            if (NearCompletionTime == true)
+            {
+                view.NearCompletionTime = true;
+            }
+            if (Delay == true)
+            {
+                view.Delay = true;
+            }
+            if (Overdue == true)
+            {
+                view.Overdue = true;
+            }
+            if (ColumnFilterHash?.Any() == true)
+            {
+                view.ColumnFilterHash = new Dictionary<string, string>();
+                ColumnFilterHash
+                    .Where(o => o.Value != "[]")
+                    .ForEach(o => view.ColumnFilterHash.Add(o.Key, o.Value));
+            }
+            if (ColumnSorterHash?.Any() == true)
+            {
+                view.ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
+                ColumnSorterHash.ForEach(o => view.ColumnSorterHash.Add(o.Key, o.Value));
+            }
+            if (!Search.IsNullOrEmpty())
+            {
+                view.Search = Search;
+            }
+            if (!GanttGroupBy.IsNullOrEmpty())
+            {
+                view.GanttGroupBy = GanttGroupBy;
+            }
+            if (!TimeSeriesGroupBy.IsNullOrEmpty())
+            {
+                view.TimeSeriesGroupBy = TimeSeriesGroupBy;
+            }
+            if (!TimeSeriesAggregateType.IsNullOrEmpty())
+            {
+                view.TimeSeriesAggregateType = TimeSeriesAggregateType;
+            }
+            if (!TimeSeriesValue.IsNullOrEmpty())
+            {
+                view.TimeSeriesValue = TimeSeriesValue;
+            }
+            if (!KambanGroupByX.IsNullOrEmpty())
+            {
+                view.KambanGroupByX = KambanGroupByX;
+            }
+            if (!KambanGroupByY.IsNullOrEmpty())
+            {
+                view.KambanGroupByY = KambanGroupByY;
+            }
+            if (!KambanAggregateType.IsNullOrEmpty())
+            {
+                view.KambanAggregateType = KambanAggregateType;
+            }
+            if (!KambanValue.IsNullOrEmpty())
+            {
+                view.KambanValue = KambanValue;
+            }
+            if (KambanColumns != Parameters.General.KambanColumns)
+            {
+                view.KambanColumns = KambanColumns;
+            }
+            return view;
         }
 
         public SqlWhereCollection Where(SiteSettings ss, SqlWhereCollection where = null)

@@ -78,5 +78,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? setZeroWhenOutOfCondition
                     : null;
         }
+
+        public Summary GetRecordingData()
+        {
+            var summary = new Summary();
+            summary.Id = Id;
+            summary.SiteId = SiteId;
+            summary.DestinationReferenceType = DestinationReferenceType;
+            summary.DestinationColumn = DestinationColumn;
+            summary.DestinationCondition = DestinationCondition;
+            summary.SetZeroWhenOutOfCondition = SetZeroWhenOutOfCondition;
+            summary.LinkColumn = LinkColumn;
+            summary.Type = Type;
+            summary.SourceColumn = SourceColumn;
+            summary.SourceCondition = SourceCondition;
+            return summary;
+        }
     }
 }

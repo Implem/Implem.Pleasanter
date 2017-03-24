@@ -167,5 +167,28 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 o.First()["MailAddress"].ToString()))
                             .Join(";"));
         }
+
+        public Notification GetRecordingData()
+        {
+            var notification = new Notification();
+            notification.Id = Id;
+            notification.Type = Type;
+            if (!Prefix.IsNullOrEmpty())
+            {
+                notification.Prefix = Prefix;
+            }
+            if (!Token.IsNullOrEmpty())
+            {
+                notification.Token = Token;
+            }
+            if (MonitorChangesColumns?.Any() == true)
+            {
+                notification.MonitorChangesColumns = MonitorChangesColumns;
+            }
+            notification.BeforeCondition = BeforeCondition;
+            notification.AfterCondition = AfterCondition;
+            notification.Expression = Expression;
+            return notification;
+        }
     }
 }

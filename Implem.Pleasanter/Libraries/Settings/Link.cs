@@ -5,10 +5,22 @@
         public string ColumnName;
         public long SiteId;
 
+        public Link()
+        {
+        }
+
         public Link(string columnName, long siteId)
         {
             ColumnName = columnName;
             SiteId = siteId;
+        }
+
+        public Link GetRecordingData()
+        {
+            var link = new Link();
+            link.ColumnName = ColumnName;
+            link.SiteId = SiteId;
+            return link;
         }
     }
 }

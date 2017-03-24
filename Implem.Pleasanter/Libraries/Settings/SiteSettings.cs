@@ -235,104 +235,383 @@ namespace Implem.Pleasanter.Libraries.Settings
         [OnSerializing]
         private void OnSerializing(StreamingContext streamingContext)
         {
-            UpdateColumns(onSerializing: true);
         }
 
         public string RecordingJson()
         {
-            var def = new SiteSettings(ReferenceType);
-            var self = this.ToJson().Deserialize<SiteSettings>();
-            if (self.NearCompletionTimeAfterDays == def.NearCompletionTimeAfterDays) self.NearCompletionTimeAfterDays = null;
-            if (self.NearCompletionTimeBeforeDays == def.NearCompletionTimeBeforeDays) self.NearCompletionTimeBeforeDays = null;
-            if (self.GridPageSize == def.GridPageSize) self.GridPageSize = null;
-            if (self.GridView == 0) self.GridView = null;
-            if (self.FirstDayOfWeek == def.FirstDayOfWeek) self.FirstDayOfWeek = null;
-            if (self.FirstMonth == def.FirstMonth) self.FirstMonth = null;
-            if (self.GridColumns.SequenceEqual(def.GridColumns)) self.GridColumns = null;
-            if (self.FilterColumns.SequenceEqual(def.FilterColumns)) self.FilterColumns = null;
-            if (self.EditorColumns.SequenceEqual(def.EditorColumns)) self.EditorColumns = null;
-            if (self.TitleColumns.SequenceEqual(def.TitleColumns)) self.TitleColumns = null;
-            if (self.TitleSeparator == def.TitleSeparator) self.TitleSeparator = null;
-            if (self.LinkColumns.SequenceEqual(def.LinkColumns)) self.LinkColumns = null;
-            if (self.HistoryColumns.SequenceEqual(def.HistoryColumns)) self.HistoryColumns = null;
-            if (self.Columns.SequenceEqual(def.Columns)) self.Columns = null;
-            self.Views?.ForEach(view => view.SetRecordingData());
-            if (self.Views?.Count == 0) self.Views = null;
-            if (!self.Notifications.Any()) self.Notifications = null;
-            if (self.Aggregations.SequenceEqual(def.Aggregations)) self.Aggregations = null;
-            if (self.Links.SequenceEqual(def.Links)) self.Links = null;
-            if (self.Summaries.SequenceEqual(def.Summaries)) self.Summaries = null;
-            if (self.Formulas.SequenceEqual(def.Formulas)) self.Formulas = null;
-            if (AddressBook == string.Empty) self.AddressBook = null;
-            if (MailToDefault == string.Empty) self.MailToDefault = null;
-            if (MailCcDefault == string.Empty) self.MailCcDefault = null;
-            if (MailBccDefault == string.Empty) self.MailBccDefault = null;
-            if (GridStyle == string.Empty) self.GridStyle = null;
-            if (NewStyle == string.Empty) self.NewStyle = null;
-            if (EditStyle == string.Empty) self.EditStyle = null;
-            if (GridScript == string.Empty) self.GridScript = null;
-            if (NewScript == string.Empty) self.NewScript = null;
-            if (EditScript == string.Empty) self.EditScript = null;
-            if (PermissionForCreating?.Any(o => o.Value > 0) != true) self.PermissionForCreating = null;
-            self.CreateColumnAccessControls?.RemoveAll(o => o.IsDefault(this, "Create"));
-            if (self.CreateColumnAccessControls?.Any() != true) self.CreateColumnAccessControls = null;
-            self.ReadColumnAccessControls?.RemoveAll(o => o.IsDefault(this, "Read"));
-            if (self.ReadColumnAccessControls?.Any() != true) self.ReadColumnAccessControls = null;
-            self.UpdateColumnAccessControls?.RemoveAll(o => o.IsDefault(this, "Update"));
-            if (self.UpdateColumnAccessControls?.Any() != true) self.UpdateColumnAccessControls = null;
-            var removeCollection = new HashSet<string>();
-            self.Columns.ForEach(column =>
+            var param = Parameters.General;
+            var ss = new SiteSettings()
             {
-                var columnDefinition = Def.ColumnDefinitionCollection
-                    .Where(o => o.TableName == ReferenceType)
-                    .Where(o => o.ColumnName == column.ColumnName)
-                    .FirstOrDefault();
-                if (column.ToJson() == def.Columns.FirstOrDefault(o =>
-                    o.ColumnName == column.ColumnName)?.ToJson())
+                Version = Version,
+                ReferenceType = ReferenceType
+            };
+            if (NearCompletionTimeAfterDays != param.NearCompletionTimeAfterDays)
+            {
+                ss.NearCompletionTimeAfterDays = NearCompletionTimeAfterDays;
+            }
+            if (NearCompletionTimeBeforeDays != param.NearCompletionTimeBeforeDays)
+            {
+                ss.NearCompletionTimeBeforeDays = NearCompletionTimeBeforeDays;
+            }
+            if (GridPageSize != param.GridPageSize)
+            {
+                ss.GridPageSize = GridPageSize;
+            }
+            if (GridView != 0)
+            {
+                ss.GridView = GridView;
+            }
+            if (FirstDayOfWeek != param.FirstDayOfWeek)
+            {
+                ss.FirstDayOfWeek = FirstDayOfWeek;
+            }
+            if (FirstMonth != Parameters.General.FirstMonth)
+            {
+                ss.FirstMonth = FirstMonth;
+            }
+            if (!GridColumns.SequenceEqual(DefaultGridColumns()))
+            {
+                ss.GridColumns = GridColumns;
+            }
+            if (!FilterColumns.SequenceEqual(DefaultFilterColumns()))
+            {
+                ss.FilterColumns = FilterColumns;
+            }
+            if (!EditorColumns.SequenceEqual(DefaultEditorColumns()))
+            {
+                ss.EditorColumns = EditorColumns;
+            }
+            if (!TitleColumns.SequenceEqual(DefaultTitleColumns()))
+            {
+                ss.TitleColumns = TitleColumns;
+            }
+            if (TitleSeparator != ")")
+            {
+                ss.TitleSeparator = TitleSeparator;
+            }
+            if (!LinkColumns.SequenceEqual(DefaultLinkColumns()))
+            {
+                ss.LinkColumns = LinkColumns;
+            }
+            if (!HistoryColumns.SequenceEqual(DefaultHistoryColumns()))
+            {
+                ss.HistoryColumns = HistoryColumns;
+            }
+            Views?.ForEach(view =>
+            {
+                if (ss.Views == null)
                 {
-                    removeCollection.Add(column.ColumnName);
+                    ss.Views = new List<View>();
                 }
-                else
+                ss.Views.Add(view.GetRecordingData());
+            });
+            Notifications?.ForEach(notification =>
+            {
+                if (ss.Notifications == null)
+                {
+                    ss.Notifications = new SettingList<Notification>();
+                }
+                ss.Notifications.Add(notification.GetRecordingData());
+            });
+            Aggregations?.ForEach(aggregations =>
+            {
+                if (ss.Notifications == null)
+                {
+                    ss.Aggregations = new List<Aggregation>();
+                }
+                ss.Aggregations.Add(aggregations.GetRecordingData());
+            });
+            Links?.ForEach(link =>
+            {
+                if (ss.Notifications == null)
+                {
+                    ss.Links = new List<Link>();
+                }
+                ss.Links.Add(link.GetRecordingData());
+            });
+            Summaries?.ForEach(summaries =>
+            {
+                if (ss.Summaries == null)
+                {
+                    ss.Summaries = new SettingList<Summary>();
+                }
+                ss.Summaries.Add(summaries.GetRecordingData());
+            });
+            Formulas?.ForEach(formulas =>
+            {
+                if (ss.Formulas == null)
+                {
+                    ss.Formulas = new SettingList<FormulaSet>();
+                }
+                ss.Formulas.Add(formulas.GetRecordingData());
+            });
+            if (AddressBook == string.Empty)
+            {
+                ss.AddressBook = null;
+            }
+            if (MailToDefault == string.Empty)
+            {
+                ss.MailToDefault = null;
+            }
+            if (MailCcDefault == string.Empty)
+            {
+                ss.MailCcDefault = null;
+            }
+            if (MailBccDefault == string.Empty)
+            {
+                ss.MailBccDefault = null;
+            }
+            if (GridStyle == string.Empty)
+            {
+                ss.GridStyle = null;
+            }
+            if (NewStyle == string.Empty)
+            {
+                ss.NewStyle = null;
+            }
+            if (EditStyle == string.Empty)
+            {
+                ss.EditStyle = null;
+            }
+            if (GridScript == string.Empty)
+            {
+                ss.GridScript = null;
+            }
+            if (NewScript == string.Empty)
+            {
+                ss.NewScript = null;
+            }
+            if (EditScript == string.Empty)
+            {
+                ss.EditScript = null;
+            }
+            PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
+            {
+                if (ss.PermissionForCreating == null)
+                {
+                    ss.PermissionForCreating = new Dictionary<string, Permissions.Types>();
+                }
+                ss.PermissionForCreating.Add(data.Key, data.Value);
+            });
+            CreateColumnAccessControls?
+                .Where(o => !o.IsDefault(this, "Create"))
+                .ForEach(columnAccessControl =>
+                {
+                    if (ss.CreateColumnAccessControls == null)
+                    {
+                        ss.CreateColumnAccessControls = new List<ColumnAccessControl>();
+                    }
+                    ss.CreateColumnAccessControls.Add(columnAccessControl);
+                });
+            ReadColumnAccessControls?
+                .Where(o => !o.IsDefault(this, "Read"))
+                .ForEach(columnAccessControl =>
+                {
+                    if (ss.ReadColumnAccessControls == null)
+                    {
+                        ss.ReadColumnAccessControls = new List<ColumnAccessControl>();
+                    }
+                    ss.ReadColumnAccessControls.Add(columnAccessControl);
+                });
+            UpdateColumnAccessControls?
+                .Where(o => !o.IsDefault(this, "Update"))
+                .ForEach(columnAccessControl =>
+                {
+                    if (ss.UpdateColumnAccessControls == null)
+                    {
+                        ss.UpdateColumnAccessControls = new List<ColumnAccessControl>();
+                    }
+                    ss.UpdateColumnAccessControls.Add(columnAccessControl);
+                });
+            Columns?.ForEach(column =>
+            {
+                var newColumn = new Column() { ColumnName = column.ColumnName };
+                var enabled = false;
+                var columnDefinition = ColumnDefinitionHash.Get(column.ColumnName);
+                if (columnDefinition != null)
                 {
                     var labelText = column.LabelText;
-                    if (column.LabelText == Displays.Get(columnDefinition.Id)) column.LabelText = null;
-                    if (column.GridLabelText == labelText) column.GridLabelText = null;
-                    if (column.ChoicesText == columnDefinition.ChoicesText) column.ChoicesText = null;
-                    if (column.UseSearch == columnDefinition.UseSearch) column.UseSearch = null;
-                    if (column.DefaultInput == columnDefinition.DefaultInput) column.DefaultInput = null;
-                    if (column.GridFormat == columnDefinition.GridFormat) column.GridFormat = null;
-                    if (column.EditorFormat == columnDefinition.EditorFormat) column.EditorFormat = null;
-                    if (column.ExportFormat == columnDefinition.ExportFormat) column.ExportFormat = null;
-                    if (column.ControlType == columnDefinition.ControlType) column.ControlType = null;
-                    if (column.Format?.Trim() == string.Empty) column.Format = null;
-                    if (column.ValidateRequired == columnDefinition.ValidateRequired) column.ValidateRequired = null;
-                    if (column.ValidateNumber == columnDefinition.ValidateNumber) column.ValidateNumber = null;
-                    if (column.ValidateDate == columnDefinition.ValidateDate) column.ValidateDate = null;
-                    if (column.ValidateEmail == columnDefinition.ValidateEmail) column.ValidateEmail = null;
-                    if (column.ValidateEqualTo == columnDefinition.ValidateEqualTo) column.ValidateEqualTo = null;
-                    if (column.ValidateMaxLength == columnDefinition.MaxLength) column.ValidateMaxLength = null;
-                    if (column.DecimalPlaces == columnDefinition.DecimalPlaces) column.DecimalPlaces = null;
-                    if (column.Min == columnDefinition.Min) column.Min = null;
-                    if (column.Max == DefaultMax(columnDefinition)) column.Max = null;
-                    if (column.Step == DefaultStep(columnDefinition)) column.Step = null;
-                    if (column.EditorReadOnly == false) column.EditorReadOnly = null;
-                    if (column.FieldCss == columnDefinition.FieldCss) column.FieldCss = null;
-                    if (column.Unit == columnDefinition.Unit) column.Unit = null;
-                    if (column.Link == false) column.Link = null;
-                    if (column.CheckFilterControlType == ColumnUtilities.CheckFilterControlTypes.OnOnly) column.CheckFilterControlType = null;
-                    if (column.NumFilterMin == columnDefinition.NumFilterMin) column.NumFilterMin = null;
-                    if (column.NumFilterMax == columnDefinition.NumFilterMax) column.NumFilterMax = null;
-                    if (column.NumFilterStep == columnDefinition.NumFilterStep) column.NumFilterStep = null;
-                    if (column.DateFilterMinSpan == Parameters.General.DateFilterMinSpan) column.DateFilterMinSpan = null;
-                    if (column.DateFilterMaxSpan == Parameters.General.DateFilterMaxSpan) column.DateFilterMaxSpan = null;
-                    if (column.DateFilterFy.ToBool()) column.DateFilterFy = null;
-                    if (column.DateFilterHalf.ToBool()) column.DateFilterHalf = null;
-                    if (column.DateFilterQuarter.ToBool()) column.DateFilterQuarter = null;
-                    if (column.DateFilterMonth.ToBool()) column.DateFilterMonth = null;
+                    if (column.LabelText != Displays.Get(columnDefinition.Id))
+                    {
+                        enabled = true;
+                        newColumn.LabelText = column.LabelText;
+                    }
+                    if (column.GridLabelText != labelText)
+                    {
+                        enabled = true;
+                        newColumn.GridLabelText = column.GridLabelText;
+                    }
+                    if (column.ChoicesText != columnDefinition.ChoicesText)
+                    {
+                        enabled = true;
+                        newColumn.ChoicesText = column.ChoicesText;
+                    }
+                    if (column.UseSearch != columnDefinition.UseSearch)
+                    {
+                        enabled = true;
+                        newColumn.UseSearch = column.UseSearch;
+                    }
+                    if (column.DefaultInput != columnDefinition.DefaultInput)
+                    {
+                        enabled = true;
+                        newColumn.DefaultInput = column.DefaultInput;
+                    }
+                    if (column.GridFormat != columnDefinition.GridFormat)
+                    {
+                        enabled = true;
+                        newColumn.GridFormat = column.GridFormat;
+                    }
+                    if (column.EditorFormat != columnDefinition.EditorFormat)
+                    {
+                        enabled = true;
+                        newColumn.EditorFormat = column.EditorFormat;
+                    }
+                    if (column.ExportFormat != columnDefinition.ExportFormat)
+                    {
+                        enabled = true;
+                        newColumn.ExportFormat = column.ExportFormat;
+                    }
+                    if (column.ControlType != columnDefinition.ControlType)
+                    {
+                        enabled = true;
+                        newColumn.ControlType = column.ControlType;
+                    }
+                    if (column.Format?.Trim().IsNullOrEmpty() != true)
+                    {
+                        enabled = true;
+                        newColumn.Format = column.Format;
+                    }
+                    if (column.ValidateRequired != columnDefinition.ValidateRequired)
+                    {
+                        enabled = true;
+                        newColumn.ValidateRequired = column.ValidateRequired;
+                    }
+                    if (column.ValidateNumber != columnDefinition.ValidateNumber)
+                    {
+                        enabled = true;
+                        newColumn.ValidateNumber = column.ValidateNumber;
+                    }
+                    if (column.ValidateDate != columnDefinition.ValidateDate)
+                    {
+                        enabled = true;
+                        newColumn.ValidateDate = column.ValidateDate;
+                    }
+                    if (column.ValidateEmail != columnDefinition.ValidateEmail)
+                    {
+                        enabled = true;
+                        newColumn.ValidateEmail = column.ValidateEmail;
+                    }
+                    if (column.ValidateEqualTo != columnDefinition.ValidateEqualTo)
+                    {
+                        enabled = true;
+                        newColumn.ValidateEqualTo = column.ValidateEqualTo;
+                    }
+                    if (column.ValidateMaxLength != columnDefinition.MaxLength)
+                    {
+                        enabled = true;
+                        newColumn.ValidateMaxLength = column.ValidateMaxLength;
+                    }
+                    if (column.DecimalPlaces != columnDefinition.DecimalPlaces)
+                    {
+                        enabled = true;
+                        newColumn.DecimalPlaces = column.DecimalPlaces;
+                    }
+                    if (column.Min != columnDefinition.Min)
+                    {
+                        enabled = true;
+                        newColumn.Min = column.Max;
+                    }
+                    if (column.Max != DefaultMax(columnDefinition))
+                    {
+                        enabled = true;
+                        newColumn.Max = column.Max;
+                    }
+                    if (column.Step != DefaultStep(columnDefinition))
+                    {
+                        enabled = true;
+                        newColumn.Step = column.Step;
+                    }
+                    if (column.EditorReadOnly == true)
+                    {
+                        enabled = true;
+                        newColumn.EditorReadOnly = column.EditorReadOnly;
+                    }
+                    if (column.FieldCss != columnDefinition.FieldCss)
+                    {
+                        enabled = true;
+                        newColumn.FieldCss = column.FieldCss;
+                    }
+                    if (column.Unit != columnDefinition.Unit)
+                    {
+                        enabled = true;
+                        newColumn.Unit = column.Unit;
+                    }
+                    if (column.Link == true)
+                    {
+                        enabled = true;
+                        newColumn.Link = column.Link;
+                    }
+                    if (column.CheckFilterControlType != ColumnUtilities.CheckFilterControlTypes.OnOnly)
+                    {
+                        enabled = true;
+                        newColumn.CheckFilterControlType = column.CheckFilterControlType;
+                    }
+                    if (column.NumFilterMin != columnDefinition.NumFilterMin)
+                    {
+                        enabled = true;
+                        newColumn.NumFilterMin = column.NumFilterMin;
+                    }
+                    if (column.NumFilterMax != columnDefinition.NumFilterMax)
+                    {
+                        enabled = true;
+                        newColumn.NumFilterMax = column.NumFilterMax;
+                    }
+                    if (column.NumFilterStep != columnDefinition.NumFilterStep)
+                    {
+                        enabled = true;
+                        newColumn.NumFilterStep = column.NumFilterStep;
+                    }
+                    if (column.DateFilterMinSpan != Parameters.General.DateFilterMinSpan)
+                    {
+                        enabled = true;
+                        newColumn.DateFilterMinSpan = column.DateFilterMinSpan;
+                    }
+                    if (column.DateFilterMaxSpan != Parameters.General.DateFilterMaxSpan)
+                    {
+                        enabled = true;
+                        newColumn.DateFilterMaxSpan = column.DateFilterMaxSpan;
+                    }
+                    if (column.DateFilterFy.ToBool())
+                    {
+                        enabled = true;
+                        newColumn.DateFilterFy = column.DateFilterFy;
+                    }
+                    if (column.DateFilterHalf.ToBool())
+                    {
+                        enabled = true;
+                        newColumn.DateFilterHalf = column.DateFilterHalf;
+                    }
+                    if (column.DateFilterQuarter.ToBool())
+                    {
+                        enabled = true;
+                        newColumn.DateFilterQuarter = column.DateFilterQuarter;
+                    }
+                    if (column.DateFilterMonth.ToBool())
+                    {
+                        enabled = true;
+                        newColumn.DateFilterMonth = column.DateFilterMonth;
+                    }
+                }
+                if (enabled)
+                {
+                    if (ss.Columns == null)
+                    {
+                        ss.Columns = new List<Column>();
+                    }
+                    ss.Columns.Add(newColumn);
                 }
             });
-            self.Columns.RemoveAll(o => removeCollection.Contains(o.ColumnName));
-            return self.ToJson();
+            return ss.ToJson();
         }
 
         private void UpdateColumnDefinitionHash()
@@ -346,15 +625,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (GridColumns == null)
             {
-                GridColumns = ColumnUtilities.GridDefinitions(
-                    ReferenceType, enableOnly: true)
-                        .Select(o => o.ColumnName)
-                        .ToList();
+                GridColumns = DefaultGridColumns();
             }
             else
             {
                 GridColumns.RemoveAll(o => !GridColumn(ColumnDefinitionHash.Get(o)));
             }
+        }
+
+        private List<string> DefaultGridColumns()
+        {
+            return ColumnUtilities.GridDefinitions(ReferenceType, enableOnly: true)
+                .Select(o => o.ColumnName)
+                .ToList();
         }
 
         private bool GridColumn(ColumnDefinition columnDefinition)
@@ -366,15 +649,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (FilterColumns == null)
             {
-                FilterColumns = ColumnUtilities.FilterDefinitions(
-                    ReferenceType, enableOnly: true)
-                        .Select(o => o.ColumnName)
-                        .ToList();
+                FilterColumns = DefaultFilterColumns();
             }
             else
             {
                 FilterColumns.RemoveAll(o => !FilterColumn(ColumnDefinitionHash.Get(o)));
             }
+        }
+
+        private List<string> DefaultFilterColumns()
+        {
+            return ColumnUtilities.FilterDefinitions(ReferenceType, enableOnly: true)
+                .Select(o => o.ColumnName)
+                .ToList();
         }
 
         private bool FilterColumn(ColumnDefinition columnDefinition)
@@ -386,15 +673,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (EditorColumns == null)
             {
-                EditorColumns = ColumnUtilities.EditorDefinitions(
-                    ReferenceType, enableOnly: true)
-                        .Select(o => o.ColumnName)
-                        .ToList();
+                EditorColumns = DefaultEditorColumns();
             }
             else
             {
                 EditorColumns.RemoveAll(o => !EditorColumn(ColumnDefinitionHash.Get(o)));
             }
+        }
+
+        private List<string> DefaultEditorColumns()
+        {
+            return ColumnUtilities.EditorDefinitions(ReferenceType, enableOnly: true)
+                .Select(o => o.ColumnName)
+                .ToList();
         }
 
         private bool EditorColumn(ColumnDefinition columnDefinition)
@@ -408,15 +699,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (TitleColumns == null)
             {
-                TitleColumns = ColumnUtilities.TitleDefinitions(
-                    ReferenceType, enableOnly: true)
-                        .Select(o => o.ColumnName)
-                        .ToList();
+                TitleColumns = DefaultTitleColumns();
             }
             else
             {
                 TitleColumns.RemoveAll(o => !TitleColumn(ColumnDefinitionHash.Get(o)));
             }
+        }
+
+        private List<string> DefaultTitleColumns()
+        {
+            return ColumnUtilities.TitleDefinitions(ReferenceType, enableOnly: true)
+                .Select(o => o.ColumnName)
+                .ToList();
         }
 
         private bool TitleColumn(ColumnDefinition columnDefinition)
@@ -430,15 +725,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (LinkColumns == null)
             {
-                LinkColumns = ColumnUtilities.LinkDefinitions(
-                    ReferenceType, enableOnly: true)
-                        .Select(o => o.ColumnName)
-                        .ToList();
+                LinkColumns = DefaultLinkColumns();
             }
             else
             {
                 LinkColumns.RemoveAll(o => !LinkColumn(ColumnDefinitionHash.Get(o)));
             }
+        }
+
+        private List<string> DefaultLinkColumns()
+        {
+            return ColumnUtilities.LinkDefinitions(ReferenceType, enableOnly: true)
+                .Select(o => o.ColumnName)
+                .ToList();
         }
 
         private bool LinkColumn(ColumnDefinition columnDefinition)
@@ -450,15 +749,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (HistoryColumns == null)
             {
-                HistoryColumns = ColumnUtilities.HistoryDefinitions(
-                    ReferenceType, enableOnly: true)
-                        .Select(o => o.ColumnName)
-                        .ToList();
+                HistoryColumns = DefaultHistoryColumns();
             }
             else
             {
                 HistoryColumns.RemoveAll(o => !HistoryColumn(ColumnDefinitionHash.Get(o)));
             }
+        }
+
+        private List<string> DefaultHistoryColumns()
+        {
+            return ColumnUtilities.HistoryDefinitions(ReferenceType, enableOnly: true)
+                .Select(o => o.ColumnName)
+                .ToList();
         }
 
         private bool HistoryColumn(ColumnDefinition columnDefinition)
@@ -481,7 +784,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     UpdateColumn(columnDefinition);
                 }
             });
-            Columns.RemoveAll(o => !ColumnDefinitionHash.ContainsKey(o.ColumnName));
+            Columns.RemoveAll(o => ColumnDefinitionHash?.ContainsKey(o.ColumnName) != true);
         }
 
         private void UpdateColumn(ColumnDefinition columnDefinition)

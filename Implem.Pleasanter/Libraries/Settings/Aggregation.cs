@@ -41,5 +41,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             Type = aggregationType;
             Target = aggregationTarget;
         }
+
+        public Aggregation GetRecordingData()
+        {
+            var aggregation = new Aggregation();
+            aggregation.Id = Id;
+            aggregation.GroupBy = GroupBy;
+            aggregation.Type = Type;
+            aggregation.Target = Target;
+            return aggregation;
+        }
     }
 }

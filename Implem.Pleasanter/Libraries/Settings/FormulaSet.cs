@@ -8,5 +8,16 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? Condition;
         public Formula Formula;
         public Formula OutOfCondition;
+
+        public FormulaSet GetRecordingData()
+        {
+            var formulaSet = new FormulaSet();
+            formulaSet.Id = Id;
+            formulaSet.Target = Target;
+            formulaSet.Condition = Condition;
+            formulaSet.Formula = Formula;
+            formulaSet.OutOfCondition = OutOfCondition;
+            return formulaSet;
+        }
     }
 }
