@@ -177,6 +177,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 notification.Prefix = Prefix;
             }
+            if (!Address.IsNullOrEmpty())
+            {
+                notification.Address = Address;
+            }
             if (!Token.IsNullOrEmpty())
             {
                 notification.Token = Token;
