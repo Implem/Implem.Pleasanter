@@ -481,6 +481,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.Format = column.Format;
                     }
+                    if (column.GridDesign != null &&
+                        column.GridDesign != DefaultGridDesignEditorText(column))
+                    {
+                        enabled = true;
+                        newColumn.GridDesign = column.GridDesign;
+                    }
                     if (column.ValidateRequired != columnDefinition.ValidateRequired)
                     {
                         enabled = true;
@@ -1468,8 +1474,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GridDesignEditorText(Column column)
         {
             return column.GridDesign.IsNullOrEmpty()
-                ? "[" + column.LabelText + "]"
+                ? DefaultGridDesignEditorText(column)
                 : GridDesignEditorText(column.GridDesign);
+        }
+
+        public string DefaultGridDesignEditorText(Column column)
+        {
+            return "[" + column.LabelText + "]";
         }
 
         private string GridDesignEditorText(string gridDesign)
