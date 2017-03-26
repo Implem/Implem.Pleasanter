@@ -476,7 +476,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.ControlType = column.ControlType;
                     }
-                    if (column.Format?.Trim().IsNullOrEmpty() != true)
+                    if (column.Format?.Trim().IsNullOrEmpty() == false)
                     {
                         enabled = true;
                         newColumn.Format = column.Format;
@@ -587,22 +587,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.DateFilterMaxSpan = column.DateFilterMaxSpan;
                     }
-                    if (column.DateFilterFy.ToBool())
+                    if (column.DateFilterFy == false)
                     {
                         enabled = true;
                         newColumn.DateFilterFy = column.DateFilterFy;
                     }
-                    if (column.DateFilterHalf.ToBool())
+                    if (column.DateFilterHalf == false)
                     {
                         enabled = true;
                         newColumn.DateFilterHalf = column.DateFilterHalf;
                     }
-                    if (column.DateFilterQuarter.ToBool())
+                    if (column.DateFilterQuarter == false)
                     {
                         enabled = true;
                         newColumn.DateFilterQuarter = column.DateFilterQuarter;
                     }
-                    if (column.DateFilterMonth.ToBool())
+                    if (column.DateFilterMonth == false)
                     {
                         enabled = true;
                         newColumn.DateFilterMonth = column.DateFilterMonth;
