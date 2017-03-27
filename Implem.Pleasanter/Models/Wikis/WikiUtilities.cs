@@ -472,7 +472,8 @@ namespace Implem.Pleasanter.Models
         public static string Histories(SiteSettings ss, long wikiId)
         {
             var wikiModel = new WikiModel(ss, wikiId);
-            var columns = ss.GetHistoryColumns();
+            ss.SetColumnAccessControls(wikiModel.Mine());
+            var columns = ss.GetHistoryColumns(checkPermission: true);
             if (!ss.CanRead())
             {
                 return Error.Types.HasNotPermission.MessageJson();
@@ -514,6 +515,7 @@ namespace Implem.Pleasanter.Models
         public static string History(SiteSettings ss, long wikiId)
         {
             var wikiModel = new WikiModel(ss, wikiId);
+            ss.SetColumnAccessControls(wikiModel.Mine());
             wikiModel.Get(
                 ss, 
                 where: Rds.WikisWhere()

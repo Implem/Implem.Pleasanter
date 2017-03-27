@@ -249,7 +249,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
-            var columns = ss.GetGridColumns().Where(o => o.CanRead);
+            var columns = ss.GetGridColumns(checkPermission: true);
             return hb
                 .THead(
                     _using: addHeader,
@@ -730,7 +730,8 @@ namespace Implem.Pleasanter.Models
         public static string Histories(SiteSettings ss, int groupId)
         {
             var groupModel = new GroupModel(ss, groupId);
-            var columns = ss.GetHistoryColumns();
+            ss.SetColumnAccessControls(groupModel.Mine());
+            var columns = ss.GetHistoryColumns(checkPermission: true);
             if (!ss.CanRead())
             {
                 return Error.Types.HasNotPermission.MessageJson();
@@ -772,6 +773,7 @@ namespace Implem.Pleasanter.Models
         public static string History(SiteSettings ss, int groupId)
         {
             var groupModel = new GroupModel(ss, groupId);
+            ss.SetColumnAccessControls(groupModel.Mine());
             groupModel.Get(
                 ss, 
                 where: Rds.GroupsWhere()

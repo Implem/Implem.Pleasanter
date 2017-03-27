@@ -202,7 +202,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
-            var columns = ss.GetGridColumns().Where(o => o.CanRead);
+            var columns = ss.GetGridColumns(checkPermission: true);
             ss.Links?
                 .Where(o => ss.GridColumns.Contains(o.ColumnName))
                 .Where(o => ss.GetColumn(o.ColumnName).UseSearch == true)
@@ -2679,7 +2679,8 @@ namespace Implem.Pleasanter.Models
         public static string Histories(SiteSettings ss, long resultId)
         {
             var resultModel = new ResultModel(ss, resultId);
-            var columns = ss.GetHistoryColumns();
+            ss.SetColumnAccessControls(resultModel.Mine());
+            var columns = ss.GetHistoryColumns(checkPermission: true);
             if (!ss.CanRead())
             {
                 return Error.Types.HasNotPermission.MessageJson();
@@ -2721,6 +2722,7 @@ namespace Implem.Pleasanter.Models
         public static string History(SiteSettings ss, long resultId)
         {
             var resultModel = new ResultModel(ss, resultId);
+            ss.SetColumnAccessControls(resultModel.Mine());
             resultModel.Get(
                 ss, 
                 where: Rds.ResultsWhere()

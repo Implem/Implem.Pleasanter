@@ -997,8 +997,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return GridColumns
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
-                .Where(o => !checkPermission || o.CanRead || ReadColumnAccessControls?.Any(p =>
-                    p.ColumnName == o.ColumnName && p.AllowedUsers?.Any() == true) == true)
+                .AllowedColumns(checkPermission, ReadColumnAccessControls)
                 .ToList();
         }
 
@@ -1034,11 +1033,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public IEnumerable<Column> GetHistoryColumns()
+        public IEnumerable<Column> GetHistoryColumns(bool checkPermission = false)
         {
             return HistoryColumns
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
+                .AllowedColumns(checkPermission, ReadColumnAccessControls)
                 .ToList();
         }
 

@@ -164,6 +164,16 @@ namespace Implem.Pleasanter.Libraries.Security
                             .Select(o => o["SiteId"].ToLong());
         }
 
+        public static IEnumerable<Column> AllowedColumns(
+            this IEnumerable<Column> columns,
+            bool checkPermission,
+            IEnumerable<ColumnAccessControl> readColumnAccessControls)
+        {
+            return columns
+                .Where(o => !checkPermission || o.CanRead || readColumnAccessControls?.Any(p =>
+                    p.ColumnName == o.ColumnName && p.AllowedUsers?.Any() == true) == true);
+        }
+
         public static bool Allowed(
             this List<ColumnAccessControl> columnAccessControls,
             Column column,

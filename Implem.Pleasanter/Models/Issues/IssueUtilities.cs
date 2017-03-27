@@ -2774,7 +2774,8 @@ namespace Implem.Pleasanter.Models
         public static string Histories(SiteSettings ss, long issueId)
         {
             var issueModel = new IssueModel(ss, issueId);
-            var columns = ss.GetHistoryColumns();
+            ss.SetColumnAccessControls(issueModel.Mine());
+            var columns = ss.GetHistoryColumns(checkPermission: true);
             if (!ss.CanRead())
             {
                 return Error.Types.HasNotPermission.MessageJson();
@@ -2816,6 +2817,7 @@ namespace Implem.Pleasanter.Models
         public static string History(SiteSettings ss, long issueId)
         {
             var issueModel = new IssueModel(ss, issueId);
+            ss.SetColumnAccessControls(issueModel.Mine());
             issueModel.Get(
                 ss, 
                 where: Rds.IssuesWhere()
