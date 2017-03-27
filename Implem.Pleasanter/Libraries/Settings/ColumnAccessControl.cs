@@ -68,11 +68,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return true;
             }
+            else if (AllowedType > 0 && AllowedUsers?.Any() != true)
+            {
+                return false;
+            }
             else if (mine == null)
             {
                 return true;
             }
-            else if (AllowedUsers?.All(o => mine?.Contains(o) == true) == true)
+            else if (AllowedUsers?.Any(o => mine?.Contains(o) == true) == true)
             {
                 return true;
             }
