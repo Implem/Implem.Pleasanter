@@ -1025,11 +1025,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public IEnumerable<Column> GetLinkColumns()
+        public IEnumerable<Column> GetLinkColumns(bool checkPermission = false)
         {
             return LinkColumns
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
+                .AllowedColumns(checkPermission, ReadColumnAccessControls)
                 .ToList();
         }
 
