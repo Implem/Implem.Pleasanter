@@ -1001,11 +1001,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public IEnumerable<Column> GetFilterColumns()
+        public IEnumerable<Column> GetFilterColumns(bool checkPermission = false)
         {
             return FilterColumns
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
+                .AllowedColumns(checkPermission, ReadColumnAccessControls)
                 .ToList();
         }
 

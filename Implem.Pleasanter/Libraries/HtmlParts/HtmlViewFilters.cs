@@ -150,10 +150,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss.EditorColumns.Contains(columnName);
         }
 
-        private static HtmlBuilder Columns(
-            this HtmlBuilder hb, SiteSettings ss, View view)
+        private static HtmlBuilder Columns(this HtmlBuilder hb, SiteSettings ss, View view)
         {
-            ss.GetFilterColumns().ForEach(column =>
+            ss.GetFilterColumns(checkPermission: true).ForEach(column =>
             {
                 switch (column.TypeName.CsTypeSummary())
                 {
