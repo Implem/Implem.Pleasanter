@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder GridHeader(
             this HtmlBuilder hb,
-            IEnumerable<Column> columnCollection, 
+            IEnumerable<Column> columns, 
             View view = null,
             bool sort = true,
             bool checkAll = false,
@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlId: "GridCheckAll",
                                 _checked: checkAll));
                     }
-                    columnCollection.ForEach(column =>
+                    columns.ForEach(column =>
                     {
                         if (sort)
                         {
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string OrderBy(View view, string key)
         {
-            switch (view.ColumnSorter(key))
+            switch (view?.ColumnSorter(key))
             {
                 case SqlOrderBy.Types.asc: return "Desc";
                 case SqlOrderBy.Types.desc: return string.Empty;
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder SortIcon(this HtmlBuilder hb, View view, string key)
         {
-            switch (view.ColumnSorter(key))
+            switch (view?.ColumnSorter(key))
             {
                 case SqlOrderBy.Types.asc: return hb.Icon(iconCss: "ui-icon-triangle-1-n");
                 case SqlOrderBy.Types.desc: return hb.Icon(iconCss: "ui-icon-triangle-1-s");

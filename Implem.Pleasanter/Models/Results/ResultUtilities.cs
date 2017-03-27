@@ -217,7 +217,7 @@ namespace Implem.Pleasanter.Models
                     _using: addHeader,
                     action: () => hb
                         .GridHeader(
-                            columnCollection: columns, 
+                            columns: columns, 
                             view: view,
                             checkAll: checkAll))
                 .TBody(action: () => resultCollection
@@ -2691,7 +2691,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .THead(action: () => hb
                         .GridHeader(
-                            columnCollection: columns,
+                            columns: columns,
                             sort: false,
                             checkRow: false))
                     .TBody(action: () =>

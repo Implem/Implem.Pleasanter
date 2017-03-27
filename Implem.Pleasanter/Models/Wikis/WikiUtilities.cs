@@ -484,7 +484,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .THead(action: () => hb
                         .GridHeader(
-                            columnCollection: columns,
+                            columns: columns,
                             sort: false,
                             checkRow: false))
                     .TBody(action: () =>
