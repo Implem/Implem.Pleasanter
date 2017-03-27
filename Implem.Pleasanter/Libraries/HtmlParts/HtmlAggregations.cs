@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
@@ -96,7 +97,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Parts(
             this HtmlBuilder hb, SiteSettings ss, Aggregations aggregations)
         {
+            var allowedColumns = ss.Columns.AllowedColumns(
+                checkPermission: true,
+                readColumnAccessControls: ss.ReadColumnAccessControls)
+                    .Select(o => o.ColumnName)
+                    .ToList();
             aggregations.AggregationCollection
+                .Where(o => o.GroupBy.IsNullOrEmpty() || allowedColumns.Contains(o.GroupBy))
                 .Where(o => o.Data.Count > 0)
                 .ForEach(aggregation =>
                 {
