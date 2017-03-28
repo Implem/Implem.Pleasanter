@@ -4081,8 +4081,17 @@ namespace Implem.Pleasanter.Models
 
         public static string UpdateByKamban(SiteSettings ss)
         {
-            var resultModel = new ResultModel(
-                ss, Forms.Long("KambanId"), setByForm: true);
+            var resultModel = new ResultModel(ss, Forms.Long("KambanId"), setByForm: true);
+            var invalid = ResultValidators.OnUpdating(ss, resultModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            if (resultModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Messages.ResponseDeleteConflicts().ToJson();
+            }
             resultModel.VerUp = Versions.MustVerUp(resultModel);
             resultModel.Update(ss, notice: true);
             return KambanJson(ss);
