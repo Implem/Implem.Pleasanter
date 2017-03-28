@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var allowedColumns = Permissions.AllowedColumns(ss);
             aggregations.AggregationCollection
-                .Where(o => allowedColumns.Contains(o.Target))
+                .Where(o => o.Target.IsNullOrEmpty() || allowedColumns.Contains(o.Target))
                 .Where(o => o.GroupBy.IsNullOrEmpty() || allowedColumns.Contains(o.GroupBy))
                 .Where(o => o.Data.Count > 0)
                 .ForEach(aggregation =>
