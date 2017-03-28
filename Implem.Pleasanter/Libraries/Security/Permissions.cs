@@ -174,6 +174,15 @@ namespace Implem.Pleasanter.Libraries.Security
                     p.ColumnName == o.ColumnName && p.AllowedUsers?.Any() == true) == true);
         }
 
+        public static IEnumerable<string> AllowedColumns(SiteSettings ss)
+        {
+            return ss.Columns.AllowedColumns(
+                checkPermission: true,
+                readColumnAccessControls: ss.ReadColumnAccessControls)
+                    .Select(o => o.ColumnName)
+                    .ToList();
+        }
+
         public static bool Allowed(
             this List<ColumnAccessControl> columnAccessControls,
             Column column,
