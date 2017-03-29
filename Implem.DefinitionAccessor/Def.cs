@@ -621,9 +621,6 @@ namespace Implem.DefinitionAccessor
                     case "HtmlLinks_DataSetTableCases": Code.HtmlLinks_DataSetTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_DataSetTableCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_SelectStatementTableCases": Code.HtmlLinks_SelectStatementTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_SelectStatementTableCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_TableCases": Code.HtmlLinks_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_TableCases, definitionRow, CodeXls); break;
-                    case "HtmlLinks_Headers": Code.HtmlLinks_Headers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_Headers, definitionRow, CodeXls); break;
-                    case "HtmlLinks_Rows": Code.HtmlLinks_Rows = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_Rows, definitionRow, CodeXls); break;
-                    case "HtmlLinks_RowColumns": Code.HtmlLinks_RowColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_RowColumns, definitionRow, CodeXls); break;
                     case "Summaries": Code.Summaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries, definitionRow, CodeXls); break;
                     case "Summaries_SynchronizeCases": Code.Summaries_SynchronizeCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_SynchronizeCases, definitionRow, CodeXls); break;
                     case "Summaries_SynchronizeTables": Code.Summaries_SynchronizeTables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_SynchronizeTables, definitionRow, CodeXls); break;
@@ -2309,6 +2306,12 @@ namespace Implem.DefinitionAccessor
                     case "Site8": Demo.Site8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site8, definitionRow, DemoXls); break;
                     case "Site9": Demo.Site9 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site9, definitionRow, DemoXls); break;
                     case "Site10": Demo.Site10 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site10, definitionRow, DemoXls); break;
+                    case "Site11": Demo.Site11 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site11, definitionRow, DemoXls); break;
+                    case "Site12": Demo.Site12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site12, definitionRow, DemoXls); break;
+                    case "Site13": Demo.Site13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site13, definitionRow, DemoXls); break;
+                    case "Site14": Demo.Site14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site14, definitionRow, DemoXls); break;
+                    case "Site15": Demo.Site15 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site15, definitionRow, DemoXls); break;
+                    case "Site16": Demo.Site16 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site16, definitionRow, DemoXls); break;
                     case "DefineNetworks": Demo.DefineNetworks = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineNetworks, definitionRow, DemoXls); break;
                     case "DefineServers": Demo.DefineServers = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineServers, definitionRow, DemoXls); break;
                     case "DefineSecurity": Demo.DefineSecurity = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineSecurity, definitionRow, DemoXls); break;
@@ -2366,6 +2369,15 @@ namespace Implem.DefinitionAccessor
                     case "Purchase7": Demo.Purchase7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Purchase7, definitionRow, DemoXls); break;
                     case "Purchase8": Demo.Purchase8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Purchase8, definitionRow, DemoXls); break;
                     case "Purchase9": Demo.Purchase9 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Purchase9, definitionRow, DemoXls); break;
+                    case "Expendable1": Demo.Expendable1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expendable1, definitionRow, DemoXls); break;
+                    case "Expendable2": Demo.Expendable2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expendable2, definitionRow, DemoXls); break;
+                    case "Expendable3": Demo.Expendable3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expendable3, definitionRow, DemoXls); break;
+                    case "Expendable4": Demo.Expendable4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expendable4, definitionRow, DemoXls); break;
+                    case "Consume1": Demo.Consume1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Consume1, definitionRow, DemoXls); break;
+                    case "Consume2": Demo.Consume2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Consume2, definitionRow, DemoXls); break;
+                    case "Consume3": Demo.Consume3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Consume3, definitionRow, DemoXls); break;
+                    case "Consume4": Demo.Consume4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Consume4, definitionRow, DemoXls); break;
+                    case "Report1": Demo.Report1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Report1, definitionRow, DemoXls); break;
                     case "Comment1": Demo.Comment1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment1, definitionRow, DemoXls); break;
                     case "Comment2": Demo.Comment2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment2, definitionRow, DemoXls); break;
                     case "Comment3": Demo.Comment3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment3, definitionRow, DemoXls); break;
@@ -2402,6 +2414,9 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("NumC")) { newDemoDefinition.NumC = definitionRow["NumC"].ToDecimal(); newDemoDefinition.SavedNumC = newDemoDefinition.NumC; }
                 if (definitionRow.ContainsKey("NumD")) { newDemoDefinition.NumD = definitionRow["NumD"].ToDecimal(); newDemoDefinition.SavedNumD = newDemoDefinition.NumD; }
                 if (definitionRow.ContainsKey("NumE")) { newDemoDefinition.NumE = definitionRow["NumE"].ToDecimal(); newDemoDefinition.SavedNumE = newDemoDefinition.NumE; }
+                if (definitionRow.ContainsKey("DateA")) { newDemoDefinition.DateA = definitionRow["DateA"].ToDateTime(); newDemoDefinition.SavedDateA = newDemoDefinition.DateA; }
+                if (definitionRow.ContainsKey("DateB")) { newDemoDefinition.DateB = definitionRow["DateB"].ToDateTime(); newDemoDefinition.SavedDateB = newDemoDefinition.DateB; }
+                if (definitionRow.ContainsKey("DateC")) { newDemoDefinition.DateC = definitionRow["DateC"].ToDateTime(); newDemoDefinition.SavedDateC = newDemoDefinition.DateC; }
                 if (definitionRow.ContainsKey("Manager")) { newDemoDefinition.Manager = definitionRow["Manager"].ToString(); newDemoDefinition.SavedManager = newDemoDefinition.Manager; }
                 if (definitionRow.ContainsKey("Owner")) { newDemoDefinition.Owner = definitionRow["Owner"].ToString(); newDemoDefinition.SavedOwner = newDemoDefinition.Owner; }
                 if (definitionRow.ContainsKey("Creator")) { newDemoDefinition.Creator = definitionRow["Creator"].ToString(); newDemoDefinition.SavedCreator = newDemoDefinition.Creator; }
@@ -2432,6 +2447,9 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("NumC")) { definition.NumC = definitionRow["NumC"].ToDecimal(); definition.SavedNumC = definition.NumC; }
             if (definitionRow.ContainsKey("NumD")) { definition.NumD = definitionRow["NumD"].ToDecimal(); definition.SavedNumD = definition.NumD; }
             if (definitionRow.ContainsKey("NumE")) { definition.NumE = definitionRow["NumE"].ToDecimal(); definition.SavedNumE = definition.NumE; }
+            if (definitionRow.ContainsKey("DateA")) { definition.DateA = definitionRow["DateA"].ToDateTime(); definition.SavedDateA = definition.DateA; }
+            if (definitionRow.ContainsKey("DateB")) { definition.DateB = definitionRow["DateB"].ToDateTime(); definition.SavedDateB = definition.DateB; }
+            if (definitionRow.ContainsKey("DateC")) { definition.DateC = definitionRow["DateC"].ToDateTime(); definition.SavedDateC = definition.DateC; }
             if (definitionRow.ContainsKey("Manager")) { definition.Manager = definitionRow["Manager"].ToString(); definition.SavedManager = definition.Manager; }
             if (definitionRow.ContainsKey("Owner")) { definition.Owner = definitionRow["Owner"].ToString(); definition.SavedOwner = definition.Owner; }
             if (definitionRow.ContainsKey("Creator")) { definition.Creator = definitionRow["Creator"].ToString(); definition.SavedCreator = definition.Creator; }
@@ -2865,6 +2883,9 @@ namespace Implem.DefinitionAccessor
                         case "NumC": demoDefinition.NumC = optionValue.ToDecimal(); break;
                         case "NumD": demoDefinition.NumD = optionValue.ToDecimal(); break;
                         case "NumE": demoDefinition.NumE = optionValue.ToDecimal(); break;
+                        case "DateA": demoDefinition.DateA = optionValue.ToDateTime(); break;
+                        case "DateB": demoDefinition.DateB = optionValue.ToDateTime(); break;
+                        case "DateC": demoDefinition.DateC = optionValue.ToDateTime(); break;
                         case "Manager": demoDefinition.Manager = optionValue.ToString(); break;
                         case "Owner": demoDefinition.Owner = optionValue.ToString(); break;
                         case "Creator": demoDefinition.Creator = optionValue.ToString(); break;
@@ -3610,9 +3631,6 @@ namespace Implem.DefinitionAccessor
         public string HtmlLinks_DataSetTableCases;
         public string HtmlLinks_SelectStatementTableCases;
         public string HtmlLinks_TableCases;
-        public string HtmlLinks_Headers;
-        public string HtmlLinks_Rows;
-        public string HtmlLinks_RowColumns;
         public string Summaries;
         public string Summaries_SynchronizeCases;
         public string Summaries_SynchronizeTables;
@@ -4043,9 +4061,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition HtmlLinks_DataSetTableCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_SelectStatementTableCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_TableCases = new CodeDefinition();
-        public CodeDefinition HtmlLinks_Headers = new CodeDefinition();
-        public CodeDefinition HtmlLinks_Rows = new CodeDefinition();
-        public CodeDefinition HtmlLinks_RowColumns = new CodeDefinition();
         public CodeDefinition Summaries = new CodeDefinition();
         public CodeDefinition Summaries_SynchronizeCases = new CodeDefinition();
         public CodeDefinition Summaries_SynchronizeTables = new CodeDefinition();
@@ -6895,6 +6910,9 @@ namespace Implem.DefinitionAccessor
         public decimal NumC; public decimal SavedNumC;
         public decimal NumD; public decimal SavedNumD;
         public decimal NumE; public decimal SavedNumE;
+        public DateTime DateA; public DateTime SavedDateA;
+        public DateTime DateB; public DateTime SavedDateB;
+        public DateTime DateC; public DateTime SavedDateC;
         public string Manager; public string SavedManager;
         public string Owner; public string SavedOwner;
         public string Creator; public string SavedCreator;
@@ -6926,6 +6944,9 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("NumC")) NumC = propertyCollection["NumC"].ToDecimal(); else NumC = 0;
             if (propertyCollection.ContainsKey("NumD")) NumD = propertyCollection["NumD"].ToDecimal(); else NumD = 0;
             if (propertyCollection.ContainsKey("NumE")) NumE = propertyCollection["NumE"].ToDecimal(); else NumE = 0;
+            if (propertyCollection.ContainsKey("DateA")) DateA = propertyCollection["DateA"].ToDateTime(); else DateA = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateB")) DateB = propertyCollection["DateB"].ToDateTime(); else DateB = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateC")) DateC = propertyCollection["DateC"].ToDateTime(); else DateC = 0.ToDateTime();
             if (propertyCollection.ContainsKey("Manager")) Manager = propertyCollection["Manager"].ToString(); else Manager = string.Empty;
             if (propertyCollection.ContainsKey("Owner")) Owner = propertyCollection["Owner"].ToString(); else Owner = string.Empty;
             if (propertyCollection.ContainsKey("Creator")) Creator = propertyCollection["Creator"].ToString(); else Creator = string.Empty;
@@ -6957,6 +6978,9 @@ namespace Implem.DefinitionAccessor
                     case "NumC": return NumC;
                     case "NumD": return NumD;
                     case "NumE": return NumE;
+                    case "DateA": return DateA;
+                    case "DateB": return DateB;
+                    case "DateC": return DateC;
                     case "Manager": return Manager;
                     case "Owner": return Owner;
                     case "Creator": return Creator;
@@ -6988,6 +7012,9 @@ namespace Implem.DefinitionAccessor
             NumC = SavedNumC;
             NumD = SavedNumD;
             NumE = SavedNumE;
+            DateA = SavedDateA;
+            DateB = SavedDateB;
+            DateC = SavedDateC;
             Manager = SavedManager;
             Owner = SavedOwner;
             Creator = SavedCreator;
@@ -7039,6 +7066,12 @@ namespace Implem.DefinitionAccessor
         public string Site8;
         public string Site9;
         public string Site10;
+        public string Site11;
+        public string Site12;
+        public string Site13;
+        public string Site14;
+        public string Site15;
+        public string Site16;
         public string DefineNetworks;
         public string DefineServers;
         public string DefineSecurity;
@@ -7096,6 +7129,15 @@ namespace Implem.DefinitionAccessor
         public string Purchase7;
         public string Purchase8;
         public string Purchase9;
+        public string Expendable1;
+        public string Expendable2;
+        public string Expendable3;
+        public string Expendable4;
+        public string Consume1;
+        public string Consume2;
+        public string Consume3;
+        public string Consume4;
+        public string Report1;
         public string Comment1;
         public string Comment2;
         public string Comment3;
@@ -7152,6 +7194,12 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Site8 = new DemoDefinition();
         public DemoDefinition Site9 = new DemoDefinition();
         public DemoDefinition Site10 = new DemoDefinition();
+        public DemoDefinition Site11 = new DemoDefinition();
+        public DemoDefinition Site12 = new DemoDefinition();
+        public DemoDefinition Site13 = new DemoDefinition();
+        public DemoDefinition Site14 = new DemoDefinition();
+        public DemoDefinition Site15 = new DemoDefinition();
+        public DemoDefinition Site16 = new DemoDefinition();
         public DemoDefinition DefineNetworks = new DemoDefinition();
         public DemoDefinition DefineServers = new DemoDefinition();
         public DemoDefinition DefineSecurity = new DemoDefinition();
@@ -7209,6 +7257,15 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Purchase7 = new DemoDefinition();
         public DemoDefinition Purchase8 = new DemoDefinition();
         public DemoDefinition Purchase9 = new DemoDefinition();
+        public DemoDefinition Expendable1 = new DemoDefinition();
+        public DemoDefinition Expendable2 = new DemoDefinition();
+        public DemoDefinition Expendable3 = new DemoDefinition();
+        public DemoDefinition Expendable4 = new DemoDefinition();
+        public DemoDefinition Consume1 = new DemoDefinition();
+        public DemoDefinition Consume2 = new DemoDefinition();
+        public DemoDefinition Consume3 = new DemoDefinition();
+        public DemoDefinition Consume4 = new DemoDefinition();
+        public DemoDefinition Report1 = new DemoDefinition();
         public DemoDefinition Comment1 = new DemoDefinition();
         public DemoDefinition Comment2 = new DemoDefinition();
         public DemoDefinition Comment3 = new DemoDefinition();
