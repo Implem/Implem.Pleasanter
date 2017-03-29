@@ -53,19 +53,22 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Groups_TenantId":
-                        if (!ss.GetColumn("TenantId").CanUpdate)
+                        if (groupModel.TenantId_Updated &&
+                            !ss.GetColumn("TenantId").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Groups_GroupName":
-                        if (!ss.GetColumn("GroupName").CanUpdate)
+                        if (groupModel.GroupName_Updated &&
+                            !ss.GetColumn("GroupName").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Groups_Body":
-                        if (!ss.GetColumn("Body").CanUpdate)
+                        if (groupModel.Body_Updated &&
+                            !ss.GetColumn("Body").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }

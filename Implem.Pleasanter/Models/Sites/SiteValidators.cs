@@ -59,25 +59,29 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Sites_Title":
-                        if (!ss.GetColumn("Title").CanUpdate)
+                        if (siteModel.Title_Updated &&
+                            !ss.GetColumn("Title").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Sites_Body":
-                        if (!ss.GetColumn("Body").CanUpdate)
+                        if (siteModel.Body_Updated &&
+                            !ss.GetColumn("Body").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Sites_ReferenceType":
-                        if (!ss.GetColumn("ReferenceType").CanUpdate)
+                        if (siteModel.ReferenceType_Updated &&
+                            !ss.GetColumn("ReferenceType").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Sites_InheritPermission":
-                        if (!ss.GetColumn("InheritPermission").CanUpdate)
+                        if (siteModel.InheritPermission_Updated &&
+                            !ss.GetColumn("InheritPermission").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }

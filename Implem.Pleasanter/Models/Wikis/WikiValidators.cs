@@ -47,13 +47,15 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Wikis_Title":
-                        if (!ss.GetColumn("Title").CanUpdate)
+                        if (wikiModel.Title_Updated &&
+                            !ss.GetColumn("Title").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Wikis_Body":
-                        if (!ss.GetColumn("Body").CanUpdate)
+                        if (wikiModel.Body_Updated &&
+                            !ss.GetColumn("Body").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
