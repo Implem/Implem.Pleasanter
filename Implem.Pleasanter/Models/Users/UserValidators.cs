@@ -21,109 +21,109 @@ namespace Implem.Pleasanter.Models
                     case "Users_LoginId":
                         if (!ss.GetColumn("LoginId").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Disabled":
                         if (!ss.GetColumn("Disabled").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_UserCode":
                         if (!ss.GetColumn("UserCode").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Password":
                         if (!ss.GetColumn("Password").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_LastName":
                         if (!ss.GetColumn("LastName").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_FirstName":
                         if (!ss.GetColumn("FirstName").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Birthday":
                         if (!ss.GetColumn("Birthday").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Gender":
                         if (!ss.GetColumn("Gender").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Language":
                         if (!ss.GetColumn("Language").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_TimeZone":
                         if (!ss.GetColumn("TimeZone").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_DeptId":
                         if (!ss.GetColumn("DeptId").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_FirstAndLastNameOrder":
                         if (!ss.GetColumn("FirstAndLastNameOrder").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_LastLoginTime":
                         if (!ss.GetColumn("LastLoginTime").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_PasswordExpirationTime":
                         if (!ss.GetColumn("PasswordExpirationTime").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_PasswordChangeTime":
                         if (!ss.GetColumn("PasswordChangeTime").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_NumberOfLogins":
                         if (!ss.GetColumn("NumberOfLogins").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_NumberOfDenial":
                         if (!ss.GetColumn("NumberOfDenial").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_TenantManager":
                         if (!ss.GetColumn("TenantManager").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                 }
@@ -149,109 +149,109 @@ namespace Implem.Pleasanter.Models
                     case "Users_LoginId":
                         if (!ss.GetColumn("LoginId").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Disabled":
                         if (!ss.GetColumn("Disabled").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_UserCode":
                         if (!ss.GetColumn("UserCode").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Password":
                         if (!ss.GetColumn("Password").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_LastName":
                         if (!ss.GetColumn("LastName").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_FirstName":
                         if (!ss.GetColumn("FirstName").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Birthday":
                         if (!ss.GetColumn("Birthday").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Gender":
                         if (!ss.GetColumn("Gender").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Language":
                         if (!ss.GetColumn("Language").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_TimeZone":
                         if (!ss.GetColumn("TimeZone").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_DeptId":
                         if (!ss.GetColumn("DeptId").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_FirstAndLastNameOrder":
                         if (!ss.GetColumn("FirstAndLastNameOrder").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_LastLoginTime":
                         if (!ss.GetColumn("LastLoginTime").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_PasswordExpirationTime":
                         if (!ss.GetColumn("PasswordExpirationTime").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_PasswordChangeTime":
                         if (!ss.GetColumn("PasswordChangeTime").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_NumberOfLogins":
                         if (!ss.GetColumn("NumberOfLogins").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_NumberOfDenial":
                         if (!ss.GetColumn("NumberOfDenial").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_TenantManager":
                         if (!ss.GetColumn("TenantManager").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                 }

@@ -21,19 +21,19 @@ namespace Implem.Pleasanter.Models
                     case "Groups_TenantId":
                         if (!ss.GetColumn("TenantId").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Groups_GroupName":
                         if (!ss.GetColumn("GroupName").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Groups_Body":
                         if (!ss.GetColumn("Body").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                 }
@@ -55,19 +55,19 @@ namespace Implem.Pleasanter.Models
                     case "Groups_TenantId":
                         if (!ss.GetColumn("TenantId").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Groups_GroupName":
                         if (!ss.GetColumn("GroupName").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Groups_Body":
                         if (!ss.GetColumn("Body").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                 }

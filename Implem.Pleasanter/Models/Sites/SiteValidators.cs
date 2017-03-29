@@ -21,25 +21,25 @@ namespace Implem.Pleasanter.Models
                     case "Sites_Title":
                         if (!ss.GetColumn("Title").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Sites_Body":
                         if (!ss.GetColumn("Body").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Sites_ReferenceType":
                         if (!ss.GetColumn("ReferenceType").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Sites_InheritPermission":
                         if (!ss.GetColumn("InheritPermission").CanCreate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                 }
@@ -61,25 +61,25 @@ namespace Implem.Pleasanter.Models
                     case "Sites_Title":
                         if (!ss.GetColumn("Title").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Sites_Body":
                         if (!ss.GetColumn("Body").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Sites_ReferenceType":
                         if (!ss.GetColumn("ReferenceType").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Sites_InheritPermission":
                         if (!ss.GetColumn("InheritPermission").CanUpdate)
                         {
-                            return Error.Types.InvalidRequest;
+                            return Error.Types.HasNotPermission;
                         }
                         break;
                     case "SearchPermissionElements":
