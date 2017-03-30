@@ -140,7 +140,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return "{0}({1})".Params(
                 index.Value.Text,
                 AggregationType != "Count"
-                    ? valueColumn.Display(data)
+                    ? valueColumn.Display(data, unit:true)
                     : data.ToString());
         }
 
