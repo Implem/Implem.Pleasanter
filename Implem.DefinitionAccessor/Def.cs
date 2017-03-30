@@ -2312,6 +2312,11 @@ namespace Implem.DefinitionAccessor
                     case "Site14": Demo.Site14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site14, definitionRow, DemoXls); break;
                     case "Site15": Demo.Site15 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site15, definitionRow, DemoXls); break;
                     case "Site16": Demo.Site16 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site16, definitionRow, DemoXls); break;
+                    case "Site17": Demo.Site17 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site17, definitionRow, DemoXls); break;
+                    case "Site18": Demo.Site18 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site18, definitionRow, DemoXls); break;
+                    case "Site19": Demo.Site19 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site19, definitionRow, DemoXls); break;
+                    case "Site20": Demo.Site20 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site20, definitionRow, DemoXls); break;
+                    case "Site21": Demo.Site21 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site21, definitionRow, DemoXls); break;
                     case "DefineNetworks": Demo.DefineNetworks = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineNetworks, definitionRow, DemoXls); break;
                     case "DefineServers": Demo.DefineServers = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineServers, definitionRow, DemoXls); break;
                     case "DefineSecurity": Demo.DefineSecurity = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineSecurity, definitionRow, DemoXls); break;
@@ -2377,7 +2382,29 @@ namespace Implem.DefinitionAccessor
                     case "Consume2": Demo.Consume2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Consume2, definitionRow, DemoXls); break;
                     case "Consume3": Demo.Consume3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Consume3, definitionRow, DemoXls); break;
                     case "Consume4": Demo.Consume4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Consume4, definitionRow, DemoXls); break;
+                    case "Consume5": Demo.Consume5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Consume5, definitionRow, DemoXls); break;
+                    case "Consume6": Demo.Consume6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Consume6, definitionRow, DemoXls); break;
+                    case "Consume7": Demo.Consume7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Consume7, definitionRow, DemoXls); break;
                     case "Report1": Demo.Report1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Report1, definitionRow, DemoXls); break;
+                    case "Report2": Demo.Report2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Report2, definitionRow, DemoXls); break;
+                    case "Report3": Demo.Report3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Report3, definitionRow, DemoXls); break;
+                    case "Transport1": Demo.Transport1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport1, definitionRow, DemoXls); break;
+                    case "Transport2": Demo.Transport2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport2, definitionRow, DemoXls); break;
+                    case "Transport3": Demo.Transport3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport3, definitionRow, DemoXls); break;
+                    case "Transport4": Demo.Transport4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport4, definitionRow, DemoXls); break;
+                    case "Transport5": Demo.Transport5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport5, definitionRow, DemoXls); break;
+                    case "Transport6": Demo.Transport6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport6, definitionRow, DemoXls); break;
+                    case "Transport7": Demo.Transport7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport7, definitionRow, DemoXls); break;
+                    case "Transport8": Demo.Transport8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport8, definitionRow, DemoXls); break;
+                    case "Transport9": Demo.Transport9 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport9, definitionRow, DemoXls); break;
+                    case "Transport10": Demo.Transport10 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport10, definitionRow, DemoXls); break;
+                    case "Transport11": Demo.Transport11 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport11, definitionRow, DemoXls); break;
+                    case "Transport12": Demo.Transport12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport12, definitionRow, DemoXls); break;
+                    case "Transport13": Demo.Transport13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport13, definitionRow, DemoXls); break;
+                    case "Transport14": Demo.Transport14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport14, definitionRow, DemoXls); break;
+                    case "Transport15": Demo.Transport15 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Transport15, definitionRow, DemoXls); break;
+                    case "Facility1": Demo.Facility1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Facility1, definitionRow, DemoXls); break;
+                    case "Trouble1": Demo.Trouble1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Trouble1, definitionRow, DemoXls); break;
                     case "Comment1": Demo.Comment1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment1, definitionRow, DemoXls); break;
                     case "Comment2": Demo.Comment2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment2, definitionRow, DemoXls); break;
                     case "Comment3": Demo.Comment3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment3, definitionRow, DemoXls); break;
@@ -2409,14 +2436,133 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("ClassA")) { newDemoDefinition.ClassA = definitionRow["ClassA"].ToString(); newDemoDefinition.SavedClassA = newDemoDefinition.ClassA; }
                 if (definitionRow.ContainsKey("ClassB")) { newDemoDefinition.ClassB = definitionRow["ClassB"].ToString(); newDemoDefinition.SavedClassB = newDemoDefinition.ClassB; }
                 if (definitionRow.ContainsKey("ClassC")) { newDemoDefinition.ClassC = definitionRow["ClassC"].ToString(); newDemoDefinition.SavedClassC = newDemoDefinition.ClassC; }
+                if (definitionRow.ContainsKey("ClassD")) { newDemoDefinition.ClassD = definitionRow["ClassD"].ToString(); newDemoDefinition.SavedClassD = newDemoDefinition.ClassD; }
+                if (definitionRow.ContainsKey("ClassE")) { newDemoDefinition.ClassE = definitionRow["ClassE"].ToString(); newDemoDefinition.SavedClassE = newDemoDefinition.ClassE; }
+                if (definitionRow.ContainsKey("ClassF")) { newDemoDefinition.ClassF = definitionRow["ClassF"].ToString(); newDemoDefinition.SavedClassF = newDemoDefinition.ClassF; }
+                if (definitionRow.ContainsKey("ClassG")) { newDemoDefinition.ClassG = definitionRow["ClassG"].ToString(); newDemoDefinition.SavedClassG = newDemoDefinition.ClassG; }
+                if (definitionRow.ContainsKey("ClassH")) { newDemoDefinition.ClassH = definitionRow["ClassH"].ToString(); newDemoDefinition.SavedClassH = newDemoDefinition.ClassH; }
+                if (definitionRow.ContainsKey("ClassI")) { newDemoDefinition.ClassI = definitionRow["ClassI"].ToString(); newDemoDefinition.SavedClassI = newDemoDefinition.ClassI; }
+                if (definitionRow.ContainsKey("ClassJ")) { newDemoDefinition.ClassJ = definitionRow["ClassJ"].ToString(); newDemoDefinition.SavedClassJ = newDemoDefinition.ClassJ; }
+                if (definitionRow.ContainsKey("ClassK")) { newDemoDefinition.ClassK = definitionRow["ClassK"].ToString(); newDemoDefinition.SavedClassK = newDemoDefinition.ClassK; }
+                if (definitionRow.ContainsKey("ClassL")) { newDemoDefinition.ClassL = definitionRow["ClassL"].ToString(); newDemoDefinition.SavedClassL = newDemoDefinition.ClassL; }
+                if (definitionRow.ContainsKey("ClassM")) { newDemoDefinition.ClassM = definitionRow["ClassM"].ToString(); newDemoDefinition.SavedClassM = newDemoDefinition.ClassM; }
+                if (definitionRow.ContainsKey("ClassN")) { newDemoDefinition.ClassN = definitionRow["ClassN"].ToString(); newDemoDefinition.SavedClassN = newDemoDefinition.ClassN; }
+                if (definitionRow.ContainsKey("ClassO")) { newDemoDefinition.ClassO = definitionRow["ClassO"].ToString(); newDemoDefinition.SavedClassO = newDemoDefinition.ClassO; }
+                if (definitionRow.ContainsKey("ClassP")) { newDemoDefinition.ClassP = definitionRow["ClassP"].ToString(); newDemoDefinition.SavedClassP = newDemoDefinition.ClassP; }
+                if (definitionRow.ContainsKey("ClassQ")) { newDemoDefinition.ClassQ = definitionRow["ClassQ"].ToString(); newDemoDefinition.SavedClassQ = newDemoDefinition.ClassQ; }
+                if (definitionRow.ContainsKey("ClassR")) { newDemoDefinition.ClassR = definitionRow["ClassR"].ToString(); newDemoDefinition.SavedClassR = newDemoDefinition.ClassR; }
+                if (definitionRow.ContainsKey("ClassS")) { newDemoDefinition.ClassS = definitionRow["ClassS"].ToString(); newDemoDefinition.SavedClassS = newDemoDefinition.ClassS; }
+                if (definitionRow.ContainsKey("ClassT")) { newDemoDefinition.ClassT = definitionRow["ClassT"].ToString(); newDemoDefinition.SavedClassT = newDemoDefinition.ClassT; }
+                if (definitionRow.ContainsKey("ClassU")) { newDemoDefinition.ClassU = definitionRow["ClassU"].ToString(); newDemoDefinition.SavedClassU = newDemoDefinition.ClassU; }
+                if (definitionRow.ContainsKey("ClassV")) { newDemoDefinition.ClassV = definitionRow["ClassV"].ToString(); newDemoDefinition.SavedClassV = newDemoDefinition.ClassV; }
+                if (definitionRow.ContainsKey("ClassW")) { newDemoDefinition.ClassW = definitionRow["ClassW"].ToString(); newDemoDefinition.SavedClassW = newDemoDefinition.ClassW; }
+                if (definitionRow.ContainsKey("ClassX")) { newDemoDefinition.ClassX = definitionRow["ClassX"].ToString(); newDemoDefinition.SavedClassX = newDemoDefinition.ClassX; }
+                if (definitionRow.ContainsKey("ClassY")) { newDemoDefinition.ClassY = definitionRow["ClassY"].ToString(); newDemoDefinition.SavedClassY = newDemoDefinition.ClassY; }
+                if (definitionRow.ContainsKey("ClassZ")) { newDemoDefinition.ClassZ = definitionRow["ClassZ"].ToString(); newDemoDefinition.SavedClassZ = newDemoDefinition.ClassZ; }
                 if (definitionRow.ContainsKey("NumA")) { newDemoDefinition.NumA = definitionRow["NumA"].ToDecimal(); newDemoDefinition.SavedNumA = newDemoDefinition.NumA; }
                 if (definitionRow.ContainsKey("NumB")) { newDemoDefinition.NumB = definitionRow["NumB"].ToDecimal(); newDemoDefinition.SavedNumB = newDemoDefinition.NumB; }
                 if (definitionRow.ContainsKey("NumC")) { newDemoDefinition.NumC = definitionRow["NumC"].ToDecimal(); newDemoDefinition.SavedNumC = newDemoDefinition.NumC; }
                 if (definitionRow.ContainsKey("NumD")) { newDemoDefinition.NumD = definitionRow["NumD"].ToDecimal(); newDemoDefinition.SavedNumD = newDemoDefinition.NumD; }
                 if (definitionRow.ContainsKey("NumE")) { newDemoDefinition.NumE = definitionRow["NumE"].ToDecimal(); newDemoDefinition.SavedNumE = newDemoDefinition.NumE; }
+                if (definitionRow.ContainsKey("NumF")) { newDemoDefinition.NumF = definitionRow["NumF"].ToDecimal(); newDemoDefinition.SavedNumF = newDemoDefinition.NumF; }
+                if (definitionRow.ContainsKey("NumG")) { newDemoDefinition.NumG = definitionRow["NumG"].ToDecimal(); newDemoDefinition.SavedNumG = newDemoDefinition.NumG; }
+                if (definitionRow.ContainsKey("NumH")) { newDemoDefinition.NumH = definitionRow["NumH"].ToDecimal(); newDemoDefinition.SavedNumH = newDemoDefinition.NumH; }
+                if (definitionRow.ContainsKey("NumI")) { newDemoDefinition.NumI = definitionRow["NumI"].ToDecimal(); newDemoDefinition.SavedNumI = newDemoDefinition.NumI; }
+                if (definitionRow.ContainsKey("NumJ")) { newDemoDefinition.NumJ = definitionRow["NumJ"].ToDecimal(); newDemoDefinition.SavedNumJ = newDemoDefinition.NumJ; }
+                if (definitionRow.ContainsKey("NumK")) { newDemoDefinition.NumK = definitionRow["NumK"].ToDecimal(); newDemoDefinition.SavedNumK = newDemoDefinition.NumK; }
+                if (definitionRow.ContainsKey("NumL")) { newDemoDefinition.NumL = definitionRow["NumL"].ToDecimal(); newDemoDefinition.SavedNumL = newDemoDefinition.NumL; }
+                if (definitionRow.ContainsKey("NumM")) { newDemoDefinition.NumM = definitionRow["NumM"].ToDecimal(); newDemoDefinition.SavedNumM = newDemoDefinition.NumM; }
+                if (definitionRow.ContainsKey("NumN")) { newDemoDefinition.NumN = definitionRow["NumN"].ToDecimal(); newDemoDefinition.SavedNumN = newDemoDefinition.NumN; }
+                if (definitionRow.ContainsKey("NumO")) { newDemoDefinition.NumO = definitionRow["NumO"].ToDecimal(); newDemoDefinition.SavedNumO = newDemoDefinition.NumO; }
+                if (definitionRow.ContainsKey("NumP")) { newDemoDefinition.NumP = definitionRow["NumP"].ToDecimal(); newDemoDefinition.SavedNumP = newDemoDefinition.NumP; }
+                if (definitionRow.ContainsKey("NumQ")) { newDemoDefinition.NumQ = definitionRow["NumQ"].ToDecimal(); newDemoDefinition.SavedNumQ = newDemoDefinition.NumQ; }
+                if (definitionRow.ContainsKey("NumR")) { newDemoDefinition.NumR = definitionRow["NumR"].ToDecimal(); newDemoDefinition.SavedNumR = newDemoDefinition.NumR; }
+                if (definitionRow.ContainsKey("NumS")) { newDemoDefinition.NumS = definitionRow["NumS"].ToDecimal(); newDemoDefinition.SavedNumS = newDemoDefinition.NumS; }
+                if (definitionRow.ContainsKey("NumT")) { newDemoDefinition.NumT = definitionRow["NumT"].ToDecimal(); newDemoDefinition.SavedNumT = newDemoDefinition.NumT; }
+                if (definitionRow.ContainsKey("NumU")) { newDemoDefinition.NumU = definitionRow["NumU"].ToDecimal(); newDemoDefinition.SavedNumU = newDemoDefinition.NumU; }
+                if (definitionRow.ContainsKey("NumV")) { newDemoDefinition.NumV = definitionRow["NumV"].ToDecimal(); newDemoDefinition.SavedNumV = newDemoDefinition.NumV; }
+                if (definitionRow.ContainsKey("NumW")) { newDemoDefinition.NumW = definitionRow["NumW"].ToDecimal(); newDemoDefinition.SavedNumW = newDemoDefinition.NumW; }
+                if (definitionRow.ContainsKey("NumX")) { newDemoDefinition.NumX = definitionRow["NumX"].ToDecimal(); newDemoDefinition.SavedNumX = newDemoDefinition.NumX; }
+                if (definitionRow.ContainsKey("NumY")) { newDemoDefinition.NumY = definitionRow["NumY"].ToDecimal(); newDemoDefinition.SavedNumY = newDemoDefinition.NumY; }
+                if (definitionRow.ContainsKey("NumZ")) { newDemoDefinition.NumZ = definitionRow["NumZ"].ToDecimal(); newDemoDefinition.SavedNumZ = newDemoDefinition.NumZ; }
                 if (definitionRow.ContainsKey("DateA")) { newDemoDefinition.DateA = definitionRow["DateA"].ToDateTime(); newDemoDefinition.SavedDateA = newDemoDefinition.DateA; }
                 if (definitionRow.ContainsKey("DateB")) { newDemoDefinition.DateB = definitionRow["DateB"].ToDateTime(); newDemoDefinition.SavedDateB = newDemoDefinition.DateB; }
                 if (definitionRow.ContainsKey("DateC")) { newDemoDefinition.DateC = definitionRow["DateC"].ToDateTime(); newDemoDefinition.SavedDateC = newDemoDefinition.DateC; }
+                if (definitionRow.ContainsKey("DateD")) { newDemoDefinition.DateD = definitionRow["DateD"].ToDateTime(); newDemoDefinition.SavedDateD = newDemoDefinition.DateD; }
+                if (definitionRow.ContainsKey("DateE")) { newDemoDefinition.DateE = definitionRow["DateE"].ToDateTime(); newDemoDefinition.SavedDateE = newDemoDefinition.DateE; }
+                if (definitionRow.ContainsKey("DateF")) { newDemoDefinition.DateF = definitionRow["DateF"].ToDateTime(); newDemoDefinition.SavedDateF = newDemoDefinition.DateF; }
+                if (definitionRow.ContainsKey("DateG")) { newDemoDefinition.DateG = definitionRow["DateG"].ToDateTime(); newDemoDefinition.SavedDateG = newDemoDefinition.DateG; }
+                if (definitionRow.ContainsKey("DateH")) { newDemoDefinition.DateH = definitionRow["DateH"].ToDateTime(); newDemoDefinition.SavedDateH = newDemoDefinition.DateH; }
+                if (definitionRow.ContainsKey("DateI")) { newDemoDefinition.DateI = definitionRow["DateI"].ToDateTime(); newDemoDefinition.SavedDateI = newDemoDefinition.DateI; }
+                if (definitionRow.ContainsKey("DateJ")) { newDemoDefinition.DateJ = definitionRow["DateJ"].ToDateTime(); newDemoDefinition.SavedDateJ = newDemoDefinition.DateJ; }
+                if (definitionRow.ContainsKey("DateK")) { newDemoDefinition.DateK = definitionRow["DateK"].ToDateTime(); newDemoDefinition.SavedDateK = newDemoDefinition.DateK; }
+                if (definitionRow.ContainsKey("DateL")) { newDemoDefinition.DateL = definitionRow["DateL"].ToDateTime(); newDemoDefinition.SavedDateL = newDemoDefinition.DateL; }
+                if (definitionRow.ContainsKey("DateM")) { newDemoDefinition.DateM = definitionRow["DateM"].ToDateTime(); newDemoDefinition.SavedDateM = newDemoDefinition.DateM; }
+                if (definitionRow.ContainsKey("DateN")) { newDemoDefinition.DateN = definitionRow["DateN"].ToDateTime(); newDemoDefinition.SavedDateN = newDemoDefinition.DateN; }
+                if (definitionRow.ContainsKey("DateO")) { newDemoDefinition.DateO = definitionRow["DateO"].ToDateTime(); newDemoDefinition.SavedDateO = newDemoDefinition.DateO; }
+                if (definitionRow.ContainsKey("DateP")) { newDemoDefinition.DateP = definitionRow["DateP"].ToDateTime(); newDemoDefinition.SavedDateP = newDemoDefinition.DateP; }
+                if (definitionRow.ContainsKey("DateQ")) { newDemoDefinition.DateQ = definitionRow["DateQ"].ToDateTime(); newDemoDefinition.SavedDateQ = newDemoDefinition.DateQ; }
+                if (definitionRow.ContainsKey("DateR")) { newDemoDefinition.DateR = definitionRow["DateR"].ToDateTime(); newDemoDefinition.SavedDateR = newDemoDefinition.DateR; }
+                if (definitionRow.ContainsKey("DateS")) { newDemoDefinition.DateS = definitionRow["DateS"].ToDateTime(); newDemoDefinition.SavedDateS = newDemoDefinition.DateS; }
+                if (definitionRow.ContainsKey("DateT")) { newDemoDefinition.DateT = definitionRow["DateT"].ToDateTime(); newDemoDefinition.SavedDateT = newDemoDefinition.DateT; }
+                if (definitionRow.ContainsKey("DateU")) { newDemoDefinition.DateU = definitionRow["DateU"].ToDateTime(); newDemoDefinition.SavedDateU = newDemoDefinition.DateU; }
+                if (definitionRow.ContainsKey("DateV")) { newDemoDefinition.DateV = definitionRow["DateV"].ToDateTime(); newDemoDefinition.SavedDateV = newDemoDefinition.DateV; }
+                if (definitionRow.ContainsKey("DateW")) { newDemoDefinition.DateW = definitionRow["DateW"].ToDateTime(); newDemoDefinition.SavedDateW = newDemoDefinition.DateW; }
+                if (definitionRow.ContainsKey("DateX")) { newDemoDefinition.DateX = definitionRow["DateX"].ToDateTime(); newDemoDefinition.SavedDateX = newDemoDefinition.DateX; }
+                if (definitionRow.ContainsKey("DateY")) { newDemoDefinition.DateY = definitionRow["DateY"].ToDateTime(); newDemoDefinition.SavedDateY = newDemoDefinition.DateY; }
+                if (definitionRow.ContainsKey("DateZ")) { newDemoDefinition.DateZ = definitionRow["DateZ"].ToDateTime(); newDemoDefinition.SavedDateZ = newDemoDefinition.DateZ; }
+                if (definitionRow.ContainsKey("DescriptionA")) { newDemoDefinition.DescriptionA = definitionRow["DescriptionA"].ToString(); newDemoDefinition.SavedDescriptionA = newDemoDefinition.DescriptionA; }
+                if (definitionRow.ContainsKey("DescriptionB")) { newDemoDefinition.DescriptionB = definitionRow["DescriptionB"].ToString(); newDemoDefinition.SavedDescriptionB = newDemoDefinition.DescriptionB; }
+                if (definitionRow.ContainsKey("DescriptionC")) { newDemoDefinition.DescriptionC = definitionRow["DescriptionC"].ToString(); newDemoDefinition.SavedDescriptionC = newDemoDefinition.DescriptionC; }
+                if (definitionRow.ContainsKey("DescriptionD")) { newDemoDefinition.DescriptionD = definitionRow["DescriptionD"].ToString(); newDemoDefinition.SavedDescriptionD = newDemoDefinition.DescriptionD; }
+                if (definitionRow.ContainsKey("DescriptionE")) { newDemoDefinition.DescriptionE = definitionRow["DescriptionE"].ToString(); newDemoDefinition.SavedDescriptionE = newDemoDefinition.DescriptionE; }
+                if (definitionRow.ContainsKey("DescriptionF")) { newDemoDefinition.DescriptionF = definitionRow["DescriptionF"].ToString(); newDemoDefinition.SavedDescriptionF = newDemoDefinition.DescriptionF; }
+                if (definitionRow.ContainsKey("DescriptionG")) { newDemoDefinition.DescriptionG = definitionRow["DescriptionG"].ToString(); newDemoDefinition.SavedDescriptionG = newDemoDefinition.DescriptionG; }
+                if (definitionRow.ContainsKey("DescriptionH")) { newDemoDefinition.DescriptionH = definitionRow["DescriptionH"].ToString(); newDemoDefinition.SavedDescriptionH = newDemoDefinition.DescriptionH; }
+                if (definitionRow.ContainsKey("DescriptionI")) { newDemoDefinition.DescriptionI = definitionRow["DescriptionI"].ToString(); newDemoDefinition.SavedDescriptionI = newDemoDefinition.DescriptionI; }
+                if (definitionRow.ContainsKey("DescriptionJ")) { newDemoDefinition.DescriptionJ = definitionRow["DescriptionJ"].ToString(); newDemoDefinition.SavedDescriptionJ = newDemoDefinition.DescriptionJ; }
+                if (definitionRow.ContainsKey("DescriptionK")) { newDemoDefinition.DescriptionK = definitionRow["DescriptionK"].ToString(); newDemoDefinition.SavedDescriptionK = newDemoDefinition.DescriptionK; }
+                if (definitionRow.ContainsKey("DescriptionL")) { newDemoDefinition.DescriptionL = definitionRow["DescriptionL"].ToString(); newDemoDefinition.SavedDescriptionL = newDemoDefinition.DescriptionL; }
+                if (definitionRow.ContainsKey("DescriptionM")) { newDemoDefinition.DescriptionM = definitionRow["DescriptionM"].ToString(); newDemoDefinition.SavedDescriptionM = newDemoDefinition.DescriptionM; }
+                if (definitionRow.ContainsKey("DescriptionN")) { newDemoDefinition.DescriptionN = definitionRow["DescriptionN"].ToString(); newDemoDefinition.SavedDescriptionN = newDemoDefinition.DescriptionN; }
+                if (definitionRow.ContainsKey("DescriptionO")) { newDemoDefinition.DescriptionO = definitionRow["DescriptionO"].ToString(); newDemoDefinition.SavedDescriptionO = newDemoDefinition.DescriptionO; }
+                if (definitionRow.ContainsKey("DescriptionP")) { newDemoDefinition.DescriptionP = definitionRow["DescriptionP"].ToString(); newDemoDefinition.SavedDescriptionP = newDemoDefinition.DescriptionP; }
+                if (definitionRow.ContainsKey("DescriptionQ")) { newDemoDefinition.DescriptionQ = definitionRow["DescriptionQ"].ToString(); newDemoDefinition.SavedDescriptionQ = newDemoDefinition.DescriptionQ; }
+                if (definitionRow.ContainsKey("DescriptionR")) { newDemoDefinition.DescriptionR = definitionRow["DescriptionR"].ToString(); newDemoDefinition.SavedDescriptionR = newDemoDefinition.DescriptionR; }
+                if (definitionRow.ContainsKey("DescriptionS")) { newDemoDefinition.DescriptionS = definitionRow["DescriptionS"].ToString(); newDemoDefinition.SavedDescriptionS = newDemoDefinition.DescriptionS; }
+                if (definitionRow.ContainsKey("DescriptionT")) { newDemoDefinition.DescriptionT = definitionRow["DescriptionT"].ToString(); newDemoDefinition.SavedDescriptionT = newDemoDefinition.DescriptionT; }
+                if (definitionRow.ContainsKey("DescriptionU")) { newDemoDefinition.DescriptionU = definitionRow["DescriptionU"].ToString(); newDemoDefinition.SavedDescriptionU = newDemoDefinition.DescriptionU; }
+                if (definitionRow.ContainsKey("DescriptionV")) { newDemoDefinition.DescriptionV = definitionRow["DescriptionV"].ToString(); newDemoDefinition.SavedDescriptionV = newDemoDefinition.DescriptionV; }
+                if (definitionRow.ContainsKey("DescriptionW")) { newDemoDefinition.DescriptionW = definitionRow["DescriptionW"].ToString(); newDemoDefinition.SavedDescriptionW = newDemoDefinition.DescriptionW; }
+                if (definitionRow.ContainsKey("DescriptionX")) { newDemoDefinition.DescriptionX = definitionRow["DescriptionX"].ToString(); newDemoDefinition.SavedDescriptionX = newDemoDefinition.DescriptionX; }
+                if (definitionRow.ContainsKey("DescriptionY")) { newDemoDefinition.DescriptionY = definitionRow["DescriptionY"].ToString(); newDemoDefinition.SavedDescriptionY = newDemoDefinition.DescriptionY; }
+                if (definitionRow.ContainsKey("DescriptionZ")) { newDemoDefinition.DescriptionZ = definitionRow["DescriptionZ"].ToString(); newDemoDefinition.SavedDescriptionZ = newDemoDefinition.DescriptionZ; }
+                if (definitionRow.ContainsKey("CheckA")) { newDemoDefinition.CheckA = definitionRow["CheckA"].ToBool(); newDemoDefinition.SavedCheckA = newDemoDefinition.CheckA; }
+                if (definitionRow.ContainsKey("CheckB")) { newDemoDefinition.CheckB = definitionRow["CheckB"].ToBool(); newDemoDefinition.SavedCheckB = newDemoDefinition.CheckB; }
+                if (definitionRow.ContainsKey("CheckC")) { newDemoDefinition.CheckC = definitionRow["CheckC"].ToBool(); newDemoDefinition.SavedCheckC = newDemoDefinition.CheckC; }
+                if (definitionRow.ContainsKey("CheckD")) { newDemoDefinition.CheckD = definitionRow["CheckD"].ToBool(); newDemoDefinition.SavedCheckD = newDemoDefinition.CheckD; }
+                if (definitionRow.ContainsKey("CheckE")) { newDemoDefinition.CheckE = definitionRow["CheckE"].ToBool(); newDemoDefinition.SavedCheckE = newDemoDefinition.CheckE; }
+                if (definitionRow.ContainsKey("CheckF")) { newDemoDefinition.CheckF = definitionRow["CheckF"].ToBool(); newDemoDefinition.SavedCheckF = newDemoDefinition.CheckF; }
+                if (definitionRow.ContainsKey("CheckG")) { newDemoDefinition.CheckG = definitionRow["CheckG"].ToBool(); newDemoDefinition.SavedCheckG = newDemoDefinition.CheckG; }
+                if (definitionRow.ContainsKey("CheckH")) { newDemoDefinition.CheckH = definitionRow["CheckH"].ToBool(); newDemoDefinition.SavedCheckH = newDemoDefinition.CheckH; }
+                if (definitionRow.ContainsKey("CheckI")) { newDemoDefinition.CheckI = definitionRow["CheckI"].ToBool(); newDemoDefinition.SavedCheckI = newDemoDefinition.CheckI; }
+                if (definitionRow.ContainsKey("CheckJ")) { newDemoDefinition.CheckJ = definitionRow["CheckJ"].ToBool(); newDemoDefinition.SavedCheckJ = newDemoDefinition.CheckJ; }
+                if (definitionRow.ContainsKey("CheckK")) { newDemoDefinition.CheckK = definitionRow["CheckK"].ToBool(); newDemoDefinition.SavedCheckK = newDemoDefinition.CheckK; }
+                if (definitionRow.ContainsKey("CheckL")) { newDemoDefinition.CheckL = definitionRow["CheckL"].ToBool(); newDemoDefinition.SavedCheckL = newDemoDefinition.CheckL; }
+                if (definitionRow.ContainsKey("CheckM")) { newDemoDefinition.CheckM = definitionRow["CheckM"].ToBool(); newDemoDefinition.SavedCheckM = newDemoDefinition.CheckM; }
+                if (definitionRow.ContainsKey("CheckN")) { newDemoDefinition.CheckN = definitionRow["CheckN"].ToBool(); newDemoDefinition.SavedCheckN = newDemoDefinition.CheckN; }
+                if (definitionRow.ContainsKey("CheckO")) { newDemoDefinition.CheckO = definitionRow["CheckO"].ToBool(); newDemoDefinition.SavedCheckO = newDemoDefinition.CheckO; }
+                if (definitionRow.ContainsKey("CheckP")) { newDemoDefinition.CheckP = definitionRow["CheckP"].ToBool(); newDemoDefinition.SavedCheckP = newDemoDefinition.CheckP; }
+                if (definitionRow.ContainsKey("CheckQ")) { newDemoDefinition.CheckQ = definitionRow["CheckQ"].ToBool(); newDemoDefinition.SavedCheckQ = newDemoDefinition.CheckQ; }
+                if (definitionRow.ContainsKey("CheckR")) { newDemoDefinition.CheckR = definitionRow["CheckR"].ToBool(); newDemoDefinition.SavedCheckR = newDemoDefinition.CheckR; }
+                if (definitionRow.ContainsKey("CheckS")) { newDemoDefinition.CheckS = definitionRow["CheckS"].ToBool(); newDemoDefinition.SavedCheckS = newDemoDefinition.CheckS; }
+                if (definitionRow.ContainsKey("CheckT")) { newDemoDefinition.CheckT = definitionRow["CheckT"].ToBool(); newDemoDefinition.SavedCheckT = newDemoDefinition.CheckT; }
+                if (definitionRow.ContainsKey("CheckU")) { newDemoDefinition.CheckU = definitionRow["CheckU"].ToBool(); newDemoDefinition.SavedCheckU = newDemoDefinition.CheckU; }
+                if (definitionRow.ContainsKey("CheckV")) { newDemoDefinition.CheckV = definitionRow["CheckV"].ToBool(); newDemoDefinition.SavedCheckV = newDemoDefinition.CheckV; }
+                if (definitionRow.ContainsKey("CheckW")) { newDemoDefinition.CheckW = definitionRow["CheckW"].ToBool(); newDemoDefinition.SavedCheckW = newDemoDefinition.CheckW; }
+                if (definitionRow.ContainsKey("CheckX")) { newDemoDefinition.CheckX = definitionRow["CheckX"].ToBool(); newDemoDefinition.SavedCheckX = newDemoDefinition.CheckX; }
+                if (definitionRow.ContainsKey("CheckY")) { newDemoDefinition.CheckY = definitionRow["CheckY"].ToBool(); newDemoDefinition.SavedCheckY = newDemoDefinition.CheckY; }
+                if (definitionRow.ContainsKey("CheckZ")) { newDemoDefinition.CheckZ = definitionRow["CheckZ"].ToBool(); newDemoDefinition.SavedCheckZ = newDemoDefinition.CheckZ; }
                 if (definitionRow.ContainsKey("Manager")) { newDemoDefinition.Manager = definitionRow["Manager"].ToString(); newDemoDefinition.SavedManager = newDemoDefinition.Manager; }
                 if (definitionRow.ContainsKey("Owner")) { newDemoDefinition.Owner = definitionRow["Owner"].ToString(); newDemoDefinition.SavedOwner = newDemoDefinition.Owner; }
                 if (definitionRow.ContainsKey("Creator")) { newDemoDefinition.Creator = definitionRow["Creator"].ToString(); newDemoDefinition.SavedCreator = newDemoDefinition.Creator; }
@@ -2442,14 +2588,133 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("ClassA")) { definition.ClassA = definitionRow["ClassA"].ToString(); definition.SavedClassA = definition.ClassA; }
             if (definitionRow.ContainsKey("ClassB")) { definition.ClassB = definitionRow["ClassB"].ToString(); definition.SavedClassB = definition.ClassB; }
             if (definitionRow.ContainsKey("ClassC")) { definition.ClassC = definitionRow["ClassC"].ToString(); definition.SavedClassC = definition.ClassC; }
+            if (definitionRow.ContainsKey("ClassD")) { definition.ClassD = definitionRow["ClassD"].ToString(); definition.SavedClassD = definition.ClassD; }
+            if (definitionRow.ContainsKey("ClassE")) { definition.ClassE = definitionRow["ClassE"].ToString(); definition.SavedClassE = definition.ClassE; }
+            if (definitionRow.ContainsKey("ClassF")) { definition.ClassF = definitionRow["ClassF"].ToString(); definition.SavedClassF = definition.ClassF; }
+            if (definitionRow.ContainsKey("ClassG")) { definition.ClassG = definitionRow["ClassG"].ToString(); definition.SavedClassG = definition.ClassG; }
+            if (definitionRow.ContainsKey("ClassH")) { definition.ClassH = definitionRow["ClassH"].ToString(); definition.SavedClassH = definition.ClassH; }
+            if (definitionRow.ContainsKey("ClassI")) { definition.ClassI = definitionRow["ClassI"].ToString(); definition.SavedClassI = definition.ClassI; }
+            if (definitionRow.ContainsKey("ClassJ")) { definition.ClassJ = definitionRow["ClassJ"].ToString(); definition.SavedClassJ = definition.ClassJ; }
+            if (definitionRow.ContainsKey("ClassK")) { definition.ClassK = definitionRow["ClassK"].ToString(); definition.SavedClassK = definition.ClassK; }
+            if (definitionRow.ContainsKey("ClassL")) { definition.ClassL = definitionRow["ClassL"].ToString(); definition.SavedClassL = definition.ClassL; }
+            if (definitionRow.ContainsKey("ClassM")) { definition.ClassM = definitionRow["ClassM"].ToString(); definition.SavedClassM = definition.ClassM; }
+            if (definitionRow.ContainsKey("ClassN")) { definition.ClassN = definitionRow["ClassN"].ToString(); definition.SavedClassN = definition.ClassN; }
+            if (definitionRow.ContainsKey("ClassO")) { definition.ClassO = definitionRow["ClassO"].ToString(); definition.SavedClassO = definition.ClassO; }
+            if (definitionRow.ContainsKey("ClassP")) { definition.ClassP = definitionRow["ClassP"].ToString(); definition.SavedClassP = definition.ClassP; }
+            if (definitionRow.ContainsKey("ClassQ")) { definition.ClassQ = definitionRow["ClassQ"].ToString(); definition.SavedClassQ = definition.ClassQ; }
+            if (definitionRow.ContainsKey("ClassR")) { definition.ClassR = definitionRow["ClassR"].ToString(); definition.SavedClassR = definition.ClassR; }
+            if (definitionRow.ContainsKey("ClassS")) { definition.ClassS = definitionRow["ClassS"].ToString(); definition.SavedClassS = definition.ClassS; }
+            if (definitionRow.ContainsKey("ClassT")) { definition.ClassT = definitionRow["ClassT"].ToString(); definition.SavedClassT = definition.ClassT; }
+            if (definitionRow.ContainsKey("ClassU")) { definition.ClassU = definitionRow["ClassU"].ToString(); definition.SavedClassU = definition.ClassU; }
+            if (definitionRow.ContainsKey("ClassV")) { definition.ClassV = definitionRow["ClassV"].ToString(); definition.SavedClassV = definition.ClassV; }
+            if (definitionRow.ContainsKey("ClassW")) { definition.ClassW = definitionRow["ClassW"].ToString(); definition.SavedClassW = definition.ClassW; }
+            if (definitionRow.ContainsKey("ClassX")) { definition.ClassX = definitionRow["ClassX"].ToString(); definition.SavedClassX = definition.ClassX; }
+            if (definitionRow.ContainsKey("ClassY")) { definition.ClassY = definitionRow["ClassY"].ToString(); definition.SavedClassY = definition.ClassY; }
+            if (definitionRow.ContainsKey("ClassZ")) { definition.ClassZ = definitionRow["ClassZ"].ToString(); definition.SavedClassZ = definition.ClassZ; }
             if (definitionRow.ContainsKey("NumA")) { definition.NumA = definitionRow["NumA"].ToDecimal(); definition.SavedNumA = definition.NumA; }
             if (definitionRow.ContainsKey("NumB")) { definition.NumB = definitionRow["NumB"].ToDecimal(); definition.SavedNumB = definition.NumB; }
             if (definitionRow.ContainsKey("NumC")) { definition.NumC = definitionRow["NumC"].ToDecimal(); definition.SavedNumC = definition.NumC; }
             if (definitionRow.ContainsKey("NumD")) { definition.NumD = definitionRow["NumD"].ToDecimal(); definition.SavedNumD = definition.NumD; }
             if (definitionRow.ContainsKey("NumE")) { definition.NumE = definitionRow["NumE"].ToDecimal(); definition.SavedNumE = definition.NumE; }
+            if (definitionRow.ContainsKey("NumF")) { definition.NumF = definitionRow["NumF"].ToDecimal(); definition.SavedNumF = definition.NumF; }
+            if (definitionRow.ContainsKey("NumG")) { definition.NumG = definitionRow["NumG"].ToDecimal(); definition.SavedNumG = definition.NumG; }
+            if (definitionRow.ContainsKey("NumH")) { definition.NumH = definitionRow["NumH"].ToDecimal(); definition.SavedNumH = definition.NumH; }
+            if (definitionRow.ContainsKey("NumI")) { definition.NumI = definitionRow["NumI"].ToDecimal(); definition.SavedNumI = definition.NumI; }
+            if (definitionRow.ContainsKey("NumJ")) { definition.NumJ = definitionRow["NumJ"].ToDecimal(); definition.SavedNumJ = definition.NumJ; }
+            if (definitionRow.ContainsKey("NumK")) { definition.NumK = definitionRow["NumK"].ToDecimal(); definition.SavedNumK = definition.NumK; }
+            if (definitionRow.ContainsKey("NumL")) { definition.NumL = definitionRow["NumL"].ToDecimal(); definition.SavedNumL = definition.NumL; }
+            if (definitionRow.ContainsKey("NumM")) { definition.NumM = definitionRow["NumM"].ToDecimal(); definition.SavedNumM = definition.NumM; }
+            if (definitionRow.ContainsKey("NumN")) { definition.NumN = definitionRow["NumN"].ToDecimal(); definition.SavedNumN = definition.NumN; }
+            if (definitionRow.ContainsKey("NumO")) { definition.NumO = definitionRow["NumO"].ToDecimal(); definition.SavedNumO = definition.NumO; }
+            if (definitionRow.ContainsKey("NumP")) { definition.NumP = definitionRow["NumP"].ToDecimal(); definition.SavedNumP = definition.NumP; }
+            if (definitionRow.ContainsKey("NumQ")) { definition.NumQ = definitionRow["NumQ"].ToDecimal(); definition.SavedNumQ = definition.NumQ; }
+            if (definitionRow.ContainsKey("NumR")) { definition.NumR = definitionRow["NumR"].ToDecimal(); definition.SavedNumR = definition.NumR; }
+            if (definitionRow.ContainsKey("NumS")) { definition.NumS = definitionRow["NumS"].ToDecimal(); definition.SavedNumS = definition.NumS; }
+            if (definitionRow.ContainsKey("NumT")) { definition.NumT = definitionRow["NumT"].ToDecimal(); definition.SavedNumT = definition.NumT; }
+            if (definitionRow.ContainsKey("NumU")) { definition.NumU = definitionRow["NumU"].ToDecimal(); definition.SavedNumU = definition.NumU; }
+            if (definitionRow.ContainsKey("NumV")) { definition.NumV = definitionRow["NumV"].ToDecimal(); definition.SavedNumV = definition.NumV; }
+            if (definitionRow.ContainsKey("NumW")) { definition.NumW = definitionRow["NumW"].ToDecimal(); definition.SavedNumW = definition.NumW; }
+            if (definitionRow.ContainsKey("NumX")) { definition.NumX = definitionRow["NumX"].ToDecimal(); definition.SavedNumX = definition.NumX; }
+            if (definitionRow.ContainsKey("NumY")) { definition.NumY = definitionRow["NumY"].ToDecimal(); definition.SavedNumY = definition.NumY; }
+            if (definitionRow.ContainsKey("NumZ")) { definition.NumZ = definitionRow["NumZ"].ToDecimal(); definition.SavedNumZ = definition.NumZ; }
             if (definitionRow.ContainsKey("DateA")) { definition.DateA = definitionRow["DateA"].ToDateTime(); definition.SavedDateA = definition.DateA; }
             if (definitionRow.ContainsKey("DateB")) { definition.DateB = definitionRow["DateB"].ToDateTime(); definition.SavedDateB = definition.DateB; }
             if (definitionRow.ContainsKey("DateC")) { definition.DateC = definitionRow["DateC"].ToDateTime(); definition.SavedDateC = definition.DateC; }
+            if (definitionRow.ContainsKey("DateD")) { definition.DateD = definitionRow["DateD"].ToDateTime(); definition.SavedDateD = definition.DateD; }
+            if (definitionRow.ContainsKey("DateE")) { definition.DateE = definitionRow["DateE"].ToDateTime(); definition.SavedDateE = definition.DateE; }
+            if (definitionRow.ContainsKey("DateF")) { definition.DateF = definitionRow["DateF"].ToDateTime(); definition.SavedDateF = definition.DateF; }
+            if (definitionRow.ContainsKey("DateG")) { definition.DateG = definitionRow["DateG"].ToDateTime(); definition.SavedDateG = definition.DateG; }
+            if (definitionRow.ContainsKey("DateH")) { definition.DateH = definitionRow["DateH"].ToDateTime(); definition.SavedDateH = definition.DateH; }
+            if (definitionRow.ContainsKey("DateI")) { definition.DateI = definitionRow["DateI"].ToDateTime(); definition.SavedDateI = definition.DateI; }
+            if (definitionRow.ContainsKey("DateJ")) { definition.DateJ = definitionRow["DateJ"].ToDateTime(); definition.SavedDateJ = definition.DateJ; }
+            if (definitionRow.ContainsKey("DateK")) { definition.DateK = definitionRow["DateK"].ToDateTime(); definition.SavedDateK = definition.DateK; }
+            if (definitionRow.ContainsKey("DateL")) { definition.DateL = definitionRow["DateL"].ToDateTime(); definition.SavedDateL = definition.DateL; }
+            if (definitionRow.ContainsKey("DateM")) { definition.DateM = definitionRow["DateM"].ToDateTime(); definition.SavedDateM = definition.DateM; }
+            if (definitionRow.ContainsKey("DateN")) { definition.DateN = definitionRow["DateN"].ToDateTime(); definition.SavedDateN = definition.DateN; }
+            if (definitionRow.ContainsKey("DateO")) { definition.DateO = definitionRow["DateO"].ToDateTime(); definition.SavedDateO = definition.DateO; }
+            if (definitionRow.ContainsKey("DateP")) { definition.DateP = definitionRow["DateP"].ToDateTime(); definition.SavedDateP = definition.DateP; }
+            if (definitionRow.ContainsKey("DateQ")) { definition.DateQ = definitionRow["DateQ"].ToDateTime(); definition.SavedDateQ = definition.DateQ; }
+            if (definitionRow.ContainsKey("DateR")) { definition.DateR = definitionRow["DateR"].ToDateTime(); definition.SavedDateR = definition.DateR; }
+            if (definitionRow.ContainsKey("DateS")) { definition.DateS = definitionRow["DateS"].ToDateTime(); definition.SavedDateS = definition.DateS; }
+            if (definitionRow.ContainsKey("DateT")) { definition.DateT = definitionRow["DateT"].ToDateTime(); definition.SavedDateT = definition.DateT; }
+            if (definitionRow.ContainsKey("DateU")) { definition.DateU = definitionRow["DateU"].ToDateTime(); definition.SavedDateU = definition.DateU; }
+            if (definitionRow.ContainsKey("DateV")) { definition.DateV = definitionRow["DateV"].ToDateTime(); definition.SavedDateV = definition.DateV; }
+            if (definitionRow.ContainsKey("DateW")) { definition.DateW = definitionRow["DateW"].ToDateTime(); definition.SavedDateW = definition.DateW; }
+            if (definitionRow.ContainsKey("DateX")) { definition.DateX = definitionRow["DateX"].ToDateTime(); definition.SavedDateX = definition.DateX; }
+            if (definitionRow.ContainsKey("DateY")) { definition.DateY = definitionRow["DateY"].ToDateTime(); definition.SavedDateY = definition.DateY; }
+            if (definitionRow.ContainsKey("DateZ")) { definition.DateZ = definitionRow["DateZ"].ToDateTime(); definition.SavedDateZ = definition.DateZ; }
+            if (definitionRow.ContainsKey("DescriptionA")) { definition.DescriptionA = definitionRow["DescriptionA"].ToString(); definition.SavedDescriptionA = definition.DescriptionA; }
+            if (definitionRow.ContainsKey("DescriptionB")) { definition.DescriptionB = definitionRow["DescriptionB"].ToString(); definition.SavedDescriptionB = definition.DescriptionB; }
+            if (definitionRow.ContainsKey("DescriptionC")) { definition.DescriptionC = definitionRow["DescriptionC"].ToString(); definition.SavedDescriptionC = definition.DescriptionC; }
+            if (definitionRow.ContainsKey("DescriptionD")) { definition.DescriptionD = definitionRow["DescriptionD"].ToString(); definition.SavedDescriptionD = definition.DescriptionD; }
+            if (definitionRow.ContainsKey("DescriptionE")) { definition.DescriptionE = definitionRow["DescriptionE"].ToString(); definition.SavedDescriptionE = definition.DescriptionE; }
+            if (definitionRow.ContainsKey("DescriptionF")) { definition.DescriptionF = definitionRow["DescriptionF"].ToString(); definition.SavedDescriptionF = definition.DescriptionF; }
+            if (definitionRow.ContainsKey("DescriptionG")) { definition.DescriptionG = definitionRow["DescriptionG"].ToString(); definition.SavedDescriptionG = definition.DescriptionG; }
+            if (definitionRow.ContainsKey("DescriptionH")) { definition.DescriptionH = definitionRow["DescriptionH"].ToString(); definition.SavedDescriptionH = definition.DescriptionH; }
+            if (definitionRow.ContainsKey("DescriptionI")) { definition.DescriptionI = definitionRow["DescriptionI"].ToString(); definition.SavedDescriptionI = definition.DescriptionI; }
+            if (definitionRow.ContainsKey("DescriptionJ")) { definition.DescriptionJ = definitionRow["DescriptionJ"].ToString(); definition.SavedDescriptionJ = definition.DescriptionJ; }
+            if (definitionRow.ContainsKey("DescriptionK")) { definition.DescriptionK = definitionRow["DescriptionK"].ToString(); definition.SavedDescriptionK = definition.DescriptionK; }
+            if (definitionRow.ContainsKey("DescriptionL")) { definition.DescriptionL = definitionRow["DescriptionL"].ToString(); definition.SavedDescriptionL = definition.DescriptionL; }
+            if (definitionRow.ContainsKey("DescriptionM")) { definition.DescriptionM = definitionRow["DescriptionM"].ToString(); definition.SavedDescriptionM = definition.DescriptionM; }
+            if (definitionRow.ContainsKey("DescriptionN")) { definition.DescriptionN = definitionRow["DescriptionN"].ToString(); definition.SavedDescriptionN = definition.DescriptionN; }
+            if (definitionRow.ContainsKey("DescriptionO")) { definition.DescriptionO = definitionRow["DescriptionO"].ToString(); definition.SavedDescriptionO = definition.DescriptionO; }
+            if (definitionRow.ContainsKey("DescriptionP")) { definition.DescriptionP = definitionRow["DescriptionP"].ToString(); definition.SavedDescriptionP = definition.DescriptionP; }
+            if (definitionRow.ContainsKey("DescriptionQ")) { definition.DescriptionQ = definitionRow["DescriptionQ"].ToString(); definition.SavedDescriptionQ = definition.DescriptionQ; }
+            if (definitionRow.ContainsKey("DescriptionR")) { definition.DescriptionR = definitionRow["DescriptionR"].ToString(); definition.SavedDescriptionR = definition.DescriptionR; }
+            if (definitionRow.ContainsKey("DescriptionS")) { definition.DescriptionS = definitionRow["DescriptionS"].ToString(); definition.SavedDescriptionS = definition.DescriptionS; }
+            if (definitionRow.ContainsKey("DescriptionT")) { definition.DescriptionT = definitionRow["DescriptionT"].ToString(); definition.SavedDescriptionT = definition.DescriptionT; }
+            if (definitionRow.ContainsKey("DescriptionU")) { definition.DescriptionU = definitionRow["DescriptionU"].ToString(); definition.SavedDescriptionU = definition.DescriptionU; }
+            if (definitionRow.ContainsKey("DescriptionV")) { definition.DescriptionV = definitionRow["DescriptionV"].ToString(); definition.SavedDescriptionV = definition.DescriptionV; }
+            if (definitionRow.ContainsKey("DescriptionW")) { definition.DescriptionW = definitionRow["DescriptionW"].ToString(); definition.SavedDescriptionW = definition.DescriptionW; }
+            if (definitionRow.ContainsKey("DescriptionX")) { definition.DescriptionX = definitionRow["DescriptionX"].ToString(); definition.SavedDescriptionX = definition.DescriptionX; }
+            if (definitionRow.ContainsKey("DescriptionY")) { definition.DescriptionY = definitionRow["DescriptionY"].ToString(); definition.SavedDescriptionY = definition.DescriptionY; }
+            if (definitionRow.ContainsKey("DescriptionZ")) { definition.DescriptionZ = definitionRow["DescriptionZ"].ToString(); definition.SavedDescriptionZ = definition.DescriptionZ; }
+            if (definitionRow.ContainsKey("CheckA")) { definition.CheckA = definitionRow["CheckA"].ToBool(); definition.SavedCheckA = definition.CheckA; }
+            if (definitionRow.ContainsKey("CheckB")) { definition.CheckB = definitionRow["CheckB"].ToBool(); definition.SavedCheckB = definition.CheckB; }
+            if (definitionRow.ContainsKey("CheckC")) { definition.CheckC = definitionRow["CheckC"].ToBool(); definition.SavedCheckC = definition.CheckC; }
+            if (definitionRow.ContainsKey("CheckD")) { definition.CheckD = definitionRow["CheckD"].ToBool(); definition.SavedCheckD = definition.CheckD; }
+            if (definitionRow.ContainsKey("CheckE")) { definition.CheckE = definitionRow["CheckE"].ToBool(); definition.SavedCheckE = definition.CheckE; }
+            if (definitionRow.ContainsKey("CheckF")) { definition.CheckF = definitionRow["CheckF"].ToBool(); definition.SavedCheckF = definition.CheckF; }
+            if (definitionRow.ContainsKey("CheckG")) { definition.CheckG = definitionRow["CheckG"].ToBool(); definition.SavedCheckG = definition.CheckG; }
+            if (definitionRow.ContainsKey("CheckH")) { definition.CheckH = definitionRow["CheckH"].ToBool(); definition.SavedCheckH = definition.CheckH; }
+            if (definitionRow.ContainsKey("CheckI")) { definition.CheckI = definitionRow["CheckI"].ToBool(); definition.SavedCheckI = definition.CheckI; }
+            if (definitionRow.ContainsKey("CheckJ")) { definition.CheckJ = definitionRow["CheckJ"].ToBool(); definition.SavedCheckJ = definition.CheckJ; }
+            if (definitionRow.ContainsKey("CheckK")) { definition.CheckK = definitionRow["CheckK"].ToBool(); definition.SavedCheckK = definition.CheckK; }
+            if (definitionRow.ContainsKey("CheckL")) { definition.CheckL = definitionRow["CheckL"].ToBool(); definition.SavedCheckL = definition.CheckL; }
+            if (definitionRow.ContainsKey("CheckM")) { definition.CheckM = definitionRow["CheckM"].ToBool(); definition.SavedCheckM = definition.CheckM; }
+            if (definitionRow.ContainsKey("CheckN")) { definition.CheckN = definitionRow["CheckN"].ToBool(); definition.SavedCheckN = definition.CheckN; }
+            if (definitionRow.ContainsKey("CheckO")) { definition.CheckO = definitionRow["CheckO"].ToBool(); definition.SavedCheckO = definition.CheckO; }
+            if (definitionRow.ContainsKey("CheckP")) { definition.CheckP = definitionRow["CheckP"].ToBool(); definition.SavedCheckP = definition.CheckP; }
+            if (definitionRow.ContainsKey("CheckQ")) { definition.CheckQ = definitionRow["CheckQ"].ToBool(); definition.SavedCheckQ = definition.CheckQ; }
+            if (definitionRow.ContainsKey("CheckR")) { definition.CheckR = definitionRow["CheckR"].ToBool(); definition.SavedCheckR = definition.CheckR; }
+            if (definitionRow.ContainsKey("CheckS")) { definition.CheckS = definitionRow["CheckS"].ToBool(); definition.SavedCheckS = definition.CheckS; }
+            if (definitionRow.ContainsKey("CheckT")) { definition.CheckT = definitionRow["CheckT"].ToBool(); definition.SavedCheckT = definition.CheckT; }
+            if (definitionRow.ContainsKey("CheckU")) { definition.CheckU = definitionRow["CheckU"].ToBool(); definition.SavedCheckU = definition.CheckU; }
+            if (definitionRow.ContainsKey("CheckV")) { definition.CheckV = definitionRow["CheckV"].ToBool(); definition.SavedCheckV = definition.CheckV; }
+            if (definitionRow.ContainsKey("CheckW")) { definition.CheckW = definitionRow["CheckW"].ToBool(); definition.SavedCheckW = definition.CheckW; }
+            if (definitionRow.ContainsKey("CheckX")) { definition.CheckX = definitionRow["CheckX"].ToBool(); definition.SavedCheckX = definition.CheckX; }
+            if (definitionRow.ContainsKey("CheckY")) { definition.CheckY = definitionRow["CheckY"].ToBool(); definition.SavedCheckY = definition.CheckY; }
+            if (definitionRow.ContainsKey("CheckZ")) { definition.CheckZ = definitionRow["CheckZ"].ToBool(); definition.SavedCheckZ = definition.CheckZ; }
             if (definitionRow.ContainsKey("Manager")) { definition.Manager = definitionRow["Manager"].ToString(); definition.SavedManager = definition.Manager; }
             if (definitionRow.ContainsKey("Owner")) { definition.Owner = definitionRow["Owner"].ToString(); definition.SavedOwner = definition.Owner; }
             if (definitionRow.ContainsKey("Creator")) { definition.Creator = definitionRow["Creator"].ToString(); definition.SavedCreator = definition.Creator; }
@@ -2878,14 +3143,133 @@ namespace Implem.DefinitionAccessor
                         case "ClassA": demoDefinition.ClassA = optionValue.ToString(); break;
                         case "ClassB": demoDefinition.ClassB = optionValue.ToString(); break;
                         case "ClassC": demoDefinition.ClassC = optionValue.ToString(); break;
+                        case "ClassD": demoDefinition.ClassD = optionValue.ToString(); break;
+                        case "ClassE": demoDefinition.ClassE = optionValue.ToString(); break;
+                        case "ClassF": demoDefinition.ClassF = optionValue.ToString(); break;
+                        case "ClassG": demoDefinition.ClassG = optionValue.ToString(); break;
+                        case "ClassH": demoDefinition.ClassH = optionValue.ToString(); break;
+                        case "ClassI": demoDefinition.ClassI = optionValue.ToString(); break;
+                        case "ClassJ": demoDefinition.ClassJ = optionValue.ToString(); break;
+                        case "ClassK": demoDefinition.ClassK = optionValue.ToString(); break;
+                        case "ClassL": demoDefinition.ClassL = optionValue.ToString(); break;
+                        case "ClassM": demoDefinition.ClassM = optionValue.ToString(); break;
+                        case "ClassN": demoDefinition.ClassN = optionValue.ToString(); break;
+                        case "ClassO": demoDefinition.ClassO = optionValue.ToString(); break;
+                        case "ClassP": demoDefinition.ClassP = optionValue.ToString(); break;
+                        case "ClassQ": demoDefinition.ClassQ = optionValue.ToString(); break;
+                        case "ClassR": demoDefinition.ClassR = optionValue.ToString(); break;
+                        case "ClassS": demoDefinition.ClassS = optionValue.ToString(); break;
+                        case "ClassT": demoDefinition.ClassT = optionValue.ToString(); break;
+                        case "ClassU": demoDefinition.ClassU = optionValue.ToString(); break;
+                        case "ClassV": demoDefinition.ClassV = optionValue.ToString(); break;
+                        case "ClassW": demoDefinition.ClassW = optionValue.ToString(); break;
+                        case "ClassX": demoDefinition.ClassX = optionValue.ToString(); break;
+                        case "ClassY": demoDefinition.ClassY = optionValue.ToString(); break;
+                        case "ClassZ": demoDefinition.ClassZ = optionValue.ToString(); break;
                         case "NumA": demoDefinition.NumA = optionValue.ToDecimal(); break;
                         case "NumB": demoDefinition.NumB = optionValue.ToDecimal(); break;
                         case "NumC": demoDefinition.NumC = optionValue.ToDecimal(); break;
                         case "NumD": demoDefinition.NumD = optionValue.ToDecimal(); break;
                         case "NumE": demoDefinition.NumE = optionValue.ToDecimal(); break;
+                        case "NumF": demoDefinition.NumF = optionValue.ToDecimal(); break;
+                        case "NumG": demoDefinition.NumG = optionValue.ToDecimal(); break;
+                        case "NumH": demoDefinition.NumH = optionValue.ToDecimal(); break;
+                        case "NumI": demoDefinition.NumI = optionValue.ToDecimal(); break;
+                        case "NumJ": demoDefinition.NumJ = optionValue.ToDecimal(); break;
+                        case "NumK": demoDefinition.NumK = optionValue.ToDecimal(); break;
+                        case "NumL": demoDefinition.NumL = optionValue.ToDecimal(); break;
+                        case "NumM": demoDefinition.NumM = optionValue.ToDecimal(); break;
+                        case "NumN": demoDefinition.NumN = optionValue.ToDecimal(); break;
+                        case "NumO": demoDefinition.NumO = optionValue.ToDecimal(); break;
+                        case "NumP": demoDefinition.NumP = optionValue.ToDecimal(); break;
+                        case "NumQ": demoDefinition.NumQ = optionValue.ToDecimal(); break;
+                        case "NumR": demoDefinition.NumR = optionValue.ToDecimal(); break;
+                        case "NumS": demoDefinition.NumS = optionValue.ToDecimal(); break;
+                        case "NumT": demoDefinition.NumT = optionValue.ToDecimal(); break;
+                        case "NumU": demoDefinition.NumU = optionValue.ToDecimal(); break;
+                        case "NumV": demoDefinition.NumV = optionValue.ToDecimal(); break;
+                        case "NumW": demoDefinition.NumW = optionValue.ToDecimal(); break;
+                        case "NumX": demoDefinition.NumX = optionValue.ToDecimal(); break;
+                        case "NumY": demoDefinition.NumY = optionValue.ToDecimal(); break;
+                        case "NumZ": demoDefinition.NumZ = optionValue.ToDecimal(); break;
                         case "DateA": demoDefinition.DateA = optionValue.ToDateTime(); break;
                         case "DateB": demoDefinition.DateB = optionValue.ToDateTime(); break;
                         case "DateC": demoDefinition.DateC = optionValue.ToDateTime(); break;
+                        case "DateD": demoDefinition.DateD = optionValue.ToDateTime(); break;
+                        case "DateE": demoDefinition.DateE = optionValue.ToDateTime(); break;
+                        case "DateF": demoDefinition.DateF = optionValue.ToDateTime(); break;
+                        case "DateG": demoDefinition.DateG = optionValue.ToDateTime(); break;
+                        case "DateH": demoDefinition.DateH = optionValue.ToDateTime(); break;
+                        case "DateI": demoDefinition.DateI = optionValue.ToDateTime(); break;
+                        case "DateJ": demoDefinition.DateJ = optionValue.ToDateTime(); break;
+                        case "DateK": demoDefinition.DateK = optionValue.ToDateTime(); break;
+                        case "DateL": demoDefinition.DateL = optionValue.ToDateTime(); break;
+                        case "DateM": demoDefinition.DateM = optionValue.ToDateTime(); break;
+                        case "DateN": demoDefinition.DateN = optionValue.ToDateTime(); break;
+                        case "DateO": demoDefinition.DateO = optionValue.ToDateTime(); break;
+                        case "DateP": demoDefinition.DateP = optionValue.ToDateTime(); break;
+                        case "DateQ": demoDefinition.DateQ = optionValue.ToDateTime(); break;
+                        case "DateR": demoDefinition.DateR = optionValue.ToDateTime(); break;
+                        case "DateS": demoDefinition.DateS = optionValue.ToDateTime(); break;
+                        case "DateT": demoDefinition.DateT = optionValue.ToDateTime(); break;
+                        case "DateU": demoDefinition.DateU = optionValue.ToDateTime(); break;
+                        case "DateV": demoDefinition.DateV = optionValue.ToDateTime(); break;
+                        case "DateW": demoDefinition.DateW = optionValue.ToDateTime(); break;
+                        case "DateX": demoDefinition.DateX = optionValue.ToDateTime(); break;
+                        case "DateY": demoDefinition.DateY = optionValue.ToDateTime(); break;
+                        case "DateZ": demoDefinition.DateZ = optionValue.ToDateTime(); break;
+                        case "DescriptionA": demoDefinition.DescriptionA = optionValue.ToString(); break;
+                        case "DescriptionB": demoDefinition.DescriptionB = optionValue.ToString(); break;
+                        case "DescriptionC": demoDefinition.DescriptionC = optionValue.ToString(); break;
+                        case "DescriptionD": demoDefinition.DescriptionD = optionValue.ToString(); break;
+                        case "DescriptionE": demoDefinition.DescriptionE = optionValue.ToString(); break;
+                        case "DescriptionF": demoDefinition.DescriptionF = optionValue.ToString(); break;
+                        case "DescriptionG": demoDefinition.DescriptionG = optionValue.ToString(); break;
+                        case "DescriptionH": demoDefinition.DescriptionH = optionValue.ToString(); break;
+                        case "DescriptionI": demoDefinition.DescriptionI = optionValue.ToString(); break;
+                        case "DescriptionJ": demoDefinition.DescriptionJ = optionValue.ToString(); break;
+                        case "DescriptionK": demoDefinition.DescriptionK = optionValue.ToString(); break;
+                        case "DescriptionL": demoDefinition.DescriptionL = optionValue.ToString(); break;
+                        case "DescriptionM": demoDefinition.DescriptionM = optionValue.ToString(); break;
+                        case "DescriptionN": demoDefinition.DescriptionN = optionValue.ToString(); break;
+                        case "DescriptionO": demoDefinition.DescriptionO = optionValue.ToString(); break;
+                        case "DescriptionP": demoDefinition.DescriptionP = optionValue.ToString(); break;
+                        case "DescriptionQ": demoDefinition.DescriptionQ = optionValue.ToString(); break;
+                        case "DescriptionR": demoDefinition.DescriptionR = optionValue.ToString(); break;
+                        case "DescriptionS": demoDefinition.DescriptionS = optionValue.ToString(); break;
+                        case "DescriptionT": demoDefinition.DescriptionT = optionValue.ToString(); break;
+                        case "DescriptionU": demoDefinition.DescriptionU = optionValue.ToString(); break;
+                        case "DescriptionV": demoDefinition.DescriptionV = optionValue.ToString(); break;
+                        case "DescriptionW": demoDefinition.DescriptionW = optionValue.ToString(); break;
+                        case "DescriptionX": demoDefinition.DescriptionX = optionValue.ToString(); break;
+                        case "DescriptionY": demoDefinition.DescriptionY = optionValue.ToString(); break;
+                        case "DescriptionZ": demoDefinition.DescriptionZ = optionValue.ToString(); break;
+                        case "CheckA": demoDefinition.CheckA = optionValue.ToBool(); break;
+                        case "CheckB": demoDefinition.CheckB = optionValue.ToBool(); break;
+                        case "CheckC": demoDefinition.CheckC = optionValue.ToBool(); break;
+                        case "CheckD": demoDefinition.CheckD = optionValue.ToBool(); break;
+                        case "CheckE": demoDefinition.CheckE = optionValue.ToBool(); break;
+                        case "CheckF": demoDefinition.CheckF = optionValue.ToBool(); break;
+                        case "CheckG": demoDefinition.CheckG = optionValue.ToBool(); break;
+                        case "CheckH": demoDefinition.CheckH = optionValue.ToBool(); break;
+                        case "CheckI": demoDefinition.CheckI = optionValue.ToBool(); break;
+                        case "CheckJ": demoDefinition.CheckJ = optionValue.ToBool(); break;
+                        case "CheckK": demoDefinition.CheckK = optionValue.ToBool(); break;
+                        case "CheckL": demoDefinition.CheckL = optionValue.ToBool(); break;
+                        case "CheckM": demoDefinition.CheckM = optionValue.ToBool(); break;
+                        case "CheckN": demoDefinition.CheckN = optionValue.ToBool(); break;
+                        case "CheckO": demoDefinition.CheckO = optionValue.ToBool(); break;
+                        case "CheckP": demoDefinition.CheckP = optionValue.ToBool(); break;
+                        case "CheckQ": demoDefinition.CheckQ = optionValue.ToBool(); break;
+                        case "CheckR": demoDefinition.CheckR = optionValue.ToBool(); break;
+                        case "CheckS": demoDefinition.CheckS = optionValue.ToBool(); break;
+                        case "CheckT": demoDefinition.CheckT = optionValue.ToBool(); break;
+                        case "CheckU": demoDefinition.CheckU = optionValue.ToBool(); break;
+                        case "CheckV": demoDefinition.CheckV = optionValue.ToBool(); break;
+                        case "CheckW": demoDefinition.CheckW = optionValue.ToBool(); break;
+                        case "CheckX": demoDefinition.CheckX = optionValue.ToBool(); break;
+                        case "CheckY": demoDefinition.CheckY = optionValue.ToBool(); break;
+                        case "CheckZ": demoDefinition.CheckZ = optionValue.ToBool(); break;
                         case "Manager": demoDefinition.Manager = optionValue.ToString(); break;
                         case "Owner": demoDefinition.Owner = optionValue.ToString(); break;
                         case "Creator": demoDefinition.Creator = optionValue.ToString(); break;
@@ -6905,14 +7289,133 @@ namespace Implem.DefinitionAccessor
         public string ClassA; public string SavedClassA;
         public string ClassB; public string SavedClassB;
         public string ClassC; public string SavedClassC;
+        public string ClassD; public string SavedClassD;
+        public string ClassE; public string SavedClassE;
+        public string ClassF; public string SavedClassF;
+        public string ClassG; public string SavedClassG;
+        public string ClassH; public string SavedClassH;
+        public string ClassI; public string SavedClassI;
+        public string ClassJ; public string SavedClassJ;
+        public string ClassK; public string SavedClassK;
+        public string ClassL; public string SavedClassL;
+        public string ClassM; public string SavedClassM;
+        public string ClassN; public string SavedClassN;
+        public string ClassO; public string SavedClassO;
+        public string ClassP; public string SavedClassP;
+        public string ClassQ; public string SavedClassQ;
+        public string ClassR; public string SavedClassR;
+        public string ClassS; public string SavedClassS;
+        public string ClassT; public string SavedClassT;
+        public string ClassU; public string SavedClassU;
+        public string ClassV; public string SavedClassV;
+        public string ClassW; public string SavedClassW;
+        public string ClassX; public string SavedClassX;
+        public string ClassY; public string SavedClassY;
+        public string ClassZ; public string SavedClassZ;
         public decimal NumA; public decimal SavedNumA;
         public decimal NumB; public decimal SavedNumB;
         public decimal NumC; public decimal SavedNumC;
         public decimal NumD; public decimal SavedNumD;
         public decimal NumE; public decimal SavedNumE;
+        public decimal NumF; public decimal SavedNumF;
+        public decimal NumG; public decimal SavedNumG;
+        public decimal NumH; public decimal SavedNumH;
+        public decimal NumI; public decimal SavedNumI;
+        public decimal NumJ; public decimal SavedNumJ;
+        public decimal NumK; public decimal SavedNumK;
+        public decimal NumL; public decimal SavedNumL;
+        public decimal NumM; public decimal SavedNumM;
+        public decimal NumN; public decimal SavedNumN;
+        public decimal NumO; public decimal SavedNumO;
+        public decimal NumP; public decimal SavedNumP;
+        public decimal NumQ; public decimal SavedNumQ;
+        public decimal NumR; public decimal SavedNumR;
+        public decimal NumS; public decimal SavedNumS;
+        public decimal NumT; public decimal SavedNumT;
+        public decimal NumU; public decimal SavedNumU;
+        public decimal NumV; public decimal SavedNumV;
+        public decimal NumW; public decimal SavedNumW;
+        public decimal NumX; public decimal SavedNumX;
+        public decimal NumY; public decimal SavedNumY;
+        public decimal NumZ; public decimal SavedNumZ;
         public DateTime DateA; public DateTime SavedDateA;
         public DateTime DateB; public DateTime SavedDateB;
         public DateTime DateC; public DateTime SavedDateC;
+        public DateTime DateD; public DateTime SavedDateD;
+        public DateTime DateE; public DateTime SavedDateE;
+        public DateTime DateF; public DateTime SavedDateF;
+        public DateTime DateG; public DateTime SavedDateG;
+        public DateTime DateH; public DateTime SavedDateH;
+        public DateTime DateI; public DateTime SavedDateI;
+        public DateTime DateJ; public DateTime SavedDateJ;
+        public DateTime DateK; public DateTime SavedDateK;
+        public DateTime DateL; public DateTime SavedDateL;
+        public DateTime DateM; public DateTime SavedDateM;
+        public DateTime DateN; public DateTime SavedDateN;
+        public DateTime DateO; public DateTime SavedDateO;
+        public DateTime DateP; public DateTime SavedDateP;
+        public DateTime DateQ; public DateTime SavedDateQ;
+        public DateTime DateR; public DateTime SavedDateR;
+        public DateTime DateS; public DateTime SavedDateS;
+        public DateTime DateT; public DateTime SavedDateT;
+        public DateTime DateU; public DateTime SavedDateU;
+        public DateTime DateV; public DateTime SavedDateV;
+        public DateTime DateW; public DateTime SavedDateW;
+        public DateTime DateX; public DateTime SavedDateX;
+        public DateTime DateY; public DateTime SavedDateY;
+        public DateTime DateZ; public DateTime SavedDateZ;
+        public string DescriptionA; public string SavedDescriptionA;
+        public string DescriptionB; public string SavedDescriptionB;
+        public string DescriptionC; public string SavedDescriptionC;
+        public string DescriptionD; public string SavedDescriptionD;
+        public string DescriptionE; public string SavedDescriptionE;
+        public string DescriptionF; public string SavedDescriptionF;
+        public string DescriptionG; public string SavedDescriptionG;
+        public string DescriptionH; public string SavedDescriptionH;
+        public string DescriptionI; public string SavedDescriptionI;
+        public string DescriptionJ; public string SavedDescriptionJ;
+        public string DescriptionK; public string SavedDescriptionK;
+        public string DescriptionL; public string SavedDescriptionL;
+        public string DescriptionM; public string SavedDescriptionM;
+        public string DescriptionN; public string SavedDescriptionN;
+        public string DescriptionO; public string SavedDescriptionO;
+        public string DescriptionP; public string SavedDescriptionP;
+        public string DescriptionQ; public string SavedDescriptionQ;
+        public string DescriptionR; public string SavedDescriptionR;
+        public string DescriptionS; public string SavedDescriptionS;
+        public string DescriptionT; public string SavedDescriptionT;
+        public string DescriptionU; public string SavedDescriptionU;
+        public string DescriptionV; public string SavedDescriptionV;
+        public string DescriptionW; public string SavedDescriptionW;
+        public string DescriptionX; public string SavedDescriptionX;
+        public string DescriptionY; public string SavedDescriptionY;
+        public string DescriptionZ; public string SavedDescriptionZ;
+        public bool CheckA; public bool SavedCheckA;
+        public bool CheckB; public bool SavedCheckB;
+        public bool CheckC; public bool SavedCheckC;
+        public bool CheckD; public bool SavedCheckD;
+        public bool CheckE; public bool SavedCheckE;
+        public bool CheckF; public bool SavedCheckF;
+        public bool CheckG; public bool SavedCheckG;
+        public bool CheckH; public bool SavedCheckH;
+        public bool CheckI; public bool SavedCheckI;
+        public bool CheckJ; public bool SavedCheckJ;
+        public bool CheckK; public bool SavedCheckK;
+        public bool CheckL; public bool SavedCheckL;
+        public bool CheckM; public bool SavedCheckM;
+        public bool CheckN; public bool SavedCheckN;
+        public bool CheckO; public bool SavedCheckO;
+        public bool CheckP; public bool SavedCheckP;
+        public bool CheckQ; public bool SavedCheckQ;
+        public bool CheckR; public bool SavedCheckR;
+        public bool CheckS; public bool SavedCheckS;
+        public bool CheckT; public bool SavedCheckT;
+        public bool CheckU; public bool SavedCheckU;
+        public bool CheckV; public bool SavedCheckV;
+        public bool CheckW; public bool SavedCheckW;
+        public bool CheckX; public bool SavedCheckX;
+        public bool CheckY; public bool SavedCheckY;
+        public bool CheckZ; public bool SavedCheckZ;
         public string Manager; public string SavedManager;
         public string Owner; public string SavedOwner;
         public string Creator; public string SavedCreator;
@@ -6939,14 +7442,133 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("ClassA")) ClassA = propertyCollection["ClassA"].ToString(); else ClassA = string.Empty;
             if (propertyCollection.ContainsKey("ClassB")) ClassB = propertyCollection["ClassB"].ToString(); else ClassB = string.Empty;
             if (propertyCollection.ContainsKey("ClassC")) ClassC = propertyCollection["ClassC"].ToString(); else ClassC = string.Empty;
+            if (propertyCollection.ContainsKey("ClassD")) ClassD = propertyCollection["ClassD"].ToString(); else ClassD = string.Empty;
+            if (propertyCollection.ContainsKey("ClassE")) ClassE = propertyCollection["ClassE"].ToString(); else ClassE = string.Empty;
+            if (propertyCollection.ContainsKey("ClassF")) ClassF = propertyCollection["ClassF"].ToString(); else ClassF = string.Empty;
+            if (propertyCollection.ContainsKey("ClassG")) ClassG = propertyCollection["ClassG"].ToString(); else ClassG = string.Empty;
+            if (propertyCollection.ContainsKey("ClassH")) ClassH = propertyCollection["ClassH"].ToString(); else ClassH = string.Empty;
+            if (propertyCollection.ContainsKey("ClassI")) ClassI = propertyCollection["ClassI"].ToString(); else ClassI = string.Empty;
+            if (propertyCollection.ContainsKey("ClassJ")) ClassJ = propertyCollection["ClassJ"].ToString(); else ClassJ = string.Empty;
+            if (propertyCollection.ContainsKey("ClassK")) ClassK = propertyCollection["ClassK"].ToString(); else ClassK = string.Empty;
+            if (propertyCollection.ContainsKey("ClassL")) ClassL = propertyCollection["ClassL"].ToString(); else ClassL = string.Empty;
+            if (propertyCollection.ContainsKey("ClassM")) ClassM = propertyCollection["ClassM"].ToString(); else ClassM = string.Empty;
+            if (propertyCollection.ContainsKey("ClassN")) ClassN = propertyCollection["ClassN"].ToString(); else ClassN = string.Empty;
+            if (propertyCollection.ContainsKey("ClassO")) ClassO = propertyCollection["ClassO"].ToString(); else ClassO = string.Empty;
+            if (propertyCollection.ContainsKey("ClassP")) ClassP = propertyCollection["ClassP"].ToString(); else ClassP = string.Empty;
+            if (propertyCollection.ContainsKey("ClassQ")) ClassQ = propertyCollection["ClassQ"].ToString(); else ClassQ = string.Empty;
+            if (propertyCollection.ContainsKey("ClassR")) ClassR = propertyCollection["ClassR"].ToString(); else ClassR = string.Empty;
+            if (propertyCollection.ContainsKey("ClassS")) ClassS = propertyCollection["ClassS"].ToString(); else ClassS = string.Empty;
+            if (propertyCollection.ContainsKey("ClassT")) ClassT = propertyCollection["ClassT"].ToString(); else ClassT = string.Empty;
+            if (propertyCollection.ContainsKey("ClassU")) ClassU = propertyCollection["ClassU"].ToString(); else ClassU = string.Empty;
+            if (propertyCollection.ContainsKey("ClassV")) ClassV = propertyCollection["ClassV"].ToString(); else ClassV = string.Empty;
+            if (propertyCollection.ContainsKey("ClassW")) ClassW = propertyCollection["ClassW"].ToString(); else ClassW = string.Empty;
+            if (propertyCollection.ContainsKey("ClassX")) ClassX = propertyCollection["ClassX"].ToString(); else ClassX = string.Empty;
+            if (propertyCollection.ContainsKey("ClassY")) ClassY = propertyCollection["ClassY"].ToString(); else ClassY = string.Empty;
+            if (propertyCollection.ContainsKey("ClassZ")) ClassZ = propertyCollection["ClassZ"].ToString(); else ClassZ = string.Empty;
             if (propertyCollection.ContainsKey("NumA")) NumA = propertyCollection["NumA"].ToDecimal(); else NumA = 0;
             if (propertyCollection.ContainsKey("NumB")) NumB = propertyCollection["NumB"].ToDecimal(); else NumB = 0;
             if (propertyCollection.ContainsKey("NumC")) NumC = propertyCollection["NumC"].ToDecimal(); else NumC = 0;
             if (propertyCollection.ContainsKey("NumD")) NumD = propertyCollection["NumD"].ToDecimal(); else NumD = 0;
             if (propertyCollection.ContainsKey("NumE")) NumE = propertyCollection["NumE"].ToDecimal(); else NumE = 0;
+            if (propertyCollection.ContainsKey("NumF")) NumF = propertyCollection["NumF"].ToDecimal(); else NumF = 0;
+            if (propertyCollection.ContainsKey("NumG")) NumG = propertyCollection["NumG"].ToDecimal(); else NumG = 0;
+            if (propertyCollection.ContainsKey("NumH")) NumH = propertyCollection["NumH"].ToDecimal(); else NumH = 0;
+            if (propertyCollection.ContainsKey("NumI")) NumI = propertyCollection["NumI"].ToDecimal(); else NumI = 0;
+            if (propertyCollection.ContainsKey("NumJ")) NumJ = propertyCollection["NumJ"].ToDecimal(); else NumJ = 0;
+            if (propertyCollection.ContainsKey("NumK")) NumK = propertyCollection["NumK"].ToDecimal(); else NumK = 0;
+            if (propertyCollection.ContainsKey("NumL")) NumL = propertyCollection["NumL"].ToDecimal(); else NumL = 0;
+            if (propertyCollection.ContainsKey("NumM")) NumM = propertyCollection["NumM"].ToDecimal(); else NumM = 0;
+            if (propertyCollection.ContainsKey("NumN")) NumN = propertyCollection["NumN"].ToDecimal(); else NumN = 0;
+            if (propertyCollection.ContainsKey("NumO")) NumO = propertyCollection["NumO"].ToDecimal(); else NumO = 0;
+            if (propertyCollection.ContainsKey("NumP")) NumP = propertyCollection["NumP"].ToDecimal(); else NumP = 0;
+            if (propertyCollection.ContainsKey("NumQ")) NumQ = propertyCollection["NumQ"].ToDecimal(); else NumQ = 0;
+            if (propertyCollection.ContainsKey("NumR")) NumR = propertyCollection["NumR"].ToDecimal(); else NumR = 0;
+            if (propertyCollection.ContainsKey("NumS")) NumS = propertyCollection["NumS"].ToDecimal(); else NumS = 0;
+            if (propertyCollection.ContainsKey("NumT")) NumT = propertyCollection["NumT"].ToDecimal(); else NumT = 0;
+            if (propertyCollection.ContainsKey("NumU")) NumU = propertyCollection["NumU"].ToDecimal(); else NumU = 0;
+            if (propertyCollection.ContainsKey("NumV")) NumV = propertyCollection["NumV"].ToDecimal(); else NumV = 0;
+            if (propertyCollection.ContainsKey("NumW")) NumW = propertyCollection["NumW"].ToDecimal(); else NumW = 0;
+            if (propertyCollection.ContainsKey("NumX")) NumX = propertyCollection["NumX"].ToDecimal(); else NumX = 0;
+            if (propertyCollection.ContainsKey("NumY")) NumY = propertyCollection["NumY"].ToDecimal(); else NumY = 0;
+            if (propertyCollection.ContainsKey("NumZ")) NumZ = propertyCollection["NumZ"].ToDecimal(); else NumZ = 0;
             if (propertyCollection.ContainsKey("DateA")) DateA = propertyCollection["DateA"].ToDateTime(); else DateA = 0.ToDateTime();
             if (propertyCollection.ContainsKey("DateB")) DateB = propertyCollection["DateB"].ToDateTime(); else DateB = 0.ToDateTime();
             if (propertyCollection.ContainsKey("DateC")) DateC = propertyCollection["DateC"].ToDateTime(); else DateC = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateD")) DateD = propertyCollection["DateD"].ToDateTime(); else DateD = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateE")) DateE = propertyCollection["DateE"].ToDateTime(); else DateE = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateF")) DateF = propertyCollection["DateF"].ToDateTime(); else DateF = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateG")) DateG = propertyCollection["DateG"].ToDateTime(); else DateG = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateH")) DateH = propertyCollection["DateH"].ToDateTime(); else DateH = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateI")) DateI = propertyCollection["DateI"].ToDateTime(); else DateI = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateJ")) DateJ = propertyCollection["DateJ"].ToDateTime(); else DateJ = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateK")) DateK = propertyCollection["DateK"].ToDateTime(); else DateK = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateL")) DateL = propertyCollection["DateL"].ToDateTime(); else DateL = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateM")) DateM = propertyCollection["DateM"].ToDateTime(); else DateM = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateN")) DateN = propertyCollection["DateN"].ToDateTime(); else DateN = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateO")) DateO = propertyCollection["DateO"].ToDateTime(); else DateO = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateP")) DateP = propertyCollection["DateP"].ToDateTime(); else DateP = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateQ")) DateQ = propertyCollection["DateQ"].ToDateTime(); else DateQ = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateR")) DateR = propertyCollection["DateR"].ToDateTime(); else DateR = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateS")) DateS = propertyCollection["DateS"].ToDateTime(); else DateS = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateT")) DateT = propertyCollection["DateT"].ToDateTime(); else DateT = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateU")) DateU = propertyCollection["DateU"].ToDateTime(); else DateU = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateV")) DateV = propertyCollection["DateV"].ToDateTime(); else DateV = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateW")) DateW = propertyCollection["DateW"].ToDateTime(); else DateW = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateX")) DateX = propertyCollection["DateX"].ToDateTime(); else DateX = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateY")) DateY = propertyCollection["DateY"].ToDateTime(); else DateY = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DateZ")) DateZ = propertyCollection["DateZ"].ToDateTime(); else DateZ = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("DescriptionA")) DescriptionA = propertyCollection["DescriptionA"].ToString(); else DescriptionA = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionB")) DescriptionB = propertyCollection["DescriptionB"].ToString(); else DescriptionB = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionC")) DescriptionC = propertyCollection["DescriptionC"].ToString(); else DescriptionC = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionD")) DescriptionD = propertyCollection["DescriptionD"].ToString(); else DescriptionD = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionE")) DescriptionE = propertyCollection["DescriptionE"].ToString(); else DescriptionE = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionF")) DescriptionF = propertyCollection["DescriptionF"].ToString(); else DescriptionF = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionG")) DescriptionG = propertyCollection["DescriptionG"].ToString(); else DescriptionG = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionH")) DescriptionH = propertyCollection["DescriptionH"].ToString(); else DescriptionH = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionI")) DescriptionI = propertyCollection["DescriptionI"].ToString(); else DescriptionI = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionJ")) DescriptionJ = propertyCollection["DescriptionJ"].ToString(); else DescriptionJ = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionK")) DescriptionK = propertyCollection["DescriptionK"].ToString(); else DescriptionK = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionL")) DescriptionL = propertyCollection["DescriptionL"].ToString(); else DescriptionL = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionM")) DescriptionM = propertyCollection["DescriptionM"].ToString(); else DescriptionM = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionN")) DescriptionN = propertyCollection["DescriptionN"].ToString(); else DescriptionN = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionO")) DescriptionO = propertyCollection["DescriptionO"].ToString(); else DescriptionO = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionP")) DescriptionP = propertyCollection["DescriptionP"].ToString(); else DescriptionP = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionQ")) DescriptionQ = propertyCollection["DescriptionQ"].ToString(); else DescriptionQ = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionR")) DescriptionR = propertyCollection["DescriptionR"].ToString(); else DescriptionR = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionS")) DescriptionS = propertyCollection["DescriptionS"].ToString(); else DescriptionS = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionT")) DescriptionT = propertyCollection["DescriptionT"].ToString(); else DescriptionT = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionU")) DescriptionU = propertyCollection["DescriptionU"].ToString(); else DescriptionU = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionV")) DescriptionV = propertyCollection["DescriptionV"].ToString(); else DescriptionV = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionW")) DescriptionW = propertyCollection["DescriptionW"].ToString(); else DescriptionW = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionX")) DescriptionX = propertyCollection["DescriptionX"].ToString(); else DescriptionX = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionY")) DescriptionY = propertyCollection["DescriptionY"].ToString(); else DescriptionY = string.Empty;
+            if (propertyCollection.ContainsKey("DescriptionZ")) DescriptionZ = propertyCollection["DescriptionZ"].ToString(); else DescriptionZ = string.Empty;
+            if (propertyCollection.ContainsKey("CheckA")) CheckA = propertyCollection["CheckA"].ToBool(); else CheckA = false;
+            if (propertyCollection.ContainsKey("CheckB")) CheckB = propertyCollection["CheckB"].ToBool(); else CheckB = false;
+            if (propertyCollection.ContainsKey("CheckC")) CheckC = propertyCollection["CheckC"].ToBool(); else CheckC = false;
+            if (propertyCollection.ContainsKey("CheckD")) CheckD = propertyCollection["CheckD"].ToBool(); else CheckD = false;
+            if (propertyCollection.ContainsKey("CheckE")) CheckE = propertyCollection["CheckE"].ToBool(); else CheckE = false;
+            if (propertyCollection.ContainsKey("CheckF")) CheckF = propertyCollection["CheckF"].ToBool(); else CheckF = false;
+            if (propertyCollection.ContainsKey("CheckG")) CheckG = propertyCollection["CheckG"].ToBool(); else CheckG = false;
+            if (propertyCollection.ContainsKey("CheckH")) CheckH = propertyCollection["CheckH"].ToBool(); else CheckH = false;
+            if (propertyCollection.ContainsKey("CheckI")) CheckI = propertyCollection["CheckI"].ToBool(); else CheckI = false;
+            if (propertyCollection.ContainsKey("CheckJ")) CheckJ = propertyCollection["CheckJ"].ToBool(); else CheckJ = false;
+            if (propertyCollection.ContainsKey("CheckK")) CheckK = propertyCollection["CheckK"].ToBool(); else CheckK = false;
+            if (propertyCollection.ContainsKey("CheckL")) CheckL = propertyCollection["CheckL"].ToBool(); else CheckL = false;
+            if (propertyCollection.ContainsKey("CheckM")) CheckM = propertyCollection["CheckM"].ToBool(); else CheckM = false;
+            if (propertyCollection.ContainsKey("CheckN")) CheckN = propertyCollection["CheckN"].ToBool(); else CheckN = false;
+            if (propertyCollection.ContainsKey("CheckO")) CheckO = propertyCollection["CheckO"].ToBool(); else CheckO = false;
+            if (propertyCollection.ContainsKey("CheckP")) CheckP = propertyCollection["CheckP"].ToBool(); else CheckP = false;
+            if (propertyCollection.ContainsKey("CheckQ")) CheckQ = propertyCollection["CheckQ"].ToBool(); else CheckQ = false;
+            if (propertyCollection.ContainsKey("CheckR")) CheckR = propertyCollection["CheckR"].ToBool(); else CheckR = false;
+            if (propertyCollection.ContainsKey("CheckS")) CheckS = propertyCollection["CheckS"].ToBool(); else CheckS = false;
+            if (propertyCollection.ContainsKey("CheckT")) CheckT = propertyCollection["CheckT"].ToBool(); else CheckT = false;
+            if (propertyCollection.ContainsKey("CheckU")) CheckU = propertyCollection["CheckU"].ToBool(); else CheckU = false;
+            if (propertyCollection.ContainsKey("CheckV")) CheckV = propertyCollection["CheckV"].ToBool(); else CheckV = false;
+            if (propertyCollection.ContainsKey("CheckW")) CheckW = propertyCollection["CheckW"].ToBool(); else CheckW = false;
+            if (propertyCollection.ContainsKey("CheckX")) CheckX = propertyCollection["CheckX"].ToBool(); else CheckX = false;
+            if (propertyCollection.ContainsKey("CheckY")) CheckY = propertyCollection["CheckY"].ToBool(); else CheckY = false;
+            if (propertyCollection.ContainsKey("CheckZ")) CheckZ = propertyCollection["CheckZ"].ToBool(); else CheckZ = false;
             if (propertyCollection.ContainsKey("Manager")) Manager = propertyCollection["Manager"].ToString(); else Manager = string.Empty;
             if (propertyCollection.ContainsKey("Owner")) Owner = propertyCollection["Owner"].ToString(); else Owner = string.Empty;
             if (propertyCollection.ContainsKey("Creator")) Creator = propertyCollection["Creator"].ToString(); else Creator = string.Empty;
@@ -6973,14 +7595,133 @@ namespace Implem.DefinitionAccessor
                     case "ClassA": return ClassA;
                     case "ClassB": return ClassB;
                     case "ClassC": return ClassC;
+                    case "ClassD": return ClassD;
+                    case "ClassE": return ClassE;
+                    case "ClassF": return ClassF;
+                    case "ClassG": return ClassG;
+                    case "ClassH": return ClassH;
+                    case "ClassI": return ClassI;
+                    case "ClassJ": return ClassJ;
+                    case "ClassK": return ClassK;
+                    case "ClassL": return ClassL;
+                    case "ClassM": return ClassM;
+                    case "ClassN": return ClassN;
+                    case "ClassO": return ClassO;
+                    case "ClassP": return ClassP;
+                    case "ClassQ": return ClassQ;
+                    case "ClassR": return ClassR;
+                    case "ClassS": return ClassS;
+                    case "ClassT": return ClassT;
+                    case "ClassU": return ClassU;
+                    case "ClassV": return ClassV;
+                    case "ClassW": return ClassW;
+                    case "ClassX": return ClassX;
+                    case "ClassY": return ClassY;
+                    case "ClassZ": return ClassZ;
                     case "NumA": return NumA;
                     case "NumB": return NumB;
                     case "NumC": return NumC;
                     case "NumD": return NumD;
                     case "NumE": return NumE;
+                    case "NumF": return NumF;
+                    case "NumG": return NumG;
+                    case "NumH": return NumH;
+                    case "NumI": return NumI;
+                    case "NumJ": return NumJ;
+                    case "NumK": return NumK;
+                    case "NumL": return NumL;
+                    case "NumM": return NumM;
+                    case "NumN": return NumN;
+                    case "NumO": return NumO;
+                    case "NumP": return NumP;
+                    case "NumQ": return NumQ;
+                    case "NumR": return NumR;
+                    case "NumS": return NumS;
+                    case "NumT": return NumT;
+                    case "NumU": return NumU;
+                    case "NumV": return NumV;
+                    case "NumW": return NumW;
+                    case "NumX": return NumX;
+                    case "NumY": return NumY;
+                    case "NumZ": return NumZ;
                     case "DateA": return DateA;
                     case "DateB": return DateB;
                     case "DateC": return DateC;
+                    case "DateD": return DateD;
+                    case "DateE": return DateE;
+                    case "DateF": return DateF;
+                    case "DateG": return DateG;
+                    case "DateH": return DateH;
+                    case "DateI": return DateI;
+                    case "DateJ": return DateJ;
+                    case "DateK": return DateK;
+                    case "DateL": return DateL;
+                    case "DateM": return DateM;
+                    case "DateN": return DateN;
+                    case "DateO": return DateO;
+                    case "DateP": return DateP;
+                    case "DateQ": return DateQ;
+                    case "DateR": return DateR;
+                    case "DateS": return DateS;
+                    case "DateT": return DateT;
+                    case "DateU": return DateU;
+                    case "DateV": return DateV;
+                    case "DateW": return DateW;
+                    case "DateX": return DateX;
+                    case "DateY": return DateY;
+                    case "DateZ": return DateZ;
+                    case "DescriptionA": return DescriptionA;
+                    case "DescriptionB": return DescriptionB;
+                    case "DescriptionC": return DescriptionC;
+                    case "DescriptionD": return DescriptionD;
+                    case "DescriptionE": return DescriptionE;
+                    case "DescriptionF": return DescriptionF;
+                    case "DescriptionG": return DescriptionG;
+                    case "DescriptionH": return DescriptionH;
+                    case "DescriptionI": return DescriptionI;
+                    case "DescriptionJ": return DescriptionJ;
+                    case "DescriptionK": return DescriptionK;
+                    case "DescriptionL": return DescriptionL;
+                    case "DescriptionM": return DescriptionM;
+                    case "DescriptionN": return DescriptionN;
+                    case "DescriptionO": return DescriptionO;
+                    case "DescriptionP": return DescriptionP;
+                    case "DescriptionQ": return DescriptionQ;
+                    case "DescriptionR": return DescriptionR;
+                    case "DescriptionS": return DescriptionS;
+                    case "DescriptionT": return DescriptionT;
+                    case "DescriptionU": return DescriptionU;
+                    case "DescriptionV": return DescriptionV;
+                    case "DescriptionW": return DescriptionW;
+                    case "DescriptionX": return DescriptionX;
+                    case "DescriptionY": return DescriptionY;
+                    case "DescriptionZ": return DescriptionZ;
+                    case "CheckA": return CheckA;
+                    case "CheckB": return CheckB;
+                    case "CheckC": return CheckC;
+                    case "CheckD": return CheckD;
+                    case "CheckE": return CheckE;
+                    case "CheckF": return CheckF;
+                    case "CheckG": return CheckG;
+                    case "CheckH": return CheckH;
+                    case "CheckI": return CheckI;
+                    case "CheckJ": return CheckJ;
+                    case "CheckK": return CheckK;
+                    case "CheckL": return CheckL;
+                    case "CheckM": return CheckM;
+                    case "CheckN": return CheckN;
+                    case "CheckO": return CheckO;
+                    case "CheckP": return CheckP;
+                    case "CheckQ": return CheckQ;
+                    case "CheckR": return CheckR;
+                    case "CheckS": return CheckS;
+                    case "CheckT": return CheckT;
+                    case "CheckU": return CheckU;
+                    case "CheckV": return CheckV;
+                    case "CheckW": return CheckW;
+                    case "CheckX": return CheckX;
+                    case "CheckY": return CheckY;
+                    case "CheckZ": return CheckZ;
                     case "Manager": return Manager;
                     case "Owner": return Owner;
                     case "Creator": return Creator;
@@ -7007,14 +7748,133 @@ namespace Implem.DefinitionAccessor
             ClassA = SavedClassA;
             ClassB = SavedClassB;
             ClassC = SavedClassC;
+            ClassD = SavedClassD;
+            ClassE = SavedClassE;
+            ClassF = SavedClassF;
+            ClassG = SavedClassG;
+            ClassH = SavedClassH;
+            ClassI = SavedClassI;
+            ClassJ = SavedClassJ;
+            ClassK = SavedClassK;
+            ClassL = SavedClassL;
+            ClassM = SavedClassM;
+            ClassN = SavedClassN;
+            ClassO = SavedClassO;
+            ClassP = SavedClassP;
+            ClassQ = SavedClassQ;
+            ClassR = SavedClassR;
+            ClassS = SavedClassS;
+            ClassT = SavedClassT;
+            ClassU = SavedClassU;
+            ClassV = SavedClassV;
+            ClassW = SavedClassW;
+            ClassX = SavedClassX;
+            ClassY = SavedClassY;
+            ClassZ = SavedClassZ;
             NumA = SavedNumA;
             NumB = SavedNumB;
             NumC = SavedNumC;
             NumD = SavedNumD;
             NumE = SavedNumE;
+            NumF = SavedNumF;
+            NumG = SavedNumG;
+            NumH = SavedNumH;
+            NumI = SavedNumI;
+            NumJ = SavedNumJ;
+            NumK = SavedNumK;
+            NumL = SavedNumL;
+            NumM = SavedNumM;
+            NumN = SavedNumN;
+            NumO = SavedNumO;
+            NumP = SavedNumP;
+            NumQ = SavedNumQ;
+            NumR = SavedNumR;
+            NumS = SavedNumS;
+            NumT = SavedNumT;
+            NumU = SavedNumU;
+            NumV = SavedNumV;
+            NumW = SavedNumW;
+            NumX = SavedNumX;
+            NumY = SavedNumY;
+            NumZ = SavedNumZ;
             DateA = SavedDateA;
             DateB = SavedDateB;
             DateC = SavedDateC;
+            DateD = SavedDateD;
+            DateE = SavedDateE;
+            DateF = SavedDateF;
+            DateG = SavedDateG;
+            DateH = SavedDateH;
+            DateI = SavedDateI;
+            DateJ = SavedDateJ;
+            DateK = SavedDateK;
+            DateL = SavedDateL;
+            DateM = SavedDateM;
+            DateN = SavedDateN;
+            DateO = SavedDateO;
+            DateP = SavedDateP;
+            DateQ = SavedDateQ;
+            DateR = SavedDateR;
+            DateS = SavedDateS;
+            DateT = SavedDateT;
+            DateU = SavedDateU;
+            DateV = SavedDateV;
+            DateW = SavedDateW;
+            DateX = SavedDateX;
+            DateY = SavedDateY;
+            DateZ = SavedDateZ;
+            DescriptionA = SavedDescriptionA;
+            DescriptionB = SavedDescriptionB;
+            DescriptionC = SavedDescriptionC;
+            DescriptionD = SavedDescriptionD;
+            DescriptionE = SavedDescriptionE;
+            DescriptionF = SavedDescriptionF;
+            DescriptionG = SavedDescriptionG;
+            DescriptionH = SavedDescriptionH;
+            DescriptionI = SavedDescriptionI;
+            DescriptionJ = SavedDescriptionJ;
+            DescriptionK = SavedDescriptionK;
+            DescriptionL = SavedDescriptionL;
+            DescriptionM = SavedDescriptionM;
+            DescriptionN = SavedDescriptionN;
+            DescriptionO = SavedDescriptionO;
+            DescriptionP = SavedDescriptionP;
+            DescriptionQ = SavedDescriptionQ;
+            DescriptionR = SavedDescriptionR;
+            DescriptionS = SavedDescriptionS;
+            DescriptionT = SavedDescriptionT;
+            DescriptionU = SavedDescriptionU;
+            DescriptionV = SavedDescriptionV;
+            DescriptionW = SavedDescriptionW;
+            DescriptionX = SavedDescriptionX;
+            DescriptionY = SavedDescriptionY;
+            DescriptionZ = SavedDescriptionZ;
+            CheckA = SavedCheckA;
+            CheckB = SavedCheckB;
+            CheckC = SavedCheckC;
+            CheckD = SavedCheckD;
+            CheckE = SavedCheckE;
+            CheckF = SavedCheckF;
+            CheckG = SavedCheckG;
+            CheckH = SavedCheckH;
+            CheckI = SavedCheckI;
+            CheckJ = SavedCheckJ;
+            CheckK = SavedCheckK;
+            CheckL = SavedCheckL;
+            CheckM = SavedCheckM;
+            CheckN = SavedCheckN;
+            CheckO = SavedCheckO;
+            CheckP = SavedCheckP;
+            CheckQ = SavedCheckQ;
+            CheckR = SavedCheckR;
+            CheckS = SavedCheckS;
+            CheckT = SavedCheckT;
+            CheckU = SavedCheckU;
+            CheckV = SavedCheckV;
+            CheckW = SavedCheckW;
+            CheckX = SavedCheckX;
+            CheckY = SavedCheckY;
+            CheckZ = SavedCheckZ;
             Manager = SavedManager;
             Owner = SavedOwner;
             Creator = SavedCreator;
@@ -7072,6 +7932,11 @@ namespace Implem.DefinitionAccessor
         public string Site14;
         public string Site15;
         public string Site16;
+        public string Site17;
+        public string Site18;
+        public string Site19;
+        public string Site20;
+        public string Site21;
         public string DefineNetworks;
         public string DefineServers;
         public string DefineSecurity;
@@ -7137,7 +8002,29 @@ namespace Implem.DefinitionAccessor
         public string Consume2;
         public string Consume3;
         public string Consume4;
+        public string Consume5;
+        public string Consume6;
+        public string Consume7;
         public string Report1;
+        public string Report2;
+        public string Report3;
+        public string Transport1;
+        public string Transport2;
+        public string Transport3;
+        public string Transport4;
+        public string Transport5;
+        public string Transport6;
+        public string Transport7;
+        public string Transport8;
+        public string Transport9;
+        public string Transport10;
+        public string Transport11;
+        public string Transport12;
+        public string Transport13;
+        public string Transport14;
+        public string Transport15;
+        public string Facility1;
+        public string Trouble1;
         public string Comment1;
         public string Comment2;
         public string Comment3;
@@ -7200,6 +8087,11 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Site14 = new DemoDefinition();
         public DemoDefinition Site15 = new DemoDefinition();
         public DemoDefinition Site16 = new DemoDefinition();
+        public DemoDefinition Site17 = new DemoDefinition();
+        public DemoDefinition Site18 = new DemoDefinition();
+        public DemoDefinition Site19 = new DemoDefinition();
+        public DemoDefinition Site20 = new DemoDefinition();
+        public DemoDefinition Site21 = new DemoDefinition();
         public DemoDefinition DefineNetworks = new DemoDefinition();
         public DemoDefinition DefineServers = new DemoDefinition();
         public DemoDefinition DefineSecurity = new DemoDefinition();
@@ -7265,7 +8157,29 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Consume2 = new DemoDefinition();
         public DemoDefinition Consume3 = new DemoDefinition();
         public DemoDefinition Consume4 = new DemoDefinition();
+        public DemoDefinition Consume5 = new DemoDefinition();
+        public DemoDefinition Consume6 = new DemoDefinition();
+        public DemoDefinition Consume7 = new DemoDefinition();
         public DemoDefinition Report1 = new DemoDefinition();
+        public DemoDefinition Report2 = new DemoDefinition();
+        public DemoDefinition Report3 = new DemoDefinition();
+        public DemoDefinition Transport1 = new DemoDefinition();
+        public DemoDefinition Transport2 = new DemoDefinition();
+        public DemoDefinition Transport3 = new DemoDefinition();
+        public DemoDefinition Transport4 = new DemoDefinition();
+        public DemoDefinition Transport5 = new DemoDefinition();
+        public DemoDefinition Transport6 = new DemoDefinition();
+        public DemoDefinition Transport7 = new DemoDefinition();
+        public DemoDefinition Transport8 = new DemoDefinition();
+        public DemoDefinition Transport9 = new DemoDefinition();
+        public DemoDefinition Transport10 = new DemoDefinition();
+        public DemoDefinition Transport11 = new DemoDefinition();
+        public DemoDefinition Transport12 = new DemoDefinition();
+        public DemoDefinition Transport13 = new DemoDefinition();
+        public DemoDefinition Transport14 = new DemoDefinition();
+        public DemoDefinition Transport15 = new DemoDefinition();
+        public DemoDefinition Facility1 = new DemoDefinition();
+        public DemoDefinition Trouble1 = new DemoDefinition();
         public DemoDefinition Comment1 = new DemoDefinition();
         public DemoDefinition Comment2 = new DemoDefinition();
         public DemoDefinition Comment3 = new DemoDefinition();
