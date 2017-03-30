@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: () => hb
                                         .Span(css: "ui-icon ui-icon-plus")
                                         .Text(text: Displays.New()))),
-                        _using: ss.CanCreate() && !EditorActions())
+                        _using: ss.CanCreate())
                     .Li(
                         css: "sub-menu",
                         action: () => hb
