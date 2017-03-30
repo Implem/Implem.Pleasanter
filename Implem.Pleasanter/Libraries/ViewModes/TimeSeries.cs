@@ -137,7 +137,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         private string IndexText(KeyValuePair<string, ControlData> index, Column valueColumn)
         {
             var data = GetData(Targets(MaxTime).Where(p => p.Index == index.Key));
-            return "{0}({1})".Params(
+            return "{0}: {1}".Params(
                 index.Value.Text,
                 AggregationType != "Count"
                     ? valueColumn.Display(data, unit:true)
