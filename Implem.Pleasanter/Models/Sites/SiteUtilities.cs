@@ -110,6 +110,7 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(SiteModel siteModel)
         {
+            siteModel.ClearSessions();
             return EditorResponse(siteModel).ToJson();
         }
 
