@@ -67,6 +67,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("SetFormData", target, value) : this;
         }
 
+        public ResponseCollection SetMemory(string target, object value, bool _using = true)
+        {
+            return _using ? Add("SetMemory", target, value) : this;
+        }
+
         public ResponseCollection Append(string target, HtmlBuilder value, bool _using = true)
         {
             return _using ? Add("Append", target, value.ToString()) : this;

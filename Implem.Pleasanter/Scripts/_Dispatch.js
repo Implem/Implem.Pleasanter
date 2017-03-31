@@ -41,6 +41,9 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
         case 'SetFormData':
             data[target] = value;
             break;
+        case 'SetMemory':
+            $p[target] = value;
+            break;
         case 'Append':
             $(target).append(value);
             break;
