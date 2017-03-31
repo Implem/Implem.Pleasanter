@@ -199,7 +199,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         href: Locations.Logout(),
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-locked")
-                            .Text(text: Displays.Logout()))));
+                            .Text(text: Displays.Logout())))
+                .Li(action: () => hb
+                    .A(
+                        href: Parameters.General.HtmlCopyrightUrl,
+                        action: () => hb
+                            .Span(css: "ui-icon ui-icon-locked")
+                            .Text(text: Displays.Support()))));
         }
 
         private static HtmlBuilder Search(this HtmlBuilder hb, bool _using)

@@ -368,6 +368,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SummaryLinkColumn(params string[] data) { return Get("SummaryLinkColumn", data); }
         public static string SummarySourceColumn(params string[] data) { return Get("SummarySourceColumn", data); }
         public static string SummaryType(params string[] data) { return Get("SummaryType", data); }
+        public static string Support(params string[] data) { return Get("Support", data); }
         public static string SynchronizationCompleted(params string[] data) { return Get("SynchronizationCompleted", data); }
         public static string Synchronize(params string[] data) { return Get("Synchronize", data); }
         public static string Target(params string[] data) { return Get("Target", data); }
