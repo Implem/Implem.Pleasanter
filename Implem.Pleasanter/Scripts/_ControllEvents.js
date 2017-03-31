@@ -10,12 +10,14 @@
             } else if (parseInt($(this).val()) > parseInt($(this).attr('data-max'))) {
                 $(this).val($(this).attr('data-max'));
             }
+            $p.formChanged = true;
         }
         $p.setData($(this));
         e.preventDefault();
     });
     $(document).on('spin', '.control-spinner', function (event, ui) {
         $p.getData($(this))[this.id] = ui.value;
+        $p.formChanged = true;
     });
     $(document).on('change', '.control-checkbox.visible', function () {
         show(this.id.substring(7, this.id.length), $(this).prop('checked'));

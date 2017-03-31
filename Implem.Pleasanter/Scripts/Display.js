@@ -4,6 +4,8 @@
         CheckAll: '全て選択',
         ConfirmDelete: 'Are you sure you want to delete ?',
         ConfirmDelete: '本当に削除してもよろしいですか？',
+        ConfirmReload: 'Are you sure you want to reload this page?',
+        ConfirmReload: 'このページを離れようとしています。',
         ConfirmSendMail: 'Are you sure you want to send an email ?',
         ConfirmSendMail: 'メールを送信してもよろしいですか？',
         ConfirmSeparate: 'Are you sure you want to separate ?',

@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Button(
                     controlId: "Reload",
                     text: Displays.Reload(),
-                    controlCss: "button-icon",
+                    controlCss: "button-icon confirm-reload",
                     onClick: "$p.get($(this));",
                     icon: "ui-icon-refresh",
                     action: "Edit",
@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Button(
                         controlId: "Previous",
                         text: Displays.Previous(),
-                        controlCss: "button-icon",
+                        controlCss: "button-icon confirm-reload",
                         accessKey: "b",
                         onClick: "$p.get($(this));",
                         icon: "ui-icon-seek-prev",
@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Button(
                         controlId: "Next",
                         text: Displays.Next(),
-                        controlCss: "button-icon",
+                        controlCss: "button-icon confirm-reload",
                         accessKey: "n",
                         onClick: "$p.get($(this));",
                         icon: "ui-icon-seek-next",

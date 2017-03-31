@@ -579,7 +579,9 @@ namespace Implem.Pleasanter.Models
             SetSiteSettingsPropertiesBySession();
             SetSiteSettings(res);
             Session_SiteSettings(SiteSettings.ToJson());
-            return res.ToJson();
+            return res
+                .SetMemory("formChanged", true)
+                .ToJson();
         }
 
         /// <summary>

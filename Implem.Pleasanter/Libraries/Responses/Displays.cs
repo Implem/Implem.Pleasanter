@@ -92,6 +92,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Comments(params string[] data) { return Get("Comments", data); }
         public static string Condition(params string[] data) { return Get("Condition", data); }
         public static string ConfirmDelete(params string[] data) { return Get("ConfirmDelete", data); }
+        public static string ConfirmReload(params string[] data) { return Get("ConfirmReload", data); }
         public static string ConfirmSendMail(params string[] data) { return Get("ConfirmSendMail", data); }
         public static string ConfirmSeparate(params string[] data) { return Get("ConfirmSeparate", data); }
         public static string ConfirmSynchronize(params string[] data) { return Get("ConfirmSynchronize", data); }

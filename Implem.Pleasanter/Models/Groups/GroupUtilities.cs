@@ -428,7 +428,7 @@ namespace Implem.Pleasanter.Models
                 .Form(
                     attributes: new HtmlAttributes()
                         .Id("GroupForm")
-                        .Class("main-form")
+                        .Class("main-form confirm-reload")
                         .Action(groupModel.GroupId != 0
                             ? Locations.Action("Groups", groupModel.GroupId)
                             : Locations.Action("Groups")),
@@ -586,6 +586,7 @@ namespace Implem.Pleasanter.Models
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(ss, groupModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
                 .ClearFormData();
@@ -678,6 +679,7 @@ namespace Implem.Pleasanter.Models
                 .Html("#HeaderTitle", groupModel.Title.Value)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                     baseModel: groupModel, tableName: "Groups"))
+                .SetMemory("formChanged", false)
                 .Message(Messages.Updated(groupModel.Title.ToString()))
                 .RemoveComment(groupModel.DeleteCommentId, _using: groupModel.DeleteCommentId != 0)
                 .ClearFormData();
@@ -701,7 +703,9 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set("Message", Messages.Deleted(groupModel.Title.Value).Html);
                 var res = new GroupsResponseCollection(groupModel);
-                res.Href(Locations.Index("Groups"));
+                res
+                    .SetMemory("formChanged", false)
+                    .Href(Locations.Index("Groups"));
                 return res.ToJson();
             }
         }

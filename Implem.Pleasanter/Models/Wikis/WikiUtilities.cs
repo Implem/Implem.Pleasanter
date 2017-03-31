@@ -340,6 +340,7 @@ namespace Implem.Pleasanter.Models
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(ss, wikiModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
                 .ClearFormData();
@@ -414,6 +415,7 @@ namespace Implem.Pleasanter.Models
                     baseModel: wikiModel, tableName: "Wikis"))
                 .Html("#Links", new HtmlBuilder().Links(
                     ss: ss, id: wikiModel.WikiId))
+                .SetMemory("formChanged", false)
                 .Message(Messages.Updated(wikiModel.Title.ToString()))
                 .RemoveComment(wikiModel.DeleteCommentId, _using: wikiModel.DeleteCommentId != 0)
                 .ClearFormData();
@@ -437,13 +439,15 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set("Message", Messages.Deleted(wikiModel.Title.Value).Html);
                 var res = new WikisResponseCollection(wikiModel);
-                res.Href(Locations.ItemIndex(Rds.ExecuteScalar_long(statements:
-                    Rds.SelectSites(
-                        tableType: Sqls.TableTypes.Deleted,
-                        column: Rds.SitesColumn().ParentId(),
-                        where: Rds.SitesWhere()
-                            .TenantId(Sessions.TenantId())
-                            .SiteId(wikiModel.SiteId)))));
+                res
+                    .SetMemory("formChanged", false)
+                    .Href(Locations.ItemIndex(Rds.ExecuteScalar_long(statements:
+                        Rds.SelectSites(
+                            tableType: Sqls.TableTypes.Deleted,
+                            column: Rds.SitesColumn().ParentId(),
+                            where: Rds.SitesWhere()
+                                .TenantId(Sessions.TenantId())
+                                .SiteId(wikiModel.SiteId)))));
                 return res.ToJson();
             }
         }

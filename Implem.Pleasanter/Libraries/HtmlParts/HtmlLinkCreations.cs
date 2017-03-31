@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Button(
                 attributes: new HtmlAttributes()
-                    .Class("button button-icon")
+                    .Class("button button-icon confirm-reload")
                     .OnClick("$p.new($(this));")
                     .Title(SiteInfo.SiteMenu.Breadcrumb(sourceId).Select(o => o.Title).Join(" > "))
                     .DataId(linkId.ToString())

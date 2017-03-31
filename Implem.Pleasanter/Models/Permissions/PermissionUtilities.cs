@@ -522,7 +522,9 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             }
-            return res.ToJson();
+            return res
+                .SetMemory("formChanged", true)
+                .ToJson();
         }
 
         /// <summary>
@@ -932,7 +934,9 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             }
-            return res.ToJson();
+            return res
+                .SetMemory("formChanged", true)
+                .ToJson();
         }
 
         /// <summary>
@@ -1124,7 +1128,9 @@ namespace Implem.Pleasanter.Models
                         .Where(o => selected.Any(p => p.ColumnName == o.ColumnName))
                         .Select(o => o.ToJson())))
                 .SetData("#" + type + "ColumnAccessControl");
-            return res.ToJson();
+            return res
+                .SetMemory("formChanged", true)
+                .ToJson();
         }
 
         /// <summary>

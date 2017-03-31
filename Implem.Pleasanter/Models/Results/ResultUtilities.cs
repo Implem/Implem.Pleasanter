@@ -1078,7 +1078,7 @@ namespace Implem.Pleasanter.Models
                 .Form(
                     attributes: new HtmlAttributes()
                         .Id("ResultForm")
-                        .Class("main-form")
+                        .Class("main-form confirm-reload")
                         .Action(Locations.ItemAction(resultModel.ResultId != 0 
                             ? resultModel.ResultId
                             : resultModel.SiteId)),
@@ -2318,6 +2318,7 @@ namespace Implem.Pleasanter.Models
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(ss, resultModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
                 .ClearFormData();
@@ -2568,6 +2569,7 @@ namespace Implem.Pleasanter.Models
                     baseModel: resultModel, tableName: "Results"))
                 .Html("#Links", new HtmlBuilder().Links(
                     ss: ss, id: resultModel.ResultId))
+                .SetMemory("formChanged", false)
                 .Message(Messages.Updated(resultModel.Title.ToString()))
                 .RemoveComment(resultModel.DeleteCommentId, _using: resultModel.DeleteCommentId != 0)
                 .ClearFormData();
@@ -2650,7 +2652,9 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set("Message", Messages.Deleted(resultModel.Title.Value).Html);
                 var res = new ResultsResponseCollection(resultModel);
-                res.Href(Locations.ItemIndex(resultModel.SiteId));
+                res
+                    .SetMemory("formChanged", false)
+                    .Href(Locations.ItemIndex(resultModel.SiteId));
                 return res.ToJson();
             }
         }

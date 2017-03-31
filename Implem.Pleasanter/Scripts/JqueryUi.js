@@ -38,6 +38,7 @@
             showButtonPanel: true,
             onSelect: function (date) {
                 $p.getData($(this))[this.id] = date;
+                $p.formChanged = true;
             }
         }).addClass('applied');
         $('.radio:not(.applied)').buttonset().addClass('applied');

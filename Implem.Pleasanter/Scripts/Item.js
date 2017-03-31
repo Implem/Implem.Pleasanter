@@ -1,4 +1,5 @@
 ﻿$p.get = function ($control) {
+    if (!$p.confirmReload()) return false;
     if ($p.outsideDialog($control)) return false;
     switch ($control.attr('id')) {
         case 'Reload': move(0); break;
@@ -19,6 +20,7 @@
 }
 
 $p.new = function ($control) {
+    if (!$p.confirmReload()) return false;
     if ($p.outsideDialog($control)) return false;
     var data = {};
     data.LinkId = $control.attr('data-id');

@@ -417,7 +417,7 @@ namespace Implem.Pleasanter.Models
                 .Form(
                     attributes: new HtmlAttributes()
                         .Id("DeptForm")
-                        .Class("main-form")
+                        .Class("main-form confirm-reload")
                         .Action(deptModel.DeptId != 0
                             ? Locations.Action("Depts", deptModel.DeptId)
                             : Locations.Action("Depts")),
@@ -572,6 +572,7 @@ namespace Implem.Pleasanter.Models
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(ss, deptModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
                 .ClearFormData();
@@ -664,6 +665,7 @@ namespace Implem.Pleasanter.Models
                 .Html("#HeaderTitle", deptModel.Title.Value)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                     baseModel: deptModel, tableName: "Depts"))
+                .SetMemory("formChanged", false)
                 .Message(Messages.Updated(deptModel.Title.ToString()))
                 .RemoveComment(deptModel.DeleteCommentId, _using: deptModel.DeleteCommentId != 0)
                 .ClearFormData();
@@ -687,7 +689,9 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set("Message", Messages.Deleted(deptModel.Title.Value).Html);
                 var res = new DeptsResponseCollection(deptModel);
-                res.Href(Locations.Index("Depts"));
+                res
+                    .SetMemory("formChanged", false)
+                    .Href(Locations.Index("Depts"));
                 return res.ToJson();
             }
         }

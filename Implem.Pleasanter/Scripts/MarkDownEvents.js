@@ -4,6 +4,7 @@
         $viewer.html($p.markup($(this).val()));
         $p.resizeEditor($(this), $viewer);
         $p.toggleEditor($viewer, false);
+        $p.formChanged = true;
     });
     $(document).on('paste', '.upload-image', function (e) {
         if (e.originalEvent.clipboardData !== undefined) {

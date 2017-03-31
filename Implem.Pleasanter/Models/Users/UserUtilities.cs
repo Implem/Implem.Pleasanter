@@ -476,7 +476,7 @@ namespace Implem.Pleasanter.Models
                 .Form(
                     attributes: new HtmlAttributes()
                         .Id("UserForm")
-                        .Class("main-form")
+                        .Class("main-form confirm-reload")
                         .Action(userModel.UserId != 0
                             ? Locations.Action("Users", userModel.UserId)
                             : Locations.Action("Users")),
@@ -855,6 +855,7 @@ namespace Implem.Pleasanter.Models
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(ss, userModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
                 .ClearFormData();
@@ -961,6 +962,7 @@ namespace Implem.Pleasanter.Models
                 .Html("#HeaderTitle", userModel.Title.Value)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                     baseModel: userModel, tableName: "Users"))
+                .SetMemory("formChanged", false)
                 .Message(Messages.Updated(userModel.Title.ToString()))
                 .RemoveComment(userModel.DeleteCommentId, _using: userModel.DeleteCommentId != 0)
                 .ClearFormData();
@@ -984,7 +986,9 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set("Message", Messages.Deleted(userModel.Title.Value).Html);
                 var res = new UsersResponseCollection(userModel);
-                res.Href(Locations.Index("Users"));
+                res
+                    .SetMemory("formChanged", false)
+                    .Href(Locations.Index("Users"));
                 return res.ToJson();
             }
         }
@@ -1211,6 +1215,7 @@ namespace Implem.Pleasanter.Models
                             o => o, o => new ControlData(o)),
                         selectedValueTextCollection: selected))
                 .Val("#MailAddress", string.Empty)
+                .SetMemory("formChanged", true)
                 .Focus("#MailAddress")
                 .ToJson();
         }
