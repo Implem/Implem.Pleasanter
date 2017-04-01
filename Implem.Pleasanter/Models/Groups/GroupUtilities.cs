@@ -992,13 +992,5 @@ namespace Implem.Pleasanter.Models
                     new ControlData(SiteInfo.UserFullName(userId) + manager));
             }
         }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string Set(long groupId)
-        {
-            return "[]";
-        }
     }
 }
