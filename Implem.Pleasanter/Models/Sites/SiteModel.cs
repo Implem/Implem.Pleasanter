@@ -573,8 +573,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string SetSiteSettings()
         {
-            var error = ValidateBeforeSetSiteSettings();
-            if (error != null) return error;
+            var invalidFormat = string.Empty;
+            var invalid = SiteValidators.OnSetSiteSettings(
+                SiteSettingsUtilities.Get(this, SiteId), out invalidFormat);
+            switch (invalid)
+            {
+                case Error.Types.BadFormat:
+                    return Messages.ResponseBadFormat(invalidFormat).ToJson();
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
             var res = new SitesResponseCollection(this);
             SetSiteSettingsPropertiesBySession();
             SetSiteSettings(res);
@@ -745,30 +753,6 @@ namespace Implem.Pleasanter.Models
                             SiteSettings.Set(data.Key, data.Value));
                     break;
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private string ValidateBeforeSetSiteSettings()
-        {
-            foreach(var data in Forms.All())
-            {
-                switch (data.Key)
-                {
-                    case "Format":
-                        try
-                        {
-                            0.ToString(data.Value, Sessions.CultureInfo());
-                        }
-                        catch (Exception)
-                        {
-                            return Messages.ResponseBadFormat(data.Value).ToJson();
-                        }
-                        break;
-                }
-            }
-            return null;
         }
 
         /// <summary>

@@ -164,5 +164,35 @@ namespace Implem.Pleasanter.Models
             }
             return Error.Types.None;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnSetSiteSettings(SiteSettings ss, out string data)
+        {
+            data = null;
+            if (!ss.CanUpdate())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            foreach (var formData in Forms.All())
+            {
+                switch (formData.Key)
+                {
+                    case "Format":
+                        try
+                        {
+                            0.ToString(formData.Value, Sessions.CultureInfo());
+                        }
+                        catch (System.Exception)
+                        {
+                            data = formData.Value;
+                            return Error.Types.BadFormat;
+                        }
+                        break;
+                }
+            }
+            return Error.Types.None;
+        }
     }
 }
