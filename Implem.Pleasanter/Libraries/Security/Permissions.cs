@@ -224,12 +224,13 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "groups":
                     return CanEditGroup();
                 default:
-                    switch (ss.ReferenceType)
+                    if (ss.IsSite())
                     {
-                        case "Sites":
-                            return ss.Can(Types.ManageSite, site);
-                        default:
-                            return ss.Can(Types.Create, site);
+                        return ss.Can(Types.ManageSite, site);
+                    }
+                    else
+                    {
+                        return ss.Can(Types.Create, site);
                     }
             }
         }
@@ -245,12 +246,13 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant() || Sessions.UserId() == Routes.Id();
                 default:
-                    switch (ss.ReferenceType)
+                    if (ss.IsSite())
                     {
-                        case "Sites":
-                            return ss.Can(Types.ManageSite, site);
-                        default:
-                            return ss.Can(Types.Create, site);
+                        return ss.Can(Types.ManageSite, site);
+                    }
+                    else
+                    {
+                        return ss.Can(Types.Create, site);
                     }
             }
         }
@@ -272,12 +274,13 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant() &&
                         Sessions.UserId() != Routes.Id();
                 default:
-                    switch (ss.ReferenceType)
+                    if (ss.IsSite())
                     {
-                        case "Sites":
-                            return ss.Can(Types.ManageSite, site);
-                        default:
-                            return ss.Can(Types.Create, site);
+                        return ss.Can(Types.ManageSite, site);
+                    }
+                    else
+                    {
+                        return ss.Can(Types.Delete, site);
                     }
             }
         }
@@ -293,7 +296,14 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant() || Sessions.UserId() == Routes.Id();
                 default:
-                    return ss.Can(Types.SendMail, site);
+                    if (ss.IsSite())
+                    {
+                        return ss.Can(Types.ManageSite, site);
+                    }
+                    else
+                    {
+                        return ss.Can(Types.SendMail, site);
+                    }
             }
         }
 
