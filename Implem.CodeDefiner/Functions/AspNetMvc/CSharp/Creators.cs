@@ -119,18 +119,6 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
             codeCollection.Add(code);
         }
 
-        private static void SetCodeCollection(
-            ref string code,
-            CodeDefinition codeDefinition,
-            DataContainer dataContainer,
-            List<string> codeCollection,
-            Action replaceCode)
-        {
-            code = Create(codeDefinition, dataContainer);
-            replaceCode();
-            codeCollection.Add(code);
-        }
-
         private static void ReplaceCode(ref string code, string tableName)
         {
             foreach (var placeholder in code.RegexValues(CodePatterns.ReplacementPlaceholder))
