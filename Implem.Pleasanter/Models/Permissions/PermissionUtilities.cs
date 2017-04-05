@@ -37,6 +37,14 @@ namespace Implem.Pleasanter.Models
         public static string Permission(long referenceId)
         {
             var itemModel = new ItemModel(referenceId);
+            var siteModel = new SiteModel(itemModel.SiteId, setByForm: true);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, referenceId);
+            var invalid = PermissionValidators.OnUpdating(siteModel.SiteSettings);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
             var selector = "#" + Forms.ControlId();
             return new ResponseCollection()
                 .Html(selector, new HtmlBuilder().Permission(
