@@ -1958,7 +1958,7 @@ namespace Implem.Pleasanter.Models
                             .FieldDropDown(
                                 controlId: "EditorFormat",
                                 labelText: Displays.EditorFormat(),
-                                optionCollection: DateTimeOptions(forControl: true),
+                                optionCollection: DateTimeOptions(editorFormat: true),
                                 selectedValue: column.EditorFormat)
                             .FieldDropDown(
                                 controlId: "ExportFormat",
@@ -2217,9 +2217,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Dictionary<string, string> DateTimeOptions(bool forControl = false)
+        private static Dictionary<string, string> DateTimeOptions(bool editorFormat = false)
         {
-            return forControl
+            return editorFormat
                 ? DisplayAccessor.Displays.DisplayHash
                     .Where(o => new string[] { "Ymd", "Ymdhm" }.Contains(o.Key))
                     .ToDictionary(o => o.Key, o => Displays.Get(o.Key))
