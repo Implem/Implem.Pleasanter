@@ -416,8 +416,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string YmdahmFormat(params string[] data) { return Get("YmdahmFormat", data); }
         public static string Ymdahms(params string[] data) { return Get("Ymdahms", data); }
         public static string YmdahmsFormat(params string[] data) { return Get("YmdahmsFormat", data); }
+        public static string YmdDatePickerFormat(params string[] data) { return Get("YmdDatePickerFormat", data); }
         public static string YmdFormat(params string[] data) { return Get("YmdFormat", data); }
         public static string Ymdhm(params string[] data) { return Get("Ymdhm", data); }
+        public static string YmdhmDatePickerFormat(params string[] data) { return Get("YmdhmDatePickerFormat", data); }
         public static string YmdhmFormat(params string[] data) { return Get("YmdhmFormat", data); }
         public static string Ymdhms(params string[] data) { return Get("Ymdhms", data); }
         public static string YmdhmsFormat(params string[] data) { return Get("YmdhmsFormat", data); }

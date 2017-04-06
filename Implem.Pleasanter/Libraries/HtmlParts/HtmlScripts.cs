@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb
                     .Script(src: Locations.Get("Scripts/Plugins/jquery-3.1.0.min.js"))
                     .Script(src: Locations.Get("Scripts/Plugins/jquery-ui.min.js"))
+                    .Script(src: Locations.Get("Scripts/Plugins/jquery.datetimepicker.full.min.js"))
                     .Script(src: Locations.Get("Scripts/Plugins/jquery.multiselect.min.js"))
                     .Script(src: Locations.Get("Scripts/Plugins/jquery.multiselect.filter.min.js"))
                     .Script(src: Locations.Get("Scripts/Plugins/jquery.validate.min.js"))
@@ -28,7 +29,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Generals()
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(script: userScript, _using: !userScript.IsNullOrEmpty())
-                    .Internationalization()
                 : hb;
         }
 
@@ -49,17 +49,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static string ResolveBundleUrl(string url)
         {
             return BundleTable.Bundles.ResolveBundleUrl(url);
-        }
-
-        private static HtmlBuilder Internationalization(this HtmlBuilder hb)
-        {
-            switch (Sessions.Language())
-            {
-                case "ja": return hb
-                    .Script(src: Locations.Get(
-                        "Scripts/Plugins/jquery-ui/i18n/datepicker-ja.js"));
-                default: return hb;
-            }
         }
     }
 }

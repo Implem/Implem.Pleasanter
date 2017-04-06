@@ -393,5 +393,29 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
              return Math.Round(value, DecimalPlaces.ToInt(), MidpointRounding.AwayFromZero);
         }
+
+        public string DateTimeFormat()
+        {
+            switch (EditorFormat)
+            {
+                case "Ymdhm":
+                case "Ymdhms":
+                    return Displays.YmdhmDatePickerFormat();
+                default:
+                    return Displays.YmdDatePickerFormat();
+            }
+        }
+
+        public bool DateTimepicker()
+        {
+            switch (EditorFormat)
+            {
+                case "Ymdhm":
+                case "Ymdhms":
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
 }

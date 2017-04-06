@@ -34,13 +34,18 @@
                 $p.changeMultiSelect($(this))
             }
         }).addClass('applied');
-        $('.datepicker:not(.applied)').datepicker({
-            showButtonPanel: true,
-            onSelect: function (date) {
-                $p.getData($(this))[this.id] = date;
-                $p.formChanged = true;
-            }
-        }).addClass('applied');
+        $('.datepicker:not(.applied)').each(function () {
+            $(this).datetimepicker({
+                format: $(this).attr('data-format'),
+                timepicker: $(this).attr('data-timepicker') === '1',
+                step: 10,
+                onSelectDate: function (date) {
+                    $p.getData($(this))[this.id] = date;
+                    $p.formChanged = true;
+                }
+            }).addClass('applied');
+        });
+        $.datetimepicker.setLocale('ja');
         $('.radio:not(.applied)').buttonset().addClass('applied');
         $('.control-selectable:not(.applied)').selectable({
             stop: function () {

@@ -18,6 +18,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string text = null,
             string placeholder = null,
             string onChange = null,
+            string format = null,
+            bool timepicker = false,
             bool validateRequired = false,
             bool validateNumber = false,
             bool validateDate = false,
@@ -57,6 +59,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Value(text)
                         .Placeholder(placeholder)
                         .OnChange(onChange)
+                        .DataFormat(format)
+                        .DataTimepicker(timepicker)
                         .DataValidateRequired(validateRequired)
                         .DataValidateNumber(validateNumber)
                         .DataValidateDate(validateDate)
