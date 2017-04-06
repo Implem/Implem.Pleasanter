@@ -384,6 +384,26 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes DataFormat(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-format");
+                Add(value);
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataTimepicker(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("data-timepicker");
+                Add("1");
+            }
+            return this;
+        }
+
         public HtmlAttributes DataX(string value, bool _using = true)
         {
             if (value != null && _using)
