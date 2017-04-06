@@ -2221,7 +2221,7 @@ namespace Implem.Pleasanter.Models
         {
             return forControl
                 ? DisplayAccessor.Displays.DisplayHash
-                    .Where(o => new string[] { "Ymd", "Ymdhm", "Ymdhms" }.Contains(o.Key))
+                    .Where(o => new string[] { "Ymd", "Ymdhm" }.Contains(o.Key))
                     .ToDictionary(o => o.Key, o => Displays.Get(o.Key))
                 : DisplayAccessor.Displays.DisplayHash
                     .Where(o => o.Value.Type == DisplayAccessor.Displays.Types.Date)
