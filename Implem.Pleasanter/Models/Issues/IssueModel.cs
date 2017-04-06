@@ -833,6 +833,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss, 
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            bool forceSynchronizeSourceSummary = false,
             bool notice = false,
             bool paramAll = false)
         {
@@ -858,7 +859,7 @@ namespace Implem.Pleasanter.Models
             var newId = Rds.ExecuteScalar_long(
                 transactional: true, statements: statements.ToArray());
             IssueId = newId != 0 ? newId : IssueId;
-            SynchronizeSummary(ss);
+            SynchronizeSummary(ss, forceSynchronizeSourceSummary);
             if (notice)
             {
                 CheckNotificationConditions(ss);
@@ -1237,7 +1238,8 @@ namespace Implem.Pleasanter.Models
             SetByFormula(ss);
         }
 
-        private void SynchronizeSummary(SiteSettings ss)
+        private void SynchronizeSummary(
+            SiteSettings ss, bool forceSynchronizeSourceSummary = false)
         {
             ss.Summaries.ForEach(summary =>
             {
@@ -1252,7 +1254,7 @@ namespace Implem.Pleasanter.Models
                     SynchronizeSummary(ss, summary, savedId);
                 }
             });
-            SynchronizeSourceSummary(ss);
+            SynchronizeSourceSummary(ss, forceSynchronizeSourceSummary);
         }
 
         private void SynchronizeSummary(SiteSettings ss, Summary summary, long id)
@@ -1278,12 +1280,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void SynchronizeSourceSummary(SiteSettings ss)
+        private void SynchronizeSourceSummary(SiteSettings ss, bool force = false)
         {
             var executed = false;
             ss.Sources.ForEach(sourceSs =>
                 sourceSs.Summaries
-                    .Where(o => sourceSs.Views?.Get(o.DestinationCondition) != null)
+                    .Where(o => sourceSs.Views?.Get(o.DestinationCondition) != null || force)
                     .ForEach(summary =>
                     {
                         Summaries.Synchronize(

@@ -296,9 +296,11 @@ namespace Implem.DefinitionAccessor
                     case "Model_SearchIndexHashColumnCases": Code.Model_SearchIndexHashColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SearchIndexHashColumnCases, definitionRow, CodeXls); break;
                     case "Model_Create": Code.Model_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Create, definitionRow, CodeXls); break;
                     case "Model_CreateParams": Code.Model_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateParams, definitionRow, CodeXls); break;
+                    case "Model_CreateParams_Wikis": Code.Model_CreateParams_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateParams_Wikis, definitionRow, CodeXls); break;
                     case "Model_OnCreating_Binaries": Code.Model_OnCreating_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Binaries, definitionRow, CodeXls); break;
                     case "Model_OnCreating_Users": Code.Model_OnCreating_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Users, definitionRow, CodeXls); break;
                     case "Model_CheckNotificationConditions": Code.Model_CheckNotificationConditions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CheckNotificationConditions, definitionRow, CodeXls); break;
+                    case "Model_CreatedSynchronizeSummaryExecute": Code.Model_CreatedSynchronizeSummaryExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreatedSynchronizeSummaryExecute, definitionRow, CodeXls); break;
                     case "Model_CreatedNotice": Code.Model_CreatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreatedNotice, definitionRow, CodeXls); break;
                     case "Model_InsertItems": Code.Model_InsertItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItems, definitionRow, CodeXls); break;
                     case "Model_InsertItemsAfter": Code.Model_InsertItemsAfter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItemsAfter, definitionRow, CodeXls); break;
@@ -3880,9 +3882,11 @@ namespace Implem.DefinitionAccessor
         public string Model_SearchIndexHashColumnCases;
         public string Model_Create;
         public string Model_CreateParams;
+        public string Model_CreateParams_Wikis;
         public string Model_OnCreating_Binaries;
         public string Model_OnCreating_Users;
         public string Model_CheckNotificationConditions;
+        public string Model_CreatedSynchronizeSummaryExecute;
         public string Model_CreatedNotice;
         public string Model_InsertItems;
         public string Model_InsertItemsAfter;
@@ -4310,9 +4314,11 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SearchIndexHashColumnCases = new CodeDefinition();
         public CodeDefinition Model_Create = new CodeDefinition();
         public CodeDefinition Model_CreateParams = new CodeDefinition();
+        public CodeDefinition Model_CreateParams_Wikis = new CodeDefinition();
         public CodeDefinition Model_OnCreating_Binaries = new CodeDefinition();
         public CodeDefinition Model_OnCreating_Users = new CodeDefinition();
         public CodeDefinition Model_CheckNotificationConditions = new CodeDefinition();
+        public CodeDefinition Model_CreatedSynchronizeSummaryExecute = new CodeDefinition();
         public CodeDefinition Model_CreatedNotice = new CodeDefinition();
         public CodeDefinition Model_InsertItems = new CodeDefinition();
         public CodeDefinition Model_InsertItemsAfter = new CodeDefinition();
