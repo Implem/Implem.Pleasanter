@@ -202,9 +202,10 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Update(
             SiteSettings ss,
-            bool notice = false,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
+            bool forceSynchronizeSourceSummary = false,
+            bool notice = false,
             bool paramAll = false)
         {
             if (notice) CheckNotificationConditions(ss, before: true);

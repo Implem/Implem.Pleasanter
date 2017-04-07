@@ -855,9 +855,10 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Update(
             SiteSettings ss,
-            bool notice = false,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
+            bool forceSynchronizeSourceSummary = false,
+            bool notice = false,
             bool paramAll = false)
         {
             if (notice) CheckNotificationConditions(ss, before: true);
@@ -879,7 +880,7 @@ namespace Implem.Pleasanter.Models
             var count = Rds.ExecuteScalar_int(
                 transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
-            SynchronizeSummary(ss);
+            SynchronizeSummary(ss, forceSynchronizeSourceSummary);
             if (notice)
             {
                 CheckNotificationConditions(ss);
