@@ -2903,7 +2903,7 @@ namespace Implem.Pleasanter.Models
                         issueModel.Comments = comments.Deserialize<Comments>();
                     }
                     issueModel.Comments.Prepend(addComment);
-                    issueModel.Update(ss, paramAll: true);
+                    issueModel.Update(ss, forceSynchronizeSourceSummary: true, paramAll: true);
                 }
                 return EditorResponse(ss, issueModel, Messages.Separated()).ToJson();
             }
