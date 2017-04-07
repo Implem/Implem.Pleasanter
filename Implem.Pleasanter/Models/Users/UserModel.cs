@@ -233,7 +233,6 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Update(
             SiteSettings ss,
-            bool notice = false,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
             bool paramAll = false)
