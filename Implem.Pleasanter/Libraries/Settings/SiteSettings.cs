@@ -1630,6 +1630,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         : null;
                     var dataRows = Rds.ExecuteTable(statements:
                         Rds.SelectItems(
+                            top: Parameters.General.DropDownSearchLimit,
                             column: Rds.ItemsColumn()
                                 .ReferenceId()
                                 .ReferenceType()
