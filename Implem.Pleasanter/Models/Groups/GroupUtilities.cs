@@ -862,6 +862,8 @@ namespace Implem.Pleasanter.Models
                         .UserId()
                         .Admin(),
                     where: Rds.GroupMembersWhere()
+                        .Sub(sub: Rds.ExistsUsers(where: Rds.UsersWhere()
+                            .UserId(raw: "[GroupMembers].[UserId]")))
                         .GroupId(groupModel.GroupId)))
                             .AsEnumerable()
                             .ForEach(dataRow =>
