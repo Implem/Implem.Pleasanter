@@ -563,8 +563,6 @@ namespace Implem.DefinitionAccessor
                     case "Rds_Columns": Code.Rds_Columns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlClasses": Code.Rds_Columns_SqlClasses = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlClasses, definitionRow, CodeXls); break;
                     case "Rds_Columns_ConstSqlWhereLike": Code.Rds_Columns_ConstSqlWhereLike = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_ConstSqlWhereLike, definitionRow, CodeXls); break;
-                    case "Rds_Columns_ConstSqlWhereExists": Code.Rds_Columns_ConstSqlWhereExists = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_ConstSqlWhereExists, definitionRow, CodeXls); break;
-                    case "Rds_Columns_ConstSqlWhereNotExists": Code.Rds_Columns_ConstSqlWhereNotExists = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_ConstSqlWhereNotExists, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlColumnCases": Code.Rds_Columns_SqlColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlColumnCases, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlColumn": Code.Rds_Columns_SqlColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlColumn, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlColumn_SelectColumns": Code.Rds_Columns_SqlColumn_SelectColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlColumn_SelectColumns, definitionRow, CodeXls); break;
@@ -4150,8 +4148,6 @@ namespace Implem.DefinitionAccessor
         public string Rds_Columns;
         public string Rds_Columns_SqlClasses;
         public string Rds_Columns_ConstSqlWhereLike;
-        public string Rds_Columns_ConstSqlWhereExists;
-        public string Rds_Columns_ConstSqlWhereNotExists;
         public string Rds_Columns_SqlColumnCases;
         public string Rds_Columns_SqlColumn;
         public string Rds_Columns_SqlColumn_SelectColumns;
@@ -4583,8 +4579,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_Columns = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlClasses = new CodeDefinition();
         public CodeDefinition Rds_Columns_ConstSqlWhereLike = new CodeDefinition();
-        public CodeDefinition Rds_Columns_ConstSqlWhereExists = new CodeDefinition();
-        public CodeDefinition Rds_Columns_ConstSqlWhereNotExists = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlColumnCases = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlColumn = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlColumn_SelectColumns = new CodeDefinition();
