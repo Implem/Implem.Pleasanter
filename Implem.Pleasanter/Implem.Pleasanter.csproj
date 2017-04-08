@@ -1015,6 +1015,7 @@
     <Content Include="App_Data\Displays\Support.json" />
     <Content Include="App_Data\Displays\YmdDatePickerFormat.json" />
     <Content Include="App_Data\Displays\YmdhmDatePickerFormat.json" />
+    <Content Include="App_Data\Displays\CodeDefinerInsertTestDataCompleted.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

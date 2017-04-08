@@ -83,6 +83,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CodeDefinerCompleted(params string[] data) { return Get("CodeDefinerCompleted", data); }
         public static string CodeDefinerCssCompleted(params string[] data) { return Get("CodeDefinerCssCompleted", data); }
         public static string CodeDefinerDefCompleted(params string[] data) { return Get("CodeDefinerDefCompleted", data); }
+        public static string CodeDefinerInsertTestDataCompleted(params string[] data) { return Get("CodeDefinerInsertTestDataCompleted", data); }
         public static string CodeDefinerMvcCompleted(params string[] data) { return Get("CodeDefinerMvcCompleted", data); }
         public static string CodeDefinerRdsCompleted(params string[] data) { return Get("CodeDefinerRdsCompleted", data); }
         public static string Column(params string[] data) { return Get("Column", data); }

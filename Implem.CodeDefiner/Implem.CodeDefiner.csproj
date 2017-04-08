@@ -95,6 +95,7 @@
     <Compile Include="Functions\SqlServer\LoginsConfigurator.cs" />
     <Compile Include="Functions\SqlServer\Parts\Tables.cs" />
     <Compile Include="Functions\SqlServer\Spid.cs" />
+    <Compile Include="Functions\SqlServer\TestData.cs" />
     <Compile Include="Functions\Web\Styles\CssCreator.cs" />
     <Compile Include="Functions\SqlServer\Configurator.cs" />
     <Compile Include="Functions\SqlServer\DataImporter.cs" />

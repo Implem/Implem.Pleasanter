@@ -2964,6 +2964,7 @@ namespace Implem.DefinitionAccessor
                     case "MigrateTable": Sql.MigrateTable = definitionRow[1].ToString(); SetSqlTable(SqlTable.MigrateTable, definitionRow, SqlXls); break;
                     case "BulkInsert": Sql.BulkInsert = definitionRow[1].ToString(); SetSqlTable(SqlTable.BulkInsert, definitionRow, SqlXls); break;
                     case "Identity": Sql.Identity = definitionRow[1].ToString(); SetSqlTable(SqlTable.Identity, definitionRow, SqlXls); break;
+                    case "InsertTestData": Sql.InsertTestData = definitionRow[1].ToString(); SetSqlTable(SqlTable.InsertTestData, definitionRow, SqlXls); break;
                     default: break;
                 }
             });
@@ -8832,6 +8833,7 @@ namespace Implem.DefinitionAccessor
         public string MigrateTable;
         public string BulkInsert;
         public string Identity;
+        public string InsertTestData;
     }
 
     public class SqlTable
@@ -8863,6 +8865,7 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition MigrateTable = new SqlDefinition();
         public SqlDefinition BulkInsert = new SqlDefinition();
         public SqlDefinition Identity = new SqlDefinition();
+        public SqlDefinition InsertTestData = new SqlDefinition();
     }
 
     public class ViewModeDefinition

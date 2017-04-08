@@ -52,6 +52,9 @@ namespace Implem.CodeDefiner
                 case "backup":
                     CreateSolutionBackup();
                     break;
+                case "insert_testdata":
+                    InsertTestData();
+                    break;
                 default:
                     WriteErrorToConsole(args);
                     break;
@@ -153,6 +156,16 @@ namespace Implem.CodeDefiner
             Functions.CodeDefiner.BackupCreater.BackupSolutionFiles();
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerBackupCompleted"),
+                Consoles.Types.Success);
+            Performances.Record(MethodBase.GetCurrentMethod().Name);
+        }
+
+        private static void InsertTestData()
+        {
+            Performances.Record(MethodBase.GetCurrentMethod().Name);
+            Functions.SqlServer.TestData.Insert();
+            Consoles.Write(
+                DisplayAccessor.Displays.Get("CodeDefinerInsertTestDataCompleted"),
                 Consoles.Types.Success);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
         }

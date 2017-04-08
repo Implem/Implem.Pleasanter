@@ -88,6 +88,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.CodeDefinerDefCompleted(data), "alert-success");
         }
 
+        public static Message CodeDefinerInsertTestDataCompleted(params string[] data)
+        {
+            return Get(Displays.CodeDefinerInsertTestDataCompleted(data), "alert-success");
+        }
+
         public static Message CodeDefinerMvcCompleted(params string[] data)
         {
             return Get(Displays.CodeDefinerMvcCompleted(data), "alert-success");
@@ -376,6 +381,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseCodeDefinerDefCompleted(params string[] data)
         {
             return ResponseMessage(CodeDefinerDefCompleted(data));
+        }
+
+        public static ResponseCollection ResponseCodeDefinerInsertTestDataCompleted(params string[] data)
+        {
+            return ResponseMessage(CodeDefinerInsertTestDataCompleted(data));
         }
 
         public static ResponseCollection ResponseCodeDefinerMvcCompleted(params string[] data)
