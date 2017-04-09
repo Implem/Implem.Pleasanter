@@ -27,7 +27,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
                 .Replace("import_", string.Empty).FileNameOnly();
             if (Environments.RdsProvider == "Local")
             {
-                DataImporter.BulkInsert(filePath, tableName);
+                BulkInsert(filePath, tableName);
             }
         }
 
@@ -35,7 +35,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
         {
             Consoles.Write(Path.GetFileName(filePath), Consoles.Types.Info);
             var tempFile = new FileInfo(Files.CopyToTemp(filePath, Directories.Temp()));
-            DataImporter.UpdateOrInsertToTable(
+            UpdateOrInsertToTable(
                 new FileInfo(filePath).Name.Replace("import_", string.Empty).FileNameOnly(),
                 new XlsIo(tempFile.FullName));
             tempFile.Delete();
