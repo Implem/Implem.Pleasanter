@@ -93,5 +93,5 @@ http://pleasanter.org
 |マルチ言語|日英（拡張可能）|
 
 ## Auther
-Taiji Uchida  
-<https://twitter.com/implem_>
+Implem Inc.  
+<https://implem.co.jp>
