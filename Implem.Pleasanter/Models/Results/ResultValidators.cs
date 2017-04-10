@@ -828,6 +828,12 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
+                    case "Comments":
+                        if (!ss.GetColumn("Comments").CanCreate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
                 }
             }
             return Error.Types.None;
@@ -1795,6 +1801,12 @@ namespace Implem.Pleasanter.Models
                     case "DeletePermissions":
                     case "InheritPermission":
                         if (!ss.CanManagePermission())
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
+                    case "Comments":
+                        if (!ss.GetColumn("Comments").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }

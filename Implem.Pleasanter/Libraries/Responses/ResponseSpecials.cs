@@ -434,6 +434,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static TenantsResponseCollection Body(this TenantsResponseCollection res, string value) { return res.Val("#Tenants_Body", value); }
         public static TenantsResponseCollection Body_FormData(this TenantsResponseCollection res) { return res.ValAndFormData("#Tenants_Body", res.TenantModel.Body.ToResponse()); }
         public static TenantsResponseCollection Body_FormData(this TenantsResponseCollection res, string value) { return res.ValAndFormData("#Tenants_Body", value); }
+        public static TenantsResponseCollection Comments(this TenantsResponseCollection res) { return res.Val("#Tenants_Comments", res.TenantModel.Comments.ToResponse()); }
+        public static TenantsResponseCollection Comments(this TenantsResponseCollection res, string value) { return res.Val("#Tenants_Comments", value); }
+        public static TenantsResponseCollection Comments_FormData(this TenantsResponseCollection res) { return res.ValAndFormData("#Tenants_Comments", res.TenantModel.Comments.ToResponse()); }
+        public static TenantsResponseCollection Comments_FormData(this TenantsResponseCollection res, string value) { return res.ValAndFormData("#Tenants_Comments", value); }
         public static TenantsResponseCollection CreatedTime(this TenantsResponseCollection res) { return res.Val("#Tenants_CreatedTime", res.TenantModel.CreatedTime.ToResponse()); }
         public static TenantsResponseCollection CreatedTime(this TenantsResponseCollection res, string value) { return res.Val("#Tenants_CreatedTime", value); }
         public static TenantsResponseCollection CreatedTime_FormData(this TenantsResponseCollection res) { return res.ValAndFormData("#Tenants_CreatedTime", res.TenantModel.CreatedTime.ToResponse()); }
@@ -450,6 +454,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static DemosResponseCollection Ver(this DemosResponseCollection res, string value) { return res.Val("#Demos_Ver", value); }
         public static DemosResponseCollection Ver_FormData(this DemosResponseCollection res) { return res.ValAndFormData("#Demos_Ver", res.DemoModel.Ver.ToResponse()); }
         public static DemosResponseCollection Ver_FormData(this DemosResponseCollection res, string value) { return res.ValAndFormData("#Demos_Ver", value); }
+        public static DemosResponseCollection Comments(this DemosResponseCollection res) { return res.Val("#Demos_Comments", res.DemoModel.Comments.ToResponse()); }
+        public static DemosResponseCollection Comments(this DemosResponseCollection res, string value) { return res.Val("#Demos_Comments", value); }
+        public static DemosResponseCollection Comments_FormData(this DemosResponseCollection res) { return res.ValAndFormData("#Demos_Comments", res.DemoModel.Comments.ToResponse()); }
+        public static DemosResponseCollection Comments_FormData(this DemosResponseCollection res, string value) { return res.ValAndFormData("#Demos_Comments", value); }
         public static DemosResponseCollection CreatedTime(this DemosResponseCollection res) { return res.Val("#Demos_CreatedTime", res.DemoModel.CreatedTime.ToResponse()); }
         public static DemosResponseCollection CreatedTime(this DemosResponseCollection res, string value) { return res.Val("#Demos_CreatedTime", value); }
         public static DemosResponseCollection CreatedTime_FormData(this DemosResponseCollection res) { return res.ValAndFormData("#Demos_CreatedTime", res.DemoModel.CreatedTime.ToResponse()); }
@@ -466,6 +474,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static StatusesResponseCollection Ver(this StatusesResponseCollection res, string value) { return res.Val("#Statuses_Ver", value); }
         public static StatusesResponseCollection Ver_FormData(this StatusesResponseCollection res) { return res.ValAndFormData("#Statuses_Ver", res.StatusModel.Ver.ToResponse()); }
         public static StatusesResponseCollection Ver_FormData(this StatusesResponseCollection res, string value) { return res.ValAndFormData("#Statuses_Ver", value); }
+        public static StatusesResponseCollection Comments(this StatusesResponseCollection res) { return res.Val("#Statuses_Comments", res.StatusModel.Comments.ToResponse()); }
+        public static StatusesResponseCollection Comments(this StatusesResponseCollection res, string value) { return res.Val("#Statuses_Comments", value); }
+        public static StatusesResponseCollection Comments_FormData(this StatusesResponseCollection res) { return res.ValAndFormData("#Statuses_Comments", res.StatusModel.Comments.ToResponse()); }
+        public static StatusesResponseCollection Comments_FormData(this StatusesResponseCollection res, string value) { return res.ValAndFormData("#Statuses_Comments", value); }
         public static StatusesResponseCollection CreatedTime(this StatusesResponseCollection res) { return res.Val("#Statuses_CreatedTime", res.StatusModel.CreatedTime.ToResponse()); }
         public static StatusesResponseCollection CreatedTime(this StatusesResponseCollection res, string value) { return res.Val("#Statuses_CreatedTime", value); }
         public static StatusesResponseCollection CreatedTime_FormData(this StatusesResponseCollection res) { return res.ValAndFormData("#Statuses_CreatedTime", res.StatusModel.CreatedTime.ToResponse()); }
@@ -498,6 +510,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static DeptsResponseCollection Body(this DeptsResponseCollection res, string value) { return res.Val("#Depts_Body", value); }
         public static DeptsResponseCollection Body_FormData(this DeptsResponseCollection res) { return res.ValAndFormData("#Depts_Body", res.DeptModel.Body.ToResponse()); }
         public static DeptsResponseCollection Body_FormData(this DeptsResponseCollection res, string value) { return res.ValAndFormData("#Depts_Body", value); }
+        public static DeptsResponseCollection Comments(this DeptsResponseCollection res) { return res.Val("#Depts_Comments", res.DeptModel.Comments.ToResponse()); }
+        public static DeptsResponseCollection Comments(this DeptsResponseCollection res, string value) { return res.Val("#Depts_Comments", value); }
+        public static DeptsResponseCollection Comments_FormData(this DeptsResponseCollection res) { return res.ValAndFormData("#Depts_Comments", res.DeptModel.Comments.ToResponse()); }
+        public static DeptsResponseCollection Comments_FormData(this DeptsResponseCollection res, string value) { return res.ValAndFormData("#Depts_Comments", value); }
         public static DeptsResponseCollection CreatedTime(this DeptsResponseCollection res) { return res.Val("#Depts_CreatedTime", res.DeptModel.CreatedTime.ToResponse()); }
         public static DeptsResponseCollection CreatedTime(this DeptsResponseCollection res, string value) { return res.Val("#Depts_CreatedTime", value); }
         public static DeptsResponseCollection CreatedTime_FormData(this DeptsResponseCollection res) { return res.ValAndFormData("#Depts_CreatedTime", res.DeptModel.CreatedTime.ToResponse()); }
@@ -526,6 +542,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static GroupsResponseCollection Body(this GroupsResponseCollection res, string value) { return res.Val("#Groups_Body", value); }
         public static GroupsResponseCollection Body_FormData(this GroupsResponseCollection res) { return res.ValAndFormData("#Groups_Body", res.GroupModel.Body.ToResponse()); }
         public static GroupsResponseCollection Body_FormData(this GroupsResponseCollection res, string value) { return res.ValAndFormData("#Groups_Body", value); }
+        public static GroupsResponseCollection Comments(this GroupsResponseCollection res) { return res.Val("#Groups_Comments", res.GroupModel.Comments.ToResponse()); }
+        public static GroupsResponseCollection Comments(this GroupsResponseCollection res, string value) { return res.Val("#Groups_Comments", value); }
+        public static GroupsResponseCollection Comments_FormData(this GroupsResponseCollection res) { return res.ValAndFormData("#Groups_Comments", res.GroupModel.Comments.ToResponse()); }
+        public static GroupsResponseCollection Comments_FormData(this GroupsResponseCollection res, string value) { return res.ValAndFormData("#Groups_Comments", value); }
         public static GroupsResponseCollection CreatedTime(this GroupsResponseCollection res) { return res.Val("#Groups_CreatedTime", res.GroupModel.CreatedTime.ToResponse()); }
         public static GroupsResponseCollection CreatedTime(this GroupsResponseCollection res, string value) { return res.Val("#Groups_CreatedTime", value); }
         public static GroupsResponseCollection CreatedTime_FormData(this GroupsResponseCollection res) { return res.ValAndFormData("#Groups_CreatedTime", res.GroupModel.CreatedTime.ToResponse()); }
@@ -542,6 +562,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static GroupMembersResponseCollection Ver(this GroupMembersResponseCollection res, string value) { return res.Val("#GroupMembers_Ver", value); }
         public static GroupMembersResponseCollection Ver_FormData(this GroupMembersResponseCollection res) { return res.ValAndFormData("#GroupMembers_Ver", res.GroupMemberModel.Ver.ToResponse()); }
         public static GroupMembersResponseCollection Ver_FormData(this GroupMembersResponseCollection res, string value) { return res.ValAndFormData("#GroupMembers_Ver", value); }
+        public static GroupMembersResponseCollection Comments(this GroupMembersResponseCollection res) { return res.Val("#GroupMembers_Comments", res.GroupMemberModel.Comments.ToResponse()); }
+        public static GroupMembersResponseCollection Comments(this GroupMembersResponseCollection res, string value) { return res.Val("#GroupMembers_Comments", value); }
+        public static GroupMembersResponseCollection Comments_FormData(this GroupMembersResponseCollection res) { return res.ValAndFormData("#GroupMembers_Comments", res.GroupMemberModel.Comments.ToResponse()); }
+        public static GroupMembersResponseCollection Comments_FormData(this GroupMembersResponseCollection res, string value) { return res.ValAndFormData("#GroupMembers_Comments", value); }
         public static GroupMembersResponseCollection CreatedTime(this GroupMembersResponseCollection res) { return res.Val("#GroupMembers_CreatedTime", res.GroupMemberModel.CreatedTime.ToResponse()); }
         public static GroupMembersResponseCollection CreatedTime(this GroupMembersResponseCollection res, string value) { return res.Val("#GroupMembers_CreatedTime", value); }
         public static GroupMembersResponseCollection CreatedTime_FormData(this GroupMembersResponseCollection res) { return res.ValAndFormData("#GroupMembers_CreatedTime", res.GroupMemberModel.CreatedTime.ToResponse()); }
@@ -666,6 +690,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static UsersResponseCollection DemoMailAddress(this UsersResponseCollection res, string value) { return res.Val("#Users_DemoMailAddress", value); }
         public static UsersResponseCollection DemoMailAddress_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DemoMailAddress", res.UserModel.DemoMailAddress.ToResponse()); }
         public static UsersResponseCollection DemoMailAddress_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DemoMailAddress", value); }
+        public static UsersResponseCollection Comments(this UsersResponseCollection res) { return res.Val("#Users_Comments", res.UserModel.Comments.ToResponse()); }
+        public static UsersResponseCollection Comments(this UsersResponseCollection res, string value) { return res.Val("#Users_Comments", value); }
+        public static UsersResponseCollection Comments_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_Comments", res.UserModel.Comments.ToResponse()); }
+        public static UsersResponseCollection Comments_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_Comments", value); }
         public static UsersResponseCollection CreatedTime(this UsersResponseCollection res) { return res.Val("#Users_CreatedTime", res.UserModel.CreatedTime.ToResponse()); }
         public static UsersResponseCollection CreatedTime(this UsersResponseCollection res, string value) { return res.Val("#Users_CreatedTime", value); }
         public static UsersResponseCollection CreatedTime_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CreatedTime", res.UserModel.CreatedTime.ToResponse()); }
@@ -702,6 +730,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static MailAddressesResponseCollection Title(this MailAddressesResponseCollection res, string value) { return res.Val("#MailAddresses_Title", value); }
         public static MailAddressesResponseCollection Title_FormData(this MailAddressesResponseCollection res) { return res.ValAndFormData("#MailAddresses_Title", res.MailAddressModel.Title.ToResponse()); }
         public static MailAddressesResponseCollection Title_FormData(this MailAddressesResponseCollection res, string value) { return res.ValAndFormData("#MailAddresses_Title", value); }
+        public static MailAddressesResponseCollection Comments(this MailAddressesResponseCollection res) { return res.Val("#MailAddresses_Comments", res.MailAddressModel.Comments.ToResponse()); }
+        public static MailAddressesResponseCollection Comments(this MailAddressesResponseCollection res, string value) { return res.Val("#MailAddresses_Comments", value); }
+        public static MailAddressesResponseCollection Comments_FormData(this MailAddressesResponseCollection res) { return res.ValAndFormData("#MailAddresses_Comments", res.MailAddressModel.Comments.ToResponse()); }
+        public static MailAddressesResponseCollection Comments_FormData(this MailAddressesResponseCollection res, string value) { return res.ValAndFormData("#MailAddresses_Comments", value); }
         public static MailAddressesResponseCollection CreatedTime(this MailAddressesResponseCollection res) { return res.Val("#MailAddresses_CreatedTime", res.MailAddressModel.CreatedTime.ToResponse()); }
         public static MailAddressesResponseCollection CreatedTime(this MailAddressesResponseCollection res, string value) { return res.Val("#MailAddresses_CreatedTime", value); }
         public static MailAddressesResponseCollection CreatedTime_FormData(this MailAddressesResponseCollection res) { return res.ValAndFormData("#MailAddresses_CreatedTime", res.MailAddressModel.CreatedTime.ToResponse()); }
@@ -762,6 +794,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static OutgoingMailsResponseCollection DestinationSearchText(this OutgoingMailsResponseCollection res, string value) { return res.Val("#OutgoingMails_DestinationSearchText", value); }
         public static OutgoingMailsResponseCollection DestinationSearchText_FormData(this OutgoingMailsResponseCollection res) { return res.ValAndFormData("#OutgoingMails_DestinationSearchText", res.OutgoingMailModel.DestinationSearchText.ToResponse()); }
         public static OutgoingMailsResponseCollection DestinationSearchText_FormData(this OutgoingMailsResponseCollection res, string value) { return res.ValAndFormData("#OutgoingMails_DestinationSearchText", value); }
+        public static OutgoingMailsResponseCollection Comments(this OutgoingMailsResponseCollection res) { return res.Val("#OutgoingMails_Comments", res.OutgoingMailModel.Comments.ToResponse()); }
+        public static OutgoingMailsResponseCollection Comments(this OutgoingMailsResponseCollection res, string value) { return res.Val("#OutgoingMails_Comments", value); }
+        public static OutgoingMailsResponseCollection Comments_FormData(this OutgoingMailsResponseCollection res) { return res.ValAndFormData("#OutgoingMails_Comments", res.OutgoingMailModel.Comments.ToResponse()); }
+        public static OutgoingMailsResponseCollection Comments_FormData(this OutgoingMailsResponseCollection res, string value) { return res.ValAndFormData("#OutgoingMails_Comments", value); }
         public static OutgoingMailsResponseCollection CreatedTime(this OutgoingMailsResponseCollection res) { return res.Val("#OutgoingMails_CreatedTime", res.OutgoingMailModel.CreatedTime.ToResponse()); }
         public static OutgoingMailsResponseCollection CreatedTime(this OutgoingMailsResponseCollection res, string value) { return res.Val("#OutgoingMails_CreatedTime", value); }
         public static OutgoingMailsResponseCollection CreatedTime_FormData(this OutgoingMailsResponseCollection res) { return res.ValAndFormData("#OutgoingMails_CreatedTime", res.OutgoingMailModel.CreatedTime.ToResponse()); }
@@ -778,6 +814,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static SearchIndexesResponseCollection Ver(this SearchIndexesResponseCollection res, string value) { return res.Val("#SearchIndexes_Ver", value); }
         public static SearchIndexesResponseCollection Ver_FormData(this SearchIndexesResponseCollection res) { return res.ValAndFormData("#SearchIndexes_Ver", res.SearchIndexModel.Ver.ToResponse()); }
         public static SearchIndexesResponseCollection Ver_FormData(this SearchIndexesResponseCollection res, string value) { return res.ValAndFormData("#SearchIndexes_Ver", value); }
+        public static SearchIndexesResponseCollection Comments(this SearchIndexesResponseCollection res) { return res.Val("#SearchIndexes_Comments", res.SearchIndexModel.Comments.ToResponse()); }
+        public static SearchIndexesResponseCollection Comments(this SearchIndexesResponseCollection res, string value) { return res.Val("#SearchIndexes_Comments", value); }
+        public static SearchIndexesResponseCollection Comments_FormData(this SearchIndexesResponseCollection res) { return res.ValAndFormData("#SearchIndexes_Comments", res.SearchIndexModel.Comments.ToResponse()); }
+        public static SearchIndexesResponseCollection Comments_FormData(this SearchIndexesResponseCollection res, string value) { return res.ValAndFormData("#SearchIndexes_Comments", value); }
         public static SearchIndexesResponseCollection CreatedTime(this SearchIndexesResponseCollection res) { return res.Val("#SearchIndexes_CreatedTime", res.SearchIndexModel.CreatedTime.ToResponse()); }
         public static SearchIndexesResponseCollection CreatedTime(this SearchIndexesResponseCollection res, string value) { return res.Val("#SearchIndexes_CreatedTime", value); }
         public static SearchIndexesResponseCollection CreatedTime_FormData(this SearchIndexesResponseCollection res) { return res.ValAndFormData("#SearchIndexes_CreatedTime", res.SearchIndexModel.CreatedTime.ToResponse()); }
@@ -818,6 +858,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static SitesResponseCollection InheritPermission(this SitesResponseCollection res, string value) { return res.Val("#Sites_InheritPermission", value); }
         public static SitesResponseCollection InheritPermission_FormData(this SitesResponseCollection res) { return res.ValAndFormData("#Sites_InheritPermission", res.SiteModel.InheritPermission.ToResponse()); }
         public static SitesResponseCollection InheritPermission_FormData(this SitesResponseCollection res, string value) { return res.ValAndFormData("#Sites_InheritPermission", value); }
+        public static SitesResponseCollection Comments(this SitesResponseCollection res) { return res.Val("#Sites_Comments", res.SiteModel.Comments.ToResponse()); }
+        public static SitesResponseCollection Comments(this SitesResponseCollection res, string value) { return res.Val("#Sites_Comments", value); }
+        public static SitesResponseCollection Comments_FormData(this SitesResponseCollection res) { return res.ValAndFormData("#Sites_Comments", res.SiteModel.Comments.ToResponse()); }
+        public static SitesResponseCollection Comments_FormData(this SitesResponseCollection res, string value) { return res.ValAndFormData("#Sites_Comments", value); }
         public static SitesResponseCollection CreatedTime(this SitesResponseCollection res) { return res.Val("#Sites_CreatedTime", res.SiteModel.CreatedTime.ToResponse()); }
         public static SitesResponseCollection CreatedTime(this SitesResponseCollection res, string value) { return res.Val("#Sites_CreatedTime", value); }
         public static SitesResponseCollection CreatedTime_FormData(this SitesResponseCollection res) { return res.ValAndFormData("#Sites_CreatedTime", res.SiteModel.CreatedTime.ToResponse()); }
@@ -830,6 +874,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static OrdersResponseCollection Ver(this OrdersResponseCollection res, string value) { return res.Val("#Orders_Ver", value); }
         public static OrdersResponseCollection Ver_FormData(this OrdersResponseCollection res) { return res.ValAndFormData("#Orders_Ver", res.OrderModel.Ver.ToResponse()); }
         public static OrdersResponseCollection Ver_FormData(this OrdersResponseCollection res, string value) { return res.ValAndFormData("#Orders_Ver", value); }
+        public static OrdersResponseCollection Comments(this OrdersResponseCollection res) { return res.Val("#Orders_Comments", res.OrderModel.Comments.ToResponse()); }
+        public static OrdersResponseCollection Comments(this OrdersResponseCollection res, string value) { return res.Val("#Orders_Comments", value); }
+        public static OrdersResponseCollection Comments_FormData(this OrdersResponseCollection res) { return res.ValAndFormData("#Orders_Comments", res.OrderModel.Comments.ToResponse()); }
+        public static OrdersResponseCollection Comments_FormData(this OrdersResponseCollection res, string value) { return res.ValAndFormData("#Orders_Comments", value); }
         public static OrdersResponseCollection CreatedTime(this OrdersResponseCollection res) { return res.Val("#Orders_CreatedTime", res.OrderModel.CreatedTime.ToResponse()); }
         public static OrdersResponseCollection CreatedTime(this OrdersResponseCollection res, string value) { return res.Val("#Orders_CreatedTime", value); }
         public static OrdersResponseCollection CreatedTime_FormData(this OrdersResponseCollection res) { return res.ValAndFormData("#Orders_CreatedTime", res.OrderModel.CreatedTime.ToResponse()); }
@@ -866,6 +914,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ExportSettingsResponseCollection AddHeader(this ExportSettingsResponseCollection res, string value) { return res.Val("#ExportSettings_AddHeader", value); }
         public static ExportSettingsResponseCollection AddHeader_FormData(this ExportSettingsResponseCollection res) { return res.ValAndFormData("#ExportSettings_AddHeader", res.ExportSettingModel.AddHeader.ToResponse()); }
         public static ExportSettingsResponseCollection AddHeader_FormData(this ExportSettingsResponseCollection res, string value) { return res.ValAndFormData("#ExportSettings_AddHeader", value); }
+        public static ExportSettingsResponseCollection Comments(this ExportSettingsResponseCollection res) { return res.Val("#ExportSettings_Comments", res.ExportSettingModel.Comments.ToResponse()); }
+        public static ExportSettingsResponseCollection Comments(this ExportSettingsResponseCollection res, string value) { return res.Val("#ExportSettings_Comments", value); }
+        public static ExportSettingsResponseCollection Comments_FormData(this ExportSettingsResponseCollection res) { return res.ValAndFormData("#ExportSettings_Comments", res.ExportSettingModel.Comments.ToResponse()); }
+        public static ExportSettingsResponseCollection Comments_FormData(this ExportSettingsResponseCollection res, string value) { return res.ValAndFormData("#ExportSettings_Comments", value); }
         public static ExportSettingsResponseCollection CreatedTime(this ExportSettingsResponseCollection res) { return res.Val("#ExportSettings_CreatedTime", res.ExportSettingModel.CreatedTime.ToResponse()); }
         public static ExportSettingsResponseCollection CreatedTime(this ExportSettingsResponseCollection res, string value) { return res.Val("#ExportSettings_CreatedTime", value); }
         public static ExportSettingsResponseCollection CreatedTime_FormData(this ExportSettingsResponseCollection res) { return res.ValAndFormData("#ExportSettings_CreatedTime", res.ExportSettingModel.CreatedTime.ToResponse()); }
@@ -882,6 +934,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static LinksResponseCollection Ver(this LinksResponseCollection res, string value) { return res.Val("#Links_Ver", value); }
         public static LinksResponseCollection Ver_FormData(this LinksResponseCollection res) { return res.ValAndFormData("#Links_Ver", res.LinkModel.Ver.ToResponse()); }
         public static LinksResponseCollection Ver_FormData(this LinksResponseCollection res, string value) { return res.ValAndFormData("#Links_Ver", value); }
+        public static LinksResponseCollection Comments(this LinksResponseCollection res) { return res.Val("#Links_Comments", res.LinkModel.Comments.ToResponse()); }
+        public static LinksResponseCollection Comments(this LinksResponseCollection res, string value) { return res.Val("#Links_Comments", value); }
+        public static LinksResponseCollection Comments_FormData(this LinksResponseCollection res) { return res.ValAndFormData("#Links_Comments", res.LinkModel.Comments.ToResponse()); }
+        public static LinksResponseCollection Comments_FormData(this LinksResponseCollection res, string value) { return res.ValAndFormData("#Links_Comments", value); }
         public static LinksResponseCollection CreatedTime(this LinksResponseCollection res) { return res.Val("#Links_CreatedTime", res.LinkModel.CreatedTime.ToResponse()); }
         public static LinksResponseCollection CreatedTime(this LinksResponseCollection res, string value) { return res.Val("#Links_CreatedTime", value); }
         public static LinksResponseCollection CreatedTime_FormData(this LinksResponseCollection res) { return res.ValAndFormData("#Links_CreatedTime", res.LinkModel.CreatedTime.ToResponse()); }
@@ -930,6 +986,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static BinariesResponseCollection Size(this BinariesResponseCollection res, string value) { return res.Val("#Binaries_Size", value); }
         public static BinariesResponseCollection Size_FormData(this BinariesResponseCollection res) { return res.ValAndFormData("#Binaries_Size", res.BinaryModel.Size.ToResponse()); }
         public static BinariesResponseCollection Size_FormData(this BinariesResponseCollection res, string value) { return res.ValAndFormData("#Binaries_Size", value); }
+        public static BinariesResponseCollection Comments(this BinariesResponseCollection res) { return res.Val("#Binaries_Comments", res.BinaryModel.Comments.ToResponse()); }
+        public static BinariesResponseCollection Comments(this BinariesResponseCollection res, string value) { return res.Val("#Binaries_Comments", value); }
+        public static BinariesResponseCollection Comments_FormData(this BinariesResponseCollection res) { return res.ValAndFormData("#Binaries_Comments", res.BinaryModel.Comments.ToResponse()); }
+        public static BinariesResponseCollection Comments_FormData(this BinariesResponseCollection res, string value) { return res.ValAndFormData("#Binaries_Comments", value); }
         public static BinariesResponseCollection CreatedTime(this BinariesResponseCollection res) { return res.Val("#Binaries_CreatedTime", res.BinaryModel.CreatedTime.ToResponse()); }
         public static BinariesResponseCollection CreatedTime(this BinariesResponseCollection res, string value) { return res.Val("#Binaries_CreatedTime", value); }
         public static BinariesResponseCollection CreatedTime_FormData(this BinariesResponseCollection res) { return res.ValAndFormData("#Binaries_CreatedTime", res.BinaryModel.CreatedTime.ToResponse()); }
@@ -986,6 +1046,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static PermissionsResponseCollection PermissionType(this PermissionsResponseCollection res, string value) { return res.Val("#Permissions_PermissionType", value); }
         public static PermissionsResponseCollection PermissionType_FormData(this PermissionsResponseCollection res) { return res.ValAndFormData("#Permissions_PermissionType", res.PermissionModel.PermissionType.ToResponse()); }
         public static PermissionsResponseCollection PermissionType_FormData(this PermissionsResponseCollection res, string value) { return res.ValAndFormData("#Permissions_PermissionType", value); }
+        public static PermissionsResponseCollection Comments(this PermissionsResponseCollection res) { return res.Val("#Permissions_Comments", res.PermissionModel.Comments.ToResponse()); }
+        public static PermissionsResponseCollection Comments(this PermissionsResponseCollection res, string value) { return res.Val("#Permissions_Comments", value); }
+        public static PermissionsResponseCollection Comments_FormData(this PermissionsResponseCollection res) { return res.ValAndFormData("#Permissions_Comments", res.PermissionModel.Comments.ToResponse()); }
+        public static PermissionsResponseCollection Comments_FormData(this PermissionsResponseCollection res, string value) { return res.ValAndFormData("#Permissions_Comments", value); }
         public static PermissionsResponseCollection CreatedTime(this PermissionsResponseCollection res) { return res.Val("#Permissions_CreatedTime", res.PermissionModel.CreatedTime.ToResponse()); }
         public static PermissionsResponseCollection CreatedTime(this PermissionsResponseCollection res, string value) { return res.Val("#Permissions_CreatedTime", value); }
         public static PermissionsResponseCollection CreatedTime_FormData(this PermissionsResponseCollection res) { return res.ValAndFormData("#Permissions_CreatedTime", res.PermissionModel.CreatedTime.ToResponse()); }
@@ -1570,6 +1634,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static IssuesResponseCollection CheckZ(this IssuesResponseCollection res, string value) { return res.Val("#Issues_CheckZ", value); }
         public static IssuesResponseCollection CheckZ_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_CheckZ", res.IssueModel.CheckZ.ToResponse()); }
         public static IssuesResponseCollection CheckZ_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_CheckZ", value); }
+        public static IssuesResponseCollection Comments(this IssuesResponseCollection res) { return res.Val("#Issues_Comments", res.IssueModel.Comments.ToResponse()); }
+        public static IssuesResponseCollection Comments(this IssuesResponseCollection res, string value) { return res.Val("#Issues_Comments", value); }
+        public static IssuesResponseCollection Comments_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_Comments", res.IssueModel.Comments.ToResponse()); }
+        public static IssuesResponseCollection Comments_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_Comments", value); }
         public static IssuesResponseCollection CreatedTime(this IssuesResponseCollection res) { return res.Val("#Issues_CreatedTime", res.IssueModel.CreatedTime.ToResponse()); }
         public static IssuesResponseCollection CreatedTime(this IssuesResponseCollection res, string value) { return res.Val("#Issues_CreatedTime", value); }
         public static IssuesResponseCollection CreatedTime_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_CreatedTime", res.IssueModel.CreatedTime.ToResponse()); }
@@ -2130,6 +2198,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResultsResponseCollection CheckZ(this ResultsResponseCollection res, string value) { return res.Val("#Results_CheckZ", value); }
         public static ResultsResponseCollection CheckZ_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_CheckZ", res.ResultModel.CheckZ.ToResponse()); }
         public static ResultsResponseCollection CheckZ_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_CheckZ", value); }
+        public static ResultsResponseCollection Comments(this ResultsResponseCollection res) { return res.Val("#Results_Comments", res.ResultModel.Comments.ToResponse()); }
+        public static ResultsResponseCollection Comments(this ResultsResponseCollection res, string value) { return res.Val("#Results_Comments", value); }
+        public static ResultsResponseCollection Comments_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_Comments", res.ResultModel.Comments.ToResponse()); }
+        public static ResultsResponseCollection Comments_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_Comments", value); }
         public static ResultsResponseCollection CreatedTime(this ResultsResponseCollection res) { return res.Val("#Results_CreatedTime", res.ResultModel.CreatedTime.ToResponse()); }
         public static ResultsResponseCollection CreatedTime(this ResultsResponseCollection res, string value) { return res.Val("#Results_CreatedTime", value); }
         public static ResultsResponseCollection CreatedTime_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_CreatedTime", res.ResultModel.CreatedTime.ToResponse()); }
@@ -2158,6 +2230,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static WikisResponseCollection Body(this WikisResponseCollection res, string value) { return res.Val("#Wikis_Body", value); }
         public static WikisResponseCollection Body_FormData(this WikisResponseCollection res) { return res.ValAndFormData("#Wikis_Body", res.WikiModel.Body.ToResponse()); }
         public static WikisResponseCollection Body_FormData(this WikisResponseCollection res, string value) { return res.ValAndFormData("#Wikis_Body", value); }
+        public static WikisResponseCollection Comments(this WikisResponseCollection res) { return res.Val("#Wikis_Comments", res.WikiModel.Comments.ToResponse()); }
+        public static WikisResponseCollection Comments(this WikisResponseCollection res, string value) { return res.Val("#Wikis_Comments", value); }
+        public static WikisResponseCollection Comments_FormData(this WikisResponseCollection res) { return res.ValAndFormData("#Wikis_Comments", res.WikiModel.Comments.ToResponse()); }
+        public static WikisResponseCollection Comments_FormData(this WikisResponseCollection res, string value) { return res.ValAndFormData("#Wikis_Comments", value); }
         public static WikisResponseCollection CreatedTime(this WikisResponseCollection res) { return res.Val("#Wikis_CreatedTime", res.WikiModel.CreatedTime.ToResponse()); }
         public static WikisResponseCollection CreatedTime(this WikisResponseCollection res, string value) { return res.Val("#Wikis_CreatedTime", value); }
         public static WikisResponseCollection CreatedTime_FormData(this WikisResponseCollection res) { return res.ValAndFormData("#Wikis_CreatedTime", res.WikiModel.CreatedTime.ToResponse()); }

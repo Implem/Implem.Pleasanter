@@ -36,6 +36,12 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
+                    case "Comments":
+                        if (!ss.GetColumn("Comments").CanCreate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
                 }
             }
             return Error.Types.None;
@@ -69,6 +75,12 @@ namespace Implem.Pleasanter.Models
                     case "Groups_Body":
                         if (groupModel.Body_Updated &&
                             !ss.GetColumn("Body").CanUpdate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
+                    case "Comments":
+                        if (!ss.GetColumn("Comments").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }

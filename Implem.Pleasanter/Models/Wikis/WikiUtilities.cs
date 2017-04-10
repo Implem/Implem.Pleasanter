@@ -178,6 +178,10 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             WikiModel wikiModel)
         {
+            var commentsColumnPermissionType = ss.GetColumn("Comments").ColumnPermissionType();
+            var showComments = ss.EditorColumns?.Contains("Comments") == true &&
+                commentsColumnPermissionType != Permissions.ColumnPermissionTypes.Deny;
+            var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
@@ -191,11 +195,14 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             baseModel: wikiModel,
                             tableName: "Wikis")
-                        .Div(id: "EditorComments", action: () => hb
-                            .Comments(
-                                comments: wikiModel.Comments,
-                                verType: wikiModel.VerType))
-                        .Div(id: "EditorTabsContainer", action: () => hb
+                        .Div(
+                            id: "EditorComments", action: () => hb
+                                .Comments(
+                                    comments: wikiModel.Comments,
+                                    verType: wikiModel.VerType,
+                                    columnPermissionType: commentsColumnPermissionType),
+                            _using: showComments)
+                        .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
                             .EditorTabs(wikiModel: wikiModel, ss: ss)
                             .FieldSetGeneral(
                                 ss: ss,

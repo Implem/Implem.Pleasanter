@@ -1078,6 +1078,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder Editor(this HtmlBuilder hb, SiteModel siteModel)
         {
+            var commentsColumnPermissionType = siteModel.SiteSettings
+                .GetColumn("Comments").ColumnPermissionType();
+            var showComments = siteModel.SiteSettings.EditorColumns?.Contains("Comments") == true &&
+                commentsColumnPermissionType != Permissions.ColumnPermissionTypes.Deny;
+            var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
@@ -1090,11 +1095,14 @@ namespace Implem.Pleasanter.Models
                             baseModel: siteModel,
                             tableName: "Sites",
                             switcher: false)
-                        .Div(id: "EditorComments", action: () => hb
-                            .Comments(
-                                comments: siteModel.Comments,
-                                verType: siteModel.VerType))
-                        .Div(id: "EditorTabsContainer", action: () => hb
+                        .Div(
+                            id: "EditorComments", action: () => hb
+                                .Comments(
+                                    comments: siteModel.Comments,
+                                    verType: siteModel.VerType,
+                                    columnPermissionType: commentsColumnPermissionType),
+                            _using: showComments)
+                        .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
                             .EditorTabs(siteModel: siteModel)
                             .FieldSetGeneral(siteModel: siteModel)
                             .FieldSet(
