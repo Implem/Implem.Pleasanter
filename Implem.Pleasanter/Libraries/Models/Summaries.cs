@@ -894,11 +894,17 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "Issues": return Rds.SelectIssues(
                     _as: "s",
                     column: Rds.IssuesColumn().IssuesCount(),
-                    where: IssuesWhere(destinationPk, sourceSiteId, linkColumn));
+                    where: Where(
+                        ss,
+                        sourceCondition,
+                        IssuesWhere(destinationPk, sourceSiteId, linkColumn)));
                 case "Results": return Rds.SelectResults(
                     _as: "s",
                     column: Rds.ResultsColumn().ResultsCount(),
-                    where: ResultsWhere(destinationPk, sourceSiteId, linkColumn));
+                    where: Where(
+                        ss,
+                        sourceCondition,
+                        ResultsWhere(destinationPk, sourceSiteId, linkColumn)));
                 default: return null;
             }
         }
