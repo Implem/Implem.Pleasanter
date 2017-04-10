@@ -77,25 +77,26 @@ $p.setMustData = function ($form, action) {
 }
 
 $p.clearData = function (target, data, type) {
-    if (data) {
-        if (target === '') {
-            for (controlId in data) {
-                if (!$('#' + controlId).hasClass('control-selectable')) {
-                    delete data[controlId];
-                }
+    if (data === null) {
+        data = $p.getData($('.main-form'))
+    }
+    if (target === '') {
+        for (controlId in data) {
+            if (!$('#' + controlId).hasClass('control-selectable')) {
+                delete data[controlId];
             }
-        } else if (type === 'startsWith') {
-            for (controlId in data) {
-                if (controlId.indexOf(target) === 0) {
-                    delete data[controlId];
-                }
+        }
+    } else if (type === 'startsWith') {
+        for (controlId in data) {
+            if (controlId.indexOf(target) === 0) {
+                delete data[controlId];
             }
-        } else {
-            if (target in data) {
-                delete data[target];
-            } else if ($(target).length !== 0) {
-                delete data[$(target).attr('id')];
-            }
+        }
+    } else {
+        if (target in data) {
+            delete data[target];
+        } else if ($(target).length !== 0) {
+            delete data[$(target).attr('id')];
         }
     }
 }
