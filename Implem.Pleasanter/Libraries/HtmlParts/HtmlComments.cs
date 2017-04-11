@@ -1,8 +1,9 @@
 ﻿using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
-using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Settings;
+
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlComments
@@ -10,12 +11,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Comments(
             this HtmlBuilder hb,
             Comments comments,
+            Column column,
             Versions.VerTypes verType,
             Permissions.ColumnPermissionTypes columnPermissionType)
         {
             return hb
-                .TextArea(_using: verType == Versions.VerTypes.Latest &&
-                    columnPermissionType == Permissions.ColumnPermissionTypes.Update)
+                .TextArea(
+                    labelText: column?.LabelText,
+                    _using: verType == Versions.VerTypes.Latest &&
+                        column?.EditorReadOnly != true &&
+                        columnPermissionType == Permissions.ColumnPermissionTypes.Update)
                 .Div(id: "CommentList", action: () => comments
                     .ForEach(comment => hb
                         .Comment(comment, verType)));
@@ -31,14 +36,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DeleteComment(comment: comment, verType: verType));
         }
 
-        private static HtmlBuilder TextArea(this HtmlBuilder hb, bool _using = true)
+        private static HtmlBuilder TextArea(
+            this HtmlBuilder hb, string labelText, bool _using = true)
         {
             return _using
                 ? hb.Div(id: "CommentField", action: () =>
                     hb.TextArea(
                         id: "Comments",
                         css: "control-textarea upload-image",
-                        placeholder: Displays.Comments()))
+                        placeholder: labelText))
                 : hb;
         }
 

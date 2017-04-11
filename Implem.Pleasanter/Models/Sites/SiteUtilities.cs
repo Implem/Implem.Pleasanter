@@ -1078,8 +1078,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder Editor(this HtmlBuilder hb, SiteModel siteModel)
         {
-            var commentsColumnPermissionType = siteModel.SiteSettings
-                .GetColumn("Comments").ColumnPermissionType();
+            var commentsColumn = siteModel.SiteSettings.GetColumn("Comments");
+            var commentsColumnPermissionType = commentsColumn.ColumnPermissionType();
             var showComments = siteModel.SiteSettings.EditorColumns?.Contains("Comments") == true &&
                 commentsColumnPermissionType != Permissions.ColumnPermissionTypes.Deny;
             var tabsCss = showComments ? null : "max";
@@ -1099,6 +1099,7 @@ namespace Implem.Pleasanter.Models
                             id: "EditorComments", action: () => hb
                                 .Comments(
                                     comments: siteModel.Comments,
+                                    column: commentsColumn,
                                     verType: siteModel.VerType,
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
@@ -1931,29 +1932,32 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.DisplayName(),
                         text: column.LabelText,
                         validateRequired: true);
-                    switch (column.TypeName.CsTypeSummary())
+                    if (column.ColumnName != "Comments")
                     {
-                        case Types.CsBool:
-                            break;
-                        default:
-                            hb
-                                .FieldDropDown(
-                                    controlId: "FieldCss",
-                                    labelText: Displays.Style(),
-                                    optionCollection: new Dictionary<string, string>
-                                    {
+                        switch (column.TypeName.CsTypeSummary())
+                        {
+                            case Types.CsBool:
+                                break;
+                            default:
+                                hb
+                                    .FieldDropDown(
+                                        controlId: "FieldCss",
+                                        labelText: Displays.Style(),
+                                        optionCollection: new Dictionary<string, string>
+                                        {
                                             { "field-normal", Displays.Normal() },
                                             { "field-wide", Displays.Wide() }
-                                    },
-                                    selectedValue: column.FieldCss,
-                                    _using: !column.MarkDown)
-                                .FieldCheckBox(
-                                    controlId: "ValidateRequired",
-                                    labelText: Displays.Required(),
-                                    _checked: column.ValidateRequired ?? false,
-                                    disabled: !column.Nullable,
-                                    _using: !column.Id_Ver);
-                            break;
+                                        },
+                                        selectedValue: column.FieldCss,
+                                        _using: !column.MarkDown)
+                                    .FieldCheckBox(
+                                        controlId: "ValidateRequired",
+                                        labelText: Displays.Required(),
+                                        _checked: column.ValidateRequired ?? false,
+                                        disabled: !column.Nullable,
+                                        _using: !column.Id_Ver);
+                                break;
+                        }
                     }
                     hb.FieldCheckBox(
                         controlId: "EditorReadOnly",
@@ -2058,22 +2062,25 @@ namespace Implem.Pleasanter.Models
                                 width: column.Width);
                             break;
                         case Types.CsString:
-                            if (column.MarkDown)
+                            if (column.ColumnName != "Comments")
                             {
-                                hb.FieldTextBox(
-                                    textType: HtmlTypes.TextTypes.MultiLine,
-                                    controlId: "DefaultInput",
-                                    fieldCss: column.FieldCss,
-                                    labelText: Displays.DefaultInput(),
-                                    text: column.DefaultInput);
-                            }
-                            else
-                            {
-                                hb.FieldTextBox(
-                                    controlId: "DefaultInput",
-                                    fieldCss: column.FieldCss,
-                                    labelText: Displays.DefaultInput(),
-                                    text: column.DefaultInput);
+                                if (column.MarkDown)
+                                {
+                                    hb.FieldTextBox(
+                                        textType: HtmlTypes.TextTypes.MultiLine,
+                                        controlId: "DefaultInput",
+                                        fieldCss: column.FieldCss,
+                                        labelText: Displays.DefaultInput(),
+                                        text: column.DefaultInput);
+                                }
+                                else
+                                {
+                                    hb.FieldTextBox(
+                                        controlId: "DefaultInput",
+                                        fieldCss: column.FieldCss,
+                                        labelText: Displays.DefaultInput(),
+                                        text: column.DefaultInput);
+                                }
                             }
                             break;
                     }

@@ -472,7 +472,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Editor(
             this HtmlBuilder hb, SiteSettings ss, UserModel userModel)
         {
-            var commentsColumnPermissionType = ss.GetColumn("Comments").ColumnPermissionType();
+            var commentsColumn = ss.GetColumn("Comments");
+            var commentsColumnPermissionType = commentsColumn.ColumnPermissionType();
             var showComments = ss.EditorColumns?.Contains("Comments") == true &&
                 commentsColumnPermissionType != Permissions.ColumnPermissionTypes.Deny;
             var tabsCss = showComments ? null : "max";
@@ -493,6 +494,7 @@ namespace Implem.Pleasanter.Models
                             id: "EditorComments", action: () => hb
                                 .Comments(
                                     comments: userModel.Comments,
+                                    column: commentsColumn,
                                     verType: userModel.VerType,
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
