@@ -20,7 +20,7 @@ https://pleasanter.azurewebsites.net
 http://pleasanter.org
 
 ## ブログ
-プリザンターの活用方法を紹介するブログです。
+プリザンターの活用方法を紹介するブログです。  
 https://implem.co.jp/category/blog/
 
 ## 動作イメージ
