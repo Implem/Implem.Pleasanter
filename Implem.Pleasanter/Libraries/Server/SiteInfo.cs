@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Libraries.Server
                             dataRow => new User(dataRow));
                 }
             }
-            if (monitor.PermissionsUpdated || monitor.GroupsUpdated || force)
+            if (monitor.PermissionsUpdated || monitor.GroupsUpdated || monitor.UsersUpdated || force)
             {
                 SiteUserHash = new Dictionary<long, List<int>>();
             }
