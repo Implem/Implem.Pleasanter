@@ -3,7 +3,6 @@
 .NET製のアプリケーションPaaS。現場のマネジメントを快適化することで、生産性を向上し続ける仕組みを実現。商用、非商用を問わず無料で使えるオープンソース・ソフトウェア。  
 
 オープンソースのアプリケーションPaaSというジャンルでデファクトスタンダードを目指します。プルリクエスト大歓迎。ご興味ある方はお気軽にご連絡ください。  
-
 ## 機能概要
 プリザンターの機能の概要をアニメーションGIFを用いて説明します。  
 http://qiita.com/Implem/items/39ef5be388f40aa21c04
@@ -12,21 +11,17 @@ http://qiita.com/Implem/items/39ef5be388f40aa21c04
 プリザンターのセットアップ手順及び、操作手順を説明します。  
 https://github.com/Implem/Implem.Pleasanter/wiki
 
-## 具体的な使い方
-プロジェクトマネジメントにおける実践的なデータ活用例を説明します。  
-http://qiita.com/Implem/items/112bfd38433f7f5d7bb8
-
 ## デモサイト
 下記のサイトでe-mailアドレスを登録するとプリザンターを試行することが出来ます。  
 https://pleasanter.azurewebsites.net
 
-## チュートリアル
-デモサイトで使用できるチュートリアルの手順です。  
-http://www.slideshare.net/TaijiUchida/001-65529592
-
 ## ダウンロード
 セットアップモジュールのダウンロードサイトです。  
 http://pleasanter.org
+
+## ブログ
+プリザンターの活用方法を紹介するブログです。
+https://implem.co.jp/category/blog/
 
 ## 動作イメージ
 * チケット管理
