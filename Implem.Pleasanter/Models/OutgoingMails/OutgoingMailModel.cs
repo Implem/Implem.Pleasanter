@@ -174,8 +174,9 @@ namespace Implem.Pleasanter.Models
                 transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             Get();
-            Libraries.Search.Indexes.Create(
-                SiteSettingsUtilities.OutgoingMailsSiteSettings(), ReferenceId);
+            var siteModel = new ItemModel(ReferenceId).GetSite();
+            var ss = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
+            Libraries.Search.Indexes.Create(ss, ReferenceId);
             return Error.Types.None;
         }
 
