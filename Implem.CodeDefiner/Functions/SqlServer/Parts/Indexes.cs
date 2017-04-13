@@ -106,11 +106,11 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             bool old,
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
-            return Indexes.IndexInfoCollection(generalTableName, sourceTableName, old)
+            return IndexInfoCollection(generalTableName, sourceTableName, old)
                 .Select(o => o.IndexName())
                 .Distinct()
                 .OrderBy(o => o)
-                .Join(",") != Indexes.Get(sourceTableName).Join(",");
+                .Join(",") != Get(sourceTableName).Join(",");
         }
 
         private static string Sql_CreateIx(
@@ -144,7 +144,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
                 sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                     "#Pks#", Def.Sql.CreatePk
                         .Replace("#PkName#", tableIndex.IndexName())
-                        .Replace("#PkColumns#", string.Join(",", Indexes.Sql_CreateIx(
+                        .Replace("#PkColumns#", string.Join(",", Sql_CreateIx(
                             sourceTableName, tableIndex, columnDefinitionCollection))));
             }
             else
@@ -161,7 +161,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             bool old,
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
-            Indexes.IndexInfoCollection(generalTableName, sourceTableName, old)
+            IndexInfoCollection(generalTableName, sourceTableName, old)
                 .Where(o => o.Type == IndexInfo.Types.Ix)
                 .ForEach(tableIndex => 
                     sqlStatement.CreateIx(sourceTableName, columnDefinitionCollection, tableIndex));
@@ -175,8 +175,8 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
         {
             sqlStatement.CommandText += Def.Sql.CreateIx
                 .Replace("#IxName#", tableIndex.IndexName())
-                .Replace("#IxColumns#", Indexes.Sql_CreateIx(sourceTableName, tableIndex, columnDefinitionCollection))
-                .Replace("#Unique#", Indexes.Sql_CreateIxUnique(tableIndex));
+                .Replace("#IxColumns#", Sql_CreateIx(sourceTableName, tableIndex, columnDefinitionCollection))
+                .Replace("#Unique#", Sql_CreateIxUnique(tableIndex));
         }
 
         private static string Sql_CreateIxUnique(IndexInfo tableIndex)
