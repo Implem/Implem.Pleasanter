@@ -426,14 +426,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static TenantsResponseCollection Ver(this TenantsResponseCollection res, string value) { return res.Val("#Tenants_Ver", value); }
         public static TenantsResponseCollection Ver_FormData(this TenantsResponseCollection res) { return res.ValAndFormData("#Tenants_Ver", res.TenantModel.Ver.ToResponse()); }
         public static TenantsResponseCollection Ver_FormData(this TenantsResponseCollection res, string value) { return res.ValAndFormData("#Tenants_Ver", value); }
-        public static TenantsResponseCollection Title(this TenantsResponseCollection res) { return res.Val("#Tenants_Title", res.TenantModel.Title.ToResponse()); }
-        public static TenantsResponseCollection Title(this TenantsResponseCollection res, string value) { return res.Val("#Tenants_Title", value); }
-        public static TenantsResponseCollection Title_FormData(this TenantsResponseCollection res) { return res.ValAndFormData("#Tenants_Title", res.TenantModel.Title.ToResponse()); }
-        public static TenantsResponseCollection Title_FormData(this TenantsResponseCollection res, string value) { return res.ValAndFormData("#Tenants_Title", value); }
-        public static TenantsResponseCollection Body(this TenantsResponseCollection res) { return res.Val("#Tenants_Body", res.TenantModel.Body.ToResponse()); }
-        public static TenantsResponseCollection Body(this TenantsResponseCollection res, string value) { return res.Val("#Tenants_Body", value); }
-        public static TenantsResponseCollection Body_FormData(this TenantsResponseCollection res) { return res.ValAndFormData("#Tenants_Body", res.TenantModel.Body.ToResponse()); }
-        public static TenantsResponseCollection Body_FormData(this TenantsResponseCollection res, string value) { return res.ValAndFormData("#Tenants_Body", value); }
         public static TenantsResponseCollection Comments(this TenantsResponseCollection res) { return res.Val("#Tenants_Comments", res.TenantModel.Comments.ToResponse()); }
         public static TenantsResponseCollection Comments(this TenantsResponseCollection res, string value) { return res.Val("#Tenants_Comments", value); }
         public static TenantsResponseCollection Comments_FormData(this TenantsResponseCollection res) { return res.ValAndFormData("#Tenants_Comments", res.TenantModel.Comments.ToResponse()); }
