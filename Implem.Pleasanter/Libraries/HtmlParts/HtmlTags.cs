@@ -483,6 +483,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string id = null,
             string css = null,
             string href = null,
+            string target = null,
             HtmlAttributes attributes = null,
             string text = null,
             bool _using = true,
@@ -496,7 +497,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: (attributes ?? new HtmlAttributes())
                         .Id(id)
                         .Class(css)
-                        .Href(href),
+                        .Href(href)
+                        .Target(target),
                     action: action != null
                         ? action
                         : () => hb.Text(text))
