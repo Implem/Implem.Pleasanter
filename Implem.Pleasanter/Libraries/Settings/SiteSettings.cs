@@ -894,7 +894,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ReadColumnAccessControls?.ForEach(o =>
                 SetColumnAccessControl(columnAccessControls, o));
             ReadColumnAccessControls = columnAccessControls;
-
         }
 
         private void Update_UpdateColumnAccessControls(IEnumerable<Column> columns)
@@ -905,7 +904,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateColumnAccessControls?.ForEach(o =>
                 SetColumnAccessControl(columnAccessControls, o));
             UpdateColumnAccessControls = columnAccessControls;
-
         }
 
         private void SetColumnAccessControl(
