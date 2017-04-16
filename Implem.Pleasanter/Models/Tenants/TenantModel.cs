@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Models
         public bool TenantName_Updated { get { return TenantName != SavedTenantName && TenantName != null; } }
         public bool Title_Updated { get { return Title.Value != SavedTitle && Title.Value != null; } }
         public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
-        public bool ContractSettings_Updated { get { return ContractSettings.RecordingJson() != SavedContractSettings && ContractSettings.RecordingJson() != null; } }
+        public bool ContractSettings_Updated { get { return ContractSettings?.RecordingJson() != SavedContractSettings && ContractSettings?.RecordingJson() != null; } }
         public bool ContractorName_Updated { get { return ContractorName != SavedContractorName && ContractorName != null; } }
         public bool PostalCode_Updated { get { return PostalCode != SavedPostalCode && PostalCode != null; } }
         public bool Country_Updated { get { return Country != SavedCountry && Country != null; } }
@@ -293,7 +293,7 @@ namespace Implem.Pleasanter.Models
                     case "TenantName": TenantName = dataRow[name].ToString(); SavedTenantName = TenantName; break;
                     case "Title": Title = new Title(dataRow, "TenantId"); SavedTitle = Title.Value; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
-                    case "ContractSettings": ContractSettings = GetContractSettings(dataRow); SavedContractSettings = ContractSettings.RecordingJson(); break;
+                    case "ContractSettings": ContractSettings = GetContractSettings(dataRow); SavedContractSettings = ContractSettings?.RecordingJson(); break;
                     case "ContractorName": ContractorName = dataRow[name].ToString(); SavedContractorName = ContractorName; break;
                     case "PostalCode": PostalCode = dataRow[name].ToString(); SavedPostalCode = PostalCode; break;
                     case "Country": Country = dataRow[name].ToString(); SavedCountry = Country; break;
