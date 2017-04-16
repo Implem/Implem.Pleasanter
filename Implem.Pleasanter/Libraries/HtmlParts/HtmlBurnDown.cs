@@ -27,13 +27,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     burnDown: burnDown,
                     ss: ss,
                     ownerLabelText: ownerLabelText,
-                    column: column)
-                .MainCommands(
-                    ss: ss,
-                    siteId: ss.SiteId,
-                    verType: Versions.VerTypes.Latest,
-                    importButton: true,
-                    exportButton: true);
+                    column: column);
         }
 
         private static HtmlBuilder Body(this HtmlBuilder hb, BurnDown burnDown)

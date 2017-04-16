@@ -80,13 +80,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         aggregateType: aggregateType,
                         value: ss.GetColumn(value),
                         columns: columns,
-                        data: data)
-                    .MainCommands(
-                        ss: ss,
-                        siteId: ss.SiteId,
-                        verType: Versions.VerTypes.Latest,
-                        importButton: true,
-                        exportButton: true);
+                        data: data);
             });
         }
 

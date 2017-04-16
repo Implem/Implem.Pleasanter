@@ -50,13 +50,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         groupBy: groupBy,
                         aggregateType: aggregateType,
                         value: value,
-                        dataRows: dataRows))
-                .MainCommands(
-                    ss: ss,
-                    siteId: ss.SiteId,
-                    verType: Versions.VerTypes.Latest,
-                    importButton: true,
-                    exportButton: true));
+                        dataRows: dataRows)));
         }
 
         public static HtmlBuilder TimeSeriesBody(

@@ -29,13 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .GanttBody(
                         ss: ss,
                         groupBy: groupBy,
-                        dataRows: dataRows))
-                .MainCommands(
-                    ss: ss,
-                    siteId: ss.SiteId,
-                    verType: Versions.VerTypes.Latest,
-                    importButton: true,
-                    exportButton: true));
+                        dataRows: dataRows)));
         }
 
         public static HtmlBuilder GanttBody(
