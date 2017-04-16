@@ -601,20 +601,23 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
-        public static List<int> GetSwitchTargets(SiteSettings ss, int groupId)
+        private static List<int> GetSwitchTargets(SiteSettings ss, int groupId)
         {
             var view = Views.GetBySession(ss);
-            var switchTargets = Rds.ExecuteTable(
-                transactional: false,
-                statements: Rds.SelectGroups(
-                    column: Rds.GroupsColumn().GroupId(),
-                    where: view.Where(
-                        ss: ss, where: Rds.GroupsWhere().TenantId(Sessions.TenantId())),
-                    orderBy: view.OrderBy(ss, Rds.GroupsOrderBy()
-                        .UpdatedTime(SqlOrderBy.Types.desc))))
-                            .AsEnumerable()
-                            .Select(o => o["GroupId"].ToInt())
-                            .ToList();
+            var where = view.Where(ss: ss, where: Rds.GroupsWhere().TenantId(Sessions.TenantId()));
+            var switchTargets = Rds.ExecuteScalar_int(statements:
+                Rds.SelectGroups(
+                    column: Rds.GroupsColumn().GroupsCount(),
+                    where: where)) <= Parameters.General.SwitchTargetsLimit
+                        ? Rds.ExecuteTable(statements: Rds.SelectGroups(
+                            column: Rds.GroupsColumn().GroupId(),
+                            where: where,
+                            orderBy: view.OrderBy(ss, Rds.GroupsOrderBy()
+                                .UpdatedTime(SqlOrderBy.Types.desc))))
+                                .AsEnumerable()
+                                .Select(o => o["GroupId"].ToInt())
+                                .ToList()
+                        : new List<int>();
             if (!switchTargets.Contains(groupId))
             {
                 switchTargets.Add(groupId);

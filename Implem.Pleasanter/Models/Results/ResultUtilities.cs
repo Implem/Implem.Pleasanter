@@ -2333,20 +2333,23 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
-        public static List<long> GetSwitchTargets(SiteSettings ss, long resultId, long siteId)
+        private static List<long> GetSwitchTargets(SiteSettings ss, long resultId, long siteId)
         {
             var view = Views.GetBySession(ss);
-            var switchTargets = Rds.ExecuteTable(
-                transactional: false,
-                statements: Rds.SelectResults(
-                    column: Rds.ResultsColumn().ResultId(),
-                    where: view.Where(
-                        ss: ss, where: Rds.ResultsWhere().SiteId(siteId)),
-                    orderBy: view.OrderBy(ss, Rds.ResultsOrderBy()
-                        .UpdatedTime(SqlOrderBy.Types.desc))))
-                            .AsEnumerable()
-                            .Select(o => o["ResultId"].ToLong())
-                            .ToList();
+            var where = view.Where(ss: ss, where: Rds.ResultsWhere().SiteId(siteId));
+            var switchTargets = Rds.ExecuteScalar_int(statements:
+                Rds.SelectResults(
+                    column: Rds.ResultsColumn().ResultsCount(),
+                    where: where)) <= Parameters.General.SwitchTargetsLimit
+                        ? Rds.ExecuteTable(statements: Rds.SelectResults(
+                            column: Rds.ResultsColumn().ResultId(),
+                            where: where,
+                            orderBy: view.OrderBy(ss, Rds.ResultsOrderBy()
+                                .UpdatedTime(SqlOrderBy.Types.desc))))
+                                .AsEnumerable()
+                                .Select(o => o["ResultId"].ToLong())
+                                .ToList()
+                        : new List<long>();
             if (!switchTargets.Contains(resultId))
             {
                 switchTargets.Add(resultId);

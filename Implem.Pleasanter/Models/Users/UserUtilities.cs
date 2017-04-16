@@ -873,21 +873,25 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static List<int> GetSwitchTargets(SiteSettings ss, int userId)
+        private static List<int> GetSwitchTargets(SiteSettings ss, int userId)
         {
             if (Permissions.CanManageTenant())
             {
                 var view = Views.GetBySession(ss);
-                var switchTargets = Rds.ExecuteTable(
-                    transactional: false,
-                    statements: Rds.SelectUsers(
-                        column: Rds.UsersColumn().UserId(),
-                        where: view.Where(ss, Rds.UsersWhere().TenantId(Sessions.TenantId())),
-                        orderBy: view.OrderBy(
-                            ss, Rds.UsersOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
-                                .AsEnumerable()
-                                .Select(o => o["UserId"].ToInt())
-                                .ToList();
+                var where = view.Where(ss: ss, where: Rds.UsersWhere().TenantId(Sessions.TenantId()));
+                var switchTargets = Rds.ExecuteScalar_int(statements:
+                    Rds.SelectUsers(
+                        column: Rds.UsersColumn().UsersCount(),
+                        where: where)) <= Parameters.General.SwitchTargetsLimit
+                            ? Rds.ExecuteTable(statements: Rds.SelectUsers(
+                                column: Rds.UsersColumn().UserId(),
+                                where: where,
+                                orderBy: view.OrderBy(ss, Rds.UsersOrderBy()
+                                    .UpdatedTime(SqlOrderBy.Types.desc))))
+                                    .AsEnumerable()
+                                    .Select(o => o["UserId"].ToInt())
+                                    .ToList()
+                            : new List<int>();
                 if (!switchTargets.Contains(userId))
                 {
                     switchTargets.Add(userId);
