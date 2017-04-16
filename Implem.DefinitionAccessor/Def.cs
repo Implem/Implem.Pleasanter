@@ -1885,6 +1885,8 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_BottomMargin": Css._sharp_BottomMargin = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BottomMargin, definitionRow, CssXls); break;
                     case "_sharp_Footer": Css._sharp_Footer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Footer, definitionRow, CssXls); break;
                     case "_sharp_Footer_space_a": Css._sharp_Footer_space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Footer_space_a, definitionRow, CssXls); break;
+                    case "_sharp_Versions": Css._sharp_Versions = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Versions, definitionRow, CssXls); break;
+                    case "_sharp_Versions_space_span": Css._sharp_Versions_space_span = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Versions_space_span, definitionRow, CssXls); break;
                     case "_dot_main_form": Css._dot_main_form = definitionRow[1].ToString(); SetCssTable(CssTable._dot_main_form, definitionRow, CssXls); break;
                     case "_dot_nav_sites": Css._dot_nav_sites = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_sites, definitionRow, CssXls); break;
                     case "_dot_nav_site": Css._dot_nav_site = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site, definitionRow, CssXls); break;
@@ -6859,6 +6861,8 @@ namespace Implem.DefinitionAccessor
         public string _sharp_BottomMargin;
         public string _sharp_Footer;
         public string _sharp_Footer_space_a;
+        public string _sharp_Versions;
+        public string _sharp_Versions_space_span;
         public string _dot_main_form;
         public string _dot_nav_sites;
         public string _dot_nav_site;
@@ -7247,6 +7251,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_BottomMargin = new CssDefinition();
         public CssDefinition _sharp_Footer = new CssDefinition();
         public CssDefinition _sharp_Footer_space_a = new CssDefinition();
+        public CssDefinition _sharp_Versions = new CssDefinition();
+        public CssDefinition _sharp_Versions_space_span = new CssDefinition();
         public CssDefinition _dot_main_form = new CssDefinition();
         public CssDefinition _dot_nav_sites = new CssDefinition();
         public CssDefinition _dot_nav_site = new CssDefinition();
