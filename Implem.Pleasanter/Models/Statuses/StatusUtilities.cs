@@ -50,6 +50,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static void UpdateAssemblyVersion()
         {
             if (Rds.ExecuteScalar_int(statements: Rds.SelectStatuses(
