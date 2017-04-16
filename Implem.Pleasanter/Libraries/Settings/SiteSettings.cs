@@ -1579,6 +1579,20 @@ namespace Implem.Pleasanter.Libraries.Settings
         private Dictionary<string, IEnumerable<string>> LinkHash(bool all)
         {
             var allowSites = Permissions.AllowSites(Links?.Select(o => o.SiteId).Distinct());
+            Rds.ExecuteTable(statements:
+                Rds.SelectItems(
+                    column: Rds.ItemsColumn().SiteId(),
+                    where: Rds.ItemsWhere().SiteId_In(allowSites),
+                    groupBy: Rds.ItemsGroupBy().SiteId(),
+                    having: Rds.ItemsHaving().ItemsCount(
+                        Parameters.General.DropDownSearchLimit, _operator: ">")))
+                            .AsEnumerable()
+                            .ForEach(data =>
+                            {
+                                var column = GetColumn(Links.FirstOrDefault(o =>
+                                    o.SiteId == data["SiteId"].ToLong())?.ColumnName);
+                                if (column != null) column.UseSearch = true;
+                            });
             var targetSites = Links?
                 .Where(o => all || GetColumn(o.ColumnName)?.UseSearch != true)
                 .Select(o => o.SiteId)
