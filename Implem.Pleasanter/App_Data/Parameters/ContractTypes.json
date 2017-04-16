@@ -1,0 +1,29 @@
+﻿[
+    {
+        "Name": "Free",
+        "Users": 3,
+        "Sites": 10,
+        "Items": 1000,
+        "Import": false,
+        "Export": false,
+        "Notice": false
+    },
+    {
+        "Name": "Light",
+        "Users": 10,
+        "Sites": 20,
+        "Items": 2000,
+        "Import": true,
+        "Export": true,
+        "Notice": true
+    },
+    {
+        "Name": "Standard",
+        "Users": 0,
+        "Sites": 0,
+        "Items": 0,
+        "Import": true,
+        "Export": true,
+        "Notice": true
+    }
+]

@@ -242,6 +242,7 @@
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_005.cs" />
     <Compile Include="Libraries\Responses\Displays.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
+    <Compile Include="Libraries\Server\Contract.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Settings\ColumnAccessControl.cs" />
     <Compile Include="Libraries\Settings\ContractSettings.cs" />
@@ -634,7 +635,7 @@
     <Content Include="App_Data\Parameters\Rds.json" />
     <Content Include="App_Data\Parameters\Service.json" />
     <Content Include="App_Data\Parameters\SysLog.json" />
-    <Content Include="App_Data\Parameters\Formats.json" />
+    <Content Include="App_Data\Parameters\ContractTypes.json" />
     <Content Include="App_Data\Parameters\Asset.json" />
     <Content Include="App_Data\Displays\Add.json" />
     <Content Include="App_Data\Displays\AddPermission.json" />
@@ -1022,6 +1023,7 @@
     <Content Include="App_Data\Displays\CodeDefinerInsertTestDataCompleted.json" />
     <Content Include="App_Data\Displays\Version.json" />
     <Content Include="App_Data\Displays\Assembly.json" />
+    <Content Include="App_Data\Parameters\Formats.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

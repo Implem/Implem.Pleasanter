@@ -8,6 +8,7 @@ namespace Implem.DefinitionAccessor
         public static Authentication Authentication;
         public static BackgroundTask BackgroundTask;
         public static BinaryStorage BinaryStorage;
+        public static List<ContractType> ContractTypes;
         public static List<Format> Formats;
         public static General General;
         public static Mail Mail;

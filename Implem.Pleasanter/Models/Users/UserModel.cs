@@ -683,6 +683,7 @@ namespace Implem.Pleasanter.Models
             HttpContext.Session["Developer"] = Developer;
             HttpContext.Session["TimeZoneInfo"] = TimeZoneInfo;
             HttpContext.Session["RdsUser"] = RdsUser();
+            Contract.Set();
         }
 
         /// <summary>

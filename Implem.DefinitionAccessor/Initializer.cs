@@ -75,6 +75,8 @@ namespace Implem.DefinitionAccessor
                 .Deserialize<ParameterAccessor.Parts.BackgroundTask>();
             Parameters.BinaryStorage = Files.Read(ParametersPath("BinaryStorage"))
                 .Deserialize<ParameterAccessor.Parts.BinaryStorage>();
+            Parameters.ContractTypes = Files.Read(ParametersPath("ContractTypes"))
+                .Deserialize<List<ParameterAccessor.Parts.ContractType>>();
             Parameters.Formats = Files.Read(ParametersPath("Formats"))
                 .Deserialize<List<ParameterAccessor.Parts.Format>>();
             Parameters.General = Files.Read(ParametersPath("General"))
