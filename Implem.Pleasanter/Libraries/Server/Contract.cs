@@ -34,5 +34,16 @@ namespace Implem.Pleasanter.Libraries.Server
                     where: Rds.TenantsWhere().TenantId(tenantId)))
                         .Deserialize<ContractSettings>();
         }
+
+        public static bool UsersLimit()
+        {
+            var tenantId = Sessions.TenantId();
+            return
+                ContractHash.ContainsKey(tenantId) &&
+                ContractHash[tenantId]?.Users > 0 &&
+                Rds.ExecuteScalar_int(statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn().UsersCount(),
+                    where: Rds.UsersWhere().TenantId(tenantId))) >= ContractHash[tenantId]?.Users;
+        }
     }
 }

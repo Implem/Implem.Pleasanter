@@ -33,7 +33,8 @@ namespace Implem.Pleasanter.Libraries.General
             RequireMailAddresses,
             SelectOne,
             SelectTargets,
-            UpdateConflicts
+            UpdateConflicts,
+            UsersLimit
         }
 
         public static bool Has(this Types type)
@@ -99,6 +100,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.SelectTargets(data);
                 case Types.UpdateConflicts:
                     return Messages.UpdateConflicts(data);
+                case Types.UsersLimit:
+                    return Messages.UsersLimit(data);
                 default: return null;
             }
         }

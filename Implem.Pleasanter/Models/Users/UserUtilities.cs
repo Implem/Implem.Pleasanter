@@ -423,6 +423,10 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew(SiteSettings ss)
         {
+            if (Contract.UsersLimit())
+            {
+                return Error.Types.UsersLimit.MessageJson();
+            }
             return Editor(ss, new UserModel(
                 SiteSettingsUtilities.UsersSiteSettings(),
                 methodType: BaseModel.MethodTypes.New));
@@ -907,6 +911,10 @@ namespace Implem.Pleasanter.Models
         public static string Create(SiteSettings ss)
         {
             var userModel = new UserModel(ss, 0, setByForm: true);
+            if (Contract.UsersLimit())
+            {
+                return Error.Types.UsersLimit.MessageJson();
+            }
             var invalid = UserValidators.OnCreating(ss, userModel);
             switch (invalid)
             {

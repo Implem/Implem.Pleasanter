@@ -397,6 +397,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string UseMonth(params string[] data) { return Get("UseMonth", data); }
         public static string UseQuarter(params string[] data) { return Get("UseQuarter", data); }
         public static string UserAdmin(params string[] data) { return Get("UserAdmin", data); }
+        public static string UsersLimit(params string[] data) { return Get("UsersLimit", data); }
         public static string UseSearch(params string[] data) { return Get("UseSearch", data); }
         public static string ValidateDate(params string[] data) { return Get("ValidateDate", data); }
         public static string ValidateEmail(params string[] data) { return Get("ValidateEmail", data); }
