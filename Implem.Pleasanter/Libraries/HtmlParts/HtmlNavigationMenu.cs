@@ -203,6 +203,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Li(action: () => hb
                     .A(
                         href: Parameters.General.HtmlCopyrightUrl,
+                        target: "_blank",
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-contact")
                             .Text(text: Displays.Support())))
