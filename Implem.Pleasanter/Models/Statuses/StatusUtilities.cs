@@ -27,11 +27,48 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public enum Types : int
         {
+            AssemblyVersion = 100,
             DeptsUpdated = 210,
             GroupsUpdated = 220,
             UsersUpdated = 230,
             PermissionsUpdated = 240,
             SitesUpdated = 250
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void Initialize()
+        {
+            UpdateAssemblyVersion();
+            if (!MonitorInitialized())
+            {
+                var hash = MonitorHash();
+                Rds.ExecuteNonQuery(statements: MonitorHash()
+                    .Select(o => UpdateStatus(o.Key))
+                    .ToArray());
+            }
+        }
+
+        public static void UpdateAssemblyVersion()
+        {
+            if (Rds.ExecuteScalar_int(statements: Rds.SelectStatuses(
+                column: Rds.StatusesColumn().StatusesCount(),
+                where: Rds.StatusesWhere().StatusId(Types.AssemblyVersion))) == 0)
+            {
+                Rds.ExecuteNonQuery(statements: Rds.InsertStatuses(
+                    param: Rds.StatusesParam()
+                        .StatusId(Types.AssemblyVersion)
+                        .Value(Environments.AssemblyVersion)));
+            }
+            else
+            {
+                Rds.ExecuteNonQuery(statements: Rds.UpdateStatuses(
+                    param: Rds.StatusesParam().Value(Environments.AssemblyVersion),
+                    where: Rds.StatusesWhere()
+                        .StatusId(Types.AssemblyVersion)
+                        .Value(Environments.AssemblyVersion, _operator: "<>")));
+            }
         }
 
         /// <summary>
@@ -54,7 +91,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static bool Initialized()
+        public static bool MonitorInitialized()
         {
             var hash = MonitorHash();
             return MonitorDataRows(hash).Count() == hash.Count;

@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -32,7 +33,9 @@ namespace Implem.Pleasanter
 
         private void Initialize()
         {
-            Initializer.Initialize(Server.MapPath("./"));
+            Initializer.Initialize(
+                path: Server.MapPath("./"),
+                assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString());
         }
 
         private void SetConfigrations()

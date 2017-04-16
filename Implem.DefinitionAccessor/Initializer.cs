@@ -13,7 +13,9 @@ namespace Implem.DefinitionAccessor
     public class Initializer
     {
         public static void Initialize(
-            string path, bool codeDefiner = false,
+            string path,
+            string assemblyVersion,
+            bool codeDefiner = false,
             bool setSaPassword = false,
             bool setRandomPassword = false)
         {
@@ -27,8 +29,7 @@ namespace Implem.DefinitionAccessor
             Environments.MachineName = Environment.MachineName;
             Environments.Application = 
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
-            Environments.AssemblyVersion = 
-                Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Environments.AssemblyVersion = assemblyVersion;
             SetDefinitions();
             Environments.TimeZoneInfoDefault = TimeZoneInfo.GetSystemTimeZones()
                 .FirstOrDefault(o => o.Id == Parameters.Service.TimeZoneDefault);

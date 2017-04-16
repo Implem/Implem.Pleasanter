@@ -25,11 +25,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId, long parentId, string referenceType, string siteReferenceType)
         {
             var controller = Routes.Controller();
-            var referer = HttpUtility.UrlDecode(new Request(HttpContext.Current).UrlReferrer());
+            var referer = HttpUtility.UrlDecode(Url.UrlReferrer());
             switch (controller)
             {
                 case "admins":
                     return Locations.Top();
+                case "versions":
+                    return referer != null
+                        ? referer
+                        : Locations.Top();
                 case "depts":
                 case "users":
                     switch (Routes.Action())

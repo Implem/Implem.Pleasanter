@@ -197,6 +197,7 @@
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\OutgoingMailsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\VersionsController.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
     <Compile Include="Filters\RefleshSiteInfoAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -229,6 +230,7 @@
     <Compile Include="Libraries\DataTypes\TitleBody.cs" />
     <Compile Include="Libraries\DataTypes\User.cs" />
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlAssemblyVersions.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlDropDownSearches.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Initializers\StatesesInitializer.cs" />
@@ -1018,6 +1020,8 @@
     <Content Include="App_Data\Displays\YmdDatePickerFormat.json" />
     <Content Include="App_Data\Displays\YmdhmDatePickerFormat.json" />
     <Content Include="App_Data\Displays\CodeDefinerInsertTestDataCompleted.json" />
+    <Content Include="App_Data\Displays\Version.json" />
+    <Content Include="App_Data\Displays\Assembly.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
@@ -1026,6 +1030,7 @@
     <Content Include="Views\Groups\Edit.cshtml" />
     <Content Include="Views\Groups\Index.cshtml" />
     <Content Include="Views\Groups\New.cshtml" />
+    <Content Include="Views\Versions\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

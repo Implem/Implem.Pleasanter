@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public static string UrlReferrer()
         {
-            return HttpContext.Current.Request.UrlReferrer?.ToString() ?? string.Empty;
+            return HttpContext.Current.Request.UrlReferrer?.ToString() ?? null;
         }
 
         public static string RouteData(string name)

@@ -892,6 +892,19 @@ pre{
     text-decoration:none;
 }
 
+#Versions{
+    width:500px;
+    margin:150px auto 20px auto;
+    padding:50px;
+    background-color:whitesmoke;
+    border-radius:10px;
+}
+
+#Versions span{
+    margin:10px;
+    line-height:30px;
+}
+
 .main-form{
     clear:both;
 }

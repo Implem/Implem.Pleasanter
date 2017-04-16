@@ -56,6 +56,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string AllowedUsers(params string[] data) { return Get("AllowedUsers", data); }
         public static string AlreadyAdded(params string[] data) { return Get("AlreadyAdded", data); }
         public static string And(params string[] data) { return Get("And", data); }
+        public static string Assembly(params string[] data) { return Get("Assembly", data); }
         public static string Authentication(params string[] data) { return Get("Authentication", data); }
         public static string Auto(params string[] data) { return Get("Auto", data); }
         public static string Average(params string[] data) { return Get("Average", data); }
@@ -403,6 +404,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ValidateMaxLength(params string[] data) { return Get("ValidateMaxLength", data); }
         public static string ValidateNumber(params string[] data) { return Get("ValidateNumber", data); }
         public static string ValidateRequired(params string[] data) { return Get("ValidateRequired", data); }
+        public static string Version(params string[] data) { return Get("Version", data); }
         public static string VerUp(params string[] data) { return Get("VerUp", data); }
         public static string View(params string[] data) { return Get("View", data); }
         public static string ViewDemoEnvironment(params string[] data) { return Get("ViewDemoEnvironment", data); }

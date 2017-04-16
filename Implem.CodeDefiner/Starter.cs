@@ -21,6 +21,7 @@ namespace Implem.CodeDefiner
             var target = Arg(argHash, 't', string.Empty);
             Initializer.Initialize(
                 path,
+                assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString(),
                 codeDefiner: true,
                 setSaPassword: argHash.ContainsKey("s"),
                 setRandomPassword: argHash.ContainsKey("r"));

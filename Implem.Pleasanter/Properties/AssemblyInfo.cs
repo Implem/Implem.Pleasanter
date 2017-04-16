@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Implem.Pleasanter")]
 [assembly: AssemblyDescription("Web tool that helps the efficiency of business")]
@@ -11,4 +10,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("ec0d3d5b-8879-462b-835f-ff1737a01543")]
-[assembly: AssemblyVersion("0.0.0.*")]
+[assembly: AssemblyVersion("0.36.1.*")]

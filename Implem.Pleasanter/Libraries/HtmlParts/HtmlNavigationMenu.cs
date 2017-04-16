@@ -204,8 +204,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .A(
                         href: Parameters.General.HtmlCopyrightUrl,
                         action: () => hb
-                            .Span(css: "ui-icon ui-icon-locked")
-                            .Text(text: Displays.Support()))));
+                            .Span(css: "ui-icon ui-icon-contact")
+                            .Text(text: Displays.Support())))
+                .Li(action: () => hb
+                    .A(
+                        href: Locations.Get("versions"),
+                        action: () => hb
+                            .Span(css: "ui-icon ui-icon-info")
+                            .Text(text: Displays.Version()))));
         }
 
         private static HtmlBuilder Search(this HtmlBuilder hb, bool _using)
