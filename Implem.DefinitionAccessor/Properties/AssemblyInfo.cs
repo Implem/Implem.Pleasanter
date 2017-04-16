@@ -1,12 +1,11 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Implem.DefinitionAccessor")]
 [assembly: AssemblyDescription("This is a feature for accessing definitions")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Implem.DefinitionAccessor")]
-[assembly: AssemblyCopyright("Copyright © Taiji Uchida 2014 - 2015")]
+[assembly: AssemblyCopyright("Copyright © Implem Inc 2014 - 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

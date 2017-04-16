@@ -1,12 +1,11 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Implem.Libraries")]
 [assembly: AssemblyDescription("This is a library that aggregates the common functions")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Implem.Libraries")]
-[assembly: AssemblyCopyright("Copyright © Taiji Uchida 2014 - 2015")]
+[assembly: AssemblyCopyright("Copyright © Implem Inc 2014 - 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

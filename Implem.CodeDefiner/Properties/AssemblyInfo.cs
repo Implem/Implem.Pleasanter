@@ -1,12 +1,11 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Implem.CodeDefiner")]
 [assembly: AssemblyDescription("This program does the automatic code creation and merging of existing code based on the definition. Also it will make the configuration change of sql server database.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Implem.CodeDefiner")]
-[assembly: AssemblyCopyright("Copyright © Taiji Uchida 2014 - 2015")]
+[assembly: AssemblyCopyright("Copyright © Implem Inc 2014 - 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
