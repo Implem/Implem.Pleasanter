@@ -677,7 +677,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.Birthday?.ToControl(ss, column),
+                                userModel.Birthday.ToControl(ss, column),
                                 column.ColumnPermissionType());
                             break;
                         case "Gender":
@@ -725,7 +725,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.LastLoginTime?.ToControl(ss, column),
+                                userModel.LastLoginTime.ToControl(ss, column),
                                 column.ColumnPermissionType());
                             break;
                         case "PasswordExpirationTime":
@@ -733,7 +733,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.PasswordExpirationTime?.ToControl(ss, column),
+                                userModel.PasswordExpirationTime.ToControl(ss, column),
                                 column.ColumnPermissionType());
                             break;
                         case "PasswordChangeTime":
@@ -741,7 +741,7 @@ namespace Implem.Pleasanter.Models
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.PasswordChangeTime?.ToControl(ss, column),
+                                userModel.PasswordChangeTime.ToControl(ss, column),
                                 column.ColumnPermissionType());
                             break;
                         case "NumberOfLogins":
