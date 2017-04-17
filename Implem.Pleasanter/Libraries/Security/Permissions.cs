@@ -370,7 +370,7 @@ namespace Implem.Pleasanter.Libraries.Security
                                 .AsEnumerable();
         }
 
-        public static Types? Admins(this Types? type)
+        public static Types? Admins(Types? type = Types.NotSet)
         {
             var user = Sessions.User();
             if (user.TenantManager) type |= Types.ManageTenant;

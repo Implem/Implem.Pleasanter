@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Data;
@@ -122,6 +123,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Depts";
             ss.Init();
             ss.SetChoiceHash(withLink: false);
+            ss.PermissionType = Permissions.Admins();
             return ss;
         }
 
@@ -130,6 +132,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = new SiteSettings();
             ss.ReferenceType = "Groups";
             ss.Init();
+            ss.SetChoiceHash(withLink: false);
+            ss.PermissionType = Permissions.Admins();
             return ss;
         }
 
@@ -147,6 +151,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Users";
             ss.Init();
             ss.SetChoiceHash(withLink: false);
+            ss.PermissionType = Permissions.Admins();
             return ss;
         }
 
