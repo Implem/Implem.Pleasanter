@@ -445,6 +445,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Editor": Code.Model_Utilities_Editor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Editor, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteSettingsUtilities": Code.Model_Utilities_SiteSettingsUtilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteSettingsUtilities, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorItem": Code.Model_Utilities_EditorItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorItem, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Limit": Code.Model_Utilities_Limit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Limit, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetSwitchTargets": Code.Model_Utilities_SetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldCases": Code.Model_Utilities_FieldCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldCases_Item": Code.Model_Utilities_FieldCases_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases_Item, definitionRow, CodeXls); break;
@@ -4042,6 +4043,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Editor;
         public string Model_Utilities_SiteSettingsUtilities;
         public string Model_Utilities_EditorItem;
+        public string Model_Utilities_Limit;
         public string Model_Utilities_SetSwitchTargets;
         public string Model_Utilities_FieldCases;
         public string Model_Utilities_FieldCases_Item;
@@ -4473,6 +4475,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Editor = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteSettingsUtilities = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorItem = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Limit = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldCases_Item = new CodeDefinition();

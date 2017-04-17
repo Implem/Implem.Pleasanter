@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.General;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -7,9 +8,34 @@ namespace Implem.Pleasanter.Models
 {
     public static class SiteValidators
     {
+        public static Error.Types OnEntry(SiteSettings ss)
+        {
+            return ss.HasPermission()
+                ? Error.Types.None
+                : Error.Types.HasNotPermission;
+        }
+
+        public static Error.Types OnReading(SiteSettings ss)
+        {
+            return ss.CanManageSite()
+                ? Error.Types.None
+                : Error.Types.HasNotPermission;
+        }
+
+        public static Error.Types OnEditing(SiteSettings ss, SiteModel siteModel)
+        {
+            return
+                ss.CanManageSite() &&
+                siteModel.AccessStatus != Databases.AccessStatuses.NotFound
+                    ? Error.Types.None
+                    : siteModel.MethodType == BaseModel.MethodTypes.New
+                        ? Error.Types.HasNotPermission
+                        : Error.Types.NotFound;
+        }
+
         public static Error.Types OnCreating(SiteSettings ss, SiteModel siteModel)
         {
-            if (!ss.CanCreate())
+            if (!ss.CanManageSite())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -55,7 +81,7 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnUpdating(SiteSettings ss, SiteModel siteModel)
         {
-            if (!ss.CanUpdate())
+            if (!ss.CanManageSite())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -115,34 +141,34 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnDeleting(SiteSettings ss, SiteModel siteModel)
         {
-            if (!ss.CanDelete())
-            {
-                return Error.Types.HasNotPermission;
-            }
-            return Error.Types.None;
+            return ss.CanManageSite()
+                ? Error.Types.None
+                : Error.Types.HasNotPermission;
         }
 
         public static Error.Types OnRestoring()
         {
-            if (!Permissions.CanManageTenant())
-            {
-                return Error.Types.HasNotPermission;
-            }
-            return Error.Types.None;
+            return Permissions.CanManageTenant()
+                ? Error.Types.None
+                : Error.Types.HasNotPermission;
         }
 
         public static Error.Types OnExporting(SiteSettings ss)
         {
-            if (!ss.CanExport())
-            {
-                return Error.Types.HasNotPermission;
-            }
-            return Error.Types.None;
+            return ss.CanExport()
+                ? Error.Types.None
+                : Error.Types.HasNotPermission;
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
+        public static Error.Types OnShowingMenu(SiteModel siteModel)
+        {
+            return
+                siteModel.SiteSettings.HasPermission() &&
+                siteModel.AccessStatus != Databases.AccessStatuses.NotFound
+                    ? Error.Types.None
+                    : Error.Types.HasNotPermission;
+        }
+
         public static Error.Types OnMoving(
             long currentId,
             long destinationId,
@@ -165,9 +191,6 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static Error.Types OnSorting(SiteSettings ss)
         {
             if (ss.SiteId != 0 && !ss.CanManageSite())
@@ -177,9 +200,6 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static Error.Types OnSetSiteSettings(SiteSettings ss, out string data)
         {
             data = null;

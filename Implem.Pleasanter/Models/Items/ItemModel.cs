@@ -91,7 +91,7 @@ namespace Implem.Pleasanter.Models
                 case "Sites": return SiteUtilities.SiteMenu(Site);
                 case "Issues": return IssueUtilities.Index(ss: Site.SiteSettings);
                 case "Results": return ResultUtilities.Index(ss: Site.SiteSettings);
-                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
 
@@ -103,7 +103,7 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.IndexJson(ss: Site.SiteSettings);
                 case "Results": return ResultUtilities.IndexJson(ss: Site.SiteSettings);
-                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
 
@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.Gantt(
                     ss: Site.IssuesSiteSettings(ReferenceId, setAllChoices: true));
-                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
 
@@ -127,7 +127,7 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.GanttJson(
                     ss: Site.IssuesSiteSettings(ReferenceId, setAllChoices: true));
-                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
 
@@ -138,7 +138,7 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.BurnDown(ss: Site.SiteSettings);
-                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
 
@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.BurnDownJson(ss: Site.SiteSettings);
-                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
 
@@ -173,7 +173,7 @@ namespace Implem.Pleasanter.Models
                     ss: Site.IssuesSiteSettings(ReferenceId, setAllChoices: true));
                 case "Results": return ResultUtilities.TimeSeries(
                     ss: Site.ResultsSiteSettings(ReferenceId, setAllChoices: true));
-                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
 
@@ -187,7 +187,7 @@ namespace Implem.Pleasanter.Models
                     ss: Site.IssuesSiteSettings(ReferenceId, setAllChoices: true));
                 case "Results": return ResultUtilities.TimeSeriesJson(
                     ss: Site.ResultsSiteSettings(ReferenceId, setAllChoices: true));
-                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
 
@@ -201,7 +201,7 @@ namespace Implem.Pleasanter.Models
                     ss: Site.IssuesSiteSettings(ReferenceId, setAllChoices: true));
                 case "Results": return ResultUtilities.Kamban(
                     ss: Site.ResultsSiteSettings(ReferenceId, setAllChoices: true));
-                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
 
@@ -215,7 +215,7 @@ namespace Implem.Pleasanter.Models
                     ss: Site.IssuesSiteSettings(ReferenceId, setAllChoices: true));
                 case "Results": return ResultUtilities.KambanJson(
                     ss: Site.ResultsSiteSettings(ReferenceId, setAllChoices: true));
-                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
 
@@ -228,7 +228,7 @@ namespace Implem.Pleasanter.Models
                 case "Issues": return IssueUtilities.EditorNew(Site.SiteSettings);
                 case "Results": return ResultUtilities.EditorNew(Site.SiteSettings);
                 case "Wikis": return WikiUtilities.EditorNew(Site.SiteSettings);
-                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
 
@@ -261,7 +261,7 @@ namespace Implem.Pleasanter.Models
                     ss: Site.WikisSiteSettings(ReferenceId),
                     wikiId: ReferenceId,
                     clearSessions: true);
-                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
 

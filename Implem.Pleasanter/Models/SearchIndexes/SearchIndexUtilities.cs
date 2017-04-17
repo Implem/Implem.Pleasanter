@@ -158,7 +158,6 @@ namespace Implem.Pleasanter.Models
                 ss: new SiteSettings(),
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.NotSet,
-                allowAccess: true,
                 referenceType: "SearchIndexes",
                 title: string.Empty,
                 useNavigationMenu: false,

@@ -47,12 +47,17 @@ namespace Implem.Pleasanter.Models
             string viewMode,
             Action viewModeBody)
         {
+            var invalid = IssueValidators.OnEntry(ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             ss.SetColumnAccessControls();
             return hb.Template(
                 ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: ss.HasPermission(),
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Results",
@@ -1012,9 +1017,7 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew(SiteSettings ss)
         {
-            return ss.CanCreate()
-                ? Editor(ss, new ResultModel(ss, methodType: BaseModel.MethodTypes.New))
-                : new HtmlBuilder().NotFoundTemplate().ToString();
+            return Editor(ss, new ResultModel(ss, methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(SiteSettings ss, long resultId, bool clearSessions)
@@ -1031,13 +1034,18 @@ namespace Implem.Pleasanter.Models
 
         public static string Editor(SiteSettings ss, ResultModel resultModel)
         {
+            var invalid = ResultValidators.OnEditing(ss, resultModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             var hb = new HtmlBuilder();
             ss.SetColumnAccessControls(resultModel.Mine());
             return hb.Template(
                 ss: ss,
                 verType: resultModel.VerType,
                 methodType: resultModel.MethodType,
-                allowAccess: AllowAccess(ss, resultModel),
                 siteId: resultModel.SiteId,
                 referenceType: "Results",
                 title: resultModel.MethodType == BaseModel.MethodTypes.New
@@ -1059,14 +1067,6 @@ namespace Implem.Pleasanter.Models
                         .Hidden(controlId: "TableName", value: "Results")
                         .Hidden(controlId: "Id", value: resultModel.ResultId.ToString());
                 }).ToString();
-        }
-
-        private static bool AllowAccess(SiteSettings ss, ResultModel resultModel)
-        {
-            return
-                ((resultModel.MethodType == BaseModel.MethodTypes.Edit && ss.CanRead()) ||
-                (resultModel.MethodType == BaseModel.MethodTypes.New && ss.CanCreate())) &&
-                resultModel.AccessStatus != Databases.AccessStatuses.NotFound;
         }
 
         private static HtmlBuilder Editor(
@@ -2522,6 +2522,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                ss = SiteSettingsUtilities.Get(ss.SiteId, resultModel.ResultId);
                 return EditorResponse(
                     ss,
                     resultModel,

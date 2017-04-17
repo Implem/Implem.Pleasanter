@@ -113,11 +113,15 @@ namespace Implem.Pleasanter.Models
                     .Text(text: gridDesign)));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string EditorNew(SiteSettings ss)
         {
-            return ss.CanCreate()
-                ? Editor(ss, new WikiModel(ss, methodType: BaseModel.MethodTypes.New))
-                : new HtmlBuilder().NotFoundTemplate().ToString();
+            var wikiId = Rds.ExecuteScalar_long(statements: Rds.SelectWikis(
+                column: Rds.WikisColumn().WikiId(),
+                where: Rds.WikisWhere().SiteId(ss.SiteId)));
+            return Editor(ss, new WikiModel(ss, methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(SiteSettings ss, long wikiId, bool clearSessions)
@@ -132,13 +136,18 @@ namespace Implem.Pleasanter.Models
 
         public static string Editor(SiteSettings ss, WikiModel wikiModel)
         {
+            var invalid = WikiValidators.OnEditing(ss, wikiModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             var hb = new HtmlBuilder();
             ss.SetColumnAccessControls(wikiModel.Mine());
             return hb.Template(
                 ss: ss,
                 verType: wikiModel.VerType,
                 methodType: wikiModel.MethodType,
-                allowAccess: AllowAccess(ss, wikiModel),
                 siteId: wikiModel.SiteId,
                 referenceType: "Wikis",
                 title: wikiModel.MethodType == BaseModel.MethodTypes.New
@@ -160,14 +169,6 @@ namespace Implem.Pleasanter.Models
                         .Hidden(controlId: "TableName", value: "Wikis")
                         .Hidden(controlId: "Id", value: wikiModel.WikiId.ToString());
                 }).ToString();
-        }
-
-        private static bool AllowAccess(SiteSettings ss, WikiModel wikiModel)
-        {
-            return
-                ((wikiModel.MethodType == BaseModel.MethodTypes.Edit && ss.CanRead()) ||
-                (wikiModel.MethodType == BaseModel.MethodTypes.New && ss.CanCreate())) &&
-                wikiModel.AccessStatus != Databases.AccessStatuses.NotFound;
         }
 
         /// <summary>
@@ -583,22 +584,6 @@ namespace Implem.Pleasanter.Models
                     : dataRow["Title"].ToString();
                 default: return string.Empty;
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string EditorNew(SiteModel siteModel)
-        {
-            var wikiId = Rds.ExecuteScalar_long(statements:
-                Rds.SelectWikis(
-                    column: Rds.WikisColumn().WikiId(),
-                    where: Rds.WikisWhere().SiteId(siteModel.SiteId)));
-            var ss = SiteSettingsUtilities.Get(siteModel, wikiId);
-            return wikiId == 0
-                ? Editor(ss, new WikiModel(
-                    siteModel.WikisSiteSettings(wikiId), methodType: BaseModel.MethodTypes.New))
-                : new HtmlBuilder().NotFoundTemplate().ToString();
         }
     }
 }

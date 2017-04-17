@@ -240,7 +240,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool IsSite()
         {
-            return SiteId == Routes.Id();
+            return SiteId == Routes.Id() && ReferenceType == "Sites";
         }
 
         public string RecordingJson()

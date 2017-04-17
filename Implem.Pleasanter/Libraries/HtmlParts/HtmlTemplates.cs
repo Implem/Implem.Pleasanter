@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Images;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -16,19 +17,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             Versions.VerTypes verType,
             BaseModel.MethodTypes methodType,
-            bool allowAccess,
             long siteId = 0,
             long parentId = 0,
-            string referenceType = "",
-            string siteReferenceType = "",
-            string title = "",
+            string referenceType = null,
+            string siteReferenceType = null,
+            string title = null,
             bool useBreadcrumb = true,
             bool useTitle = true,
             bool useSearch = true,
             bool useNavigationMenu = true,
-            string script = "",
-            string userScript = "",
-            string userStyle = "",
+            string script = null,
+            string userScript = null,
+            string userStyle = null,
             Action action = null)
         {
             return hb
@@ -36,7 +36,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: ss,
                     verType: verType,
                     methodType: methodType,
-                    allowAccess: allowAccess,
                     siteId: siteId,
                     parentId: parentId,
                     referenceType: referenceType,
@@ -60,17 +59,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             Versions.VerTypes verType,
             BaseModel.MethodTypes methodType,
-            bool allowAccess,
             long siteId,
             long parentId,
             string referenceType,
             string siteReferenceType,
             string title,
+            Error.Types errorType = General.Error.Types.None,
             bool useBreadcrumb = true,
             bool useTitle = true,
             bool useSearch = true,
             bool useNavigationMenu = true,
-            string userStyle = "",
+            string userStyle = null,
             Action action = null)
         {
             return hb.Div(id: "MainContainer", action: () => hb
@@ -78,12 +77,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: ss,
                     siteId: siteId,
                     referenceType: referenceType,
-                    allowAccess: allowAccess,
+                    errorType: errorType,
                     useNavigationMenu: useNavigationMenu,
                     useSearch: useSearch)
                 .Content(
                     ss: ss,
-                    allowAccess: allowAccess,
+                    errorType: errorType,
                     siteId: siteId,
                     title: title,
                     useBreadcrumb: useBreadcrumb,
@@ -102,16 +101,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Content(
             this HtmlBuilder hb,
             SiteSettings ss,
-            bool allowAccess,
+            Error.Types errorType,
             long siteId = 0,
-            string title = "",
+            string title = null,
             bool useBreadcrumb = true,
             bool useTitle = true,
             Action action = null)
         {
             return hb.Article(id: "Application", action: () =>
             {
-                if (allowAccess)
+                if (!errorType.Has())
                 {
                     hb.Nav(css: "both cf", action: () => hb
                         .Breadcrumb(
@@ -122,7 +121,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         hb.Title(ss: ss, siteId: siteId, text: title);
                     }
-                    action();
+                    action?.Invoke();
                     hb.P(id: "Message", css: "message", action: () => hb
                         .Raw(text: Sessions.Message()));
                 }
@@ -130,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     hb
                         .P(id: "Message", css: "message", action: () => hb
-                            .Raw(text: Messages.NotFound().Html))
+                            .Raw(text: errorType.Message().Html))
                         .MainCommands(
                             siteId: siteId,
                             ss: ss,
@@ -175,16 +174,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        public static HtmlBuilder NotFoundTemplate(this HtmlBuilder hb)
+        public static string Error(Error.Types errorType)
         {
-            return hb.Template(
-                ss: new SiteSettings(),
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.NotSet,
-                allowAccess: false,
-                useBreadcrumb: false,
-                useTitle: false,
-                useNavigationMenu: false);
+            var hb = new HtmlBuilder();
+            return hb
+                .MainContainer(
+                    ss: new SiteSettings(),
+                    verType: Versions.VerTypes.Latest,
+                    methodType: BaseModel.MethodTypes.NotSet,
+                    siteId: 0,
+                    parentId: 0,
+                    referenceType: null,
+                    siteReferenceType: null,
+                    title: null,
+                    errorType: errorType,
+                    useBreadcrumb: false,
+                    useTitle: false,
+                    useNavigationMenu: true)
+                .HiddenData()
+                .Scripts(
+                    script: null,
+                    userScript: null,
+                    referenceType: null)
+                        .ToString();
         }
     }
 }

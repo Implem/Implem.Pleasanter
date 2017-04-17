@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.General;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -7,6 +8,42 @@ namespace Implem.Pleasanter.Models
 {
     public static class DeptValidators
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnEntry(SiteSettings ss)
+        {
+            return Permissions.CanManageTenant()
+                ? Error.Types.None
+                : Error.Types.HasNotPermission;
+        }
+
+        public static Error.Types OnReading(SiteSettings ss)
+        {
+            return ss.CanRead()
+                ? Error.Types.None
+                : Error.Types.HasNotPermission;
+        }
+
+        public static Error.Types OnEditing(SiteSettings ss, DeptModel deptModel)
+        {
+            switch (deptModel.MethodType)
+            {
+                case BaseModel.MethodTypes.Edit:
+                    return
+                        ss.CanRead()&&
+                        deptModel.AccessStatus != Databases.AccessStatuses.NotFound
+                            ? Error.Types.None
+                            : Error.Types.NotFound;        
+                case BaseModel.MethodTypes.New:
+                    return ss.CanCreate()
+                        ? Error.Types.None
+                        : Error.Types.HasNotPermission;
+                default:
+                    return Error.Types.NotFound;
+            }
+        }
+
         public static Error.Types OnCreating(SiteSettings ss, DeptModel deptModel)
         {
             if (!ss.CanCreate())
@@ -92,29 +129,23 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnDeleting(SiteSettings ss, DeptModel deptModel)
         {
-            if (!ss.CanDelete())
-            {
-                return Error.Types.HasNotPermission;
-            }
-            return Error.Types.None;
+            return ss.CanDelete()
+                ? Error.Types.None
+                : Error.Types.HasNotPermission;
         }
 
         public static Error.Types OnRestoring()
         {
-            if (!Permissions.CanManageTenant())
-            {
-                return Error.Types.HasNotPermission;
-            }
-            return Error.Types.None;
+            return Permissions.CanManageTenant()
+                ? Error.Types.None
+                : Error.Types.HasNotPermission;
         }
 
         public static Error.Types OnExporting(SiteSettings ss)
         {
-            if (!ss.CanExport())
-            {
-                return Error.Types.HasNotPermission;
-            }
-            return Error.Types.None;
+            return ss.CanExport()
+                ? Error.Types.None
+                : Error.Types.HasNotPermission;
         }
     }
 }

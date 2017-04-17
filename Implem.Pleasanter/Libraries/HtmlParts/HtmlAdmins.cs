@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
@@ -9,11 +10,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static string AdminsIndex(this HtmlBuilder hb)
         {
+            if (!Sessions.User().TenantManager)
+            {
+                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+            }
             var ss = new SiteSettings();
             return hb.Template(
                 ss: ss,
                 methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
-                allowAccess: Sessions.User().TenantManager,
                 title: Displays.Admin(),
                 verType: Versions.VerTypes.Latest,
                 useNavigationMenu: false,

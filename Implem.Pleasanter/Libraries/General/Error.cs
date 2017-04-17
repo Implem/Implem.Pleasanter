@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.General
             RequireMailAddresses,
             SelectOne,
             SelectTargets,
+            SitesLimit,
             UpdateConflicts,
             UsersLimit
         }
@@ -98,6 +99,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.SelectOne(data);
                 case Types.SelectTargets:
                     return Messages.SelectTargets(data);
+                case Types.SitesLimit:
+                    return Messages.SitesLimit(data);
                 case Types.UpdateConflicts:
                     return Messages.UpdateConflicts(data);
                 case Types.UsersLimit:

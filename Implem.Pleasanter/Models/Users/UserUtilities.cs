@@ -27,6 +27,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Index(SiteSettings ss)
         {
+            var invalid = UserValidators.OnEntry(ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(ss);
             var userCollection = UserCollection(ss, view);
@@ -34,7 +40,6 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: Sessions.User().TenantManager,
                 referenceType: "Users",
                 title: Displays.Users() + " - " + Displays.List(),
                 action: () =>
@@ -84,12 +89,17 @@ namespace Implem.Pleasanter.Models
             string viewMode,
             Action viewModeBody)
         {
+            var invalid = IssueValidators.OnEntry(ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             ss.SetColumnAccessControls();
             return hb.Template(
                 ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: ss.HasPermission(),
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Users",
@@ -446,15 +456,18 @@ namespace Implem.Pleasanter.Models
 
         public static string Editor(SiteSettings ss, UserModel userModel)
         {
+            var invalid = UserValidators.OnEditing(ss, userModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             var hb = new HtmlBuilder();
             ss.SetColumnAccessControls(userModel.Mine());
             return hb.Template(
                 ss: ss,
                 verType: userModel.VerType,
                 methodType: userModel.MethodType,
-                allowAccess:
-                    SiteSettingsUtilities.UsersSiteSettings().CanRead() &&
-                    userModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 referenceType: "Users",
                 title: userModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Users() + " - " + Displays.New()
@@ -910,11 +923,11 @@ namespace Implem.Pleasanter.Models
 
         public static string Create(SiteSettings ss)
         {
-            var userModel = new UserModel(ss, 0, setByForm: true);
             if (Contract.UsersLimit())
             {
                 return Error.Types.UsersLimit.MessageJson();
             }
+            var userModel = new UserModel(ss, 0, setByForm: true);
             var invalid = UserValidators.OnCreating(ss, userModel);
             switch (invalid)
             {
@@ -1355,7 +1368,6 @@ namespace Implem.Pleasanter.Models
                 useSearch: false,
                 useNavigationMenu: false,
                 methodType: BaseModel.MethodTypes.Edit,
-                allowAccess: true,
                 referenceType: "Users",
                 title: string.Empty,
                 action: () => hb

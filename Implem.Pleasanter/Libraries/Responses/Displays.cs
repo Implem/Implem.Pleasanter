@@ -356,6 +356,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SiteAccessControl(params string[] data) { return Get("SiteAccessControl", data); }
         public static string SiteImageSettingsEditor(params string[] data) { return Get("SiteImageSettingsEditor", data); }
         public static string SiteSettings(params string[] data) { return Get("SiteSettings", data); }
+        public static string SitesLimit(params string[] data) { return Get("SitesLimit", data); }
         public static string SiteUser(params string[] data) { return Get("SiteUser", data); }
         public static string Slack(params string[] data) { return Get("Slack", data); }
         public static string Sorters(params string[] data) { return Get("Sorters", data); }

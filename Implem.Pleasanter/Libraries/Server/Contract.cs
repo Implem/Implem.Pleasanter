@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Libraries.Server
                         .Deserialize<ContractSettings>();
         }
 
-        public static bool UsersLimit()
+        public static bool UsersLimit(int number = 1)
         {
             var tenantId = Sessions.TenantId();
             return
@@ -43,7 +43,20 @@ namespace Implem.Pleasanter.Libraries.Server
                 ContractHash[tenantId]?.Users > 0 &&
                 Rds.ExecuteScalar_int(statements: Rds.SelectUsers(
                     column: Rds.UsersColumn().UsersCount(),
-                    where: Rds.UsersWhere().TenantId(tenantId))) >= ContractHash[tenantId]?.Users;
+                    where: Rds.UsersWhere().TenantId(tenantId))) >
+                        ContractHash[tenantId]?.Users + number;
+        }
+
+        public static bool SitesLimit(int number = 1)
+        {
+            var tenantId = Sessions.TenantId();
+            return
+                ContractHash.ContainsKey(tenantId) &&
+                ContractHash[tenantId]?.Sites > 0 &&
+                Rds.ExecuteScalar_int(statements: Rds.SelectSites(
+                    column: Rds.SitesColumn().SitesCount(),
+                    where: Rds.SitesWhere().TenantId(tenantId))) >
+                        ContractHash[tenantId]?.Sites + number;
         }
     }
 }

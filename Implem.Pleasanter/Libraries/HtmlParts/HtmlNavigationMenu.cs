@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -15,11 +16,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             long siteId,
             string referenceType,
-            bool allowAccess,
+            Error.Types errorType,
             bool useNavigationMenu,
             bool useSearch)
         {
-            return allowAccess && useNavigationMenu
+            return errorType == Error.Types.None && useNavigationMenu
                 ? hb.Nav(
                     id: "Navigations",
                     css: "ui-widget-header",
@@ -28,7 +29,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: ss,
                             siteId: siteId,
                             referenceType: referenceType,
-                            allowAccess: allowAccess,
                             useNavigationMenu: useNavigationMenu)
                         .Search(_using: useSearch))
                 : hb;
@@ -39,7 +39,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             long siteId,
             string referenceType,
-            bool allowAccess,
             bool useNavigationMenu)
         {
             return hb.Ul(
@@ -53,7 +52,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: () => hb
                                         .Span(css: "ui-icon ui-icon-plus")
                                         .Text(text: Displays.New()))),
-                        _using: ss.CanCreate())
+                        _using: ss.ReferenceType == "Sites" && Routes.Action() == "index"
+                            ? ss.CanManageSite()
+                            : ss.CanCreate())
                     .Li(
                         css: "sub-menu",
                         action: () => hb

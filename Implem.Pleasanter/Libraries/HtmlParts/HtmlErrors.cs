@@ -1,7 +1,6 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Web;
@@ -18,7 +17,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: new SiteSettings(),
                 verType: Versions.VerTypes.Latest,
                 methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
-                allowAccess: true,
                 title: Displays.Error(),
                 action: () => hb
                     .Section(css: "error-page", action: () => hb

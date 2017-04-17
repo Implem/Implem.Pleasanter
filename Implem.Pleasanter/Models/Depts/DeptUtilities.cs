@@ -27,6 +27,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Index(SiteSettings ss)
         {
+            var invalid = DeptValidators.OnEntry(ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(ss);
             var deptCollection = DeptCollection(ss, view);
@@ -34,7 +40,6 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: Sessions.User().TenantManager,
                 referenceType: "Depts",
                 title: Displays.Depts() + " - " + Displays.List(),
                 action: () =>
@@ -83,12 +88,17 @@ namespace Implem.Pleasanter.Models
             string viewMode,
             Action viewModeBody)
         {
+            var invalid = IssueValidators.OnEntry(ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             ss.SetColumnAccessControls();
             return hb.Template(
                 ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: ss.HasPermission(),
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Depts",
@@ -386,15 +396,18 @@ namespace Implem.Pleasanter.Models
 
         public static string Editor(SiteSettings ss, DeptModel deptModel)
         {
+            var invalid = DeptValidators.OnEditing(ss, deptModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             var hb = new HtmlBuilder();
             ss.SetColumnAccessControls(deptModel.Mine());
             return hb.Template(
                 ss: ss,
                 verType: deptModel.VerType,
                 methodType: deptModel.MethodType,
-                allowAccess:
-                    SiteSettingsUtilities.DeptsSiteSettings().CanRead() &&
-                    deptModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 referenceType: "Depts",
                 title: deptModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Depts() + " - " + Displays.New()

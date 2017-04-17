@@ -34,7 +34,6 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: true,
                 referenceType: "Groups",
                 title: Displays.Groups() + " - " + Displays.List(),
                 action: () =>
@@ -83,12 +82,17 @@ namespace Implem.Pleasanter.Models
             string viewMode,
             Action viewModeBody)
         {
+            var invalid = IssueValidators.OnEntry(ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             ss.SetColumnAccessControls();
             return hb.Template(
                 ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: ss.HasPermission(),
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Groups",
@@ -394,15 +398,18 @@ namespace Implem.Pleasanter.Models
 
         public static string Editor(SiteSettings ss, GroupModel groupModel)
         {
+            var invalid = GroupValidators.OnEditing(ss, groupModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             var hb = new HtmlBuilder();
             ss.SetColumnAccessControls(groupModel.Mine());
             return hb.Template(
                 ss: ss,
                 verType: groupModel.VerType,
                 methodType: groupModel.MethodType,
-                allowAccess:
-                    SiteSettingsUtilities.GroupsSiteSettings().CanRead() &&
-                    groupModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 referenceType: "Groups",
                 title: groupModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Groups() + " - " + Displays.New()

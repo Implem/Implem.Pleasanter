@@ -1025,6 +1025,7 @@
     <Content Include="App_Data\Displays\Assembly.json" />
     <Content Include="App_Data\Parameters\Formats.json" />
     <Content Include="App_Data\Displays\UsersLimit.json" />
+    <Content Include="App_Data\Displays\SitesLimit.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

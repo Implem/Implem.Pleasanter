@@ -153,6 +153,10 @@ namespace Implem.Pleasanter.Models
 
         public static string Create(long parentId, long inheritPermission)
         {
+            if (Contract.SitesLimit())
+            {
+                return Error.Types.SitesLimit.MessageJson();
+            }
             var siteModel = new SiteModel(parentId, inheritPermission, setByForm: true);
             var ss = siteModel.SitesSiteSettings(parentId);
             if (parentId == 0)
@@ -259,6 +263,10 @@ namespace Implem.Pleasanter.Models
 
         public static string Copy(SiteModel siteModel)
         {
+            if (Contract.SitesLimit())
+            {
+                return Error.Types.SitesLimit.MessageJson();
+            }
             siteModel.Title.Value += Displays.SuffixCopy();
             if (!Forms.Data("CopyWithComments").ToBool())
             {
@@ -656,7 +664,6 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 verType: verType,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: true,
                 referenceType: "Sites",
                 script: "$p.setSiteMenu();",
                 action: () =>
@@ -682,6 +689,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string SiteMenu(SiteModel siteModel)
         {
+            var invalid = SiteValidators.OnShowingMenu(siteModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             var hb = new HtmlBuilder();
             var ss = siteModel.SiteSettings;
             var siteConditions = SiteInfo.SiteMenu.SiteConditions(siteModel.SiteId);
@@ -689,9 +702,6 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess:
-                    siteModel.SiteSettings.HasPermission() &&
-                    siteModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
                 referenceType: "Sites",
@@ -1013,6 +1023,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string EditorNew(SiteSettings ss)
         {
+            if (Contract.SitesLimit())
+            {
+                return Error.Types.SitesLimit.MessageJson();
+            }
             return Editor(new SiteModel()
             {
                 SiteSettings = new SiteSettings("Sites")
@@ -1031,12 +1045,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Editor(SiteModel siteModel)
         {
+            var invalid = SiteValidators.OnEditing(siteModel.SiteSettings, siteModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             var hb = new HtmlBuilder();
             return hb.Template(
                 ss: siteModel.SiteSettings,
                 verType: siteModel.VerType,
                 methodType: siteModel.MethodType,
-                allowAccess: AllowAccess(siteModel),
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
                 referenceType: "Sites",
@@ -1053,24 +1072,6 @@ namespace Implem.Pleasanter.Models
                         css: "always-send",
                         value: siteModel.SiteId.ToString(),
                         _using: !Request.IsAjax())).ToString();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static bool AllowAccess(SiteModel siteModel)
-        {
-            if (siteModel.AccessStatus == Databases.AccessStatuses.NotFound)
-            {
-                return false;
-            }
-            switch (siteModel.MethodType)
-            {
-                case BaseModel.MethodTypes.New:
-                    return siteModel.SiteSettings.CanCreate();
-                default:
-                    return siteModel.SiteSettings.CanManageSite();
-            }
         }
 
         /// <summary>

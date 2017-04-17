@@ -18,7 +18,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: ss,
                     verType: Versions.VerTypes.Latest,
                     methodType: BaseModel.MethodTypes.NotSet,
-                    allowAccess: true,
                     useBreadcrumb: false,
                     useTitle: false,
                     useNavigationMenu: true,

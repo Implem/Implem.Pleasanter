@@ -224,14 +224,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "groups":
                     return CanEditGroup();
                 default:
-                    if (ss.IsSite())
-                    {
-                        return ss.Can(Types.ManageSite, site);
-                    }
-                    else
-                    {
-                        return ss.Can(Types.Create, site);
-                    }
+                    return ss.Can(Types.Create, site);
             }
         }
 
@@ -246,13 +239,13 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant() || Sessions.UserId() == Routes.Id();
                 default:
-                    if (ss.IsSite())
+                    if (ss.ReferenceType == "Sites")
                     {
-                        return ss.Can(Types.ManageSite, site);
+                        return ss.CanManageSite();
                     }
                     else
                     {
-                        return ss.Can(Types.Create, site);
+                        return ss.Can(Types.Update, site);
                     }
             }
         }
@@ -274,9 +267,9 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant() &&
                         Sessions.UserId() != Routes.Id();
                 default:
-                    if (ss.IsSite())
+                    if (ss.ReferenceType == "Sites")
                     {
-                        return ss.Can(Types.ManageSite, site);
+                        return ss.CanManageSite();
                     }
                     else
                     {
@@ -296,9 +289,9 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant() || Sessions.UserId() == Routes.Id();
                 default:
-                    if (ss.IsSite())
+                    if (ss.ReferenceType == "Sites")
                     {
-                        return ss.Can(Types.ManageSite, site);
+                        return ss.CanManageSite();
                     }
                     else
                     {

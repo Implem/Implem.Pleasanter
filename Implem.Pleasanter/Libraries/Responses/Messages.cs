@@ -298,6 +298,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.Separated(data), "alert-success");
         }
 
+        public static Message SitesLimit(params string[] data)
+        {
+            return Get(Displays.SitesLimit(data), "alert-error");
+        }
+
         public static Message SynchronizationCompleted(params string[] data)
         {
             return Get(Displays.SynchronizationCompleted(data), "alert-success");
@@ -596,6 +601,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseSeparated(params string[] data)
         {
             return ResponseMessage(Separated(data));
+        }
+
+        public static ResponseCollection ResponseSitesLimit(params string[] data)
+        {
+            return ResponseMessage(SitesLimit(data));
         }
 
         public static ResponseCollection ResponseSynchronizationCompleted(params string[] data)

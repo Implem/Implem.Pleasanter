@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -10,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             long siteId,
             string referenceType,
-            bool allowAccess,
+            Error.Types errorType,
             bool useNavigationMenu,
             bool useSearch)
         {
@@ -28,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: ss,
                     siteId: siteId,
                     referenceType: referenceType,
-                    allowAccess: allowAccess,
+                    errorType: errorType,
                     useNavigationMenu: useNavigationMenu,
                     useSearch: useSearch));
 
