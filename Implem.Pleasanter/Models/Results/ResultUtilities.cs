@@ -2522,7 +2522,6 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                ss = SiteSettingsUtilities.Get(ss.SiteId, resultModel.ResultId);
                 return EditorResponse(
                     ss,
                     resultModel,
