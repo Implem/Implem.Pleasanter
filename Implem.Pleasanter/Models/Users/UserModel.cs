@@ -208,6 +208,9 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public Error.Types Create(
             SiteSettings ss, 
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -224,13 +227,30 @@ namespace Implem.Pleasanter.Models
                         this, setDefault: true, paramAll: paramAll)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
             };
-            var newId = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
-            UserId = newId != 0 ? newId : UserId;
+            try
+            {
+                var newId = Rds.ExecuteScalar_int(
+                    transactional: true, statements: statements.ToArray());
+                UserId = newId != 0 ? newId : UserId;
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                if (e.Number == 2601)
+                {
+                    return Error.Types.LoginIdAlreadyUse;
+                }
+                else
+                {
+                    throw;
+                }
+            }
             Get(ss);
             return Error.Types.None;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public Error.Types Update(
             SiteSettings ss,
             IEnumerable<string> permissions = null,
@@ -249,9 +269,23 @@ namespace Implem.Pleasanter.Models
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
             };
-            var count = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
-            if (count == 0) return Error.Types.UpdateConflicts;
+            try
+            {
+                var count = Rds.ExecuteScalar_int(
+                    transactional: true, statements: statements.ToArray());
+                if (count == 0) return Error.Types.UpdateConflicts;
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                if (e.Number == 2601)
+                {
+                    return Error.Types.LoginIdAlreadyUse;
+                }
+                else
+                {
+                    throw;
+                }
+            }
             Get(ss);
             UpdateMailAddresses();
             SetSiteInfo();

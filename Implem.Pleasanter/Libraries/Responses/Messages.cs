@@ -218,6 +218,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.InvalidRequest(data), "alert-error");
         }
 
+        public static Message LoginIdAlreadyUse(params string[] data)
+        {
+            return Get(Displays.LoginIdAlreadyUse(data), "alert-error");
+        }
+
         public static Message LoginIn(params string[] data)
         {
             return Get(Displays.LoginIn(data), "alert-success");
@@ -521,6 +526,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseInvalidRequest(params string[] data)
         {
             return ResponseMessage(InvalidRequest(data));
+        }
+
+        public static ResponseCollection ResponseLoginIdAlreadyUse(params string[] data)
+        {
+            return ResponseMessage(LoginIdAlreadyUse(data));
         }
 
         public static ResponseCollection ResponseLoginIn(params string[] data)

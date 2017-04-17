@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidCsvData,
             InvalidFormula,
             InvalidRequest,
+            LoginIdAlreadyUse,
             MailAddressHasNotSet,
             NoLinks,
             NotFound,
@@ -81,6 +82,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.InvalidFormula(data);
                 case Types.InvalidRequest:
                     return Messages.InvalidRequest(data);
+                case Types.LoginIdAlreadyUse:
+                    return Messages.LoginIdAlreadyUse(data);
                 case Types.MailAddressHasNotSet:
                     return Messages.MailAddressHasNotSet(data);
                 case Types.NoLinks:

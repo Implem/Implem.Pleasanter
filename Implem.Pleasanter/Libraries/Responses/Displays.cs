@@ -240,6 +240,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string List(params string[] data) { return Get("List", data); }
         public static string ListSettings(params string[] data) { return Get("ListSettings", data); }
         public static string Login(params string[] data) { return Get("Login", data); }
+        public static string LoginIdAlreadyUse(params string[] data) { return Get("LoginIdAlreadyUse", data); }
         public static string LoginIn(params string[] data) { return Get("LoginIn", data); }
         public static string Logout(params string[] data) { return Get("Logout", data); }
         public static string Mail(params string[] data) { return Get("Mail", data); }
