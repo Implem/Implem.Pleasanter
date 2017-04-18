@@ -1,21 +1,33 @@
 ﻿[
     {
-        "Name": "Free",
+        "Name": "Trial",
         "Users": 3,
-        "Sites": 10,
-        "Items": 1000,
+        "Sites": 5,
+        "Items": 500,
         "Import": false,
         "Export": false,
-        "Notice": false
+        "Notice": false,
+        "Email": false
+    },
+    {
+        "Name": "Free",
+        "Users": 3,
+        "Sites": 5,
+        "Items": 500,
+        "Import": false,
+        "Export": false,
+        "Notice": false,
+        "Email": false
     },
     {
         "Name": "Light",
         "Users": 10,
-        "Sites": 20,
-        "Items": 2000,
+        "Sites": 10,
+        "Items": 1000,
         "Import": true,
         "Export": true,
-        "Notice": true
+        "Notice": true,
+        "Email": true
     },
     {
         "Name": "Standard",
@@ -24,6 +36,7 @@
         "Items": 0,
         "Import": true,
         "Export": true,
-        "Notice": true
+        "Notice": true,
+        "Email": true
     }
 ]
