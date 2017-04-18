@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var targets = Targets(id);
             var dataSet = DataSet(targets);
-            return Contains(dataSet)
+            return Contains(ss, dataSet)
                 ? hb.FieldSet(
                     css: " enclosed",
                     legendText: Displays.Links(),
@@ -84,14 +84,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Select(o => o["Id"].ToLong())));
         }
 
-        private static bool Contains(DataSet dataSet)
+        private static bool Contains(SiteSettings ss, DataSet dataSet)
         {
-            for (var i = 0; i < dataSet.Tables.Count; i++)
+            if (Contains(dataSet, ss.Destinations, "Destination")) return true;
+            if (Contains(dataSet, ss.Sources, "Source")) return true;
+            return false;
+        }
+
+        private static bool Contains(
+            DataSet dataSet, IEnumerable<SiteSettings> ssList, string direction)
+        {
+            foreach (var ss in ssList)
             {
-                if (dataSet.Tables[i].Rows.Count > 0)
+                if (dataSet.Tables[ss.ReferenceType + "_" + direction]?
+                    .AsEnumerable()
+                    .Where(o => o["SiteId"].ToLong() == ss.SiteId).Any() == true)
                 {
                     return true;
-                }
+                };
             }
             return false;
         }
