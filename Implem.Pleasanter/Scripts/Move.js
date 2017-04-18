@@ -4,6 +4,8 @@
 }
 
 $p.move = function ($control) {
-    $('.ui-dialog-content').dialog('close');
-    $p.send($control);
+    var error = $p.syncSend($control);
+    if (error === 0) {
+        $('.ui-dialog-content').dialog('close');
+    }
 }
