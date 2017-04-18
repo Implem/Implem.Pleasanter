@@ -642,10 +642,6 @@ namespace Implem.Pleasanter.Models
                     hb
                         .Li(action: () => hb
                             .A(
-                                href: "#FieldSetHistories",
-                                text: Displays.ChangeHistoryList()))
-                        .Li(action: () => hb
-                            .A(
                                 href: "#FieldSetSiteAccessControl",
                                 text: Displays.SiteAccessControl(),
                                 _using: siteModel.SiteSettings.CanManagePermission()))
@@ -658,7 +654,11 @@ namespace Implem.Pleasanter.Models
                             .A(
                                 href: "#FieldSetColumnAccessControl",
                                 text: Displays.ColumnAccessControl(),
-                                _using: EnableAdvancedPermissions(siteModel)));
+                                _using: EnableAdvancedPermissions(siteModel)))
+                        .Li(action: () => hb
+                            .A(
+                                href: "#FieldSetHistories",
+                                text: Displays.ChangeHistoryList()));
                 }
                 hb.Hidden(controlId: "TableName", value: "Sites");
             });
