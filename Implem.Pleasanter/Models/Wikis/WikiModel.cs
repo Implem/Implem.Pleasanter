@@ -185,7 +185,7 @@ namespace Implem.Pleasanter.Models
             var newId = Rds.ExecuteScalar_long(
                 transactional: true, statements: statements.ToArray());
             WikiId = newId != 0 ? newId : WikiId;
-            if (notice)
+            if (Contract.Notice() && notice)
             {
                 CheckNotificationConditions(ss);
                 Notice(ss, "Created");
@@ -208,7 +208,10 @@ namespace Implem.Pleasanter.Models
             bool notice = false,
             bool paramAll = false)
         {
-            if (notice) CheckNotificationConditions(ss, before: true);
+            if (Contract.Notice() && notice)
+            {
+                CheckNotificationConditions(ss, before: true);
+            }
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>
@@ -227,7 +230,7 @@ namespace Implem.Pleasanter.Models
             var count = Rds.ExecuteScalar_int(
                 transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
-            if (notice)
+            if (Contract.Notice() && notice)
             {
                 CheckNotificationConditions(ss);
                 Notice(ss, "Updated");
@@ -324,7 +327,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteSites(
                         where: Rds.SitesWhere().SiteId(SiteId))
                 });
-            if (notice) Notice(ss, "Deleted");
+            if (Contract.Notice() && notice) Notice(ss, "Deleted");
             return Error.Types.None;
         }
 

@@ -341,6 +341,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string GetDestinations()
         {
+            if (!Contract.Mail())
+            {
+                return Error.Types.Restricted.MessageJson();
+            }
             var siteModel = new ItemModel(ReferenceId).GetSite();
             var ss = siteModel.SitesSiteSettings(ReferenceId);
             return new OutgoingMailsResponseCollection(this)

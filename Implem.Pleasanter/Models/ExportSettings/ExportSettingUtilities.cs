@@ -27,6 +27,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Set(string reference, long id)
         {
+            if (!Contract.Export())
+            {
+                return Error.Types.Restricted.MessageJson();
+            }
             var ss = SiteSettingsUtilities.GetByReference(reference, id);
             return new ExportSettingModel(ss.ReferenceType, id).Set(ss, id);
         }
@@ -36,6 +40,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string UpdateOrCreate(string reference, long id)
         {
+            if (!Contract.Export())
+            {
+                return Error.Types.Restricted.MessageJson();
+            }
             var ss = SiteSettingsUtilities.GetByReference(reference, id);
             var exportSettingModel = new ExportSettingModel(
                 ss.ReferenceType, id, withTitle: true);
@@ -88,6 +96,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Delete(string reference, long id)
         {
+            if (!Contract.Export())
+            {
+                return Error.Types.Restricted.MessageJson();
+            }
             var ss = SiteSettingsUtilities.GetByReference(reference, id);
             var exportSettingModel = new ExportSettingModel(ss.ReferenceType, id, withTitle: true);
             var invalid = ExportSettingValidator.OnExporting(ss);
@@ -112,6 +124,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string EditorJson(string reference, long id)
         {
+            if (!Contract.Export())
+            {
+                return Error.Types.Restricted.MessageJson();
+            }
             return EditorJson(SiteSettingsUtilities.GetByReference(reference, id), reference, id);
         }
 
@@ -320,6 +336,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Change(string reference, long id)
         {
+            if (!Contract.Export())
+            {
+                return Error.Types.Restricted.MessageJson();
+            }
             var exportSettingModel = new ExportSettingModel()
                 .Get(where: Rds.ExportSettingsWhere()
                     .ExportSettingId(Forms.Long("ExportSettings_ExportSettingId")));

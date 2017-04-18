@@ -9,6 +9,6 @@
         public bool Import;
         public bool Export;
         public bool Notice;
-        public bool Email;
+        public bool Mail;
     }
 }

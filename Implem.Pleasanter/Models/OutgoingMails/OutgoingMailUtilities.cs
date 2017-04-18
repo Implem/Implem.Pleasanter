@@ -130,6 +130,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Editor(string reference, long id)
         {
+            if (!Contract.Mail())
+            {
+                return Error.Types.Restricted.MessageJson();
+            }
             if (MailAddressUtilities.Get(Sessions.UserId()) == string.Empty)
             {
                 return new ResponseCollection()
@@ -537,6 +541,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Send(string reference, long id)
         {
+            if (!Contract.Mail())
+            {
+                return Error.Types.Restricted.MessageJson();
+            }
             var outgoingMailModel = new OutgoingMailModel(reference, id);
             var invalidMailAddress = string.Empty;
             var invalid = OutgoingMailValidators.OnSending(

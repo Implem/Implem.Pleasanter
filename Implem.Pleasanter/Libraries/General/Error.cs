@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.General
             PasswordNotChanged,
             PermissionNotSelfChange,
             RequireMailAddresses,
+            Restricted,
             SelectOne,
             SelectTargets,
             SitesLimit,
@@ -101,6 +102,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.PermissionNotSelfChange(data);
                 case Types.RequireMailAddresses:
                     return Messages.RequireMailAddresses(data);
+                case Types.Restricted:
+                    return Messages.Restricted(data);
                 case Types.SelectOne:
                     return Messages.SelectOne(data);
                 case Types.SelectTargets:

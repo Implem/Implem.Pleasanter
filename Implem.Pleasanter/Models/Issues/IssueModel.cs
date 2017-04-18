@@ -860,7 +860,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true, statements: statements.ToArray());
             IssueId = newId != 0 ? newId : IssueId;
             SynchronizeSummary(ss, forceSynchronizeSourceSummary);
-            if (notice)
+            if (Contract.Notice() && notice)
             {
                 CheckNotificationConditions(ss);
                 Notice(ss, "Created");
@@ -884,7 +884,10 @@ namespace Implem.Pleasanter.Models
             bool notice = false,
             bool paramAll = false)
         {
-            if (notice) CheckNotificationConditions(ss, before: true);
+            if (Contract.Notice() && notice)
+            {
+                CheckNotificationConditions(ss, before: true);
+            }
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>
@@ -904,7 +907,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             SynchronizeSummary(ss, forceSynchronizeSourceSummary);
-            if (notice)
+            if (Contract.Notice() && notice)
             {
                 CheckNotificationConditions(ss);
                 Notice(ss, "Updated");
@@ -1024,7 +1027,10 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete(SiteSettings ss, bool notice = false)
         {
-            if (notice) CheckNotificationConditions(ss, before: true);
+            if (Contract.Notice() && notice)
+            {
+                CheckNotificationConditions(ss, before: true);
+            }
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -1035,7 +1041,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId))
                 });
             SynchronizeSummary(ss);
-            if (notice)
+            if (Contract.Notice() && notice)
             {
                 CheckNotificationConditions(ss);
                 Notice(ss, "Deleted");

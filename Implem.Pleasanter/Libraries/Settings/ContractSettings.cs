@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Import;
         public bool? Export;
         public bool? Notice;
+        public bool? Mail;
         public DateTime UpdatedTime;
 
         public ContractSettings()
@@ -49,6 +50,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Import = Import ?? _default.Import;
                 Export = Export ?? _default.Export;
                 Notice = Notice ?? _default.Notice;
+                Mail = Mail ?? _default.Mail;
             }
             else
             {
@@ -58,6 +60,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Import = true;
                 Export = true;
                 Notice = true;
+                Mail = true;
             }
         }
 
@@ -77,6 +80,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (Import == _default.Import) Import = null;
                 if (Export == _default.Export) Export = null;
                 if (Notice == _default.Notice) Notice = null;
+                if (Mail == _default.Mail) Mail = null;
             }
             return null;
         }

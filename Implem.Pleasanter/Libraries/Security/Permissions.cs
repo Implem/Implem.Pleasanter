@@ -280,6 +280,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanSendMail(this SiteSettings ss, bool site = false)
         {
+            if (!Contract.Mail()) return false;
             switch (ss.ReferenceType.ToLower())
             {
                 case "depts":
@@ -300,14 +301,14 @@ namespace Implem.Pleasanter.Libraries.Security
             }
         }
 
-        public static bool CanExport(this SiteSettings ss, bool site = false)
-        {
-            return ss.Can(Types.Export, site);
-        }
-
         public static bool CanImport(this SiteSettings ss, bool site = false)
         {
-            return ss.Can(Types.Import, site);
+            return Contract.Import() && ss.Can(Types.Import, site);
+        }
+
+        public static bool CanExport(this SiteSettings ss, bool site = false)
+        {
+            return Contract.Export() && ss.Can(Types.Export, site);
         }
 
         public static bool CanManageSite(this SiteSettings ss, bool site = false)

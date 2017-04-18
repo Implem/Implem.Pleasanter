@@ -337,6 +337,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Reset(params string[] data) { return Get("Reset", data); }
         public static string ResetOrder(params string[] data) { return Get("ResetOrder", data); }
         public static string ResetPassword(params string[] data) { return Get("ResetPassword", data); }
+        public static string Restricted(params string[] data) { return Get("Restricted", data); }
         public static string Save(params string[] data) { return Get("Save", data); }
         public static string Scripts(params string[] data) { return Get("Scripts", data); }
         public static string Search(params string[] data) { return Get("Search", data); }

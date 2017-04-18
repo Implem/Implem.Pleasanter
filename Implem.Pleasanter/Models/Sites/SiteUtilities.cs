@@ -556,10 +556,12 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#MailSettingsEditor",
                                         text: Displays.Mail()))
-                                .Li(action: () => hb
-                                    .A(
-                                        href: "#NotificationsSettingsEditor",
-                                        text: Displays.Notifications()))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#NotificationsSettingsEditor",
+                                            text: Displays.Notifications()),
+                                    _using: Contract.Notice())
                                 .Li(action: () => hb
                                     .A(
                                         href: "#StylesSettingsEditor",
@@ -607,14 +609,18 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#ViewsSettingsEditor",
                                         text: Displays.DataView()))
-                                .Li(action: () => hb
-                                    .A(
-                                        href: "#NotificationsSettingsEditor",
-                                        text: Displays.Notifications()))
-                                .Li(action: () => hb
-                                    .A(
-                                        href: "#MailSettingsEditor",
-                                        text: Displays.Mail()))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#NotificationsSettingsEditor",
+                                            text: Displays.Notifications()),
+                                    _using: Contract.Notice())
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#MailSettingsEditor",
+                                            text: Displays.Mail()),
+                                    _using: Contract.Mail())
                                 .Li(action: () => hb
                                     .A(
                                         href: "#StylesSettingsEditor",
@@ -1176,10 +1182,12 @@ namespace Implem.Pleasanter.Models
                     .Id("ViewDialog")
                     .Class("dialog")
                     .Title(Displays.DataView()))
-                .Div(attributes: new HtmlAttributes()
-                    .Id("NotificationDialog")
-                    .Class("dialog")
-                    .Title(Displays.Notifications()))
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("NotificationDialog")
+                        .Class("dialog")
+                        .Title(Displays.Notifications()),
+                    _using: Contract.Notice())
                 .PermissionsDialog()
                 .PermissionForCreatingDialog()
                 .ColumnAccessControlDialog());
@@ -3428,6 +3436,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder NotificationsSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
+            if (!Contract.Notice()) return hb;
             return hb.FieldSet(id: "NotificationsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
@@ -3754,6 +3763,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder MailSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
+            if (!Contract.Mail()) return hb;
             return hb.FieldSet(id: "MailSettingsEditor", action: () => hb
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,

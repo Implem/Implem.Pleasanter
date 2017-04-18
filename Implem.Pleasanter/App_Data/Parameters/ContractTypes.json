@@ -7,7 +7,7 @@
         "Import": false,
         "Export": false,
         "Notice": false,
-        "Email": false
+        "Mail": false
     },
     {
         "Name": "Free",
@@ -17,7 +17,7 @@
         "Import": false,
         "Export": false,
         "Notice": false,
-        "Email": false
+        "Mail": false
     },
     {
         "Name": "Light",
@@ -27,7 +27,7 @@
         "Import": true,
         "Export": true,
         "Notice": true,
-        "Email": true
+        "Mail": true
     },
     {
         "Name": "Standard",
@@ -37,6 +37,6 @@
         "Import": true,
         "Export": true,
         "Notice": true,
-        "Email": true
+        "Mail": true
     }
 ]

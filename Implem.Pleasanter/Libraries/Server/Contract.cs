@@ -70,5 +70,37 @@ namespace Implem.Pleasanter.Libraries.Server
                     where: Rds.ItemsWhere().SiteId(siteId))) + number >
                         ContractHash[tenantId]?.Items;
         }
+
+        public static bool Import()
+        {
+            var tenantId = Sessions.TenantId();
+            return
+                ContractHash.ContainsKey(tenantId) &&
+                ContractHash[tenantId]?.Import != false;
+        }
+
+        public static bool Export()
+        {
+            var tenantId = Sessions.TenantId();
+            return
+                ContractHash.ContainsKey(tenantId) &&
+                ContractHash[tenantId]?.Export != false;
+        }
+
+        public static bool Notice()
+        {
+            var tenantId = Sessions.TenantId();
+            return
+                ContractHash.ContainsKey(tenantId) &&
+                ContractHash[tenantId]?.Notice != false;
+        }
+
+        public static bool Mail()
+        {
+            var tenantId = Sessions.TenantId();
+            return
+                ContractHash.ContainsKey(tenantId) &&
+                ContractHash[tenantId]?.Mail != false;
+        }
     }
 }

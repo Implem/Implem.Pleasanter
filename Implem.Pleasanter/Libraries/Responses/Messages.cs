@@ -288,6 +288,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.RequireMailAddresses(data), "alert-error");
         }
 
+        public static Message Restricted(params string[] data)
+        {
+            return Get(Displays.Restricted(data), "alert-error");
+        }
+
         public static Message SelectOne(params string[] data)
         {
             return Get(Displays.SelectOne(data), "alert-error");
@@ -601,6 +606,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseRequireMailAddresses(params string[] data)
         {
             return ResponseMessage(RequireMailAddresses(data));
+        }
+
+        public static ResponseCollection ResponseRestricted(params string[] data)
+        {
+            return ResponseMessage(Restricted(data));
         }
 
         public static ResponseCollection ResponseSelectOne(params string[] data)
