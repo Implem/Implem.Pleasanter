@@ -8,6 +8,7 @@
         public string SmtpUserName;
         public string SmtpPassword;
         public bool SmtpEnableSsl;
+        public string FixedFrom;
         public string SupportFrom;
         public string InternalDomains;
     }
