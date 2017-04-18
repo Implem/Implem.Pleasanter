@@ -208,9 +208,6 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public Error.Types Create(
             SiteSettings ss, 
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -248,9 +245,6 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public Error.Types Update(
             SiteSettings ss,
             IEnumerable<string> permissions = null,
@@ -289,27 +283,6 @@ namespace Implem.Pleasanter.Models
             Get(ss);
             UpdateMailAddresses();
             SetSiteInfo();
-            return Error.Types.None;
-        }
-
-        public Error.Types UpdateOrCreate(
-            SiteSettings ss, 
-            SqlWhereCollection where = null,
-            SqlParamCollection param = null)
-        {
-            SetBySession();
-            var statements = new List<SqlStatement>
-            {
-                Rds.UpdateOrInsertUsers(
-                    selectIdentity: true,
-                    where: where ?? Rds.UsersWhereDefault(this),
-                    param: param ?? Rds.UsersParamDefault(this, setDefault: true)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
-            };
-            var newId = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
-            UserId = newId != 0 ? newId : UserId;
-            Get(ss);
             return Error.Types.None;
         }
 
