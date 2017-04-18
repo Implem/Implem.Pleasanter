@@ -28,7 +28,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src: Locations.Get("Scripts/Plugins/marked.min.js"))
                     .Generals()
                     .Script(script: script, _using: !script.IsNullOrEmpty())
-                    .Script(script: userScript, _using: !userScript.IsNullOrEmpty())
+                    .Script(
+                        script: userScript,
+                        _using: Contract.Script() && !userScript.IsNullOrEmpty())
                 : hb;
         }
 

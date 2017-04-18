@@ -102,5 +102,21 @@ namespace Implem.Pleasanter.Libraries.Server
                 ContractHash.ContainsKey(tenantId) &&
                 ContractHash[tenantId]?.Mail != false;
         }
+
+        public static bool Style()
+        {
+            var tenantId = Sessions.TenantId();
+            return
+                ContractHash.ContainsKey(tenantId) &&
+                ContractHash[tenantId]?.Style != false;
+        }
+
+        public static bool Script()
+        {
+            var tenantId = Sessions.TenantId();
+            return
+                ContractHash.ContainsKey(tenantId) &&
+                ContractHash[tenantId]?.Script != false;
+        }
     }
 }

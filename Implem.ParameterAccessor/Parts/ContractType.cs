@@ -10,5 +10,7 @@
         public bool Export;
         public bool Notice;
         public bool Mail;
+        public bool Style;
+        public bool Script;
     }
 }

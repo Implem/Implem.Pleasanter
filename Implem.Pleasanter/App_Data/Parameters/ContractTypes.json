@@ -7,7 +7,9 @@
         "Import": false,
         "Export": false,
         "Notice": false,
-        "Mail": false
+        "Mail": false,
+        "Style": false,
+        "Script": false
     },
     {
         "Name": "Free",
@@ -17,7 +19,9 @@
         "Import": false,
         "Export": false,
         "Notice": false,
-        "Mail": false
+        "Mail": false,
+        "Style": false,
+        "Script": false
     },
     {
         "Name": "Light",
@@ -27,7 +31,9 @@
         "Import": true,
         "Export": true,
         "Notice": true,
-        "Mail": true
+        "Mail": true,
+        "Style": true,
+        "Script": true
     },
     {
         "Name": "Standard",
@@ -37,6 +43,8 @@
         "Import": true,
         "Export": true,
         "Notice": true,
-        "Mail": true
+        "Mail": true,
+        "Style": true,
+        "Script": true
     }
 ]

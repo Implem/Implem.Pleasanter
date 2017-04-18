@@ -562,14 +562,18 @@ namespace Implem.Pleasanter.Models
                                             href: "#NotificationsSettingsEditor",
                                             text: Displays.Notifications()),
                                     _using: Contract.Notice())
-                                .Li(action: () => hb
-                                    .A(
-                                        href: "#StylesSettingsEditor",
-                                        text: Displays.Styles()))
-                                .Li(action: () => hb
-                                    .A(
-                                        href: "#ScriptsSettingsEditor",
-                                        text: Displays.Scripts()));
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#StylesSettingsEditor",
+                                            text: Displays.Styles()),
+                                    _using: Contract.Style())
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ScriptsSettingsEditor",
+                                            text: Displays.Scripts()),
+                                    _using: Contract.Script());
                             break;
                         default:
                             hb
@@ -621,14 +625,18 @@ namespace Implem.Pleasanter.Models
                                             href: "#MailSettingsEditor",
                                             text: Displays.Mail()),
                                     _using: Contract.Mail())
-                                .Li(action: () => hb
-                                    .A(
-                                        href: "#StylesSettingsEditor",
-                                        text: Displays.Styles()))
-                                .Li(action: () => hb
-                                    .A(
-                                        href: "#ScriptsSettingsEditor",
-                                        text: Displays.Scripts()));
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#StylesSettingsEditor",
+                                            text: Displays.Styles()),
+                                    _using: Contract.Style())
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ScriptsSettingsEditor",
+                                            text: Displays.Scripts()),
+                                    _using: Contract.Script());
                             break;
                     }
                     hb
@@ -3800,6 +3808,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder StylesSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
+            if (!Contract.Style()) return hb;
             return hb.FieldSet(id: "StylesSettingsEditor", action: () => hb
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
@@ -3826,6 +3835,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder ScriptsSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
+            if (!Contract.Script()) return hb;
             return hb.FieldSet(id: "ScriptsSettingsEditor", action: () => hb
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
