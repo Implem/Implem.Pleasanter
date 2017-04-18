@@ -1,15 +1,17 @@
 ﻿$p.openExportSettingsDialog = function ($control) {
     delete $p.data.ExportSettingsForm;
-    $p.ajax(
+    error = $p.ajax(
         $control.attr('data-action'),
         $control.attr('data-method'),
         $p.getData($('#ExportSettingsForm')),
         $control,
         false);
-    $('#ExportSettingsDialog').dialog({
-        modal: true,
-        width: '980px'
-    });
+    if (error === 0) {
+        $('#ExportSettingsDialog').dialog({
+            modal: true,
+            width: '980px'
+        });
+    }
 }
 
 $p.export = function ($control) {
