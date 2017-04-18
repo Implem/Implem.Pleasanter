@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.General;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Images;
 using Implem.Pleasanter.Libraries.Models;
@@ -141,7 +142,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Title(
             this HtmlBuilder hb, SiteSettings ss, long siteId, string text)
         {
-            if (text != string.Empty)
+            if (!text.IsNullOrEmpty())
             {
                 if (BinaryUtilities.ExistsSiteImage(ss, siteId, ImageData.SizeTypes.Icon))
                 {
