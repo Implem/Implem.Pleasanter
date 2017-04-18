@@ -301,6 +301,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_OnCreating_Users": Code.Model_OnCreating_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Users, definitionRow, CodeXls); break;
                     case "Model_CheckNotificationConditions": Code.Model_CheckNotificationConditions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CheckNotificationConditions, definitionRow, CodeXls); break;
                     case "Model_CreatedNotice": Code.Model_CreatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreatedNotice, definitionRow, CodeXls); break;
+                    case "Model_Insert_User": Code.Model_Insert_User = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Insert_User, definitionRow, CodeXls); break;
                     case "Model_InsertItems": Code.Model_InsertItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItems, definitionRow, CodeXls); break;
                     case "Model_InsertItemsAfter": Code.Model_InsertItemsAfter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItemsAfter, definitionRow, CodeXls); break;
                     case "Model_ReloadPermissions": Code.Model_ReloadPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ReloadPermissions, definitionRow, CodeXls); break;
@@ -316,6 +317,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateParams_Items": Code.Model_UpdateParams_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Items, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Sites": Code.Model_UpdateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Sites, definitionRow, CodeXls); break;
                     case "Model_UpdatePermissions": Code.Model_UpdatePermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissions, definitionRow, CodeXls); break;
+                    case "Model_UpdateExecute": Code.Model_UpdateExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateExecute, definitionRow, CodeXls); break;
+                    case "Model_UpdateExecute_User": Code.Model_UpdateExecute_User = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateExecute_User, definitionRow, CodeXls); break;
                     case "Model_SiteTrue": Code.Model_SiteTrue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteTrue, definitionRow, CodeXls); break;
                     case "Model_Update_Sites": Code.Model_Update_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update_Sites, definitionRow, CodeXls); break;
                     case "Model_UpdateRelatedRecords": Code.Model_UpdateRelatedRecords = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateRelatedRecords, definitionRow, CodeXls); break;
@@ -446,6 +449,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_SiteSettingsUtilities": Code.Model_Utilities_SiteSettingsUtilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteSettingsUtilities, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorItem": Code.Model_Utilities_EditorItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_Limit": Code.Model_Utilities_Limit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Limit, definitionRow, CodeXls); break;
+                    case "Model_Utilities_LimitTemplate": Code.Model_Utilities_LimitTemplate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_LimitTemplate, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Limit_Items": Code.Model_Utilities_Limit_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Limit_Items, definitionRow, CodeXls); break;
+                    case "Model_Utilities_LimitTemplate_Items": Code.Model_Utilities_LimitTemplate_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_LimitTemplate_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetSwitchTargets": Code.Model_Utilities_SetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldCases": Code.Model_Utilities_FieldCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldCases_Item": Code.Model_Utilities_FieldCases_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases_Item, definitionRow, CodeXls); break;
@@ -609,7 +615,7 @@ namespace Implem.DefinitionAccessor
                     case "SiteSettings_GetByItemCases": Code.SiteSettings_GetByItemCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetByItemCases, definitionRow, CodeXls); break;
                     case "SiteSettings_GetByReferenceCases": Code.SiteSettings_GetByReferenceCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetByReferenceCases, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels": Code.SiteSettings_GetModels = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels, definitionRow, CodeXls); break;
-                    case "SiteSettings_GetModels_Choices": Code.SiteSettings_GetModels_Choices = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Choices, definitionRow, CodeXls); break;
+                    case "SiteSettings_GetModels_GeneralUi": Code.SiteSettings_GetModels_GeneralUi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_GeneralUi, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items": Code.SiteSettings_GetModels_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items_Choices": Code.SiteSettings_GetModels_Items_Choices = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_Choices, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Includes": Code.SiteSettings_GetModels_Includes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Includes, definitionRow, CodeXls); break;
@@ -3899,6 +3905,7 @@ namespace Implem.DefinitionAccessor
         public string Model_OnCreating_Users;
         public string Model_CheckNotificationConditions;
         public string Model_CreatedNotice;
+        public string Model_Insert_User;
         public string Model_InsertItems;
         public string Model_InsertItemsAfter;
         public string Model_ReloadPermissions;
@@ -3914,6 +3921,8 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateParams_Items;
         public string Model_UpdateParams_Sites;
         public string Model_UpdatePermissions;
+        public string Model_UpdateExecute;
+        public string Model_UpdateExecute_User;
         public string Model_SiteTrue;
         public string Model_Update_Sites;
         public string Model_UpdateRelatedRecords;
@@ -4044,6 +4053,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_SiteSettingsUtilities;
         public string Model_Utilities_EditorItem;
         public string Model_Utilities_Limit;
+        public string Model_Utilities_LimitTemplate;
+        public string Model_Utilities_Limit_Items;
+        public string Model_Utilities_LimitTemplate_Items;
         public string Model_Utilities_SetSwitchTargets;
         public string Model_Utilities_FieldCases;
         public string Model_Utilities_FieldCases_Item;
@@ -4207,7 +4219,7 @@ namespace Implem.DefinitionAccessor
         public string SiteSettings_GetByItemCases;
         public string SiteSettings_GetByReferenceCases;
         public string SiteSettings_GetModels;
-        public string SiteSettings_GetModels_Choices;
+        public string SiteSettings_GetModels_GeneralUi;
         public string SiteSettings_GetModels_Items;
         public string SiteSettings_GetModels_Items_Choices;
         public string SiteSettings_GetModels_Includes;
@@ -4331,6 +4343,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_OnCreating_Users = new CodeDefinition();
         public CodeDefinition Model_CheckNotificationConditions = new CodeDefinition();
         public CodeDefinition Model_CreatedNotice = new CodeDefinition();
+        public CodeDefinition Model_Insert_User = new CodeDefinition();
         public CodeDefinition Model_InsertItems = new CodeDefinition();
         public CodeDefinition Model_InsertItemsAfter = new CodeDefinition();
         public CodeDefinition Model_ReloadPermissions = new CodeDefinition();
@@ -4346,6 +4359,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateParams_Items = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Sites = new CodeDefinition();
         public CodeDefinition Model_UpdatePermissions = new CodeDefinition();
+        public CodeDefinition Model_UpdateExecute = new CodeDefinition();
+        public CodeDefinition Model_UpdateExecute_User = new CodeDefinition();
         public CodeDefinition Model_SiteTrue = new CodeDefinition();
         public CodeDefinition Model_Update_Sites = new CodeDefinition();
         public CodeDefinition Model_UpdateRelatedRecords = new CodeDefinition();
@@ -4476,6 +4491,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_SiteSettingsUtilities = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_Limit = new CodeDefinition();
+        public CodeDefinition Model_Utilities_LimitTemplate = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Limit_Items = new CodeDefinition();
+        public CodeDefinition Model_Utilities_LimitTemplate_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldCases_Item = new CodeDefinition();
@@ -4639,7 +4657,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition SiteSettings_GetByItemCases = new CodeDefinition();
         public CodeDefinition SiteSettings_GetByReferenceCases = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels = new CodeDefinition();
-        public CodeDefinition SiteSettings_GetModels_Choices = new CodeDefinition();
+        public CodeDefinition SiteSettings_GetModels_GeneralUi = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items_Choices = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Includes = new CodeDefinition();

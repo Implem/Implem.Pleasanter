@@ -204,6 +204,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string InvalidCsvData(params string[] data) { return Get("InvalidCsvData", data); }
         public static string InvalidFormula(params string[] data) { return Get("InvalidFormula", data); }
         public static string InvalidRequest(params string[] data) { return Get("InvalidRequest", data); }
+        public static string ItemsLimit(params string[] data) { return Get("ItemsLimit", data); }
         public static string Kamban(params string[] data) { return Get("Kamban", data); }
         public static string Latest(params string[] data) { return Get("Latest", data); }
         public static string Leader(params string[] data) { return Get("Leader", data); }

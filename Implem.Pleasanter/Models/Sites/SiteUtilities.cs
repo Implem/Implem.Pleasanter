@@ -1025,7 +1025,7 @@ namespace Implem.Pleasanter.Models
         {
             if (Contract.SitesLimit())
             {
-                return Error.Types.SitesLimit.MessageJson();
+                return HtmlTemplates.Error(Error.Types.SitesLimit);
             }
             return Editor(new SiteModel()
             {

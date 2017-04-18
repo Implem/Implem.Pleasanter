@@ -218,6 +218,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.InvalidRequest(data), "alert-error");
         }
 
+        public static Message ItemsLimit(params string[] data)
+        {
+            return Get(Displays.ItemsLimit(data), "alert-error");
+        }
+
         public static Message LoginIdAlreadyUse(params string[] data)
         {
             return Get(Displays.LoginIdAlreadyUse(data), "alert-error");
@@ -526,6 +531,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseInvalidRequest(params string[] data)
         {
             return ResponseMessage(InvalidRequest(data));
+        }
+
+        public static ResponseCollection ResponseItemsLimit(params string[] data)
+        {
+            return ResponseMessage(ItemsLimit(data));
         }
 
         public static ResponseCollection ResponseLoginIdAlreadyUse(params string[] data)

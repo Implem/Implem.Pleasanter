@@ -1042,6 +1042,10 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew(SiteSettings ss)
         {
+            if (Contract.ItemsLimit(ss.SiteId))
+            {
+                return HtmlTemplates.Error(Error.Types.ItemsLimit);
+            }
             return Editor(ss, new IssueModel(ss, methodType: BaseModel.MethodTypes.New));
         }
 
@@ -2599,6 +2603,10 @@ namespace Implem.Pleasanter.Models
 
         public static string Create(SiteSettings ss)
         {
+            if (Contract.ItemsLimit(ss.SiteId))
+            {
+                return Error.Types.ItemsLimit.MessageJson();
+            }
             var issueModel = new IssueModel(ss, 0, setByForm: true);
             var invalid = IssueValidators.OnCreating(ss, issueModel);
             switch (invalid)
@@ -2684,6 +2692,10 @@ namespace Implem.Pleasanter.Models
 
         public static string Copy(SiteSettings ss, long issueId)
         {
+            if (Contract.ItemsLimit(ss.SiteId))
+            {
+                return Error.Types.ItemsLimit.MessageJson();
+            }
             var issueModel = new IssueModel(ss, issueId, setByForm: true);
             var invalid = IssueValidators.OnCreating(ss, issueModel);
             switch (invalid)
@@ -2720,6 +2732,10 @@ namespace Implem.Pleasanter.Models
         public static string Move(SiteSettings ss, long issueId)
         {
             var siteId = Forms.Long("MoveTargets");
+            if (Contract.ItemsLimit(siteId))
+            {
+                return Error.Types.ItemsLimit.MessageJson();
+            }
             var issueModel = new IssueModel(ss, issueId);
             var invalid = IssueValidators.OnMoving(ss, SiteSettingsUtilities.Get(siteId, issueId));
             switch (invalid)
@@ -2869,6 +2885,11 @@ namespace Implem.Pleasanter.Models
 
         public static string Separate(SiteSettings ss, long issueId)
         {
+            var number = Forms.Int("SeparateNumber");
+            if (Contract.ItemsLimit(ss.SiteId, number - 1))
+            {
+                return Error.Types.ItemsLimit.MessageJson();
+            }
             var issueModel = new IssueModel(ss, issueId);
             var invalid = IssueValidators.OnUpdating(ss, issueModel);
             switch (invalid)
@@ -2876,7 +2897,6 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var number = Forms.Int("SeparateNumber");
             if (number >= 2)
             {
                 var idHash = new Dictionary<int, long> { { 1, issueModel.IssueId } };
@@ -2928,26 +2948,26 @@ namespace Implem.Pleasanter.Models
         public static string BulkMove(SiteSettings ss)
         {
             var siteId = Forms.Long("MoveTargets");
+            var all = Forms.Bool("GridCheckAll");
+            var selected = all
+                ? GridItems("GridUnCheckedItems")
+                : GridItems("GridCheckedItems");
+            var count = BulkMoveCount(siteId, ss, selected, all: all);
+            if (Contract.ItemsLimit(siteId, count))
+            {
+                return Error.Types.ItemsLimit.MessageJson();
+            }
             if (Permissions.CanMove(ss, SiteSettingsUtilities.Get(siteId, siteId)))
             {
-                var count = 0;
-                if (Forms.Bool("GridCheckAll"))
+                if (all)
                 {
-                    count = BulkMove(
-                        siteId,
-                        ss,
-                        GridItems("GridUnCheckedItems"),
-                        negative: true);
+                    count = BulkMove(siteId, ss, selected, all: all);
                 }
                 else
                 {
-                    var checkedItems = GridItems("GridCheckedItems");
-                    if (checkedItems.Any())
+                    if (selected.Any())
                     {
-                        count = BulkMove(
-                            siteId,
-                            ss,
-                            checkedItems);
+                        count = BulkMove(siteId, ss, selected);
                     }
                     else
                     {
@@ -2965,11 +2985,29 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        private static int BulkMoveCount(
+            long siteId,
+            SiteSettings ss,
+            IEnumerable<long> selected,
+            bool all = false)
+        {
+            return Rds.ExecuteScalar_int(statements:
+                Rds.SelectIssues(
+                    column: Rds.IssuesColumn().IssuesCount(),
+                    where: Views.GetBySession(ss).Where(
+                        ss, Rds.IssuesWhere()
+                            .SiteId(ss.SiteId)
+                            .IssueId_In(
+                                value: selected,
+                                negative: all,
+                                _using: selected.Any()))));
+        }
+
         private static int BulkMove(
             long siteId,
             SiteSettings ss,
-            IEnumerable<long> checkedItems,
-            bool negative = false)
+            IEnumerable<long> selected,
+            bool all = false)
         {
             return Rds.ExecuteScalar_int(
                 transactional: true,
@@ -2980,9 +3018,9 @@ namespace Implem.Pleasanter.Models
                             ss, Rds.IssuesWhere()
                                 .SiteId(ss.SiteId)
                                 .IssueId_In(
-                                    value: checkedItems,
-                                    negative: negative,
-                                    _using: checkedItems.Any())),
+                                    value: selected,
+                                    negative: all,
+                                    _using: selected.Any())),
                         param: Rds.IssuesParam().SiteId(siteId),
                         countRecord: true),
                     Rds.UpdateItems(
@@ -3087,7 +3125,12 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseFailedReadFile().ToJson();
             }
-            if (csv != null && csv.Rows.Count() != 0)
+            var count = csv.Rows.Count();
+            if (Contract.ItemsLimit(ss.SiteId, count))
+            {
+                return Error.Types.ItemsLimit.MessageJson();
+            }
+            if (csv != null && count > 0)
             {
                 var columnHash = new Dictionary<int, Column>();
                 csv.Headers.Select((o, i) => new { Header = o, Index = i }).ForEach(data =>

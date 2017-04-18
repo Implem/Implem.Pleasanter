@@ -435,7 +435,7 @@ namespace Implem.Pleasanter.Models
         {
             if (Contract.UsersLimit())
             {
-                return Error.Types.UsersLimit.MessageJson();
+                return HtmlTemplates.Error(Error.Types.UsersLimit);
             }
             return Editor(ss, new UserModel(
                 SiteSettingsUtilities.UsersSiteSettings(),
