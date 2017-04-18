@@ -2932,6 +2932,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Import(SiteModel siteModel)
         {
+            if (!Contract.Import()) return null;
             var ss = siteModel.ResultsSiteSettings(siteModel.SiteId);
             if (!ss.CanCreate())
             {
@@ -3147,6 +3148,7 @@ namespace Implem.Pleasanter.Models
 
         public static ResponseFile Export(SiteSettings ss, SiteModel siteModel)
         {
+            if (!Contract.Export()) return null;
             var invalid = IssueValidators.OnExporting(ss);
             switch (invalid)
             {
