@@ -1,7 +1,10 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Settings;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Server
 {
     public static class Contract
@@ -19,20 +22,35 @@ namespace Implem.Pleasanter.Libraries.Server
             }
             else
             {
-                if (ContractHash[tenantId]?.UpdatedTime < cs?.UpdatedTime)
-                {
-                    ContractHash[tenantId] = cs;
-                }
+                ContractHash[tenantId] = cs;
             }
         }
 
         private static ContractSettings ContractSettings(int tenantId)
         {
-            return Rds.ExecuteScalar_string(statements:
+            var dataRow = Rds.ExecuteTable(statements:
                 Rds.SelectTenants(
-                    column: Rds.TenantsColumn().ContractSettings(),
+                    column: Rds.TenantsColumn()
+                        .ContractSettings()
+                        .ContractDeadline(),
                     where: Rds.TenantsWhere().TenantId(tenantId)))
-                        .Deserialize<ContractSettings>();
+                        .AsEnumerable()
+                        .FirstOrDefault();
+            var cs = dataRow?["ContractSettings"]?.ToString().Deserialize<ContractSettings>();
+            if (cs != null)
+            {
+                cs.Deadline = dataRow["ContractDeadline"].ToDateTime();
+            }
+            return cs;
+        }
+
+        public static bool OverDeadline()
+        {
+            var tenantId = Sessions.TenantId();
+            return
+                ContractHash.ContainsKey(tenantId) &&
+                ContractHash[tenantId]?.Deadline.InRange() == true &&
+                ContractHash[tenantId]?.Deadline.ToDateTime() < DateTime.Now.ToLocal();
         }
 
         public static bool UsersLimit(int number = 1)

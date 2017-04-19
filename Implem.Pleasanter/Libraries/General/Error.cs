@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.General
             CantSetAtTopOfSite,
             DefinitionNotFound,
             DeleteConflicts,
+            Expired,
             ExternalMailAddress,
             FailedReadFile,
             FileNotFound,
@@ -67,6 +68,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.DefinitionNotFound(data);
                 case Types.DeleteConflicts:
                     return Messages.DeleteConflicts(data);
+                case Types.Expired:
+                    return Messages.Expired(data);
                 case Types.ExternalMailAddress:
                     return Messages.ExternalMailAddress(data);
                 case Types.FailedReadFile:

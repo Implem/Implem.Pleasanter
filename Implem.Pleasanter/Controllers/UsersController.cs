@@ -8,6 +8,7 @@ using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
+    [CheckContract]
     [ValidateInput(false)]
     [RefleshSiteInfo]
     public class UsersController : Controller
@@ -176,7 +177,11 @@ namespace Implem.Pleasanter.Controllers
             }
             else
             {
-                var html = UserUtilities.HtmlLogin(returnUrl);
+                var html = UserUtilities.HtmlLogin(
+                    returnUrl,
+                    Request.QueryString["expired"] == "1" && !Request.IsAjaxRequest()
+                        ? Messages.Expired().Html
+                        : string.Empty);
                 ViewBag.HtmlBody = html;
                 log.Finish(html.Length);
                 return View();

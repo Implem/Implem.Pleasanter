@@ -154,6 +154,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Excel(params string[] data) { return Get("Excel", data); }
         public static string ExceptionBody(params string[] data) { return Get("ExceptionBody", data); }
         public static string ExceptionTitle(params string[] data) { return Get("ExceptionTitle", data); }
+        public static string Expired(params string[] data) { return Get("Expired", data); }
         public static string Export(params string[] data) { return Get("Export", data); }
         public static string ExportFormat(params string[] data) { return Get("ExportFormat", data); }
         public static string Expression(params string[] data) { return Get("Expression", data); }

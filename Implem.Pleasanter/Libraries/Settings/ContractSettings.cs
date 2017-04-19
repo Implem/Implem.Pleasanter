@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Mail;
         public bool? Style;
         public bool? Script;
-        public DateTime UpdatedTime;
+        public DateTime Deadline;
 
         public ContractSettings()
         {

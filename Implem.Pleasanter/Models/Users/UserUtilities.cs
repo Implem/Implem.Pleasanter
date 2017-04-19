@@ -1356,7 +1356,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string HtmlLogin(string returnUrl)
+        public static string HtmlLogin(string returnUrl, string message)
         {
             var hb = new HtmlBuilder();
             var ss = SiteSettingsUtilities.UsersSiteSettings();
@@ -1425,10 +1425,18 @@ namespace Implem.Pleasanter.Models
                                                 icon: "ui-icon-mail-closed",
                                                 action: "Register",
                                                 method: "post")))))
-                    .P(id: "Message", css: "message-form-bottom")
+                    .P(id: "Message", css: "message-form-bottom", action: () => hb.Raw(message))
                     .ChangePasswordAtLoginDialog(ss: ss)
                     .Hidden(controlId: "ReturnUrl", value: QueryStrings.Data("ReturnUrl")))
                     .ToString();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string Expired()
+        {
+            return HtmlTemplates.Error(Error.Types.Expired);
         }
 
         /// <summary>

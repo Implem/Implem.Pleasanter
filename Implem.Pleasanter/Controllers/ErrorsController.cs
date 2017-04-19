@@ -5,6 +5,7 @@ using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
+    [CheckContract]
     [RefleshSiteInfo]
     public class ErrorsController : Controller
     {

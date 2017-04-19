@@ -199,6 +199,7 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VersionsController.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
+    <Compile Include="Filters\CheckContractAttribute.cs" />
     <Compile Include="Filters\RefleshSiteInfoAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1030,6 +1031,7 @@
     <Content Include="App_Data\Displays\ItemsLimit.json" />
     <Content Include="App_Data\Displays\Restricted.json" />
     <Content Include="App_Data\Displays\InternalServerError.json" />
+    <Content Include="App_Data\Displays\Expired.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

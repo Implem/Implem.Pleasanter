@@ -143,6 +143,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.ExceptionTitle(data), "alert-info");
         }
 
+        public static Message Expired(params string[] data)
+        {
+            return Get(Displays.Expired(data), "alert-error");
+        }
+
         public static Message ExternalMailAddress(params string[] data)
         {
             return Get(Displays.ExternalMailAddress(data), "alert-error");
@@ -466,6 +471,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseExceptionTitle(params string[] data)
         {
             return ResponseMessage(ExceptionTitle(data));
+        }
+
+        public static ResponseCollection ResponseExpired(params string[] data)
+        {
+            return ResponseMessage(Expired(data));
         }
 
         public static ResponseCollection ResponseExternalMailAddress(params string[] data)

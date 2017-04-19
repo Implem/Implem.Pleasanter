@@ -862,7 +862,9 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_TenantName": Column.Tenants_TenantName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantName, definitionRow, ColumnXls); break;
                     case "Tenants_Title": Column.Tenants_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Title, definitionRow, ColumnXls); break;
                     case "Tenants_Body": Column.Tenants_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Body, definitionRow, ColumnXls); break;
+                    case "Tenants_ContractType": Column.Tenants_ContractType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractType, definitionRow, ColumnXls); break;
                     case "Tenants_ContractSettings": Column.Tenants_ContractSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractSettings, definitionRow, ColumnXls); break;
+                    case "Tenants_ContractDeadline": Column.Tenants_ContractDeadline = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractDeadline, definitionRow, ColumnXls); break;
                     case "Tenants_ContractorName": Column.Tenants_ContractorName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractorName, definitionRow, ColumnXls); break;
                     case "Tenants_PostalCode": Column.Tenants_PostalCode = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_PostalCode, definitionRow, ColumnXls); break;
                     case "Tenants_Country": Column.Tenants_Country = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Country, definitionRow, ColumnXls); break;
@@ -5181,7 +5183,9 @@ namespace Implem.DefinitionAccessor
         public string Tenants_TenantName;
         public string Tenants_Title;
         public string Tenants_Body;
+        public string Tenants_ContractType;
         public string Tenants_ContractSettings;
+        public string Tenants_ContractDeadline;
         public string Tenants_ContractorName;
         public string Tenants_PostalCode;
         public string Tenants_Country;
@@ -5849,7 +5853,9 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_TenantName = new ColumnDefinition();
         public ColumnDefinition Tenants_Title = new ColumnDefinition();
         public ColumnDefinition Tenants_Body = new ColumnDefinition();
+        public ColumnDefinition Tenants_ContractType = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractSettings = new ColumnDefinition();
+        public ColumnDefinition Tenants_ContractDeadline = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractorName = new ColumnDefinition();
         public ColumnDefinition Tenants_PostalCode = new ColumnDefinition();
         public ColumnDefinition Tenants_Country = new ColumnDefinition();
