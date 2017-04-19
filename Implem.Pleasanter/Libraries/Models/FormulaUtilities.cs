@@ -20,35 +20,36 @@ namespace Implem.Pleasanter.Libraries.Models
         private static void Update(SiteModel siteModel, long id, IEnumerable<int> selected = null)
         {
             var hasFormula = siteModel.SiteSettings.Formulas?.Any() ?? false;
+            var ss = SiteSettingsUtilities.Get(siteModel, id);
             switch (siteModel.ReferenceType)
             {
                 case "Issues":
-                    UpdateIssues(siteModel, id, selected, hasFormula: hasFormula);
+                    UpdateIssues(ss, siteModel.SiteId, id, selected, hasFormula: hasFormula);
                     break;
                 case "Results":
-                    UpdateResults(siteModel, id, selected, hasFormula: hasFormula);
+                    UpdateResults(ss, siteModel.SiteId, id, selected, hasFormula: hasFormula);
                     break;
                 case "Wikis":
-                    UpdateWikis(siteModel, id, selected, hasFormula: hasFormula);
+                    UpdateWikis(ss, siteModel.SiteId, id, selected, hasFormula: hasFormula);
                     break;
                 default: break;
             }
         }
 
         private static void UpdateIssues(
-            SiteModel siteModel,
+            SiteSettings ss,
+            long siteId,
             long id,
             IEnumerable<int> selected = null,
             bool hasFormula = false)
         {
             new IssueCollection(
-                ss: siteModel.SiteSettings,
+                ss: ss,
                 where: Rds.IssuesWhere()
-                    .SiteId(siteModel.SiteId)
+                    .SiteId(siteId)
                     .IssueId(id, _using: id != 0))
                         .ForEach(issueModel =>
                         {
-                            var ss = SiteSettingsUtilities.Get(siteModel, id);
                             if (hasFormula) issueModel.UpdateFormulaColumns(ss, selected);
                             issueModel.UpdateRelatedRecords(
                                 ss: ss,
@@ -59,19 +60,19 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static void UpdateResults(
-            SiteModel siteModel,
+            SiteSettings ss,
+            long siteId,
             long id,
             IEnumerable<int> selected = null,
             bool hasFormula = false)
         {
             new ResultCollection(
-                ss: siteModel.SiteSettings,
+                ss: ss,
                 where: Rds.ResultsWhere()
-                    .SiteId(siteModel.SiteId)
+                    .SiteId(siteId)
                     .ResultId(id, _using: id != 0))
                         .ForEach(resultModel =>
                         {
-                            var ss = SiteSettingsUtilities.Get(siteModel, id);
                             if (hasFormula) resultModel.UpdateFormulaColumns(ss, selected);
                             resultModel.UpdateRelatedRecords(
                                 ss: ss,
@@ -82,19 +83,19 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static void UpdateWikis(
-            SiteModel siteModel,
+            SiteSettings ss,
+            long siteId,
             long id,
             IEnumerable<int> selected = null,
             bool hasFormula = false)
         {
             new WikiCollection(
-                ss: siteModel.SiteSettings,
+                ss: ss,
                 where: Rds.WikisWhere()
-                    .SiteId(siteModel.SiteId)
+                    .SiteId(siteId)
                     .WikiId(id, _using: id != 0))
                         .ForEach(wikiModel =>
                         {
-                            var ss = SiteSettingsUtilities.Get(siteModel, id);
                             if (hasFormula) wikiModel.UpdateFormulaColumns(ss, selected);
                             wikiModel.UpdateRelatedRecords(
                                 ss: ss,
