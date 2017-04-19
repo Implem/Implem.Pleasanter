@@ -16,7 +16,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
             var cn = new TextData(connectionString, ';', '=');
             Consoles.Write(cn["uid"], Consoles.Types.Info);
             Spids.Kill(cn["uid"]);
-            Def.SqlIoBySysem().ExecuteNonQuery(
+            Def.SqlIoBySa().ExecuteNonQuery(
                 CommandText(cn["uid"])
                     .Replace("#Uid#", cn["uid"])
                     .Replace("#Pwd#", cn["pwd"])

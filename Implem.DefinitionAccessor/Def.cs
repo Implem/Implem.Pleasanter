@@ -140,7 +140,7 @@ namespace Implem.DefinitionAccessor
                 .Where(o => !ExistsColumnBase(p => p.ColumnName == o.ColumnName));
         }
 
-        public static SqlIo SqlIoBySysem(
+        public static SqlIo SqlIoBySa(
             RdsUser rdsUser = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,

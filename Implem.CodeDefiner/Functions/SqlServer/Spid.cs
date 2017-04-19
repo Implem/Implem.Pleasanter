@@ -8,13 +8,13 @@ namespace Implem.CodeDefiner.Functions.SqlServer
         internal static void Kill(string uid)
         {
             Get(uid).AsEnumerable().ForEach(spidDataRow =>
-                Def.SqlIoBySysem().ExecuteNonQuery(
+                Def.SqlIoBySa().ExecuteNonQuery(
                     Def.Sql.KillSpid.Replace("#Spid#", spidDataRow["spid"].ToString())));
         }
 
         private static DataTable Get(string uid)
         {
-            return Def.SqlIoBySysem().ExecuteTable(
+            return Def.SqlIoBySa().ExecuteTable(
                 Def.Sql.SpWho.Replace("#Uid#", uid));
         }
     }

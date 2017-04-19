@@ -7,7 +7,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
         internal static void Configure()
         {
             Consoles.Write(Environments.ServiceName, Consoles.Types.Info);
-            Def.SqlIoBySysem().ExecuteNonQuery(
+            Def.SqlIoBySa().ExecuteNonQuery(
                 Def.Sql.CreateDatabase.Replace("#InitialCatalog#", Environments.ServiceName));
         }
     }
