@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using System.Net;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
@@ -19,6 +20,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult NotFound()
         {
             Response.StatusCode = (int)HttpStatusCode.NotFound;
+            ViewBag.HtmlBody = HtmlTemplates.Error(Libraries.General.Error.Types.NotFound);
             return View();
         }
 
@@ -27,6 +29,8 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult InternalServerError()
         {
             Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            ViewBag.HtmlBody = HtmlTemplates.Error(
+                Libraries.General.Error.Types.InternalServerError);
             return View();
         }
     }

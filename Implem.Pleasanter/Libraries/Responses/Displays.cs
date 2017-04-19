@@ -201,6 +201,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Index(params string[] data) { return Get("Index", data); }
         public static string InheritPermission(params string[] data) { return Get("InheritPermission", data); }
         public static string InputMailAddress(params string[] data) { return Get("InputMailAddress", data); }
+        public static string InternalServerError(params string[] data) { return Get("InternalServerError", data); }
         public static string InvalidCsvData(params string[] data) { return Get("InvalidCsvData", data); }
         public static string InvalidFormula(params string[] data) { return Get("InvalidFormula", data); }
         public static string InvalidRequest(params string[] data) { return Get("InvalidRequest", data); }
@@ -436,7 +437,9 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Tenants_TenantName(params string[] data) { return Get("Tenants_TenantName", data); }
         public static string Tenants_Title(params string[] data) { return Get("Tenants_Title", data); }
         public static string Tenants_Body(params string[] data) { return Get("Tenants_Body", data); }
+        public static string Tenants_ContractType(params string[] data) { return Get("Tenants_ContractType", data); }
         public static string Tenants_ContractSettings(params string[] data) { return Get("Tenants_ContractSettings", data); }
+        public static string Tenants_ContractDeadline(params string[] data) { return Get("Tenants_ContractDeadline", data); }
         public static string Tenants_ContractorName(params string[] data) { return Get("Tenants_ContractorName", data); }
         public static string Tenants_PostalCode(params string[] data) { return Get("Tenants_PostalCode", data); }
         public static string Tenants_Country(params string[] data) { return Get("Tenants_Country", data); }

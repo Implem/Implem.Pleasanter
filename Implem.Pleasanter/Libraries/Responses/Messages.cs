@@ -203,6 +203,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.InputMailAddress(data), "alert-error");
         }
 
+        public static Message InternalServerError(params string[] data)
+        {
+            return Get(Displays.InternalServerError(data), "alert-error");
+        }
+
         public static Message InvalidCsvData(params string[] data)
         {
             return Get(Displays.InvalidCsvData(data), "alert-error");
@@ -521,6 +526,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseInputMailAddress(params string[] data)
         {
             return ResponseMessage(InputMailAddress(data));
+        }
+
+        public static ResponseCollection ResponseInternalServerError(params string[] data)
+        {
+            return ResponseMessage(InternalServerError(data));
         }
 
         public static ResponseCollection ResponseInvalidCsvData(params string[] data)

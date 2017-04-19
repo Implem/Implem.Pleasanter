@@ -1029,6 +1029,7 @@
     <Content Include="App_Data\Displays\LoginIdAlreadyUse.json" />
     <Content Include="App_Data\Displays\ItemsLimit.json" />
     <Content Include="App_Data\Displays\Restricted.json" />
+    <Content Include="App_Data\Displays\InternalServerError.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

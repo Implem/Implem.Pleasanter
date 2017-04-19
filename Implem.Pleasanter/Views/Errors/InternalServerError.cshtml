@@ -1,12 +1,4 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<body>
-    <section class="error-page">
-        <h1 class="error-page-title">Error 500</h1>
-        <p class="error-page-body">
-            An error occurred during the processing of the application. We apologize, but please repeat the process.<br />
-            If it recurs, please contact the administrator.
-        </p>
-    </section>
-</body>
+@{ViewBag.Title = ViewBag.TITLE;}@Html.Raw(@ViewBag.HtmlBody)

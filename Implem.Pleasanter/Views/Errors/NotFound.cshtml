@@ -1,11 +1,4 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<body>
-    <section class="error-page">
-        <h1 class="error-page-title">Error 404</h1>
-        <p class="error-page-body">
-            The page you requested was not found. Please check the url.
-        </p>
-    </section>
-</body>
+@{ViewBag.Title = ViewBag.TITLE;}@Html.Raw(@ViewBag.HtmlBody)
