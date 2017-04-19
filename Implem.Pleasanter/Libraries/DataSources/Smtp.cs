@@ -41,30 +41,34 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Task.Run(() =>
             {
-                var mailMessage = new MailMessage();
-                mailMessage.From = !Parameters.Mail.FixedFrom.IsNullOrEmpty()
-                    ? new MailAddress(Parameters.Mail.FixedFrom)
-                    : From;
-                Addresses.GetEnumerable(To).ForEach(to => mailMessage.To.Add(to));
-                Addresses.GetEnumerable(Cc).ForEach(cc => mailMessage.CC.Add(cc));
-                Addresses.GetEnumerable(Bcc).ForEach(bcc => mailMessage.Bcc.Add(bcc));
-                mailMessage.Subject = Subject;
-                mailMessage.Body = Body + (Parameters.Mail.FixedFrom.IsNullOrEmpty()
-                    ? string.Empty
-                    : "\n{0}<{1}>".Params(From.DisplayName, From.Address));
-                var smtpClient = new SmtpClient();
-                smtpClient.Host = Host;
-                smtpClient.Port = Port;
-                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                if (Parameters.Mail.SmtpUserName != null &&
-                    Parameters.Mail.SmtpPassword != null)
+                using (var mailMessage = new MailMessage())
                 {
-                    smtpClient.Credentials = new System.Net.NetworkCredential(
-                        Parameters.Mail.SmtpUserName, Parameters.Mail.SmtpPassword);
+                    mailMessage.From = !Parameters.Mail.FixedFrom.IsNullOrEmpty()
+                        ? new MailAddress(Parameters.Mail.FixedFrom)
+                        : From;
+                    Addresses.GetEnumerable(To).ForEach(to => mailMessage.To.Add(to));
+                    Addresses.GetEnumerable(Cc).ForEach(cc => mailMessage.CC.Add(cc));
+                    Addresses.GetEnumerable(Bcc).ForEach(bcc => mailMessage.Bcc.Add(bcc));
+                    mailMessage.Subject = Subject;
+                    mailMessage.Body = Body + (Parameters.Mail.FixedFrom.IsNullOrEmpty()
+                        ? string.Empty
+                        : "\n{0}<{1}>".Params(From.DisplayName, From.Address));
+                    using (var smtpClient = new SmtpClient())
+                    {
+                        smtpClient.Host = Host;
+                        smtpClient.Port = Port;
+                        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        if (Parameters.Mail.SmtpUserName != null &&
+                            Parameters.Mail.SmtpPassword != null)
+                        {
+                            smtpClient.Credentials = new System.Net.NetworkCredential(
+                                Parameters.Mail.SmtpUserName, Parameters.Mail.SmtpPassword);
+                        }
+                        smtpClient.EnableSsl = Parameters.Mail.SmtpEnableSsl;
+                        smtpClient.Send(mailMessage);
+                        smtpClient.Dispose();
+                    }
                 }
-                smtpClient.EnableSsl = Parameters.Mail.SmtpEnableSsl;
-                smtpClient.Send(mailMessage);
-                smtpClient.Dispose();
             });
         }
     }
