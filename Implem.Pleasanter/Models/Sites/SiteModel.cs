@@ -1303,7 +1303,7 @@ namespace Implem.Pleasanter.Models
         public string SynchronizeSummaries()
         {
             SetSiteSettingsPropertiesBySession();
-            SiteSettings.SetLinkedSiteSettings();
+            SiteSettings = SiteSettingsUtilities.Get(this, SiteId);
             var selected = Forms.IntList("EditSummary");
             if (selected?.Any() != true)
             {
