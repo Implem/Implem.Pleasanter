@@ -123,7 +123,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = DeptUtilities.Delete(
-                ss: SiteSettingsUtilities.UsersSiteSettings(),
+                ss: SiteSettingsUtilities.DeptsSiteSettings(),
                 deptId: id);
             log.Finish(json.Length);
             return json;
