@@ -39,6 +39,7 @@
                 format: $(this).attr('data-format'),
                 timepicker: $(this).attr('data-timepicker') === '1',
                 step: 10,
+                scrollInput : false,
                 onSelectDate: function (date) {
                     $p.getData($(this))[this.id] = date;
                     $p.formChanged = true;
