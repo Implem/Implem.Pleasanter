@@ -21,10 +21,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Task.Run(() =>
             {
-                var client = new WebClient();
-                client.Headers.Add(HttpRequestHeader.ContentType, "application/json;charset=UTF-8");
-                client.Encoding = Encoding.UTF8;
-                client.UploadString(url, this.ToJson());
+                using (var client = new WebClient())
+                {
+                    client.Headers.Add(
+                        HttpRequestHeader.ContentType, "application/json;charset=UTF-8");
+                    client.Encoding = Encoding.UTF8;
+                    client.UploadString(url, this.ToJson());
+                }
             });
         }
     }
