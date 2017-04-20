@@ -114,6 +114,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get("Items", id.ToString(), controller, action);
         }
 
+        public static string ApplicationError()
+        {
+            return Get("Errors");
+        }
+
         public static string Get(params string[] parts)
         {
             return Url.ApplicationPath() + parts

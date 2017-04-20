@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ApplicationError",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "A problem occurred in the application."
+        },
+        {
+            "Language": "ja",
+            "Body": "アプリケーションで問題が発生しました。"
+        }
+    ]
+}

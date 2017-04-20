@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Models;
+﻿using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Models;
 using System;
 using System.Web.Mvc;
 using System.Web.SessionState;
@@ -22,7 +23,7 @@ namespace Implem.Pleasanter.Filters
                 throw;
             }
             filterContext.ExceptionHandled = true;
-            filterContext.Result = new ViewResult() { ViewName = "Error" };
+            filterContext.Result = new RedirectResult(Locations.ApplicationError());
         }
     }
 }

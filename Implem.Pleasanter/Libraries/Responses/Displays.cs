@@ -56,6 +56,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string AllowedUsers(params string[] data) { return Get("AllowedUsers", data); }
         public static string AlreadyAdded(params string[] data) { return Get("AlreadyAdded", data); }
         public static string And(params string[] data) { return Get("And", data); }
+        public static string ApplicationError(params string[] data) { return Get("ApplicationError", data); }
         public static string Assembly(params string[] data) { return Get("Assembly", data); }
         public static string Authentication(params string[] data) { return Get("Authentication", data); }
         public static string Auto(params string[] data) { return Get("Auto", data); }
@@ -152,8 +153,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Enabled(params string[] data) { return Get("Enabled", data); }
         public static string Error(params string[] data) { return Get("Error", data); }
         public static string Excel(params string[] data) { return Get("Excel", data); }
-        public static string ExceptionBody(params string[] data) { return Get("ExceptionBody", data); }
-        public static string ExceptionTitle(params string[] data) { return Get("ExceptionTitle", data); }
         public static string Expired(params string[] data) { return Get("Expired", data); }
         public static string Export(params string[] data) { return Get("Export", data); }
         public static string ExportFormat(params string[] data) { return Get("ExportFormat", data); }

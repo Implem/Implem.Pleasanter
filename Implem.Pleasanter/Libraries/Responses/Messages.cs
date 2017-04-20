@@ -23,6 +23,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.AlreadyAdded(data), "alert-error");
         }
 
+        public static Message ApplicationError(params string[] data)
+        {
+            return Get(Displays.ApplicationError(data), "alert-error");
+        }
+
         public static Message Authentication(params string[] data)
         {
             return Get(Displays.Authentication(data), "alert-error");
@@ -131,16 +136,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Deleted(params string[] data)
         {
             return Get(Displays.Deleted(data), "alert-success");
-        }
-
-        public static Message ExceptionBody(params string[] data)
-        {
-            return Get(Displays.ExceptionBody(data), "alert-info");
-        }
-
-        public static Message ExceptionTitle(params string[] data)
-        {
-            return Get(Displays.ExceptionTitle(data), "alert-info");
         }
 
         public static Message Expired(params string[] data)
@@ -353,6 +348,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(AlreadyAdded(data));
         }
 
+        public static ResponseCollection ResponseApplicationError(params string[] data)
+        {
+            return ResponseMessage(ApplicationError(data));
+        }
+
         public static ResponseCollection ResponseAuthentication(params string[] data)
         {
             return ResponseMessage(Authentication(data));
@@ -461,16 +461,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseDeleted(params string[] data)
         {
             return ResponseMessage(Deleted(data));
-        }
-
-        public static ResponseCollection ResponseExceptionBody(params string[] data)
-        {
-            return ResponseMessage(ExceptionBody(data));
-        }
-
-        public static ResponseCollection ResponseExceptionTitle(params string[] data)
-        {
-            return ResponseMessage(ExceptionTitle(data));
         }
 
         public static ResponseCollection ResponseExpired(params string[] data)

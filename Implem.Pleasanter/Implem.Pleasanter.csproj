@@ -276,7 +276,6 @@
     <Compile Include="Libraries\HtmlParts\HtmlControls.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlCopies.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlViewFilters.cs" />
-    <Compile Include="Libraries\HtmlParts\HtmlErrors.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlFields.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlGantt.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlGrids.cs" />
@@ -613,7 +612,6 @@
     <Content Include="Views\Items\Index.cshtml" />
     <Content Include="Views\Items\New.cshtml" />
     <Content Include="Views\Permissions\Edit.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
@@ -727,8 +725,6 @@
     <Content Include="App_Data\Displays\Enabled.json" />
     <Content Include="App_Data\Displays\Error.json" />
     <Content Include="App_Data\Displays\Excel.json" />
-    <Content Include="App_Data\Displays\ExceptionBody.json" />
-    <Content Include="App_Data\Displays\ExceptionTitle.json" />
     <Content Include="App_Data\Displays\Export.json" />
     <Content Include="App_Data\Displays\ExternalMailAddress.json" />
     <Content Include="App_Data\Displays\FailedReadFile.json" />
@@ -1032,6 +1028,7 @@
     <Content Include="App_Data\Displays\Restricted.json" />
     <Content Include="App_Data\Displays\InternalServerError.json" />
     <Content Include="App_Data\Displays\Expired.json" />
+    <Content Include="App_Data\Displays\ApplicationError.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

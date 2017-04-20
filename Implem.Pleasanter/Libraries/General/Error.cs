@@ -8,6 +8,7 @@ namespace Implem.Pleasanter.Libraries.General
         {
             None,
             AlreadyAdded,
+            ApplicationError,
             Authentication,
             BadFormat,
             BadMailAddress,
@@ -54,6 +55,8 @@ namespace Implem.Pleasanter.Libraries.General
             {
                 case Types.AlreadyAdded:
                     return Messages.AlreadyAdded(data);
+                case Types.ApplicationError:
+                    return Messages.ApplicationError(data);
                 case Types.Authentication:
                     return Messages.Authentication(data);
                 case Types.BadFormat:

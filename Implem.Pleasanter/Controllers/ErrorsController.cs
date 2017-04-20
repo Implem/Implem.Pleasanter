@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using System.Net;
 using System.Web.Mvc;
@@ -10,29 +11,47 @@ namespace Implem.Pleasanter.Controllers
     public class ErrorsController : Controller
     {
         [AllowAnonymous]
-        [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            if (!Request.IsAjaxRequest())
+            {
+                ViewBag.HtmlBody = HtmlTemplates.Error(Error.Types.ApplicationError);
+                return View();
+            }
+            else
+            {
+                return Content(Error.Types.ApplicationError.MessageJson());
+            }
         }
 
         [AllowAnonymous]
-        [HttpGet]
         public ActionResult NotFound()
         {
-            //Response.StatusCode = (int)HttpStatusCode.NotFound;
-            ViewBag.HtmlBody = HtmlTemplates.Error(Libraries.General.Error.Types.NotFound);
-            return View();
+            // Response.StatusCode = (int)HttpStatusCode.NotFound;
+            if (!Request.IsAjaxRequest())
+            {
+                ViewBag.HtmlBody = HtmlTemplates.Error(Error.Types.NotFound);
+                return View();
+            }
+            else
+            {
+                return Content(Error.Types.NotFound.MessageJson());
+            }
         }
 
         [AllowAnonymous]
-        [HttpGet]
         public ActionResult InternalServerError()
         {
-            //Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            ViewBag.HtmlBody = HtmlTemplates.Error(
-                Libraries.General.Error.Types.InternalServerError);
-            return View();
+            // Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            if (!Request.IsAjaxRequest())
+            {
+                ViewBag.HtmlBody = HtmlTemplates.Error(Error.Types.InternalServerError);
+                return View();
+            }
+            else
+            {
+                return Content(Error.Types.InternalServerError.MessageJson());
+            }
         }
     }
 }
