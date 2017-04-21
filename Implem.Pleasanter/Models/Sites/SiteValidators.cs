@@ -166,7 +166,7 @@ namespace Implem.Pleasanter.Models
                 siteModel.SiteSettings.HasPermission() &&
                 siteModel.AccessStatus != Databases.AccessStatuses.NotFound
                     ? Error.Types.None
-                    : Error.Types.HasNotPermission;
+                    : Error.Types.NotFound;
         }
 
         public static Error.Types OnMoving(
