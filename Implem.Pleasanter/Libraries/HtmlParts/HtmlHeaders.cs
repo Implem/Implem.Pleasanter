@@ -1,6 +1,9 @@
-﻿using Implem.Pleasanter.Libraries.General;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -24,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 id: "CorpLogo",
                                 src: Locations.Images("logo-corp.png"))
                             .Span(id: "ProductLogo", action: () => hb
-                                .Text(text: Displays.ProductName()))))
+                                .Text(text: Title()))))
                 .NavigationMenu(
                     ss: ss,
                     siteId: siteId,
@@ -32,7 +35,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     errorType: errorType,
                     useNavigationMenu: useNavigationMenu,
                     useSearch: useSearch));
+        }
 
+        private static string Title()
+        {
+            if (Parameters.Service.ShowTenantTitle)
+            {
+                return Rds.ExecuteScalar_string(statements:
+                    Rds.SelectTenants(
+                        column: Rds.TenantsColumn().Title(),
+                        where: Rds.TenantsWhere().TenantId(Sessions.TenantId())));
+            }
+            else
+            {
+                return Displays.ProductName();
+            }
         }
     }
 }
