@@ -151,6 +151,7 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             return UserHash?
                 .Where(o => o.Key == userId)
+                .Where(o => o.Value.TenantId == Sessions.TenantId())
                 .Select(o => o.Value)
                 .FirstOrDefault() ?? Anonymouse();
         }
