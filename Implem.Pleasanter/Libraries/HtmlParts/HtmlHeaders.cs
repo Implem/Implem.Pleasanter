@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string Title()
         {
-            if (Parameters.Service.ShowTenantTitle)
+            if (Sessions.LoggedIn() && Parameters.Service.ShowTenantTitle)
             {
                 return Rds.ExecuteScalar_string(statements:
                     Rds.SelectTenants(
