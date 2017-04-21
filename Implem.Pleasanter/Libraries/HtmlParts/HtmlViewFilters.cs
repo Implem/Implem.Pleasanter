@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: view.Own == true,
                 method: "post",
                 labelPositionIsRight: true,
-                _using: Visible(ss, "Owner"));
+                _using: Visible(ss, "Manager") || Visible(ss, "Owner"));
         }
 
         private static HtmlBuilder NearCompletionTime(
