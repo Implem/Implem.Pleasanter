@@ -160,7 +160,7 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.NotSet,
                 referenceType: "SearchIndexes",
                 title: string.Empty,
-                useNavigationMenu: false,
+                useNavigationMenu: true,
                 useTitle: false,
                 useSearch: false,
                 useBreadcrumb: false,
