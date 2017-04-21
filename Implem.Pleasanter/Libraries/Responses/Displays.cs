@@ -513,6 +513,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string GroupMembers_Admin(params string[] data) { return Get("GroupMembers_Admin", data); }
         public static string Users_TenantId(params string[] data) { return Get("Users_TenantId", data); }
         public static string Users_UserId(params string[] data) { return Get("Users_UserId", data); }
+        public static string Users_ParentId(params string[] data) { return Get("Users_ParentId", data); }
         public static string Users_LoginId(params string[] data) { return Get("Users_LoginId", data); }
         public static string Users_Disabled(params string[] data) { return Get("Users_Disabled", data); }
         public static string Users_UserCode(params string[] data) { return Get("Users_UserCode", data); }

@@ -39,30 +39,27 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static IEnumerable<ColumnDefinition> GridDefinitions(
-            string referenceType, bool enableOnly = false)
+            this Dictionary<string, ColumnDefinition> definitions, bool enableOnly = false)
         {
-            return Def.ColumnDefinitionCollection
-                .Where(o => o.TableName == referenceType)
+            return definitions.Values
                 .Where(o => o.GridColumn > 0)
                 .Where(o => o.GridEnabled || !enableOnly)
                 .OrderBy(o => o.GridColumn);
         }
 
         public static IEnumerable<ColumnDefinition> FilterDefinitions(
-            string referenceType, bool enableOnly = false)
+            this Dictionary<string, ColumnDefinition> definitions, bool enableOnly = false)
         {
-            return Def.ColumnDefinitionCollection
-                .Where(o => o.TableName == referenceType)
+            return definitions.Values
                 .Where(o => o.FilterColumn > 0)
                 .Where(o => o.FilterEnabled || !enableOnly)
                 .OrderBy(o => o.FilterColumn);
         }
 
         public static IEnumerable<ColumnDefinition> EditorDefinitions(
-            string referenceType, bool enableOnly = false)
+            this Dictionary<string, ColumnDefinition> definitions, bool enableOnly = false)
         {
-            return Def.ColumnDefinitionCollection
-                .Where(o => o.TableName == referenceType)
+            return definitions.Values
                 .Where(o => o.EditorColumn)
                 .Where(o => o.EditorEnabled || !enableOnly)
                 .Where(o => !o.NotEditorSettings)
@@ -70,39 +67,36 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static IEnumerable<ColumnDefinition> TitleDefinitions(
-            string referenceType, bool enableOnly = false)
+            this Dictionary<string, ColumnDefinition> definitions, bool enableOnly = false)
         {
-            return Def.ColumnDefinitionCollection
-                .Where(o => o.TableName == referenceType)
+            return definitions.Values
                 .Where(o => o.TitleColumn > 0)
                 .Where(o => o.ColumnName == "Title" || !enableOnly)
                 .OrderBy(o => o.TitleColumn);
         }
 
         public static IEnumerable<ColumnDefinition> LinkDefinitions(
-            string referenceType, bool enableOnly = false)
+            this Dictionary<string, ColumnDefinition> definitions, bool enableOnly = false)
         {
-            return Def.ColumnDefinitionCollection
-                .Where(o => o.TableName == referenceType)
+            return definitions.Values
                 .Where(o => o.LinkColumn > 0)
                 .Where(o => o.LinkEnabled || !enableOnly)
                 .OrderBy(o => o.LinkColumn);
         }
 
         public static IEnumerable<ColumnDefinition> HistoryDefinitions(
-            string referenceType, bool enableOnly = false)
+            this Dictionary<string, ColumnDefinition> definitions, bool enableOnly = false)
         {
-            return Def.ColumnDefinitionCollection
-                .Where(o => o.TableName == referenceType)
+            return definitions.Values
                 .Where(o => o.HistoryColumn > 0)
                 .Where(o => o.HistoryEnabled || !enableOnly)
                 .OrderBy(o => o.HistoryColumn);
         }
 
-        public static IEnumerable<ColumnDefinition> MonitorChangesDefinitions(string referenceType)
+        public static IEnumerable<ColumnDefinition> MonitorChangesDefinitions(
+            this Dictionary<string, ColumnDefinition> definitions)
         {
-            return Def.ColumnDefinitionCollection
-                .Where(o => o.TableName == referenceType)
+            return definitions.Values
                 .Where(o => o.EditorColumn || o.ColumnName == "Comments")
                 .Where(o => !o.NotEditorSettings)
                 .Where(o => !o.Unique)

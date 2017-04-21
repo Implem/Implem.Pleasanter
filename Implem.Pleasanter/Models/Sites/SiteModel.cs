@@ -1590,7 +1590,7 @@ namespace Implem.Pleasanter.Models
             {
                 OpenNotificationDialog(res, new Notification(
                     Notification.Types.Mail,
-                    ColumnUtilities.MonitorChangesDefinitions(ReferenceType)
+                    SiteSettings.ColumnDefinitionHash.MonitorChangesDefinitions()
                         .Select(o => o.ColumnName)
                         .Where(o => SiteSettings.EditorColumns.Contains(o) || o == "Comments")
                         .ToList()));

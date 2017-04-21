@@ -1390,10 +1390,11 @@ namespace Implem.Pleasanter.Models
                                         column: ss.GetColumn("Password"),
                                         fieldCss: "field-wide",
                                         controlCss: " always-send")
+                                    .Div(id: "Tenants")
                                     .Field(
                                         ss: ss,
                                         column: ss.GetColumn("RememberMe")))
-                                .Div(id: "LoginCommands cf", action: () => hb
+                                .Div(id: "LoginCommands", action: () => hb
                                     .Button(
                                         controlId: "Login",
                                         controlCss: "button-icon button-right-justified validate",

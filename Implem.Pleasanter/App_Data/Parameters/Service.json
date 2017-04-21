@@ -4,6 +4,7 @@
     "DefaultPassword": "pleasanter",
     "RequireHttps": false,
     "ImportData": false,
+    "SelectTenant": false,
     "Demo": false,
     "DemoUsagePeriod": 30
 }

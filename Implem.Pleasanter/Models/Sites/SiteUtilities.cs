@@ -3194,7 +3194,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "ViewFilterSelector",
                         fieldCss: "field-auto-thin",
                         controlCss: " always-send",
-                        optionCollection: ColumnUtilities.FilterDefinitions(ss.ReferenceType)
+                        optionCollection: ss.ColumnDefinitionHash.FilterDefinitions()
                             .Where(o => !view.FilterContains(o.ColumnName))
                             .ToDictionary(
                                 o => o.ColumnName,
@@ -3313,7 +3313,7 @@ namespace Implem.Pleasanter.Models
                     controlId: "ViewSorterSelector",
                     fieldCss: "field-auto-thin",
                     controlCss: " always-send",
-                    optionCollection: ColumnUtilities.GridDefinitions(ss.ReferenceType)
+                    optionCollection: ss.ColumnDefinitionHash.GridDefinitions()
                         .Where(o => !view.SorterContains(o.ColumnName))
                         .ToDictionary(
                             o => o.ColumnName,

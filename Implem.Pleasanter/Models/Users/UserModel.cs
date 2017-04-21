@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Models
     {
         public int TenantId = Sessions.TenantId();
         public int UserId = 0;
+        public int ParentId = 0;
         public string LoginId = string.Empty;
         public bool Disabled = false;
         public string UserCode = string.Empty;
@@ -62,6 +63,7 @@ namespace Implem.Pleasanter.Models
         public Title Title { get { return new Title(UserId, FullName()); } }
         public int SavedTenantId = Sessions.TenantId();
         public int SavedUserId = 0;
+        public int SavedParentId = 0;
         public string SavedLoginId = string.Empty;
         public bool SavedDisabled = false;
         public string SavedUserCode = string.Empty;
@@ -97,6 +99,7 @@ namespace Implem.Pleasanter.Models
         public string SavedSessionGuid = string.Empty;
         public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
         public bool UserId_Updated { get { return UserId != SavedUserId; } }
+        public bool ParentId_Updated { get { return ParentId != SavedParentId; } }
         public bool LoginId_Updated { get { return LoginId != SavedLoginId && LoginId != null; } }
         public bool Disabled_Updated { get { return Disabled != SavedDisabled; } }
         public bool UserCode_Updated { get { return UserCode != SavedUserCode && UserCode != null; } }
@@ -411,6 +414,7 @@ namespace Implem.Pleasanter.Models
                     case "TenantId": if (dataRow[name] != DBNull.Value) { TenantId = dataRow[name].ToInt(); SavedTenantId = TenantId; } break;
                     case "UserId": if (dataRow[name] != DBNull.Value) { UserId = dataRow[name].ToInt(); SavedUserId = UserId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
+                    case "ParentId": ParentId = dataRow[name].ToInt(); SavedParentId = ParentId; break;
                     case "LoginId": LoginId = dataRow[name].ToString(); SavedLoginId = LoginId; break;
                     case "Disabled": Disabled = dataRow[name].ToBool(); SavedDisabled = Disabled; break;
                     case "UserCode": UserCode = dataRow[name].ToString(); SavedUserCode = UserCode; break;
@@ -566,13 +570,20 @@ namespace Implem.Pleasanter.Models
         {
             if (Authenticate())
             {
-                if (PasswordExpired())
+                if (RequireTenant())
                 {
-                    return OpenChangePasswordAtLoginDialog();
+                    return TenantsDropDown();
                 }
                 else
                 {
-                    return Allow(returnUrl);
+                    if (PasswordExpired())
+                    {
+                        return OpenChangePasswordAtLoginDialog();
+                    }
+                    else
+                    {
+                        return Allow(returnUrl);
+                    }
                 }
             }
             else
@@ -598,7 +609,7 @@ namespace Implem.Pleasanter.Models
                     }
                     break;
                 default:
-                    ret = GetByCredentials(LoginId, Password);
+                    ret = GetByCredentials(LoginId, Password, Forms.Int("SelectedTenantId"));
                     break;
             }
             return ret;
@@ -607,14 +618,97 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public bool GetByCredentials(string loginId, string password)
+        public bool GetByCredentials(string loginId, string password, int tenantId = 0)
         {
             Get(SiteSettingsUtilities.UsersSiteSettings(),
                 where: Rds.UsersWhere()
                     .LoginId(loginId)
                     .Password(password)
                     .Disabled(0));
+            if (AccessStatus == Databases.AccessStatuses.Selected &&
+                tenantId > 0 &&
+                TenantId != tenantId)
+            {
+                Get(SiteSettingsUtilities.UsersSiteSettings(),
+                    where: Rds.UsersWhere()
+                        .TenantId(tenantId)
+                        .ParentId(UserId)
+                        .Disabled(0));
+            }
             return AccessStatus == Databases.AccessStatuses.Selected;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private bool RequireTenant()
+        {
+            return
+                Parameters.Service.SelectTenant &&
+                !TenantSelected() &&
+                BelongToMultipleTenants();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private bool TenantSelected()
+        {
+            var tenantId = Forms.Int("SelectedTenantId");
+            return tenantId != 0 && TenantOptions().ContainsKey(tenantId.ToString());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private bool BelongToMultipleTenants()
+        {
+            return Rds.ExecuteScalar_int(statements:
+                Rds.SelectUsers(
+                    column: Rds.UsersColumn().UsersCount(),
+                    where: Rds.UsersWhere()
+                        .Or(or: Rds.UsersWhere()
+                            .UserId(UserId)
+                            .ParentId(UserId))
+                        .Disabled(0))) >= 2;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string TenantsDropDown()
+        {
+            return new ResponseCollection()
+                .Html("#Tenants", new HtmlBuilder().FieldDropDown(
+                    controlId: "SelectedTenantId",
+                    fieldCss: " field-wide",
+                    controlCss: " always-send",
+                    labelText: Displays.Tenants(),
+                    optionCollection: TenantOptions())).ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private Dictionary<string, string> TenantOptions()
+        {
+            return Rds.ExecuteTable(statements:
+                Rds.SelectTenants(
+                    column: Rds.TenantsColumn()
+                        .TenantId()
+                        .Title(),
+                    where: Rds.TenantsWhere()
+                        .TenantId_In(sub: Rds.SelectUsers(
+                            column: Rds.UsersColumn().TenantId(),
+                            where: Rds.UsersWhere()
+                                .Or(or: Rds.UsersWhere()
+                                    .UserId(UserId)
+                                    .ParentId(UserId))
+                                .Disabled(0)))))
+                                    .AsEnumerable()
+                                    .ToDictionary(
+                                        o => o["TenantId"].ToString(),
+                                        o => o["Title"].ToString());
         }
 
         /// <summary>

@@ -628,8 +628,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateColumnDefinitionHash()
         {
+            var excludeColumns = Parameters.ExcludeColumns.Get(ReferenceType);
             ColumnDefinitionHash = Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == ReferenceType)
+                .Where(o => excludeColumns?.Contains(o.ColumnName) != true)
                 .ToDictionary(o => o.ColumnName, o => o);
         }
 
@@ -647,7 +649,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private List<string> DefaultGridColumns()
         {
-            return ColumnUtilities.GridDefinitions(ReferenceType, enableOnly: true)
+            return ColumnDefinitionHash.GridDefinitions(enableOnly: true)
                 .Select(o => o.ColumnName)
                 .ToList();
         }
@@ -671,7 +673,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private List<string> DefaultFilterColumns()
         {
-            return ColumnUtilities.FilterDefinitions(ReferenceType, enableOnly: true)
+            return ColumnDefinitionHash.FilterDefinitions(enableOnly: true)
                 .Select(o => o.ColumnName)
                 .ToList();
         }
@@ -695,7 +697,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private List<string> DefaultEditorColumns()
         {
-            return ColumnUtilities.EditorDefinitions(ReferenceType, enableOnly: true)
+            return ColumnDefinitionHash.EditorDefinitions(enableOnly: true)
                 .Select(o => o.ColumnName)
                 .ToList();
         }
@@ -721,7 +723,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private List<string> DefaultTitleColumns()
         {
-            return ColumnUtilities.TitleDefinitions(ReferenceType, enableOnly: true)
+            return ColumnDefinitionHash.TitleDefinitions(enableOnly: true)
                 .Select(o => o.ColumnName)
                 .ToList();
         }
@@ -747,7 +749,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private List<string> DefaultLinkColumns()
         {
-            return ColumnUtilities.LinkDefinitions(ReferenceType, enableOnly: true)
+            return ColumnDefinitionHash.LinkDefinitions(enableOnly: true)
                 .Select(o => o.ColumnName)
                 .ToList();
         }
@@ -771,7 +773,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private List<string> DefaultHistoryColumns()
         {
-            return ColumnUtilities.HistoryDefinitions(ReferenceType, enableOnly: true)
+            return ColumnDefinitionHash.HistoryDefinitions(enableOnly: true)
                 .Select(o => o.ColumnName)
                 .ToList();
         }
@@ -1063,7 +1065,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return enabled
                 ? ColumnUtilities.SelectableOptions(this, GridColumns)
                 : ColumnUtilities.SelectableOptions(
-                    this, ColumnUtilities.GridDefinitions(ReferenceType)
+                    this, ColumnDefinitionHash.GridDefinitions()
                         .Where(o => !GridColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName));
         }
@@ -1073,7 +1075,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return enabled
                 ? ColumnUtilities.SelectableOptions(this, FilterColumns)
                 : ColumnUtilities.SelectableOptions(
-                    this, ColumnUtilities.FilterDefinitions(ReferenceType)
+                    this, ColumnDefinitionHash.FilterDefinitions()
                         .Where(o => !FilterColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName));
         }
@@ -1083,7 +1085,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return enabled
                 ? ColumnUtilities.SelectableOptions(this, EditorColumns)
                 : ColumnUtilities.SelectableOptions(
-                    this, ColumnUtilities.EditorDefinitions(ReferenceType)
+                    this, ColumnDefinitionHash.EditorDefinitions()
                         .Where(o => !EditorColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName));
         }
@@ -1094,7 +1096,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return enabled
                 ? ColumnUtilities.SelectableOptions(this, titleColumns)
                 : ColumnUtilities.SelectableOptions(
-                    this, ColumnUtilities.TitleDefinitions(ReferenceType)
+                    this, ColumnDefinitionHash.TitleDefinitions()
                         .Where(o => !titleColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName));
         }
@@ -1104,7 +1106,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return enabled
                 ? ColumnUtilities.SelectableOptions(this, LinkColumns)
                 : ColumnUtilities.SelectableOptions(
-                    this, ColumnUtilities.LinkDefinitions(ReferenceType)
+                    this, ColumnDefinitionHash.LinkDefinitions()
                         .Where(o => !LinkColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName));
         }
@@ -1114,7 +1116,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return enabled
                 ? ColumnUtilities.SelectableOptions(this, HistoryColumns)
                 : ColumnUtilities.SelectableOptions(
-                    this, ColumnUtilities.HistoryDefinitions(ReferenceType)
+                    this, ColumnDefinitionHash.HistoryDefinitions()
                         .Where(o => !HistoryColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName));
         }
@@ -1141,7 +1143,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return enabled
                 ? ColumnUtilities.SelectableOptions(this, monitorChangesColumns)
                 : ColumnUtilities.SelectableOptions(
-                    this, ColumnUtilities.MonitorChangesDefinitions(ReferenceType)
+                    this, ColumnDefinitionHash.MonitorChangesDefinitions()
                         .Where(o => !monitorChangesColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName));
         }

@@ -379,7 +379,8 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.PasswordNotChanged;
             }
-            else if (!userModel.GetByCredentials(userModel.LoginId, userModel.Password))
+            else if (!userModel.GetByCredentials(
+                userModel.LoginId, userModel.Password, Forms.Int("SelectedTenantId")))
             {
                 return Error.Types.IncorrectCurrentPassword;
             }

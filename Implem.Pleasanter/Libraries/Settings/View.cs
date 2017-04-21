@@ -743,6 +743,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Users_TenantId": orderBy.Users_TenantId(data.Value); break;
                         case "Users_UserId": orderBy.Users_UserId(data.Value); break;
                         case "Users_Ver": orderBy.Users_Ver(data.Value); break;
+                        case "Users_ParentId": orderBy.Users_ParentId(data.Value); break;
                         case "Users_LoginId": orderBy.Users_LoginId(data.Value); break;
                         case "Users_Disabled": orderBy.Users_Disabled(data.Value); break;
                         case "Users_UserCode": orderBy.Users_UserCode(data.Value); break;

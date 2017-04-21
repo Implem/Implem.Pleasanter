@@ -938,6 +938,7 @@ namespace Implem.DefinitionAccessor
                     case "GroupMembers_Admin": Column.GroupMembers_Admin = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_Admin, definitionRow, ColumnXls); break;
                     case "Users_TenantId": Column.Users_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_TenantId, definitionRow, ColumnXls); break;
                     case "Users_UserId": Column.Users_UserId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UserId, definitionRow, ColumnXls); break;
+                    case "Users_ParentId": Column.Users_ParentId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ParentId, definitionRow, ColumnXls); break;
                     case "Users_LoginId": Column.Users_LoginId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LoginId, definitionRow, ColumnXls); break;
                     case "Users_Disabled": Column.Users_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Disabled, definitionRow, ColumnXls); break;
                     case "Users_UserCode": Column.Users_UserCode = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UserCode, definitionRow, ColumnXls); break;
@@ -5259,6 +5260,7 @@ namespace Implem.DefinitionAccessor
         public string GroupMembers_Admin;
         public string Users_TenantId;
         public string Users_UserId;
+        public string Users_ParentId;
         public string Users_LoginId;
         public string Users_Disabled;
         public string Users_UserCode;
@@ -5929,6 +5931,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition GroupMembers_Admin = new ColumnDefinition();
         public ColumnDefinition Users_TenantId = new ColumnDefinition();
         public ColumnDefinition Users_UserId = new ColumnDefinition();
+        public ColumnDefinition Users_ParentId = new ColumnDefinition();
         public ColumnDefinition Users_LoginId = new ColumnDefinition();
         public ColumnDefinition Users_Disabled = new ColumnDefinition();
         public ColumnDefinition Users_UserCode = new ColumnDefinition();

@@ -7,6 +7,7 @@
         public string DefaultPassword;
         public bool RequireHttps;
         public bool ImportData;
+        public bool SelectTenant;
         public bool Demo;
         public int DemoUsagePeriod;
     }
