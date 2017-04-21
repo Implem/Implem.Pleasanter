@@ -673,7 +673,7 @@ namespace Implem.Pleasanter.Models
             if (error.Has())
             {
                 return error == Error.Types.UpdateConflicts
-                    ? Messages.ResponseUpdateConflicts(groupModel.Updator.FullName()).ToJson()
+                    ? Messages.ResponseUpdateConflicts(groupModel.Updator.Name).ToJson()
                     : new ResponseCollection().Message(error.Message()).ToJson();
             }
             else
@@ -977,8 +977,7 @@ namespace Implem.Pleasanter.Models
                                 searchText,
                                 Rds.Users_LoginId_WhereLike(),
                                 Rds.Users_UserId_WhereLike(),
-                                Rds.Users_FirstName_WhereLike(),
-                                Rds.Users_LastName_WhereLike()))
+                                Rds.Users_Name_WhereLike()))
                 })
                     .AsEnumerable()
                     .ForEach(dataRow =>
@@ -1010,7 +1009,7 @@ namespace Implem.Pleasanter.Models
             {
                 data.Add(
                     "User," + userId.ToString() + "," + admin,
-                    new ControlData(SiteInfo.UserFullName(userId) + manager));
+                    new ControlData(SiteInfo.UserName(userId) + manager));
             }
         }
     }

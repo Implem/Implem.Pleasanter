@@ -75,7 +75,7 @@ namespace Implem.Pleasanter.Libraries.Converts
         public static void SearchIndexes(
             this User self, Dictionary<string, int> searchIndexHash, int searchPriority)
         {
-            SearchIndexes(searchIndexHash, self.FullName(), searchPriority);
+            SearchIndexes(searchIndexHash, self.Name, searchPriority);
         }
 
         public static void SearchIndexes(
@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.Converts
         {
             SearchIndexes(
                 searchIndexHash,
-                self.Select(o => SiteInfo.UserFullName(o.Creator) + " " + o.Body).Join(" "),
+                self.Select(o => SiteInfo.UserName(o.Creator) + " " + o.Body).Join(" "),
                 searchPriority);
         }
 

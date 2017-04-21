@@ -31,5 +31,15 @@
         {
             return SplitNo(str, delimiter, 2);
         }
+
+        public static string Split_4th(this string str, char delimiter = ',')
+        {
+            return SplitNo(str, delimiter, 3);
+        }
+
+        public static string Split_5th(this string str, char delimiter = ',')
+        {
+            return SplitNo(str, delimiter, 4);
+        }
     }
 }

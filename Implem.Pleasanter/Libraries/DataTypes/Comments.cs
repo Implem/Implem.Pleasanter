@@ -81,7 +81,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return this?.Take(DisplayCount()).Select(comment =>
                 "{0} {1}  \n{2}".Params(
                     comment.CreatedTimeDisplayValue(),
-                    SiteInfo.UserFullName(comment.Creator),
+                    SiteInfo.UserName(comment.Creator),
                     comment.Body))
                         .Join("\n\n");
         }
@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return this.Select(o =>
                 new Time(o.CreatedTime).ToViewText() + " " +
-                SiteInfo.UserFullName(o.Creator) + "\n" +
+                SiteInfo.UserName(o.Creator) + "\n" +
                 o.Body).Join("\n\n");
         }
 

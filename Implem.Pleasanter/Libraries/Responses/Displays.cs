@@ -515,7 +515,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_UserId(params string[] data) { return Get("Users_UserId", data); }
         public static string Users_ParentId(params string[] data) { return Get("Users_ParentId", data); }
         public static string Users_LoginId(params string[] data) { return Get("Users_LoginId", data); }
-        public static string Users_Disabled(params string[] data) { return Get("Users_Disabled", data); }
+        public static string Users_Name(params string[] data) { return Get("Users_Name", data); }
         public static string Users_UserCode(params string[] data) { return Get("Users_UserCode", data); }
         public static string Users_Password(params string[] data) { return Get("Users_Password", data); }
         public static string Users_PasswordValidate(params string[] data) { return Get("Users_PasswordValidate", data); }
@@ -523,8 +523,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_RememberMe(params string[] data) { return Get("Users_RememberMe", data); }
         public static string Users_LastName(params string[] data) { return Get("Users_LastName", data); }
         public static string Users_FirstName(params string[] data) { return Get("Users_FirstName", data); }
-        public static string Users_FullName1(params string[] data) { return Get("Users_FullName1", data); }
-        public static string Users_FullName2(params string[] data) { return Get("Users_FullName2", data); }
         public static string Users_Birthday(params string[] data) { return Get("Users_Birthday", data); }
         public static string Users_Gender(params string[] data) { return Get("Users_Gender", data); }
         public static string Users_Language(params string[] data) { return Get("Users_Language", data); }
@@ -541,6 +539,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_NumberOfDenial(params string[] data) { return Get("Users_NumberOfDenial", data); }
         public static string Users_TenantManager(params string[] data) { return Get("Users_TenantManager", data); }
         public static string Users_ServiceManager(params string[] data) { return Get("Users_ServiceManager", data); }
+        public static string Users_Disabled(params string[] data) { return Get("Users_Disabled", data); }
         public static string Users_Developer(params string[] data) { return Get("Users_Developer", data); }
         public static string Users_OldPassword(params string[] data) { return Get("Users_OldPassword", data); }
         public static string Users_ChangedPassword(params string[] data) { return Get("Users_ChangedPassword", data); }
@@ -561,9 +560,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Permissions_UserId(params string[] data) { return Get("Permissions_UserId", data); }
         public static string Permissions_DeptName(params string[] data) { return Get("Permissions_DeptName", data); }
         public static string Permissions_GroupName(params string[] data) { return Get("Permissions_GroupName", data); }
-        public static string Permissions_FullName1(params string[] data) { return Get("Permissions_FullName1", data); }
-        public static string Permissions_FullName2(params string[] data) { return Get("Permissions_FullName2", data); }
-        public static string Permissions_FirstAndLastNameOrder(params string[] data) { return Get("Permissions_FirstAndLastNameOrder", data); }
+        public static string Permissions_Name(params string[] data) { return Get("Permissions_Name", data); }
         public static string Permissions_PermissionType(params string[] data) { return Get("Permissions_PermissionType", data); }
         public static string OutgoingMails_ReferenceType(params string[] data) { return Get("OutgoingMails_ReferenceType", data); }
         public static string OutgoingMails_ReferenceId(params string[] data) { return Get("OutgoingMails_ReferenceId", data); }

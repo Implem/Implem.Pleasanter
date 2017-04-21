@@ -54,8 +54,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             .TenantId(Parameters.Authentication.LdapTenantId)
                             .LoginId(loginId)
                             .UserCode(userCode)
-                            .FirstName(firstName)
-                            .LastName(lastName)
+                            .Name(lastName + " " + firstName)
                             .DeptId(sub: Rds.SelectDepts(
                                 column: Rds.DeptsColumn().DeptId(),
                                 where: Rds.DeptsWhere().DeptCode(deptCode))),

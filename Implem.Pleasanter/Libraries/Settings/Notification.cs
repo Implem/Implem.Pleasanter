@@ -163,7 +163,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .AsEnumerable()
                             .GroupBy(o => o["OwnerId"])
                             .Select(o => MailAddressUtilities.Get(
-                                SiteInfo.UserFullName(o.First()["OwnerId"].ToInt()),
+                                SiteInfo.UserName(o.First()["OwnerId"].ToInt()),
                                 o.First()["MailAddress"].ToString()))
                             .Join(";"));
         }

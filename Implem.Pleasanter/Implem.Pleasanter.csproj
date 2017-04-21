@@ -232,10 +232,13 @@
     <Compile Include="Libraries\DataTypes\TitleBody.cs" />
     <Compile Include="Libraries\DataTypes\User.cs" />
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
+    <Compile Include="Libraries\General\AssemblyVersion.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlAssemblyVersions.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlDropDownSearches.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
-    <Compile Include="Libraries\Initializers\StatesesInitializer.cs" />
+    <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
+    <Compile Include="Libraries\Migrators\StatusesMigrator.cs" />
+    <Compile Include="Libraries\Migrators\Statuses\Version00_037_010.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_010.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_009.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_008.cs" />
@@ -456,7 +459,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Content Include="App_Data\Displays\ManageSite.json" />
     <Content Include="App_Data\Displays\Read.json" />
-    <None Include="App_Data\Parameters\ExcludeColumns.json" />
     <Content Include="Global.asax" />
     <Content Include="Images\logo-corp.png" />
     <Content Include="Scripts\AggregationEvents.js" />
@@ -1031,6 +1033,7 @@
     <Content Include="App_Data\Displays\InternalServerError.json" />
     <Content Include="App_Data\Displays\Expired.json" />
     <Content Include="App_Data\Displays\ApplicationError.json" />
+    <Content Include="App_Data\Parameters\ExcludeColumns.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

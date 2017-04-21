@@ -491,8 +491,7 @@ namespace Implem.Pleasanter.Models
             return self.SqlWhereLike(searchText,
                 Rds.Users_UserId_WhereLike(),
                 Rds.Users_LoginId_WhereLike(),
-                Rds.Users_FirstName_WhereLike(),
-                Rds.Users_LastName_WhereLike(),
+                Rds.Users_Name_WhereLike(),
                 Rds.MailAddresses_MailAddress_WhereLike("MailAddresses"));
         }
 
@@ -506,20 +505,14 @@ namespace Implem.Pleasanter.Models
                 transactional: false,
                 statements: Rds.SelectUsers(
                     column: Rds.UsersColumn()
-                        .FirstName()
-                        .LastName()
-                        .FirstAndLastNameOrder()
+                        .Name()
                         .MailAddresses_MailAddress(),
                     join: join,
                     where: where,
                     distinct: true)).AsEnumerable()
                         .Select((o, i) => new {
-                            Name = Names.FullName(
-                            (Names.FirstAndLastNameOrders)o["FirstAndLastNameOrder"],
-                            "\"" + o["FirstName"].ToString() + " " + o["LastName"].ToString() +
+                            Name = "\"" + o["Name"].ToString() +
                                 "\" <" + o["MailAddress"].ToString() + ">",
-                            "\"" + o["LastName"].ToString() + " " + o["FirstName"].ToString() +
-                                "\" <" + o["MailAddress"].ToString() + ">"),
                             Index = i
                         })
                         .ToDictionary(

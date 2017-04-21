@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     return DisplayText(
                         Displays.Users(),
                         Id != 0
-                            ? SiteInfo.User(Id)?.FullName()
+                            ? SiteInfo.User(Id)?.Name
                             : null,
                         withType);
                 default:

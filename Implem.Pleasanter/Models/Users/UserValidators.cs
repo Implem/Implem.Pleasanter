@@ -61,8 +61,8 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Users_Disabled":
-                        if (!ss.GetColumn("Disabled").CanCreate)
+                    case "Users_Name":
+                        if (!ss.GetColumn("Name").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
@@ -163,6 +163,12 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
+                    case "Users_Disabled":
+                        if (!ss.GetColumn("Disabled").CanCreate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
                     case "Comments":
                         if (!ss.GetColumn("Comments").CanCreate)
                         {
@@ -196,9 +202,9 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Users_Disabled":
-                        if (userModel.Disabled_Updated &&
-                            !ss.GetColumn("Disabled").CanUpdate)
+                    case "Users_Name":
+                        if (userModel.Name_Updated &&
+                            !ss.GetColumn("Name").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
@@ -311,6 +317,13 @@ namespace Implem.Pleasanter.Models
                     case "Users_TenantManager":
                         if (userModel.TenantManager_Updated &&
                             !ss.GetColumn("TenantManager").CanUpdate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
+                    case "Users_Disabled":
+                        if (userModel.Disabled_Updated &&
+                            !ss.GetColumn("Disabled").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }

@@ -187,7 +187,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
                 case "[[Users]]":
                     SiteInfo.SiteUsers(siteId)
-                        .ToDictionary(o => o.ToString(), o => SiteInfo.UserFullName(o))
+                        .ToDictionary(o => o.ToString(), o => SiteInfo.UserName(o))
                         .Where(o => searchIndexes?.Any() != true ||
                             searchIndexes.All(p =>
                                 o.Key.Contains(p) ||
@@ -197,7 +197,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "[[Users*]]":
                     SiteInfo.UserHash
                         .Where(o => o.Value.TenantId == tenantId)
-                        .ToDictionary(o => o.Key.ToString(), o => o.Value.FullName())
+                        .ToDictionary(o => o.Key.ToString(), o => o.Value.Name)
                         .Where(o => searchIndexes?.Any() != true ||
                             searchIndexes.All(p =>
                                 o.Key.Contains(p) ||
@@ -299,7 +299,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (UserColumn)
             {
                 recordingData = SiteInfo.UserHash
-                    .Where(o => o.Value.FullName() == value)
+                    .Where(o => o.Value.Name == value)
                     .Select(o => o.Value.Id)
                     .FirstOrDefault(o => SiteInfo.SiteUsers(siteId).Any(p => p == o));
             }

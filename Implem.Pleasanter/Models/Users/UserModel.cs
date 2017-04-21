@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Models
         public int UserId = 0;
         public int ParentId = 0;
         public string LoginId = string.Empty;
-        public bool Disabled = false;
+        public string Name = string.Empty;
         public string UserCode = string.Empty;
         public string Password = string.Empty;
         public string PasswordValidate = string.Empty;
@@ -34,8 +34,6 @@ namespace Implem.Pleasanter.Models
         public bool RememberMe = false;
         public string LastName = string.Empty;
         public string FirstName = string.Empty;
-        public string FullName1 = string.Empty;
-        public string FullName2 = string.Empty;
         public Time Birthday = new Time();
         public string Gender = string.Empty;
         public string Language = "ja";
@@ -49,6 +47,7 @@ namespace Implem.Pleasanter.Models
         public int NumberOfDenial = 0;
         public bool TenantManager = false;
         public bool ServiceManager = false;
+        public bool Disabled = false;
         public bool Developer = false;
         public string OldPassword = string.Empty;
         public string ChangedPassword = string.Empty;
@@ -60,12 +59,12 @@ namespace Implem.Pleasanter.Models
         public string SessionGuid = string.Empty;
         public TimeZoneInfo TimeZoneInfo { get { return TimeZoneInfo.GetSystemTimeZones().FirstOrDefault(o => o.Id == TimeZone); } }
         public Dept Dept { get { return SiteInfo.Dept(DeptId); } }
-        public Title Title { get { return new Title(UserId, FullName()); } }
+        public Title Title { get { return new Title(UserId, Name); } }
         public int SavedTenantId = Sessions.TenantId();
         public int SavedUserId = 0;
         public int SavedParentId = 0;
         public string SavedLoginId = string.Empty;
-        public bool SavedDisabled = false;
+        public string SavedName = string.Empty;
         public string SavedUserCode = string.Empty;
         public string SavedPassword = string.Empty;
         public string SavedPasswordValidate = string.Empty;
@@ -73,8 +72,6 @@ namespace Implem.Pleasanter.Models
         public bool SavedRememberMe = false;
         public string SavedLastName = string.Empty;
         public string SavedFirstName = string.Empty;
-        public string SavedFullName1 = string.Empty;
-        public string SavedFullName2 = string.Empty;
         public DateTime SavedBirthday = 0.ToDateTime();
         public string SavedGender = string.Empty;
         public string SavedLanguage = "ja";
@@ -88,6 +85,7 @@ namespace Implem.Pleasanter.Models
         public int SavedNumberOfDenial = 0;
         public bool SavedTenantManager = false;
         public bool SavedServiceManager = false;
+        public bool SavedDisabled = false;
         public bool SavedDeveloper = false;
         public string SavedOldPassword = string.Empty;
         public string SavedChangedPassword = string.Empty;
@@ -101,7 +99,7 @@ namespace Implem.Pleasanter.Models
         public bool UserId_Updated { get { return UserId != SavedUserId; } }
         public bool ParentId_Updated { get { return ParentId != SavedParentId; } }
         public bool LoginId_Updated { get { return LoginId != SavedLoginId && LoginId != null; } }
-        public bool Disabled_Updated { get { return Disabled != SavedDisabled; } }
+        public bool Name_Updated { get { return Name != SavedName && Name != null; } }
         public bool UserCode_Updated { get { return UserCode != SavedUserCode && UserCode != null; } }
         public bool Password_Updated { get { return Password != SavedPassword && Password != null; } }
         public bool LastName_Updated { get { return LastName != SavedLastName && LastName != null; } }
@@ -119,6 +117,7 @@ namespace Implem.Pleasanter.Models
         public bool NumberOfDenial_Updated { get { return NumberOfDenial != SavedNumberOfDenial; } }
         public bool TenantManager_Updated { get { return TenantManager != SavedTenantManager; } }
         public bool ServiceManager_Updated { get { return ServiceManager != SavedServiceManager; } }
+        public bool Disabled_Updated { get { return Disabled != SavedDisabled; } }
         public bool Developer_Updated { get { return Developer != SavedDeveloper; } }
 
         public List<string> Session_MailAddresses()
@@ -339,7 +338,7 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Users_LoginId": LoginId = Forms.Data(controlId).ToString(); break;
-                    case "Users_Disabled": Disabled = Forms.Data(controlId).ToBool(); break;
+                    case "Users_Name": Name = Forms.Data(controlId).ToString(); break;
                     case "Users_UserCode": UserCode = Forms.Data(controlId).ToString(); break;
                     case "Users_Password": Password = Forms.Data(controlId).ToString().Sha512Cng(); break;
                     case "Users_PasswordValidate": PasswordValidate = Forms.Data(controlId).ToString().Sha512Cng(); break;
@@ -347,8 +346,6 @@ namespace Implem.Pleasanter.Models
                     case "Users_RememberMe": RememberMe = Forms.Data(controlId).ToBool(); break;
                     case "Users_LastName": LastName = Forms.Data(controlId).ToString(); break;
                     case "Users_FirstName": FirstName = Forms.Data(controlId).ToString(); break;
-                    case "Users_FullName1": FullName1 = Forms.Data(controlId).ToString(); break;
-                    case "Users_FullName2": FullName2 = Forms.Data(controlId).ToString(); break;
                     case "Users_Birthday": Birthday = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
                     case "Users_Gender": Gender = Forms.Data(controlId).ToString(); break;
                     case "Users_Language": Language = Forms.Data(controlId).ToString(); break;
@@ -361,6 +358,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_NumberOfLogins": NumberOfLogins = Forms.Data(controlId).ToInt(); break;
                     case "Users_NumberOfDenial": NumberOfDenial = Forms.Data(controlId).ToInt(); break;
                     case "Users_TenantManager": TenantManager = Forms.Data(controlId).ToBool(); break;
+                    case "Users_Disabled": Disabled = Forms.Data(controlId).ToBool(); break;
                     case "Users_OldPassword": OldPassword = Forms.Data(controlId).ToString().Sha512Cng(); break;
                     case "Users_ChangedPassword": ChangedPassword = Forms.Data(controlId).ToString().Sha512Cng(); break;
                     case "Users_ChangedPasswordValidator": ChangedPasswordValidator = Forms.Data(controlId).ToString().Sha512Cng(); break;
@@ -416,13 +414,11 @@ namespace Implem.Pleasanter.Models
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
                     case "ParentId": ParentId = dataRow[name].ToInt(); SavedParentId = ParentId; break;
                     case "LoginId": LoginId = dataRow[name].ToString(); SavedLoginId = LoginId; break;
-                    case "Disabled": Disabled = dataRow[name].ToBool(); SavedDisabled = Disabled; break;
+                    case "Name": Name = dataRow[name].ToString(); SavedName = Name; break;
                     case "UserCode": UserCode = dataRow[name].ToString(); SavedUserCode = UserCode; break;
                     case "Password": Password = dataRow[name].ToString(); SavedPassword = Password; break;
                     case "LastName": LastName = dataRow[name].ToString(); SavedLastName = LastName; break;
                     case "FirstName": FirstName = dataRow[name].ToString(); SavedFirstName = FirstName; break;
-                    case "FullName1": FullName1 = dataRow[name].ToString(); SavedFullName1 = FullName1; break;
-                    case "FullName2": FullName2 = dataRow[name].ToString(); SavedFullName2 = FullName2; break;
                     case "Birthday": Birthday = new Time(dataRow, "Birthday"); SavedBirthday = Birthday.Value; break;
                     case "Gender": Gender = dataRow[name].ToString(); SavedGender = Gender; break;
                     case "Language": Language = dataRow[name].ToString(); SavedLanguage = Language; break;
@@ -436,6 +432,7 @@ namespace Implem.Pleasanter.Models
                     case "NumberOfDenial": NumberOfDenial = dataRow[name].ToInt(); SavedNumberOfDenial = NumberOfDenial; break;
                     case "TenantManager": TenantManager = dataRow[name].ToBool(); SavedTenantManager = TenantManager; break;
                     case "ServiceManager": ServiceManager = dataRow[name].ToBool(); SavedServiceManager = ServiceManager; break;
+                    case "Disabled": Disabled = dataRow[name].ToBool(); SavedDisabled = Disabled; break;
                     case "Developer": Developer = dataRow[name].ToBool(); SavedDeveloper = Developer; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
@@ -506,9 +503,7 @@ namespace Implem.Pleasanter.Models
             {
                 Id = UserId,
                 DeptId = DeptId,
-                FirstName = FirstName,
-                LastName = LastName,
-                FirstAndLastNameOrders = FirstAndLastNameOrder,
+                Name = Name,
                 TenantManager = TenantManager,
                 ServiceManager = ServiceManager
             };
@@ -553,14 +548,6 @@ namespace Implem.Pleasanter.Models
         public bool Self()
         {
             return Sessions.UserId() == UserId;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public string FullName()
-        {
-            return Names.FullName(FirstAndLastNameOrder, FullName1, FullName2);
         }
 
         /// <summary>
@@ -866,7 +853,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string ToExport(Column column)
         {
-            return SiteInfo.UserFullName(UserId);
+            return SiteInfo.UserName(UserId);
         }
 
         /// <summary>

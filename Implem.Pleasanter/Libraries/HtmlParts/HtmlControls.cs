@@ -278,7 +278,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 optionCollection?.Add(
                     selectedValue,
                     column != null && column.UserColumn
-                        ? new ControlData(SiteInfo.UserFullName(userId))
+                        ? new ControlData(SiteInfo.UserName(userId))
                         : new ControlData("? " + selectedValue));
                 return optionCollection;
             }

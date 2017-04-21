@@ -40,20 +40,26 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static void Initialize()
         {
-            UpdateAssemblyVersion();
-            if (!MonitorInitialized())
-            {
-                var hash = MonitorHash();
-                Rds.ExecuteNonQuery(statements: MonitorHash()
-                    .Select(o => UpdateStatus(o.Key))
-                    .ToArray());
-            }
+            Rds.ExecuteNonQuery(statements: MonitorHash()
+                .Select(o => UpdateStatus(o.Key))
+                .ToArray());
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void UpdateAssemblyVersion()
+        public static string AssemblyVersion()
+        {
+            return Rds.ExecuteScalar_string(statements:
+                Rds.SelectStatuses(
+                    column: Rds.StatusesColumn().Value(),
+                    where: Rds.StatusesWhere().StatusId(Types.AssemblyVersion)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void UpdateAssemblyVersion(string version)
         {
             if (Rds.ExecuteScalar_int(statements: Rds.SelectStatuses(
                 column: Rds.StatusesColumn().StatusesCount(),
@@ -62,15 +68,15 @@ namespace Implem.Pleasanter.Models
                 Rds.ExecuteNonQuery(statements: Rds.InsertStatuses(
                     param: Rds.StatusesParam()
                         .StatusId(Types.AssemblyVersion)
-                        .Value(Environments.AssemblyVersion)));
+                        .Value(version)));
             }
             else
             {
                 Rds.ExecuteNonQuery(statements: Rds.UpdateStatuses(
-                    param: Rds.StatusesParam().Value(Environments.AssemblyVersion),
                     where: Rds.StatusesWhere()
                         .StatusId(Types.AssemblyVersion)
-                        .Value(Environments.AssemblyVersion, _operator: "<>")));
+                        .Value(version, _operator: "<>"),
+                    param: Rds.StatusesParam().Value(version)));
             }
         }
 

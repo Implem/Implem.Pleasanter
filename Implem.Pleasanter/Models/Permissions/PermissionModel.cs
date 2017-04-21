@@ -28,9 +28,7 @@ namespace Implem.Pleasanter.Models
         public int UserId = 0;
         public string DeptName = string.Empty;
         public string GroupName = string.Empty;
-        public string FullName1 = string.Empty;
-        public string FullName2 = string.Empty;
-        public Names.FirstAndLastNameOrders FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)1;
+        public string Name = string.Empty;
         public Permissions.Types PermissionType = (Permissions.Types)31;
         public long SavedReferenceId = 0;
         public int SavedDeptId = 0;
@@ -38,9 +36,7 @@ namespace Implem.Pleasanter.Models
         public int SavedUserId = 0;
         public string SavedDeptName = string.Empty;
         public string SavedGroupName = string.Empty;
-        public string SavedFullName1 = string.Empty;
-        public string SavedFullName2 = string.Empty;
-        public int SavedFirstAndLastNameOrder = 1;
+        public string SavedName = string.Empty;
         public long SavedPermissionType = 31;
         public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
         public bool DeptId_Updated { get { return DeptId != SavedDeptId; } }
@@ -118,9 +114,7 @@ namespace Implem.Pleasanter.Models
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
                     case "DeptName": DeptName = dataRow[name].ToString(); SavedDeptName = DeptName; break;
                     case "GroupName": GroupName = dataRow[name].ToString(); SavedGroupName = GroupName; break;
-                    case "FullName1": FullName1 = dataRow[name].ToString(); SavedFullName1 = FullName1; break;
-                    case "FullName2": FullName2 = dataRow[name].ToString(); SavedFullName2 = FullName2; break;
-                    case "FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)dataRow[name].ToInt(); SavedFirstAndLastNameOrder = FirstAndLastNameOrder.ToInt(); break;
+                    case "Name": Name = dataRow[name].ToString(); SavedName = Name; break;
                     case "PermissionType": PermissionType = (Permissions.Types)dataRow[name].ToLong(); SavedPermissionType = PermissionType.ToLong(); break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
@@ -158,9 +152,7 @@ namespace Implem.Pleasanter.Models
             {
                 UserId = userId;
                 var user = SiteInfo.User(UserId);
-                FirstAndLastNameOrder = user.FirstAndLastNameOrders;
-                FullName1 = user.FirstName + " " + user.LastName;
-                FullName2 = user.LastName + " " + user.FirstName;
+                Name = user.Name;
             }
             PermissionType = permissionType;
         }

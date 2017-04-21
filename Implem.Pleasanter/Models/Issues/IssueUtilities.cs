@@ -2652,7 +2652,7 @@ namespace Implem.Pleasanter.Models
             if (error.Has())
             {
                 return error == Error.Types.UpdateConflicts
-                    ? Messages.ResponseUpdateConflicts(issueModel.Updator.FullName()).ToJson()
+                    ? Messages.ResponseUpdateConflicts(issueModel.Updator.Name).ToJson()
                     : new ResponseCollection().Message(error.Message()).ToJson();
             }
             else

@@ -38,9 +38,7 @@ namespace Implem.Pleasanter.Libraries.Server
                             .TenantId()
                             .UserId()
                             .DeptId()
-                            .FirstName()
-                            .LastName()
-                            .FirstAndLastNameOrder()
+                            .Name()
                             .TenantManager()
                             .ServiceManager(),
                         _using: monitor.UsersUpdated || force)
@@ -161,11 +159,11 @@ namespace Implem.Pleasanter.Libraries.Server
             return new User(DataTypes.User.UserTypes.Anonymous.ToInt());
         }
 
-        public static string UserFullName(int userId, bool notSet = true)
+        public static string UserName(int userId, bool notSet = true)
         {
-            var fullName = User(userId).FullName();
-            return notSet || fullName != Displays.NotSet()
-                ? fullName
+            var name = User(userId).Name;
+            return notSet || name != Displays.NotSet()
+                ? name
                 : string.Empty;
         }
 

@@ -175,12 +175,8 @@ namespace Implem.Pleasanter.Models
                                 .TenantId(demoModel.TenantId)
                                 .LoginId(loginId)
                                 .Password(password)
-                                .LastName(demoDefinition.Title.Split_1st(' '))
-                                .FirstName(demoDefinition.Title.Split_2nd(' '))
+                                .Name(demoDefinition.Title)
                                 .DeptId(idHash.Get(demoDefinition.ParentId).ToInt())
-                                .FirstAndLastNameOrder(demoDefinition.ClassA == "1"
-                                    ? Names.FirstAndLastNameOrders.FirstNameIsFirst
-                                    : Names.FirstAndLastNameOrders.LastNameIsFirst)
                                 .Birthday(demoDefinition.ClassC.ToDateTime())
                                 .Gender(demoDefinition.ClassB)
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))

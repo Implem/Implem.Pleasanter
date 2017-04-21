@@ -15,9 +15,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public int TenantId;
         public int Id;
         public int DeptId;
-        public string FirstName;
-        public string LastName;
-        public Names.FirstAndLastNameOrders FirstAndLastNameOrders;
+        public string Name;
         public bool TenantManager;
         public bool ServiceManager;
 
@@ -41,9 +39,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .TenantId()
                             .UserId()
                             .DeptId()
-                            .FirstName()
-                            .LastName()
-                            .FirstAndLastNameOrder()
+                            .Name()
                             .TenantManager()
                             .ServiceManager(),
                         where: Rds.UsersWhere()
@@ -73,9 +69,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             TenantId = dataRow.Int("TenantId");
             Id = dataRow.Int("UserId");
             DeptId = dataRow.Int("DeptId");
-            FirstName = dataRow.String("FirstName");
-            LastName = dataRow.String("LastName");
-            FirstAndLastNameOrders = (Names.FirstAndLastNameOrders)dataRow["FirstAndLastNameOrder"];
+            Name = dataRow.String("Name");
             TenantManager = dataRow.Bool("TenantManager");
             ServiceManager = dataRow.Bool("ServiceManager");
         }
@@ -87,16 +81,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             DeptId = 0;
             TenantManager = false;
             ServiceManager = false;
-        }
-
-        public string FullName()
-        {
-            return Id != UserTypes.Anonymous.ToInt()
-                ? Names.FullName(
-                    FirstAndLastNameOrders,
-                    FirstName + " " + LastName,
-                    LastName + " " + FirstName)
-                : Displays.NotSet();
         }
 
         public string ToControl(SiteSettings ss, Column column)
@@ -120,13 +104,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string GridText(Column column)
         {
             return Id != UserTypes.Anonymous.ToInt()
-                ? SiteInfo.UserFullName(Id)
+                ? SiteInfo.UserName(Id)
                 : string.Empty;
         }
 
         public string ToExport(Column column)
         {
-            return FullName().ToString();
+            return Name.ToString();
         }
 
         public string ToNotice(
@@ -135,8 +119,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool updated,
             bool update)
         {
-            return FullName().ToNoticeLine(
-                SiteInfo.User(saved).FullName(),
+            return Name.ToNoticeLine(
+                SiteInfo.User(saved).Name,
                 column,
                 updated,
                 update);

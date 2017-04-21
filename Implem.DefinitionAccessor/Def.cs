@@ -940,7 +940,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_UserId": Column.Users_UserId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UserId, definitionRow, ColumnXls); break;
                     case "Users_ParentId": Column.Users_ParentId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ParentId, definitionRow, ColumnXls); break;
                     case "Users_LoginId": Column.Users_LoginId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LoginId, definitionRow, ColumnXls); break;
-                    case "Users_Disabled": Column.Users_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Disabled, definitionRow, ColumnXls); break;
+                    case "Users_Name": Column.Users_Name = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Name, definitionRow, ColumnXls); break;
                     case "Users_UserCode": Column.Users_UserCode = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UserCode, definitionRow, ColumnXls); break;
                     case "Users_Password": Column.Users_Password = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Password, definitionRow, ColumnXls); break;
                     case "Users_PasswordValidate": Column.Users_PasswordValidate = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_PasswordValidate, definitionRow, ColumnXls); break;
@@ -948,8 +948,6 @@ namespace Implem.DefinitionAccessor
                     case "Users_RememberMe": Column.Users_RememberMe = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_RememberMe, definitionRow, ColumnXls); break;
                     case "Users_LastName": Column.Users_LastName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LastName, definitionRow, ColumnXls); break;
                     case "Users_FirstName": Column.Users_FirstName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_FirstName, definitionRow, ColumnXls); break;
-                    case "Users_FullName1": Column.Users_FullName1 = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_FullName1, definitionRow, ColumnXls); break;
-                    case "Users_FullName2": Column.Users_FullName2 = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_FullName2, definitionRow, ColumnXls); break;
                     case "Users_Birthday": Column.Users_Birthday = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Birthday, definitionRow, ColumnXls); break;
                     case "Users_Gender": Column.Users_Gender = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Gender, definitionRow, ColumnXls); break;
                     case "Users_Language": Column.Users_Language = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Language, definitionRow, ColumnXls); break;
@@ -966,6 +964,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_NumberOfDenial": Column.Users_NumberOfDenial = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_NumberOfDenial, definitionRow, ColumnXls); break;
                     case "Users_TenantManager": Column.Users_TenantManager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_TenantManager, definitionRow, ColumnXls); break;
                     case "Users_ServiceManager": Column.Users_ServiceManager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ServiceManager, definitionRow, ColumnXls); break;
+                    case "Users_Disabled": Column.Users_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Disabled, definitionRow, ColumnXls); break;
                     case "Users_Developer": Column.Users_Developer = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Developer, definitionRow, ColumnXls); break;
                     case "Users_OldPassword": Column.Users_OldPassword = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_OldPassword, definitionRow, ColumnXls); break;
                     case "Users_ChangedPassword": Column.Users_ChangedPassword = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ChangedPassword, definitionRow, ColumnXls); break;
@@ -986,9 +985,7 @@ namespace Implem.DefinitionAccessor
                     case "Permissions_UserId": Column.Permissions_UserId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_UserId, definitionRow, ColumnXls); break;
                     case "Permissions_DeptName": Column.Permissions_DeptName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_DeptName, definitionRow, ColumnXls); break;
                     case "Permissions_GroupName": Column.Permissions_GroupName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_GroupName, definitionRow, ColumnXls); break;
-                    case "Permissions_FullName1": Column.Permissions_FullName1 = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_FullName1, definitionRow, ColumnXls); break;
-                    case "Permissions_FullName2": Column.Permissions_FullName2 = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_FullName2, definitionRow, ColumnXls); break;
-                    case "Permissions_FirstAndLastNameOrder": Column.Permissions_FirstAndLastNameOrder = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_FirstAndLastNameOrder, definitionRow, ColumnXls); break;
+                    case "Permissions_Name": Column.Permissions_Name = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_Name, definitionRow, ColumnXls); break;
                     case "Permissions_PermissionType": Column.Permissions_PermissionType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_PermissionType, definitionRow, ColumnXls); break;
                     case "OutgoingMails_ReferenceType": Column.OutgoingMails_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_ReferenceType, definitionRow, ColumnXls); break;
                     case "OutgoingMails_ReferenceId": Column.OutgoingMails_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_ReferenceId, definitionRow, ColumnXls); break;
@@ -5262,7 +5259,7 @@ namespace Implem.DefinitionAccessor
         public string Users_UserId;
         public string Users_ParentId;
         public string Users_LoginId;
-        public string Users_Disabled;
+        public string Users_Name;
         public string Users_UserCode;
         public string Users_Password;
         public string Users_PasswordValidate;
@@ -5270,8 +5267,6 @@ namespace Implem.DefinitionAccessor
         public string Users_RememberMe;
         public string Users_LastName;
         public string Users_FirstName;
-        public string Users_FullName1;
-        public string Users_FullName2;
         public string Users_Birthday;
         public string Users_Gender;
         public string Users_Language;
@@ -5288,6 +5283,7 @@ namespace Implem.DefinitionAccessor
         public string Users_NumberOfDenial;
         public string Users_TenantManager;
         public string Users_ServiceManager;
+        public string Users_Disabled;
         public string Users_Developer;
         public string Users_OldPassword;
         public string Users_ChangedPassword;
@@ -5308,9 +5304,7 @@ namespace Implem.DefinitionAccessor
         public string Permissions_UserId;
         public string Permissions_DeptName;
         public string Permissions_GroupName;
-        public string Permissions_FullName1;
-        public string Permissions_FullName2;
-        public string Permissions_FirstAndLastNameOrder;
+        public string Permissions_Name;
         public string Permissions_PermissionType;
         public string OutgoingMails_ReferenceType;
         public string OutgoingMails_ReferenceId;
@@ -5933,7 +5927,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_UserId = new ColumnDefinition();
         public ColumnDefinition Users_ParentId = new ColumnDefinition();
         public ColumnDefinition Users_LoginId = new ColumnDefinition();
-        public ColumnDefinition Users_Disabled = new ColumnDefinition();
+        public ColumnDefinition Users_Name = new ColumnDefinition();
         public ColumnDefinition Users_UserCode = new ColumnDefinition();
         public ColumnDefinition Users_Password = new ColumnDefinition();
         public ColumnDefinition Users_PasswordValidate = new ColumnDefinition();
@@ -5941,8 +5935,6 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_RememberMe = new ColumnDefinition();
         public ColumnDefinition Users_LastName = new ColumnDefinition();
         public ColumnDefinition Users_FirstName = new ColumnDefinition();
-        public ColumnDefinition Users_FullName1 = new ColumnDefinition();
-        public ColumnDefinition Users_FullName2 = new ColumnDefinition();
         public ColumnDefinition Users_Birthday = new ColumnDefinition();
         public ColumnDefinition Users_Gender = new ColumnDefinition();
         public ColumnDefinition Users_Language = new ColumnDefinition();
@@ -5959,6 +5951,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_NumberOfDenial = new ColumnDefinition();
         public ColumnDefinition Users_TenantManager = new ColumnDefinition();
         public ColumnDefinition Users_ServiceManager = new ColumnDefinition();
+        public ColumnDefinition Users_Disabled = new ColumnDefinition();
         public ColumnDefinition Users_Developer = new ColumnDefinition();
         public ColumnDefinition Users_OldPassword = new ColumnDefinition();
         public ColumnDefinition Users_ChangedPassword = new ColumnDefinition();
@@ -5979,9 +5972,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Permissions_UserId = new ColumnDefinition();
         public ColumnDefinition Permissions_DeptName = new ColumnDefinition();
         public ColumnDefinition Permissions_GroupName = new ColumnDefinition();
-        public ColumnDefinition Permissions_FullName1 = new ColumnDefinition();
-        public ColumnDefinition Permissions_FullName2 = new ColumnDefinition();
-        public ColumnDefinition Permissions_FirstAndLastNameOrder = new ColumnDefinition();
+        public ColumnDefinition Permissions_Name = new ColumnDefinition();
         public ColumnDefinition Permissions_PermissionType = new ColumnDefinition();
         public ColumnDefinition OutgoingMails_ReferenceType = new ColumnDefinition();
         public ColumnDefinition OutgoingMails_ReferenceId = new ColumnDefinition();

@@ -2561,7 +2561,7 @@ namespace Implem.Pleasanter.Models
             if (error.Has())
             {
                 return error == Error.Types.UpdateConflicts
-                    ? Messages.ResponseUpdateConflicts(resultModel.Updator.FullName()).ToJson()
+                    ? Messages.ResponseUpdateConflicts(resultModel.Updator.Name).ToJson()
                     : new ResponseCollection().Message(error.Message()).ToJson();
             }
             else

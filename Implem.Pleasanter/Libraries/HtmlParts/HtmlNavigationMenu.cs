@@ -82,7 +82,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: new HtmlAttributes().DataId("AccountMenu"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-person")
-                                    .Text(text: SiteInfo.UserFullName((
+                                    .Text(text: SiteInfo.UserName((
                                         Sessions.UserId()))))
                             .AccountMenu()));
 

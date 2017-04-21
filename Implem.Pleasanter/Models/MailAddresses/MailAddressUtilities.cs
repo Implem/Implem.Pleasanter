@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Models
                         .OwnerType("Users"),
                     orderBy: Rds.MailAddressesOrderBy().MailAddressId()));
             return withFullName
-                ? Get(Sessions.User().FullName(), mailAddress)
+                ? Get(Sessions.User().Name, mailAddress)
                 : mailAddress;
         }
 

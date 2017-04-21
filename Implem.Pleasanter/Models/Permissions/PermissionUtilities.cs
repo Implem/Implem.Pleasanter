@@ -283,8 +283,7 @@ namespace Implem.Pleasanter.Models
                             Rds.Users_UserId_WhereLike(),
                             Rds.Users_LoginId_WhereLike(),
                             Rds.Users_UserCode_WhereLike(),
-                            Rds.Users_FirstName_WhereLike(),
-                            Rds.Users_LastName_WhereLike(),
+                            Rds.Users_Name_WhereLike(),
                             Rds.Users_DeptId_WhereLike())))
                                 .AsEnumerable()
                                 .ForEach(dataRow =>

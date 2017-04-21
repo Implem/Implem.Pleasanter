@@ -8,7 +8,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder HtmlUser(this HtmlBuilder hb, int id)
         {
             return hb.P(css: "user", action: () => hb
-                .Icon(iconCss: "ui-icon-person", text: SiteInfo.UserFullName(id)));
+                .Icon(iconCss: "ui-icon-person", text: SiteInfo.UserName(id)));
         }
 
         public static HtmlBuilder HtmlDept(this HtmlBuilder hb, int id)

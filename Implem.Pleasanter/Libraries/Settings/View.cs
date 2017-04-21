@@ -745,13 +745,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Users_Ver": orderBy.Users_Ver(data.Value); break;
                         case "Users_ParentId": orderBy.Users_ParentId(data.Value); break;
                         case "Users_LoginId": orderBy.Users_LoginId(data.Value); break;
-                        case "Users_Disabled": orderBy.Users_Disabled(data.Value); break;
+                        case "Users_Name": orderBy.Users_Name(data.Value); break;
                         case "Users_UserCode": orderBy.Users_UserCode(data.Value); break;
                         case "Users_Password": orderBy.Users_Password(data.Value); break;
                         case "Users_LastName": orderBy.Users_LastName(data.Value); break;
                         case "Users_FirstName": orderBy.Users_FirstName(data.Value); break;
-                        case "Users_FullName1": orderBy.Users_FullName1(data.Value); break;
-                        case "Users_FullName2": orderBy.Users_FullName2(data.Value); break;
                         case "Users_Birthday": orderBy.Users_Birthday(data.Value); break;
                         case "Users_Gender": orderBy.Users_Gender(data.Value); break;
                         case "Users_Language": orderBy.Users_Language(data.Value); break;
@@ -765,6 +763,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Users_NumberOfDenial": orderBy.Users_NumberOfDenial(data.Value); break;
                         case "Users_TenantManager": orderBy.Users_TenantManager(data.Value); break;
                         case "Users_ServiceManager": orderBy.Users_ServiceManager(data.Value); break;
+                        case "Users_Disabled": orderBy.Users_Disabled(data.Value); break;
                         case "Users_Developer": orderBy.Users_Developer(data.Value); break;
                         case "Users_Comments": orderBy.Users_Comments(data.Value); break;
                         case "Users_Creator": orderBy.Users_Creator(data.Value); break;

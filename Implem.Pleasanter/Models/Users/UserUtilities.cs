@@ -317,17 +317,9 @@ namespace Implem.Pleasanter.Models
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.LoginId)
                             : hb.Td(column: column, value: string.Empty);
-                    case "Disabled":
+                    case "Name":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.Disabled)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "LastName":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.LastName)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "FirstName":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.FirstName)
+                            ? hb.Td(column: column, value: userModel.Name)
                             : hb.Td(column: column, value: string.Empty);
                     case "Birthday":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
@@ -369,6 +361,10 @@ namespace Implem.Pleasanter.Models
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.NumberOfDenial)
                             : hb.Td(column: column, value: string.Empty);
+                    case "Disabled":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.Disabled)
+                            : hb.Td(column: column, value: string.Empty);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.Comments)
@@ -405,9 +401,7 @@ namespace Implem.Pleasanter.Models
                     case "UserId": value = userModel.UserId.GridText(column: column); break;
                     case "Ver": value = userModel.Ver.GridText(column: column); break;
                     case "LoginId": value = userModel.LoginId.GridText(column: column); break;
-                    case "Disabled": value = userModel.Disabled.GridText(column: column); break;
-                    case "LastName": value = userModel.LastName.GridText(column: column); break;
-                    case "FirstName": value = userModel.FirstName.GridText(column: column); break;
+                    case "Name": value = userModel.Name.GridText(column: column); break;
                     case "Birthday": value = userModel.Birthday.GridText(column: column); break;
                     case "Gender": value = userModel.Gender.GridText(column: column); break;
                     case "Language": value = userModel.Language.GridText(column: column); break;
@@ -418,6 +412,7 @@ namespace Implem.Pleasanter.Models
                     case "PasswordChangeTime": value = userModel.PasswordChangeTime.GridText(column: column); break;
                     case "NumberOfLogins": value = userModel.NumberOfLogins.GridText(column: column); break;
                     case "NumberOfDenial": value = userModel.NumberOfDenial.GridText(column: column); break;
+                    case "Disabled": value = userModel.Disabled.GridText(column: column); break;
                     case "Comments": value = userModel.Comments.GridText(column: column); break;
                     case "Creator": value = userModel.Creator.GridText(column: column); break;
                     case "Updator": value = userModel.Updator.GridText(column: column); break;
@@ -616,12 +611,12 @@ namespace Implem.Pleasanter.Models
                                 userModel.LoginId.ToControl(ss, column),
                                 column.ColumnPermissionType());
                             break;
-                        case "Disabled":
+                        case "Name":
                             hb.Field(
                                 ss,
                                 column,
                                 userModel.MethodType,
-                                userModel.Disabled.ToControl(ss, column),
+                                userModel.Name.ToControl(ss, column),
                                 column.ColumnPermissionType());
                             break;
                         case "Password":
@@ -654,22 +649,6 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 userModel.MethodType,
                                 userModel.RememberMe.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "LastName":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.LastName.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "FirstName":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.FirstName.ToControl(ss, column),
                                 column.ColumnPermissionType());
                             break;
                         case "Birthday":
@@ -766,6 +745,14 @@ namespace Implem.Pleasanter.Models
                                 column,
                                 userModel.MethodType,
                                 userModel.TenantManager.ToControl(ss, column),
+                                column.ColumnPermissionType());
+                            break;
+                        case "Disabled":
+                            hb.Field(
+                                ss,
+                                column,
+                                userModel.MethodType,
+                                userModel.Disabled.ToControl(ss, column),
                                 column.ColumnPermissionType());
                             break;
                         case "OldPassword":
@@ -971,7 +958,7 @@ namespace Implem.Pleasanter.Models
             if (error.Has())
             {
                 return error == Error.Types.UpdateConflicts
-                    ? Messages.ResponseUpdateConflicts(userModel.Updator.FullName()).ToJson()
+                    ? Messages.ResponseUpdateConflicts(userModel.Updator.Name).ToJson()
                     : new ResponseCollection().Message(error.Message()).ToJson();
             }
             else

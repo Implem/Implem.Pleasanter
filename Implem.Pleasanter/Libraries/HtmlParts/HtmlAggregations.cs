@@ -160,7 +160,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (groupBy.UserColumn)
             {
-                return SiteInfo.UserFullName(selectedValue.ToInt());
+                return SiteInfo.UserName(selectedValue.ToInt());
             }
             else if (groupBy.HasChoices())
             {
