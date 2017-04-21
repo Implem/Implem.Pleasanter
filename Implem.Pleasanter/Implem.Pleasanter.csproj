@@ -198,6 +198,7 @@
     <Compile Include="Controllers\OutgoingMailsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VersionsController.cs" />
+    <Compile Include="Filters\CheckUserAttributes.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
     <Compile Include="Filters\CheckContractAttribute.cs" />
     <Compile Include="Filters\RefleshSiteInfoAttribute.cs" />
