@@ -402,7 +402,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var res = new WikisResponseCollection(wikiModel);
-                res.ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(wikiId));
+                res.ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(ss.SiteId));
                 return ResponseByUpdate(res, ss, wikiModel)
                     .PrependComment(wikiModel.Comments, wikiModel.VerType)
                     .ToJson();

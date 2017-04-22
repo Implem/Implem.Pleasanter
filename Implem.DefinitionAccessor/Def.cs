@@ -484,7 +484,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_UpdateItems": Code.Model_Utilities_UpdateItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateItems, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateItems_Sites": Code.Model_Utilities_UpdateItems_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateItems_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_OnUpdated_Issues": Code.Model_Utilities_OnUpdated_Issues = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnUpdated_Issues, definitionRow, CodeXls); break;
-                    case "Model_Utilities_OnUpdated_Breadcrumb": Code.Model_Utilities_OnUpdated_Breadcrumb = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnUpdated_Breadcrumb, definitionRow, CodeXls); break;
+                    case "Model_Utilities_OnUpdated_Breadcrumb_Sites": Code.Model_Utilities_OnUpdated_Breadcrumb_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnUpdated_Breadcrumb_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_OnUpdated_Breadcrumb_Wikis": Code.Model_Utilities_OnUpdated_Breadcrumb_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnUpdated_Breadcrumb_Wikis, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseByUpdate_FieldResponse": Code.Model_Utilities_ResponseByUpdate_FieldResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseByUpdate_FieldResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_Copy": Code.Model_Utilities_Copy = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Copy, definitionRow, CodeXls); break;
                     case "Model_Utilities_CopyResponse": Code.Model_Utilities_CopyResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CopyResponse, definitionRow, CodeXls); break;
@@ -4088,7 +4089,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_UpdateItems;
         public string Model_Utilities_UpdateItems_Sites;
         public string Model_Utilities_OnUpdated_Issues;
-        public string Model_Utilities_OnUpdated_Breadcrumb;
+        public string Model_Utilities_OnUpdated_Breadcrumb_Sites;
+        public string Model_Utilities_OnUpdated_Breadcrumb_Wikis;
         public string Model_Utilities_ResponseByUpdate_FieldResponse;
         public string Model_Utilities_Copy;
         public string Model_Utilities_CopyResponse;
@@ -4526,7 +4528,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_UpdateItems = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateItems_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_OnUpdated_Issues = new CodeDefinition();
-        public CodeDefinition Model_Utilities_OnUpdated_Breadcrumb = new CodeDefinition();
+        public CodeDefinition Model_Utilities_OnUpdated_Breadcrumb_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_OnUpdated_Breadcrumb_Wikis = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseByUpdate_FieldResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_Copy = new CodeDefinition();
         public CodeDefinition Model_Utilities_CopyResponse = new CodeDefinition();
