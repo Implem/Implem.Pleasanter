@@ -1371,6 +1371,7 @@ namespace Implem.Pleasanter.Models
                                     .Field(
                                         ss: ss,
                                         column: ss.GetColumn("LoginId"),
+                                        fieldCss: "field-wide",
                                         controlCss: " always-send focus")
                                     .Field(
                                         ss: ss,
