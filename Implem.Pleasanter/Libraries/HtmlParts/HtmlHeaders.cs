@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
@@ -41,10 +42,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (Sessions.LoggedIn() && Parameters.Service.ShowTenantTitle)
             {
-                return Rds.ExecuteScalar_string(statements:
+                var title = Rds.ExecuteScalar_string(statements:
                     Rds.SelectTenants(
                         column: Rds.TenantsColumn().Title(),
                         where: Rds.TenantsWhere().TenantId(Sessions.TenantId())));
+                return !title.IsNullOrEmpty()
+                    ? title
+                    : Displays.ProductName();
             }
             else
             {
