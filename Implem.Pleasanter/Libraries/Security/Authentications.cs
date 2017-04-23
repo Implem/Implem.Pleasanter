@@ -1,5 +1,6 @@
 ﻿using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Web;
 using System.Web.Security;
 namespace Implem.Pleasanter.Libraries.Security
 {
@@ -16,6 +17,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public static void SignOut()
         {
             FormsAuthentication.SignOut();
+            HttpContext.Current.Session.Abandon();
         }
     }
 }
