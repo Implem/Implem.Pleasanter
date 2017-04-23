@@ -1829,16 +1829,6 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "SearchPermissionElements":
-                    case "OpenPermissionsDialog":
-                    case "AddPermissions":
-                    case "DeletePermissions":
-                    case "InheritPermission":
-                        if (!ss.CanManagePermission())
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
-                        break;
                     case "Comments":
                         if (!ss.GetColumn("Comments").CanUpdate)
                         {
