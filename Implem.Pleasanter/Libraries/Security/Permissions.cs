@@ -139,6 +139,11 @@ namespace Implem.Pleasanter.Libraries.Security
                 : Types.NotSet;
         }
 
+        public static bool CanRead(long siteId)
+        {
+            return ((Get(siteId) & Types.Read) == Types.Read);
+        }
+
         public static long InheritPermission(long id)
         {
             return Rds.ExecuteScalar_long(statements:

@@ -118,11 +118,22 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
+                    case "InheritPermission":
+                        if (!ss.CanManagePermission())
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        var inheritPermission = Forms.Long(controlId);
+                        if (ss.SiteId != inheritPermission &&
+                            !Permissions.CanRead(inheritPermission))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
                     case "SearchPermissionElements":
                     case "OpenPermissionsDialog":
                     case "AddPermissions":
                     case "DeletePermissions":
-                    case "InheritPermission":
                         if (!ss.CanManagePermission())
                         {
                             return Error.Types.HasNotPermission;
