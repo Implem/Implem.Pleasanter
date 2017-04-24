@@ -155,5 +155,47 @@ namespace Implem.Pleasanter.Models
                 }
             });
         }
+
+        public bool InTenant()
+        {
+            var tenantId = Sessions.TenantId();
+            var depts = this.Where(o => o.DeptId > 0).Select(o => o.DeptId);
+            var groups = this.Where(o => o.GroupId > 0).Select(o => o.GroupId);
+            var users = this.Where(o => o.UserId > 0).Select(o => o.UserId);
+            var dataSet = Rds.ExecuteDataSet(statements: new SqlStatement[]
+            {
+                Rds.SelectDepts(
+                    dataTableName: "Depts",
+                    column: Rds.DeptsColumn().DeptId(),
+                    where: Rds.DeptsWhere()
+                        .TenantId(tenantId)
+                        .DeptId_In(depts)),
+                Rds.SelectGroups(
+                    dataTableName: "Groups",
+                    column: Rds.GroupsColumn().GroupId(),
+                    where: Rds.GroupsWhere()
+                        .TenantId(tenantId)
+                        .GroupId_In(groups)),
+                Rds.SelectUsers(
+                    dataTableName: "Users",
+                    column: Rds.UsersColumn().UserId(),
+                    where: Rds.UsersWhere()
+                        .TenantId(tenantId)
+                        .UserId_In(users))
+            });
+            var deptRecords = dataSet.Tables["Depts"]
+                .AsEnumerable()
+                .Select(p => p["DeptId"].ToInt());
+            var groupRecords = dataSet.Tables["Groups"]
+                .AsEnumerable()
+                .Select(p => p["GroupId"].ToInt());
+            var userRecords = dataSet.Tables["Users"]
+                .AsEnumerable()
+                .Select(p => p["UserId"].ToInt());
+            return
+                depts.All(o => deptRecords.Contains(o)) ||
+                groups.All(o => groupRecords.Contains(o)) ||
+                users.All(o => userRecords.Contains(o));
+        }
     }
 }

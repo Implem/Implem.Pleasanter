@@ -130,6 +130,17 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
+                    case "CurrentPermissionsAll":
+                        if (!ss.CanManagePermission())
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        if (!new PermissionCollection(
+                            ss.SiteId, Forms.List("CurrentPermissionsAll")).InTenant())
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
                     case "SearchPermissionElements":
                     case "OpenPermissionsDialog":
                     case "AddPermissions":
