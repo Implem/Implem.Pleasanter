@@ -156,6 +156,9 @@ namespace Implem.Pleasanter.Models
             });
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public bool InTenant()
         {
             var tenantId = Sessions.TenantId();
