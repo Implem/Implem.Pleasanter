@@ -70,7 +70,7 @@ namespace Implem.Libraries.Classes
         [Conditional("DEBUG")]
         public void Record(string name)
         {
-            if (this.ContainsKey(name))
+            if (ContainsKey(name))
             {
                 if (this[name].Running)
                 {
@@ -85,7 +85,7 @@ namespace Implem.Libraries.Classes
             {
                 var performance = new Performance();
                 performance.Start();
-                this.Add(name, performance);
+                Add(name, performance);
             }
         }
 
