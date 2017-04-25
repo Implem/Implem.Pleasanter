@@ -156,6 +156,28 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class LoginKeysResponseCollection : ResponseCollection
+    {
+        public LoginKeyModel LoginKeyModel;
+
+        public LoginKeysResponseCollection(LoginKeyModel loginKeyModel)
+        {
+            LoginKeyModel = loginKeyModel;
+        }
+
+        public LoginKeysResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public LoginKeysResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class MailAddressesResponseCollection : ResponseCollection
     {
         public MailAddressModel MailAddressModel;
@@ -694,6 +716,26 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static UsersResponseCollection Timestamp(this UsersResponseCollection res, string value) { return res.Val("#Users_Timestamp", value); }
         public static UsersResponseCollection Timestamp_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_Timestamp", res.UserModel.Timestamp.ToResponse()); }
         public static UsersResponseCollection Timestamp_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_Timestamp", value); }
+        public static LoginKeysResponseCollection Ver(this LoginKeysResponseCollection res) { return res.Val("#LoginKeys_Ver", res.LoginKeyModel.Ver.ToResponse()); }
+        public static LoginKeysResponseCollection Ver(this LoginKeysResponseCollection res, string value) { return res.Val("#LoginKeys_Ver", value); }
+        public static LoginKeysResponseCollection Ver_FormData(this LoginKeysResponseCollection res) { return res.ValAndFormData("#LoginKeys_Ver", res.LoginKeyModel.Ver.ToResponse()); }
+        public static LoginKeysResponseCollection Ver_FormData(this LoginKeysResponseCollection res, string value) { return res.ValAndFormData("#LoginKeys_Ver", value); }
+        public static LoginKeysResponseCollection Comments(this LoginKeysResponseCollection res) { return res.Val("#LoginKeys_Comments", res.LoginKeyModel.Comments.ToResponse()); }
+        public static LoginKeysResponseCollection Comments(this LoginKeysResponseCollection res, string value) { return res.Val("#LoginKeys_Comments", value); }
+        public static LoginKeysResponseCollection Comments_FormData(this LoginKeysResponseCollection res) { return res.ValAndFormData("#LoginKeys_Comments", res.LoginKeyModel.Comments.ToResponse()); }
+        public static LoginKeysResponseCollection Comments_FormData(this LoginKeysResponseCollection res, string value) { return res.ValAndFormData("#LoginKeys_Comments", value); }
+        public static LoginKeysResponseCollection CreatedTime(this LoginKeysResponseCollection res) { return res.Val("#LoginKeys_CreatedTime", res.LoginKeyModel.CreatedTime.ToResponse()); }
+        public static LoginKeysResponseCollection CreatedTime(this LoginKeysResponseCollection res, string value) { return res.Val("#LoginKeys_CreatedTime", value); }
+        public static LoginKeysResponseCollection CreatedTime_FormData(this LoginKeysResponseCollection res) { return res.ValAndFormData("#LoginKeys_CreatedTime", res.LoginKeyModel.CreatedTime.ToResponse()); }
+        public static LoginKeysResponseCollection CreatedTime_FormData(this LoginKeysResponseCollection res, string value) { return res.ValAndFormData("#LoginKeys_CreatedTime", value); }
+        public static LoginKeysResponseCollection UpdatedTime(this LoginKeysResponseCollection res) { return res.Val("#LoginKeys_UpdatedTime", res.LoginKeyModel.UpdatedTime.ToResponse()); }
+        public static LoginKeysResponseCollection UpdatedTime(this LoginKeysResponseCollection res, string value) { return res.Val("#LoginKeys_UpdatedTime", value); }
+        public static LoginKeysResponseCollection UpdatedTime_FormData(this LoginKeysResponseCollection res) { return res.ValAndFormData("#LoginKeys_UpdatedTime", res.LoginKeyModel.UpdatedTime.ToResponse()); }
+        public static LoginKeysResponseCollection UpdatedTime_FormData(this LoginKeysResponseCollection res, string value) { return res.ValAndFormData("#LoginKeys_UpdatedTime", value); }
+        public static LoginKeysResponseCollection Timestamp(this LoginKeysResponseCollection res) { return res.Val("#LoginKeys_Timestamp", res.LoginKeyModel.Timestamp.ToResponse()); }
+        public static LoginKeysResponseCollection Timestamp(this LoginKeysResponseCollection res, string value) { return res.Val("#LoginKeys_Timestamp", value); }
+        public static LoginKeysResponseCollection Timestamp_FormData(this LoginKeysResponseCollection res) { return res.ValAndFormData("#LoginKeys_Timestamp", res.LoginKeyModel.Timestamp.ToResponse()); }
+        public static LoginKeysResponseCollection Timestamp_FormData(this LoginKeysResponseCollection res, string value) { return res.ValAndFormData("#LoginKeys_Timestamp", value); }
         public static MailAddressesResponseCollection OwnerId(this MailAddressesResponseCollection res) { return res.Val("#MailAddresses_OwnerId", res.MailAddressModel.OwnerId.ToResponse()); }
         public static MailAddressesResponseCollection OwnerId(this MailAddressesResponseCollection res, string value) { return res.Val("#MailAddresses_OwnerId", value); }
         public static MailAddressesResponseCollection OwnerId_FormData(this MailAddressesResponseCollection res) { return res.ValAndFormData("#MailAddresses_OwnerId", res.MailAddressModel.OwnerId.ToResponse()); }

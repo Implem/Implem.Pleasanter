@@ -513,8 +513,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string GroupMembers_Admin(params string[] data) { return Get("GroupMembers_Admin", data); }
         public static string Users_TenantId(params string[] data) { return Get("Users_TenantId", data); }
         public static string Users_UserId(params string[] data) { return Get("Users_UserId", data); }
-        public static string Users_ParentId(params string[] data) { return Get("Users_ParentId", data); }
         public static string Users_LoginId(params string[] data) { return Get("Users_LoginId", data); }
+        public static string Users_GlobalId(params string[] data) { return Get("Users_GlobalId", data); }
         public static string Users_Name(params string[] data) { return Get("Users_Name", data); }
         public static string Users_UserCode(params string[] data) { return Get("Users_UserCode", data); }
         public static string Users_Password(params string[] data) { return Get("Users_Password", data); }
@@ -549,6 +549,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_MailAddresses(params string[] data) { return Get("Users_MailAddresses", data); }
         public static string Users_DemoMailAddress(params string[] data) { return Get("Users_DemoMailAddress", data); }
         public static string Users_SessionGuid(params string[] data) { return Get("Users_SessionGuid", data); }
+        public static string LoginKeys_LoginId(params string[] data) { return Get("LoginKeys_LoginId", data); }
+        public static string LoginKeys_Key(params string[] data) { return Get("LoginKeys_Key", data); }
+        public static string LoginKeys_TenantNames(params string[] data) { return Get("LoginKeys_TenantNames", data); }
+        public static string LoginKeys_TenantId(params string[] data) { return Get("LoginKeys_TenantId", data); }
+        public static string LoginKeys_UserId(params string[] data) { return Get("LoginKeys_UserId", data); }
         public static string MailAddresses_OwnerId(params string[] data) { return Get("MailAddresses_OwnerId", data); }
         public static string MailAddresses_OwnerType(params string[] data) { return Get("MailAddresses_OwnerType", data); }
         public static string MailAddresses_MailAddressId(params string[] data) { return Get("MailAddresses_MailAddressId", data); }
@@ -966,6 +971,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_UpdatedTime(params string[] data) { return Get("Users_UpdatedTime", data); }
         public static string Users_VerUp(params string[] data) { return Get("Users_VerUp", data); }
         public static string Users_Timestamp(params string[] data) { return Get("Users_Timestamp", data); }
+        public static string LoginKeys_Ver(params string[] data) { return Get("LoginKeys_Ver", data); }
+        public static string LoginKeys_Comments(params string[] data) { return Get("LoginKeys_Comments", data); }
+        public static string LoginKeys_Creator(params string[] data) { return Get("LoginKeys_Creator", data); }
+        public static string LoginKeys_Updator(params string[] data) { return Get("LoginKeys_Updator", data); }
+        public static string LoginKeys_CreatedTime(params string[] data) { return Get("LoginKeys_CreatedTime", data); }
+        public static string LoginKeys_UpdatedTime(params string[] data) { return Get("LoginKeys_UpdatedTime", data); }
+        public static string LoginKeys_VerUp(params string[] data) { return Get("LoginKeys_VerUp", data); }
+        public static string LoginKeys_Timestamp(params string[] data) { return Get("LoginKeys_Timestamp", data); }
         public static string MailAddresses_Ver(params string[] data) { return Get("MailAddresses_Ver", data); }
         public static string MailAddresses_Comments(params string[] data) { return Get("MailAddresses_Comments", data); }
         public static string MailAddresses_Creator(params string[] data) { return Get("MailAddresses_Creator", data); }
@@ -1092,6 +1105,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Groups(params string[] data) { return Get("Groups", data); }
         public static string GroupMembers(params string[] data) { return Get("GroupMembers", data); }
         public static string Users(params string[] data) { return Get("Users", data); }
+        public static string LoginKeys(params string[] data) { return Get("LoginKeys", data); }
         public static string MailAddresses(params string[] data) { return Get("MailAddresses", data); }
         public static string Permissions(params string[] data) { return Get("Permissions", data); }
         public static string OutgoingMails(params string[] data) { return Get("OutgoingMails", data); }

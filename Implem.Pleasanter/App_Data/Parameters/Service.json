@@ -5,7 +5,6 @@
     "RequireHttps": false,
     "ImportData": false,
     "ShowTenantTitle": false,
-    "SelectTenant": false,
     "Demo": false,
     "DemoUsagePeriod": 30
 }

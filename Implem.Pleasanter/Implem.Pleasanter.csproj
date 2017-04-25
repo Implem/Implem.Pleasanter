@@ -224,6 +224,7 @@
     <Compile Include="Libraries\Converts\ToExportExtensions.cs" />
     <Compile Include="Libraries\Converts\ToResponseExtensions.cs" />
     <Compile Include="Libraries\DataSources\ChatWork.cs" />
+    <Compile Include="Libraries\DataSources\Extension.cs" />
     <Compile Include="Libraries\DataSources\Ldap.cs" />
     <Compile Include="Libraries\DataSources\Rds.cs" />
     <Compile Include="Libraries\DataSources\SendGridMail.cs" />
@@ -411,6 +412,10 @@
     <Compile Include="Models\Links\LinkModel.cs" />
     <Compile Include="Models\Links\LinkUtilities.cs" />
     <Compile Include="Models\Links\LinkValidators.cs" />
+    <Compile Include="Models\LoginKeys\LoginKeyCollection.cs" />
+    <Compile Include="Models\LoginKeys\LoginKeyModel.cs" />
+    <Compile Include="Models\LoginKeys\LoginKeyUtilities.cs" />
+    <Compile Include="Models\LoginKeys\LoginKeyValidators.cs" />
     <Compile Include="Models\MailAddresses\MailAddressCollection.cs" />
     <Compile Include="Models\MailAddresses\MailAddressUtilities.cs" />
     <Compile Include="Models\MailAddresses\MailAddressModel.cs" />

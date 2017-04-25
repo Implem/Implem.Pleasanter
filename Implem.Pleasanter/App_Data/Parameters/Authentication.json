@@ -1,5 +1,7 @@
 ﻿{
     "Provider": null,
+    "ServiceId": null,
+    "ExtensionUrl": null,
     "PasswordExpirationPeriod": 0,
     "LdapSearchRoot": null,
     "LdapSearchProperty": "mail",

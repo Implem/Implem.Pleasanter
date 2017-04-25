@@ -61,6 +61,12 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
+                    case "Users_GlobalId":
+                        if (!ss.GetColumn("GlobalId").CanCreate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
                     case "Users_Name":
                         if (!ss.GetColumn("Name").CanCreate)
                         {
@@ -198,6 +204,13 @@ namespace Implem.Pleasanter.Models
                     case "Users_LoginId":
                         if (userModel.LoginId_Updated &&
                             !ss.GetColumn("LoginId").CanUpdate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
+                    case "Users_GlobalId":
+                        if (userModel.GlobalId_Updated &&
+                            !ss.GetColumn("GlobalId").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }

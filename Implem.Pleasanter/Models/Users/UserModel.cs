@@ -24,8 +24,8 @@ namespace Implem.Pleasanter.Models
     {
         public int TenantId = Sessions.TenantId();
         public int UserId = 0;
-        public int ParentId = 0;
         public string LoginId = string.Empty;
+        public string GlobalId = string.Empty;
         public string Name = string.Empty;
         public string UserCode = string.Empty;
         public string Password = string.Empty;
@@ -62,8 +62,8 @@ namespace Implem.Pleasanter.Models
         public Title Title { get { return new Title(UserId, Name); } }
         public int SavedTenantId = Sessions.TenantId();
         public int SavedUserId = 0;
-        public int SavedParentId = 0;
         public string SavedLoginId = string.Empty;
+        public string SavedGlobalId = string.Empty;
         public string SavedName = string.Empty;
         public string SavedUserCode = string.Empty;
         public string SavedPassword = string.Empty;
@@ -97,8 +97,8 @@ namespace Implem.Pleasanter.Models
         public string SavedSessionGuid = string.Empty;
         public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
         public bool UserId_Updated { get { return UserId != SavedUserId; } }
-        public bool ParentId_Updated { get { return ParentId != SavedParentId; } }
         public bool LoginId_Updated { get { return LoginId != SavedLoginId && LoginId != null; } }
+        public bool GlobalId_Updated { get { return GlobalId != SavedGlobalId && GlobalId != null; } }
         public bool Name_Updated { get { return Name != SavedName && Name != null; } }
         public bool UserCode_Updated { get { return UserCode != SavedUserCode && UserCode != null; } }
         public bool Password_Updated { get { return Password != SavedPassword && Password != null; } }
@@ -338,6 +338,7 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Users_LoginId": LoginId = Forms.Data(controlId).ToString(); break;
+                    case "Users_GlobalId": GlobalId = Forms.Data(controlId).ToString(); break;
                     case "Users_Name": Name = Forms.Data(controlId).ToString(); break;
                     case "Users_UserCode": UserCode = Forms.Data(controlId).ToString(); break;
                     case "Users_Password": Password = Forms.Data(controlId).ToString().Sha512Cng(); break;
@@ -412,8 +413,8 @@ namespace Implem.Pleasanter.Models
                     case "TenantId": if (dataRow[name] != DBNull.Value) { TenantId = dataRow[name].ToInt(); SavedTenantId = TenantId; } break;
                     case "UserId": if (dataRow[name] != DBNull.Value) { UserId = dataRow[name].ToInt(); SavedUserId = UserId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "ParentId": ParentId = dataRow[name].ToInt(); SavedParentId = ParentId; break;
                     case "LoginId": LoginId = dataRow[name].ToString(); SavedLoginId = LoginId; break;
+                    case "GlobalId": GlobalId = dataRow[name].ToString(); SavedGlobalId = GlobalId; break;
                     case "Name": Name = dataRow[name].ToString(); SavedName = Name; break;
                     case "UserCode": UserCode = dataRow[name].ToString(); SavedUserCode = UserCode; break;
                     case "Password": Password = dataRow[name].ToString(); SavedPassword = Password; break;
@@ -557,25 +558,26 @@ namespace Implem.Pleasanter.Models
         {
             if (Authenticate())
             {
-                if (RequireTenant())
+                if (PasswordExpired())
                 {
-                    return TenantsDropDown();
+                    return OpenChangePasswordAtLoginDialog();
                 }
                 else
                 {
-                    if (PasswordExpired())
-                    {
-                        return OpenChangePasswordAtLoginDialog();
-                    }
-                    else
-                    {
-                        return Allow(returnUrl);
-                    }
+                    return Allow(returnUrl);
                 }
             }
             else
             {
-                return Deny();
+                var tenantOptions = TenantOptions();
+                if (tenantOptions?.Any() == true)
+                {
+                    return TenantsDropDown(tenantOptions);
+                }
+                else
+                {
+                    return Deny();
+                }
             }
         }
 
@@ -595,6 +597,17 @@ namespace Implem.Pleasanter.Models
                             where: Rds.UsersWhere().LoginId(LoginId));
                     }
                     break;
+                case "Extension":
+                    var user = Extension.Authenticate();
+                    ret = user != null;
+                    if (ret)
+                    {
+                        Get(SiteSettingsUtilities.UsersSiteSettings(),
+                            where: Rds.UsersWhere()
+                                .TenantId(user.TenantId)
+                                .UserId(user.Id));
+                    }
+                    break;
                 default:
                     ret = GetByCredentials(LoginId, Password, Forms.Int("SelectedTenantId"));
                     break;
@@ -612,58 +625,13 @@ namespace Implem.Pleasanter.Models
                     .LoginId(loginId)
                     .Password(password)
                     .Disabled(0));
-            if (AccessStatus == Databases.AccessStatuses.Selected &&
-                tenantId > 0 &&
-                TenantId != tenantId)
-            {
-                Get(SiteSettingsUtilities.UsersSiteSettings(),
-                    where: Rds.UsersWhere()
-                        .TenantId(tenantId)
-                        .ParentId(UserId)
-                        .Disabled(0));
-            }
             return AccessStatus == Databases.AccessStatuses.Selected;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private bool RequireTenant()
-        {
-            return
-                Parameters.Service.SelectTenant &&
-                !TenantSelected() &&
-                BelongToMultipleTenants();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private bool TenantSelected()
-        {
-            var tenantId = Forms.Int("SelectedTenantId");
-            return tenantId != 0 && TenantOptions().ContainsKey(tenantId.ToString());
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private bool BelongToMultipleTenants()
-        {
-            return Rds.ExecuteScalar_int(statements:
-                Rds.SelectUsers(
-                    column: Rds.UsersColumn().UsersCount(),
-                    where: Rds.UsersWhere()
-                        .Or(or: Rds.UsersWhere()
-                            .UserId(UserId)
-                            .ParentId(UserId))
-                        .Disabled(0))) >= 2;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private string TenantsDropDown()
+        private string TenantsDropDown(Dictionary<string, string> tenantOptions)
         {
             return new ResponseCollection()
                 .Html("#Tenants", new HtmlBuilder().FieldDropDown(
@@ -671,7 +639,7 @@ namespace Implem.Pleasanter.Models
                     fieldCss: " field-wide",
                     controlCss: " always-send",
                     labelText: Displays.Tenants(),
-                    optionCollection: TenantOptions())).ToJson();
+                    optionCollection: tenantOptions)).ToJson();
         }
 
         /// <summary>
@@ -679,23 +647,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private Dictionary<string, string> TenantOptions()
         {
-            return Rds.ExecuteTable(statements:
-                Rds.SelectTenants(
-                    column: Rds.TenantsColumn()
-                        .TenantId()
-                        .Title(),
-                    where: Rds.TenantsWhere()
-                        .TenantId_In(sub: Rds.SelectUsers(
-                            column: Rds.UsersColumn().TenantId(),
-                            where: Rds.UsersWhere()
-                                .Or(or: Rds.UsersWhere()
-                                    .UserId(UserId)
-                                    .ParentId(UserId))
-                                .Disabled(0)))))
-                                    .AsEnumerable()
-                                    .ToDictionary(
-                                        o => o["TenantId"].ToString(),
-                                        o => o["Title"].ToString());
+            return Rds.ExecuteScalar_string(statements:
+                Rds.SelectLoginKeys(
+                    column: Rds.LoginKeysColumn().TenantNames(),
+                    where: Rds.LoginKeysWhere()
+                        .LoginId(LoginId)))
+                            .Deserialize<Dictionary<string, string>>();
         }
 
         /// <summary>

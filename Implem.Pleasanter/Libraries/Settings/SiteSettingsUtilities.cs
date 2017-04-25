@@ -73,6 +73,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "groups": return GroupsSiteSettings();
                 case "groupmembers": return GroupMembersSiteSettings();
                 case "users": return UsersSiteSettings();
+                case "loginkeys": return LoginKeysSiteSettings();
                 case "mailaddresses": return MailAddressesSiteSettings();
                 case "outgoingmails": return OutgoingMailsSiteSettings();
                 case "searchindexes": return SearchIndexesSiteSettings();
@@ -152,6 +153,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init();
             ss.SetChoiceHash(withLink: false);
             ss.PermissionType = Permissions.Admins();
+            return ss;
+        }
+
+        public static SiteSettings LoginKeysSiteSettings()
+        {
+            var ss = new SiteSettings();
+            ss.ReferenceType = "LoginKeys";
+            ss.Init();
             return ss;
         }
 

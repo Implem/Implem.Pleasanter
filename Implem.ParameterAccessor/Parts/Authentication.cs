@@ -13,5 +13,7 @@
         public string LdapFirstName;
         public string LdapLastName;
         public string LdapMailAddress;
+        public string ServiceId;
+        public string ExtensionUrl;
     }
 }
