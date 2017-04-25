@@ -249,7 +249,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = new SiteSettings()
             {
                 Version = Version,
-                ReferenceType = ReferenceType
+                ReferenceType = ReferenceType,
+                ViewLatestId = ViewLatestId
             };
             if (NearCompletionTimeAfterDays != param.NearCompletionTimeAfterDays)
             {

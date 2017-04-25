@@ -247,6 +247,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlDropDownSearches.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
+    <Compile Include="Libraries\Migrators\SiteSettings\Version1_011.cs" />
     <Compile Include="Libraries\Migrators\StatusesMigrator.cs" />
     <Compile Include="Libraries\Migrators\Statuses\Version00_037_010.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_010.cs" />
