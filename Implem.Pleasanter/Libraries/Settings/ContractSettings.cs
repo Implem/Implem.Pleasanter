@@ -9,6 +9,7 @@ namespace Implem.Pleasanter.Libraries.Settings
     public class ContractSettings
     {
         public string Name;
+        public string DisplayName;
         public int? Users;
         public long? Sites;
         public long? Items;

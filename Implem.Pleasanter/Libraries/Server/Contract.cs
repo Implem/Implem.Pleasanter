@@ -44,6 +44,15 @@ namespace Implem.Pleasanter.Libraries.Server
             return cs;
         }
 
+        public static string DisplayName()
+        {
+            var tenantId = Sessions.TenantId();
+            return
+                ContractHash.ContainsKey(tenantId)
+                    ? ContractHash[tenantId]?.DisplayName
+                    : null;
+        }
+
         public static bool OverDeadline()
         {
             var tenantId = Sessions.TenantId();

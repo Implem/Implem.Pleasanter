@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -13,6 +14,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static string AssemblyVersions(this HtmlBuilder hb)
         {
             var ss = new SiteSettings();
+            var plan = Contract.DisplayName();
             return hb
                 .Template(
                     ss: ss,
@@ -31,6 +33,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Text(text: Displays.Version()))
                                 .Span(action: () => hb
                                     .Text(text: Environments.AssemblyVersion)))
+                            .Div(
+                                action: () => hb
+                                    .Span(action: () => hb
+                                        .Text(text: plan + Displays.Plan())),
+                                _using: !plan.IsNullOrEmpty())
                             .Div(action: () => hb
                                 .Span(action: () => hb
                                     .A(

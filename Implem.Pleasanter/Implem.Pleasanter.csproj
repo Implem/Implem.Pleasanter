@@ -1049,6 +1049,7 @@
     <Content Include="App_Data\Displays\Expired.json" />
     <Content Include="App_Data\Displays\ApplicationError.json" />
     <Content Include="App_Data\Parameters\ExcludeColumns.json" />
+    <Content Include="App_Data\Displays\Plan.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
