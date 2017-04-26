@@ -8,6 +8,7 @@
         public bool RequireHttps;
         public bool ImportData;
         public bool ShowTenantTitle;
+        public bool ShowProfiles;
         public bool Demo;
         public int DemoUsagePeriod;
     }

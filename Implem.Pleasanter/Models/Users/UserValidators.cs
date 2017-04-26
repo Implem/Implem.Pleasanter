@@ -20,6 +20,10 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnReading(SiteSettings ss)
         {
+            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            {
+                return Error.Types.InvalidRequest;
+            }
             return ss.CanRead()
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
@@ -27,6 +31,10 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnEditing(SiteSettings ss, UserModel userModel)
         {
+            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            {
+                return Error.Types.InvalidRequest;
+            }
             switch (userModel.MethodType)
             {
                 case BaseModel.MethodTypes.Edit:
@@ -46,6 +54,10 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnCreating(SiteSettings ss, UserModel userModel)
         {
+            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            {
+                return Error.Types.InvalidRequest;
+            }
             if (!ss.CanCreate())
             {
                 return Error.Types.HasNotPermission;
@@ -354,6 +366,10 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnDeleting(SiteSettings ss, UserModel userModel)
         {
+            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            {
+                return Error.Types.InvalidRequest;
+            }
             return ss.CanDelete()
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
@@ -361,6 +377,10 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnRestoring()
         {
+            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            {
+                return Error.Types.InvalidRequest;
+            }
             return Permissions.CanManageTenant()
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
@@ -368,6 +388,10 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnExporting(SiteSettings ss)
         {
+            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            {
+                return Error.Types.InvalidRequest;
+            }
             return ss.CanExport()
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
@@ -378,6 +402,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnPasswordChanging(UserModel userModel)
         {
+            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            {
+                return Error.Types.InvalidRequest;
+            }
             if (userModel.UserId == Sessions.UserId())
             {
                 if (userModel.OldPassword == userModel.ChangedPassword)
@@ -401,6 +429,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnPasswordChangingAtLogin(UserModel userModel)
         {
+            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            {
+                return Error.Types.InvalidRequest;
+            }
             if (userModel.Password == userModel.ChangedPassword)
             {
                 return Error.Types.PasswordNotChanged;
@@ -418,6 +450,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnPasswordResetting()
         {
+            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            {
+                return Error.Types.InvalidRequest;
+            }
             if (!Permissions.CanManageTenant())
             {
                 return Error.Types.HasNotPermission;
@@ -435,6 +471,10 @@ namespace Implem.Pleasanter.Models
             out string data)
         {
             var error = MailAddressValidators.BadMailAddress(mailAddress, out data);
+            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            {
+                return Error.Types.InvalidRequest;
+            }
             if (error.Has())
             {
                 return error;

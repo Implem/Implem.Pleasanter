@@ -189,12 +189,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder AccountMenu(this HtmlBuilder hb)
         {
             return hb.Ul(id: "AccountMenu", css: "menu", action: () => hb
-                .Li(action: () => hb
-                    .A(
-                        href: Locations.Edit("Users", Sessions.UserId()),
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-wrench")
-                            .Text(text: Displays.EditProfile())))
+                .Li(
+                    action: () => hb
+                        .A(
+                            href: Locations.Edit("Users", Sessions.UserId()),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-wrench")
+                                .Text(text: Displays.EditProfile())),
+                    _using: Parameters.Service.ShowProfiles)
                 .Li(action: () => hb
                     .A(
                         href: Locations.Logout(),
