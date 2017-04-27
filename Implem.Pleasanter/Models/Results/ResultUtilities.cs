@@ -3126,8 +3126,8 @@ namespace Implem.Pleasanter.Models
                     new ResultModel()
                     {
                         SiteId = siteModel.SiteId,
-                        Title = new Title(param.FirstOrDefault(o =>
-                            o.Name == "Title").Value.ToString())
+                        Title = new Title(param.FirstOrDefault(o => o.Name == "Title")?
+                            .Value.ToString() ?? string.Empty)
                     }.Create(ss, param: param));
                 return GridRows(ss, res
                     .WindowScrollTop()
