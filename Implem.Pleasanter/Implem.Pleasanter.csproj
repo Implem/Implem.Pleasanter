@@ -490,6 +490,7 @@
     <Content Include="Scripts\Permissions.js" />
     <Content Include="Scripts\Plugins\jquery-ui\i18n\datepicker-ja.js" />
     <Content Include="Scripts\Plugins\jquery.datetimepicker.full.min.js" />
+    <Content Include="Scripts\Scroll.js" />
     <Content Include="Scripts\Validator.js" />
     <Content Include="Scripts\ViewMode.js" />
     <Content Include="Scripts\Dialog.js" />

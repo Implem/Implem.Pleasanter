@@ -90,6 +90,9 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
         case 'CloseDialog':
             $('.ui-dialog-content').dialog('close');
             break;
+        case 'Paging':
+            $p.paging(target);
+            break;
         case 'Trigger':
             $(target).trigger(value);
             break;

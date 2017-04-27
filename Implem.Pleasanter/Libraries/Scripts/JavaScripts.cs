@@ -6,6 +6,7 @@
         {
             switch (viewMode)
             {
+                case "index": return "$p.paging('#Grid')";
                 case "burndown": return "$p.drawBurnDown();";
                 case "gantt": return "$p.drawGantt();";
                 case "timeseries": return "$p.drawTimeSeries();";

@@ -70,6 +70,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/Permissions.js",
                 "~/Scripts/Position.js",
                 "~/Scripts/PositionEvents.js",
+                "~/Scripts/Scroll.js",
                 "~/Scripts/ScrollEvents.js",
                 "~/Scripts/SearchEvents.js",
                 "~/Scripts/Security.js",

@@ -150,6 +150,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     ss: ss,
                     aggregations: deptCollection.Aggregations))
+                .Paging("#Grid")
                 .ToJson();
         }
 

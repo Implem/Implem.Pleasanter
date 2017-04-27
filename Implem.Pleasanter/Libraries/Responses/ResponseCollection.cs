@@ -136,6 +136,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("CloseDialog", string.Empty, string.Empty) : this;
         }
 
+        public ResponseCollection Paging(string target = "", bool _using = true)
+        {
+            return _using ? Add("Paging", target) : this;
+        }
+
         public ResponseCollection Trigger(string name, string _event, bool _using = true)
         {
             return _using ? Add("Trigger", name, _event) : this;
