@@ -196,6 +196,7 @@ namespace Implem.Pleasanter.Models
                     offset,
                     issueCollection.Count(),
                     issueCollection.Aggregations.TotalCount))
+                .Paging("#Grid")
                 .ToJson();
         }
 
