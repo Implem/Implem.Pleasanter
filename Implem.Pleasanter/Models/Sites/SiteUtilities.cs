@@ -190,6 +190,7 @@ namespace Implem.Pleasanter.Models
                                 WikiUtilities.Editor(ss, wikiModel))
                             .Val("#BackUrl", Locations.ItemIndex(siteModel.ParentId))
                             .Invoke("setSwitchTargets")
+                            .Message(Messages.Created(siteModel.Title.ToString()))
                             .ToJson();
                     default:
                         return ss.CanManageSite()
