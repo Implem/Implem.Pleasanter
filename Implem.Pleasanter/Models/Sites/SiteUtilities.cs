@@ -189,6 +189,7 @@ namespace Implem.Pleasanter.Models
                                 "#MainContainer",
                                 WikiUtilities.Editor(ss, wikiModel))
                             .Val("#BackUrl", Locations.ItemIndex(siteModel.ParentId))
+                            .SetMemory("formChanged", false)
                             .Invoke("setSwitchTargets")
                             .Message(Messages.Created(siteModel.Title.ToString()))
                             .ToJson();
