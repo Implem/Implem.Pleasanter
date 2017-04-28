@@ -54,7 +54,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Text(text: Displays.New()))),
                         _using: ss.ReferenceType == "Sites" && Routes.Action() == "index"
                             ? ss.CanManageSite()
-                            : ss.CanCreate())
+                            : ss.CanCreate() && ss.ReferenceType != "Wikis")
                     .Li(
                         css: "sub-menu",
                         action: () => hb
