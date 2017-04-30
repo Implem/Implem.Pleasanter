@@ -26,47 +26,20 @@ namespace Implem.Pleasanter.Models
         public string TenantName = string.Empty;
         public Title Title = new Title();
         public string Body = string.Empty;
-        public string ContractType = string.Empty;
         public ContractSettings ContractSettings = new ContractSettings();
         public DateTime ContractDeadline = 0.ToDateTime();
-        public string ContractorName = string.Empty;
-        public string PostalCode = string.Empty;
-        public string Country = string.Empty;
-        public string State = string.Empty;
-        public string City = string.Empty;
-        public string Street = string.Empty;
-        public string Other = string.Empty;
-        public string Phone = string.Empty;
         public int SavedTenantId = Sessions.TenantId();
         public string SavedTenantName = string.Empty;
         public string SavedTitle = string.Empty;
         public string SavedBody = string.Empty;
-        public string SavedContractType = string.Empty;
         public string SavedContractSettings = string.Empty;
         public DateTime SavedContractDeadline = 0.ToDateTime();
-        public string SavedContractorName = string.Empty;
-        public string SavedPostalCode = string.Empty;
-        public string SavedCountry = string.Empty;
-        public string SavedState = string.Empty;
-        public string SavedCity = string.Empty;
-        public string SavedStreet = string.Empty;
-        public string SavedOther = string.Empty;
-        public string SavedPhone = string.Empty;
         public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
         public bool TenantName_Updated { get { return TenantName != SavedTenantName && TenantName != null; } }
         public bool Title_Updated { get { return Title.Value != SavedTitle && Title.Value != null; } }
         public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
-        public bool ContractType_Updated { get { return ContractType != SavedContractType && ContractType != null; } }
         public bool ContractSettings_Updated { get { return ContractSettings?.RecordingJson() != SavedContractSettings && ContractSettings?.RecordingJson() != null; } }
         public bool ContractDeadline_Updated { get { return ContractDeadline != SavedContractDeadline && ContractDeadline != null; } }
-        public bool ContractorName_Updated { get { return ContractorName != SavedContractorName && ContractorName != null; } }
-        public bool PostalCode_Updated { get { return PostalCode != SavedPostalCode && PostalCode != null; } }
-        public bool Country_Updated { get { return Country != SavedCountry && Country != null; } }
-        public bool State_Updated { get { return State != SavedState && State != null; } }
-        public bool City_Updated { get { return City != SavedCity && City != null; } }
-        public bool Street_Updated { get { return Street != SavedStreet && Street != null; } }
-        public bool Other_Updated { get { return Other != SavedOther && Other != null; } }
-        public bool Phone_Updated { get { return Phone != SavedPhone && Phone != null; } }
 
         public TenantModel()
         {
@@ -244,16 +217,7 @@ namespace Implem.Pleasanter.Models
                     case "Tenants_TenantName": TenantName = Forms.Data(controlId).ToString(); break;
                     case "Tenants_Title": Title = new Title(TenantId, Forms.Data(controlId)); break;
                     case "Tenants_Body": Body = Forms.Data(controlId).ToString(); break;
-                    case "Tenants_ContractType": ContractType = Forms.Data(controlId).ToString(); break;
                     case "Tenants_ContractDeadline": ContractDeadline = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Tenants_ContractorName": ContractorName = Forms.Data(controlId).ToString(); break;
-                    case "Tenants_PostalCode": PostalCode = Forms.Data(controlId).ToString(); break;
-                    case "Tenants_Country": Country = Forms.Data(controlId).ToString(); break;
-                    case "Tenants_State": State = Forms.Data(controlId).ToString(); break;
-                    case "Tenants_City": City = Forms.Data(controlId).ToString(); break;
-                    case "Tenants_Street": Street = Forms.Data(controlId).ToString(); break;
-                    case "Tenants_Other": Other = Forms.Data(controlId).ToString(); break;
-                    case "Tenants_Phone": Phone = Forms.Data(controlId).ToString(); break;
                     case "Tenants_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
@@ -301,17 +265,8 @@ namespace Implem.Pleasanter.Models
                     case "TenantName": TenantName = dataRow[name].ToString(); SavedTenantName = TenantName; break;
                     case "Title": Title = new Title(dataRow, "TenantId"); SavedTitle = Title.Value; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
-                    case "ContractType": ContractType = dataRow[name].ToString(); SavedContractType = ContractType; break;
                     case "ContractSettings": ContractSettings = GetContractSettings(dataRow); SavedContractSettings = ContractSettings?.RecordingJson(); break;
                     case "ContractDeadline": ContractDeadline = dataRow[name].ToDateTime(); SavedContractDeadline = ContractDeadline; break;
-                    case "ContractorName": ContractorName = dataRow[name].ToString(); SavedContractorName = ContractorName; break;
-                    case "PostalCode": PostalCode = dataRow[name].ToString(); SavedPostalCode = PostalCode; break;
-                    case "Country": Country = dataRow[name].ToString(); SavedCountry = Country; break;
-                    case "State": State = dataRow[name].ToString(); SavedState = State; break;
-                    case "City": City = dataRow[name].ToString(); SavedCity = City; break;
-                    case "Street": Street = dataRow[name].ToString(); SavedStreet = Street; break;
-                    case "Other": Other = dataRow[name].ToString(); SavedOther = Other; break;
-                    case "Phone": Phone = dataRow[name].ToString(); SavedPhone = Phone; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;

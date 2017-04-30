@@ -438,17 +438,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Tenants_TenantName(params string[] data) { return Get("Tenants_TenantName", data); }
         public static string Tenants_Title(params string[] data) { return Get("Tenants_Title", data); }
         public static string Tenants_Body(params string[] data) { return Get("Tenants_Body", data); }
-        public static string Tenants_ContractType(params string[] data) { return Get("Tenants_ContractType", data); }
         public static string Tenants_ContractSettings(params string[] data) { return Get("Tenants_ContractSettings", data); }
         public static string Tenants_ContractDeadline(params string[] data) { return Get("Tenants_ContractDeadline", data); }
-        public static string Tenants_ContractorName(params string[] data) { return Get("Tenants_ContractorName", data); }
-        public static string Tenants_PostalCode(params string[] data) { return Get("Tenants_PostalCode", data); }
-        public static string Tenants_Country(params string[] data) { return Get("Tenants_Country", data); }
-        public static string Tenants_State(params string[] data) { return Get("Tenants_State", data); }
-        public static string Tenants_City(params string[] data) { return Get("Tenants_City", data); }
-        public static string Tenants_Street(params string[] data) { return Get("Tenants_Street", data); }
-        public static string Tenants_Other(params string[] data) { return Get("Tenants_Other", data); }
-        public static string Tenants_Phone(params string[] data) { return Get("Tenants_Phone", data); }
         public static string Demos_DemoId(params string[] data) { return Get("Demos_DemoId", data); }
         public static string Demos_TenantId(params string[] data) { return Get("Demos_TenantId", data); }
         public static string Demos_Title(params string[] data) { return Get("Demos_Title", data); }
