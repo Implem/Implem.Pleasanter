@@ -29,6 +29,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public long SiteId;
         [NonSerialized]
+        public long ReferenceId;
+        [NonSerialized]
         public string Title;
         [NonSerialized]
         public long ParentId;
@@ -240,7 +242,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool IsSite()
         {
-            return SiteId == Routes.Id();
+            return SiteId != 0 && SiteId == ReferenceId;
         }
 
         public string RecordingJson()
