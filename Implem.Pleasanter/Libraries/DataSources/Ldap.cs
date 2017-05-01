@@ -9,10 +9,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class Ldap
     {
-        public static bool Authenticate()
+        public static bool Authenticate(string loginId, string password)
         {
-            var loginId = Forms.Data("Users_LoginId");
-            var password = Forms.Data("Users_Password");
             try
             {
                 var searchRoot = new DirectoryEntry(

@@ -584,13 +584,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private bool Authenticate()
+        public bool Authenticate()
         {
             var ret = false;
             switch (Parameters.Authentication.Provider)
             {
                 case "LDAP":
-                    ret = Ldap.Authenticate();
+                    ret = Ldap.Authenticate(LoginId, Password);
                     if (ret)
                     {
                         Get(SiteSettingsUtilities.UsersSiteSettings(),
@@ -598,7 +598,7 @@ namespace Implem.Pleasanter.Models
                     }
                     break;
                 case "Extension":
-                    var user = Extension.Authenticate();
+                    var user = Extension.Authenticate(LoginId, Password);
                     ret = user != null;
                     if (ret)
                     {
