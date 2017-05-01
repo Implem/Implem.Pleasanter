@@ -74,6 +74,7 @@ $p.setAggregationDetails = function ($control) {
     var data = $p.getData($control);
     data.AggregationType = $('#AggregationType').val();
     data.AggregationTarget = $('#AggregationTarget').val();
+    $p.clearMessage();
     $('.ui-dialog-content').dialog('close');
     $p.send($control);
 }

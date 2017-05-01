@@ -7,6 +7,7 @@
 }
 
 $p.closeDialog = function ($control) {
+    $p.clearMessage();
     $control.closest('.ui-dialog-content').dialog('close');
 }
 

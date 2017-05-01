@@ -88,6 +88,7 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             $p.clearData(target, data, value);
             break;
         case 'CloseDialog':
+            $p.clearMessage();
             $('.ui-dialog-content').dialog('close');
             break;
         case 'Paging':
