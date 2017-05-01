@@ -163,8 +163,8 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnDeleting(SiteSettings ss, SiteModel siteModel)
         {
-            if (ss.Title != Forms.Data("DeleteSiteTitle") ||
-                !Authentications.Try(Forms.Data("DeleteSitePassword").Sha512Cng()))
+            if (ss.Title != Forms.Data("DeleteSiteTitle") || !Authentications.Try(
+                Forms.Data("Users_LoginId"), Forms.Data("Users_Password").Sha512Cng()))
             {
                 return Error.Types.IncorrectSiteDeleting;
             }

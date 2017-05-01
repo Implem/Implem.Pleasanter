@@ -1056,7 +1056,6 @@
     <Content Include="App_Data\Displays\SiteName.json" />
     <Content Include="App_Data\Displays\IncorrectSiteDeleting.json" />
     <Content Include="App_Data\Displays\SiteTitle.json" />
-    <Content Include="App_Data\Displays\YourPassword.json" />
     <Content Include="App_Data\Displays\ConfirmDeleteSite.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />

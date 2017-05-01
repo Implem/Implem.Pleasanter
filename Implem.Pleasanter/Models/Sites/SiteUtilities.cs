@@ -3875,9 +3875,12 @@ namespace Implem.Pleasanter.Models
                         controlId: "DeleteSiteTitle",
                         labelText: Displays.SiteTitle())
                     .FieldTextBox(
+                        controlId: "Users_LoginId",
+                        labelText: Displays.Users_LoginId())
+                    .FieldTextBox(
                         textType: HtmlTypes.TextTypes.Password,
-                        controlId: "DeleteSitePassword",
-                        labelText: Displays.YourPassword())
+                        controlId: "Users_Password",
+                        labelText: Displays.Users_Password())
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

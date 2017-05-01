@@ -1,5 +1,4 @@
-﻿using Implem.Pleasanter.Libraries.Server;
-using Implem.Pleasanter.Libraries.Settings;
+﻿using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Web;
 using System.Web.Security;
@@ -15,12 +14,10 @@ namespace Implem.Pleasanter.Libraries.Security
                     .Authenticate(returnUrl);
         }
 
-        public static bool Try(string password)
+        public static bool Try(string loginId, string password)
         {
-            return new UserModel(SiteSettingsUtilities.UsersSiteSettings(), Sessions.UserId())
-            {
-                Password = password
-            }.Authenticate();
+            return new UserModel(SiteSettingsUtilities.UsersSiteSettings(), setByForm: true)
+                .Authenticate();
         }
 
         public static void SignOut()

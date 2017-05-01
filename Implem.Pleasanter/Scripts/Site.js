@@ -1,6 +1,5 @@
 ﻿$p.openDeleteSiteDialog = function () {
-    $('#DeleteSiteTitle').val('');
-    $('#DeleteSitePassword').val('');
+    $('#DeleteSiteDialog input').val('');
     $('#DeleteSiteDialog').dialog({
         modal: true,
         width: '420px',

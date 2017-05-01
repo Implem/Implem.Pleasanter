@@ -439,7 +439,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Ymdhms(params string[] data) { return Get("Ymdhms", data); }
         public static string YmdhmsFormat(params string[] data) { return Get("YmdhmsFormat", data); }
         public static string YmFormat(params string[] data) { return Get("YmFormat", data); }
-        public static string YourPassword(params string[] data) { return Get("YourPassword", data); }
         public static string Tenants_TenantId(params string[] data) { return Get("Tenants_TenantId", data); }
         public static string Tenants_TenantName(params string[] data) { return Get("Tenants_TenantName", data); }
         public static string Tenants_Title(params string[] data) { return Get("Tenants_Title", data); }
