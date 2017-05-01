@@ -198,6 +198,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.IncorrectCurrentPassword(data), "alert-error");
         }
 
+        public static Message IncorrectSiteDeleting(params string[] data)
+        {
+            return Get(Displays.IncorrectSiteDeleting(data), "alert-error");
+        }
+
         public static Message InputMailAddress(params string[] data)
         {
             return Get(Displays.InputMailAddress(data), "alert-error");
@@ -521,6 +526,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseIncorrectCurrentPassword(params string[] data)
         {
             return ResponseMessage(IncorrectCurrentPassword(data));
+        }
+
+        public static ResponseCollection ResponseIncorrectSiteDeleting(params string[] data)
+        {
+            return ResponseMessage(IncorrectSiteDeleting(data));
         }
 
         public static ResponseCollection ResponseInputMailAddress(params string[] data)

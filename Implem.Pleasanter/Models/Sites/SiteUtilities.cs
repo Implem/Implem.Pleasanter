@@ -1168,6 +1168,7 @@ namespace Implem.Pleasanter.Models
                 .OutgoingMailsForm("items", siteModel.SiteId, siteModel.Ver)
                 .CopyDialog("items", siteModel.SiteId)
                 .OutgoingMailDialog()
+                .DeleteSiteDialog()
                 .Div(attributes: new HtmlAttributes()
                     .Id("GridColumnDialog")
                     .Class("dialog")
@@ -3857,6 +3858,41 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-wide",
                     labelText: Displays.EditScript(),
                     text: ss.EditScript.ToStr()));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder DeleteSiteDialog(this HtmlBuilder hb)
+        {
+            return hb.Div(
+                attributes: new HtmlAttributes()
+                    .Id("DeleteSiteDialog")
+                    .Class("dialog")
+                    .Title(Displays.ConfirmDeleteSite()),
+                action: () => hb
+                    .FieldTextBox(
+                        controlId: "DeleteSiteTitle",
+                        labelText: Displays.SiteTitle())
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.Password,
+                        controlId: "DeleteSitePassword",
+                        labelText: Displays.YourPassword())
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            text: Displays.DeleteSite(),
+                            controlCss: "button-icon",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-trash",
+                            action: "Delete",
+                            method: "delete",
+                            confirm: "ConfirmDelete")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
         }
     }
 }

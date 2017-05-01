@@ -95,6 +95,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Comments(params string[] data) { return Get("Comments", data); }
         public static string Condition(params string[] data) { return Get("Condition", data); }
         public static string ConfirmDelete(params string[] data) { return Get("ConfirmDelete", data); }
+        public static string ConfirmDeleteSite(params string[] data) { return Get("ConfirmDeleteSite", data); }
         public static string ConfirmReload(params string[] data) { return Get("ConfirmReload", data); }
         public static string ConfirmSendMail(params string[] data) { return Get("ConfirmSendMail", data); }
         public static string ConfirmSeparate(params string[] data) { return Get("ConfirmSeparate", data); }
@@ -134,6 +135,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string DeleteConflicts(params string[] data) { return Get("DeleteConflicts", data); }
         public static string Deleted(params string[] data) { return Get("Deleted", data); }
         public static string DeletePermission(params string[] data) { return Get("DeletePermission", data); }
+        public static string DeleteSite(params string[] data) { return Get("DeleteSite", data); }
         public static string DemoMailBody(params string[] data) { return Get("DemoMailBody", data); }
         public static string DemoMailTitle(params string[] data) { return Get("DemoMailTitle", data); }
         public static string DeptAdmin(params string[] data) { return Get("DeptAdmin", data); }
@@ -198,6 +200,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string InCompression(params string[] data) { return Get("InCompression", data); }
         public static string InCopying(params string[] data) { return Get("InCopying", data); }
         public static string IncorrectCurrentPassword(params string[] data) { return Get("IncorrectCurrentPassword", data); }
+        public static string IncorrectSiteDeleting(params string[] data) { return Get("IncorrectSiteDeleting", data); }
         public static string Index(params string[] data) { return Get("Index", data); }
         public static string InheritPermission(params string[] data) { return Get("InheritPermission", data); }
         public static string InputMailAddress(params string[] data) { return Get("InputMailAddress", data); }
@@ -360,8 +363,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SetZeroWhenOutOfCondition(params string[] data) { return Get("SetZeroWhenOutOfCondition", data); }
         public static string SiteAccessControl(params string[] data) { return Get("SiteAccessControl", data); }
         public static string SiteImageSettingsEditor(params string[] data) { return Get("SiteImageSettingsEditor", data); }
+        public static string SiteName(params string[] data) { return Get("SiteName", data); }
         public static string SiteSettings(params string[] data) { return Get("SiteSettings", data); }
         public static string SitesLimit(params string[] data) { return Get("SitesLimit", data); }
+        public static string SiteTitle(params string[] data) { return Get("SiteTitle", data); }
         public static string SiteUser(params string[] data) { return Get("SiteUser", data); }
         public static string Slack(params string[] data) { return Get("Slack", data); }
         public static string Sorters(params string[] data) { return Get("Sorters", data); }
@@ -434,6 +439,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Ymdhms(params string[] data) { return Get("Ymdhms", data); }
         public static string YmdhmsFormat(params string[] data) { return Get("YmdhmsFormat", data); }
         public static string YmFormat(params string[] data) { return Get("YmFormat", data); }
+        public static string YourPassword(params string[] data) { return Get("YourPassword", data); }
         public static string Tenants_TenantId(params string[] data) { return Get("Tenants_TenantId", data); }
         public static string Tenants_TenantName(params string[] data) { return Get("Tenants_TenantName", data); }
         public static string Tenants_Title(params string[] data) { return Get("Tenants_Title", data); }

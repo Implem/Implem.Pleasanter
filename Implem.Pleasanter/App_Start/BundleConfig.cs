@@ -76,6 +76,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/Security.js",
                 "~/Scripts/Selectable.js",
                 "~/Scripts/Separate.js",
+                "~/Scripts/Site.js",
                 "~/Scripts/SiteInfo.js",
                 "~/Scripts/SiteMenu.js",
                 "~/Scripts/SiteSettings.js",

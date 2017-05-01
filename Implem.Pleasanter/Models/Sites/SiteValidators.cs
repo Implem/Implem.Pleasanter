@@ -163,6 +163,11 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnDeleting(SiteSettings ss, SiteModel siteModel)
         {
+            if (ss.Title != Forms.Data("DeleteSiteTitle") ||
+                !Authentications.Try(Forms.Data("DeleteSitePassword").Sha512Cng()))
+            {
+                return Error.Types.IncorrectSiteDeleting;
+            }
             return ss.CanManageSite()
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;

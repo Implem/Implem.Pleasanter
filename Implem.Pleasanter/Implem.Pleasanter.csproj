@@ -491,6 +491,7 @@
     <Content Include="Scripts\Plugins\jquery-ui\i18n\datepicker-ja.js" />
     <Content Include="Scripts\Plugins\jquery.datetimepicker.full.min.js" />
     <Content Include="Scripts\Scroll.js" />
+    <Content Include="Scripts\Site.js" />
     <Content Include="Scripts\Validator.js" />
     <Content Include="Scripts\ViewMode.js" />
     <Content Include="Scripts\Dialog.js" />
@@ -1051,6 +1052,12 @@
     <Content Include="App_Data\Displays\ApplicationError.json" />
     <Content Include="App_Data\Parameters\ExcludeColumns.json" />
     <Content Include="App_Data\Displays\Plan.json" />
+    <Content Include="App_Data\Displays\DeleteSite.json" />
+    <Content Include="App_Data\Displays\SiteName.json" />
+    <Content Include="App_Data\Displays\IncorrectSiteDeleting.json" />
+    <Content Include="App_Data\Displays\SiteTitle.json" />
+    <Content Include="App_Data\Displays\YourPassword.json" />
+    <Content Include="App_Data\Displays\ConfirmDeleteSite.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

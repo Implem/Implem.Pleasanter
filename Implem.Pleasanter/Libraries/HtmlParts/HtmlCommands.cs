@@ -111,7 +111,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: "Delete",
                                 method: "delete",
                                 confirm: "ConfirmDelete",
-                                _using: deleteButton && ss.CanDelete())
+                                _using: deleteButton && ss.CanDelete() && !ss.IsSite())
+                            .Button(
+                                text: Displays.DeleteSite(),
+                                controlCss: "button-icon",
+                                accessKey: "r",
+                                onClick: "$p.openDeleteSiteDialog($(this));",
+                                icon: "ui-icon-trash",
+                                _using: deleteButton && ss.CanDelete() && ss.IsSite())
                             .Button(
                                 text: Displays.BulkDelete(),
                                 controlCss: "button-icon",

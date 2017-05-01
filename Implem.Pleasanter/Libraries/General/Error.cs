@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.General
             FileNotFound,
             HasNotPermission,
             IncorrectCurrentPassword,
+            IncorrectSiteDeleting,
             InputMailAddress,
             InternalServerError,
             InvalidCsvData,
@@ -83,6 +84,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.HasNotPermission(data);
                 case Types.IncorrectCurrentPassword:
                     return Messages.IncorrectCurrentPassword(data);
+                case Types.IncorrectSiteDeleting:
+                    return Messages.IncorrectSiteDeleting(data);
                 case Types.InputMailAddress:
                     return Messages.InputMailAddress(data);
                 case Types.InternalServerError:
