@@ -475,6 +475,7 @@
     <Content Include="App_Data\Displays\ManageSite.json" />
     <Content Include="App_Data\Displays\Read.json" />
     <Content Include="Global.asax" />
+    <Content Include="Images\loading.gif" />
     <Content Include="Images\logo-corp.png" />
     <Content Include="Scripts\AggregationEvents.js" />
     <Content Include="Scripts\AnchorEvents.js" />
@@ -487,6 +488,7 @@
     <Content Include="Scripts\DropDownSearch.js" />
     <Content Include="Scripts\DropDownSearchEvents.js" />
     <Content Include="Scripts\Group.js" />
+    <Content Include="Scripts\Loading.js" />
     <Content Include="Scripts\Permissions.js" />
     <Content Include="Scripts\Plugins\jquery-ui\i18n\datepicker-ja.js" />
     <Content Include="Scripts\Plugins\jquery.datetimepicker.full.min.js" />

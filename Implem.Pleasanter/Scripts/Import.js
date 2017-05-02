@@ -13,5 +13,6 @@ $p.import = function ($control) {
     $p.upload(
         $('.main-form').attr('action').replace('_action_', $control.attr('data-action')),
         $control.attr('data-method'),
-        data);
+        data,
+        $control);
 }

@@ -1,4 +1,5 @@
 ﻿$p.ajax = function (requestUrl, methodType, data, $eventSender, async) {
+    $p.loading($eventSender);
     var ret = 0;
     async = async !== undefined ? async : true;
     $p.clearMessage();
@@ -25,11 +26,13 @@
     })
     .always(function (jqXHR, textStatus) {
         $p.clearData('ControlId', data);
+        $p.loaded();
     });
     return ret;
 }
 
 $p.upload = function (requestUrl, methodType, data, $eventSender) {
+    $p.loading($eventSender);
     $p.clearMessage();
     return $.ajax({
         url: requestUrl,
@@ -50,5 +53,6 @@ $p.upload = function (requestUrl, methodType, data, $eventSender) {
     })
     .always(function (jqXHR, textStatus) {
         $p.clearData('ControlId', data);
+        $p.loaded();
     });
 }
