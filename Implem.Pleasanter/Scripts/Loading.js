@@ -19,7 +19,7 @@ $p.loaded = function () {
             .prop('disabled', false);
         var $icon = $control.find('.ui-icon');
         $icon
-            .prop('style', '')
+            .removeAttr('style')
             .prop('class', $icon.attr('data-css'));
     });
 }
