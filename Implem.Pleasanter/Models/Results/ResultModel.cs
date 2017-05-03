@@ -583,18 +583,6 @@ namespace Implem.Pleasanter.Models
 
         public List<long> SwitchTargets;
 
-        public ResultModel(
-            SiteSettings ss, 
-            long resultId,
-            long siteId,
-            bool setByForm = false)
-        {
-            ResultId = resultId;
-            SiteId = siteId;
-            if (setByForm) SetByForm(ss);
-            Get(ss);
-        }
-
         public ResultModel()
         {
         }

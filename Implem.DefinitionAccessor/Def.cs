@@ -271,7 +271,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_PropertyValue_ColumnCases": Code.Model_PropertyValue_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_PropertyValue_ColumnCases_ToString": Code.Model_PropertyValue_ColumnCases_ToString = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_ColumnCases_ToString, definitionRow, CodeXls); break;
                     case "Model_SwitchTargets": Code.Model_SwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchTargets, definitionRow, CodeXls); break;
-                    case "Model_Constructor_Items": Code.Model_Constructor_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Constructor_Items, definitionRow, CodeXls); break;
                     case "Model_Constructor": Code.Model_Constructor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Constructor, definitionRow, CodeXls); break;
                     case "Model_ParentIdParameter": Code.Model_ParentIdParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ParentIdParameter, definitionRow, CodeXls); break;
                     case "Model_InheritPermissionParameter": Code.Model_InheritPermissionParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InheritPermissionParameter, definitionRow, CodeXls); break;
@@ -3925,7 +3924,6 @@ namespace Implem.DefinitionAccessor
         public string Model_PropertyValue_ColumnCases;
         public string Model_PropertyValue_ColumnCases_ToString;
         public string Model_SwitchTargets;
-        public string Model_Constructor_Items;
         public string Model_Constructor;
         public string Model_ParentIdParameter;
         public string Model_InheritPermissionParameter;
@@ -4365,7 +4363,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_PropertyValue_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_PropertyValue_ColumnCases_ToString = new CodeDefinition();
         public CodeDefinition Model_SwitchTargets = new CodeDefinition();
-        public CodeDefinition Model_Constructor_Items = new CodeDefinition();
         public CodeDefinition Model_Constructor = new CodeDefinition();
         public CodeDefinition Model_ParentIdParameter = new CodeDefinition();
         public CodeDefinition Model_InheritPermissionParameter = new CodeDefinition();

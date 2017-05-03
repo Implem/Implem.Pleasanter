@@ -49,18 +49,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public WikiModel(
-            SiteSettings ss, 
-            long wikiId,
-            long siteId,
-            bool setByForm = false)
-        {
-            WikiId = wikiId;
-            SiteId = siteId;
-            if (setByForm) SetByForm(ss);
-            Get(ss);
-        }
-
         public WikiModel()
         {
         }

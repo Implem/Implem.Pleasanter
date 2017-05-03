@@ -602,18 +602,6 @@ namespace Implem.Pleasanter.Models
 
         public List<long> SwitchTargets;
 
-        public IssueModel(
-            SiteSettings ss, 
-            long issueId,
-            long siteId,
-            bool setByForm = false)
-        {
-            IssueId = issueId;
-            SiteId = siteId;
-            if (setByForm) SetByForm(ss);
-            Get(ss);
-        }
-
         public IssueModel()
         {
         }
