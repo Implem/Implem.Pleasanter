@@ -142,6 +142,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
+            SqlParamCollection param = null,
             bool paramAll = false)
         {
             SetBySession();
@@ -152,7 +153,7 @@ namespace Implem.Pleasanter.Models
                     verUp: VerUp,
                     where: Rds.DeptsWhereDefault(this)
                         .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                    param: Rds.DeptsParamDefault(this, paramAll: paramAll),
+                    param: param ?? Rds.DeptsParamDefault(this, paramAll: paramAll),
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
             };

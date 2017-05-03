@@ -3146,16 +3146,30 @@ namespace Implem.Pleasanter.Models
                 var error = Imports.ColumnValidate(ss, columnHash.Values
                     .Select(o => o.ColumnName), "Title", "CompletionTime");
                 if (error != null) return error;
+                var issueHash = new Dictionary<int, IssueModel>();
                 var paramHash = new Dictionary<int, SqlParamCollection>();
                 csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
                 {
                     var param = Rds.IssuesParam();
-                    param.IssueId(raw: Def.Sql.Identity);
-                    param.SiteId(siteModel.SiteId);
+                    param.SiteId(ss.SiteId);
                     columnHash.ForEach(column =>
                     {
                         var recordingData = ImportRecordingData(
-                            column.Value, data.Row[column.Key], siteModel.InheritPermission);
+                            column.Value, data.Row[column.Key], ss.InheritPermission);
+                        if (column.Value.ColumnName == "IssueId")
+                        {
+                            var issueId = recordingData.ToLong();
+                            if (Forms.Bool("UpdatableImport") && issueId > 0)
+                            {
+                                var issueModel = new IssueModel().Get(ss, where: Rds.IssuesWhere()
+                                    .SiteId(ss.SiteId)
+                                    .IssueId(issueId));
+                                if (issueModel.AccessStatus == Databases.AccessStatuses.Selected)
+                                {
+                                    issueHash.Add(data.Index, issueModel);
+                                }
+                            }
+                        }
                         if (!param.Any(o => o.Name == column.Value.ColumnName))
                         {
                             switch (column.Value.ColumnName)
@@ -3303,6 +3317,10 @@ namespace Implem.Pleasanter.Models
                             }
                         }
                     });
+                    if (!issueHash.ContainsKey(data.Index))
+                    {
+                        param.IssueId(raw: Def.Sql.Identity);
+                    }
                     paramHash.Add(data.Index, param);
                 });
                 var errorTitle = Imports.Validate(
@@ -3311,17 +3329,32 @@ namespace Implem.Pleasanter.Models
                 var errorCompletionTime = Imports.Validate(
                     paramHash, ss.GetColumn("CompletionTime"));
                 if (errorCompletionTime != null) return errorCompletionTime;
-                paramHash.Values.ForEach(param =>
-                    new IssueModel()
+                var insertCount = 0;
+                var updateCount = 0;
+                paramHash.ForEach(data =>
+                {
+                    if (issueHash.ContainsKey(data.Key))
                     {
-                        SiteId = siteModel.SiteId,
-                        Title = new Title(param.FirstOrDefault(o => o.Name == "Title")?
-                            .Value.ToString() ?? string.Empty)
-                    }.Create(ss, param: param));
+                        var issueModel = issueHash[data.Key];
+                        issueModel.VerUp = Versions.MustVerUp(issueModel);
+                        issueModel.Update(ss, param: data.Value);
+                        updateCount++;
+                    }
+                    else
+                    {
+                        new IssueModel()
+                        {
+                            SiteId = ss.SiteId,
+                            Title = new Title(data.Value.FirstOrDefault(o => o.Name == "Title")?
+                                .Value.ToString() ?? string.Empty)
+                        }.Create(ss, param: data.Value);
+                        insertCount++;
+                    }
+                });
                 return GridRows(ss, res
                     .WindowScrollTop()
                     .CloseDialog("#ImportSettingsDialog")
-                    .Message(Messages.Imported(csv.Rows.Count().ToString())));
+                    .Message(Messages.Imported(insertCount.ToString(), updateCount.ToString())));
             }
             else
             {

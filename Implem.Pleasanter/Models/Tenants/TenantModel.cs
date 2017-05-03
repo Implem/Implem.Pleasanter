@@ -132,6 +132,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types Update(
+            SqlParamCollection param = null,
             bool paramAll = false)
         {
             SetBySession();
@@ -142,7 +143,7 @@ namespace Implem.Pleasanter.Models
                     verUp: VerUp,
                     where: Rds.TenantsWhereDefault(this)
                         .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                    param: Rds.TenantsParamDefault(this, paramAll: paramAll),
+                    param: param ?? Rds.TenantsParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             };
             var count = Rds.ExecuteScalar_int(

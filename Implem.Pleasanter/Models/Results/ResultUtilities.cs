@@ -2968,16 +2968,30 @@ namespace Implem.Pleasanter.Models
                 var error = Imports.ColumnValidate(ss, columnHash.Values
                     .Select(o => o.ColumnName));
                 if (error != null) return error;
+                var resultHash = new Dictionary<int, ResultModel>();
                 var paramHash = new Dictionary<int, SqlParamCollection>();
                 csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
                 {
                     var param = Rds.ResultsParam();
-                    param.ResultId(raw: Def.Sql.Identity);
-                    param.SiteId(siteModel.SiteId);
+                    param.SiteId(ss.SiteId);
                     columnHash.ForEach(column =>
                     {
                         var recordingData = ImportRecordingData(
-                            column.Value, data.Row[column.Key], siteModel.InheritPermission);
+                            column.Value, data.Row[column.Key], ss.InheritPermission);
+                        if (column.Value.ColumnName == "ResultId")
+                        {
+                            var resultId = recordingData.ToLong();
+                            if (Forms.Bool("UpdatableImport") && resultId > 0)
+                            {
+                                var resultModel = new ResultModel().Get(ss, where: Rds.ResultsWhere()
+                                    .SiteId(ss.SiteId)
+                                    .ResultId(resultId));
+                                if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
+                                {
+                                    resultHash.Add(data.Index, resultModel);
+                                }
+                            }
+                        }
                         if (!param.Any(o => o.Name == column.Value.ColumnName))
                         {
                             switch (column.Value.ColumnName)
@@ -3121,19 +3135,38 @@ namespace Implem.Pleasanter.Models
                             }
                         }
                     });
+                    if (!resultHash.ContainsKey(data.Index))
+                    {
+                        param.ResultId(raw: Def.Sql.Identity);
+                    }
                     paramHash.Add(data.Index, param);
                 });
-                paramHash.Values.ForEach(param =>
-                    new ResultModel()
+                var insertCount = 0;
+                var updateCount = 0;
+                paramHash.ForEach(data =>
+                {
+                    if (resultHash.ContainsKey(data.Key))
                     {
-                        SiteId = siteModel.SiteId,
-                        Title = new Title(param.FirstOrDefault(o => o.Name == "Title")?
-                            .Value.ToString() ?? string.Empty)
-                    }.Create(ss, param: param));
+                        var resultModel = resultHash[data.Key];
+                        resultModel.VerUp = Versions.MustVerUp(resultModel);
+                        resultModel.Update(ss, param: data.Value);
+                        updateCount++;
+                    }
+                    else
+                    {
+                        new ResultModel()
+                        {
+                            SiteId = ss.SiteId,
+                            Title = new Title(data.Value.FirstOrDefault(o => o.Name == "Title")?
+                                .Value.ToString() ?? string.Empty)
+                        }.Create(ss, param: data.Value);
+                        insertCount++;
+                    }
+                });
                 return GridRows(ss, res
                     .WindowScrollTop()
                     .CloseDialog("#ImportSettingsDialog")
-                    .Message(Messages.Imported(csv.Rows.Count().ToString())));
+                    .Message(Messages.Imported(insertCount.ToString(), updateCount.ToString())));
             }
             else
             {

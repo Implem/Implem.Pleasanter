@@ -16,15 +16,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.File,
                         controlId: "Import",
+                        fieldCss: "field-wide",
                         labelText: Displays.CsvFile())
                     .FieldDropDown(
                         controlId: "Encoding",
+                        fieldCss: "field-wide",
                         labelText: Displays.CharacterCode(),
                         optionCollection: new Dictionary<string, ControlData>
                         {
                             { "Shift-JIS", new ControlData("Shift-JIS") },
                             { "UTF-8", new ControlData("UTF-8") },
                         })
+                    .FieldCheckBox(
+                        controlId: "UpdatableImport",
+                        fieldCss: "field-wide",
+                        labelText: Displays.UpdatableImport(),
+                        _checked: false,
+                        controlCss: " always-send")
                     .P(css: "message-dialog")
                     .Div(
                         css: "command-center",

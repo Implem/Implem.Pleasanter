@@ -206,6 +206,7 @@ namespace Implem.Pleasanter.Models
             bool permissionChanged = false,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
+            SqlParamCollection param = null,
             bool paramAll = false)
         {
             if (Contract.Notice() && notice)
@@ -220,7 +221,7 @@ namespace Implem.Pleasanter.Models
                     verUp: VerUp,
                     where: Rds.WikisWhereDefault(this)
                         .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                    param: Rds.WikisParamDefault(this, paramAll: paramAll),
+                    param: param ?? Rds.WikisParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             };
             if (permissionChanged)

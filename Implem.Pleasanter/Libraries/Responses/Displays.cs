@@ -396,6 +396,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Total(params string[] data) { return Get("Total", data); }
         public static string UncheckAll(params string[] data) { return Get("UncheckAll", data); }
         public static string Unit(params string[] data) { return Get("Unit", data); }
+        public static string UpdatableImport(params string[] data) { return Get("UpdatableImport", data); }
         public static string Update(params string[] data) { return Get("Update", data); }
         public static string UpdateColumnAccessControl(params string[] data) { return Get("UpdateColumnAccessControl", data); }
         public static string UpdateConflicts(params string[] data) { return Get("UpdateConflicts", data); }

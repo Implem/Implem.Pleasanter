@@ -859,6 +859,7 @@ namespace Implem.Pleasanter.Models
             bool permissionChanged = false,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
+            SqlParamCollection param = null,
             bool paramAll = false)
         {
             if (Contract.Notice() && notice)
@@ -873,7 +874,7 @@ namespace Implem.Pleasanter.Models
                     verUp: VerUp,
                     where: Rds.ResultsWhereDefault(this)
                         .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                    param: Rds.ResultsParamDefault(this, paramAll: paramAll),
+                    param: param ?? Rds.ResultsParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             };
             if (permissionChanged)
