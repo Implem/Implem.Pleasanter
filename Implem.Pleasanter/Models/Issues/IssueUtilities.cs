@@ -3337,18 +3337,17 @@ namespace Implem.Pleasanter.Models
                     {
                         var issueModel = issueHash[data.Key];
                         issueModel.VerUp = Versions.MustVerUp(issueModel);
-                        Rds.ExecuteNonQuery(statements:
-                            issueModel.UpdateStatements(data.Value).ToArray());
+                        issueModel.Update(ss, param: data.Value);
                         updateCount++;
                     }
                     else
                     {
-                        Rds.ExecuteNonQuery(statements: new IssueModel()
+                        new IssueModel()
                         {
                             SiteId = ss.SiteId,
                             Title = new Title(data.Value.FirstOrDefault(o =>
                                 o.Name == "Title")?.Value.ToString() ?? string.Empty)
-                        }.CreateStatements(ss, param: data.Value).ToArray());
+                        }.Create(ss, param: data.Value);
                         insertCount++;
                     }
                 });
