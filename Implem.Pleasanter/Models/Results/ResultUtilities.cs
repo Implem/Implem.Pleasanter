@@ -3149,17 +3149,18 @@ namespace Implem.Pleasanter.Models
                     {
                         var resultModel = resultHash[data.Key];
                         resultModel.VerUp = Versions.MustVerUp(resultModel);
-                        resultModel.Update(ss, param: data.Value);
+                        Rds.ExecuteNonQuery(statements:
+                            resultModel.UpdateStatements(data.Value).ToArray());
                         updateCount++;
                     }
                     else
                     {
-                        new ResultModel()
+                        Rds.ExecuteNonQuery(statements: new ResultModel()
                         {
                             SiteId = ss.SiteId,
-                            Title = new Title(data.Value.FirstOrDefault(o => o.Name == "Title")?
-                                .Value.ToString() ?? string.Empty)
-                        }.Create(ss, param: data.Value);
+                            Title = new Title(data.Value.FirstOrDefault(o =>
+                                o.Name == "Title")?.Value.ToString() ?? string.Empty)
+                        }.CreateStatements(ss, param: data.Value).ToArray());
                         insertCount++;
                     }
                 });
