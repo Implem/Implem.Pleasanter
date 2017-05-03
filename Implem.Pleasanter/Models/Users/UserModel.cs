@@ -217,15 +217,7 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false)
         {
             PasswordExpirationPeriod();
-            var statements = new List<SqlStatement>
-            {
-                Rds.InsertUsers(
-                    tableType: tableType,
-                        selectIdentity: true,
-                    param: param ?? Rds.UsersParamDefault(
-                        this, setDefault: true, paramAll: paramAll)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
-            };
+            var statements = CreateStatements(ss, tableType, param, paramAll);
             try
             {
                 var newId = Rds.ExecuteScalar_int(
@@ -247,6 +239,23 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
+        public List<SqlStatement> CreateStatements(
+            SiteSettings ss, 
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            bool paramAll = false)
+        {
+            return new List<SqlStatement>
+            {
+                Rds.InsertUsers(
+                    tableType: tableType,
+                        selectIdentity: true,
+                    param: param ?? Rds.UsersParamDefault(
+                        this, setDefault: true, paramAll: paramAll)),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
+            };
+        }
+
         public Error.Types Update(
             SiteSettings ss,
             IEnumerable<string> permissions = null,
@@ -255,17 +264,7 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false)
         {
             SetBySession();
-            var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>
-            {
-                Rds.UpdateUsers(
-                    verUp: VerUp,
-                    where: Rds.UsersWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                    param: param ?? Rds.UsersParamDefault(this, paramAll: paramAll),
-                    countRecord: true),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
-            };
+            var statements = UpdateStatements(param, paramAll);
             try
             {
                 var count = Rds.ExecuteScalar_int(
@@ -287,6 +286,22 @@ namespace Implem.Pleasanter.Models
             UpdateMailAddresses();
             SetSiteInfo();
             return Error.Types.None;
+        }
+
+        public List<SqlStatement> UpdateStatements(
+            SqlParamCollection param, bool paramAll = false)
+        {
+            var timestamp = Timestamp.ToDateTime();
+            return new List<SqlStatement>
+            {
+                Rds.UpdateUsers(
+                    verUp: VerUp,
+                    where: Rds.UsersWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: param ?? Rds.UsersParamDefault(this, paramAll: paramAll),
+                    countRecord: true),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
+            };
         }
 
         public Error.Types Delete(SiteSettings ss, bool notice = false)

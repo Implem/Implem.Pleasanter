@@ -232,17 +232,7 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false)
         {
             SetBySession();
-            var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>
-            {
-                Rds.UpdateSites(
-                    verUp: VerUp,
-                    where: Rds.SitesWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                    param: param ?? Rds.SitesParamDefault(this, paramAll: paramAll),
-                    countRecord: true),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
-            };
+            var statements = UpdateStatements(param, paramAll);
             if (permissionChanged)
             {
                 statements.UpdatePermissions(ss, SiteId, permissions, site: true);
@@ -255,6 +245,22 @@ namespace Implem.Pleasanter.Models
             UpdateRelatedRecords();
             SiteInfo.Reflesh();
             return Error.Types.None;
+        }
+
+        public List<SqlStatement> UpdateStatements(
+            SqlParamCollection param, bool paramAll = false)
+        {
+            var timestamp = Timestamp.ToDateTime();
+            return new List<SqlStatement>
+            {
+                Rds.UpdateSites(
+                    verUp: VerUp,
+                    where: Rds.SitesWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: param ?? Rds.SitesParamDefault(this, paramAll: paramAll),
+                    countRecord: true),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
+            };
         }
 
         public void UpdateRelatedRecords(

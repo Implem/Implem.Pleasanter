@@ -141,14 +141,7 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            var statements = new List<SqlStatement>
-            {
-                Rds.InsertOutgoingMails(
-                    tableType: tableType,
-                        selectIdentity: true,
-                    param: param ?? Rds.OutgoingMailsParamDefault(
-                        this, setDefault: true, paramAll: paramAll))
-            };
+            var statements = CreateStatements(tableType, param, paramAll);
             var newId = Rds.ExecuteScalar_long(
                 transactional: true, statements: statements.ToArray());
             OutgoingMailId = newId != 0 ? newId : OutgoingMailId;
@@ -156,21 +149,27 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
+        public List<SqlStatement> CreateStatements(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            bool paramAll = false)
+        {
+            return new List<SqlStatement>
+            {
+                Rds.InsertOutgoingMails(
+                    tableType: tableType,
+                        selectIdentity: true,
+                    param: param ?? Rds.OutgoingMailsParamDefault(
+                        this, setDefault: true, paramAll: paramAll))
+            };
+        }
+
         public Error.Types Update(
             SqlParamCollection param = null,
             bool paramAll = false)
         {
             SetBySession();
-            var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>
-            {
-                Rds.UpdateOutgoingMails(
-                    verUp: VerUp,
-                    where: Rds.OutgoingMailsWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                    param: param ?? Rds.OutgoingMailsParamDefault(this, paramAll: paramAll),
-                    countRecord: true)
-            };
+            var statements = UpdateStatements(param, paramAll);
             var count = Rds.ExecuteScalar_int(
                 transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
@@ -179,6 +178,21 @@ namespace Implem.Pleasanter.Models
             var ss = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
             Libraries.Search.Indexes.Create(ss, ReferenceId);
             return Error.Types.None;
+        }
+
+        public List<SqlStatement> UpdateStatements(
+            SqlParamCollection param, bool paramAll = false)
+        {
+            var timestamp = Timestamp.ToDateTime();
+            return new List<SqlStatement>
+            {
+                Rds.UpdateOutgoingMails(
+                    verUp: VerUp,
+                    where: Rds.OutgoingMailsWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: param ?? Rds.OutgoingMailsParamDefault(this, paramAll: paramAll),
+                    countRecord: true)
+            };
         }
 
         public Error.Types UpdateOrCreate(

@@ -118,7 +118,21 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            var statements = new List<SqlStatement>
+            var statements = CreateStatements(ss, tableType, param, paramAll);
+            var newId = Rds.ExecuteScalar_int(
+                transactional: true, statements: statements.ToArray());
+            GroupId = newId != 0 ? newId : GroupId;
+            Get(ss);
+            return Error.Types.None;
+        }
+
+        public List<SqlStatement> CreateStatements(
+            SiteSettings ss, 
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            bool paramAll = false)
+        {
+            return new List<SqlStatement>
             {
                 Rds.InsertGroups(
                     tableType: tableType,
@@ -133,11 +147,6 @@ namespace Implem.Pleasanter.Models
                             .Admin(true)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
             };
-            var newId = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
-            GroupId = newId != 0 ? newId : GroupId;
-            Get(ss);
-            return Error.Types.None;
         }
 
         public Error.Types Update(
@@ -148,17 +157,7 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false)
         {
             SetBySession();
-            var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>
-            {
-                Rds.UpdateGroups(
-                    verUp: VerUp,
-                    where: Rds.GroupsWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                    param: param ?? Rds.GroupsParamDefault(this, paramAll: paramAll),
-                    countRecord: true),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
-            };
+            var statements = UpdateStatements(param, paramAll);
             var count = Rds.ExecuteScalar_int(
                 transactional: true, statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
@@ -190,6 +189,22 @@ namespace Implem.Pleasanter.Models
             });
             Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
             return Error.Types.None;
+        }
+
+        public List<SqlStatement> UpdateStatements(
+            SqlParamCollection param, bool paramAll = false)
+        {
+            var timestamp = Timestamp.ToDateTime();
+            return new List<SqlStatement>
+            {
+                Rds.UpdateGroups(
+                    verUp: VerUp,
+                    where: Rds.GroupsWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: param ?? Rds.GroupsParamDefault(this, paramAll: paramAll),
+                    countRecord: true),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
+            };
         }
 
         public Error.Types UpdateOrCreate(

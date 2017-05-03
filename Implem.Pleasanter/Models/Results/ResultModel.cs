@@ -802,20 +802,7 @@ namespace Implem.Pleasanter.Models
             bool notice = false,
             bool paramAll = false)
         {
-            var statements = new List<SqlStatement>
-            {
-                Rds.InsertItems(
-                    selectIdentity: true,
-                    param: Rds.ItemsParam()
-                        .ReferenceType("Results")
-                        .SiteId(SiteId)
-                        .Title(Title.Value)),
-                Rds.InsertResults(
-                    tableType: tableType,
-                    param: param ?? Rds.ResultsParamDefault(
-                        this, setDefault: true, paramAll: paramAll)),
-                    InsertLinks(ss, selectIdentity: true),
-            };
+            var statements = CreateStatements(ss, tableType, param, paramAll);
             statements.CreatePermissions(ss, ss.Columns
                 .Where(o => o.UserColumn)
                 .ToDictionary(o =>
@@ -841,6 +828,28 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
+        public List<SqlStatement> CreateStatements(
+            SiteSettings ss, 
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            bool paramAll = false)
+        {
+            return new List<SqlStatement>
+            {
+                Rds.InsertItems(
+                    selectIdentity: true,
+                    param: Rds.ItemsParam()
+                        .ReferenceType("Results")
+                        .SiteId(SiteId)
+                        .Title(Title.Value)),
+                Rds.InsertResults(
+                    tableType: tableType,
+                    param: param ?? Rds.ResultsParamDefault(
+                        this, setDefault: true, paramAll: paramAll)),
+                    InsertLinks(ss, selectIdentity: true),
+            };
+        }
+
         public Error.Types Update(
             SiteSettings ss,
             IEnumerable<string> permissions = null,
@@ -855,16 +864,7 @@ namespace Implem.Pleasanter.Models
                 CheckNotificationConditions(ss, before: true);
             }
             SetBySession();
-            var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>
-            {
-                Rds.UpdateResults(
-                    verUp: VerUp,
-                    where: Rds.ResultsWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                    param: param ?? Rds.ResultsParamDefault(this, paramAll: paramAll),
-                    countRecord: true)
-            };
+            var statements = UpdateStatements(param, paramAll);
             if (permissionChanged)
             {
                 statements.UpdatePermissions(ss, ResultId, permissions);
@@ -881,6 +881,21 @@ namespace Implem.Pleasanter.Models
             Get(ss);
             UpdateRelatedRecords(ss);
             return Error.Types.None;
+        }
+
+        public List<SqlStatement> UpdateStatements(
+            SqlParamCollection param, bool paramAll = false)
+        {
+            var timestamp = Timestamp.ToDateTime();
+            return new List<SqlStatement>
+            {
+                Rds.UpdateResults(
+                    verUp: VerUp,
+                    where: Rds.ResultsWhereDefault(this)
+                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    param: param ?? Rds.ResultsParamDefault(this, paramAll: paramAll),
+                    countRecord: true)
+            };
         }
 
         public void UpdateRelatedRecords(

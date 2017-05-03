@@ -116,14 +116,7 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            var statements = new List<SqlStatement>
-            {
-                Rds.InsertTenants(
-                    tableType: tableType,
-                        selectIdentity: true,
-                    param: param ?? Rds.TenantsParamDefault(
-                        this, setDefault: true, paramAll: paramAll))
-            };
+            var statements = CreateStatements(tableType, param, paramAll);
             var newId = Rds.ExecuteScalar_int(
                 transactional: true, statements: statements.ToArray());
             TenantId = newId != 0 ? newId : TenantId;
@@ -131,13 +124,39 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
+        public List<SqlStatement> CreateStatements(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            bool paramAll = false)
+        {
+            return new List<SqlStatement>
+            {
+                Rds.InsertTenants(
+                    tableType: tableType,
+                        selectIdentity: true,
+                    param: param ?? Rds.TenantsParamDefault(
+                        this, setDefault: true, paramAll: paramAll))
+            };
+        }
+
         public Error.Types Update(
             SqlParamCollection param = null,
             bool paramAll = false)
         {
             SetBySession();
+            var statements = UpdateStatements(param, paramAll);
+            var count = Rds.ExecuteScalar_int(
+                transactional: true, statements: statements.ToArray());
+            if (count == 0) return Error.Types.UpdateConflicts;
+            Get();
+            return Error.Types.None;
+        }
+
+        public List<SqlStatement> UpdateStatements(
+            SqlParamCollection param, bool paramAll = false)
+        {
             var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>
+            return new List<SqlStatement>
             {
                 Rds.UpdateTenants(
                     verUp: VerUp,
@@ -146,11 +165,6 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.TenantsParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             };
-            var count = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
-            if (count == 0) return Error.Types.UpdateConflicts;
-            Get();
-            return Error.Types.None;
         }
 
         public Error.Types UpdateOrCreate(

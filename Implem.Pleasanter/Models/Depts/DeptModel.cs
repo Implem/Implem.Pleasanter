@@ -122,7 +122,21 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            var statements = new List<SqlStatement>
+            var statements = CreateStatements(ss, tableType, param, paramAll);
+            var newId = Rds.ExecuteScalar_int(
+                transactional: true, statements: statements.ToArray());
+            DeptId = newId != 0 ? newId : DeptId;
+            Get(ss);
+            return Error.Types.None;
+        }
+
+        public List<SqlStatement> CreateStatements(
+            SiteSettings ss, 
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            bool paramAll = false)
+        {
+            return new List<SqlStatement>
             {
                 Rds.InsertDepts(
                     tableType: tableType,
@@ -131,11 +145,6 @@ namespace Implem.Pleasanter.Models
                         this, setDefault: true, paramAll: paramAll)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
             };
-            var newId = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
-            DeptId = newId != 0 ? newId : DeptId;
-            Get(ss);
-            return Error.Types.None;
         }
 
         public Error.Types Update(
@@ -146,8 +155,20 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false)
         {
             SetBySession();
+            var statements = UpdateStatements(param, paramAll);
+            var count = Rds.ExecuteScalar_int(
+                transactional: true, statements: statements.ToArray());
+            if (count == 0) return Error.Types.UpdateConflicts;
+            Get(ss);
+            SiteInfo.Reflesh();
+            return Error.Types.None;
+        }
+
+        public List<SqlStatement> UpdateStatements(
+            SqlParamCollection param, bool paramAll = false)
+        {
             var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>
+            return new List<SqlStatement>
             {
                 Rds.UpdateDepts(
                     verUp: VerUp,
@@ -157,12 +178,6 @@ namespace Implem.Pleasanter.Models
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
             };
-            var count = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
-            if (count == 0) return Error.Types.UpdateConflicts;
-            Get(ss);
-            SiteInfo.Reflesh();
-            return Error.Types.None;
         }
 
         public Error.Types UpdateOrCreate(

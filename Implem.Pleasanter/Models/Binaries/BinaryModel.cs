@@ -148,14 +148,7 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false)
         {
             Size = Bin.Length;
-            var statements = new List<SqlStatement>
-            {
-                Rds.InsertBinaries(
-                    tableType: tableType,
-                        selectIdentity: true,
-                    param: param ?? Rds.BinariesParamDefault(
-                        this, setDefault: true, paramAll: paramAll))
-            };
+            var statements = CreateStatements(tableType, param, paramAll);
             var newId = Rds.ExecuteScalar_long(
                 transactional: true, statements: statements.ToArray());
             BinaryId = newId != 0 ? newId : BinaryId;
@@ -163,13 +156,39 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
+        public List<SqlStatement> CreateStatements(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            bool paramAll = false)
+        {
+            return new List<SqlStatement>
+            {
+                Rds.InsertBinaries(
+                    tableType: tableType,
+                        selectIdentity: true,
+                    param: param ?? Rds.BinariesParamDefault(
+                        this, setDefault: true, paramAll: paramAll))
+            };
+        }
+
         public Error.Types Update(
             SqlParamCollection param = null,
             bool paramAll = false)
         {
             SetBySession();
+            var statements = UpdateStatements(param, paramAll);
+            var count = Rds.ExecuteScalar_int(
+                transactional: true, statements: statements.ToArray());
+            if (count == 0) return Error.Types.UpdateConflicts;
+            Get();
+            return Error.Types.None;
+        }
+
+        public List<SqlStatement> UpdateStatements(
+            SqlParamCollection param, bool paramAll = false)
+        {
             var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>
+            return new List<SqlStatement>
             {
                 Rds.UpdateBinaries(
                     verUp: VerUp,
@@ -178,11 +197,6 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.BinariesParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             };
-            var count = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
-            if (count == 0) return Error.Types.UpdateConflicts;
-            Get();
-            return Error.Types.None;
         }
 
         public Error.Types UpdateOrCreate(
