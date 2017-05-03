@@ -111,6 +111,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<string, Choice> ChoiceHash;
         [NonSerialized]
+        public Dictionary<string, string> ChoiceValueHash;
+        [NonSerialized]
+        public Dictionary<string, int> SiteUserHash;
+        [NonSerialized]
         public bool CanCreate = true;
         [NonSerialized]
         public bool CanRead = true;
@@ -298,10 +302,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             object recordingData = value;
             if (UserColumn)
             {
-                recordingData = SiteInfo.UserHash
-                    .Where(o => o.Value.Name == value)
-                    .Select(o => o.Value.Id)
-                    .FirstOrDefault(o => SiteInfo.SiteUsers(siteId).Any(p => p == o));
+                if (SiteUserHash == null)
+                {
+                    SiteUserHash = SiteInfo.SiteUsers(siteId)
+                        .Where(o => SiteInfo.UserHash.ContainsKey(o))
+                        .ToDictionary(o => SiteInfo.UserHash[o].Name, o => o);
+                }
+                recordingData = SiteUserHash.Get(value);
             }
             else if (TypeCs == "Comments")
             {
@@ -309,9 +316,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else if (HasChoices())
             {
-                recordingData = ChoiceHash.Where(o => o.Value.Text == value)
-                    .Select(o => o.Value.Value)
-                    .FirstOrDefault();
+                if (ChoiceValueHash == null)
+                {
+                    ChoiceValueHash = ChoiceHash
+                        .GroupBy(o => o.Value)
+                        .Select(o => o.First())
+                        .ToDictionary(o => o.Value.Value, o => o.Key);
+                }
+                recordingData = ChoiceValueHash.Get(value);
             }
             if (recordingData == null) return null;
             switch (TypeName)
@@ -322,8 +334,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "float": return recordingData.ToFloat();
                 case "decimal": return recordingData.ToDecimal();
                 case "datetime": return recordingData.ToDateTime().ToUniversal();
-                case "nchar":
-                case "nvarchar": return recordingData;
                 default: return recordingData;
             }
         }
