@@ -118,13 +118,16 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Create(
             SiteSettings ss, 
+            RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
             var statements = CreateStatements(ss, tableType, param, paramAll);
             var newId = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
+                rdsUser: rdsUser,
+                transactional: true,
+                statements: statements.ToArray());
             DeptId = newId != 0 ? newId : DeptId;
             Get(ss);
             return Error.Types.None;
@@ -151,13 +154,16 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
+            RdsUser rdsUser = null,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
             SetBySession();
             var statements = UpdateStatements(param, paramAll);
             var count = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
+                rdsUser: rdsUser,
+                transactional: true,
+                statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             Get(ss);
             SiteInfo.Reflesh();
@@ -182,6 +188,7 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types UpdateOrCreate(
             SiteSettings ss, 
+            RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
@@ -195,7 +202,9 @@ namespace Implem.Pleasanter.Models
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
             };
             var newId = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
+                rdsUser: rdsUser,
+                transactional: true,
+                statements: statements.ToArray());
             DeptId = newId != 0 ? newId : DeptId;
             Get(ss);
             return Error.Types.None;

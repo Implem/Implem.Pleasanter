@@ -117,13 +117,16 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types Create(
+            RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
             var statements = CreateStatements(tableType, param, paramAll);
             var newId = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
+                rdsUser: rdsUser,
+                transactional: true,
+                statements: statements.ToArray());
             DemoId = newId != 0 ? newId : DemoId;
             Get();
             return Error.Types.None;
@@ -145,13 +148,16 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types Update(
+            RdsUser rdsUser = null,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
             SetBySession();
             var statements = UpdateStatements(param, paramAll);
             var count = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
+                rdsUser: rdsUser,
+                transactional: true,
+                statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             Get();
             return Error.Types.None;
@@ -173,6 +179,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types UpdateOrCreate(
+            RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
@@ -185,7 +192,9 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.DemosParamDefault(this, setDefault: true))
             };
             var newId = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
+                rdsUser: rdsUser,
+                transactional: true,
+                statements: statements.ToArray());
             DemoId = newId != 0 ? newId : DemoId;
             Get();
             return Error.Types.None;

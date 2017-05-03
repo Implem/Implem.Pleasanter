@@ -212,6 +212,7 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Create(
             SiteSettings ss, 
+            RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool paramAll = false)
@@ -260,6 +261,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
+            RdsUser rdsUser = null,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
@@ -268,7 +270,9 @@ namespace Implem.Pleasanter.Models
             try
             {
                 var count = Rds.ExecuteScalar_int(
-                    transactional: true, statements: statements.ToArray());
+                    rdsUser: rdsUser,
+                    transactional: true,
+                    statements: statements.ToArray());
                 if (count == 0) return Error.Types.UpdateConflicts;
             }
             catch (System.Data.SqlClient.SqlException e)

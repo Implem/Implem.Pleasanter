@@ -228,6 +228,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
+            RdsUser rdsUser = null,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
@@ -238,7 +239,9 @@ namespace Implem.Pleasanter.Models
                 statements.UpdatePermissions(ss, SiteId, permissions, site: true);
             }
             var count = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
+                rdsUser: rdsUser,
+                transactional: true,
+                statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             SiteSettingsUtilities.UpdateTitles(ss);
             Get();
@@ -264,11 +267,13 @@ namespace Implem.Pleasanter.Models
         }
 
         public void UpdateRelatedRecords(
+            RdsUser rdsUser = null,
             bool addUpdatedTimeParam = true,
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
             Rds.ExecuteNonQuery(
+                rdsUser: rdsUser,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
@@ -291,6 +296,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types UpdateOrCreate(
+            RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
@@ -310,7 +316,9 @@ namespace Implem.Pleasanter.Models
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
             };
             var newId = Rds.ExecuteScalar_long(
-                transactional: true, statements: statements.ToArray());
+                rdsUser: rdsUser,
+                transactional: true,
+                statements: statements.ToArray());
             SiteId = newId != 0 ? newId : SiteId;
             Get();
             Libraries.Search.Indexes.Create(SiteSettings, SiteId);

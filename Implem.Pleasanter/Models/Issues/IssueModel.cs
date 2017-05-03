@@ -819,6 +819,7 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Create(
             SiteSettings ss, 
+            RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool forceSynchronizeSourceSummary = false,
@@ -832,7 +833,9 @@ namespace Implem.Pleasanter.Models
                     o.ColumnName,
                     o => SiteInfo.User(PropertyValue(o.ColumnName).ToInt())));
             var newId = Rds.ExecuteScalar_long(
-                transactional: true, statements: statements.ToArray());
+                rdsUser: rdsUser,
+                transactional: true,
+                statements: statements.ToArray());
             IssueId = newId != 0 ? newId : IssueId;
             SynchronizeSummary(ss, forceSynchronizeSourceSummary);
             if (Contract.Notice() && notice)
@@ -841,8 +844,9 @@ namespace Implem.Pleasanter.Models
                 Notice(ss, "Created");
             }
             Get(ss);
-            Rds.ExecuteNonQuery(statements:
-                Rds.UpdateItems(
+            Rds.ExecuteNonQuery(
+                rdsUser: rdsUser,
+                statements: Rds.UpdateItems(
                     param: Rds.ItemsParam()
                         .Title(IssueUtilities.TitleDisplayValue(ss, this)),
                     where: Rds.ItemsWhere().ReferenceId(IssueId)));
@@ -879,6 +883,7 @@ namespace Implem.Pleasanter.Models
             bool permissionChanged = false,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
+            RdsUser rdsUser = null,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
@@ -893,7 +898,9 @@ namespace Implem.Pleasanter.Models
                 statements.UpdatePermissions(ss, IssueId, permissions);
             }
             var count = Rds.ExecuteScalar_int(
-                transactional: true, statements: statements.ToArray());
+                rdsUser: rdsUser,
+                transactional: true,
+                statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
             SynchronizeSummary(ss, forceSynchronizeSourceSummary);
             if (Contract.Notice() && notice)
@@ -923,11 +930,13 @@ namespace Implem.Pleasanter.Models
 
         public void UpdateRelatedRecords(
             SiteSettings ss, 
+            RdsUser rdsUser = null,
             bool addUpdatedTimeParam = true,
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
             Rds.ExecuteNonQuery(
+                rdsUser: rdsUser,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
@@ -987,6 +996,7 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types UpdateOrCreate(
             SiteSettings ss, 
+            RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
@@ -1005,7 +1015,9 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.IssuesParamDefault(this, setDefault: true))
             };
             var newId = Rds.ExecuteScalar_long(
-                transactional: true, statements: statements.ToArray());
+                rdsUser: rdsUser,
+                transactional: true,
+                statements: statements.ToArray());
             IssueId = newId != 0 ? newId : IssueId;
             Get(ss);
             Libraries.Search.Indexes.Create(ss, IssueId);
