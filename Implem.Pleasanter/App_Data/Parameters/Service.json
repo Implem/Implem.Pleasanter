@@ -6,6 +6,7 @@
     "ImportData": false,
     "ShowTenantTitle": false,
     "ShowProfiles": true,
+    "CreateIndexes": true,
     "Demo": false,
     "DemoUsagePeriod": 30
 }

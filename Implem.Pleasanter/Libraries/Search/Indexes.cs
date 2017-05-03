@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -13,8 +14,10 @@ namespace Implem.Pleasanter.Libraries.Search
     {
         public static void Create(SiteSettings ss, long id)
         {
-            Task.Run(() =>
-                CreateIndexes(ss, id));
+            if (Parameters.Service.CreateIndexes)
+            {
+                Task.Run(() => CreateIndexes(ss, id));
+            }
         }
 
         private static void CreateIndexes(SiteSettings ss, long id)
