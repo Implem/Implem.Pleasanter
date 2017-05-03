@@ -6,10 +6,12 @@ using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
+using System;
 using System.Collections.Generic;
 using System.Data;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
+    [Serializable]
     public class Title : IConvertable
     {
         public long Id;
