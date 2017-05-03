@@ -22,7 +22,7 @@
     "GridPageSize": 20,
     "GridPageSizeMin": 10,
     "GridPageSizeMax": 200,
-    "ImportMax": ,
+    "ImportMax": 0,
     "SolutionBackupPath": "",
     "SolutionBackupExcludeDirectories": "\\Backups,\\Histories,\\SiteImage,\\Logs,\\Temp,\\packages,\\bin,\\obj,\\PublishProfiles,\\BuildProcessTemplates",
     "SizeToUseTextArea": 1025,
