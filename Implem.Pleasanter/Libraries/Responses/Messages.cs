@@ -183,6 +183,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.Imported(data), "alert-success");
         }
 
+        public static Message ImportMax(params string[] data)
+        {
+            return Get(Displays.ImportMax(data), "alert-error");
+        }
+
         public static Message InCompression(params string[] data)
         {
             return Get(Displays.InCompression(data), "alert-info");
@@ -511,6 +516,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseImported(params string[] data)
         {
             return ResponseMessage(Imported(data));
+        }
+
+        public static ResponseCollection ResponseImportMax(params string[] data)
+        {
+            return ResponseMessage(ImportMax(data));
         }
 
         public static ResponseCollection ResponseInCompression(params string[] data)

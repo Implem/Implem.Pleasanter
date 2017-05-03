@@ -196,6 +196,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Id(params string[] data) { return Get("Id", data); }
         public static string Import(params string[] data) { return Get("Import", data); }
         public static string Imported(params string[] data) { return Get("Imported", data); }
+        public static string ImportMax(params string[] data) { return Get("ImportMax", data); }
         public static string Incomplete(params string[] data) { return Get("Incomplete", data); }
         public static string InCompression(params string[] data) { return Get("InCompression", data); }
         public static string InCopying(params string[] data) { return Get("InCopying", data); }

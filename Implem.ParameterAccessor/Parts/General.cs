@@ -26,6 +26,7 @@ namespace Implem.ParameterAccessor.Parts
         public int GridPageSize;
         public int GridPageSizeMin;
         public int GridPageSizeMax;
+        public int ImportMax;
         public string SolutionBackupPath;
         public string SolutionBackupExcludeDirectories;
         public int SizeToUseTextArea;

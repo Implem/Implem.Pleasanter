@@ -3129,6 +3129,10 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseFailedReadFile().ToJson();
             }
             var count = csv.Rows.Count();
+            if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
+            {
+                return Error.Types.ImportMax.MessageJson(Parameters.General.ImportMax.ToString());
+            }
             if (Contract.ItemsLimit(ss.SiteId, count))
             {
                 return Error.Types.ItemsLimit.MessageJson();

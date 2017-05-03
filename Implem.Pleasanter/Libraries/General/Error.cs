@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.General
             FailedReadFile,
             FileNotFound,
             HasNotPermission,
+            ImportMax,
             IncorrectCurrentPassword,
             IncorrectSiteDeleting,
             InputMailAddress,
@@ -82,6 +83,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.FileNotFound(data);
                 case Types.HasNotPermission:
                     return Messages.HasNotPermission(data);
+                case Types.ImportMax:
+                    return Messages.ImportMax(data);
                 case Types.IncorrectCurrentPassword:
                     return Messages.IncorrectCurrentPassword(data);
                 case Types.IncorrectSiteDeleting:

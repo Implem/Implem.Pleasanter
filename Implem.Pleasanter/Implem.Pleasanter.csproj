@@ -1060,6 +1060,7 @@
     <Content Include="App_Data\Displays\SiteTitle.json" />
     <Content Include="App_Data\Displays\ConfirmDeleteSite.json" />
     <Content Include="App_Data\Displays\UpdatableImport.json" />
+    <Content Include="App_Data\Displays\ImportMax.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
