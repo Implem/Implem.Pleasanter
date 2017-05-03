@@ -377,15 +377,12 @@ namespace Implem.Pleasanter.Models
             return EditorResponse(siteModel).ToJson();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string TitleDisplayValue(SiteSettings ss, SiteModel siteModel)
         {
-            var displayValue = ss.GetTitleColumns()
-                .Select(column => TitleDisplayValue(column, siteModel))
-                .Where(o => o != string.Empty)
-                .Join(ss.TitleSeparator);
-            return displayValue != string.Empty
-                ? displayValue
-                : Displays.NoTitle();
+            return siteModel.Title.Value + " - " + Displays.EditSettings();
         }
 
         private static string TitleDisplayValue(Column column, SiteModel siteModel)
