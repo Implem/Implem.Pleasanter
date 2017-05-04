@@ -109,9 +109,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("RemoveAttr", target, name) : this;
         }
 
-        public ResponseCollection Focus(string target = "", bool _using = true)
+        public ResponseCollection Focus(string target, bool _using = true)
         {
-            return _using ? Add("Focus", target, string.Empty) : this;
+            return _using ? Add("Focus", target) : this;
         }
 
         public ResponseCollection Val(string target, object value, bool _using = true)
