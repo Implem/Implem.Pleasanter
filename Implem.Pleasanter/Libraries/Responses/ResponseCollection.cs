@@ -157,7 +157,7 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public ResponseCollection FocusMainForm(bool _using = true)
         {
-            return _using ? Add("FocusMainForm", string.Empty) : this;
+            return _using ? Add("FocusMainForm") : this;
         }
 
         public ResponseCollection Empty(string key, bool _using = true)
