@@ -3357,7 +3357,7 @@ namespace Implem.Pleasanter.Models
                 });
                 return GridRows(ss, res
                     .WindowScrollTop()
-                    .CloseDialog("#ImportSettingsDialog")
+                    .CloseDialog()
                     .Message(Messages.Imported(insertCount.ToString(), updateCount.ToString())));
             }
             else

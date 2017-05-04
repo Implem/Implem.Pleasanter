@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
         }
 
-        public ResponseCollection Add(string method, string target, object value = null)
+        public ResponseCollection Add(string method, string target = null, object value = null)
         {
             Add(new Response(method, target, value != null ? value : string.Empty));
             return this;
@@ -130,9 +130,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("ClearFormData", target, type) : this;
         }
 
-        public ResponseCollection CloseDialog(string target = "", bool _using = true)
+        public ResponseCollection CloseDialog(bool _using = true)
         {
-            return _using ? Add("CloseDialog", string.Empty, string.Empty) : this;
+            return _using ? Add("CloseDialog") : this;
         }
 
         public ResponseCollection Paging(string target = "", bool _using = true)

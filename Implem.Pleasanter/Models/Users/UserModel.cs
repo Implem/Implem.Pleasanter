@@ -687,7 +687,7 @@ namespace Implem.Pleasanter.Models
                     .LastLoginTime(DateTime.Now)));
             SetFormsAuthentication(returnUrl);
             return new UsersResponseCollection(this)
-                .CloseDialog("#ChangePasswordDialog", _using: atLogin)
+                .CloseDialog(_using: atLogin)
                 .Message(Messages.LoginIn())
                 .Href(returnUrl == string.Empty
                     ? Locations.Top()
