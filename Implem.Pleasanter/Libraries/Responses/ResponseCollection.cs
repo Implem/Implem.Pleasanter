@@ -160,11 +160,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("FocusMainForm") : this;
         }
 
-        public ResponseCollection Empty(string key, bool _using = true)
-        {
-            return _using ? Add("Empty", key, string.Empty) : this;
-        }
-
         public ResponseCollection Disabled(string key, bool value = true, bool _using = true)
         {
             return _using ? Add("Disabled", key, value) : this;

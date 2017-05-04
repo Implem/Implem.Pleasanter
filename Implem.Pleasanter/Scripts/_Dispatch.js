@@ -106,9 +106,6 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
         case 'FocusMainForm':
             $p.focusMainForm();
             break;
-        case 'Empty':
-            $(target).empty();
-            break;
         case 'Disabled':
             $(target).prop('disabled', value);
             break;
