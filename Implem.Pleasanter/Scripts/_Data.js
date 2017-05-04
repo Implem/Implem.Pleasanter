@@ -80,7 +80,7 @@ $p.clearData = function (target, data, type) {
     if (data === null) {
         data = $p.getData($('.main-form'))
     }
-    if (target === '') {
+    if (target === undefined) {
         for (controlId in data) {
             if (!$('#' + controlId).hasClass('control-selectable')) {
                 delete data[controlId];

@@ -125,7 +125,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
 
         public ResponseCollection ClearFormData(
-            string target = "", string type = "", bool _using = true)
+            string target = null, string type = null, bool _using = true)
         {
             return _using ? Add("ClearFormData", target, type) : this;
         }
