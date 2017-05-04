@@ -92,7 +92,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("Before", target, value.ToString()) : this;
         }
 
-
         public ResponseCollection Remove(string target, bool _using = true)
         {
             return _using ? Add("Remove", target, string.Empty) : this;
