@@ -47,9 +47,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return this;
         }
 
-        public ResponseCollection Href(string url = null, bool _using = true)
+        public ResponseCollection Href(string url, bool _using = true)
         {
-            return _using ? Add("Href", string.Empty, url) : this;
+            return _using ? Add("Href", null, url) : this;
         }
 
         public ResponseCollection PushState(string state, string url, bool _using = true)
