@@ -1,5 +1,4 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
-using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.ViewModes;
@@ -26,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: Displays.GroupBy(),
                     optionCollection: ss.TimeSeriesGroupByOptions(),
                     selectedValue: groupBy,
+                    addSelectedValue: false,
                     method: "post")
                 .FieldDropDown(
                     controlId: "TimeSeriesAggregateType",
@@ -34,6 +34,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: Displays.AggregationType(),
                     optionCollection: ss.TimeSeriesAggregationTypeOptions(),
                     selectedValue: aggregateType,
+                    addSelectedValue: false,
                     method: "post")
                 .FieldDropDown(
                     fieldId: "TimeSeriesValueField",
@@ -43,6 +44,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: Displays.AggregationTarget(),
                     optionCollection: ss.TimeSeriesValueOptions(),
                     selectedValue: value,
+                    addSelectedValue: false,
                     method: "post")
                 .Div(id: "TimeSeriesBody", action: () => hb
                     .TimeSeriesBody(
