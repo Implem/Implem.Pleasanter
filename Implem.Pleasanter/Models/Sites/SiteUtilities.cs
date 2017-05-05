@@ -644,16 +644,18 @@ namespace Implem.Pleasanter.Models
                                 href: "#FieldSetSiteAccessControl",
                                 text: Displays.SiteAccessControl(),
                                 _using: siteModel.SiteSettings.CanManagePermission()))
-                        .Li(action: () => hb
-                            .A(
-                                href: "#FieldSetRecordAccessControl",
-                                text: Displays.RecordAccessControl(),
-                                _using: EnableAdvancedPermissions(siteModel)))
-                        .Li(action: () => hb
-                            .A(
-                                href: "#FieldSetColumnAccessControl",
-                                text: Displays.ColumnAccessControl(),
-                                _using: EnableAdvancedPermissions(siteModel)))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetRecordAccessControl",
+                                    text: Displays.RecordAccessControl()),
+                            _using: EnableAdvancedPermissions(siteModel))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetColumnAccessControl",
+                                    text: Displays.ColumnAccessControl()),
+                            _using: EnableAdvancedPermissions(siteModel))
                         .Li(action: () => hb
                             .A(
                                 href: "#FieldSetHistories",
