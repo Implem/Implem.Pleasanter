@@ -4678,18 +4678,22 @@ namespace Implem.Pleasanter.Models
             var formData = Forms.All();
             var groupBy = !view.TimeSeriesGroupBy.IsNullOrEmpty()
                 ? view.TimeSeriesGroupBy
-                : ss.TimeSeriesGroupByOptions().First().Key;
+                : ss.TimeSeriesGroupByOptions().FirstOrDefault().Key;
             var aggregateType = !view.TimeSeriesAggregateType.IsNullOrEmpty()
                 ? view.TimeSeriesAggregateType
                 : "Count";
             var value = !view.TimeSeriesValue.IsNullOrEmpty()
                 ? view.TimeSeriesValue
-                : ss.TimeSeriesValueOptions().First().Key;
+                : ss.TimeSeriesValueOptions().FirstOrDefault().Key;
             var dataRows = TimeSeriesDataRows(
                 ss: ss,
                 view: view,
                 groupBy: groupBy,
                 value: value);
+            if (groupBy == null)
+            {
+                return hb;
+            }
             return !bodyOnly
                 ? hb.TimeSeries(
                     ss: ss,
@@ -4785,16 +4789,20 @@ namespace Implem.Pleasanter.Models
             var formData = Forms.All();
             var groupByX = !view.KambanGroupByX.IsNullOrEmpty()
                 ? view.KambanGroupByX
-                : ss.KambanGroupByOptions().First().Key;
+                : ss.KambanGroupByOptions().FirstOrDefault().Key;
             var groupByY = !view.KambanGroupByY.IsNullOrEmpty()
                 ? view.KambanGroupByY
                 : string.Empty;
             var aggregateType = !view.KambanAggregateType.IsNullOrEmpty()
                 ? view.KambanAggregateType
-                : ss.KambanAggregationTypeOptions().First().Key;
+                : ss.KambanAggregationTypeOptions().FirstOrDefault().Key;
             var value = !view.KambanValue.IsNullOrEmpty()
                 ? view.KambanValue
                 : "RemainingWorkValue";
+            if (groupByX == null)
+            {
+                return hb;
+            }
             return !bodyOnly
                 ? hb.Kamban(
                     ss: ss,
