@@ -323,6 +323,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string PermissionSource(params string[] data) { return Get("PermissionSource", data); }
         public static string Plan(params string[] data) { return Get("Plan", data); }
         public static string PlannedValue(params string[] data) { return Get("PlannedValue", data); }
+        public static string Portal(params string[] data) { return Get("Portal", data); }
         public static string Prefix(params string[] data) { return Get("Prefix", data); }
         public static string Previous(params string[] data) { return Get("Previous", data); }
         public static string ProductName(params string[] data) { return Get("ProductName", data); }

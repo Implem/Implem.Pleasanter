@@ -7,6 +7,7 @@
     "HtmlLogoText": ".Pleasanter",
     "HtmlCopyright": "Copyright &copy; Implem Inc. 2014 - {0}",
     "HtmlCopyrightUrl": "https://implem.co.jp",
+    "HtmlPortalUrl": "https://pleasanter.net",
     "HtmlUsageGuide": "https://github.com/Implem/Implem.Pleasanter/wiki",
     "SiteMenuHotSpan": 30,
     "LimitWarning1": 86400,

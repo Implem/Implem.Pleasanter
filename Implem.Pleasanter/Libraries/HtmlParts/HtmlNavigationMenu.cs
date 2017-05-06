@@ -205,6 +205,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Text(text: Displays.Logout())))
                 .Li(action: () => hb
                     .A(
+                        href: Parameters.General.HtmlPortalUrl,
+                        target: "_blank",
+                        action: () => hb
+                            .Span(css: "ui-icon ui-icon-cart")
+                            .Text(text: Displays.Portal())))
+                .Li(action: () => hb
+                    .A(
                         href: Parameters.General.HtmlUsageGuide,
                         target: "_blank",
                         action: () => hb
