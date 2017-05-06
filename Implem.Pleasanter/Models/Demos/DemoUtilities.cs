@@ -722,6 +722,14 @@ namespace Implem.Pleasanter.Models
                             .DestinationId(idHash.Get(demoDefinition.ClassB))
                             .SourceId(idHash.Get(demoDefinition.Id)))));
             Def.DemoDefinitionCollection
+                .Where(o => o.Type == "Sites")
+                .Where(o => o.ClassC.Trim() != string.Empty)
+                .ForEach(demoDefinition =>
+                    Rds.ExecuteNonQuery(statements:
+                        Rds.InsertLinks(param: Rds.LinksParam()
+                            .DestinationId(idHash.Get(demoDefinition.ClassC))
+                            .SourceId(idHash.Get(demoDefinition.Id)))));
+            Def.DemoDefinitionCollection
                 .Where(o => o.ClassA.RegexExists("^#[A-Za-z0-9]+?#$"))
                 .ForEach(demoDefinition =>
                     Rds.ExecuteNonQuery(statements:
