@@ -1,4 +1,5 @@
 ﻿{
+    "Enabled": false,
     "Interval": 500,
     "EnableInterval": 60000
 }

@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Filters;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Filters;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using Implem.Pleasanter.Tools;
@@ -14,16 +15,23 @@ namespace Implem.Pleasanter.Controllers
         [HttpGet]
         public string Do()
         {
-            if (QueryStrings.Bool("NoLog"))
+            if (Parameters.BackgroundTask.Enabled)
             {
-                return BackgroundTasks.Do();
+                if (QueryStrings.Bool("NoLog"))
+                {
+                    return BackgroundTasks.Do();
+                }
+                else
+                {
+                    var log = new SysLogModel();
+                    var html = BackgroundTasks.Do();
+                    log.Finish(html.Length);
+                    return html;
+                }
             }
             else
             {
-                var log = new SysLogModel();
-                var html = BackgroundTasks.Do();
-                log.Finish(html.Length);
-                return html;
+                return null;
             }
         }
     }
