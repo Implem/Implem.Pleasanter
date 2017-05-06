@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Pleasanter.Filters;
+﻿using Implem.Pleasanter.Filters;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Models;
@@ -19,20 +18,6 @@ namespace Implem.Pleasanter.Controllers
             ViewBag.HtmlBody = html;
             log.Finish(html.Length);
             return View();
-        }
-
-        [HttpGet]
-        public ActionResult ResetDefinitions()
-        {
-            var log = new SysLogModel();
-            SetDefinition();
-            log.Finish();
-            return View();
-        }
-
-        private static void SetDefinition()
-        {
-            Initializer.SetDefinitions();
         }
     }
 }
