@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Filters;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Filters;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
@@ -15,9 +16,17 @@ namespace Implem.Pleasanter.Controllers
         public string Register()
         {
             var log = new SysLogModel();
-            var json = DemoUtilities.Register();
-            log.Finish(json.Length);
-            return json;
+            if (Parameters.Service.Demo)
+            {
+                var json = DemoUtilities.Register();
+                log.Finish(json.Length);
+                return json;
+            }
+            else
+            {
+                log.Finish();
+                return null;
+            }
         }
 
         [AllowAnonymous]
@@ -25,9 +34,17 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Login()
         {
             var log = new SysLogModel();
-            DemoUtilities.Login();
-            log.Finish();
-            return Redirect(Locations.Get());
+            if (Parameters.Service.Demo)
+            {
+                DemoUtilities.Login();
+                log.Finish();
+                return Redirect(Locations.Get());
+            }
+            else
+            {
+                log.Finish();
+                return RedirectToAction("Errors", "NotFound");
+            }
         }
     }
 }
