@@ -175,6 +175,12 @@ pre{
     text-decoration:none;
 }
 
+#PortalLink{
+    position:fixed;
+    top:10px;
+    right:40px;
+}
+
 #LoginFieldSet{
     width:500px;
     margin:150px auto 20px auto;

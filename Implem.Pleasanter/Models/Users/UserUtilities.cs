@@ -1360,6 +1360,9 @@ namespace Implem.Pleasanter.Models
                 referenceType: "Users",
                 title: string.Empty,
                 action: () => hb
+                    .Div(id: "PortalLink", action: () => hb
+                        .A(href: Parameters.General.HtmlPortalUrl, action: () => hb
+                            .Text(Displays.Portal())))
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("UserForm")
