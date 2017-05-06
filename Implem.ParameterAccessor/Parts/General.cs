@@ -12,7 +12,7 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlCopyright;
         public string HtmlCopyrightUrl;
         public string HtmlPortalUrl;
-        public string HtmlUsageGuide;
+        public string HtmlUsageGuideUrl;
         public int SiteMenuHotSpan;
         public int LimitWarning1;
         public int LimitWarning2;

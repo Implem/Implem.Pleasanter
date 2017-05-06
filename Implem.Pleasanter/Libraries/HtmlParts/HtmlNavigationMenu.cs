@@ -212,7 +212,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Text(text: Displays.Portal())))
                 .Li(action: () => hb
                     .A(
-                        href: Parameters.General.HtmlUsageGuide,
+                        href: Parameters.General.HtmlUsageGuideUrl,
                         target: "_blank",
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-help")
