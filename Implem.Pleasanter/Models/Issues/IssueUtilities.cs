@@ -4420,6 +4420,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Gantt(SiteSettings ss)
         {
+            if (ss.EnableGantt != true)
+            {
+                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+            }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
@@ -4440,6 +4444,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string GanttJson(SiteSettings ss)
         {
+            if (ss.EnableGantt != true)
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("Gantt");
@@ -4514,6 +4522,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string BurnDown(SiteSettings ss)
         {
+            if (ss.EnableBurnDown != true)
+            {
+                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+            }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
@@ -4537,6 +4549,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string BurnDownJson(SiteSettings ss)
         {
+            if (ss.EnableBurnDown != true)
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
             return new ResponseCollection()
@@ -4627,6 +4643,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string TimeSeries(SiteSettings ss)
         {
+            if (ss.EnableTimeSeries != true)
+            {
+                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+            }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
@@ -4647,6 +4667,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string TimeSeriesJson(SiteSettings ss)
         {
+            if (ss.EnableTimeSeries != true)
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("TimeSeries");
@@ -4735,6 +4759,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Kamban(SiteSettings ss)
         {
+            if (ss.EnableKamban != true)
+            {
+                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+            }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
@@ -4756,6 +4784,10 @@ namespace Implem.Pleasanter.Models
         public static string KambanJson(
             SiteSettings ss)
         {
+            if (ss.EnableKamban != true)
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("Kamban");

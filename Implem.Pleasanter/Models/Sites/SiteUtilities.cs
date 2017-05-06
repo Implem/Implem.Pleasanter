@@ -621,6 +621,38 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#GanttSettingsEditor",
+                                            text: Displays.Gantt()),
+                                    _using: Def.ViewModeDefinitionCollection
+                                        .Where(o => o.Name == "Gantt")
+                                        .Any(o => o.ReferenceType == siteModel.ReferenceType))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#BurnDownSettingsEditor",
+                                            text: Displays.BurnDown()),
+                                    _using: Def.ViewModeDefinitionCollection
+                                        .Where(o => o.Name == "BurnDown")
+                                        .Any(o => o.ReferenceType == siteModel.ReferenceType))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#TimeSeriesSettingsEditor",
+                                            text: Displays.TimeSeries()),
+                                    _using: Def.ViewModeDefinitionCollection
+                                        .Where(o => o.Name == "TimeSeries")
+                                        .Any(o => o.ReferenceType == siteModel.ReferenceType))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#KambanSettingsEditor",
+                                            text: Displays.Kamban()),
+                                    _using: Def.ViewModeDefinitionCollection
+                                        .Where(o => o.Name == "Kamban")
+                                        .Any(o => o.ReferenceType == siteModel.ReferenceType))
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#MailSettingsEditor",
                                             text: Displays.Mail()),
                                     _using: Contract.Mail())
@@ -1307,6 +1339,10 @@ namespace Implem.Pleasanter.Models
                             .FormulasSettingsEditor(siteModel.SiteSettings)
                             .ViewsSettingsEditor(siteModel.SiteSettings)
                             .NotificationsSettingsEditor(siteModel.SiteSettings)
+                            .GanttSettingsEditor(siteModel.SiteSettings)
+                            .BurnDownSettingsEditor(siteModel.SiteSettings)
+                            .TimeSeriesSettingsEditor(siteModel.SiteSettings)
+                            .KambanSettingsEditor(siteModel.SiteSettings)
                             .MailSettingsEditor(siteModel.SiteSettings)
                             .StylesSettingsEditor(siteModel.SiteSettings)
                             .ScriptsSettingsEditor(siteModel.SiteSettings);
@@ -3766,6 +3802,74 @@ namespace Implem.Pleasanter.Models
         private static IEnumerable<int> TokenList()
         {
             return new List<int> { Notification.Types.ChatWork.ToInt() };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder GanttSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return Def.ViewModeDefinitionCollection
+                .Where(o => o.Name == "Gantt")
+                .Any(o => o.ReferenceType == ss.ReferenceType)
+                    ? hb.FieldSet(id: "GanttSettingsEditor", action: () => hb
+                        .FieldCheckBox(
+                            controlId: "EnableGantt",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Enabled(),
+                            _checked: ss.EnableGantt == true))
+                    : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder BurnDownSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return Def.ViewModeDefinitionCollection
+                .Where(o => o.Name == "BurnDown")
+                .Any(o => o.ReferenceType == ss.ReferenceType)
+                    ? hb.FieldSet(id: "BurnDownSettingsEditor", action: () => hb
+                        .FieldCheckBox(
+                            controlId: "EnableBurnDown",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Enabled(),
+                            _checked: ss.EnableBurnDown == true))
+                    : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder TimeSeriesSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return Def.ViewModeDefinitionCollection
+                .Where(o => o.Name == "TimeSeries")
+                .Any(o => o.ReferenceType == ss.ReferenceType)
+                    ? hb.FieldSet(id: "TimeSeriesSettingsEditor", action: () => hb
+                        .FieldCheckBox(
+                            controlId: "EnableTimeSeries",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Enabled(),
+                            _checked: ss.EnableTimeSeries == true))
+                    : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder KambanSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return Def.ViewModeDefinitionCollection
+                .Where(o => o.Name == "Kamban")
+                .Any(o => o.ReferenceType == ss.ReferenceType)
+                    ? hb.FieldSet(id: "KambanSettingsEditor", action: () => hb
+                        .FieldCheckBox(
+                            controlId: "EnableKamban",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Enabled(),
+                            _checked: ss.EnableKamban == true))
+                    : hb;
         }
 
         /// <summary>

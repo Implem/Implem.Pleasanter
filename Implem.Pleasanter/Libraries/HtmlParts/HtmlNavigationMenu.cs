@@ -63,7 +63,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-triangle-1-e")
                                     .Text(text: Displays.View()))
-                            .ViewModeMenu(siteId: siteId, referenceType: referenceType),
+                            .ViewModeMenu(ss: ss),
                         _using: Def.ViewModeDefinitionCollection
                             .Any(o => o.ReferenceType == referenceType))
                     .Li(
@@ -100,18 +100,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static HtmlBuilder ViewModeMenu(
-            this HtmlBuilder hb, long siteId, string referenceType)
+        private static HtmlBuilder ViewModeMenu(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.Ul(id: "ViewModeMenu", css: "menu", action: () =>
             {
                 Def.ViewModeDefinitionCollection
-                    .Where(o => o.ReferenceType == referenceType)
+                    .Where(o => o.ReferenceType == ss.ReferenceType)
+                    .Where(o => ss.EnableViewMode(o.Name))
                     .Select(o => o.Name)
                     .ForEach(action => hb
                         .ViewModeMenu(
-                            siteId: siteId,
-                            referenceType: referenceType,
+                            siteId: ss.SiteId,
+                            referenceType: ss.ReferenceType,
                             action: action,
                             ajax: EditorActions()));
             });

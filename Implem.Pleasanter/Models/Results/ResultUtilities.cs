@@ -4198,6 +4198,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string TimeSeries(SiteSettings ss)
         {
+            if (ss.EnableTimeSeries != true)
+            {
+                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+            }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(ss);
             var resultCollection = ResultCollection(ss, view);
@@ -4219,6 +4223,10 @@ namespace Implem.Pleasanter.Models
         public static string TimeSeriesJson(
             SiteSettings ss)
         {
+            if (ss.EnableTimeSeries != true)
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
             var view = Views.GetBySession(ss);
             var resultCollection = ResultCollection(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("TimeSeries");
@@ -4307,6 +4315,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Kamban(SiteSettings ss)
         {
+            if (ss.EnableKamban != true)
+            {
+                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+            }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(ss);
             var resultCollection = ResultCollection(ss, view);
@@ -4327,6 +4339,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string KambanJson(SiteSettings ss)
         {
+            if (ss.EnableKamban != true)
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
             var view = Views.GetBySession(ss);
             var resultCollection = ResultCollection(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("Kamban");

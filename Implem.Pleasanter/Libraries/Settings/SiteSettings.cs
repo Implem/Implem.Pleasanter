@@ -67,6 +67,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int ViewLatestId;
         public List<View> Views;
         public SettingList<Notification> Notifications;
+        public bool? EnableGantt;
+        public bool? EnableBurnDown;
+        public bool? EnableTimeSeries;
+        public bool? EnableKamban;
         public string TitleSeparator = ")";
         public string AddressBook;
         public string MailToDefault;
@@ -145,6 +149,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Summaries == null) Summaries = new SettingList<Summary>();
             if (Formulas == null) Formulas = new SettingList<FormulaSet>();
             if (Notifications == null) Notifications = new SettingList<Notification>();
+            EnableGantt = EnableGantt ?? true;
+            EnableBurnDown = EnableBurnDown ?? true;
+            EnableTimeSeries = EnableTimeSeries ?? true;
+            EnableKamban = EnableKamban ?? true;
         }
 
         public void SetLinkedSiteSettings()
@@ -293,6 +301,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!TitleColumns.SequenceEqual(DefaultTitleColumns()))
             {
                 ss.TitleColumns = TitleColumns;
+            }
+            if (EnableGantt == false)
+            {
+                ss.EnableGantt = EnableGantt;
+            }
+            if (EnableBurnDown == false)
+            {
+                ss.EnableBurnDown = EnableBurnDown;
+            }
+            if (EnableTimeSeries == false)
+            {
+                ss.EnableTimeSeries = EnableTimeSeries;
+            }
+            if (EnableKamban == false)
+            {
+                ss.EnableKamban = EnableKamban;
             }
             if (TitleSeparator != ")")
             {
@@ -1295,6 +1319,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridView": GridView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
+                case "EnableGantt": EnableGantt = value.ToBool(); break;
+                case "EnableBurnDown": EnableBurnDown = value.ToBool(); break;
+                case "EnableTimeSeries": EnableTimeSeries = value.ToBool(); break;
+                case "EnableKamban": EnableKamban = value.ToBool(); break;
                 case "AddressBook": AddressBook = value; break;
                 case "MailToDefault": MailToDefault = value; break;
                 case "MailCcDefault": MailCcDefault = value; break;
@@ -1792,6 +1820,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                     }
                 });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public bool EnableViewMode(string name)
+        {
+            switch (name)
+            {
+                case "Index": return true;
+                case "Gantt": return EnableGantt == true;
+                case "BurnDown": return EnableBurnDown == true;
+                case "TimeSeries": return EnableTimeSeries == true;
+                case "Kamban": return EnableKamban == true;
+                default: return false;
+            }
         }
 
         public Permissions.Types GetPermissionType(bool site = false)
