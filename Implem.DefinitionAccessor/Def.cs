@@ -1777,6 +1777,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Logo": Css._sharp_Logo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Logo, definitionRow, CssXls); break;
                     case "_sharp_CorpLogo": Css._sharp_CorpLogo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CorpLogo, definitionRow, CssXls); break;
                     case "_sharp_ProductLogo": Css._sharp_ProductLogo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ProductLogo, definitionRow, CssXls); break;
+                    case "_sharp_PortalLink": Css._sharp_PortalLink = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_PortalLink, definitionRow, CssXls); break;
                     case "_sharp_LoginFieldSet": Css._sharp_LoginFieldSet = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_LoginFieldSet, definitionRow, CssXls); break;
                     case "_sharp_LoginCommands": Css._sharp_LoginCommands = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_LoginCommands, definitionRow, CssXls); break;
                     case "_sharp_Demo": Css._sharp_Demo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Demo, definitionRow, CssXls); break;
@@ -2366,6 +2367,12 @@ namespace Implem.DefinitionAccessor
                     case "Site43": Demo.Site43 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site43, definitionRow, DemoXls); break;
                     case "Site44": Demo.Site44 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site44, definitionRow, DemoXls); break;
                     case "Site45": Demo.Site45 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site45, definitionRow, DemoXls); break;
+                    case "Site46": Demo.Site46 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site46, definitionRow, DemoXls); break;
+                    case "Site47": Demo.Site47 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site47, definitionRow, DemoXls); break;
+                    case "Site48": Demo.Site48 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site48, definitionRow, DemoXls); break;
+                    case "Site49": Demo.Site49 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site49, definitionRow, DemoXls); break;
+                    case "Site50": Demo.Site50 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site50, definitionRow, DemoXls); break;
+                    case "Site51": Demo.Site51 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site51, definitionRow, DemoXls); break;
                     case "DefineNetworks": Demo.DefineNetworks = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineNetworks, definitionRow, DemoXls); break;
                     case "DefineServers": Demo.DefineServers = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineServers, definitionRow, DemoXls); break;
                     case "DefineSecurity": Demo.DefineSecurity = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineSecurity, definitionRow, DemoXls); break;
@@ -6822,6 +6829,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Logo;
         public string _sharp_CorpLogo;
         public string _sharp_ProductLogo;
+        public string _sharp_PortalLink;
         public string _sharp_LoginFieldSet;
         public string _sharp_LoginCommands;
         public string _sharp_Demo;
@@ -7212,6 +7220,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Logo = new CssDefinition();
         public CssDefinition _sharp_CorpLogo = new CssDefinition();
         public CssDefinition _sharp_ProductLogo = new CssDefinition();
+        public CssDefinition _sharp_PortalLink = new CssDefinition();
         public CssDefinition _sharp_LoginFieldSet = new CssDefinition();
         public CssDefinition _sharp_LoginCommands = new CssDefinition();
         public CssDefinition _sharp_Demo = new CssDefinition();
@@ -8270,6 +8279,12 @@ namespace Implem.DefinitionAccessor
         public string Site43;
         public string Site44;
         public string Site45;
+        public string Site46;
+        public string Site47;
+        public string Site48;
+        public string Site49;
+        public string Site50;
+        public string Site51;
         public string DefineNetworks;
         public string DefineServers;
         public string DefineSecurity;
@@ -8660,6 +8675,12 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Site43 = new DemoDefinition();
         public DemoDefinition Site44 = new DemoDefinition();
         public DemoDefinition Site45 = new DemoDefinition();
+        public DemoDefinition Site46 = new DemoDefinition();
+        public DemoDefinition Site47 = new DemoDefinition();
+        public DemoDefinition Site48 = new DemoDefinition();
+        public DemoDefinition Site49 = new DemoDefinition();
+        public DemoDefinition Site50 = new DemoDefinition();
+        public DemoDefinition Site51 = new DemoDefinition();
         public DemoDefinition DefineNetworks = new DemoDefinition();
         public DemoDefinition DefineServers = new DemoDefinition();
         public DemoDefinition DefineSecurity = new DemoDefinition();
