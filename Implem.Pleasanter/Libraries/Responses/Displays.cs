@@ -404,6 +404,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Updated(params string[] data) { return Get("Updated", data); }
         public static string UpdatedTime(params string[] data) { return Get("UpdatedTime", data); }
         public static string Upload(params string[] data) { return Get("Upload", data); }
+        public static string UsageGuide(params string[] data) { return Get("UsageGuide", data); }
         public static string UseCustomDesign(params string[] data) { return Get("UseCustomDesign", data); }
         public static string UseFy(params string[] data) { return Get("UseFy", data); }
         public static string UseHalf(params string[] data) { return Get("UseHalf", data); }

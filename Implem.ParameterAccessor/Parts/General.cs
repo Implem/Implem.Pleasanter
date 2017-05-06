@@ -11,6 +11,7 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlLogoText;
         public string HtmlCopyright;
         public string HtmlCopyrightUrl;
+        public string HtmlUsageGuide;
         public int SiteMenuHotSpan;
         public int LimitWarning1;
         public int LimitWarning2;

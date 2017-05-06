@@ -205,6 +205,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Text(text: Displays.Logout())))
                 .Li(action: () => hb
                     .A(
+                        href: Parameters.General.HtmlUsageGuide,
+                        target: "_blank",
+                        action: () => hb
+                            .Span(css: "ui-icon ui-icon-help")
+                            .Text(text: Displays.UsageGuide())))
+                .Li(action: () => hb
+                    .A(
                         href: Parameters.General.HtmlCopyrightUrl,
                         target: "_blank",
                         action: () => hb
