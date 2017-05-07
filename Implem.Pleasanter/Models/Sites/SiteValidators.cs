@@ -129,6 +129,10 @@ namespace Implem.Pleasanter.Models
                         {
                             return Error.Types.HasNotPermission;
                         }
+                        if (PermissionUtilities.HasInheritedSites(ss.SiteId))
+                        {
+                            return Error.Types.CanNotChangeInheritance;
+                        }
                         break;
                     case "CurrentPermissionsAll":
                         if (!ss.CanManagePermission())

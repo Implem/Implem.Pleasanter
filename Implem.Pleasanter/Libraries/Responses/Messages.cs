@@ -53,6 +53,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.BulkMoved(data), "alert-success");
         }
 
+        public static Message CanNotChangeInheritance(params string[] data)
+        {
+            return Get(Displays.CanNotChangeInheritance(data), "alert-error");
+        }
+
         public static Message CanNotDisabled(params string[] data)
         {
             return Get(Displays.CanNotDisabled(data), "alert-error");
@@ -386,6 +391,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseBulkMoved(params string[] data)
         {
             return ResponseMessage(BulkMoved(data));
+        }
+
+        public static ResponseCollection ResponseCanNotChangeInheritance(params string[] data)
+        {
+            return ResponseMessage(CanNotChangeInheritance(data));
         }
 
         public static ResponseCollection ResponseCanNotDisabled(params string[] data)

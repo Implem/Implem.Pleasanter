@@ -12,6 +12,7 @@ namespace Implem.Pleasanter.Libraries.General
             Authentication,
             BadFormat,
             BadMailAddress,
+            CanNotChangeInheritance,
             CanNotDisabled,
             CantSetAtTopOfSite,
             DefinitionNotFound,
@@ -65,6 +66,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.BadFormat(data);
                 case Types.BadMailAddress:
                     return Messages.BadMailAddress(data);
+                case Types.CanNotChangeInheritance:
+                    return Messages.CanNotChangeInheritance(data);
                 case Types.CanNotDisabled:
                     return Messages.CanNotDisabled(data);
                 case Types.CantSetAtTopOfSite:

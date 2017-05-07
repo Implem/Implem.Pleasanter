@@ -17,6 +17,28 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission;
             }
+            foreach (var controlId in Forms.Keys())
+            {
+                switch (controlId)
+                {
+                    case "InheritPermission":
+                        if (!ss.CanManagePermission())
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        var inheritPermission = Forms.Long(controlId);
+                        if (ss.SiteId != inheritPermission &&
+                            !Permissions.CanRead(inheritPermission))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        if (PermissionUtilities.HasInheritedSites(ss.SiteId))
+                        {
+                            return Error.Types.CanNotChangeInheritance;
+                        }
+                        break;
+                }
+            }
             return Error.Types.None;
         }
     }

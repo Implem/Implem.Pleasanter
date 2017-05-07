@@ -1283,5 +1283,15 @@ namespace Implem.Pleasanter.Models
                 labelText: ss.GetColumn(columnName)?.LabelText,
                 _checked: columnAccessControl.AllowedUsers?.Contains(columnName) == true);
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool HasInheritedSites(long siteId)
+        {
+            return Rds.ExecuteScalar_long(statements: Rds.SelectSites(
+                column: Rds.SitesColumn().SitesCount(),
+                where: Rds.SitesWhere().InheritPermission(siteId))) > 0;
+        }
     }
 }
