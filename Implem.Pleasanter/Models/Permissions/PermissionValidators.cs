@@ -22,22 +22,8 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "InheritPermission":
-                        if (!ss.CanManagePermission())
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
-                        var inheritPermission = Forms.Long(controlId);
-                        if (ss.SiteId != inheritPermission)
-                        {
-                            if (!Permissions.CanRead(inheritPermission))
-                            {
-                                return Error.Types.HasNotPermission;
-                            }
-                            if (PermissionUtilities.HasInheritedSites(ss.SiteId))
-                            {
-                                return Error.Types.CanNotChangeInheritance;
-                            }
-                        }
+                        var type = SiteValidators.InheritPermission(ss);
+                        if (type != Error.Types.None) return type;
                         break;
                 }
             }

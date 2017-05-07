@@ -63,6 +63,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.CanNotDisabled(data), "alert-error");
         }
 
+        public static Message CanNotInherit(params string[] data)
+        {
+            return Get(Displays.CanNotInherit(data), "alert-error");
+        }
+
         public static Message CanNotUpdate(params string[] data)
         {
             return Get(Displays.CanNotUpdate(data), "alert-info");
@@ -401,6 +406,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseCanNotDisabled(params string[] data)
         {
             return ResponseMessage(CanNotDisabled(data));
+        }
+
+        public static ResponseCollection ResponseCanNotInherit(params string[] data)
+        {
+            return ResponseMessage(CanNotInherit(data));
         }
 
         public static ResponseCollection ResponseCanNotUpdate(params string[] data)

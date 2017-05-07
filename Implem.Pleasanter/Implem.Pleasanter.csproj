@@ -1065,6 +1065,7 @@
     <Content Include="App_Data\Displays\Portal.json" />
     <Content Include="App_Data\Displays\Blog.json" />
     <Content Include="App_Data\Displays\CanNotChangeInheritance.json" />
+    <Content Include="App_Data\Displays\CanNotInherit.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

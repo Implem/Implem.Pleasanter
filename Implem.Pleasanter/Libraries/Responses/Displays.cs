@@ -74,6 +74,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Cancel(params string[] data) { return Get("Cancel", data); }
         public static string CanNotChangeInheritance(params string[] data) { return Get("CanNotChangeInheritance", data); }
         public static string CanNotDisabled(params string[] data) { return Get("CanNotDisabled", data); }
+        public static string CanNotInherit(params string[] data) { return Get("CanNotInherit", data); }
         public static string CanNotUpdate(params string[] data) { return Get("CanNotUpdate", data); }
         public static string CantSetAtTopOfSite(params string[] data) { return Get("CantSetAtTopOfSite", data); }
         public static string Change(params string[] data) { return Get("Change", data); }

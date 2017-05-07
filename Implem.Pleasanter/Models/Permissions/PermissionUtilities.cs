@@ -106,6 +106,9 @@ namespace Implem.Pleasanter.Models
                     o => new ControlData(o["Title"].ToString())));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static EnumerableRowCollection<DataRow> InheritTargetsDataRows(long siteId)
         {
             return Rds.ExecuteTable(statements:

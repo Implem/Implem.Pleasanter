@@ -14,6 +14,7 @@ namespace Implem.Pleasanter.Libraries.General
             BadMailAddress,
             CanNotChangeInheritance,
             CanNotDisabled,
+            CanNotInherit,
             CantSetAtTopOfSite,
             DefinitionNotFound,
             DeleteConflicts,
@@ -70,6 +71,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.CanNotChangeInheritance(data);
                 case Types.CanNotDisabled:
                     return Messages.CanNotDisabled(data);
+                case Types.CanNotInherit:
+                    return Messages.CanNotInherit(data);
                 case Types.CantSetAtTopOfSite:
                     return Messages.CantSetAtTopOfSite(data);
                 case Types.DefinitionNotFound:

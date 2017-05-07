@@ -4,6 +4,8 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Linq;
+
 namespace Implem.Pleasanter.Models
 {
     public static class SiteValidators
@@ -119,22 +121,8 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                     case "InheritPermission":
-                        if (!ss.CanManagePermission())
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
-                        var inheritPermission = Forms.Long(controlId);
-                        if (ss.SiteId != inheritPermission)
-                        {
-                            if (!Permissions.CanRead(inheritPermission))
-                            {
-                                return Error.Types.HasNotPermission;
-                            }
-                            if (PermissionUtilities.HasInheritedSites(ss.SiteId))
-                            {
-                                return Error.Types.CanNotChangeInheritance;
-                            }
-                        }
+                        var type = InheritPermission(ss);
+                        if (type != Error.Types.None) return type;
                         break;
                     case "CurrentPermissionsAll":
                         if (!ss.CanManagePermission())
@@ -255,6 +243,32 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.BadFormat;
                         }
                         break;
+                }
+            }
+            return Error.Types.None;
+        }
+
+        public static Error.Types InheritPermission(SiteSettings ss)
+        {
+            if (!ss.CanManagePermission())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            var inheritPermission = Forms.Long("InheritPermission");
+            if (ss.SiteId != inheritPermission)
+            {
+                if (!PermissionUtilities.InheritTargetsDataRows(ss.SiteId).Any(o =>
+                    o["SiteId"].ToLong() == Forms.Long("InheritPermission")))
+                {
+                    return Error.Types.CanNotInherit;
+                }
+                if (!Permissions.CanRead(inheritPermission))
+                {
+                    return Error.Types.HasNotPermission;
+                }
+                if (PermissionUtilities.HasInheritedSites(ss.SiteId))
+                {
+                    return Error.Types.CanNotChangeInheritance;
                 }
             }
             return Error.Types.None;
