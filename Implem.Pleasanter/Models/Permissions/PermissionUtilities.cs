@@ -100,7 +100,15 @@ namespace Implem.Pleasanter.Models
             return new Dictionary<string, ControlData>
             {
                 { siteId.ToString(), new ControlData(Displays.NotInheritPermission()) },
-            }.AddRange(Rds.ExecuteTable(statements:
+            }.AddRange(InheritTargetsDataRows(siteId)
+                .ToDictionary(
+                    o => o["SiteId"].ToString(),
+                    o => new ControlData(o["Title"].ToString())));
+        }
+
+        public static EnumerableRowCollection<DataRow> InheritTargetsDataRows(long siteId)
+        {
+            return Rds.ExecuteTable(statements:
                 Rds.SelectSites(
                     column: Rds.SitesColumn()
                         .SiteId()
@@ -112,10 +120,7 @@ namespace Implem.Pleasanter.Models
                         .InheritPermission(raw: "[Sites].[SiteId]")
                         .Add(raw: Def.Sql.CanRead),
                     orderBy: Rds.SitesOrderBy().Title()))
-                        .AsEnumerable()
-                        .ToDictionary(
-                            o => o["SiteId"].ToString(),
-                            o => new ControlData(o["Title"].ToString())));
+                        .AsEnumerable();
         }
 
         /// <summary>
@@ -1291,7 +1296,9 @@ namespace Implem.Pleasanter.Models
         {
             return Rds.ExecuteScalar_long(statements: Rds.SelectSites(
                 column: Rds.SitesColumn().SitesCount(),
-                where: Rds.SitesWhere().InheritPermission(siteId))) > 0;
+                where: Rds.SitesWhere()
+                    .SiteId(siteId, _operator: "<>")
+                    .InheritPermission(siteId))) > 0;
         }
     }
 }

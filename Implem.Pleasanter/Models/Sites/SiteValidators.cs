@@ -124,14 +124,16 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         var inheritPermission = Forms.Long(controlId);
-                        if (ss.SiteId != inheritPermission &&
-                            !Permissions.CanRead(inheritPermission))
+                        if (ss.SiteId != inheritPermission)
                         {
-                            return Error.Types.HasNotPermission;
-                        }
-                        if (PermissionUtilities.HasInheritedSites(ss.SiteId))
-                        {
-                            return Error.Types.CanNotChangeInheritance;
+                            if (!Permissions.CanRead(inheritPermission))
+                            {
+                                return Error.Types.HasNotPermission;
+                            }
+                            if (PermissionUtilities.HasInheritedSites(ss.SiteId))
+                            {
+                                return Error.Types.CanNotChangeInheritance;
+                            }
                         }
                         break;
                     case "CurrentPermissionsAll":
