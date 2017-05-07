@@ -2373,6 +2373,8 @@ namespace Implem.DefinitionAccessor
                     case "Site49": Demo.Site49 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site49, definitionRow, DemoXls); break;
                     case "Site50": Demo.Site50 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site50, definitionRow, DemoXls); break;
                     case "Site51": Demo.Site51 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site51, definitionRow, DemoXls); break;
+                    case "Site52": Demo.Site52 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site52, definitionRow, DemoXls); break;
+                    case "Site53": Demo.Site53 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site53, definitionRow, DemoXls); break;
                     case "DefineNetworks": Demo.DefineNetworks = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineNetworks, definitionRow, DemoXls); break;
                     case "DefineServers": Demo.DefineServers = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineServers, definitionRow, DemoXls); break;
                     case "DefineSecurity": Demo.DefineSecurity = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineSecurity, definitionRow, DemoXls); break;
@@ -8285,6 +8287,8 @@ namespace Implem.DefinitionAccessor
         public string Site49;
         public string Site50;
         public string Site51;
+        public string Site52;
+        public string Site53;
         public string DefineNetworks;
         public string DefineServers;
         public string DefineSecurity;
@@ -8681,6 +8685,8 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Site49 = new DemoDefinition();
         public DemoDefinition Site50 = new DemoDefinition();
         public DemoDefinition Site51 = new DemoDefinition();
+        public DemoDefinition Site52 = new DemoDefinition();
+        public DemoDefinition Site53 = new DemoDefinition();
         public DemoDefinition DefineNetworks = new DemoDefinition();
         public DemoDefinition DefineServers = new DemoDefinition();
         public DemoDefinition DefineSecurity = new DemoDefinition();
