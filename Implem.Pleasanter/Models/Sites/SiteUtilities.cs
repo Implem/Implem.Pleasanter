@@ -479,6 +479,7 @@ namespace Implem.Pleasanter.Models
         public static string MoveSiteMenu(long id)
         {
             var siteModel = new SiteModel(id);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, id);
             var sourceSiteModel = new SiteModel(Forms.Long("SiteId"));
             var destinationSiteModel = new SiteModel(Forms.Long("DestinationId"));
             if (siteModel.NotFound() ||
@@ -621,6 +622,7 @@ namespace Implem.Pleasanter.Models
         public static string CreateLink(long id)
         {
             var siteModel = new SiteModel(id);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, id);
             var sourceSiteModel = new SiteModel(Forms.Long("SiteId"));
             var destinationSiteModel = new SiteModel(Forms.Long("DestinationId"));
             if (siteModel.NotFound() ||
