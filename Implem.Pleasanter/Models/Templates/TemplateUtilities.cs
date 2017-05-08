@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Models
                         .Div(css: "command-center", action: () => hb
                             .Button(
                                 text: Displays.Create(),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon validate",
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-disk",
                                 action: "CreateByTemplates",
