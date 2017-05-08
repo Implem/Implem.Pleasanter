@@ -1076,6 +1076,12 @@
     <Content Include="App_Data\Definitions\definition_Template.xlsm" />
     <Content Include="App_Data\Displays\SitesCreated.json" />
     <Content Include="App_Data\Displays\TooManyCases.json" />
+    <Content Include="App_Data\Displays\LinkColumn.json" />
+    <Content Include="App_Data\Displays\AlreadyLinked.json" />
+    <Content Include="App_Data\Displays\CanNotLink.json" />
+    <Content Include="App_Data\Displays\CanNotPerformed.json" />
+    <Content Include="App_Data\Displays\LinkCreated.json" />
+    <Content Include="App_Data\Displays\ConfirmCreateLink.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

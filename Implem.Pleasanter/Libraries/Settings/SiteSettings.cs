@@ -1553,7 +1553,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void SetLinks(Column column)
+        public void SetLinks(Column column)
         {
             column.Link = false;
             Links.RemoveAll(o => o.ColumnName == column.ColumnName);

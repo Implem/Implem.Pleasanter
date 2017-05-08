@@ -486,29 +486,121 @@ namespace Implem.Pleasanter.Models
         public static string MoveSiteMenu(long id)
         {
             var siteModel = new SiteModel(id);
-            var sourceId = Forms.Long("SiteId");
-            var destinationId = Forms.Long("DestinationId");
-            var toParent = id != 0 && SiteInfo.SiteMenu.Get(id).ParentId == destinationId;
+            var sourceSiteModel = new SiteModel(Forms.Long("SiteId"));
+            var destinationSiteModel = new SiteModel(Forms.Long("DestinationId"));
+            if (siteModel.NotFound() ||
+                sourceSiteModel.NotFound() ||
+                destinationSiteModel.NotFound())
+            {
+                return SiteMenuError(id, siteModel, Error.Types.NotFound);
+            }
+            if (destinationSiteModel.ReferenceType != "Sites")
+            {
+                switch (sourceSiteModel.ReferenceType)
+                {
+                    case "Sites":
+                    case "Wikis":
+                        return SiteMenuError(id, siteModel, Error.Types.CanNotPerformed);
+                    default:
+                        return LinkDialog(id, siteModel, sourceSiteModel, destinationSiteModel);
+                }
+            }
+            var toParent = id != 0 &&
+                SiteInfo.SiteMenu.Get(id).ParentId == destinationSiteModel.SiteId;
             var invalid = SiteValidators.OnMoving(
                 id,
-                destinationId,
+                destinationSiteModel.SiteId,
                 SiteSettingsUtilities.Get(siteModel, id),
-                SiteSettingsUtilities.Get(sourceId, sourceId),
-                SiteSettingsUtilities.Get(destinationId, destinationId));
+                SiteSettingsUtilities.Get(sourceSiteModel.SiteId, sourceSiteModel.SiteId),
+                SiteSettingsUtilities.Get(
+                    destinationSiteModel.SiteId, destinationSiteModel.SiteId));
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return SiteMenuError(id, siteModel, invalid);
             }
-            MoveSiteMenu(sourceId, destinationId);
-            var res = new ResponseCollection().Remove(".nav-site[value=\"" + sourceId + "\"]");
+            MoveSiteMenu(sourceSiteModel.SiteId, destinationSiteModel.SiteId);
+            var res = new ResponseCollection().Remove(
+                ".nav-site[value=\"" + sourceSiteModel.SiteId + "\"]");
             return toParent
                 ? res.ToJson()
                 : res
                     .ReplaceAll(
-                        "[value=\"" + destinationId + "\"]",
-                        siteModel.ReplaceSiteMenu(sourceId, destinationId))
+                        "[value=\"" + destinationSiteModel.SiteId + "\"]",
+                        siteModel.ReplaceSiteMenu(
+                            sourceSiteModel.SiteId, destinationSiteModel.SiteId))
                     .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string LinkDialog(
+            long id, SiteModel siteModel, SiteModel sourceSiteModel, SiteModel destinationSiteModel)
+        {
+            if (sourceSiteModel.SiteSettings.Links?.Any(o =>
+                    o.SiteId == destinationSiteModel.SiteId) == true ||
+                destinationSiteModel.SiteSettings.Links?.Any(o =>
+                    o.SiteId == sourceSiteModel.SiteId) == true)
+            {
+                return SiteMenuError(id, siteModel, Error.Types.AlreadyLinked);
+            }
+            var columns = sourceSiteModel.SiteSettings.Columns
+                .Where(o => o.ColumnName.StartsWith("Class"))
+                .Where(o => !sourceSiteModel.SiteSettings.EditorColumns.Contains(o.ColumnName));
+            if (!columns.Any())
+            {
+                return SiteMenuError(id, siteModel, Error.Types.CanNotLink);
+            }
+            var hb = new HtmlBuilder();
+            return new ResponseCollection()
+                .Html("#LinkDialog", hb.Div(action: () => hb
+                    .FieldSet(
+                        css: "fieldset",
+                        action: () => hb
+                            .FieldText(
+                                labelText: Displays.LinkDestinations(),
+                                text: destinationSiteModel.Title.Value)
+                            .FieldText(
+                                labelText: Displays.LinkSources(),
+                                text: sourceSiteModel.Title.Value)
+                            .FieldDropDown(
+                                controlId: "LinkColumn",
+                                labelText: Displays.LinkColumn(),
+                                controlCss: " always-send",
+                                optionCollection: columns.ToDictionary(o =>
+                                    o.ColumnName, o => new ControlData(o.LabelText)))
+                            .FieldTextBox(
+                                controlId: "LinkColumnLabelText",
+                                labelText: Displays.DisplayName(),
+                                controlCss: " always-send",
+                                text: destinationSiteModel.Title.Value)
+                            .Hidden(
+                                controlId: "DestinationId",
+                                value: destinationSiteModel.SiteId.ToString())
+                            .Hidden(
+                                controlId: "SiteId",
+                                value: sourceSiteModel.SiteId.ToString())
+                            .P(css: "message-dialog")
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    text: Displays.Create(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-disk",
+                                    action: "CreateLink",
+                                    method: "post",
+                                    confirm: "ConfirmCreateLink")
+                                .Button(
+                                    text: Displays.Cancel(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.closeDialog($(this));",
+                                    icon: "ui-icon-cancel")))))
+                .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
+                    siteModel: id != 0 ? siteModel : null,
+                    siteConditions: SiteInfo.SiteMenu.SiteConditions(0)))
+                .Invoke("setSiteMenu")
+                .Invoke("openLinkDialog").ToJson();
         }
 
         /// <summary>
@@ -528,6 +620,60 @@ namespace Implem.Pleasanter.Models
                     StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
                 });
             SiteInfo.Reflesh();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string CreateLink(long id)
+        {
+            var siteModel = new SiteModel(id);
+            var sourceSiteModel = new SiteModel(Forms.Long("SiteId"));
+            var destinationSiteModel = new SiteModel(Forms.Long("DestinationId"));
+            if (siteModel.NotFound() ||
+                sourceSiteModel.NotFound() ||
+                destinationSiteModel.NotFound())
+            {
+                return SiteMenuError(id, siteModel, Error.Types.NotFound);
+            }
+            switch (sourceSiteModel.ReferenceType)
+            {
+                case "Sites":
+                case "Wikis":
+                    return SiteMenuError(id, siteModel, Error.Types.CanNotPerformed);
+            }
+            if (sourceSiteModel.SiteSettings.Links?.Any(o =>
+                    o.SiteId == destinationSiteModel.SiteId) == true ||
+                destinationSiteModel.SiteSettings.Links?.Any(o =>
+                    o.SiteId == sourceSiteModel.SiteId) == true)
+            {
+                return SiteMenuError(id, siteModel, Error.Types.AlreadyLinked);
+            }
+            var columns = sourceSiteModel.SiteSettings.Columns
+                .Where(o => o.ColumnName.StartsWith("Class"))
+                .Where(o => !sourceSiteModel.SiteSettings.EditorColumns.Contains(o.ColumnName));
+            if (!columns.Any())
+            {
+                return SiteMenuError(id, siteModel, Error.Types.CanNotLink);
+            }
+            var column = sourceSiteModel.SiteSettings.ColumnHash.Get(Forms.Data("LinkColumn"));
+            if (column == null)
+            {
+                return SiteMenuError(id, siteModel, Error.Types.InvalidRequest);
+            }
+            column.ChoicesText = "[[" + destinationSiteModel.SiteId + "]]";
+            column.LabelText = Forms.Data("LinkColumnLabelText");
+            sourceSiteModel.SiteSettings.SetLinks(column);
+            sourceSiteModel.SiteSettings.EditorColumns.Add(column.ColumnName);
+            sourceSiteModel.Update(sourceSiteModel.SiteSettings);
+            return new ResponseCollection()
+                .CloseDialog()
+                .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
+                    siteModel: id != 0 ? siteModel : null,
+                    siteConditions: SiteInfo.SiteMenu.SiteConditions(0)))
+                .Invoke("setSiteMenu")
+                .Message(Messages.LinkCreated())
+                .ToJson();
         }
 
         /// <summary>
@@ -786,7 +932,8 @@ namespace Implem.Pleasanter.Models
                             action: () => hb
                                 .SiteMenu(siteModel: null, siteConditions: siteConditions)
                                 .SiteMenuData()
-                                .TemplateDialog())
+                                .TemplateDialog()
+                                .LinkDialog())
                         .MainCommands(
                             ss: ss,
                             siteId: 0,
@@ -827,7 +974,8 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .SiteMenu(siteModel: siteModel, siteConditions: siteConditions)
                             .SiteMenuData()
-                            .TemplateDialog());
+                            .TemplateDialog()
+                            .LinkDialog());
                     if (ss.SiteId != 0)
                     {
                         hb.MainCommands(

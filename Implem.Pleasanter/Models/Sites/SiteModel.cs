@@ -1817,6 +1817,14 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public bool NotFound()
+        {
+            return SiteId != 0 && AccessStatus != Databases.AccessStatuses.Selected;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public SiteModel InheritSite()
         {
             return new SiteModel(InheritPermission);

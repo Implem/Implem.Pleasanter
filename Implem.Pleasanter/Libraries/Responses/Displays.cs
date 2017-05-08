@@ -55,6 +55,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string All(params string[] data) { return Get("All", data); }
         public static string AllowedUsers(params string[] data) { return Get("AllowedUsers", data); }
         public static string AlreadyAdded(params string[] data) { return Get("AlreadyAdded", data); }
+        public static string AlreadyLinked(params string[] data) { return Get("AlreadyLinked", data); }
         public static string And(params string[] data) { return Get("And", data); }
         public static string ApplicationError(params string[] data) { return Get("ApplicationError", data); }
         public static string Assembly(params string[] data) { return Get("Assembly", data); }
@@ -75,6 +76,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CanNotChangeInheritance(params string[] data) { return Get("CanNotChangeInheritance", data); }
         public static string CanNotDisabled(params string[] data) { return Get("CanNotDisabled", data); }
         public static string CanNotInherit(params string[] data) { return Get("CanNotInherit", data); }
+        public static string CanNotLink(params string[] data) { return Get("CanNotLink", data); }
+        public static string CanNotPerformed(params string[] data) { return Get("CanNotPerformed", data); }
         public static string CanNotUpdate(params string[] data) { return Get("CanNotUpdate", data); }
         public static string CantSetAtTopOfSite(params string[] data) { return Get("CantSetAtTopOfSite", data); }
         public static string Change(params string[] data) { return Get("Change", data); }
@@ -97,6 +100,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CommentDeleted(params string[] data) { return Get("CommentDeleted", data); }
         public static string Comments(params string[] data) { return Get("Comments", data); }
         public static string Condition(params string[] data) { return Get("Condition", data); }
+        public static string ConfirmCreateLink(params string[] data) { return Get("ConfirmCreateLink", data); }
         public static string ConfirmDelete(params string[] data) { return Get("ConfirmDelete", data); }
         public static string ConfirmDeleteSite(params string[] data) { return Get("ConfirmDeleteSite", data); }
         public static string ConfirmReload(params string[] data) { return Get("ConfirmReload", data); }
@@ -242,6 +246,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string LimitBeforeYear(params string[] data) { return Get("LimitBeforeYear", data); }
         public static string LimitBeforeYears(params string[] data) { return Get("LimitBeforeYears", data); }
         public static string LimitJust(params string[] data) { return Get("LimitJust", data); }
+        public static string LinkColumn(params string[] data) { return Get("LinkColumn", data); }
+        public static string LinkCreated(params string[] data) { return Get("LinkCreated", data); }
         public static string LinkCreations(params string[] data) { return Get("LinkCreations", data); }
         public static string LinkDestinations(params string[] data) { return Get("LinkDestinations", data); }
         public static string Links(params string[] data) { return Get("Links", data); }

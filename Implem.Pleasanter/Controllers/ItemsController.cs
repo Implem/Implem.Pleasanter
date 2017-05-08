@@ -285,6 +285,15 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        [HttpPost]
+        public string CreateLink(long id)
+        {
+            var log = new SysLogModel();
+            var json = SiteUtilities.CreateLink(id);
+            log.Finish(json.Length);
+            return json;
+        }
+
         [HttpPut]
         public string SortSiteMenu(long id)
         {

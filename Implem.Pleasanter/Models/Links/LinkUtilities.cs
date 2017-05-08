@@ -41,5 +41,16 @@ namespace Implem.Pleasanter.Models
                                 .Join("union ") + ";\n"),
                 _using: link.Count > 0);
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder LinkDialog(this HtmlBuilder hb)
+        {
+            return hb.Div(attributes: new HtmlAttributes()
+                .Id("LinkDialog")
+                .Class("dialog")
+                .Title(Displays.Links()));
+        }
     }
 }

@@ -23,6 +23,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.AlreadyAdded(data), "alert-error");
         }
 
+        public static Message AlreadyLinked(params string[] data)
+        {
+            return Get(Displays.AlreadyLinked(data), "alert-error");
+        }
+
         public static Message ApplicationError(params string[] data)
         {
             return Get(Displays.ApplicationError(data), "alert-error");
@@ -66,6 +71,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CanNotInherit(params string[] data)
         {
             return Get(Displays.CanNotInherit(data), "alert-error");
+        }
+
+        public static Message CanNotLink(params string[] data)
+        {
+            return Get(Displays.CanNotLink(data), "alert-error");
+        }
+
+        public static Message CanNotPerformed(params string[] data)
+        {
+            return Get(Displays.CanNotPerformed(data), "alert-error");
         }
 
         public static Message CanNotUpdate(params string[] data)
@@ -248,6 +263,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.ItemsLimit(data), "alert-error");
         }
 
+        public static Message LinkCreated(params string[] data)
+        {
+            return Get(Displays.LinkCreated(data), "alert-success");
+        }
+
         public static Message LoginIdAlreadyUse(params string[] data)
         {
             return Get(Displays.LoginIdAlreadyUse(data), "alert-error");
@@ -378,6 +398,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(AlreadyAdded(data));
         }
 
+        public static ResponseCollection ResponseAlreadyLinked(params string[] data)
+        {
+            return ResponseMessage(AlreadyLinked(data));
+        }
+
         public static ResponseCollection ResponseApplicationError(params string[] data)
         {
             return ResponseMessage(ApplicationError(data));
@@ -421,6 +446,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseCanNotInherit(params string[] data)
         {
             return ResponseMessage(CanNotInherit(data));
+        }
+
+        public static ResponseCollection ResponseCanNotLink(params string[] data)
+        {
+            return ResponseMessage(CanNotLink(data));
+        }
+
+        public static ResponseCollection ResponseCanNotPerformed(params string[] data)
+        {
+            return ResponseMessage(CanNotPerformed(data));
         }
 
         public static ResponseCollection ResponseCanNotUpdate(params string[] data)
@@ -601,6 +636,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseItemsLimit(params string[] data)
         {
             return ResponseMessage(ItemsLimit(data));
+        }
+
+        public static ResponseCollection ResponseLinkCreated(params string[] data)
+        {
+            return ResponseMessage(LinkCreated(data));
         }
 
         public static ResponseCollection ResponseLoginIdAlreadyUse(params string[] data)

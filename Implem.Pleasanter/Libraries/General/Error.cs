@@ -8,6 +8,7 @@ namespace Implem.Pleasanter.Libraries.General
         {
             None,
             AlreadyAdded,
+            AlreadyLinked,
             ApplicationError,
             Authentication,
             BadFormat,
@@ -15,6 +16,8 @@ namespace Implem.Pleasanter.Libraries.General
             CanNotChangeInheritance,
             CanNotDisabled,
             CanNotInherit,
+            CanNotLink,
+            CanNotPerformed,
             CantSetAtTopOfSite,
             DefinitionNotFound,
             DeleteConflicts,
@@ -60,6 +63,8 @@ namespace Implem.Pleasanter.Libraries.General
             {
                 case Types.AlreadyAdded:
                     return Messages.AlreadyAdded(data);
+                case Types.AlreadyLinked:
+                    return Messages.AlreadyLinked(data);
                 case Types.ApplicationError:
                     return Messages.ApplicationError(data);
                 case Types.Authentication:
@@ -74,6 +79,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.CanNotDisabled(data);
                 case Types.CanNotInherit:
                     return Messages.CanNotInherit(data);
+                case Types.CanNotLink:
+                    return Messages.CanNotLink(data);
+                case Types.CanNotPerformed:
+                    return Messages.CanNotPerformed(data);
                 case Types.CantSetAtTopOfSite:
                     return Messages.CantSetAtTopOfSite(data);
                 case Types.DefinitionNotFound:
