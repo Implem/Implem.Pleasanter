@@ -36,19 +36,27 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string OpenTemplateDialog()
+        public static string OpenTemplateDialog(long id)
         {
             var hb = new HtmlBuilder();
             return new ResponseCollection().Html("#TemplateDialog", hb.Div(action: () => hb
-                .FieldSet(
-                    css: "fieldset",
+                .Form(
+                    attributes: new HtmlAttributes()
+                        .Id("TemplateDialogForm")
+                        .Action(Locations.ItemAction(id)),
                     action: () => hb
                         .FieldSelectable(
                             controlId: "TemplateSelector",
-                            fieldCss: "field-vertical w500",
+                            fieldCss: "field-vertical w350",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h300",
+                            controlCss: " single",
                             listItemCollection: Templates())
+                        .FieldTextBox(
+                            controlId: "SiteTitle",
+                            controlCss: " always-send",
+                            labelText: Displays.Title(),
+                            validateRequired: true)
                         .P(css: "message-dialog")
                         .Div(css: "command-center", action: () => hb
                             .Button(
@@ -74,12 +82,22 @@ namespace Implem.Pleasanter.Models
                 column: Rds.TemplatesColumn()
                     .TemplateId()
                     .Title()
-                    .Body()
+                    .Standard()
                     .SiteSettingsTemplate()))
                         .AsEnumerable()
                         .ToDictionary(
                             o => o["TemplateId"].ToString(),
-                            o => new ControlData(o["Title"].ToString()));
+                            o => new ControlData(Title(o)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string Title(DataRow dataRow)
+        {
+            return dataRow["Standard"].ToBool()
+                ? "(" + Displays.Standard() + ") " + dataRow["Title"].ToString()
+                : dataRow["Title"].ToString();
         }
     }
 }

@@ -301,6 +301,11 @@ pre{
     text-decoration:underline;
 }
 
+#TemplateDialog > div{
+    padding:0px 0px 0px 15px;
+    overflow:hidden;
+}
+
 #SearchField{
     float:left;
     margin:3px 0px;

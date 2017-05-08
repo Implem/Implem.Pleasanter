@@ -49,6 +49,17 @@
         $.datetimepicker.setLocale('ja');
         $('.radio:not(.applied)').buttonset().addClass('applied');
         $('.control-selectable:not(.applied)').selectable({
+            selected: function (event, ui) {
+                if ($(this).hasClass('single')){
+                    $(ui.selected)
+                        .addClass("ui-selected")
+                        .siblings()
+                        .removeClass("ui-selected")
+                        .each(function (key, value) {
+                            $(value).find('*').removeClass("ui-selected");
+                        });
+                }
+            },
             stop: function () {
                 $p.setData($(this));
             }

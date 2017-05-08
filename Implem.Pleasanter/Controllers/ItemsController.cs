@@ -403,10 +403,10 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
-        public string OpenTemplateDialog()
+        public string OpenTemplateDialog(long id)
         {
             var log = new SysLogModel();
-            var json = TemplateUtilities.OpenTemplateDialog();
+            var json = TemplateUtilities.OpenTemplateDialog(id);
             log.Finish(json.Length);
             return json;
         }

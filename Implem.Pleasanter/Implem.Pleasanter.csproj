@@ -499,7 +499,6 @@
     <Content Include="Scripts\Plugins\jquery.datetimepicker.full.min.js" />
     <Content Include="Scripts\Scroll.js" />
     <Content Include="Scripts\Site.js" />
-    <Content Include="Scripts\Template.js" />
     <Content Include="Scripts\Validator.js" />
     <Content Include="Scripts\ViewMode.js" />
     <Content Include="Scripts\Dialog.js" />

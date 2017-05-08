@@ -470,6 +470,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Demos_TimeLag(params string[] data) { return Get("Demos_TimeLag", data); }
         public static string Templates_TemplateId(params string[] data) { return Get("Templates_TemplateId", data); }
         public static string Templates_Title(params string[] data) { return Get("Templates_Title", data); }
+        public static string Templates_Standard(params string[] data) { return Get("Templates_Standard", data); }
         public static string Templates_Body(params string[] data) { return Get("Templates_Body", data); }
         public static string Templates_SiteSettingsTemplate(params string[] data) { return Get("Templates_SiteSettingsTemplate", data); }
         public static string SysLogs_CreatedTime(params string[] data) { return Get("SysLogs_CreatedTime", data); }

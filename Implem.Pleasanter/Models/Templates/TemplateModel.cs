@@ -24,14 +24,17 @@ namespace Implem.Pleasanter.Models
     {
         public int TemplateId = 0;
         public string Title = string.Empty;
+        public bool Standard = false;
         public string Body = string.Empty;
         public string SiteSettingsTemplate = string.Empty;
         public int SavedTemplateId = 0;
         public string SavedTitle = string.Empty;
+        public bool SavedStandard = false;
         public string SavedBody = string.Empty;
         public string SavedSiteSettingsTemplate = string.Empty;
         public bool TemplateId_Updated { get { return TemplateId != SavedTemplateId; } }
         public bool Title_Updated { get { return Title != SavedTitle && Title != null; } }
+        public bool Standard_Updated { get { return Standard != SavedStandard; } }
         public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
         public bool SiteSettingsTemplate_Updated { get { return SiteSettingsTemplate != SavedSiteSettingsTemplate && SiteSettingsTemplate != null; } }
 
@@ -233,6 +236,7 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Templates_Title": Title = Forms.Data(controlId).ToString(); break;
+                    case "Templates_Standard": Standard = Forms.Data(controlId).ToBool(); break;
                     case "Templates_Body": Body = Forms.Data(controlId).ToString(); break;
                     case "Templates_SiteSettingsTemplate": SiteSettingsTemplate = Forms.Data(controlId).ToString(); break;
                     case "Templates_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
@@ -280,6 +284,7 @@ namespace Implem.Pleasanter.Models
                     case "TemplateId": if (dataRow[name] != DBNull.Value) { TemplateId = dataRow[name].ToInt(); SavedTemplateId = TemplateId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
                     case "Title": Title = dataRow[name].ToString(); SavedTitle = Title; break;
+                    case "Standard": Standard = dataRow[name].ToBool(); SavedStandard = Standard; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
                     case "SiteSettingsTemplate": SiteSettingsTemplate = dataRow[name].ToString(); SavedSiteSettingsTemplate = SiteSettingsTemplate; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;

@@ -12,6 +12,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
             Def.TemplateDefinitionCollection.ForEach(templateDefinition =>
                 Rds.ExecuteNonQuery(statements: Rds.InsertTemplates(param: Rds.TemplatesParam()
                     .Title(templateDefinition.Title)
+                    .Standard(templateDefinition.Standard)
                     .Body(templateDefinition.Body)
                     .SiteSettingsTemplate(templateDefinition.SiteSettingsTemplate))));
         }

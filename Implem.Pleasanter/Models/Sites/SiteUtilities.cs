@@ -434,46 +434,39 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var selected = Forms.IntList("TemplateSelector");
-            if (!selected.Any())
+            var selected = Forms.IntList("TemplateSelector").FirstOrDefault();
+            if (selected == 0)
             {
                 return Error.Types.SelectTargets.MessageJson();
             }
-            var dataRows = Rds.ExecuteTable(statements: Rds.SelectTemplates(
+            var dataRow = Rds.ExecuteTable(statements: Rds.SelectTemplates(
                 column: Rds.TemplatesColumn()
                     .Title()
                     .SiteSettingsTemplate(),
-                where: Rds.TemplatesWhere().TemplateId_In(selected)))
-                    .AsEnumerable();
-            if (!dataRows.Any())
+                where: Rds.TemplatesWhere().TemplateId(selected)))
+                    .AsEnumerable()
+                    .FirstOrDefault();
+            if (dataRow == null)
             {
                 return Error.Types.NotFound.MessageJson();
             }
-            if (Contract.SitesLimit(dataRows.Count()))
+            if (Contract.SitesLimit())
             {
                 return Error.Types.SitesLimit.MessageJson();
             }
-            if (dataRows.Count() > Parameters.General.SiteCreatedSimultaneously)
+            var templateSs = dataRow["SiteSettingsTemplate"].ToString()
+                .Deserialize<SiteSettings>();
+            if (templateSs != null)
             {
-                return Error.Types.TooManyCases.MessageJson(
-                    Parameters.General.SiteCreatedSimultaneously.ToString());
-            }
-            dataRows.ForEach(dataRow =>
-            {
-                var templateSs = dataRow["SiteSettingsTemplate"].ToString()
-                    .Deserialize<SiteSettings>();
-                if (templateSs != null)
+                new SiteModel()
                 {
-                    new SiteModel()
-                    {
-                        ReferenceType = templateSs.ReferenceType,
-                        ParentId = siteModel.SiteId,
-                        InheritPermission = siteModel.InheritPermission,
-                        Title = new Title(dataRow["Title"].ToString()),
-                        SiteSettings = templateSs
-                    }.Create(paramAll: true);
-                }
-            });
+                    ReferenceType = templateSs.ReferenceType,
+                    ParentId = siteModel.SiteId,
+                    InheritPermission = siteModel.InheritPermission,
+                    Title = new Title(Forms.Data("SiteTitle")),
+                    SiteSettings = templateSs
+                }.Create(paramAll: true);
+            }
             Sessions.Set("Message", Messages.SitesCreated().Html);
             return new ResponseCollection()
                 .Href(Locations.ItemIndex(siteModel.SiteId))
@@ -932,8 +925,8 @@ namespace Implem.Pleasanter.Models
                             action: () => hb
                                 .SiteMenu(siteModel: null, siteConditions: siteConditions)
                                 .SiteMenuData()
-                                .TemplateDialog()
                                 .LinkDialog())
+                        .TemplateDialog()
                         .MainCommands(
                             ss: ss,
                             siteId: 0,
@@ -966,16 +959,17 @@ namespace Implem.Pleasanter.Models
                 script: "$p.setSiteMenu();",
                 action: () =>
                 {
-                    hb.Form(
-                        attributes: new HtmlAttributes()
-                            .Id("SitesForm")
-                            .Class("main-form")
-                            .Action(Locations.ItemAction(ss.SiteId)),
-                        action: () => hb
-                            .SiteMenu(siteModel: siteModel, siteConditions: siteConditions)
-                            .SiteMenuData()
-                            .TemplateDialog()
-                            .LinkDialog());
+                    hb
+                        .Form(
+                            attributes: new HtmlAttributes()
+                                .Id("SitesForm")
+                                .Class("main-form")
+                                .Action(Locations.ItemAction(ss.SiteId)),
+                            action: () => hb
+                                .SiteMenu(siteModel: siteModel, siteConditions: siteConditions)
+                                .SiteMenuData()
+                                .LinkDialog())
+                        .TemplateDialog();
                     if (ss.SiteId != 0)
                     {
                         hb.MainCommands(

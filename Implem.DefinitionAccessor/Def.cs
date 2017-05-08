@@ -874,6 +874,7 @@ namespace Implem.DefinitionAccessor
                     case "Demos_TimeLag": Column.Demos_TimeLag = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_TimeLag, definitionRow, ColumnXls); break;
                     case "Templates_TemplateId": Column.Templates_TemplateId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_TemplateId, definitionRow, ColumnXls); break;
                     case "Templates_Title": Column.Templates_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Title, definitionRow, ColumnXls); break;
+                    case "Templates_Standard": Column.Templates_Standard = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Standard, definitionRow, ColumnXls); break;
                     case "Templates_Body": Column.Templates_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Body, definitionRow, ColumnXls); break;
                     case "Templates_SiteSettingsTemplate": Column.Templates_SiteSettingsTemplate = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_SiteSettingsTemplate, definitionRow, ColumnXls); break;
                     case "SysLogs_CreatedTime": Column.SysLogs_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_CreatedTime, definitionRow, ColumnXls); break;
@@ -1809,6 +1810,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_NavigationMenu_space__dot_menu": Css._sharp_NavigationMenu_space__dot_menu = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space__dot_menu, definitionRow, CssXls); break;
                     case "_sharp_NavigationMenu_space__dot_menu_space___space_li_space___space_a": Css._sharp_NavigationMenu_space__dot_menu_space___space_li_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space__dot_menu_space___space_li_space___space_a, definitionRow, CssXls); break;
                     case "_sharp_NavigationMenu_space__dot_menu_space___space_li_space___space_a_dot_ui_state_active": Css._sharp_NavigationMenu_space__dot_menu_space___space_li_space___space_a_dot_ui_state_active = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space__dot_menu_space___space_li_space___space_a_dot_ui_state_active, definitionRow, CssXls); break;
+                    case "_sharp_TemplateDialog_space___space_div": Css._sharp_TemplateDialog_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_TemplateDialog_space___space_div, definitionRow, CssXls); break;
                     case "_sharp_SearchField": Css._sharp_SearchField = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchField, definitionRow, CssXls); break;
                     case "_sharp_Search": Css._sharp_Search = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Search, definitionRow, CssXls); break;
                     case "_sharp_Application": Css._sharp_Application = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Application, definitionRow, CssXls); break;
@@ -3112,6 +3114,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Id")) { newTemplateDefinition.Id = definitionRow["Id"].ToString(); newTemplateDefinition.SavedId = newTemplateDefinition.Id; }
                 if (definitionRow.ContainsKey("SiteSettingsTemplate")) { newTemplateDefinition.SiteSettingsTemplate = definitionRow["SiteSettingsTemplate"].ToString(); newTemplateDefinition.SavedSiteSettingsTemplate = newTemplateDefinition.SiteSettingsTemplate; }
                 if (definitionRow.ContainsKey("Title")) { newTemplateDefinition.Title = definitionRow["Title"].ToString(); newTemplateDefinition.SavedTitle = newTemplateDefinition.Title; }
+                if (definitionRow.ContainsKey("Standard")) { newTemplateDefinition.Standard = definitionRow["Standard"].ToBool(); newTemplateDefinition.SavedStandard = newTemplateDefinition.Standard; }
                 if (definitionRow.ContainsKey("Body")) { newTemplateDefinition.Body = definitionRow["Body"].ToString(); newTemplateDefinition.SavedBody = newTemplateDefinition.Body; }
                 TemplateDefinitionCollection.Add(newTemplateDefinition);
             });
@@ -3122,6 +3125,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
             if (definitionRow.ContainsKey("SiteSettingsTemplate")) { definition.SiteSettingsTemplate = definitionRow["SiteSettingsTemplate"].ToString(); definition.SavedSiteSettingsTemplate = definition.SiteSettingsTemplate; }
             if (definitionRow.ContainsKey("Title")) { definition.Title = definitionRow["Title"].ToString(); definition.SavedTitle = definition.Title; }
+            if (definitionRow.ContainsKey("Standard")) { definition.Standard = definitionRow["Standard"].ToBool(); definition.SavedStandard = definition.Standard; }
             if (definitionRow.ContainsKey("Body")) { definition.Body = definitionRow["Body"].ToString(); definition.SavedBody = definition.Body; }
         }
 
@@ -3645,6 +3649,7 @@ namespace Implem.DefinitionAccessor
                         case "Id": templateDefinition.Id = optionValue.ToString(); break;
                         case "SiteSettingsTemplate": templateDefinition.SiteSettingsTemplate = optionValue.ToString(); break;
                         case "Title": templateDefinition.Title = optionValue.ToString(); break;
+                        case "Standard": templateDefinition.Standard = optionValue.ToBool(); break;
                         case "Body": templateDefinition.Body = optionValue.ToString(); break;
                     }
                 });
@@ -5336,6 +5341,7 @@ namespace Implem.DefinitionAccessor
         public string Demos_TimeLag;
         public string Templates_TemplateId;
         public string Templates_Title;
+        public string Templates_Standard;
         public string Templates_Body;
         public string Templates_SiteSettingsTemplate;
         public string SysLogs_CreatedTime;
@@ -6020,6 +6026,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Demos_TimeLag = new ColumnDefinition();
         public ColumnDefinition Templates_TemplateId = new ColumnDefinition();
         public ColumnDefinition Templates_Title = new ColumnDefinition();
+        public ColumnDefinition Templates_Standard = new ColumnDefinition();
         public ColumnDefinition Templates_Body = new ColumnDefinition();
         public ColumnDefinition Templates_SiteSettingsTemplate = new ColumnDefinition();
         public ColumnDefinition SysLogs_CreatedTime = new ColumnDefinition();
@@ -6958,6 +6965,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_NavigationMenu_space__dot_menu;
         public string _sharp_NavigationMenu_space__dot_menu_space___space_li_space___space_a;
         public string _sharp_NavigationMenu_space__dot_menu_space___space_li_space___space_a_dot_ui_state_active;
+        public string _sharp_TemplateDialog_space___space_div;
         public string _sharp_SearchField;
         public string _sharp_Search;
         public string _sharp_Application;
@@ -7349,6 +7357,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_NavigationMenu_space__dot_menu = new CssDefinition();
         public CssDefinition _sharp_NavigationMenu_space__dot_menu_space___space_li_space___space_a = new CssDefinition();
         public CssDefinition _sharp_NavigationMenu_space__dot_menu_space___space_li_space___space_a_dot_ui_state_active = new CssDefinition();
+        public CssDefinition _sharp_TemplateDialog_space___space_div = new CssDefinition();
         public CssDefinition _sharp_SearchField = new CssDefinition();
         public CssDefinition _sharp_Search = new CssDefinition();
         public CssDefinition _sharp_Application = new CssDefinition();
@@ -9213,6 +9222,7 @@ namespace Implem.DefinitionAccessor
         public string Id; public string SavedId;
         public string SiteSettingsTemplate; public string SavedSiteSettingsTemplate;
         public string Title; public string SavedTitle;
+        public bool Standard; public bool SavedStandard;
         public string Body; public string SavedBody;
 
         public TemplateDefinition()
@@ -9224,6 +9234,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
             if (propertyCollection.ContainsKey("SiteSettingsTemplate")) SiteSettingsTemplate = propertyCollection["SiteSettingsTemplate"].ToString(); else SiteSettingsTemplate = string.Empty;
             if (propertyCollection.ContainsKey("Title")) Title = propertyCollection["Title"].ToString(); else Title = string.Empty;
+            if (propertyCollection.ContainsKey("Standard")) Standard = propertyCollection["Standard"].ToBool(); else Standard = false;
             if (propertyCollection.ContainsKey("Body")) Body = propertyCollection["Body"].ToString(); else Body = string.Empty;
         }
 
@@ -9235,6 +9246,7 @@ namespace Implem.DefinitionAccessor
                     case "Id": return Id;
                     case "SiteSettingsTemplate": return SiteSettingsTemplate;
                     case "Title": return Title;
+                    case "Standard": return Standard;
                     case "Body": return Body;
                     default: return null;
                 }
@@ -9246,6 +9258,7 @@ namespace Implem.DefinitionAccessor
             Id = SavedId;
             SiteSettingsTemplate = SavedSiteSettingsTemplate;
             Title = SavedTitle;
+            Standard = SavedStandard;
             Body = SavedBody;
         }
     }
