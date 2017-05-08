@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SitesCreated",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "The creation of the site is completed."
+        },
+        {
+            "Language": "ja",
+            "Body": "サイトの作成が完了しました。"
+        }
+    ]
+}

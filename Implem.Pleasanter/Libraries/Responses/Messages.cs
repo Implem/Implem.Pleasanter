@@ -338,6 +338,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.Separated(data), "alert-success");
         }
 
+        public static Message SitesCreated(params string[] data)
+        {
+            return Get(Displays.SitesCreated(data), "alert-success");
+        }
+
         public static Message SitesLimit(params string[] data)
         {
             return Get(Displays.SitesLimit(data), "alert-error");
@@ -346,6 +351,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message SynchronizationCompleted(params string[] data)
         {
             return Get(Displays.SynchronizationCompleted(data), "alert-success");
+        }
+
+        public static Message TooManyCases(params string[] data)
+        {
+            return Get(Displays.TooManyCases(data), "alert-error");
         }
 
         public static Message UpdateConflicts(params string[] data)
@@ -683,6 +693,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(Separated(data));
         }
 
+        public static ResponseCollection ResponseSitesCreated(params string[] data)
+        {
+            return ResponseMessage(SitesCreated(data));
+        }
+
         public static ResponseCollection ResponseSitesLimit(params string[] data)
         {
             return ResponseMessage(SitesLimit(data));
@@ -691,6 +706,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseSynchronizationCompleted(params string[] data)
         {
             return ResponseMessage(SynchronizationCompleted(data));
+        }
+
+        public static ResponseCollection ResponseTooManyCases(params string[] data)
+        {
+            return ResponseMessage(TooManyCases(data));
         }
 
         public static ResponseCollection ResponseUpdateConflicts(params string[] data)

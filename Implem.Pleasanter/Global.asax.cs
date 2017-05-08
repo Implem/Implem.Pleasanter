@@ -28,6 +28,7 @@ namespace Implem.Pleasanter
             StatusesMigrator.Migrate();
             SiteSettingsMigrator.Migrate();
             StatusesInitializer.Initialize();
+            TemplatesInitializer.Initialize();
             SetConfigrations();
             log.Finish();
         }

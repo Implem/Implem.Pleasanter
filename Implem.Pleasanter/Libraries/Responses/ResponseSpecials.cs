@@ -46,6 +46,28 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class TemplatesResponseCollection : ResponseCollection
+    {
+        public TemplateModel TemplateModel;
+
+        public TemplatesResponseCollection(TemplateModel templateModel)
+        {
+            TemplateModel = templateModel;
+        }
+
+        public TemplatesResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public TemplatesResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class StatusesResponseCollection : ResponseCollection
     {
         public StatusModel StatusModel;
@@ -484,6 +506,26 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static DemosResponseCollection Timestamp(this DemosResponseCollection res, string value) { return res.Val("#Demos_Timestamp", value); }
         public static DemosResponseCollection Timestamp_FormData(this DemosResponseCollection res) { return res.ValAndFormData("#Demos_Timestamp", res.DemoModel.Timestamp.ToResponse()); }
         public static DemosResponseCollection Timestamp_FormData(this DemosResponseCollection res, string value) { return res.ValAndFormData("#Demos_Timestamp", value); }
+        public static TemplatesResponseCollection Ver(this TemplatesResponseCollection res) { return res.Val("#Templates_Ver", res.TemplateModel.Ver.ToResponse()); }
+        public static TemplatesResponseCollection Ver(this TemplatesResponseCollection res, string value) { return res.Val("#Templates_Ver", value); }
+        public static TemplatesResponseCollection Ver_FormData(this TemplatesResponseCollection res) { return res.ValAndFormData("#Templates_Ver", res.TemplateModel.Ver.ToResponse()); }
+        public static TemplatesResponseCollection Ver_FormData(this TemplatesResponseCollection res, string value) { return res.ValAndFormData("#Templates_Ver", value); }
+        public static TemplatesResponseCollection Comments(this TemplatesResponseCollection res) { return res.Val("#Templates_Comments", res.TemplateModel.Comments.ToResponse()); }
+        public static TemplatesResponseCollection Comments(this TemplatesResponseCollection res, string value) { return res.Val("#Templates_Comments", value); }
+        public static TemplatesResponseCollection Comments_FormData(this TemplatesResponseCollection res) { return res.ValAndFormData("#Templates_Comments", res.TemplateModel.Comments.ToResponse()); }
+        public static TemplatesResponseCollection Comments_FormData(this TemplatesResponseCollection res, string value) { return res.ValAndFormData("#Templates_Comments", value); }
+        public static TemplatesResponseCollection CreatedTime(this TemplatesResponseCollection res) { return res.Val("#Templates_CreatedTime", res.TemplateModel.CreatedTime.ToResponse()); }
+        public static TemplatesResponseCollection CreatedTime(this TemplatesResponseCollection res, string value) { return res.Val("#Templates_CreatedTime", value); }
+        public static TemplatesResponseCollection CreatedTime_FormData(this TemplatesResponseCollection res) { return res.ValAndFormData("#Templates_CreatedTime", res.TemplateModel.CreatedTime.ToResponse()); }
+        public static TemplatesResponseCollection CreatedTime_FormData(this TemplatesResponseCollection res, string value) { return res.ValAndFormData("#Templates_CreatedTime", value); }
+        public static TemplatesResponseCollection UpdatedTime(this TemplatesResponseCollection res) { return res.Val("#Templates_UpdatedTime", res.TemplateModel.UpdatedTime.ToResponse()); }
+        public static TemplatesResponseCollection UpdatedTime(this TemplatesResponseCollection res, string value) { return res.Val("#Templates_UpdatedTime", value); }
+        public static TemplatesResponseCollection UpdatedTime_FormData(this TemplatesResponseCollection res) { return res.ValAndFormData("#Templates_UpdatedTime", res.TemplateModel.UpdatedTime.ToResponse()); }
+        public static TemplatesResponseCollection UpdatedTime_FormData(this TemplatesResponseCollection res, string value) { return res.ValAndFormData("#Templates_UpdatedTime", value); }
+        public static TemplatesResponseCollection Timestamp(this TemplatesResponseCollection res) { return res.Val("#Templates_Timestamp", res.TemplateModel.Timestamp.ToResponse()); }
+        public static TemplatesResponseCollection Timestamp(this TemplatesResponseCollection res, string value) { return res.Val("#Templates_Timestamp", value); }
+        public static TemplatesResponseCollection Timestamp_FormData(this TemplatesResponseCollection res) { return res.ValAndFormData("#Templates_Timestamp", res.TemplateModel.Timestamp.ToResponse()); }
+        public static TemplatesResponseCollection Timestamp_FormData(this TemplatesResponseCollection res, string value) { return res.ValAndFormData("#Templates_Timestamp", value); }
         public static StatusesResponseCollection Ver(this StatusesResponseCollection res) { return res.Val("#Statuses_Ver", res.StatusModel.Ver.ToResponse()); }
         public static StatusesResponseCollection Ver(this StatusesResponseCollection res, string value) { return res.Val("#Statuses_Ver", value); }
         public static StatusesResponseCollection Ver_FormData(this StatusesResponseCollection res) { return res.ValAndFormData("#Statuses_Ver", res.StatusModel.Ver.ToResponse()); }

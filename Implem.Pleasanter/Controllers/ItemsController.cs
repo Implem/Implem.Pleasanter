@@ -231,6 +231,15 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        [HttpPost]
+        public string CreateByTemplates(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).CreateByTemplates();
+            log.Finish(json.Length);
+            return json;
+        }
+
         [HttpPut]
         public string Update(long id)
         {
@@ -380,6 +389,15 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = PermissionUtilities.Permission(id);
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string OpenTemplateDialog()
+        {
+            var log = new SysLogModel();
+            var json = TemplateUtilities.OpenTemplateDialog();
             log.Finish(json.Length);
             return json;
         }

@@ -247,6 +247,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlDropDownSearches.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
+    <Compile Include="Libraries\Initializers\TemplatesInitializer.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_011.cs" />
     <Compile Include="Libraries\Migrators\StatusesMigrator.cs" />
     <Compile Include="Libraries\Migrators\Statuses\Version00_037_010.cs" />
@@ -453,6 +454,10 @@
     <Compile Include="Models\SysLogs\SysLogModel.cs" />
     <Compile Include="Models\SysLogs\SysLogUtilities.cs" />
     <Compile Include="Models\SysLogs\SysLogValidators.cs" />
+    <Compile Include="Models\Templates\TemplateCollection.cs" />
+    <Compile Include="Models\Templates\TemplateModel.cs" />
+    <Compile Include="Models\Templates\TemplateUtilities.cs" />
+    <Compile Include="Models\Templates\TemplateValidators.cs" />
     <Compile Include="Models\Tenants\TenantCollection.cs" />
     <Compile Include="Models\Tenants\TenantModel.cs" />
     <Compile Include="Models\Tenants\TenantUtilities.cs" />
@@ -494,6 +499,7 @@
     <Content Include="Scripts\Plugins\jquery.datetimepicker.full.min.js" />
     <Content Include="Scripts\Scroll.js" />
     <Content Include="Scripts\Site.js" />
+    <Content Include="Scripts\Template.js" />
     <Content Include="Scripts\Validator.js" />
     <Content Include="Scripts\ViewMode.js" />
     <Content Include="Scripts\Dialog.js" />
@@ -1066,6 +1072,10 @@
     <Content Include="App_Data\Displays\Blog.json" />
     <Content Include="App_Data\Displays\CanNotChangeInheritance.json" />
     <Content Include="App_Data\Displays\CanNotInherit.json" />
+    <Content Include="App_Data\Displays\Template.json" />
+    <Content Include="App_Data\Definitions\definition_Template.xlsm" />
+    <Content Include="App_Data\Displays\SitesCreated.json" />
+    <Content Include="App_Data\Displays\TooManyCases.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

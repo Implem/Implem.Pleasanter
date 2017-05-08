@@ -125,6 +125,7 @@ namespace Implem.DefinitionAccessor
             Def.SetCodeDefinition();
             Def.SetColumnDefinition();
             Def.SetCssDefinition();
+            Def.SetTemplateDefinition();
             Def.SetViewModeDefinition();
             Def.SetDemoDefinition();
             Def.SetSqlDefinition();

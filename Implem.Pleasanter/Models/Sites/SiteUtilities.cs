@@ -421,6 +421,68 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string CreateByTemplates(SiteModel siteModel)
+        {
+            var ss = siteModel.SitesSiteSettings(siteModel.ParentId);
+            if (siteModel.ParentId == 0)
+            {
+                ss.PermissionType = (Permissions.Types)Parameters.Permissions.Manager;
+            }
+            var invalid = SiteValidators.OnCreating(ss, siteModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var selected = Forms.IntList("TemplateSelector");
+            if (!selected.Any())
+            {
+                return Error.Types.SelectTargets.MessageJson();
+            }
+            var dataRows = Rds.ExecuteTable(statements: Rds.SelectTemplates(
+                column: Rds.TemplatesColumn()
+                    .Title()
+                    .SiteSettingsTemplate(),
+                where: Rds.TemplatesWhere().TemplateId_In(selected)))
+                    .AsEnumerable();
+            if (!dataRows.Any())
+            {
+                return Error.Types.NotFound.MessageJson();
+            }
+            if (Contract.SitesLimit(dataRows.Count()))
+            {
+                return Error.Types.SitesLimit.MessageJson();
+            }
+            if (dataRows.Count() > Parameters.General.SiteCreatedSimultaneously)
+            {
+                return Error.Types.TooManyCases.MessageJson(
+                    Parameters.General.SiteCreatedSimultaneously.ToString());
+            }
+            dataRows.ForEach(dataRow =>
+            {
+                var templateSs = dataRow["SiteSettingsTemplate"].ToString()
+                    .Deserialize<SiteSettings>();
+                if (templateSs != null)
+                {
+                    new SiteModel()
+                    {
+                        ReferenceType = templateSs.ReferenceType,
+                        ParentId = siteModel.SiteId,
+                        InheritPermission = siteModel.InheritPermission,
+                        Title = new Title(dataRow["Title"].ToString()),
+                        SiteSettings = templateSs
+                    }.Create(paramAll: true);
+                }
+            });
+            Sessions.Set("Message", Messages.SitesCreated().Html);
+            return new ResponseCollection()
+                .Href(Locations.ItemIndex(siteModel.SiteId))
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string MoveSiteMenu(long id)
         {
             var siteModel = new SiteModel(id);
@@ -715,19 +777,21 @@ namespace Implem.Pleasanter.Models
                 script: "$p.setSiteMenu();",
                 action: () =>
                 {
-                    hb.Form(
-                        attributes: new HtmlAttributes()
-                            .Id("SitesForm")
-                            .Class("main-form")
-                            .Action(Locations.ItemAction(0)),
-                        action: () => hb
-                            .SiteMenu(siteModel: null, siteConditions: siteConditions)
-                            .SiteMenuData());
-                    hb.MainCommands(
-                        ss: ss,
-                        siteId: 0,
-                        verType: verType,
-                        backButton: false);
+                    hb
+                        .Form(
+                            attributes: new HtmlAttributes()
+                                .Id("SitesForm")
+                                .Class("main-form")
+                                .Action(Locations.ItemAction(0)),
+                            action: () => hb
+                                .SiteMenu(siteModel: null, siteConditions: siteConditions)
+                                .SiteMenuData()
+                                .TemplateDialog())
+                        .MainCommands(
+                            ss: ss,
+                            siteId: 0,
+                            verType: verType,
+                            backButton: false);
                 }).ToString();
         }
 
@@ -762,7 +826,8 @@ namespace Implem.Pleasanter.Models
                             .Action(Locations.ItemAction(ss.SiteId)),
                         action: () => hb
                             .SiteMenu(siteModel: siteModel, siteConditions: siteConditions)
-                            .SiteMenuData());
+                            .SiteMenuData()
+                            .TemplateDialog());
                     if (ss.SiteId != 0)
                     {
                         hb.MainCommands(

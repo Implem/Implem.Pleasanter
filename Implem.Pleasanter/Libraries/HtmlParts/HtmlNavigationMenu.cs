@@ -48,7 +48,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Div(action: () => hb
                                 .A(
-                                    href: NewHref(siteId),
+                                    href: NewHref(ss),
+                                    attributes: SiteIndex(ss)
+                                        ? new HtmlAttributes()
+                                            .OnClick("$p.openTemplateDialog($(this));")
+                                            .DataAction("OpenTemplateDialog")
+                                            .DataMethod("post")
+                                        : null,
                                     action: () => hb
                                         .Span(css: "ui-icon ui-icon-plus")
                                         .Text(text: Displays.New()))),
@@ -88,16 +94,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         }
 
-        private static string NewHref(long siteId)
+        private static string NewHref(SiteSettings ss)
         {
             var controller = Routes.Controller();
             switch (controller)
             {
                 case "items":
-                    return Locations.ItemNew(siteId);
+                    return SiteIndex(ss)
+                        ? "javascript:void(0);"
+                        : Locations.ItemNew(ss.SiteId);
                 default:
                     return Locations.New(controller);
             }
+        }
+
+        private static bool SiteIndex(SiteSettings ss)
+        {
+            return ss.SiteId == 0 || ss.ReferenceType == "Sites" && Routes.Action() == "index";
         }
 
         private static HtmlBuilder ViewModeMenu(this HtmlBuilder hb, SiteSettings ss)

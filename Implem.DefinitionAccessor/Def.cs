@@ -872,6 +872,10 @@ namespace Implem.DefinitionAccessor
                     case "Demos_MailAddress": Column.Demos_MailAddress = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_MailAddress, definitionRow, ColumnXls); break;
                     case "Demos_Initialized": Column.Demos_Initialized = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_Initialized, definitionRow, ColumnXls); break;
                     case "Demos_TimeLag": Column.Demos_TimeLag = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_TimeLag, definitionRow, ColumnXls); break;
+                    case "Templates_TemplateId": Column.Templates_TemplateId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_TemplateId, definitionRow, ColumnXls); break;
+                    case "Templates_Title": Column.Templates_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Title, definitionRow, ColumnXls); break;
+                    case "Templates_Body": Column.Templates_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Body, definitionRow, ColumnXls); break;
+                    case "Templates_SiteSettingsTemplate": Column.Templates_SiteSettingsTemplate = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_SiteSettingsTemplate, definitionRow, ColumnXls); break;
                     case "SysLogs_CreatedTime": Column.SysLogs_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_CreatedTime, definitionRow, ColumnXls); break;
                     case "SysLogs_SysLogId": Column.SysLogs_SysLogId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_SysLogId, definitionRow, ColumnXls); break;
                     case "SysLogs_StartTime": Column.SysLogs_StartTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_StartTime, definitionRow, ColumnXls); break;
@@ -1341,6 +1345,14 @@ namespace Implem.DefinitionAccessor
                     case "Demos_UpdatedTime": Column.Demos_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_UpdatedTime, definitionRow, ColumnXls); break;
                     case "Demos_VerUp": Column.Demos_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_VerUp, definitionRow, ColumnXls); break;
                     case "Demos_Timestamp": Column.Demos_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_Timestamp, definitionRow, ColumnXls); break;
+                    case "Templates_Ver": Column.Templates_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Ver, definitionRow, ColumnXls); break;
+                    case "Templates_Comments": Column.Templates_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Comments, definitionRow, ColumnXls); break;
+                    case "Templates_Creator": Column.Templates_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Creator, definitionRow, ColumnXls); break;
+                    case "Templates_Updator": Column.Templates_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Updator, definitionRow, ColumnXls); break;
+                    case "Templates_CreatedTime": Column.Templates_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_CreatedTime, definitionRow, ColumnXls); break;
+                    case "Templates_UpdatedTime": Column.Templates_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_UpdatedTime, definitionRow, ColumnXls); break;
+                    case "Templates_VerUp": Column.Templates_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_VerUp, definitionRow, ColumnXls); break;
+                    case "Templates_Timestamp": Column.Templates_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Timestamp, definitionRow, ColumnXls); break;
                     case "SysLogs_Ver": Column.SysLogs_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Ver, definitionRow, ColumnXls); break;
                     case "SysLogs_Comments": Column.SysLogs_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Comments, definitionRow, ColumnXls); break;
                     case "SysLogs_Creator": Column.SysLogs_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Creator, definitionRow, ColumnXls); break;
@@ -3021,6 +3033,7 @@ namespace Implem.DefinitionAccessor
                     case "SiteDepts": Sql.SiteDepts = definitionRow[1].ToString(); SetSqlTable(SqlTable.SiteDepts, definitionRow, SqlXls); break;
                     case "ProgressRateDelay": Sql.ProgressRateDelay = definitionRow[1].ToString(); SetSqlTable(SqlTable.ProgressRateDelay, definitionRow, SqlXls); break;
                     case "MoveTarget": Sql.MoveTarget = definitionRow[1].ToString(); SetSqlTable(SqlTable.MoveTarget, definitionRow, SqlXls); break;
+                    case "TruncateTemplate": Sql.TruncateTemplate = definitionRow[1].ToString(); SetSqlTable(SqlTable.TruncateTemplate, definitionRow, SqlXls); break;
                     case "CreateDatabase": Sql.CreateDatabase = definitionRow[1].ToString(); SetSqlTable(SqlTable.CreateDatabase, definitionRow, SqlXls); break;
                     case "SpWho": Sql.SpWho = definitionRow[1].ToString(); SetSqlTable(SqlTable.SpWho, definitionRow, SqlXls); break;
                     case "KillSpid": Sql.KillSpid = definitionRow[1].ToString(); SetSqlTable(SqlTable.KillSpid, definitionRow, SqlXls); break;
@@ -3066,6 +3079,58 @@ namespace Implem.DefinitionAccessor
             SqlDefinitionCollection = new List<SqlDefinition>();
             Sql = new SqlColumn2nd();
             SqlTable = new SqlTable();
+        }
+
+        public static XlsIo TemplateXls;
+        public static List<TemplateDefinition> TemplateDefinitionCollection;
+        public static TemplateColumn2nd Template;
+        public static TemplateTable TemplateTable;
+
+        public static void SetTemplateDefinition()
+        {
+            ConstructTemplateDefinitions();
+            if (TemplateXls.AccessStatus != Files.AccessStatuses.Read) { return; }
+            TemplateXls.XlsSheet.ForEach(definitionRow =>
+            {
+                switch (definitionRow[0].ToString())
+                {
+                    case "Template1": Template.Template1 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template1, definitionRow, TemplateXls); break;
+                    case "Template2": Template.Template2 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template2, definitionRow, TemplateXls); break;
+                    case "Template3": Template.Template3 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template3, definitionRow, TemplateXls); break;
+                    case "Template4": Template.Template4 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template4, definitionRow, TemplateXls); break;
+                    case "Template5": Template.Template5 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template5, definitionRow, TemplateXls); break;
+                    case "Template6": Template.Template6 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template6, definitionRow, TemplateXls); break;
+                    case "Template7": Template.Template7 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template7, definitionRow, TemplateXls); break;
+                    case "Template8": Template.Template8 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template8, definitionRow, TemplateXls); break;
+                    case "Template9": Template.Template9 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template9, definitionRow, TemplateXls); break;
+                    default: break;
+                }
+            });
+            TemplateXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
+            {
+                var newTemplateDefinition = new TemplateDefinition();
+                if (definitionRow.ContainsKey("Id")) { newTemplateDefinition.Id = definitionRow["Id"].ToString(); newTemplateDefinition.SavedId = newTemplateDefinition.Id; }
+                if (definitionRow.ContainsKey("SiteSettingsTemplate")) { newTemplateDefinition.SiteSettingsTemplate = definitionRow["SiteSettingsTemplate"].ToString(); newTemplateDefinition.SavedSiteSettingsTemplate = newTemplateDefinition.SiteSettingsTemplate; }
+                if (definitionRow.ContainsKey("Title")) { newTemplateDefinition.Title = definitionRow["Title"].ToString(); newTemplateDefinition.SavedTitle = newTemplateDefinition.Title; }
+                if (definitionRow.ContainsKey("Body")) { newTemplateDefinition.Body = definitionRow["Body"].ToString(); newTemplateDefinition.SavedBody = newTemplateDefinition.Body; }
+                TemplateDefinitionCollection.Add(newTemplateDefinition);
+            });
+        }
+
+        private static void SetTemplateTable(TemplateDefinition definition, XlsRow definitionRow, XlsIo templatexls)
+        {
+            if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
+            if (definitionRow.ContainsKey("SiteSettingsTemplate")) { definition.SiteSettingsTemplate = definitionRow["SiteSettingsTemplate"].ToString(); definition.SavedSiteSettingsTemplate = definition.SiteSettingsTemplate; }
+            if (definitionRow.ContainsKey("Title")) { definition.Title = definitionRow["Title"].ToString(); definition.SavedTitle = definition.Title; }
+            if (definitionRow.ContainsKey("Body")) { definition.Body = definitionRow["Body"].ToString(); definition.SavedBody = definition.Body; }
+        }
+
+        private static void ConstructTemplateDefinitions()
+        {
+            TemplateXls = Initializer.DefinitionFile("definition_Template.xlsm");
+            TemplateDefinitionCollection = new List<TemplateDefinition>();
+            Template = new TemplateColumn2nd();
+            TemplateTable = new TemplateTable();
         }
 
         public static XlsIo ViewModeXls;
@@ -3563,6 +3628,24 @@ namespace Implem.DefinitionAccessor
                     {
                         case "Id": sqlDefinition.Id = optionValue.ToString(); break;
                         case "Body": sqlDefinition.Body = optionValue.ToString(); break;
+                    }
+                });
+        }
+
+        public static void SetTemplateDefinitionOption(
+            string placeholder, TemplateDefinition templateDefinition)
+        {
+            placeholder.RegexFirst("(?<=\\().+(?=\\))").Split(',')
+                .Where(o => !o.IsNullOrEmpty()).ForEach(option =>
+                {
+                    var optionName = option.Split_1st('=').Trim();
+                    var optionValue = option.Split_2nd('=').Trim();
+                    switch (optionName)
+                    {
+                        case "Id": templateDefinition.Id = optionValue.ToString(); break;
+                        case "SiteSettingsTemplate": templateDefinition.SiteSettingsTemplate = optionValue.ToString(); break;
+                        case "Title": templateDefinition.Title = optionValue.ToString(); break;
+                        case "Body": templateDefinition.Body = optionValue.ToString(); break;
                     }
                 });
         }
@@ -5251,6 +5334,10 @@ namespace Implem.DefinitionAccessor
         public string Demos_MailAddress;
         public string Demos_Initialized;
         public string Demos_TimeLag;
+        public string Templates_TemplateId;
+        public string Templates_Title;
+        public string Templates_Body;
+        public string Templates_SiteSettingsTemplate;
         public string SysLogs_CreatedTime;
         public string SysLogs_SysLogId;
         public string SysLogs_StartTime;
@@ -5720,6 +5807,14 @@ namespace Implem.DefinitionAccessor
         public string Demos_UpdatedTime;
         public string Demos_VerUp;
         public string Demos_Timestamp;
+        public string Templates_Ver;
+        public string Templates_Comments;
+        public string Templates_Creator;
+        public string Templates_Updator;
+        public string Templates_CreatedTime;
+        public string Templates_UpdatedTime;
+        public string Templates_VerUp;
+        public string Templates_Timestamp;
         public string SysLogs_Ver;
         public string SysLogs_Comments;
         public string SysLogs_Creator;
@@ -5923,6 +6018,10 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Demos_MailAddress = new ColumnDefinition();
         public ColumnDefinition Demos_Initialized = new ColumnDefinition();
         public ColumnDefinition Demos_TimeLag = new ColumnDefinition();
+        public ColumnDefinition Templates_TemplateId = new ColumnDefinition();
+        public ColumnDefinition Templates_Title = new ColumnDefinition();
+        public ColumnDefinition Templates_Body = new ColumnDefinition();
+        public ColumnDefinition Templates_SiteSettingsTemplate = new ColumnDefinition();
         public ColumnDefinition SysLogs_CreatedTime = new ColumnDefinition();
         public ColumnDefinition SysLogs_SysLogId = new ColumnDefinition();
         public ColumnDefinition SysLogs_StartTime = new ColumnDefinition();
@@ -6392,6 +6491,14 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Demos_UpdatedTime = new ColumnDefinition();
         public ColumnDefinition Demos_VerUp = new ColumnDefinition();
         public ColumnDefinition Demos_Timestamp = new ColumnDefinition();
+        public ColumnDefinition Templates_Ver = new ColumnDefinition();
+        public ColumnDefinition Templates_Comments = new ColumnDefinition();
+        public ColumnDefinition Templates_Creator = new ColumnDefinition();
+        public ColumnDefinition Templates_Updator = new ColumnDefinition();
+        public ColumnDefinition Templates_CreatedTime = new ColumnDefinition();
+        public ColumnDefinition Templates_UpdatedTime = new ColumnDefinition();
+        public ColumnDefinition Templates_VerUp = new ColumnDefinition();
+        public ColumnDefinition Templates_Timestamp = new ColumnDefinition();
         public ColumnDefinition SysLogs_Ver = new ColumnDefinition();
         public ColumnDefinition SysLogs_Comments = new ColumnDefinition();
         public ColumnDefinition SysLogs_Creator = new ColumnDefinition();
@@ -9044,6 +9151,7 @@ namespace Implem.DefinitionAccessor
         public string SiteDepts;
         public string ProgressRateDelay;
         public string MoveTarget;
+        public string TruncateTemplate;
         public string CreateDatabase;
         public string SpWho;
         public string KillSpid;
@@ -9076,6 +9184,7 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition SiteDepts = new SqlDefinition();
         public SqlDefinition ProgressRateDelay = new SqlDefinition();
         public SqlDefinition MoveTarget = new SqlDefinition();
+        public SqlDefinition TruncateTemplate = new SqlDefinition();
         public SqlDefinition CreateDatabase = new SqlDefinition();
         public SqlDefinition SpWho = new SqlDefinition();
         public SqlDefinition KillSpid = new SqlDefinition();
@@ -9097,6 +9206,74 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition BulkInsert = new SqlDefinition();
         public SqlDefinition Identity = new SqlDefinition();
         public SqlDefinition InsertTestData = new SqlDefinition();
+    }
+
+    public class TemplateDefinition
+    {
+        public string Id; public string SavedId;
+        public string SiteSettingsTemplate; public string SavedSiteSettingsTemplate;
+        public string Title; public string SavedTitle;
+        public string Body; public string SavedBody;
+
+        public TemplateDefinition()
+        {
+        }
+
+        public TemplateDefinition(Dictionary<string, string> propertyCollection)
+        {
+            if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
+            if (propertyCollection.ContainsKey("SiteSettingsTemplate")) SiteSettingsTemplate = propertyCollection["SiteSettingsTemplate"].ToString(); else SiteSettingsTemplate = string.Empty;
+            if (propertyCollection.ContainsKey("Title")) Title = propertyCollection["Title"].ToString(); else Title = string.Empty;
+            if (propertyCollection.ContainsKey("Body")) Body = propertyCollection["Body"].ToString(); else Body = string.Empty;
+        }
+
+        public object this[string key]
+        {
+            get{
+                switch(key)
+                {
+                    case "Id": return Id;
+                    case "SiteSettingsTemplate": return SiteSettingsTemplate;
+                    case "Title": return Title;
+                    case "Body": return Body;
+                    default: return null;
+                }
+            }
+        }
+
+        public void RestoreBySavedMemory()
+        {
+            Id = SavedId;
+            SiteSettingsTemplate = SavedSiteSettingsTemplate;
+            Title = SavedTitle;
+            Body = SavedBody;
+        }
+    }
+
+    public class TemplateColumn2nd
+    {
+        public string Template1;
+        public string Template2;
+        public string Template3;
+        public string Template4;
+        public string Template5;
+        public string Template6;
+        public string Template7;
+        public string Template8;
+        public string Template9;
+    }
+
+    public class TemplateTable
+    {
+        public TemplateDefinition Template1 = new TemplateDefinition();
+        public TemplateDefinition Template2 = new TemplateDefinition();
+        public TemplateDefinition Template3 = new TemplateDefinition();
+        public TemplateDefinition Template4 = new TemplateDefinition();
+        public TemplateDefinition Template5 = new TemplateDefinition();
+        public TemplateDefinition Template6 = new TemplateDefinition();
+        public TemplateDefinition Template7 = new TemplateDefinition();
+        public TemplateDefinition Template8 = new TemplateDefinition();
+        public TemplateDefinition Template9 = new TemplateDefinition();
     }
 
     public class ViewModeDefinition

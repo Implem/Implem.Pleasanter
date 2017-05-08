@@ -11,6 +11,7 @@
     "HtmlUsageGuideUrl": "https://github.com/Implem/Implem.Pleasanter/wiki",
     "HtmlBlogUrl": "https://implem.co.jp/category/blog/",
     "SiteMenuHotSpan": 30,
+    "SiteCreatedSimultaneously": 5,
     "LimitWarning1": 86400,
     "LimitWarning2": 0,
     "LimitWarning3": -259200,

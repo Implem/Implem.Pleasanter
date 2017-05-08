@@ -391,6 +391,16 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string CreateByTemplates()
+        {
+            SetSite();
+            switch (Site.ReferenceType)
+            {
+                case "Sites": return SiteUtilities.CreateByTemplates(siteModel: Site);
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
         public string Update()
         {
             SetSite();
