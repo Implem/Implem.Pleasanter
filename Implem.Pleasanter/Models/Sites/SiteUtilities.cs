@@ -467,9 +467,13 @@ namespace Implem.Pleasanter.Models
                     SiteSettings = templateSs
                 }.Create(paramAll: true);
             }
-            Sessions.Set("Message", Messages.SitesCreated().Html);
             return new ResponseCollection()
-                .Href(Locations.ItemIndex(siteModel.SiteId))
+                .CloseDialog()
+                .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
+                    siteModel: siteModel.SiteId != 0 ? siteModel : null,
+                    siteConditions: SiteInfo.SiteMenu.SiteConditions(0)))
+                .Invoke("setSiteMenu")
+                .Message(Messages.SitesCreated())
                 .ToJson();
         }
 
