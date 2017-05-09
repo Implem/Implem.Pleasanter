@@ -66,19 +66,19 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 MinTime = this.Select(o => o.UpdatedTime).Min().AddDays(-1);
                 MaxTime = DateTime.Today;
                 Days = Times.DateDiff(Times.Types.Days, MinTime, MaxTime);
-            }
-            this.Select(o => o.Id).Distinct().ForEach(id =>
-            {
-                var element = this
-                    .Where(o => o.Id == id)
+                this
                     .OrderByDescending(o => o.Ver)
-                    .First();
-                element.Latest = true;
-                if (element.IsHistory)
-                {
-                    element.UpdatedTime = element.UpdatedTime.AddDays(-1);
-                }
-            });
+                    .GroupBy(o => o.Id)
+                    .Select(o => o.First())
+                    .ForEach(element =>
+                    {
+                        element.Latest = true;
+                        if (element.IsHistory)
+                        {
+                            element.UpdatedTime = element.UpdatedTime.AddDays(-1);
+                        }
+                    });
+            }
         }
 
         public string Json()
