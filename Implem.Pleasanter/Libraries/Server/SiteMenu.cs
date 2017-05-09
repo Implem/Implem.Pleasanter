@@ -185,23 +185,26 @@ namespace Implem.Pleasanter.Libraries.Server
         private Dictionary<long, List<long>> ChildHash(long siteId)
         {
             var ret = new Dictionary<long, List<long>>();
-            this.Select(o => o.Value)
+            var hash = this
+                .Select(o => o.Value)
                 .Where(o => o.TenantId == Sessions.TenantId())
-                .Where(o => o.ParentId == siteId)
+                .ToList();
+            hash.Where(o => o.ParentId == siteId)
                 .ForEach(child =>
-                    ret.Add(child.SiteId, ChildHashValues(child.SiteId)));
+                    ret.Add(child.SiteId, ChildHashValues(hash, child.SiteId)));
             return ret;
         }
 
-        private List<long> ChildHashValues(long siteId, List<long> data = null)
+        private List<long> ChildHashValues(
+            List<SiteMenuElement> hash,
+            long siteId,
+            List<long> data = null)
         {
             if (data == null) data = new List<long>();
             data.Add(siteId);
-            this.Select(o => o.Value)
-                .Where(o => o.TenantId == Sessions.TenantId())
-                .Where(o => o.ParentId == siteId)
+            hash.Where(o => o.ParentId == siteId)
                 .ForEach(child =>
-                    ChildHashValues(child.SiteId, data));
+                    ChildHashValues(hash, child.SiteId, data));
             return data;
         }
 
