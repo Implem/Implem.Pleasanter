@@ -484,7 +484,9 @@ namespace Implem.Pleasanter.Models
         public static string MoveSiteMenu(long id)
         {
             var siteModel = new SiteModel(id);
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, id);
+            siteModel.SiteSettings.PermissionType = id == 0
+                ? Permissions.Manager()
+                : Permissions.Get(id);
             var sourceSiteModel = new SiteModel(Forms.Long("SiteId"));
             var destinationSiteModel = new SiteModel(Forms.Long("DestinationId"));
             if (siteModel.NotFound() ||
