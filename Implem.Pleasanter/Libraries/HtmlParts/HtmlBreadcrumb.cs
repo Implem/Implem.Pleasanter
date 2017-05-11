@@ -57,12 +57,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Breadcrumb(this HtmlBuilder hb, long siteId)
         {
-            return hb.Breadcrumb(data: SiteInfo.SiteMenu.Breadcrumb(siteId)
-                .ToDictionary(
-                    o => !o.HasOnlyOneChild()
-                        ? Locations.ItemIndex(o.SiteId)
-                        : Locations.ItemEdit(o.OnlyOneChildId),
-                    o => o.Title));
+            return hb.Breadcrumb(data: SiteInfo.TenantCaches[Sessions.TenantId()]
+                .SiteMenu.Breadcrumb(siteId)
+                    .ToDictionary(
+                        o => !o.HasOnlyOneChild()
+                            ? Locations.ItemIndex(o.SiteId)
+                            : Locations.ItemEdit(o.OnlyOneChildId),
+                        o => o.Title));
         }
 
         private static HtmlBuilder Breadcrumb(

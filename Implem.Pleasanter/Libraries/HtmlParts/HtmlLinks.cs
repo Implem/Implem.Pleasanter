@@ -137,6 +137,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 var dataRows = dataSet.Tables[ss.ReferenceType + "_" + direction]?
                     .AsEnumerable()
                     .Where(o => o["SiteId"].ToLong() == ss.SiteId);
+                var siteMenu = SiteInfo.TenantCaches[Sessions.TenantId()].SiteMenu;
                 if (dataRows != null && dataRows.Any())
                 {
                     ss.SetColumnAccessControls();
@@ -147,7 +148,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb
                                 .Caption(caption: "{0} : {1} - {2} {3}".Params(
                                     caption,
-                                    SiteInfo.SiteMenu.Breadcrumb(ss.SiteId)
+                                    siteMenu.Breadcrumb(ss.SiteId)
                                         .Select(o => o.Title)
                                         .Join(" > "),
                                     Displays.Quantity(),
@@ -175,7 +176,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb
                                 .Caption(caption: "{0} : {1} - {2} {3}".Params(
                                     caption,
-                                    SiteInfo.SiteMenu.Breadcrumb(ss.SiteId)
+                                    siteMenu.Breadcrumb(ss.SiteId)
                                         .Select(o => o.Title)
                                         .Join(" > "),
                                     Displays.Quantity(),

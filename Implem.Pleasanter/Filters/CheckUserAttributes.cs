@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Filters
             if (Sessions.LoggedIn())
             {
                 var userModel = new UserModel().Get(
-                    ss: SiteSettingsUtilities.UsersSiteSettings(),
+                    ss: null,
                     where: Rds.UsersWhere()
                         .TenantId(Sessions.TenantId())
                         .UserId(Sessions.UserId())

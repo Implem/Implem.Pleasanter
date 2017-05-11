@@ -38,11 +38,14 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void Initialize()
+        public static void Initialize(int tenantId)
         {
-            Rds.ExecuteNonQuery(statements: MonitorHash()
-                .Select(o => UpdateStatus(o.Key))
-                .ToArray());
+            if (tenantId != 0 && !MonitorInitialized(tenantId))
+            {
+                Rds.ExecuteNonQuery(statements: MonitorHash()
+                    .Select(o => UpdateStatus(o.Key))
+                    .ToArray());
+            }
         }
 
         /// <summary>
@@ -53,7 +56,9 @@ namespace Implem.Pleasanter.Models
             return Rds.ExecuteScalar_string(statements:
                 Rds.SelectStatuses(
                     column: Rds.StatusesColumn().Value(),
-                    where: Rds.StatusesWhere().StatusId(Types.AssemblyVersion)));
+                    where: Rds.StatusesWhere()
+                        .TenantId(0)
+                        .StatusId(Types.AssemblyVersion)));
         }
 
         /// <summary>
@@ -63,10 +68,13 @@ namespace Implem.Pleasanter.Models
         {
             if (Rds.ExecuteScalar_int(statements: Rds.SelectStatuses(
                 column: Rds.StatusesColumn().StatusesCount(),
-                where: Rds.StatusesWhere().StatusId(Types.AssemblyVersion))) == 0)
+                where: Rds.StatusesWhere()
+                    .TenantId(0)
+                    .StatusId(Types.AssemblyVersion))) == 0)
             {
                 Rds.ExecuteNonQuery(statements: Rds.InsertStatuses(
                     param: Rds.StatusesParam()
+                        .TenantId(0)
                         .StatusId(Types.AssemblyVersion)
                         .Value(version)));
             }
@@ -74,6 +82,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.ExecuteNonQuery(statements: Rds.UpdateStatuses(
                     where: Rds.StatusesWhere()
+                        .TenantId(0)
                         .StatusId(Types.AssemblyVersion)
                         .Value(version, _operator: "<>"),
                     param: Rds.StatusesParam().Value(version)));
@@ -83,10 +92,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Dictionary<Types, DateTime> Monitors()
+        public static Dictionary<Types, DateTime> Monitors(int tenantId)
         {
             var hash = MonitorHash();
-            MonitorDataRows(hash).ForEach(dataRow =>
+            MonitorDataRows(tenantId, hash).ForEach(dataRow =>
             {
                 var type = (Types)dataRow["StatusId"].ToInt();
                 if (hash.ContainsKey(type))
@@ -100,24 +109,26 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static bool MonitorInitialized()
+        public static bool MonitorInitialized(int tenantId)
         {
             var hash = MonitorHash();
-            return MonitorDataRows(hash).Count() == hash.Count;
+            return MonitorDataRows(tenantId, hash).Count() == hash.Count;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static EnumerableRowCollection<DataRow> MonitorDataRows(
-            Dictionary<Types, DateTime> hash = null)
+            int tenantId, Dictionary<Types, DateTime> hash = null)
         {
             hash = hash ?? MonitorHash();
             return Rds.ExecuteTable(statements: Rds.SelectStatuses(
                 column: Rds.StatusesColumn()
+                    .TenantId()
                     .StatusId()
                     .UpdatedTime(),
                 where: Rds.StatusesWhere()
+                    .TenantId(tenantId)
                     .StatusId_In(hash.Keys.Select(o => o.ToInt()))))
                         .AsEnumerable();
         }
@@ -143,9 +154,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static SqlUpdateOrInsert UpdateStatus(Types type, string value = "")
         {
+            var tenantId = Sessions.TenantId();
             return Rds.UpdateOrInsertStatuses(
-                where: Rds.StatusesWhere().StatusId(type),
+                where: Rds.StatusesWhere()
+                    .TenantId(tenantId)
+                    .StatusId(type),
                 param: Rds.StatusesParam()
+                    .TenantId(tenantId)
                     .StatusId(type)
                     .Value(value));
         }

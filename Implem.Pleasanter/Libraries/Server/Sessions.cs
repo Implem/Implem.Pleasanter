@@ -1,6 +1,5 @@
 ﻿using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Models;
 using System;
@@ -32,12 +31,10 @@ namespace Implem.Pleasanter.Libraries.Server
             return HttpContext.Current?.Session != null;
         }
 
-        public static void SetTenantId(int userId)
+        public static void SetTenantId(int tenantId)
         {
-            HttpContext.Current.Session["TenantId"] = Rds.ExecuteScalar_int(statements:
-                Rds.SelectUsers(
-                    column: Rds.UsersColumn().TenantId(),
-                    where: Rds.UsersWhere().UserId(userId)));
+            HttpContext.Current.Session["TenantId"] = tenantId;
+            SiteInfo.Reflesh();
         }
 
         public static int TenantId()

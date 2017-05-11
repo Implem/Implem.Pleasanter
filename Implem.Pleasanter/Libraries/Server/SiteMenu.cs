@@ -11,12 +11,12 @@ namespace Implem.Pleasanter.Libraries.Server
 {
     public class SiteMenu : Dictionary<long, SiteMenuElement>
     {
-        public SiteMenu()
+        public SiteMenu(int tenantId)
         {
-            Get();
+            Get(tenantId);
         }
 
-        private void Get()
+        private void Get(int tenantId)
         {
             Rds.ExecuteTable(statements: Rds.SelectSites(
                 column: Rds.SitesColumn()
@@ -24,7 +24,8 @@ namespace Implem.Pleasanter.Libraries.Server
                     .SiteId()
                     .ReferenceType()
                     .ParentId()
-                    .Title()))
+                    .Title(),
+                where: Rds.SitesWhere().TenantId(tenantId)))
                         .AsEnumerable()
                         .ForEach(dataRow =>
                             Add(dataRow["SiteId"].ToLong(), new SiteMenuElement(

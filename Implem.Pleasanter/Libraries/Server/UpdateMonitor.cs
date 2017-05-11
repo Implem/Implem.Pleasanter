@@ -5,11 +5,11 @@ namespace Implem.Pleasanter.Libraries.Server
 {
     public class UpdateMonitor
     {
-        public static DateTime DeptsUpdatedTime;
-        public static DateTime GroupsUpdatedTime;
-        public static DateTime UsersUpdatedTime;
-        public static DateTime PermissionsUpdatedTime;
-        public static DateTime SitesUpdatedTime;
+        public DateTime DeptsUpdatedTime;
+        public DateTime GroupsUpdatedTime;
+        public DateTime UsersUpdatedTime;
+        public DateTime PermissionsUpdatedTime;
+        public DateTime SitesUpdatedTime;
         public DateTime NowDeptsUpdatedTime;
         public DateTime NowGroupsUpdatedTime;
         public DateTime NowUsersUpdatedTime;
@@ -23,9 +23,14 @@ namespace Implem.Pleasanter.Libraries.Server
         public bool PermissionsUpdated;
         public bool SitesUpdated;
 
-        public UpdateMonitor()
+        public UpdateMonitor(int tenantId)
         {
-            Set();
+            Monitor(tenantId);
+        }
+
+        public void Monitor(int tenantId)
+        {
+            Set(tenantId);
             DeptsUpdated = DeptsUpdatedTime != NowDeptsUpdatedTime;
             GroupsUpdated = GroupsUpdatedTime != NowGroupsUpdatedTime;
             UsersUpdated = UsersUpdatedTime != NowUsersUpdatedTime;
@@ -34,9 +39,9 @@ namespace Implem.Pleasanter.Libraries.Server
             Updated = DeptsUpdated || GroupsUpdated || UsersUpdated || SitesUpdated || PermissionsUpdated;
         }
 
-        private void Set()
+        private void Set(int tenantId)
         {
-            var hash = StatusUtilities.Monitors();
+            var hash = StatusUtilities.Monitors(tenantId);
             NowDeptsUpdatedTime = hash[StatusUtilities.Types.DeptsUpdated];
             NowGroupsUpdatedTime = hash[StatusUtilities.Types.GroupsUpdated];
             NowUsersUpdatedTime = hash[StatusUtilities.Types.UsersUpdated];

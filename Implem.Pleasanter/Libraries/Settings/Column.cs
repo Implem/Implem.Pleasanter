@@ -183,14 +183,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (line)
             {
                 case "[[Depts]]":
-                    SiteInfo.DeptHash
+                    SiteInfo.TenantCaches[tenantId].DeptHash
                         .Where(o => o.Value.TenantId == tenantId)
                         .ForEach(o => AddToChoiceHash(
                             o.Key.ToString(),
                             SiteInfo.Dept(o.Key).Name));
                     break;
                 case "[[Users]]":
-                    SiteInfo.SiteUsers(siteId)
+                    SiteInfo.SiteUsers(tenantId, siteId)
                         .ToDictionary(o => o.ToString(), o => SiteInfo.UserName(o))
                         .Where(o => searchIndexes?.Any() != true ||
                             searchIndexes.All(p =>
@@ -199,7 +199,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ForEach(o => AddToChoiceHash(o.Key, o.Value));
                     break;
                 case "[[Users*]]":
-                    SiteInfo.UserHash
+                    SiteInfo.TenantCaches[tenantId].UserHash
                         .Where(o => o.Value.TenantId == tenantId)
                         .ToDictionary(o => o.Key.ToString(), o => o.Value.Name)
                         .Where(o => searchIndexes?.Any() != true ||
@@ -299,14 +299,16 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public object RecordingData(string value, long siteId)
         {
+            var tenantId = Sessions.TenantId();
+            var userHash = SiteInfo.TenantCaches[tenantId].UserHash;
             object recordingData = value;
             if (UserColumn)
             {
                 if (SiteUserHash == null)
                 {
-                    SiteUserHash = SiteInfo.SiteUsers(siteId)
-                        .Where(o => SiteInfo.UserHash.ContainsKey(o))
-                        .ToDictionary(o => SiteInfo.UserHash[o].Name, o => o);
+                    SiteUserHash = SiteInfo.SiteUsers(tenantId, siteId)
+                        .Where(o => userHash.ContainsKey(o))
+                        .ToDictionary(o => userHash[o].Name, o => o);
                 }
                 recordingData = SiteUserHash.Get(value);
             }

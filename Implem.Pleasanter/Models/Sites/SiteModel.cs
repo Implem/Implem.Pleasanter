@@ -167,7 +167,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OnConstructed()
         {
-            SiteInfo.SetSiteUserHash(SiteId);
+            SiteInfo.SetSiteUserHash(Sessions.TenantId(), SiteId);
         }
 
         public void ClearSessions()
@@ -209,7 +209,8 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var searchIndexHash = new Dictionary<string, int>();
-                SiteInfo.SiteMenu.Breadcrumb(SiteId).SearchIndexes(searchIndexHash, 100);
+                SiteInfo.TenantCaches[Sessions.TenantId()]
+                    .SiteMenu.Breadcrumb(SiteId).SearchIndexes(searchIndexHash, 100);
                 SiteId.SearchIndexes(searchIndexHash, 1);
                 UpdatedTime.SearchIndexes(searchIndexHash, 200);
                 Title.SearchIndexes(searchIndexHash, 4);
@@ -327,7 +328,8 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete()
         {
-            var siteMenu = SiteInfo.SiteMenu.Children(SiteId, withParent: true);
+            var siteMenu = SiteInfo.TenantCaches[Sessions.TenantId()]
+                .SiteMenu.Children(SiteId, withParent: true);
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -775,12 +777,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public HtmlBuilder ReplaceSiteMenu(long sourceId, long destinationId)
         {
+            var siteMenu = SiteInfo.TenantCaches[Sessions.TenantId()].SiteMenu;
             return new HtmlBuilder().SiteMenu(
                 ss: SiteSettings,
                 siteId: destinationId,
                 referenceType: ReferenceType,
-                title: SiteInfo.SiteMenu.Get(destinationId).Title,
-                siteConditions: SiteInfo.SiteMenu.SiteConditions(SiteId));
+                title: siteMenu.Get(destinationId).Title,
+                siteConditions: siteMenu.SiteConditions(SiteId));
         }
 
         /// <summary>

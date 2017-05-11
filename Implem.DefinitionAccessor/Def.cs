@@ -915,6 +915,7 @@ namespace Implem.DefinitionAccessor
                     case "SysLogs_Title": Column.SysLogs_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Title, definitionRow, ColumnXls); break;
                     case "SysLogs_InDebug": Column.SysLogs_InDebug = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_InDebug, definitionRow, ColumnXls); break;
                     case "SysLogs_AssemblyVersion": Column.SysLogs_AssemblyVersion = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_AssemblyVersion, definitionRow, ColumnXls); break;
+                    case "Statuses_TenantId": Column.Statuses_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_TenantId, definitionRow, ColumnXls); break;
                     case "Statuses_StatusId": Column.Statuses_StatusId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_StatusId, definitionRow, ColumnXls); break;
                     case "Statuses_Value": Column.Statuses_Value = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_Value, definitionRow, ColumnXls); break;
                     case "Depts_TenantId": Column.Depts_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_TenantId, definitionRow, ColumnXls); break;
@@ -2389,6 +2390,8 @@ namespace Implem.DefinitionAccessor
                     case "Site51": Demo.Site51 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site51, definitionRow, DemoXls); break;
                     case "Site52": Demo.Site52 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site52, definitionRow, DemoXls); break;
                     case "Site53": Demo.Site53 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site53, definitionRow, DemoXls); break;
+                    case "Site54": Demo.Site54 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site54, definitionRow, DemoXls); break;
+                    case "Site55": Demo.Site55 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site55, definitionRow, DemoXls); break;
                     case "DefineNetworks": Demo.DefineNetworks = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineNetworks, definitionRow, DemoXls); break;
                     case "DefineServers": Demo.DefineServers = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineServers, definitionRow, DemoXls); break;
                     case "DefineSecurity": Demo.DefineSecurity = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineSecurity, definitionRow, DemoXls); break;
@@ -3105,6 +3108,16 @@ namespace Implem.DefinitionAccessor
                     case "Template7": Template.Template7 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template7, definitionRow, TemplateXls); break;
                     case "Template8": Template.Template8 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template8, definitionRow, TemplateXls); break;
                     case "Template9": Template.Template9 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template9, definitionRow, TemplateXls); break;
+                    case "Template10": Template.Template10 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template10, definitionRow, TemplateXls); break;
+                    case "Template11": Template.Template11 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template11, definitionRow, TemplateXls); break;
+                    case "Template12": Template.Template12 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template12, definitionRow, TemplateXls); break;
+                    case "Template13": Template.Template13 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template13, definitionRow, TemplateXls); break;
+                    case "Template14": Template.Template14 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template14, definitionRow, TemplateXls); break;
+                    case "Template15": Template.Template15 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template15, definitionRow, TemplateXls); break;
+                    case "Template16": Template.Template16 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template16, definitionRow, TemplateXls); break;
+                    case "Template17": Template.Template17 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template17, definitionRow, TemplateXls); break;
+                    case "Template18": Template.Template18 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template18, definitionRow, TemplateXls); break;
+                    case "Template19": Template.Template19 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template19, definitionRow, TemplateXls); break;
                     default: break;
                 }
             });
@@ -5382,6 +5395,7 @@ namespace Implem.DefinitionAccessor
         public string SysLogs_Title;
         public string SysLogs_InDebug;
         public string SysLogs_AssemblyVersion;
+        public string Statuses_TenantId;
         public string Statuses_StatusId;
         public string Statuses_Value;
         public string Depts_TenantId;
@@ -6067,6 +6081,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SysLogs_Title = new ColumnDefinition();
         public ColumnDefinition SysLogs_InDebug = new ColumnDefinition();
         public ColumnDefinition SysLogs_AssemblyVersion = new ColumnDefinition();
+        public ColumnDefinition Statuses_TenantId = new ColumnDefinition();
         public ColumnDefinition Statuses_StatusId = new ColumnDefinition();
         public ColumnDefinition Statuses_Value = new ColumnDefinition();
         public ColumnDefinition Depts_TenantId = new ColumnDefinition();
@@ -8405,6 +8420,8 @@ namespace Implem.DefinitionAccessor
         public string Site51;
         public string Site52;
         public string Site53;
+        public string Site54;
+        public string Site55;
         public string DefineNetworks;
         public string DefineServers;
         public string DefineSecurity;
@@ -8803,6 +8820,8 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Site51 = new DemoDefinition();
         public DemoDefinition Site52 = new DemoDefinition();
         public DemoDefinition Site53 = new DemoDefinition();
+        public DemoDefinition Site54 = new DemoDefinition();
+        public DemoDefinition Site55 = new DemoDefinition();
         public DemoDefinition DefineNetworks = new DemoDefinition();
         public DemoDefinition DefineServers = new DemoDefinition();
         public DemoDefinition DefineSecurity = new DemoDefinition();
@@ -9274,6 +9293,16 @@ namespace Implem.DefinitionAccessor
         public string Template7;
         public string Template8;
         public string Template9;
+        public string Template10;
+        public string Template11;
+        public string Template12;
+        public string Template13;
+        public string Template14;
+        public string Template15;
+        public string Template16;
+        public string Template17;
+        public string Template18;
+        public string Template19;
     }
 
     public class TemplateTable
@@ -9287,6 +9316,16 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template7 = new TemplateDefinition();
         public TemplateDefinition Template8 = new TemplateDefinition();
         public TemplateDefinition Template9 = new TemplateDefinition();
+        public TemplateDefinition Template10 = new TemplateDefinition();
+        public TemplateDefinition Template11 = new TemplateDefinition();
+        public TemplateDefinition Template12 = new TemplateDefinition();
+        public TemplateDefinition Template13 = new TemplateDefinition();
+        public TemplateDefinition Template14 = new TemplateDefinition();
+        public TemplateDefinition Template15 = new TemplateDefinition();
+        public TemplateDefinition Template16 = new TemplateDefinition();
+        public TemplateDefinition Template17 = new TemplateDefinition();
+        public TemplateDefinition Template18 = new TemplateDefinition();
+        public TemplateDefinition Template19 = new TemplateDefinition();
     }
 
     public class ViewModeDefinition

@@ -511,6 +511,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SysLogs_Title(params string[] data) { return Get("SysLogs_Title", data); }
         public static string SysLogs_InDebug(params string[] data) { return Get("SysLogs_InDebug", data); }
         public static string SysLogs_AssemblyVersion(params string[] data) { return Get("SysLogs_AssemblyVersion", data); }
+        public static string Statuses_TenantId(params string[] data) { return Get("Statuses_TenantId", data); }
         public static string Statuses_StatusId(params string[] data) { return Get("Statuses_StatusId", data); }
         public static string Statuses_Value(params string[] data) { return Get("Statuses_Value", data); }
         public static string Depts_TenantId(params string[] data) { return Get("Depts_TenantId", data); }

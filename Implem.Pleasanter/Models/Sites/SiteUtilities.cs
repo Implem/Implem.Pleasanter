@@ -471,7 +471,8 @@ namespace Implem.Pleasanter.Models
                 .CloseDialog()
                 .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
                     siteModel: siteModel.SiteId != 0 ? siteModel : null,
-                    siteConditions: SiteInfo.SiteMenu.SiteConditions(0)))
+                    siteConditions: SiteInfo.TenantCaches[Sessions.TenantId()]
+                        .SiteMenu.SiteConditions(0)))
                 .Invoke("setSiteMenu")
                 .Message(Messages.SitesCreated())
                 .ToJson();
@@ -504,7 +505,8 @@ namespace Implem.Pleasanter.Models
                 }
             }
             var toParent = id != 0 &&
-                SiteInfo.SiteMenu.Get(id).ParentId == destinationSiteModel.SiteId;
+                SiteInfo.TenantCaches[Sessions.TenantId()]
+                    .SiteMenu.Get(id).ParentId == destinationSiteModel.SiteId;
             var invalid = SiteValidators.OnMoving(
                 id,
                 destinationSiteModel.SiteId,
@@ -596,7 +598,8 @@ namespace Implem.Pleasanter.Models
                                     icon: "ui-icon-cancel")))))
                 .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
                     siteModel: id != 0 ? siteModel : null,
-                    siteConditions: SiteInfo.SiteMenu.SiteConditions(0)))
+                    siteConditions: SiteInfo.TenantCaches[Sessions.TenantId()]
+                        .SiteMenu.SiteConditions(0)))
                 .Invoke("setSiteMenu")
                 .Invoke("openLinkDialog").ToJson();
         }
@@ -669,7 +672,8 @@ namespace Implem.Pleasanter.Models
                 .CloseDialog()
                 .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
                     siteModel: id != 0 ? siteModel : null,
-                    siteConditions: SiteInfo.SiteMenu.SiteConditions(0)))
+                    siteConditions: SiteInfo.TenantCaches[Sessions.TenantId()]
+                        .SiteMenu.SiteConditions(0)))
                 .Invoke("setSiteMenu")
                 .Message(Messages.LinkCreated())
                 .ToJson();
@@ -716,7 +720,8 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection()
                 .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
                     siteModel: id != 0 ? siteModel : null,
-                    siteConditions: SiteInfo.SiteMenu.SiteConditions(0)))
+                    siteConditions: SiteInfo.TenantCaches[Sessions.TenantId()]
+                        .SiteMenu.SiteConditions(0)))
                 .Invoke("setSiteMenu")
                 .Message(invalid.Message())
                 .ToJson();
@@ -913,7 +918,8 @@ namespace Implem.Pleasanter.Models
             var ss = new SiteSettings();
             ss.PermissionType = Permissions.Manager();
             var verType = Versions.VerTypes.Latest;
-            var siteConditions = SiteInfo.SiteMenu.SiteConditions(0);
+            var siteConditions = SiteInfo.TenantCaches[Sessions.TenantId()]
+                .SiteMenu.SiteConditions(0);
             return hb.Template(
                 ss: ss,
                 verType: verType,
@@ -954,7 +960,8 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             var ss = siteModel.SiteSettings;
-            var siteConditions = SiteInfo.SiteMenu.SiteConditions(siteModel.SiteId);
+            var siteConditions = SiteInfo.TenantCaches[Sessions.TenantId()]
+                .SiteMenu.SiteConditions(siteModel.SiteId);
             return hb.Template(
                 ss: ss,
                 verType: Versions.VerTypes.Latest,

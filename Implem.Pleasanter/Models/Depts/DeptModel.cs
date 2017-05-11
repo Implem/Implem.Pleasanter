@@ -220,9 +220,10 @@ namespace Implem.Pleasanter.Models
                         where: Rds.DeptsWhere().DeptId(DeptId)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
                 });
-            if (SiteInfo.DeptHash.Keys.Contains(DeptId))
+            var deptHash = SiteInfo.TenantCaches[Sessions.TenantId()].DeptHash;
+            if (deptHash.Keys.Contains(DeptId))
             {
-                SiteInfo.DeptHash.Remove(DeptId);
+                deptHash.Remove(DeptId);
             }
             return Error.Types.None;
         }

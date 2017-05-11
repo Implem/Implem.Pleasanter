@@ -63,7 +63,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 attributes: new HtmlAttributes()
                     .Class("button button-icon confirm-reload")
                     .OnClick("$p.new($(this));")
-                    .Title(SiteInfo.SiteMenu.Breadcrumb(sourceId).Select(o => o.Title).Join(" > "))
+                    .Title(SiteInfo.TenantCaches[Sessions.TenantId()]
+                        .SiteMenu.Breadcrumb(sourceId).Select(o => o.Title).Join(" > "))
                     .DataId(linkId.ToString())
                     .DataIcon("ui-icon-plus")
                     .Add("data-from-site-id", siteId.ToString())

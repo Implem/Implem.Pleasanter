@@ -318,9 +318,10 @@ namespace Implem.Pleasanter.Models
                         where: Rds.UsersWhere().UserId(UserId)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
                 });
-            if (SiteInfo.UserHash.Keys.Contains(UserId))
+            var userHash = SiteInfo.TenantCaches[Sessions.TenantId()].UserHash;
+            if (userHash.Keys.Contains(UserId))
             {
-                SiteInfo.UserHash.Remove(UserId);
+                userHash.Remove(UserId);
             }
             return Error.Types.None;
         }
@@ -734,7 +735,9 @@ namespace Implem.Pleasanter.Models
         {
             System.Web.Security.FormsAuthentication.SetAuthCookie(
                 UserId.ToString(), Forms.Bool("Users_RememberMe"));
+            Sessions.SetTenantId(TenantId);
             SetSession();
+            Libraries.Initializers.StatusesInitializer.Initialize(TenantId);
         }
 
         /// <summary>
@@ -742,7 +745,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void SetSession()
         {
-            HttpContext.Session["TenantId"] = TenantId;
             HttpContext.Session["UserId"] = UserId;
             HttpContext.Session["Language"] = Language;
             HttpContext.Session["Developer"] = Developer;

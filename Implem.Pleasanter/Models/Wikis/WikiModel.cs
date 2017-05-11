@@ -133,7 +133,8 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var searchIndexHash = new Dictionary<string, int>();
-                SiteInfo.SiteMenu.Breadcrumb(SiteId).SearchIndexes(searchIndexHash, 100);
+                SiteInfo.TenantCaches[Sessions.TenantId()]
+                    .SiteMenu.Breadcrumb(SiteId).SearchIndexes(searchIndexHash, 100);
                 SiteId.SearchIndexes(searchIndexHash, 200);
                 UpdatedTime.SearchIndexes(searchIndexHash, 200);
                 WikiId.SearchIndexes(searchIndexHash, 1);

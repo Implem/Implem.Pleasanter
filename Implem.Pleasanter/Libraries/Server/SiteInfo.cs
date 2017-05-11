@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -12,17 +13,25 @@ namespace Implem.Pleasanter.Libraries.Server
 {
     public static class SiteInfo
     {
-        public static SiteMenu SiteMenu;
-        public static Dictionary<int, Dept> DeptHash;
-        public static Dictionary<int, User> UserHash;
-        public static Dictionary<long, List<int>> SiteUserHash;
+        public static Dictionary<int, TenantCache> TenantCaches = new Dictionary<int, TenantCache>();
 
         public static void Reflesh(bool force = false)
         {
-            var monitor = new UpdateMonitor();
+            var tenantId = Sessions.TenantId();
+            if (!TenantCaches.ContainsKey(tenantId))
+            {
+                try
+                {
+                    TenantCaches.Add(tenantId, new TenantCache(tenantId));
+                }
+                catch (Exception)
+                {
+                }
+            }
+            var tenantCache = TenantCaches.Get(tenantId);
+            var monitor = tenantCache.GetUpdateMonitor();
             if (monitor.DeptsUpdated || monitor.UsersUpdated || force)
             {
-                var tenantId = Sessions.TenantId();
                 var dataSet = Rds.ExecuteDataSet(statements: new SqlStatement[]
                 {
                     Rds.SelectDepts(
@@ -31,6 +40,7 @@ namespace Implem.Pleasanter.Libraries.Server
                             .TenantId()
                             .DeptId()
                             .DeptName(),
+                        where: Rds.DeptsWhere().TenantId(tenantId),
                         _using: monitor.DeptsUpdated || force),
                     Rds.SelectUsers(
                         dataTableName: "Users",
@@ -41,11 +51,12 @@ namespace Implem.Pleasanter.Libraries.Server
                             .Name()
                             .TenantManager()
                             .ServiceManager(),
+                        where: Rds.UsersWhere().TenantId(tenantId),
                         _using: monitor.UsersUpdated || force)
                 });
                 if (monitor.DeptsUpdated || force)
                 {
-                    DeptHash = dataSet.Tables["Depts"]
+                    tenantCache.DeptHash = dataSet.Tables["Depts"]
                         .AsEnumerable()
                         .ToDictionary(
                             dataRow => dataRow["DeptId"].ToInt(),
@@ -53,7 +64,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 }
                 if (monitor.UsersUpdated || force)
                 {
-                    UserHash = dataSet.Tables["Users"]
+                    tenantCache.UserHash = dataSet.Tables["Users"]
                         .AsEnumerable()
                         .ToDictionary(
                             dataRow => dataRow["UserId"].ToInt(),
@@ -62,11 +73,11 @@ namespace Implem.Pleasanter.Libraries.Server
             }
             if (monitor.PermissionsUpdated || monitor.GroupsUpdated || monitor.UsersUpdated || force)
             {
-                SiteUserHash = new Dictionary<long, List<int>>();
+                tenantCache.SiteUserHash = new Dictionary<long, List<int>>();
             }
             if (monitor.SitesUpdated || force)
             {
-                SiteMenu = new SiteMenu();
+                tenantCache.SiteMenu = new SiteMenu(tenantId);
             }
             if (monitor.Updated || force)
             {
@@ -74,38 +85,40 @@ namespace Implem.Pleasanter.Libraries.Server
             }
         }
 
-        public static IEnumerable<int> SiteUsers(long siteId)
+        public static IEnumerable<int> SiteUsers(int tenantId, long siteId)
         {
-            if (!SiteUserHash.ContainsKey(siteId))
+            var tenantCache = TenantCaches.Get(tenantId);
+            if (!tenantCache.SiteUserHash.ContainsKey(siteId))
             {
-                SetSiteUserHash(siteId, reload: true);
+                SetSiteUserHash(tenantId, siteId, reload: true);
             }
-            return SiteUserHash[siteId];
+            return tenantCache.SiteUserHash[siteId];
         }
 
-        public static void SetSiteUserHash(long siteId, bool reload = false)
+        public static void SetSiteUserHash(int tenantId, long siteId, bool reload = false)
         {
-            if (!SiteUserHash.ContainsKey(siteId))
+            var tenantCache = TenantCaches.Get(tenantId);
+            if (!tenantCache.SiteUserHash.ContainsKey(siteId))
             {
-                SiteUserHash.Add(siteId, GetSiteUserHash(siteId));
+                tenantCache.SiteUserHash.Add(siteId, GetSiteUserHash(tenantId, siteId));
             }
             else if (reload)
             {
-                SiteUserHash[siteId] = GetSiteUserHash(siteId);
+                tenantCache.SiteUserHash[siteId] = GetSiteUserHash(tenantId, siteId);
             }
         }
 
-        private static List<int> GetSiteUserHash(long siteId)
+        private static List<int> GetSiteUserHash(int tenantId, long siteId)
         {
             var siteUserCollection = new List<int>();
-            foreach (DataRow dataRow in SiteUserDataTable(siteId).Rows)
+            foreach (DataRow dataRow in SiteUserDataTable(tenantId, siteId).Rows)
             {
                 siteUserCollection.Add(dataRow["UserId"].ToInt());
             }
             return siteUserCollection;
         }
 
-        private static DataTable SiteUserDataTable(long siteId)
+        private static DataTable SiteUserDataTable(int tenantId, long siteId)
         {
             var deptRaw = "[Users].[DeptId] and [Users].[DeptId]>0";
             var userRaw = "[Users].[UserId] and [Users].[UserId]>0";
@@ -113,7 +126,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 distinct: true,
                 column: Rds.UsersColumn().UserId(),
                 where: Rds.UsersWhere()
-                    .TenantId(Sessions.TenantId())
+                    .TenantId(tenantId)
                     .Add(
                         subLeft: Rds.SelectPermissions(
                             column: Rds.PermissionsColumn()
@@ -139,7 +152,7 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static Dept Dept(int deptId)
         {
-            return DeptHash?
+            return TenantCaches.Get(Sessions.TenantId())?.DeptHash?
                 .Where(o => o.Key == deptId)
                 .Select(o => o.Value)
                 .FirstOrDefault();
@@ -147,9 +160,8 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static User User(int userId)
         {
-            return UserHash?
+            return TenantCaches.Get(Sessions.TenantId())?.UserHash?
                 .Where(o => o.Key == userId)
-                .Where(o => o.Value.TenantId == Sessions.TenantId())
                 .Select(o => o.Value)
                 .FirstOrDefault() ?? Anonymouse();
         }

@@ -22,10 +22,13 @@ namespace Implem.Pleasanter.Models
 {
     public class StatusModel : BaseModel
     {
+        public int TenantId = 0;
         public int StatusId = 0;
         public string Value = string.Empty;
+        public int SavedTenantId = 0;
         public int SavedStatusId = 0;
         public string SavedValue = string.Empty;
+        public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
         public bool StatusId_Updated { get { return StatusId != SavedStatusId; } }
         public bool Value_Updated { get { return Value != SavedValue && Value != null; } }
 
@@ -92,6 +95,7 @@ namespace Implem.Pleasanter.Models
                 var name = dataColumn.ColumnName;
                 switch(name)
                 {
+                    case "TenantId": if (dataRow[name] != DBNull.Value) { TenantId = dataRow[name].ToInt(); SavedTenantId = TenantId; } break;
                     case "StatusId": if (dataRow[name] != DBNull.Value) { StatusId = dataRow[name].ToInt(); SavedStatusId = StatusId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
                     case "Value": Value = dataRow[name].ToString(); SavedValue = Value; break;
