@@ -107,7 +107,8 @@ namespace Implem.Pleasanter.Libraries.Security
 
         private static string DeptOrUser(string tableName)
         {
-            return "([{0}].[DeptId]=@_D or [{0}].[UserId]=@_U)".Params(tableName);
+            return "((@_D <> 0 and [{0}].[DeptId]=@_D) or(@_U <> 0 and [{0}].[UserId]=@_U))"
+                .Params(tableName);
         }
 
         private static Dictionary<long, Types> Hash(EnumerableRowCollection<DataRow> dataRows)
