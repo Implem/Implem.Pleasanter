@@ -17,16 +17,11 @@ namespace Implem.Pleasanter.Tools
             {
                 SysLogUtilities.Maintain();
                 SearchIndexUtilities.Maintain();
+                SearchIndexUtilities.CreateInBackground();
                 Thread.Sleep(Parameters.BackgroundTask.Interval);
                 LatestTime = DateTime.Now;
             }
             return new ResponseCollection().ToJson();
-        }
-
-        public static bool Enabled()
-        {
-            return (DateTime.Now - BackgroundTasks.LatestTime).Milliseconds <=
-                Parameters.BackgroundTask.EnableInterval;
         }
     }
 }

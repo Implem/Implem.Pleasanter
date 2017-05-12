@@ -340,11 +340,12 @@ namespace Implem.Pleasanter.Models
         {
             if (Parameters.BackgroundTask.Enabled)
             {
-                var hash = new Dictionary<long, SiteSettings>();
+                var hash = new Dictionary<long, SiteModel>();
                 Rds.ExecuteTable(statements: Rds.SelectItems(
                     column: Rds.ItemsColumn()
                         .ReferenceId()
                         .SiteId()
+                        .Updator()
                         .UpdatedTime(),
                     where: Rds.ItemsWhere().Add(
                         raw: "[SearchIndexCreatedTime] is null or [SearchIndexCreatedTime]<>[UpdatedTime]"),
@@ -354,19 +355,35 @@ namespace Implem.Pleasanter.Models
                         {
                             ReferenceId = o["ReferenceId"].ToLong(),
                             SiteId = o["SiteId"].ToLong(),
+                            Updator = o["Updator"].ToInt(),
                             UpdatedTime = o.Field<DateTime>("UpdatedTime")
                                 .ToString("yyyy/M/d H:m:s.fff")
                         })
                         .ForEach(data =>
                         {
+                            var siteModel = hash.Get(data.SiteId) ??
+                                new SiteModel().Get(where: Rds.SitesWhere().SiteId(data.SiteId));
+                            System.Web.HttpContext.Current.Session["TenantId"] =
+                                siteModel.TenantId;
+                            System.Web.HttpContext.Current.Session["RdsUser"] =
+                                Rds.ExecuteTable(statements: Rds.SelectUsers(
+                                    column: Rds.UsersColumn().UserId().DeptId(),
+                                    where: Rds.UsersWhere().UserId(data.Updator)))
+                                        .AsEnumerable()
+                                        .Select(o => new RdsUser()
+                                        {
+                                            DeptId = o["DeptId"].ToInt(),
+                                            UserId = o["UserId"].ToInt()
+                                        })
+                                        .FirstOrDefault();
                             if (!hash.ContainsKey(data.SiteId))
                             {
-                                hash.Add(
-                                    data.SiteId,
-                                    SiteSettingsUtilities.Get(data.SiteId, data.ReferenceId));
+                                siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                                        siteModel, siteModel.SiteId, setAllChoices: true);
+                                hash.Add(data.SiteId, siteModel);
                             }
                             Libraries.Search.Indexes.CreateIndexes(
-                                hash.Get(data.SiteId), data.ReferenceId);
+                                siteModel.SiteSettings, data.ReferenceId);
                             Rds.ExecuteNonQuery(statements: Rds.UpdateItems(
                                 where: Rds.ItemsWhere().ReferenceId(data.ReferenceId),
                                 param: Rds.ItemsParam().SearchIndexCreatedTime(data.UpdatedTime),

@@ -34,13 +34,5 @@ namespace Implem.Pleasanter.Controllers
                 return null;
             }
         }
-
-        [AllowAnonymous]
-        [HttpGet]
-        public string CreateSearchIndex()
-        {
-            SearchIndexUtilities.CreateInBackground();
-            return null;
-        }
     }
 }
