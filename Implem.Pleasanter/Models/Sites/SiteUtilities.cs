@@ -666,8 +666,10 @@ namespace Implem.Pleasanter.Models
             {
                 return SiteMenuError(id, siteModel, Error.Types.InvalidRequest);
             }
+            var labelText = Forms.Data("LinkColumnLabelText");
+            column.LabelText = labelText;
+            column.GridLabelText = labelText;
             column.ChoicesText = "[[" + destinationSiteModel.SiteId + "]]";
-            column.LabelText = Forms.Data("LinkColumnLabelText");
             sourceSiteModel.SiteSettings.SetLinks(column);
             sourceSiteModel.SiteSettings.EditorColumns.Add(column.ColumnName);
             sourceSiteModel.Update(sourceSiteModel.SiteSettings);
