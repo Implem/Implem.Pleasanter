@@ -158,7 +158,6 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static IEnumerable<long> AllowSites(IEnumerable<long> sites)
         {
-            var user = Sessions.User();
             return Rds.ExecuteTable(statements:
                 Rds.SelectSites(
                     column: Rds.SitesColumn().SiteId(),
