@@ -112,6 +112,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.EditorColumn && !columnDefinition.EditorColumn) return true;
             if (codeDefinition.TitleColumn && columnDefinition.TitleColumn == 0) return true;
             if (codeDefinition.UserColumn && !columnDefinition.UserColumn) return true;
+            if (codeDefinition.NotUserColumn && columnDefinition.UserColumn) return true;
             if (codeDefinition.EnumColumn && !columnDefinition.EnumColumn) return true;
             if (codeDefinition.Exclude.Split(',').Contains(columnDefinition.ColumnName)) return true;
             if (codeDefinition.NotItem && Def.ExistsTable(columnDefinition.TableName, o => o.ItemId > 0)) return true;

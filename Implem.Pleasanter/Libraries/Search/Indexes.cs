@@ -71,16 +71,13 @@ namespace Implem.Pleasanter.Libraries.Search
             {
                 case "Sites":
                     return new SiteModel().Get(where: Rds.SitesWhere().SiteId(id))
-                        .SearchIndexHash();
+                        .SearchIndexHash(ss);
                 case "Issues":
-                    return new IssueModel(ss, id)
-                        .SearchIndexHash();
+                    return new IssueModel(ss, id).SearchIndexHash(ss);
                 case "Results":
-                    return new ResultModel(ss, id)
-                        .SearchIndexHash();
+                    return new ResultModel(ss, id).SearchIndexHash(ss);
                 case "Wikis":
-                    return new WikiModel(ss, id)
-                        .SearchIndexHash();
+                    return new WikiModel(ss, id).SearchIndexHash(ss);
                 default: return null;
             }
         }

@@ -1,4 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class Choice
@@ -27,6 +30,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 CssClass = array._4th();
                 Style = array._5th();
             }
+        }
+
+        public string SearchText()
+        {
+            return new List<string>()
+            {
+                Value,
+                Text,
+                TextMini
+            }.Distinct().Join(" ");
         }
     }
 }

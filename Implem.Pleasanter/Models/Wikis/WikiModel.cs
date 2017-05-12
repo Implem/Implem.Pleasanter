@@ -124,7 +124,7 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public Dictionary<string, int> SearchIndexHash()
+        public Dictionary<string, int> SearchIndexHash(SiteSettings ss)
         {
             if (AccessStatus != Databases.AccessStatuses.Selected)
             {

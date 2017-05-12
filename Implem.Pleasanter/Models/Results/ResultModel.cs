@@ -662,7 +662,7 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public Dictionary<string, int> SearchIndexHash()
+        public Dictionary<string, int> SearchIndexHash(SiteSettings ss)
         {
             if (AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -678,35 +678,35 @@ namespace Implem.Pleasanter.Models
                 ResultId.SearchIndexes(searchIndexHash, 1);
                 Title.SearchIndexes(searchIndexHash, 4);
                 Body.SearchIndexes(searchIndexHash, 200);
-                Status.SearchIndexes(searchIndexHash, 200);
+                Status.SearchIndexes(ss.GetColumn("Status"), searchIndexHash, 200);
                 Manager.SearchIndexes(searchIndexHash, 100);
                 Owner.SearchIndexes(searchIndexHash, 100);
-                ClassA.SearchIndexes(searchIndexHash, 200);
-                ClassB.SearchIndexes(searchIndexHash, 200);
-                ClassC.SearchIndexes(searchIndexHash, 200);
-                ClassD.SearchIndexes(searchIndexHash, 200);
-                ClassE.SearchIndexes(searchIndexHash, 200);
-                ClassF.SearchIndexes(searchIndexHash, 200);
-                ClassG.SearchIndexes(searchIndexHash, 200);
-                ClassH.SearchIndexes(searchIndexHash, 200);
-                ClassI.SearchIndexes(searchIndexHash, 200);
-                ClassJ.SearchIndexes(searchIndexHash, 200);
-                ClassK.SearchIndexes(searchIndexHash, 200);
-                ClassL.SearchIndexes(searchIndexHash, 200);
-                ClassM.SearchIndexes(searchIndexHash, 200);
-                ClassN.SearchIndexes(searchIndexHash, 200);
-                ClassO.SearchIndexes(searchIndexHash, 200);
-                ClassP.SearchIndexes(searchIndexHash, 200);
-                ClassQ.SearchIndexes(searchIndexHash, 200);
-                ClassR.SearchIndexes(searchIndexHash, 200);
-                ClassS.SearchIndexes(searchIndexHash, 200);
-                ClassT.SearchIndexes(searchIndexHash, 200);
-                ClassU.SearchIndexes(searchIndexHash, 200);
-                ClassV.SearchIndexes(searchIndexHash, 200);
-                ClassW.SearchIndexes(searchIndexHash, 200);
-                ClassX.SearchIndexes(searchIndexHash, 200);
-                ClassY.SearchIndexes(searchIndexHash, 200);
-                ClassZ.SearchIndexes(searchIndexHash, 200);
+                ClassA.SearchIndexes(ss.GetColumn("ClassA"), searchIndexHash, 200);
+                ClassB.SearchIndexes(ss.GetColumn("ClassB"), searchIndexHash, 200);
+                ClassC.SearchIndexes(ss.GetColumn("ClassC"), searchIndexHash, 200);
+                ClassD.SearchIndexes(ss.GetColumn("ClassD"), searchIndexHash, 200);
+                ClassE.SearchIndexes(ss.GetColumn("ClassE"), searchIndexHash, 200);
+                ClassF.SearchIndexes(ss.GetColumn("ClassF"), searchIndexHash, 200);
+                ClassG.SearchIndexes(ss.GetColumn("ClassG"), searchIndexHash, 200);
+                ClassH.SearchIndexes(ss.GetColumn("ClassH"), searchIndexHash, 200);
+                ClassI.SearchIndexes(ss.GetColumn("ClassI"), searchIndexHash, 200);
+                ClassJ.SearchIndexes(ss.GetColumn("ClassJ"), searchIndexHash, 200);
+                ClassK.SearchIndexes(ss.GetColumn("ClassK"), searchIndexHash, 200);
+                ClassL.SearchIndexes(ss.GetColumn("ClassL"), searchIndexHash, 200);
+                ClassM.SearchIndexes(ss.GetColumn("ClassM"), searchIndexHash, 200);
+                ClassN.SearchIndexes(ss.GetColumn("ClassN"), searchIndexHash, 200);
+                ClassO.SearchIndexes(ss.GetColumn("ClassO"), searchIndexHash, 200);
+                ClassP.SearchIndexes(ss.GetColumn("ClassP"), searchIndexHash, 200);
+                ClassQ.SearchIndexes(ss.GetColumn("ClassQ"), searchIndexHash, 200);
+                ClassR.SearchIndexes(ss.GetColumn("ClassR"), searchIndexHash, 200);
+                ClassS.SearchIndexes(ss.GetColumn("ClassS"), searchIndexHash, 200);
+                ClassT.SearchIndexes(ss.GetColumn("ClassT"), searchIndexHash, 200);
+                ClassU.SearchIndexes(ss.GetColumn("ClassU"), searchIndexHash, 200);
+                ClassV.SearchIndexes(ss.GetColumn("ClassV"), searchIndexHash, 200);
+                ClassW.SearchIndexes(ss.GetColumn("ClassW"), searchIndexHash, 200);
+                ClassX.SearchIndexes(ss.GetColumn("ClassX"), searchIndexHash, 200);
+                ClassY.SearchIndexes(ss.GetColumn("ClassY"), searchIndexHash, 200);
+                ClassZ.SearchIndexes(ss.GetColumn("ClassZ"), searchIndexHash, 200);
                 NumA.SearchIndexes(searchIndexHash, 200);
                 NumB.SearchIndexes(searchIndexHash, 200);
                 NumC.SearchIndexes(searchIndexHash, 200);

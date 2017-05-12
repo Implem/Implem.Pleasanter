@@ -293,6 +293,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetTenantId": Code.Model_SetTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantId, definitionRow, CodeXls); break;
                     case "Model_SearchIndexHash": Code.Model_SearchIndexHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SearchIndexHash, definitionRow, CodeXls); break;
                     case "Model_SearchIndexHashColumnCases": Code.Model_SearchIndexHashColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SearchIndexHashColumnCases, definitionRow, CodeXls); break;
+                    case "Model_SearchIndexHashColumn": Code.Model_SearchIndexHashColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SearchIndexHashColumn, definitionRow, CodeXls); break;
                     case "Model_Create": Code.Model_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Create, definitionRow, CodeXls); break;
                     case "Model_CreateParams": Code.Model_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateParams, definitionRow, CodeXls); break;
                     case "Model_CreateParams_Wikis": Code.Model_CreateParams_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateParams_Wikis, definitionRow, CodeXls); break;
@@ -726,6 +727,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("EditorColumn")) { newCodeDefinition.EditorColumn = definitionRow["EditorColumn"].ToBool(); newCodeDefinition.SavedEditorColumn = newCodeDefinition.EditorColumn; }
                 if (definitionRow.ContainsKey("TitleColumn")) { newCodeDefinition.TitleColumn = definitionRow["TitleColumn"].ToBool(); newCodeDefinition.SavedTitleColumn = newCodeDefinition.TitleColumn; }
                 if (definitionRow.ContainsKey("UserColumn")) { newCodeDefinition.UserColumn = definitionRow["UserColumn"].ToBool(); newCodeDefinition.SavedUserColumn = newCodeDefinition.UserColumn; }
+                if (definitionRow.ContainsKey("NotUserColumn")) { newCodeDefinition.NotUserColumn = definitionRow["NotUserColumn"].ToBool(); newCodeDefinition.SavedNotUserColumn = newCodeDefinition.NotUserColumn; }
                 if (definitionRow.ContainsKey("EnumColumn")) { newCodeDefinition.EnumColumn = definitionRow["EnumColumn"].ToBool(); newCodeDefinition.SavedEnumColumn = newCodeDefinition.EnumColumn; }
                 if (definitionRow.ContainsKey("Include")) { newCodeDefinition.Include = definitionRow["Include"].ToString(); newCodeDefinition.SavedInclude = newCodeDefinition.Include; }
                 if (definitionRow.ContainsKey("Exclude")) { newCodeDefinition.Exclude = definitionRow["Exclude"].ToString(); newCodeDefinition.SavedExclude = newCodeDefinition.Exclude; }
@@ -803,6 +805,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("EditorColumn")) { definition.EditorColumn = definitionRow["EditorColumn"].ToBool(); definition.SavedEditorColumn = definition.EditorColumn; }
             if (definitionRow.ContainsKey("TitleColumn")) { definition.TitleColumn = definitionRow["TitleColumn"].ToBool(); definition.SavedTitleColumn = definition.TitleColumn; }
             if (definitionRow.ContainsKey("UserColumn")) { definition.UserColumn = definitionRow["UserColumn"].ToBool(); definition.SavedUserColumn = definition.UserColumn; }
+            if (definitionRow.ContainsKey("NotUserColumn")) { definition.NotUserColumn = definitionRow["NotUserColumn"].ToBool(); definition.SavedNotUserColumn = definition.NotUserColumn; }
             if (definitionRow.ContainsKey("EnumColumn")) { definition.EnumColumn = definitionRow["EnumColumn"].ToBool(); definition.SavedEnumColumn = definition.EnumColumn; }
             if (definitionRow.ContainsKey("Include")) { definition.Include = definitionRow["Include"].ToString(); definition.SavedInclude = definition.Include; }
             if (definitionRow.ContainsKey("Exclude")) { definition.Exclude = definitionRow["Exclude"].ToString(); definition.SavedExclude = definition.Exclude; }
@@ -3271,6 +3274,7 @@ namespace Implem.DefinitionAccessor
                         case "EditorColumn": codeDefinition.EditorColumn = optionValue.ToBool(); break;
                         case "TitleColumn": codeDefinition.TitleColumn = optionValue.ToBool(); break;
                         case "UserColumn": codeDefinition.UserColumn = optionValue.ToBool(); break;
+                        case "NotUserColumn": codeDefinition.NotUserColumn = optionValue.ToBool(); break;
                         case "EnumColumn": codeDefinition.EnumColumn = optionValue.ToBool(); break;
                         case "Include": codeDefinition.Include = optionValue.ToString(); break;
                         case "Exclude": codeDefinition.Exclude = optionValue.ToString(); break;
@@ -3750,6 +3754,7 @@ namespace Implem.DefinitionAccessor
         public bool EditorColumn; public bool SavedEditorColumn;
         public bool TitleColumn; public bool SavedTitleColumn;
         public bool UserColumn; public bool SavedUserColumn;
+        public bool NotUserColumn; public bool SavedNotUserColumn;
         public bool EnumColumn; public bool SavedEnumColumn;
         public string Include; public string SavedInclude;
         public string Exclude; public string SavedExclude;
@@ -3828,6 +3833,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("EditorColumn")) EditorColumn = propertyCollection["EditorColumn"].ToBool(); else EditorColumn = false;
             if (propertyCollection.ContainsKey("TitleColumn")) TitleColumn = propertyCollection["TitleColumn"].ToBool(); else TitleColumn = false;
             if (propertyCollection.ContainsKey("UserColumn")) UserColumn = propertyCollection["UserColumn"].ToBool(); else UserColumn = false;
+            if (propertyCollection.ContainsKey("NotUserColumn")) NotUserColumn = propertyCollection["NotUserColumn"].ToBool(); else NotUserColumn = false;
             if (propertyCollection.ContainsKey("EnumColumn")) EnumColumn = propertyCollection["EnumColumn"].ToBool(); else EnumColumn = false;
             if (propertyCollection.ContainsKey("Include")) Include = propertyCollection["Include"].ToString(); else Include = string.Empty;
             if (propertyCollection.ContainsKey("Exclude")) Exclude = propertyCollection["Exclude"].ToString(); else Exclude = string.Empty;
@@ -3906,6 +3912,7 @@ namespace Implem.DefinitionAccessor
                     case "EditorColumn": return EditorColumn;
                     case "TitleColumn": return TitleColumn;
                     case "UserColumn": return UserColumn;
+                    case "NotUserColumn": return NotUserColumn;
                     case "EnumColumn": return EnumColumn;
                     case "Include": return Include;
                     case "Exclude": return Exclude;
@@ -3984,6 +3991,7 @@ namespace Implem.DefinitionAccessor
             EditorColumn = SavedEditorColumn;
             TitleColumn = SavedTitleColumn;
             UserColumn = SavedUserColumn;
+            NotUserColumn = SavedNotUserColumn;
             EnumColumn = SavedEnumColumn;
             Include = SavedInclude;
             Exclude = SavedExclude;
@@ -4068,6 +4076,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetTenantId;
         public string Model_SearchIndexHash;
         public string Model_SearchIndexHashColumnCases;
+        public string Model_SearchIndexHashColumn;
         public string Model_Create;
         public string Model_CreateParams;
         public string Model_CreateParams_Wikis;
@@ -4507,6 +4516,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetTenantId = new CodeDefinition();
         public CodeDefinition Model_SearchIndexHash = new CodeDefinition();
         public CodeDefinition Model_SearchIndexHashColumnCases = new CodeDefinition();
+        public CodeDefinition Model_SearchIndexHashColumn = new CodeDefinition();
         public CodeDefinition Model_Create = new CodeDefinition();
         public CodeDefinition Model_CreateParams = new CodeDefinition();
         public CodeDefinition Model_CreateParams_Wikis = new CodeDefinition();

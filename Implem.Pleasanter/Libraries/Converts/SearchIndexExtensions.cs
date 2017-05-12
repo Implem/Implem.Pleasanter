@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,19 @@ namespace Implem.Pleasanter.Libraries.Converts
         }
 
         public static void SearchIndexes(
+            this string self, Column column, Dictionary<string, int> searchIndexHash, int searchPriority)
+        {
+            if (column.HasChoices())
+            {
+                SearchIndexes(searchIndexHash, column.Choice(self).SearchText(), searchPriority);
+            }
+            else
+            {
+                SearchIndexes(searchIndexHash, self, searchPriority);
+            }
+        }
+
+        public static void SearchIndexes(
             this IEnumerable<SiteMenuElement> self,
             Dictionary<string, int> searchIndexHash,
             int searchPriority)
@@ -55,9 +69,22 @@ namespace Implem.Pleasanter.Libraries.Converts
         }
 
         public static void SearchIndexes(
-            this Status self, Dictionary<string, int> searchIndexHash, int searchPriority)
+            this Status self,
+            Column column,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
         {
-            SearchIndexes(searchIndexHash, self.Value.ToString(), searchPriority);
+            if (column.HasChoices())
+            {
+                SearchIndexes(
+                    searchIndexHash,
+                    column.Choice(self.Value.ToString()).SearchText(),
+                    searchPriority);
+            }
+            else
+            {
+                SearchIndexes(searchIndexHash, self.Value.ToString(), searchPriority);
+            }
         }
 
         public static void SearchIndexes(
