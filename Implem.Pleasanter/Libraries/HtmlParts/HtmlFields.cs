@@ -95,8 +95,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         {
                             value,
-                            new ControlData(
-                                value + ": " + ItemUtilities.Title(referenceId, ss.Links))
+                            new ControlData(ItemUtilities.Title(referenceId, ss.Links))
                         }
                     };
                 }
