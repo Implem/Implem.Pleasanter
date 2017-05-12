@@ -5,5 +5,6 @@
         public bool Enabled;
         public int Interval;
         public int EnableInterval;
+        public int CreateSearchIndexLot;
     }
 }

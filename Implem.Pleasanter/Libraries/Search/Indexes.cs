@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.Search
             }
         }
 
-        private static void CreateIndexes(SiteSettings ss, long id)
+        public static void CreateIndexes(SiteSettings ss, long id)
         {
             var hash = SearchIndexHash(ss, id);
             Rds.ExecuteNonQuery(statements: Rds.PhysicalDeleteSearchIndexes(

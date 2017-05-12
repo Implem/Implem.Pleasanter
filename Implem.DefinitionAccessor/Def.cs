@@ -1017,6 +1017,8 @@ namespace Implem.DefinitionAccessor
                     case "Items_SiteId": Column.Items_SiteId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_SiteId, definitionRow, ColumnXls); break;
                     case "Items_Title": Column.Items_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Title, definitionRow, ColumnXls); break;
                     case "Items_Site": Column.Items_Site = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Site, definitionRow, ColumnXls); break;
+                    case "Items_SearchIndexCreatedTime": Column.Items_SearchIndexCreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_SearchIndexCreatedTime, definitionRow, ColumnXls); break;
+                    case "Items_UpdatedTime": Column.Items_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_UpdatedTime, definitionRow, ColumnXls); break;
                     case "Sites_TenantId": Column.Sites_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_TenantId, definitionRow, ColumnXls); break;
                     case "Sites_SiteId": Column.Sites_SiteId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_SiteId, definitionRow, ColumnXls); break;
                     case "Sites_ReferenceType": Column.Sites_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_ReferenceType, definitionRow, ColumnXls); break;
@@ -1447,7 +1449,6 @@ namespace Implem.DefinitionAccessor
                     case "Items_Creator": Column.Items_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Creator, definitionRow, ColumnXls); break;
                     case "Items_Updator": Column.Items_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Updator, definitionRow, ColumnXls); break;
                     case "Items_CreatedTime": Column.Items_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_CreatedTime, definitionRow, ColumnXls); break;
-                    case "Items_UpdatedTime": Column.Items_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_UpdatedTime, definitionRow, ColumnXls); break;
                     case "Items_VerUp": Column.Items_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_VerUp, definitionRow, ColumnXls); break;
                     case "Items_Timestamp": Column.Items_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Timestamp, definitionRow, ColumnXls); break;
                     case "Sites_UpdatedTime": Column.Sites_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_UpdatedTime, definitionRow, ColumnXls); break;
@@ -3118,6 +3119,16 @@ namespace Implem.DefinitionAccessor
                     case "Template17": Template.Template17 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template17, definitionRow, TemplateXls); break;
                     case "Template18": Template.Template18 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template18, definitionRow, TemplateXls); break;
                     case "Template19": Template.Template19 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template19, definitionRow, TemplateXls); break;
+                    case "Template20": Template.Template20 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template20, definitionRow, TemplateXls); break;
+                    case "Template21": Template.Template21 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template21, definitionRow, TemplateXls); break;
+                    case "Template22": Template.Template22 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template22, definitionRow, TemplateXls); break;
+                    case "Template23": Template.Template23 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template23, definitionRow, TemplateXls); break;
+                    case "Template24": Template.Template24 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template24, definitionRow, TemplateXls); break;
+                    case "Template25": Template.Template25 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template25, definitionRow, TemplateXls); break;
+                    case "Template26": Template.Template26 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template26, definitionRow, TemplateXls); break;
+                    case "Template27": Template.Template27 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template27, definitionRow, TemplateXls); break;
+                    case "Template28": Template.Template28 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template28, definitionRow, TemplateXls); break;
+                    case "Template29": Template.Template29 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template29, definitionRow, TemplateXls); break;
                     default: break;
                 }
             });
@@ -5497,6 +5508,8 @@ namespace Implem.DefinitionAccessor
         public string Items_SiteId;
         public string Items_Title;
         public string Items_Site;
+        public string Items_SearchIndexCreatedTime;
+        public string Items_UpdatedTime;
         public string Sites_TenantId;
         public string Sites_SiteId;
         public string Sites_ReferenceType;
@@ -5927,7 +5940,6 @@ namespace Implem.DefinitionAccessor
         public string Items_Creator;
         public string Items_Updator;
         public string Items_CreatedTime;
-        public string Items_UpdatedTime;
         public string Items_VerUp;
         public string Items_Timestamp;
         public string Sites_UpdatedTime;
@@ -6183,6 +6195,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Items_SiteId = new ColumnDefinition();
         public ColumnDefinition Items_Title = new ColumnDefinition();
         public ColumnDefinition Items_Site = new ColumnDefinition();
+        public ColumnDefinition Items_SearchIndexCreatedTime = new ColumnDefinition();
+        public ColumnDefinition Items_UpdatedTime = new ColumnDefinition();
         public ColumnDefinition Sites_TenantId = new ColumnDefinition();
         public ColumnDefinition Sites_SiteId = new ColumnDefinition();
         public ColumnDefinition Sites_ReferenceType = new ColumnDefinition();
@@ -6613,7 +6627,6 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Items_Creator = new ColumnDefinition();
         public ColumnDefinition Items_Updator = new ColumnDefinition();
         public ColumnDefinition Items_CreatedTime = new ColumnDefinition();
-        public ColumnDefinition Items_UpdatedTime = new ColumnDefinition();
         public ColumnDefinition Items_VerUp = new ColumnDefinition();
         public ColumnDefinition Items_Timestamp = new ColumnDefinition();
         public ColumnDefinition Sites_UpdatedTime = new ColumnDefinition();
@@ -9303,6 +9316,16 @@ namespace Implem.DefinitionAccessor
         public string Template17;
         public string Template18;
         public string Template19;
+        public string Template20;
+        public string Template21;
+        public string Template22;
+        public string Template23;
+        public string Template24;
+        public string Template25;
+        public string Template26;
+        public string Template27;
+        public string Template28;
+        public string Template29;
     }
 
     public class TemplateTable
@@ -9326,6 +9349,16 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template17 = new TemplateDefinition();
         public TemplateDefinition Template18 = new TemplateDefinition();
         public TemplateDefinition Template19 = new TemplateDefinition();
+        public TemplateDefinition Template20 = new TemplateDefinition();
+        public TemplateDefinition Template21 = new TemplateDefinition();
+        public TemplateDefinition Template22 = new TemplateDefinition();
+        public TemplateDefinition Template23 = new TemplateDefinition();
+        public TemplateDefinition Template24 = new TemplateDefinition();
+        public TemplateDefinition Template25 = new TemplateDefinition();
+        public TemplateDefinition Template26 = new TemplateDefinition();
+        public TemplateDefinition Template27 = new TemplateDefinition();
+        public TemplateDefinition Template28 = new TemplateDefinition();
+        public TemplateDefinition Template29 = new TemplateDefinition();
     }
 
     public class ViewModeDefinition

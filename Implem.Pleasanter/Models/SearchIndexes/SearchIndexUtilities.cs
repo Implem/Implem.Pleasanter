@@ -332,5 +332,48 @@ namespace Implem.Pleasanter.Models
                 Applications.SearchIndexesMaintenanceDate = DateTime.Now.Date;
             }
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void CreateInBackground()
+        {
+            if (Parameters.BackgroundTask.Enabled)
+            {
+                var hash = new Dictionary<long, SiteSettings>();
+                Rds.ExecuteTable(statements: Rds.SelectItems(
+                    column: Rds.ItemsColumn()
+                        .ReferenceId()
+                        .SiteId()
+                        .UpdatedTime(),
+                    where: Rds.ItemsWhere().Add(
+                        raw: "[SearchIndexCreatedTime] is null or [SearchIndexCreatedTime]<>[UpdatedTime]"),
+                    top: Parameters.BackgroundTask.CreateSearchIndexLot))
+                        .AsEnumerable()
+                        .Select(o => new
+                        {
+                            ReferenceId = o["ReferenceId"].ToLong(),
+                            SiteId = o["SiteId"].ToLong(),
+                            UpdatedTime = o.Field<DateTime>("UpdatedTime")
+                                .ToString("yyyy/M/d H:m:s.fff")
+                        })
+                        .ForEach(data =>
+                        {
+                            if (!hash.ContainsKey(data.SiteId))
+                            {
+                                hash.Add(
+                                    data.SiteId,
+                                    SiteSettingsUtilities.Get(data.SiteId, data.ReferenceId));
+                            }
+                            Libraries.Search.Indexes.CreateIndexes(
+                                hash.Get(data.SiteId), data.ReferenceId);
+                            Rds.ExecuteNonQuery(statements: Rds.UpdateItems(
+                                where: Rds.ItemsWhere().ReferenceId(data.ReferenceId),
+                                param: Rds.ItemsParam().SearchIndexCreatedTime(data.UpdatedTime),
+                                addUpdatorParam: false,
+                                addUpdatedTimeParam: false));
+                        });
+            }
+        }
     }
 }

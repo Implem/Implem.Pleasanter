@@ -27,15 +27,18 @@ namespace Implem.Pleasanter.Models
         public long SiteId = 0;
         public string Title = string.Empty;
         public SiteModel Site = null;
+        public DateTime SearchIndexCreatedTime = 0.ToDateTime();
         public long SavedReferenceId = 0;
         public string SavedReferenceType = string.Empty;
         public long SavedSiteId = 0;
         public string SavedTitle = string.Empty;
         public SiteModel SavedSite = null;
+        public DateTime SavedSearchIndexCreatedTime = 0.ToDateTime();
         public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
         public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
         public bool SiteId_Updated { get { return SiteId != SavedSiteId; } }
         public bool Title_Updated { get { return Title != SavedTitle && Title != null; } }
+        public bool SearchIndexCreatedTime_Updated { get { return SearchIndexCreatedTime != SavedSearchIndexCreatedTime && SearchIndexCreatedTime != null; } }
 
         public ItemModel(DataRow dataRow)
         {
@@ -725,11 +728,12 @@ namespace Implem.Pleasanter.Models
                     case "ReferenceType": ReferenceType = dataRow[name].ToString(); SavedReferenceType = ReferenceType; break;
                     case "SiteId": SiteId = dataRow[name].ToLong(); SavedSiteId = SiteId; break;
                     case "Title": Title = dataRow[name].ToString(); SavedTitle = Title; break;
+                    case "SearchIndexCreatedTime": SearchIndexCreatedTime = dataRow[name].ToDateTime(); SavedSearchIndexCreatedTime = SearchIndexCreatedTime; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
                     case "CreatedTime": CreatedTime = new Time(dataRow, "CreatedTime"); SavedCreatedTime = CreatedTime.Value; break;
-                    case "UpdatedTime": UpdatedTime = new Time(dataRow, "UpdatedTime"); Timestamp = dataRow.Field<DateTime>("UpdatedTime").ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
+                    case "UpdatedTime": UpdatedTime = new Time(dataRow, "UpdatedTime"); SavedUpdatedTime = UpdatedTime.Value; break;
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }

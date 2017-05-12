@@ -613,6 +613,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Items_SiteId(params string[] data) { return Get("Items_SiteId", data); }
         public static string Items_Title(params string[] data) { return Get("Items_Title", data); }
         public static string Items_Site(params string[] data) { return Get("Items_Site", data); }
+        public static string Items_SearchIndexCreatedTime(params string[] data) { return Get("Items_SearchIndexCreatedTime", data); }
+        public static string Items_UpdatedTime(params string[] data) { return Get("Items_UpdatedTime", data); }
         public static string Sites_TenantId(params string[] data) { return Get("Sites_TenantId", data); }
         public static string Sites_SiteId(params string[] data) { return Get("Sites_SiteId", data); }
         public static string Sites_ReferenceType(params string[] data) { return Get("Sites_ReferenceType", data); }
@@ -1043,7 +1045,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Items_Creator(params string[] data) { return Get("Items_Creator", data); }
         public static string Items_Updator(params string[] data) { return Get("Items_Updator", data); }
         public static string Items_CreatedTime(params string[] data) { return Get("Items_CreatedTime", data); }
-        public static string Items_UpdatedTime(params string[] data) { return Get("Items_UpdatedTime", data); }
         public static string Items_VerUp(params string[] data) { return Get("Items_VerUp", data); }
         public static string Items_Timestamp(params string[] data) { return Get("Items_Timestamp", data); }
         public static string Sites_UpdatedTime(params string[] data) { return Get("Sites_UpdatedTime", data); }
