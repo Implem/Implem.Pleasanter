@@ -441,8 +441,8 @@ namespace Implem.Pleasanter.Models
             }
             var dataRow = Rds.ExecuteTable(statements: Rds.SelectTemplates(
                 column: Rds.TemplatesColumn()
-                    .Title()
-                    .SiteSettingsTemplate(),
+                    .SiteSettingsTemplate()
+                    .Body(),
                 where: Rds.TemplatesWhere().TemplateId(selected)))
                     .AsEnumerable()
                     .FirstOrDefault();
@@ -464,6 +464,7 @@ namespace Implem.Pleasanter.Models
                     ParentId = siteModel.SiteId,
                     InheritPermission = siteModel.InheritPermission,
                     Title = new Title(Forms.Data("SiteTitle")),
+                    Body = dataRow["Body"].ToString(),
                     SiteSettings = templateSs
                 }.Create(paramAll: true);
             }
