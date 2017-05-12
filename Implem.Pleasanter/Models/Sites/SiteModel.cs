@@ -528,7 +528,8 @@ namespace Implem.Pleasanter.Models
                             .DeptId(0)
                             .UserId(Sessions.UserId())
                             .PermissionType(Permissions.Manager()),
-                        _using: InheritPermission == 0)
+                        _using: InheritPermission == 0),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
                 });
             SiteId = newId != 0 ? newId : SiteId;
             Get();
