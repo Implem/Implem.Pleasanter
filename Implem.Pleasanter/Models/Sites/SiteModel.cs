@@ -293,7 +293,7 @@ namespace Implem.Pleasanter.Models
                         .Distinct()
                         .ToDictionary(o => o, o => SiteId))
                 });
-            Libraries.Search.Indexes.Create(SiteSettings, SiteId);
+            Libraries.Search.Indexes.Create(SiteSettings, this);
         }
 
         public Error.Types UpdateOrCreate(
@@ -322,7 +322,7 @@ namespace Implem.Pleasanter.Models
                 statements: statements.ToArray());
             SiteId = newId != 0 ? newId : SiteId;
             Get();
-            Libraries.Search.Indexes.Create(SiteSettings, SiteId);
+            Libraries.Search.Indexes.Create(SiteSettings, this);
             return Error.Types.None;
         }
 
@@ -370,7 +370,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SitesWhere().SiteId(SiteId)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
                 });
-            Libraries.Search.Indexes.Create(SiteSettings, SiteId);
+            Libraries.Search.Indexes.Create(SiteSettings, this);
             return Error.Types.None;
         }
 
@@ -382,7 +382,7 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.PhysicalDeleteSites(
                     tableType: tableType,
                     param: Rds.SitesParam().TenantId(TenantId).SiteId(SiteId)));
-            Libraries.Search.Indexes.Create(SiteSettings, SiteId);
+            Libraries.Search.Indexes.Create(SiteSettings, this);
             return Error.Types.None;
         }
 
@@ -547,7 +547,7 @@ namespace Implem.Pleasanter.Models
                     wikiModel.Create(SiteSettings);
                     break;
                 default:
-                    Libraries.Search.Indexes.Create(SiteSettings, SiteId);
+                    Libraries.Search.Indexes.Create(SiteSettings, this);
                     break;
             }
             return Error.Types.None;

@@ -828,7 +828,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.ItemsParam()
                         .Title(ResultUtilities.TitleDisplayValue(ss, this)),
                     where: Rds.ItemsWhere().ReferenceId(ResultId)));
-            Libraries.Search.Indexes.Create(ss, ResultId);
+            Libraries.Search.Indexes.Create(ss, this);
             if (ss.PermissionForCreating != null) ss.SetPermissions(ResultId);
             return Error.Types.None;
         }
@@ -930,7 +930,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.LinksWhere().SourceId(ResultId)),
                     InsertLinks(ss)
                 });
-            Libraries.Search.Indexes.Create(ss, ResultId);
+            Libraries.Search.Indexes.Create(ss, this);
         }
 
         private SqlInsert InsertLinks(SiteSettings ss, bool selectIdentity = false)
@@ -998,7 +998,7 @@ namespace Implem.Pleasanter.Models
                 statements: statements.ToArray());
             ResultId = newId != 0 ? newId : ResultId;
             Get(ss);
-            Libraries.Search.Indexes.Create(ss, ResultId);
+            Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;
         }
 
@@ -1015,7 +1015,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.ResultsParam().SiteId(SiteId))
             });
             Get(ss);
-            Libraries.Search.Indexes.Create(ss, ResultId);
+            Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;
         }
 
@@ -1040,7 +1040,7 @@ namespace Implem.Pleasanter.Models
                 CheckNotificationConditions(ss);
                 Notice(ss, "Deleted");
             }
-            Libraries.Search.Indexes.Create(ss, ResultId);
+            Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;
         }
 
@@ -1057,7 +1057,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreResults(
                         where: Rds.ResultsWhere().ResultId(ResultId))
                 });
-            Libraries.Search.Indexes.Create(ss, ResultId);
+            Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;
         }
 
@@ -1069,7 +1069,7 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.PhysicalDeleteResults(
                     tableType: tableType,
                     param: Rds.ResultsParam().SiteId(SiteId).ResultId(ResultId)));
-            Libraries.Search.Indexes.Create(ss, ResultId);
+            Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;
         }
 

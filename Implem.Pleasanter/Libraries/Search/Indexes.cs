@@ -12,17 +12,133 @@ namespace Implem.Pleasanter.Libraries.Search
 {
     public static class Indexes
     {
-        public static void Create(SiteSettings ss, long id)
+        public static void Create(
+            SiteSettings ss, long id, bool async = true, bool backgroundTask = false)
         {
-            if (Parameters.Service.CreateIndexes)
+            if (Parameters.Service.CreateIndexes || backgroundTask)
             {
-                Task.Run(() => CreateIndexes(ss, id));
+                var itemModel = new ItemModel(id);
+                if (async)
+                {
+                    switch (itemModel.ReferenceType)
+                    {
+                        case "Sites":
+                            var siteModel = new SiteModel(id);
+                            Task.Run(() => CreateIndexes(
+                                ss,
+                                siteModel.SearchIndexHash(ss),
+                                id));
+                            break;
+                        case "Issues":
+                            var issueModel = new IssueModel(ss, id);
+                            Task.Run(() => CreateIndexes(
+                                ss,
+                                issueModel.SearchIndexHash(ss),
+                                id));
+                            break;
+                        case "Results":
+                            var resultModel = new ResultModel(ss, id);
+                            Task.Run(() => CreateIndexes(
+                                ss,
+                                resultModel.SearchIndexHash(ss),
+                                id));
+                            break;
+                        case "Wikis":
+                            var wikiModel = new WikiModel(ss, id);
+                            Task.Run(() => CreateIndexes(
+                                ss,
+                                wikiModel.SearchIndexHash(ss),
+                                id));
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (itemModel.ReferenceType)
+                    {
+                        case "Sites":
+                            var siteModel = new SiteModel(id);
+                            CreateIndexes(
+                                ss,
+                                siteModel.SearchIndexHash(ss),
+                                id);
+                            break;
+                        case "Issues":
+                            var issueModel = new IssueModel(ss, id);
+                            CreateIndexes(
+                                ss,
+                                issueModel.SearchIndexHash(ss),
+                                id);
+                            break;
+                        case "Results":
+                            var resultModel = new ResultModel(ss, id);
+                            CreateIndexes(
+                                ss,
+                                resultModel.SearchIndexHash(ss),
+                                id);
+                            break;
+                        case "Wikis":
+                            var wikiModel = new WikiModel(ss, id);
+                            CreateIndexes(
+                                ss,
+                                wikiModel.SearchIndexHash(ss),
+                                id);
+                            break;
+                    }
+                }
             }
         }
 
-        public static void CreateIndexes(SiteSettings ss, long id)
+        public static void Create(SiteSettings ss, SiteModel siteModel)
         {
-            var hash = SearchIndexHash(ss, id);
+            if (Parameters.Service.CreateIndexes)
+            {
+                Task.Run(() => CreateIndexes(
+                    ss,
+                    siteModel.SearchIndexHash(ss),
+                    siteModel.SiteId));
+            }
+        }
+
+        public static void Create(SiteSettings ss, IssueModel issueModel)
+        {
+            if (Parameters.Service.CreateIndexes)
+            {
+                Task.Run(() => CreateIndexes(
+                    ss,
+                    issueModel.SearchIndexHash(ss),
+                    issueModel.IssueId));
+            }
+        }
+
+        public static void Create(SiteSettings ss, ResultModel resultModel)
+        {
+            if (Parameters.Service.CreateIndexes)
+            {
+                Task.Run(() => CreateIndexes(
+                    ss,
+                    resultModel.SearchIndexHash(ss),
+                    resultModel.ResultId));
+            }
+        }
+
+        public static void Create(SiteSettings ss, WikiModel wikiModel)
+        {
+            if (Parameters.Service.CreateIndexes)
+            {
+                Task.Run(() => CreateIndexes(
+                    ss,
+                    wikiModel.SearchIndexHash(ss),
+                    wikiModel.WikiId));
+            }
+        }
+
+        public static void CreateIndexes(SiteSettings ss, Dictionary<string, int> hash, long id)
+        {
+            if (ss.SiteId == id)
+            {
+                if (ss.ReferenceType == "Wikis") return;
+            }
             Rds.ExecuteNonQuery(statements: Rds.PhysicalDeleteSearchIndexes(
                 where: Rds.SearchIndexesWhere().ReferenceId(id)));
             hash?.Buffer(2000).ForEach(data =>
@@ -57,29 +173,6 @@ namespace Implem.Pleasanter.Libraries.Search
                         .ReferenceId(raw: id.ToString())
                         .Priority(raw: word.Value.ToString()))));
             return statements.ToArray();
-        }
-
-        private static Dictionary<string, int> SearchIndexHash(SiteSettings ss, long id)
-        {
-            var referenceType = ss.ReferenceType;
-            if (ss.SiteId == id)
-            {
-                referenceType = "Sites";
-                if (ss.ReferenceType == "Wikis") return null;
-            }
-            switch (referenceType)
-            {
-                case "Sites":
-                    return new SiteModel().Get(where: Rds.SitesWhere().SiteId(id))
-                        .SearchIndexHash(ss);
-                case "Issues":
-                    return new IssueModel(ss, id).SearchIndexHash(ss);
-                case "Results":
-                    return new ResultModel(ss, id).SearchIndexHash(ss);
-                case "Wikis":
-                    return new WikiModel(ss, id).SearchIndexHash(ss);
-                default: return null;
-            }
         }
     }
 }

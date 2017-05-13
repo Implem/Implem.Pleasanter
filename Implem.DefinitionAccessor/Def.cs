@@ -609,6 +609,7 @@ namespace Implem.DefinitionAccessor
                     case "Titles": Code.Titles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Titles, definitionRow, CodeXls); break;
                     case "Titles_TitleDisplayValueCases": Code.Titles_TitleDisplayValueCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Titles_TitleDisplayValueCases, definitionRow, CodeXls); break;
                     case "Indexes": Code.Indexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Indexes, definitionRow, CodeXls); break;
+                    case "Indexes_CreateTableCases": Code.Indexes_CreateTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Indexes_CreateTableCases, definitionRow, CodeXls); break;
                     case "Indexes_TableCases": Code.Indexes_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Indexes_TableCases, definitionRow, CodeXls); break;
                     case "ItemsInitializer": Code.ItemsInitializer = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ItemsInitializer, definitionRow, CodeXls); break;
                     case "ItemsInitializer_InitItems": Code.ItemsInitializer_InitItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ItemsInitializer_InitItems, definitionRow, CodeXls); break;
@@ -4392,6 +4393,7 @@ namespace Implem.DefinitionAccessor
         public string Titles;
         public string Titles_TitleDisplayValueCases;
         public string Indexes;
+        public string Indexes_CreateTableCases;
         public string Indexes_TableCases;
         public string ItemsInitializer;
         public string ItemsInitializer_InitItems;
@@ -4832,6 +4834,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Titles = new CodeDefinition();
         public CodeDefinition Titles_TitleDisplayValueCases = new CodeDefinition();
         public CodeDefinition Indexes = new CodeDefinition();
+        public CodeDefinition Indexes_CreateTableCases = new CodeDefinition();
         public CodeDefinition Indexes_TableCases = new CodeDefinition();
         public CodeDefinition ItemsInitializer = new CodeDefinition();
         public CodeDefinition ItemsInitializer_InitItems = new CodeDefinition();

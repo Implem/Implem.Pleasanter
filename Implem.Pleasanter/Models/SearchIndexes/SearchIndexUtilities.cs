@@ -382,8 +382,11 @@ namespace Implem.Pleasanter.Models
                                         siteModel, siteModel.SiteId, setAllChoices: true);
                                 hash.Add(data.SiteId, siteModel);
                             }
-                            Libraries.Search.Indexes.CreateIndexes(
-                                siteModel.SiteSettings, data.ReferenceId);
+                            Libraries.Search.Indexes.Create(
+                                siteModel.SiteSettings,
+                                data.ReferenceId,
+                                async: false,
+                                backgroundTask: true);
                             Rds.ExecuteNonQuery(statements: Rds.UpdateItems(
                                 where: Rds.ItemsWhere().ReferenceId(data.ReferenceId),
                                 param: Rds.ItemsParam().SearchIndexCreatedTime(data.UpdatedTime),

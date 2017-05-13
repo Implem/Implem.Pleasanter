@@ -176,7 +176,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.ItemsParam()
                         .Title(WikiUtilities.TitleDisplayValue(ss, this)),
                     where: Rds.ItemsWhere().ReferenceId(WikiId)));
-            Libraries.Search.Indexes.Create(ss, WikiId);
+            Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;
         }
 
@@ -280,7 +280,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SitesWhere().SiteId(SiteId),
                         param: Rds.SitesParam().Title(Title.Value))
                 });
-            Libraries.Search.Indexes.Create(ss, WikiId);
+            Libraries.Search.Indexes.Create(ss, this);
         }
 
         private SqlInsert InsertLinks(SiteSettings ss, bool selectIdentity = false)
@@ -322,7 +322,7 @@ namespace Implem.Pleasanter.Models
                 statements: statements.ToArray());
             WikiId = newId != 0 ? newId : WikiId;
             Get(ss);
-            Libraries.Search.Indexes.Create(ss, WikiId);
+            Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;
         }
 
@@ -361,7 +361,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreWikis(
                         where: Rds.WikisWhere().WikiId(WikiId))
                 });
-            Libraries.Search.Indexes.Create(ss, WikiId);
+            Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;
         }
 
@@ -373,7 +373,7 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.PhysicalDeleteWikis(
                     tableType: tableType,
                     param: Rds.WikisParam().SiteId(SiteId).WikiId(WikiId)));
-            Libraries.Search.Indexes.Create(ss, WikiId);
+            Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;
         }
 
