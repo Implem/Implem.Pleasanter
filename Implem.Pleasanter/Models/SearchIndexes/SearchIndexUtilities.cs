@@ -379,14 +379,11 @@ namespace Implem.Pleasanter.Models
                             if (!hash.ContainsKey(data.SiteId))
                             {
                                 siteModel.SiteSettings = SiteSettingsUtilities.Get(
-                                        siteModel, siteModel.SiteId, setAllChoices: true);
+                                    siteModel, siteModel.SiteId);
                                 hash.Add(data.SiteId, siteModel);
                             }
                             Libraries.Search.Indexes.Create(
-                                siteModel.SiteSettings,
-                                data.ReferenceId,
-                                async: false,
-                                backgroundTask: true);
+                                siteModel.SiteSettings, data.ReferenceId, backgroundTask: true);
                             Rds.ExecuteNonQuery(statements: Rds.UpdateItems(
                                 where: Rds.ItemsWhere().ReferenceId(data.ReferenceId),
                                 param: Rds.ItemsParam().SearchIndexCreatedTime(data.UpdatedTime),

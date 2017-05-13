@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -12,79 +13,94 @@ namespace Implem.Pleasanter.Libraries.Search
 {
     public static class Indexes
     {
-        public static void Create(
-            SiteSettings ss, long id, bool async = true, bool backgroundTask = false)
+        public static void Create(SiteSettings ss, long id, bool backgroundTask = false)
         {
-            if (Parameters.Service.CreateIndexes || backgroundTask)
+            if (Parameters.Service.CreateIndexes)
             {
                 var itemModel = new ItemModel(id);
-                if (async)
+                switch (itemModel.ReferenceType)
                 {
-                    switch (itemModel.ReferenceType)
-                    {
-                        case "Sites":
-                            var siteModel = new SiteModel(id);
-                            Task.Run(() => CreateIndexes(
-                                ss,
-                                siteModel.SearchIndexHash(ss),
-                                id));
-                            break;
-                        case "Issues":
-                            var issueModel = new IssueModel(ss, id);
-                            Task.Run(() => CreateIndexes(
-                                ss,
-                                issueModel.SearchIndexHash(ss),
-                                id));
-                            break;
-                        case "Results":
-                            var resultModel = new ResultModel(ss, id);
-                            Task.Run(() => CreateIndexes(
-                                ss,
-                                resultModel.SearchIndexHash(ss),
-                                id));
-                            break;
-                        case "Wikis":
-                            var wikiModel = new WikiModel(ss, id);
-                            Task.Run(() => CreateIndexes(
-                                ss,
-                                wikiModel.SearchIndexHash(ss),
-                                id));
-                            break;
-                    }
+                    case "Sites":
+                        var siteModel = new SiteModel(id);
+                        Task.Run(() => CreateIndexes(
+                            ss,
+                            siteModel.SearchIndexHash(ss),
+                            id));
+                        break;
+                    case "Issues":
+                        var issueModel = new IssueModel(ss, id);
+                        Task.Run(() => CreateIndexes(
+                            ss,
+                            issueModel.SearchIndexHash(ss),
+                            id));
+                        break;
+                    case "Results":
+                        var resultModel = new ResultModel(ss, id);
+                        Task.Run(() => CreateIndexes(
+                            ss,
+                            resultModel.SearchIndexHash(ss),
+                            id));
+                        break;
+                    case "Wikis":
+                        var wikiModel = new WikiModel(ss, id);
+                        Task.Run(() => CreateIndexes(
+                            ss,
+                            wikiModel.SearchIndexHash(ss),
+                            id));
+                        break;
                 }
-                else
+            }
+            else if (backgroundTask)
+            {
+                var itemModel = new ItemModel(id);
+                switch (itemModel.ReferenceType)
                 {
-                    switch (itemModel.ReferenceType)
-                    {
-                        case "Sites":
-                            var siteModel = new SiteModel(id);
-                            CreateIndexes(
-                                ss,
-                                siteModel.SearchIndexHash(ss),
-                                id);
-                            break;
-                        case "Issues":
-                            var issueModel = new IssueModel(ss, id);
-                            CreateIndexes(
-                                ss,
-                                issueModel.SearchIndexHash(ss),
-                                id);
-                            break;
-                        case "Results":
-                            var resultModel = new ResultModel(ss, id);
-                            CreateIndexes(
-                                ss,
-                                resultModel.SearchIndexHash(ss),
-                                id);
-                            break;
-                        case "Wikis":
-                            var wikiModel = new WikiModel(ss, id);
-                            CreateIndexes(
-                                ss,
-                                wikiModel.SearchIndexHash(ss),
-                                id);
-                            break;
-                    }
+                    case "Sites":
+                        var siteModel = new SiteModel(id);
+                        CreateIndexes(
+                            ss,
+                            siteModel.SearchIndexHash(ss),
+                            id);
+                        break;
+                    case "Issues":
+                        var issueModel = new IssueModel(ss, id);
+                        ss.Links?
+                            .Where(o => ss.GetColumn(o.ColumnName).UseSearch == true)
+                            .ForEach(link =>
+                                ss.SetChoiceHash(
+                                    columnName: link.ColumnName,
+                                    selectedValues: new List<long>
+                                    {
+                                        issueModel.PropertyValue(link.ColumnName).ToLong()
+                                    }));
+                        CreateIndexes(
+                            ss,
+                            issueModel.SearchIndexHash(ss),
+                            id);
+                        break;
+                    case "Results":
+                        var resultModel = new ResultModel(ss, id);
+                        ss.Links?
+                            .Where(o => ss.GetColumn(o.ColumnName).UseSearch == true)
+                            .ForEach(link =>
+                                ss.SetChoiceHash(
+                                    columnName: link.ColumnName,
+                                    selectedValues: new List<long>
+                                    {
+                                        resultModel.PropertyValue(link.ColumnName).ToLong()
+                                    }));
+                        CreateIndexes(
+                            ss,
+                            resultModel.SearchIndexHash(ss),
+                            id);
+                        break;
+                    case "Wikis":
+                        var wikiModel = new WikiModel(ss, id);
+                        CreateIndexes(
+                            ss,
+                            wikiModel.SearchIndexHash(ss),
+                            id);
+                        break;
                 }
             }
         }
