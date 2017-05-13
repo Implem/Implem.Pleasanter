@@ -108,14 +108,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (Type)
             {
                 case Types.Mail:
+                    var mailFrom = new System.Net.Mail.MailAddress(
+                        Mails.Addresses.BadAddress(from) == string.Empty
+                            ? from
+                            : Parameters.Mail.SupportFrom);
                     new OutgoingMailModel()
                     {
                         Title = new Title(Prefix + title),
-                        Body = "{0}\n{1}".Params(url, body),
-                        From = new System.Net.Mail.MailAddress(
-                            Mails.Addresses.BadAddress(from) == string.Empty
-                                ? from
-                                : Parameters.Mail.SupportFrom),
+                        Body = "{0}\n{1}".Params(url, body) +
+                            (!Parameters.Mail.FixedFrom.IsNullOrEmpty()
+                                ? "\n\n{0}<{1}>".Params(mailFrom.DisplayName, mailFrom.Address)
+                                : string.Empty),
+                        From = mailFrom,
                         To = Address
                     }.Send();
                     break;
