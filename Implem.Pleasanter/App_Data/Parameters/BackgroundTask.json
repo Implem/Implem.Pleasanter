@@ -2,6 +2,5 @@
     "Enabled": false,
     "Interval": 500,
     "BackgroundTaskSpan": 30,
-    "EnableInterval": 60000,
     "CreateSearchIndexLot": 100
 }

@@ -5,7 +5,6 @@
         public bool Enabled;
         public int Interval;
         public int BackgroundTaskSpan;
-        public int EnableInterval;
         public int CreateSearchIndexLot;
     }
 }
