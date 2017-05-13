@@ -100,7 +100,13 @@ namespace Implem.Pleasanter.Libraries.Server
             var tenantCache = TenantCaches.Get(tenantId);
             if (!tenantCache.SiteUserHash.ContainsKey(siteId))
             {
-                tenantCache.SiteUserHash.Add(siteId, GetSiteUserHash(tenantId, siteId));
+                try
+                {
+                    tenantCache.SiteUserHash.Add(siteId, GetSiteUserHash(tenantId, siteId));
+                }
+                catch (Exception)
+                {
+                }
             }
             else if (reload)
             {
