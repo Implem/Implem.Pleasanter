@@ -376,6 +376,10 @@ namespace Implem.Pleasanter.Models
                                             UserId = o["UserId"].ToInt()
                                         })
                                         .FirstOrDefault();
+                            if (!SiteInfo.TenantCaches.ContainsKey(Sessions.TenantId()))
+                            {
+                                SiteInfo.Reflesh();
+                            }
                             if (!hash.ContainsKey(data.SiteId))
                             {
                                 siteModel.SiteSettings = SiteSettingsUtilities.Get(
