@@ -50,9 +50,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     Addresses.GetEnumerable(Cc).ForEach(cc => mailMessage.CC.Add(cc));
                     Addresses.GetEnumerable(Bcc).ForEach(bcc => mailMessage.Bcc.Add(bcc));
                     mailMessage.Subject = Subject;
-                    mailMessage.Body = Body + (Parameters.Mail.FixedFrom.IsNullOrEmpty()
-                        ? string.Empty
-                        : "\n{0}<{1}>".Params(From.DisplayName, From.Address));
+                    mailMessage.Body = Body;
                     using (var smtpClient = new SmtpClient())
                     {
                         smtpClient.Host = Host;

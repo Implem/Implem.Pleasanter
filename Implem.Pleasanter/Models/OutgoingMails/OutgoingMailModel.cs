@@ -358,6 +358,10 @@ namespace Implem.Pleasanter.Models
             ReferenceVer = Forms.Int("Ver");
             From = OutgoingMailUtilities.From();
             SetByForm();
+            if (!Parameters.Mail.FixedFrom.IsNullOrEmpty())
+            {
+                Body += "\n\n{0}<{1}>".Params(From.DisplayName, From.Address);
+            }
         }
 
         /// <summary>

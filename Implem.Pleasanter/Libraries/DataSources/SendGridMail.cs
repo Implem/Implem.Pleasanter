@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Mails;
 using System.Linq;
 using System.Net.Mail;
@@ -38,7 +39,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Task.Run(() =>
             {
                 var sendGridMessage = new SendGrid.SendGridMessage();
-                sendGridMessage.From = From;
+                sendGridMessage.From = !Parameters.Mail.FixedFrom.IsNullOrEmpty()
+                    ? new MailAddress(Parameters.Mail.FixedFrom)
+                    : From;
                 Addresses.GetEnumerable(To).ForEach(to => sendGridMessage.AddTo(to));
                 Addresses.GetEnumerable(Cc).ForEach(cc => sendGridMessage.AddCc(cc));
                 Addresses.GetEnumerable(Bcc).ForEach(bcc => sendGridMessage.AddBcc(bcc));
