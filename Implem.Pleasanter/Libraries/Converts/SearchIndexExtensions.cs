@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.Converts
         public static void SearchIndexes(
             this string self, Column column, Dictionary<string, int> searchIndexHash, int searchPriority)
         {
-            if (column.HasChoices())
+            if (column?.HasChoices() == true)
             {
                 SearchIndexes(searchIndexHash, column.Choice(self).SearchText(), searchPriority);
             }
@@ -74,7 +74,7 @@ namespace Implem.Pleasanter.Libraries.Converts
             Dictionary<string, int> searchIndexHash,
             int searchPriority)
         {
-            if (column.HasChoices())
+            if (column?.HasChoices() == true)
             {
                 SearchIndexes(
                     searchIndexHash,
