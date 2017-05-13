@@ -135,9 +135,9 @@ namespace Implem.Pleasanter.Libraries.Search
 
         public static void CreateIndexes(SiteSettings ss, Dictionary<string, int> hash, long id)
         {
-            if (ss.SiteId == id)
+            if (ss.SiteId == id && ss.ReferenceType == "Wikis")
             {
-                if (ss.ReferenceType == "Wikis") return;
+                return;
             }
             Rds.ExecuteNonQuery(statements: Rds.PhysicalDeleteSearchIndexes(
                 where: Rds.SearchIndexesWhere().ReferenceId(id)));
