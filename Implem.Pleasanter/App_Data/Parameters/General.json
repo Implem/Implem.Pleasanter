@@ -50,7 +50,6 @@
     "SearchPageSize": 20,
     "DropDownSearchLimit": 100,
     "SwitchTargetsLimit": 500,
-    "BackgroundTaskSpan": 30,
     "SeparateMax": 10,
     "SeparateMin": 2,
     "FirstDayOfWeek": 1,

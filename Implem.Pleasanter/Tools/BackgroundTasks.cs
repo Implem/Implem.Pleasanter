@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Tools
         public static string Do()
         {
             var now = DateTime.Now;
-            while ((DateTime.Now - now).Seconds <= Parameters.General.BackgroundTaskSpan)
+            while ((DateTime.Now - now).Seconds <= Parameters.BackgroundTask.BackgroundTaskSpan)
             {
                 SysLogUtilities.Maintain();
                 SearchIndexUtilities.Maintain();

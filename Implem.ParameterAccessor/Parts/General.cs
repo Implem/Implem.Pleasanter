@@ -54,7 +54,6 @@ namespace Implem.ParameterAccessor.Parts
         public int SearchPageSize;
         public int DropDownSearchLimit;
         public int SwitchTargetsLimit;
-        public int BackgroundTaskSpan;
         public int SeparateMax;
         public int SeparateMin;
         public int FirstDayOfWeek;
