@@ -15,13 +15,15 @@
 
 $p.openOutgoingMailReplyDialog = function ($control) {
     $p.getData($('#OutgoingMailsForm')).OutgoingMails_OutgoingMailId = $control.attr('data-id');
-    $p.syncSend($control, 'OutgoingMailsForm');
-    $('#OutgoingMailDialog').dialog({
-        modal: true,
-        width: '90%',
-        height: 'auto',
-        dialogClass: 'outgoing-mail'
-    });
+    var error = $p.syncSend($control, 'OutgoingMailsForm');
+    if (error === 0) {
+        $('#OutgoingMailDialog').dialog({
+            modal: true,
+            width: '90%',
+            height: 'auto',
+            dialogClass: 'outgoing-mail'
+        });
+    }
 }
 
 $p.sendMail = function ($control) {
