@@ -1,5 +1,4 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
-using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.ViewModes;
@@ -38,13 +37,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string groupBy,
             IEnumerable<DataRow> dataRows)
         {
-            var gantt = new Gantt(ss, dataRows, groupBy);
-            return hb
-                .Svg(id: "Gantt")
-                .Svg(id: "GanttAxis")
-                .Hidden(
-                    controlId: "GanttJson",
-                    value: gantt.Json());
+            return dataRows != null
+                ? hb
+                    .Svg(id: "Gantt")
+                    .Svg(id: "GanttAxis")
+                    .Hidden(
+                        controlId: "GanttJson",
+                        value: new Gantt(ss, dataRows, groupBy).Json())
+                : hb;
         }
     }
 }

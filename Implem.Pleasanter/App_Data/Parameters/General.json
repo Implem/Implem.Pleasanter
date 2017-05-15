@@ -38,6 +38,7 @@
     "ProgressRateHeight": 40,
     "ProgressRateItemHeight": 10,
     "ProgressRateTextTop": 13,
+    "GanttLimit": 300,
     "GanttItemMaxHeight": 75,
     "GanttItemMinHeight": 25,
     "KambanMinColumns": 3,

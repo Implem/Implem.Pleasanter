@@ -42,6 +42,7 @@ namespace Implem.ParameterAccessor.Parts
         public int ProgressRateHeight;
         public int ProgressRateItemHeight;
         public int ProgressRateTextTop;
+        public int GanttLimit;
         public int GanttItemMaxHeight;
         public int GanttItemMinHeight;
         public int KambanMinColumns;

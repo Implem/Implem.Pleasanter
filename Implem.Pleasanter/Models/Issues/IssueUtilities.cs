@@ -4428,6 +4428,20 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var groupBy = !view.GanttGroupBy.IsNullOrEmpty()
+                ? view.GanttGroupBy
+                : string.Empty;
+            EnumerableRowCollection<DataRow> dataRows = null;
+            if (issueCollection.Aggregations.TotalCount <= Parameters.General.GanttLimit)
+            {
+                dataRows = GanttDataRows(ss, view, groupBy);
+            }
+            else
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.GanttLimit.ToString()).Html);
+            }
             return hb.ViewModeTemplate(
                 ss: ss,
                 issueCollection: issueCollection,
@@ -4436,6 +4450,8 @@ namespace Implem.Pleasanter.Models
                 viewModeBody: () => hb.Gantt(
                     ss: ss,
                     view: view,
+                    dataRows: dataRows,
+                    groupBy: groupBy,
                     bodyOnly: false));
         }
 
@@ -4451,20 +4467,43 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("Gantt");
-            return new ResponseCollection()
-                .Html(
-                    !bodyOnly ? "#ViewModeContainer" : "#GanttBody",
-                    new HtmlBuilder().Gantt(
+            var groupBy = !view.GanttGroupBy.IsNullOrEmpty()
+                ? view.GanttGroupBy
+                : string.Empty;
+            if (issueCollection.Aggregations.TotalCount <= Parameters.General.GanttLimit)
+            {
+                var dataRows = GanttDataRows(ss, view, groupBy);
+                return new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#GanttBody",
+                        new HtmlBuilder().Gantt(
+                            ss: ss,
+                            view: view,
+                            dataRows: GanttDataRows(ss, view, groupBy),
+                            groupBy: groupBy,
+                            bodyOnly: bodyOnly))
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
                         ss: ss,
-                        view: view,
-                        bodyOnly: bodyOnly))
-                .View(ss: ss, view: view)
-                .ReplaceAll(
-                    "#Aggregations", new HtmlBuilder().Aggregations(
-                    ss: ss,
-                    aggregations: issueCollection.Aggregations))
-                .Invoke("drawGantt")
-                .ToJson();
+                        aggregations: issueCollection.Aggregations))
+                    .Invoke("drawGantt")
+                    .ToJson();
+            }
+            else
+            {
+                return new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#GanttBody",
+                        new HtmlBuilder())
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: issueCollection.Aggregations))
+                    .Message(Messages.TooManyCases(Parameters.General.GanttLimit.ToString()))
+                    .ToJson();
+            }
         }
 
         /// <summary>
@@ -4474,12 +4513,10 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             View view,
+            EnumerableRowCollection<DataRow> dataRows,
+            string groupBy,
             bool bodyOnly)
         {
-            var groupBy = !view.GanttGroupBy.IsNullOrEmpty()
-                ? view.GanttGroupBy
-                : string.Empty;
-            var dataRows = GanttDataRows(ss, view, groupBy);
             return !bodyOnly
                 ? hb.Gantt(
                     ss: ss,
