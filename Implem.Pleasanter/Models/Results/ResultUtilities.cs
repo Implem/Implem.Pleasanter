@@ -4255,7 +4255,6 @@ namespace Implem.Pleasanter.Models
             View view,
             bool bodyOnly)
         {
-            var formData = Forms.All();
             var groupBy = !view.TimeSeriesGroupBy.IsNullOrEmpty()
                 ? view.TimeSeriesGroupBy
                 : ss.TimeSeriesGroupByOptions().FirstOrDefault().Key;
@@ -4373,7 +4372,6 @@ namespace Implem.Pleasanter.Models
             bool bodyOnly,
             long changedItemId = 0)
         {
-            var formData = Forms.All();
             var groupByX = !view.KambanGroupByX.IsNullOrEmpty()
                 ? view.KambanGroupByX
                 : ss.KambanGroupByOptions().FirstOrDefault().Key;
