@@ -4565,12 +4565,9 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
-            EnumerableRowCollection<DataRow> dataRows = null;
-            if (issueCollection.Aggregations.TotalCount <= Parameters.General.BurnDownLimit)
-            {
-                dataRows = BurnDownDataRows(ss: ss, view: view);
-            }
-            else
+            var inRange = issueCollection.Aggregations.TotalCount <=
+                Parameters.General.BurnDownLimit;
+            if (!inRange)
             {
                 Sessions.Set(
                     "Message",
@@ -4583,11 +4580,11 @@ namespace Implem.Pleasanter.Models
                 viewMode: viewMode,
                 viewModeBody: () =>
                 {
-                    if (dataRows != null)
+                    if (inRange)
                     {
                         hb.BurnDown(
                             ss: ss,
-                            dataRows: dataRows,
+                            dataRows: BurnDownDataRows(ss: ss, view: view),
                             ownerLabelText: ss.GetColumn("Owner").GridLabelText,
                             column: ss.GetColumn("WorkValue"));
                     }
@@ -4619,6 +4616,7 @@ namespace Implem.Pleasanter.Models
                         "#Aggregations", new HtmlBuilder().Aggregations(
                         ss: ss,
                         aggregations: issueCollection.Aggregations))
+                    .ClearFormData()
                     .Invoke("drawBurnDown")
                     .ToJson()
                 : new ResponseCollection()
@@ -4628,6 +4626,7 @@ namespace Implem.Pleasanter.Models
                         "#Aggregations", new HtmlBuilder().Aggregations(
                         ss: ss,
                         aggregations: issueCollection.Aggregations))
+                    .ClearFormData()
                     .Message(Messages.TooManyCases(Parameters.General.BurnDownLimit.ToString()))
                     .ToJson();
         }
