@@ -4833,7 +4833,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.GanttLimit.ToString()).Html);
+                    Messages.TooManyCases(Parameters.General.KambanLimit.ToString()).Html);
             }
             return hb.ViewModeTemplate(
                 ss: ss,
@@ -4892,7 +4892,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         aggregations: issueCollection.Aggregations))
                     .ClearFormData()
-                    .Message(Messages.TooManyCases(Parameters.General.GanttLimit.ToString()))
+                    .Message(Messages.TooManyCases(Parameters.General.KambanLimit.ToString()))
                     .ToJson();
         }
 
