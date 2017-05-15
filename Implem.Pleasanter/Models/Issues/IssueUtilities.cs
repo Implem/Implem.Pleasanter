@@ -4476,7 +4476,6 @@ namespace Implem.Pleasanter.Models
             View view,
             bool bodyOnly)
         {
-            var forms = Forms.All();
             var groupBy = !view.GanttGroupBy.IsNullOrEmpty()
                 ? view.GanttGroupBy
                 : string.Empty;
