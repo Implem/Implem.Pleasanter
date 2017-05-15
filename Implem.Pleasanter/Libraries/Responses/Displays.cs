@@ -35,9 +35,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             {
                 screen = DisplayHash[id];
             }
-            return data.Count() == 0
-                ? screen
-                : screen.Params(data);
+            return data?.Any() == true
+                ? screen.Params(data)
+                : screen;
         }
 
         public static string Add(params string[] data) { return Get("Add", data); }
