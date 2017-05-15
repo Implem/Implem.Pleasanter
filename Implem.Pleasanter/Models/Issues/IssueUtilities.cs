@@ -4431,12 +4431,9 @@ namespace Implem.Pleasanter.Models
             var groupBy = !view.GanttGroupBy.IsNullOrEmpty()
                 ? view.GanttGroupBy
                 : string.Empty;
-            EnumerableRowCollection<DataRow> dataRows = null;
-            if (issueCollection.Aggregations.TotalCount <= Parameters.General.GanttLimit)
-            {
-                dataRows = GanttDataRows(ss, view, groupBy);
-            }
-            else
+            var inRange = issueCollection.Aggregations.TotalCount <=
+                Parameters.General.GanttLimit;
+            if (!inRange)
             {
                 Sessions.Set(
                     "Message",
@@ -4447,12 +4444,18 @@ namespace Implem.Pleasanter.Models
                 issueCollection: issueCollection,
                 view: view,
                 viewMode: viewMode,
-                viewModeBody: () => hb.Gantt(
-                    ss: ss,
-                    view: view,
-                    dataRows: dataRows,
-                    groupBy: groupBy,
-                    bodyOnly: false));
+                viewModeBody: () =>
+                {
+                    if (inRange)
+                    {
+                        hb.Gantt(
+                          ss: ss,
+                          view: view,
+                          dataRows: GanttDataRows(ss, view, groupBy),
+                          groupBy: groupBy,
+                          bodyOnly: false);
+                    }
+                });
         }
 
         /// <summary>
@@ -4470,10 +4473,8 @@ namespace Implem.Pleasanter.Models
             var groupBy = !view.GanttGroupBy.IsNullOrEmpty()
                 ? view.GanttGroupBy
                 : string.Empty;
-            if (issueCollection.Aggregations.TotalCount <= Parameters.General.GanttLimit)
-            {
-                var dataRows = GanttDataRows(ss, view, groupBy);
-                return new ResponseCollection()
+            return issueCollection.Aggregations.TotalCount <= Parameters.General.GanttLimit
+                ? new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#GanttBody",
                         new HtmlBuilder().Gantt(
@@ -4487,12 +4488,10 @@ namespace Implem.Pleasanter.Models
                         "#Aggregations", new HtmlBuilder().Aggregations(
                         ss: ss,
                         aggregations: issueCollection.Aggregations))
+                    .ClearFormData()
                     .Invoke("drawGantt")
-                    .ToJson();
-            }
-            else
-            {
-                return new ResponseCollection()
+                    .ToJson()
+                : new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#GanttBody",
                         new HtmlBuilder())
@@ -4501,9 +4500,9 @@ namespace Implem.Pleasanter.Models
                         "#Aggregations", new HtmlBuilder().Aggregations(
                         ss: ss,
                         aggregations: issueCollection.Aggregations))
+                    .ClearFormData()
                     .Message(Messages.TooManyCases(Parameters.General.GanttLimit.ToString()))
                     .ToJson();
-            }
         }
 
         /// <summary>
