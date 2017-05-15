@@ -4566,18 +4566,33 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
+            EnumerableRowCollection<DataRow> dataRows = null;
+            if (issueCollection.Aggregations.TotalCount <= Parameters.General.BurnDownLimit)
+            {
+                dataRows = BurnDownDataRows(ss: ss, view: view);
+            }
+            else
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.BurnDownLimit.ToString()).Html);
+            }
             return hb.ViewModeTemplate(
                 ss: ss,
                 issueCollection: issueCollection,
                 view: view,
                 viewMode: viewMode,
-                viewModeBody: () => hb.BurnDown(
-                    ss: ss,
-                    dataRows: BurnDownDataRows(
-                        ss: ss,
-                        view: view),
-                    ownerLabelText: ss.GetColumn("Owner").GridLabelText,
-                    column: ss.GetColumn("WorkValue")));
+                viewModeBody: () =>
+                {
+                    if (dataRows != null)
+                    {
+                        hb.BurnDown(
+                            ss: ss,
+                            dataRows: dataRows,
+                            ownerLabelText: ss.GetColumn("Owner").GridLabelText,
+                            column: ss.GetColumn("WorkValue"));
+                    }
+                });
         }
 
         /// <summary>
@@ -4591,21 +4606,31 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
-            return new ResponseCollection()
-                .Html(
-                    "#ViewModeContainer",
-                    new HtmlBuilder().BurnDown(
+            return issueCollection.Aggregations.TotalCount <= Parameters.General.BurnDownLimit
+                ? new ResponseCollection()
+                    .Html(
+                        "#ViewModeContainer",
+                        new HtmlBuilder().BurnDown(
+                            ss: ss,
+                            dataRows: BurnDownDataRows(ss, view),
+                            ownerLabelText: ss.GetColumn("Owner").GridLabelText,
+                            column: ss.GetColumn("WorkValue")))
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
                         ss: ss,
-                        dataRows: BurnDownDataRows(ss, view),
-                        ownerLabelText: ss.GetColumn("Owner").GridLabelText,
-                        column: ss.GetColumn("WorkValue")))
-                .View(ss: ss, view: view)
-                .ReplaceAll(
-                    "#Aggregations", new HtmlBuilder().Aggregations(
-                    ss: ss,
-                    aggregations: issueCollection.Aggregations))
-                .Invoke("drawBurnDown")
-                .ToJson();
+                        aggregations: issueCollection.Aggregations))
+                    .Invoke("drawBurnDown")
+                    .ToJson()
+                : new ResponseCollection()
+                    .Html("#ViewModeContainer", new HtmlBuilder())
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: issueCollection.Aggregations))
+                    .Message(Messages.TooManyCases(Parameters.General.BurnDownLimit.ToString()))
+                    .ToJson();
         }
 
         /// <summary>
