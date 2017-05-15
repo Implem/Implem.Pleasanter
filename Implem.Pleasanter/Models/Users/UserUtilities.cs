@@ -89,7 +89,7 @@ namespace Implem.Pleasanter.Models
             string viewMode,
             Action viewModeBody)
         {
-            var invalid = IssueValidators.OnEntry(ss);
+            var invalid = UserValidators.OnEntry(ss);
             switch (invalid)
             {
                 case Error.Types.None: break;

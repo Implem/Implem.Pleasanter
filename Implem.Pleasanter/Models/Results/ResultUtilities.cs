@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Models
             string viewMode,
             Action viewModeBody)
         {
-            var invalid = IssueValidators.OnEntry(ss);
+            var invalid = ResultValidators.OnEntry(ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -3188,7 +3188,7 @@ namespace Implem.Pleasanter.Models
         public static ResponseFile Export(SiteSettings ss, SiteModel siteModel)
         {
             if (!Contract.Export()) return null;
-            var invalid = IssueValidators.OnExporting(ss);
+            var invalid = ResultValidators.OnExporting(ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
