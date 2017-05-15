@@ -45,6 +45,7 @@ namespace Implem.ParameterAccessor.Parts
         public int GanttLimit;
         public int GanttItemMaxHeight;
         public int GanttItemMinHeight;
+        public int KambanLimit;
         public int KambanMinColumns;
         public int KambanMaxColumns;
         public int KambanColumns;

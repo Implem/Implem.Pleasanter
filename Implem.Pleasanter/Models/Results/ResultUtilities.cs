@@ -4206,15 +4206,29 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var resultCollection = ResultCollection(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var inRange = resultCollection.Aggregations.TotalCount <=
+                Parameters.General.KambanLimit;
+            if (!inRange)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.GanttLimit.ToString()).Html);
+            }
             return hb.ViewModeTemplate(
                 ss: ss,
                 resultCollection: resultCollection,
                 view: view,
                 viewMode: viewMode,
-                viewModeBody: () => hb.TimeSeries(
-                    ss: ss,
-                    view: view,
-                    bodyOnly: false));
+                viewModeBody: () =>
+                {
+                    if (inRange)
+                    {
+                        hb.Kamban(
+                          ss: ss,
+                          view: view,
+                          bodyOnly: false);
+                    }
+                });
         }
 
         /// <summary>
@@ -4230,20 +4244,33 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var resultCollection = ResultCollection(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("TimeSeries");
-            return new ResponseCollection()
-                .Html(
-                    !bodyOnly ? "#ViewModeContainer" : "#TimeSeriesBody",
-                    new HtmlBuilder().TimeSeries(
+            return resultCollection.Aggregations.TotalCount <= Parameters.General.KambanLimit
+                ? new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#TimeSeriesBody",
+                        new HtmlBuilder().TimeSeries(
+                            ss: ss,
+                            view: view,
+                            bodyOnly: bodyOnly))
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
                         ss: ss,
-                        view: view,
-                        bodyOnly: bodyOnly))
-                .View(ss: ss, view: view)
-                .ReplaceAll(
-                    "#Aggregations", new HtmlBuilder().Aggregations(
-                    ss: ss,
-                    aggregations: resultCollection.Aggregations))
-                .Invoke("drawTimeSeries")
-                .ToJson();
+                        aggregations: resultCollection.Aggregations))
+                    .Invoke("drawTimeSeries")
+                    .ToJson()
+                : new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
+                        new HtmlBuilder())
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: resultCollection.Aggregations))
+                    .ClearFormData()
+                    .Message(Messages.TooManyCases(Parameters.General.GanttLimit.ToString()))
+                    .ToJson();
         }
 
         /// <summary>
