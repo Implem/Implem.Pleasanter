@@ -4350,15 +4350,29 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var resultCollection = ResultCollection(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var inRange = resultCollection.Aggregations.TotalCount <=
+                Parameters.General.KambanLimit;
+            if (!inRange)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.KambanLimit.ToString()).Html);
+            }
             return hb.ViewModeTemplate(
                 ss: ss,
                 resultCollection: resultCollection,
                 view: view,
                 viewMode: viewMode,
-                viewModeBody: () => hb.Kamban(
-                    ss: ss,
-                    view: view,
-                    bodyOnly: false));
+                viewModeBody: () =>
+                {
+                    if (inRange)
+                    {
+                        hb.Kamban(
+                          ss: ss,
+                          view: view,
+                          bodyOnly: false);
+                    }
+                });
         }
 
         /// <summary>
@@ -4373,21 +4387,35 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var resultCollection = ResultCollection(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("Kamban");
-            return new ResponseCollection()
-                .Html(
-                    !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
-                    new HtmlBuilder().Kamban(
+            return resultCollection.Aggregations.TotalCount <= Parameters.General.KambanLimit
+                ? new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
+                        new HtmlBuilder().Kamban(
+                            ss: ss,
+                            view: view,
+                            bodyOnly: bodyOnly,
+                            changedItemId: Forms.Long("KambanId")))
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
                         ss: ss,
-                        view: view,
-                        bodyOnly: bodyOnly,
-                        changedItemId: Forms.Long("KambanId")))
-                .View(ss: ss, view: view)
-                .ReplaceAll(
-                    "#Aggregations", new HtmlBuilder().Aggregations(
-                    ss: ss,
-                    aggregations: resultCollection.Aggregations))
-                .ClearFormData()
-                .Invoke("setKamban").ToJson();
+                        aggregations: resultCollection.Aggregations))
+                    .ClearFormData()
+                    .Invoke("setKamban")
+                    .ToJson()
+                : new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
+                        new HtmlBuilder())
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: resultCollection.Aggregations))
+                    .ClearFormData()
+                    .Message(Messages.TooManyCases(Parameters.General.KambanLimit.ToString()))
+                    .ToJson();
         }
 
         /// <summary>
