@@ -42,6 +42,7 @@
     "GanttItemMaxHeight": 75,
     "GanttItemMinHeight": 25,
     "BurnDownLimit": 300,
+    "TimeSeriesLimit": 1000,
     "KambanLimit": 300,
     "KambanMinColumns": 3,
     "KambanMaxColumns": 50,

@@ -4207,12 +4207,12 @@ namespace Implem.Pleasanter.Models
             var resultCollection = ResultCollection(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
             var inRange = resultCollection.Aggregations.TotalCount <=
-                Parameters.General.KambanLimit;
+                Parameters.General.TimeSeriesLimit;
             if (!inRange)
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.GanttLimit.ToString()).Html);
+                    Messages.TooManyCases(Parameters.General.TimeSeriesLimit.ToString()).Html);
             }
             return hb.ViewModeTemplate(
                 ss: ss,
@@ -4223,10 +4223,10 @@ namespace Implem.Pleasanter.Models
                 {
                     if (inRange)
                     {
-                        hb.Kamban(
-                          ss: ss,
-                          view: view,
-                          bodyOnly: false);
+                        hb.TimeSeries(
+                            ss: ss,
+                            view: view,
+                            bodyOnly: false);
                     }
                 });
         }
@@ -4244,7 +4244,7 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var resultCollection = ResultCollection(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("TimeSeries");
-            return resultCollection.Aggregations.TotalCount <= Parameters.General.KambanLimit
+            return resultCollection.Aggregations.TotalCount <= Parameters.General.TimeSeriesLimit
                 ? new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#TimeSeriesBody",
@@ -4257,11 +4257,12 @@ namespace Implem.Pleasanter.Models
                         "#Aggregations", new HtmlBuilder().Aggregations(
                         ss: ss,
                         aggregations: resultCollection.Aggregations))
+                    .ClearFormData()
                     .Invoke("drawTimeSeries")
                     .ToJson()
                 : new ResponseCollection()
                     .Html(
-                        !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
+                        !bodyOnly ? "#ViewModeContainer" : "#TimeSeriesBody",
                         new HtmlBuilder())
                     .View(ss: ss, view: view)
                     .ReplaceAll(
@@ -4269,7 +4270,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         aggregations: resultCollection.Aggregations))
                     .ClearFormData()
-                    .Message(Messages.TooManyCases(Parameters.General.GanttLimit.ToString()))
+                    .Message(Messages.TooManyCases(Parameters.General.TimeSeriesLimit.ToString()))
                     .ToJson();
         }
 
