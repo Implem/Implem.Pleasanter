@@ -1664,41 +1664,79 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o.FirstOrDefault())
                 .ForEach(link =>
                 {
-                    var results = searchIndexes?.Any() == true
-                        ? SearchIndexUtilities.Get(
-                            searchIndexes: searchIndexes,
-                            column: Rds.SearchIndexesColumn().ReferenceId(),
-                            siteId: link.SiteId,
-                            pageSize: Parameters.General.DropDownSearchLimit)
-                                .Tables[0]
-                                .AsEnumerable()
-                                .Select(o => o["ReferenceId"].ToLong())
-                        : null;
-                    var dataRows = Rds.ExecuteTable(statements:
-                        Rds.SelectItems(
-                            top: Parameters.General.DropDownSearchLimit,
-                            column: Rds.ItemsColumn()
-                                .ReferenceId()
-                                .ReferenceType()
-                                .SiteId()
-                                .Title(),
-                            where: Rds.ItemsWhere()
-                                .ReferenceId_In(results, _using:
-                                    results?.Any() == true ||
-                                    searchIndexes?.Any() == true)
-                                .Or(Rds.ItemsWhere()
-                                        .ReferenceType("Wikis")
-                                        .ReferenceId_In(selectedValues),
-                                    _using: selectedValues?.Any() == true)
-                                .ReferenceType("Sites", _operator: "<>")
-                                .SiteId(link.SiteId)))
-                                    .AsEnumerable();
-                    if (dataRows != null && allowSites?.Contains(link.SiteId) == true)
+                    if (Rds.ExecuteScalar_string(statements: Rds.SelectSites(
+                        column: Rds.SitesColumn().ReferenceType(),
+                        where: Rds.SitesWhere().SiteId(link.SiteId))) == "Wikis")
                     {
-                        hash.Add("[[" + link.SiteId + "]]", LinkValue(link.SiteId, dataRows));
+                        WikisLinkHash(searchIndexes, selectedValues, link, hash, allowSites);
+                    }
+                    else
+                    {
+                        LinkHash(searchIndexes, selectedValues, link, hash, allowSites);
                     }
                 });
             return hash;
+        }
+
+        private static void WikisLinkHash(
+            IEnumerable<string> searchIndexes,
+            IEnumerable<long> selectedValues,
+            Link link,
+            Dictionary<string, IEnumerable<string>> hash,
+            IEnumerable<long> allowSites)
+        {
+            hash.Add("[[" + link.SiteId + "]]", Rds.ExecuteScalar_string(statements:
+                Rds.SelectWikis(
+                    column: Rds.WikisColumn().Body(),
+                    where: Rds.WikisWhere().SiteId(link.SiteId)))
+                        .SplitReturn()
+                        .Where(o => o.Trim() != string.Empty)
+                        .GroupBy(o => o.Split_1st())
+                        .Select(o => o.First())
+                        .Where(o =>
+                            searchIndexes?.Any() != true || searchIndexes.All(p => o.Contains(p)))
+                        .Take(Parameters.General.DropDownSearchLimit));
+        }
+
+        private static void LinkHash(
+            IEnumerable<string> searchIndexes,
+            IEnumerable<long> selectedValues,
+            Link link,
+            Dictionary<string, IEnumerable<string>> hash,
+            IEnumerable<long> allowSites)
+        {
+            var results = searchIndexes?.Any() == true
+                ? SearchIndexUtilities.Get(
+                    searchIndexes: searchIndexes,
+                    column: Rds.SearchIndexesColumn().ReferenceId(),
+                    siteId: link.SiteId,
+                    pageSize: Parameters.General.DropDownSearchLimit)
+                        .Tables[0]
+                        .AsEnumerable()
+                        .Select(o => o["ReferenceId"].ToLong())
+                : null;
+            var dataRows = Rds.ExecuteTable(statements:
+                Rds.SelectItems(
+                    top: Parameters.General.DropDownSearchLimit,
+                    column: Rds.ItemsColumn()
+                        .ReferenceId()
+                        .ReferenceType()
+                        .SiteId()
+                        .Title(),
+                    where: Rds.ItemsWhere()
+                        .ReferenceId_In(results, _using:
+                            results?.Any() == true ||
+                            searchIndexes?.Any() == true)
+                        .ReferenceId_In(
+                            selectedValues,
+                            _using: selectedValues?.Any() == true)
+                        .ReferenceType("Sites", _operator: "<>")
+                        .SiteId(link.SiteId)))
+                            .AsEnumerable();
+            if (dataRows != null && allowSites?.Contains(link.SiteId) == true)
+            {
+                hash.Add("[[" + link.SiteId + "]]", LinkValue(link.SiteId, dataRows));
+            }
         }
 
         private static IEnumerable<string> LinkValue(
