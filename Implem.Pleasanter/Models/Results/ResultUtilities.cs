@@ -217,7 +217,7 @@ namespace Implem.Pleasanter.Models
                     ss.SetChoiceHash(
                         columnName: link.ColumnName,
                         selectedValues: resultCollection
-                            .Select(o => o.PropertyValue(link.ColumnName).ToLong())
+                            .Select(o => o.PropertyValue(link.ColumnName))
                             .Distinct()));
             return hb
                 .THead(

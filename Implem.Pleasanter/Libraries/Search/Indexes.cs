@@ -69,9 +69,9 @@ namespace Implem.Pleasanter.Libraries.Search
                             .ForEach(link =>
                                 ss.SetChoiceHash(
                                     columnName: link.ColumnName,
-                                    selectedValues: new List<long>
+                                    selectedValues: new List<string>
                                     {
-                                        issueModel.PropertyValue(link.ColumnName).ToLong()
+                                        issueModel.PropertyValue(link.ColumnName)
                                     }));
                         CreateIndexes(
                             ss,
@@ -85,9 +85,9 @@ namespace Implem.Pleasanter.Libraries.Search
                             .ForEach(link =>
                                 ss.SetChoiceHash(
                                     columnName: link.ColumnName,
-                                    selectedValues: new List<long>
+                                    selectedValues: new List<string>
                                     {
-                                        resultModel.PropertyValue(link.ColumnName).ToLong()
+                                        resultModel.PropertyValue(link.ColumnName)
                                     }));
                         CreateIndexes(
                             ss,

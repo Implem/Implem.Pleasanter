@@ -188,7 +188,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss.SetChoiceHash(
                                     columnName: column?.ColumnName,
                                     selectedValues: view.ColumnFilter(column.ColumnName)
-                                        .Select(o => o.ToLong()));
+                                        .Select(o => o.ToString()));
                             }
                             hb.DropDown(
                                 ss: ss,

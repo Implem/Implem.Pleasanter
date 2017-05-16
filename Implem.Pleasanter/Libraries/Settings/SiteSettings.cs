@@ -1588,7 +1588,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetChoiceHash(
             string columnName,
             IEnumerable<string> searchIndexes = null,
-            IEnumerable<long> selectedValues = null)
+            IEnumerable<string> selectedValues = null)
         {
             SetChoiceHash(
                 columnName: columnName,
@@ -1653,7 +1653,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private Dictionary<string, IEnumerable<string>> LinkHash(
-            string columnName, IEnumerable<string> searchIndexes, IEnumerable<long> selectedValues)
+            string columnName,
+            IEnumerable<string> searchIndexes,
+            IEnumerable<string> selectedValues)
         {
             var hash = new Dictionary<string, IEnumerable<string>>();
             var allowSites = Permissions.AllowSites(Links?.Select(o => o.SiteId));
@@ -1672,7 +1674,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                     else
                     {
-                        LinkHash(searchIndexes, selectedValues, link, hash, allowSites);
+                        LinkHash(
+                            searchIndexes,
+                            selectedValues?.Select(o => o.ToLong()),
+                            link,
+                            hash,
+                            allowSites);
                     }
                 });
             return hash;
@@ -1680,7 +1687,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private static void WikisLinkHash(
             IEnumerable<string> searchIndexes,
-            IEnumerable<long> selectedValues,
+            IEnumerable<string> selectedValues,
             Link link,
             Dictionary<string, IEnumerable<string>> hash,
             IEnumerable<long> allowSites)
@@ -1694,7 +1701,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .GroupBy(o => o.Split_1st())
                         .Select(o => o.First())
                         .Where(o =>
-                            searchIndexes?.Any() != true || searchIndexes.All(p => o.Contains(p)))
+                            selectedValues?.Any() != true ||
+                            selectedValues.Any(p => p == o.Split_1st()))
+                        .Where(o =>
+                            searchIndexes?.Any() != true ||
+                            searchIndexes.All(p => o.Contains(p)))
                         .Take(Parameters.General.DropDownSearchLimit));
         }
 
