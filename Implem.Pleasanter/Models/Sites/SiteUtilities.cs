@@ -551,12 +551,7 @@ namespace Implem.Pleasanter.Models
                 return SiteMenuError(id, siteModel, Error.Types.AlreadyLinked);
             }
             var columns = sourceSiteModel.SiteSettings.Columns
-                .Where(o => o.ColumnName.StartsWith("Class"))
-                .Where(o => !sourceSiteModel.SiteSettings.EditorColumns.Contains(o.ColumnName));
-            if (!columns.Any())
-            {
-                return SiteMenuError(id, siteModel, Error.Types.CanNotLink);
-            }
+                .Where(o => o.ColumnName.StartsWith("Class"));
             var hb = new HtmlBuilder();
             return new ResponseCollection()
                 .Html("#LinkDialog", hb.Div(action: () => hb
@@ -574,7 +569,11 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.LinkColumn(),
                                 controlCss: " always-send",
                                 optionCollection: columns.ToDictionary(o =>
-                                    o.ColumnName, o => new ControlData(o.LabelText)))
+                                    o.ColumnName, o => new ControlData(o.LabelText)),
+                                selectedValue: columns.Where(o => !sourceSiteModel
+                                    .SiteSettings.EditorColumns.Contains(o.ColumnName))
+                                    .FirstOrDefault()?
+                                    .ColumnName)
                             .FieldTextBox(
                                 controlId: "LinkColumnLabelText",
                                 labelText: Displays.DisplayName(),
@@ -657,8 +656,7 @@ namespace Implem.Pleasanter.Models
                 return SiteMenuError(id, siteModel, Error.Types.AlreadyLinked);
             }
             var columns = sourceSiteModel.SiteSettings.Columns
-                .Where(o => o.ColumnName.StartsWith("Class"))
-                .Where(o => !sourceSiteModel.SiteSettings.EditorColumns.Contains(o.ColumnName));
+                .Where(o => o.ColumnName.StartsWith("Class"));
             if (!columns.Any())
             {
                 return SiteMenuError(id, siteModel, Error.Types.CanNotLink);
@@ -673,7 +671,10 @@ namespace Implem.Pleasanter.Models
             column.GridLabelText = labelText;
             column.ChoicesText = "[[" + destinationSiteModel.SiteId + "]]";
             sourceSiteModel.SiteSettings.SetLinks(column);
-            sourceSiteModel.SiteSettings.EditorColumns.Add(column.ColumnName);
+            if (!sourceSiteModel.SiteSettings.EditorColumns.Contains(column.ColumnName))
+            {
+                sourceSiteModel.SiteSettings.EditorColumns.Add(column.ColumnName);
+            }
             sourceSiteModel.Update(sourceSiteModel.SiteSettings);
             return new ResponseCollection()
                 .CloseDialog()
