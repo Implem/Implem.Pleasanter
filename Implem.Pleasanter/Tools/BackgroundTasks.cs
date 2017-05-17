@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
 using System;
 using System.Threading;
+using System.Web;
 namespace Implem.Pleasanter.Tools
 {
     public static class BackgroundTasks
@@ -21,6 +22,7 @@ namespace Implem.Pleasanter.Tools
                 Thread.Sleep(Parameters.BackgroundTask.Interval);
                 LatestTime = DateTime.Now;
             }
+            HttpContext.Current.Session.Abandon();
             return new ResponseCollection().ToJson();
         }
     }
