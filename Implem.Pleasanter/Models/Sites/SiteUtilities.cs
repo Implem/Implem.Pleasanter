@@ -539,7 +539,9 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static string LinkDialog(
-            long id, SiteModel siteModel, SiteModel sourceSiteModel, SiteModel destinationSiteModel)
+            long id, SiteModel siteModel,
+            SiteModel sourceSiteModel,
+            SiteModel destinationSiteModel)
         {
             if (sourceSiteModel.SiteSettings.Links?.Any(o =>
                     o.SiteId == destinationSiteModel.SiteId) == true ||
