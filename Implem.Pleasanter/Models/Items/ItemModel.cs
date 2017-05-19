@@ -110,6 +110,34 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string Calendar()
+        {
+            SetSite();
+            ViewModes.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.Calendar(
+                    ss: Site.IssuesSiteSettings(ReferenceId, setAllChoices: true));
+                case "Results": return ResultUtilities.Calendar(
+                    ss: Site.ResultsSiteSettings(ReferenceId, setAllChoices: true));
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
+            }
+        }
+
+        public string CalendarJson()
+        {
+            SetSite();
+            ViewModes.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.CalendarJson(
+                    ss: Site.IssuesSiteSettings(ReferenceId, setAllChoices: true));
+                case "Results": return ResultUtilities.CalendarJson(
+                    ss: Site.ResultsSiteSettings(ReferenceId, setAllChoices: true));
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
+            }
+        }
+
         public string Gantt()
         {
             SetSite();
@@ -639,6 +667,19 @@ namespace Implem.Pleasanter.Models
                     Site.SiteSettings, ReferenceId);
                 case "Wikis": return WikiUtilities.EditorJson(
                     Site.SiteSettings, ReferenceId);
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
+        public string UpdateByCalendar()
+        {
+            SetSite();
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.UpdateByCalendar(
+                    Site.IssuesSiteSettings(ReferenceId, setAllChoices: true));
+                case "Results": return ResultUtilities.UpdateByCalendar(
+                    Site.ResultsSiteSettings(ReferenceId, setAllChoices: true));
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

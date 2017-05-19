@@ -57,16 +57,16 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public SiteCollection(DataTable dataTable)
+        public SiteCollection(EnumerableRowCollection<DataRow> dataRows)
         {
-            Set(dataTable);
+            Set(dataRows);
         }
 
-        private SiteCollection Set(DataTable dataTable)
+        private SiteCollection Set(EnumerableRowCollection<DataRow> dataRows)
         {
-            if (dataTable.Rows.Count > 0)
+            if (dataRows.Any())
             {
-                foreach (DataRow dataRow in dataTable.Rows)
+                foreach (DataRow dataRow in dataRows)
                 {
                     Add(new SiteModel(dataRow));
                 }
@@ -85,7 +85,7 @@ namespace Implem.Pleasanter.Models
             Set(Get(commandText, param));
         }
 
-        private DataTable Get(
+        private EnumerableRowCollection<DataRow> Get(
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -123,16 +123,17 @@ namespace Implem.Pleasanter.Models
             var dataSet = Rds.ExecuteDataSet(
                 transactional: false,
                 statements: statements.ToArray());
-            return dataSet.Tables["Main"];
+            return dataSet.Tables["Main"].AsEnumerable();
         }
 
-        private DataTable Get(string commandText, SqlParamCollection param = null)
+        private EnumerableRowCollection<DataRow> Get(string commandText, SqlParamCollection param = null)
         {
             return Rds.ExecuteTable(
                 transactional: false,
                 statements: Rds.SitesStatement(
                     commandText: commandText,
-                    param: param ?? null));
+                    param: param ?? null))
+                        .AsEnumerable();
         }
     }
 }

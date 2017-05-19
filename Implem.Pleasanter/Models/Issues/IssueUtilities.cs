@@ -4397,6 +4397,262 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Calendar(SiteSettings ss)
+        {
+            if (ss.EnableCalendar != true)
+            {
+                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+            }
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(ss);
+            var issueCollection = IssueCollection(ss, view);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var columnName = !view.CalendarColumn.IsNullOrEmpty()
+                ? view.CalendarColumn
+                : Def.ViewModeTable.Issues_Calendar.Option1;
+            var month = view.CalendarMonth != null
+                ? view.CalendarMonth.ToDateTime()
+                : DateTime.Now;
+            var begin = Calendars.BeginDate(month);
+            var end = Calendars.EndDate(month);
+            var dataRows = CalendarDataRows(
+                ss,
+                view,
+                columnName,
+                Calendars.BeginDate(month),
+                Calendars.EndDate(month));
+            var inRange = dataRows.Count() <= Parameters.General.CalendarLimit;
+            if (!inRange)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.CalendarLimit.ToString()).Html);
+            }
+            return hb.ViewModeTemplate(
+                ss: ss,
+                issueCollection: issueCollection,
+                view: view,
+                viewMode: viewMode,
+                viewModeBody: () =>
+                {
+                    if (inRange)
+                    {
+                        hb.Calendar(
+                            ss: ss,
+                            columnName: columnName,
+                            month: month,
+                            begin: begin,
+                            dataRows: dataRows,
+                            bodyOnly: false);
+                    }
+                });
+        }
+
+        public static string UpdateByCalendar(SiteSettings ss)
+        {
+            var issueModel = new IssueModel(ss, Forms.Long("CalendarId"), setByForm: true);
+            var invalid = IssueValidators.OnUpdating(ss, issueModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Messages.ResponseDeleteConflicts().ToJson();
+            }
+            issueModel.VerUp = Versions.MustVerUp(issueModel);
+            issueModel.Update(ss, notice: true);
+            return CalendarJson(ss);
+        }
+
+        public static string CalendarJson(SiteSettings ss)
+        {
+            if (ss.EnableCalendar != true)
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            var view = Views.GetBySession(ss);
+            var issueCollection = IssueCollection(ss, view);
+            var bodyOnly = Forms.ControlId().StartsWith("Calendar");
+            var columnName = !view.CalendarColumn.IsNullOrEmpty()
+                ? view.CalendarColumn
+                : Def.ViewModeTable.Issues_Calendar.Option1;
+            var month = view.CalendarMonth != null
+                ? view.CalendarMonth.ToDateTime()
+                : DateTime.Now;
+            var begin = Calendars.BeginDate(month);
+            var end = Calendars.EndDate(month);
+            var dataRows = CalendarDataRows(
+                ss,
+                view,
+                columnName,
+                Calendars.BeginDate(month),
+                Calendars.EndDate(month));
+            return dataRows.Count() <= Parameters.General.CalendarLimit
+                ? new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#CalendarBody",
+                        new HtmlBuilder().Calendar(
+                            ss: ss,
+                            columnName: columnName,
+                            month: month,
+                            begin: begin,
+                            dataRows: dataRows,
+                            bodyOnly: bodyOnly))
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: issueCollection.Aggregations))
+                    .ClearFormData()
+                    .Invoke("setCalendar")
+                    .ToJson()
+                : new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#CalendarBody",
+                        new HtmlBuilder())
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: issueCollection.Aggregations))
+                    .ClearFormData()
+                    .Message(Messages.TooManyCases(Parameters.General.CalendarLimit.ToString()))
+                    .ToJson();
+        }
+
+        private static EnumerableRowCollection<DataRow> CalendarDataRows(
+            SiteSettings ss, View view, string columnName, DateTime begin, DateTime end)
+        {
+            var where = Rds.IssuesWhere().SiteId(ss.SiteId);
+            switch (columnName)
+            {
+                case "UpdatedTime": 
+                    where.UpdatedTime_Between(begin, end);
+                    break;
+                case "StartTime": 
+                    where.StartTime_Between(begin, end);
+                    break;
+                case "CompletionTime": 
+                    where.CompletionTime_Between(begin, end);
+                    break;
+                case "DateA": 
+                    where.DateA_Between(begin, end);
+                    break;
+                case "DateB": 
+                    where.DateB_Between(begin, end);
+                    break;
+                case "DateC": 
+                    where.DateC_Between(begin, end);
+                    break;
+                case "DateD": 
+                    where.DateD_Between(begin, end);
+                    break;
+                case "DateE": 
+                    where.DateE_Between(begin, end);
+                    break;
+                case "DateF": 
+                    where.DateF_Between(begin, end);
+                    break;
+                case "DateG": 
+                    where.DateG_Between(begin, end);
+                    break;
+                case "DateH": 
+                    where.DateH_Between(begin, end);
+                    break;
+                case "DateI": 
+                    where.DateI_Between(begin, end);
+                    break;
+                case "DateJ": 
+                    where.DateJ_Between(begin, end);
+                    break;
+                case "DateK": 
+                    where.DateK_Between(begin, end);
+                    break;
+                case "DateL": 
+                    where.DateL_Between(begin, end);
+                    break;
+                case "DateM": 
+                    where.DateM_Between(begin, end);
+                    break;
+                case "DateN": 
+                    where.DateN_Between(begin, end);
+                    break;
+                case "DateO": 
+                    where.DateO_Between(begin, end);
+                    break;
+                case "DateP": 
+                    where.DateP_Between(begin, end);
+                    break;
+                case "DateQ": 
+                    where.DateQ_Between(begin, end);
+                    break;
+                case "DateR": 
+                    where.DateR_Between(begin, end);
+                    break;
+                case "DateS": 
+                    where.DateS_Between(begin, end);
+                    break;
+                case "DateT": 
+                    where.DateT_Between(begin, end);
+                    break;
+                case "DateU": 
+                    where.DateU_Between(begin, end);
+                    break;
+                case "DateV": 
+                    where.DateV_Between(begin, end);
+                    break;
+                case "DateW": 
+                    where.DateW_Between(begin, end);
+                    break;
+                case "DateX": 
+                    where.DateX_Between(begin, end);
+                    break;
+                case "DateY": 
+                    where.DateY_Between(begin, end);
+                    break;
+                case "DateZ": 
+                    where.DateZ_Between(begin, end);
+                    break;
+                case "CreatedTime": 
+                    where.CreatedTime_Between(begin, end);
+                    break;
+            }
+            return Rds.ExecuteTable(statements:
+                Rds.SelectIssues(
+                    column: Rds.IssuesTitleColumn(ss)
+                        .IssueId(_as: "Id")
+                        .Title()
+                        .IssuesColumn(columnName, _as: "Date"),
+                    where: view.Where(ss, where)))
+                        .AsEnumerable();
+        }
+
+        private static HtmlBuilder Calendar(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            string columnName,
+            DateTime month,
+            DateTime begin,
+            EnumerableRowCollection<DataRow> dataRows,
+            bool bodyOnly)
+        {
+            return !bodyOnly
+                ? hb.Calendar(
+                    ss: ss,
+                    columnName: columnName,
+                    month: month,
+                    begin: begin,
+                    dataRows: dataRows)
+                : hb.CalendarBody(
+                    ss: ss,
+                    column: ss.GetColumn(columnName),
+                    month: month,
+                    begin: begin,
+                    dataRows: dataRows);
+        }
+
         public static string UpdateByKamban(SiteSettings ss)
         {
             var issueModel = new IssueModel(ss, Forms.Long("KambanId"), setByForm: true);

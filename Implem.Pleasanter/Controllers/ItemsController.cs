@@ -30,6 +30,26 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public ActionResult Calendar(long id = 0)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                var log = new SysLogModel();
+                var html = new ItemModel(id).Calendar();
+                ViewBag.HtmlBody = html;
+                log.Finish(html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var json = new ItemModel(id).CalendarJson();
+                log.Finish(json.Length);
+                return Content(json);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Gantt(long id = 0)
         {
             if (!Request.IsAjaxRequest())
@@ -497,6 +517,14 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = new ItemModel(id).BurnDownRecordDetailsJson();
+            log.Finish(json.Length);
+            return json;
+        }
+
+        public string UpdateByCalendar(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).UpdateByCalendar();
             log.Finish(json.Length);
             return json;
         }

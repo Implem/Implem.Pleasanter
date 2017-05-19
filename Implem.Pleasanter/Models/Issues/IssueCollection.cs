@@ -59,16 +59,16 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public IssueCollection(SiteSettings ss, DataTable dataTable)
+        public IssueCollection(SiteSettings ss, EnumerableRowCollection<DataRow> dataRows)
         {
-            Set(ss, dataTable);
+            Set(ss, dataRows);
         }
 
-        private IssueCollection Set(SiteSettings ss, DataTable dataTable)
+        private IssueCollection Set(SiteSettings ss, EnumerableRowCollection<DataRow> dataRows)
         {
-            if (dataTable.Rows.Count > 0)
+            if (dataRows.Any())
             {
-                foreach (DataRow dataRow in dataTable.Rows)
+                foreach (DataRow dataRow in dataRows)
                 {
                     Add(new IssueModel(ss, dataRow));
                 }
@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Models
             Set(ss, Get(commandText, param));
         }
 
-        private DataTable Get(
+        private EnumerableRowCollection<DataRow> Get(
             SiteSettings ss,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -127,16 +127,17 @@ namespace Implem.Pleasanter.Models
                 transactional: false,
                 statements: statements.ToArray());
             Aggregations.Set(dataSet, aggregationCollection, ss);
-            return dataSet.Tables["Main"];
+            return dataSet.Tables["Main"].AsEnumerable();
         }
 
-        private DataTable Get(string commandText, SqlParamCollection param = null)
+        private EnumerableRowCollection<DataRow> Get(string commandText, SqlParamCollection param = null)
         {
             return Rds.ExecuteTable(
                 transactional: false,
                 statements: Rds.IssuesStatement(
                     commandText: commandText,
-                    param: param ?? null));
+                    param: param ?? null))
+                        .AsEnumerable();
         }
     }
 }

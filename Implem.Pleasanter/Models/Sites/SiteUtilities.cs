@@ -841,6 +841,14 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#CalendarSettingsEditor",
+                                            text: Displays.Calendar()),
+                                    _using: Def.ViewModeDefinitionCollection
+                                        .Where(o => o.Name == "Calendar")
+                                        .Any(o => o.ReferenceType == siteModel.ReferenceType))
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#GanttSettingsEditor",
                                             text: Displays.Gantt()),
                                     _using: Def.ViewModeDefinitionCollection
@@ -1567,6 +1575,7 @@ namespace Implem.Pleasanter.Models
                             .FormulasSettingsEditor(siteModel.SiteSettings)
                             .ViewsSettingsEditor(siteModel.SiteSettings)
                             .NotificationsSettingsEditor(siteModel.SiteSettings)
+                            .CalendarSettingsEditor(siteModel.SiteSettings)
                             .GanttSettingsEditor(siteModel.SiteSettings)
                             .BurnDownSettingsEditor(siteModel.SiteSettings)
                             .TimeSeriesSettingsEditor(siteModel.SiteSettings)
@@ -3331,6 +3340,8 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder ViewDialog(SiteSettings ss, string controlId, View view)
         {
             var hb = new HtmlBuilder();
+            var hasCalendar = Def.ViewModeDefinitionCollection
+                .Any(o => o.Name == "Calendar" && o.ReferenceType == ss.ReferenceType);
             var hasGantt = Def.ViewModeDefinitionCollection
                 .Any(o => o.Name == "Gantt" && o.ReferenceType == ss.ReferenceType);
             var hasTimeSeries = Def.ViewModeDefinitionCollection
@@ -3365,6 +3376,12 @@ namespace Implem.Pleasanter.Models
                             .Li(
                                 action: () => hb
                                     .A(
+                                        href: "#ViewCalendarTab",
+                                        text: Displays.Calendar()),
+                                _using: hasCalendar)
+                            .Li(
+                                action: () => hb
+                                    .A(
                                         href: "#ViewGanttTab",
                                         text: Displays.Gantt()),
                                 _using: hasGantt)
@@ -3382,6 +3399,7 @@ namespace Implem.Pleasanter.Models
                                 _using: hasKamban))
                         .ViewFiltersTab(ss: ss, view: view)
                         .ViewSortersTab(ss: ss, view: view)
+                        .ViewCalendarTab(ss: ss, view: view, _using: hasCalendar)
                         .ViewGanttTab(ss: ss, view: view, _using: hasGantt)
                         .ViewTimeSeriesTab(ss: ss, view: view, _using: hasTimeSeries)
                         .ViewKambanTab(ss: ss, view: view, _using: hasKamban))
@@ -3598,6 +3616,24 @@ namespace Implem.Pleasanter.Models
                     controlCss: "button-icon",
                     text: Displays.Add(),
                     icon: "ui-icon-plus"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ViewCalendarTab(
+            this HtmlBuilder hb, SiteSettings ss, View view, bool _using)
+        {
+            return _using
+                ? hb.FieldSet(id: "ViewCalendarTab", action: () => hb
+                    .FieldDropDown(
+                        controlId: "CalendarColumn",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Column(),
+                        optionCollection: ss.CalendarColumnOptions(),
+                        selectedValue: view.CalendarColumn,
+                        insertBlank: true))
+                : hb;
         }
 
         /// <summary>
@@ -4030,6 +4066,23 @@ namespace Implem.Pleasanter.Models
         private static IEnumerable<int> TokenList()
         {
             return new List<int> { Notification.Types.ChatWork.ToInt() };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder CalendarSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return Def.ViewModeDefinitionCollection
+                .Where(o => o.Name == "Calendar")
+                .Any(o => o.ReferenceType == ss.ReferenceType)
+                    ? hb.FieldSet(id: "CalendarSettingsEditor", action: () => hb
+                        .FieldCheckBox(
+                            controlId: "EnableCalendar",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Enabled(),
+                            _checked: ss.EnableCalendar == true))
+                    : hb;
         }
 
         /// <summary>

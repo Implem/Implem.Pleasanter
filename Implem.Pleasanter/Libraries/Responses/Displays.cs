@@ -72,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string BulkMove(params string[] data) { return Get("BulkMove", data); }
         public static string BulkMoved(params string[] data) { return Get("BulkMoved", data); }
         public static string BurnDown(params string[] data) { return Get("BurnDown", data); }
+        public static string Calendar(params string[] data) { return Get("Calendar", data); }
         public static string Cancel(params string[] data) { return Get("Cancel", data); }
         public static string CanNotChangeInheritance(params string[] data) { return Get("CanNotChangeInheritance", data); }
         public static string CanNotDisabled(params string[] data) { return Get("CanNotDisabled", data); }
@@ -174,6 +175,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Filters(params string[] data) { return Get("Filters", data); }
         public static string Format(params string[] data) { return Get("Format", data); }
         public static string Formulas(params string[] data) { return Get("Formulas", data); }
+        public static string Friday(params string[] data) { return Get("Friday", data); }
         public static string Fy(params string[] data) { return Get("Fy", data); }
         public static string Gantt(params string[] data) { return Get("Gantt", data); }
         public static string GeneralUser(params string[] data) { return Get("GeneralUser", data); }
@@ -274,6 +276,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Min(params string[] data) { return Get("Min", data); }
         public static string MinuteAgo(params string[] data) { return Get("MinuteAgo", data); }
         public static string MinutesAgo(params string[] data) { return Get("MinutesAgo", data); }
+        public static string Monday(params string[] data) { return Get("Monday", data); }
         public static string MonitorChangesColumns(params string[] data) { return Get("MonitorChangesColumns", data); }
         public static string MonthAgo(params string[] data) { return Get("MonthAgo", data); }
         public static string MonthsAgo(params string[] data) { return Get("MonthsAgo", data); }
@@ -354,6 +357,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ResetOrder(params string[] data) { return Get("ResetOrder", data); }
         public static string ResetPassword(params string[] data) { return Get("ResetPassword", data); }
         public static string Restricted(params string[] data) { return Get("Restricted", data); }
+        public static string Saturday(params string[] data) { return Get("Saturday", data); }
         public static string Save(params string[] data) { return Get("Save", data); }
         public static string Scripts(params string[] data) { return Get("Scripts", data); }
         public static string Search(params string[] data) { return Get("Search", data); }
@@ -393,14 +397,18 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SummaryLinkColumn(params string[] data) { return Get("SummaryLinkColumn", data); }
         public static string SummarySourceColumn(params string[] data) { return Get("SummarySourceColumn", data); }
         public static string SummaryType(params string[] data) { return Get("SummaryType", data); }
+        public static string Sunday(params string[] data) { return Get("Sunday", data); }
         public static string Support(params string[] data) { return Get("Support", data); }
         public static string SynchronizationCompleted(params string[] data) { return Get("SynchronizationCompleted", data); }
         public static string Synchronize(params string[] data) { return Get("Synchronize", data); }
         public static string Target(params string[] data) { return Get("Target", data); }
         public static string Template(params string[] data) { return Get("Template", data); }
+        public static string ThisMonth(params string[] data) { return Get("ThisMonth", data); }
+        public static string Thursday(params string[] data) { return Get("Thursday", data); }
         public static string TimeSeries(params string[] data) { return Get("TimeSeries", data); }
         public static string Title(params string[] data) { return Get("Title", data); }
         public static string TitleSeparator(params string[] data) { return Get("TitleSeparator", data); }
+        public static string Today(params string[] data) { return Get("Today", data); }
         public static string ToDisable(params string[] data) { return Get("ToDisable", data); }
         public static string ToEnable(params string[] data) { return Get("ToEnable", data); }
         public static string Token(params string[] data) { return Get("Token", data); }
@@ -408,6 +416,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Top(params string[] data) { return Get("Top", data); }
         public static string ToParent(params string[] data) { return Get("ToParent", data); }
         public static string Total(params string[] data) { return Get("Total", data); }
+        public static string Tuesday(params string[] data) { return Get("Tuesday", data); }
         public static string UncheckAll(params string[] data) { return Get("UncheckAll", data); }
         public static string Unit(params string[] data) { return Get("Unit", data); }
         public static string UpdatableImport(params string[] data) { return Get("UpdatableImport", data); }
@@ -436,6 +445,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string VerUp(params string[] data) { return Get("VerUp", data); }
         public static string View(params string[] data) { return Get("View", data); }
         public static string ViewDemoEnvironment(params string[] data) { return Get("ViewDemoEnvironment", data); }
+        public static string Wednesday(params string[] data) { return Get("Wednesday", data); }
         public static string Wide(params string[] data) { return Get("Wide", data); }
         public static string WorkValue(params string[] data) { return Get("WorkValue", data); }
         public static string YearsAgo(params string[] data) { return Get("YearsAgo", data); }

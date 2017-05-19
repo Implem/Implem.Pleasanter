@@ -57,16 +57,16 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public OrderCollection(DataTable dataTable)
+        public OrderCollection(EnumerableRowCollection<DataRow> dataRows)
         {
-            Set(dataTable);
+            Set(dataRows);
         }
 
-        private OrderCollection Set(DataTable dataTable)
+        private OrderCollection Set(EnumerableRowCollection<DataRow> dataRows)
         {
-            if (dataTable.Rows.Count > 0)
+            if (dataRows.Any())
             {
-                foreach (DataRow dataRow in dataTable.Rows)
+                foreach (DataRow dataRow in dataRows)
                 {
                     Add(new OrderModel(dataRow));
                 }
@@ -85,7 +85,7 @@ namespace Implem.Pleasanter.Models
             Set(Get(commandText, param));
         }
 
-        private DataTable Get(
+        private EnumerableRowCollection<DataRow> Get(
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -124,16 +124,17 @@ namespace Implem.Pleasanter.Models
                 transactional: false,
                 statements: statements.ToArray());
             Aggregations.Set(dataSet, aggregationCollection);
-            return dataSet.Tables["Main"];
+            return dataSet.Tables["Main"].AsEnumerable();
         }
 
-        private DataTable Get(string commandText, SqlParamCollection param = null)
+        private EnumerableRowCollection<DataRow> Get(string commandText, SqlParamCollection param = null)
         {
             return Rds.ExecuteTable(
                 transactional: false,
                 statements: Rds.OrdersStatement(
                     commandText: commandText,
-                    param: param ?? null));
+                    param: param ?? null))
+                        .AsEnumerable();
         }
     }
 }

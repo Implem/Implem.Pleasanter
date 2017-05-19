@@ -42,6 +42,9 @@ namespace Implem.ParameterAccessor.Parts
         public int ProgressRateHeight;
         public int ProgressRateItemHeight;
         public int ProgressRateTextTop;
+        public int CalendarBegin;
+        public int CalendarEnd;
+        public int CalendarLimit;
         public int GanttLimit;
         public int GanttItemMaxHeight;
         public int GanttItemMinHeight;

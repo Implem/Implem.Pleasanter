@@ -28,6 +28,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, string> ColumnFilterHash;
         public string Search;
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
+        public string CalendarColumn;
+        public DateTime? CalendarMonth;
         public string GanttGroupBy;
         public string TimeSeriesGroupBy;
         public string TimeSeriesAggregateType;
@@ -107,6 +109,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     case "ViewSorters":
                         SetSorters(ss);
                         break;
+                    case "CalendarColumn":
+                        CalendarColumn = String(controlId);
+                        break;
+                    case "CalendarMonth":
+                        CalendarMonth = Time(controlId);
+                        break;
                     case "GanttGroupBy":
                         GanttGroupBy = String(controlId);
                         break;
@@ -161,6 +169,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (data)
             {
                 return true;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private DateTime? Time(string controlId)
+        {
+            var data = Forms.DateTime(controlId);
+            if (data.InRange())
+            {
+                return data;
             }
             else
             {
@@ -335,6 +356,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!Search.IsNullOrEmpty())
             {
                 view.Search = Search;
+            }
+            if (!CalendarColumn.IsNullOrEmpty())
+            {
+                view.CalendarColumn = CalendarColumn;
             }
             if (!GanttGroupBy.IsNullOrEmpty())
             {

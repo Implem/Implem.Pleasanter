@@ -245,6 +245,7 @@
     <Compile Include="Libraries\General\AssemblyVersion.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlAssemblyVersions.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlDropDownSearches.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlCalendar.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
     <Compile Include="Libraries\Initializers\TemplatesInitializer.cs" />
@@ -257,6 +258,7 @@
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_007.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_006.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_005.cs" />
+    <Compile Include="Libraries\Requests\Calendars.cs" />
     <Compile Include="Libraries\Responses\Displays.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
     <Compile Include="Libraries\Server\Contract.cs" />
@@ -271,6 +273,7 @@
     <Compile Include="Libraries\Settings\SettingList.cs" />
     <Compile Include="Libraries\ViewModes\BurnDown.cs" />
     <Compile Include="Libraries\ViewModes\BurnDownElement.cs" />
+    <Compile Include="Libraries\ViewModes\CalendarElement.cs" />
     <Compile Include="Libraries\ViewModes\Gantt.cs" />
     <Compile Include="Libraries\ViewModes\GanttElement.cs" />
     <Compile Include="Libraries\ViewModes\KambanElement.cs" />
@@ -489,11 +492,13 @@
     <Content Include="Scripts\BasketEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
+    <Content Include="Scripts\Calendar.js" />
     <Content Include="Scripts\Confirm.js" />
     <Content Include="Scripts\ConfirmEvents.js" />
     <Content Include="Scripts\DropDownSearch.js" />
     <Content Include="Scripts\DropDownSearchEvents.js" />
     <Content Include="Scripts\Group.js" />
+    <Content Include="Scripts\CalendarEvents.js" />
     <Content Include="Scripts\Loading.js" />
     <Content Include="Scripts\Permissions.js" />
     <Content Include="Scripts\Plugins\jquery-ui\i18n\datepicker-ja.js" />
@@ -1082,6 +1087,16 @@
     <Content Include="App_Data\Displays\CanNotPerformed.json" />
     <Content Include="App_Data\Displays\LinkCreated.json" />
     <Content Include="App_Data\Displays\ConfirmCreateLink.json" />
+    <Content Include="App_Data\Displays\Calendar.json" />
+    <Content Include="App_Data\Displays\Monday.json" />
+    <Content Include="App_Data\Displays\Tuesday.json" />
+    <Content Include="App_Data\Displays\Wednesday.json" />
+    <Content Include="App_Data\Displays\Thursday.json" />
+    <Content Include="App_Data\Displays\Friday.json" />
+    <Content Include="App_Data\Displays\Sunday.json" />
+    <Content Include="App_Data\Displays\Saturday.json" />
+    <Content Include="App_Data\Displays\Today.json" />
+    <Content Include="App_Data\Displays\ThisMonth.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
@@ -1091,6 +1106,7 @@
     <Content Include="Views\Groups\Index.cshtml" />
     <Content Include="Views\Groups\New.cshtml" />
     <Content Include="Views\Versions\Index.cshtml" />
+    <Content Include="Views\Items\Calendar.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

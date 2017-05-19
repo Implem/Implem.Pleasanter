@@ -468,6 +468,53 @@ pre{
     cursor:pointer;
 }
 
+#CalendarMonth{
+    margin-right:10px;
+}
+
+#CalendarBody{
+    table-layout:fixed;
+}
+
+#CalendarBody th{
+    padding:5px;
+    text-align:center;
+    border:solid 1px silver;
+}
+
+#CalendarBody .saturday{
+    background-color:lightblue;
+}
+
+#CalendarBody .sunday{
+    background-color:pink;
+}
+
+#CalendarBody td{
+    border:solid 1px silver;
+}
+
+#CalendarBody td > div{
+    min-height:50px;
+    padding:2px;
+}
+
+#CalendarBody .other-month{
+    background-color:whitesmoke;
+}
+
+#CalendarBody .today{
+    border:solid 2px blue;
+}
+
+#CalendarBody .item{
+    height:18px;
+    margin:0px 0px 2px 0px;
+    background-color:lightgoldenrodyellow;
+    border:solid 1px silver;
+    overflow:hidden;
+}
+
 #Gantt{
     width:100%;
     background-color:whitesmoke;

@@ -385,6 +385,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SwitchItems": Code.Model_SwitchItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems, definitionRow, CodeXls); break;
                     case "Model_IndexCases": Code.Model_IndexCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexCases, definitionRow, CodeXls); break;
                     case "Model_IndexJsonCases": Code.Model_IndexJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexJsonCases, definitionRow, CodeXls); break;
+                    case "Model_CalendarCases": Code.Model_CalendarCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CalendarCases, definitionRow, CodeXls); break;
+                    case "Model_CalendarJsonCases": Code.Model_CalendarJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CalendarJsonCases, definitionRow, CodeXls); break;
                     case "Model_GanttCases": Code.Model_GanttCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GanttCases, definitionRow, CodeXls); break;
                     case "Model_GanttJsonCases": Code.Model_GanttJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GanttJsonCases, definitionRow, CodeXls); break;
                     case "Model_BurnDownCases": Code.Model_BurnDownCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BurnDownCases, definitionRow, CodeXls); break;
@@ -414,6 +416,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_HistoryCases": Code.Model_HistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_HistoryCases, definitionRow, CodeXls); break;
                     case "Model_EditorJsonCases": Code.Model_EditorJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorJsonCases, definitionRow, CodeXls); break;
                     case "Model_GetCases": Code.Model_GetCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetCases, definitionRow, CodeXls); break;
+                    case "Model_UpdateByCalendarCases": Code.Model_UpdateByCalendarCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByCalendarCases, definitionRow, CodeXls); break;
                     case "Model_UpdateByKambanCases": Code.Model_UpdateByKambanCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByKambanCases, definitionRow, CodeXls); break;
                     case "Model_Mine": Code.Model_Mine = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Mine, definitionRow, CodeXls); break;
                     case "Model_MineColumnCases": Code.Model_MineColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_MineColumnCases, definitionRow, CodeXls); break;
@@ -522,6 +525,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_TitleDisplayValue": Code.Model_Utilities_TitleDisplayValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TitleDisplayValue, definitionRow, CodeXls); break;
                     case "Model_Utilities_TitleDisplayValueCases_Item": Code.Model_Utilities_TitleDisplayValueCases_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TitleDisplayValueCases_Item, definitionRow, CodeXls); break;
                     case "Model_Utilities_TitleDisplayValueCases_DataRow": Code.Model_Utilities_TitleDisplayValueCases_DataRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TitleDisplayValueCases_DataRow, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Calendar": Code.Model_Utilities_Calendar = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Calendar, definitionRow, CodeXls); break;
+                    case "Model_Utilities_CalendarColumnCases": Code.Model_Utilities_CalendarColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CalendarColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateByKamban": Code.Model_Utilities_UpdateByKamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByKamban, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetNoticeParam": Code.Model_Utilities_SetNoticeParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetNoticeParam, definitionRow, CodeXls); break;
                     case "Model_Utilities_SearchIndexes": Code.Model_Utilities_SearchIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes, definitionRow, CodeXls); break;
@@ -1842,6 +1847,16 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Aggregations_space__dot_data_dot_overdue": Css._sharp_Aggregations_space__dot_data_dot_overdue = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space__dot_data_dot_overdue, definitionRow, CssXls); break;
                     case "_sharp_Aggregations_space_em": Css._sharp_Aggregations_space_em = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space_em, definitionRow, CssXls); break;
                     case "_sharp_Aggregations_space___space__dot_display_control": Css._sharp_Aggregations_space___space__dot_display_control = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space___space__dot_display_control, definitionRow, CssXls); break;
+                    case "_sharp_CalendarMonth": Css._sharp_CalendarMonth = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarMonth, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody": Css._sharp_CalendarBody = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space_th": Css._sharp_CalendarBody_space_th = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_th, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_saturday": Css._sharp_CalendarBody_space__dot_saturday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_saturday, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_sunday": Css._sharp_CalendarBody_space__dot_sunday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_sunday, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space_td": Css._sharp_CalendarBody_space_td = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_td, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space_td_space___space_div": Css._sharp_CalendarBody_space_td_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_td_space___space_div, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_other_month": Css._sharp_CalendarBody_space__dot_other_month = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_other_month, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_today": Css._sharp_CalendarBody_space__dot_today = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_today, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_item": Css._sharp_CalendarBody_space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item, definitionRow, CssXls); break;
                     case "_sharp_Gantt": Css._sharp_Gantt = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt, definitionRow, CssXls); break;
                     case "_sharp_Gantt_space__dot_date": Css._sharp_Gantt_space__dot_date = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt_space__dot_date, definitionRow, CssXls); break;
                     case "_sharp_Gantt_space__dot_now": Css._sharp_Gantt_space__dot_now = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt_space__dot_now, definitionRow, CssXls); break;
@@ -2399,6 +2414,8 @@ namespace Implem.DefinitionAccessor
                     case "Site53": Demo.Site53 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site53, definitionRow, DemoXls); break;
                     case "Site54": Demo.Site54 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site54, definitionRow, DemoXls); break;
                     case "Site55": Demo.Site55 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site55, definitionRow, DemoXls); break;
+                    case "Site56": Demo.Site56 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site56, definitionRow, DemoXls); break;
+                    case "Site57": Demo.Site57 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site57, definitionRow, DemoXls); break;
                     case "DefineNetworks": Demo.DefineNetworks = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineNetworks, definitionRow, DemoXls); break;
                     case "DefineServers": Demo.DefineServers = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineServers, definitionRow, DemoXls); break;
                     case "DefineSecurity": Demo.DefineSecurity = definitionRow[1].ToString(); SetDemoTable(DemoTable.DefineSecurity, definitionRow, DemoXls); break;
@@ -3135,6 +3152,24 @@ namespace Implem.DefinitionAccessor
                     case "Template27": Template.Template27 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template27, definitionRow, TemplateXls); break;
                     case "Template28": Template.Template28 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template28, definitionRow, TemplateXls); break;
                     case "Template29": Template.Template29 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template29, definitionRow, TemplateXls); break;
+                    case "Template30": Template.Template30 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template30, definitionRow, TemplateXls); break;
+                    case "Template31": Template.Template31 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template31, definitionRow, TemplateXls); break;
+                    case "Template32": Template.Template32 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template32, definitionRow, TemplateXls); break;
+                    case "Template33": Template.Template33 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template33, definitionRow, TemplateXls); break;
+                    case "Template34": Template.Template34 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template34, definitionRow, TemplateXls); break;
+                    case "Template35": Template.Template35 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template35, definitionRow, TemplateXls); break;
+                    case "Template36": Template.Template36 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template36, definitionRow, TemplateXls); break;
+                    case "Template37": Template.Template37 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template37, definitionRow, TemplateXls); break;
+                    case "Template38": Template.Template38 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template38, definitionRow, TemplateXls); break;
+                    case "Template39": Template.Template39 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template39, definitionRow, TemplateXls); break;
+                    case "Template40": Template.Template40 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template40, definitionRow, TemplateXls); break;
+                    case "Template41": Template.Template41 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template41, definitionRow, TemplateXls); break;
+                    case "Template42": Template.Template42 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template42, definitionRow, TemplateXls); break;
+                    case "Template43": Template.Template43 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template43, definitionRow, TemplateXls); break;
+                    case "Template44": Template.Template44 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template44, definitionRow, TemplateXls); break;
+                    case "Template45": Template.Template45 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template45, definitionRow, TemplateXls); break;
+                    case "Template46": Template.Template46 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template46, definitionRow, TemplateXls); break;
+                    case "Template47": Template.Template47 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template47, definitionRow, TemplateXls); break;
                     default: break;
                 }
             });
@@ -3181,11 +3216,13 @@ namespace Implem.DefinitionAccessor
                 switch (definitionRow[0].ToString())
                 {
                     case "Issues_Index": ViewMode.Issues_Index = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Index, definitionRow, ViewModeXls); break;
+                    case "Issues_Calendar": ViewMode.Issues_Calendar = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Calendar, definitionRow, ViewModeXls); break;
                     case "Issues_Gantt": ViewMode.Issues_Gantt = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Gantt, definitionRow, ViewModeXls); break;
                     case "Issues_BurnDown": ViewMode.Issues_BurnDown = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_BurnDown, definitionRow, ViewModeXls); break;
                     case "Issues_TimeSeries": ViewMode.Issues_TimeSeries = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_TimeSeries, definitionRow, ViewModeXls); break;
                     case "Issues_Kamban": ViewMode.Issues_Kamban = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Kamban, definitionRow, ViewModeXls); break;
                     case "Results_Index": ViewMode.Results_Index = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Index, definitionRow, ViewModeXls); break;
+                    case "Results_Calendar": ViewMode.Results_Calendar = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Calendar, definitionRow, ViewModeXls); break;
                     case "Results_TimeSeries": ViewMode.Results_TimeSeries = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_TimeSeries, definitionRow, ViewModeXls); break;
                     case "Results_Kamban": ViewMode.Results_Kamban = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Kamban, definitionRow, ViewModeXls); break;
                     default: break;
@@ -3197,6 +3234,11 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Id")) { newViewModeDefinition.Id = definitionRow["Id"].ToString(); newViewModeDefinition.SavedId = newViewModeDefinition.Id; }
                 if (definitionRow.ContainsKey("ReferenceType")) { newViewModeDefinition.ReferenceType = definitionRow["ReferenceType"].ToString(); newViewModeDefinition.SavedReferenceType = newViewModeDefinition.ReferenceType; }
                 if (definitionRow.ContainsKey("Name")) { newViewModeDefinition.Name = definitionRow["Name"].ToString(); newViewModeDefinition.SavedName = newViewModeDefinition.Name; }
+                if (definitionRow.ContainsKey("Option1")) { newViewModeDefinition.Option1 = definitionRow["Option1"].ToString(); newViewModeDefinition.SavedOption1 = newViewModeDefinition.Option1; }
+                if (definitionRow.ContainsKey("Option2")) { newViewModeDefinition.Option2 = definitionRow["Option2"].ToString(); newViewModeDefinition.SavedOption2 = newViewModeDefinition.Option2; }
+                if (definitionRow.ContainsKey("Option3")) { newViewModeDefinition.Option3 = definitionRow["Option3"].ToString(); newViewModeDefinition.SavedOption3 = newViewModeDefinition.Option3; }
+                if (definitionRow.ContainsKey("Option4")) { newViewModeDefinition.Option4 = definitionRow["Option4"].ToString(); newViewModeDefinition.SavedOption4 = newViewModeDefinition.Option4; }
+                if (definitionRow.ContainsKey("Option5")) { newViewModeDefinition.Option5 = definitionRow["Option5"].ToString(); newViewModeDefinition.SavedOption5 = newViewModeDefinition.Option5; }
                 ViewModeDefinitionCollection.Add(newViewModeDefinition);
             });
         }
@@ -3206,6 +3248,11 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
             if (definitionRow.ContainsKey("ReferenceType")) { definition.ReferenceType = definitionRow["ReferenceType"].ToString(); definition.SavedReferenceType = definition.ReferenceType; }
             if (definitionRow.ContainsKey("Name")) { definition.Name = definitionRow["Name"].ToString(); definition.SavedName = definition.Name; }
+            if (definitionRow.ContainsKey("Option1")) { definition.Option1 = definitionRow["Option1"].ToString(); definition.SavedOption1 = definition.Option1; }
+            if (definitionRow.ContainsKey("Option2")) { definition.Option2 = definitionRow["Option2"].ToString(); definition.SavedOption2 = definition.Option2; }
+            if (definitionRow.ContainsKey("Option3")) { definition.Option3 = definitionRow["Option3"].ToString(); definition.SavedOption3 = definition.Option3; }
+            if (definitionRow.ContainsKey("Option4")) { definition.Option4 = definitionRow["Option4"].ToString(); definition.SavedOption4 = definition.Option4; }
+            if (definitionRow.ContainsKey("Option5")) { definition.Option5 = definitionRow["Option5"].ToString(); definition.SavedOption5 = definition.Option5; }
         }
 
         private static void ConstructViewModeDefinitions()
@@ -3699,6 +3746,11 @@ namespace Implem.DefinitionAccessor
                         case "Id": viewModeDefinition.Id = optionValue.ToString(); break;
                         case "ReferenceType": viewModeDefinition.ReferenceType = optionValue.ToString(); break;
                         case "Name": viewModeDefinition.Name = optionValue.ToString(); break;
+                        case "Option1": viewModeDefinition.Option1 = optionValue.ToString(); break;
+                        case "Option2": viewModeDefinition.Option2 = optionValue.ToString(); break;
+                        case "Option3": viewModeDefinition.Option3 = optionValue.ToString(); break;
+                        case "Option4": viewModeDefinition.Option4 = optionValue.ToString(); break;
+                        case "Option5": viewModeDefinition.Option5 = optionValue.ToString(); break;
                     }
                 });
         }
@@ -4171,6 +4223,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SwitchItems;
         public string Model_IndexCases;
         public string Model_IndexJsonCases;
+        public string Model_CalendarCases;
+        public string Model_CalendarJsonCases;
         public string Model_GanttCases;
         public string Model_GanttJsonCases;
         public string Model_BurnDownCases;
@@ -4200,6 +4254,7 @@ namespace Implem.DefinitionAccessor
         public string Model_HistoryCases;
         public string Model_EditorJsonCases;
         public string Model_GetCases;
+        public string Model_UpdateByCalendarCases;
         public string Model_UpdateByKambanCases;
         public string Model_Mine;
         public string Model_MineColumnCases;
@@ -4308,6 +4363,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_TitleDisplayValue;
         public string Model_Utilities_TitleDisplayValueCases_Item;
         public string Model_Utilities_TitleDisplayValueCases_DataRow;
+        public string Model_Utilities_Calendar;
+        public string Model_Utilities_CalendarColumnCases;
         public string Model_Utilities_UpdateByKamban;
         public string Model_Utilities_SetNoticeParam;
         public string Model_Utilities_SearchIndexes;
@@ -4614,6 +4671,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SwitchItems = new CodeDefinition();
         public CodeDefinition Model_IndexCases = new CodeDefinition();
         public CodeDefinition Model_IndexJsonCases = new CodeDefinition();
+        public CodeDefinition Model_CalendarCases = new CodeDefinition();
+        public CodeDefinition Model_CalendarJsonCases = new CodeDefinition();
         public CodeDefinition Model_GanttCases = new CodeDefinition();
         public CodeDefinition Model_GanttJsonCases = new CodeDefinition();
         public CodeDefinition Model_BurnDownCases = new CodeDefinition();
@@ -4643,6 +4702,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_HistoryCases = new CodeDefinition();
         public CodeDefinition Model_EditorJsonCases = new CodeDefinition();
         public CodeDefinition Model_GetCases = new CodeDefinition();
+        public CodeDefinition Model_UpdateByCalendarCases = new CodeDefinition();
         public CodeDefinition Model_UpdateByKambanCases = new CodeDefinition();
         public CodeDefinition Model_Mine = new CodeDefinition();
         public CodeDefinition Model_MineColumnCases = new CodeDefinition();
@@ -4751,6 +4811,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_TitleDisplayValue = new CodeDefinition();
         public CodeDefinition Model_Utilities_TitleDisplayValueCases_Item = new CodeDefinition();
         public CodeDefinition Model_Utilities_TitleDisplayValueCases_DataRow = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Calendar = new CodeDefinition();
+        public CodeDefinition Model_Utilities_CalendarColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateByKamban = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetNoticeParam = new CodeDefinition();
         public CodeDefinition Model_Utilities_SearchIndexes = new CodeDefinition();
@@ -7036,6 +7098,16 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Aggregations_space__dot_data_dot_overdue;
         public string _sharp_Aggregations_space_em;
         public string _sharp_Aggregations_space___space__dot_display_control;
+        public string _sharp_CalendarMonth;
+        public string _sharp_CalendarBody;
+        public string _sharp_CalendarBody_space_th;
+        public string _sharp_CalendarBody_space__dot_saturday;
+        public string _sharp_CalendarBody_space__dot_sunday;
+        public string _sharp_CalendarBody_space_td;
+        public string _sharp_CalendarBody_space_td_space___space_div;
+        public string _sharp_CalendarBody_space__dot_other_month;
+        public string _sharp_CalendarBody_space__dot_today;
+        public string _sharp_CalendarBody_space__dot_item;
         public string _sharp_Gantt;
         public string _sharp_Gantt_space__dot_date;
         public string _sharp_Gantt_space__dot_now;
@@ -7428,6 +7500,16 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Aggregations_space__dot_data_dot_overdue = new CssDefinition();
         public CssDefinition _sharp_Aggregations_space_em = new CssDefinition();
         public CssDefinition _sharp_Aggregations_space___space__dot_display_control = new CssDefinition();
+        public CssDefinition _sharp_CalendarMonth = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space_th = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_saturday = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_sunday = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space_td = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space_td_space___space_div = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_other_month = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_today = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_item = new CssDefinition();
         public CssDefinition _sharp_Gantt = new CssDefinition();
         public CssDefinition _sharp_Gantt_space__dot_date = new CssDefinition();
         public CssDefinition _sharp_Gantt_space__dot_now = new CssDefinition();
@@ -8454,6 +8536,8 @@ namespace Implem.DefinitionAccessor
         public string Site53;
         public string Site54;
         public string Site55;
+        public string Site56;
+        public string Site57;
         public string DefineNetworks;
         public string DefineServers;
         public string DefineSecurity;
@@ -8854,6 +8938,8 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Site53 = new DemoDefinition();
         public DemoDefinition Site54 = new DemoDefinition();
         public DemoDefinition Site55 = new DemoDefinition();
+        public DemoDefinition Site56 = new DemoDefinition();
+        public DemoDefinition Site57 = new DemoDefinition();
         public DemoDefinition DefineNetworks = new DemoDefinition();
         public DemoDefinition DefineServers = new DemoDefinition();
         public DemoDefinition DefineSecurity = new DemoDefinition();
@@ -9345,6 +9431,24 @@ namespace Implem.DefinitionAccessor
         public string Template27;
         public string Template28;
         public string Template29;
+        public string Template30;
+        public string Template31;
+        public string Template32;
+        public string Template33;
+        public string Template34;
+        public string Template35;
+        public string Template36;
+        public string Template37;
+        public string Template38;
+        public string Template39;
+        public string Template40;
+        public string Template41;
+        public string Template42;
+        public string Template43;
+        public string Template44;
+        public string Template45;
+        public string Template46;
+        public string Template47;
     }
 
     public class TemplateTable
@@ -9378,6 +9482,24 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template27 = new TemplateDefinition();
         public TemplateDefinition Template28 = new TemplateDefinition();
         public TemplateDefinition Template29 = new TemplateDefinition();
+        public TemplateDefinition Template30 = new TemplateDefinition();
+        public TemplateDefinition Template31 = new TemplateDefinition();
+        public TemplateDefinition Template32 = new TemplateDefinition();
+        public TemplateDefinition Template33 = new TemplateDefinition();
+        public TemplateDefinition Template34 = new TemplateDefinition();
+        public TemplateDefinition Template35 = new TemplateDefinition();
+        public TemplateDefinition Template36 = new TemplateDefinition();
+        public TemplateDefinition Template37 = new TemplateDefinition();
+        public TemplateDefinition Template38 = new TemplateDefinition();
+        public TemplateDefinition Template39 = new TemplateDefinition();
+        public TemplateDefinition Template40 = new TemplateDefinition();
+        public TemplateDefinition Template41 = new TemplateDefinition();
+        public TemplateDefinition Template42 = new TemplateDefinition();
+        public TemplateDefinition Template43 = new TemplateDefinition();
+        public TemplateDefinition Template44 = new TemplateDefinition();
+        public TemplateDefinition Template45 = new TemplateDefinition();
+        public TemplateDefinition Template46 = new TemplateDefinition();
+        public TemplateDefinition Template47 = new TemplateDefinition();
     }
 
     public class ViewModeDefinition
@@ -9385,6 +9507,11 @@ namespace Implem.DefinitionAccessor
         public string Id; public string SavedId;
         public string ReferenceType; public string SavedReferenceType;
         public string Name; public string SavedName;
+        public string Option1; public string SavedOption1;
+        public string Option2; public string SavedOption2;
+        public string Option3; public string SavedOption3;
+        public string Option4; public string SavedOption4;
+        public string Option5; public string SavedOption5;
 
         public ViewModeDefinition()
         {
@@ -9395,6 +9522,11 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
             if (propertyCollection.ContainsKey("ReferenceType")) ReferenceType = propertyCollection["ReferenceType"].ToString(); else ReferenceType = string.Empty;
             if (propertyCollection.ContainsKey("Name")) Name = propertyCollection["Name"].ToString(); else Name = string.Empty;
+            if (propertyCollection.ContainsKey("Option1")) Option1 = propertyCollection["Option1"].ToString(); else Option1 = string.Empty;
+            if (propertyCollection.ContainsKey("Option2")) Option2 = propertyCollection["Option2"].ToString(); else Option2 = string.Empty;
+            if (propertyCollection.ContainsKey("Option3")) Option3 = propertyCollection["Option3"].ToString(); else Option3 = string.Empty;
+            if (propertyCollection.ContainsKey("Option4")) Option4 = propertyCollection["Option4"].ToString(); else Option4 = string.Empty;
+            if (propertyCollection.ContainsKey("Option5")) Option5 = propertyCollection["Option5"].ToString(); else Option5 = string.Empty;
         }
 
         public object this[string key]
@@ -9405,6 +9537,11 @@ namespace Implem.DefinitionAccessor
                     case "Id": return Id;
                     case "ReferenceType": return ReferenceType;
                     case "Name": return Name;
+                    case "Option1": return Option1;
+                    case "Option2": return Option2;
+                    case "Option3": return Option3;
+                    case "Option4": return Option4;
+                    case "Option5": return Option5;
                     default: return null;
                 }
             }
@@ -9415,17 +9552,24 @@ namespace Implem.DefinitionAccessor
             Id = SavedId;
             ReferenceType = SavedReferenceType;
             Name = SavedName;
+            Option1 = SavedOption1;
+            Option2 = SavedOption2;
+            Option3 = SavedOption3;
+            Option4 = SavedOption4;
+            Option5 = SavedOption5;
         }
     }
 
     public class ViewModeColumn2nd
     {
         public string Issues_Index;
+        public string Issues_Calendar;
         public string Issues_Gantt;
         public string Issues_BurnDown;
         public string Issues_TimeSeries;
         public string Issues_Kamban;
         public string Results_Index;
+        public string Results_Calendar;
         public string Results_TimeSeries;
         public string Results_Kamban;
     }
@@ -9433,11 +9577,13 @@ namespace Implem.DefinitionAccessor
     public class ViewModeTable
     {
         public ViewModeDefinition Issues_Index = new ViewModeDefinition();
+        public ViewModeDefinition Issues_Calendar = new ViewModeDefinition();
         public ViewModeDefinition Issues_Gantt = new ViewModeDefinition();
         public ViewModeDefinition Issues_BurnDown = new ViewModeDefinition();
         public ViewModeDefinition Issues_TimeSeries = new ViewModeDefinition();
         public ViewModeDefinition Issues_Kamban = new ViewModeDefinition();
         public ViewModeDefinition Results_Index = new ViewModeDefinition();
+        public ViewModeDefinition Results_Calendar = new ViewModeDefinition();
         public ViewModeDefinition Results_TimeSeries = new ViewModeDefinition();
         public ViewModeDefinition Results_Kamban = new ViewModeDefinition();
     }

@@ -66,6 +66,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int ViewLatestId;
         public List<View> Views;
         public SettingList<Notification> Notifications;
+        public bool? EnableCalendar;
         public bool? EnableGantt;
         public bool? EnableBurnDown;
         public bool? EnableTimeSeries;
@@ -148,6 +149,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Summaries == null) Summaries = new SettingList<Summary>();
             if (Formulas == null) Formulas = new SettingList<FormulaSet>();
             if (Notifications == null) Notifications = new SettingList<Notification>();
+            EnableCalendar = EnableCalendar ?? true;
             EnableGantt = EnableGantt ?? true;
             EnableBurnDown = EnableBurnDown ?? true;
             EnableTimeSeries = EnableTimeSeries ?? true;
@@ -300,6 +302,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!TitleColumns.SequenceEqual(DefaultTitleColumns()))
             {
                 ss.TitleColumns = TitleColumns;
+            }
+            if (EnableCalendar == false)
+            {
+                ss.EnableCalendar = EnableCalendar;
             }
             if (EnableGantt == false)
             {
@@ -1153,6 +1159,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.Computable)
                 .Where(o => !o.NotUpdate)
                 .Where(o => o.TypeName != "datetime")
+                .OrderBy(o => o.Id)
                 .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
         }
 
@@ -1234,6 +1241,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(
                     o => o.ColumnName,
                     o => new ControlData(GetColumn(o.ColumnName).LabelText)));
+        }
+
+        public Dictionary<string, string> CalendarColumnOptions()
+        {
+            return Columns
+                .Where(o => o.TypeName == "datetime")
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
         public Dictionary<string, string> GanttGroupByOptions()
@@ -1318,6 +1333,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridView": GridView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
+                case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableGantt": EnableGantt = value.ToBool(); break;
                 case "EnableBurnDown": EnableBurnDown = value.ToBool(); break;
                 case "EnableTimeSeries": EnableTimeSeries = value.ToBool(); break;
@@ -1878,6 +1894,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (name)
             {
                 case "Index": return true;
+                case "Calendar": return EnableCalendar == true;
                 case "Gantt": return EnableGantt == true;
                 case "BurnDown": return EnableBurnDown == true;
                 case "TimeSeries": return EnableTimeSeries == true;
