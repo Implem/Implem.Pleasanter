@@ -39,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string KambanAggregateType;
         public string KambanValue;
         public int? KambanColumns;
+        public bool? KambanAggregationView;
         // compatibility Version 1.008
         public string KambanGroupBy;
 
@@ -141,6 +142,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     case "KambanColumns":
                         KambanColumns = Forms.Int(controlId);
+                        break;
+                    case "KambanAggregationView":
+                        KambanAggregationView = Forms.Bool(controlId);
                         break;
                     default:
                         if (controlId.StartsWith(columnFilterPrefix))
@@ -396,6 +400,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (KambanColumns != Parameters.General.KambanColumns)
             {
                 view.KambanColumns = KambanColumns;
+            }
+            if (KambanAggregationView == true)
+            {
+                view.KambanAggregationView = KambanAggregationView;
             }
             return view;
         }

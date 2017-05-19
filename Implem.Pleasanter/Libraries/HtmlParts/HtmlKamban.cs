@@ -1,7 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
-using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.ViewModes;
@@ -22,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string aggregateType,
             string value,
             int? columns,
+            bool aggregationView,
             IEnumerable<KambanElement> data)
         {
             return hb.Div(id: "Kamban", css: "both", action: () =>
@@ -72,6 +72,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .ToDictionary(o => o.ToString(), o => o.ToString()),
                         selectedValue: columns?.ToString(),
                         method: "post")
+                    .FieldCheckBox(
+                        controlId: "KambanAggregationView",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.AggregationView(),
+                        _checked: aggregationView,
+                        method: "post")
                     .KambanBody(
                         ss: ss,
                         view: view,
@@ -80,6 +87,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         aggregateType: aggregateType,
                         value: ss.GetColumn(value),
                         columns: columns,
+                        aggregationView: aggregationView,
                         data: data);
             });
         }
@@ -93,6 +101,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string aggregateType,
             Column value,
             int? columns,
+            bool aggregationView,
             IEnumerable<KambanElement> data,
             long changedItemId = 0)
         {
@@ -112,6 +121,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             choicesY: choicesY,
                             aggregateType: aggregateType,
                             value: value,
+                            aggregationView: aggregationView,
                             data: data,
                             changedItemId: changedItemId)));
         }
@@ -144,6 +154,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> choicesY,
             string aggregateType,
             Column value,
+            bool aggregationView,
             IEnumerable<KambanElement> data,
             long changedItemId)
         {
@@ -186,6 +197,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             choiceX: choiceX.Key,
                                             choiceY: choiceY.Key,
                                             value: value,
+                                            aggregationView: aggregationView,
                                             data: data,
                                             changedItemId: changedItemId));
                                 });
@@ -199,6 +211,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         choiceX: choiceX.Key,
                                         choiceY: null,
                                         value: value,
+                                        aggregationView: aggregationView,
                                         data: data,
                                         changedItemId: changedItemId)));
                         }
@@ -212,25 +225,34 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string choiceX,
             string choiceY,
             Column value,
+            bool aggregationView,
             IEnumerable<KambanElement> data,
             long changedItemId)
         {
-            return hb.Td(
-                attributes: new HtmlAttributes()
-                    .Class("kamban-container")
-                    .DataX(HttpUtility.HtmlEncode(choiceX))
-                    .DataY(HttpUtility.HtmlEncode(choiceY)),
-                action: () => hb
-                    .Div(action: () => 
+            return !aggregationView
+                ? hb.Td(
+                    attributes: new HtmlAttributes()
+                        .Class("kamban-container")
+                        .DataX(HttpUtility.HtmlEncode(choiceX))
+                        .DataY(HttpUtility.HtmlEncode(choiceY)),
+                    action: () => hb
+                        .Div(action: () => 
+                            data
+                                .Where(o => o.GroupX == choiceX)
+                                .Where(o => choiceY == null || o.GroupY == choiceY)
+                                .ForEach(o => hb
+                                    .Element(
+                                        ss: ss,
+                                        value: value,
+                                        data: o,
+                                        changedItemId: changedItemId))))
+                : hb.Td(action: () => hb
+                    .Text(text: value.Display(
                         data
                             .Where(o => o.GroupX == choiceX)
                             .Where(o => choiceY == null || o.GroupY == choiceY)
-                            .ForEach(o => hb
-                                .Element(
-                                    ss: ss,
-                                    value: value,
-                                    data: o,
-                                    changedItemId: changedItemId))));
+                            .Sum(o => o.Value),
+                        unit: true)));
         }
 
         private static HtmlBuilder HeaderText(

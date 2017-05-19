@@ -5200,6 +5200,7 @@ namespace Implem.Pleasanter.Models
             var value = !view.KambanValue.IsNullOrEmpty()
                 ? view.KambanValue
                 : "RemainingWorkValue";
+            var aggregationView = view.KambanAggregationView ?? false;
             if (groupByX == null)
             {
                 return hb;
@@ -5213,6 +5214,7 @@ namespace Implem.Pleasanter.Models
                     aggregateType: aggregateType,
                     value: value,
                     columns: view.KambanColumns,
+                    aggregationView: aggregationView,
                     data: KambanElements(
                         ss,
                         view,
@@ -5228,6 +5230,7 @@ namespace Implem.Pleasanter.Models
                     aggregateType: aggregateType,
                     value: ss.GetColumn(value),
                     columns: view.KambanColumns,
+                    aggregationView: aggregationView,
                     data: KambanElements(
                         ss,
                         view,

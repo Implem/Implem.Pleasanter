@@ -1097,6 +1097,7 @@
     <Content Include="App_Data\Displays\Saturday.json" />
     <Content Include="App_Data\Displays\Today.json" />
     <Content Include="App_Data\Displays\ThisMonth.json" />
+    <Content Include="App_Data\Displays\AggregationView.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

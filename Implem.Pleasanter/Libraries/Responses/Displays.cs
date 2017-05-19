@@ -52,6 +52,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string AggregationSettings(params string[] data) { return Get("AggregationSettings", data); }
         public static string AggregationTarget(params string[] data) { return Get("AggregationTarget", data); }
         public static string AggregationType(params string[] data) { return Get("AggregationType", data); }
+        public static string AggregationView(params string[] data) { return Get("AggregationView", data); }
         public static string All(params string[] data) { return Get("All", data); }
         public static string AllowedUsers(params string[] data) { return Get("AllowedUsers", data); }
         public static string AlreadyAdded(params string[] data) { return Get("AlreadyAdded", data); }
