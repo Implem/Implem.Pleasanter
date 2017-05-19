@@ -96,6 +96,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? o["Date"].ToDateTime().ToLocal().AddDays(-1)
                         : o["Date"].ToDateTime().ToLocal()
                 ))
+                .OrderBy(o => o.Time)
+                .ThenBy(o => o.Title)
                 .GroupBy(o => o.Date)
                 .ToDictionary(
                     o => o.First().Date,
