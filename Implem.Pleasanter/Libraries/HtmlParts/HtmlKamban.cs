@@ -255,8 +255,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         data
                             .Where(o => o.GroupX == choiceX)
                             .Where(o => choiceY == null || o.GroupY == choiceY)
-                            .Sum(o => o.Value),
-                        unit: true)));
+                            .Summary(aggregateType),
+                        unit: aggregateType != "Count")));
         }
 
         private static HtmlBuilder HeaderText(
@@ -273,20 +273,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     : Displays.NotSet(),
                 data.Count(),
                 value != null && data.Any() && aggregateType != "Count"
-                    ? " : " + value.Display(Summary(data, aggregateType), unit: true)
+                    ? " : " + value.Display(data.Summary(aggregateType), unit: true)
                     : string.Empty));
         }
 
-        private static decimal Summary(IEnumerable<KambanElement> data, string aggregateType)
+        private static decimal Summary(this IEnumerable<KambanElement> data, string aggregateType)
         {
-            switch (aggregateType)
+            if (data.Any())
             {
-                case "Count": return data.Count();
-                case "Total": return data.Sum(o => o.Value);
-                case "Average": return data.Average(o => o.Value);
-                case "Min": return data.Min(o => o.Value);
-                case "Max": return data.Max(o => o.Value);
-                default: return 0;
+                switch (aggregateType)
+                {
+                    case "Count": return data.Count();
+                    case "Total": return data.Sum(o => o.Value);
+                    case "Average": return data.Average(o => o.Value);
+                    case "Min": return data.Min(o => o.Value);
+                    case "Max": return data.Max(o => o.Value);
+                    default: return 0;
+                }
+            }
+            else
+            {
+                return 0;
             }
         }
 
