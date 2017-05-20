@@ -286,7 +286,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Where(o => choiceY == null || o.GroupY == choiceY)
                 .Summary(aggregateType);
             return hb.Td(action: () => hb
-                .Text(text: value.Display(num, unit: aggregateType != "Count"))
+                .Text(text: value.Display(
+                    num, unit: aggregateType != "Count", format: aggregateType != "Count"))
                 .Svg(css: "svg-kamban-aggregation-view", action: () => hb
                     .Rect(
                         x: 0,
