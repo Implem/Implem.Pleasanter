@@ -228,6 +228,7 @@ namespace Implem.Pleasanter.Models
                                 href = Locations.ItemEdit(referenceId);
                                 break;
                         }
+                        href += "?back=1";
                         hb.Section(
                             attributes: new HtmlAttributes()
                                 .Class("result")

@@ -69,8 +69,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             {
                                 case "new":
                                 case "edit":
-                                    return Strings.CoalesceEmpty(
-                                        referer, Locations.ItemIndex(siteId));
+                                    return QueryStrings.Int("back") == 1 && !referer.IsNullOrEmpty()
+                                        ? referer
+                                        : Locations.ItemIndex(siteId);
                                 default:
                                     return Locations.ItemIndex(parentId);
                             }
