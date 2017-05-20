@@ -368,9 +368,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : str;
         }
 
-        public string Display(SiteSettings ss, decimal value)
+        public string Display(SiteSettings ss, decimal value, bool format = true)
         {
-            return Display(value) + (EditorReadOnly.ToBool() || !CanUpdate
+            return Display(value, format: format) + (EditorReadOnly.ToBool() || !CanUpdate
                 ? Unit
                 : string.Empty);
         }
