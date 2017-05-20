@@ -563,7 +563,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.Min != columnDefinition.Min)
                     {
                         enabled = true;
-                        newColumn.Min = column.Max;
+                        newColumn.Min = column.Min;
                     }
                     if (column.Max != DefaultMax(columnDefinition))
                     {
