@@ -286,8 +286,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Where(o => choiceY == null || o.GroupY == choiceY)
                 .Summary(aggregateType);
             return hb.Td(action: () => hb
-                .Text(text: value.Display(
-                    num, unit: aggregateType != "Count", format: aggregateType != "Count"))
+                .Text(text: value?.Display(
+                    num, unit: aggregateType != "Count", format: aggregateType != "Count") ??
+                        num.ToString())
                 .Svg(css: "svg-kamban-aggregation-view", action: () => hb
                     .Rect(
                         x: 0,
@@ -354,7 +355,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string ItemText(string aggregateType, Column value, KambanElement data)
         {
-            return value == null && aggregateType != "Count"
+            return value == null || aggregateType == "Count"
                 ? data.Title
                 : "{0} : {1}".Params(
                     data.Title,
