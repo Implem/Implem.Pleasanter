@@ -196,6 +196,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Td(ss: ss,
                                             choiceX: choiceX.Key,
                                             choiceY: choiceY.Key,
+                                            aggregateType: aggregateType,
                                             value: value,
                                             aggregationView: aggregationView,
                                             data: data,
@@ -210,6 +211,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Td(ss: ss,
                                         choiceX: choiceX.Key,
                                         choiceY: null,
+                                        aggregateType: aggregateType,
                                         value: value,
                                         aggregationView: aggregationView,
                                         data: data,
@@ -224,6 +226,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             string choiceX,
             string choiceY,
+            string aggregateType,
             Column value,
             bool aggregationView,
             IEnumerable<KambanElement> data,
@@ -243,6 +246,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .ForEach(o => hb
                                     .Element(
                                         ss: ss,
+                                        aggregateType: aggregateType,
                                         value: value,
                                         data: o,
                                         changedItemId: changedItemId))))
@@ -268,7 +272,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ? choice.Value.Text
                     : Displays.NotSet(),
                 data.Count(),
-                value != null && data.Any()
+                value != null && data.Any() && aggregateType != "Count"
                     ? " : " + value.Display(Summary(data, aggregateType), unit: true)
                     : string.Empty));
         }
@@ -277,6 +281,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             switch (aggregateType)
             {
+                case "Count": return data.Count();
                 case "Total": return data.Sum(o => o.Value);
                 case "Average": return data.Average(o => o.Value);
                 case "Min": return data.Min(o => o.Value);
@@ -288,6 +293,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Element(
             this HtmlBuilder hb,
             SiteSettings ss,
+            string aggregateType,
             Column value,
             KambanElement data,
             long changedItemId)
@@ -298,12 +304,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataId(data.Id.ToString()),
                 action: () => hb
                     .Span(css: "ui-icon ui-icon-pencil")
-                    .Text(text: ItemText(value, data)));
+                    .Text(text: ItemText(aggregateType, value, data)));
         }
 
-        private static string ItemText(Column value, KambanElement data)
+        private static string ItemText(string aggregateType, Column value, KambanElement data)
         {
-            return value == null
+            return value == null && aggregateType != "Count"
                 ? data.Title
                 : "{0} : {1}".Params(
                     data.Title,

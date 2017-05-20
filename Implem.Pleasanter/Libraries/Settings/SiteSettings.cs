@@ -1300,6 +1300,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return new Dictionary<string, string>
             {
+                { "Count", Displays.Count() },
                 { "Total", Displays.Total() },
                 { "Average", Displays.Average() },
                 { "Max", Displays.Max() },
