@@ -49,6 +49,7 @@ namespace Implem.Pleasanter.Models
         public bool ServiceManager = false;
         public bool Disabled = false;
         public bool Developer = false;
+        public UserSettings UserSettings = new UserSettings();
         public string OldPassword = string.Empty;
         public string ChangedPassword = string.Empty;
         public string ChangedPasswordValidator = string.Empty;
@@ -87,6 +88,7 @@ namespace Implem.Pleasanter.Models
         public bool SavedServiceManager = false;
         public bool SavedDisabled = false;
         public bool SavedDeveloper = false;
+        public string SavedUserSettings = string.Empty;
         public string SavedOldPassword = string.Empty;
         public string SavedChangedPassword = string.Empty;
         public string SavedChangedPasswordValidator = string.Empty;
@@ -119,6 +121,19 @@ namespace Implem.Pleasanter.Models
         public bool ServiceManager_Updated { get { return ServiceManager != SavedServiceManager; } }
         public bool Disabled_Updated { get { return Disabled != SavedDisabled; } }
         public bool Developer_Updated { get { return Developer != SavedDeveloper; } }
+        public bool UserSettings_Updated { get { return UserSettings.RecordingJson() != SavedUserSettings && UserSettings.RecordingJson() != null; } }
+
+        public UserSettings Session_UserSettings()
+        {
+            return this.PageSession("UserSettings") != null
+                ? this.PageSession("UserSettings")?.ToString().Deserialize<UserSettings>() ?? new UserSettings()
+                : UserSettings;
+        }
+
+        public void  Session_UserSettings(object value)
+        {
+            this.PageSession("UserSettings", value);
+        }
 
         public List<string> Session_MailAddresses()
         {
@@ -184,6 +199,7 @@ namespace Implem.Pleasanter.Models
 
         public void ClearSessions()
         {
+            Session_UserSettings(null);
             Session_MailAddresses(null);
         }
 
@@ -410,6 +426,7 @@ namespace Implem.Pleasanter.Models
 
         private void SetBySession()
         {
+            if (!Forms.HasData("Users_UserSettings")) UserSettings = Session_UserSettings();
             if (!Forms.HasData("Users_MailAddresses")) MailAddresses = Session_MailAddresses();
         }
 
@@ -456,6 +473,7 @@ namespace Implem.Pleasanter.Models
                     case "ServiceManager": ServiceManager = dataRow[name].ToBool(); SavedServiceManager = ServiceManager; break;
                     case "Disabled": Disabled = dataRow[name].ToBool(); SavedDisabled = Disabled; break;
                     case "Developer": Developer = dataRow[name].ToBool(); SavedDeveloper = Developer; break;
+                    case "UserSettings": UserSettings = GetUserSettings(dataRow); SavedUserSettings = UserSettings.RecordingJson(); break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
@@ -473,6 +491,15 @@ namespace Implem.Pleasanter.Models
             if (SavedCreator == userId) mine.Add("Creator");
             if (SavedUpdator == userId) mine.Add("Updator");
             return mine;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private UserSettings GetUserSettings(DataRow dataRow)
+        {
+            return dataRow["UserSettings"].ToString().Deserialize<UserSettings>() ??
+                new UserSettings();
         }
 
         /// <summary>
@@ -750,6 +777,7 @@ namespace Implem.Pleasanter.Models
             HttpContext.Session["Developer"] = Developer;
             HttpContext.Session["TimeZoneInfo"] = TimeZoneInfo;
             HttpContext.Session["RdsUser"] = RdsUser();
+            HttpContext.Session["UserSettings"] = UserSettings.ToJson();
             Contract.Set();
         }
 

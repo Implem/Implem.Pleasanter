@@ -161,7 +161,7 @@ namespace Implem.Pleasanter.Models
             var ss = siteModel.SitesSiteSettings(parentId);
             if (parentId == 0)
             {
-                ss.PermissionType = (Permissions.Types)Parameters.Permissions.Manager;
+                ss.PermissionType = SiteTopPermission();
             }
             var invalid = SiteValidators.OnCreating(ss, siteModel);
             switch (invalid)
@@ -426,7 +426,7 @@ namespace Implem.Pleasanter.Models
             var ss = siteModel.SitesSiteSettings(siteModel.ParentId);
             if (siteModel.ParentId == 0)
             {
-                ss.PermissionType = (Permissions.Types)Parameters.Permissions.Manager;
+                ss.PermissionType = SiteTopPermission();
             }
             var invalid = SiteValidators.OnCreating(ss, siteModel);
             switch (invalid)
@@ -486,7 +486,7 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(id);
             siteModel.SiteSettings.PermissionType = id == 0
-                ? Permissions.Manager()
+                ? SiteTopPermission()
                 : Permissions.Get(id);
             var sourceSiteModel = new SiteModel(Forms.Long("SiteId"));
             var destinationSiteModel = new SiteModel(Forms.Long("DestinationId"));
@@ -932,7 +932,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var ss = new SiteSettings();
-            ss.PermissionType = Permissions.Manager();
+            ss.PermissionType = SiteTopPermission();
             var verType = Versions.VerTypes.Latest;
             var siteConditions = SiteInfo.TenantCaches[Sessions.TenantId()]
                 .SiteMenu.SiteConditions(0);
@@ -1020,7 +1020,7 @@ namespace Implem.Pleasanter.Models
                 : SiteSettingsUtilities.SitesSiteSettings(0);
             ss.PermissionType = siteModel != null
                 ? siteModel.SiteSettings.PermissionType
-                : Permissions.Manager();
+                : SiteTopPermission();
             return hb.Div(id: "SiteMenu", action: () => hb
                 .Nav(css: "cf", _using: siteModel != null, action: () => hb
                     .Ul(css: "nav-sites", action: () => hb
@@ -1315,7 +1315,7 @@ namespace Implem.Pleasanter.Models
                 SiteSettings = new SiteSettings("Sites")
                 {
                     PermissionType = ss.SiteId == 0
-                        ? Permissions.Manager()
+                        ? SiteTopPermission()
                         : Permissions.Get(ss.InheritPermission)
                 },
                 MethodType = BaseModel.MethodTypes.New,
@@ -4286,6 +4286,13 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
+        }
+
+        private static Permissions.Types SiteTopPermission()
+        {
+            return Sessions.UserSettings().DisableTopSiteCreation != false
+                ? Permissions.Types.Read
+                : (Permissions.Types)Parameters.Permissions.Manager;
         }
     }
 }

@@ -571,6 +571,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_ServiceManager(params string[] data) { return Get("Users_ServiceManager", data); }
         public static string Users_Disabled(params string[] data) { return Get("Users_Disabled", data); }
         public static string Users_Developer(params string[] data) { return Get("Users_Developer", data); }
+        public static string Users_UserSettings(params string[] data) { return Get("Users_UserSettings", data); }
         public static string Users_OldPassword(params string[] data) { return Get("Users_OldPassword", data); }
         public static string Users_ChangedPassword(params string[] data) { return Get("Users_ChangedPassword", data); }
         public static string Users_ChangedPasswordValidator(params string[] data) { return Get("Users_ChangedPasswordValidator", data); }

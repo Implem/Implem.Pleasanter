@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Globalization;
@@ -109,6 +110,12 @@ namespace Implem.Pleasanter.Libraries.Server
             return 
                 HttpContext.Current?.Session?["TimeZoneInfo"] as TimeZoneInfo ??
                 Environments.TimeZoneInfoDefault;
+        }
+
+        public static UserSettings UserSettings()
+        {
+            return HttpContext.Current?.Session?["UserSettings"]
+                .ToString().Deserialize<UserSettings>() ?? new UserSettings();
         }
 
         public static double SessionAge()

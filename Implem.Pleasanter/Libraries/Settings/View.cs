@@ -798,6 +798,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Users_ServiceManager": orderBy.Users_ServiceManager(data.Value); break;
                         case "Users_Disabled": orderBy.Users_Disabled(data.Value); break;
                         case "Users_Developer": orderBy.Users_Developer(data.Value); break;
+                        case "Users_UserSettings": orderBy.Users_UserSettings(data.Value); break;
                         case "Users_Comments": orderBy.Users_Comments(data.Value); break;
                         case "Users_Creator": orderBy.Users_Creator(data.Value); break;
                         case "Users_Updator": orderBy.Users_Updator(data.Value); break;

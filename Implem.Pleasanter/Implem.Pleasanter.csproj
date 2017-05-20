@@ -271,6 +271,7 @@
     <Compile Include="Libraries\Settings\NumColumnExtensions.cs" />
     <Compile Include="Libraries\Converts\MatchExtensions.cs" />
     <Compile Include="Libraries\Settings\SettingList.cs" />
+    <Compile Include="Libraries\Settings\UserSettings.cs" />
     <Compile Include="Libraries\ViewModes\BurnDown.cs" />
     <Compile Include="Libraries\ViewModes\BurnDownElement.cs" />
     <Compile Include="Libraries\ViewModes\CalendarElement.cs" />
