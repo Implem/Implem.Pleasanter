@@ -2074,6 +2074,16 @@ h3.title-header{
     fill:#ffccd5;
 }
 
+.svg-kamban-aggregation-view{
+    width:100%;
+    height:20px;
+}
+
+.svg-kamban-aggregation-view rect{
+    height:20px;
+    fill:darkseagreen;
+}
+
 .axis{
     fill:none;
     stroke:gray;

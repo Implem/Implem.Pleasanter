@@ -25,8 +25,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             int? x = null,
             int? y = null,
-            int? width = null,
-            int? height = null,
+            string width = null,
+            string height = null,
             string fill = null)
         {
             return hb.Append(
@@ -36,8 +36,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 attributes: new HtmlAttributes()
                     .Add("x", x.ToString(), _using: x != null)
                     .Add("y", y.ToString(), _using: y != null)
-                    .Add("width", width.ToString(), _using: width != null)
-                    .Add("height", height.ToString(), _using: height != null)
+                    .Add("width", width, _using: width != null)
+                    .Add("height", height, _using: height != null)
                     .Add("fill", fill, _using: fill != null),
                 action: () => { });
         }

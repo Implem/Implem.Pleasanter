@@ -61,15 +61,15 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .Rect(
                     x: 0,
                     y: Parameters.General.WorkValueHeight / 2,
-                    width: width,
-                    height: Parameters.General.WorkValueHeight / 2)
+                    width: width.ToString(),
+                    height: (Parameters.General.WorkValueHeight / 2).ToString())
                 .Rect(
                     x: 0,
                     y: Parameters.General.WorkValueHeight / 2,
                     width: ProgressRate != 0
-                        ? (int)(width * (ProgressRate / 100))
-                        : 0,
-                    height: Parameters.General.WorkValueHeight / 2));
+                        ? (width * (ProgressRate / 100)).ToString()
+                        : "0",
+                    height: (Parameters.General.WorkValueHeight / 2).ToString()));
         }
 
         public string GridText(Column column)

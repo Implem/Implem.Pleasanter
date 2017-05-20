@@ -113,18 +113,20 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .Rect(
                     x: 0,
                     y: Parameters.General.ProgressRateItemHeight * 2,
-                    width: Parameters.General.ProgressRateWidth,
-                    height: Parameters.General.ProgressRateItemHeight)
+                    width: Parameters.General.ProgressRateWidth.ToString(),
+                    height: Parameters.General.ProgressRateItemHeight.ToString())
                 .Rect(
                     x: 0,
                     y: Parameters.General.ProgressRateItemHeight * 2,
-                    width: Convert.ToInt32(plannedValue * Parameters.General.ProgressRateWidth),
-                    height: Parameters.General.ProgressRateItemHeight)
+                    width: Convert.ToInt32(plannedValue * Parameters.General.ProgressRateWidth)
+                        .ToString(),
+                    height: Parameters.General.ProgressRateItemHeight.ToString())
                 .Rect(
                     x: 0,
                     y: Parameters.General.ProgressRateItemHeight * 3,
-                    width: Convert.ToInt32(earnedValue * Parameters.General.ProgressRateWidth),
-                    height: Parameters.General.ProgressRateItemHeight));
+                    width: Convert.ToInt32(earnedValue * Parameters.General.ProgressRateWidth)
+                        .ToString(),
+                    height: Parameters.General.ProgressRateItemHeight.ToString()));
         }
 
         private DateTime Start()

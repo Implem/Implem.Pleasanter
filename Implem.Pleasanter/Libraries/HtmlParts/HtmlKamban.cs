@@ -158,6 +158,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             IEnumerable<KambanElement> data,
             long changedItemId)
         {
+            var max = data.Any()
+                ? data
+                    .GroupBy(o => o.GroupX + "," + o.GroupY)
+                    .Select(o => o.Summary(aggregateType))
+                    .Max()
+                : 0;
             return hb.Table(
                 css: "grid fixed",
                 action: () => hb
@@ -199,6 +205,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             aggregateType: aggregateType,
                                             value: value,
                                             aggregationView: aggregationView,
+                                            max: max,
                                             data: data,
                                             changedItemId: changedItemId));
                                 });
@@ -214,6 +221,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         aggregateType: aggregateType,
                                         value: value,
                                         aggregationView: aggregationView,
+                                        max: max,
                                         data: data,
                                         changedItemId: changedItemId)));
                         }
@@ -229,6 +237,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string aggregateType,
             Column value,
             bool aggregationView,
+            decimal max,
             IEnumerable<KambanElement> data,
             long changedItemId)
         {
@@ -250,13 +259,41 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         value: value,
                                         data: o,
                                         changedItemId: changedItemId))))
-                : hb.Td(action: () => hb
-                    .Text(text: value.Display(
-                        data
-                            .Where(o => o.GroupX == choiceX)
-                            .Where(o => choiceY == null || o.GroupY == choiceY)
-                            .Summary(aggregateType),
-                        unit: aggregateType != "Count")));
+                : hb.Td(
+                    ss: ss,
+                    choiceX: choiceX,
+                    choiceY: choiceY,
+                    aggregateType: aggregateType,
+                    value: value,
+                    aggregationView: aggregationView,
+                    max: max,
+                    data: data);
+        }
+
+        private static HtmlBuilder Td(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            string choiceX,
+            string choiceY,
+            string aggregateType,
+            Column value,
+            bool aggregationView,
+            decimal max,
+            IEnumerable<KambanElement> data)
+        {
+            var num = data
+                .Where(o => o.GroupX == choiceX)
+                .Where(o => choiceY == null || o.GroupY == choiceY)
+                .Summary(aggregateType);
+            return hb.Td(action: () => hb
+                .Text(text: value.Display(num, unit: aggregateType != "Count"))
+                .Svg(css: "svg-kamban-aggregation-view", action: () => hb
+                    .Rect(
+                        x: 0,
+                        y: 0,
+                        width: max > 0
+                            ? (num / max * 100).ToString("0.0") + "%"
+                            : "0")));
         }
 
         private static HtmlBuilder HeaderText(
