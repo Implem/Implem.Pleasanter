@@ -2102,6 +2102,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_alert_information": Css._dot_alert_information = definitionRow[1].ToString(); SetCssTable(CssTable._dot_alert_information, definitionRow, CssXls); break;
                     case "label_dot_error": Css.label_dot_error = definitionRow[1].ToString(); SetCssTable(CssTable.label_dot_error, definitionRow, CssXls); break;
                     case "_dot_error": Css._dot_error = definitionRow[1].ToString(); SetCssTable(CssTable._dot_error, definitionRow, CssXls); break;
+                    case "_dot_with_unit_plus_label_dot_error": Css._dot_with_unit_plus_label_dot_error = definitionRow[1].ToString(); SetCssTable(CssTable._dot_with_unit_plus_label_dot_error, definitionRow, CssXls); break;
                     case "_dot_button_edit_markdown": Css._dot_button_edit_markdown = definitionRow[1].ToString(); SetCssTable(CssTable._dot_button_edit_markdown, definitionRow, CssXls); break;
                     case "_dot_button_delete_address": Css._dot_button_delete_address = definitionRow[1].ToString(); SetCssTable(CssTable._dot_button_delete_address, definitionRow, CssXls); break;
                     case "_dot_button_right_justified": Css._dot_button_right_justified = definitionRow[1].ToString(); SetCssTable(CssTable._dot_button_right_justified, definitionRow, CssXls); break;
@@ -3138,8 +3139,6 @@ namespace Implem.DefinitionAccessor
                     case "Template9": Template.Template9 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template9, definitionRow, TemplateXls); break;
                     case "Template10": Template.Template10 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template10, definitionRow, TemplateXls); break;
                     case "Template11": Template.Template11 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template11, definitionRow, TemplateXls); break;
-                    case "Template41": Template.Template41 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template41, definitionRow, TemplateXls); break;
-                    case "Template42": Template.Template42 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template42, definitionRow, TemplateXls); break;
                     case "Template12": Template.Template12 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template12, definitionRow, TemplateXls); break;
                     case "Template13": Template.Template13 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template13, definitionRow, TemplateXls); break;
                     case "Template14": Template.Template14 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template14, definitionRow, TemplateXls); break;
@@ -3169,6 +3168,8 @@ namespace Implem.DefinitionAccessor
                     case "Template38": Template.Template38 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template38, definitionRow, TemplateXls); break;
                     case "Template39": Template.Template39 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template39, definitionRow, TemplateXls); break;
                     case "Template40": Template.Template40 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template40, definitionRow, TemplateXls); break;
+                    case "Template41": Template.Template41 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template41, definitionRow, TemplateXls); break;
+                    case "Template42": Template.Template42 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template42, definitionRow, TemplateXls); break;
                     case "Template43": Template.Template43 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template43, definitionRow, TemplateXls); break;
                     case "Template44": Template.Template44 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template44, definitionRow, TemplateXls); break;
                     case "Template45": Template.Template45 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template45, definitionRow, TemplateXls); break;
@@ -3221,6 +3222,8 @@ namespace Implem.DefinitionAccessor
                     case "Template92": Template.Template92 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template92, definitionRow, TemplateXls); break;
                     case "Template93": Template.Template93 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template93, definitionRow, TemplateXls); break;
                     case "Template94": Template.Template94 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template94, definitionRow, TemplateXls); break;
+                    case "Template95": Template.Template95 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template95, definitionRow, TemplateXls); break;
+                    case "Template96": Template.Template96 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template96, definitionRow, TemplateXls); break;
                     default: break;
                 }
             });
@@ -7409,6 +7412,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_alert_information;
         public string label_dot_error;
         public string _dot_error;
+        public string _dot_with_unit_plus_label_dot_error;
         public string _dot_button_edit_markdown;
         public string _dot_button_delete_address;
         public string _dot_button_right_justified;
@@ -7813,6 +7817,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_alert_information = new CssDefinition();
         public CssDefinition label_dot_error = new CssDefinition();
         public CssDefinition _dot_error = new CssDefinition();
+        public CssDefinition _dot_with_unit_plus_label_dot_error = new CssDefinition();
         public CssDefinition _dot_button_edit_markdown = new CssDefinition();
         public CssDefinition _dot_button_delete_address = new CssDefinition();
         public CssDefinition _dot_button_right_justified = new CssDefinition();
@@ -9479,8 +9484,6 @@ namespace Implem.DefinitionAccessor
         public string Template9;
         public string Template10;
         public string Template11;
-        public string Template41;
-        public string Template42;
         public string Template12;
         public string Template13;
         public string Template14;
@@ -9510,6 +9513,8 @@ namespace Implem.DefinitionAccessor
         public string Template38;
         public string Template39;
         public string Template40;
+        public string Template41;
+        public string Template42;
         public string Template43;
         public string Template44;
         public string Template45;
@@ -9562,6 +9567,8 @@ namespace Implem.DefinitionAccessor
         public string Template92;
         public string Template93;
         public string Template94;
+        public string Template95;
+        public string Template96;
     }
 
     public class TemplateTable
@@ -9577,8 +9584,6 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template9 = new TemplateDefinition();
         public TemplateDefinition Template10 = new TemplateDefinition();
         public TemplateDefinition Template11 = new TemplateDefinition();
-        public TemplateDefinition Template41 = new TemplateDefinition();
-        public TemplateDefinition Template42 = new TemplateDefinition();
         public TemplateDefinition Template12 = new TemplateDefinition();
         public TemplateDefinition Template13 = new TemplateDefinition();
         public TemplateDefinition Template14 = new TemplateDefinition();
@@ -9608,6 +9613,8 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template38 = new TemplateDefinition();
         public TemplateDefinition Template39 = new TemplateDefinition();
         public TemplateDefinition Template40 = new TemplateDefinition();
+        public TemplateDefinition Template41 = new TemplateDefinition();
+        public TemplateDefinition Template42 = new TemplateDefinition();
         public TemplateDefinition Template43 = new TemplateDefinition();
         public TemplateDefinition Template44 = new TemplateDefinition();
         public TemplateDefinition Template45 = new TemplateDefinition();
@@ -9660,6 +9667,8 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template92 = new TemplateDefinition();
         public TemplateDefinition Template93 = new TemplateDefinition();
         public TemplateDefinition Template94 = new TemplateDefinition();
+        public TemplateDefinition Template95 = new TemplateDefinition();
+        public TemplateDefinition Template96 = new TemplateDefinition();
     }
 
     public class ViewModeDefinition
