@@ -4288,6 +4288,9 @@ namespace Implem.Pleasanter.Models
                             icon: "ui-icon-cancel")));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static Permissions.Types SiteTopPermission()
         {
             return Sessions.UserSettings().DisableTopSiteCreation == true
