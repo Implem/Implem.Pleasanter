@@ -4618,9 +4618,9 @@ namespace Implem.Pleasanter.Models
                     if (inRange)
                     {
                         hb.Kamban(
-                          ss: ss,
-                          view: view,
-                          bodyOnly: false);
+                            ss: ss,
+                            view: view,
+                            bodyOnly: false);
                     }
                 });
         }

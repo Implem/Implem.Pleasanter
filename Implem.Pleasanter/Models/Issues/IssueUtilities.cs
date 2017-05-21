@@ -4705,11 +4705,11 @@ namespace Implem.Pleasanter.Models
                     if (inRange)
                     {
                         hb.Gantt(
-                          ss: ss,
-                          view: view,
-                          dataRows: GanttDataRows(ss, view, groupBy),
-                          groupBy: groupBy,
-                          bodyOnly: false);
+                            ss: ss,
+                            view: view,
+                            dataRows: GanttDataRows(ss, view, groupBy),
+                            groupBy: groupBy,
+                            bodyOnly: false);
                     }
                 });
         }
@@ -5127,9 +5127,9 @@ namespace Implem.Pleasanter.Models
                     if (inRange)
                     {
                         hb.Kamban(
-                          ss: ss,
-                          view: view,
-                          bodyOnly: false);
+                            ss: ss,
+                            view: view,
+                            bodyOnly: false);
                     }
                 });
         }
