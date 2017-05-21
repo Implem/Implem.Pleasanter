@@ -64,6 +64,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 default:
                                     return Locations.ItemIndex(parentId);
                             }
+                        case "Wikis":
+                            return QueryStrings.Int("back") == 1 && !referer.IsNullOrEmpty()
+                                ? referer
+                                : Locations.ItemIndex(parentId);
                         default:
                             switch (Routes.Action())
                             {
