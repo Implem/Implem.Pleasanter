@@ -14,6 +14,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                     .Title(templateDefinition.Title)
                     .Standard(templateDefinition.Standard)
                     .Body(templateDefinition.Body)
+                    .Tags(templateDefinition.Tags)
                     .SiteSettingsTemplate(templateDefinition.SiteSettingsTemplate))));
         }
     }
