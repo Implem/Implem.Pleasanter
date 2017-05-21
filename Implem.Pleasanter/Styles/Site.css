@@ -1967,6 +1967,10 @@ label.error{
     border:solid 1px red;
 }
 
+.with-unit+label.error{
+    width:70%;
+}
+
 .button-edit-markdown{
     position:absolute;
     top:5px;
