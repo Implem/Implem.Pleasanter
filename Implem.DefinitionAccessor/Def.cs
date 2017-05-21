@@ -887,6 +887,7 @@ namespace Implem.DefinitionAccessor
                     case "Templates_Title": Column.Templates_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Title, definitionRow, ColumnXls); break;
                     case "Templates_Standard": Column.Templates_Standard = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Standard, definitionRow, ColumnXls); break;
                     case "Templates_Body": Column.Templates_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Body, definitionRow, ColumnXls); break;
+                    case "Templates_Tags": Column.Templates_Tags = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_Tags, definitionRow, ColumnXls); break;
                     case "Templates_SiteSettingsTemplate": Column.Templates_SiteSettingsTemplate = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Templates_SiteSettingsTemplate, definitionRow, ColumnXls); break;
                     case "SysLogs_CreatedTime": Column.SysLogs_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_CreatedTime, definitionRow, ColumnXls); break;
                     case "SysLogs_SysLogId": Column.SysLogs_SysLogId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_SysLogId, definitionRow, ColumnXls); break;
@@ -5494,6 +5495,7 @@ namespace Implem.DefinitionAccessor
         public string Templates_Title;
         public string Templates_Standard;
         public string Templates_Body;
+        public string Templates_Tags;
         public string Templates_SiteSettingsTemplate;
         public string SysLogs_CreatedTime;
         public string SysLogs_SysLogId;
@@ -6182,6 +6184,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Templates_Title = new ColumnDefinition();
         public ColumnDefinition Templates_Standard = new ColumnDefinition();
         public ColumnDefinition Templates_Body = new ColumnDefinition();
+        public ColumnDefinition Templates_Tags = new ColumnDefinition();
         public ColumnDefinition Templates_SiteSettingsTemplate = new ColumnDefinition();
         public ColumnDefinition SysLogs_CreatedTime = new ColumnDefinition();
         public ColumnDefinition SysLogs_SysLogId = new ColumnDefinition();

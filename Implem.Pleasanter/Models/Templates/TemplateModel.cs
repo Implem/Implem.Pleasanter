@@ -26,16 +26,19 @@ namespace Implem.Pleasanter.Models
         public string Title = string.Empty;
         public bool Standard = false;
         public string Body = string.Empty;
+        public string Tags = string.Empty;
         public string SiteSettingsTemplate = string.Empty;
         public int SavedTemplateId = 0;
         public string SavedTitle = string.Empty;
         public bool SavedStandard = false;
         public string SavedBody = string.Empty;
+        public string SavedTags = string.Empty;
         public string SavedSiteSettingsTemplate = string.Empty;
         public bool TemplateId_Updated { get { return TemplateId != SavedTemplateId; } }
         public bool Title_Updated { get { return Title != SavedTitle && Title != null; } }
         public bool Standard_Updated { get { return Standard != SavedStandard; } }
         public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
+        public bool Tags_Updated { get { return Tags != SavedTags && Tags != null; } }
         public bool SiteSettingsTemplate_Updated { get { return SiteSettingsTemplate != SavedSiteSettingsTemplate && SiteSettingsTemplate != null; } }
 
         public TemplateModel()
@@ -238,6 +241,7 @@ namespace Implem.Pleasanter.Models
                     case "Templates_Title": Title = Forms.Data(controlId).ToString(); break;
                     case "Templates_Standard": Standard = Forms.Data(controlId).ToBool(); break;
                     case "Templates_Body": Body = Forms.Data(controlId).ToString(); break;
+                    case "Templates_Tags": Tags = Forms.Data(controlId).ToString(); break;
                     case "Templates_SiteSettingsTemplate": SiteSettingsTemplate = Forms.Data(controlId).ToString(); break;
                     case "Templates_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
@@ -286,6 +290,7 @@ namespace Implem.Pleasanter.Models
                     case "Title": Title = dataRow[name].ToString(); SavedTitle = Title; break;
                     case "Standard": Standard = dataRow[name].ToBool(); SavedStandard = Standard; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
+                    case "Tags": Tags = dataRow[name].ToString(); SavedTags = Tags; break;
                     case "SiteSettingsTemplate": SiteSettingsTemplate = dataRow[name].ToString(); SavedSiteSettingsTemplate = SiteSettingsTemplate; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;

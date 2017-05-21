@@ -45,13 +45,14 @@ namespace Implem.Pleasanter.Models
                         .Id("TemplateDialogForm")
                         .Action(Locations.ItemAction(id)),
                     action: () => hb
-                        .FieldSelectable(
-                            controlId: "TemplateSelector",
-                            fieldCss: "field-vertical w350",
-                            controlContainerCss: "container-selectable",
-                            controlWrapperCss: " h300",
-                            controlCss: " single",
-                            listItemCollection: Templates())
+                        .Span(css: "ui-icon ui-icon-search")
+                        .TextBox(
+                            controlId: "TemplateSearchText",
+                            controlCss: " w150 auto-postback",
+                            placeholder: Displays.Search(),
+                            action: "Templates",
+                            method: "post")
+                        .Templates()
                         .FieldTextBox(
                             controlId: "SiteTitle",
                             controlCss: " always-send",
@@ -76,18 +77,53 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string Templates(long id)
+        {
+            return new ResponseCollection()
+                .ReplaceAll("#TemplateSelectorField", new HtmlBuilder().Templates())
+                .Invoke("setTemplates")
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder Templates(this HtmlBuilder hb)
+        {
+            return hb.FieldSelectable(
+                fieldId: "TemplateSelectorField",
+                controlId: "TemplateSelector",
+                fieldCss: "field-vertical w350",
+                controlContainerCss: "container-selectable",
+                controlWrapperCss: " h300",
+                controlCss: " single applied",
+                listItemCollection: Templates());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static Dictionary<string, ControlData> Templates()
         {
+            var searchText = Forms.Data("TemplateSearchText");
+            var where = !searchText.IsNullOrEmpty()
+                ? Rds.TemplatesWhere().SqlWhereLike(
+                    searchText,
+                    Rds.Templates_Title_WhereLike(),
+                    Rds.Templates_Body_WhereLike(),
+                    Rds.Templates_Tags_WhereLike())
+                : null;
             return Rds.ExecuteTable(statements: Rds.SelectTemplates(
                 column: Rds.TemplatesColumn()
                     .TemplateId()
                     .Title()
                     .Standard()
-                    .SiteSettingsTemplate()))
-                        .AsEnumerable()
-                        .ToDictionary(
-                            o => o["TemplateId"].ToString(),
-                            o => new ControlData(Title(o)));
+                    .SiteSettingsTemplate(),
+                where: where))
+                    .AsEnumerable()
+                    .ToDictionary(
+                        o => o["TemplateId"].ToString(),
+                        o => new ControlData(Title(o)));
         }
 
         /// <summary>

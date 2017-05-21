@@ -483,6 +483,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Templates_Title(params string[] data) { return Get("Templates_Title", data); }
         public static string Templates_Standard(params string[] data) { return Get("Templates_Standard", data); }
         public static string Templates_Body(params string[] data) { return Get("Templates_Body", data); }
+        public static string Templates_Tags(params string[] data) { return Get("Templates_Tags", data); }
         public static string Templates_SiteSettingsTemplate(params string[] data) { return Get("Templates_SiteSettingsTemplate", data); }
         public static string SysLogs_CreatedTime(params string[] data) { return Get("SysLogs_CreatedTime", data); }
         public static string SysLogs_SysLogId(params string[] data) { return Get("SysLogs_SysLogId", data); }

@@ -432,6 +432,15 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string Templates(long id)
+        {
+            var log = new SysLogModel();
+            var json = TemplateUtilities.Templates(id);
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPost]
         public string SearchPermissionElements(long id)
         {
             var log = new SysLogModel();
