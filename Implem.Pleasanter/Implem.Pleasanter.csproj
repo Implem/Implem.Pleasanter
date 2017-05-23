@@ -490,7 +490,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Content Include="App_Data\Displays\ManageSite.json" />
     <Content Include="App_Data\Displays\Read.json" />
-    <None Include="App_Data\Parameters\Health.json" />
     <Content Include="Global.asax" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\logo-corp.png" />
@@ -1109,6 +1108,7 @@
     <Content Include="App_Data\Displays\AggregationView.json" />
     <Content Include="App_Data\Parameters\Security.json" />
     <Content Include="App_Data\Displays\BadRequest.json" />
+    <Content Include="App_Data\Parameters\Health.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
