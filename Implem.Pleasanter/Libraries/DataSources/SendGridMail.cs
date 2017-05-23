@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Host = host;
             From = from;
-            To = to;
+            To = Strings.CoalesceEmpty(to, Parameters.Mail.FixedFrom, Parameters.Mail.SupportFrom);
             Cc = cc;
             Bcc = bcc;
             Subject = subject;
