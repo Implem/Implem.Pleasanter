@@ -90,6 +90,28 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class HealthsResponseCollection : ResponseCollection
+    {
+        public HealthModel HealthModel;
+
+        public HealthsResponseCollection(HealthModel healthModel)
+        {
+            HealthModel = healthModel;
+        }
+
+        public HealthsResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public HealthsResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class DeptsResponseCollection : ResponseCollection
     {
         public DeptModel DeptModel;
@@ -546,6 +568,26 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static StatusesResponseCollection Timestamp(this StatusesResponseCollection res, string value) { return res.Val("#Statuses_Timestamp", value); }
         public static StatusesResponseCollection Timestamp_FormData(this StatusesResponseCollection res) { return res.ValAndFormData("#Statuses_Timestamp", res.StatusModel.Timestamp.ToResponse()); }
         public static StatusesResponseCollection Timestamp_FormData(this StatusesResponseCollection res, string value) { return res.ValAndFormData("#Statuses_Timestamp", value); }
+        public static HealthsResponseCollection Ver(this HealthsResponseCollection res) { return res.Val("#Healths_Ver", res.HealthModel.Ver.ToResponse()); }
+        public static HealthsResponseCollection Ver(this HealthsResponseCollection res, string value) { return res.Val("#Healths_Ver", value); }
+        public static HealthsResponseCollection Ver_FormData(this HealthsResponseCollection res) { return res.ValAndFormData("#Healths_Ver", res.HealthModel.Ver.ToResponse()); }
+        public static HealthsResponseCollection Ver_FormData(this HealthsResponseCollection res, string value) { return res.ValAndFormData("#Healths_Ver", value); }
+        public static HealthsResponseCollection Comments(this HealthsResponseCollection res) { return res.Val("#Healths_Comments", res.HealthModel.Comments.ToResponse()); }
+        public static HealthsResponseCollection Comments(this HealthsResponseCollection res, string value) { return res.Val("#Healths_Comments", value); }
+        public static HealthsResponseCollection Comments_FormData(this HealthsResponseCollection res) { return res.ValAndFormData("#Healths_Comments", res.HealthModel.Comments.ToResponse()); }
+        public static HealthsResponseCollection Comments_FormData(this HealthsResponseCollection res, string value) { return res.ValAndFormData("#Healths_Comments", value); }
+        public static HealthsResponseCollection CreatedTime(this HealthsResponseCollection res) { return res.Val("#Healths_CreatedTime", res.HealthModel.CreatedTime.ToResponse()); }
+        public static HealthsResponseCollection CreatedTime(this HealthsResponseCollection res, string value) { return res.Val("#Healths_CreatedTime", value); }
+        public static HealthsResponseCollection CreatedTime_FormData(this HealthsResponseCollection res) { return res.ValAndFormData("#Healths_CreatedTime", res.HealthModel.CreatedTime.ToResponse()); }
+        public static HealthsResponseCollection CreatedTime_FormData(this HealthsResponseCollection res, string value) { return res.ValAndFormData("#Healths_CreatedTime", value); }
+        public static HealthsResponseCollection UpdatedTime(this HealthsResponseCollection res) { return res.Val("#Healths_UpdatedTime", res.HealthModel.UpdatedTime.ToResponse()); }
+        public static HealthsResponseCollection UpdatedTime(this HealthsResponseCollection res, string value) { return res.Val("#Healths_UpdatedTime", value); }
+        public static HealthsResponseCollection UpdatedTime_FormData(this HealthsResponseCollection res) { return res.ValAndFormData("#Healths_UpdatedTime", res.HealthModel.UpdatedTime.ToResponse()); }
+        public static HealthsResponseCollection UpdatedTime_FormData(this HealthsResponseCollection res, string value) { return res.ValAndFormData("#Healths_UpdatedTime", value); }
+        public static HealthsResponseCollection Timestamp(this HealthsResponseCollection res) { return res.Val("#Healths_Timestamp", res.HealthModel.Timestamp.ToResponse()); }
+        public static HealthsResponseCollection Timestamp(this HealthsResponseCollection res, string value) { return res.Val("#Healths_Timestamp", value); }
+        public static HealthsResponseCollection Timestamp_FormData(this HealthsResponseCollection res) { return res.ValAndFormData("#Healths_Timestamp", res.HealthModel.Timestamp.ToResponse()); }
+        public static HealthsResponseCollection Timestamp_FormData(this HealthsResponseCollection res, string value) { return res.ValAndFormData("#Healths_Timestamp", value); }
         public static DeptsResponseCollection DeptId(this DeptsResponseCollection res) { return res.Val("#Depts_DeptId", res.DeptModel.DeptId.ToResponse()); }
         public static DeptsResponseCollection DeptId(this DeptsResponseCollection res, string value) { return res.Val("#Depts_DeptId", value); }
         public static DeptsResponseCollection DeptId_FormData(this DeptsResponseCollection res) { return res.ValAndFormData("#Depts_DeptId", res.DeptModel.DeptId.ToResponse()); }

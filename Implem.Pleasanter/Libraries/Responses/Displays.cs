@@ -527,6 +527,12 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Statuses_TenantId(params string[] data) { return Get("Statuses_TenantId", data); }
         public static string Statuses_StatusId(params string[] data) { return Get("Statuses_StatusId", data); }
         public static string Statuses_Value(params string[] data) { return Get("Statuses_Value", data); }
+        public static string Healths_HealthId(params string[] data) { return Get("Healths_HealthId", data); }
+        public static string Healths_TenantCount(params string[] data) { return Get("Healths_TenantCount", data); }
+        public static string Healths_UserCount(params string[] data) { return Get("Healths_UserCount", data); }
+        public static string Healths_ItemCount(params string[] data) { return Get("Healths_ItemCount", data); }
+        public static string Healths_ErrorCount(params string[] data) { return Get("Healths_ErrorCount", data); }
+        public static string Healths_Elapsed(params string[] data) { return Get("Healths_Elapsed", data); }
         public static string Depts_TenantId(params string[] data) { return Get("Depts_TenantId", data); }
         public static string Depts_DeptId(params string[] data) { return Get("Depts_DeptId", data); }
         public static string Depts_DeptCode(params string[] data) { return Get("Depts_DeptCode", data); }
@@ -982,6 +988,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Statuses_UpdatedTime(params string[] data) { return Get("Statuses_UpdatedTime", data); }
         public static string Statuses_VerUp(params string[] data) { return Get("Statuses_VerUp", data); }
         public static string Statuses_Timestamp(params string[] data) { return Get("Statuses_Timestamp", data); }
+        public static string Healths_Ver(params string[] data) { return Get("Healths_Ver", data); }
+        public static string Healths_Comments(params string[] data) { return Get("Healths_Comments", data); }
+        public static string Healths_Creator(params string[] data) { return Get("Healths_Creator", data); }
+        public static string Healths_Updator(params string[] data) { return Get("Healths_Updator", data); }
+        public static string Healths_CreatedTime(params string[] data) { return Get("Healths_CreatedTime", data); }
+        public static string Healths_UpdatedTime(params string[] data) { return Get("Healths_UpdatedTime", data); }
+        public static string Healths_VerUp(params string[] data) { return Get("Healths_VerUp", data); }
+        public static string Healths_Timestamp(params string[] data) { return Get("Healths_Timestamp", data); }
         public static string Depts_Ver(params string[] data) { return Get("Depts_Ver", data); }
         public static string Depts_Comments(params string[] data) { return Get("Depts_Comments", data); }
         public static string Depts_Creator(params string[] data) { return Get("Depts_Creator", data); }
@@ -1144,6 +1158,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Templates(params string[] data) { return Get("Templates", data); }
         public static string SysLogs(params string[] data) { return Get("SysLogs", data); }
         public static string Statuses(params string[] data) { return Get("Statuses", data); }
+        public static string Healths(params string[] data) { return Get("Healths", data); }
         public static string Depts(params string[] data) { return Get("Depts", data); }
         public static string Groups(params string[] data) { return Get("Groups", data); }
         public static string GroupMembers(params string[] data) { return Get("GroupMembers", data); }

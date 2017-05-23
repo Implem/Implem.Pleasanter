@@ -409,6 +409,10 @@
     <Compile Include="Models\Groups\GroupModel.cs" />
     <Compile Include="Models\Groups\GroupUtilities.cs" />
     <Compile Include="Models\Groups\GroupValidators.cs" />
+    <Compile Include="Models\Healths\HealthCollection.cs" />
+    <Compile Include="Models\Healths\HealthModel.cs" />
+    <Compile Include="Models\Healths\HealthUtilities.cs" />
+    <Compile Include="Models\Healths\HealthValidators.cs" />
     <Compile Include="Models\Issues\IssueCollection.cs" />
     <Compile Include="Models\Issues\IssueModel.cs" />
     <Compile Include="Models\Issues\IssueUtilities.cs" />
@@ -486,6 +490,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Content Include="App_Data\Displays\ManageSite.json" />
     <Content Include="App_Data\Displays\Read.json" />
+    <None Include="App_Data\Parameters\Health.json" />
     <Content Include="Global.asax" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\logo-corp.png" />
@@ -657,6 +662,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\AdminTasks\" />
+    <Folder Include="Views\Mainte\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Definitions\definition_Demo.xlsm" />

@@ -12,6 +12,7 @@ namespace Implem.DefinitionAccessor
         public static Dictionary<string, IEnumerable<string>> ExcludeColumns;
         public static List<Format> Formats;
         public static General General;
+        public static Health Health;
         public static Mail Mail;
         public static Path Path;
         public static Permissions Permissions;

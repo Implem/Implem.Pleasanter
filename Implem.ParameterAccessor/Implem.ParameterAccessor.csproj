@@ -52,6 +52,7 @@
     <Compile Include="Parts\ContractType.cs" />
     <Compile Include="Parts\Format.cs" />
     <Compile Include="Parts\General.cs" />
+    <Compile Include="Parts\Health.cs" />
     <Compile Include="Parts\Security.cs" />
     <Compile Include="Parts\Mail.cs" />
     <Compile Include="Parts\Path.cs" />
