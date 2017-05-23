@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using System;
@@ -25,6 +26,7 @@ namespace Implem.Pleasanter.Filters
                         {
                             Defenses.RequestVolume.Add(
                                 userHostAddress, new TwoData<string, int>(thisMinute, 0));
+                            Defenses.RequestVolume.RemoveAll((k, v) => v.Data1 != thisMinute);
                         }
                         catch (Exception)
                         {
