@@ -13,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.General
             Authentication,
             BadFormat,
             BadMailAddress,
+            BadRequest,
             CanNotChangeInheritance,
             CanNotDisabled,
             CanNotInherit,
@@ -73,6 +74,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.BadFormat(data);
                 case Types.BadMailAddress:
                     return Messages.BadMailAddress(data);
+                case Types.BadRequest:
+                    return Messages.BadRequest(data);
                 case Types.CanNotChangeInheritance:
                     return Messages.CanNotChangeInheritance(data);
                 case Types.CanNotDisabled:

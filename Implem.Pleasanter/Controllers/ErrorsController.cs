@@ -1,7 +1,6 @@
 ﻿using Implem.Pleasanter.Filters;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
-using System.Net;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
@@ -21,6 +20,21 @@ namespace Implem.Pleasanter.Controllers
             else
             {
                 return Content(Error.Types.ApplicationError.MessageJson());
+            }
+        }
+
+        [AllowAnonymous]
+        public ActionResult BadRequest()
+        {
+            // Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            if (!Request.IsAjaxRequest())
+            {
+                ViewBag.HtmlBody = HtmlTemplates.Error(Error.Types.BadRequest);
+                return View();
+            }
+            else
+            {
+                return Content(Error.Types.NotFound.MessageJson());
             }
         }
 

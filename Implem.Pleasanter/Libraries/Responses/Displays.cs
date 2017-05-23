@@ -65,6 +65,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Average(params string[] data) { return Get("Average", data); }
         public static string BadFormat(params string[] data) { return Get("BadFormat", data); }
         public static string BadMailAddress(params string[] data) { return Get("BadMailAddress", data); }
+        public static string BadRequest(params string[] data) { return Get("BadRequest", data); }
         public static string Basic(params string[] data) { return Get("Basic", data); }
         public static string BeforeCondition(params string[] data) { return Get("BeforeCondition", data); }
         public static string Blog(params string[] data) { return Get("Blog", data); }

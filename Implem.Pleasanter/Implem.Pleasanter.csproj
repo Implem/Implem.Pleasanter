@@ -211,6 +211,7 @@
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
     <Compile Include="Filters\CheckContractAttribute.cs" />
     <Compile Include="Filters\RefleshSiteInfoAttribute.cs" />
+    <Compile Include="Filters\RequestLimitAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -260,6 +261,7 @@
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_005.cs" />
     <Compile Include="Libraries\Requests\Calendars.cs" />
     <Compile Include="Libraries\Responses\Displays.cs" />
+    <Compile Include="Libraries\Security\Defenses.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
     <Compile Include="Libraries\Server\Contract.cs" />
     <Compile Include="Libraries\Server\TenantCache.cs" />
@@ -1099,6 +1101,8 @@
     <Content Include="App_Data\Displays\Today.json" />
     <Content Include="App_Data\Displays\ThisMonth.json" />
     <Content Include="App_Data\Displays\AggregationView.json" />
+    <Content Include="App_Data\Parameters\Security.json" />
+    <Content Include="App_Data\Displays\BadRequest.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
@@ -1109,6 +1113,7 @@
     <Content Include="Views\Groups\New.cshtml" />
     <Content Include="Views\Versions\Index.cshtml" />
     <Content Include="Views\Items\Calendar.cshtml" />
+    <Content Include="Views\Errors\BadRequest.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

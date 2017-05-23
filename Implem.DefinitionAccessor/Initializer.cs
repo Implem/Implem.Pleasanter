@@ -91,6 +91,8 @@ namespace Implem.DefinitionAccessor
                 .Deserialize<ParameterAccessor.Parts.Permissions>();
             Parameters.Rds = Files.Read(ParametersPath("Rds"))
                 .Deserialize<ParameterAccessor.Parts.Rds>();
+            Parameters.Security = Files.Read(ParametersPath("Security"))
+                .Deserialize<ParameterAccessor.Parts.Security>();
             Parameters.Service = Files.Read(ParametersPath("Service"))
                 .Deserialize<ParameterAccessor.Parts.Service>();
             Parameters.SysLog = Files.Read(ParametersPath("SysLog"))

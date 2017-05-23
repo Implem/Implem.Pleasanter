@@ -48,6 +48,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.BadMailAddress(data), "alert-error");
         }
 
+        public static Message BadRequest(params string[] data)
+        {
+            return Get(Displays.BadRequest(data), "alert-error");
+        }
+
         public static Message BulkDeleted(params string[] data)
         {
             return Get(Displays.BulkDeleted(data), "alert-success");
@@ -421,6 +426,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseBadMailAddress(params string[] data)
         {
             return ResponseMessage(BadMailAddress(data));
+        }
+
+        public static ResponseCollection ResponseBadRequest(params string[] data)
+        {
+            return ResponseMessage(BadRequest(data));
         }
 
         public static ResponseCollection ResponseBulkDeleted(params string[] data)
