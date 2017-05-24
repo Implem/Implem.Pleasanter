@@ -22,6 +22,9 @@ namespace Implem.Pleasanter.Models
 {
     public static class HealthUtilities
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static void Maintain()
         {
             var thisHour = DateTime.Now.ToString("yyyy/MM/dd HH:00:00").ToDateTime();
