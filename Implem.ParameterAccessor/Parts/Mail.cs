@@ -2,7 +2,6 @@
 {
     public class Mail
     {
-        public string SmtpProvider;
         public string SmtpHost;
         public int SmtpPort;
         public string SmtpUserName;
