@@ -355,6 +355,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Required(params string[] data) { return Get("Required", data); }
         public static string RequiredPermission(params string[] data) { return Get("RequiredPermission", data); }
         public static string RequireMailAddresses(params string[] data) { return Get("RequireMailAddresses", data); }
+        public static string RequireTo(params string[] data) { return Get("RequireTo", data); }
         public static string Reset(params string[] data) { return Get("Reset", data); }
         public static string ResetOrder(params string[] data) { return Get("ResetOrder", data); }
         public static string ResetPassword(params string[] data) { return Get("ResetPassword", data); }

@@ -31,6 +31,11 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission;
             }
+            if (DefinitionAccessor.Parameters.Mail.SmtpHost == "smtp.sendgrid.net" &&
+                outgoingMailModel.To == string.Empty)
+            {
+                return Error.Types.RequireTo;
+            }
             if ((outgoingMailModel.To +
                 outgoingMailModel.Cc +
                 outgoingMailModel.Bcc).Trim() == string.Empty)

@@ -1109,6 +1109,7 @@
     <Content Include="App_Data\Parameters\Security.json" />
     <Content Include="App_Data\Displays\BadRequest.json" />
     <Content Include="App_Data\Parameters\Health.json" />
+    <Content Include="App_Data\Displays\RequireTo.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

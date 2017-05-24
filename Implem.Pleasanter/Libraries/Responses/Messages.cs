@@ -338,6 +338,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.RequireMailAddresses(data), "alert-error");
         }
 
+        public static Message RequireTo(params string[] data)
+        {
+            return Get(Displays.RequireTo(data), "alert-error");
+        }
+
         public static Message Restricted(params string[] data)
         {
             return Get(Displays.Restricted(data), "alert-error");
@@ -716,6 +721,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseRequireMailAddresses(params string[] data)
         {
             return ResponseMessage(RequireMailAddresses(data));
+        }
+
+        public static ResponseCollection ResponseRequireTo(params string[] data)
+        {
+            return ResponseMessage(RequireTo(data));
         }
 
         public static ResponseCollection ResponseRestricted(params string[] data)
