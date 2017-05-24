@@ -3245,6 +3245,13 @@ namespace Implem.DefinitionAccessor
                     case "Template101": Template.Template101 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template101, definitionRow, TemplateXls); break;
                     case "Template102": Template.Template102 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template102, definitionRow, TemplateXls); break;
                     case "Template103": Template.Template103 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template103, definitionRow, TemplateXls); break;
+                    case "Template104": Template.Template104 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template104, definitionRow, TemplateXls); break;
+                    case "Template105": Template.Template105 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template105, definitionRow, TemplateXls); break;
+                    case "Template106": Template.Template106 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template106, definitionRow, TemplateXls); break;
+                    case "Template107": Template.Template107 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template107, definitionRow, TemplateXls); break;
+                    case "Template108": Template.Template108 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template108, definitionRow, TemplateXls); break;
+                    case "Template109": Template.Template109 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template109, definitionRow, TemplateXls); break;
+                    case "Template110": Template.Template110 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template110, definitionRow, TemplateXls); break;
                     default: break;
                 }
             });
@@ -9625,6 +9632,13 @@ namespace Implem.DefinitionAccessor
         public string Template101;
         public string Template102;
         public string Template103;
+        public string Template104;
+        public string Template105;
+        public string Template106;
+        public string Template107;
+        public string Template108;
+        public string Template109;
+        public string Template110;
     }
 
     public class TemplateTable
@@ -9732,6 +9746,13 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template101 = new TemplateDefinition();
         public TemplateDefinition Template102 = new TemplateDefinition();
         public TemplateDefinition Template103 = new TemplateDefinition();
+        public TemplateDefinition Template104 = new TemplateDefinition();
+        public TemplateDefinition Template105 = new TemplateDefinition();
+        public TemplateDefinition Template106 = new TemplateDefinition();
+        public TemplateDefinition Template107 = new TemplateDefinition();
+        public TemplateDefinition Template108 = new TemplateDefinition();
+        public TemplateDefinition Template109 = new TemplateDefinition();
+        public TemplateDefinition Template110 = new TemplateDefinition();
     }
 
     public class ViewModeDefinition
