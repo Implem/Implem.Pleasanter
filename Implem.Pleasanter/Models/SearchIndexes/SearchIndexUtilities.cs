@@ -114,9 +114,8 @@ namespace Implem.Pleasanter.Models
                 pageSize: Parameters.General.SearchPageSize);
             var results = dataSet?.Tables["Main"].AsEnumerable();
             var res = new ResponseCollection();
-            if (offset == 0)
-            {
-                res
+            return offset == 0
+                ? res
                     .ReplaceAll(
                         "#MainContainer",
                         MainContainer(
@@ -124,11 +123,9 @@ namespace Implem.Pleasanter.Models
                             offset: 0,
                             results: results,
                             count: Rds.Count(dataSet)))
-                    .Focus("#Search");
-            }
-            else
-            {
-                res
+                    .Focus("#Search")
+                    .ToJson()
+                : res
                     .Append(
                         "#SearchResults",
                         new HtmlBuilder().Results(text: text, offset: offset, results: results))
@@ -138,9 +135,8 @@ namespace Implem.Pleasanter.Models
                         results.Any() &&
                         results.Count() == Parameters.General.SearchPageSize
                             ? offset + Parameters.General.SearchPageSize
-                            : -1).ToString());
-            }
-            return res.ToJson();
+                            : -1).ToString())
+                    .ToJson();
         }
 
         /// <summary>
