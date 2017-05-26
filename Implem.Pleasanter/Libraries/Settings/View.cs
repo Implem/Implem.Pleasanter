@@ -31,6 +31,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CalendarColumn;
         public DateTime? CalendarMonth;
         public string GanttGroupBy;
+        public string GanttSortBy;
         public string TimeSeriesGroupBy;
         public string TimeSeriesAggregateType;
         public string TimeSeriesValue;
@@ -118,6 +119,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     case "GanttGroupBy":
                         GanttGroupBy = String(controlId);
+                        break;
+                    case "GanttSortBy":
+                        GanttSortBy = String(controlId);
                         break;
                     case "TimeSeriesGroupBy":
                         TimeSeriesGroupBy = String(controlId);
@@ -368,6 +372,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!GanttGroupBy.IsNullOrEmpty())
             {
                 view.GanttGroupBy = GanttGroupBy;
+            }
+            if (!GanttSortBy.IsNullOrEmpty())
+            {
+                view.GanttSortBy = GanttSortBy;
             }
             if (!TimeSeriesGroupBy.IsNullOrEmpty())
             {

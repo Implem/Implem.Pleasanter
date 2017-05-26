@@ -10,10 +10,12 @@ namespace Implem.Pleasanter.Libraries.ViewModes
     public class Gantt : List<GanttElement>
     {
         public Column GroupBy;
+        public Column SortBy;
 
-        public Gantt(SiteSettings ss, IEnumerable<DataRow> dataRows, string groupBy)
+        public Gantt(SiteSettings ss, IEnumerable<DataRow> dataRows, string groupBy, string sortBy)
         {
             GroupBy = ss.GetColumn(groupBy);
+            SortBy = ss.GetColumn(sortBy);
             var status = ss.GetColumn("Status");
             var workValue = ss.GetColumn("WorkValue");
             var progressRate = ss.GetColumn("ProgressRate");
@@ -21,6 +23,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 Add(new GanttElement(
                     GroupBy != null
                         ? dataRow["GroupBy"].ToString()
+                        : string.Empty,
+                    SortBy != null
+                        ? dataRow["SortBy"].ToString()
                         : string.Empty,
                     dataRow["Id"].ToLong(),
                     Titles.DisplayValue(ss, dataRow),
@@ -91,6 +96,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             var workValueData = dataRows.Sum(o => o["WorkValue"].ToDecimal());
             Add(new GanttElement(
                 groupBy,
+                string.Empty,
                 0,
                 Displays.Total() + ": " + title,
                 workValueData,
@@ -125,12 +131,14 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 .EditChoices(insertBlank: true)
                 .Select(o => o.Key)
                 .ToList();
-            return Jsons.ToJson(this
+            return this
                 .OrderBy(o => choices?.IndexOf(o.GroupBy))
                 .ThenByDescending(o => o.GroupSummary)
+                .ThenBy(o => o.SortBy)
                 .ThenBy(o => o.StartTime)
                 .ThenBy(o => o.CompletionTime)
-                .ThenBy(o => o.Title));
+                .ThenBy(o => o.Title)
+                .ToJson();
         }
     }
 }

@@ -3650,6 +3650,13 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.GroupBy(),
                         optionCollection: ss.GanttGroupByOptions(),
                         selectedValue: view.GanttGroupBy,
+                        insertBlank: true)
+                    .FieldDropDown(
+                        controlId: "GanttSortBy",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.SortBy(),
+                        optionCollection: ss.GanttSortOptions(),
+                        selectedValue: view.GanttSortBy,
                         insertBlank: true))
                 : hb;
         }

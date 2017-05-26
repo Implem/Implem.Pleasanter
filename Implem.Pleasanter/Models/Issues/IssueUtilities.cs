@@ -4687,6 +4687,9 @@ namespace Implem.Pleasanter.Models
             var groupBy = !view.GanttGroupBy.IsNullOrEmpty()
                 ? view.GanttGroupBy
                 : string.Empty;
+            var sortBy = !view.GanttSortBy.IsNullOrEmpty()
+                ? view.GanttSortBy
+                : string.Empty;
             var inRange = issueCollection.Aggregations.TotalCount <=
                 Parameters.General.GanttLimit;
             if (!inRange)
@@ -4707,8 +4710,9 @@ namespace Implem.Pleasanter.Models
                         hb.Gantt(
                             ss: ss,
                             view: view,
-                            dataRows: GanttDataRows(ss, view, groupBy),
+                            dataRows: GanttDataRows(ss, view, groupBy, sortBy),
                             groupBy: groupBy,
+                            sortBy: sortBy,
                             bodyOnly: false);
                     }
                 });
@@ -4729,6 +4733,9 @@ namespace Implem.Pleasanter.Models
             var groupBy = !view.GanttGroupBy.IsNullOrEmpty()
                 ? view.GanttGroupBy
                 : string.Empty;
+            var sortBy = !view.GanttSortBy.IsNullOrEmpty()
+                ? view.GanttSortBy
+                : string.Empty;
             return issueCollection.Aggregations.TotalCount <= Parameters.General.GanttLimit
                 ? new ResponseCollection()
                     .Html(
@@ -4736,8 +4743,9 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().Gantt(
                             ss: ss,
                             view: view,
-                            dataRows: GanttDataRows(ss, view, groupBy),
+                            dataRows: GanttDataRows(ss, view, groupBy, sortBy),
                             groupBy: groupBy,
+                            sortBy: sortBy,
                             bodyOnly: bodyOnly))
                     .View(ss: ss, view: view)
                     .ReplaceAll(
@@ -4770,16 +4778,19 @@ namespace Implem.Pleasanter.Models
             View view,
             EnumerableRowCollection<DataRow> dataRows,
             string groupBy,
+            string sortBy,
             bool bodyOnly)
         {
             return !bodyOnly
                 ? hb.Gantt(
                     ss: ss,
                     groupBy: groupBy,
+                    sortBy: sortBy,
                     dataRows: dataRows)
                 : hb.GanttBody(
                     ss: ss,
                     groupBy: groupBy,
+                    sortBy: sortBy,
                     dataRows: dataRows);
         }
 
@@ -4787,7 +4798,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static EnumerableRowCollection<DataRow> GanttDataRows(
-            SiteSettings ss, View view, string groupBy)
+            SiteSettings ss, View view, string groupBy, string sortBy)
         {
             return Rds.ExecuteTable(statements:
                 Rds.SelectIssues(
@@ -4803,7 +4814,8 @@ namespace Implem.Pleasanter.Models
                         .Updator()
                         .CreatedTime()
                         .UpdatedTime()
-                        .IssuesColumn(groupBy, _as: "GroupBy"),
+                        .IssuesColumn(groupBy, _as: "GroupBy")
+                        .IssuesColumn(sortBy, _as: "SortBy"),
                     where: view.Where(ss, Rds.IssuesWhere().SiteId(ss.SiteId))))
                         .AsEnumerable();
         }

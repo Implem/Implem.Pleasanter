@@ -9,6 +9,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
     public class GanttElement
     {
         public string GroupBy;
+        public string SortBy;
         public long Id;
         public string Title;
         public string StartTime;
@@ -20,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         public GanttElement(
             string groupBy,
+            string sortBy,
             long id,
             string title,
             decimal workValue,
@@ -37,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             bool? summary = null)
         {
             GroupBy = groupBy;
+            SortBy = sortBy;
             Id = id;
             Title = "{0} ({1}{2} * {3}{4}) {5} : {6}".Params(
                 title,

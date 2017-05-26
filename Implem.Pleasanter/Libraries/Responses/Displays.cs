@@ -388,6 +388,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SiteTitle(params string[] data) { return Get("SiteTitle", data); }
         public static string SiteUser(params string[] data) { return Get("SiteUser", data); }
         public static string Slack(params string[] data) { return Get("Slack", data); }
+        public static string SortBy(params string[] data) { return Get("SortBy", data); }
         public static string Sorters(params string[] data) { return Get("Sorters", data); }
         public static string Special(params string[] data) { return Get("Special", data); }
         public static string Spinner(params string[] data) { return Get("Spinner", data); }
