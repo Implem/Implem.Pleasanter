@@ -160,7 +160,7 @@ namespace Implem.Pleasanter.Models
             return new DeptCollection(
                 ss: ss,
                 column: GridSqlColumnCollection(ss),
-                where: view.Where(ss, Rds.DeptsWhere().TenantId(Sessions.TenantId())),
+                where: view.Where(ss: ss, where: Rds.DeptsWhere().TenantId(Sessions.TenantId())),
                 orderBy: view.OrderBy(ss, Rds.DeptsOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)),
                 offset: offset,

@@ -161,7 +161,7 @@ namespace Implem.Pleasanter.Models
             return new UserCollection(
                 ss: ss,
                 column: GridSqlColumnCollection(ss),
-                where: view.Where(ss, Rds.UsersWhere().TenantId(Sessions.TenantId())),
+                where: view.Where(ss: ss, where: Rds.UsersWhere().TenantId(Sessions.TenantId())),
                 orderBy: view.OrderBy(ss, Rds.UsersOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)),
                 offset: offset,

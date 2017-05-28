@@ -157,7 +157,7 @@ namespace Implem.Pleasanter.Models
             return new GroupCollection(
                 ss: ss,
                 column: GridSqlColumnCollection(ss),
-                where: view.Where(ss, Rds.GroupsWhere()
+                where: view.Where(ss: ss, where: Rds.GroupsWhere()
                     .TenantId(Sessions.TenantId())
                     .GroupId_In(
                         sub: Rds.SelectGroupMembers(
