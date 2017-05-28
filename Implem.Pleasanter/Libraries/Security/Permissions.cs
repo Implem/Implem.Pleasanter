@@ -105,7 +105,9 @@ namespace Implem.Pleasanter.Libraries.Security
             }
             else
             {
-                return where.Add(raw: "[SiteId]={0}".Params(ss.SiteId));
+                return ss.Columns.Any(o => o.ColumnName == "SiteId")
+                    ? where.Add(raw: "[SiteId]={0}".Params(ss.SiteId))
+                    : where;
             }
         }
 
