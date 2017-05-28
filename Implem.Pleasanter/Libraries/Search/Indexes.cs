@@ -1,6 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
-using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -155,13 +154,14 @@ namespace Implem.Pleasanter.Libraries.Search
             {
                 return;
             }
-            Rds.ExecuteNonQuery(statements: Rds.PhysicalDeleteSearchIndexes(
-                where: Rds.SearchIndexesWhere().ReferenceId(id)));
+            var init = true;
             hash?.Buffer(2000).ForEach(data =>
             {
                 try
                 {
-                    Rds.ExecuteNonQuery(statements: Statements(data, id));
+                    Rds.ExecuteNonQuery(
+                        transactional: true,
+                        statements: Statements(data, id, init));
                 }
                 catch (System.Data.SqlClient.SqlException e)
                 {
@@ -175,13 +175,19 @@ namespace Implem.Pleasanter.Libraries.Search
                 {
                     new SysLogModel(e);
                 }
+                init = false;
             });
         }
 
         private static SqlStatement[] Statements(
-            IList<KeyValuePair<string, int>> searchIndexCollection, long id)
+            IList<KeyValuePair<string, int>> searchIndexCollection, long id, bool init)
         {
             var statements = new List<SqlStatement>();
+            if (init)
+            {
+                statements.Add(Rds.PhysicalDeleteSearchIndexes(
+                    where: Rds.SearchIndexesWhere().ReferenceId(id)));
+            }
             searchIndexCollection.ForEach(word =>
                 statements.Add(Rds.InsertSearchIndexes(
                     param: Rds.SearchIndexesParam()
