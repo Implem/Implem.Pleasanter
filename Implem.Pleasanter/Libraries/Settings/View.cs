@@ -729,7 +729,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss, SqlWhereCollection where, IEnumerable<string> words)
         {
             var results = SearchIndexUtilities.GetIdCollection(
-                searchIndexes: words, siteId: ss.SiteId).Join();
+                searchIndexes: words,
+                siteIdList: ss.AllowedIntegratedSites != null
+                    ? ss.AllowedIntegratedSites
+                    : new List<long> { ss.SiteId }).Join();
             if (results != string.Empty)
             {
                 switch (ss.ReferenceType)

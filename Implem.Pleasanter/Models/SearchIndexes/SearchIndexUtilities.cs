@@ -246,12 +246,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static IEnumerable<long> GetIdCollection(IEnumerable<string> searchIndexes, long siteId)
+        public static IEnumerable<long> GetIdCollection(
+            IEnumerable<string> searchIndexes, IEnumerable<long> siteIdList)
         {
             return Get(
                 searchIndexes: searchIndexes,
                 column: Rds.SearchIndexesColumn().ReferenceId(),
-                siteId: siteId)
+                siteIdList: siteIdList)
                     .Tables[0]
                     .AsEnumerable()
                     .Distinct()
@@ -281,7 +282,7 @@ namespace Implem.Pleasanter.Models
         public static DataSet Get(
             IEnumerable<string> searchIndexes,
             SqlColumnCollection column,
-            long siteId = 0,
+            IEnumerable<long> siteIdList = null,
             int offset = 0,
             int pageSize = 0,
             bool countRecord = false)
@@ -297,7 +298,9 @@ namespace Implem.Pleasanter.Models
                     where: Rds.SearchIndexesWhere()
                         .Word(searchIndexes, multiParamOperator: " or ")
                         .PermissionType(0, _operator: "<>")
-                        .Items_SiteId(value: siteId, _using: siteId != 0),
+                        .Add(
+                            raw: "[Items].[SiteId] in ({0})".Params(siteIdList.Join()),
+                            _using: siteIdList?.Any() == true),
                     groupBy: Rds.SearchIndexesGroupBy()
                         .ReferenceId()
                         .ReferenceType(),

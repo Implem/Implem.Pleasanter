@@ -1754,7 +1754,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? SearchIndexUtilities.Get(
                     searchIndexes: searchIndexes,
                     column: Rds.SearchIndexesColumn().ReferenceId(),
-                    siteId: link.SiteId,
+                    siteIdList: new List<long> { link.SiteId },
                     pageSize: Parameters.General.DropDownSearchLimit)
                         .Tables[0]
                         .AsEnumerable()
