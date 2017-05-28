@@ -35,12 +35,15 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
 
         internal static bool CheckExclude(CodeDefinition codeDefinition, string tableName)
         {
-            if (codeDefinition.ItemOnly && !Def.ExistsTable(tableName, o => o.ItemId > 0)) return true;
-            if (codeDefinition.NotItem && Def.ExistsTable(tableName, o => o.ItemId > 0)) return true;
-            if (codeDefinition.GenericUi && !Def.ExistsTable(tableName, o => o.GenericUi)) return true;
-            if (codeDefinition.UpdateMonitor && !Def.ExistsTable(tableName, o => o.UpdateMonitor)) return true;
-            if (codeDefinition.HasIdentity && !Def.ExistsTable(tableName, o => o.Identity)) return true;
-            if (codeDefinition.HasNotIdentity && Def.ExistsTable(tableName, o => o.Identity)) return true;
+            var columns = Def.ColumnDefinitionCollection
+                .Where(o => o.TableName == tableName)
+                .ToList();
+            if (codeDefinition.ItemOnly && !columns.Any(o => o.ItemId > 0)) return true;
+            if (codeDefinition.NotItem && columns.Any(o => o.ItemId > 0)) return true;
+            if (codeDefinition.GenericUi && !columns.Any(o => o.GenericUi)) return true;
+            if (codeDefinition.UpdateMonitor && !columns.Any(o => o.UpdateMonitor)) return true;
+            if (codeDefinition.HasIdentity && !columns.Any(o => o.Identity)) return true;
+            if (codeDefinition.HasNotIdentity && columns.Any(o => o.Identity)) return true;
             if (codeDefinition.HasTableNameId && tableName.CsTypeIdColumn() == string.Empty) return true;
             if (codeDefinition.HasNotTableNameId && tableName.CsTypeIdColumn() != string.Empty) return true;
             if (codeDefinition.Exclude.Split(',').Contains(tableName)) return true;

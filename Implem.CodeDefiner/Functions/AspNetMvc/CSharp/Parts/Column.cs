@@ -16,7 +16,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             var columnCollection = Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == dataContainer.TableName)
                 .Where(o => !CheckExclude(codeDefinition, o))
-                .OrderBy(o => o[Strings.CoalesceEmpty(codeDefinition.Order, "No")]);
+                .OrderBy(o => o[Strings.CoalesceEmpty(codeDefinition.Order, "No")])
+                .ToList();
+            var count = columnCollection.Count();
             columnCollection.ForEach(columnDefinition =>
             {
                 dataContainer.ColumnName = columnDefinition.ColumnName;
@@ -29,7 +31,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                         ref code,
                         codeDefinition,
                         columnDefinition,
-                        columnCollection.Count()));
+                        count));
                 dataContainer.ColumnName = string.Empty;
             });
         }
