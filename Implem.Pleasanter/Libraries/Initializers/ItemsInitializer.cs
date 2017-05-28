@@ -101,8 +101,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceId(issueModel.IssueId)
                                             .ReferenceType("Issues")
                                             .SiteId(issueModel.SiteId)
-                                            .Title(IssueUtilities.TitleDisplayValue(
-                                                ss, issueModel))),
+                                            .Title(issueModel.Title.DisplayValue)),
                                     Rds.IdentityInsertItems(on: false)
                                 });
                         }
@@ -138,8 +137,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .Ver(issueModel.Ver)
                                             .ReferenceType("Issues")
                                             .SiteId(issueModel.SiteId)
-                                            .Title(IssueUtilities.TitleDisplayValue(
-                                                ss, issueModel)))
+                                            .Title(issueModel.Title.DisplayValue))
                                 });
                         }
                     });
@@ -174,8 +172,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceId(resultModel.ResultId)
                                             .ReferenceType("Results")
                                             .SiteId(resultModel.SiteId)
-                                            .Title(ResultUtilities.TitleDisplayValue(
-                                                ss, resultModel))),
+                                            .Title(resultModel.Title.DisplayValue)),
                                     Rds.IdentityInsertItems(on: false)
                                 });
                         }
@@ -211,8 +208,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .Ver(resultModel.Ver)
                                             .ReferenceType("Results")
                                             .SiteId(resultModel.SiteId)
-                                            .Title(ResultUtilities.TitleDisplayValue(
-                                                ss, resultModel)))
+                                            .Title(resultModel.Title.DisplayValue))
                                 });
                         }
                     });
@@ -247,8 +243,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceId(wikiModel.WikiId)
                                             .ReferenceType("Wikis")
                                             .SiteId(wikiModel.SiteId)
-                                            .Title(WikiUtilities.TitleDisplayValue(
-                                                ss, wikiModel))),
+                                            .Title(wikiModel.Title.DisplayValue)),
                                     Rds.IdentityInsertItems(on: false)
                                 });
                         }
@@ -284,8 +279,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .Ver(wikiModel.Ver)
                                             .ReferenceType("Wikis")
                                             .SiteId(wikiModel.SiteId)
-                                            .Title(WikiUtilities.TitleDisplayValue(
-                                                ss, wikiModel)))
+                                            .Title(wikiModel.Title.DisplayValue))
                                 });
                         }
                     });
