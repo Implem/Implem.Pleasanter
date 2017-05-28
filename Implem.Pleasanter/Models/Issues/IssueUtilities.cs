@@ -2631,7 +2631,7 @@ namespace Implem.Pleasanter.Models
                 return EditorResponse(
                     ss,
                     issueModel,
-                    Messages.Created(issueModel.Title.Value),
+                    Messages.Created(issueModel.Title.DisplayValue),
                     GetSwitchTargets(
                         ss, issueModel.IssueId, issueModel.SiteId).Join())
                             .ToJson();
