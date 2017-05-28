@@ -153,7 +153,7 @@ namespace Implem.Pleasanter.Models
                 title: wikiModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.New()
                     : wikiModel.Title.DisplayValue,
-                useTitle: ss.EditorColumns.Contains("Title"),
+                useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
                 userScript: wikiModel.MethodType == BaseModel.MethodTypes.New
                     ? ss.NewScript
                     : ss.EditScript,
@@ -426,7 +426,7 @@ namespace Implem.Pleasanter.Models
                 .Html("#Links", new HtmlBuilder().Links(
                     ss: ss, id: wikiModel.WikiId))
                 .SetMemory("formChanged", false)
-                .Message(Messages.Updated(wikiModel.Title.ToString()))
+                .Message(Messages.Updated(wikiModel.Title.DisplayValue))
                 .RemoveComment(wikiModel.DeleteCommentId, _using: wikiModel.DeleteCommentId != 0)
                 .ClearFormData();
         }

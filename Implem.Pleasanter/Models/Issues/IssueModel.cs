@@ -1990,7 +1990,7 @@ namespace Implem.Pleasanter.Models
                     case "UpdatedTime": if (dataRow[name] != DBNull.Value) { UpdatedTime = new Time(dataRow, "UpdatedTime"); Timestamp = dataRow.Field<DateTime>("UpdatedTime").ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; } break;
                     case "IssueId": if (dataRow[name] != DBNull.Value) { IssueId = dataRow[name].ToLong(); SavedIssueId = IssueId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "Title": Title = new Title(dataRow, "IssueId"); SavedTitle = Title.Value; break;
+                    case "Title": Title = new Title(ss, dataRow, "IssueId"); SavedTitle = Title.Value; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
                     case "StartTime": StartTime = dataRow[name].ToDateTime(); SavedStartTime = StartTime; break;
                     case "CompletionTime": CompletionTime = new CompletionTime(dataRow, "CompletionTime"); SavedCompletionTime = CompletionTime.Value; break;

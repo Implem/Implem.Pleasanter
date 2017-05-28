@@ -1087,7 +1087,7 @@ namespace Implem.Pleasanter.Models
                 title: issueModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.New()
                     : issueModel.Title.DisplayValue,
-                useTitle: ss.EditorColumns.Contains("Title"),
+                useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
                 userScript: issueModel.MethodType == BaseModel.MethodTypes.New
                     ? ss.NewScript
                     : ss.EditScript,
@@ -2692,7 +2692,7 @@ namespace Implem.Pleasanter.Models
                 .Html("#Links", new HtmlBuilder().Links(
                     ss: ss, id: issueModel.IssueId))
                 .SetMemory("formChanged", false)
-                .Message(Messages.Updated(issueModel.Title.ToString()))
+                .Message(Messages.Updated(issueModel.Title.DisplayValue))
                 .RemoveComment(issueModel.DeleteCommentId, _using: issueModel.DeleteCommentId != 0)
                 .ClearFormData();
         }

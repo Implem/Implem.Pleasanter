@@ -986,7 +986,7 @@ namespace Implem.Pleasanter.Models
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                     baseModel: userModel, tableName: "Users"))
                 .SetMemory("formChanged", false)
-                .Message(Messages.Updated(userModel.Title.ToString()))
+                .Message(Messages.Updated(userModel.Title.Value))
                 .RemoveComment(userModel.DeleteCommentId, _using: userModel.DeleteCommentId != 0)
                 .ClearFormData();
         }

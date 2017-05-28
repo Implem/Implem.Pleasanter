@@ -9,6 +9,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -27,6 +28,21 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             Id = dataRow.Long(name);
             Value = dataRow.String("Title");
+        }
+
+        public Title(SiteSettings ss, DataRow dataRow, string name)
+        {
+            Id = dataRow.Long(name);
+            Value = dataRow.String("Title");
+            var displayValue = ss.GetTitleColumns()
+                .Select(o => o.HasChoices()
+                    ? o.Choice(dataRow.String(o.ColumnName)).Text
+                    : dataRow.String(o.ColumnName))
+                .Where(o => o != string.Empty)
+                .Join(ss.TitleSeparator);
+            DisplayValue = displayValue != string.Empty
+                ? displayValue
+                : Displays.NoTitle();
         }
 
         public Title(long id, string value)

@@ -693,7 +693,7 @@ namespace Implem.Pleasanter.Models
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                     baseModel: deptModel, tableName: "Depts"))
                 .SetMemory("formChanged", false)
-                .Message(Messages.Updated(deptModel.Title.ToString()))
+                .Message(Messages.Updated(deptModel.Title.Value))
                 .RemoveComment(deptModel.DeleteCommentId, _using: deptModel.DeleteCommentId != 0)
                 .ClearFormData();
         }

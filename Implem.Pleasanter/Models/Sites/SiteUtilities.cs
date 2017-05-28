@@ -254,11 +254,11 @@ namespace Implem.Pleasanter.Models
                 .Timestamp()
                 .Val("#VerUp", false)
                 .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", siteModel.Title.DisplayValue)
+                .Html("#HeaderTitle", siteModel.Title.Value)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                     baseModel: siteModel, tableName: "Sites"))
                 .SetMemory("formChanged", false)
-                .Message(Messages.Updated(siteModel.Title.ToString()))
+                .Message(Messages.Updated(siteModel.Title.Value))
                 .RemoveComment(siteModel.DeleteCommentId, _using: siteModel.DeleteCommentId != 0)
                 .ClearFormData();
         }

@@ -701,7 +701,7 @@ namespace Implem.Pleasanter.Models
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                     baseModel: groupModel, tableName: "Groups"))
                 .SetMemory("formChanged", false)
-                .Message(Messages.Updated(groupModel.Title.ToString()))
+                .Message(Messages.Updated(groupModel.Title.Value))
                 .RemoveComment(groupModel.DeleteCommentId, _using: groupModel.DeleteCommentId != 0)
                 .ClearFormData();
         }
