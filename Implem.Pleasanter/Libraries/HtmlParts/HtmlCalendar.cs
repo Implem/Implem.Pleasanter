@@ -1,7 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
-using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -91,7 +91,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     o["Id"].ToLong(),
                     (ss.GetColumn(column.ColumnName).EditorFormat == "Ymdhm"
                         ? o["Date"].ToDateTime().ToLocal().ToString("t") + " "
-                        : string.Empty) + Titles.DisplayValue(ss, o),
+                        : string.Empty) + new Title(ss, o, "Id").DisplayValue,
                     column.ColumnName == "CompletionTime"
                         ? o["Date"].ToDateTime().ToLocal().AddDays(-1)
                         : o["Date"].ToDateTime().ToLocal()

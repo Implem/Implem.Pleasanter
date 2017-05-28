@@ -338,7 +338,6 @@
     <Compile Include="Libraries\Models\FormulaUtilities.cs" />
     <Compile Include="Libraries\Models\Imports.cs" />
     <Compile Include="Libraries\Models\Summaries.cs" />
-    <Compile Include="Libraries\Models\Titles.cs" />
     <Compile Include="Libraries\Models\Versions.cs" />
     <Compile Include="Libraries\Requests\Views.cs" />
     <Compile Include="Libraries\Requests\ViewModes.cs" />

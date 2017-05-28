@@ -1,5 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         ? dataRow["SortBy"].ToString()
                         : string.Empty,
                     dataRow["Id"].ToLong(),
-                    Titles.DisplayValue(ss, dataRow),
+                    new Title(ss, dataRow, "Id").DisplayValue,
                     dataRow["WorkValue"].ToDecimal(),
                     dataRow["StartTime"].ToDateTime(),
                     dataRow["CompletionTime"].ToDateTime(),

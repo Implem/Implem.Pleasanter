@@ -541,49 +541,5 @@ namespace Implem.Pleasanter.Models
                 : Versions.VerTypes.History;
             return EditorResponse(ss, wikiModel).ToJson();
         }
-
-        public static string TitleDisplayValue(SiteSettings ss, WikiModel wikiModel)
-        {
-            var displayValue = ss.GetTitleColumns()
-                .Select(column => TitleDisplayValue(column, wikiModel))
-                .Where(o => o != string.Empty)
-                .Join(ss.TitleSeparator);
-            return displayValue != string.Empty
-                ? displayValue
-                : Displays.NoTitle();
-        }
-
-        private static string TitleDisplayValue(Column column, WikiModel wikiModel)
-        {
-            switch (column.ColumnName)
-            {
-                case "Title": return column.HasChoices()
-                    ? column.Choice(wikiModel.Title.Value).Text
-                    : wikiModel.Title.Value;
-                default: return string.Empty;
-            }
-        }
-
-        public static string TitleDisplayValue(SiteSettings ss, DataRow dataRow)
-        {
-            var displayValue = ss.GetTitleColumns()
-                .Select(column => TitleDisplayValue(column, dataRow))
-                .Where(o => o != string.Empty)
-                .Join(ss.TitleSeparator);
-            return displayValue != string.Empty
-                ? displayValue
-                : Displays.NoTitle();
-        }
-
-        private static string TitleDisplayValue(Column column, DataRow dataRow)
-        {
-            switch (column.ColumnName)
-            {
-                case "Title": return column.HasChoices()
-                    ? column.Choice(dataRow["Title"].ToString()).Text
-                    : dataRow["Title"].ToString();
-                default: return string.Empty;
-            }
-        }
     }
 }

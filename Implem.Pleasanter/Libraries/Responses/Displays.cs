@@ -641,6 +641,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Items_UpdatedTime(params string[] data) { return Get("Items_UpdatedTime", data); }
         public static string Sites_TenantId(params string[] data) { return Get("Sites_TenantId", data); }
         public static string Sites_SiteId(params string[] data) { return Get("Sites_SiteId", data); }
+        public static string Sites_Title(params string[] data) { return Get("Sites_Title", data); }
         public static string Sites_ReferenceType(params string[] data) { return Get("Sites_ReferenceType", data); }
         public static string Sites_ParentId(params string[] data) { return Get("Sites_ParentId", data); }
         public static string Sites_InheritPermission(params string[] data) { return Get("Sites_InheritPermission", data); }
@@ -1082,7 +1083,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Items_VerUp(params string[] data) { return Get("Items_VerUp", data); }
         public static string Items_Timestamp(params string[] data) { return Get("Items_Timestamp", data); }
         public static string Sites_UpdatedTime(params string[] data) { return Get("Sites_UpdatedTime", data); }
-        public static string Sites_Title(params string[] data) { return Get("Sites_Title", data); }
         public static string Sites_Body(params string[] data) { return Get("Sites_Body", data); }
         public static string Sites_TitleBody(params string[] data) { return Get("Sites_TitleBody", data); }
         public static string Sites_Ver(params string[] data) { return Get("Sites_Ver", data); }

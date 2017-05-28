@@ -282,7 +282,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(SiteId),
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
-                            .Title(SiteUtilities.TitleDisplayValue(SiteSettings, this)),
+                            .Title(Title.DisplayValue),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam,
                         _using: updateItems),
@@ -477,10 +477,6 @@ namespace Implem.Pleasanter.Models
                     case "CreatedTime": CreatedTime = new Time(dataRow, "CreatedTime"); SavedCreatedTime = CreatedTime.Value; break;
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
-            }
-            if (SiteSettings != null)
-            {
-                Title.DisplayValue = SiteUtilities.TitleDisplayValue(SiteSettings, this);
             }
         }
 

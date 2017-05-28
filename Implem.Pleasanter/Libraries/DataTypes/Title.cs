@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             Id = dataRow.Long(name);
             Value = dataRow.String("Title");
+            DisplayValue = Value;
         }
 
         public Title(SiteSettings ss, DataRow dataRow, string name)

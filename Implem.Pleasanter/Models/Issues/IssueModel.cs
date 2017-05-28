@@ -947,7 +947,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(IssueId),
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
-                            .Title(IssueUtilities.TitleDisplayValue(ss, this)),
+                            .Title(Title.DisplayValue),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam,
                         _using: updateItems),
@@ -1754,7 +1754,6 @@ namespace Implem.Pleasanter.Models
 
         private void Notice(SiteSettings ss, string type)
         {
-            var title = IssueUtilities.TitleDisplayValue(ss, this);
             var url = Url.AbsoluteUri().Replace(
                 Url.AbsolutePath(), Locations.ItemEdit(IssueId));
             ss.Notifications.Where(o => o.Enabled).ForEach(notification =>
@@ -1785,7 +1784,7 @@ namespace Implem.Pleasanter.Models
                 {
                     case "Created":
                         notification.Send(
-                            Displays.Created(title).ToString(),
+                            Displays.Created(Title.DisplayValue).ToString(),
                             url,
                             NoticeBody(ss, notification));
                         break;
@@ -1794,14 +1793,14 @@ namespace Implem.Pleasanter.Models
                         if (body.Length > 0)
                         {
                             notification.Send(
-                                Displays.Updated(title).ToString(),
+                                Displays.Updated(Title.DisplayValue).ToString(),
                                 url,
                                 body);
                         }
                         break;
                     case "Deleted":
                         notification.Send(
-                            Displays.Deleted(title).ToString(),
+                            Displays.Deleted(Title.DisplayValue).ToString(),
                             url,
                             NoticeBody(ss, notification));
                         break;
@@ -2136,10 +2135,6 @@ namespace Implem.Pleasanter.Models
                     case "CreatedTime": CreatedTime = new Time(dataRow, "CreatedTime"); SavedCreatedTime = CreatedTime.Value; break;
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
-            }
-            if (ss != null)
-            {
-                Title.DisplayValue = IssueUtilities.TitleDisplayValue(ss, this);
             }
         }
 

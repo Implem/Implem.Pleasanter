@@ -385,39 +385,6 @@ namespace Implem.Pleasanter.Models
             return siteModel.Title.Value + " - " + Displays.EditSettings();
         }
 
-        private static string TitleDisplayValue(Column column, SiteModel siteModel)
-        {
-            switch (column.ColumnName)
-            {
-                case "Title": return column.HasChoices()
-                    ? column.Choice(siteModel.Title.Value).Text
-                    : siteModel.Title.Value;
-                default: return string.Empty;
-            }
-        }
-
-        public static string TitleDisplayValue(SiteSettings ss, DataRow dataRow)
-        {
-            var displayValue = ss.GetTitleColumns()
-                .Select(column => TitleDisplayValue(column, dataRow))
-                .Where(o => o != string.Empty)
-                .Join(ss.TitleSeparator);
-            return displayValue != string.Empty
-                ? displayValue
-                : Displays.NoTitle();
-        }
-
-        private static string TitleDisplayValue(Column column, DataRow dataRow)
-        {
-            switch (column.ColumnName)
-            {
-                case "Title": return column.HasChoices()
-                    ? column.Choice(dataRow["Title"].ToString()).Text
-                    : dataRow["Title"].ToString();
-                default: return string.Empty;
-            }
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>

@@ -1,5 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 Add(new BurnDownElement(
                     id,
                     ver,
-                    Titles.DisplayValue(ss, dataRow),
+                    new Title(ss, dataRow, "Id").DisplayValue,
                     workValue,
                     dataRow["StartTime"].ToDateTime(),
                     dataRow["CompletionTime"].ToDateTime(),
