@@ -174,7 +174,7 @@ namespace Implem.Pleasanter.Models
                 rdsUser: rdsUser,
                 statements: Rds.UpdateItems(
                     param: Rds.ItemsParam()
-                        .Title(WikiUtilities.TitleDisplayValue(ss, this)),
+                        .Title(Title.DisplayValue),
                     where: Rds.ItemsWhere().ReferenceId(WikiId)));
             Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;

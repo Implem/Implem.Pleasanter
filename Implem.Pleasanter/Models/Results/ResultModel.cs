@@ -828,7 +828,7 @@ namespace Implem.Pleasanter.Models
                 rdsUser: rdsUser,
                 statements: Rds.UpdateItems(
                     param: Rds.ItemsParam()
-                        .Title(ResultUtilities.TitleDisplayValue(ss, this)),
+                        .Title(Title.DisplayValue),
                     where: Rds.ItemsWhere().ReferenceId(ResultId)));
             Libraries.Search.Indexes.Create(ss, this);
             if (ss.PermissionForCreating != null) ss.SetPermissions(ResultId);
