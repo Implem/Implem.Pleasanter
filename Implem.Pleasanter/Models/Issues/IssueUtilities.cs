@@ -5071,6 +5071,7 @@ namespace Implem.Pleasanter.Models
         {
             var column = Rds.IssuesColumn()
                 .IssueId()
+                .Title()
                 .StartTime()
                 .CompletionTime()
                 .WorkValue()

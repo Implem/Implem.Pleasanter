@@ -4563,6 +4563,7 @@ namespace Implem.Pleasanter.Models
         {
             var column = Rds.ResultsColumn()
                 .ResultId()
+                .Title()
                 .Manager()
                 .Owner();
             ss.GetTitleColumns().ForEach(titleColumn =>
