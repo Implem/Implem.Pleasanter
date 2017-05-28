@@ -495,20 +495,31 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.Column != null)
                 .ForEach(data =>
                 {
-                    switch (data.Column.TypeName.CsTypeSummary())
+                    if (data.ColumnName == "SiteTitle")
                     {
-                        case Types.CsBool:
-                            CsBoolColumns(data.Column, data.ColumnName, data.Value, where);
-                            break;
-                        case Types.CsNumeric:
-                            CsNumericColumns(data.Column, data.ColumnName, data.Value, where);
-                            break;
-                        case Types.CsDateTime:
-                            CsDateTimeColumns(data.Column, data.ColumnName, data.Value, where);
-                            break;
-                        case Types.CsString:
-                            CsStringColumns(data.ColumnName, data.Value, where);
-                            break;
+                        CsNumericColumns(data.Column, "SiteId", data.Value, where);
+                    }
+                    else
+                    {
+                        switch (data.Column.TypeName.CsTypeSummary())
+                        {
+                            case Types.CsBool:
+                                CsBoolColumns(
+                                    data.Column, data.ColumnName, data.Value, where);
+                                break;
+                            case Types.CsNumeric:
+                                CsNumericColumns(
+                                    data.Column, data.ColumnName, data.Value, where);
+                                break;
+                            case Types.CsDateTime:
+                                CsDateTimeColumns(
+                                    data.Column, data.ColumnName, data.Value, where);
+                                break;
+                            case Types.CsString:
+                                CsStringColumns(
+                                    data.ColumnName, data.Value, where);
+                                break;
+                        }
                     }
                 });
             return where;
@@ -972,6 +983,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Issues_CheckX": orderBy.Issues_CheckX(data.Value); break;
                         case "Issues_CheckY": orderBy.Issues_CheckY(data.Value); break;
                         case "Issues_CheckZ": orderBy.Issues_CheckZ(data.Value); break;
+                        case "Issues_SiteTitle": orderBy.Issues_SiteTitle(data.Value); break;
                         case "Issues_Comments": orderBy.Issues_Comments(data.Value); break;
                         case "Issues_Creator": orderBy.Issues_Creator(data.Value); break;
                         case "Issues_Updator": orderBy.Issues_Updator(data.Value); break;
@@ -1116,6 +1128,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Results_CheckX": orderBy.Results_CheckX(data.Value); break;
                         case "Results_CheckY": orderBy.Results_CheckY(data.Value); break;
                         case "Results_CheckZ": orderBy.Results_CheckZ(data.Value); break;
+                        case "Results_SiteTitle": orderBy.Results_SiteTitle(data.Value); break;
                         case "Results_Comments": orderBy.Results_Comments(data.Value); break;
                         case "Results_Creator": orderBy.Results_Creator(data.Value); break;
                         case "Results_Updator": orderBy.Results_Updator(data.Value); break;

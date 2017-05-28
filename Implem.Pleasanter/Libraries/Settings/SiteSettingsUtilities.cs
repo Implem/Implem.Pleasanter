@@ -49,14 +49,21 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static SiteSettings Get(
-            SiteModel siteModel, long referenceId, bool setAllChoices = false)
+            SiteModel siteModel,
+            long referenceId,
+            bool setAllChoices = false,
+            bool setSiteIntegration = false)
         {
             switch (siteModel.ReferenceType)
             {
-                case "Sites": return SitesSiteSettings(siteModel, referenceId, setAllChoices);
-                case "Issues": return IssuesSiteSettings(siteModel, referenceId, setAllChoices);
-                case "Results": return ResultsSiteSettings(siteModel, referenceId, setAllChoices);
-                case "Wikis": return WikisSiteSettings(siteModel, referenceId, setAllChoices);
+                case "Sites": return SitesSiteSettings(
+                    siteModel, referenceId, setAllChoices, setSiteIntegration);
+                case "Issues": return IssuesSiteSettings(
+                    siteModel, referenceId, setAllChoices, setSiteIntegration);
+                case "Results": return ResultsSiteSettings(
+                    siteModel, referenceId, setAllChoices, setSiteIntegration);
+                case "Wikis": return WikisSiteSettings(
+                    siteModel, referenceId, setAllChoices, setSiteIntegration);
                 default: return new SiteSettings() { SiteId = siteModel.SiteId };
             }
         }
@@ -247,7 +254,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static SiteSettings SitesSiteSettings(
-            this SiteModel siteModel, long referenceId, bool setAllChoices = false)
+            this SiteModel siteModel,
+            long referenceId,
+            bool setAllChoices = false,
+            bool setSiteIntegration = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -273,7 +283,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static SiteSettings IssuesSiteSettings(
-            this SiteModel siteModel, long referenceId, bool setAllChoices = false)
+            this SiteModel siteModel,
+            long referenceId,
+            bool setAllChoices = false,
+            bool setSiteIntegration = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -286,6 +299,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init();
             ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
+            if (setSiteIntegration) ss.SetSiteIntegration();
             ss.SetChoiceHash(all: setAllChoices);
             return ss;
         }
@@ -301,7 +315,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static SiteSettings ResultsSiteSettings(
-            this SiteModel siteModel, long referenceId, bool setAllChoices = false)
+            this SiteModel siteModel,
+            long referenceId,
+            bool setAllChoices = false,
+            bool setSiteIntegration = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -314,6 +331,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init();
             ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
+            if (setSiteIntegration) ss.SetSiteIntegration();
             ss.SetChoiceHash(all: setAllChoices);
             return ss;
         }
@@ -329,7 +347,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static SiteSettings WikisSiteSettings(
-            this SiteModel siteModel, long referenceId, bool setAllChoices = false)
+            this SiteModel siteModel,
+            long referenceId,
+            bool setAllChoices = false,
+            bool setSiteIntegration = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;

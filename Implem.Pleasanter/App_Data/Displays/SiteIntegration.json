@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SiteIntegration",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Site integration"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト統合"
+        }
+    ]
+}

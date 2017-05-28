@@ -884,6 +884,10 @@ namespace Implem.Pleasanter.Models
                                             href: "#MailSettingsEditor",
                                             text: Displays.Mail()),
                                     _using: Contract.Mail())
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#SiteIntegrationEditor",
+                                        text: Displays.SiteIntegration()))
                                 .Li(
                                     action: () => hb
                                         .A(
@@ -1581,6 +1585,7 @@ namespace Implem.Pleasanter.Models
                             .TimeSeriesSettingsEditor(siteModel.SiteSettings)
                             .KambanSettingsEditor(siteModel.SiteSettings)
                             .MailSettingsEditor(siteModel.SiteSettings)
+                            .SiteIntegrationEditor(siteModel.SiteSettings)
                             .StylesSettingsEditor(siteModel.SiteSettings)
                             .ScriptsSettingsEditor(siteModel.SiteSettings);
                         break;
@@ -4201,6 +4206,19 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-wide",
                             labelText: Displays.OutgoingMails_Bcc(),
                             text: ss.MailBccDefault.ToStr())));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SiteIntegrationEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb.FieldSet(id: "SiteIntegrationEditor", action: () => hb
+                .FieldTextBox(
+                    controlId: "IntegratedSites",
+                    fieldCss: "field-wide",
+                    labelText: Displays.SiteId(),
+                    text: ss.IntegratedSites?.Join()));
         }
 
         /// <summary>

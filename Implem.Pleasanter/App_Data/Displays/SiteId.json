@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SiteId",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Site ID"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイトID"
+        }
+    ]
+}

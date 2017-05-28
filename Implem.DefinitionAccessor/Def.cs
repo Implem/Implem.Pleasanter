@@ -447,7 +447,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_TdValueCustomValueCases": Code.Model_Utilities_TdValueCustomValueCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TdValueCustomValueCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_SqlColumn_SiteId": Code.Model_Utilities_SqlColumn_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SqlColumn_SiteId, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridSqlWhereTenantId": Code.Model_Utilities_GridSqlWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridSqlWhereTenantId, definitionRow, CodeXls); break;
-                    case "Model_Utilities_GridSqlWhereSiteId": Code.Model_Utilities_GridSqlWhereSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridSqlWhereSiteId, definitionRow, CodeXls); break;
                     case "Model_Utilities_Editor": Code.Model_Utilities_Editor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Editor, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteSettingsUtilities": Code.Model_Utilities_SiteSettingsUtilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteSettingsUtilities, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorItem": Code.Model_Utilities_EditorItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorItem, definitionRow, CodeXls); break;
@@ -465,7 +464,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_EditorResponse": Code.Model_Utilities_EditorResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetSwitchTargets": Code.Model_Utilities_GetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Utilities_SqlWhereTenantId": Code.Model_Utilities_SqlWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SqlWhereTenantId, definitionRow, CodeXls); break;
-                    case "Model_Utilities_SqlWhereSiteId": Code.Model_Utilities_SqlWhereSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SqlWhereSiteId, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteId": Code.Model_Utilities_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteId, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteIdParam": Code.Model_Utilities_SiteIdParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteIdParam, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse": Code.Model_Utilities_FieldResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse, definitionRow, CodeXls); break;
@@ -627,6 +625,7 @@ namespace Implem.DefinitionAccessor
                     case "SiteSettings_GetModels": Code.SiteSettings_GetModels = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_GeneralUi": Code.SiteSettings_GetModels_GeneralUi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_GeneralUi, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items": Code.SiteSettings_GetModels_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items, definitionRow, CodeXls); break;
+                    case "SiteSettings_GetModels_Items_SiteIntegration": Code.SiteSettings_GetModels_Items_SiteIntegration = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_SiteIntegration, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items_Choices": Code.SiteSettings_GetModels_Items_Choices = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_Choices, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Includes": Code.SiteSettings_GetModels_Includes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Includes, definitionRow, CodeXls); break;
                     case "SiteSettings_UpdateTitles": Code.SiteSettings_UpdateTitles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_UpdateTitles, definitionRow, CodeXls); break;
@@ -1216,6 +1215,7 @@ namespace Implem.DefinitionAccessor
                     case "Issues_CheckX": Column.Issues_CheckX = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Issues_CheckX, definitionRow, ColumnXls); break;
                     case "Issues_CheckY": Column.Issues_CheckY = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Issues_CheckY, definitionRow, ColumnXls); break;
                     case "Issues_CheckZ": Column.Issues_CheckZ = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Issues_CheckZ, definitionRow, ColumnXls); break;
+                    case "Issues_SiteTitle": Column.Issues_SiteTitle = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Issues_SiteTitle, definitionRow, ColumnXls); break;
                     case "Results_ResultId": Column.Results_ResultId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_ResultId, definitionRow, ColumnXls); break;
                     case "Results_Title": Column.Results_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Title, definitionRow, ColumnXls); break;
                     case "Results_Status": Column.Results_Status = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Status, definitionRow, ColumnXls); break;
@@ -1351,6 +1351,7 @@ namespace Implem.DefinitionAccessor
                     case "Results_CheckX": Column.Results_CheckX = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_CheckX, definitionRow, ColumnXls); break;
                     case "Results_CheckY": Column.Results_CheckY = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_CheckY, definitionRow, ColumnXls); break;
                     case "Results_CheckZ": Column.Results_CheckZ = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_CheckZ, definitionRow, ColumnXls); break;
+                    case "Results_SiteTitle": Column.Results_SiteTitle = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_SiteTitle, definitionRow, ColumnXls); break;
                     case "Wikis_WikiId": Column.Wikis_WikiId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Wikis_WikiId, definitionRow, ColumnXls); break;
                     case "Tenants_Ver": Column.Tenants_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Ver, definitionRow, ColumnXls); break;
                     case "Tenants_Comments": Column.Tenants_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Comments, definitionRow, ColumnXls); break;
@@ -3252,6 +3253,17 @@ namespace Implem.DefinitionAccessor
                     case "Template108": Template.Template108 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template108, definitionRow, TemplateXls); break;
                     case "Template109": Template.Template109 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template109, definitionRow, TemplateXls); break;
                     case "Template110": Template.Template110 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template110, definitionRow, TemplateXls); break;
+                    case "Template111": Template.Template111 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template111, definitionRow, TemplateXls); break;
+                    case "Template112": Template.Template112 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template112, definitionRow, TemplateXls); break;
+                    case "Template113": Template.Template113 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template113, definitionRow, TemplateXls); break;
+                    case "Template114": Template.Template114 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template114, definitionRow, TemplateXls); break;
+                    case "Template115": Template.Template115 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template115, definitionRow, TemplateXls); break;
+                    case "Template116": Template.Template116 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template116, definitionRow, TemplateXls); break;
+                    case "Template117": Template.Template117 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template117, definitionRow, TemplateXls); break;
+                    case "Template118": Template.Template118 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template118, definitionRow, TemplateXls); break;
+                    case "Template119": Template.Template119 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template119, definitionRow, TemplateXls); break;
+                    case "Template120": Template.Template120 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template120, definitionRow, TemplateXls); break;
+                    case "Template121": Template.Template121 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template121, definitionRow, TemplateXls); break;
                     default: break;
                 }
             });
@@ -4370,7 +4382,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_TdValueCustomValueCases;
         public string Model_Utilities_SqlColumn_SiteId;
         public string Model_Utilities_GridSqlWhereTenantId;
-        public string Model_Utilities_GridSqlWhereSiteId;
         public string Model_Utilities_Editor;
         public string Model_Utilities_SiteSettingsUtilities;
         public string Model_Utilities_EditorItem;
@@ -4388,7 +4399,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_EditorResponse;
         public string Model_Utilities_GetSwitchTargets;
         public string Model_Utilities_SqlWhereTenantId;
-        public string Model_Utilities_SqlWhereSiteId;
         public string Model_Utilities_SiteId;
         public string Model_Utilities_SiteIdParam;
         public string Model_Utilities_FieldResponse;
@@ -4550,6 +4560,7 @@ namespace Implem.DefinitionAccessor
         public string SiteSettings_GetModels;
         public string SiteSettings_GetModels_GeneralUi;
         public string SiteSettings_GetModels_Items;
+        public string SiteSettings_GetModels_Items_SiteIntegration;
         public string SiteSettings_GetModels_Items_Choices;
         public string SiteSettings_GetModels_Includes;
         public string SiteSettings_UpdateTitles;
@@ -4818,7 +4829,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_TdValueCustomValueCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_SqlColumn_SiteId = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridSqlWhereTenantId = new CodeDefinition();
-        public CodeDefinition Model_Utilities_GridSqlWhereSiteId = new CodeDefinition();
         public CodeDefinition Model_Utilities_Editor = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteSettingsUtilities = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorItem = new CodeDefinition();
@@ -4836,7 +4846,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_EditorResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Utilities_SqlWhereTenantId = new CodeDefinition();
-        public CodeDefinition Model_Utilities_SqlWhereSiteId = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteId = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteIdParam = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse = new CodeDefinition();
@@ -4998,6 +5007,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition SiteSettings_GetModels = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_GeneralUi = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items = new CodeDefinition();
+        public CodeDefinition SiteSettings_GetModels_Items_SiteIntegration = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items_Choices = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Includes = new CodeDefinition();
         public CodeDefinition SiteSettings_UpdateTitles = new CodeDefinition();
@@ -5862,6 +5872,7 @@ namespace Implem.DefinitionAccessor
         public string Issues_CheckX;
         public string Issues_CheckY;
         public string Issues_CheckZ;
+        public string Issues_SiteTitle;
         public string Results_ResultId;
         public string Results_Title;
         public string Results_Status;
@@ -5997,6 +6008,7 @@ namespace Implem.DefinitionAccessor
         public string Results_CheckX;
         public string Results_CheckY;
         public string Results_CheckZ;
+        public string Results_SiteTitle;
         public string Wikis_WikiId;
         public string Tenants_Ver;
         public string Tenants_Comments;
@@ -6565,6 +6577,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Issues_CheckX = new ColumnDefinition();
         public ColumnDefinition Issues_CheckY = new ColumnDefinition();
         public ColumnDefinition Issues_CheckZ = new ColumnDefinition();
+        public ColumnDefinition Issues_SiteTitle = new ColumnDefinition();
         public ColumnDefinition Results_ResultId = new ColumnDefinition();
         public ColumnDefinition Results_Title = new ColumnDefinition();
         public ColumnDefinition Results_Status = new ColumnDefinition();
@@ -6700,6 +6713,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Results_CheckX = new ColumnDefinition();
         public ColumnDefinition Results_CheckY = new ColumnDefinition();
         public ColumnDefinition Results_CheckZ = new ColumnDefinition();
+        public ColumnDefinition Results_SiteTitle = new ColumnDefinition();
         public ColumnDefinition Wikis_WikiId = new ColumnDefinition();
         public ColumnDefinition Tenants_Ver = new ColumnDefinition();
         public ColumnDefinition Tenants_Comments = new ColumnDefinition();
@@ -9639,6 +9653,17 @@ namespace Implem.DefinitionAccessor
         public string Template108;
         public string Template109;
         public string Template110;
+        public string Template111;
+        public string Template112;
+        public string Template113;
+        public string Template114;
+        public string Template115;
+        public string Template116;
+        public string Template117;
+        public string Template118;
+        public string Template119;
+        public string Template120;
+        public string Template121;
     }
 
     public class TemplateTable
@@ -9753,6 +9778,17 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template108 = new TemplateDefinition();
         public TemplateDefinition Template109 = new TemplateDefinition();
         public TemplateDefinition Template110 = new TemplateDefinition();
+        public TemplateDefinition Template111 = new TemplateDefinition();
+        public TemplateDefinition Template112 = new TemplateDefinition();
+        public TemplateDefinition Template113 = new TemplateDefinition();
+        public TemplateDefinition Template114 = new TemplateDefinition();
+        public TemplateDefinition Template115 = new TemplateDefinition();
+        public TemplateDefinition Template116 = new TemplateDefinition();
+        public TemplateDefinition Template117 = new TemplateDefinition();
+        public TemplateDefinition Template118 = new TemplateDefinition();
+        public TemplateDefinition Template119 = new TemplateDefinition();
+        public TemplateDefinition Template120 = new TemplateDefinition();
+        public TemplateDefinition Template121 = new TemplateDefinition();
     }
 
     public class ViewModeDefinition

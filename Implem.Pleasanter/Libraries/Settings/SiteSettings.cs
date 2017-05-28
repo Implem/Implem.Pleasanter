@@ -4,8 +4,10 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
@@ -33,6 +35,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Title;
         [NonSerialized]
         public long ParentId;
+        [NonSerialized]
+        public List<long> AllowedIntegratedSites;
         [NonSerialized]
         public long InheritPermission;
         [NonSerialized]
@@ -76,6 +80,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string MailToDefault;
         public string MailCcDefault;
         public string MailBccDefault;
+        public IEnumerable<long> IntegratedSites;
         public string GridStyle;
         public string NewStyle;
         public string EditStyle;
@@ -398,6 +403,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!MailBccDefault.IsNullOrEmpty())
             {
                 ss.MailBccDefault = MailBccDefault;
+            }
+            if (IntegratedSites?.Any() == true)
+            {
+                ss.IntegratedSites = IntegratedSites;
             }
             if (!GridStyle.IsNullOrEmpty())
             {
@@ -1350,6 +1359,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "MailToDefault": MailToDefault = value; break;
                 case "MailCcDefault": MailCcDefault = value; break;
                 case "MailBccDefault": MailBccDefault = value; break;
+                case "IntegratedSites": SetIntegratedSites(value); break;
                 case "GridStyle": GridStyle = value; break;
                 case "NewStyle": NewStyle = value; break;
                 case "EditStyle": EditStyle = value; break;
@@ -1930,6 +1940,81 @@ namespace Implem.Pleasanter.Libraries.Settings
             return PermissionForCreating?.ContainsKey(key) == true
                 ? new Permission(this, key, 0, PermissionForCreating[key])
                 : new Permission(this, key, 0, Permissions.Types.NotSet, source: true);
+        }
+
+        public void SetSiteIntegration()
+        {
+            if (IntegratedSites?.Any() == true)
+            {
+                SetAllowedIntegratedSites();
+                SetSiteTitleChoicesText();
+                SetSiteIntegrationChoicesText();
+            }
+        }
+
+        private void SetAllowedIntegratedSites()
+        {
+            AllowedIntegratedSites = new List<long> { SiteId };
+            var allows = Permissions.AllowSites(IntegratedSites, ReferenceType);
+            AllowedIntegratedSites.AddRange(IntegratedSites.Where(o => allows.Contains(o)));
+        }
+
+        private void SetSiteTitleChoicesText()
+        {
+            var column = GetColumn("SiteTitle");
+            if (column != null)
+            {
+                var siteMenu = SiteInfo.TenantCaches.Get(Sessions.TenantId())?.SiteMenu;
+                if (siteMenu != null)
+                {
+                    column.ChoicesText = AllowedIntegratedSites
+                        .Select(o => siteMenu.Get(o))
+                        .Where(o => o != null)
+                        .Select(o => "{0},{1}".Params(o.SiteId, o.Title))
+                    .Join("\n");
+                }
+            }
+        }
+
+        private void SetSiteIntegrationChoicesText()
+        {
+            Dictionary<long, SiteSettings> hash = null;
+            Columns
+                .Where(o => o.ChoicesText?.Contains("[[Integration]]") == true)
+                .ForEach(column =>
+                {
+                    if (hash == null)
+                    {
+                        hash = Rds.ExecuteTable(statements:
+                            Rds.SelectSites(
+                                column: Rds.SitesColumn()
+                                    .SiteId()
+                                    .SiteSettings(),
+                                where: Rds.SitesWhere()
+                                    .TenantId(Sessions.TenantId())
+                                    .SiteId_In(IntegratedSites)))
+                                        .AsEnumerable()
+                                        .ToDictionary(
+                                            o => o["SiteId"].ToLong(),
+                                            o => o["SiteSettings"]
+                                                .ToString()
+                                                .Deserialize<SiteSettings>());
+                    }
+                    column.ChoicesText = column.ChoicesText.Replace(
+                        "[[Integration]]", IntegratedSites
+                            .Select(o => hash.Get(o)?.GetColumn(column.ColumnName)?.ChoicesText)
+                            .Where(o => o != null)
+                            .Join("\n"));
+                });
+        }
+
+        private void SetIntegratedSites(string value)
+        {
+            IntegratedSites = value
+                .Split(',')
+                .Select(o => o.ToLong())
+                .Where(o => o != 0)
+                .Distinct();
         }
 
         private void SetPermissionForCreating(string value)

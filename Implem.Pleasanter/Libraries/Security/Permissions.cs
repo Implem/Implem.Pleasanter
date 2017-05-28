@@ -88,21 +88,39 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static SqlWhereCollection CanRead(SiteSettings ss, SqlWhereCollection where)
         {
-            return !ss.CanRead(site: true)
-                ? where.Add(
-                    subLeft: Rds.SelectPermissions(
-                        column: Rds.PermissionsColumn().PermissionsCount(),
-                        where: Rds.PermissionsWhere()
-                            .ReferenceId(raw: ss.IdColumnBracket())
-                            .PermissionType(_operator: " & 1 = 1")
-                            .Or(Rds.PermissionsWhere()
-                                .GroupId_In(sub: Rds.SelectGroupMembers(
-                                    column: Rds.GroupMembersColumn().GroupId(),
-                                    where: Rds.GroupMembersWhere()
-                                        .Add(raw: DeptOrUser("GroupMembers"))))
-                                .Add(raw: DeptOrUser("Permissions")))),
-                    _operator: ">0")
-                : where;
+            if (ss.AllowedIntegratedSites != null)
+            {
+                return where.Or(new SqlWhereCollection()
+                    .Add(raw: "[SiteId] in ({0})".Params(
+                        ss.AllowedIntegratedSites.Join()))
+                    .Add(
+                        subLeft: ExistsPermissions(ss),
+                        _operator: string.Empty));
+            }
+            else if (!ss.CanRead(site: true))
+            {
+                return where.Add(
+                    subLeft: ExistsPermissions(ss),
+                    _operator: string.Empty);
+            }
+            else
+            {
+                return where.Add(raw: "[SiteId]={0}".Params(ss.SiteId));
+            }
+        }
+
+        public static SqlExists ExistsPermissions(SiteSettings ss)
+        {
+            return Rds.ExistsPermissions(
+                where: Rds.PermissionsWhere()
+                    .ReferenceId(raw: ss.IdColumnBracket())
+                    .PermissionType(_operator: " & 1 = 1")
+                    .Or(Rds.PermissionsWhere()
+                        .GroupId_In(sub: Rds.SelectGroupMembers(
+                            column: Rds.GroupMembersColumn().GroupId(),
+                            where: Rds.GroupMembersWhere()
+                                .Add(raw: DeptOrUser("GroupMembers"))))
+                        .Add(raw: DeptOrUser("Permissions"))));
         }
 
         private static string DeptOrUser(string tableName)
@@ -156,7 +174,8 @@ namespace Implem.Pleasanter.Libraries.Security
                             where: Rds.ItemsWhere().ReferenceId(id)))));
         }
 
-        public static IEnumerable<long> AllowSites(IEnumerable<long> sites)
+        public static IEnumerable<long> AllowSites(
+            IEnumerable<long> sites, string referenceType = null)
         {
             return Rds.ExecuteTable(statements:
                 Rds.SelectSites(
@@ -164,6 +183,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     where: Rds.SitesWhere()
                         .TenantId(Sessions.TenantId())
                         .SiteId_In(sites)
+                        .ReferenceType(referenceType, _using: referenceType != null)
                         .Add(raw: Def.Sql.CanRead)))
                             .AsEnumerable()
                             .Select(o => o["SiteId"].ToLong());

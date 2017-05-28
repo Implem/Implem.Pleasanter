@@ -121,7 +121,7 @@ namespace Implem.Pleasanter.Models
             return new IssueCollection(
                 ss: ss,
                 column: GridSqlColumnCollection(ss),
-                where: view.Where(ss, Rds.IssuesWhere().SiteId(ss.SiteId)),
+                where: view.Where(ss: ss),
                 orderBy: view.OrderBy(ss, Rds.IssuesOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)),
                 offset: offset,
@@ -856,6 +856,10 @@ namespace Implem.Pleasanter.Models
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: issueModel.CheckZ)
                             : hb.Td(column: column, value: string.Empty);
+                    case "SiteTitle":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.SiteTitle)
+                            : hb.Td(column: column, value: string.Empty);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: issueModel.Comments)
@@ -1030,6 +1034,7 @@ namespace Implem.Pleasanter.Models
                     case "CheckX": value = issueModel.CheckX.GridText(column: column); break;
                     case "CheckY": value = issueModel.CheckY.GridText(column: column); break;
                     case "CheckZ": value = issueModel.CheckZ.GridText(column: column); break;
+                    case "SiteTitle": value = issueModel.SiteTitle.GridText(column: column); break;
                     case "Comments": value = issueModel.Comments.GridText(column: column); break;
                     case "Creator": value = issueModel.Creator.GridText(column: column); break;
                     case "Updator": value = issueModel.Updator.GridText(column: column); break;
@@ -2428,7 +2433,7 @@ namespace Implem.Pleasanter.Models
         private static List<long> GetSwitchTargets(SiteSettings ss, long issueId, long siteId)
         {
             var view = Views.GetBySession(ss);
-            var where = view.Where(ss: ss, where: Rds.IssuesWhere().SiteId(siteId));
+            var where = view.Where(ss: ss);
             var switchTargets = Rds.ExecuteScalar_int(statements:
                 Rds.SelectIssues(
                     column: Rds.IssuesColumn().IssuesCount(),
@@ -3394,9 +3399,9 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var issueCollection = new IssueCollection(
                 ss: ss,
-                where: view.Where(
-                    ss: ss, where: Rds.IssuesWhere().SiteId(siteModel.SiteId)),
-                orderBy: view.OrderBy(ss, Rds.IssuesOrderBy().UpdatedTime(SqlOrderBy.Types.desc)));
+                where: view.Where(ss: ss),
+                orderBy: view.OrderBy(ss, Rds.IssuesOrderBy()
+                    .UpdatedTime(SqlOrderBy.Types.desc)));
             var csv = new System.Text.StringBuilder();
             ss.SetColumnAccessControls();
             var allowedColumns = Permissions.AllowedColumns(ss);
@@ -4172,6 +4177,11 @@ namespace Implem.Pleasanter.Models
                         ? issueModel.CheckZ.ToExport(column)
                         : string.Empty;
                     break;
+                case "SiteTitle":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? issueModel.SiteTitle.ToExport(column)
+                        : string.Empty;
+                    break;
                 case "Comments":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                         ? issueModel.Comments.ToExport(column)
@@ -4525,7 +4535,7 @@ namespace Implem.Pleasanter.Models
         private static EnumerableRowCollection<DataRow> CalendarDataRows(
             SiteSettings ss, View view, string columnName, DateTime begin, DateTime end)
         {
-            var where = Rds.IssuesWhere().SiteId(ss.SiteId);
+            var where = Rds.IssuesWhere();
             switch (columnName)
             {
                 case "UpdatedTime": 
@@ -4625,7 +4635,7 @@ namespace Implem.Pleasanter.Models
                         .IssueId(_as: "Id")
                         .Title()
                         .IssuesColumn(columnName, _as: "Date"),
-                    where: view.Where(ss, where)))
+                    where: view.Where(ss: ss, where: where)))
                         .AsEnumerable();
         }
 
@@ -4816,7 +4826,7 @@ namespace Implem.Pleasanter.Models
                         .UpdatedTime()
                         .IssuesColumn(groupBy, _as: "GroupBy")
                         .IssuesColumn(sortBy, _as: "SortBy"),
-                    where: view.Where(ss, Rds.IssuesWhere().SiteId(ss.SiteId))))
+                    where: view.Where(ss: ss)))
                         .AsEnumerable();
         }
 
@@ -4923,7 +4933,7 @@ namespace Implem.Pleasanter.Models
         private static EnumerableRowCollection<DataRow> BurnDownDataRows(
             SiteSettings ss, View view)
         {
-            var where = view.Where(ss, Rds.IssuesWhere().SiteId(ss.SiteId));
+            var where = view.Where(ss: ss);
             return Rds.ExecuteTable(statements: new SqlStatement[]
             {
                 Rds.SelectIssues(
@@ -5103,7 +5113,7 @@ namespace Implem.Pleasanter.Models
                             .UpdatedTime()
                             .IssuesColumn(groupBy, _as: "Index")
                             .IssuesColumn(value, _as: "Value"),
-                        where: view.Where(ss, Rds.IssuesWhere().SiteId(ss.SiteId))))
+                        where: view.Where(ss: ss)))
                             .AsEnumerable()
                 : null;
         }
@@ -5290,7 +5300,7 @@ namespace Implem.Pleasanter.Models
             return new IssueCollection(
                 ss: ss,
                 column: column,
-                where: view.Where(ss, Rds.IssuesWhere().SiteId(ss.SiteId)),
+                where: view.Where(ss: ss),
                 orderBy: view.OrderBy(ss, Rds.IssuesOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)))
                         .Select(o => new Libraries.ViewModes.KambanElement()

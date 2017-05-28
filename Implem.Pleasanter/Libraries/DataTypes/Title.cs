@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     break;
                 default:
                     hb.A(
-                        href: Locations.ItemEdit(Id),
+                        href: Locations.ItemEdit(Id) + "?back=1",
                         text: DisplayValue);
                     break;
             }

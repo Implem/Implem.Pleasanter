@@ -380,7 +380,9 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Setting(params string[] data) { return Get("Setting", data); }
         public static string SetZeroWhenOutOfCondition(params string[] data) { return Get("SetZeroWhenOutOfCondition", data); }
         public static string SiteAccessControl(params string[] data) { return Get("SiteAccessControl", data); }
+        public static string SiteId(params string[] data) { return Get("SiteId", data); }
         public static string SiteImageSettingsEditor(params string[] data) { return Get("SiteImageSettingsEditor", data); }
+        public static string SiteIntegration(params string[] data) { return Get("SiteIntegration", data); }
         public static string SiteName(params string[] data) { return Get("SiteName", data); }
         public static string SitesCreated(params string[] data) { return Get("SitesCreated", data); }
         public static string SiteSettings(params string[] data) { return Get("SiteSettings", data); }
@@ -815,6 +817,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Issues_CheckX(params string[] data) { return Get("Issues_CheckX", data); }
         public static string Issues_CheckY(params string[] data) { return Get("Issues_CheckY", data); }
         public static string Issues_CheckZ(params string[] data) { return Get("Issues_CheckZ", data); }
+        public static string Issues_SiteTitle(params string[] data) { return Get("Issues_SiteTitle", data); }
         public static string Results_ResultId(params string[] data) { return Get("Results_ResultId", data); }
         public static string Results_Title(params string[] data) { return Get("Results_Title", data); }
         public static string Results_Status(params string[] data) { return Get("Results_Status", data); }
@@ -950,6 +953,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Results_CheckX(params string[] data) { return Get("Results_CheckX", data); }
         public static string Results_CheckY(params string[] data) { return Get("Results_CheckY", data); }
         public static string Results_CheckZ(params string[] data) { return Get("Results_CheckZ", data); }
+        public static string Results_SiteTitle(params string[] data) { return Get("Results_SiteTitle", data); }
         public static string Wikis_WikiId(params string[] data) { return Get("Wikis_WikiId", data); }
         public static string Tenants_Ver(params string[] data) { return Get("Tenants_Ver", data); }
         public static string Tenants_Comments(params string[] data) { return Get("Tenants_Comments", data); }

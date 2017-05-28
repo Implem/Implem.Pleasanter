@@ -31,6 +31,11 @@ namespace Implem.Pleasanter.Libraries.Converts
             return value.ToDecimal().Matched(column, condition);
         }
 
+        public static bool Matched(this long value, Column column, string condition)
+        {
+            return value.ToDecimal().Matched(column, condition);
+        }
+
         public static bool Matched(this decimal value, Column column, string condition)
         {
             var param = condition.Deserialize<List<string>>();

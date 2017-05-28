@@ -239,6 +239,7 @@
     <Compile Include="Libraries\DataTypes\ProgressRate.cs" />
     <Compile Include="Libraries\DataTypes\Status.cs" />
     <Compile Include="Libraries\DataTypes\Time.cs" />
+    <Compile Include="Libraries\DataTypes\SiteTitle.cs" />
     <Compile Include="Libraries\DataTypes\Title.cs" />
     <Compile Include="Libraries\DataTypes\TitleBody.cs" />
     <Compile Include="Libraries\DataTypes\User.cs" />
@@ -1111,6 +1112,8 @@
     <Content Include="App_Data\Parameters\Health.json" />
     <Content Include="App_Data\Displays\RequireTo.json" />
     <Content Include="App_Data\Displays\SortBy.json" />
+    <Content Include="App_Data\Displays\SiteIntegration.json" />
+    <Content Include="App_Data\Displays\SiteId.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

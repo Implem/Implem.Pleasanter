@@ -41,7 +41,7 @@
                 $p[func]($grid);
             }
             else {
-                location.href = $('#BaseUrl').val() + dataId;
+                location.href = $('#BaseUrl').val() + dataId + '?back=1';
             }
         } else if (!$p.hoverd($control)) {
             $control.trigger('click');

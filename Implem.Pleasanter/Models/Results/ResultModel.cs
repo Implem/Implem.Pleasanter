@@ -159,6 +159,7 @@ namespace Implem.Pleasanter.Models
         public bool CheckY = false;
         public bool CheckZ = false;
         public TitleBody TitleBody { get { return new TitleBody(ResultId, Title.Value, Title.DisplayValue, Body); } }
+        public SiteTitle SiteTitle { get { return new SiteTitle(SiteId); } }
         public long SavedResultId = 0;
         public int SavedStatus = 100;
         public int SavedManager = 0;
@@ -571,6 +572,7 @@ namespace Implem.Pleasanter.Models
                 case "CheckX": return CheckX.ToString();
                 case "CheckY": return CheckY.ToString();
                 case "CheckZ": return CheckZ.ToString();
+                case "SiteTitle": return SiteTitle.SiteId.ToString();
                 case "Comments": return Comments.ToJson();
                 case "Creator": return Creator.Id.ToString();
                 case "Updator": return Updator.Id.ToString();
@@ -1666,6 +1668,7 @@ namespace Implem.Pleasanter.Models
                         case "CheckX": match = CheckX.Matched(column, filter.Value); break;
                         case "CheckY": match = CheckY.Matched(column, filter.Value); break;
                         case "CheckZ": match = CheckZ.Matched(column, filter.Value); break;
+                        case "SiteTitle": match = SiteTitle.SiteId.Matched(column, filter.Value); break;
                         case "CreatedTime": match = CreatedTime.Value.Matched(column, filter.Value); break;
                     }
                     if (!match) return false;
