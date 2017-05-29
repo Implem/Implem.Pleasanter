@@ -26,7 +26,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
                     .OrderBy(o => o.ColumnName)
                     .Select(o => o.ColumnName + "," + DefaultDefinition(o))
                     .JoinReturn() !=
-                Constraints.Get(sourceTableName)
+                Get(sourceTableName)
                     .Where(o => !(sourceTableName.EndsWith("_history") && o["column_name"].ToString() == "Ver"))
                     .OrderBy(o => o["column_name"])
                     .Select(o => o["column_name"] + "," + o["column_default"])
@@ -44,7 +44,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
                 "#Defaults#", Def.Sql.DeleteDefault + columnDefinitionCollection
                     .Where(o => o.Default != string.Empty)
                     .Where(o => !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver"))
-                    .Select(o => Constraints.Sql_Create(Def.Sql.CreateDefault, Strings.CoalesceEmpty(tableNameTemp, sourceTableName), o))
+                    .Select(o => Sql_Create(Def.Sql.CreateDefault, Strings.CoalesceEmpty(tableNameTemp, sourceTableName), o))
                     .JoinReturn());
         }
 
