@@ -331,6 +331,10 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SitesWhere().SiteId(SiteId),
                         param: Rds.SitesParam().Title(Title.Value))
                 });
+            if (ss.Sources?.Any() == true)
+            {
+                ItemUtilities.UpdateTitles(WikiId);
+            }
             Libraries.Search.Indexes.Create(ss, this);
         }
 

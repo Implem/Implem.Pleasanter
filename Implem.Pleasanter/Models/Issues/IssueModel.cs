@@ -1423,6 +1423,10 @@ namespace Implem.Pleasanter.Models
                         where: Rds.LinksWhere().SourceId(IssueId)),
                     InsertLinks(ss)
                 });
+            if (ss.Sources?.Any() == true)
+            {
+                ItemUtilities.UpdateTitles(IssueId);
+            }
             Libraries.Search.Indexes.Create(ss, this);
         }
 

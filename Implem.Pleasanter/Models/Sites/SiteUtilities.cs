@@ -2466,7 +2466,15 @@ namespace Implem.Pleasanter.Models
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-circle-triangle-e",
                                 action: "SetSiteSettings",
-                                method: "put")))
+                                method: "put")
+                            .Button(
+                                controlCss: "button-icon",
+                                text: Displays.Synchronize(),
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-refresh",
+                                action: "SynchronizeTitles",
+                                method: "put",
+                                confirm: Displays.ConfirmSynchronize())))
                 .FieldSelectable(
                     controlId: "TitleSourceColumns",
                     fieldCss: "field-vertical",
@@ -4288,6 +4296,22 @@ namespace Implem.Pleasanter.Models
             return Sessions.UserSettings().DisableTopSiteCreation == true
                 ? Permissions.Types.Read
                 : (Permissions.Types)Parameters.Permissions.Manager;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string SynchronizeTitles(SiteModel siteModel)
+        {
+            var ss = siteModel.SiteSettings;
+            var invalid = SiteValidators.OnUpdating(ss, siteModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            ItemUtilities.UpdateTitles(ss);
+            return Messages.ResponseSynchronizationCompleted().ToJson();
         }
     }
 }

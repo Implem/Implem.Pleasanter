@@ -547,6 +547,15 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPut]
+        public string SynchronizeTitles(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).SynchronizeTitles();
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPut]
         public string SynchronizeSummaries(long id)
         {
             var log = new SysLogModel();

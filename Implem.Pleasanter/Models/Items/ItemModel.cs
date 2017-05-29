@@ -721,6 +721,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string SynchronizeTitles()
+        {
+            SetSite(initSiteSettings: true);
+            return SiteUtilities.SynchronizeTitles(Site);
+        }
+
         public string SynchronizeSummaries()
         {
             SetSite();
