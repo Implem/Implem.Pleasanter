@@ -389,51 +389,5 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init();
             return ss;
         }
-
-        public static void UpdateTitles(SiteSettings ss)
-        {
-            var hasTitle = ss.TitleColumns?.Any() == true;
-            switch (ss.ReferenceType)
-            {
-                case "Issues":
-                    Rds.ExecuteNonQuery(statements: Rds.UpdateItems(
-                        param: Rds.ItemsParam()
-                            .Title(
-                                sub: Rds.SelectIssues(
-                                    column: Rds.IssuesColumn().Add(ss.TitleColumns
-                                        .Select(o => ss.GetColumn(o))
-                                        .Where(o => o != null)
-                                        .Select(o => "[{0}]".Params(o.ColumnName))
-                                        .Join("+@Separator_Param+")),
-                                    where: Rds.IssuesWhere()
-                                        .IssueId(raw: "[ReferenceId]")),
-                                _using: hasTitle)
-                            .Title(string.Empty, _using: !hasTitle)
-                            .Add(name: "Separator", value: ss.TitleSeparator),
-                        where: Rds.ItemsWhere().SiteId(ss.SiteId),
-                        addUpdatorParam: false,
-                        addUpdatedTimeParam: false));
-                    break;
-                case "Results":
-                    Rds.ExecuteNonQuery(statements: Rds.UpdateItems(
-                        param: Rds.ItemsParam()
-                            .Title(
-                                sub: Rds.SelectResults(
-                                    column: Rds.ResultsColumn().Add(ss.TitleColumns
-                                        .Select(o => ss.GetColumn(o))
-                                        .Where(o => o != null)
-                                        .Select(o => "[{0}]".Params(o.ColumnName))
-                                        .Join("+@Separator_Param+")),
-                                    where: Rds.ResultsWhere()
-                                        .ResultId(raw: "[ReferenceId]")),
-                                _using: hasTitle)
-                            .Title(string.Empty, _using: !hasTitle)
-                            .Add(name: "Separator", value: ss.TitleSeparator),
-                        where: Rds.ItemsWhere().SiteId(ss.SiteId),
-                        addUpdatorParam: false,
-                        addUpdatedTimeParam: false));
-                    break;
-            }
-        }
     }
 }

@@ -602,6 +602,474 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public Dictionary<string, string> PropertyValues(IEnumerable<string> names)
+        {
+            var hash = new Dictionary<string, string>();
+            names?.ForEach(name =>
+            {
+                switch (name)
+                {
+                    case "SiteId":
+                        hash.Add("SiteId", SiteId.ToString());
+                        break;
+                    case "UpdatedTime":
+                        hash.Add("UpdatedTime", UpdatedTime.Value.ToString());
+                        break;
+                    case "IssueId":
+                        hash.Add("IssueId", IssueId.ToString());
+                        break;
+                    case "Ver":
+                        hash.Add("Ver", Ver.ToString());
+                        break;
+                    case "Title":
+                        hash.Add("Title", Title.Value);
+                        break;
+                    case "Body":
+                        hash.Add("Body", Body);
+                        break;
+                    case "TitleBody":
+                        hash.Add("TitleBody", TitleBody.ToString());
+                        break;
+                    case "StartTime":
+                        hash.Add("StartTime", StartTime.ToString());
+                        break;
+                    case "CompletionTime":
+                        hash.Add("CompletionTime", CompletionTime.Value.ToString());
+                        break;
+                    case "WorkValue":
+                        hash.Add("WorkValue", WorkValue.Value.ToString());
+                        break;
+                    case "ProgressRate":
+                        hash.Add("ProgressRate", ProgressRate.Value.ToString());
+                        break;
+                    case "RemainingWorkValue":
+                        hash.Add("RemainingWorkValue", RemainingWorkValue.ToString());
+                        break;
+                    case "Status":
+                        hash.Add("Status", Status.Value.ToString());
+                        break;
+                    case "Manager":
+                        hash.Add("Manager", Manager.Id.ToString());
+                        break;
+                    case "Owner":
+                        hash.Add("Owner", Owner.Id.ToString());
+                        break;
+                    case "ClassA":
+                        hash.Add("ClassA", ClassA);
+                        break;
+                    case "ClassB":
+                        hash.Add("ClassB", ClassB);
+                        break;
+                    case "ClassC":
+                        hash.Add("ClassC", ClassC);
+                        break;
+                    case "ClassD":
+                        hash.Add("ClassD", ClassD);
+                        break;
+                    case "ClassE":
+                        hash.Add("ClassE", ClassE);
+                        break;
+                    case "ClassF":
+                        hash.Add("ClassF", ClassF);
+                        break;
+                    case "ClassG":
+                        hash.Add("ClassG", ClassG);
+                        break;
+                    case "ClassH":
+                        hash.Add("ClassH", ClassH);
+                        break;
+                    case "ClassI":
+                        hash.Add("ClassI", ClassI);
+                        break;
+                    case "ClassJ":
+                        hash.Add("ClassJ", ClassJ);
+                        break;
+                    case "ClassK":
+                        hash.Add("ClassK", ClassK);
+                        break;
+                    case "ClassL":
+                        hash.Add("ClassL", ClassL);
+                        break;
+                    case "ClassM":
+                        hash.Add("ClassM", ClassM);
+                        break;
+                    case "ClassN":
+                        hash.Add("ClassN", ClassN);
+                        break;
+                    case "ClassO":
+                        hash.Add("ClassO", ClassO);
+                        break;
+                    case "ClassP":
+                        hash.Add("ClassP", ClassP);
+                        break;
+                    case "ClassQ":
+                        hash.Add("ClassQ", ClassQ);
+                        break;
+                    case "ClassR":
+                        hash.Add("ClassR", ClassR);
+                        break;
+                    case "ClassS":
+                        hash.Add("ClassS", ClassS);
+                        break;
+                    case "ClassT":
+                        hash.Add("ClassT", ClassT);
+                        break;
+                    case "ClassU":
+                        hash.Add("ClassU", ClassU);
+                        break;
+                    case "ClassV":
+                        hash.Add("ClassV", ClassV);
+                        break;
+                    case "ClassW":
+                        hash.Add("ClassW", ClassW);
+                        break;
+                    case "ClassX":
+                        hash.Add("ClassX", ClassX);
+                        break;
+                    case "ClassY":
+                        hash.Add("ClassY", ClassY);
+                        break;
+                    case "ClassZ":
+                        hash.Add("ClassZ", ClassZ);
+                        break;
+                    case "NumA":
+                        hash.Add("NumA", NumA.ToString());
+                        break;
+                    case "NumB":
+                        hash.Add("NumB", NumB.ToString());
+                        break;
+                    case "NumC":
+                        hash.Add("NumC", NumC.ToString());
+                        break;
+                    case "NumD":
+                        hash.Add("NumD", NumD.ToString());
+                        break;
+                    case "NumE":
+                        hash.Add("NumE", NumE.ToString());
+                        break;
+                    case "NumF":
+                        hash.Add("NumF", NumF.ToString());
+                        break;
+                    case "NumG":
+                        hash.Add("NumG", NumG.ToString());
+                        break;
+                    case "NumH":
+                        hash.Add("NumH", NumH.ToString());
+                        break;
+                    case "NumI":
+                        hash.Add("NumI", NumI.ToString());
+                        break;
+                    case "NumJ":
+                        hash.Add("NumJ", NumJ.ToString());
+                        break;
+                    case "NumK":
+                        hash.Add("NumK", NumK.ToString());
+                        break;
+                    case "NumL":
+                        hash.Add("NumL", NumL.ToString());
+                        break;
+                    case "NumM":
+                        hash.Add("NumM", NumM.ToString());
+                        break;
+                    case "NumN":
+                        hash.Add("NumN", NumN.ToString());
+                        break;
+                    case "NumO":
+                        hash.Add("NumO", NumO.ToString());
+                        break;
+                    case "NumP":
+                        hash.Add("NumP", NumP.ToString());
+                        break;
+                    case "NumQ":
+                        hash.Add("NumQ", NumQ.ToString());
+                        break;
+                    case "NumR":
+                        hash.Add("NumR", NumR.ToString());
+                        break;
+                    case "NumS":
+                        hash.Add("NumS", NumS.ToString());
+                        break;
+                    case "NumT":
+                        hash.Add("NumT", NumT.ToString());
+                        break;
+                    case "NumU":
+                        hash.Add("NumU", NumU.ToString());
+                        break;
+                    case "NumV":
+                        hash.Add("NumV", NumV.ToString());
+                        break;
+                    case "NumW":
+                        hash.Add("NumW", NumW.ToString());
+                        break;
+                    case "NumX":
+                        hash.Add("NumX", NumX.ToString());
+                        break;
+                    case "NumY":
+                        hash.Add("NumY", NumY.ToString());
+                        break;
+                    case "NumZ":
+                        hash.Add("NumZ", NumZ.ToString());
+                        break;
+                    case "DateA":
+                        hash.Add("DateA", DateA.ToString());
+                        break;
+                    case "DateB":
+                        hash.Add("DateB", DateB.ToString());
+                        break;
+                    case "DateC":
+                        hash.Add("DateC", DateC.ToString());
+                        break;
+                    case "DateD":
+                        hash.Add("DateD", DateD.ToString());
+                        break;
+                    case "DateE":
+                        hash.Add("DateE", DateE.ToString());
+                        break;
+                    case "DateF":
+                        hash.Add("DateF", DateF.ToString());
+                        break;
+                    case "DateG":
+                        hash.Add("DateG", DateG.ToString());
+                        break;
+                    case "DateH":
+                        hash.Add("DateH", DateH.ToString());
+                        break;
+                    case "DateI":
+                        hash.Add("DateI", DateI.ToString());
+                        break;
+                    case "DateJ":
+                        hash.Add("DateJ", DateJ.ToString());
+                        break;
+                    case "DateK":
+                        hash.Add("DateK", DateK.ToString());
+                        break;
+                    case "DateL":
+                        hash.Add("DateL", DateL.ToString());
+                        break;
+                    case "DateM":
+                        hash.Add("DateM", DateM.ToString());
+                        break;
+                    case "DateN":
+                        hash.Add("DateN", DateN.ToString());
+                        break;
+                    case "DateO":
+                        hash.Add("DateO", DateO.ToString());
+                        break;
+                    case "DateP":
+                        hash.Add("DateP", DateP.ToString());
+                        break;
+                    case "DateQ":
+                        hash.Add("DateQ", DateQ.ToString());
+                        break;
+                    case "DateR":
+                        hash.Add("DateR", DateR.ToString());
+                        break;
+                    case "DateS":
+                        hash.Add("DateS", DateS.ToString());
+                        break;
+                    case "DateT":
+                        hash.Add("DateT", DateT.ToString());
+                        break;
+                    case "DateU":
+                        hash.Add("DateU", DateU.ToString());
+                        break;
+                    case "DateV":
+                        hash.Add("DateV", DateV.ToString());
+                        break;
+                    case "DateW":
+                        hash.Add("DateW", DateW.ToString());
+                        break;
+                    case "DateX":
+                        hash.Add("DateX", DateX.ToString());
+                        break;
+                    case "DateY":
+                        hash.Add("DateY", DateY.ToString());
+                        break;
+                    case "DateZ":
+                        hash.Add("DateZ", DateZ.ToString());
+                        break;
+                    case "DescriptionA":
+                        hash.Add("DescriptionA", DescriptionA);
+                        break;
+                    case "DescriptionB":
+                        hash.Add("DescriptionB", DescriptionB);
+                        break;
+                    case "DescriptionC":
+                        hash.Add("DescriptionC", DescriptionC);
+                        break;
+                    case "DescriptionD":
+                        hash.Add("DescriptionD", DescriptionD);
+                        break;
+                    case "DescriptionE":
+                        hash.Add("DescriptionE", DescriptionE);
+                        break;
+                    case "DescriptionF":
+                        hash.Add("DescriptionF", DescriptionF);
+                        break;
+                    case "DescriptionG":
+                        hash.Add("DescriptionG", DescriptionG);
+                        break;
+                    case "DescriptionH":
+                        hash.Add("DescriptionH", DescriptionH);
+                        break;
+                    case "DescriptionI":
+                        hash.Add("DescriptionI", DescriptionI);
+                        break;
+                    case "DescriptionJ":
+                        hash.Add("DescriptionJ", DescriptionJ);
+                        break;
+                    case "DescriptionK":
+                        hash.Add("DescriptionK", DescriptionK);
+                        break;
+                    case "DescriptionL":
+                        hash.Add("DescriptionL", DescriptionL);
+                        break;
+                    case "DescriptionM":
+                        hash.Add("DescriptionM", DescriptionM);
+                        break;
+                    case "DescriptionN":
+                        hash.Add("DescriptionN", DescriptionN);
+                        break;
+                    case "DescriptionO":
+                        hash.Add("DescriptionO", DescriptionO);
+                        break;
+                    case "DescriptionP":
+                        hash.Add("DescriptionP", DescriptionP);
+                        break;
+                    case "DescriptionQ":
+                        hash.Add("DescriptionQ", DescriptionQ);
+                        break;
+                    case "DescriptionR":
+                        hash.Add("DescriptionR", DescriptionR);
+                        break;
+                    case "DescriptionS":
+                        hash.Add("DescriptionS", DescriptionS);
+                        break;
+                    case "DescriptionT":
+                        hash.Add("DescriptionT", DescriptionT);
+                        break;
+                    case "DescriptionU":
+                        hash.Add("DescriptionU", DescriptionU);
+                        break;
+                    case "DescriptionV":
+                        hash.Add("DescriptionV", DescriptionV);
+                        break;
+                    case "DescriptionW":
+                        hash.Add("DescriptionW", DescriptionW);
+                        break;
+                    case "DescriptionX":
+                        hash.Add("DescriptionX", DescriptionX);
+                        break;
+                    case "DescriptionY":
+                        hash.Add("DescriptionY", DescriptionY);
+                        break;
+                    case "DescriptionZ":
+                        hash.Add("DescriptionZ", DescriptionZ);
+                        break;
+                    case "CheckA":
+                        hash.Add("CheckA", CheckA.ToString());
+                        break;
+                    case "CheckB":
+                        hash.Add("CheckB", CheckB.ToString());
+                        break;
+                    case "CheckC":
+                        hash.Add("CheckC", CheckC.ToString());
+                        break;
+                    case "CheckD":
+                        hash.Add("CheckD", CheckD.ToString());
+                        break;
+                    case "CheckE":
+                        hash.Add("CheckE", CheckE.ToString());
+                        break;
+                    case "CheckF":
+                        hash.Add("CheckF", CheckF.ToString());
+                        break;
+                    case "CheckG":
+                        hash.Add("CheckG", CheckG.ToString());
+                        break;
+                    case "CheckH":
+                        hash.Add("CheckH", CheckH.ToString());
+                        break;
+                    case "CheckI":
+                        hash.Add("CheckI", CheckI.ToString());
+                        break;
+                    case "CheckJ":
+                        hash.Add("CheckJ", CheckJ.ToString());
+                        break;
+                    case "CheckK":
+                        hash.Add("CheckK", CheckK.ToString());
+                        break;
+                    case "CheckL":
+                        hash.Add("CheckL", CheckL.ToString());
+                        break;
+                    case "CheckM":
+                        hash.Add("CheckM", CheckM.ToString());
+                        break;
+                    case "CheckN":
+                        hash.Add("CheckN", CheckN.ToString());
+                        break;
+                    case "CheckO":
+                        hash.Add("CheckO", CheckO.ToString());
+                        break;
+                    case "CheckP":
+                        hash.Add("CheckP", CheckP.ToString());
+                        break;
+                    case "CheckQ":
+                        hash.Add("CheckQ", CheckQ.ToString());
+                        break;
+                    case "CheckR":
+                        hash.Add("CheckR", CheckR.ToString());
+                        break;
+                    case "CheckS":
+                        hash.Add("CheckS", CheckS.ToString());
+                        break;
+                    case "CheckT":
+                        hash.Add("CheckT", CheckT.ToString());
+                        break;
+                    case "CheckU":
+                        hash.Add("CheckU", CheckU.ToString());
+                        break;
+                    case "CheckV":
+                        hash.Add("CheckV", CheckV.ToString());
+                        break;
+                    case "CheckW":
+                        hash.Add("CheckW", CheckW.ToString());
+                        break;
+                    case "CheckX":
+                        hash.Add("CheckX", CheckX.ToString());
+                        break;
+                    case "CheckY":
+                        hash.Add("CheckY", CheckY.ToString());
+                        break;
+                    case "CheckZ":
+                        hash.Add("CheckZ", CheckZ.ToString());
+                        break;
+                    case "SiteTitle":
+                        hash.Add("SiteTitle", SiteTitle.SiteId.ToString());
+                        break;
+                    case "Comments":
+                        hash.Add("Comments", Comments.ToJson());
+                        break;
+                    case "Creator":
+                        hash.Add("Creator", Creator.Id.ToString());
+                        break;
+                    case "Updator":
+                        hash.Add("Updator", Updator.Id.ToString());
+                        break;
+                    case "CreatedTime":
+                        hash.Add("CreatedTime", CreatedTime.Value.ToString());
+                        break;
+                    case "VerUp":
+                        hash.Add("VerUp", VerUp.ToString());
+                        break;
+                    case "Timestamp":
+                        hash.Add("Timestamp", Timestamp);
+                        break;
+                }
+            });
+            return hash;
+        }
+
         public List<long> SwitchTargets;
 
         public IssueModel()
@@ -1974,6 +2442,21 @@ namespace Implem.Pleasanter.Models
                 case 1: Set(ss, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
+            }
+            var links = ss.GetUseSearchLinks(titleOnly: true);
+            links?.ForEach(link =>
+                ss.SetChoiceHash(
+                    columnName: link.ColumnName,
+                    selectedValues: new List<string>
+                    {
+                        PropertyValue(link.ColumnName)
+                    }));
+            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            {
+                Title = new Title(
+                    ss,
+                    IssueId,
+                    PropertyValues(ss.TitleColumns));
             }
         }
 

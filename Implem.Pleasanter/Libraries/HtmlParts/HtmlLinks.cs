@@ -63,6 +63,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 dataTableName: "Issues" + "_" + direction,
                 column: Rds
                     .IssuesDefaultColumns()
+                    .Add(
+                        "(select [title] from [items] where [ReferenceId]=[IssueId])",
+                        _as: "ItemTitle")
                     .Add("'" + direction + "' as Direction"),
                 join: Rds.IssuesJoinDefault(),
                 where: Rds.IssuesWhere().IssueId_In(targets
@@ -77,6 +80,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 dataTableName: "Results" + "_" + direction,
                 column: Rds
                     .ResultsDefaultColumns()
+                    .Add(
+                        "(select [title] from [items] where [ReferenceId]=[ResultId])",
+                        _as: "ItemTitle")
                     .Add("'" + direction + "' as Direction"),
                 join: Rds.ResultsJoinDefault(),
                 where: Rds.ResultsWhere().ResultId_In(targets

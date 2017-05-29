@@ -210,15 +210,21 @@ namespace Implem.Pleasanter.Models
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
             var columns = ss.GetGridColumns(checkPermission: true);
-            ss.Links?
-                .Where(o => ss.GridColumns.Contains(o.ColumnName))
-                .Where(o => ss.GetColumn(o.ColumnName).UseSearch == true)
-                .ForEach(link =>
-                    ss.SetChoiceHash(
-                        columnName: link.ColumnName,
-                        selectedValues: resultCollection
-                            .Select(o => o.PropertyValue(link.ColumnName))
-                            .Distinct()));
+            var links = ss.GetUseSearchLinks();
+            links?.ForEach(link =>
+                ss.SetChoiceHash(
+                    columnName: link.ColumnName,
+                    selectedValues: resultCollection
+                        .Select(o => o.PropertyValue(link.ColumnName))
+                        .Distinct()));
+            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            {
+                resultCollection.ForEach(resultModel =>
+                    resultModel.Title = new Title(
+                        ss,
+                        resultModel.ResultId,
+                        resultModel.PropertyValues(ss.TitleColumns)));
+            }
             return hb
                 .THead(
                     _using: addHeader,

@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
@@ -35,15 +36,86 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             Id = dataRow.Long(name);
             Value = dataRow.String("Title");
+            var displayValue = dataRow.Table.Columns.Contains("ItemTitle")
+                ? dataRow.String("ItemTitle")
+                : ss.GetTitleColumns()
+                    .Select(o => GetDisplayValue(o, dataRow))
+                    .Where(o => o != string.Empty)
+                    .Join(ss.TitleSeparator);
+            DisplayValue = displayValue != string.Empty
+                ? displayValue
+                : Displays.NoTitle();
+        }
+
+        public Title(SiteSettings ss, long id, Dictionary<string, string> data)
+        {
+            Id = id;
+            Value = data.Get("Title");
             var displayValue = ss.GetTitleColumns()
-                .Select(o => o.HasChoices()
-                    ? o.Choice(dataRow.String(o.ColumnName)).Text
-                    : dataRow.String(o.ColumnName))
+                .Select(o => GetDisplayValue(o, data))
                 .Where(o => o != string.Empty)
                 .Join(ss.TitleSeparator);
             DisplayValue = displayValue != string.Empty
                 ? displayValue
                 : Displays.NoTitle();
+        }
+
+        private string GetDisplayValue(Column column, DataRow dataRow)
+        {
+            switch (column.TypeName.CsTypeSummary())
+            {
+                case Types.CsNumeric:
+                    return column.HasChoices()
+                        ? column.UserColumn
+                            ? SiteInfo.UserName(dataRow.Int(column.ColumnName))
+                            : column.Choice(dataRow.Long(column.ColumnName).ToString()).Text
+                        : column.Display(dataRow.Decimal(column.ColumnName), unit: true);
+                case Types.CsDateTime:
+                    switch (column.ColumnName)
+                    {
+                        case "CompletionTime":
+                            return column.DisplayControl(
+                                dataRow.DateTime(column.ColumnName).ToLocal().AddDays(-1));
+                        default:
+                            return column.DisplayControl(
+                                dataRow.DateTime(column.ColumnName).ToLocal());
+                    }
+                case Types.CsString:
+                    return column.HasChoices()
+                        ? column.Choice(dataRow.String(column.ColumnName)).Text
+                        : dataRow.String(column.ColumnName);
+                default:
+                    return dataRow.String(column.ColumnName);
+            }
+        }
+
+        private string GetDisplayValue(Column column, Dictionary<string, string> data)
+        {
+            switch (column.TypeName.CsTypeSummary())
+            {
+                case Types.CsNumeric:
+                    return column.HasChoices()
+                        ? column.UserColumn
+                            ? SiteInfo.UserName(data.Get(column.ColumnName).ToInt())
+                            : column.Choice(data.Get(column.ColumnName)).Text
+                        : column.Display(data.Get(column.ColumnName).ToDecimal(), unit: true);
+                case Types.CsDateTime:
+                    switch (column.ColumnName)
+                    {
+                        case "CompletionTime":
+                            return column.DisplayControl(
+                                data.Get(column.ColumnName).ToDateTime().ToLocal().AddDays(-1));
+                        default:
+                            return column.DisplayControl(
+                                data.Get(column.ColumnName).ToDateTime().ToLocal());
+                    }
+                case Types.CsString:
+                    return column.HasChoices()
+                        ? column.Choice(data.Get(column.ColumnName)).Text
+                        : data.Get(column.ColumnName);
+                default:
+                    return data.Get(column.ColumnName);
+            }
         }
 
         public Title(long id, string value)

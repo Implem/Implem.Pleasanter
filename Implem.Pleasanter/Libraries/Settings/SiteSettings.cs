@@ -1587,6 +1587,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public List<Link> GetUseSearchLinks(bool titleOnly = false)
+        {
+            return Links?
+                .Where(o =>
+                    (GridColumns.Contains(o.ColumnName) && !titleOnly) ||
+                    TitleColumns.Contains(o.ColumnName))
+                .Where(o => GetColumn(o.ColumnName).UseSearch == true)
+                .ToList();
+        }
+
         public void SetLinks(Column column)
         {
             column.Link = false;

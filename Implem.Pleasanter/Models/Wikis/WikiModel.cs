@@ -49,6 +49,57 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public Dictionary<string, string> PropertyValues(IEnumerable<string> names)
+        {
+            var hash = new Dictionary<string, string>();
+            names?.ForEach(name =>
+            {
+                switch (name)
+                {
+                    case "SiteId":
+                        hash.Add("SiteId", SiteId.ToString());
+                        break;
+                    case "UpdatedTime":
+                        hash.Add("UpdatedTime", UpdatedTime.Value.ToString());
+                        break;
+                    case "WikiId":
+                        hash.Add("WikiId", WikiId.ToString());
+                        break;
+                    case "Ver":
+                        hash.Add("Ver", Ver.ToString());
+                        break;
+                    case "Title":
+                        hash.Add("Title", Title.Value);
+                        break;
+                    case "Body":
+                        hash.Add("Body", Body);
+                        break;
+                    case "TitleBody":
+                        hash.Add("TitleBody", TitleBody.ToString());
+                        break;
+                    case "Comments":
+                        hash.Add("Comments", Comments.ToJson());
+                        break;
+                    case "Creator":
+                        hash.Add("Creator", Creator.Id.ToString());
+                        break;
+                    case "Updator":
+                        hash.Add("Updator", Updator.Id.ToString());
+                        break;
+                    case "CreatedTime":
+                        hash.Add("CreatedTime", CreatedTime.Value.ToString());
+                        break;
+                    case "VerUp":
+                        hash.Add("VerUp", VerUp.ToString());
+                        break;
+                    case "Timestamp":
+                        hash.Add("Timestamp", Timestamp);
+                        break;
+                }
+            });
+            return hash;
+        }
+
         public WikiModel()
         {
         }
@@ -576,6 +627,21 @@ namespace Implem.Pleasanter.Models
                 case 1: Set(ss, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
+            }
+            var links = ss.GetUseSearchLinks(titleOnly: true);
+            links?.ForEach(link =>
+                ss.SetChoiceHash(
+                    columnName: link.ColumnName,
+                    selectedValues: new List<string>
+                    {
+                        PropertyValue(link.ColumnName)
+                    }));
+            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            {
+                Title = new Title(
+                    ss,
+                    WikiId,
+                    PropertyValues(ss.TitleColumns));
             }
         }
 

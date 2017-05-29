@@ -114,6 +114,81 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public Dictionary<string, string> PropertyValues(IEnumerable<string> names)
+        {
+            var hash = new Dictionary<string, string>();
+            names?.ForEach(name =>
+            {
+                switch (name)
+                {
+                    case "TenantId":
+                        hash.Add("TenantId", TenantId.ToString());
+                        break;
+                    case "SiteId":
+                        hash.Add("SiteId", SiteId.ToString());
+                        break;
+                    case "UpdatedTime":
+                        hash.Add("UpdatedTime", UpdatedTime.Value.ToString());
+                        break;
+                    case "Ver":
+                        hash.Add("Ver", Ver.ToString());
+                        break;
+                    case "Title":
+                        hash.Add("Title", Title.Value);
+                        break;
+                    case "Body":
+                        hash.Add("Body", Body);
+                        break;
+                    case "TitleBody":
+                        hash.Add("TitleBody", TitleBody.ToString());
+                        break;
+                    case "ReferenceType":
+                        hash.Add("ReferenceType", ReferenceType);
+                        break;
+                    case "ParentId":
+                        hash.Add("ParentId", ParentId.ToString());
+                        break;
+                    case "InheritPermission":
+                        hash.Add("InheritPermission", InheritPermission.ToString());
+                        break;
+                    case "SiteSettings":
+                        hash.Add("SiteSettings", SiteSettings.RecordingJson());
+                        break;
+                    case "Ancestors":
+                        hash.Add("Ancestors", Ancestors.ToString());
+                        break;
+                    case "SiteMenu":
+                        hash.Add("SiteMenu", SiteMenu.ToString());
+                        break;
+                    case "MonitorChangesColumns":
+                        hash.Add("MonitorChangesColumns", MonitorChangesColumns.ToString());
+                        break;
+                    case "TitleColumns":
+                        hash.Add("TitleColumns", TitleColumns.ToString());
+                        break;
+                    case "Comments":
+                        hash.Add("Comments", Comments.ToJson());
+                        break;
+                    case "Creator":
+                        hash.Add("Creator", Creator.Id.ToString());
+                        break;
+                    case "Updator":
+                        hash.Add("Updator", Updator.Id.ToString());
+                        break;
+                    case "CreatedTime":
+                        hash.Add("CreatedTime", CreatedTime.Value.ToString());
+                        break;
+                    case "VerUp":
+                        hash.Add("VerUp", VerUp.ToString());
+                        break;
+                    case "Timestamp":
+                        hash.Add("Timestamp", Timestamp);
+                        break;
+                }
+            });
+            return hash;
+        }
+
         public List<long> SwitchTargets;
 
         public SiteModel()
@@ -244,7 +319,6 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
-            SiteSettingsUtilities.UpdateTitles(ss);
             Get();
             UpdateRelatedRecords();
             SiteInfo.Reflesh();
