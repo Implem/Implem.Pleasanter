@@ -1483,6 +1483,10 @@ pre{
     font-weight:bold;
 }
 
+.md hr{
+    clear:both;
+}
+
 .md ol{
     margin:0px 10px 10px 32px;
     list-style-type:decimal;
