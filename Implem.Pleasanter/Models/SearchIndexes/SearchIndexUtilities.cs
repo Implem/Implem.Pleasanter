@@ -299,7 +299,7 @@ namespace Implem.Pleasanter.Models
                         .Word(searchIndexes, multiParamOperator: " or ")
                         .PermissionType(0, _operator: "<>")
                         .Add(
-                            raw: "[Items].[SiteId] in ({0})".Params(siteIdList.Join()),
+                            raw: "[Items].[SiteId] in ({0})".Params(siteIdList?.Join()),
                             _using: siteIdList?.Any() == true),
                     groupBy: Rds.SearchIndexesGroupBy()
                         .ReferenceId()
