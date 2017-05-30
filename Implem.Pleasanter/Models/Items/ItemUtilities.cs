@@ -82,7 +82,9 @@ namespace Implem.Pleasanter.Models
 
         private static void UpdateIssueTitles(SiteSettings ss, IEnumerable<long> idList)
         {
-            var column = Rds.IssuesColumn().IssueId();
+            var column = Rds.IssuesColumn()
+                .IssueId()
+                .Title();
             ss.TitleColumns.ForEach(o => column.IssuesColumn(o));
             var issueCollection = new IssueCollection(
                 ss,
@@ -121,7 +123,9 @@ namespace Implem.Pleasanter.Models
 
         private static void UpdateResultTitles(SiteSettings ss, IEnumerable<long> idList)
         {
-            var column = Rds.ResultsColumn().ResultId();
+            var column = Rds.ResultsColumn()
+                .ResultId()
+                .Title();
             ss.TitleColumns.ForEach(o => column.ResultsColumn(o));
             var resultCollection = new ResultCollection(
                 ss,
@@ -160,7 +164,9 @@ namespace Implem.Pleasanter.Models
 
         private static void UpdateWikiTitles(SiteSettings ss, IEnumerable<long> idList)
         {
-            var column = Rds.WikisColumn().WikiId();
+            var column = Rds.WikisColumn()
+                .WikiId()
+                .Title();
             ss.TitleColumns.ForEach(o => column.WikisColumn(o));
             var wikiCollection = new WikiCollection(
                 ss,
