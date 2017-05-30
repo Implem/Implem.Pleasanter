@@ -32,12 +32,12 @@ namespace Implem.Pleasanter.Models
                         .SiteId_In(links?.Select(o => o.SiteId))));
         }
 
-        public static void UpdateTitles(long id)
+        public static void UpdateTitles(long siteId, long id)
         {
-            UpdateTitles(new List<long> { id });
+            UpdateTitles(siteId, new List<long> { id });
         }
 
-        public static void UpdateTitles(IEnumerable<long> idList)
+        public static void UpdateTitles(long siteId, IEnumerable<long> idList)
         {
             Rds.ExecuteTable(statements: Rds.SelectLinks(
                 column: Rds.LinksColumn()
@@ -58,7 +58,14 @@ namespace Implem.Pleasanter.Models
                         var ss = siteModel.AccessStatus == Databases.AccessStatuses.Selected
                             ? SiteSettingsUtilities.Get(siteModel, sites.First().Id)
                             : null;
-                        UpdateTitles(ss, sites.Select(o => o.Id));
+                        var columns = ss.Links?
+                            .Where(o => o.SiteId == siteId)
+                            .Select(o => o.ColumnName)
+                            .ToList();
+                        if (ss.TitleColumns?.Any(o => columns?.Contains(o) == true) == true)
+                        {
+                            UpdateTitles(ss, sites.Select(o => o.Id));
+                        }
                     });
         }
 
@@ -108,7 +115,7 @@ namespace Implem.Pleasanter.Models
                     addUpdatedTimeParam: false)));
             if (ss.Sources?.Any() == true)
             {
-                UpdateTitles(issueCollection.Select(o => o.IssueId));
+                UpdateTitles(ss.SiteId, issueCollection.Select(o => o.IssueId));
             }
         }
 
@@ -147,7 +154,7 @@ namespace Implem.Pleasanter.Models
                     addUpdatedTimeParam: false)));
             if (ss.Sources?.Any() == true)
             {
-                UpdateTitles(resultCollection.Select(o => o.ResultId));
+                UpdateTitles(ss.SiteId, resultCollection.Select(o => o.ResultId));
             }
         }
 
@@ -186,7 +193,7 @@ namespace Implem.Pleasanter.Models
                     addUpdatedTimeParam: false)));
             if (ss.Sources?.Any() == true)
             {
-                UpdateTitles(wikiCollection.Select(o => o.WikiId));
+                UpdateTitles(ss.SiteId, wikiCollection.Select(o => o.WikiId));
             }
         }
     }

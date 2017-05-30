@@ -333,7 +333,7 @@ namespace Implem.Pleasanter.Models
                 });
             if (ss.Sources?.Any() == true)
             {
-                ItemUtilities.UpdateTitles(WikiId);
+                ItemUtilities.UpdateTitles(SiteId, WikiId);
             }
             Libraries.Search.Indexes.Create(ss, this);
         }

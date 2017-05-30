@@ -1387,7 +1387,7 @@ namespace Implem.Pleasanter.Models
                 });
             if (ss.Sources?.Any() == true)
             {
-                ItemUtilities.UpdateTitles(ResultId);
+                ItemUtilities.UpdateTitles(SiteId, ResultId);
             }
             Libraries.Search.Indexes.Create(ss, this);
         }
