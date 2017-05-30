@@ -89,7 +89,7 @@ namespace Implem.Pleasanter.Models
                 column: column,
                 where: Rds.IssuesWhere()
                     .SiteId(ss.SiteId)
-                    .IssueId_In(idList, _using: idList != null));
+                    .IssueId_In(idList, _using: idList?.Any() == true));
             var links = ss.GetUseSearchLinks(titleOnly: true);
             links?.ForEach(link =>
                 ss.SetChoiceHash(
@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.Models
                 column: column,
                 where: Rds.ResultsWhere()
                     .SiteId(ss.SiteId)
-                    .ResultId_In(idList, _using: idList != null));
+                    .ResultId_In(idList, _using: idList?.Any() == true));
             var links = ss.GetUseSearchLinks(titleOnly: true);
             links?.ForEach(link =>
                 ss.SetChoiceHash(
@@ -167,7 +167,7 @@ namespace Implem.Pleasanter.Models
                 column: column,
                 where: Rds.WikisWhere()
                     .SiteId(ss.SiteId)
-                    .WikiId_In(idList, _using: idList != null));
+                    .WikiId_In(idList, _using: idList?.Any() == true));
             var links = ss.GetUseSearchLinks(titleOnly: true);
             links?.ForEach(link =>
                 ss.SetChoiceHash(
