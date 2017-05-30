@@ -34,12 +34,17 @@ namespace Implem.Pleasanter.Models
 
         public static void UpdateTitles(long id)
         {
+            UpdateTitles(new List<long> { id });
+        }
+
+        public static void UpdateTitles(IEnumerable<long> idList)
+        {
             Rds.ExecuteTable(statements: Rds.SelectLinks(
                 column: Rds.LinksColumn()
                     .SourceId()
                     .SiteId(),
                 join: Rds.LinksJoinDefault(),
-                where: Rds.LinksWhere().DestinationId(id)))
+                where: Rds.LinksWhere().DestinationId_In(idList)))
                     .AsEnumerable()
                     .Select(o => new
                     {
@@ -103,8 +108,7 @@ namespace Implem.Pleasanter.Models
                     addUpdatedTimeParam: false)));
             if (ss.Sources?.Any() == true)
             {
-                issueCollection.ForEach(issueModel =>
-                    UpdateTitles(issueModel.IssueId));
+                UpdateTitles(issueCollection.Select(o => o.IssueId));
             }
         }
 
@@ -143,8 +147,7 @@ namespace Implem.Pleasanter.Models
                     addUpdatedTimeParam: false)));
             if (ss.Sources?.Any() == true)
             {
-                resultCollection.ForEach(resultModel =>
-                    UpdateTitles(resultModel.ResultId));
+                UpdateTitles(resultCollection.Select(o => o.ResultId));
             }
         }
 
@@ -183,8 +186,7 @@ namespace Implem.Pleasanter.Models
                     addUpdatedTimeParam: false)));
             if (ss.Sources?.Any() == true)
             {
-                wikiCollection.ForEach(wikiModel =>
-                    UpdateTitles(wikiModel.WikiId));
+                UpdateTitles(wikiCollection.Select(o => o.WikiId));
             }
         }
     }
