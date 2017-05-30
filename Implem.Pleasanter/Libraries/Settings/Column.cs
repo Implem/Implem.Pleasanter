@@ -323,7 +323,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ChoiceValueHash = ChoiceHash
                         .GroupBy(o => o.Value)
                         .Select(o => o.First())
-                        .ToDictionary(o => o.Value.Value, o => o.Key);
+                        .ToDictionary(o => o.Value.Text, o => o.Key);
                 }
                 recordingData = ChoiceValueHash.Get(value);
             }
