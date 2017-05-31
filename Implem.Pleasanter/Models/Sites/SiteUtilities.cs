@@ -4301,6 +4301,22 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string SynchronizeTitles(SiteModel siteModel)
+        {
+            var ss = siteModel.SiteSettings;
+            var invalid = SiteValidators.OnUpdating(ss, siteModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            ItemUtilities.UpdateTitles(ss);
+            return Messages.ResponseSynchronizationCompleted().ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string SynchronizeSummaries(SiteModel siteModel)
         {
             siteModel.SetSiteSettingsPropertiesBySession();
@@ -4323,22 +4339,6 @@ namespace Implem.Pleasanter.Models
                     Summaries.Synchronize(ss, id));
                 return Messages.ResponseSynchronizationCompleted().ToJson();
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string SynchronizeTitles(SiteModel siteModel)
-        {
-            var ss = siteModel.SiteSettings;
-            var invalid = SiteValidators.OnUpdating(ss, siteModel);
-            switch (invalid)
-            {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson();
-            }
-            ItemUtilities.UpdateTitles(ss);
-            return Messages.ResponseSynchronizationCompleted().ToJson();
         }
     }
 }
