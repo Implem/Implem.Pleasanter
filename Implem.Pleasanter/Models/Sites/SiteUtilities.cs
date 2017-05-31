@@ -4340,5 +4340,32 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseSynchronizationCompleted().ToJson();
             }
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string SynchronizeFormulas(SiteModel siteModel)
+        {
+            siteModel.SetSiteSettingsPropertiesBySession();
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
+            var ss = siteModel.SiteSettings;
+            var invalid = SiteValidators.OnUpdating(ss, siteModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var selected = Forms.IntList("EditFormula");
+            if (selected?.Any() != true)
+            {
+                return Messages.ResponseSelectTargets().ToJson();
+            }
+            else
+            {
+                ss.SetChoiceHash();
+                FormulaUtilities.Synchronize(siteModel, selected);
+                return Messages.ResponseSynchronizationCompleted().ToJson();
+            }
+        }
     }
 }

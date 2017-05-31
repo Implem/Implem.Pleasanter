@@ -1514,25 +1514,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string SynchronizeFormulas()
-        {
-            SetSiteSettingsPropertiesBySession();
-            var selected = Forms.IntList("EditFormula");
-            if (selected?.Any() != true)
-            {
-                return Messages.ResponseSelectTargets().ToJson();
-            }
-            else
-            {
-                SiteSettings.SetChoiceHash();
-                FormulaUtilities.Synchronize(this, selected);
-                return Messages.ResponseSynchronizationCompleted().ToJson();
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private void SetViewsOrder(ResponseCollection res, string controlId)
         {
             var command = ColumnUtilities.ChangeCommand(controlId);

@@ -736,7 +736,7 @@ namespace Implem.Pleasanter.Models
         public string SynchronizeFormulas()
         {
             SetSite();
-            return Site.SynchronizeFormulas();
+            return SiteUtilities.SynchronizeFormulas(Site);
         }
 
         private void SetSite(
