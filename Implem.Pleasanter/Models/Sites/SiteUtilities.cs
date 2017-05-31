@@ -4301,6 +4301,33 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string SynchronizeSummaries(SiteModel siteModel)
+        {
+            siteModel.SetSiteSettingsPropertiesBySession();
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
+            var ss = siteModel.SiteSettings;
+            var invalid = SiteValidators.OnUpdating(ss, siteModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var selected = Forms.IntList("EditSummary");
+            if (selected?.Any() != true)
+            {
+                return Messages.ResponseSelectTargets().ToJson();
+            }
+            else
+            {
+                selected.ForEach(id =>
+                    Summaries.Synchronize(ss, id));
+                return Messages.ResponseSynchronizationCompleted().ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string SynchronizeTitles(SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;

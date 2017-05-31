@@ -730,7 +730,7 @@ namespace Implem.Pleasanter.Models
         public string SynchronizeSummaries()
         {
             SetSite();
-            return Site.SynchronizeSummaries();
+            return SiteUtilities.SynchronizeSummaries(Site);
         }
 
         public string SynchronizeFormulas()
