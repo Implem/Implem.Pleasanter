@@ -8,11 +8,16 @@ namespace Implem.Pleasanter.Models
 {
     public static class GroupValidators
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Error.Types OnEntry(SiteSettings ss)
         {
-            return ss.HasPermission()
-                ? Error.Types.None
-                : Error.Types.HasNotPermission;
+            return
+                Sessions.UserSettings().DisableGroupAdmin != true &&
+                Permissions.CanManageTenant()
+                    ? Error.Types.None
+                    : Error.Types.HasNotPermission;
         }
 
         public static Error.Types OnReading(SiteSettings ss)

@@ -41,6 +41,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string referenceType,
             bool useNavigationMenu)
         {
+            var canManageGroups = Sessions.UserSettings().DisableGroupAdmin != true;
+            var canManageSite = siteId != 0 && ss.CanManageSite(site: true);
+            var canManageDepts = Permissions.CanManageTenant();
+            var canManageUsers = Permissions.CanManageTenant();
             return hb.Ul(
                 id: "NavigationMenu",
                 action: () => hb
@@ -80,7 +84,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
                                     .Text(text: Displays.Setting()))
-                            .SettingsMenu(siteId: siteId, ss: ss))
+                            .SettingsMenu(
+                                ss: ss,
+                                siteId: siteId,
+                                canManageSite: canManageSite,
+                                canManageDepts: canManageDepts,
+                                canManageGroups: canManageGroups,
+                                canManageUsers: canManageUsers),
+                        _using:
+                            canManageSite ||
+                            canManageDepts ||
+                            canManageGroups ||
+                            canManageUsers)
                     .Li(
                         css: "sub-menu",
                         action: () => hb
@@ -163,40 +178,51 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder SettingsMenu(
-            this HtmlBuilder hb, SiteSettings ss, long siteId)
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            long siteId,
+            bool canManageSite,
+            bool canManageDepts,
+            bool canManageGroups,
+            bool canManageUsers)
         {
-            return hb.Ul(id: "SettingsMenu", css: "menu", action: () => hb
-                .Li(
-                    action: () => hb
-                        .A(
-                            href: Locations.ItemEdit(siteId),
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-gear")
-                                .Text(text: Displays.SiteSettings())),
-                    _using: siteId != 0 && ss.CanManageSite(site: true))
-                .Li(
-                    action: () => hb
-                        .A(
-                            href: Locations.Index("Depts"),
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-gear")
-                                .Text(text: Displays.DeptAdmin())),
-                    _using: Permissions.CanManageTenant())
-                .Li(
-                    action: () => hb
-                        .A(
-                            href: Locations.Index("Groups"),
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-gear")
-                                .Text(text: Displays.GroupAdmin())))
-                .Li(
-                    action: () => hb
-                        .A(
-                            href: Locations.Index("Users"),
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-gear")
-                                .Text(text: Displays.UserAdmin())),
-                    _using: Permissions.CanManageTenant()));
+
+            return hb.Ul(
+                id: "SettingsMenu",
+                css: "menu",
+                action: () => hb
+                    .Li(
+                        action: () => hb
+                            .A(
+                                href: Locations.ItemEdit(siteId),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-gear")
+                                    .Text(text: Displays.SiteSettings())),
+                        _using: canManageSite)
+                    .Li(
+                        action: () => hb
+                            .A(
+                                href: Locations.Index("Depts"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-gear")
+                                    .Text(text: Displays.DeptAdmin())),
+                        _using: canManageDepts)
+                    .Li(
+                        action: () => hb
+                            .A(
+                                href: Locations.Index("Groups"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-gear")
+                                    .Text(text: Displays.GroupAdmin())),
+                        _using: canManageGroups)
+                    .Li(
+                        action: () => hb
+                            .A(
+                                href: Locations.Index("Users"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-gear")
+                                    .Text(text: Displays.UserAdmin())),
+                        _using: canManageUsers));
         }
 
         private static HtmlBuilder AccountMenu(this HtmlBuilder hb)

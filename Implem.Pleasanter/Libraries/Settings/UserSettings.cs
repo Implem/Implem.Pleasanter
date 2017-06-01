@@ -6,6 +6,7 @@ namespace Implem.Pleasanter.Libraries.Settings
     public class UserSettings
     {
         public bool? DisableTopSiteCreation;
+        public bool? DisableGroupAdmin;
 
         public string RecordingJson()
         {
@@ -13,6 +14,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (DisableTopSiteCreation == true)
             {
                 us.DisableTopSiteCreation = DisableTopSiteCreation;
+            }
+            if (DisableGroupAdmin == true)
+            {
+                us.DisableGroupAdmin = DisableGroupAdmin;
             }
             return us.ToJson();
         }

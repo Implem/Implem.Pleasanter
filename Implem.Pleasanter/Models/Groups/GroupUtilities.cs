@@ -27,6 +27,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Index(SiteSettings ss)
         {
+            var invalid = GroupValidators.OnEntry(ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(ss);
             var groupCollection = GroupCollection(ss, view);

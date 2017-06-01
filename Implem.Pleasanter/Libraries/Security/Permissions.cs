@@ -372,12 +372,16 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanReadGroup()
         {
-            return Routes.Id() == 0 || CanManageTenant() || Groups().Any();
+            return 
+                Sessions.UserSettings().DisableGroupAdmin != true &&
+                (Routes.Id() == 0 || CanManageTenant() || Groups().Any());
         }
 
         public static bool CanEditGroup()
         {
-            return Routes.Id() == 0 || CanManageTenant() || Groups().Any(o => o["Admin"].ToBool());
+            return
+                Sessions.UserSettings().DisableGroupAdmin != true &&
+                (Routes.Id() == 0 || CanManageTenant() || Groups().Any(o => o["Admin"].ToBool()));
         }
 
         private static bool Can(this SiteSettings ss, Types type, bool site)
