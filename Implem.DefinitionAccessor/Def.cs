@@ -269,6 +269,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SessionProperties": Code.Model_SessionProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SessionProperties, definitionRow, CodeXls); break;
                     case "Model_PropertyValue": Code.Model_PropertyValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue, definitionRow, CodeXls); break;
                     case "Model_PropertyValue_ColumnCases": Code.Model_PropertyValue_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_PropertyValues_ColumnCases": Code.Model_PropertyValues_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValues_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_PropertyValue_ColumnCases_ToString": Code.Model_PropertyValue_ColumnCases_ToString = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_ColumnCases_ToString, definitionRow, CodeXls); break;
                     case "Model_SwitchTargets": Code.Model_SwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Constructor": Code.Model_Constructor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Constructor, definitionRow, CodeXls); break;
@@ -337,6 +338,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertLinksByUpdate": Code.Model_InsertLinksByUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksByUpdate, definitionRow, CodeXls); break;
                     case "Model_InsertLinksByUpdate_Site": Code.Model_InsertLinksByUpdate_Site = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksByUpdate_Site, definitionRow, CodeXls); break;
                     case "Model_UpdateSites_Wikis": Code.Model_UpdateSites_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateSites_Wikis, definitionRow, CodeXls); break;
+                    case "Model_UpdateTitles": Code.Model_UpdateTitles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateTitles, definitionRow, CodeXls); break;
                     case "Model_InsertLinks": Code.Model_InsertLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinks, definitionRow, CodeXls); break;
                     case "Model_InsertLinksCases": Code.Model_InsertLinksCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksCases, definitionRow, CodeXls); break;
                     case "Model_Move": Code.Model_Move = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Move, definitionRow, CodeXls); break;
@@ -366,6 +368,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetByFormula_Data": Code.Model_SetByFormula_Data = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByFormula_Data, definitionRow, CodeXls); break;
                     case "Model_SetByFormula_ColumnCases": Code.Model_SetByFormula_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByFormula_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetBySession": Code.Model_SetBySession = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetBySession, definitionRow, CodeXls); break;
+                    case "Model_SetTitle": Code.Model_SetTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTitle, definitionRow, CodeXls); break;
                     case "Model_SetPk": Code.Model_SetPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetPk, definitionRow, CodeXls); break;
                     case "Model_Set": Code.Model_Set = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Set, definitionRow, CodeXls); break;
                     case "Model_PushState": Code.Model_PushState = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState, definitionRow, CodeXls); break;
@@ -524,6 +527,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_SearchIndexes": Code.Model_Utilities_SearchIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes, definitionRow, CodeXls); break;
                     case "Model_Utilities_SearchIndexes_TableCases": Code.Model_Utilities_SearchIndexes_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes_TableCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ItemTitle": Code.Model_Utilities_ItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ItemTitle, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SetItemTitle_TableCases": Code.Model_Utilities_SetItemTitle_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetItemTitle_TableCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SetItemTitle": Code.Model_Utilities_SetItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetItemTitle, definitionRow, CodeXls); break;
                     case "Model_Validator": Code.Model_Validator = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods": Code.Model_ValidatorMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods, definitionRow, CodeXls); break;
                     case "Model_Validator_OnMoving": Code.Model_Validator_OnMoving = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnMoving, definitionRow, CodeXls); break;
@@ -1613,7 +1618,6 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("ByForm")) { newColumnDefinition.ByForm = definitionRow["ByForm"].ToString(); newColumnDefinition.SavedByForm = newColumnDefinition.ByForm; }
                 if (definitionRow.ContainsKey("ByDataRow")) { newColumnDefinition.ByDataRow = definitionRow["ByDataRow"].ToString(); newColumnDefinition.SavedByDataRow = newColumnDefinition.ByDataRow; }
                 if (definitionRow.ContainsKey("BySession")) { newColumnDefinition.BySession = definitionRow["BySession"].ToString(); newColumnDefinition.SavedBySession = newColumnDefinition.BySession; }
-                if (definitionRow.ContainsKey("ToControl")) { newColumnDefinition.ToControl = definitionRow["ToControl"].ToString(); newColumnDefinition.SavedToControl = newColumnDefinition.ToControl; }
                 if (definitionRow.ContainsKey("SelectColumns")) { newColumnDefinition.SelectColumns = definitionRow["SelectColumns"].ToString(); newColumnDefinition.SavedSelectColumns = newColumnDefinition.SelectColumns; }
                 if (definitionRow.ContainsKey("ComputeColumn")) { newColumnDefinition.ComputeColumn = definitionRow["ComputeColumn"].ToString(); newColumnDefinition.SavedComputeColumn = newColumnDefinition.ComputeColumn; }
                 if (definitionRow.ContainsKey("OrderByColumns")) { newColumnDefinition.OrderByColumns = definitionRow["OrderByColumns"].ToString(); newColumnDefinition.SavedOrderByColumns = newColumnDefinition.OrderByColumns; }
@@ -1725,7 +1729,6 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("ByForm")) { definition.ByForm = definitionRow["ByForm"].ToString(); definition.SavedByForm = definition.ByForm; }
             if (definitionRow.ContainsKey("ByDataRow")) { definition.ByDataRow = definitionRow["ByDataRow"].ToString(); definition.SavedByDataRow = definition.ByDataRow; }
             if (definitionRow.ContainsKey("BySession")) { definition.BySession = definitionRow["BySession"].ToString(); definition.SavedBySession = definition.BySession; }
-            if (definitionRow.ContainsKey("ToControl")) { definition.ToControl = definitionRow["ToControl"].ToString(); definition.SavedToControl = definition.ToControl; }
             if (definitionRow.ContainsKey("SelectColumns")) { definition.SelectColumns = definitionRow["SelectColumns"].ToString(); definition.SavedSelectColumns = definition.SelectColumns; }
             if (definitionRow.ContainsKey("ComputeColumn")) { definition.ComputeColumn = definitionRow["ComputeColumn"].ToString(); definition.SavedComputeColumn = definition.ComputeColumn; }
             if (definitionRow.ContainsKey("OrderByColumns")) { definition.OrderByColumns = definitionRow["OrderByColumns"].ToString(); definition.SavedOrderByColumns = definition.OrderByColumns; }
@@ -2028,6 +2031,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_md_space_h4": Css._dot_md_space_h4 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_h4, definitionRow, CssXls); break;
                     case "_dot_md_space_h5": Css._dot_md_space_h5 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_h5, definitionRow, CssXls); break;
                     case "_dot_md_space_h6": Css._dot_md_space_h6 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_h6, definitionRow, CssXls); break;
+                    case "_dot_md_space_hr": Css._dot_md_space_hr = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_hr, definitionRow, CssXls); break;
                     case "_dot_md_space_ol": Css._dot_md_space_ol = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_ol, definitionRow, CssXls); break;
                     case "_dot_md_space_p": Css._dot_md_space_p = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_p, definitionRow, CssXls); break;
                     case "_dot_md_space_table": Css._dot_md_space_table = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_table, definitionRow, CssXls); break;
@@ -3254,6 +3258,21 @@ namespace Implem.DefinitionAccessor
                     case "Template119": Template.Template119 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template119, definitionRow, TemplateXls); break;
                     case "Template120": Template.Template120 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template120, definitionRow, TemplateXls); break;
                     case "Template121": Template.Template121 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template121, definitionRow, TemplateXls); break;
+                    case "Template122": Template.Template122 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template122, definitionRow, TemplateXls); break;
+                    case "Template123": Template.Template123 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template123, definitionRow, TemplateXls); break;
+                    case "Template124": Template.Template124 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template124, definitionRow, TemplateXls); break;
+                    case "Template125": Template.Template125 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template125, definitionRow, TemplateXls); break;
+                    case "Template126": Template.Template126 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template126, definitionRow, TemplateXls); break;
+                    case "Template127": Template.Template127 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template127, definitionRow, TemplateXls); break;
+                    case "Template128": Template.Template128 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template128, definitionRow, TemplateXls); break;
+                    case "Template129": Template.Template129 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template129, definitionRow, TemplateXls); break;
+                    case "Template130": Template.Template130 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template130, definitionRow, TemplateXls); break;
+                    case "Template131": Template.Template131 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template131, definitionRow, TemplateXls); break;
+                    case "Template132": Template.Template132 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template132, definitionRow, TemplateXls); break;
+                    case "Template133": Template.Template133 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template133, definitionRow, TemplateXls); break;
+                    case "Template134": Template.Template134 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template134, definitionRow, TemplateXls); break;
+                    case "Template135": Template.Template135 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template135, definitionRow, TemplateXls); break;
+                    case "Template136": Template.Template136 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template136, definitionRow, TemplateXls); break;
                     default: break;
                 }
             });
@@ -3505,7 +3524,6 @@ namespace Implem.DefinitionAccessor
                         case "ByForm": columnDefinition.ByForm = optionValue.ToString(); break;
                         case "ByDataRow": columnDefinition.ByDataRow = optionValue.ToString(); break;
                         case "BySession": columnDefinition.BySession = optionValue.ToString(); break;
-                        case "ToControl": columnDefinition.ToControl = optionValue.ToString(); break;
                         case "SelectColumns": columnDefinition.SelectColumns = optionValue.ToString(); break;
                         case "ComputeColumn": columnDefinition.ComputeColumn = optionValue.ToString(); break;
                         case "OrderByColumns": columnDefinition.OrderByColumns = optionValue.ToString(); break;
@@ -4194,6 +4212,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SessionProperties;
         public string Model_PropertyValue;
         public string Model_PropertyValue_ColumnCases;
+        public string Model_PropertyValues_ColumnCases;
         public string Model_PropertyValue_ColumnCases_ToString;
         public string Model_SwitchTargets;
         public string Model_Constructor;
@@ -4262,6 +4281,7 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertLinksByUpdate;
         public string Model_InsertLinksByUpdate_Site;
         public string Model_UpdateSites_Wikis;
+        public string Model_UpdateTitles;
         public string Model_InsertLinks;
         public string Model_InsertLinksCases;
         public string Model_Move;
@@ -4291,6 +4311,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetByFormula_Data;
         public string Model_SetByFormula_ColumnCases;
         public string Model_SetBySession;
+        public string Model_SetTitle;
         public string Model_SetPk;
         public string Model_Set;
         public string Model_PushState;
@@ -4449,6 +4470,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_SearchIndexes;
         public string Model_Utilities_SearchIndexes_TableCases;
         public string Model_Utilities_ItemTitle;
+        public string Model_Utilities_SetItemTitle_TableCases;
+        public string Model_Utilities_SetItemTitle;
         public string Model_Validator;
         public string Model_ValidatorMethods;
         public string Model_Validator_OnMoving;
@@ -4631,6 +4654,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SessionProperties = new CodeDefinition();
         public CodeDefinition Model_PropertyValue = new CodeDefinition();
         public CodeDefinition Model_PropertyValue_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_PropertyValues_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_PropertyValue_ColumnCases_ToString = new CodeDefinition();
         public CodeDefinition Model_SwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Constructor = new CodeDefinition();
@@ -4699,6 +4723,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertLinksByUpdate = new CodeDefinition();
         public CodeDefinition Model_InsertLinksByUpdate_Site = new CodeDefinition();
         public CodeDefinition Model_UpdateSites_Wikis = new CodeDefinition();
+        public CodeDefinition Model_UpdateTitles = new CodeDefinition();
         public CodeDefinition Model_InsertLinks = new CodeDefinition();
         public CodeDefinition Model_InsertLinksCases = new CodeDefinition();
         public CodeDefinition Model_Move = new CodeDefinition();
@@ -4728,6 +4753,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetByFormula_Data = new CodeDefinition();
         public CodeDefinition Model_SetByFormula_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetBySession = new CodeDefinition();
+        public CodeDefinition Model_SetTitle = new CodeDefinition();
         public CodeDefinition Model_SetPk = new CodeDefinition();
         public CodeDefinition Model_Set = new CodeDefinition();
         public CodeDefinition Model_PushState = new CodeDefinition();
@@ -4886,6 +4912,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_SearchIndexes = new CodeDefinition();
         public CodeDefinition Model_Utilities_SearchIndexes_TableCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ItemTitle = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SetItemTitle_TableCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SetItemTitle = new CodeDefinition();
         public CodeDefinition Model_Validator = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods = new CodeDefinition();
         public CodeDefinition Model_Validator_OnMoving = new CodeDefinition();
@@ -5093,7 +5121,6 @@ namespace Implem.DefinitionAccessor
         public string ByForm; public string SavedByForm;
         public string ByDataRow; public string SavedByDataRow;
         public string BySession; public string SavedBySession;
-        public string ToControl; public string SavedToControl;
         public string SelectColumns; public string SavedSelectColumns;
         public string ComputeColumn; public string SavedComputeColumn;
         public string OrderByColumns; public string SavedOrderByColumns;
@@ -5206,7 +5233,6 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("ByForm")) ByForm = propertyCollection["ByForm"].ToString(); else ByForm = string.Empty;
             if (propertyCollection.ContainsKey("ByDataRow")) ByDataRow = propertyCollection["ByDataRow"].ToString(); else ByDataRow = string.Empty;
             if (propertyCollection.ContainsKey("BySession")) BySession = propertyCollection["BySession"].ToString(); else BySession = string.Empty;
-            if (propertyCollection.ContainsKey("ToControl")) ToControl = propertyCollection["ToControl"].ToString(); else ToControl = string.Empty;
             if (propertyCollection.ContainsKey("SelectColumns")) SelectColumns = propertyCollection["SelectColumns"].ToString(); else SelectColumns = string.Empty;
             if (propertyCollection.ContainsKey("ComputeColumn")) ComputeColumn = propertyCollection["ComputeColumn"].ToString(); else ComputeColumn = string.Empty;
             if (propertyCollection.ContainsKey("OrderByColumns")) OrderByColumns = propertyCollection["OrderByColumns"].ToString(); else OrderByColumns = string.Empty;
@@ -5319,7 +5345,6 @@ namespace Implem.DefinitionAccessor
                     case "ByForm": return ByForm;
                     case "ByDataRow": return ByDataRow;
                     case "BySession": return BySession;
-                    case "ToControl": return ToControl;
                     case "SelectColumns": return SelectColumns;
                     case "ComputeColumn": return ComputeColumn;
                     case "OrderByColumns": return OrderByColumns;
@@ -5432,7 +5457,6 @@ namespace Implem.DefinitionAccessor
             ByForm = SavedByForm;
             ByDataRow = SavedByDataRow;
             BySession = SavedBySession;
-            ToControl = SavedToControl;
             SelectColumns = SavedSelectColumns;
             ComputeColumn = SavedComputeColumn;
             OrderByColumns = SavedOrderByColumns;
@@ -7373,6 +7397,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_md_space_h4;
         public string _dot_md_space_h5;
         public string _dot_md_space_h6;
+        public string _dot_md_space_hr;
         public string _dot_md_space_ol;
         public string _dot_md_space_p;
         public string _dot_md_space_table;
@@ -7778,6 +7803,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_md_space_h4 = new CssDefinition();
         public CssDefinition _dot_md_space_h5 = new CssDefinition();
         public CssDefinition _dot_md_space_h6 = new CssDefinition();
+        public CssDefinition _dot_md_space_hr = new CssDefinition();
         public CssDefinition _dot_md_space_ol = new CssDefinition();
         public CssDefinition _dot_md_space_p = new CssDefinition();
         public CssDefinition _dot_md_space_table = new CssDefinition();
@@ -9634,6 +9660,21 @@ namespace Implem.DefinitionAccessor
         public string Template119;
         public string Template120;
         public string Template121;
+        public string Template122;
+        public string Template123;
+        public string Template124;
+        public string Template125;
+        public string Template126;
+        public string Template127;
+        public string Template128;
+        public string Template129;
+        public string Template130;
+        public string Template131;
+        public string Template132;
+        public string Template133;
+        public string Template134;
+        public string Template135;
+        public string Template136;
     }
 
     public class TemplateTable
@@ -9759,6 +9800,21 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template119 = new TemplateDefinition();
         public TemplateDefinition Template120 = new TemplateDefinition();
         public TemplateDefinition Template121 = new TemplateDefinition();
+        public TemplateDefinition Template122 = new TemplateDefinition();
+        public TemplateDefinition Template123 = new TemplateDefinition();
+        public TemplateDefinition Template124 = new TemplateDefinition();
+        public TemplateDefinition Template125 = new TemplateDefinition();
+        public TemplateDefinition Template126 = new TemplateDefinition();
+        public TemplateDefinition Template127 = new TemplateDefinition();
+        public TemplateDefinition Template128 = new TemplateDefinition();
+        public TemplateDefinition Template129 = new TemplateDefinition();
+        public TemplateDefinition Template130 = new TemplateDefinition();
+        public TemplateDefinition Template131 = new TemplateDefinition();
+        public TemplateDefinition Template132 = new TemplateDefinition();
+        public TemplateDefinition Template133 = new TemplateDefinition();
+        public TemplateDefinition Template134 = new TemplateDefinition();
+        public TemplateDefinition Template135 = new TemplateDefinition();
+        public TemplateDefinition Template136 = new TemplateDefinition();
     }
 
     public class ViewModeDefinition
