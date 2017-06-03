@@ -2002,7 +2002,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     .SiteSettings(),
                                 where: Rds.SitesWhere()
                                     .TenantId(Sessions.TenantId())
-                                    .SiteId_In(IntegratedSites)))
+                                    .SiteId_In(AllowedIntegratedSites)))
                                         .AsEnumerable()
                                         .ToDictionary(
                                             o => o["SiteId"].ToLong(),
@@ -2011,9 +2011,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                                                 .Deserialize<SiteSettings>());
                     }
                     column.ChoicesText = column.ChoicesText.Replace(
-                        "[[Integration]]", IntegratedSites
+                        "[[Integration]]", AllowedIntegratedSites
                             .Select(o => hash.Get(o)?.GetColumn(column.ColumnName)?.ChoicesText)
                             .Where(o => o != null)
+                            .SelectMany(o => o.Split(','))
+                            .Distinct()
+                            .Where(o => o != "[[Integration]]")
                             .Join("\n"));
                 });
         }
