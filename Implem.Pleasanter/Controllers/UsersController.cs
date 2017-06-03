@@ -172,20 +172,24 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel();
             if (Sessions.LoggedIn())
             {
-                log.Finish();
-                return base.Redirect(Locations.Top());
+                if (Libraries.Requests.QueryStrings.Bool("new"))
+                {
+                    Authentications.SignOut();
+                }
+                else
+                {
+                    log.Finish();
+                    return base.Redirect(Locations.Top());
+                }
             }
-            else
-            {
-                var html = UserUtilities.HtmlLogin(
-                    returnUrl,
-                    Request.QueryString["expired"] == "1" && !Request.IsAjaxRequest()
-                        ? Messages.Expired().Html
-                        : string.Empty);
-                ViewBag.HtmlBody = html;
-                log.Finish(html.Length);
-                return View();
-            }
+            var html = UserUtilities.HtmlLogin(
+                returnUrl,
+                Request.QueryString["expired"] == "1" && !Request.IsAjaxRequest()
+                    ? Messages.Expired().Html
+                    : string.Empty);
+            ViewBag.HtmlBody = html;
+            log.Finish(html.Length);
+            return View();
         }
 
         /// <summary>
