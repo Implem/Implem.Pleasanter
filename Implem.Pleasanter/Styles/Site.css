@@ -515,6 +515,10 @@ pre{
     overflow:hidden;
 }
 
+#Crosstab .crosstab-row{
+    border-bottom:dotted 1px silver;
+}
+
 #Gantt{
     width:100%;
     background-color:whitesmoke;
@@ -2088,6 +2092,16 @@ h3.title-header{
 }
 
 .svg-kamban-aggregation-view rect{
+    height:20px;
+    fill:darkseagreen;
+}
+
+.svg-crosstab{
+    width:100%;
+    height:20px;
+}
+
+.svg-crosstab rect{
     height:20px;
     fill:darkseagreen;
 }

@@ -816,6 +816,14 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#CrosstabSettingsEditor",
+                                            text: Displays.Crosstab()),
+                                    _using: Def.ViewModeDefinitionCollection
+                                        .Where(o => o.Name == "Crosstab")
+                                        .Any(o => o.ReferenceType == siteModel.ReferenceType))
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#GanttSettingsEditor",
                                             text: Displays.Gantt()),
                                     _using: Def.ViewModeDefinitionCollection
@@ -1547,6 +1555,7 @@ namespace Implem.Pleasanter.Models
                             .ViewsSettingsEditor(siteModel.SiteSettings)
                             .NotificationsSettingsEditor(siteModel.SiteSettings)
                             .CalendarSettingsEditor(siteModel.SiteSettings)
+                            .CrosstabSettingsEditor(siteModel.SiteSettings)
                             .GanttSettingsEditor(siteModel.SiteSettings)
                             .BurnDownSettingsEditor(siteModel.SiteSettings)
                             .TimeSeriesSettingsEditor(siteModel.SiteSettings)
@@ -3322,6 +3331,8 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var hasCalendar = Def.ViewModeDefinitionCollection
                 .Any(o => o.Name == "Calendar" && o.ReferenceType == ss.ReferenceType);
+            var hasCrosstab = Def.ViewModeDefinitionCollection
+                .Any(o => o.Name == "Crosstab" && o.ReferenceType == ss.ReferenceType);
             var hasGantt = Def.ViewModeDefinitionCollection
                 .Any(o => o.Name == "Gantt" && o.ReferenceType == ss.ReferenceType);
             var hasTimeSeries = Def.ViewModeDefinitionCollection
@@ -3362,6 +3373,12 @@ namespace Implem.Pleasanter.Models
                             .Li(
                                 action: () => hb
                                     .A(
+                                        href: "#ViewCrosstabTab",
+                                        text: Displays.Crosstab()),
+                                _using: hasCrosstab)
+                            .Li(
+                                action: () => hb
+                                    .A(
                                         href: "#ViewGanttTab",
                                         text: Displays.Gantt()),
                                 _using: hasGantt)
@@ -3380,6 +3397,7 @@ namespace Implem.Pleasanter.Models
                         .ViewFiltersTab(ss: ss, view: view)
                         .ViewSortersTab(ss: ss, view: view)
                         .ViewCalendarTab(ss: ss, view: view, _using: hasCalendar)
+                        .ViewCrosstabTab(ss: ss, view: view, _using: hasCrosstab)
                         .ViewGanttTab(ss: ss, view: view, _using: hasGantt)
                         .ViewTimeSeriesTab(ss: ss, view: view, _using: hasTimeSeries)
                         .ViewKambanTab(ss: ss, view: view, _using: hasKamban))
@@ -3613,6 +3631,45 @@ namespace Implem.Pleasanter.Models
                         optionCollection: ss.CalendarColumnOptions(),
                         selectedValue: view.CalendarColumn,
                         insertBlank: true))
+                : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ViewCrosstabTab(
+            this HtmlBuilder hb, SiteSettings ss, View view, bool _using)
+        {
+            return _using
+                ? hb.FieldSet(id: "ViewCrosstabTab", action: () => hb
+                    .FieldDropDown(
+                        controlId: "CrosstabGroupByX",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.GroupByX(),
+                        optionCollection: ss.CrosstabGroupByXOptions(),
+                        selectedValue: view.CrosstabGroupByX ??
+                            Def.ViewModeTable.Results_Crosstab.Option1)
+                    .FieldDropDown(
+                        controlId: "CrosstabGroupByY",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.GroupByY(),
+                        optionCollection: ss.CrosstabGroupByYOptions(),
+                        selectedValue: view.CrosstabGroupByY ??
+                            Def.ViewModeTable.Results_Crosstab.Option2)
+                    .FieldDropDown(
+                        controlId: "CrosstabAggregateType",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AggregationType(),
+                        optionCollection: ss.CrosstabAggregationTypeOptions(),
+                        selectedValue: view.CrosstabAggregateType ??
+                            Def.ViewModeTable.Results_Crosstab.Option3)
+                    .FieldDropDown(
+                        controlId: "CrosstabValue",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AggregationTarget(),
+                        optionCollection: ss.CrosstabValueOptions(),
+                        selectedValue: view.CrosstabValue ??
+                            Def.ViewModeTable.Results_Crosstab.Option4))
                 : hb;
         }
 
@@ -4075,6 +4132,23 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-auto-thin",
                             labelText: Displays.Enabled(),
                             _checked: ss.EnableCalendar == true))
+                    : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder CrosstabSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return Def.ViewModeDefinitionCollection
+                .Where(o => o.Name == "Crosstab")
+                .Any(o => o.ReferenceType == ss.ReferenceType)
+                    ? hb.FieldSet(id: "CrosstabSettingsEditor", action: () => hb
+                        .FieldCheckBox(
+                            controlId: "EnableCrosstab",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Enabled(),
+                            _checked: ss.EnableCrosstab == true))
                     : hb;
         }
 

@@ -30,6 +30,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
         public string CalendarColumn;
         public DateTime? CalendarMonth;
+        public string CrosstabGroupByX;
+        public string CrosstabGroupByY;
+        public string CrosstabAggregateType;
+        public string CrosstabValue;
         public string GanttGroupBy;
         public string GanttSortBy;
         public string TimeSeriesGroupBy;
@@ -116,6 +120,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     case "CalendarMonth":
                         CalendarMonth = Time(controlId);
+                        break;
+                    case "CrosstabGroupByX":
+                        CrosstabGroupByX = String(controlId);
+                        break;
+                    case "CrosstabGroupByY":
+                        CrosstabGroupByY = String(controlId);
+                        break;
+                    case "CrosstabAggregateType":
+                        CrosstabAggregateType = String(controlId);
+                        break;
+                    case "CrosstabValue":
+                        CrosstabValue = String(controlId);
                         break;
                     case "GanttGroupBy":
                         GanttGroupBy = String(controlId);
@@ -368,6 +384,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!CalendarColumn.IsNullOrEmpty())
             {
                 view.CalendarColumn = CalendarColumn;
+            }
+            if (!CrosstabGroupByX.IsNullOrEmpty())
+            {
+                view.CrosstabGroupByX = CrosstabGroupByX;
+            }
+            if (!CrosstabGroupByY.IsNullOrEmpty())
+            {
+                view.CrosstabGroupByY = CrosstabGroupByY;
+            }
+            if (!CrosstabAggregateType.IsNullOrEmpty())
+            {
+                view.CrosstabAggregateType = CrosstabAggregateType;
+            }
+            if (!CrosstabValue.IsNullOrEmpty())
+            {
+                view.CrosstabValue = CrosstabValue;
             }
             if (!GanttGroupBy.IsNullOrEmpty())
             {

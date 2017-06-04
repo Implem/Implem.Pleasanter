@@ -45,6 +45,8 @@ namespace Implem.ParameterAccessor.Parts
         public int CalendarBegin;
         public int CalendarEnd;
         public int CalendarLimit;
+        public int CrosstabXLimit;
+        public int CrosstabYLimit;
         public int GanttLimit;
         public int GanttItemMaxHeight;
         public int GanttItemMinHeight;

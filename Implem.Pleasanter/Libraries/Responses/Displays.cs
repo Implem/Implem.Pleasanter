@@ -120,6 +120,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CreateColumnAccessControl(params string[] data) { return Get("CreateColumnAccessControl", data); }
         public static string Created(params string[] data) { return Get("Created", data); }
         public static string CreatedTime(params string[] data) { return Get("CreatedTime", data); }
+        public static string Crosstab(params string[] data) { return Get("Crosstab", data); }
         public static string Csv(params string[] data) { return Get("Csv", data); }
         public static string CsvFile(params string[] data) { return Get("CsvFile", data); }
         public static string Currency(params string[] data) { return Get("Currency", data); }

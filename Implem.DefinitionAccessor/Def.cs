@@ -388,6 +388,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_IndexJsonCases": Code.Model_IndexJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexJsonCases, definitionRow, CodeXls); break;
                     case "Model_CalendarCases": Code.Model_CalendarCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CalendarCases, definitionRow, CodeXls); break;
                     case "Model_CalendarJsonCases": Code.Model_CalendarJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CalendarJsonCases, definitionRow, CodeXls); break;
+                    case "Model_CrosstabCases": Code.Model_CrosstabCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CrosstabCases, definitionRow, CodeXls); break;
+                    case "Model_CrosstabJsonCases": Code.Model_CrosstabJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CrosstabJsonCases, definitionRow, CodeXls); break;
                     case "Model_GanttCases": Code.Model_GanttCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GanttCases, definitionRow, CodeXls); break;
                     case "Model_GanttJsonCases": Code.Model_GanttJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GanttJsonCases, definitionRow, CodeXls); break;
                     case "Model_BurnDownCases": Code.Model_BurnDownCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BurnDownCases, definitionRow, CodeXls); break;
@@ -522,6 +524,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_TitleDisplay": Code.Model_Utilities_TitleDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TitleDisplay, definitionRow, CodeXls); break;
                     case "Model_Utilities_Calendar": Code.Model_Utilities_Calendar = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Calendar, definitionRow, CodeXls); break;
                     case "Model_Utilities_CalendarColumnCases": Code.Model_Utilities_CalendarColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CalendarColumnCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Crosstab": Code.Model_Utilities_Crosstab = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Crosstab, definitionRow, CodeXls); break;
+                    case "Model_Utilities_CrosstabColumnCases": Code.Model_Utilities_CrosstabColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CrosstabColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateByKamban": Code.Model_Utilities_UpdateByKamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByKamban, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetNoticeParam": Code.Model_Utilities_SetNoticeParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetNoticeParam, definitionRow, CodeXls); break;
                     case "Model_Utilities_SearchIndexes": Code.Model_Utilities_SearchIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes, definitionRow, CodeXls); break;
@@ -3322,12 +3326,14 @@ namespace Implem.DefinitionAccessor
                 {
                     case "Issues_Index": ViewMode.Issues_Index = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Index, definitionRow, ViewModeXls); break;
                     case "Issues_Calendar": ViewMode.Issues_Calendar = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Calendar, definitionRow, ViewModeXls); break;
+                    case "Issues_Crosstab": ViewMode.Issues_Crosstab = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Crosstab, definitionRow, ViewModeXls); break;
                     case "Issues_Gantt": ViewMode.Issues_Gantt = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Gantt, definitionRow, ViewModeXls); break;
                     case "Issues_BurnDown": ViewMode.Issues_BurnDown = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_BurnDown, definitionRow, ViewModeXls); break;
                     case "Issues_TimeSeries": ViewMode.Issues_TimeSeries = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_TimeSeries, definitionRow, ViewModeXls); break;
                     case "Issues_Kamban": ViewMode.Issues_Kamban = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Kamban, definitionRow, ViewModeXls); break;
                     case "Results_Index": ViewMode.Results_Index = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Index, definitionRow, ViewModeXls); break;
                     case "Results_Calendar": ViewMode.Results_Calendar = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Calendar, definitionRow, ViewModeXls); break;
+                    case "Results_Crosstab": ViewMode.Results_Crosstab = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Crosstab, definitionRow, ViewModeXls); break;
                     case "Results_TimeSeries": ViewMode.Results_TimeSeries = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_TimeSeries, definitionRow, ViewModeXls); break;
                     case "Results_Kamban": ViewMode.Results_Kamban = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Kamban, definitionRow, ViewModeXls); break;
                     default: break;
@@ -4331,6 +4337,8 @@ namespace Implem.DefinitionAccessor
         public string Model_IndexJsonCases;
         public string Model_CalendarCases;
         public string Model_CalendarJsonCases;
+        public string Model_CrosstabCases;
+        public string Model_CrosstabJsonCases;
         public string Model_GanttCases;
         public string Model_GanttJsonCases;
         public string Model_BurnDownCases;
@@ -4465,6 +4473,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_TitleDisplay;
         public string Model_Utilities_Calendar;
         public string Model_Utilities_CalendarColumnCases;
+        public string Model_Utilities_Crosstab;
+        public string Model_Utilities_CrosstabColumnCases;
         public string Model_Utilities_UpdateByKamban;
         public string Model_Utilities_SetNoticeParam;
         public string Model_Utilities_SearchIndexes;
@@ -4773,6 +4783,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_IndexJsonCases = new CodeDefinition();
         public CodeDefinition Model_CalendarCases = new CodeDefinition();
         public CodeDefinition Model_CalendarJsonCases = new CodeDefinition();
+        public CodeDefinition Model_CrosstabCases = new CodeDefinition();
+        public CodeDefinition Model_CrosstabJsonCases = new CodeDefinition();
         public CodeDefinition Model_GanttCases = new CodeDefinition();
         public CodeDefinition Model_GanttJsonCases = new CodeDefinition();
         public CodeDefinition Model_BurnDownCases = new CodeDefinition();
@@ -4907,6 +4919,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_TitleDisplay = new CodeDefinition();
         public CodeDefinition Model_Utilities_Calendar = new CodeDefinition();
         public CodeDefinition Model_Utilities_CalendarColumnCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Crosstab = new CodeDefinition();
+        public CodeDefinition Model_Utilities_CrosstabColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateByKamban = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetNoticeParam = new CodeDefinition();
         public CodeDefinition Model_Utilities_SearchIndexes = new CodeDefinition();
@@ -9879,12 +9893,14 @@ namespace Implem.DefinitionAccessor
     {
         public string Issues_Index;
         public string Issues_Calendar;
+        public string Issues_Crosstab;
         public string Issues_Gantt;
         public string Issues_BurnDown;
         public string Issues_TimeSeries;
         public string Issues_Kamban;
         public string Results_Index;
         public string Results_Calendar;
+        public string Results_Crosstab;
         public string Results_TimeSeries;
         public string Results_Kamban;
     }
@@ -9893,12 +9909,14 @@ namespace Implem.DefinitionAccessor
     {
         public ViewModeDefinition Issues_Index = new ViewModeDefinition();
         public ViewModeDefinition Issues_Calendar = new ViewModeDefinition();
+        public ViewModeDefinition Issues_Crosstab = new ViewModeDefinition();
         public ViewModeDefinition Issues_Gantt = new ViewModeDefinition();
         public ViewModeDefinition Issues_BurnDown = new ViewModeDefinition();
         public ViewModeDefinition Issues_TimeSeries = new ViewModeDefinition();
         public ViewModeDefinition Issues_Kamban = new ViewModeDefinition();
         public ViewModeDefinition Results_Index = new ViewModeDefinition();
         public ViewModeDefinition Results_Calendar = new ViewModeDefinition();
+        public ViewModeDefinition Results_Crosstab = new ViewModeDefinition();
         public ViewModeDefinition Results_TimeSeries = new ViewModeDefinition();
         public ViewModeDefinition Results_Kamban = new ViewModeDefinition();
     }

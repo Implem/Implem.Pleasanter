@@ -71,6 +71,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<View> Views;
         public SettingList<Notification> Notifications;
         public bool? EnableCalendar;
+        public bool? EnableCrosstab;
         public bool? EnableGantt;
         public bool? EnableBurnDown;
         public bool? EnableTimeSeries;
@@ -155,6 +156,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Formulas == null) Formulas = new SettingList<FormulaSet>();
             if (Notifications == null) Notifications = new SettingList<Notification>();
             EnableCalendar = EnableCalendar ?? true;
+            EnableCrosstab = EnableCrosstab ?? true;
             EnableGantt = EnableGantt ?? true;
             EnableBurnDown = EnableBurnDown ?? true;
             EnableTimeSeries = EnableTimeSeries ?? true;
@@ -311,6 +313,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (EnableCalendar == false)
             {
                 ss.EnableCalendar = EnableCalendar;
+            }
+            if (EnableCrosstab == false)
+            {
+                ss.EnableCrosstab = EnableCrosstab;
             }
             if (EnableGantt == false)
             {
@@ -1260,6 +1266,43 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
+        public Dictionary<string, string> CrosstabGroupByXOptions()
+        {
+            return Columns
+                .Where(o => o.HasChoices())
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+        }
+
+        public Dictionary<string, string> CrosstabGroupByYOptions()
+        {
+            return Columns
+                .Where(o => o.HasChoices())
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+        }
+
+        public Dictionary<string, string> CrosstabAggregationTypeOptions()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Count", Displays.Count() },
+                { "Total", Displays.Total() },
+                { "Average", Displays.Average() },
+                { "Max", Displays.Max() },
+                { "Min", Displays.Min() }
+            };
+        }
+
+        public Dictionary<string, string> CrosstabValueOptions()
+        {
+            return Columns
+                .Where(o => o.Computable)
+                .Where(o => o.TypeName != "datetime")
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+        }
+
         public Dictionary<string, string> GanttGroupByOptions()
         {
             return Columns
@@ -1351,6 +1394,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
+                case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
                 case "EnableGantt": EnableGantt = value.ToBool(); break;
                 case "EnableBurnDown": EnableBurnDown = value.ToBool(); break;
                 case "EnableTimeSeries": EnableTimeSeries = value.ToBool(); break;
@@ -1923,6 +1967,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 case "Index": return true;
                 case "Calendar": return EnableCalendar == true;
+                case "Crosstab": return EnableCrosstab == true;
                 case "Gantt": return EnableGantt == true;
                 case "BurnDown": return EnableBurnDown == true;
                 case "TimeSeries": return EnableTimeSeries == true;

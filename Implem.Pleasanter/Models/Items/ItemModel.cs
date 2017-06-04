@@ -142,6 +142,38 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string Crosstab()
+        {
+            SetSite();
+            ViewModes.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.Crosstab(
+                    ss: Site.IssuesSiteSettings(
+                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                case "Results": return ResultUtilities.Crosstab(
+                    ss: Site.ResultsSiteSettings(
+                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
+            }
+        }
+
+        public string CrosstabJson()
+        {
+            SetSite();
+            ViewModes.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.CrosstabJson(
+                    ss: Site.IssuesSiteSettings(
+                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                case "Results": return ResultUtilities.CrosstabJson(
+                    ss: Site.ResultsSiteSettings(
+                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
+            }
+        }
+
         public string Gantt()
         {
             SetSite();

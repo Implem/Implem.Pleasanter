@@ -45,6 +45,20 @@ namespace Implem.Libraries.DataSources.SqlServer
             Avg
         }
 
+        public static Functions Function(string function)
+        {
+            switch (function)
+            {
+                case "None": return Functions.None;
+                case "Count": return Functions.Count;
+                case "Total": return Functions.Sum;
+                case "Min": return Functions.Min;
+                case "Max": return Functions.Max;
+                case "Average": return Functions.Avg;
+                default: return Functions.None;
+            }
+        }
+
         public static string TableAndColumnBracket(
             string tableName, TableTypes tableType, string columnBracket)
         {

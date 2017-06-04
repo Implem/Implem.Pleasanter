@@ -248,6 +248,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlAssemblyVersions.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlDropDownSearches.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlCalendar.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlCrosstab.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
     <Compile Include="Libraries\Initializers\TemplatesInitializer.cs" />
@@ -278,6 +279,7 @@
     <Compile Include="Libraries\ViewModes\BurnDown.cs" />
     <Compile Include="Libraries\ViewModes\BurnDownElement.cs" />
     <Compile Include="Libraries\ViewModes\CalendarElement.cs" />
+    <Compile Include="Libraries\ViewModes\CrosstabElement.cs" />
     <Compile Include="Libraries\ViewModes\Gantt.cs" />
     <Compile Include="Libraries\ViewModes\GanttElement.cs" />
     <Compile Include="Libraries\ViewModes\KambanElement.cs" />
@@ -500,6 +502,7 @@
     <Content Include="Scripts\BasketEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
+    <Content Include="Scripts\Crosstab.js" />
     <Content Include="Scripts\Calendar.js" />
     <Content Include="Scripts\Confirm.js" />
     <Content Include="Scripts\ConfirmEvents.js" />
@@ -1114,6 +1117,7 @@
     <Content Include="App_Data\Displays\SortBy.json" />
     <Content Include="App_Data\Displays\SiteIntegration.json" />
     <Content Include="App_Data\Displays\SiteId.json" />
+    <Content Include="App_Data\Displays\Crosstab.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
@@ -1125,6 +1129,7 @@
     <Content Include="Views\Versions\Index.cshtml" />
     <Content Include="Views\Items\Calendar.cshtml" />
     <Content Include="Views\Errors\BadRequest.cshtml" />
+    <Content Include="Views\Items\Crosstab.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

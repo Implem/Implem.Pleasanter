@@ -50,6 +50,26 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public ActionResult Crosstab(long id = 0)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                var log = new SysLogModel();
+                var html = new ItemModel(id).Crosstab();
+                ViewBag.HtmlBody = html;
+                log.Finish(html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var json = new ItemModel(id).CrosstabJson();
+                log.Finish(json.Length);
+                return Content(json);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Gantt(long id = 0)
         {
             if (!Request.IsAjaxRequest())

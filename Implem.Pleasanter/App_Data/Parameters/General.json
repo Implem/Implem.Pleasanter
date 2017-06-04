@@ -41,6 +41,8 @@
     "CalendarBegin": -120,
     "CalendarEnd": 120,
     "CalendarLimit": 300,
+    "CrosstabXLimit": 30,
+    "CrosstabYLimit": 300,
     "GanttLimit": 300,
     "GanttItemMaxHeight": 75,
     "GanttItemMinHeight": 25,

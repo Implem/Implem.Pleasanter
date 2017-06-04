@@ -4241,6 +4241,171 @@ namespace Implem.Pleasanter.Models
                     dataRows: dataRows);
         }
 
+        public static string Crosstab(SiteSettings ss)
+        {
+            if (ss.EnableCrosstab != true)
+            {
+                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+            }
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(ss);
+            var resultCollection = ResultCollection(ss, view);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var groupByX = !view.CrosstabGroupByX.IsNullOrEmpty()
+                ? view.CrosstabGroupByX
+                : Def.ViewModeTable.Results_Crosstab.Option1;
+            var groupByY = !view.CrosstabGroupByY.IsNullOrEmpty()
+                ? view.CrosstabGroupByY
+                : Def.ViewModeTable.Results_Crosstab.Option2;
+            var aggregateType = !view.CrosstabAggregateType.IsNullOrEmpty()
+                ? view.CrosstabAggregateType
+                : Def.ViewModeTable.Results_Crosstab.Option3;
+            var value = !view.CrosstabValue.IsNullOrEmpty()
+                ? view.CrosstabValue
+                : Def.ViewModeTable.Results_Crosstab.Option4;
+            var dataRows = CrosstabDataRows(ss, view, groupByX, groupByY, value, aggregateType);
+            var inRangeX = dataRows.Select(o => o["GroupByX"].ToString()).Distinct().Count() <=
+                Parameters.General.CrosstabXLimit;
+            if (!inRangeX)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.CrosstabXLimit.ToString()).Html);
+            }
+            var inRangeY = dataRows.Select(o => o["GroupByY"].ToString()).Distinct().Count() <=
+                Parameters.General.CrosstabYLimit;
+            if (!inRangeY)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.CrosstabYLimit.ToString()).Html);
+            }
+            return hb.ViewModeTemplate(
+                ss: ss,
+                resultCollection: resultCollection,
+                view: view,
+                viewMode: viewMode,
+                viewModeBody: () =>
+                {
+                    if (inRangeX && inRangeY)
+                    {
+                        hb.Crosstab(
+                            ss: ss,
+                            view: view,
+                            groupByX: groupByX,
+                            groupByY: groupByY,
+                            aggregateType: aggregateType,
+                            value: value,
+                            dataRows: dataRows);
+                    }
+                });
+        }
+
+        public static string CrosstabJson(SiteSettings ss)
+        {
+            if (ss.EnableCrosstab != true)
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            var view = Views.GetBySession(ss);
+            var resultCollection = ResultCollection(ss, view);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var groupByX = !view.CrosstabGroupByX.IsNullOrEmpty()
+                ? view.CrosstabGroupByX
+                : Def.ViewModeTable.Results_Crosstab.Option1;
+            var groupByY = !view.CrosstabGroupByY.IsNullOrEmpty()
+                ? view.CrosstabGroupByY
+                : Def.ViewModeTable.Results_Crosstab.Option2;
+            var aggregateType = !view.CrosstabAggregateType.IsNullOrEmpty()
+                ? view.CrosstabAggregateType
+                : Def.ViewModeTable.Results_Crosstab.Option3;
+            var value = !view.CrosstabValue.IsNullOrEmpty()
+                ? view.CrosstabValue
+                : Def.ViewModeTable.Results_Crosstab.Option4;
+            var dataRows = CrosstabDataRows(ss, view, groupByX, groupByY, value, aggregateType);
+            var inRangeX = dataRows.Select(o => o["GroupByX"].ToString()).Distinct().Count() <=
+                Parameters.General.CrosstabXLimit;
+            if (!inRangeX)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.CrosstabXLimit.ToString()).Html);
+            }
+            var inRangeY = dataRows.Select(o => o["GroupByY"].ToString()).Distinct().Count() <=
+                Parameters.General.CrosstabYLimit;
+            if (!inRangeY)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.CrosstabYLimit.ToString()).Html);
+            }
+            var bodyOnly = Forms.ControlId().StartsWith("Crosstab");
+            return inRangeX && inRangeY
+                ? new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#CrosstabBody",
+                        !bodyOnly
+                            ? new HtmlBuilder().Crosstab(
+                                ss: ss,
+                                view: view,
+                                groupByX: groupByX,
+                                groupByY: groupByY,
+                                aggregateType: aggregateType,
+                                value: value,
+                                dataRows: dataRows)
+                            : new HtmlBuilder().CrosstabBody(
+                                ss: ss,
+                                view: view,
+                                groupByX: groupByX,
+                                groupByY: groupByY,
+                                aggregateType: aggregateType,
+                                value: value,
+                                dataRows: dataRows))
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: resultCollection.Aggregations))
+                    .ClearFormData()
+                    .Invoke("setCrosstab")
+                    .ToJson()
+                : new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#CrosstabBody",
+                        new HtmlBuilder())
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: resultCollection.Aggregations))
+                    .ClearFormData()
+                    .Message(Messages.TooManyCases(!inRangeX
+                        ? Parameters.General.CrosstabXLimit.ToString()
+                        : Parameters.General.CrosstabYLimit.ToString()))
+                    .ToJson();
+        }
+
+        private static EnumerableRowCollection<DataRow> CrosstabDataRows(
+            SiteSettings ss,
+            View view,
+            string groupByX,
+            string groupByY,
+            string value,
+            string aggregateType)
+        {
+            return Rds.ExecuteTable(statements:
+                Rds.SelectResults(
+                    column: Rds.ResultsColumn()
+                        .ResultsColumn(groupByX, _as: "GroupByX")
+                        .ResultsColumn(groupByY, _as: "GroupByY")
+                        .ResultsColumn(value, _as: "Value", function: Sqls.Function(aggregateType)),
+                    where: view.Where(ss: ss),
+                    groupBy: Rds.ResultsGroupBy()
+                        .ResultsGroupBy(groupByX)
+                        .ResultsGroupBy(groupByY)))
+                            .AsEnumerable();
+        }
+
         public static string UpdateByKamban(SiteSettings ss)
         {
             var resultModel = new ResultModel(ss, Forms.Long("KambanId"), setByForm: true);
