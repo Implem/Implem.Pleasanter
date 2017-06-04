@@ -4001,9 +4001,7 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var resultCollection = ResultCollection(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
-            var columnName = !view.CalendarColumn.IsNullOrEmpty()
-                ? view.CalendarColumn
-                : Def.ViewModeTable.Results_Calendar.Option1;
+            var columnName = view.GetCalendarColumn(ss);
             var month = view.CalendarMonth != null
                 ? view.CalendarMonth.ToDateTime()
                 : DateTime.Now;
@@ -4069,9 +4067,7 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var resultCollection = ResultCollection(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("Calendar");
-            var columnName = !view.CalendarColumn.IsNullOrEmpty()
-                ? view.CalendarColumn
-                : Def.ViewModeTable.Results_Calendar.Option1;
+            var columnName = view.GetCalendarColumn(ss);
             var month = view.CalendarMonth != null
                 ? view.CalendarMonth.ToDateTime()
                 : DateTime.Now;

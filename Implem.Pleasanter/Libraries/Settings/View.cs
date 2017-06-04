@@ -68,6 +68,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
+        public string GetCalendarColumn(SiteSettings ss)
+        {
+            return !CalendarColumn.IsNullOrEmpty()
+                ? CalendarColumn
+                : Definition(ss, "Calendar")?.Option1;
+        }
+
         public string GetCrosstabGroupByX(SiteSettings ss)
         {
             return !CrosstabGroupByX.IsNullOrEmpty()

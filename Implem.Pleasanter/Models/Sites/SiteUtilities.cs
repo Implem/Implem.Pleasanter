@@ -3629,8 +3629,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Column(),
                         optionCollection: ss.CalendarColumnOptions(),
-                        selectedValue: view.CalendarColumn,
-                        insertBlank: true))
+                        selectedValue: view.GetCalendarColumn(ss)))
                 : hb;
         }
 
