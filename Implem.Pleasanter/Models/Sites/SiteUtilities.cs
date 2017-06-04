@@ -3647,29 +3647,25 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         labelText: Displays.GroupByX(),
                         optionCollection: ss.CrosstabGroupByXOptions(),
-                        selectedValue: view.CrosstabGroupByX ??
-                            Def.ViewModeTable.Results_Crosstab.Option1)
+                        selectedValue: view.GetCrosstabGroupByX(ss))
                     .FieldDropDown(
                         controlId: "CrosstabGroupByY",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.GroupByY(),
                         optionCollection: ss.CrosstabGroupByYOptions(),
-                        selectedValue: view.CrosstabGroupByY ??
-                            Def.ViewModeTable.Results_Crosstab.Option2)
+                        selectedValue: view.GetCrosstabGroupByY(ss))
                     .FieldDropDown(
                         controlId: "CrosstabAggregateType",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.AggregationType(),
                         optionCollection: ss.CrosstabAggregationTypeOptions(),
-                        selectedValue: view.CrosstabAggregateType ??
-                            Def.ViewModeTable.Results_Crosstab.Option3)
+                        selectedValue: view.GetCrosstabAggregateType(ss))
                     .FieldDropDown(
                         controlId: "CrosstabValue",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.AggregationTarget(),
                         optionCollection: ss.CrosstabValueOptions(),
-                        selectedValue: view.CrosstabValue ??
-                            Def.ViewModeTable.Results_Crosstab.Option4))
+                        selectedValue: view.GetCrosstabValue(ss)))
                 : hb;
         }
 

@@ -68,6 +68,40 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
+        public string GetCrosstabGroupByX(SiteSettings ss)
+        {
+            return !CrosstabGroupByX.IsNullOrEmpty()
+                ? CrosstabGroupByX
+                : Definition(ss, "Crosstab")?.Option1;
+        }
+
+        public string GetCrosstabGroupByY(SiteSettings ss)
+        {
+            return !CrosstabGroupByY.IsNullOrEmpty()
+                ? CrosstabGroupByY
+                : Definition(ss, "Crosstab")?.Option2;
+        }
+
+        public string GetCrosstabAggregateType(SiteSettings ss)
+        {
+            return !CrosstabAggregateType.IsNullOrEmpty()
+                ? CrosstabAggregateType
+                : Definition(ss, "Crosstab")?.Option3;
+        }
+
+        public string GetCrosstabValue(SiteSettings ss)
+        {
+            return !CrosstabValue.IsNullOrEmpty()
+                ? CrosstabValue
+                : Definition(ss, "Crosstab")?.Option4;
+        }
+
+        private ViewModeDefinition Definition(SiteSettings ss, string name)
+        {
+            return Def.ViewModeDefinitionCollection.FirstOrDefault(o =>
+                o.Id == ss.ReferenceType + "_" + name);
+        }
+
         public void SetByForm(SiteSettings ss)
         {
             var columnFilterPrefix = "ViewFilters_{0}_".Params(ss.ReferenceType);

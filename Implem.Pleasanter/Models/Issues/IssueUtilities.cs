@@ -4479,18 +4479,10 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
-            var groupByX = !view.CrosstabGroupByX.IsNullOrEmpty()
-                ? view.CrosstabGroupByX
-                : Def.ViewModeTable.Issues_Crosstab.Option1;
-            var groupByY = !view.CrosstabGroupByY.IsNullOrEmpty()
-                ? view.CrosstabGroupByY
-                : Def.ViewModeTable.Issues_Crosstab.Option2;
-            var aggregateType = !view.CrosstabAggregateType.IsNullOrEmpty()
-                ? view.CrosstabAggregateType
-                : Def.ViewModeTable.Issues_Crosstab.Option3;
-            var value = !view.CrosstabValue.IsNullOrEmpty()
-                ? view.CrosstabValue
-                : Def.ViewModeTable.Issues_Crosstab.Option4;
+            var groupByX = view.GetCrosstabGroupByX(ss);
+            var groupByY = view.GetCrosstabGroupByY(ss);
+            var aggregateType = view.GetCrosstabAggregateType(ss);
+            var value = view.GetCrosstabValue(ss);
             var dataRows = CrosstabDataRows(ss, view, groupByX, groupByY, value, aggregateType);
             var inRangeX = dataRows.Select(o => o["GroupByX"].ToString()).Distinct().Count() <=
                 Parameters.General.CrosstabXLimit;
@@ -4538,18 +4530,10 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
-            var groupByX = !view.CrosstabGroupByX.IsNullOrEmpty()
-                ? view.CrosstabGroupByX
-                : Def.ViewModeTable.Issues_Crosstab.Option1;
-            var groupByY = !view.CrosstabGroupByY.IsNullOrEmpty()
-                ? view.CrosstabGroupByY
-                : Def.ViewModeTable.Issues_Crosstab.Option2;
-            var aggregateType = !view.CrosstabAggregateType.IsNullOrEmpty()
-                ? view.CrosstabAggregateType
-                : Def.ViewModeTable.Issues_Crosstab.Option3;
-            var value = !view.CrosstabValue.IsNullOrEmpty()
-                ? view.CrosstabValue
-                : Def.ViewModeTable.Issues_Crosstab.Option4;
+            var groupByX = view.GetCrosstabGroupByX(ss);
+            var groupByY = view.GetCrosstabGroupByY(ss);
+            var aggregateType = view.GetCrosstabAggregateType(ss);
+            var value = view.GetCrosstabValue(ss);
             var dataRows = CrosstabDataRows(ss, view, groupByX, groupByY, value, aggregateType);
             var inRangeX = dataRows.Select(o => o["GroupByX"].ToString()).Distinct().Count() <=
                 Parameters.General.CrosstabXLimit;
@@ -4626,7 +4610,8 @@ namespace Implem.Pleasanter.Models
                     column: Rds.IssuesColumn()
                         .IssuesColumn(groupByX, _as: "GroupByX")
                         .IssuesColumn(groupByY, _as: "GroupByY")
-                        .IssuesColumn(value, _as: "Value", function: Sqls.Function(aggregateType)),
+                        .IssuesColumn(
+                            value, _as: "Value", function: Sqls.Function(aggregateType)),
                     where: view.Where(ss: ss),
                     groupBy: Rds.IssuesGroupBy()
                         .IssuesGroupBy(groupByX)
