@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public static DateTime EndDate(DateTime date)
         {
-            return BeginDate(date).AddDays(42).AddMilliseconds(-3);
+            return BeginDate(date).AddDays(43).AddMilliseconds(-3);
         }
     }
 }

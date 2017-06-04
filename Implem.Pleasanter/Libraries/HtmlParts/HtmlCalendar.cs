@@ -121,7 +121,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             }));
                         hb.TBody(action: () =>
                         {
-                            for (var y = 0; y < 7; y++)
+                            for (var y = 0; y < 6; y++)
                             {
                                 hb.Tr(action: () =>
                                 {
