@@ -133,6 +133,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 .Class("container" +
                                                     (date == DateTime.Now.ToLocal().Date
                                                         ? " today"
+                                                        : string.Empty) +
+                                                    (month.ToLocal().Month != date.ToLocal().Month
+                                                        ? " other-month"
                                                         : string.Empty))
                                                 .DataId(date.ToString()),
                                             action: () => hb
@@ -176,7 +179,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             DateTime date,
             Dictionary<DateTime, IEnumerable<CalendarElement>> data)
         {
-            hb.Div(css: ItemCss(month, date), action: () =>
+            hb.Div(css: "day", action: () =>
             {
                 hb.Div(action: () => hb
                     .Text(date.Day.ToString()));
@@ -195,13 +198,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Text(text: element.Title)));
             });
             return hb;
-        }
-
-        private static string ItemCss(DateTime month, DateTime date)
-        {
-            return month.ToLocal().Month != date.ToLocal().Month
-                ? "day other-month"
-                : "day";
         }
 
         private static string PreviousMonth(DateTime month)
