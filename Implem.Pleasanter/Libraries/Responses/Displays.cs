@@ -129,6 +129,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CurrentSettings(params string[] data) { return Get("CurrentSettings", data); }
         public static string Custom(params string[] data) { return Get("Custom", data); }
         public static string CustomDesign(params string[] data) { return Get("CustomDesign", data); }
+        public static string Daily(params string[] data) { return Get("Daily", data); }
         public static string DataStorageDestination(params string[] data) { return Get("DataStorageDestination", data); }
         public static string DataView(params string[] data) { return Get("DataView", data); }
         public static string Date(params string[] data) { return Get("Date", data); }
@@ -282,6 +283,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Monday(params string[] data) { return Get("Monday", data); }
         public static string MonitorChangesColumns(params string[] data) { return Get("MonitorChangesColumns", data); }
         public static string MonthAgo(params string[] data) { return Get("MonthAgo", data); }
+        public static string Monthly(params string[] data) { return Get("Monthly", data); }
         public static string MonthsAgo(params string[] data) { return Get("MonthsAgo", data); }
         public static string Move(params string[] data) { return Get("Move", data); }
         public static string Moved(params string[] data) { return Get("Moved", data); }
@@ -331,6 +333,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string PasswordNotChanged(params string[] data) { return Get("PasswordNotChanged", data); }
         public static string PasswordResetCompleted(params string[] data) { return Get("PasswordResetCompleted", data); }
         public static string Pattern(params string[] data) { return Get("Pattern", data); }
+        public static string Period(params string[] data) { return Get("Period", data); }
         public static string PermissionDestination(params string[] data) { return Get("PermissionDestination", data); }
         public static string PermissionForCreating(params string[] data) { return Get("PermissionForCreating", data); }
         public static string PermissionNotSelfChange(params string[] data) { return Get("PermissionNotSelfChange", data); }
@@ -453,6 +456,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string View(params string[] data) { return Get("View", data); }
         public static string ViewDemoEnvironment(params string[] data) { return Get("ViewDemoEnvironment", data); }
         public static string Wednesday(params string[] data) { return Get("Wednesday", data); }
+        public static string Weekly(params string[] data) { return Get("Weekly", data); }
         public static string Wide(params string[] data) { return Get("Wide", data); }
         public static string WorkValue(params string[] data) { return Get("WorkValue", data); }
         public static string YearsAgo(params string[] data) { return Get("YearsAgo", data); }

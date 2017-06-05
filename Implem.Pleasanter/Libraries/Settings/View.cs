@@ -34,6 +34,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CrosstabGroupByY;
         public string CrosstabAggregateType;
         public string CrosstabValue;
+        public string CrosstabTimePeriod;
+        public DateTime? CrosstabMonth;
         public string GanttGroupBy;
         public string GanttSortBy;
         public string TimeSeriesGroupBy;
@@ -77,16 +79,22 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string GetCrosstabGroupByX(SiteSettings ss)
         {
+            var options = ss.CrosstabGroupByXOptions();
             return !CrosstabGroupByX.IsNullOrEmpty()
                 ? CrosstabGroupByX
-                : Definition(ss, "Crosstab")?.Option1;
+                : options.ContainsKey(Definition(ss, "Crosstab")?.Option1)
+                    ? Definition(ss, "Crosstab")?.Option1
+                    : options.FirstOrDefault().Key;
         }
 
         public string GetCrosstabGroupByY(SiteSettings ss)
         {
+            var options = ss.CrosstabGroupByYOptions();
             return !CrosstabGroupByY.IsNullOrEmpty()
                 ? CrosstabGroupByY
-                : Definition(ss, "Crosstab")?.Option2;
+                : options.ContainsKey(Definition(ss, "Crosstab")?.Option2)
+                    ? Definition(ss, "Crosstab")?.Option2
+                    : options.FirstOrDefault().Key;
         }
 
         public string GetCrosstabAggregateType(SiteSettings ss)
@@ -101,6 +109,26 @@ namespace Implem.Pleasanter.Libraries.Settings
             return !CrosstabValue.IsNullOrEmpty()
                 ? CrosstabValue
                 : Definition(ss, "Crosstab")?.Option4;
+        }
+
+        public string GetCrosstabTimePeriod(SiteSettings ss)
+        {
+            return !CrosstabTimePeriod.IsNullOrEmpty()
+                ? CrosstabTimePeriod
+                : Definition(ss, "Crosstab")?.Option5;
+        }
+
+        public DateTime GetCrosstabMonth(SiteSettings ss)
+        {
+            if (CrosstabMonth != null)
+            {
+                return CrosstabMonth.ToDateTime();
+            }
+            else
+            {
+                var now = DateTime.Now;
+                return new DateTime(now.Year, now.Month, 1);
+            }
         }
 
         private ViewModeDefinition Definition(SiteSettings ss, string name)
@@ -173,6 +201,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     case "CrosstabValue":
                         CrosstabValue = String(controlId);
+                        break;
+                    case "CrosstabTimePeriod":
+                        CrosstabTimePeriod = String(controlId);
+                        break;
+                    case "CrosstabMonth":
+                        CrosstabMonth = Time(controlId);
                         break;
                     case "GanttGroupBy":
                         GanttGroupBy = String(controlId);
@@ -441,6 +475,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!CrosstabValue.IsNullOrEmpty())
             {
                 view.CrosstabValue = CrosstabValue;
+            }
+            if (!CrosstabTimePeriod.IsNullOrEmpty())
+            {
+                view.CrosstabTimePeriod = CrosstabTimePeriod;
             }
             if (!GanttGroupBy.IsNullOrEmpty())
             {

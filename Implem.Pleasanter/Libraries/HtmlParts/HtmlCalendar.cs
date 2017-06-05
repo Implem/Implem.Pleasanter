@@ -154,9 +154,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         !column.RecordedTime &&
                         column.EditorReadOnly != true &&
                         column.CanUpdate).ToOneOrZeroString())
-                .Hidden(controlId: "CalendarPrevious", value: PreviousMonth(month))
-                .Hidden(controlId: "CalendarNext", value: NextMonth(month))
-                .Hidden(controlId: "CalendarThisMonth", value: ThisMonth());
+                .Hidden(controlId: "CalendarPrevious", value: Times.PreviousMonth(month))
+                .Hidden(controlId: "CalendarNext", value: Times.NextMonth(month))
+                .Hidden(controlId: "CalendarThisMonth", value: Times.ThisMonth());
         }
 
         private static string DayOfWeekCss(int x)
@@ -198,24 +198,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Text(text: element.Title)));
             });
             return hb;
-        }
-
-        private static string PreviousMonth(DateTime month)
-        {
-            var data = month.ToLocal().AddMonths(-1);
-            return new DateTime(data.Year, data.Month, 1).ToString();
-        }
-
-        private static string NextMonth(DateTime month)
-        {
-            var data = month.ToLocal().AddMonths(1);
-            return new DateTime(data.Year, data.Month, 1).ToString();
-        }
-
-        private static string ThisMonth()
-        {
-            var data = DateTime.Now.ToLocal();
-            return new DateTime(data.Year, data.Month, 1).ToString();
         }
     }
 }

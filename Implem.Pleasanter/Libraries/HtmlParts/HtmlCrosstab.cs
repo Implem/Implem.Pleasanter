@@ -1,8 +1,11 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.ViewModes;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -18,6 +21,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string groupByY,
             string aggregateType,
             string value,
+            string timePeriod,
+            DateTime month,
             EnumerableRowCollection<DataRow> dataRows)
         {
             return hb.Div(id: "Crosstab", css: "both", action: () =>
@@ -56,6 +61,43 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         optionCollection: ss.CrosstabValueOptions(),
                         selectedValue: value,
                         method: "post")
+                    .FieldDropDown(
+                        fieldId: "CrosstabTimePeriodField",
+                        controlId: "CrosstabTimePeriod",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.Period(),
+                        optionCollection: ss.CrosstabTimePeriodOptions(),
+                        selectedValue: timePeriod,
+                        method: "post")
+                    .DropDown(
+                        controlId: "CrosstabMonth",
+                        controlCss: " w100 auto-postback",
+                        optionCollection: CrosstabMonth(),
+                        selectedValue: new DateTime(month.Year, month.Month, 1).ToString(),
+                        action: "Crosstab",
+                        method: "post")
+                    .Button(
+                        controlId: "CrosstabPreviousButton",
+                        text: Displays.Previous(),
+                        controlCss: "button-icon",
+                        accessKey: "b",
+                        onClick: "$p.moveCrosstab('Previous');",
+                        icon: "ui-icon-seek-prev")
+                    .Button(
+                        controlId: "CrosstabNextButton",
+                        text: Displays.Next(),
+                        controlCss: "button-icon",
+                        accessKey: "n",
+                        onClick: "$p.moveCrosstab('Next');",
+                        icon: "ui-icon-seek-next")
+                    .Button(
+                        controlId: "CrosstabThisMonthButton",
+                        text: Displays.ThisMonth(),
+                        controlCss: "button-icon",
+                        accessKey: "n",
+                        onClick: "$p.moveCrosstab('ThisMonth');",
+                        icon: "ui-icon-Crosstab")
                     .CrosstabBody(
                         ss: ss,
                         view: view,
@@ -63,8 +105,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         groupByY: groupByY,
                         aggregateType: aggregateType,
                         value: value,
+                        timePeriod: timePeriod,
+                        month: month,
                         dataRows: dataRows);
             });
+        }
+
+        private static Dictionary<string, ControlData> CrosstabMonth()
+        {
+            var now = DateTime.Now;
+            var month = new DateTime(now.ToLocal().Year, now.ToLocal().Month, 1);
+            return Enumerable.Range(
+                Parameters.General.CrosstabBegin,
+                Parameters.General.CrosstabEnd - Parameters.General.CrosstabBegin)
+                    .ToDictionary(
+                        o => month.AddMonths(o).ToString(),
+                        o => new ControlData(month.AddMonths(o).ToString("Y")));
         }
 
         public static HtmlBuilder CrosstabBody(
@@ -75,6 +131,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string groupByY,
             string aggregateType,
             string value,
+            string timePeriod,
+            DateTime month,
             EnumerableRowCollection<DataRow> dataRows)
         {
             var data = dataRows.Select(o => new CrosstabElement(
@@ -83,28 +141,81 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 o["Value"].ToDecimal()));
             var xColumn = ss.GetColumn(groupByX);
             var yColumn = ss.GetColumn(groupByY);
-            var choicesX = CorrectedChoices(
-                xColumn, xColumn?.Choices(data.Select(o => o.GroupByX)));
+            var choicesX = xColumn?.TypeName == "datetime"
+                ? CorrectedChoices(xColumn, timePeriod, month)                
+                : CorrectedChoices(
+                    xColumn, xColumn?.Choices(data.Select(o => o.GroupByX)));
             var choicesY = CorrectedChoices(
                 yColumn, yColumn?.Choices(data.Select(o => o.GroupByY)));
-            return hb.Div(
-                attributes: new HtmlAttributes()
-                    .Id("CrosstabBody")
-                    .DataAction("UpdateByCrosstab")
-                    .DataMethod("post"),
-                action: () =>
-                {
-                    if (data.Any())
-                    {
-                        hb.Table(
+            return hb
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("CrosstabBody")
+                        .DataAction("UpdateByCrosstab")
+                        .DataMethod("post"),
+                    action: () => hb
+                        .Table(
                             ss: ss,
                             choicesX: choicesX,
                             choicesY: choicesY,
                             aggregateType: aggregateType,
                             value: ss.GetColumn(value),
-                            data: data);
-                    }
-                });
+                            data: data))
+                .Hidden(controlId: "CrosstabXType", value: xColumn?.TypeName)
+                .Hidden(controlId: "CrosstabPrevious", value: Times.PreviousMonth(month))
+                .Hidden(controlId: "CrosstabNext", value: Times.NextMonth(month))
+                .Hidden(controlId: "CrosstabThisMonth", value: Times.ThisMonth());
+        }
+
+        private static Dictionary<string, ControlData> CorrectedChoices(
+            Column groupBy, string timePeriod, DateTime date)
+        {
+            switch (timePeriod)
+            {
+                case "Monthly": return Monthly(date);
+                case "Weekly": return Weekly(date);
+                case "Daily": return Daily(date);
+                default: return null;
+            }
+        }
+
+        private static Dictionary<string, ControlData> Monthly(DateTime date)
+        {
+            var hash = new Dictionary<string, ControlData>();
+            for (var i = -11; i <= 0; i++)
+            {
+                var day = date.AddMonths(i);
+                hash.Add(day.ToString("yyyy/MM"), new ControlData(day.ToString("yyyy/MM")));
+            }
+            return hash;
+        }
+
+        private static Dictionary<string, ControlData> Weekly(DateTime date)
+        {
+            var hash = new Dictionary<string, ControlData>();
+            var end = CrosstabUtilities.WeeklyEndDate(date);
+            for (var i = -77; i <= 0; i += 7)
+            {
+                var day = end.AddDays(i);
+                var append = (int)(new DateTime(day.Year, 1, 1).DayOfWeek) > 1
+                    ? 8 - (int)(new DateTime(day.Year, 1, 1).DayOfWeek)
+                    : 0;
+                var key = day.Year * 100 + ((day.DayOfYear + append) / 7) + 1;
+                hash.Add(key.ToString(), new ControlData(day.ToString("MM/dd")));
+            }
+            return hash;
+        }
+
+        private static Dictionary<string, ControlData> Daily(DateTime date)
+        {
+            var hash = new Dictionary<string, ControlData>();
+            var month = date.Month;
+            while (month == date.Month)
+            {
+                hash.Add(date.ToString("yyyy/MM/dd"), new ControlData(date.ToString("dd")));
+                date = date.AddDays(1);
+            }
+            return hash;
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
@@ -124,7 +235,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return column
                 .EditChoices(insertBlank: true)
-                .Where(o => data?.Any() != true || data.Contains(o.Key))
+                .Where(o => data.Contains(o.Key))
                 .ToDictionary(o => o.Key, o => o.Value);
         }
 
@@ -215,14 +326,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             IEnumerable<CrosstabElement> data,
             KeyValuePair<string, ControlData> choice)
         {
-            return hb.Text(text: "{0}({1}){2}".Params(
+            return hb.Text(text: "{0}{1}".Params(
                 choice.Value.Text != string.Empty
                     ? choice.Value.Text
                     : Displays.NotSet(),
-                data.Count(),
-                value != null && data.Any() && aggregateType != "Count"
-                    ? " : " + value.Display(data.Summary(aggregateType), unit: true)
-                    : string.Empty));
+                " : " + value.Display(
+                    value != null && data.Any()
+                        ? data.Summary(aggregateType)
+                        : 0,
+                    unit: true)));
         }
 
         private static decimal Summary(

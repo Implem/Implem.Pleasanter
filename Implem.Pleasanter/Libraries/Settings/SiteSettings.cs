@@ -1269,7 +1269,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, string> CrosstabGroupByXOptions()
         {
             return Columns
-                .Where(o => o.HasChoices())
+                .Where(o => o.HasChoices() || o.TypeName == "datetime")
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
@@ -1301,6 +1301,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.TypeName != "datetime")
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+        }
+
+        public Dictionary<string, string> CrosstabTimePeriodOptions()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Monthly", Displays.Monthly() },
+                { "Weekly", Displays.Weekly() },
+                { "Daily", Displays.Daily() }
+            };
         }
 
         public Dictionary<string, string> GanttGroupByOptions()

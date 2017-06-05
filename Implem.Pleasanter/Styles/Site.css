@@ -519,6 +519,10 @@ pre{
     border-bottom:dotted 1px silver;
 }
 
+#CrosstabMonth{
+    margin-right:10px;
+}
+
 #Gantt{
     width:100%;
     background-color:whitesmoke;

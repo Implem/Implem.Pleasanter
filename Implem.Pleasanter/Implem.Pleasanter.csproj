@@ -280,6 +280,7 @@
     <Compile Include="Libraries\ViewModes\BurnDownElement.cs" />
     <Compile Include="Libraries\ViewModes\CalendarElement.cs" />
     <Compile Include="Libraries\ViewModes\CrosstabElement.cs" />
+    <Compile Include="Libraries\ViewModes\CrosstabUtilities.cs" />
     <Compile Include="Libraries\ViewModes\Gantt.cs" />
     <Compile Include="Libraries\ViewModes\GanttElement.cs" />
     <Compile Include="Libraries\ViewModes\KambanElement.cs" />
@@ -1118,6 +1119,10 @@
     <Content Include="App_Data\Displays\SiteIntegration.json" />
     <Content Include="App_Data\Displays\SiteId.json" />
     <Content Include="App_Data\Displays\Crosstab.json" />
+    <Content Include="App_Data\Displays\Monthly.json" />
+    <Content Include="App_Data\Displays\Weekly.json" />
+    <Content Include="App_Data\Displays\Daily.json" />
+    <Content Include="App_Data\Displays\Period.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

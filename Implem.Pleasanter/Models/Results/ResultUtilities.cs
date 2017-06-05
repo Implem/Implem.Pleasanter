@@ -4251,7 +4251,10 @@ namespace Implem.Pleasanter.Models
             var groupByY = view.GetCrosstabGroupByY(ss);
             var aggregateType = view.GetCrosstabAggregateType(ss);
             var value = view.GetCrosstabValue(ss);
-            var dataRows = CrosstabDataRows(ss, view, groupByX, groupByY, value, aggregateType);
+            var timePeriod = view.GetCrosstabTimePeriod(ss);
+            var month = view.GetCrosstabMonth(ss);
+            var dataRows = CrosstabDataRows(
+                ss, view, groupByX, groupByY, value, aggregateType, timePeriod, month);
             var inRangeX = dataRows.Select(o => o["GroupByX"].ToString()).Distinct().Count() <=
                 Parameters.General.CrosstabXLimit;
             if (!inRangeX)
@@ -4284,6 +4287,8 @@ namespace Implem.Pleasanter.Models
                             groupByY: groupByY,
                             aggregateType: aggregateType,
                             value: value,
+                            timePeriod: timePeriod,
+                            month: month,
                             dataRows: dataRows);
                     }
                 });
@@ -4302,7 +4307,10 @@ namespace Implem.Pleasanter.Models
             var groupByY = view.GetCrosstabGroupByY(ss);
             var aggregateType = view.GetCrosstabAggregateType(ss);
             var value = view.GetCrosstabValue(ss);
-            var dataRows = CrosstabDataRows(ss, view, groupByX, groupByY, value, aggregateType);
+            var timePeriod = view.GetCrosstabTimePeriod(ss);
+            var month = view.GetCrosstabMonth(ss);
+            var dataRows = CrosstabDataRows(
+                ss, view, groupByX, groupByY, value, aggregateType, timePeriod, month);
             var inRangeX = dataRows.Select(o => o["GroupByX"].ToString()).Distinct().Count() <=
                 Parameters.General.CrosstabXLimit;
             if (!inRangeX)
@@ -4332,6 +4340,8 @@ namespace Implem.Pleasanter.Models
                                 groupByY: groupByY,
                                 aggregateType: aggregateType,
                                 value: value,
+                                timePeriod: timePeriod,
+                                month: month,
                                 dataRows: dataRows)
                             : new HtmlBuilder().CrosstabBody(
                                 ss: ss,
@@ -4340,6 +4350,8 @@ namespace Implem.Pleasanter.Models
                                 groupByY: groupByY,
                                 aggregateType: aggregateType,
                                 value: value,
+                                timePeriod: timePeriod,
+                                month: month,
                                 dataRows: dataRows))
                     .View(ss: ss, view: view)
                     .ReplaceAll(
@@ -4371,20 +4383,46 @@ namespace Implem.Pleasanter.Models
             string groupByX,
             string groupByY,
             string value,
-            string aggregateType)
+            string aggregateType,
+            string timePeriod,
+            DateTime month)
         {
-            return Rds.ExecuteTable(statements:
-                Rds.SelectResults(
-                    column: Rds.ResultsColumn()
-                        .ResultsColumn(groupByX, _as: "GroupByX")
-                        .ResultsColumn(groupByY, _as: "GroupByY")
-                        .ResultsColumn(
-                            value, _as: "Value", function: Sqls.Function(aggregateType)),
-                    where: view.Where(ss: ss),
-                    groupBy: Rds.ResultsGroupBy()
-                        .ResultsGroupBy(groupByX)
-                        .ResultsGroupBy(groupByY)))
-                            .AsEnumerable();
+            var column = ss.GetColumn(groupByX);
+            if (column?.TypeName != "datetime")
+            {
+                return Rds.ExecuteTable(statements:
+                    Rds.SelectResults(
+                        column: Rds.ResultsColumn()
+                            .ResultsColumn(groupByX, _as: "GroupByX")
+                            .ResultsColumn(groupByY, _as: "GroupByY")
+                            .ResultsColumn(
+                                value, _as: "Value", function: Sqls.Function(aggregateType)),
+                        where: view.Where(ss: ss),
+                        groupBy: Rds.ResultsGroupBy()
+                            .ResultsGroupBy(groupByX)
+                            .ResultsGroupBy(groupByY)))
+                                .AsEnumerable();
+            }
+            else
+            {
+                var dateGroup = Libraries.ViewModes.CrosstabUtilities.DateGroup(
+                    ss, column, timePeriod);
+                return Rds.ExecuteTable(statements:
+                    Rds.SelectResults(
+                        column: Rds.ResultsColumn()
+                            .Add(dateGroup, _as: "GroupByX")
+                            .ResultsColumn(groupByY, _as: "GroupByY")
+                            .ResultsColumn(
+                                value, _as: "Value", function: Sqls.Function(aggregateType)),
+                        where: view.Where(
+                            ss: ss,
+                            where: Libraries.ViewModes.CrosstabUtilities.Where(
+                                ss, ss.GetColumn(groupByX)?.ColumnName, timePeriod, month)),
+                        groupBy: Rds.ResultsGroupBy()
+                            .Add(dateGroup)
+                            .ResultsGroupBy(groupByY)))
+                                .AsEnumerable();
+            }
         }
 
         public static string UpdateByKamban(SiteSettings ss)

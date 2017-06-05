@@ -67,5 +67,23 @@ namespace Implem.Pleasanter.Libraries.Server
                 o < Parameters.General.MinTime ||
                 o > Parameters.General.MaxTime);
         }
+
+        public static string PreviousMonth(DateTime month)
+        {
+            var data = month.ToLocal().AddMonths(-1);
+            return new DateTime(data.Year, data.Month, 1).ToString();
+        }
+
+        public static string NextMonth(DateTime month)
+        {
+            var data = month.ToLocal().AddMonths(1);
+            return new DateTime(data.Year, data.Month, 1).ToString();
+        }
+
+        public static string ThisMonth()
+        {
+            var data = DateTime.Now.ToLocal();
+            return new DateTime(data.Year, data.Month, 1).ToString();
+        }
     }
 }

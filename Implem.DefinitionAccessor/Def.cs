@@ -525,7 +525,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Calendar": Code.Model_Utilities_Calendar = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Calendar, definitionRow, CodeXls); break;
                     case "Model_Utilities_CalendarColumnCases": Code.Model_Utilities_CalendarColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CalendarColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_Crosstab": Code.Model_Utilities_Crosstab = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Crosstab, definitionRow, CodeXls); break;
-                    case "Model_Utilities_CrosstabColumnCases": Code.Model_Utilities_CrosstabColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CrosstabColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateByKamban": Code.Model_Utilities_UpdateByKamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByKamban, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetNoticeParam": Code.Model_Utilities_SetNoticeParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetNoticeParam, definitionRow, CodeXls); break;
                     case "Model_Utilities_SearchIndexes": Code.Model_Utilities_SearchIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes, definitionRow, CodeXls); break;
@@ -1871,6 +1870,8 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_CalendarBody_space__dot_other_month": Css._sharp_CalendarBody_space__dot_other_month = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_other_month, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_today": Css._sharp_CalendarBody_space__dot_today = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_today, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_item": Css._sharp_CalendarBody_space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item, definitionRow, CssXls); break;
+                    case "_sharp_Crosstab_space__dot_crosstab_row": Css._sharp_Crosstab_space__dot_crosstab_row = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Crosstab_space__dot_crosstab_row, definitionRow, CssXls); break;
+                    case "_sharp_CrosstabMonth": Css._sharp_CrosstabMonth = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CrosstabMonth, definitionRow, CssXls); break;
                     case "_sharp_Gantt": Css._sharp_Gantt = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt, definitionRow, CssXls); break;
                     case "_sharp_Gantt_space__dot_date": Css._sharp_Gantt_space__dot_date = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt_space__dot_date, definitionRow, CssXls); break;
                     case "_sharp_Gantt_space__dot_now": Css._sharp_Gantt_space__dot_now = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt_space__dot_now, definitionRow, CssXls); break;
@@ -2141,6 +2142,8 @@ namespace Implem.DefinitionAccessor
                     case "_dot_svg_progress_rate_dot_warning_space_rect_colon_nth_of_type_3_": Css._dot_svg_progress_rate_dot_warning_space_rect_colon_nth_of_type_3_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_svg_progress_rate_dot_warning_space_rect_colon_nth_of_type_3_, definitionRow, CssXls); break;
                     case "_dot_svg_kamban_aggregation_view": Css._dot_svg_kamban_aggregation_view = definitionRow[1].ToString(); SetCssTable(CssTable._dot_svg_kamban_aggregation_view, definitionRow, CssXls); break;
                     case "_dot_svg_kamban_aggregation_view_space_rect": Css._dot_svg_kamban_aggregation_view_space_rect = definitionRow[1].ToString(); SetCssTable(CssTable._dot_svg_kamban_aggregation_view_space_rect, definitionRow, CssXls); break;
+                    case "_dot_svg_crosstab": Css._dot_svg_crosstab = definitionRow[1].ToString(); SetCssTable(CssTable._dot_svg_crosstab, definitionRow, CssXls); break;
+                    case "_dot_svg_crosstab_space_rect": Css._dot_svg_crosstab_space_rect = definitionRow[1].ToString(); SetCssTable(CssTable._dot_svg_crosstab_space_rect, definitionRow, CssXls); break;
                     case "_dot_axis": Css._dot_axis = definitionRow[1].ToString(); SetCssTable(CssTable._dot_axis, definitionRow, CssXls); break;
                     case "_dot_h2": Css._dot_h2 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_h2, definitionRow, CssXls); break;
                     case "_dot_h3": Css._dot_h3 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_h3, definitionRow, CssXls); break;
@@ -4474,7 +4477,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Calendar;
         public string Model_Utilities_CalendarColumnCases;
         public string Model_Utilities_Crosstab;
-        public string Model_Utilities_CrosstabColumnCases;
         public string Model_Utilities_UpdateByKamban;
         public string Model_Utilities_SetNoticeParam;
         public string Model_Utilities_SearchIndexes;
@@ -4920,7 +4922,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Calendar = new CodeDefinition();
         public CodeDefinition Model_Utilities_CalendarColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_Crosstab = new CodeDefinition();
-        public CodeDefinition Model_Utilities_CrosstabColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateByKamban = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetNoticeParam = new CodeDefinition();
         public CodeDefinition Model_Utilities_SearchIndexes = new CodeDefinition();
@@ -7247,6 +7248,8 @@ namespace Implem.DefinitionAccessor
         public string _sharp_CalendarBody_space__dot_other_month;
         public string _sharp_CalendarBody_space__dot_today;
         public string _sharp_CalendarBody_space__dot_item;
+        public string _sharp_Crosstab_space__dot_crosstab_row;
+        public string _sharp_CrosstabMonth;
         public string _sharp_Gantt;
         public string _sharp_Gantt_space__dot_date;
         public string _sharp_Gantt_space__dot_now;
@@ -7517,6 +7520,8 @@ namespace Implem.DefinitionAccessor
         public string _dot_svg_progress_rate_dot_warning_space_rect_colon_nth_of_type_3_;
         public string _dot_svg_kamban_aggregation_view;
         public string _dot_svg_kamban_aggregation_view_space_rect;
+        public string _dot_svg_crosstab;
+        public string _dot_svg_crosstab_space_rect;
         public string _dot_axis;
         public string _dot_h2;
         public string _dot_h3;
@@ -7653,6 +7658,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_CalendarBody_space__dot_other_month = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_today = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_item = new CssDefinition();
+        public CssDefinition _sharp_Crosstab_space__dot_crosstab_row = new CssDefinition();
+        public CssDefinition _sharp_CrosstabMonth = new CssDefinition();
         public CssDefinition _sharp_Gantt = new CssDefinition();
         public CssDefinition _sharp_Gantt_space__dot_date = new CssDefinition();
         public CssDefinition _sharp_Gantt_space__dot_now = new CssDefinition();
@@ -7923,6 +7930,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_svg_progress_rate_dot_warning_space_rect_colon_nth_of_type_3_ = new CssDefinition();
         public CssDefinition _dot_svg_kamban_aggregation_view = new CssDefinition();
         public CssDefinition _dot_svg_kamban_aggregation_view_space_rect = new CssDefinition();
+        public CssDefinition _dot_svg_crosstab = new CssDefinition();
+        public CssDefinition _dot_svg_crosstab_space_rect = new CssDefinition();
         public CssDefinition _dot_axis = new CssDefinition();
         public CssDefinition _dot_h2 = new CssDefinition();
         public CssDefinition _dot_h3 = new CssDefinition();
