@@ -62,7 +62,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             switch (Function)
             {
                 case Sqls.Functions.Count:
-                    return "count(" + columnBracket + ")";
+                    return "count(*)";
                 case Sqls.Functions.Sum:
                     return "sum(" + columnBracket + ")";
                 case Sqls.Functions.Min:
