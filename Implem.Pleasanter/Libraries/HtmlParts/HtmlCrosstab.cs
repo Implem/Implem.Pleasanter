@@ -120,7 +120,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 Parameters.General.CrosstabEnd - Parameters.General.CrosstabBegin)
                     .ToDictionary(
                         o => month.AddMonths(o).ToString(),
-                        o => new ControlData(month.AddMonths(o).ToString("Y")));
+                        o => new ControlData(month.AddMonths(o).ToString(
+                            "Y", Sessions.CultureInfo())));
         }
 
         public static HtmlBuilder CrosstabBody(
