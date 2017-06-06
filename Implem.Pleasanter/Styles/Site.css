@@ -1740,6 +1740,7 @@ pre{
     border-bottom:solid 1px transparent;
     border-left:solid 1px transparent;
     border-right:solid 1px white;
+    word-wrap:break-word;
 }
 
 .grid > thead > tr > th > div{
@@ -1792,6 +1793,7 @@ pre{
     border-bottom:solid 1px white;
     border-left:solid 1px transparent;
     border-right:solid 1px transparent;
+    word-wrap:break-word;
 }
 
 .grid-row{
