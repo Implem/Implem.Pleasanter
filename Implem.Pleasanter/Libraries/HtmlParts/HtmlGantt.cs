@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.SortBy(),
-                    optionCollection: ss.GanttSortOptions(),
+                    optionCollection: ss.GanttSortByOptions(),
                     selectedValue: sortBy,
                     insertBlank: true,
                     method: "post")

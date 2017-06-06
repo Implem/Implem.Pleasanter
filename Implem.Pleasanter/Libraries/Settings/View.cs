@@ -131,6 +131,20 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public string GetGanttGroupBy()
+        {
+            return !GanttGroupBy.IsNullOrEmpty()
+                ? GanttGroupBy
+                : string.Empty;
+        }
+
+        public string GetGanttSortBy()
+        {
+            return !GanttSortBy.IsNullOrEmpty()
+                ? GanttSortBy
+                : string.Empty;
+        }
+
         private ViewModeDefinition Definition(SiteSettings ss, string name)
         {
             return Def.ViewModeDefinitionCollection.FirstOrDefault(o =>

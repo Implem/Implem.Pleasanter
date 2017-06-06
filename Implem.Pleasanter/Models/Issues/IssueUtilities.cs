@@ -4684,12 +4684,8 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
-            var groupBy = !view.GanttGroupBy.IsNullOrEmpty()
-                ? view.GanttGroupBy
-                : string.Empty;
-            var sortBy = !view.GanttSortBy.IsNullOrEmpty()
-                ? view.GanttSortBy
-                : string.Empty;
+            var groupBy = view.GetGanttGroupBy();
+            var sortBy = view.GetGanttSortBy();
             var inRange = issueCollection.Aggregations.TotalCount <=
                 Parameters.General.GanttLimit;
             if (!inRange)
@@ -4730,12 +4726,8 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("Gantt");
-            var groupBy = !view.GanttGroupBy.IsNullOrEmpty()
-                ? view.GanttGroupBy
-                : string.Empty;
-            var sortBy = !view.GanttSortBy.IsNullOrEmpty()
-                ? view.GanttSortBy
-                : string.Empty;
+            var groupBy = view.GetGanttGroupBy();
+            var sortBy = view.GetGanttSortBy();
             return issueCollection.Aggregations.TotalCount <= Parameters.General.GanttLimit
                 ? new ResponseCollection()
                     .Html(
