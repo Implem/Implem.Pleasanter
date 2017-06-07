@@ -352,7 +352,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             IEnumerable<string> columns,
             IEnumerable<CrosstabElement> data)
         {
-            var max = data.Any()
+            var max = data.Any() && columns == null
                 ? data.Select(o => o.Value).Max()
                 : 0;
             return hb.Table(
@@ -384,14 +384,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 : ss.GetColumn(choiceY.Key);
                             hb.Tr(css: "crosstab-row", action: () =>
                             {
+                                var row = data.Where(o => o.GroupByY == choiceY.Key).ToList();
                                 hb.Th(action: () => hb
                                     .HeaderText(
                                         ss: ss,
                                         aggregateType: aggregateType,
                                         value: column,
                                         showValue: true,
-                                        data: data.Where(o => o.GroupByY == choiceY.Key),
+                                        data: row,
                                         choice: choiceY));
+                                if (columns != null)
+                                {
+                                    max = row.Any()
+                                        ? row.Max(o => o.Value)
+                                        : 0;
+                                }
                                 choicesX.ForEach(choiceX => hb
                                     .Td(ss: ss,
                                         aggregateType: aggregateType,
