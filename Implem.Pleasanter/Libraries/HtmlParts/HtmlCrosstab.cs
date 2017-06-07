@@ -459,6 +459,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 case "Count": return data.Sum(o => o.Value);
                 case "Total": return data.Sum(o => o.Value);
+                case "Min":
+                    return data.Any()
+                        ? data.Min(o => o.Value)
+                        : 0;
+                case "Max":
+                    return data.Any()
+                        ? data.Max(o => o.Value)
+                        : 0;
                 default: return null;
             }
         }
