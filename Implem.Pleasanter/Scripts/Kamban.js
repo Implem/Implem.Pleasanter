@@ -1,4 +1,5 @@
 ﻿$p.setKamban = function () {
+    $('#KambanValueField').toggle($('#KambanAggregateType').val() !== 'Count');
     $('#KambanBody .kamban-item').draggable({
         revert: 'invalid',
         start: function () {
