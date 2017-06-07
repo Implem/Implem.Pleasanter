@@ -3,11 +3,11 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Created time:"
+            "Body": "Created time"
         },
         {
             "Language": "ja",
-            "Body": "作成日時:"
+            "Body": "作成日時"
         }
     ]
 }
