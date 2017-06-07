@@ -38,6 +38,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public enum Functions
         {
             None,
+            SingleColumn,
             Count,
             Sum,
             Min,
