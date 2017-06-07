@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
     public class GanttElement
     {
         public string GroupBy;
-        public string SortBy;
+        public object SortBy;
         public long Id;
         public string Title;
         public string StartTime;
@@ -21,7 +21,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         public GanttElement(
             string groupBy,
-            string sortBy,
+            object sortBy,
             long id,
             string title,
             decimal workValue,

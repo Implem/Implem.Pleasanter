@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         ? dataRow["GroupBy"].ToString()
                         : string.Empty,
                     SortBy != null
-                        ? dataRow["SortBy"].ToString()
+                        ? dataRow["SortBy"]
                         : string.Empty,
                     dataRow["Id"].ToLong(),
                     new Title(ss, dataRow, "Id").DisplayValue,

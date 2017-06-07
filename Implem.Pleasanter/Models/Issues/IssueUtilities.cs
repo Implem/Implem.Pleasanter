@@ -4820,8 +4820,10 @@ namespace Implem.Pleasanter.Models
                         .Updator()
                         .CreatedTime()
                         .UpdatedTime()
-                        .IssuesColumn(groupBy, _as: "GroupBy")
-                        .IssuesColumn(sortBy, _as: "SortBy"),
+                        .IssuesColumn(
+                            groupBy, _as: "GroupBy", function: Sqls.Functions.SingleColumn)
+                        .IssuesColumn(
+                            sortBy, _as: "SortBy", function: Sqls.Functions.SingleColumn),
                     where: view.Where(ss: ss)))
                         .AsEnumerable();
         }
