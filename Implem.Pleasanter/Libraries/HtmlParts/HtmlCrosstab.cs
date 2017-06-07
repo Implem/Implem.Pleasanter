@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
@@ -19,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             View view,
             string groupByX,
             string groupByY,
+            string columns,
             string aggregateType,
             string value,
             string timePeriod,
@@ -43,6 +45,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.GroupByY(),
                         optionCollection: ss.CrosstabGroupByYOptions(),
                         selectedValue: groupByY,
+                        method: "post")
+                    .FieldDropDown(
+                        fieldId: "CrosstabColumnsField",
+                        controlId: "CrosstabColumns",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.Column(),
+                        optionCollection: ss.CrosstabColumnsOptions(),
+                        selectedValue: columns,
+                        multiple: true,
                         method: "post")
                     .FieldDropDown(
                         controlId: "CrosstabAggregateType",
@@ -103,6 +115,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         view: view,
                         groupByX: groupByX,
                         groupByY: groupByY,
+                        columns: columns,
                         aggregateType: aggregateType,
                         value: value,
                         timePeriod: timePeriod,
@@ -130,6 +143,52 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             View view,
             string groupByX,
             string groupByY,
+            string columns,
+            string aggregateType,
+            string value,
+            string timePeriod,
+            DateTime month,
+            EnumerableRowCollection<DataRow> dataRows)
+        {
+            if (groupByY != "Columns")
+            {
+                hb.CrosstabBody(
+                    ss: ss,
+                    view: view,
+                    groupByX: groupByX,
+                    groupByY: groupByY,
+                    aggregateType: aggregateType,
+                    value: value,
+                    timePeriod: timePeriod,
+                    month: month,
+                    dataRows: dataRows);
+            }
+            else
+            {
+                hb.CrosstabColumnsBody(
+                    ss: ss,
+                    view: view,
+                    groupByX: groupByX,
+                    columns: columns,
+                    aggregateType: aggregateType,
+                    value: value,
+                    timePeriod: timePeriod,
+                    month: month,
+                    dataRows: dataRows);
+            }
+            return hb
+                .Hidden(controlId: "CrosstabXType", value: ss.GetColumn(groupByX)?.TypeName)
+                .Hidden(controlId: "CrosstabPrevious", value: Times.PreviousMonth(month))
+                .Hidden(controlId: "CrosstabNext", value: Times.NextMonth(month))
+                .Hidden(controlId: "CrosstabThisMonth", value: Times.ThisMonth());
+        }
+
+        private static HtmlBuilder CrosstabBody(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            View view,
+            string groupByX,
+            string groupByY,
             string aggregateType,
             string value,
             string timePeriod,
@@ -143,7 +202,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var xColumn = ss.GetColumn(groupByX);
             var yColumn = ss.GetColumn(groupByY);
             var choicesX = xColumn?.TypeName == "datetime"
-                ? CorrectedChoices(xColumn, timePeriod, month)                
+                ? CorrectedChoices(xColumn, timePeriod, month)
                 : CorrectedChoices(
                     xColumn, xColumn?.Choices(data.Select(o => o.GroupByX)));
             var choicesY = CorrectedChoices(
@@ -161,11 +220,54 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             choicesY: choicesY,
                             aggregateType: aggregateType,
                             value: ss.GetColumn(value),
-                            data: data))
-                .Hidden(controlId: "CrosstabXType", value: xColumn?.TypeName)
-                .Hidden(controlId: "CrosstabPrevious", value: Times.PreviousMonth(month))
-                .Hidden(controlId: "CrosstabNext", value: Times.NextMonth(month))
-                .Hidden(controlId: "CrosstabThisMonth", value: Times.ThisMonth());
+                            columns: null,
+                            data: data));
+        }
+
+        private static HtmlBuilder CrosstabColumnsBody(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            View view,
+            string groupByX,
+            string columns,
+            string aggregateType,
+            string value,
+            string timePeriod,
+            DateTime month,
+            EnumerableRowCollection<DataRow> dataRows)
+        {
+            var columnList = CrosstabUtilities.GetColumns(
+                ss, columns.Deserialize<IEnumerable<string>>());
+            var data = new List<CrosstabElement>();
+            dataRows.ForEach(o =>
+                columnList.ForEach(column =>
+                    data.Add(new CrosstabElement(
+                        o["GroupByX"].ToString(),
+                        column,
+                        o[column].ToDecimal()))));
+            var xColumn = ss.GetColumn(groupByX);
+            var choicesX = xColumn?.TypeName == "datetime"
+                ? CorrectedChoices(xColumn, timePeriod, month)
+                : CorrectedChoices(
+                    xColumn, xColumn?.Choices(data.Select(o => o.GroupByX)));
+            var choicesY = columnList.ToDictionary(
+                o => o,
+                o => new ControlData(ss.GetColumn(o)?.LabelText));
+            return hb
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("CrosstabBody")
+                        .DataAction("UpdateByCrosstab")
+                        .DataMethod("post"),
+                    action: () => hb
+                        .Table(
+                            ss: ss,
+                            choicesX: choicesX,
+                            choicesY: choicesY,
+                            aggregateType: aggregateType,
+                            value: ss.GetColumn(value),
+                            columns: columnList,
+                            data: data));
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
@@ -247,6 +349,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> choicesY,
             string aggregateType,
             Column value,
+            IEnumerable<string> columns,
             IEnumerable<CrosstabElement> data)
         {
             var max = data.Any()
@@ -268,6 +371,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: ss,
                                         aggregateType: aggregateType,
                                         value: value,
+                                        showValue: columns?.Any() != true,
                                         data: data.Where(o => o.GroupByX == choice.Key),
                                         choice: choice)));
                         }))
@@ -275,19 +379,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         choicesY.ForEach(choiceY =>
                         {
+                            var column = columns?.Any() != true
+                                ? value
+                                : ss.GetColumn(choiceY.Key);
                             hb.Tr(css: "crosstab-row", action: () =>
                             {
                                 hb.Th(action: () => hb
                                     .HeaderText(
                                         ss: ss,
                                         aggregateType: aggregateType,
-                                        value: value,
+                                        value: column,
+                                        showValue: true,
                                         data: data.Where(o => o.GroupByY == choiceY.Key),
                                         choice: choiceY));
                                 choicesX.ForEach(choiceX => hb
                                     .Td(ss: ss,
                                         aggregateType: aggregateType,
-                                        value: value,
+                                        value: column,
                                         max: max,
                                         data: data.FirstOrDefault(o =>
                                             o.GroupByX == choiceX.Key &&
@@ -324,38 +432,34 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             string aggregateType,
             Column value,
+            bool showValue,
             IEnumerable<CrosstabElement> data,
             KeyValuePair<string, ControlData> choice)
         {
+            var num = data.Summary(aggregateType);
             return hb.Text(text: "{0}{1}".Params(
                 choice.Value.Text != string.Empty
                     ? choice.Value.Text
                     : Displays.NotSet(),
-                " : " + value.Display(
-                    value != null && data.Any()
-                        ? data.Summary(aggregateType)
-                        : 0,
-                    unit: true)));
+                showValue && num != null
+                    ? " : " + (aggregateType != "Count"
+                        ? value.Display(
+                            value != null && data.Any()
+                                ? num.ToDecimal()
+                                : 0,
+                            unit: true)
+                        : num.ToString())
+                    : string.Empty));
         }
 
-        private static decimal Summary(
+        private static decimal? Summary(
             this IEnumerable<CrosstabElement> data, string aggregateType)
         {
-            if (data.Any())
+            switch (aggregateType)
             {
-                switch (aggregateType)
-                {
-                    case "Count": return data.Count();
-                    case "Total": return data.Sum(o => o.Value);
-                    case "Average": return data.Average(o => o.Value);
-                    case "Min": return data.Min(o => o.Value);
-                    case "Max": return data.Max(o => o.Value);
-                    default: return 0;
-                }
-            }
-            else
-            {
-                return 0;
+                case "Count": return data.Sum(o => o.Value);
+                case "Total": return data.Sum(o => o.Value);
+                default: return null;
             }
         }
     }

@@ -4477,28 +4477,17 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetBySession(ss.SiteId);
             var groupByX = view.GetCrosstabGroupByX(ss);
             var groupByY = view.GetCrosstabGroupByY(ss);
+            var columns = view.CrosstabColumns;
             var aggregateType = view.GetCrosstabAggregateType(ss);
             var value = view.GetCrosstabValue(ss);
             var timePeriod = view.GetCrosstabTimePeriod(ss);
             var month = view.GetCrosstabMonth(ss);
             var dataRows = CrosstabDataRows(
-                ss, view, groupByX, groupByY, value, aggregateType, timePeriod, month);
-            var inRangeX = dataRows.Select(o => o["GroupByX"].ToString()).Distinct().Count() <=
-                Parameters.General.CrosstabXLimit;
-            if (!inRangeX)
-            {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyCases(Parameters.General.CrosstabXLimit.ToString()).Html);
-            }
-            var inRangeY = dataRows.Select(o => o["GroupByY"].ToString()).Distinct().Count() <=
-                Parameters.General.CrosstabYLimit;
-            if (!inRangeY)
-            {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyCases(Parameters.General.CrosstabYLimit.ToString()).Html);
-            }
+                ss, view, groupByX, groupByY, columns, value, aggregateType, timePeriod, month);
+            var inRangeX = Libraries.ViewModes.CrosstabUtilities.InRangeX(dataRows);
+            var inRangeY =
+                groupByY == "Columns" ||
+                Libraries.ViewModes.CrosstabUtilities.InRangeY(dataRows);
             return hb.ViewModeTemplate(
                 ss: ss,
                 issueCollection: issueCollection,
@@ -4513,6 +4502,7 @@ namespace Implem.Pleasanter.Models
                             view: view,
                             groupByX: groupByX,
                             groupByY: groupByY,
+                            columns: columns,
                             aggregateType: aggregateType,
                             value: value,
                             timePeriod: timePeriod,
@@ -4533,28 +4523,17 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetBySession(ss.SiteId);
             var groupByX = view.GetCrosstabGroupByX(ss);
             var groupByY = view.GetCrosstabGroupByY(ss);
+            var columns = view.CrosstabColumns;
             var aggregateType = view.GetCrosstabAggregateType(ss);
             var value = view.GetCrosstabValue(ss);
             var timePeriod = view.GetCrosstabTimePeriod(ss);
             var month = view.GetCrosstabMonth(ss);
             var dataRows = CrosstabDataRows(
-                ss, view, groupByX, groupByY, value, aggregateType, timePeriod, month);
-            var inRangeX = dataRows.Select(o => o["GroupByX"].ToString()).Distinct().Count() <=
-                Parameters.General.CrosstabXLimit;
-            if (!inRangeX)
-            {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyCases(Parameters.General.CrosstabXLimit.ToString()).Html);
-            }
-            var inRangeY = dataRows.Select(o => o["GroupByY"].ToString()).Distinct().Count() <=
-                Parameters.General.CrosstabYLimit;
-            if (!inRangeY)
-            {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyCases(Parameters.General.CrosstabYLimit.ToString()).Html);
-            }
+                ss, view, groupByX, groupByY, columns, value, aggregateType, timePeriod, month);
+            var inRangeX = Libraries.ViewModes.CrosstabUtilities.InRangeX(dataRows);
+            var inRangeY =
+                groupByY == "Columns" ||
+                Libraries.ViewModes.CrosstabUtilities.InRangeY(dataRows);
             var bodyOnly = Forms.ControlId().StartsWith("Crosstab");
             return inRangeX && inRangeY
                 ? new ResponseCollection()
@@ -4566,6 +4545,7 @@ namespace Implem.Pleasanter.Models
                                 view: view,
                                 groupByX: groupByX,
                                 groupByY: groupByY,
+                                columns: columns,
                                 aggregateType: aggregateType,
                                 value: value,
                                 timePeriod: timePeriod,
@@ -4576,6 +4556,7 @@ namespace Implem.Pleasanter.Models
                                 view: view,
                                 groupByX: groupByX,
                                 groupByY: groupByY,
+                                columns: columns,
                                 aggregateType: aggregateType,
                                 value: value,
                                 timePeriod: timePeriod,
@@ -4610,6 +4591,7 @@ namespace Implem.Pleasanter.Models
             View view,
             string groupByX,
             string groupByY,
+            string columns,
             string value,
             string aggregateType,
             string timePeriod,
@@ -4622,13 +4604,16 @@ namespace Implem.Pleasanter.Models
                     Rds.SelectIssues(
                         column: Rds.IssuesColumn()
                             .IssuesColumn(groupByX, _as: "GroupByX")
-                            .IssuesColumn(groupByY, _as: "GroupByY")
-                            .IssuesColumn(
-                                value, _as: "Value", function: Sqls.Function(aggregateType)),
+                            .CrosstabColumns(
+                                ss,
+                                groupByY,
+                                columns.Deserialize<IEnumerable<string>>(),
+                                value,
+                                aggregateType),
                         where: view.Where(ss: ss),
                         groupBy: Rds.IssuesGroupBy()
                             .IssuesGroupBy(groupByX)
-                            .IssuesGroupBy(groupByY)))
+                            .IssuesGroupBy(groupByY, _using: groupByY != "Columns")))
                                 .AsEnumerable();
             }
             else
@@ -4639,17 +4624,46 @@ namespace Implem.Pleasanter.Models
                     Rds.SelectIssues(
                         column: Rds.IssuesColumn()
                             .Add(dateGroup, _as: "GroupByX")
-                            .IssuesColumn(groupByY, _as: "GroupByY")
-                            .IssuesColumn(
-                                value, _as: "Value", function: Sqls.Function(aggregateType)),
+                            .CrosstabColumns(
+                                ss,
+                                groupByY,
+                                columns.Deserialize<IEnumerable<string>>(),
+                                value,
+                                aggregateType),
                         where: view.Where(
                             ss: ss,
                             where: Libraries.ViewModes.CrosstabUtilities.Where(
                                 ss, ss.GetColumn(groupByX)?.ColumnName, timePeriod, month)),
                         groupBy: Rds.IssuesGroupBy()
                             .Add(dateGroup)
-                            .IssuesGroupBy(groupByY)))
+                            .IssuesGroupBy(groupByY, _using: groupByY != "Columns")))
                                 .AsEnumerable();
+            }
+        }
+
+        private static Rds.IssuesColumnCollection CrosstabColumns(
+            this Rds.IssuesColumnCollection self,
+            SiteSettings ss,
+            string groupByY,
+            IEnumerable<string> columns,
+            string value,
+            string aggregateType)
+        {
+            if (groupByY != "Columns")
+            {
+                return self
+                    .IssuesColumn(groupByY, _as: "GroupByY")
+                    .IssuesColumn(value, _as: "Value", function: Sqls.Function(aggregateType));
+            }
+            else
+            {
+                Libraries.ViewModes.CrosstabUtilities.GetColumns(ss, columns)
+                    .ForEach(column =>
+                        self.IssuesColumn(
+                            column,
+                            _as: column,
+                            function: Sqls.Function(aggregateType)));
+                return self;
             }
         }
 

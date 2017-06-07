@@ -3654,6 +3654,13 @@ namespace Implem.Pleasanter.Models
                         optionCollection: ss.CrosstabGroupByYOptions(),
                         selectedValue: view.GetCrosstabGroupByY(ss))
                     .FieldDropDown(
+                        controlId: "CrosstabColumns",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Column(),
+                        optionCollection: ss.CrosstabColumnsOptions(),
+                        selectedValue: view.CrosstabColumns,
+                        multiple: true)
+                    .FieldDropDown(
                         controlId: "CrosstabAggregateType",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.AggregationType(),

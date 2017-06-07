@@ -6,7 +6,10 @@
 }
 
 $p.setCrosstab = function () {
-    $('#CrosstabValueField').toggle($('#CrosstabAggregateType').val() !== 'Count');
+    $('#CrosstabColumnsField').toggle($('#CrosstabGroupByY').val() === 'Columns');
+    $('#CrosstabValueField').toggle(
+        $('#CrosstabGroupByY').val() !== 'Columns' &&
+        $('#CrosstabAggregateType').val() !== 'Count');
     var date = $('#CrosstabXType').val() === 'datetime';
     $('#CrosstabTimePeriodField').toggle(date);
     $('#CrosstabMonth').toggle(date);

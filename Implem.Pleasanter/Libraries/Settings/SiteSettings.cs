@@ -1268,17 +1268,35 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> CrosstabGroupByXOptions()
         {
-            return Columns
+            var hash = EditorColumns
+                .Select(o => GetColumn(o))
                 .Where(o => o.HasChoices() || o.TypeName == "datetime")
-                .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+            hash.Add("CreatedTime", Displays.CreatedTime());
+            hash.Add("UpdatedTime", Displays.UpdatedTime());
+            return hash;
         }
 
         public Dictionary<string, string> CrosstabGroupByYOptions()
         {
-            return Columns
+            var hash = EditorColumns
+                .Select(o => GetColumn(o))
                 .Where(o => o.HasChoices())
                 .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+            if (CrosstabColumnsOptions().Any())
+            {
+                hash.Add("Columns", Displays.Column());
+            }
+            return hash;
+        }
+
+        public Dictionary<string, string> CrosstabColumnsOptions()
+        {
+            return EditorColumns
+                .Select(o => GetColumn(o))
+                .Where(o => o.Computable)
+                .Where(o => o.TypeName != "datetime")
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
@@ -1296,10 +1314,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> CrosstabValueOptions()
         {
-            return Columns
+            return EditorColumns
+                .Select(o => GetColumn(o))
                 .Where(o => o.Computable)
                 .Where(o => o.TypeName != "datetime")
-                .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 

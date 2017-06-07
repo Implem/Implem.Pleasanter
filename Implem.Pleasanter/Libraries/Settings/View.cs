@@ -32,6 +32,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DateTime? CalendarMonth;
         public string CrosstabGroupByX;
         public string CrosstabGroupByY;
+        public string CrosstabColumns;
         public string CrosstabAggregateType;
         public string CrosstabValue;
         public string CrosstabTimePeriod;
@@ -209,6 +210,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     case "CrosstabGroupByY":
                         CrosstabGroupByY = String(controlId);
+                        break;
+                    case "CrosstabColumns":
+                        CrosstabColumns = String(controlId);
                         break;
                     case "CrosstabAggregateType":
                         CrosstabAggregateType = String(controlId);
@@ -481,6 +485,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!CrosstabGroupByY.IsNullOrEmpty())
             {
                 view.CrosstabGroupByY = CrosstabGroupByY;
+            }
+            if (!CrosstabColumns.IsNullOrEmpty())
+            {
+                view.CrosstabColumns = CrosstabColumns;
             }
             if (!CrosstabAggregateType.IsNullOrEmpty())
             {

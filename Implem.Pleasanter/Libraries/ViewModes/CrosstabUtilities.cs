@@ -1,12 +1,43 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.ViewModes
 {
     public static class CrosstabUtilities
     {
+        public static bool InRangeX(EnumerableRowCollection<DataRow> dataRows)
+        {
+            var inRange = dataRows.Select(o => o["GroupByX"].ToString()).Distinct().Count() <=
+                Parameters.General.CrosstabXLimit;
+            if (!inRange)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.CrosstabXLimit.ToString()).Html);
+            }
+            return inRange;
+        }
+
+        public static bool InRangeY(EnumerableRowCollection<DataRow> dataRows)
+        {
+            var inRange = dataRows.Select(o => o["GroupByY"].ToString()).Distinct().Count() <=
+                Parameters.General.CrosstabYLimit;
+            if (!inRange)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.CrosstabYLimit.ToString()).Html);
+            }
+            return inRange;
+        }
+
         public static string DateGroup(SiteSettings ss, Column column, string timePeriod)
         {
             var columnBracket = ColumnBracket(ss, column.ColumnName);
@@ -88,6 +119,13 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 columnBracket = "dateadd(hour,{0},{1})".Params(diff, columnBracket);
             }
             return columnBracket;
+        }
+
+        public static IEnumerable<string> GetColumns(SiteSettings ss, IEnumerable<string> columns)
+        {
+            return columns?.Any() == true
+                ? columns
+                : ss.CrosstabColumnsOptions().Select(o => o.Key);
         }
     }
 }
