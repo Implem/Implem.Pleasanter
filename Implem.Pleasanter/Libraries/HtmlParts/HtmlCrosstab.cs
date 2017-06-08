@@ -431,7 +431,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         y: 0,
                         width: max > 0
                             ? (data / max * 100).ToString("0.0") + "%"
-                            : "0")));
+                            : "0",
+                        height: "20px")));
         }
 
         private static HtmlBuilder HeaderText(
