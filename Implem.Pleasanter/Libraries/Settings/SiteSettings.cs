@@ -1271,6 +1271,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => GetColumn(o))
                 .Where(o => o.HasChoices() || o.TypeName == "datetime")
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+            hash.AddRange(Columns
+                .Where(o => o.HasChoices())
+                .Where(o => !hash.ContainsKey(o.ColumnName))
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText));
             hash.Add("CreatedTime", Displays.CreatedTime());
             hash.Add("UpdatedTime", Displays.UpdatedTime());
             return hash;
@@ -1283,6 +1287,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.HasChoices())
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+            hash.AddRange(Columns
+                .Where(o => o.HasChoices())
+                .Where(o => !hash.ContainsKey(o.ColumnName))
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText));
             if (CrosstabColumnsOptions().Any())
             {
                 hash.Add("Columns", Displays.NumericColumn());
