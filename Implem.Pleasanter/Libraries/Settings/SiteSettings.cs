@@ -1285,7 +1285,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
             if (CrosstabColumnsOptions().Any())
             {
-                hash.Add("Columns", Displays.Column());
+                hash.Add("Columns", Displays.NumericColumn());
             }
             return hash;
         }

@@ -311,6 +311,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string NotOutput(params string[] data) { return Get("NotOutput", data); }
         public static string NotRequiredColumn(params string[] data) { return Get("NotRequiredColumn", data); }
         public static string NotSet(params string[] data) { return Get("NotSet", data); }
+        public static string NumericColumn(params string[] data) { return Get("NumericColumn", data); }
         public static string Off(params string[] data) { return Get("Off", data); }
         public static string Older(params string[] data) { return Get("Older", data); }
         public static string On(params string[] data) { return Get("On", data); }

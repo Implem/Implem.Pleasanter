@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlId: "CrosstabColumns",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
-                        labelText: Displays.Column(),
+                        labelText: Displays.NumericColumn(),
                         optionCollection: ss.CrosstabColumnsOptions(),
                         selectedValue: columns,
                         multiple: true,

@@ -3656,7 +3656,7 @@ namespace Implem.Pleasanter.Models
                     .FieldDropDown(
                         controlId: "CrosstabColumns",
                         fieldCss: "field-auto-thin",
-                        labelText: Displays.Column(),
+                        labelText: Displays.NumericColumn(),
                         optionCollection: ss.CrosstabColumnsOptions(),
                         selectedValue: view.CrosstabColumns,
                         multiple: true)
