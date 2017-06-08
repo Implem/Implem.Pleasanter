@@ -25,24 +25,24 @@ https://implem.co.jp/category/blog/
 
 ## 動作イメージ
 * テーブル管理
-![default](https://cloud.githubusercontent.com/assets/12204265/19873886/e25c990e-a004-11e6-8e74-4d157e5fc2db.gif)
+![default](https://user-images.githubusercontent.com/17098267/26913025-36b4d106-4c53-11e7-9220-eeaf521aa9e4.gif)
 
-* カレンダー
+* [カレンダー](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：カレンダー)
 ![default](https://user-images.githubusercontent.com/17098267/26912816-ddbdcc48-4c51-11e7-9626-fe6e14864ec2.gif)
 
-* クロス集計
+* [クロス集計](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：クロス集計)
 ![default](https://user-images.githubusercontent.com/17098267/26912817-ddc33a34-4c51-11e7-85f9-e4265a74b862.gif)
 
-* ガントチャート
+* [ガントチャート](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：ガントチャート)
 ![default](https://user-images.githubusercontent.com/17098267/26912845-0672efe2-4c52-11e7-906a-247d2b3bc13c.gif)
 
-* バーンダウンチャート
+* [バーンダウンチャート](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：バーンダウンチャート)
 ![default](https://user-images.githubusercontent.com/17098267/26912848-08ead8ca-4c52-11e7-8159-bb6d2184f84c.gif)
 
-* 時系列チャート
+* [時系列チャート](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：時系列チャート)
 ![default](https://user-images.githubusercontent.com/17098267/26912851-0c1b82f6-4c52-11e7-9461-8efbfd6cfea4.gif)
 
-* カンバン
+* [カンバン](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：カンバン)
 ![default](https://user-images.githubusercontent.com/17098267/26912853-0d61e2b8-4c52-11e7-8eb4-56feb7576d24.gif)
 
 ## 動作条件
@@ -79,7 +79,7 @@ https://implem.co.jp/category/blog/
 |[スクリプト](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：ビジネスロジック：スクリプト)|カスタムJavaScript|
 |[フィルタ](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：フィルタ)|テーブルのフィルタリング|
 |[ソータ](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：ソータ)|一覧の並び替え|
-|[ビューモード](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：ビューモード)|テーブルの表示形式を一覧、ガントチャート、バーンダウンチャート、時系列チャート、カンバンに切り替え|
+|[ビューモード](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：ビューモード)|テーブルの表示形式を一覧、カレンダー、クロス集計、ガントチャート、バーンダウンチャート、時系列チャート、カンバンに切り替え|
 |[レコード一覧](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：レコード一覧)|レコードの一覧表示|
 |[集計](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：集計)|テーブルの件数または数値フィールドの合計、平均、最大、最小を分類毎に集計して表示|
 |[スタイル](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：スタイル)|カスタムCSS|
