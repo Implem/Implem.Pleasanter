@@ -27,17 +27,23 @@ https://implem.co.jp/category/blog/
 * テーブル管理
 ![default](https://cloud.githubusercontent.com/assets/12204265/19873886/e25c990e-a004-11e6-8e74-4d157e5fc2db.gif)
 
+* カレンダー
+![default](https://user-images.githubusercontent.com/17098267/26912816-ddbdcc48-4c51-11e7-9626-fe6e14864ec2.gif)
+
+* クロス集計
+![default](https://user-images.githubusercontent.com/17098267/26912817-ddc33a34-4c51-11e7-85f9-e4265a74b862.gif)
+
 * ガントチャート
-![default](https://cloud.githubusercontent.com/assets/12204265/19873780/4a8411a2-a004-11e6-960a-0af292cb27ee.gif)
+![default](https://user-images.githubusercontent.com/17098267/26912845-0672efe2-4c52-11e7-906a-247d2b3bc13c.gif)
 
 * バーンダウンチャート
-![default](https://cloud.githubusercontent.com/assets/12204265/19873800/6b917fd8-a004-11e6-87f4-4cc1aa6b1d20.gif)
+![default](https://user-images.githubusercontent.com/17098267/26912848-08ead8ca-4c52-11e7-8159-bb6d2184f84c.gif)
 
 * 時系列チャート
-![default](https://cloud.githubusercontent.com/assets/12204265/19873846/a7f5469e-a004-11e6-9fd7-1772abc4cafd.gif)
+![default](https://user-images.githubusercontent.com/17098267/26912851-0c1b82f6-4c52-11e7-9461-8efbfd6cfea4.gif)
 
 * カンバン
-![default](https://cloud.githubusercontent.com/assets/12204265/19873860/c35f79f4-a004-11e6-801b-6d3463e34201.gif)
+![default](https://user-images.githubusercontent.com/17098267/26912853-0d61e2b8-4c52-11e7-8eb4-56feb7576d24.gif)
 
 ## 動作条件
 |条件|Windows Server 2012 R2 / 2016|Windows 10|Microsoft Azure|
