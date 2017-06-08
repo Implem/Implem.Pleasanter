@@ -5,6 +5,7 @@
     "SmtpPassword": null,
     "SmtpEnableSsl": false,
     "FixedFrom": null,
+    "AllowedFrom": null,
     "SupportFrom": "\"Pleasanter.org\" <support@pleasanter.org>",
     "InternalDomains": ""
 }

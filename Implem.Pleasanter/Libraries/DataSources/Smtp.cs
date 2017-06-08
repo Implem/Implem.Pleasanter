@@ -1,5 +1,4 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Mails;
 using System.Linq;
 using System.Net.Mail;
@@ -43,9 +42,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 using (var mailMessage = new MailMessage())
                 {
-                    mailMessage.From = !Parameters.Mail.FixedFrom.IsNullOrEmpty()
-                        ? new MailAddress(Parameters.Mail.FixedFrom)
-                        : From;
+                    mailMessage.From = Addresses.From(From);
                     Addresses.GetEnumerable(To).ForEach(to => mailMessage.To.Add(to));
                     Addresses.GetEnumerable(Cc).ForEach(cc => mailMessage.CC.Add(cc));
                     Addresses.GetEnumerable(Bcc).ForEach(bcc => mailMessage.Bcc.Add(bcc));

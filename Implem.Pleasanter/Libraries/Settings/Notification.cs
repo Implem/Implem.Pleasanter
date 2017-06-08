@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System;
@@ -115,10 +116,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     new OutgoingMailModel()
                     {
                         Title = new Title(Prefix + title),
-                        Body = "{0}\n{1}".Params(url, body) +
-                            (!Parameters.Mail.FixedFrom.IsNullOrEmpty()
-                                ? "\n\n{0}<{1}>".Params(mailFrom.DisplayName, mailFrom.Address)
-                                : string.Empty),
+                        Body = "{0}\n{1}".Params(url, body) + (Addresses.FixedFrom(mailFrom)
+                            ? "\n\n{0}<{1}>".Params(mailFrom.DisplayName, mailFrom.Address)
+                            : string.Empty),
                         From = mailFrom,
                         To = Address
                     }.Send();

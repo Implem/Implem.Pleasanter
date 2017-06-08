@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 namespace Implem.Pleasanter.Libraries.Mails
 {
     public static class Addresses
@@ -50,6 +51,20 @@ namespace Implem.Pleasanter.Libraries.Mails
                 }
             }
             return string.Empty;
+        }
+
+        public static MailAddress From(MailAddress from)
+        {
+            return FixedFrom(from)
+                ? new MailAddress(Parameters.Mail.FixedFrom)
+                : from;
+        }
+
+        public static bool FixedFrom(MailAddress from)
+        {
+            return
+                !Parameters.Mail.FixedFrom.IsNullOrEmpty() &&
+                Parameters.Mail.AllowedFrom?.Contains(from.Address) != true;
         }
     }
 }

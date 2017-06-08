@@ -1,4 +1,5 @@
-﻿namespace Implem.ParameterAccessor.Parts
+﻿using System.Collections.Generic;
+namespace Implem.ParameterAccessor.Parts
 {
     public class Mail
     {
@@ -8,6 +9,7 @@
         public string SmtpPassword;
         public bool SmtpEnableSsl;
         public string FixedFrom;
+        public List<string> AllowedFrom;
         public string SupportFrom;
         public string InternalDomains;
     }
