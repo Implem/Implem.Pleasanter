@@ -283,6 +283,7 @@
     <Compile Include="Libraries\ViewModes\CrosstabUtilities.cs" />
     <Compile Include="Libraries\ViewModes\Gantt.cs" />
     <Compile Include="Libraries\ViewModes\GanttElement.cs" />
+    <Compile Include="Libraries\ViewModes\GanttUtilities.cs" />
     <Compile Include="Libraries\ViewModes\KambanElement.cs" />
     <Compile Include="Libraries\ViewModes\TimeSeries.cs" />
     <Compile Include="Libraries\ViewModes\TimeSeriesElement.cs" />

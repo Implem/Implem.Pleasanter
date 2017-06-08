@@ -134,10 +134,11 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return this
                 .OrderBy(o => choices?.IndexOf(o.GroupBy))
                 .ThenByDescending(o => o.GroupSummary)
-                .ThenBy(o => o.SortBy)
+                .Sort(SortBy)
                 .ThenBy(o => o.StartTime)
                 .ThenBy(o => o.CompletionTime)
                 .ThenBy(o => o.Title)
+                .ToList()
                 .ToJson();
         }
     }

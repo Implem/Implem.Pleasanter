@@ -1340,8 +1340,8 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> GanttSortByOptions()
         {
-            return Columns
-                .OrderBy(o => o.No)
+            return EditorColumns
+                .Select(o => GetColumn(o))
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
