@@ -1311,6 +1311,7 @@ namespace Implem.Pleasanter.Models
             SynchronizeSummary(ss, forceSynchronizeSourceSummary);
             if (Contract.Notice() && notice)
             {
+                Title = new Title(ss, IssueId, PropertyValues(ss.TitleColumns));
                 CheckNotificationConditions(ss);
                 Notice(ss, "Created");
             }

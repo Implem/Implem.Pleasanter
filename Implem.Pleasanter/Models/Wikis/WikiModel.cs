@@ -217,6 +217,7 @@ namespace Implem.Pleasanter.Models
             WikiId = newId != 0 ? newId : WikiId;
             if (Contract.Notice() && notice)
             {
+                Title = new Title(ss, WikiId, PropertyValues(ss.TitleColumns));
                 CheckNotificationConditions(ss);
                 Notice(ss, "Created");
             }
