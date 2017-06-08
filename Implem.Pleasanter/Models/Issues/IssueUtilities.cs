@@ -4667,27 +4667,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string UpdateByKamban(SiteSettings ss)
-        {
-            var issueModel = new IssueModel(ss, Forms.Long("KambanId"), setByForm: true);
-            var invalid = IssueValidators.OnUpdating(ss, issueModel);
-            switch (invalid)
-            {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson();
-            }
-            if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
-            {
-                return Messages.ResponseDeleteConflicts().ToJson();
-            }
-            issueModel.VerUp = Versions.MustVerUp(issueModel);
-            issueModel.Update(ss, notice: true);
-            return KambanJson(ss);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static string Gantt(SiteSettings ss)
         {
             if (ss.EnableGantt != true)
@@ -4728,9 +4707,6 @@ namespace Implem.Pleasanter.Models
                 });
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static string GanttJson(SiteSettings ss)
         {
             if (ss.EnableGantt != true)
@@ -4775,9 +4751,6 @@ namespace Implem.Pleasanter.Models
                     .ToJson();
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private static HtmlBuilder Gantt(
             this HtmlBuilder hb,
             SiteSettings ss,
@@ -4800,9 +4773,6 @@ namespace Implem.Pleasanter.Models
                     dataRows: dataRows);
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private static EnumerableRowCollection<DataRow> GanttDataRows(
             SiteSettings ss, View view, string groupBy, string sortBy)
         {
@@ -4826,6 +4796,24 @@ namespace Implem.Pleasanter.Models
                             sortBy, _as: "SortBy", function: Sqls.Functions.SingleColumn),
                     where: view.Where(ss: ss)))
                         .AsEnumerable();
+        }
+
+        public static string UpdateByKamban(SiteSettings ss)
+        {
+            var issueModel = new IssueModel(ss, Forms.Long("KambanId"), setByForm: true);
+            var invalid = IssueValidators.OnUpdating(ss, issueModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Messages.ResponseDeleteConflicts().ToJson();
+            }
+            issueModel.VerUp = Versions.MustVerUp(issueModel);
+            issueModel.Update(ss, notice: true);
+            return KambanJson(ss);
         }
 
         /// <summary>
