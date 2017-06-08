@@ -24,14 +24,14 @@ http://pleasanter.org
 https://implem.co.jp/category/blog/
 
 ## 動作イメージ
-* テーブル管理
+* 操作イメージ
 ![default](https://user-images.githubusercontent.com/17098267/26913025-36b4d106-4c53-11e7-9220-eeaf521aa9e4.gif)
 
 * [カレンダー](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：カレンダー)
 ![default](https://user-images.githubusercontent.com/17098267/26912816-ddbdcc48-4c51-11e7-9626-fe6e14864ec2.gif)
 
 * [クロス集計](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：クロス集計)
-![default](https://user-images.githubusercontent.com/17098267/26912817-ddc33a34-4c51-11e7-85f9-e4265a74b862.gif)
+![default](https://user-images.githubusercontent.com/17098267/26914950-e92cf0a6-4c5e-11e7-8d71-9712e91b12fd.gif)
 
 * [ガントチャート](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：ガントチャート)
 ![default](https://user-images.githubusercontent.com/17098267/26912845-0672efe2-4c52-11e7-906a-247d2b3bc13c.gif)
