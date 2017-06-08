@@ -377,7 +377,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         }))
                     .TBody(action: () =>
                     {
-                        choicesY.ForEach(choiceY =>
+                        choicesY?.ForEach(choiceY =>
                         {
                             var column = columns?.Any() != true
                                 ? value
