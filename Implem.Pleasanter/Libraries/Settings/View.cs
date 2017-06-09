@@ -107,9 +107,12 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string GetCrosstabValue(SiteSettings ss)
         {
+            var options = ss.CrosstabValueOptions();
             return !CrosstabValue.IsNullOrEmpty()
                 ? CrosstabValue
-                : Definition(ss, "Crosstab")?.Option4;
+                : options.ContainsKey(Definition(ss, "Crosstab")?.Option4)
+                    ? Definition(ss, "Crosstab")?.Option4
+                    : options.FirstOrDefault().Key;
         }
 
         public string GetCrosstabTimePeriod(SiteSettings ss)

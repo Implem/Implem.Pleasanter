@@ -72,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.AggregationTarget(),
                         optionCollection: ss.CrosstabValueOptions(),
                         selectedValue: value,
+                        addSelectedValue: false,
                         method: "post")
                     .FieldDropDown(
                         fieldId: "CrosstabTimePeriodField",

@@ -4252,6 +4252,11 @@ namespace Implem.Pleasanter.Models
             var columns = view.CrosstabColumns;
             var aggregateType = view.GetCrosstabAggregateType(ss);
             var value = view.GetCrosstabValue(ss);
+            if (value.IsNullOrEmpty())
+            {
+                value = "ResultId";
+                aggregateType = "Count";
+            }
             var timePeriod = view.GetCrosstabTimePeriod(ss);
             var month = view.GetCrosstabMonth(ss);
             var dataRows = CrosstabDataRows(
@@ -4298,6 +4303,11 @@ namespace Implem.Pleasanter.Models
             var columns = view.CrosstabColumns;
             var aggregateType = view.GetCrosstabAggregateType(ss);
             var value = view.GetCrosstabValue(ss);
+            if (value.IsNullOrEmpty())
+            {
+                value = "ResultId";
+                aggregateType = "Count";
+            }
             var timePeriod = view.GetCrosstabTimePeriod(ss);
             var month = view.GetCrosstabMonth(ss);
             var dataRows = CrosstabDataRows(
