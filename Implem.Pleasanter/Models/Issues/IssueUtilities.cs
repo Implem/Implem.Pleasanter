@@ -4689,8 +4689,9 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetBySession(ss.SiteId);
             var groupBy = view.GetGanttGroupBy();
             var sortBy = view.GetGanttSortBy();
-            var inRange = issueCollection.Aggregations.TotalCount <=
-                Parameters.General.GanttLimit;
+            var range = new Libraries.ViewModes.GanttRange(ss, view);
+            var dataRows = GanttDataRows(ss, view, range, groupBy, sortBy);
+            var inRange = dataRows.Count() <= Parameters.General.GanttLimit;
             if (!inRange)
             {
                 Sessions.Set(
@@ -4709,9 +4710,12 @@ namespace Implem.Pleasanter.Models
                         hb.Gantt(
                             ss: ss,
                             view: view,
-                            dataRows: GanttDataRows(ss, view, groupBy, sortBy),
+                            dataRows: dataRows,
                             groupBy: groupBy,
                             sortBy: sortBy,
+                            period: view.GanttPeriod.ToInt(),
+                            startDate: view.GanttStartDate.ToDateTime(),
+                            range: range,
                             bodyOnly: false);
                     }
                 });
@@ -4728,16 +4732,22 @@ namespace Implem.Pleasanter.Models
             var bodyOnly = Forms.ControlId().StartsWith("Gantt");
             var groupBy = view.GetGanttGroupBy();
             var sortBy = view.GetGanttSortBy();
-            return issueCollection.Aggregations.TotalCount <= Parameters.General.GanttLimit
-                ? new ResponseCollection()
+            var range = new Libraries.ViewModes.GanttRange(ss, view);
+            var dataRows = GanttDataRows(ss, view, range, groupBy, sortBy);
+            if (dataRows.Count() <= Parameters.General.GanttLimit)
+            {
+                return new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#GanttBody",
                         new HtmlBuilder().Gantt(
                             ss: ss,
                             view: view,
-                            dataRows: GanttDataRows(ss, view, groupBy, sortBy),
+                            dataRows: dataRows,
                             groupBy: groupBy,
                             sortBy: sortBy,
+                            period: view.GanttPeriod.ToInt(),
+                            startDate: view.GanttStartDate.ToDateTime(),
+                            range: range,
                             bodyOnly: bodyOnly))
                     .View(ss: ss, view: view)
                     .ReplaceAll(
@@ -4746,8 +4756,11 @@ namespace Implem.Pleasanter.Models
                         aggregations: issueCollection.Aggregations))
                     .ClearFormData()
                     .Invoke("drawGantt")
-                    .ToJson()
-                : new ResponseCollection()
+                    .ToJson();
+            }
+            else
+            {
+                return new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#GanttBody",
                         new HtmlBuilder())
@@ -4759,6 +4772,7 @@ namespace Implem.Pleasanter.Models
                     .ClearFormData()
                     .Message(Messages.TooManyCases(Parameters.General.GanttLimit.ToString()))
                     .ToJson();
+            }
         }
 
         private static HtmlBuilder Gantt(
@@ -4768,6 +4782,9 @@ namespace Implem.Pleasanter.Models
             EnumerableRowCollection<DataRow> dataRows,
             string groupBy,
             string sortBy,
+            int period,
+            DateTime startDate,
+            Libraries.ViewModes.GanttRange range,
             bool bodyOnly)
         {
             return !bodyOnly
@@ -4775,16 +4792,25 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     groupBy: groupBy,
                     sortBy: sortBy,
+                    period: period,
+                    startDate: startDate,
+                    range: range,
                     dataRows: dataRows)
                 : hb.GanttBody(
                     ss: ss,
                     groupBy: groupBy,
                     sortBy: sortBy,
+                    period: period,
+                    startDate: startDate,
                     dataRows: dataRows);
         }
 
         private static EnumerableRowCollection<DataRow> GanttDataRows(
-            SiteSettings ss, View view, string groupBy, string sortBy)
+            SiteSettings ss,
+            View view,
+            Libraries.ViewModes.GanttRange range,
+            string groupBy,
+            string sortBy)
         {
             return Rds.ExecuteTable(statements:
                 Rds.SelectIssues(
@@ -4804,7 +4830,7 @@ namespace Implem.Pleasanter.Models
                             groupBy, _as: "GroupBy", function: Sqls.Functions.SingleColumn)
                         .IssuesColumn(
                             sortBy, _as: "SortBy", function: Sqls.Functions.SingleColumn),
-                    where: view.Where(ss: ss)))
+                    where: view.Where(ss: ss, where: range.Where())))
                         .AsEnumerable();
         }
 

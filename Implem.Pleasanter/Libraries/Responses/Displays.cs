@@ -400,6 +400,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Special(params string[] data) { return Get("Special", data); }
         public static string Spinner(params string[] data) { return Get("Spinner", data); }
         public static string Standard(params string[] data) { return Get("Standard", data); }
+        public static string StartDate(params string[] data) { return Get("StartDate", data); }
         public static string Step(params string[] data) { return Get("Step", data); }
         public static string Style(params string[] data) { return Get("Style", data); }
         public static string Styles(params string[] data) { return Get("Styles", data); }

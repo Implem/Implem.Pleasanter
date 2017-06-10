@@ -10,6 +10,7 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
@@ -39,6 +40,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DateTime? CrosstabMonth;
         public string GanttGroupBy;
         public string GanttSortBy;
+        public int? GanttPeriod;
+        public DateTime? GanttStartDate;
         public string TimeSeriesGroupBy;
         public string TimeSeriesAggregateType;
         public string TimeSeriesValue;
@@ -234,6 +237,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     case "GanttSortBy":
                         GanttSortBy = String(controlId);
+                        break;
+                    case "GanttPeriod":
+                        GanttPeriod = Forms.Int(controlId);
+                        break;
+                    case "GanttStartDate":
+                        GanttStartDate = Time(controlId);
                         break;
                     case "TimeSeriesGroupBy":
                         TimeSeriesGroupBy = String(controlId);

@@ -581,6 +581,10 @@ pre{
     cursor:auto;
 }
 
+#GanttStartDate{
+    margin-right:10px;
+}
+
 #GanttAxis{
     width:100%;
     height:50px;
@@ -1582,13 +1586,13 @@ pre{
 .control-slider{
     width:30px;
     float:left;
-    margin:5px 0px 0px 15px;
+    margin:8px 0px 0px 12px;
 }
 
 .control-slider-ui{
     width:140px;
     float:left;
-    margin:8px 0px 0px 0px;
+    margin:11px 0px 0px 5px;
 }
 
 .control-anchor{

@@ -31,12 +31,15 @@
             }
         }
     });
-    $(document).on('change', '.auto-postback:not([type="text"], select[multiple])', function () {
+    $(document).on('change', '.auto-postback:not([type="text"],select[multiple])', function () {
+        $p.send($(this));
+    });
+    $(document).on('change', '.auto-postback[type="text"]', function () {
         var $control = $(this);
-        $p.send($control);
-        if (!$control.hasClass('keep-form-data')) {
-            delete $p.getData($control)[$control.attr('id')];
+        if ($control.val() !== $control.attr('data-previous')) {
+            $p.send($control);
         }
+        $control.attr('data-previous', $control.val());
     });
     $(document).on('keyup', '.auto-postback[type="text"]', function (e) {
         var $control = $(this);
@@ -44,15 +47,6 @@
         if (e.keyCode === 13) {
             $p.send($control);
             delete $p.getData($control)[$control.attr('id')];
-        } else {
-            var timer = setTimeout(function () {
-                $p.setData($control);
-                $p.send($control);
-                delete $p.getData($control)[$control.attr('id')];
-            }, 700);
-            $(document).on('keydown', '.auto-postback', function () {
-                clearTimeout(timer);
-            });
         }
     });
 });

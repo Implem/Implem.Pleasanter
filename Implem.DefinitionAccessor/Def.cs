@@ -1886,6 +1886,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Gantt_space__dot_title_space_text": Css._sharp_Gantt_space__dot_title_space_text = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt_space__dot_title_space_text, definitionRow, CssXls); break;
                     case "_sharp_Gantt_space__dot_title_space_text_dot_delay": Css._sharp_Gantt_space__dot_title_space_text_dot_delay = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt_space__dot_title_space_text_dot_delay, definitionRow, CssXls); break;
                     case "_sharp_Gantt_space__dot_title_space_text_dot_summary": Css._sharp_Gantt_space__dot_title_space_text_dot_summary = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt_space__dot_title_space_text_dot_summary, definitionRow, CssXls); break;
+                    case "_sharp_GanttStartDate": Css._sharp_GanttStartDate = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_GanttStartDate, definitionRow, CssXls); break;
                     case "_sharp_GanttAxis": Css._sharp_GanttAxis = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_GanttAxis, definitionRow, CssXls); break;
                     case "_sharp_GanttAxis_space_text": Css._sharp_GanttAxis_space_text = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_GanttAxis_space_text, definitionRow, CssXls); break;
                     case "_sharp_BurnDown": Css._sharp_BurnDown = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BurnDown, definitionRow, CssXls); break;
@@ -3084,6 +3085,8 @@ namespace Implem.DefinitionAccessor
                     case "SiteDepts": Sql.SiteDepts = definitionRow[1].ToString(); SetSqlTable(SqlTable.SiteDepts, definitionRow, SqlXls); break;
                     case "ProgressRateDelay": Sql.ProgressRateDelay = definitionRow[1].ToString(); SetSqlTable(SqlTable.ProgressRateDelay, definitionRow, SqlXls); break;
                     case "MoveTarget": Sql.MoveTarget = definitionRow[1].ToString(); SetSqlTable(SqlTable.MoveTarget, definitionRow, SqlXls); break;
+                    case "StartTimeColumn": Sql.StartTimeColumn = definitionRow[1].ToString(); SetSqlTable(SqlTable.StartTimeColumn, definitionRow, SqlXls); break;
+                    case "CompletionTimeColumn": Sql.CompletionTimeColumn = definitionRow[1].ToString(); SetSqlTable(SqlTable.CompletionTimeColumn, definitionRow, SqlXls); break;
                     case "TruncateTemplate": Sql.TruncateTemplate = definitionRow[1].ToString(); SetSqlTable(SqlTable.TruncateTemplate, definitionRow, SqlXls); break;
                     case "CreateDatabase": Sql.CreateDatabase = definitionRow[1].ToString(); SetSqlTable(SqlTable.CreateDatabase, definitionRow, SqlXls); break;
                     case "SpWho": Sql.SpWho = definitionRow[1].ToString(); SetSqlTable(SqlTable.SpWho, definitionRow, SqlXls); break;
@@ -7266,6 +7269,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Gantt_space__dot_title_space_text;
         public string _sharp_Gantt_space__dot_title_space_text_dot_delay;
         public string _sharp_Gantt_space__dot_title_space_text_dot_summary;
+        public string _sharp_GanttStartDate;
         public string _sharp_GanttAxis;
         public string _sharp_GanttAxis_space_text;
         public string _sharp_BurnDown;
@@ -7676,6 +7680,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Gantt_space__dot_title_space_text = new CssDefinition();
         public CssDefinition _sharp_Gantt_space__dot_title_space_text_dot_delay = new CssDefinition();
         public CssDefinition _sharp_Gantt_space__dot_title_space_text_dot_summary = new CssDefinition();
+        public CssDefinition _sharp_GanttStartDate = new CssDefinition();
         public CssDefinition _sharp_GanttAxis = new CssDefinition();
         public CssDefinition _sharp_GanttAxis_space_text = new CssDefinition();
         public CssDefinition _sharp_BurnDown = new CssDefinition();
@@ -9456,6 +9461,8 @@ namespace Implem.DefinitionAccessor
         public string SiteDepts;
         public string ProgressRateDelay;
         public string MoveTarget;
+        public string StartTimeColumn;
+        public string CompletionTimeColumn;
         public string TruncateTemplate;
         public string CreateDatabase;
         public string SpWho;
@@ -9489,6 +9496,8 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition SiteDepts = new SqlDefinition();
         public SqlDefinition ProgressRateDelay = new SqlDefinition();
         public SqlDefinition MoveTarget = new SqlDefinition();
+        public SqlDefinition StartTimeColumn = new SqlDefinition();
+        public SqlDefinition CompletionTimeColumn = new SqlDefinition();
         public SqlDefinition TruncateTemplate = new SqlDefinition();
         public SqlDefinition CreateDatabase = new SqlDefinition();
         public SqlDefinition SpWho = new SqlDefinition();

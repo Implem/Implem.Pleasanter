@@ -50,8 +50,10 @@ namespace Implem.ParameterAccessor.Parts
         public int CrosstabXLimit;
         public int CrosstabYLimit;
         public int GanttLimit;
-        public int GanttItemMaxHeight;
         public int GanttItemMinHeight;
+        public int GanttItemMaxHeight;
+        public int GanttPeriodMin;
+        public int GanttPeriodMax;
         public int BurnDownLimit;
         public int TimeSeriesLimit;
         public int KambanLimit;

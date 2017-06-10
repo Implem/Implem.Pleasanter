@@ -404,7 +404,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string controlId = null,
             string controlCss = null,
-            string value = null,
+            decimal value = 0,
             decimal min = -1,
             decimal max = -1,
             decimal step = -1,
@@ -423,15 +423,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataStep(step, _using: step != -1))
                     .P(
                         attributes: new HtmlAttributes()
-                            .Class(Css.Class("control-slider", controlCss)),
+                            .Id(controlId).DataAction(action)
+                            .Class(Css.Class("control-slider", controlCss))
+                            .DataAction(action)
+                            .DataMethod(method),
                         action: () => hb
-                            .Span(
-                                attributes: new HtmlAttributes()
-                                    .Id(controlId).DataAction(action)
-                                    .DataAction(action)
-                                    .DataMethod(method),
-                                action: () => hb
-                                    .Text(value))
+                            .Span(action: () => hb
+                                .Text(value.ToString()))
                             .Span(action: () => hb
                                 .Text(unit)))
                 : hb;

@@ -50,6 +50,13 @@ $p.setData = function ($control, data) {
                             })
                             .toArray());
                         break;
+                    case 'P':
+                        if ($control.hasClass('control-slider')) {
+                            data[controlId] = $control.attr('data-value');
+                        } else {
+                            data[controlId] = $control.val();
+                        }
+                        break;
                     default:
                         data[controlId] = $control.val();
                         break;

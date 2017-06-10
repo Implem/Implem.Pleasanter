@@ -35,15 +35,13 @@
             }
         }).addClass('applied');
         $('.datepicker:not(.applied)').each(function () {
-            $(this).datetimepicker({
-                format: $(this).attr('data-format'),
-                timepicker: $(this).attr('data-timepicker') === '1',
+            var $control = $(this);
+            $control.datetimepicker({
+                format: $control.attr('data-format'),
+                timepicker: $control.attr('data-timepicker') === '1',
                 step: 10,
-                scrollInput : false,
-                onSelectDate: function (date) {
-                    $p.getData($(this))[this.id] = date;
-                    $p.formChanged = true;
-                }
+                dayOfWeekStart: 1,
+                scrollInput: false
             }).addClass('applied');
         });
         $.datetimepicker.setLocale('ja');
@@ -73,7 +71,13 @@
                 value: parseFloat($control.text()),
                 slide: function (event, ui) {
                     $control.text(ui.value);
+                    $control.attr('data-value', ui.value);
                     $p.setData($control);
+                },
+                stop: function (event, ui) {
+                    if ($control.hasClass('auto-postback')) {
+                        $p.send($control);
+                    }
                 }
             });
         });
