@@ -4802,6 +4802,7 @@ namespace Implem.Pleasanter.Models
                     sortBy: sortBy,
                     period: period,
                     startDate: startDate,
+                    range: range,
                     dataRows: dataRows);
         }
 
@@ -4830,8 +4831,9 @@ namespace Implem.Pleasanter.Models
                             groupBy, _as: "GroupBy", function: Sqls.Functions.SingleColumn)
                         .IssuesColumn(
                             sortBy, _as: "SortBy", function: Sqls.Functions.SingleColumn),
-                    where: view.Where(ss: ss, where: range.Where())))
-                        .AsEnumerable();
+                    where: view.Where(
+                        ss: ss, where: Libraries.ViewModes.GanttUtilities.Where(view))))
+                            .AsEnumerable();
         }
 
         public static string UpdateByKamban(SiteSettings ss)

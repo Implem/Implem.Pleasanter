@@ -1,4 +1,7 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.ViewModes
@@ -22,6 +25,20 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             {
                 return self;
             }
+        }
+
+        public static Rds.IssuesWhereCollection Where(View view)
+        {
+            var start = view.GanttStartDate.ToDateTime().ToUniversal();
+            var end = start.AddDays(view.GanttPeriod.ToInt()).AddMilliseconds(-3);
+            return Rds.IssuesWhere()
+                .Or(Rds.IssuesWhere()
+                    .Add(raw: "(({0}) <= '{1}' and {2} >= '{3}')".Params(
+                        Def.Sql.StartTimeColumn, start, Def.Sql.CompletionTimeColumn, end))
+                    .Add(raw: "({0}) between '{1}' and '{2}'".Params(
+                        Def.Sql.StartTimeColumn, start, end))
+                    .Add(raw: "({0}) between '{1}' and '{2}'".Params(
+                        Def.Sql.CompletionTimeColumn, start, end)));
         }
     }
 }

@@ -26,13 +26,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }
             else if (Forms.ControlId().StartsWith("ViewFilters_"))
             {
-                Min = view.GanttStartDate.ToDateTime();
                 view.GanttPeriod = Period;
             }
             else
             {
-                Min = view.GanttStartDate.ToDateTime();
-                Max = Min.AddDays(Period);
                 if (view.GanttPeriod.ToInt() > Period)
                 {
                     view.GanttPeriod = Period;
@@ -92,20 +89,6 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     Period = Parameters.General.GanttPeriodMin;
                 }
             }
-        }
-
-        public Rds.IssuesWhereCollection Where()
-        {
-            var min = Min.ToUniversal();
-            var max = Max.ToUniversal().AddMilliseconds(-3);
-            return Rds.IssuesWhere()
-                .Or(Rds.IssuesWhere()
-                    .Add(raw: "(({0}) <= '{1}' and {2} >= '{3}')".Params(
-                        Def.Sql.StartTimeColumn, min, Def.Sql.CompletionTimeColumn, max))
-                    .Add(raw: "({0}) between '{1}' and '{2}'".Params(
-                        Def.Sql.StartTimeColumn, min, max))
-                    .Add(raw: "({0}) between '{1}' and '{2}'".Params(
-                        Def.Sql.CompletionTimeColumn, min, max)));
         }
     }
 }

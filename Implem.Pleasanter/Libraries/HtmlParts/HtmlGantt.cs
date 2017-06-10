@@ -70,6 +70,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         onClick: "$p.moveGantt('Next');",
                         icon: "ui-icon-seek-next")
                     .Button(
+                        controlId: "GanttFirstDayButton",
+                        text: Displays.FirstDay(),
+                        controlCss: "button-icon",
+                        onClick: "$p.moveGantt('FirstDay');",
+                        icon: "ui-icon-calendar")
+                    .Button(
                         controlId: "GanttTodayButton",
                         text: Displays.Today(),
                         controlCss: "button-icon",
@@ -94,6 +100,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         sortBy: sortBy,
                         period: period,
                         startDate: startDate,
+                        range: range,
                         dataRows: dataRows)));
         }
 
@@ -118,6 +125,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string sortBy,
             int period,
             DateTime startDate,
+            GanttRange range,
             EnumerableRowCollection<DataRow> dataRows)
         {
             return dataRows != null
@@ -138,6 +146,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(
                         controlId: "GanttNext",
                         value: startDate.ToLocal().AddDays(7).ToString(
+                            "d", Sessions.CultureInfo()))
+                    .Hidden(
+                        controlId: "GanttFirstDay",
+                        value: range.Min.ToString(
                             "d", Sessions.CultureInfo()))
                     .Hidden(
                         controlId: "GanttToday",
