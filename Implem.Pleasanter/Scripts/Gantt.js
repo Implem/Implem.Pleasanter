@@ -57,23 +57,24 @@ $p.drawGantt = function () {
         .text(function (d) {
             return d.getMonth() + 1;
         });
-    if (days.length <= 90) {
-        d3.select('#GanttAxis')
-            .append('g')
-            .attr('class', 'title')
-            .selectAll('text')
-            .data(days)
-            .enter()
-            .append('text')
-            .attr('text-anchor', 'middle')
-            .attr('x', function (d) {
-                return 30 + xScale(d) + (xScale($p.dateAdd('d', 1, d)) - xScale(d)) / 2;
-            })
-            .attr('y', 40)
-            .text(function (d) {
-                return d.getDate();
-            });
-    }
+    d3.select('#GanttAxis')
+        .append('g')
+        .attr('class', 'title')
+        .selectAll('text')
+        .data(days.filter(function (d)
+        {
+            return days.length <= 90 || [5, 10, 15, 20, 25, 30].indexOf(d.getDate()) > -1;
+        }))
+        .enter()
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('x', function (d) {
+            return 30 + xScale(d) + (xScale($p.dateAdd('d', 1, d)) - xScale(d)) / 2;
+        })
+        .attr('y', 40)
+        .text(function (d) {
+            return d.getDate();
+        });
     var now = padding + xScale(justTime);
     var groupCount = json.filter(function (d) { return d.GroupSummary }).length === 0
         ? 0
