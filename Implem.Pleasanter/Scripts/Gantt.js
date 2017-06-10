@@ -233,7 +233,7 @@ $p.drawGantt = function () {
         })
         .append('title')
         .text(function (d) {
-            return d.StartTime + ' - ' + d.DisplayCompletionTime;
+            return d.StartTime + ' - ' + d.DisplayCompletionTime + ' : ' + d.Title;
         });
 
     function draw(day, css) {
