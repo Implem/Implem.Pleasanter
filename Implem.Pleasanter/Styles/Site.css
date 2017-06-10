@@ -529,6 +529,14 @@ pre{
     border-radius:20px;
 }
 
+#Gantt .saturday{
+    fill:#eeeeee;
+}
+
+#Gantt .sunday{
+    fill:#ffeeee;
+}
+
 #Gantt .date{
     stroke:white;
 }
@@ -596,6 +604,22 @@ pre{
 
 #GanttAxis text{
 
+}
+
+#GanttAxis .saturday{
+    fill:gainsboro;
+}
+
+#GanttAxis .sunday{
+    fill:#ffdddd;
+}
+
+#GanttAxis .weekday{
+    fill:whitesmoke;
+}
+
+#GanttAxis .date{
+    stroke:white;
 }
 
 #BurnDown{

@@ -22,6 +22,7 @@ $p.drawGantt = function () {
     }
     $gantt.show();
     var justTime = new Date();
+    var axis = d3.select('#GanttAxis');
     var svg = d3.select('#Gantt');
     var padding = 20;
     var width = parseInt(svg.style('width'));
@@ -42,8 +43,32 @@ $p.drawGantt = function () {
             months.push(d);
         }
     }
-    d3.select('#GanttAxis')
-        .append('g')
+    axis.append('g')
+        .selectAll('rect')
+        .data(days)
+        .enter()
+        .append('rect')
+        .attr('x', function (d) { return 30 + xScale(d) })
+        .attr('y', 25)
+        .attr('width', xScale(days[1]))
+        .attr('height', 20)
+        .attr('class', function (d) {
+            switch (d.getDay()) {
+                case 0: return 'sunday';
+                case 6: return 'saturday';
+                default: return 'weekday';
+            }
+        });
+    var currentDate = minDate;
+    while (currentDate <= maxDate) {
+        var axisLine = [[30 + xScale(currentDate), 25], [30 + xScale(currentDate), 45]];
+        var line = d3.svg.line()
+            .x(function (d) { return d[0]; })
+            .y(function (d) { return d[1]; });
+        axis.append('g').attr('class', 'date').append('path').attr('d', line(axisLine));
+        currentDate = $p.dateAdd('d', 1, currentDate);
+    }
+    axis.append('g')
         .attr('class', 'title')
         .selectAll('text')
         .data(months)
@@ -57,8 +82,7 @@ $p.drawGantt = function () {
         .text(function (d) {
             return d.getMonth() + 1;
         });
-    d3.select('#GanttAxis')
-        .append('g')
+    axis.append('g')
         .attr('class', 'title')
         .selectAll('text')
         .data(days.filter(function (d)
@@ -84,7 +108,29 @@ $p.drawGantt = function () {
         d.Y = padding + i * 25 + groupCount * 25;
     });
     $('#Gantt').css('height', d3.max(json, function (d) { return d.Y }) + 45);
-    var currentDate = minDate;
+    svg.append('g')
+        .selectAll('rect')
+        .data(days.filter(function (d) {
+            switch (d.getDay()) {
+                case 0: return true;
+                case 6: return true;
+                default: return false;
+            }
+        }))
+        .enter()
+        .append('rect')
+        .attr('x', function (d) { return padding + xScale(d) })
+        .attr('y', padding - 10)
+        .attr('width', xScale(days[1]))
+        .attr('height', (padding + d3.max(json, function (d) { return d.Y })))
+        .attr('class', function (d) {
+            switch (d.getDay()) {
+                case 0: return 'sunday';
+                case 6: return 'saturday';
+                default: return null;
+            }
+        });
+    currentDate = minDate;
     while (currentDate <= maxDate) {
         draw(padding + xScale(currentDate), 'date');
         currentDate = $p.dateAdd('d', 1, currentDate);
