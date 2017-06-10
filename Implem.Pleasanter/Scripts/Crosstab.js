@@ -1,5 +1,5 @@
 ﻿$p.moveCrosstab = function (type) {
-    $control = $('#CrosstabMonth');
+    var $control = $('#CrosstabMonth');
     $control.val($('#Crosstab' + type).val());
     $p.setData($control);
     $p.send($control);
