@@ -385,6 +385,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SeparateSettings(params string[] data) { return Get("SeparateSettings", data); }
         public static string Setting(params string[] data) { return Get("Setting", data); }
         public static string SetZeroWhenOutOfCondition(params string[] data) { return Get("SetZeroWhenOutOfCondition", data); }
+        public static string ShowProgressRate(params string[] data) { return Get("ShowProgressRate", data); }
         public static string SiteAccessControl(params string[] data) { return Get("SiteAccessControl", data); }
         public static string SiteId(params string[] data) { return Get("SiteId", data); }
         public static string SiteImageSettingsEditor(params string[] data) { return Get("SiteImageSettingsEditor", data); }

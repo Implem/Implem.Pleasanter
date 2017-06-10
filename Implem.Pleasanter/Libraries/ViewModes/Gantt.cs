@@ -40,11 +40,13 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     dataRow["UpdatedTime"].ToDateTime(),
                     status,
                     workValue,
-                    progressRate)));
-            AddSummary(dataRows, status, workValue, progressRate);
+                    progressRate,
+                    ss.ShowGanttProgressRate.ToBool())));
+            AddSummary(ss, dataRows, status, workValue, progressRate);
         }
 
         private void AddSummary(
+            SiteSettings ss,
             IEnumerable<DataRow> dataRows,
             Column status,
             Column workValue,
@@ -60,6 +62,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     {
                         groupCount++;
                         AddSummary(
+                            ss,
                             choice.Key,
                             choice.Value.Text,
                             status,
@@ -75,6 +78,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 {
                     groupCount++;
                     AddSummary(
+                        ss,
                         string.Empty,
                         string.Empty,
                         status,
@@ -86,6 +90,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         }
 
         private void AddSummary(
+            SiteSettings ss,
             string groupBy,
             string title,
             Column status,
@@ -122,6 +127,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 status,
                 workValue,
                 progressRate,
+                ss.ShowGanttProgressRate.ToBool(),
                 summary: true));
         }
 

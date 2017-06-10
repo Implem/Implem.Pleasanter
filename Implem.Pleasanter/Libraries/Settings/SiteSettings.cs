@@ -72,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
         public bool? EnableGantt;
+        public bool? ShowGanttProgressRate;
         public bool? EnableBurnDown;
         public bool? EnableTimeSeries;
         public bool? EnableKamban;
@@ -157,6 +158,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             EnableCalendar = EnableCalendar ?? true;
             EnableCrosstab = EnableCrosstab ?? true;
             EnableGantt = EnableGantt ?? true;
+            ShowGanttProgressRate = ShowGanttProgressRate ?? true;
             EnableBurnDown = EnableBurnDown ?? true;
             EnableTimeSeries = EnableTimeSeries ?? true;
             EnableKamban = EnableKamban ?? true;
@@ -320,6 +322,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (EnableGantt == false)
             {
                 ss.EnableGantt = EnableGantt;
+            }
+            if (ShowGanttProgressRate==false)
+            {
+                ss.ShowGanttProgressRate = ShowGanttProgressRate;
             }
             if (EnableBurnDown == false)
             {
@@ -1431,6 +1437,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
                 case "EnableGantt": EnableGantt = value.ToBool(); break;
+                case "ShowGanttProgressRate": ShowGanttProgressRate = value.ToBool(); break;
                 case "EnableBurnDown": EnableBurnDown = value.ToBool(); break;
                 case "EnableTimeSeries": EnableTimeSeries = value.ToBool(); break;
                 case "EnableKamban": EnableKamban = value.ToBool(); break;

@@ -36,19 +36,35 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             Column statusColumn,
             Column workValueColumn,
             Column progressRateColumn,
+            bool showProgressRate,
             bool? summary = null)
         {
             GroupBy = groupBy;
             SortBy = sortBy;
             Id = id;
-            Title = "{0} ({1}{2} * {3}{4}) {5} : {6}".Params(
-                title,
-                workValueColumn.Display(workValue),
-                workValueColumn.Unit,
-                progressRateColumn.Display(progressRate),
-                progressRateColumn.Unit,
-                SiteInfo.UserName(owner, notSet: false),
-                statusColumn.Choice(status.ToString()).Text);
+            var userNameText = SiteInfo.UserName(owner, notSet: false);
+            var statusText = statusColumn.Choice(status.ToString()).Text;
+            Title = showProgressRate
+                ? "{0} ({1}{2} * {3}{4}){5}{6}".Params(
+                    title,
+                    workValueColumn.Display(workValue),
+                    workValueColumn.Unit,
+                    progressRateColumn.Display(progressRate),
+                    progressRateColumn.Unit,
+                    !userNameText.IsNullOrEmpty()
+                        ? " " + SiteInfo.UserName(owner, notSet: false)
+                        : string.Empty,
+                    !statusText.IsNullOrEmpty()
+                        ? " : " + statusColumn.Choice(status.ToString()).Text
+                        : string.Empty)
+                : "{0}{1}{2}".Params(
+                    title,
+                    !userNameText.IsNullOrEmpty()
+                        ? " (" + SiteInfo.UserName(owner, notSet: false) + ")"
+                        : string.Empty,
+                    !statusText.IsNullOrEmpty()
+                        ? " : " + statusColumn.Choice(status.ToString()).Text
+                        : string.Empty);
             StartTime = startTime.InRange()
                 ? startTime.ToLocal(Displays.YmdFormat())
                 : createdTime.ToLocal(Displays.YmdFormat());

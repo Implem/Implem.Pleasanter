@@ -4173,7 +4173,12 @@ namespace Implem.Pleasanter.Models
                             controlId: "EnableGantt",
                             fieldCss: "field-auto-thin",
                             labelText: Displays.Enabled(),
-                            _checked: ss.EnableGantt == true))
+                            _checked: ss.EnableGantt == true)
+                        .FieldCheckBox(
+                            controlId: "ShowGanttProgressRate",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.ShowProgressRate(),
+                            _checked: ss.ShowGanttProgressRate == true))
                     : hb;
         }
 

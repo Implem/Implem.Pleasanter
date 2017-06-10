@@ -1128,6 +1128,7 @@
     <Content Include="App_Data\Displays\NumericColumn.json" />
     <Content Include="App_Data\Displays\StartDate.json" />
     <Content Include="App_Data\Displays\FirstDay.json" />
+    <Content Include="App_Data\Displays\ShowProgressRate.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
