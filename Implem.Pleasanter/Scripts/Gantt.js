@@ -216,7 +216,8 @@ $p.drawGantt = function () {
             var ret = d.ProgressRate < 100 &&
                 (padding + xScale(new Date(d.StartTime)) +
                 ((xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
-                * d.ProgressRate * 0.01)) < now
+                * d.ProgressRate * 0.01)) < now &&
+                ($('#ShowGanttProgressRate').val() === '1' || !d.Completed)
                     ? 'delay'
                     : '';
             return d.GroupSummary

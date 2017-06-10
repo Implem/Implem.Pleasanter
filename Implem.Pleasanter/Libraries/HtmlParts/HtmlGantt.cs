@@ -155,6 +155,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlId: "GanttToday",
                         value: DateTime.Today.ToLocal().ToString(
                             "d", Sessions.CultureInfo()))
+                    .Hidden(
+                        controlId: "ShowGanttProgressRate",
+                        value: ss.ShowGanttProgressRate.ToBool().ToOneOrZeroString())
                 : hb;
         }
     }
