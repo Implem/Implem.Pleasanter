@@ -54,7 +54,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Button(
                     text: Displays.ThisMonth(),
                     controlCss: "button-icon",
-                    accessKey: "n",
                     onClick: "$p.moveCalendar('ThisMonth');",
                     icon: "ui-icon-calendar")
                 .CalendarBody(
