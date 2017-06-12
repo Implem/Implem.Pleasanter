@@ -34,7 +34,7 @@ https://implem.co.jp/category/blog/
 ![default](https://user-images.githubusercontent.com/17098267/26914950-e92cf0a6-4c5e-11e7-8d71-9712e91b12fd.gif)
 
 * [ガントチャート](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：ガントチャート)
-![default](https://user-images.githubusercontent.com/17098267/26912845-0672efe2-4c52-11e7-906a-247d2b3bc13c.gif)
+![default](https://user-images.githubusercontent.com/17098267/27017681-49f03c82-4f65-11e7-9df9-97ae76780096.gif)
 
 * [バーンダウンチャート](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：バーンダウンチャート)
 ![default](https://user-images.githubusercontent.com/17098267/26912848-08ead8ca-4c52-11e7-8159-bb6d2184f84c.gif)
