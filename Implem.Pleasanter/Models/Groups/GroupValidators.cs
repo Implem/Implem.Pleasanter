@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnEntry(SiteSettings ss)
         {
             return
-                Sessions.UserSettings().DisableGroupAdmin != true &&
+                Sessions.UserSettings().DisableGroupAdmin != true ||
                 Permissions.CanManageTenant()
                     ? Error.Types.None
                     : Error.Types.HasNotPermission;
