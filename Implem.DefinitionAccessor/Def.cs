@@ -1874,6 +1874,8 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Crosstab_space__dot_crosstab_row": Css._sharp_Crosstab_space__dot_crosstab_row = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Crosstab_space__dot_crosstab_row, definitionRow, CssXls); break;
                     case "_sharp_CrosstabMonth": Css._sharp_CrosstabMonth = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CrosstabMonth, definitionRow, CssXls); break;
                     case "_sharp_Gantt": Css._sharp_Gantt = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt, definitionRow, CssXls); break;
+                    case "_sharp_Gantt_space__dot_saturday": Css._sharp_Gantt_space__dot_saturday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt_space__dot_saturday, definitionRow, CssXls); break;
+                    case "_sharp_Gantt_space__dot_sunday": Css._sharp_Gantt_space__dot_sunday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt_space__dot_sunday, definitionRow, CssXls); break;
                     case "_sharp_Gantt_space__dot_date": Css._sharp_Gantt_space__dot_date = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt_space__dot_date, definitionRow, CssXls); break;
                     case "_sharp_Gantt_space__dot_now": Css._sharp_Gantt_space__dot_now = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt_space__dot_now, definitionRow, CssXls); break;
                     case "_sharp_Gantt_space__dot_planned_space_rect": Css._sharp_Gantt_space__dot_planned_space_rect = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt_space__dot_planned_space_rect, definitionRow, CssXls); break;
@@ -1889,6 +1891,10 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_GanttStartDate": Css._sharp_GanttStartDate = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_GanttStartDate, definitionRow, CssXls); break;
                     case "_sharp_GanttAxis": Css._sharp_GanttAxis = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_GanttAxis, definitionRow, CssXls); break;
                     case "_sharp_GanttAxis_space_text": Css._sharp_GanttAxis_space_text = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_GanttAxis_space_text, definitionRow, CssXls); break;
+                    case "_sharp_GanttAxis_space__dot_saturday": Css._sharp_GanttAxis_space__dot_saturday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_GanttAxis_space__dot_saturday, definitionRow, CssXls); break;
+                    case "_sharp_GanttAxis_space__dot_sunday": Css._sharp_GanttAxis_space__dot_sunday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_GanttAxis_space__dot_sunday, definitionRow, CssXls); break;
+                    case "_sharp_GanttAxis_space__dot_weekday": Css._sharp_GanttAxis_space__dot_weekday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_GanttAxis_space__dot_weekday, definitionRow, CssXls); break;
+                    case "_sharp_GanttAxis_space__dot_date": Css._sharp_GanttAxis_space__dot_date = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_GanttAxis_space__dot_date, definitionRow, CssXls); break;
                     case "_sharp_BurnDown": Css._sharp_BurnDown = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BurnDown, definitionRow, CssXls); break;
                     case "_sharp_BurnDown_space__dot_now": Css._sharp_BurnDown_space__dot_now = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BurnDown_space__dot_now, definitionRow, CssXls); break;
                     case "_sharp_BurnDown_space__dot_total": Css._sharp_BurnDown_space__dot_total = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BurnDown_space__dot_total, definitionRow, CssXls); break;
@@ -3284,6 +3290,36 @@ namespace Implem.DefinitionAccessor
                     case "Template134": Template.Template134 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template134, definitionRow, TemplateXls); break;
                     case "Template135": Template.Template135 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template135, definitionRow, TemplateXls); break;
                     case "Template136": Template.Template136 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template136, definitionRow, TemplateXls); break;
+                    case "Template137": Template.Template137 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template137, definitionRow, TemplateXls); break;
+                    case "Template138": Template.Template138 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template138, definitionRow, TemplateXls); break;
+                    case "Template139": Template.Template139 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template139, definitionRow, TemplateXls); break;
+                    case "Template140": Template.Template140 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template140, definitionRow, TemplateXls); break;
+                    case "Template141": Template.Template141 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template141, definitionRow, TemplateXls); break;
+                    case "Template142": Template.Template142 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template142, definitionRow, TemplateXls); break;
+                    case "Template143": Template.Template143 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template143, definitionRow, TemplateXls); break;
+                    case "Template144": Template.Template144 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template144, definitionRow, TemplateXls); break;
+                    case "Template145": Template.Template145 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template145, definitionRow, TemplateXls); break;
+                    case "Template146": Template.Template146 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template146, definitionRow, TemplateXls); break;
+                    case "Template147": Template.Template147 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template147, definitionRow, TemplateXls); break;
+                    case "Template148": Template.Template148 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template148, definitionRow, TemplateXls); break;
+                    case "Template149": Template.Template149 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template149, definitionRow, TemplateXls); break;
+                    case "Template150": Template.Template150 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template150, definitionRow, TemplateXls); break;
+                    case "Template151": Template.Template151 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template151, definitionRow, TemplateXls); break;
+                    case "Template152": Template.Template152 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template152, definitionRow, TemplateXls); break;
+                    case "Template153": Template.Template153 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template153, definitionRow, TemplateXls); break;
+                    case "Template154": Template.Template154 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template154, definitionRow, TemplateXls); break;
+                    case "Template155": Template.Template155 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template155, definitionRow, TemplateXls); break;
+                    case "Template156": Template.Template156 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template156, definitionRow, TemplateXls); break;
+                    case "Template157": Template.Template157 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template157, definitionRow, TemplateXls); break;
+                    case "Template158": Template.Template158 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template158, definitionRow, TemplateXls); break;
+                    case "Template159": Template.Template159 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template159, definitionRow, TemplateXls); break;
+                    case "Template160": Template.Template160 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template160, definitionRow, TemplateXls); break;
+                    case "Template161": Template.Template161 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template161, definitionRow, TemplateXls); break;
+                    case "Template162": Template.Template162 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template162, definitionRow, TemplateXls); break;
+                    case "Template163": Template.Template163 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template163, definitionRow, TemplateXls); break;
+                    case "Template164": Template.Template164 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template164, definitionRow, TemplateXls); break;
+                    case "Template165": Template.Template165 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template165, definitionRow, TemplateXls); break;
+                    case "Template166": Template.Template166 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template166, definitionRow, TemplateXls); break;
                     default: break;
                 }
             });
@@ -3293,6 +3329,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Id")) { newTemplateDefinition.Id = definitionRow["Id"].ToString(); newTemplateDefinition.SavedId = newTemplateDefinition.Id; }
                 if (definitionRow.ContainsKey("SiteSettingsTemplate")) { newTemplateDefinition.SiteSettingsTemplate = definitionRow["SiteSettingsTemplate"].ToString(); newTemplateDefinition.SavedSiteSettingsTemplate = newTemplateDefinition.SiteSettingsTemplate; }
                 if (definitionRow.ContainsKey("Title")) { newTemplateDefinition.Title = definitionRow["Title"].ToString(); newTemplateDefinition.SavedTitle = newTemplateDefinition.Title; }
+                if (definitionRow.ContainsKey("Order")) { newTemplateDefinition.Order = definitionRow["Order"].ToInt(); newTemplateDefinition.SavedOrder = newTemplateDefinition.Order; }
                 if (definitionRow.ContainsKey("Standard")) { newTemplateDefinition.Standard = definitionRow["Standard"].ToBool(); newTemplateDefinition.SavedStandard = newTemplateDefinition.Standard; }
                 if (definitionRow.ContainsKey("Body")) { newTemplateDefinition.Body = definitionRow["Body"].ToString(); newTemplateDefinition.SavedBody = newTemplateDefinition.Body; }
                 if (definitionRow.ContainsKey("Tags")) { newTemplateDefinition.Tags = definitionRow["Tags"].ToString(); newTemplateDefinition.SavedTags = newTemplateDefinition.Tags; }
@@ -3305,6 +3342,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
             if (definitionRow.ContainsKey("SiteSettingsTemplate")) { definition.SiteSettingsTemplate = definitionRow["SiteSettingsTemplate"].ToString(); definition.SavedSiteSettingsTemplate = definition.SiteSettingsTemplate; }
             if (definitionRow.ContainsKey("Title")) { definition.Title = definitionRow["Title"].ToString(); definition.SavedTitle = definition.Title; }
+            if (definitionRow.ContainsKey("Order")) { definition.Order = definitionRow["Order"].ToInt(); definition.SavedOrder = definition.Order; }
             if (definitionRow.ContainsKey("Standard")) { definition.Standard = definitionRow["Standard"].ToBool(); definition.SavedStandard = definition.Standard; }
             if (definitionRow.ContainsKey("Body")) { definition.Body = definitionRow["Body"].ToString(); definition.SavedBody = definition.Body; }
             if (definitionRow.ContainsKey("Tags")) { definition.Tags = definitionRow["Tags"].ToString(); definition.SavedTags = definition.Tags; }
@@ -3844,6 +3882,7 @@ namespace Implem.DefinitionAccessor
                         case "Id": templateDefinition.Id = optionValue.ToString(); break;
                         case "SiteSettingsTemplate": templateDefinition.SiteSettingsTemplate = optionValue.ToString(); break;
                         case "Title": templateDefinition.Title = optionValue.ToString(); break;
+                        case "Order": templateDefinition.Order = optionValue.ToInt(); break;
                         case "Standard": templateDefinition.Standard = optionValue.ToBool(); break;
                         case "Body": templateDefinition.Body = optionValue.ToString(); break;
                         case "Tags": templateDefinition.Tags = optionValue.ToString(); break;
@@ -7257,6 +7296,8 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Crosstab_space__dot_crosstab_row;
         public string _sharp_CrosstabMonth;
         public string _sharp_Gantt;
+        public string _sharp_Gantt_space__dot_saturday;
+        public string _sharp_Gantt_space__dot_sunday;
         public string _sharp_Gantt_space__dot_date;
         public string _sharp_Gantt_space__dot_now;
         public string _sharp_Gantt_space__dot_planned_space_rect;
@@ -7272,6 +7313,10 @@ namespace Implem.DefinitionAccessor
         public string _sharp_GanttStartDate;
         public string _sharp_GanttAxis;
         public string _sharp_GanttAxis_space_text;
+        public string _sharp_GanttAxis_space__dot_saturday;
+        public string _sharp_GanttAxis_space__dot_sunday;
+        public string _sharp_GanttAxis_space__dot_weekday;
+        public string _sharp_GanttAxis_space__dot_date;
         public string _sharp_BurnDown;
         public string _sharp_BurnDown_space__dot_now;
         public string _sharp_BurnDown_space__dot_total;
@@ -7668,6 +7713,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Crosstab_space__dot_crosstab_row = new CssDefinition();
         public CssDefinition _sharp_CrosstabMonth = new CssDefinition();
         public CssDefinition _sharp_Gantt = new CssDefinition();
+        public CssDefinition _sharp_Gantt_space__dot_saturday = new CssDefinition();
+        public CssDefinition _sharp_Gantt_space__dot_sunday = new CssDefinition();
         public CssDefinition _sharp_Gantt_space__dot_date = new CssDefinition();
         public CssDefinition _sharp_Gantt_space__dot_now = new CssDefinition();
         public CssDefinition _sharp_Gantt_space__dot_planned_space_rect = new CssDefinition();
@@ -7683,6 +7730,10 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_GanttStartDate = new CssDefinition();
         public CssDefinition _sharp_GanttAxis = new CssDefinition();
         public CssDefinition _sharp_GanttAxis_space_text = new CssDefinition();
+        public CssDefinition _sharp_GanttAxis_space__dot_saturday = new CssDefinition();
+        public CssDefinition _sharp_GanttAxis_space__dot_sunday = new CssDefinition();
+        public CssDefinition _sharp_GanttAxis_space__dot_weekday = new CssDefinition();
+        public CssDefinition _sharp_GanttAxis_space__dot_date = new CssDefinition();
         public CssDefinition _sharp_BurnDown = new CssDefinition();
         public CssDefinition _sharp_BurnDown_space__dot_now = new CssDefinition();
         public CssDefinition _sharp_BurnDown_space__dot_total = new CssDefinition();
@@ -9527,6 +9578,7 @@ namespace Implem.DefinitionAccessor
         public string Id; public string SavedId;
         public string SiteSettingsTemplate; public string SavedSiteSettingsTemplate;
         public string Title; public string SavedTitle;
+        public int Order; public int SavedOrder;
         public bool Standard; public bool SavedStandard;
         public string Body; public string SavedBody;
         public string Tags; public string SavedTags;
@@ -9540,6 +9592,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
             if (propertyCollection.ContainsKey("SiteSettingsTemplate")) SiteSettingsTemplate = propertyCollection["SiteSettingsTemplate"].ToString(); else SiteSettingsTemplate = string.Empty;
             if (propertyCollection.ContainsKey("Title")) Title = propertyCollection["Title"].ToString(); else Title = string.Empty;
+            if (propertyCollection.ContainsKey("Order")) Order = propertyCollection["Order"].ToInt(); else Order = 0;
             if (propertyCollection.ContainsKey("Standard")) Standard = propertyCollection["Standard"].ToBool(); else Standard = false;
             if (propertyCollection.ContainsKey("Body")) Body = propertyCollection["Body"].ToString(); else Body = string.Empty;
             if (propertyCollection.ContainsKey("Tags")) Tags = propertyCollection["Tags"].ToString(); else Tags = string.Empty;
@@ -9553,6 +9606,7 @@ namespace Implem.DefinitionAccessor
                     case "Id": return Id;
                     case "SiteSettingsTemplate": return SiteSettingsTemplate;
                     case "Title": return Title;
+                    case "Order": return Order;
                     case "Standard": return Standard;
                     case "Body": return Body;
                     case "Tags": return Tags;
@@ -9566,6 +9620,7 @@ namespace Implem.DefinitionAccessor
             Id = SavedId;
             SiteSettingsTemplate = SavedSiteSettingsTemplate;
             Title = SavedTitle;
+            Order = SavedOrder;
             Standard = SavedStandard;
             Body = SavedBody;
             Tags = SavedTags;
@@ -9710,6 +9765,36 @@ namespace Implem.DefinitionAccessor
         public string Template134;
         public string Template135;
         public string Template136;
+        public string Template137;
+        public string Template138;
+        public string Template139;
+        public string Template140;
+        public string Template141;
+        public string Template142;
+        public string Template143;
+        public string Template144;
+        public string Template145;
+        public string Template146;
+        public string Template147;
+        public string Template148;
+        public string Template149;
+        public string Template150;
+        public string Template151;
+        public string Template152;
+        public string Template153;
+        public string Template154;
+        public string Template155;
+        public string Template156;
+        public string Template157;
+        public string Template158;
+        public string Template159;
+        public string Template160;
+        public string Template161;
+        public string Template162;
+        public string Template163;
+        public string Template164;
+        public string Template165;
+        public string Template166;
     }
 
     public class TemplateTable
@@ -9850,6 +9935,36 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template134 = new TemplateDefinition();
         public TemplateDefinition Template135 = new TemplateDefinition();
         public TemplateDefinition Template136 = new TemplateDefinition();
+        public TemplateDefinition Template137 = new TemplateDefinition();
+        public TemplateDefinition Template138 = new TemplateDefinition();
+        public TemplateDefinition Template139 = new TemplateDefinition();
+        public TemplateDefinition Template140 = new TemplateDefinition();
+        public TemplateDefinition Template141 = new TemplateDefinition();
+        public TemplateDefinition Template142 = new TemplateDefinition();
+        public TemplateDefinition Template143 = new TemplateDefinition();
+        public TemplateDefinition Template144 = new TemplateDefinition();
+        public TemplateDefinition Template145 = new TemplateDefinition();
+        public TemplateDefinition Template146 = new TemplateDefinition();
+        public TemplateDefinition Template147 = new TemplateDefinition();
+        public TemplateDefinition Template148 = new TemplateDefinition();
+        public TemplateDefinition Template149 = new TemplateDefinition();
+        public TemplateDefinition Template150 = new TemplateDefinition();
+        public TemplateDefinition Template151 = new TemplateDefinition();
+        public TemplateDefinition Template152 = new TemplateDefinition();
+        public TemplateDefinition Template153 = new TemplateDefinition();
+        public TemplateDefinition Template154 = new TemplateDefinition();
+        public TemplateDefinition Template155 = new TemplateDefinition();
+        public TemplateDefinition Template156 = new TemplateDefinition();
+        public TemplateDefinition Template157 = new TemplateDefinition();
+        public TemplateDefinition Template158 = new TemplateDefinition();
+        public TemplateDefinition Template159 = new TemplateDefinition();
+        public TemplateDefinition Template160 = new TemplateDefinition();
+        public TemplateDefinition Template161 = new TemplateDefinition();
+        public TemplateDefinition Template162 = new TemplateDefinition();
+        public TemplateDefinition Template163 = new TemplateDefinition();
+        public TemplateDefinition Template164 = new TemplateDefinition();
+        public TemplateDefinition Template165 = new TemplateDefinition();
+        public TemplateDefinition Template166 = new TemplateDefinition();
     }
 
     public class ViewModeDefinition
