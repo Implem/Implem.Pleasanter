@@ -1089,6 +1089,7 @@ namespace Implem.Pleasanter.Models
                 verType: issueModel.VerType,
                 methodType: issueModel.MethodType,
                 siteId: issueModel.SiteId,
+                parentId: ss.ParentId,
                 referenceType: "Issues",
                 title: issueModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.New()

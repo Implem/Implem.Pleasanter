@@ -149,6 +149,7 @@ namespace Implem.Pleasanter.Models
                 verType: wikiModel.VerType,
                 methodType: wikiModel.MethodType,
                 siteId: wikiModel.SiteId,
+                parentId: ss.ParentId,
                 referenceType: "Wikis",
                 title: wikiModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.New()

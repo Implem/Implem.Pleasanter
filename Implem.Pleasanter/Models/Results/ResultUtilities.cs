@@ -1064,6 +1064,7 @@ namespace Implem.Pleasanter.Models
                 verType: resultModel.VerType,
                 methodType: resultModel.MethodType,
                 siteId: resultModel.SiteId,
+                parentId: ss.ParentId,
                 referenceType: "Results",
                 title: resultModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.New()
