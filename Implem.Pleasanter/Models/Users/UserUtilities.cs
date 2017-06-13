@@ -520,7 +520,7 @@ namespace Implem.Pleasanter.Models
                                 attributes: new HtmlAttributes()
                                     .Id("FieldSetHistories")
                                     .DataAction("Histories")
-                                    .DataMethod("get"),
+                                    .DataMethod("post"),
                                 _using: userModel.MethodType != BaseModel.MethodTypes.New)
                             .MainCommands(
                                 ss: ss,

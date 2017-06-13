@@ -140,7 +140,7 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        [HttpGet]
+        [HttpPost]
         public string Histories(int id)
         {
             var log = new SysLogModel();
