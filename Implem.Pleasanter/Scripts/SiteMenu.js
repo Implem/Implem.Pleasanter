@@ -28,6 +28,7 @@ $p.openTemplateDialog = function ($control) {
             width: '370px',
             appendTo: '#Application'
         });
+        $('#SiteTitleField,#CreateByTemplates').toggle(false);
     }
 }
 
@@ -44,8 +45,12 @@ $p.setTemplates = function () {
         },
         stop: function () {
             var $control = $(this);
-            $('#SiteTitle').val($control.find('li.ui-selected').text());
+            var $title = $('#SiteTitle');
+            var $selected = $control.find('li.ui-selected');
+            $title.val($selected.text());
+            $('#SiteTitleField,#CreateByTemplates').toggle($selected.length === 1);
             $p.setData($control);
+            $title.focus();
         }
     });
 }

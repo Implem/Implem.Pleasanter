@@ -54,6 +54,7 @@ namespace Implem.Pleasanter.Models
                             method: "post")
                         .Templates()
                         .FieldTextBox(
+                            fieldId: "SiteTitleField",
                             controlId: "SiteTitle",
                             controlCss: " always-send",
                             labelText: Displays.Title(),
@@ -61,6 +62,7 @@ namespace Implem.Pleasanter.Models
                         .P(css: "message-dialog")
                         .Div(css: "command-center", action: () => hb
                             .Button(
+                                controlId: "CreateByTemplates",
                                 text: Displays.Create(),
                                 controlCss: "button-icon validate",
                                 onClick: "$p.send($(this));",
