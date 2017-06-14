@@ -1,7 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Pleasanter.Libraries.DataSources;
-using System.Linq;
 namespace Implem.Pleasanter.Libraries.Initializers
 {
     public class TemplatesInitializer
@@ -10,13 +9,21 @@ namespace Implem.Pleasanter.Libraries.Initializers
         {
             Def.SqlIoByAdmin(statements: new SqlStatement(commandText: Def.Sql.TruncateTemplate))
                 .ExecuteNonQuery();
-            Def.TemplateDefinitionCollection.OrderBy(o => o.Order).ForEach(templateDefinition =>
-                Rds.ExecuteNonQuery(statements: Rds.InsertTemplates(param: Rds.TemplatesParam()
-                    .Title(templateDefinition.Title)
-                    .Standard(templateDefinition.Standard)
-                    .Body(templateDefinition.Body)
-                    .Tags(templateDefinition.Tags)
-                    .SiteSettingsTemplate(templateDefinition.SiteSettingsTemplate))));
+            Def.TemplateDefinitionCollection.ForEach(templateDefinition =>
+                Rds.ExecuteNonQuery(
+                    connectionString: Parameters.Rds.OwnerConnectionString,
+                    statements: new SqlStatement[]
+                {
+                    Rds.IdentityInsertTemplates(on: true),
+                    Rds.InsertTemplates(param: Rds.TemplatesParam()
+                        .TemplateId(templateDefinition.Order)
+                        .Title(templateDefinition.Title)
+                        .Standard(templateDefinition.Standard)
+                        .Body(templateDefinition.Body)
+                        .Tags(templateDefinition.Tags)
+                        .SiteSettingsTemplate(templateDefinition.SiteSettingsTemplate)),
+                    Rds.IdentityInsertTemplates(on: false)
+                }));
         }
     }
 }
