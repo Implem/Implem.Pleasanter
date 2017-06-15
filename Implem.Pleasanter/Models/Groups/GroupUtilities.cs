@@ -298,6 +298,7 @@ namespace Implem.Pleasanter.Models
             new List<string> { "GroupId", "Creator", "Updator" }
                 .Concat(ss.GridColumns)
                 .Concat(ss.IncludedColumns())
+                .Concat(ss.GetUseSearchLinks().Select(o => o.ColumnName))
                 .Concat(ss.TitleColumns)
                     .Distinct().ForEach(column =>
                         sqlColumnCollection.GroupsColumn(column));

@@ -1678,7 +1678,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Links?
                 .Where(o =>
                     (GridColumns.Contains(o.ColumnName) && !titleOnly) ||
-                    TitleColumns.Contains(o.ColumnName))
+                    TitleColumns.Contains(o.ColumnName) ||
+                    Aggregations.Any(p => p.GroupBy == o.ColumnName))
                 .Where(o => GetColumn(o.ColumnName).UseSearch == true)
                 .ToList();
         }

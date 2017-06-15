@@ -53,6 +53,21 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return HtmlTemplates.Error(invalid);
             }
+            var links = ss.GetUseSearchLinks();
+            links?.ForEach(link =>
+                ss.SetChoiceHash(
+                    columnName: link.ColumnName,
+                    selectedValues: resultCollection
+                        .Select(o => o.PropertyValue(link.ColumnName))
+                        .Distinct()));
+            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            {
+                resultCollection.ForEach(resultModel =>
+                    resultModel.Title = new Title(
+                        ss,
+                        resultModel.ResultId,
+                        resultModel.PropertyValues(ss.TitleColumns)));
+            }
             ss.SetColumnAccessControls();
             return hb.Template(
                 ss: ss,
@@ -210,21 +225,6 @@ namespace Implem.Pleasanter.Models
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
             var columns = ss.GetGridColumns(checkPermission: true);
-            var links = ss.GetUseSearchLinks();
-            links?.ForEach(link =>
-                ss.SetChoiceHash(
-                    columnName: link.ColumnName,
-                    selectedValues: resultCollection
-                        .Select(o => o.PropertyValue(link.ColumnName))
-                        .Distinct()));
-            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
-            {
-                resultCollection.ForEach(resultModel =>
-                    resultModel.Title = new Title(
-                        ss,
-                        resultModel.ResultId,
-                        resultModel.PropertyValues(ss.TitleColumns)));
-            }
             return hb
                 .THead(
                     _using: addHeader,
@@ -261,6 +261,7 @@ namespace Implem.Pleasanter.Models
             new List<string> { "SiteId", "ResultId", "Creator", "Updator" }
                 .Concat(ss.GridColumns)
                 .Concat(ss.IncludedColumns())
+                .Concat(ss.GetUseSearchLinks().Select(o => o.ColumnName))
                 .Concat(ss.TitleColumns)
                     .Distinct().ForEach(column =>
                         sqlColumnCollection.ResultsColumn(column));

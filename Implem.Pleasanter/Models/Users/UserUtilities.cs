@@ -286,6 +286,7 @@ namespace Implem.Pleasanter.Models
             new List<string> { "UserId", "Creator", "Updator" }
                 .Concat(ss.GridColumns)
                 .Concat(ss.IncludedColumns())
+                .Concat(ss.GetUseSearchLinks().Select(o => o.ColumnName))
                 .Concat(ss.TitleColumns)
                     .Distinct().ForEach(column =>
                         sqlColumnCollection.UsersColumn(column));
