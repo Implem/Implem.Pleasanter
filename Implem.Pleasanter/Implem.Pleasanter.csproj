@@ -251,7 +251,6 @@
     <Compile Include="Libraries\HtmlParts\HtmlCrosstab.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
-    <Compile Include="Libraries\Initializers\TemplatesInitializer.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_011.cs" />
     <Compile Include="Libraries\Migrators\StatusesMigrator.cs" />
     <Compile Include="Libraries\Migrators\Statuses\Version00_037_010.cs" />
@@ -470,10 +469,7 @@
     <Compile Include="Models\SysLogs\SysLogModel.cs" />
     <Compile Include="Models\SysLogs\SysLogUtilities.cs" />
     <Compile Include="Models\SysLogs\SysLogValidators.cs" />
-    <Compile Include="Models\Templates\TemplateCollection.cs" />
-    <Compile Include="Models\Templates\TemplateModel.cs" />
-    <Compile Include="Models\Templates\TemplateUtilities.cs" />
-    <Compile Include="Models\Templates\TemplateValidators.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlSiteTemplates.cs" />
     <Compile Include="Models\Tenants\TenantCollection.cs" />
     <Compile Include="Models\Tenants\TenantModel.cs" />
     <Compile Include="Models\Tenants\TenantUtilities.cs" />

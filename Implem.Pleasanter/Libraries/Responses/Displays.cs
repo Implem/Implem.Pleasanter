@@ -493,12 +493,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Demos_MailAddress(params string[] data) { return Get("Demos_MailAddress", data); }
         public static string Demos_Initialized(params string[] data) { return Get("Demos_Initialized", data); }
         public static string Demos_TimeLag(params string[] data) { return Get("Demos_TimeLag", data); }
-        public static string Templates_TemplateId(params string[] data) { return Get("Templates_TemplateId", data); }
-        public static string Templates_Title(params string[] data) { return Get("Templates_Title", data); }
-        public static string Templates_Standard(params string[] data) { return Get("Templates_Standard", data); }
-        public static string Templates_Body(params string[] data) { return Get("Templates_Body", data); }
-        public static string Templates_Tags(params string[] data) { return Get("Templates_Tags", data); }
-        public static string Templates_SiteSettingsTemplate(params string[] data) { return Get("Templates_SiteSettingsTemplate", data); }
         public static string SysLogs_CreatedTime(params string[] data) { return Get("SysLogs_CreatedTime", data); }
         public static string SysLogs_SysLogId(params string[] data) { return Get("SysLogs_SysLogId", data); }
         public static string SysLogs_StartTime(params string[] data) { return Get("SysLogs_StartTime", data); }
@@ -981,14 +975,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Demos_UpdatedTime(params string[] data) { return Get("Demos_UpdatedTime", data); }
         public static string Demos_VerUp(params string[] data) { return Get("Demos_VerUp", data); }
         public static string Demos_Timestamp(params string[] data) { return Get("Demos_Timestamp", data); }
-        public static string Templates_Ver(params string[] data) { return Get("Templates_Ver", data); }
-        public static string Templates_Comments(params string[] data) { return Get("Templates_Comments", data); }
-        public static string Templates_Creator(params string[] data) { return Get("Templates_Creator", data); }
-        public static string Templates_Updator(params string[] data) { return Get("Templates_Updator", data); }
-        public static string Templates_CreatedTime(params string[] data) { return Get("Templates_CreatedTime", data); }
-        public static string Templates_UpdatedTime(params string[] data) { return Get("Templates_UpdatedTime", data); }
-        public static string Templates_VerUp(params string[] data) { return Get("Templates_VerUp", data); }
-        public static string Templates_Timestamp(params string[] data) { return Get("Templates_Timestamp", data); }
         public static string SysLogs_Ver(params string[] data) { return Get("SysLogs_Ver", data); }
         public static string SysLogs_Comments(params string[] data) { return Get("SysLogs_Comments", data); }
         public static string SysLogs_Creator(params string[] data) { return Get("SysLogs_Creator", data); }
@@ -1170,7 +1156,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Wikis_Timestamp(params string[] data) { return Get("Wikis_Timestamp", data); }
         public static string Tenants(params string[] data) { return Get("Tenants", data); }
         public static string Demos(params string[] data) { return Get("Demos", data); }
-        public static string Templates(params string[] data) { return Get("Templates", data); }
         public static string SysLogs(params string[] data) { return Get("SysLogs", data); }
         public static string Statuses(params string[] data) { return Get("Statuses", data); }
         public static string Healths(params string[] data) { return Get("Healths", data); }

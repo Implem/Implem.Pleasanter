@@ -20,22 +20,16 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
-    public static class TemplateUtilities
+    public static class HtmlSiteTemplates
     {
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static HtmlBuilder TemplateDialog(this HtmlBuilder hb)
         {
             return hb.Div(attributes: new HtmlAttributes()
                 .Id("TemplateDialog")
                 .Class("dialog")
-                .Title(Displays.Templates()));
+                .Title(Displays.Template()));
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static string OpenTemplateDialog(long id)
         {
             var hb = new HtmlBuilder();
@@ -76,9 +70,6 @@ namespace Implem.Pleasanter.Models
                                 icon: "ui-icon-cancel"))))).ToJson();
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static string Templates(long id)
         {
             return new ResponseCollection()
@@ -87,9 +78,6 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private static HtmlBuilder Templates(this HtmlBuilder hb)
         {
             return hb.FieldSelectable(
@@ -102,40 +90,26 @@ namespace Implem.Pleasanter.Models
                 listItemCollection: Templates());
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private static Dictionary<string, ControlData> Templates()
         {
             var searchText = Forms.Data("TemplateSearchText");
-            var where = !searchText.IsNullOrEmpty()
-                ? Rds.TemplatesWhere().SqlWhereLike(
-                    searchText,
-                    Rds.Templates_Title_WhereLike(),
-                    Rds.Templates_Body_WhereLike(),
-                    Rds.Templates_Tags_WhereLike())
-                : null;
-            return Rds.ExecuteTable(statements: Rds.SelectTemplates(
-                column: Rds.TemplatesColumn()
-                    .TemplateId()
-                    .Title()
-                    .Standard()
-                    .SiteSettingsTemplate(),
-                where: where))
-                    .AsEnumerable()
-                    .ToDictionary(
-                        o => o["TemplateId"].ToString(),
-                        o => new ControlData(Title(o)));
+            return Def.TemplateDefinitionCollection
+                .Where(o =>
+                    searchText.IsNullOrEmpty() || 
+                    o.Title.Contains(searchText) ||
+                    o.Body.Contains(searchText) ||
+                    o.Tags.Contains(searchText))
+                .OrderBy(o => o.Order)
+                .ToDictionary(
+                    o => o.Order.ToString(),
+                    o => new ControlData(Title(o)));
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static string Title(DataRow dataRow)
+        private static string Title(TemplateDefinition templateDefinition)
         {
-            return dataRow["Standard"].ToBool()
-                ? "(" + Displays.Standard() + ") " + dataRow["Title"].ToString()
-                : dataRow["Title"].ToString();
+            return templateDefinition.Standard
+                ? "(" + Displays.Standard() + ") " + templateDefinition.Title
+                : templateDefinition.Title;
         }
     }
 }

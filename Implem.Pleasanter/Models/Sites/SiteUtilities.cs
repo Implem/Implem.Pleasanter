@@ -406,14 +406,9 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.SelectTargets.MessageJson();
             }
-            var dataRow = Rds.ExecuteTable(statements: Rds.SelectTemplates(
-                column: Rds.TemplatesColumn()
-                    .SiteSettingsTemplate()
-                    .Body(),
-                where: Rds.TemplatesWhere().TemplateId(selected)))
-                    .AsEnumerable()
-                    .FirstOrDefault();
-            if (dataRow == null)
+            var templateDefinition = Def.TemplateDefinitionCollection
+                .FirstOrDefault(o => o.Order == selected);
+            if (templateDefinition == null)
             {
                 return Error.Types.NotFound.MessageJson();
             }
@@ -421,7 +416,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.SitesLimit.MessageJson();
             }
-            var templateSs = dataRow["SiteSettingsTemplate"].ToString()
+            var templateSs = templateDefinition.SiteSettingsTemplate
                 .Deserialize<SiteSettings>();
             if (templateSs != null)
             {
@@ -431,7 +426,7 @@ namespace Implem.Pleasanter.Models
                     ParentId = siteModel.SiteId,
                     InheritPermission = siteModel.InheritPermission,
                     Title = new Title(Forms.Data("SiteTitle")),
-                    Body = dataRow["Body"].ToString(),
+                    Body = templateDefinition.Body,
                     SiteSettings = templateSs
                 }.Create(paramAll: true);
             }

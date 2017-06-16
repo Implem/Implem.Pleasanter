@@ -446,7 +446,7 @@ namespace Implem.Pleasanter.Controllers
         public string OpenTemplateDialog(long id)
         {
             var log = new SysLogModel();
-            var json = TemplateUtilities.OpenTemplateDialog(id);
+            var json = HtmlSiteTemplates.OpenTemplateDialog(id);
             log.Finish(json.Length);
             return json;
         }
@@ -455,7 +455,7 @@ namespace Implem.Pleasanter.Controllers
         public string Templates(long id)
         {
             var log = new SysLogModel();
-            var json = TemplateUtilities.Templates(id);
+            var json = HtmlSiteTemplates.Templates(id);
             log.Finish(json.Length);
             return json;
         }
