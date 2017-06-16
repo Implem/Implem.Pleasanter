@@ -519,6 +519,14 @@ pre{
     border-bottom:dotted 1px silver;
 }
 
+#Crosstab .saturday{
+    background-color:#eeeeee;
+}
+
+#Crosstab .sunday{
+    background-color:#ffeeee;
+}
+
 #CrosstabMonth{
     margin-right:10px;
 }

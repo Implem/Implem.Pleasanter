@@ -220,6 +220,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             choicesY: choicesY,
                             aggregateType: aggregateType,
                             value: ss.GetColumn(value),
+                            daily: Daily(xColumn, timePeriod),
                             columns: null,
                             data: data));
         }
@@ -266,8 +267,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             choicesY: choicesY,
                             aggregateType: aggregateType,
                             value: ss.GetColumn(value),
+                            daily: Daily(xColumn, timePeriod),
                             columns: columnList,
                             data: data));
+        }
+
+        private static bool Daily(Column xColumn, string timePeriod)
+        {
+            return xColumn?.TypeName == "datetime" && timePeriod == "Daily";
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
@@ -349,6 +356,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> choicesY,
             string aggregateType,
             Column value,
+            bool daily,
             IEnumerable<string> columns,
             IEnumerable<CrosstabElement> data)
         {
@@ -402,7 +410,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 choicesX.ForEach(choiceX => hb
                                     .Td(ss: ss,
                                         aggregateType: aggregateType,
+                                        daily: daily,
                                         value: column,
+                                        x: choiceX.Key,
                                         max: max,
                                         data: data.FirstOrDefault(o =>
                                             o.GroupByX == choiceX.Key &&
@@ -418,10 +428,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             Column value,
             string aggregateType,
+            bool daily,
+            string x,
             decimal max,
             decimal data)
         {
-            return hb.Td(action: () => hb
+            return hb.Td(css: DayOfWeekCss(daily, x), action: () => hb
                 .Text(text: value?.Display(
                     data, unit: aggregateType != "Count", format: aggregateType != "Count") ??
                         data.ToString())
@@ -433,6 +445,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ? (data / max * 100).ToString("0.0") + "%"
                             : "0",
                         height: "20px")));
+        }
+
+        private static string DayOfWeekCss(bool daily, string x)
+        {
+            if (daily)
+            {
+                switch (x.ToDateTime().DayOfWeek)
+                {
+                    case DayOfWeek.Saturday: return "saturday";
+                    case DayOfWeek.Sunday: return "sunday";
+                }
+            }
+            return null;
         }
 
         private static HtmlBuilder HeaderText(
