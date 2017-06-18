@@ -330,8 +330,8 @@ namespace Implem.Pleasanter.Models
             UserCount = dataTable.Tables["UserCount"].Rows[0][0].ToInt();
             ItemCount = dataTable.Tables["ItemCount"].Rows[0][0].ToInt();
             ErrorCount = dataTable.Tables["ErrorCount"].Rows[0][0].ToInt();
-            Create();
             Elapsed = (DateTime.Now - now).Milliseconds;
+            Create();
         }
     }
 }
