@@ -161,15 +161,13 @@ namespace Implem.Pleasanter.Models
                 userStyle: wikiModel.MethodType == BaseModel.MethodTypes.New
                     ? ss.NewStyle
                     : ss.EditStyle,
-                action: () =>
-                {
-                    hb
-                        .Editor(
-                            ss: ss,
-                            wikiModel: wikiModel)
-                        .Hidden(controlId: "TableName", value: "Wikis")
-                        .Hidden(controlId: "Id", value: wikiModel.WikiId.ToString());
-                }).ToString();
+                action: () => hb
+                    .Editor(
+                        ss: ss,
+                        wikiModel: wikiModel)
+                    .Hidden(controlId: "TableName", value: "Wikis")
+                    .Hidden(controlId: "Id", value: wikiModel.WikiId.ToString()))
+                        .ToString();
         }
 
         /// <summary>

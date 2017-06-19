@@ -1077,15 +1077,13 @@ namespace Implem.Pleasanter.Models
                 userStyle: resultModel.MethodType == BaseModel.MethodTypes.New
                     ? ss.NewStyle
                     : ss.EditStyle,
-                action: () =>
-                {
-                    hb
-                        .Editor(
-                            ss: ss,
-                            resultModel: resultModel)
-                        .Hidden(controlId: "TableName", value: "Results")
-                        .Hidden(controlId: "Id", value: resultModel.ResultId.ToString());
-                }).ToString();
+                action: () => hb
+                    .Editor(
+                        ss: ss,
+                        resultModel: resultModel)
+                    .Hidden(controlId: "TableName", value: "Results")
+                    .Hidden(controlId: "Id", value: resultModel.ResultId.ToString()))
+                        .ToString();
         }
 
         private static HtmlBuilder Editor(
