@@ -317,7 +317,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string ToDefault(this string self, SiteSettings ss, Column column)
         {
-            if (IsLinked(ss, column))
+            if (column.Linked(ss, Forms.Long("FromSiteId")))
             {
                 var id = Forms.Data("LinkId");
                 if (column.UseSearch == true)
@@ -348,15 +348,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 }
             }
             return self;
-        }
-
-        private static bool IsLinked(SiteSettings ss, Column column)
-        {
-            var fromSiteId = Forms.Long("FromSiteId");
-            return
-                fromSiteId != 0 &&
-                ss.Links.Any(o =>
-                    o.ColumnName == column.ColumnName && o.SiteId == fromSiteId);
         }
 
         private static ControlTypes ControlType(Column column)

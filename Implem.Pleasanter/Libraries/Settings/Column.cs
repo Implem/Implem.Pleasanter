@@ -236,6 +236,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public bool Linked(SiteSettings ss, long fromSiteId)
+        {
+            return
+                fromSiteId != 0 &&
+                ss.Links.Any(o =>
+                    o.ColumnName == ColumnName && o.SiteId == fromSiteId);
+        }
+
         private void AddToChoiceHash(string value, string text)
         {
             if (!ChoiceHash.Keys.Contains(value))
