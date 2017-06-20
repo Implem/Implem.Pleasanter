@@ -1152,6 +1152,16 @@ namespace Implem.Pleasanter.Models
                                         ss: ss)))
                         .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
                         .Hidden(
+                            controlId: "FromSiteId",
+                            css: "control-hidden",
+                            value: Forms.Data("FromSiteId"),
+                            _using: Forms.Long("FromSiteId") > 0)
+                        .Hidden(
+                            controlId: "LinkId",
+                            css: "control-hidden",
+                            value: Forms.Data("LinkId"),
+                            _using: Forms.Long("LinkId") > 0)
+                        .Hidden(
                             controlId: "MethodType",
                             value: resultModel.MethodType.ToString().ToLower())
                         .Hidden(
@@ -2541,6 +2551,11 @@ namespace Implem.Pleasanter.Models
             {
                 return error.MessageJson();
             }
+            else if (Linked(ss, resultModel))
+            {
+                return LinkUtilities.LinkSourceResponse(
+                    Forms.Long("FromSiteId"), Forms.Long("LinkId"));
+            }
             else
             {
                 return EditorResponse(
@@ -2551,6 +2566,15 @@ namespace Implem.Pleasanter.Models
                         ss, resultModel.ResultId, resultModel.SiteId).Join())
                             .ToJson();
             }
+        }
+
+        private static bool Linked(SiteSettings ss, ResultModel resultModel)
+        {
+            var siteId = Forms.Long("FromSiteId");
+            return
+                siteId > 0 &&
+                resultModel.PropertyValue(ss.Links.FirstOrDefault(o =>
+                    o.SiteId == siteId)?.ColumnName) == Forms.Data("LinkId");
         }
 
         public static string Update(SiteSettings ss, long resultId)
