@@ -2648,6 +2648,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                ss = SiteSettingsUtilities.Get(ss.SiteId, issueModel.IssueId);
                 return EditorResponse(
                     ss,
                     issueModel,
