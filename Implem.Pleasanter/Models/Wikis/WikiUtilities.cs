@@ -343,7 +343,6 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            var siteModel = new SiteModel(wikiModel.SiteId);
             wikiModel.MethodType = BaseModel.MethodTypes.Edit;
             return new WikisResponseCollection(wikiModel)
                 .Invoke("clearDialogs")

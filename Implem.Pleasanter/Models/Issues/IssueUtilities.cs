@@ -2434,7 +2434,6 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            var siteModel = new SiteModel(issueModel.SiteId);
             issueModel.MethodType = BaseModel.MethodTypes.Edit;
             return new IssuesResponseCollection(issueModel)
                 .Invoke("clearDialogs")
