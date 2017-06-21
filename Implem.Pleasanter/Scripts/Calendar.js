@@ -1,5 +1,5 @@
 ﻿$p.moveCalendar = function (type) {
-    $control = $('#CalendarMonth');
+    var $control = $('#CalendarMonth');
     $control.val($('#Calendar' + type).val());
     $p.setData($control);
     $p.send($control);
