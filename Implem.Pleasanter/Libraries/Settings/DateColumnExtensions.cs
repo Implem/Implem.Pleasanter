@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 case "CompletionTime": diff = 1; break;
             }
-            if (column.Nullable)
+            if (!column.Required)
             {
                 hash.Add("\t", new ControlData(Displays.NotSet()));
             }

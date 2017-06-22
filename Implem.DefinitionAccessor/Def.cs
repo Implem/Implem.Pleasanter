@@ -476,6 +476,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Create": Code.Model_Utilities_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams": Code.Model_Utilities_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams_Sites": Code.Model_Utilities_CreateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ReturnLinkSourceResponse": Code.Model_Utilities_ReturnLinkSourceResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ReturnLinkSourceResponse, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Linked": Code.Model_Utilities_Linked = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Linked, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse": Code.Model_Utilities_CreatedResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse_Items": Code.Model_Utilities_CreatedResponse_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse_Sites": Code.Model_Utilities_CreatedResponse_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Sites, definitionRow, CodeXls); break;
@@ -533,6 +535,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_ItemTitle": Code.Model_Utilities_ItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ItemTitle, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetItemTitle_TableCases": Code.Model_Utilities_SetItemTitle_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetItemTitle_TableCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetItemTitle": Code.Model_Utilities_SetItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetItemTitle, definitionRow, CodeXls); break;
+                    case "Model_Utilities_LinkSourceResponse": Code.Model_Utilities_LinkSourceResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_LinkSourceResponse, definitionRow, CodeXls); break;
+                    case "Model_Utilities_LinkSourceResponse_TableCases": Code.Model_Utilities_LinkSourceResponse_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_LinkSourceResponse_TableCases, definitionRow, CodeXls); break;
                     case "Model_Validator": Code.Model_Validator = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods": Code.Model_ValidatorMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods, definitionRow, CodeXls); break;
                     case "Model_Validator_OnMoving": Code.Model_Validator_OnMoving = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnMoving, definitionRow, CodeXls); break;
@@ -1597,6 +1601,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("JoinExpression")) { newColumnDefinition.JoinExpression = definitionRow["JoinExpression"].ToString(); newColumnDefinition.SavedJoinExpression = newColumnDefinition.JoinExpression; }
                 if (definitionRow.ContainsKey("Like")) { newColumnDefinition.Like = definitionRow["Like"].ToBool(); newColumnDefinition.SavedLike = newColumnDefinition.Like; }
                 if (definitionRow.ContainsKey("WhereSpecial")) { newColumnDefinition.WhereSpecial = definitionRow["WhereSpecial"].ToBool(); newColumnDefinition.SavedWhereSpecial = newColumnDefinition.WhereSpecial; }
+                if (definitionRow.ContainsKey("Required")) { newColumnDefinition.Required = definitionRow["Required"].ToBool(); newColumnDefinition.SavedRequired = newColumnDefinition.Required; }
                 if (definitionRow.ContainsKey("ReadAccessControl")) { newColumnDefinition.ReadAccessControl = definitionRow["ReadAccessControl"].ToString(); newColumnDefinition.SavedReadAccessControl = newColumnDefinition.ReadAccessControl; }
                 if (definitionRow.ContainsKey("CreateAccessControl")) { newColumnDefinition.CreateAccessControl = definitionRow["CreateAccessControl"].ToString(); newColumnDefinition.SavedCreateAccessControl = newColumnDefinition.CreateAccessControl; }
                 if (definitionRow.ContainsKey("UpdateAccessControl")) { newColumnDefinition.UpdateAccessControl = definitionRow["UpdateAccessControl"].ToString(); newColumnDefinition.SavedUpdateAccessControl = newColumnDefinition.UpdateAccessControl; }
@@ -1708,6 +1713,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("JoinExpression")) { definition.JoinExpression = definitionRow["JoinExpression"].ToString(); definition.SavedJoinExpression = definition.JoinExpression; }
             if (definitionRow.ContainsKey("Like")) { definition.Like = definitionRow["Like"].ToBool(); definition.SavedLike = definition.Like; }
             if (definitionRow.ContainsKey("WhereSpecial")) { definition.WhereSpecial = definitionRow["WhereSpecial"].ToBool(); definition.SavedWhereSpecial = definition.WhereSpecial; }
+            if (definitionRow.ContainsKey("Required")) { definition.Required = definitionRow["Required"].ToBool(); definition.SavedRequired = definition.Required; }
             if (definitionRow.ContainsKey("ReadAccessControl")) { definition.ReadAccessControl = definitionRow["ReadAccessControl"].ToString(); definition.SavedReadAccessControl = definition.ReadAccessControl; }
             if (definitionRow.ContainsKey("CreateAccessControl")) { definition.CreateAccessControl = definitionRow["CreateAccessControl"].ToString(); definition.SavedCreateAccessControl = definition.CreateAccessControl; }
             if (definitionRow.ContainsKey("UpdateAccessControl")) { definition.UpdateAccessControl = definitionRow["UpdateAccessControl"].ToString(); definition.SavedUpdateAccessControl = definition.UpdateAccessControl; }
@@ -1858,6 +1864,8 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_CalendarBody_space__dot_today": Css._sharp_CalendarBody_space__dot_today = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_today, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_item": Css._sharp_CalendarBody_space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item, definitionRow, CssXls); break;
                     case "_sharp_Crosstab_space__dot_crosstab_row": Css._sharp_Crosstab_space__dot_crosstab_row = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Crosstab_space__dot_crosstab_row, definitionRow, CssXls); break;
+                    case "_sharp_Crosstab_space__dot_saturday": Css._sharp_Crosstab_space__dot_saturday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Crosstab_space__dot_saturday, definitionRow, CssXls); break;
+                    case "_sharp_Crosstab_space__dot_sunday": Css._sharp_Crosstab_space__dot_sunday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Crosstab_space__dot_sunday, definitionRow, CssXls); break;
                     case "_sharp_CrosstabMonth": Css._sharp_CrosstabMonth = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CrosstabMonth, definitionRow, CssXls); break;
                     case "_sharp_Gantt": Css._sharp_Gantt = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt, definitionRow, CssXls); break;
                     case "_sharp_Gantt_space__dot_saturday": Css._sharp_Gantt_space__dot_saturday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Gantt_space__dot_saturday, definitionRow, CssXls); break;
@@ -3306,6 +3314,18 @@ namespace Implem.DefinitionAccessor
                     case "Template164": Template.Template164 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template164, definitionRow, TemplateXls); break;
                     case "Template165": Template.Template165 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template165, definitionRow, TemplateXls); break;
                     case "Template166": Template.Template166 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template166, definitionRow, TemplateXls); break;
+                    case "Template167": Template.Template167 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template167, definitionRow, TemplateXls); break;
+                    case "Template168": Template.Template168 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template168, definitionRow, TemplateXls); break;
+                    case "Template169": Template.Template169 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template169, definitionRow, TemplateXls); break;
+                    case "Template170": Template.Template170 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template170, definitionRow, TemplateXls); break;
+                    case "Template171": Template.Template171 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template171, definitionRow, TemplateXls); break;
+                    case "Template172": Template.Template172 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template172, definitionRow, TemplateXls); break;
+                    case "Template173": Template.Template173 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template173, definitionRow, TemplateXls); break;
+                    case "Template174": Template.Template174 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template174, definitionRow, TemplateXls); break;
+                    case "Template175": Template.Template175 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template175, definitionRow, TemplateXls); break;
+                    case "Template176": Template.Template176 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template176, definitionRow, TemplateXls); break;
+                    case "Template177": Template.Template177 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template177, definitionRow, TemplateXls); break;
+                    case "Template178": Template.Template178 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template178, definitionRow, TemplateXls); break;
                     default: break;
                 }
             });
@@ -3550,6 +3570,7 @@ namespace Implem.DefinitionAccessor
                         case "JoinExpression": columnDefinition.JoinExpression = optionValue.ToString(); break;
                         case "Like": columnDefinition.Like = optionValue.ToBool(); break;
                         case "WhereSpecial": columnDefinition.WhereSpecial = optionValue.ToBool(); break;
+                        case "Required": columnDefinition.Required = optionValue.ToBool(); break;
                         case "ReadAccessControl": columnDefinition.ReadAccessControl = optionValue.ToString(); break;
                         case "CreateAccessControl": columnDefinition.CreateAccessControl = optionValue.ToString(); break;
                         case "UpdateAccessControl": columnDefinition.UpdateAccessControl = optionValue.ToString(); break;
@@ -4457,6 +4478,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Create;
         public string Model_Utilities_CreateParams;
         public string Model_Utilities_CreateParams_Sites;
+        public string Model_Utilities_ReturnLinkSourceResponse;
+        public string Model_Utilities_Linked;
         public string Model_Utilities_CreatedResponse;
         public string Model_Utilities_CreatedResponse_Items;
         public string Model_Utilities_CreatedResponse_Sites;
@@ -4514,6 +4537,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_ItemTitle;
         public string Model_Utilities_SetItemTitle_TableCases;
         public string Model_Utilities_SetItemTitle;
+        public string Model_Utilities_LinkSourceResponse;
+        public string Model_Utilities_LinkSourceResponse_TableCases;
         public string Model_Validator;
         public string Model_ValidatorMethods;
         public string Model_Validator_OnMoving;
@@ -4903,6 +4928,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Create = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ReturnLinkSourceResponse = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Linked = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse_Sites = new CodeDefinition();
@@ -4960,6 +4987,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_ItemTitle = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetItemTitle_TableCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetItemTitle = new CodeDefinition();
+        public CodeDefinition Model_Utilities_LinkSourceResponse = new CodeDefinition();
+        public CodeDefinition Model_Utilities_LinkSourceResponse_TableCases = new CodeDefinition();
         public CodeDefinition Model_Validator = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods = new CodeDefinition();
         public CodeDefinition Model_Validator_OnMoving = new CodeDefinition();
@@ -5156,6 +5185,7 @@ namespace Implem.DefinitionAccessor
         public string JoinExpression; public string SavedJoinExpression;
         public bool Like; public bool SavedLike;
         public bool WhereSpecial; public bool SavedWhereSpecial;
+        public bool Required; public bool SavedRequired;
         public string ReadAccessControl; public string SavedReadAccessControl;
         public string CreateAccessControl; public string SavedCreateAccessControl;
         public string UpdateAccessControl; public string SavedUpdateAccessControl;
@@ -5268,6 +5298,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("JoinExpression")) JoinExpression = propertyCollection["JoinExpression"].ToString(); else JoinExpression = string.Empty;
             if (propertyCollection.ContainsKey("Like")) Like = propertyCollection["Like"].ToBool(); else Like = false;
             if (propertyCollection.ContainsKey("WhereSpecial")) WhereSpecial = propertyCollection["WhereSpecial"].ToBool(); else WhereSpecial = false;
+            if (propertyCollection.ContainsKey("Required")) Required = propertyCollection["Required"].ToBool(); else Required = false;
             if (propertyCollection.ContainsKey("ReadAccessControl")) ReadAccessControl = propertyCollection["ReadAccessControl"].ToString(); else ReadAccessControl = string.Empty;
             if (propertyCollection.ContainsKey("CreateAccessControl")) CreateAccessControl = propertyCollection["CreateAccessControl"].ToString(); else CreateAccessControl = string.Empty;
             if (propertyCollection.ContainsKey("UpdateAccessControl")) UpdateAccessControl = propertyCollection["UpdateAccessControl"].ToString(); else UpdateAccessControl = string.Empty;
@@ -5380,6 +5411,7 @@ namespace Implem.DefinitionAccessor
                     case "JoinExpression": return JoinExpression;
                     case "Like": return Like;
                     case "WhereSpecial": return WhereSpecial;
+                    case "Required": return Required;
                     case "ReadAccessControl": return ReadAccessControl;
                     case "CreateAccessControl": return CreateAccessControl;
                     case "UpdateAccessControl": return UpdateAccessControl;
@@ -5492,6 +5524,7 @@ namespace Implem.DefinitionAccessor
             JoinExpression = SavedJoinExpression;
             Like = SavedLike;
             WhereSpecial = SavedWhereSpecial;
+            Required = SavedRequired;
             ReadAccessControl = SavedReadAccessControl;
             CreateAccessControl = SavedCreateAccessControl;
             UpdateAccessControl = SavedUpdateAccessControl;
@@ -7252,6 +7285,8 @@ namespace Implem.DefinitionAccessor
         public string _sharp_CalendarBody_space__dot_today;
         public string _sharp_CalendarBody_space__dot_item;
         public string _sharp_Crosstab_space__dot_crosstab_row;
+        public string _sharp_Crosstab_space__dot_saturday;
+        public string _sharp_Crosstab_space__dot_sunday;
         public string _sharp_CrosstabMonth;
         public string _sharp_Gantt;
         public string _sharp_Gantt_space__dot_saturday;
@@ -7669,6 +7704,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_CalendarBody_space__dot_today = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_item = new CssDefinition();
         public CssDefinition _sharp_Crosstab_space__dot_crosstab_row = new CssDefinition();
+        public CssDefinition _sharp_Crosstab_space__dot_saturday = new CssDefinition();
+        public CssDefinition _sharp_Crosstab_space__dot_sunday = new CssDefinition();
         public CssDefinition _sharp_CrosstabMonth = new CssDefinition();
         public CssDefinition _sharp_Gantt = new CssDefinition();
         public CssDefinition _sharp_Gantt_space__dot_saturday = new CssDefinition();
@@ -9753,6 +9790,18 @@ namespace Implem.DefinitionAccessor
         public string Template164;
         public string Template165;
         public string Template166;
+        public string Template167;
+        public string Template168;
+        public string Template169;
+        public string Template170;
+        public string Template171;
+        public string Template172;
+        public string Template173;
+        public string Template174;
+        public string Template175;
+        public string Template176;
+        public string Template177;
+        public string Template178;
     }
 
     public class TemplateTable
@@ -9923,6 +9972,18 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template164 = new TemplateDefinition();
         public TemplateDefinition Template165 = new TemplateDefinition();
         public TemplateDefinition Template166 = new TemplateDefinition();
+        public TemplateDefinition Template167 = new TemplateDefinition();
+        public TemplateDefinition Template168 = new TemplateDefinition();
+        public TemplateDefinition Template169 = new TemplateDefinition();
+        public TemplateDefinition Template170 = new TemplateDefinition();
+        public TemplateDefinition Template171 = new TemplateDefinition();
+        public TemplateDefinition Template172 = new TemplateDefinition();
+        public TemplateDefinition Template173 = new TemplateDefinition();
+        public TemplateDefinition Template174 = new TemplateDefinition();
+        public TemplateDefinition Template175 = new TemplateDefinition();
+        public TemplateDefinition Template176 = new TemplateDefinition();
+        public TemplateDefinition Template177 = new TemplateDefinition();
+        public TemplateDefinition Template178 = new TemplateDefinition();
     }
 
     public class ViewModeDefinition

@@ -2222,7 +2222,7 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ValidateRequired",
                                         labelText: Displays.Required(),
                                         _checked: column.ValidateRequired ?? false,
-                                        disabled: !column.Nullable,
+                                        disabled: column.Required,
                                         _using: !column.Id_Ver);
                                 break;
                         }
@@ -2231,7 +2231,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "EditorReadOnly",
                         labelText: Displays.ReadOnly(),
                         _checked: column.EditorReadOnly.ToBool(),
-                        _using: column.Nullable);
+                        _using: !column.Required);
                     if (column.TypeName == "datetime")
                     {
                         hb

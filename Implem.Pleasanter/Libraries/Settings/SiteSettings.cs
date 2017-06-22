@@ -897,7 +897,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.DateFilterQuarter = column.DateFilterQuarter ?? true;
                 column.DateFilterMonth = column.DateFilterMonth ?? true;
                 column.Size = columnDefinition.Size;
-                column.Nullable = columnDefinition.Nullable;
+                column.Required = columnDefinition.Required;
                 column.RecordedTime = columnDefinition.Default == "now";
                 column.NotSelect = columnDefinition.NotSelect;
                 column.NotUpdate = columnDefinition.NotUpdate;
@@ -934,7 +934,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void Update_CreateColumnAccessControls(IEnumerable<Column> columns)
         {
             var columnAccessControls = columns
-                .Where(o => o.Nullable)
+                .Where(o => !o.Required)
                 .Select(column => new ColumnAccessControl(this, column, "Create"))
                 .ToList();
             CreateColumnAccessControls?.ForEach(o =>
@@ -1107,7 +1107,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public IEnumerable<Column> SelectColumns()
         {
             return Columns.Where(o =>
-                !o.Nullable.ToBool() ||
+                o.Required ||
                 EditorColumns.Contains(o.ColumnName) ||
                 EditorColumns.Contains(o.ColumnName));
         }

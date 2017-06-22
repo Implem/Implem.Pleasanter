@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string Size;
         [NonSerialized]
-        public bool Nullable;
+        public bool Required;
         [NonSerialized]
         public bool RecordedTime;
         [NonSerialized]
@@ -286,7 +286,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             text: choice.Text,
                             css: choice.CssClass,
                             style: choice.Style)));
-            if (addNotSet && Nullable)
+            if (addNotSet && !Required)
             {
                 hash.Add("\t", new ControlData(Displays.NotSet()));
             }
@@ -295,7 +295,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private bool CanEmpty()
         {
-            return Nullable && ValidateRequired != true;
+            return !Required && ValidateRequired != true;
         }
 
         public Choice Choice(string selectedValue)

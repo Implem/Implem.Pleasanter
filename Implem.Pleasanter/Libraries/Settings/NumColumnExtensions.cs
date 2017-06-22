@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var max = column.NumFilterMax;
             var step = column.NumFilterStep;
             var data = new Dictionary<string, ControlData>();
-            if (column.Nullable)
+            if (!column.Required)
             {
                 data.Add("\t", new ControlData(Displays.NotSet()));
             }

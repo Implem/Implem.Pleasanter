@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string value,
             Dictionary<string, ControlData> optionCollection)
         {
-            var required = !column.Nullable || (column.ValidateRequired ?? false);
+            var required = column.Required || (column.ValidateRequired ?? false);
             switch (columnPermissionType)
             {
                 case Permissions.ColumnPermissionTypes.Read:

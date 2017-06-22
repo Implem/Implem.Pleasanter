@@ -1068,11 +1068,11 @@ namespace Implem.Pleasanter.Models
             var selectedColumns = Forms.List("EditorColumns");
             var selectedSourceColumns = Forms.List("EditorSourceColumns");
             if (controlId == "ToDisableEditorColumns" &&
-                selectedColumns.Any(o => !SiteSettings.EditorColumn(o).Nullable))
+                selectedColumns.Any(o => SiteSettings.EditorColumn(o).Required))
             {
                 res.Message(Messages.CanNotDisabled(
                     SiteSettings.EditorColumn(selectedColumns.FirstOrDefault(o =>
-                        !SiteSettings.EditorColumn(o).Nullable)).LabelText));
+                        SiteSettings.EditorColumn(o).Required)).LabelText));
             }
             else
             {
