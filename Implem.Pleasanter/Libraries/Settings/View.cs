@@ -242,7 +242,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         GanttPeriod = Forms.Int(controlId);
                         break;
                     case "GanttStartDate":
-                        GanttStartDate = Time(controlId);
+                        GanttStartDate = Time(controlId).ToDateTime().ToUniversal();
                         break;
                     case "TimeSeriesGroupBy":
                         TimeSeriesGroupBy = String(controlId);

@@ -135,21 +135,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: new Gantt(ss, dataRows, groupBy, sortBy).Json())
                     .Hidden(
                         controlId: "GanttMinDate",
-                        value: startDate.ToString())
+                        value: startDate.ToLocal().ToString(
+                            "d", Sessions.CultureInfo()))
                     .Hidden(
                         controlId: "GanttMaxDate",
-                        value: startDate.AddDays(period).ToString())
+                        value: startDate.AddDays(period).ToLocal().ToString(
+                            "d", Sessions.CultureInfo()))
                     .Hidden(
                         controlId: "GanttPrevious",
-                        value: startDate.ToLocal().AddDays(-7).ToString(
+                        value: startDate.AddDays(-7).ToLocal().ToString(
                             "d", Sessions.CultureInfo()))
                     .Hidden(
                         controlId: "GanttNext",
-                        value: startDate.ToLocal().AddDays(7).ToString(
+                        value: startDate.AddDays(7).ToLocal().ToString(
                             "d", Sessions.CultureInfo()))
                     .Hidden(
                         controlId: "GanttFirstDay",
-                        value: range.Min.ToString(
+                        value: range.Min.ToLocal().ToString(
                             "d", Sessions.CultureInfo()))
                     .Hidden(
                         controlId: "GanttToday",
