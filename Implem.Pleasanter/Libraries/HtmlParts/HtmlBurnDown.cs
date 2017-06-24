@@ -276,7 +276,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string unit)
         {
             return hb.A(
-                href: Locations.ItemEdit(element.Id) + "?back=1",
+                href: Locations.ItemEdit(element.Id),
                 text: "{0}{1} * {2}% = {3}{1} : {4} - {5}".Params(
                     progressRateColumn.Display(element.WorkValue),
                     unit,

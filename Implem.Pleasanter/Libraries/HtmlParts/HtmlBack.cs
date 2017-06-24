@@ -75,9 +75,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 case "edit":
                                     return QueryStrings.Int("back") == 1 && !referer.IsNullOrEmpty()
                                         ? referer
-                                        : Locations.ItemIndex(siteId);
+                                        : Locations.Get(
+                                            "Items",
+                                            siteId.ToString(),
+                                            Requests.ViewModes.GetBySession(siteId));
                                 default:
-                                    return Locations.ItemIndex(parentId);
+                                    return Locations.Get(
+                                        "Items",
+                                        siteId.ToString(),
+                                        Requests.ViewModes.GetBySession(siteId));
                             }
                     }
             }

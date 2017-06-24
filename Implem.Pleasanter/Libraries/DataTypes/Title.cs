@@ -159,7 +159,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     break;
                 case "index":
                     hb.A(
-                        href: Locations.ItemEdit(Id) + "?back=1",
+                        href: Locations.ItemEdit(Id),
                         text: DisplayValue);
                     break;
                 default:
