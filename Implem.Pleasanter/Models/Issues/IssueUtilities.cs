@@ -2814,7 +2814,8 @@ namespace Implem.Pleasanter.Models
                 var res = new IssuesResponseCollection(issueModel);
                 res
                     .SetMemory("formChanged", false)
-                    .Href(Locations.ItemIndex(issueModel.SiteId));
+                    .Href(Locations.Get(
+                        "Items", ss.SiteId.ToString(), ViewModes.GetBySession(ss.SiteId)));
                 return res.ToJson();
             }
         }
