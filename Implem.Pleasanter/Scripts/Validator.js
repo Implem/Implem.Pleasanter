@@ -11,7 +11,7 @@
             $('.control-markdown.error').each(function () {
                 $p.toggleEditor($(this), true);
             });
-            $control = $('#' + $(this).attr('aria-controls')).find('.error:first');
+            var $control = $('#' + $(this).attr('aria-controls')).find('.error:first');
             if ($control.length === 1) {
                 $(this).closest('.ui-tabs').tabs('option', 'active', $(this).index());
                 $control.focus();
