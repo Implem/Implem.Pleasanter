@@ -4290,6 +4290,20 @@ namespace Implem.Pleasanter.Models
             var inRangeY =
                 groupByY == "Columns" ||
                 Libraries.ViewModes.CrosstabUtilities.InRangeY(dataRows);
+            if (!inRangeX)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyColumnCases(
+                        Parameters.General.CrosstabXLimit.ToString()).Html);
+            }
+            else if (!inRangeY)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyColumnCases(
+                        Parameters.General.CrosstabYLimit.ToString()).Html);
+            }
             return hb.ViewModeTemplate(
                 ss: ss,
                 resultCollection: resultCollection,
@@ -4387,9 +4401,11 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         aggregations: resultCollection.Aggregations))
                     .ClearFormData()
-                    .Message(Messages.TooManyCases(!inRangeX
-                        ? Parameters.General.CrosstabXLimit.ToString()
-                        : Parameters.General.CrosstabYLimit.ToString()))
+                    .Message(!inRangeX
+                        ? Messages.TooManyColumnCases(
+                            Parameters.General.CrosstabXLimit.ToString())
+                        : Messages.TooManyRowCases(
+                            Parameters.General.CrosstabYLimit.ToString()))
                     .ToJson();
         }
 

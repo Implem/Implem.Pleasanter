@@ -50,6 +50,8 @@ namespace Implem.Pleasanter.Libraries.General
             SelectTargets,
             SitesLimit,
             TooManyCases,
+            TooManyColumnCases,
+            TooManyRowCases,
             UpdateConflicts,
             UsersLimit
         }
@@ -149,6 +151,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.SitesLimit(data);
                 case Types.TooManyCases:
                     return Messages.TooManyCases(data);
+                case Types.TooManyColumnCases:
+                    return Messages.TooManyColumnCases(data);
+                case Types.TooManyRowCases:
+                    return Messages.TooManyRowCases(data);
                 case Types.UpdateConflicts:
                     return Messages.UpdateConflicts(data);
                 case Types.UsersLimit:

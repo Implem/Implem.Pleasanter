@@ -1,0 +1,13 @@
+﻿{
+    "Id": "TooManyColumnCases",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "There are too many column cases. Please narrow down to within {0} cases."
+        },
+        {
+            "Language": "ja",
+            "Body": "列の項目が多すぎます。{0} 件以内に絞り込んで下さい。"
+        }
+    ]
+}

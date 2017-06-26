@@ -388,6 +388,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.TooManyCases(data), "alert-error");
         }
 
+        public static Message TooManyColumnCases(params string[] data)
+        {
+            return Get(Displays.TooManyColumnCases(data), "alert-error");
+        }
+
+        public static Message TooManyRowCases(params string[] data)
+        {
+            return Get(Displays.TooManyRowCases(data), "alert-error");
+        }
+
         public static Message UpdateConflicts(params string[] data)
         {
             return Get(Displays.UpdateConflicts(data), "alert-error");
@@ -771,6 +781,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseTooManyCases(params string[] data)
         {
             return ResponseMessage(TooManyCases(data));
+        }
+
+        public static ResponseCollection ResponseTooManyColumnCases(params string[] data)
+        {
+            return ResponseMessage(TooManyColumnCases(data));
+        }
+
+        public static ResponseCollection ResponseTooManyRowCases(params string[] data)
+        {
+            return ResponseMessage(TooManyRowCases(data));
         }
 
         public static ResponseCollection ResponseUpdateConflicts(params string[] data)

@@ -427,6 +427,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ToEnable(params string[] data) { return Get("ToEnable", data); }
         public static string Token(params string[] data) { return Get("Token", data); }
         public static string TooManyCases(params string[] data) { return Get("TooManyCases", data); }
+        public static string TooManyColumnCases(params string[] data) { return Get("TooManyColumnCases", data); }
+        public static string TooManyRowCases(params string[] data) { return Get("TooManyRowCases", data); }
         public static string Top(params string[] data) { return Get("Top", data); }
         public static string ToParent(params string[] data) { return Get("ToParent", data); }
         public static string Total(params string[] data) { return Get("Total", data); }
