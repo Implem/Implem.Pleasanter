@@ -140,6 +140,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("Paging", target) : this;
         }
 
+        public ResponseCollection Toggle(string name, bool value, bool _using = true)
+        {
+            return _using ? Add("Toggle", name, value.ToOneOrZeroString()) : this;
+        }
+
         public ResponseCollection Trigger(string name, string _event, bool _using = true)
         {
             return _using ? Add("Trigger", name, _event) : this;

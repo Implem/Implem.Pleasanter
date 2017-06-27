@@ -94,6 +94,9 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
         case 'Paging':
             $p.paging(target);
             break;
+        case 'Toggle':
+            $(target).toggle(value === '1');
+            break;
         case 'Trigger':
             $(target).trigger(value);
             break;
