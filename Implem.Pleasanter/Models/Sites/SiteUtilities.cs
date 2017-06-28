@@ -131,7 +131,7 @@ namespace Implem.Pleasanter.Models
         }
 
         private static HtmlBuilder ReferenceType(
-            this HtmlBuilder hb, string selectedValue, BaseModel.MethodTypes methodType)
+            this HtmlBuilder hb, string referenceType, BaseModel.MethodTypes methodType)
         {
             return methodType == BaseModel.MethodTypes.New
                 ? hb.Select(
@@ -141,14 +141,26 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .OptionCollection(optionCollection: new Dictionary<string, ControlData>
                         {
-                            { "Sites", new ControlData(Displays.Sites()) },
-                            { "Issues", new ControlData(Displays.Issues()) },
-                            { "Results", new ControlData(Displays.Results()) },
-                            { "Wikis", new ControlData(Displays.Wikis()) }
+                            { "Sites", new ControlData(ReferenceTypeDisplayName("Sites")) },
+                            { "Issues", new ControlData(ReferenceTypeDisplayName("Issues")) },
+                            { "Results", new ControlData(ReferenceTypeDisplayName("Results")) },
+                            { "Wikis", new ControlData(ReferenceTypeDisplayName("Wikis")) }
                         },
-                        selectedValue: selectedValue))
+                        selectedValue: referenceType))
                 : hb.Span(css: "control-text", action: () => hb
-                    .Text(text: Displays.Get(selectedValue)));
+                    .Text(text: ReferenceTypeDisplayName(referenceType)));
+        }
+
+        private static string ReferenceTypeDisplayName(string referenceType)
+        {
+            switch (referenceType)
+            {
+                case "Sites": return Displays.Folder();
+                case "Issues": return Displays.Get("Issues");
+                case "Results": return Displays.Get("Results");
+                case "Wikis": return Displays.Get("Wikis");
+                default: return null;
+            }
         }
 
         public static string Create(long parentId, long inheritPermission)
@@ -1950,7 +1962,7 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Sites_ReferenceType(),
                         controlAction: () => hb
                             .ReferenceType(
-                                selectedValue: siteModel.ReferenceType,
+                                referenceType: siteModel.ReferenceType,
                                 methodType: siteModel.MethodType))
                     .VerUpCheckBox(siteModel);
             });

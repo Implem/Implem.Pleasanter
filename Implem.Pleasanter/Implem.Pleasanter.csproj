@@ -1148,6 +1148,7 @@
     <Content Include="App_Data\Displays\Menu.json" />
     <Content Include="App_Data\Displays\SamplesDisplayed.json" />
     <Content Include="App_Data\Displays\SelectTemplate.json" />
+    <Content Include="App_Data\Displays\Folder.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
