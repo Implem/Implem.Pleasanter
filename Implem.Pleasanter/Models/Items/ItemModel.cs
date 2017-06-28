@@ -301,7 +301,6 @@ namespace Implem.Pleasanter.Models
             SetSite(siteOnly: true, initSiteSettings: true);
             switch (Site.ReferenceType)
             {
-                case "Sites": return SiteUtilities.EditorNew(Site.SiteSettings);
                 case "Issues": return IssueUtilities.EditorNew(Site.SiteSettings);
                 case "Results": return ResultUtilities.EditorNew(Site.SiteSettings);
                 case "Wikis": return WikiUtilities.EditorNew(Site.SiteSettings);
@@ -470,12 +469,32 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public string CreateByTemplates()
+        public string Templates()
         {
             SetSite();
             switch (Site.ReferenceType)
             {
-                case "Sites": return SiteUtilities.CreateByTemplates(siteModel: Site);
+                case "Sites": return SiteUtilities.Templates(siteModel: Site);
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
+        public string CreateByTemplate()
+        {
+            SetSite();
+            switch (Site.ReferenceType)
+            {
+                case "Sites": return SiteUtilities.CreateByTemplate(siteModel: Site);
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
+        public string SiteMenu()
+        {
+            SetSite();
+            switch (Site.ReferenceType)
+            {
+                case "Sites": return SiteUtilities.SiteMenuJson(siteModel: Site);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "Basic",
+    "Id": "Classification",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Basic"
+            "Body": "Classification"
         },
         {
             "Language": "ja",
-            "Body": "基本"
+            "Body": "分類マスタ"
         }
     ]
 }

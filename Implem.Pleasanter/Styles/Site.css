@@ -814,6 +814,11 @@ pre{
     border-radius:5px;
 }
 
+#TemplateTabsContainer{
+    width:100%;
+    float:left;
+}
+
 #Editor{
     width:100%;
     float:left;
@@ -1005,6 +1010,49 @@ pre{
 #Versions span{
     margin:10px;
     line-height:30px;
+}
+
+.template{
+    width:100%;
+    display:block;
+    float:left;
+}
+
+.template-selectable{
+    width:340px;
+    display:block;
+    float:left;
+}
+
+.template-viewer-container{
+    width:100%;
+    display:block;
+    float:right;
+    margin:0px 0px 0px -340px;
+}
+
+.template-viewer{
+    margin:0px 0px 0px 340px;
+}
+
+.template-viewer .description{
+    margin:10px 0px 8px 0px;
+    padding:5px;
+    background-color:#fefedd;
+    border:solid 1px silver;
+    border-radius:5px;
+}
+
+.template-viewer .samples-displayed{
+    margin:0px 0px 8px 0px;
+    padding:5px;
+    background-color:whitesmoke;
+    border:solid 1px silver;
+    border-radius:5px;
+}
+
+.template-tab-container{
+    min-height:600px;
 }
 
 .main-form{

@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "Basic",
+    "Id": "Project",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Basic"
+            "Body": "Project"
         },
         {
             "Language": "ja",
-            "Body": "基本"
+            "Body": "プロジェクト"
         }
     ]
 }

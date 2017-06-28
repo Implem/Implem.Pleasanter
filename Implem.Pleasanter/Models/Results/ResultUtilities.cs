@@ -1189,7 +1189,7 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 
-                        text: Displays.Basic()))
+                        text: Displays.General()))
                 .Li(_using: resultModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
@@ -1203,1126 +1203,1310 @@ namespace Implem.Pleasanter.Models
                             text: Displays.RecordAccessControl())));
         }
 
+        public static string PreviewTemplate(SiteSettings ss)
+        {
+            var hb = new HtmlBuilder();
+            var name = Strings.NewGuid();
+            return hb
+                .Div(css: "samples-displayed", action: () => hb
+                    .Text(text: Displays.SamplesDisplayed()))
+                .Div(css: "template-tab-container", action: () => hb
+                    .Ul(action: () => hb
+                        .Li(action: () => hb
+                            .A(
+                                href: "#" + name + "Editor",
+                                text: Displays.Editor()))
+                        .Li(action: () => hb
+                            .A(
+                                href: "#" + name + "Grid",
+                                text: Displays.Grid())))
+                    .FieldSet(
+                        id: name + "Editor",
+                        action: () => hb
+                            .FieldSetGeneralColumns(
+                                ss: ss, resultModel: new ResultModel(), preview: true))
+                    .FieldSet(
+                        id: name + "Grid",
+                        action: () => hb
+                            .Table(css: "grid", action: () => hb
+                                .THead(action: () => hb
+                                    .GridHeader(
+                                        columns: ss.GetGridColumns(),
+                                        view: new View(ss),
+                                        sort: false,
+                                        checkRow: false)))))
+                                            .ToString();
+        }
+
         private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
             SiteSettings ss,
             ResultModel resultModel)
         {
             var mine = resultModel.Mine();
-            return hb.FieldSet(id: "FieldSetGeneral", action: () =>
+            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
+                .FieldSetGeneralColumns(
+                    ss: ss, resultModel: resultModel));
+        }
+
+        public static HtmlBuilder FieldSetGeneralColumns(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            ResultModel resultModel,
+            bool preview = false)
+        {
+            ss.GetEditorColumns().ForEach(column =>
             {
-                ss.GetEditorColumns().ForEach(column =>
+                switch (column.ColumnName)
                 {
-                    switch (column.ColumnName)
-                    {
-                        case "ResultId":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ResultId.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Ver":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.Ver.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Title":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.Title.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Body":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.Body.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Status":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.Status.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Manager":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.Manager.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Owner":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.Owner.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassA":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassA.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassB":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassB.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassC":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassC.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassD":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassD.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassE":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassE.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassF":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassF.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassG":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassG.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassH":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassH.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassI":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassI.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassJ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassJ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassK":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassK.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassL":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassL.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassM":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassM.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassN":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassN.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassO":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassO.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassP":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassP.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassQ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassQ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassR":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassR.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassS":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassS.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassT":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassT.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassU":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassU.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassV":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassV.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassW":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassW.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassX":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassX.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassY":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassY.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ClassZ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.ClassZ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumA":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumA.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumB":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumB.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumC":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumC.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumD":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumD.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumE":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumE.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumF":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumF.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumG":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumG.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumH":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumH.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumI":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumI.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumJ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumJ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumK":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumK.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumL":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumL.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumM":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumM.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumN":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumN.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumO":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumO.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumP":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumP.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumQ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumQ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumR":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumR.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumS":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumS.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumT":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumT.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumU":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumU.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumV":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumV.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumW":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumW.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumX":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumX.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumY":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumY.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumZ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.NumZ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateA":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateA.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateB":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateB.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateC":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateC.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateD":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateD.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateE":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateE.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateF":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateF.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateG":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateG.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateH":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateH.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateI":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateI.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateJ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateJ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateK":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateK.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateL":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateL.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateM":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateM.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateN":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateN.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateO":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateO.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateP":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateP.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateQ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateQ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateR":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateR.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateS":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateS.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateT":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateT.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateU":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateU.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateV":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateV.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateW":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateW.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateX":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateX.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateY":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateY.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DateZ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DateZ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionA":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionA.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionB":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionB.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionC":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionC.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionD":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionD.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionE":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionE.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionF":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionF.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionG":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionG.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionH":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionH.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionI":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionI.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionJ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionJ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionK":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionK.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionL":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionL.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionM":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionM.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionN":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionN.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionO":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionO.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionP":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionP.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionQ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionQ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionR":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionR.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionS":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionS.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionT":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionT.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionU":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionU.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionV":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionV.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionW":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionW.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionX":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionX.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionY":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionY.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DescriptionZ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.DescriptionZ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckA":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckA.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckB":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckB.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckC":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckC.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckD":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckD.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckE":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckE.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckF":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckF.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckG":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckG.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckH":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckH.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckI":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckI.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckJ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckJ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckK":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckK.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckL":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckL.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckM":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckM.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckN":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckN.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckO":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckO.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckP":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckP.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckQ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckQ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckR":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckR.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckS":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckS.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckT":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckT.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckU":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckU.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckV":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckV.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckW":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckW.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckX":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckX.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckY":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckY.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "CheckZ":
-                            hb.Field(
-                                ss,
-                                column,
-                                resultModel.MethodType,
-                                resultModel.CheckZ.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                    }
-                });
-                hb.VerUpCheckBox(resultModel);
-                hb
-                    .Div(id: "LinkCreations", css: "links", action: () => hb
-                        .LinkCreations(
-                            ss: ss,
-                            linkId: resultModel.ResultId,
-                            methodType: resultModel.MethodType))
-                    .Div(id: "Links", css: "links", action: () => hb
-                        .Links(ss: ss, id: resultModel.ResultId));
+                    case "ResultId":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ResultId.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Ver":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.Ver.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Title":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.Title.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Body":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.Body.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Status":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.Status.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Manager":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.Manager.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Owner":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.Owner.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassA":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassA.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassB":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassB.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassC":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassC.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassD":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassD.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassE":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassE.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassF":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassF.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassG":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassG.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassH":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassH.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassI":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassI.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassJ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassJ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassK":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassK.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassL":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassL.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassM":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassM.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassN":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassN.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassO":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassO.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassP":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassP.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassQ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassQ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassR":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassR.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassS":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassS.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassT":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassT.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassU":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassU.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassV":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassV.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassW":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassW.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassX":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassX.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassY":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassY.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ClassZ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.ClassZ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumA":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumA.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumB":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumB.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumC":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumC.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumD":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumD.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumE":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumE.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumF":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumF.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumG":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumG.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumH":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumH.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumI":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumI.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumJ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumJ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumK":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumK.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumL":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumL.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumM":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumM.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumN":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumN.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumO":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumO.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumP":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumP.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumQ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumQ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumR":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumR.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumS":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumS.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumT":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumT.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumU":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumU.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumV":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumV.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumW":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumW.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumX":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumX.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumY":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumY.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumZ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.NumZ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateA":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateA.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateB":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateB.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateC":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateC.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateD":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateD.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateE":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateE.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateF":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateF.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateG":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateG.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateH":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateH.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateI":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateI.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateJ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateJ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateK":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateK.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateL":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateL.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateM":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateM.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateN":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateN.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateO":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateO.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateP":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateP.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateQ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateQ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateR":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateR.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateS":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateS.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateT":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateT.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateU":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateU.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateV":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateV.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateW":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateW.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateX":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateX.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateY":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateY.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DateZ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DateZ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionA":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionA.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionB":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionB.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionC":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionC.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionD":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionD.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionE":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionE.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionF":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionF.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionG":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionG.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionH":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionH.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionI":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionI.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionJ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionJ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionK":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionK.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionL":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionL.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionM":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionM.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionN":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionN.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionO":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionO.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionP":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionP.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionQ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionQ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionR":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionR.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionS":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionS.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionT":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionT.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionU":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionU.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionV":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionV.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionW":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionW.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionX":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionX.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionY":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionY.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DescriptionZ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.DescriptionZ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckA":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckA.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckB":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckB.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckC":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckC.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckD":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckD.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckE":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckE.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckF":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckF.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckG":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckG.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckH":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckH.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckI":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckI.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckJ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckJ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckK":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckK.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckL":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckL.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckM":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckM.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckN":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckN.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckO":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckO.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckP":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckP.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckQ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckQ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckR":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckR.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckS":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckS.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckT":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckT.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckU":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckU.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckV":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckV.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckW":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckW.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckX":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckX.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckY":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckY.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "CheckZ":
+                        hb.Field(
+                            ss,
+                            column,
+                            resultModel.MethodType,
+                            resultModel.CheckZ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                }
             });
+            if (!preview)
+            {
+                hb.VerUpCheckBox(resultModel);
+                    hb
+                        .Div(id: "LinkCreations", css: "links", action: () => hb
+                            .LinkCreations(
+                                ss: ss,
+                                linkId: resultModel.ResultId,
+                                methodType: resultModel.MethodType))
+                        .Div(id: "Links", css: "links", action: () => hb
+                            .Links(ss: ss, id: resultModel.ResultId));
+            }
+            return hb;
         }
 
         private static HtmlBuilder MainCommandExtensions(

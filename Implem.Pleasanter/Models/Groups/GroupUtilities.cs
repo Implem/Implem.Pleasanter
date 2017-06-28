@@ -519,7 +519,7 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral",
-                        text: Displays.Basic()))
+                        text: Displays.General()))
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetMembers",
@@ -539,48 +539,61 @@ namespace Implem.Pleasanter.Models
             GroupModel groupModel)
         {
             var mine = groupModel.Mine();
-            return hb.FieldSet(id: "FieldSetGeneral", action: () =>
+            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
+                .FieldSetGeneralColumns(
+                    ss: ss, groupModel: groupModel));
+        }
+
+        private static HtmlBuilder FieldSetGeneralColumns(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            GroupModel groupModel,
+            bool preview = false)
+        {
+            ss.GetEditorColumns().ForEach(column =>
             {
-                ss.GetEditorColumns().ForEach(column =>
+                switch (column.ColumnName)
                 {
-                    switch (column.ColumnName)
-                    {
-                        case "GroupId":
-                            hb.Field(
-                                ss,
-                                column,
-                                groupModel.MethodType,
-                                groupModel.GroupId.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Ver":
-                            hb.Field(
-                                ss,
-                                column,
-                                groupModel.MethodType,
-                                groupModel.Ver.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "GroupName":
-                            hb.Field(
-                                ss,
-                                column,
-                                groupModel.MethodType,
-                                groupModel.GroupName.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Body":
-                            hb.Field(
-                                ss,
-                                column,
-                                groupModel.MethodType,
-                                groupModel.Body.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                    }
-                });
-                hb.VerUpCheckBox(groupModel);
+                    case "GroupId":
+                        hb.Field(
+                            ss,
+                            column,
+                            groupModel.MethodType,
+                            groupModel.GroupId.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Ver":
+                        hb.Field(
+                            ss,
+                            column,
+                            groupModel.MethodType,
+                            groupModel.Ver.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "GroupName":
+                        hb.Field(
+                            ss,
+                            column,
+                            groupModel.MethodType,
+                            groupModel.GroupName.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Body":
+                        hb.Field(
+                            ss,
+                            column,
+                            groupModel.MethodType,
+                            groupModel.Body.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                }
             });
+            if (!preview) hb.VerUpCheckBox(groupModel);
+            return hb;
         }
 
         private static HtmlBuilder MainCommandExtensions(

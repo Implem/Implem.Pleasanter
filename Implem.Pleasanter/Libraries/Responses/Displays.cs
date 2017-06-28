@@ -74,6 +74,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string BulkMove(params string[] data) { return Get("BulkMove", data); }
         public static string BulkMoved(params string[] data) { return Get("BulkMoved", data); }
         public static string BurnDown(params string[] data) { return Get("BurnDown", data); }
+        public static string BusinessImprovement(params string[] data) { return Get("BusinessImprovement", data); }
         public static string Calendar(params string[] data) { return Get("Calendar", data); }
         public static string Cancel(params string[] data) { return Get("Cancel", data); }
         public static string CanNotChangeInheritance(params string[] data) { return Get("CanNotChangeInheritance", data); }
@@ -90,6 +91,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CharacterCode(params string[] data) { return Get("CharacterCode", data); }
         public static string ChatWork(params string[] data) { return Get("ChatWork", data); }
         public static string CheckAll(params string[] data) { return Get("CheckAll", data); }
+        public static string Classification(params string[] data) { return Get("Classification", data); }
         public static string CodeDefinerBackupCompleted(params string[] data) { return Get("CodeDefinerBackupCompleted", data); }
         public static string CodeDefinerCompleted(params string[] data) { return Get("CodeDefinerCompleted", data); }
         public static string CodeDefinerCssCompleted(params string[] data) { return Get("CodeDefinerCssCompleted", data); }
@@ -115,6 +117,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Copy(params string[] data) { return Get("Copy", data); }
         public static string CopySettings(params string[] data) { return Get("CopySettings", data); }
         public static string CopyWithComments(params string[] data) { return Get("CopyWithComments", data); }
+        public static string CorporatePlanning(params string[] data) { return Get("CorporatePlanning", data); }
         public static string Count(params string[] data) { return Get("Count", data); }
         public static string Create(params string[] data) { return Get("Create", data); }
         public static string CreateColumnAccessControl(params string[] data) { return Get("CreateColumnAccessControl", data); }
@@ -129,6 +132,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CurrentSettings(params string[] data) { return Get("CurrentSettings", data); }
         public static string Custom(params string[] data) { return Get("Custom", data); }
         public static string CustomDesign(params string[] data) { return Get("CustomDesign", data); }
+        public static string Customer(params string[] data) { return Get("Customer", data); }
         public static string Daily(params string[] data) { return Get("Daily", data); }
         public static string DataStorageDestination(params string[] data) { return Get("DataStorageDestination", data); }
         public static string DataView(params string[] data) { return Get("DataView", data); }
@@ -164,6 +168,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string EditScript(params string[] data) { return Get("EditScript", data); }
         public static string EditSettings(params string[] data) { return Get("EditSettings", data); }
         public static string EditStyle(params string[] data) { return Get("EditStyle", data); }
+        public static string Education(params string[] data) { return Get("Education", data); }
         public static string Enabled(params string[] data) { return Get("Enabled", data); }
         public static string Error(params string[] data) { return Get("Error", data); }
         public static string Excel(params string[] data) { return Get("Excel", data); }
@@ -183,6 +188,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Friday(params string[] data) { return Get("Friday", data); }
         public static string Fy(params string[] data) { return Get("Fy", data); }
         public static string Gantt(params string[] data) { return Get("Gantt", data); }
+        public static string General(params string[] data) { return Get("General", data); }
         public static string GeneralUser(params string[] data) { return Get("GeneralUser", data); }
         public static string GoBack(params string[] data) { return Get("GoBack", data); }
         public static string Grid(params string[] data) { return Get("Grid", data); }
@@ -205,6 +211,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Histories(params string[] data) { return Get("Histories", data); }
         public static string HourAgo(params string[] data) { return Get("HourAgo", data); }
         public static string HoursAgo(params string[] data) { return Get("HoursAgo", data); }
+        public static string HumanResourcesAndGeneralAffairs(params string[] data) { return Get("HumanResourcesAndGeneralAffairs", data); }
         public static string Hyphen(params string[] data) { return Get("Hyphen", data); }
         public static string Icon(params string[] data) { return Get("Icon", data); }
         public static string Id(params string[] data) { return Get("Id", data); }
@@ -217,6 +224,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string IncorrectCurrentPassword(params string[] data) { return Get("IncorrectCurrentPassword", data); }
         public static string IncorrectSiteDeleting(params string[] data) { return Get("IncorrectSiteDeleting", data); }
         public static string Index(params string[] data) { return Get("Index", data); }
+        public static string InformationSystem(params string[] data) { return Get("InformationSystem", data); }
         public static string InheritPermission(params string[] data) { return Get("InheritPermission", data); }
         public static string InputMailAddress(params string[] data) { return Get("InputMailAddress", data); }
         public static string InternalServerError(params string[] data) { return Get("InternalServerError", data); }
@@ -227,6 +235,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Kamban(params string[] data) { return Get("Kamban", data); }
         public static string Latest(params string[] data) { return Get("Latest", data); }
         public static string Leader(params string[] data) { return Get("Leader", data); }
+        public static string LegalAffairs(params string[] data) { return Get("LegalAffairs", data); }
         public static string LessThan(params string[] data) { return Get("LessThan", data); }
         public static string LimitAfterDay(params string[] data) { return Get("LimitAfterDay", data); }
         public static string LimitAfterDays(params string[] data) { return Get("LimitAfterDays", data); }
@@ -264,6 +273,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Login(params string[] data) { return Get("Login", data); }
         public static string LoginIdAlreadyUse(params string[] data) { return Get("LoginIdAlreadyUse", data); }
         public static string LoginIn(params string[] data) { return Get("LoginIn", data); }
+        public static string Logistics(params string[] data) { return Get("Logistics", data); }
         public static string Logout(params string[] data) { return Get("Logout", data); }
         public static string Mail(params string[] data) { return Get("Mail", data); }
         public static string MailAddress(params string[] data) { return Get("MailAddress", data); }
@@ -273,11 +283,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ManagePermissions(params string[] data) { return Get("ManagePermissions", data); }
         public static string Manager(params string[] data) { return Get("Manager", data); }
         public static string ManageSite(params string[] data) { return Get("ManageSite", data); }
+        public static string Manufacture(params string[] data) { return Get("Manufacture", data); }
+        public static string Marketing(params string[] data) { return Get("Marketing", data); }
         public static string Max(params string[] data) { return Get("Max", data); }
         public static string MaxColumns(params string[] data) { return Get("MaxColumns", data); }
         public static string Md(params string[] data) { return Get("Md", data); }
         public static string MdFormat(params string[] data) { return Get("MdFormat", data); }
         public static string Members(params string[] data) { return Get("Members", data); }
+        public static string Menu(params string[] data) { return Get("Menu", data); }
         public static string Min(params string[] data) { return Get("Min", data); }
         public static string MinuteAgo(params string[] data) { return Get("MinuteAgo", data); }
         public static string MinutesAgo(params string[] data) { return Get("MinutesAgo", data); }
@@ -346,7 +359,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Portal(params string[] data) { return Get("Portal", data); }
         public static string Prefix(params string[] data) { return Get("Prefix", data); }
         public static string Previous(params string[] data) { return Get("Previous", data); }
+        public static string ProductList(params string[] data) { return Get("ProductList", data); }
         public static string ProductName(params string[] data) { return Get("ProductName", data); }
+        public static string Project(params string[] data) { return Get("Project", data); }
+        public static string Purchase(params string[] data) { return Get("Purchase", data); }
         public static string Quantity(params string[] data) { return Get("Quantity", data); }
         public static string Quarter(params string[] data) { return Get("Quarter", data); }
         public static string Read(params string[] data) { return Get("Read", data); }
@@ -362,10 +378,13 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string RequiredPermission(params string[] data) { return Get("RequiredPermission", data); }
         public static string RequireMailAddresses(params string[] data) { return Get("RequireMailAddresses", data); }
         public static string RequireTo(params string[] data) { return Get("RequireTo", data); }
+        public static string ResearchAndDevelopment(params string[] data) { return Get("ResearchAndDevelopment", data); }
         public static string Reset(params string[] data) { return Get("Reset", data); }
         public static string ResetOrder(params string[] data) { return Get("ResetOrder", data); }
         public static string ResetPassword(params string[] data) { return Get("ResetPassword", data); }
         public static string Restricted(params string[] data) { return Get("Restricted", data); }
+        public static string Sales(params string[] data) { return Get("Sales", data); }
+        public static string SamplesDisplayed(params string[] data) { return Get("SamplesDisplayed", data); }
         public static string Saturday(params string[] data) { return Get("Saturday", data); }
         public static string Save(params string[] data) { return Get("Save", data); }
         public static string Scripts(params string[] data) { return Get("Scripts", data); }
@@ -375,6 +394,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SelectableMembers(params string[] data) { return Get("SelectableMembers", data); }
         public static string SelectOne(params string[] data) { return Get("SelectOne", data); }
         public static string SelectTargets(params string[] data) { return Get("SelectTargets", data); }
+        public static string SelectTemplate(params string[] data) { return Get("SelectTemplate", data); }
         public static string Send(params string[] data) { return Get("Send", data); }
         public static string SendMail(params string[] data) { return Get("SendMail", data); }
         public static string SentAcceptanceMail (params string[] data) { return Get("SentAcceptanceMail ", data); }
@@ -404,6 +424,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Standard(params string[] data) { return Get("Standard", data); }
         public static string StartDate(params string[] data) { return Get("StartDate", data); }
         public static string Step(params string[] data) { return Get("Step", data); }
+        public static string Store(params string[] data) { return Get("Store", data); }
         public static string Style(params string[] data) { return Get("Style", data); }
         public static string Styles(params string[] data) { return Get("Styles", data); }
         public static string SuffixCopy(params string[] data) { return Get("SuffixCopy", data); }

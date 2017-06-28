@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "Basic",
+    "Id": "InformationSystem",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Basic"
+            "Body": "Information system"
         },
         {
             "Language": "ja",
-            "Body": "基本"
+            "Body": "情報システム"
         }
     ]
 }

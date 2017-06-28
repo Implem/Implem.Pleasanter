@@ -256,7 +256,7 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 
-                        text: Displays.Basic()))
+                        text: Displays.General()))
                 .Li(_using: wikiModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
@@ -276,48 +276,64 @@ namespace Implem.Pleasanter.Models
             WikiModel wikiModel)
         {
             var mine = wikiModel.Mine();
-            return hb.FieldSet(id: "FieldSetGeneral", action: () =>
+            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
+                .FieldSetGeneralColumns(
+                    ss: ss, wikiModel: wikiModel));
+        }
+
+        public static HtmlBuilder FieldSetGeneralColumns(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            WikiModel wikiModel,
+            bool preview = false)
+        {
+            ss.GetEditorColumns().ForEach(column =>
             {
-                ss.GetEditorColumns().ForEach(column =>
+                switch (column.ColumnName)
                 {
-                    switch (column.ColumnName)
-                    {
-                        case "WikiId":
-                            hb.Field(
-                                ss,
-                                column,
-                                wikiModel.MethodType,
-                                wikiModel.WikiId.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Ver":
-                            hb.Field(
-                                ss,
-                                column,
-                                wikiModel.MethodType,
-                                wikiModel.Ver.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Title":
-                            hb.Field(
-                                ss,
-                                column,
-                                wikiModel.MethodType,
-                                wikiModel.Title.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Body":
-                            hb.Field(
-                                ss,
-                                column,
-                                wikiModel.MethodType,
-                                wikiModel.Body.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                    }
-                });
-                hb.VerUpCheckBox(wikiModel);
+                    case "WikiId":
+                        hb.Field(
+                            ss,
+                            column,
+                            wikiModel.MethodType,
+                            wikiModel.WikiId.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Ver":
+                        hb.Field(
+                            ss,
+                            column,
+                            wikiModel.MethodType,
+                            wikiModel.Ver.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Title":
+                        hb.Field(
+                            ss,
+                            column,
+                            wikiModel.MethodType,
+                            wikiModel.Title.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Body":
+                        hb.Field(
+                            ss,
+                            column,
+                            wikiModel.MethodType,
+                            wikiModel.Body.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                }
             });
+            if (!preview)
+            {
+                hb.VerUpCheckBox(wikiModel);
+            }
+            return hb;
         }
 
         private static HtmlBuilder MainCommandExtensions(
@@ -538,6 +554,32 @@ namespace Implem.Pleasanter.Models
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(ss, wikiModel).ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string PreviewTemplate(SiteSettings ss, string body)
+        {
+            var hb = new HtmlBuilder();
+            var name = Strings.NewGuid();
+            return hb
+                .Div(css: "samples-displayed", action: () => hb
+                    .Text(text: Displays.SamplesDisplayed()))
+                .Div(css: "template-tab-container", action: () => hb
+                    .Ul(action: () => hb
+                        .Li(action: () => hb
+                            .A(
+                                href: "#" + name + "Editor",
+                                text: Displays.Editor())))
+                    .FieldSet(
+                        id: name + "Editor",
+                        action: () => hb
+                            .FieldSetGeneralColumns(
+                                ss: ss,
+                                wikiModel: new WikiModel() { Body = body },
+                                preview: true)))
+                                    .ToString();
         }
     }
 }

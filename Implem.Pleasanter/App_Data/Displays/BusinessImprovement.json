@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "Basic",
+    "Id": "BusinessImprovement",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Basic"
+            "Body": "BusinessImprovement"
         },
         {
             "Language": "ja",
-            "Body": "基本"
+            "Body": "業務改善"
         }
     ]
 }

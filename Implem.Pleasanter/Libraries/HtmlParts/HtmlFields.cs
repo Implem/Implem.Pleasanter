@@ -42,6 +42,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelCss = null,
             string controlContainerCss = null,
             string controlCss = null,
+            bool preview = false,
             bool _using = true)
         {
             if (column.UserColumn && value == User.UserTypes.Anonymous.ToInt().ToString())
@@ -56,14 +57,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return hb.SwitchField(
                     column: column,
                     columnPermissionType: columnPermissionType,
-                    controlId: column.Id,
+                    controlId: !preview
+                        ? column.Id
+                        : null,
                     fieldCss: Strings.CoalesceEmpty(fieldCss, column.FieldCss),
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     controlCss: Strings.CoalesceEmpty(controlCss, column.ControlCss),
                     controlType: ControlType(column),
                     value: value,
-                    optionCollection: EditChoices(ss, column, value));
+                    optionCollection: EditChoices(ss, column, value),
+                    preview: preview);
             }
             else
             {
@@ -117,9 +121,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss,
             ControlTypes controlType,
             string value,
-            Dictionary<string, ControlData> optionCollection)
+            Dictionary<string, ControlData> optionCollection,
+            bool preview)
         {
             var required = column.Required || (column.ValidateRequired ?? false);
+            if (preview)
+            {
+                required = false;
+                column.ValidateNumber = false;
+                column.ValidateDate = false;
+                column.ValidateEmail = false;
+                column.ValidateEqualTo = null;
+                column.ValidateMaxLength = 0;
+            }
             switch (columnPermissionType)
             {
                 case Permissions.ColumnPermissionTypes.Read:
@@ -210,7 +224,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 text: value,
                                 placeholder: column.LabelText,
                                 readOnly: column.EditorReadOnly.ToBool(),
-                                validateRequired: required);
+                                validateRequired: required,
+                                preview: preview);
                         case ControlTypes.TextBox:
                             return hb.FieldTextBox(
                                 textType: column.Hash
@@ -607,6 +622,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool readOnly = false,
             bool validateRequired = false,
             Dictionary<string, string> attributes = null,
+            bool preview = false,
             bool _using = true)
         {
             return _using
@@ -625,7 +641,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             placeholder: placeholder,
                             readOnly: readOnly,
                             validateRequired: validateRequired,
-                            attributes: attributes))
+                            attributes: attributes,
+                            preview: preview))
                 : hb;
         }
 
@@ -978,6 +995,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
             bool commandOptionPositionIsTop = false,
+            string action = null,
+            string method = null,
             bool _using = true,
             Action commandOptionAction = null)
         {
@@ -997,7 +1016,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlWrapperCss: controlWrapperCss,
                             controlCss: controlCss,
                             listItemCollection: listItemCollection,
-                            selectedValueCollection: selectedValueCollection),
+                            selectedValueCollection: selectedValueCollection,
+                            action: action,
+                            method: method),
                     actionOptions: commandOptionAction);
             }
             else
@@ -1017,7 +1038,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlWrapperCss: controlWrapperCss,
                             controlCss: controlCss,
                             listItemCollection: listItemCollection,
-                            selectedValueCollection: selectedValueCollection);
+                            selectedValueCollection: selectedValueCollection,
+                            action: action,
+                            method: method);
                     });
             }
         }

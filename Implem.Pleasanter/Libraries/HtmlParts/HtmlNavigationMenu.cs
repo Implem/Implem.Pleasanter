@@ -55,8 +55,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     href: NewHref(ss),
                                     attributes: SiteIndex(ss)
                                         ? new HtmlAttributes()
-                                            .OnClick("$p.openTemplateDialog($(this));")
-                                            .DataAction("OpenTemplateDialog")
+                                            .OnClick("$p.templates($(this));")
+                                            .DataAction("Templates")
                                             .DataMethod("post")
                                         : null,
                                     action: () => hb
@@ -125,7 +125,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static bool SiteIndex(SiteSettings ss)
         {
-            return ss.SiteId == 0 || ss.ReferenceType == "Sites" && Routes.Action() == "index";
+            return (ss.SiteId == 0 || ss.ReferenceType == "Sites") && Routes.Action() == "index";
         }
 
         private static HtmlBuilder ViewModeMenu(this HtmlBuilder hb, SiteSettings ss)

@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "Basic",
+    "Id": "Menu",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Basic"
+            "Body": "Menu"
         },
         {
             "Language": "ja",
-            "Body": "基本"
+            "Body": "メニュー"
         }
     ]
 }

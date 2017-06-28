@@ -564,7 +564,7 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral",
-                        text: Displays.Basic()))
+                        text: Displays.General()))
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetMailAddresses",
@@ -584,232 +584,268 @@ namespace Implem.Pleasanter.Models
             UserModel userModel)
         {
             var mine = userModel.Mine();
-            return hb.FieldSet(id: "FieldSetGeneral", action: () =>
+            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
+                .FieldSetGeneralColumns(
+                    ss: ss, userModel: userModel));
+        }
+
+        private static HtmlBuilder FieldSetGeneralColumns(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            UserModel userModel,
+            bool preview = false)
+        {
+            ss.GetEditorColumns().ForEach(column =>
             {
-                ss.GetEditorColumns().ForEach(column =>
+                switch (column.ColumnName)
                 {
-                    switch (column.ColumnName)
-                    {
-                        case "UserId":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.UserId.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Ver":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.Ver.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "LoginId":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.LoginId.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Name":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.Name.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Password":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.Password.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "PasswordValidate":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.PasswordValidate.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "PasswordDummy":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.PasswordDummy.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "RememberMe":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.RememberMe.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Birthday":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.Birthday.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Gender":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.Gender.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Language":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.Language.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "TimeZone":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.TimeZone.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DeptId":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.DeptId.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "FirstAndLastNameOrder":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.FirstAndLastNameOrder.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "LastLoginTime":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.LastLoginTime.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "PasswordExpirationTime":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.PasswordExpirationTime.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "PasswordChangeTime":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.PasswordChangeTime.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumberOfLogins":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.NumberOfLogins.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "NumberOfDenial":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.NumberOfDenial.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "TenantManager":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.TenantManager.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Disabled":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.Disabled.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "OldPassword":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.OldPassword.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ChangedPassword":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.ChangedPassword.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "ChangedPasswordValidator":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.ChangedPasswordValidator.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "AfterResetPassword":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.AfterResetPassword.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "AfterResetPasswordValidator":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.AfterResetPasswordValidator.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DemoMailAddress":
-                            hb.Field(
-                                ss,
-                                column,
-                                userModel.MethodType,
-                                userModel.DemoMailAddress.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                    }
-                });
-                hb.VerUpCheckBox(userModel);
+                    case "UserId":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.UserId.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Ver":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.Ver.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "LoginId":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.LoginId.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Name":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.Name.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Password":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.Password.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "PasswordValidate":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.PasswordValidate.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "PasswordDummy":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.PasswordDummy.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "RememberMe":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.RememberMe.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Birthday":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.Birthday.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Gender":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.Gender.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Language":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.Language.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "TimeZone":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.TimeZone.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DeptId":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.DeptId.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "FirstAndLastNameOrder":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.FirstAndLastNameOrder.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "LastLoginTime":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.LastLoginTime.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "PasswordExpirationTime":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.PasswordExpirationTime.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "PasswordChangeTime":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.PasswordChangeTime.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumberOfLogins":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.NumberOfLogins.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "NumberOfDenial":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.NumberOfDenial.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "TenantManager":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.TenantManager.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Disabled":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.Disabled.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "OldPassword":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.OldPassword.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ChangedPassword":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.ChangedPassword.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "ChangedPasswordValidator":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.ChangedPasswordValidator.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AfterResetPassword":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.AfterResetPassword.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AfterResetPasswordValidator":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.AfterResetPasswordValidator.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DemoMailAddress":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.DemoMailAddress.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                }
             });
+            if (!preview) hb.VerUpCheckBox(userModel);
+            return hb;
         }
 
         /// <summary>

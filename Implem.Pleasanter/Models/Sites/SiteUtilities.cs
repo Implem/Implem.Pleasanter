@@ -388,7 +388,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string CreateByTemplates(SiteModel siteModel)
+        public static string Templates(SiteModel siteModel)
         {
             var ss = siteModel.SitesSiteSettings(siteModel.ParentId);
             if (siteModel.ParentId == 0)
@@ -401,13 +401,315 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var selected = Forms.IntList("TemplateSelector").FirstOrDefault();
-            if (selected == 0)
+            var hb = new HtmlBuilder();
+            return new ResponseCollection()
+                .Html("#SiteMenu", new HtmlBuilder().TemplateTabsContainer(ss: ss))
+                .ReplaceAll("#MainCommandsContainer", hb
+                    .MainCommands(
+                        ss: ss,
+                        siteId: ss.SiteId,
+                        verType: Versions.VerTypes.Latest,
+                        backButton: false,
+                        extensions: () => hb
+                            .Button(
+                                text: Displays.GoBack(),
+                                controlCss: "button-icon",
+                                accessKey: "q",
+                                onClick: "$p.send($(this),'SitesForm');",
+                                icon: "ui-icon-disk",
+                                action: "SiteMenu",
+                                method: "post")
+                            .Button(
+                                controlId: "OpenSiteTitleDialog",
+                                text: Displays.Create(),
+                                controlCss: "button-icon hidden",
+                                onClick: "$p.openSiteTitleDialog($(this));",
+                                icon: "ui-icon-disk")))
+                .Invoke("setTemplate")
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder TemplateTabsContainer(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb
+                .Div(id: "TemplateTabsContainer", css: "max", action: () => hb
+                    .Ul(id: "EditorTabs", action: () => hb
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetStandard",
+                                    text: Displays.Standard()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.Standard > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetProject",
+                                    text: Displays.Project()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.Project > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetBusinessImprovement",
+                                    text: Displays.BusinessImprovement()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.BusinessImprovement > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetSales",
+                                    text: Displays.Sales()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.Sales > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetCustomer",
+                                    text: Displays.Customer()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.Customer > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetStore",
+                                    text: Displays.Store()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.Store > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetResearchAndDevelopment",
+                                    text: Displays.ResearchAndDevelopment()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.ResearchAndDevelopment > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetMarketing",
+                                    text: Displays.Marketing()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.Marketing > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetManufacture",
+                                    text: Displays.Manufacture()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.Manufacture > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetInformationSystem",
+                                    text: Displays.InformationSystem()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.InformationSystem > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetCorporatePlanning",
+                                    text: Displays.CorporatePlanning()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.CorporatePlanning > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetHumanResourcesAndGeneralAffairs",
+                                    text: Displays.HumanResourcesAndGeneralAffairs()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.HumanResourcesAndGeneralAffairs > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetEducation",
+                                    text: Displays.Education()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.Education > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetPurchase",
+                                    text: Displays.Purchase()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.Purchase > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetLogistics",
+                                    text: Displays.Logistics()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.Logistics > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetLegalAffairs",
+                                    text: Displays.LegalAffairs()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.LegalAffairs > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetProductList",
+                                    text: Displays.ProductList()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.ProductList > 0))
+                        .Li(
+                            action: () => hb
+                                .A(
+                                    href: "#FieldSetClassification",
+                                    text: Displays.Classification()),
+                            _using: Def.TemplateDefinitionCollection
+                                .Any(o => o.Classification > 0)))
+                    .TemplateTab(
+                        name: "Standard",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Standard > 0)
+                            .OrderBy(o => o.Standard))
+                    .TemplateTab(
+                        name: "Project",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Project > 0)
+                            .OrderBy(o => o.Project))
+                    .TemplateTab(
+                        name: "BusinessImprovement",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.BusinessImprovement > 0)
+                            .OrderBy(o => o.BusinessImprovement))
+                    .TemplateTab(
+                        name: "Sales",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Sales > 0)
+                            .OrderBy(o => o.Sales))
+                    .TemplateTab(
+                        name: "Customer",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Customer > 0)
+                            .OrderBy(o => o.Customer))
+                    .TemplateTab(
+                        name: "Store",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Store > 0)
+                            .OrderBy(o => o.Store))
+                    .TemplateTab(
+                        name: "ResearchAndDevelopment",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.ResearchAndDevelopment > 0)
+                            .OrderBy(o => o.ResearchAndDevelopment))
+                    .TemplateTab(
+                        name: "Marketing",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Marketing > 0)
+                            .OrderBy(o => o.Marketing))
+                    .TemplateTab(
+                        name: "Manufacture",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Manufacture > 0)
+                            .OrderBy(o => o.Manufacture))
+                    .TemplateTab(
+                        name: "InformationSystem",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.InformationSystem > 0)
+                            .OrderBy(o => o.InformationSystem))
+                    .TemplateTab(
+                        name: "CorporatePlanning",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.CorporatePlanning > 0)
+                            .OrderBy(o => o.CorporatePlanning))
+                    .TemplateTab(
+                        name: "HumanResourcesAndGeneralAffairs",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.HumanResourcesAndGeneralAffairs > 0)
+                            .OrderBy(o => o.HumanResourcesAndGeneralAffairs))
+                    .TemplateTab(
+                        name: "Education",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Education > 0)
+                            .OrderBy(o => o.Education))
+                    .TemplateTab(
+                        name: "Purchase",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Purchase > 0)
+                            .OrderBy(o => o.Purchase))
+                    .TemplateTab(
+                        name: "Logistics",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Logistics > 0)
+                            .OrderBy(o => o.Logistics))
+                    .TemplateTab(
+                        name: "LegalAffairs",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.LegalAffairs > 0)
+                            .OrderBy(o => o.LegalAffairs))
+                    .TemplateTab(
+                        name: "ProductList",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.ProductList > 0)
+                            .OrderBy(o => o.ProductList))
+                    .TemplateTab(
+                        name: "Classification",
+                        templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Classification > 0)
+                            .OrderBy(o => o.Classification)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder TemplateTab(
+            this HtmlBuilder hb,
+            string name,
+            IEnumerable<TemplateDefinition> templates)
+        {
+            return templates.Any()
+                ? hb.FieldSet(id: "FieldSet" + name, css: "template", action: () => hb
+                    .Div(
+                        id: name + "TemplatesViewer",
+                        css: "template-viewer-container",
+                        action: () => hb
+                            .Div(css: "template-viewer", action: () => hb
+                                .P(css: "description", action: () => hb
+                                    .Text(text: Displays.SelectTemplate()))
+                                .Div(css: "viewer hidden")))
+                    .Div(css: "template-selectable", action: () => hb
+                        .FieldSelectable(
+                            controlId: name + "Templates",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            controlCss: " single applied",
+                            listItemCollection: templates.ToDictionary(
+                                o => o.Id, o => new ControlData(o.Title)),
+                            action: "PreviewTemplate",
+                            method: "post")))
+                : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string CreateByTemplate(SiteModel siteModel)
+        {
+            var ss = siteModel.SitesSiteSettings(siteModel.ParentId);
+            if (siteModel.ParentId == 0)
+            {
+                ss.PermissionType = SiteTopPermission();
+            }
+            var invalid = SiteValidators.OnCreating(ss, siteModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var id = Forms.Data("TemplateId");
+            if (id.IsNullOrEmpty())
             {
                 return Error.Types.SelectTargets.MessageJson();
             }
             var templateDefinition = Def.TemplateDefinitionCollection
-                .FirstOrDefault(o => o.Order == selected);
+                .FirstOrDefault(o => o.Id == id);
             if (templateDefinition == null)
             {
                 return Error.Types.NotFound.MessageJson();
@@ -430,14 +732,45 @@ namespace Implem.Pleasanter.Models
                     SiteSettings = templateSs
                 }.Create(paramAll: true);
             }
+            return SiteMenuResponse(siteModel);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string SiteMenuJson(SiteModel siteModel)
+        {
+            var ss = siteModel.SitesSiteSettings(siteModel.ParentId);
+            if (siteModel.ParentId == 0)
+            {
+                ss.PermissionType = SiteTopPermission();
+            }
+            var invalid = SiteValidators.OnCreating(ss, siteModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            return SiteMenuResponse(siteModel);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string SiteMenuResponse(SiteModel siteModel)
+        {
             return new ResponseCollection()
                 .CloseDialog()
                 .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
                     siteModel: siteModel.SiteId != 0 ? siteModel : null,
                     siteConditions: SiteInfo.TenantCaches[Sessions.TenantId()]
                         .SiteMenu.SiteConditions(0)))
+                .ReplaceAll("#MainCommandsContainer", new HtmlBuilder().MainCommands(
+                    ss: siteModel.SiteSettings,
+                    siteId: siteModel.SiteId,
+                    verType: siteModel.VerType,
+                    backButton: siteModel.SiteId != 0))
                 .Invoke("setSiteMenu")
-                .Message(Messages.SitesCreated())
                 .ToJson();
         }
 
@@ -720,7 +1053,7 @@ namespace Implem.Pleasanter.Models
                 hb.Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral",
-                        text: Displays.Basic()));
+                        text: Displays.General()));
                 if (siteModel.MethodType != BaseModel.MethodTypes.New)
                 {
                     hb.Li(action: () => hb
@@ -928,7 +1261,7 @@ namespace Implem.Pleasanter.Models
                                 .SiteMenu(siteModel: null, siteConditions: siteConditions)
                                 .SiteMenuData()
                                 .LinkDialog())
-                        .TemplateDialog()
+                        .SiteTitleDialog(ss: ss)
                         .MainCommands(
                             ss: ss,
                             siteId: 0,
@@ -972,7 +1305,7 @@ namespace Implem.Pleasanter.Models
                                 .SiteMenu(siteModel: siteModel, siteConditions: siteConditions)
                                 .SiteMenuData()
                                 .LinkDialog())
-                        .TemplateDialog();
+                        .SiteTitleDialog(ss: siteModel.SiteSettings);
                     if (ss.SiteId != 0)
                     {
                         hb.MainCommands(
@@ -1278,23 +1611,121 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string EditorNew(SiteSettings ss)
+        private static HtmlBuilder SiteTitleDialog(this HtmlBuilder hb, SiteSettings ss)
         {
-            if (Contract.SitesLimit())
+            return hb.Div(
+                attributes: new HtmlAttributes()
+                    .Id("SiteTitleDialog")
+                    .Class("dialog")
+                    .Title(Displays.SiteName()),
+                action: () => hb
+                    .Form(
+                        attributes: new HtmlAttributes()
+                            .Id("SiteTitleForm")
+                            .Action(Locations.ItemAction(ss.SiteId)),
+                        action: () => hb
+                            .FieldTextBox(
+                                controlId: "SiteTitle",
+                                controlCss: " focus always-send",
+                                labelText: Displays.Title(),
+                                validateRequired: true)
+                            .Hidden(
+                                controlId: "TemplateId",
+                                css: " always-send")
+                            .P(css: "message-dialog")
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    controlId: "CreateByTemplate",
+                                    text: Displays.Create(),
+                                    controlCss: "button-icon validate",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-gear",
+                                    action: "CreateByTemplate",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Cancel(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.closeDialog($(this));",
+                                    icon: "ui-icon-cancel"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string PreviewTemplate()
+        {
+            var controlId = Forms.ControlId();
+            var template = Def.TemplateDefinitionCollection
+                .FirstOrDefault(o => o.Id == Forms.List(controlId).FirstOrDefault());
+            return template != null
+                ? PreviewTemplate(template, controlId)
+                : new ResponseCollection()
+                    .Html(
+                        "#" + controlId + "Viewer .description",
+                        Displays.SelectTemplate())
+                    .Toggle("#" + controlId + "Viewer .viewer", false)
+                    .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string PreviewTemplate(TemplateDefinition template, string controlId)
+        {
+            var hb = new HtmlBuilder();
+            var ss = template.SiteSettingsTemplate.Deserialize<SiteSettings>();
+            ss.Init();
+            ss.SetChoiceHash(withLink: false);
+            var html = string.Empty;
+            switch (ss.ReferenceType)
             {
-                return HtmlTemplates.Error(Error.Types.SitesLimit);
+                case "Sites":
+                    html = PreviewTemplate(ss, template.Title).ToString();
+                    break;
+                case "Issues":
+                    html = IssueUtilities.PreviewTemplate(ss).ToString();
+                    break;
+                case "Results":
+                    html = ResultUtilities.PreviewTemplate(ss).ToString();
+                    break;
+                case "Wikis":
+                    html = WikiUtilities.PreviewTemplate(ss, template.Body).ToString();
+                    break;
             }
-            return Editor(new SiteModel()
-            {
-                SiteSettings = new SiteSettings("Sites")
-                {
-                    PermissionType = ss.SiteId == 0
-                        ? SiteTopPermission()
-                        : Permissions.Get(ss.InheritPermission)
-                },
-                MethodType = BaseModel.MethodTypes.New,
-                SiteId = ss.SiteId
-            });
+            return new ResponseCollection()
+                .Html(
+                    "#" + controlId + "Viewer .description",
+                    hb.Text(text: Strings.CoalesceEmpty(
+                        template.Description, template.Title)))
+                .Html("#" + controlId + "Viewer .viewer", html)
+                .Invoke("setTemplateViewer")
+                .Toggle("#" + controlId + "Viewer .viewer", true)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string PreviewTemplate(SiteSettings ss, string title)
+        {
+            var hb = new HtmlBuilder();
+            var name = Strings.NewGuid();
+            return hb
+                .Div(css: "samples-displayed", action: () => hb
+                    .Text(text: Displays.SamplesDisplayed()))
+                .Div(css: "template-tab-container", action: () => hb
+                    .Ul(action: () => hb
+                        .Li(action: () => hb
+                            .A(
+                                href: "#" + name + "Editor",
+                                text: Displays.Menu())))
+                    .FieldSet(
+                        id: name + "Editor",
+                        action: () => hb
+                            .Div(css: "nav-site sites", action: () => hb
+                                .Span(css: "title", action: () => hb.Text(title))
+                                .Div(css: "heading"))))
+                                    .ToString();
         }
 
         /// <summary>

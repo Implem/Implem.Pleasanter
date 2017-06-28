@@ -100,17 +100,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static bool Contains(
             DataSet dataSet, IEnumerable<SiteSettings> ssList, string direction)
         {
-            if (ssList != null)
+            foreach (var ss in ssList)
             {
-                foreach (var ss in ssList)
+                if (dataSet.Tables[ss.ReferenceType + "_" + direction]?
+                    .AsEnumerable()
+                    .Where(o => o["SiteId"].ToLong() == ss.SiteId).Any() == true)
                 {
-                    if (dataSet.Tables[ss.ReferenceType + "_" + direction]?
-                        .AsEnumerable()
-                        .Where(o => o["SiteId"].ToLong() == ss.SiteId).Any() == true)
-                    {
-                        return true;
-                    };
-                }
+                    return true;
+                };
             }
             return false;
         }

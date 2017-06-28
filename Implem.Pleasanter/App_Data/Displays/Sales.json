@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "Basic",
+    "Id": "Sales",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Basic"
+            "Body": "Sales"
         },
         {
             "Language": "ja",
-            "Body": "基本"
+            "Body": "営業"
         }
     ]
 }

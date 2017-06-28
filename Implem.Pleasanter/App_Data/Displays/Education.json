@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "Basic",
+    "Id": "Education",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Basic"
+            "Body": "Education"
         },
         {
             "Language": "ja",
-            "Body": "基本"
+            "Body": "教育・人材開発"
         }
     ]
 }

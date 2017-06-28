@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "Basic",
+    "Id": "Store",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Basic"
+            "Body": "Store"
         },
         {
             "Language": "ja",
-            "Body": "基本"
+            "Body": "店舗・販売"
         }
     ]
 }

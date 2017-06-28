@@ -272,10 +272,37 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
-        public string CreateByTemplates(long id)
+        public string PreviewTemplate(long id)
         {
             var log = new SysLogModel();
-            var json = new ItemModel(id).CreateByTemplates();
+            var json = SiteUtilities.PreviewTemplate();
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string Templates(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).Templates();
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string CreateByTemplate(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).CreateByTemplate();
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string SiteMenu(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).SiteMenu();
             log.Finish(json.Length);
             return json;
         }
@@ -438,24 +465,6 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = PermissionUtilities.Permission(id);
-            log.Finish(json.Length);
-            return json;
-        }
-
-        [HttpPost]
-        public string OpenTemplateDialog(long id)
-        {
-            var log = new SysLogModel();
-            var json = HtmlSiteTemplates.OpenTemplateDialog(id);
-            log.Finish(json.Length);
-            return json;
-        }
-
-        [HttpPost]
-        public string Templates(long id)
-        {
-            var log = new SysLogModel();
-            var json = HtmlSiteTemplates.Templates(id);
             log.Finish(json.Length);
             return json;
         }

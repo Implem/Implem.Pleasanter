@@ -458,6 +458,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Limit_Items": Code.Model_Utilities_Limit_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Limit_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_LimitTemplate_Items": Code.Model_Utilities_LimitTemplate_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_LimitTemplate_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetSwitchTargets": Code.Model_Utilities_SetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetSwitchTargets, definitionRow, CodeXls); break;
+                    case "Model_Utilities_PreviewTemplate": Code.Model_Utilities_PreviewTemplate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PreviewTemplate, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldCases": Code.Model_Utilities_FieldCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldCases_Item": Code.Model_Utilities_FieldCases_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases_Item, definitionRow, CodeXls); break;
                     case "Model_Utilities_Links": Code.Model_Utilities_Links = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Links, definitionRow, CodeXls); break;
@@ -1924,6 +1925,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_RecordSwitchers": Css._sharp_RecordSwitchers = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_RecordSwitchers, definitionRow, CssXls); break;
                     case "_sharp_RecordSwitchers_space___space__asterisk_": Css._sharp_RecordSwitchers_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_RecordSwitchers_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_sharp_RecordSwitchers_space__dot_current": Css._sharp_RecordSwitchers_space__dot_current = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_RecordSwitchers_space__dot_current, definitionRow, CssXls); break;
+                    case "_sharp_TemplateTabsContainer": Css._sharp_TemplateTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_TemplateTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_Editor": Css._sharp_Editor = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Editor, definitionRow, CssXls); break;
                     case "_sharp_EditorTabsContainer": Css._sharp_EditorTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_EditorTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_EditorTabsContainer_dot_max": Css._sharp_EditorTabsContainer_dot_max = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_EditorTabsContainer_dot_max, definitionRow, CssXls); break;
@@ -1954,6 +1956,13 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Footer_space_a": Css._sharp_Footer_space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Footer_space_a, definitionRow, CssXls); break;
                     case "_sharp_Versions": Css._sharp_Versions = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Versions, definitionRow, CssXls); break;
                     case "_sharp_Versions_space_span": Css._sharp_Versions_space_span = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Versions_space_span, definitionRow, CssXls); break;
+                    case "_dot_template": Css._dot_template = definitionRow[1].ToString(); SetCssTable(CssTable._dot_template, definitionRow, CssXls); break;
+                    case "_dot_template_selectable": Css._dot_template_selectable = definitionRow[1].ToString(); SetCssTable(CssTable._dot_template_selectable, definitionRow, CssXls); break;
+                    case "_dot_template_viewer_container": Css._dot_template_viewer_container = definitionRow[1].ToString(); SetCssTable(CssTable._dot_template_viewer_container, definitionRow, CssXls); break;
+                    case "_dot_template_viewer": Css._dot_template_viewer = definitionRow[1].ToString(); SetCssTable(CssTable._dot_template_viewer, definitionRow, CssXls); break;
+                    case "_dot_template_viewer_space__dot_description": Css._dot_template_viewer_space__dot_description = definitionRow[1].ToString(); SetCssTable(CssTable._dot_template_viewer_space__dot_description, definitionRow, CssXls); break;
+                    case "_dot_template_viewer_space__dot_samples_displayed": Css._dot_template_viewer_space__dot_samples_displayed = definitionRow[1].ToString(); SetCssTable(CssTable._dot_template_viewer_space__dot_samples_displayed, definitionRow, CssXls); break;
+                    case "_dot_template_tab_container": Css._dot_template_tab_container = definitionRow[1].ToString(); SetCssTable(CssTable._dot_template_tab_container, definitionRow, CssXls); break;
                     case "_dot_main_form": Css._dot_main_form = definitionRow[1].ToString(); SetCssTable(CssTable._dot_main_form, definitionRow, CssXls); break;
                     case "_dot_nav_sites": Css._dot_nav_sites = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_sites, definitionRow, CssXls); break;
                     case "_dot_nav_site": Css._dot_nav_site = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site, definitionRow, CssXls); break;
@@ -3326,6 +3335,10 @@ namespace Implem.DefinitionAccessor
                     case "Template176": Template.Template176 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template176, definitionRow, TemplateXls); break;
                     case "Template177": Template.Template177 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template177, definitionRow, TemplateXls); break;
                     case "Template178": Template.Template178 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template178, definitionRow, TemplateXls); break;
+                    case "Template179": Template.Template179 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template179, definitionRow, TemplateXls); break;
+                    case "Template180": Template.Template180 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template180, definitionRow, TemplateXls); break;
+                    case "Template181": Template.Template181 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template181, definitionRow, TemplateXls); break;
+                    case "Template182": Template.Template182 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template182, definitionRow, TemplateXls); break;
                     default: break;
                 }
             });
@@ -3335,10 +3348,27 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Id")) { newTemplateDefinition.Id = definitionRow["Id"].ToString(); newTemplateDefinition.SavedId = newTemplateDefinition.Id; }
                 if (definitionRow.ContainsKey("SiteSettingsTemplate")) { newTemplateDefinition.SiteSettingsTemplate = definitionRow["SiteSettingsTemplate"].ToString(); newTemplateDefinition.SavedSiteSettingsTemplate = newTemplateDefinition.SiteSettingsTemplate; }
                 if (definitionRow.ContainsKey("Title")) { newTemplateDefinition.Title = definitionRow["Title"].ToString(); newTemplateDefinition.SavedTitle = newTemplateDefinition.Title; }
-                if (definitionRow.ContainsKey("Order")) { newTemplateDefinition.Order = definitionRow["Order"].ToInt(); newTemplateDefinition.SavedOrder = newTemplateDefinition.Order; }
-                if (definitionRow.ContainsKey("Standard")) { newTemplateDefinition.Standard = definitionRow["Standard"].ToBool(); newTemplateDefinition.SavedStandard = newTemplateDefinition.Standard; }
                 if (definitionRow.ContainsKey("Body")) { newTemplateDefinition.Body = definitionRow["Body"].ToString(); newTemplateDefinition.SavedBody = newTemplateDefinition.Body; }
+                if (definitionRow.ContainsKey("Description")) { newTemplateDefinition.Description = definitionRow["Description"].ToString(); newTemplateDefinition.SavedDescription = newTemplateDefinition.Description; }
                 if (definitionRow.ContainsKey("Tags")) { newTemplateDefinition.Tags = definitionRow["Tags"].ToString(); newTemplateDefinition.SavedTags = newTemplateDefinition.Tags; }
+                if (definitionRow.ContainsKey("Standard")) { newTemplateDefinition.Standard = definitionRow["Standard"].ToInt(); newTemplateDefinition.SavedStandard = newTemplateDefinition.Standard; }
+                if (definitionRow.ContainsKey("Project")) { newTemplateDefinition.Project = definitionRow["Project"].ToInt(); newTemplateDefinition.SavedProject = newTemplateDefinition.Project; }
+                if (definitionRow.ContainsKey("BusinessImprovement")) { newTemplateDefinition.BusinessImprovement = definitionRow["BusinessImprovement"].ToInt(); newTemplateDefinition.SavedBusinessImprovement = newTemplateDefinition.BusinessImprovement; }
+                if (definitionRow.ContainsKey("Sales")) { newTemplateDefinition.Sales = definitionRow["Sales"].ToInt(); newTemplateDefinition.SavedSales = newTemplateDefinition.Sales; }
+                if (definitionRow.ContainsKey("Customer")) { newTemplateDefinition.Customer = definitionRow["Customer"].ToInt(); newTemplateDefinition.SavedCustomer = newTemplateDefinition.Customer; }
+                if (definitionRow.ContainsKey("Store")) { newTemplateDefinition.Store = definitionRow["Store"].ToInt(); newTemplateDefinition.SavedStore = newTemplateDefinition.Store; }
+                if (definitionRow.ContainsKey("ResearchAndDevelopment")) { newTemplateDefinition.ResearchAndDevelopment = definitionRow["ResearchAndDevelopment"].ToInt(); newTemplateDefinition.SavedResearchAndDevelopment = newTemplateDefinition.ResearchAndDevelopment; }
+                if (definitionRow.ContainsKey("Marketing")) { newTemplateDefinition.Marketing = definitionRow["Marketing"].ToInt(); newTemplateDefinition.SavedMarketing = newTemplateDefinition.Marketing; }
+                if (definitionRow.ContainsKey("Manufacture")) { newTemplateDefinition.Manufacture = definitionRow["Manufacture"].ToInt(); newTemplateDefinition.SavedManufacture = newTemplateDefinition.Manufacture; }
+                if (definitionRow.ContainsKey("InformationSystem")) { newTemplateDefinition.InformationSystem = definitionRow["InformationSystem"].ToInt(); newTemplateDefinition.SavedInformationSystem = newTemplateDefinition.InformationSystem; }
+                if (definitionRow.ContainsKey("CorporatePlanning")) { newTemplateDefinition.CorporatePlanning = definitionRow["CorporatePlanning"].ToInt(); newTemplateDefinition.SavedCorporatePlanning = newTemplateDefinition.CorporatePlanning; }
+                if (definitionRow.ContainsKey("HumanResourcesAndGeneralAffairs")) { newTemplateDefinition.HumanResourcesAndGeneralAffairs = definitionRow["HumanResourcesAndGeneralAffairs"].ToInt(); newTemplateDefinition.SavedHumanResourcesAndGeneralAffairs = newTemplateDefinition.HumanResourcesAndGeneralAffairs; }
+                if (definitionRow.ContainsKey("Education")) { newTemplateDefinition.Education = definitionRow["Education"].ToInt(); newTemplateDefinition.SavedEducation = newTemplateDefinition.Education; }
+                if (definitionRow.ContainsKey("Purchase")) { newTemplateDefinition.Purchase = definitionRow["Purchase"].ToInt(); newTemplateDefinition.SavedPurchase = newTemplateDefinition.Purchase; }
+                if (definitionRow.ContainsKey("Logistics")) { newTemplateDefinition.Logistics = definitionRow["Logistics"].ToInt(); newTemplateDefinition.SavedLogistics = newTemplateDefinition.Logistics; }
+                if (definitionRow.ContainsKey("LegalAffairs")) { newTemplateDefinition.LegalAffairs = definitionRow["LegalAffairs"].ToInt(); newTemplateDefinition.SavedLegalAffairs = newTemplateDefinition.LegalAffairs; }
+                if (definitionRow.ContainsKey("ProductList")) { newTemplateDefinition.ProductList = definitionRow["ProductList"].ToInt(); newTemplateDefinition.SavedProductList = newTemplateDefinition.ProductList; }
+                if (definitionRow.ContainsKey("Classification")) { newTemplateDefinition.Classification = definitionRow["Classification"].ToInt(); newTemplateDefinition.SavedClassification = newTemplateDefinition.Classification; }
                 TemplateDefinitionCollection.Add(newTemplateDefinition);
             });
         }
@@ -3348,10 +3378,27 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
             if (definitionRow.ContainsKey("SiteSettingsTemplate")) { definition.SiteSettingsTemplate = definitionRow["SiteSettingsTemplate"].ToString(); definition.SavedSiteSettingsTemplate = definition.SiteSettingsTemplate; }
             if (definitionRow.ContainsKey("Title")) { definition.Title = definitionRow["Title"].ToString(); definition.SavedTitle = definition.Title; }
-            if (definitionRow.ContainsKey("Order")) { definition.Order = definitionRow["Order"].ToInt(); definition.SavedOrder = definition.Order; }
-            if (definitionRow.ContainsKey("Standard")) { definition.Standard = definitionRow["Standard"].ToBool(); definition.SavedStandard = definition.Standard; }
             if (definitionRow.ContainsKey("Body")) { definition.Body = definitionRow["Body"].ToString(); definition.SavedBody = definition.Body; }
+            if (definitionRow.ContainsKey("Description")) { definition.Description = definitionRow["Description"].ToString(); definition.SavedDescription = definition.Description; }
             if (definitionRow.ContainsKey("Tags")) { definition.Tags = definitionRow["Tags"].ToString(); definition.SavedTags = definition.Tags; }
+            if (definitionRow.ContainsKey("Standard")) { definition.Standard = definitionRow["Standard"].ToInt(); definition.SavedStandard = definition.Standard; }
+            if (definitionRow.ContainsKey("Project")) { definition.Project = definitionRow["Project"].ToInt(); definition.SavedProject = definition.Project; }
+            if (definitionRow.ContainsKey("BusinessImprovement")) { definition.BusinessImprovement = definitionRow["BusinessImprovement"].ToInt(); definition.SavedBusinessImprovement = definition.BusinessImprovement; }
+            if (definitionRow.ContainsKey("Sales")) { definition.Sales = definitionRow["Sales"].ToInt(); definition.SavedSales = definition.Sales; }
+            if (definitionRow.ContainsKey("Customer")) { definition.Customer = definitionRow["Customer"].ToInt(); definition.SavedCustomer = definition.Customer; }
+            if (definitionRow.ContainsKey("Store")) { definition.Store = definitionRow["Store"].ToInt(); definition.SavedStore = definition.Store; }
+            if (definitionRow.ContainsKey("ResearchAndDevelopment")) { definition.ResearchAndDevelopment = definitionRow["ResearchAndDevelopment"].ToInt(); definition.SavedResearchAndDevelopment = definition.ResearchAndDevelopment; }
+            if (definitionRow.ContainsKey("Marketing")) { definition.Marketing = definitionRow["Marketing"].ToInt(); definition.SavedMarketing = definition.Marketing; }
+            if (definitionRow.ContainsKey("Manufacture")) { definition.Manufacture = definitionRow["Manufacture"].ToInt(); definition.SavedManufacture = definition.Manufacture; }
+            if (definitionRow.ContainsKey("InformationSystem")) { definition.InformationSystem = definitionRow["InformationSystem"].ToInt(); definition.SavedInformationSystem = definition.InformationSystem; }
+            if (definitionRow.ContainsKey("CorporatePlanning")) { definition.CorporatePlanning = definitionRow["CorporatePlanning"].ToInt(); definition.SavedCorporatePlanning = definition.CorporatePlanning; }
+            if (definitionRow.ContainsKey("HumanResourcesAndGeneralAffairs")) { definition.HumanResourcesAndGeneralAffairs = definitionRow["HumanResourcesAndGeneralAffairs"].ToInt(); definition.SavedHumanResourcesAndGeneralAffairs = definition.HumanResourcesAndGeneralAffairs; }
+            if (definitionRow.ContainsKey("Education")) { definition.Education = definitionRow["Education"].ToInt(); definition.SavedEducation = definition.Education; }
+            if (definitionRow.ContainsKey("Purchase")) { definition.Purchase = definitionRow["Purchase"].ToInt(); definition.SavedPurchase = definition.Purchase; }
+            if (definitionRow.ContainsKey("Logistics")) { definition.Logistics = definitionRow["Logistics"].ToInt(); definition.SavedLogistics = definition.Logistics; }
+            if (definitionRow.ContainsKey("LegalAffairs")) { definition.LegalAffairs = definitionRow["LegalAffairs"].ToInt(); definition.SavedLegalAffairs = definition.LegalAffairs; }
+            if (definitionRow.ContainsKey("ProductList")) { definition.ProductList = definitionRow["ProductList"].ToInt(); definition.SavedProductList = definition.ProductList; }
+            if (definitionRow.ContainsKey("Classification")) { definition.Classification = definitionRow["Classification"].ToInt(); definition.SavedClassification = definition.Classification; }
         }
 
         private static void ConstructTemplateDefinitions()
@@ -3889,10 +3936,27 @@ namespace Implem.DefinitionAccessor
                         case "Id": templateDefinition.Id = optionValue.ToString(); break;
                         case "SiteSettingsTemplate": templateDefinition.SiteSettingsTemplate = optionValue.ToString(); break;
                         case "Title": templateDefinition.Title = optionValue.ToString(); break;
-                        case "Order": templateDefinition.Order = optionValue.ToInt(); break;
-                        case "Standard": templateDefinition.Standard = optionValue.ToBool(); break;
                         case "Body": templateDefinition.Body = optionValue.ToString(); break;
+                        case "Description": templateDefinition.Description = optionValue.ToString(); break;
                         case "Tags": templateDefinition.Tags = optionValue.ToString(); break;
+                        case "Standard": templateDefinition.Standard = optionValue.ToInt(); break;
+                        case "Project": templateDefinition.Project = optionValue.ToInt(); break;
+                        case "BusinessImprovement": templateDefinition.BusinessImprovement = optionValue.ToInt(); break;
+                        case "Sales": templateDefinition.Sales = optionValue.ToInt(); break;
+                        case "Customer": templateDefinition.Customer = optionValue.ToInt(); break;
+                        case "Store": templateDefinition.Store = optionValue.ToInt(); break;
+                        case "ResearchAndDevelopment": templateDefinition.ResearchAndDevelopment = optionValue.ToInt(); break;
+                        case "Marketing": templateDefinition.Marketing = optionValue.ToInt(); break;
+                        case "Manufacture": templateDefinition.Manufacture = optionValue.ToInt(); break;
+                        case "InformationSystem": templateDefinition.InformationSystem = optionValue.ToInt(); break;
+                        case "CorporatePlanning": templateDefinition.CorporatePlanning = optionValue.ToInt(); break;
+                        case "HumanResourcesAndGeneralAffairs": templateDefinition.HumanResourcesAndGeneralAffairs = optionValue.ToInt(); break;
+                        case "Education": templateDefinition.Education = optionValue.ToInt(); break;
+                        case "Purchase": templateDefinition.Purchase = optionValue.ToInt(); break;
+                        case "Logistics": templateDefinition.Logistics = optionValue.ToInt(); break;
+                        case "LegalAffairs": templateDefinition.LegalAffairs = optionValue.ToInt(); break;
+                        case "ProductList": templateDefinition.ProductList = optionValue.ToInt(); break;
+                        case "Classification": templateDefinition.Classification = optionValue.ToInt(); break;
                     }
                 });
         }
@@ -4460,6 +4524,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Limit_Items;
         public string Model_Utilities_LimitTemplate_Items;
         public string Model_Utilities_SetSwitchTargets;
+        public string Model_Utilities_PreviewTemplate;
         public string Model_Utilities_FieldCases;
         public string Model_Utilities_FieldCases_Item;
         public string Model_Utilities_Links;
@@ -4910,6 +4975,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Limit_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_LimitTemplate_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetSwitchTargets = new CodeDefinition();
+        public CodeDefinition Model_Utilities_PreviewTemplate = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldCases_Item = new CodeDefinition();
         public CodeDefinition Model_Utilities_Links = new CodeDefinition();
@@ -7345,6 +7411,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_RecordSwitchers;
         public string _sharp_RecordSwitchers_space___space__asterisk_;
         public string _sharp_RecordSwitchers_space__dot_current;
+        public string _sharp_TemplateTabsContainer;
         public string _sharp_Editor;
         public string _sharp_EditorTabsContainer;
         public string _sharp_EditorTabsContainer_dot_max;
@@ -7375,6 +7442,13 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Footer_space_a;
         public string _sharp_Versions;
         public string _sharp_Versions_space_span;
+        public string _dot_template;
+        public string _dot_template_selectable;
+        public string _dot_template_viewer_container;
+        public string _dot_template_viewer;
+        public string _dot_template_viewer_space__dot_description;
+        public string _dot_template_viewer_space__dot_samples_displayed;
+        public string _dot_template_tab_container;
         public string _dot_main_form;
         public string _dot_nav_sites;
         public string _dot_nav_site;
@@ -7764,6 +7838,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_RecordSwitchers = new CssDefinition();
         public CssDefinition _sharp_RecordSwitchers_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _sharp_RecordSwitchers_space__dot_current = new CssDefinition();
+        public CssDefinition _sharp_TemplateTabsContainer = new CssDefinition();
         public CssDefinition _sharp_Editor = new CssDefinition();
         public CssDefinition _sharp_EditorTabsContainer = new CssDefinition();
         public CssDefinition _sharp_EditorTabsContainer_dot_max = new CssDefinition();
@@ -7794,6 +7869,13 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Footer_space_a = new CssDefinition();
         public CssDefinition _sharp_Versions = new CssDefinition();
         public CssDefinition _sharp_Versions_space_span = new CssDefinition();
+        public CssDefinition _dot_template = new CssDefinition();
+        public CssDefinition _dot_template_selectable = new CssDefinition();
+        public CssDefinition _dot_template_viewer_container = new CssDefinition();
+        public CssDefinition _dot_template_viewer = new CssDefinition();
+        public CssDefinition _dot_template_viewer_space__dot_description = new CssDefinition();
+        public CssDefinition _dot_template_viewer_space__dot_samples_displayed = new CssDefinition();
+        public CssDefinition _dot_template_tab_container = new CssDefinition();
         public CssDefinition _dot_main_form = new CssDefinition();
         public CssDefinition _dot_nav_sites = new CssDefinition();
         public CssDefinition _dot_nav_site = new CssDefinition();
@@ -9573,10 +9655,27 @@ namespace Implem.DefinitionAccessor
         public string Id; public string SavedId;
         public string SiteSettingsTemplate; public string SavedSiteSettingsTemplate;
         public string Title; public string SavedTitle;
-        public int Order; public int SavedOrder;
-        public bool Standard; public bool SavedStandard;
         public string Body; public string SavedBody;
+        public string Description; public string SavedDescription;
         public string Tags; public string SavedTags;
+        public int Standard; public int SavedStandard;
+        public int Project; public int SavedProject;
+        public int BusinessImprovement; public int SavedBusinessImprovement;
+        public int Sales; public int SavedSales;
+        public int Customer; public int SavedCustomer;
+        public int Store; public int SavedStore;
+        public int ResearchAndDevelopment; public int SavedResearchAndDevelopment;
+        public int Marketing; public int SavedMarketing;
+        public int Manufacture; public int SavedManufacture;
+        public int InformationSystem; public int SavedInformationSystem;
+        public int CorporatePlanning; public int SavedCorporatePlanning;
+        public int HumanResourcesAndGeneralAffairs; public int SavedHumanResourcesAndGeneralAffairs;
+        public int Education; public int SavedEducation;
+        public int Purchase; public int SavedPurchase;
+        public int Logistics; public int SavedLogistics;
+        public int LegalAffairs; public int SavedLegalAffairs;
+        public int ProductList; public int SavedProductList;
+        public int Classification; public int SavedClassification;
 
         public TemplateDefinition()
         {
@@ -9587,10 +9686,27 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
             if (propertyCollection.ContainsKey("SiteSettingsTemplate")) SiteSettingsTemplate = propertyCollection["SiteSettingsTemplate"].ToString(); else SiteSettingsTemplate = string.Empty;
             if (propertyCollection.ContainsKey("Title")) Title = propertyCollection["Title"].ToString(); else Title = string.Empty;
-            if (propertyCollection.ContainsKey("Order")) Order = propertyCollection["Order"].ToInt(); else Order = 0;
-            if (propertyCollection.ContainsKey("Standard")) Standard = propertyCollection["Standard"].ToBool(); else Standard = false;
             if (propertyCollection.ContainsKey("Body")) Body = propertyCollection["Body"].ToString(); else Body = string.Empty;
+            if (propertyCollection.ContainsKey("Description")) Description = propertyCollection["Description"].ToString(); else Description = string.Empty;
             if (propertyCollection.ContainsKey("Tags")) Tags = propertyCollection["Tags"].ToString(); else Tags = string.Empty;
+            if (propertyCollection.ContainsKey("Standard")) Standard = propertyCollection["Standard"].ToInt(); else Standard = 0;
+            if (propertyCollection.ContainsKey("Project")) Project = propertyCollection["Project"].ToInt(); else Project = 0;
+            if (propertyCollection.ContainsKey("BusinessImprovement")) BusinessImprovement = propertyCollection["BusinessImprovement"].ToInt(); else BusinessImprovement = 0;
+            if (propertyCollection.ContainsKey("Sales")) Sales = propertyCollection["Sales"].ToInt(); else Sales = 0;
+            if (propertyCollection.ContainsKey("Customer")) Customer = propertyCollection["Customer"].ToInt(); else Customer = 0;
+            if (propertyCollection.ContainsKey("Store")) Store = propertyCollection["Store"].ToInt(); else Store = 0;
+            if (propertyCollection.ContainsKey("ResearchAndDevelopment")) ResearchAndDevelopment = propertyCollection["ResearchAndDevelopment"].ToInt(); else ResearchAndDevelopment = 0;
+            if (propertyCollection.ContainsKey("Marketing")) Marketing = propertyCollection["Marketing"].ToInt(); else Marketing = 0;
+            if (propertyCollection.ContainsKey("Manufacture")) Manufacture = propertyCollection["Manufacture"].ToInt(); else Manufacture = 0;
+            if (propertyCollection.ContainsKey("InformationSystem")) InformationSystem = propertyCollection["InformationSystem"].ToInt(); else InformationSystem = 0;
+            if (propertyCollection.ContainsKey("CorporatePlanning")) CorporatePlanning = propertyCollection["CorporatePlanning"].ToInt(); else CorporatePlanning = 0;
+            if (propertyCollection.ContainsKey("HumanResourcesAndGeneralAffairs")) HumanResourcesAndGeneralAffairs = propertyCollection["HumanResourcesAndGeneralAffairs"].ToInt(); else HumanResourcesAndGeneralAffairs = 0;
+            if (propertyCollection.ContainsKey("Education")) Education = propertyCollection["Education"].ToInt(); else Education = 0;
+            if (propertyCollection.ContainsKey("Purchase")) Purchase = propertyCollection["Purchase"].ToInt(); else Purchase = 0;
+            if (propertyCollection.ContainsKey("Logistics")) Logistics = propertyCollection["Logistics"].ToInt(); else Logistics = 0;
+            if (propertyCollection.ContainsKey("LegalAffairs")) LegalAffairs = propertyCollection["LegalAffairs"].ToInt(); else LegalAffairs = 0;
+            if (propertyCollection.ContainsKey("ProductList")) ProductList = propertyCollection["ProductList"].ToInt(); else ProductList = 0;
+            if (propertyCollection.ContainsKey("Classification")) Classification = propertyCollection["Classification"].ToInt(); else Classification = 0;
         }
 
         public object this[string key]
@@ -9601,10 +9717,27 @@ namespace Implem.DefinitionAccessor
                     case "Id": return Id;
                     case "SiteSettingsTemplate": return SiteSettingsTemplate;
                     case "Title": return Title;
-                    case "Order": return Order;
-                    case "Standard": return Standard;
                     case "Body": return Body;
+                    case "Description": return Description;
                     case "Tags": return Tags;
+                    case "Standard": return Standard;
+                    case "Project": return Project;
+                    case "BusinessImprovement": return BusinessImprovement;
+                    case "Sales": return Sales;
+                    case "Customer": return Customer;
+                    case "Store": return Store;
+                    case "ResearchAndDevelopment": return ResearchAndDevelopment;
+                    case "Marketing": return Marketing;
+                    case "Manufacture": return Manufacture;
+                    case "InformationSystem": return InformationSystem;
+                    case "CorporatePlanning": return CorporatePlanning;
+                    case "HumanResourcesAndGeneralAffairs": return HumanResourcesAndGeneralAffairs;
+                    case "Education": return Education;
+                    case "Purchase": return Purchase;
+                    case "Logistics": return Logistics;
+                    case "LegalAffairs": return LegalAffairs;
+                    case "ProductList": return ProductList;
+                    case "Classification": return Classification;
                     default: return null;
                 }
             }
@@ -9615,10 +9748,27 @@ namespace Implem.DefinitionAccessor
             Id = SavedId;
             SiteSettingsTemplate = SavedSiteSettingsTemplate;
             Title = SavedTitle;
-            Order = SavedOrder;
-            Standard = SavedStandard;
             Body = SavedBody;
+            Description = SavedDescription;
             Tags = SavedTags;
+            Standard = SavedStandard;
+            Project = SavedProject;
+            BusinessImprovement = SavedBusinessImprovement;
+            Sales = SavedSales;
+            Customer = SavedCustomer;
+            Store = SavedStore;
+            ResearchAndDevelopment = SavedResearchAndDevelopment;
+            Marketing = SavedMarketing;
+            Manufacture = SavedManufacture;
+            InformationSystem = SavedInformationSystem;
+            CorporatePlanning = SavedCorporatePlanning;
+            HumanResourcesAndGeneralAffairs = SavedHumanResourcesAndGeneralAffairs;
+            Education = SavedEducation;
+            Purchase = SavedPurchase;
+            Logistics = SavedLogistics;
+            LegalAffairs = SavedLegalAffairs;
+            ProductList = SavedProductList;
+            Classification = SavedClassification;
         }
     }
 
@@ -9802,6 +9952,10 @@ namespace Implem.DefinitionAccessor
         public string Template176;
         public string Template177;
         public string Template178;
+        public string Template179;
+        public string Template180;
+        public string Template181;
+        public string Template182;
     }
 
     public class TemplateTable
@@ -9984,6 +10138,10 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template176 = new TemplateDefinition();
         public TemplateDefinition Template177 = new TemplateDefinition();
         public TemplateDefinition Template178 = new TemplateDefinition();
+        public TemplateDefinition Template179 = new TemplateDefinition();
+        public TemplateDefinition Template180 = new TemplateDefinition();
+        public TemplateDefinition Template181 = new TemplateDefinition();
+        public TemplateDefinition Template182 = new TemplateDefinition();
     }
 
     public class ViewModeDefinition

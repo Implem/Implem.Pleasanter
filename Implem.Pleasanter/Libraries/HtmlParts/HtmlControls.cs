@@ -134,8 +134,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool readOnly = false,
             bool validateRequired = false,
             Dictionary<string, string> attributes = null,
+            bool preview = false,
             bool _using = true)
         {
+            if (preview) controlId = Strings.NewGuid();
             return _using
                 ? hb
                     .Div(attributes: new HtmlAttributes()
@@ -538,6 +540,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss = null,
             Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
+            string action = null,
+            string method = null,
             bool _using = true)
         {
             return _using
@@ -548,7 +552,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlId: controlId,
                             controlCss: Css.Class("control-selectable", controlCss),
                             listItemCollection: listItemCollection,
-                            selectedValueCollection: selectedValueCollection))
+                            selectedValueCollection: selectedValueCollection,
+                            action: action,
+                            method: method))
                 : hb;
         }
 
@@ -558,11 +564,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss = null,
             Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
+            string action = null,
+            string method = null,
             bool _using = true)
         {
             return _using
-                ? hb.Ol(id: controlId,
+                ? hb.Ol(
+                    id: controlId,
                     css: Css.Class("control-selectable", controlCss),
+                    attributes: new HtmlAttributes()
+                        .DataAction(action)
+                        .DataMethod(method),
                     action: () => hb
                         .SelectableItems(
                             listItemCollection: listItemCollection,

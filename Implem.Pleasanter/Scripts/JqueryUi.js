@@ -13,6 +13,7 @@
             var icon = $control.attr('data-icon');
             $control.button({ icon: icon });
         }).addClass('applied');
+        $('.button-icon.hidden').toggle(false);
         $('select[multiple]:not(.applied)').multiselect({
             selectedList: 100,
             checkAllText: $p.display('CheckAll'),

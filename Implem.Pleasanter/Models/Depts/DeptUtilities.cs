@@ -502,7 +502,7 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 
-                        text: Displays.Basic()))
+                        text: Displays.General()))
                 .Li(
                     _using: deptModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
@@ -517,56 +517,70 @@ namespace Implem.Pleasanter.Models
             DeptModel deptModel)
         {
             var mine = deptModel.Mine();
-            return hb.FieldSet(id: "FieldSetGeneral", action: () =>
+            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
+                .FieldSetGeneralColumns(
+                    ss: ss, deptModel: deptModel));
+        }
+
+        private static HtmlBuilder FieldSetGeneralColumns(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            DeptModel deptModel,
+            bool preview = false)
+        {
+            ss.GetEditorColumns().ForEach(column =>
             {
-                ss.GetEditorColumns().ForEach(column =>
+                switch (column.ColumnName)
                 {
-                    switch (column.ColumnName)
-                    {
-                        case "DeptId":
-                            hb.Field(
-                                ss,
-                                column,
-                                deptModel.MethodType,
-                                deptModel.DeptId.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Ver":
-                            hb.Field(
-                                ss,
-                                column,
-                                deptModel.MethodType,
-                                deptModel.Ver.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DeptCode":
-                            hb.Field(
-                                ss,
-                                column,
-                                deptModel.MethodType,
-                                deptModel.DeptCode.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "DeptName":
-                            hb.Field(
-                                ss,
-                                column,
-                                deptModel.MethodType,
-                                deptModel.DeptName.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                        case "Body":
-                            hb.Field(
-                                ss,
-                                column,
-                                deptModel.MethodType,
-                                deptModel.Body.ToControl(ss, column),
-                                column.ColumnPermissionType());
-                            break;
-                    }
-                });
-                hb.VerUpCheckBox(deptModel);
+                    case "DeptId":
+                        hb.Field(
+                            ss,
+                            column,
+                            deptModel.MethodType,
+                            deptModel.DeptId.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Ver":
+                        hb.Field(
+                            ss,
+                            column,
+                            deptModel.MethodType,
+                            deptModel.Ver.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DeptCode":
+                        hb.Field(
+                            ss,
+                            column,
+                            deptModel.MethodType,
+                            deptModel.DeptCode.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "DeptName":
+                        hb.Field(
+                            ss,
+                            column,
+                            deptModel.MethodType,
+                            deptModel.DeptName.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Body":
+                        hb.Field(
+                            ss,
+                            column,
+                            deptModel.MethodType,
+                            deptModel.Body.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                }
             });
+            if (!preview) hb.VerUpCheckBox(deptModel);
+            return hb;
         }
 
         private static HtmlBuilder MainCommandExtensions(
