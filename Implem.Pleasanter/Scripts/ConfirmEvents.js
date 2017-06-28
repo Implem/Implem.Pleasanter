@@ -6,7 +6,7 @@
             $p.formChanged = true;
         });
     $(window).bind("beforeunload", function () {
-        if ($p.formChanged) {
+        if ($p.formChanged && $('#Editor').length === 1) {
             return $p.display('ConfirmReload');
         }
     });
