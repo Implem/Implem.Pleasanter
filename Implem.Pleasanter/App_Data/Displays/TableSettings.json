@@ -1,0 +1,13 @@
+﻿{
+    "Id": "TableSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Table settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "テーブルの設定"
+        }
+    ]
+}

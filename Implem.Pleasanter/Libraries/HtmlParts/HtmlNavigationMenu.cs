@@ -186,7 +186,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool canManageGroups,
             bool canManageUsers)
         {
-
             return hb.Ul(
                 id: "SettingsMenu",
                 css: "menu",
@@ -197,7 +196,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 href: Locations.ItemEdit(siteId),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
-                                    .Text(text: Displays.SiteSettings())),
+                                    .Text(text: SiteSettingsDisplayName(ss))),
                         _using: canManageSite)
                     .Li(
                         action: () => hb
@@ -223,6 +222,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Span(css: "ui-icon ui-icon-gear")
                                     .Text(text: Displays.UserAdmin())),
                         _using: canManageUsers));
+        }
+
+        private static string SiteSettingsDisplayName(SiteSettings ss)
+        {
+            switch (ss.ReferenceType)
+            {
+                case "Sites":
+                    return Displays.FolderSettings();
+                case "Issues":
+                case "Results":
+                    return Displays.TableSettings();
+                case "Wikis":
+                    return Displays.WikiSettings();
+                default:
+                    return null;
+            }
         }
 
         private static HtmlBuilder AccountMenu(this HtmlBuilder hb)

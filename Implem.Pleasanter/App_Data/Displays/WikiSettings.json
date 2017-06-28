@@ -1,0 +1,13 @@
+﻿{
+    "Id": "WikiSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Wiki settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "Wikiの設定"
+        }
+    ]
+}

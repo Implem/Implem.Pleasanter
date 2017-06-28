@@ -1,0 +1,13 @@
+﻿{
+    "Id": "FolderSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Folder settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "フォルダの設定"
+        }
+    ]
+}
