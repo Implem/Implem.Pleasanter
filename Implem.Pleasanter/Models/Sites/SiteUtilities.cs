@@ -2217,7 +2217,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(id: "FiltersSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
-                    legendText: Displays.ListSettings(),
+                    legendText: Displays.FilterSettings(),
                     action: () => hb
                         .FieldSelectable(
                             controlId: "FilterColumns",

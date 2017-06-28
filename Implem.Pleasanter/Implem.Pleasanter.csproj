@@ -1153,6 +1153,7 @@
     <Content Include="App_Data\Displays\TableSettings.json" />
     <Content Include="App_Data\Displays\ManageWiki.json" />
     <Content Include="App_Data\Displays\Manage.json" />
+    <Content Include="App_Data\Displays\FilterSettings.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

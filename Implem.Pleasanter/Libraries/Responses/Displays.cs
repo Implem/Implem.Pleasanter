@@ -182,6 +182,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string FileNotFound(params string[] data) { return Get("FileNotFound", data); }
         public static string FileUpdateCompleted(params string[] data) { return Get("FileUpdateCompleted", data); }
         public static string Filters(params string[] data) { return Get("Filters", data); }
+        public static string FilterSettings(params string[] data) { return Get("FilterSettings", data); }
         public static string FirstDay(params string[] data) { return Get("FirstDay", data); }
         public static string Folder(params string[] data) { return Get("Folder", data); }
         public static string Format(params string[] data) { return Get("Format", data); }
