@@ -80,10 +80,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             siteId.ToString(),
                                             Requests.ViewModes.GetBySession(siteId));
                                 default:
-                                    return Locations.Get(
-                                        "Items",
-                                        siteId.ToString(),
-                                        Requests.ViewModes.GetBySession(siteId));
+                                    return Locations.ItemIndex(parentId);
                             }
                     }
             }
