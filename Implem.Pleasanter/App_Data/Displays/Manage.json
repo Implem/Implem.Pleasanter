@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "WikiSettings",
+    "Id": "Manage",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Wiki settings"
+            "Body": "Manage"
         },
         {
             "Language": "ja",
-            "Body": "Wikiの設定"
+            "Body": "管理"
         }
     ]
 }

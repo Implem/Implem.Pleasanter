@@ -1149,9 +1149,10 @@
     <Content Include="App_Data\Displays\SamplesDisplayed.json" />
     <Content Include="App_Data\Displays\SelectTemplate.json" />
     <Content Include="App_Data\Displays\Folder.json" />
-    <Content Include="App_Data\Displays\FolderSettings.json" />
+    <Content Include="App_Data\Displays\ManageFolder.json" />
     <Content Include="App_Data\Displays\TableSettings.json" />
-    <Content Include="App_Data\Displays\WikiSettings.json" />
+    <Content Include="App_Data\Displays\ManageWiki.json" />
+    <Content Include="App_Data\Displays\Manage.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

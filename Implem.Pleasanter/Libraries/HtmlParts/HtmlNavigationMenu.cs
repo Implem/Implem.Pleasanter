@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: new HtmlAttributes().DataId("SettingsMenu"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
-                                    .Text(text: Displays.Setting()))
+                                    .Text(text: Displays.Manage()))
                             .SettingsMenu(
                                 ss: ss,
                                 siteId: siteId,
@@ -229,12 +229,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (ss.ReferenceType)
             {
                 case "Sites":
-                    return Displays.FolderSettings();
+                    return Displays.ManageFolder();
                 case "Issues":
                 case "Results":
-                    return Displays.TableSettings();
+                    return Displays.ManageTable();
                 case "Wikis":
-                    return Displays.WikiSettings();
+                    return Displays.ManageWiki();
                 default:
                     return null;
             }

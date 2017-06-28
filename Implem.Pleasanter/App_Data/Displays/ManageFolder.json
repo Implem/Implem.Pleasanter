@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "FolderSettings",
+    "Id": "ManageFolder",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Folder settings"
+            "Body": "Manage folder"
         },
         {
             "Language": "ja",
-            "Body": "フォルダの設定"
+            "Body": "フォルダの管理"
         }
     ]
 }
