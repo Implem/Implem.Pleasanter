@@ -565,7 +565,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: null,
                                 action: () => hb.Text(legendText));
                         }
-                        if (action != null) action();
+                        action?.Invoke();
                     })
                 : hb;
         }
