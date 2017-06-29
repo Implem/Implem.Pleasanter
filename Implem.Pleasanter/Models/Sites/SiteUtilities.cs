@@ -1762,7 +1762,7 @@ namespace Implem.Pleasanter.Models
                 siteReferenceType: siteModel.ReferenceType,
                 title: siteModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Sites() + " - " + Displays.New()
-                    : siteModel.Title + " - " + Displays.EditSettings(),
+                    : siteModel.Title + " - " + Displays.Manage(),
                 action: () => hb
                     .Editor(siteModel: siteModel)
                     .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
