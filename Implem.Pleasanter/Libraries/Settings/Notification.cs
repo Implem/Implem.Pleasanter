@@ -110,7 +110,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 case Types.Mail:
                     var mailFrom = new System.Net.Mail.MailAddress(
-                        Mails.Addresses.BadAddress(from) == string.Empty
+                        Addresses.BadAddress(from) == string.Empty
                             ? from
                             : Parameters.Mail.SupportFrom);
                     new OutgoingMailModel()
