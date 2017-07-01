@@ -486,6 +486,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ValidateEmail(params string[] data) { return Get("ValidateEmail", data); }
         public static string ValidateEqualTo(params string[] data) { return Get("ValidateEqualTo", data); }
         public static string ValidateMaxLength(params string[] data) { return Get("ValidateMaxLength", data); }
+        public static string ValidateMaxNumber(params string[] data) { return Get("ValidateMaxNumber", data); }
+        public static string ValidateMinNumber(params string[] data) { return Get("ValidateMinNumber", data); }
         public static string ValidateNumber(params string[] data) { return Get("ValidateNumber", data); }
         public static string ValidateRequired(params string[] data) { return Get("ValidateRequired", data); }
         public static string Value(params string[] data) { return Get("Value", data); }

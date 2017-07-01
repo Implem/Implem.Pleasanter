@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ValidateMinNumber",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "The number entered is too small."
+        },
+        {
+            "Language": "ja",
+            "Body": "入力された数字が小さすぎます。"
+        }
+    ]
+}

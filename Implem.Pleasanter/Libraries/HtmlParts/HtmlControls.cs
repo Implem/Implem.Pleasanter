@@ -22,6 +22,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool timepicker = false,
             bool validateRequired = false,
             bool validateNumber = false,
+            decimal validateMinNumber = 0,
+            decimal validateMaxNumber = 0,
             bool validateDate = false,
             bool validateEmail = false,
             string validateEqualTo = null,
@@ -44,6 +46,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .OnChange(onChange)
                         .DataValidateRequired(validateRequired)
                         .DataValidateNumber(validateNumber)
+                        .DataValidateMinNumber(
+                            validateMinNumber, _using: validateMinNumber != validateMaxNumber)
+                        .DataValidateMaxNumber(
+                            validateMaxNumber, _using: validateMinNumber != validateMaxNumber)
                         .DataValidateDate(validateDate)
                         .DataValidateEmail(validateEmail)
                         .DataValidateEqualTo(validateEqualTo)

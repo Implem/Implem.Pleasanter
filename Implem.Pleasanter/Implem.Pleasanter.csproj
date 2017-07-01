@@ -1163,6 +1163,8 @@
     <Content Include="App_Data\Displays\Value.json" />
     <Content Include="App_Data\Displays\ShortDisplayName.json" />
     <Content Include="App_Data\Displays\EnterTitle.json" />
+    <Content Include="App_Data\Displays\ValidateMaxNumber.json" />
+    <Content Include="App_Data\Displays\ValidateMinNumber.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

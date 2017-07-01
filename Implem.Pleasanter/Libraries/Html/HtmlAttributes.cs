@@ -494,6 +494,26 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes DataValidateMinNumber(decimal value, bool _using = true)
+        {
+            if (_using)
+            {
+                Add("data-validate-min-number");
+                Add(value.ToString());
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataValidateMaxNumber(decimal value, bool _using = true)
+        {
+            if (_using)
+            {
+                Add("data-validate-max-number");
+                Add(value.ToString());
+            }
+            return this;
+        }
+
         public HtmlAttributes DataValidateDate(bool value, bool _using = true)
         {
             if (value && _using)

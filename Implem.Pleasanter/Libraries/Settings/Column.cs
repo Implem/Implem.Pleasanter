@@ -433,5 +433,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                     return false;
             }
         }
+
+        public decimal MinNumber()
+        {
+            return MaxNumber() * -1;
+        }
+
+        public decimal MaxNumber()
+        {
+            var length = Size.Split_1st().ToInt() - Size.Split_2nd().ToInt();
+            return length > 0
+                ? new string('9', 10).ToDecimal()
+                : 0;
+        }
     }
 }
