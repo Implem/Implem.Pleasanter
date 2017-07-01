@@ -68,7 +68,7 @@
         $('[data-validate-equal-to]').each(function () {
             $(this).rules('add', { equalTo: $(this).attr('data-validate-equal-to') });
         });
-        $('[data-maxlength]').each(function () {
+        $('[data-validate-maxlength]').each(function () {
             $(this).rules('add', { maxlength: $(this).attr('data-validate-maxlength') });
         });
     }
