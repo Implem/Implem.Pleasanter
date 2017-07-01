@@ -1078,16 +1078,16 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "Wikis":
                             hb
-                                .Li(action: () => hb
-                                    .A(
-                                        href: "#MailSettingsEditor",
-                                        text: Displays.Mail()))
                                 .Li(
                                     action: () => hb
                                         .A(
                                             href: "#NotificationsSettingsEditor",
                                             text: Displays.Notifications()),
                                     _using: Contract.Notice())
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#MailSettingsEditor",
+                                        text: Displays.Mail()))
                                 .Li(
                                     action: () => hb
                                         .A(
