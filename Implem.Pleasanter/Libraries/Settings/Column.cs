@@ -443,7 +443,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var length = Size.Split_1st().ToInt() - Size.Split_2nd().ToInt();
             return length > 0
-                ? new string('9', 10).ToDecimal()
+                ? new string('9', length).ToDecimal()
                 : 0;
         }
     }
