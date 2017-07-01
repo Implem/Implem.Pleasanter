@@ -170,6 +170,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string EditStyle(params string[] data) { return Get("EditStyle", data); }
         public static string Education(params string[] data) { return Get("Education", data); }
         public static string Enabled(params string[] data) { return Get("Enabled", data); }
+        public static string EnterTitle(params string[] data) { return Get("EnterTitle", data); }
         public static string Error(params string[] data) { return Get("Error", data); }
         public static string Excel(params string[] data) { return Get("Excel", data); }
         public static string Expired(params string[] data) { return Get("Expired", data); }

@@ -1635,7 +1635,7 @@ namespace Implem.Pleasanter.Models
                 attributes: new HtmlAttributes()
                     .Id("SiteTitleDialog")
                     .Class("dialog")
-                    .Title(Displays.SiteName()),
+                    .Title(Displays.EnterTitle()),
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
