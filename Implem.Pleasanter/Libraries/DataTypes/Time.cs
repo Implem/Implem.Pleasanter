@@ -84,9 +84,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return column.DisplayGrid(DisplayValue);
         }
 
-        public string ToExport(Column column)
+        public string ToExport(Column column, ExportColumn exportColumn)
         {
-            return column.DisplayExport(DisplayValue);
+            return DisplayValue.Display(exportColumn.Format);
         }
 
         public virtual string ToNotice(
@@ -95,8 +95,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool updated,
             bool update)
         {
-            return column.DisplayExport(DisplayValue).ToNoticeLine(
-                column.DisplayExport(saved.ToLocal()),
+            return column.DisplayControl(DisplayValue).ToNoticeLine(
+                column.DisplayControl(saved.ToLocal()),
                 column,
                 updated,
                 update);

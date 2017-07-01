@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Models
         public int SiteMenu = 0;
         public List<string> MonitorChangesColumns = null;
         public List<string> TitleColumns = null;
+        public Export Export = null;
         public TitleBody TitleBody { get { return new TitleBody(SiteId, Title.Value, Title.DisplayValue, Body); } }
         public int SavedTenantId = Sessions.TenantId();
         public string SavedReferenceType = "Sites";
@@ -43,6 +44,7 @@ namespace Implem.Pleasanter.Models
         public int SavedSiteMenu = 0;
         public List<string> SavedMonitorChangesColumns = null;
         public List<string> SavedTitleColumns = null;
+        public Export SavedExport = null;
         public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
         public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
         public bool ParentId_Updated { get { return ParentId != SavedParentId; } }
@@ -85,6 +87,18 @@ namespace Implem.Pleasanter.Models
             this.PageSession("TitleColumns", value);
         }
 
+        public Export Session_Export()
+        {
+            return this.PageSession("Export") != null
+                ? this.PageSession("Export") as Export ?? new Export()
+                : Export;
+        }
+
+        public void  Session_Export(object value)
+        {
+            this.PageSession("Export", value);
+        }
+
         public string PropertyValue(string name)
         {
             switch (name)
@@ -104,6 +118,7 @@ namespace Implem.Pleasanter.Models
                 case "SiteMenu": return SiteMenu.ToString();
                 case "MonitorChangesColumns": return MonitorChangesColumns.ToString();
                 case "TitleColumns": return TitleColumns.ToString();
+                case "Export": return Export.ToString();
                 case "Comments": return Comments.ToJson();
                 case "Creator": return Creator.Id.ToString();
                 case "Updator": return Updator.Id.ToString();
@@ -165,6 +180,9 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "TitleColumns":
                         hash.Add("TitleColumns", TitleColumns.ToString());
+                        break;
+                    case "Export":
+                        hash.Add("Export", Export.ToString());
                         break;
                     case "Comments":
                         hash.Add("Comments", Comments.ToJson());
@@ -250,6 +268,7 @@ namespace Implem.Pleasanter.Models
             Session_SiteSettings(null);
             Session_MonitorChangesColumns(null);
             Session_TitleColumns(null);
+            Session_Export(null);
         }
 
         public SiteModel Get(
@@ -515,6 +534,7 @@ namespace Implem.Pleasanter.Models
             if (!Forms.HasData("Sites_SiteSettings")) SiteSettings = Session_SiteSettings();
             if (!Forms.HasData("Sites_MonitorChangesColumns")) MonitorChangesColumns = Session_MonitorChangesColumns();
             if (!Forms.HasData("Sites_TitleColumns")) TitleColumns = Session_TitleColumns();
+            if (!Forms.HasData("Sites_Export")) Export = Session_Export();
         }
 
         private void Set(DataTable dataTable)
@@ -833,6 +853,35 @@ namespace Implem.Pleasanter.Models
                 case "ToDisableMonitorChangesColumns":
                 case "ToEnableMonitorChangesColumns":
                     SetMonitorChangesColumns(res, controlId);
+                    break;
+                case "MoveUpExports":
+                case "MoveDownExports":
+                    SetExportsOrder(res, controlId);
+                    break;
+                case "NewExport":
+                case "EditExport":
+                    OpenExportDialog(res, controlId);
+                    break;
+                case "AddExport":
+                    AddExport(res, controlId);
+                    break;
+                case "UpdateExport":
+                    UpdateExport(res, controlId);
+                    break;
+                case "DeleteExports":
+                    DeleteExports(res);
+                    break;
+                case "MoveUpExportColumns":
+                case "MoveDownExportColumns":
+                case "ToDisableExportColumns":
+                case "ToEnableExportColumns":
+                    SetExportColumns(res, controlId);
+                    break;
+                case "OpenExportColumnsDialog":
+                    OpenExportColumnsDialog(res, controlId);
+                    break;
+                case "UpdateExportColumn":
+                    UpdateExportColumns(res, controlId);
                     break;
                 default:
                     Forms.All()
@@ -1845,6 +1894,310 @@ namespace Implem.Pleasanter.Models
                     SiteSettings.Notifications.Delete(selected);
                     res.ReplaceAll("#EditNotification", new HtmlBuilder()
                         .EditNotification(ss: SiteSettings));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenExportDialog(ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewExport")
+            {
+                OpenExportDialog(res, SiteSettings.DefaultExport());
+            }
+            else
+            {
+                var export = SiteSettings.Exports?.Get(Forms.Int("ExportId"));
+                if (export == null)
+                {
+                    OpenDialogError(res, Messages.SelectOne());
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(this, SiteId);
+                    OpenExportDialog(res, export);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenExportDialog(ResponseCollection res, Export export)
+        {
+            if (!Contract.Export())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                Session_Export(export);
+                res.Html("#ExportDialog", SiteUtilities.ExportDialog(
+                    ss: SiteSettings,
+                    controlId: Forms.ControlId(),
+                    export: export));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddExport(ResponseCollection res, string controlId)
+        {
+            if (!Contract.Export())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                var export = Session_Export();
+                export.Id = SiteSettings.Exports.Any()
+                    ? SiteSettings.Exports.Max(o => o.Id) + 1
+                    : 1;
+                export.Name = Forms.Data("ExportName");
+                export.Header = Forms.Bool("ExportHeader");
+                SiteSettings.Exports.Add(export);
+                SetExportsResponseCollection(res);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateExport(ResponseCollection res, string controlId)
+        {
+            if (!Contract.Export())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                var export = SiteSettings.Exports.Get(Forms.Int("ExportId"));
+                if (export == null)
+                {
+                    res.Message(Messages.NotFound());
+                }
+                else
+                {
+                    export.Update(
+                        Forms.Data("ExportName"),
+                        Forms.Bool("ExportHeader"),
+                        Session_Export().Columns);
+                    SetExportsResponseCollection(res);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetExportsOrder(ResponseCollection res, string controlId)
+        {
+            if (!Contract.Export())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                var selected = Forms.IntList("EditExport");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets()).ToJson();
+                }
+                else
+                {
+                    SiteSettings.Exports.MoveUpOrDown(
+                        ColumnUtilities.ChangeCommand(controlId), selected);
+                    res.Html("#EditExport", new HtmlBuilder()
+                        .EditExport(ss: SiteSettings));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetExportsResponseCollection(ResponseCollection res)
+        {
+            if (!Contract.Export())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                res
+                    .ReplaceAll("#EditExport", new HtmlBuilder()
+                        .EditExport(ss: SiteSettings))
+                    .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetExportColumns(ResponseCollection res, string controlId)
+        {
+            if (!Contract.Export())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                var export = SiteSettings.Exports.Get(Forms.Int("ExportId"));
+                Export = Session_Export();
+                if (export == null && controlId == "EditExport")
+                {
+                    res.Message(Messages.NotFound());
+                }
+                else
+                {
+                    var command = ColumnUtilities.ChangeCommand(controlId);
+                    var selectedColumns = Forms.List("ExportColumns");
+                    var selectedSourceColumns = Forms.List("ExportSourceColumns");
+                    switch (command)
+                    {
+                        case "ToEnable":
+                            var columns = new List<string>();
+                            selectedSourceColumns.ForEach(column =>
+                            {
+                                var id = Export.NewColumnId();
+                                columns.Add(id.ToString());
+                                Export.Columns.Add(new ExportColumn(SiteSettings, id, column));
+                            });
+                            selectedSourceColumns = columns;
+                            break;
+                        case "ToDisable":
+                            Export.Columns.RemoveAll(o =>
+                                selectedColumns.Any(p => p == o.Id.ToString()));
+                            selectedColumns = new List<string>();
+                            break;
+                        default:
+                            Export.Columns = ColumnUtilities.GetChanged(
+                                Export.Columns.Select(o => o.Id.ToString()).ToList(),
+                                command,
+                                selectedColumns,
+                                selectedSourceColumns)
+                                    .Select(o => Export.Columns
+                                        .FirstOrDefault(p => o == p.Id.ToString()))
+                                    .ToList();
+                            break;
+                    }
+                    SetResponseAfterChangeColumns(
+                        res,
+                        command,
+                        "Export",
+                        SiteSettings.ExportSelectableOptions(Export.Columns),
+                        selectedColumns,
+                        SiteSettings.ExportSelectableOptions(Export.Columns, enabled: false),
+                        selectedSourceColumns);
+                    Session_Export(Export);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteExports(ResponseCollection res)
+        {
+            if (!Contract.Export())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                var selected = Forms.IntList("EditExport");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets()).ToJson();
+                }
+                else
+                {
+                    SiteSettings.Exports.Delete(selected);
+                    res.ReplaceAll("#EditExport", new HtmlBuilder()
+                        .EditExport(ss: SiteSettings));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenExportColumnsDialog(ResponseCollection res, string controlId)
+        {
+            var export = Session_Export();
+            var selected = Forms.List("ExportColumns");
+            if (selected.Count() != 1)
+            {
+                res.Message(Messages.SelectOne());
+            }
+            else
+            {
+                var column = export.Columns.FirstOrDefault(o =>
+                    o.Id.ToString() == selected[0]);
+                if (column == null)
+                {
+                    res.Message(Messages.NotFound());
+                }
+                else
+                {
+                    OpenExportColumnsDialog(res, column);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenExportColumnsDialog(ResponseCollection res, ExportColumn column)
+        {
+            if (!Contract.Export())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                res.Html("#ExportColumnsDialog", SiteUtilities.ExportColumnsDialog(
+                    ss: SiteSettings,
+                    controlId: Forms.ControlId(),
+                    column: column));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateExportColumns(ResponseCollection res, string controlId)
+        {
+            if (!Contract.Export())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                var export = Session_Export();
+                var column = export.Columns
+                    .FirstOrDefault(o => o.Id == Forms.Int("ExportColumnId"));
+                if (column == null)
+                {
+                    res.Message(Messages.NotFound());
+                }
+                else
+                {
+                    var selected = new List<string> { column.Id.ToString() };
+                    column.LabelText = Forms.Data("ExportColumnLabelText");
+                    column.Type = (ExportColumn.Types)Forms.Int("ExportColumnType");
+                    column.Format = Forms.Data("ExportFormat");
+                    res
+                        .Html("#ExportColumns",
+                            new HtmlBuilder().SelectableItems(
+                                listItemCollection: SiteSettings
+                                    .ExportSelectableOptions(export.Columns),
+                                selectedValueTextCollection: selected))
+                        .SetFormData("ExportColumns", selected.ToJson())
+                        .CloseDialog("#ExportColumnsDialog");
                 }
             }
         }

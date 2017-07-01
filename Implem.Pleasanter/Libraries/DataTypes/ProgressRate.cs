@@ -160,7 +160,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return column.Display(Value, unit: true);
         }
 
-        public string ToExport(Column column)
+        public string ToExport(Column column, ExportColumn exportColumn)
         {
             return Value.ToString();
         }

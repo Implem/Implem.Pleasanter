@@ -21,8 +21,10 @@
     }
 }
 
-$p.setMessage = function (value) {
-    var $control = $('.message-dialog:visible');
+$p.setMessage = function (target, value) {
+    var $control = target !== undefined
+        ? $(target)
+        : $('.message-dialog:visible');
     if ($control.length === 0) {
         $('#Message').html(value);
     } else {

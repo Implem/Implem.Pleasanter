@@ -61,9 +61,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return column.Choice(ToString()).TextMini;
         }
 
-        public string ToExport(Column column)
+        public string ToExport(Column column, ExportColumn exportColumn)
         {
-            return column.Choice(ToString()).Text;
+            return column.ChoicePart(ToString(), exportColumn.Type);
         }
 
         public string ToNotice(

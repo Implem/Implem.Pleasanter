@@ -27,7 +27,7 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             $(value).replaceAll(target);
             break;
         case 'Message':
-            $p.setMessage(value);
+            $p.setMessage(target, value);
             break;
         case 'Href':
             location.href = value;
@@ -89,7 +89,11 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             break;
         case 'CloseDialog':
             $p.clearMessage();
-            $('.ui-dialog-content').dialog('close');
+            if (target !== undefined) {
+                $(target).dialog('close');
+            } else {
+                $('.ui-dialog-content').dialog('close');
+            }
             break;
         case 'Paging':
             $p.paging(target);

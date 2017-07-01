@@ -139,15 +139,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 selector: "#ImportSettingsDialog",
                                 _using: importButton && ss.CanImport())
                             .Button(
-                                controlId: "EditExportSettings",
                                 text: Displays.Export(),
                                 controlCss: "button-icon",
                                 accessKey: "x",
-                                onClick: "$p.openExportSettingsDialog($(this));",
+                                onClick: "$p.openExportSelectorDialog($(this));",
                                 icon: "ui-icon-arrowreturnthick-1-w",
-                                action: Locations.ItemAction(
-                                    siteId, "ExportSettings", "Edit"),
-                                method: "put",
+                                action: "OpenExportSelectorDialog",
+                                method: "post",
                                 _using: exportButton && ss.CanExport());
                     }
                     extensions?.Invoke();

@@ -174,6 +174,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Excel(params string[] data) { return Get("Excel", data); }
         public static string Expired(params string[] data) { return Get("Expired", data); }
         public static string Export(params string[] data) { return Get("Export", data); }
+        public static string ExportColumns(params string[] data) { return Get("ExportColumns", data); }
         public static string ExportFormat(params string[] data) { return Get("ExportFormat", data); }
         public static string Expression(params string[] data) { return Get("Expression", data); }
         public static string ExternalMailAddress(params string[] data) { return Get("ExternalMailAddress", data); }
@@ -347,6 +348,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string OutgoingMail(params string[] data) { return Get("OutgoingMail", data); }
         public static string OutOfCondition(params string[] data) { return Get("OutOfCondition", data); }
         public static string Output(params string[] data) { return Get("Output", data); }
+        public static string OutputHeader(params string[] data) { return Get("OutputHeader", data); }
         public static string Over(params string[] data) { return Get("Over", data); }
         public static string Overdue(params string[] data) { return Get("Overdue", data); }
         public static string Own(params string[] data) { return Get("Own", data); }
@@ -410,6 +412,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SeparateSettings(params string[] data) { return Get("SeparateSettings", data); }
         public static string Setting(params string[] data) { return Get("Setting", data); }
         public static string SetZeroWhenOutOfCondition(params string[] data) { return Get("SetZeroWhenOutOfCondition", data); }
+        public static string ShortDisplayName(params string[] data) { return Get("ShortDisplayName", data); }
         public static string ShowProgressRate(params string[] data) { return Get("ShowProgressRate", data); }
         public static string SiteAccessControl(params string[] data) { return Get("SiteAccessControl", data); }
         public static string SiteId(params string[] data) { return Get("SiteId", data); }
@@ -484,6 +487,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ValidateMaxLength(params string[] data) { return Get("ValidateMaxLength", data); }
         public static string ValidateNumber(params string[] data) { return Get("ValidateNumber", data); }
         public static string ValidateRequired(params string[] data) { return Get("ValidateRequired", data); }
+        public static string Value(params string[] data) { return Get("Value", data); }
         public static string Version(params string[] data) { return Get("Version", data); }
         public static string VerUp(params string[] data) { return Get("VerUp", data); }
         public static string View(params string[] data) { return Get("View", data); }
@@ -682,6 +686,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Sites_SiteMenu(params string[] data) { return Get("Sites_SiteMenu", data); }
         public static string Sites_MonitorChangesColumns(params string[] data) { return Get("Sites_MonitorChangesColumns", data); }
         public static string Sites_TitleColumns(params string[] data) { return Get("Sites_TitleColumns", data); }
+        public static string Sites_Export(params string[] data) { return Get("Sites_Export", data); }
         public static string Orders_ReferenceId(params string[] data) { return Get("Orders_ReferenceId", data); }
         public static string Orders_ReferenceType(params string[] data) { return Get("Orders_ReferenceType", data); }
         public static string Orders_OwnerId(params string[] data) { return Get("Orders_OwnerId", data); }

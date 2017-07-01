@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return hb.ToString();
         }
 
-        public override string ToExport(Column column)
+        public override string ToExport(Column column, ExportColumn exportColumn)
         {
             return ToString();
         }

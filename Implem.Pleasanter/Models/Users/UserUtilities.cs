@@ -132,9 +132,9 @@ namespace Implem.Pleasanter.Models
                             .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
                     .MoveDialog(bulk: true)
                     .Div(attributes: new HtmlAttributes()
-                        .Id("ExportSettingsDialog")
+                        .Id("ExportSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.ExportSettings())))
+                        .Title(Displays.Export())))
                     .ToString();
         }
 

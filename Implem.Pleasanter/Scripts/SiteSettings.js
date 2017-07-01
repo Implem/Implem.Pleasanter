@@ -7,12 +7,12 @@
         data);
 }
 
-$p.openSiteSettingsDialog = function ($control, selector) {
+$p.openSiteSettingsDialog = function ($control, selector, width) {
     var error = $p.syncSend($control);
     if (error === 0) {
         $(selector).dialog({
             modal: true,
-            width: '90%',
+            width: width !== undefined ? width : '90%',
             height: 'auto',
             appendTo: '#Editor'
         });
@@ -67,6 +67,26 @@ $p.openNotificationDialog = function ($control) {
 
 $p.setNotification = function ($control) {
     $p.setData($('#EditNotification'), $p.getData($control));
+    $p.send($control);
+}
+
+$p.openExportDialog = function ($control) {
+    $p.data.ExportForm = {};
+    $p.openSiteSettingsDialog($control, '#ExportDialog');
+}
+
+$p.setExport = function ($control) {
+    $p.setData($('#EditExport'), $p.getData($control));
+    $p.send($control);
+}
+
+$p.openExportColumnsDialog = function ($control) {
+    $p.data.ExportColumnsForm = {};
+    $p.openSiteSettingsDialog($control, '#ExportColumnsDialog', '420px');
+}
+
+$p.setExportColumn = function ($control) {
+    $p.setData($('#EditExport'), $p.getData($control));
     $p.send($control);
 }
 

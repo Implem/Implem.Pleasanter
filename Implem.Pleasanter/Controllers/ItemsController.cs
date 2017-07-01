@@ -198,6 +198,15 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        [HttpPost]
+        public string OpenExportSelectorDialog(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).OpenExportSelectorDialog();
+            log.Finish(json.Length);
+            return json;
+        }
+
         [HttpGet]
         public ActionResult Export(long id)
         {

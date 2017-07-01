@@ -69,6 +69,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int ViewLatestId;
         public List<View> Views;
         public SettingList<Notification> Notifications;
+        public SettingList<Export> Exports;
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
         public bool? EnableGantt;
@@ -142,6 +143,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateHistoryColumns();
             UpdateColumns();
             UpdateColumnHash();
+            UpdateExports();
             var accessControlColumns = Columns
                 .Where(o => o.EditorColumn || o.ColumnName == "Comments")
                 .Where(o => !o.NotEditorSettings)
@@ -155,6 +157,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Summaries == null) Summaries = new SettingList<Summary>();
             if (Formulas == null) Formulas = new SettingList<FormulaSet>();
             if (Notifications == null) Notifications = new SettingList<Notification>();
+            if (Exports == null) Exports = new SettingList<Export>();
             EnableCalendar = EnableCalendar ?? true;
             EnableCrosstab = EnableCrosstab ?? true;
             EnableGantt = EnableGantt ?? true;
@@ -366,6 +369,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Notifications = new SettingList<Notification>();
                 }
                 ss.Notifications.Add(notification.GetRecordingData());
+            });
+            Exports?.ForEach(ExportSetting =>
+            {
+                if (ss.Exports == null)
+                {
+                    ss.Exports = new SettingList<Export>();
+                }
+                ss.Exports.Add(ExportSetting.GetRecordingData(this));
             });
             Aggregations?.ForEach(aggregations =>
             {
@@ -931,6 +942,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnHash = Columns.ToDictionary(o => o.ColumnName, o => o);
         }
 
+        private void UpdateExports()
+        {
+            Exports?.ForEach(export =>
+            {
+                export.Header = export.Header ?? true;
+                export.Columns.ForEach(column => column.Init(this));
+            });
+        }
+
         private void Update_CreateColumnAccessControls(IEnumerable<Column> columns)
         {
             var columnAccessControls = columns
@@ -1199,6 +1219,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                     this, ColumnDefinitionHash.MonitorChangesDefinitions()
                         .Where(o => !monitorChangesColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName));
+        }
+
+        public Dictionary<string, ControlData> ExportSelectableOptions(
+            IEnumerable<ExportColumn> exportColumns, bool enabled = true)
+        {
+            return enabled
+                ? exportColumns.ToDictionary(
+                    o => o.Id.ToString(),
+                    o => new ControlData(o.LabelText))
+                : ColumnDefinitionHash.ExportDefinitions()
+                    .Select((o, i) => new ExportColumn(this, i + 1, o.ColumnName))
+                    .ToDictionary(
+                        o => o.ColumnName,
+                        o => new ControlData(o.LabelText));
         }
 
         public Dictionary<string, ControlData> ColumnAccessControlOptions(
@@ -2001,9 +2035,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
+        public Export GetExport(int id)
+        {
+            return Exports?.FirstOrDefault(o => o.Id == id) ?? DefaultExport();
+        }
+
+        public Export DefaultExport()
+        {
+            var columns = EditorColumns.Where(o => o != "Ver");
+            return new Export(
+                ss: this,
+                id: 0,
+                name: string.Empty,
+                header: true,
+                columns: ColumnDefinitionHash.ExportDefinitions()
+                    .Where(o => columns.Contains(o.ColumnName) || o.ExportColumn)
+                    .Select(o => o.ColumnName));
+        }
+
         public bool EnableViewMode(string name)
         {
             switch (name)

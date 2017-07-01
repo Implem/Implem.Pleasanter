@@ -108,7 +108,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : string.Empty;
         }
 
-        public string ToExport(Column column)
+        public string ToExport(Column column, ExportColumn exportColumn)
         {
             return Name.ToStr();
         }

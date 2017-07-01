@@ -202,7 +202,6 @@
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\DeptsController.cs" />
     <Compile Include="Controllers\ErrorsController.cs" />
-    <Compile Include="Controllers\ExportSettingsController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\OutgoingMailsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -217,6 +216,7 @@
     </Compile>
     <Compile Include="Interfaces\IConvertable.cs" />
     <Compile Include="Interfaces\ISettingListItem.cs" />
+    <Compile Include="Libraries\Converts\FormatExtension.cs" />
     <Compile Include="Libraries\Converts\GridTextExtensions.cs" />
     <Compile Include="Libraries\Converts\ToNoticeExtensions.cs" />
     <Compile Include="Libraries\Converts\SearchIndexExtensions.cs" />
@@ -249,10 +249,12 @@
     <Compile Include="Libraries\HtmlParts\HtmlDropDownSearches.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlCalendar.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlCrosstab.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlExport.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_011.cs" />
     <Compile Include="Libraries\Migrators\StatusesMigrator.cs" />
+    <Compile Include="Libraries\Migrators\Statuses\Version00_039_022 .cs" />
     <Compile Include="Libraries\Migrators\Statuses\Version00_037_010.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_010.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_009.cs" />
@@ -270,6 +272,8 @@
     <Compile Include="Libraries\Settings\ColumnAccessControl.cs" />
     <Compile Include="Libraries\Settings\ContractSettings.cs" />
     <Compile Include="Libraries\Settings\DateColumnExtensions.cs" />
+    <Compile Include="Libraries\Settings\ExportColumn.cs" />
+    <Compile Include="Libraries\Settings\Export.cs" />
     <Compile Include="Libraries\Settings\FormulaSet.cs" />
     <Compile Include="Libraries\Settings\NumColumnExtensions.cs" />
     <Compile Include="Libraries\Converts\MatchExtensions.cs" />
@@ -1154,6 +1158,10 @@
     <Content Include="App_Data\Displays\ManageWiki.json" />
     <Content Include="App_Data\Displays\Manage.json" />
     <Content Include="App_Data\Displays\FilterSettings.json" />
+    <Content Include="App_Data\Displays\ExportColumns.json" />
+    <Content Include="App_Data\Displays\OutputHeader.json" />
+    <Content Include="App_Data\Displays\Value.json" />
+    <Content Include="App_Data\Displays\ShortDisplayName.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

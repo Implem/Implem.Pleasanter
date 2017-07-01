@@ -37,11 +37,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("ReplaceAll", target, value) : this;
         }
 
-        public ResponseCollection Message(Message message, bool _using = true)
+        public ResponseCollection Message(Message message, string target = null, bool _using = true)
         {
             if (message != null && _using)
             {
-                Add("Message", string.Empty, message.Html);
+                Add("Message", target, message.Html);
                 Add("Status", string.Empty, message.Status);
             }
             return this;
@@ -130,9 +130,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("ClearFormData", target, type) : this;
         }
 
-        public ResponseCollection CloseDialog(bool _using = true)
+        public ResponseCollection CloseDialog(string target = null, bool _using = true)
         {
-            return _using ? Add("CloseDialog") : this;
+            return _using ? Add("CloseDialog", target) : this;
         }
 
         public ResponseCollection Paging(string target, bool _using = true)

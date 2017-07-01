@@ -104,6 +104,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .OrderBy(o => o.No);
         }
 
+        public static IEnumerable<ColumnDefinition> ExportDefinitions(
+            this Dictionary<string, ColumnDefinition> definitions)
+        {
+            return definitions.Values
+                .Where(o => o.GridColumn > 0)
+                .OrderBy(o => o.GridColumn);
+        }
+
         public static Dictionary<string, ControlData> SelectableOptions(
             SiteSettings ss, IEnumerable<string> columns)
         {

@@ -1148,6 +1148,12 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#ExportsSettingsEditor",
+                                            text: Displays.Export()),
+                                    _using: Contract.Export())
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#CalendarSettingsEditor",
                                             text: Displays.Calendar()),
                                     _using: Def.ViewModeDefinitionCollection
@@ -1883,6 +1889,18 @@ namespace Implem.Pleasanter.Models
                         .Class("dialog")
                         .Title(Displays.Notifications()),
                     _using: Contract.Notice())
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("ExportDialog")
+                        .Class("dialog")
+                        .Title(Displays.Export()),
+                    _using: Contract.Export())
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("ExportColumnsDialog")
+                        .Class("dialog")
+                        .Title(Displays.AdvancedSetting()),
+                    _using: Contract.Export())
                 .PermissionsDialog()
                 .PermissionForCreatingDialog()
                 .ColumnAccessControlDialog());
@@ -1992,6 +2010,7 @@ namespace Implem.Pleasanter.Models
                             .FormulasSettingsEditor(siteModel.SiteSettings)
                             .ViewsSettingsEditor(siteModel.SiteSettings)
                             .NotificationsSettingsEditor(siteModel.SiteSettings)
+                            .ExportsSettingsEditor(siteModel.SiteSettings)
                             .CalendarSettingsEditor(siteModel.SiteSettings)
                             .CrosstabSettingsEditor(siteModel.SiteSettings)
                             .GanttSettingsEditor(siteModel.SiteSettings)
@@ -2682,12 +2701,7 @@ namespace Implem.Pleasanter.Models
                                 controlId: "EditorFormat",
                                 labelText: Displays.EditorFormat(),
                                 optionCollection: DateTimeOptions(editorFormat: true),
-                                selectedValue: column.EditorFormat)
-                            .FieldDropDown(
-                                controlId: "ExportFormat",
-                                labelText: Displays.ExportFormat(),
-                                optionCollection: DateTimeOptions(),
-                                selectedValue: column.ExportFormat);
+                                selectedValue: column.EditorFormat);
                     }
                     switch (column.TypeName.CsTypeSummary())
                     {
@@ -4562,6 +4576,308 @@ namespace Implem.Pleasanter.Models
         private static IEnumerable<int> TokenList()
         {
             return new List<int> { Notification.Types.ChatWork.ToInt() };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ExportsSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            if (!Contract.Notice()) return hb;
+            return hb.FieldSet(id: "ExportsSettingsEditor", action: () => hb
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpExports",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(),
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownExports",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(),
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewExport",
+                        text: Displays.New(),
+                        controlCss: "button-icon",
+                        onClick: "$p.openExportDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
+                        controlId: "DeleteExports",
+                        text: Displays.Delete(),
+                        controlCss: "button-icon",
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "delete",
+                        confirm: Displays.ConfirmDelete()))
+                .EditExport(ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditExport(this HtmlBuilder hb, SiteSettings ss)
+        {
+            var selected = Forms.Data("EditExport").Deserialize<IEnumerable<int>>();
+            return hb.Table(
+                id: "EditExport",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("ExportId")
+                    .DataFunc("openExportDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditExportHeader(ss: ss, selected: selected)
+                    .EditExportBody(ss: ss, selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditExportHeader(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.Summaries?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Name()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.OutputHeader()))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditExportBody(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => ss.Exports?.ForEach(export =>
+            {
+                hb.Tr(
+                    css: "grid-row",
+                    attributes: new HtmlAttributes()
+                        .DataId(export.Id.ToString()),
+                    action: () => hb
+                        .Td(action: () => hb
+                            .CheckBox(
+                                controlCss: "select",
+                                _checked: selected?
+                                    .Contains(export.Id) == true))
+                        .Td(action: () => hb
+                            .Text(text: export.Id.ToString()))
+                        .Td(action: () => hb
+                            .Text(text: export.Name))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: export.Header == true)));
+            }));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ExportDialog(SiteSettings ss, string controlId, Export export)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ExportForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "ExportId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(),
+                        text: export.Id.ToString(),
+                        _using: controlId == "EditExport")
+                    .FieldTextBox(
+                        controlId: "ExportName",
+                        controlCss: " always-send",
+                        labelText: Displays.Name(),
+                        text: export.Name,
+                        validateRequired: true)
+                    .FieldCheckBox(
+                        controlId: "ExportHeader",
+                        controlCss: " always-send",
+                        labelText: Displays.OutputHeader(),
+                        _checked: export.Header == true)
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.ExportColumns(),
+                        action: () => hb
+                            .FieldSelectable(
+                                controlId: "ExportColumns",
+                                fieldCss: "field-vertical",
+                                controlContainerCss: "container-selectable",
+                                controlWrapperCss: " h400",
+                                labelText: Displays.CurrentSettings(),
+                                listItemCollection: ss.ExportSelectableOptions(export.Columns),
+                                commandOptionPositionIsTop: true,
+                                commandOptionAction: () => hb
+                                    .Div(css: "command-center", action: () => hb
+                                        .Button(
+                                            controlId: "MoveUpExportColumns",
+                                            text: Displays.MoveUp(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-circle-triangle-n",
+                                            action: "SetSiteSettings",
+                                            method: "post")
+                                        .Button(
+                                            controlId: "MoveDownExportColumns",
+                                            text: Displays.MoveDown(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-circle-triangle-s",
+                                            action: "SetSiteSettings",
+                                            method: "post")
+                                        .Button(
+                                            controlId: "OpenExportColumnsDialog",
+                                            text: Displays.AdvancedSetting(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.openExportColumnsDialog($(this));",
+                                            icon: "ui-icon-circle-triangle-s",
+                                            action: "SetSiteSettings",
+                                            method: "post")
+                                        .Button(
+                                            controlId: "ToDisableExportColumns",
+                                            text: Displays.ToDisable(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-circle-triangle-e",
+                                            action: "SetSiteSettings",
+                                            method: "put")))
+                            .FieldSelectable(
+                                controlId: "ExportSourceColumns",
+                                fieldCss: "field-vertical",
+                                controlContainerCss: "container-selectable",
+                                controlWrapperCss: " h400",
+                                labelText: Displays.OptionList(),
+                                listItemCollection: ss
+                                    .ExportSelectableOptions(export.Columns, enabled: false),
+                                commandOptionPositionIsTop: true,
+                                commandOptionAction: () => hb
+                                    .Div(css: "command-center", action: () => hb
+                                        .Button(
+                                            controlId: "ToEnableExportColumns",
+                                            text: Displays.ToEnable(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-circle-triangle-w",
+                                            action: "SetSiteSettings",
+                                            method: "put"))))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddExport",
+                            text: Displays.Add(),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.setExport($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewExport")
+                        .Button(
+                            controlId: "UpdateExport",
+                            text: Displays.Change(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.setExport($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditExport")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ExportColumnsDialog(
+            SiteSettings ss, string controlId, ExportColumn column)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ExportColumnsForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        labelText: Displays.Column(),
+                        text: column.ColumnLabelText)
+                    .FieldTextBox(
+                        controlId: "ExportColumnLabelText",
+                        controlCss: " always-send",
+                        labelText: Displays.DisplayName(),
+                        text: column.LabelText,
+                        validateRequired: true)
+                    .FieldDropDown(
+                        controlId: "ExportColumnType",
+                        controlCss: " always-send",
+                        labelText: Displays.Output(),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                ExportColumn.Types.Text.ToInt().ToString(),
+                                Displays.DisplayName()
+                            },
+                            {
+                                ExportColumn.Types.TextMini.ToInt().ToString(),
+                                Displays.ShortDisplayName()
+                            },
+                            {
+                                ExportColumn.Types.Value.ToInt().ToString(),
+                                Displays.Value()
+                            }
+                        },
+                        selectedValue: column.Type.ToInt().ToString())
+                    .FieldDropDown(
+                        controlId: "ExportFormat",
+                        controlCss: " always-send",
+                        labelText: Displays.ExportFormat(),
+                        optionCollection: DateTimeOptions(),
+                        selectedValue: column.Format,
+                        _using: ss.GetColumn(column.ColumnName).TypeName == "datetime")
+                    .Hidden(
+                        controlId: "ExportColumnId",
+                        css: " always-send",
+                        value: column.Id.ToString())
+                    .P(id: "ExportColumnsMessage", css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "UpdateExportColumn",
+                            text: Displays.Change(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.setExportColumn($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
         }
 
         /// <summary>

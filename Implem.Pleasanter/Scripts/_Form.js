@@ -31,9 +31,15 @@ $p.clear = function ($control) {
 }
 
 $p.outsideDialog = function ($control) {
-    var $dialog = $('.ui-dialog:visible');
-    return $dialog.length !== 0 &&
-        $control.closest($('#' + $dialog.attr('aria-describedby'))).length === 0;
+    var dialogs = $('.ui-dialog:visible').map(function (i, e)
+    {
+        return $('#' + e.getAttribute('aria-describedby'));
+    });
+    return dialogs.length !== 0 &&
+        dialogs.filter(function (i, e)
+        {
+            return $control.closest(e).length === 1
+        }).length === 0;
 }
 
 $p.syncSend = function ($control, formId) {

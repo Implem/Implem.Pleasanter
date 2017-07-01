@@ -1,5 +1,4 @@
-﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.General;
+﻿using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Models;
 namespace Implem.Pleasanter.Libraries.Migrators
 {
@@ -11,6 +10,11 @@ namespace Implem.Pleasanter.Libraries.Migrators
             {
                 Statuses.Version00_037_010.Migrate();
                 StatusUtilities.UpdateAssemblyVersion("0.37.10.0");
+            }
+            if (LowerThan("0.39.22.0"))
+            {
+                Statuses.Version00_039_022.Migrate();
+                StatusUtilities.UpdateAssemblyVersion("0.39.22.0");
             }
         }
 

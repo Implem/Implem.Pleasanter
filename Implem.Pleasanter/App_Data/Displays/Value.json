@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Value",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Value"
+        },
+        {
+            "Language": "ja",
+            "Body": "値"
+        }
+    ]
+}

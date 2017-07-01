@@ -1,22 +1,14 @@
-﻿$p.openExportSettingsDialog = function ($control) {
-    delete $p.data.ExportSettingsForm;
-    error = $p.ajax(
-        $control.attr('data-action'),
-        $control.attr('data-method'),
-        $p.getData($('#ExportSettingsForm')),
-        $control,
-        false);
+﻿$p.openExportSelectorDialog = function ($control) {
+    error = $p.send($control);
     if (error === 0) {
-        $('#ExportSettingsDialog').dialog({
+        $('#ExportSelectorDialog').dialog({
             modal: true,
-            width: '980px'
+            width: '420px'
         });
     }
 }
 
-$p.export = function ($control) {
-    error = $p.syncSend($control);
-    if (error === 0) {
-        location.href = $('.main-form').attr('action').replace('_action_', 'export');
-    }
+$p.export = function () {
+    location.href = $('.main-form').attr('action').replace('_action_', 'export') + '?id=' +
+        $('#ExportId').val();
 }

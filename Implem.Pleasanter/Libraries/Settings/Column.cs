@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
@@ -305,6 +306,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : new Choice(string.Empty);
         }
 
+        public string ChoicePart(string selectedValue, ExportColumn.Types? type)
+        {
+            switch (type)
+            {
+                case ExportColumn.Types.Value: return Choice(selectedValue).Value;
+                case ExportColumn.Types.Text: return Choice(selectedValue).Text;
+                case ExportColumn.Types.TextMini: return Choice(selectedValue).TextMini;
+                default: return Choice(selectedValue).Text;
+            }
+        }
+
         public object RecordingData(string value, long siteId)
         {
             var tenantId = Sessions.TenantId();
@@ -385,28 +397,12 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string DisplayGrid(DateTime value)
         {
-            return Display(value, GridFormat);
+            return value.Display(GridFormat);
         }
 
         public string DisplayControl(DateTime value)
         {
-            return Display(value, EditorFormat);
-        }
-
-        public string DisplayExport(DateTime value)
-        {
-            return Display(value, ExportFormat);
-        }
-
-        private string Display(DateTime value, string format)
-        {
-            return value.InRange()
-                ? !format.IsNullOrEmpty()
-                    ? value.ToString(
-                        Displays.Get(format + "Format"),
-                        Sessions.CultureInfo())
-                    : value.ToString(Sessions.CultureInfo())
-                : string.Empty;
+            return value.Display(EditorFormat);
         }
 
         public decimal Round(decimal value)

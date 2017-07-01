@@ -352,6 +352,21 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string OpenExportSelectorDialog()
+        {
+            SetSite();
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.OpenExportSelectorDialog(
+                    Site.IssuesSiteSettings(ReferenceId, setSiteIntegration: true),
+                    siteModel: Site);
+                case "Results": return ResultUtilities.OpenExportSelectorDialog(
+                    Site.ResultsSiteSettings(ReferenceId, setSiteIntegration: true),
+                    siteModel: Site);
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
         public ResponseFile Export()
         {
             SetSite();

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ExportColumns",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Export column"
+        },
+        {
+            "Language": "ja",
+            "Body": "エクスポートする項目"
+        }
+    ]
+}

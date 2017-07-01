@@ -178,8 +178,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public override string ToNotice(DateTime saved, Column column, bool updated, bool update)
         {
-            return column.DisplayExport(DisplayValue).ToNoticeLine(
-                column.DisplayExport(saved.ToLocal().AddDays(-1)),
+            return column.DisplayControl(DisplayValue).ToNoticeLine(
+                column.DisplayControl(saved.ToLocal().AddDays(-1)),
                 column,
                 updated,
                 update);

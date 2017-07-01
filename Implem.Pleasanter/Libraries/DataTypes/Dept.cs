@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Name;
         }
 
-        public string ToExport(Column column)
+        public string ToExport(Column column, ExportColumn exportColumn)
         {
             return Name;
         }
