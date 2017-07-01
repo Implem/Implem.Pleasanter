@@ -48,7 +48,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                 switch (placeholder)
                 {
                     case "DisplayId":
-                        code = code.Replace("#DisplayId#", display.Id);
+                        code = code.Replace("#DisplayId#", display.Id + (!element.Language.IsNullOrEmpty()
+                            ? "_" + element.Language
+                            : string.Empty));
                         break;
                     case "DisplayContent":
                         code = code.Replace("#DisplayContent#", element.Body);
