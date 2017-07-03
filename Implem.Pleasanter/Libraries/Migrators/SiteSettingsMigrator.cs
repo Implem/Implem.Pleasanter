@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
                             dataRow["SiteSettings"].ToString().Deserialize<SiteSettings>()));
         }
 
-        private static void MigrateSiteSettingsFormat(long siteId, Settings.SiteSettings ss)
+        private static void MigrateSiteSettingsFormat(long siteId, SiteSettings ss)
         {
             if (ss == null) return;
             if (ss.Migrated)
