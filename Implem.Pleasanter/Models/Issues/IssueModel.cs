@@ -1722,6 +1722,7 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+            Title = new Title(ss, IssueId, PropertyValues(ss.TitleColumns));
             if (Routes.Action() == "deletecomment")
             {
                 DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
