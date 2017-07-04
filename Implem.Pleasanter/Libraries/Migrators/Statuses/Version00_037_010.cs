@@ -1,6 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Models;
 using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Migrators.Statuses
