@@ -4310,8 +4310,8 @@ namespace Implem.Pleasanter.Models
                     .DataAction("SetSiteSettings")
                     .DataMethod("post"),
                 action: () => hb
-                .EditNotificationHeader(ss: ss, selected: selected)
-                .EditNotificationBody(ss: ss, selected: selected));
+                    .EditNotificationHeader(ss: ss, selected: selected)
+                    .EditNotificationBody(ss: ss, selected: selected));
         }
 
         /// <summary>
