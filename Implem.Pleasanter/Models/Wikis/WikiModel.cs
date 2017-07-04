@@ -245,7 +245,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.ItemsParam()
                         .ReferenceType("Wikis")
                         .SiteId(SiteId)
-                        .Title(Title.Value)),
+                        .Title(Title.DisplayValue)),
                 Rds.InsertWikis(
                     tableType: tableType,
                     param: param ?? Rds.WikisParamDefault(
@@ -366,7 +366,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.ItemsParam()
                         .ReferenceType("Wikis")
                         .SiteId(SiteId)
-                        .Title(Title.Value)),
+                        .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertWikis(
                     selectIdentity: true,
                     where: where ?? Rds.WikisWhereDefault(this),

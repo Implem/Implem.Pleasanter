@@ -402,7 +402,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.ItemsParam()
                         .ReferenceType("Sites")
                         .SiteId(SiteId)
-                        .Title(Title.Value)),
+                        .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertSites(
                     selectIdentity: true,
                     where: where ?? Rds.SitesWhereDefault(this),

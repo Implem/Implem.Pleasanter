@@ -1340,7 +1340,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.ItemsParam()
                         .ReferenceType("Issues")
                         .SiteId(SiteId)
-                        .Title(Title.Value)),
+                        .Title(Title.DisplayValue)),
                 Rds.InsertIssues(
                     tableType: tableType,
                     param: param ?? Rds.IssuesParamDefault(
@@ -1484,7 +1484,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.ItemsParam()
                         .ReferenceType("Issues")
                         .SiteId(SiteId)
-                        .Title(Title.Value)),
+                        .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertIssues(
                     selectIdentity: true,
                     where: where ?? Rds.IssuesWhereDefault(this),
