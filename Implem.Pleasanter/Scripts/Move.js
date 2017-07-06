@@ -5,8 +5,4 @@
 
 $p.move = function ($control) {
     var error = $p.syncSend($control);
-    if (error === 0) {
-        $p.clearMessage();
-        $('.ui-dialog-content').dialog('close');
-    }
 }
