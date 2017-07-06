@@ -3,11 +3,11 @@
     "Type": 210,
     "Languages": [
         {
-            "Body": "Copy process of \" {0} \" was successful."
+            "Body": "It was copied."
         },
         {
             "Language": "ja",
-            "Body": "\" {0} \" をコピーしました。"
+            "Body": "コピーしました。"
         }
     ]
 }
