@@ -36,7 +36,6 @@ $p.create = function ($control) {
 $p.copy = function ($control) {
     var error = $p.syncSend($control);
     if (error === 0) {
-        $p.closeDialog($control);
         history.pushState(null, null, $('#BaseUrl').val() + $('#Id').val());
     }
 }
