@@ -1740,17 +1740,17 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Notifications.Add(new Notification(
-                SiteSettings.Notifications?.Any() == true
-                    ? SiteSettings.Notifications.Select(o => o.Id).Max() + 1
-                    : 1,
-                (Notification.Types)Forms.Int("NotificationType"),
-                Forms.Data("NotificationPrefix"),
-                Forms.Data("NotificationAddress"),
-                Forms.Data("NotificationToken"),
-                Session_MonitorChangesColumns(),
-                Forms.Int("BeforeCondition"),
-                Forms.Int("AfterCondition"),
-                (Notification.Expressions)Forms.Int("Expression")));
+                    SiteSettings.Notifications?.Any() == true
+                        ? SiteSettings.Notifications.Select(o => o.Id).Max() + 1
+                        : 1,
+                    (Notification.Types)Forms.Int("NotificationType"),
+                    Forms.Data("NotificationPrefix"),
+                    Forms.Data("NotificationAddress"),
+                    Forms.Data("NotificationToken"),
+                    Session_MonitorChangesColumns(),
+                    Forms.Int("BeforeCondition"),
+                    Forms.Int("AfterCondition"),
+                    (Notification.Expressions)Forms.Int("Expression")));
                 SetNotificationsResponseCollection(res);
             }
         }
