@@ -2191,11 +2191,10 @@ namespace Implem.Pleasanter.Models
                     column.Type = (ExportColumn.Types)Forms.Int("ExportColumnType");
                     column.Format = Forms.Data("ExportFormat");
                     res
-                        .Html("#ExportColumns",
-                            new HtmlBuilder().SelectableItems(
-                                listItemCollection: SiteSettings
-                                    .ExportSelectableOptions(export.Columns),
-                                selectedValueTextCollection: selected))
+                        .Html("#ExportColumns", new HtmlBuilder().SelectableItems(
+                            listItemCollection: SiteSettings
+                                .ExportSelectableOptions(export.Columns),
+                            selectedValueTextCollection: selected))
                         .SetFormData("ExportColumns", selected.ToJson())
                         .CloseDialog("#ExportColumnsDialog");
                 }
