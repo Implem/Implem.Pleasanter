@@ -95,5 +95,5 @@ https://implem.co.jp/category/blog/
 |[マークダウン](https://github.com/Implem/Implem.Pleasanter/wiki/その他：マークダウン)|マークダウン記法でテキストをスタイリング|
 
 ## Auther
-Implem Inc.  
+Implem Inc.  
 <https://implem.co.jp>
