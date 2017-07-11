@@ -238,6 +238,51 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public bool Updated()
+        {
+            return
+                CreatedTime_Updated ||
+                SysLogId_Updated ||
+                Ver_Updated ||
+                SysLogType_Updated ||
+                OnAzure_Updated ||
+                MachineName_Updated ||
+                ServiceName_Updated ||
+                TenantName_Updated ||
+                Application_Updated ||
+                Class_Updated ||
+                Method_Updated ||
+                RequestData_Updated ||
+                HttpMethod_Updated ||
+                RequestSize_Updated ||
+                ResponseSize_Updated ||
+                Elapsed_Updated ||
+                ApplicationAge_Updated ||
+                ApplicationRequestInterval_Updated ||
+                SessionAge_Updated ||
+                SessionRequestInterval_Updated ||
+                WorkingSet64_Updated ||
+                VirtualMemorySize64_Updated ||
+                ProcessId_Updated ||
+                ProcessName_Updated ||
+                BasePriority_Updated ||
+                Url_Updated ||
+                UrlReferer_Updated ||
+                UserHostName_Updated ||
+                UserHostAddress_Updated ||
+                UserLanguage_Updated ||
+                UserAgent_Updated ||
+                SessionGuid_Updated ||
+                ErrMessage_Updated ||
+                ErrStackTrace_Updated ||
+                InDebug_Updated ||
+                AssemblyVersion_Updated ||
+                Comments_Updated ||
+                Creator_Updated ||
+                Updator_Updated ||
+                UpdatedTime_Updated;
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

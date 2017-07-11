@@ -342,5 +342,22 @@ namespace Implem.Pleasanter.Models
                 }
             }
         }
+
+        public bool Updated()
+        {
+            return
+                ReferenceType_Updated ||
+                ReferenceId_Updated ||
+                Title_Updated ||
+                ExportSettingId_Updated ||
+                Ver_Updated ||
+                AddHeader_Updated ||
+                ExportColumns_Updated ||
+                Comments_Updated ||
+                Creator_Updated ||
+                Updator_Updated ||
+                CreatedTime_Updated ||
+                UpdatedTime_Updated;
+        }
     }
 }

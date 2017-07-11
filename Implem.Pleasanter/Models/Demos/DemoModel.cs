@@ -308,6 +308,23 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public bool Updated()
+        {
+            return
+                DemoId_Updated ||
+                Ver_Updated ||
+                TenantId_Updated ||
+                Title_Updated ||
+                Passphrase_Updated ||
+                MailAddress_Updated ||
+                Initialized_Updated ||
+                Comments_Updated ||
+                Creator_Updated ||
+                Updator_Updated ||
+                CreatedTime_Updated ||
+                UpdatedTime_Updated;
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

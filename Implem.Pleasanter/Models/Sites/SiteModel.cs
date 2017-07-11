@@ -574,6 +574,24 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public bool Updated()
+        {
+            return
+                TenantId_Updated ||
+                UpdatedTime_Updated ||
+                Ver_Updated ||
+                Title_Updated ||
+                Body_Updated ||
+                ReferenceType_Updated ||
+                ParentId_Updated ||
+                InheritPermission_Updated ||
+                SiteSettings_Updated ||
+                Comments_Updated ||
+                Creator_Updated ||
+                Updator_Updated ||
+                CreatedTime_Updated;
+        }
+
         public List<string> Mine()
         {
             var mine = new List<string>();

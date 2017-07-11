@@ -1293,6 +1293,7 @@ namespace Implem.Pleasanter.Models
             RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            bool synchronizeSummary = false,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
             bool paramAll = false)
@@ -1308,7 +1309,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             IssueId = newId != 0 ? newId : IssueId;
-            SynchronizeSummary(ss, forceSynchronizeSourceSummary);
+            if (synchronizeSummary) SynchronizeSummary(ss, forceSynchronizeSourceSummary);
             if (Contract.Notice() && notice)
             {
                 Title = new Title(ss, IssueId, PropertyValues(ss.TitleColumns));
@@ -1353,6 +1354,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
+            bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
             RdsUser rdsUser = null,
@@ -1374,7 +1376,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
-            SynchronizeSummary(ss, forceSynchronizeSourceSummary);
+            if (synchronizeSummary) SynchronizeSummary(ss, forceSynchronizeSourceSummary);
             if (Contract.Notice() && notice)
             {
                 CheckNotificationConditions(ss);
@@ -1759,11 +1761,12 @@ namespace Implem.Pleasanter.Models
 
         private void SynchronizeSummary(SiteSettings ss, Summary summary, long id)
         {
-            var destinationSs = ss.Destinations?.Get(summary.SiteId);
+            var destinationSs = SiteSettingsUtilities.Get(summary.SiteId);
             if (destinationSs != null)
             {
                 Summaries.Synchronize(
                     ss,
+                    destinationSs,
                     summary.SiteId,
                     summary.DestinationReferenceType,
                     summary.DestinationColumn,
@@ -1776,35 +1779,30 @@ namespace Implem.Pleasanter.Models
                     summary.SourceColumn,
                     ss.Views?.Get(summary.SourceCondition),
                     id);
-                FormulaUtilities.Update(id);
             }
         }
 
         private void SynchronizeSourceSummary(SiteSettings ss, bool force = false)
         {
-            var executed = false;
             ss.Sources.ForEach(sourceSs =>
                 sourceSs.Summaries
-                    .Where(o => sourceSs.Views?.Get(o.DestinationCondition) != null || force)
+                    .Where(o => ss.Views?.Get(o.DestinationCondition) != null || force)
                     .ForEach(summary =>
-                    {
                         Summaries.Synchronize(
                             sourceSs,
+                            ss,
                             summary.SiteId,
                             summary.DestinationReferenceType,
                             summary.DestinationColumn,
                             ss.Views?.Get(summary.DestinationCondition),
                             summary.SetZeroWhenOutOfCondition == true,
                             sourceSs.SiteId,
-                            "Issues",
+                            sourceSs.ReferenceType,
                             summary.LinkColumn,
                             summary.Type,
                             summary.SourceColumn,
                             sourceSs.Views?.Get(summary.SourceCondition),
-                            IssueId);
-                         executed = true;
-                    }));
-            if (executed) FormulaUtilities.Update(IssueId);
+                            IssueId)));
         }
 
         private long SynchronizeSummaryDestinationId(string linkColumn, bool saved = false)
@@ -1889,7 +1887,7 @@ namespace Implem.Pleasanter.Models
                     addUpdatorParam: false));
         }
 
-        private void SetByFormula(SiteSettings ss)
+        public void SetByFormula(SiteSettings ss)
         {
             ss.Formulas?.ForEach(formulaSet =>
             {
@@ -2625,6 +2623,157 @@ namespace Implem.Pleasanter.Models
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }
+        }
+
+        public bool Updated()
+        {
+            return
+                SiteId_Updated ||
+                UpdatedTime_Updated ||
+                Ver_Updated ||
+                Title_Updated ||
+                Body_Updated ||
+                StartTime_Updated ||
+                CompletionTime_Updated ||
+                WorkValue_Updated ||
+                ProgressRate_Updated ||
+                Status_Updated ||
+                Manager_Updated ||
+                Owner_Updated ||
+                ClassA_Updated ||
+                ClassB_Updated ||
+                ClassC_Updated ||
+                ClassD_Updated ||
+                ClassE_Updated ||
+                ClassF_Updated ||
+                ClassG_Updated ||
+                ClassH_Updated ||
+                ClassI_Updated ||
+                ClassJ_Updated ||
+                ClassK_Updated ||
+                ClassL_Updated ||
+                ClassM_Updated ||
+                ClassN_Updated ||
+                ClassO_Updated ||
+                ClassP_Updated ||
+                ClassQ_Updated ||
+                ClassR_Updated ||
+                ClassS_Updated ||
+                ClassT_Updated ||
+                ClassU_Updated ||
+                ClassV_Updated ||
+                ClassW_Updated ||
+                ClassX_Updated ||
+                ClassY_Updated ||
+                ClassZ_Updated ||
+                NumA_Updated ||
+                NumB_Updated ||
+                NumC_Updated ||
+                NumD_Updated ||
+                NumE_Updated ||
+                NumF_Updated ||
+                NumG_Updated ||
+                NumH_Updated ||
+                NumI_Updated ||
+                NumJ_Updated ||
+                NumK_Updated ||
+                NumL_Updated ||
+                NumM_Updated ||
+                NumN_Updated ||
+                NumO_Updated ||
+                NumP_Updated ||
+                NumQ_Updated ||
+                NumR_Updated ||
+                NumS_Updated ||
+                NumT_Updated ||
+                NumU_Updated ||
+                NumV_Updated ||
+                NumW_Updated ||
+                NumX_Updated ||
+                NumY_Updated ||
+                NumZ_Updated ||
+                DateA_Updated ||
+                DateB_Updated ||
+                DateC_Updated ||
+                DateD_Updated ||
+                DateE_Updated ||
+                DateF_Updated ||
+                DateG_Updated ||
+                DateH_Updated ||
+                DateI_Updated ||
+                DateJ_Updated ||
+                DateK_Updated ||
+                DateL_Updated ||
+                DateM_Updated ||
+                DateN_Updated ||
+                DateO_Updated ||
+                DateP_Updated ||
+                DateQ_Updated ||
+                DateR_Updated ||
+                DateS_Updated ||
+                DateT_Updated ||
+                DateU_Updated ||
+                DateV_Updated ||
+                DateW_Updated ||
+                DateX_Updated ||
+                DateY_Updated ||
+                DateZ_Updated ||
+                DescriptionA_Updated ||
+                DescriptionB_Updated ||
+                DescriptionC_Updated ||
+                DescriptionD_Updated ||
+                DescriptionE_Updated ||
+                DescriptionF_Updated ||
+                DescriptionG_Updated ||
+                DescriptionH_Updated ||
+                DescriptionI_Updated ||
+                DescriptionJ_Updated ||
+                DescriptionK_Updated ||
+                DescriptionL_Updated ||
+                DescriptionM_Updated ||
+                DescriptionN_Updated ||
+                DescriptionO_Updated ||
+                DescriptionP_Updated ||
+                DescriptionQ_Updated ||
+                DescriptionR_Updated ||
+                DescriptionS_Updated ||
+                DescriptionT_Updated ||
+                DescriptionU_Updated ||
+                DescriptionV_Updated ||
+                DescriptionW_Updated ||
+                DescriptionX_Updated ||
+                DescriptionY_Updated ||
+                DescriptionZ_Updated ||
+                CheckA_Updated ||
+                CheckB_Updated ||
+                CheckC_Updated ||
+                CheckD_Updated ||
+                CheckE_Updated ||
+                CheckF_Updated ||
+                CheckG_Updated ||
+                CheckH_Updated ||
+                CheckI_Updated ||
+                CheckJ_Updated ||
+                CheckK_Updated ||
+                CheckL_Updated ||
+                CheckM_Updated ||
+                CheckN_Updated ||
+                CheckO_Updated ||
+                CheckP_Updated ||
+                CheckQ_Updated ||
+                CheckR_Updated ||
+                CheckS_Updated ||
+                CheckT_Updated ||
+                CheckU_Updated ||
+                CheckV_Updated ||
+                CheckW_Updated ||
+                CheckX_Updated ||
+                CheckY_Updated ||
+                CheckZ_Updated ||
+                Comments_Updated ||
+                Creator_Updated ||
+                Updator_Updated ||
+                CreatedTime_Updated;
         }
 
         public List<string> Mine()

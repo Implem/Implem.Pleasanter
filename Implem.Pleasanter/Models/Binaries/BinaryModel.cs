@@ -345,6 +345,29 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public bool Updated()
+        {
+            return
+                ReferenceId_Updated ||
+                BinaryId_Updated ||
+                Ver_Updated ||
+                BinaryType_Updated ||
+                Title_Updated ||
+                Body_Updated ||
+                Bin_Updated ||
+                Thumbnail_Updated ||
+                Icon_Updated ||
+                FileName_Updated ||
+                Extension_Updated ||
+                Size_Updated ||
+                BinarySettings_Updated ||
+                Comments_Updated ||
+                Creator_Updated ||
+                Updator_Updated ||
+                CreatedTime_Updated ||
+                UpdatedTime_Updated;
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

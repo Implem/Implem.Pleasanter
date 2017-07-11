@@ -1,5 +1,4 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
@@ -9,6 +8,11 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class SiteSettingsUtilities
     {
+        public static SiteSettings Get(long siteId)
+        {
+            return Get(new SiteModel(siteId), siteId);
+        }
+
         public static SiteSettings Get(DataRow dataRow)
         {
             return dataRow != null

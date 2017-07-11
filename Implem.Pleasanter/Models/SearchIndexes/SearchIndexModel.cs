@@ -120,5 +120,19 @@ namespace Implem.Pleasanter.Models
                 }
             }
         }
+
+        public bool Updated()
+        {
+            return
+                Word_Updated ||
+                ReferenceId_Updated ||
+                Ver_Updated ||
+                Priority_Updated ||
+                Comments_Updated ||
+                Creator_Updated ||
+                Updator_Updated ||
+                CreatedTime_Updated ||
+                UpdatedTime_Updated;
+        }
     }
 }

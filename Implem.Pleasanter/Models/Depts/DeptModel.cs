@@ -321,6 +321,22 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public bool Updated()
+        {
+            return
+                TenantId_Updated ||
+                DeptId_Updated ||
+                Ver_Updated ||
+                DeptCode_Updated ||
+                DeptName_Updated ||
+                Body_Updated ||
+                Comments_Updated ||
+                Creator_Updated ||
+                Updator_Updated ||
+                CreatedTime_Updated ||
+                UpdatedTime_Updated;
+        }
+
         public List<string> Mine()
         {
             var mine = new List<string>();

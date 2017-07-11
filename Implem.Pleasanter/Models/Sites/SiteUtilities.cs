@@ -5176,8 +5176,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                selected.ForEach(id =>
-                    Summaries.Synchronize(ss, id));
+                selected.ForEach(id => Summaries.Synchronize(ss, id));
                 return Messages.ResponseSynchronizationCompleted().ToJson();
             }
         }

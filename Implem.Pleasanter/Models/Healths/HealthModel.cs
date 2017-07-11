@@ -302,6 +302,23 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public bool Updated()
+        {
+            return
+                HealthId_Updated ||
+                Ver_Updated ||
+                TenantCount_Updated ||
+                UserCount_Updated ||
+                ItemCount_Updated ||
+                ErrorCount_Updated ||
+                Elapsed_Updated ||
+                Comments_Updated ||
+                Creator_Updated ||
+                Updator_Updated ||
+                CreatedTime_Updated ||
+                UpdatedTime_Updated;
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

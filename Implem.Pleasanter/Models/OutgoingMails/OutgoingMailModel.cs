@@ -340,6 +340,30 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public bool Updated()
+        {
+            return
+                ReferenceType_Updated ||
+                ReferenceId_Updated ||
+                ReferenceVer_Updated ||
+                OutgoingMailId_Updated ||
+                Ver_Updated ||
+                Host_Updated ||
+                Port_Updated ||
+                From_Updated ||
+                To_Updated ||
+                Cc_Updated ||
+                Bcc_Updated ||
+                Title_Updated ||
+                Body_Updated ||
+                SentTime_Updated ||
+                Comments_Updated ||
+                Creator_Updated ||
+                Updator_Updated ||
+                CreatedTime_Updated ||
+                UpdatedTime_Updated;
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

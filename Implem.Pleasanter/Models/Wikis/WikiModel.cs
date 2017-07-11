@@ -258,6 +258,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
+            bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
             RdsUser rdsUser = null,
@@ -483,7 +484,7 @@ namespace Implem.Pleasanter.Models
                     addUpdatorParam: false));
         }
 
-        private void SetByFormula(SiteSettings ss)
+        public void SetByFormula(SiteSettings ss)
         {
             ss.Formulas?.ForEach(formulaSet =>
             {
@@ -671,6 +672,20 @@ namespace Implem.Pleasanter.Models
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }
+        }
+
+        public bool Updated()
+        {
+            return
+                SiteId_Updated ||
+                UpdatedTime_Updated ||
+                Ver_Updated ||
+                Title_Updated ||
+                Body_Updated ||
+                Comments_Updated ||
+                Creator_Updated ||
+                Updator_Updated ||
+                CreatedTime_Updated;
         }
 
         public List<string> Mine()
