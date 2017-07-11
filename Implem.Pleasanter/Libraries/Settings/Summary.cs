@@ -74,7 +74,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
             SourceCondition = sourceCondition;
             SetZeroWhenOutOfCondition =
-                SourceCondition != null && setZeroWhenOutOfCondition == true
+                destinationCondition != null && setZeroWhenOutOfCondition == true
                     ? setZeroWhenOutOfCondition
                     : null;
         }
