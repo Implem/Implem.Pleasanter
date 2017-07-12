@@ -217,7 +217,7 @@ namespace Implem.Pleasanter.Models
             WikiId = newId != 0 ? newId : WikiId;
             if (Contract.Notice() && notice)
             {
-                Title = new Title(ss, WikiId, PropertyValues(ss.TitleColumns));
+                SetTitle(ss);
                 CheckNotificationConditions(ss);
                 Notice(ss, "Created");
             }
@@ -512,6 +512,11 @@ namespace Implem.Pleasanter.Models
             });
         }
 
+        public void SetTitle(SiteSettings ss)
+        {
+            Title = new Title(ss, WikiId, PropertyValues(ss.TitleColumns));
+        }
+
         private bool Matched(SiteSettings ss, View view)
         {
             if (view.ColumnFilterHash != null)
@@ -644,10 +649,7 @@ namespace Implem.Pleasanter.Models
                     }));
             if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
-                Title = new Title(
-                    ss,
-                    WikiId,
-                    PropertyValues(ss.TitleColumns));
+                SetTitle(ss);
             }
         }
 

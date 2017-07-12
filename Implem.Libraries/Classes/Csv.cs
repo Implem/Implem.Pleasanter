@@ -33,7 +33,7 @@ namespace Implem.Libraries.Classes
                 {
                     for (int i = 0; i < fields.Length; i++)
                     {
-                        Headers.Add(fields[i].Trim());
+                        Headers.Add(fields[i]);
                     }
                     header = false;
                 }
@@ -42,7 +42,7 @@ namespace Implem.Libraries.Classes
                     var row = new List<string>();
                     for (int i = 0; i < fields.Length; i++)
                     {
-                        row.Add(fields[i].Trim());
+                        row.Add(fields[i]);
                     }
                     while (Headers.Count > row.Count)
                     {

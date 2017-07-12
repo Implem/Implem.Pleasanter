@@ -1312,7 +1312,7 @@ namespace Implem.Pleasanter.Models
             if (synchronizeSummary) SynchronizeSummary(ss, forceSynchronizeSourceSummary);
             if (Contract.Notice() && notice)
             {
-                Title = new Title(ss, IssueId, PropertyValues(ss.TitleColumns));
+                SetTitle(ss);
                 CheckNotificationConditions(ss);
                 Notice(ss, "Created");
             }
@@ -1724,7 +1724,7 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
-            Title = new Title(ss, IssueId, PropertyValues(ss.TitleColumns));
+            SetTitle(ss);
             if (Routes.Action() == "deletecomment")
             {
                 DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
@@ -2049,6 +2049,11 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetTitle(SiteSettings ss)
+        {
+            Title = new Title(ss, IssueId, PropertyValues(ss.TitleColumns));
         }
 
         private bool Matched(SiteSettings ss, View view)
@@ -2457,10 +2462,7 @@ namespace Implem.Pleasanter.Models
                     }));
             if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
-                Title = new Title(
-                    ss,
-                    IssueId,
-                    PropertyValues(ss.TitleColumns));
+                SetTitle(ss);
             }
         }
 

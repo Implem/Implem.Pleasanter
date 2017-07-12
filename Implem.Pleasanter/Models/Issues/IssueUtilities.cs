@@ -63,10 +63,7 @@ namespace Implem.Pleasanter.Models
             if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 issueCollection.ForEach(issueModel =>
-                    issueModel.Title = new Title(
-                        ss,
-                        issueModel.IssueId,
-                        issueModel.PropertyValues(ss.TitleColumns)));
+                    issueModel.SetTitle(ss));
             }
             ss.SetColumnAccessControls();
             return hb.Template(
@@ -3364,219 +3361,491 @@ namespace Implem.Pleasanter.Models
             }
             if (csv != null && count > 0)
             {
+                var idColumn = -1;
                 var columnHash = new Dictionary<int, Column>();
                 csv.Headers.Select((o, i) => new { Header = o, Index = i }).ForEach(data =>
                 {
                     var column = ss.Columns
                         .Where(o => o.LabelText == data.Header)
                         .FirstOrDefault();
+                    if (column?.ColumnName == "IssueId")
+                    {
+                        idColumn = data.Index;
+                    }
                     if (column != null) columnHash.Add(data.Index, column);
                 });
                 var error = Imports.ColumnValidate(ss, columnHash.Values
-                    .Select(o => o.ColumnName), "Title", "CompletionTime");
+                    .Select(o => o.ColumnName), "CompletionTime");
                 if (error != null) return error;
                 var issueHash = new Dictionary<int, IssueModel>();
-                var paramHash = new Dictionary<int, SqlParamCollection>();
                 csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
                 {
-                    var param = Rds.IssuesParam();
-                    param.SiteId(ss.SiteId);
+                    var issueModel = new IssueModel(ss: ss);
+                    if (Forms.Bool("UpdatableImport") && idColumn > -1)
+                    {
+                        var model = new IssueModel(ss, data.Row[idColumn].ToLong());
+                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                        {
+                            issueModel = model;
+                        }
+                    }
                     columnHash.ForEach(column =>
                     {
                         var recordingData = ImportRecordingData(
                             column.Value, data.Row[column.Key], ss.InheritPermission);
-                        if (column.Value.ColumnName == "IssueId")
+                        switch (column.Value.ColumnName)
                         {
-                            var issueId = recordingData.ToLong();
-                            if (Forms.Bool("UpdatableImport") && issueId > 0)
-                            {
-                                var issueModel = new IssueModel().Get(ss, where: Rds.IssuesWhere()
-                                    .SiteId(ss.SiteId)
-                                    .IssueId(issueId));
-                                if (issueModel.AccessStatus == Databases.AccessStatuses.Selected)
+                            case "Title":
+                                issueModel.Title.Value = recordingData.ToString();
+                                break;
+                            case "Body":
+                                issueModel.Body = recordingData.ToString();
+                                break;
+                            case "StartTime":
+                                issueModel.StartTime = recordingData.ToDateTime();
+                                break;
+                            case "CompletionTime":
+                                issueModel.CompletionTime.Value = recordingData.ToDateTime();
+                                break;
+                            case "WorkValue":
+                                issueModel.WorkValue.Value = recordingData.ToDecimal();
+                                break;
+                            case "ProgressRate":
+                                issueModel.ProgressRate.Value = recordingData.ToDecimal();
+                                break;
+                            case "Status":
+                                issueModel.Status.Value = recordingData.ToInt();
+                                break;
+                            case "Manager":
+                                issueModel.Manager.Id = recordingData.ToInt();
+                                break;
+                            case "Owner":
+                                issueModel.Owner.Id = recordingData.ToInt();
+                                break;
+                            case "ClassA":
+                                issueModel.ClassA = recordingData.ToString();
+                                break;
+                            case "ClassB":
+                                issueModel.ClassB = recordingData.ToString();
+                                break;
+                            case "ClassC":
+                                issueModel.ClassC = recordingData.ToString();
+                                break;
+                            case "ClassD":
+                                issueModel.ClassD = recordingData.ToString();
+                                break;
+                            case "ClassE":
+                                issueModel.ClassE = recordingData.ToString();
+                                break;
+                            case "ClassF":
+                                issueModel.ClassF = recordingData.ToString();
+                                break;
+                            case "ClassG":
+                                issueModel.ClassG = recordingData.ToString();
+                                break;
+                            case "ClassH":
+                                issueModel.ClassH = recordingData.ToString();
+                                break;
+                            case "ClassI":
+                                issueModel.ClassI = recordingData.ToString();
+                                break;
+                            case "ClassJ":
+                                issueModel.ClassJ = recordingData.ToString();
+                                break;
+                            case "ClassK":
+                                issueModel.ClassK = recordingData.ToString();
+                                break;
+                            case "ClassL":
+                                issueModel.ClassL = recordingData.ToString();
+                                break;
+                            case "ClassM":
+                                issueModel.ClassM = recordingData.ToString();
+                                break;
+                            case "ClassN":
+                                issueModel.ClassN = recordingData.ToString();
+                                break;
+                            case "ClassO":
+                                issueModel.ClassO = recordingData.ToString();
+                                break;
+                            case "ClassP":
+                                issueModel.ClassP = recordingData.ToString();
+                                break;
+                            case "ClassQ":
+                                issueModel.ClassQ = recordingData.ToString();
+                                break;
+                            case "ClassR":
+                                issueModel.ClassR = recordingData.ToString();
+                                break;
+                            case "ClassS":
+                                issueModel.ClassS = recordingData.ToString();
+                                break;
+                            case "ClassT":
+                                issueModel.ClassT = recordingData.ToString();
+                                break;
+                            case "ClassU":
+                                issueModel.ClassU = recordingData.ToString();
+                                break;
+                            case "ClassV":
+                                issueModel.ClassV = recordingData.ToString();
+                                break;
+                            case "ClassW":
+                                issueModel.ClassW = recordingData.ToString();
+                                break;
+                            case "ClassX":
+                                issueModel.ClassX = recordingData.ToString();
+                                break;
+                            case "ClassY":
+                                issueModel.ClassY = recordingData.ToString();
+                                break;
+                            case "ClassZ":
+                                issueModel.ClassZ = recordingData.ToString();
+                                break;
+                            case "NumA":
+                                issueModel.NumA = recordingData.ToDecimal();
+                                break;
+                            case "NumB":
+                                issueModel.NumB = recordingData.ToDecimal();
+                                break;
+                            case "NumC":
+                                issueModel.NumC = recordingData.ToDecimal();
+                                break;
+                            case "NumD":
+                                issueModel.NumD = recordingData.ToDecimal();
+                                break;
+                            case "NumE":
+                                issueModel.NumE = recordingData.ToDecimal();
+                                break;
+                            case "NumF":
+                                issueModel.NumF = recordingData.ToDecimal();
+                                break;
+                            case "NumG":
+                                issueModel.NumG = recordingData.ToDecimal();
+                                break;
+                            case "NumH":
+                                issueModel.NumH = recordingData.ToDecimal();
+                                break;
+                            case "NumI":
+                                issueModel.NumI = recordingData.ToDecimal();
+                                break;
+                            case "NumJ":
+                                issueModel.NumJ = recordingData.ToDecimal();
+                                break;
+                            case "NumK":
+                                issueModel.NumK = recordingData.ToDecimal();
+                                break;
+                            case "NumL":
+                                issueModel.NumL = recordingData.ToDecimal();
+                                break;
+                            case "NumM":
+                                issueModel.NumM = recordingData.ToDecimal();
+                                break;
+                            case "NumN":
+                                issueModel.NumN = recordingData.ToDecimal();
+                                break;
+                            case "NumO":
+                                issueModel.NumO = recordingData.ToDecimal();
+                                break;
+                            case "NumP":
+                                issueModel.NumP = recordingData.ToDecimal();
+                                break;
+                            case "NumQ":
+                                issueModel.NumQ = recordingData.ToDecimal();
+                                break;
+                            case "NumR":
+                                issueModel.NumR = recordingData.ToDecimal();
+                                break;
+                            case "NumS":
+                                issueModel.NumS = recordingData.ToDecimal();
+                                break;
+                            case "NumT":
+                                issueModel.NumT = recordingData.ToDecimal();
+                                break;
+                            case "NumU":
+                                issueModel.NumU = recordingData.ToDecimal();
+                                break;
+                            case "NumV":
+                                issueModel.NumV = recordingData.ToDecimal();
+                                break;
+                            case "NumW":
+                                issueModel.NumW = recordingData.ToDecimal();
+                                break;
+                            case "NumX":
+                                issueModel.NumX = recordingData.ToDecimal();
+                                break;
+                            case "NumY":
+                                issueModel.NumY = recordingData.ToDecimal();
+                                break;
+                            case "NumZ":
+                                issueModel.NumZ = recordingData.ToDecimal();
+                                break;
+                            case "DateA":
+                                issueModel.DateA = recordingData.ToDateTime();
+                                break;
+                            case "DateB":
+                                issueModel.DateB = recordingData.ToDateTime();
+                                break;
+                            case "DateC":
+                                issueModel.DateC = recordingData.ToDateTime();
+                                break;
+                            case "DateD":
+                                issueModel.DateD = recordingData.ToDateTime();
+                                break;
+                            case "DateE":
+                                issueModel.DateE = recordingData.ToDateTime();
+                                break;
+                            case "DateF":
+                                issueModel.DateF = recordingData.ToDateTime();
+                                break;
+                            case "DateG":
+                                issueModel.DateG = recordingData.ToDateTime();
+                                break;
+                            case "DateH":
+                                issueModel.DateH = recordingData.ToDateTime();
+                                break;
+                            case "DateI":
+                                issueModel.DateI = recordingData.ToDateTime();
+                                break;
+                            case "DateJ":
+                                issueModel.DateJ = recordingData.ToDateTime();
+                                break;
+                            case "DateK":
+                                issueModel.DateK = recordingData.ToDateTime();
+                                break;
+                            case "DateL":
+                                issueModel.DateL = recordingData.ToDateTime();
+                                break;
+                            case "DateM":
+                                issueModel.DateM = recordingData.ToDateTime();
+                                break;
+                            case "DateN":
+                                issueModel.DateN = recordingData.ToDateTime();
+                                break;
+                            case "DateO":
+                                issueModel.DateO = recordingData.ToDateTime();
+                                break;
+                            case "DateP":
+                                issueModel.DateP = recordingData.ToDateTime();
+                                break;
+                            case "DateQ":
+                                issueModel.DateQ = recordingData.ToDateTime();
+                                break;
+                            case "DateR":
+                                issueModel.DateR = recordingData.ToDateTime();
+                                break;
+                            case "DateS":
+                                issueModel.DateS = recordingData.ToDateTime();
+                                break;
+                            case "DateT":
+                                issueModel.DateT = recordingData.ToDateTime();
+                                break;
+                            case "DateU":
+                                issueModel.DateU = recordingData.ToDateTime();
+                                break;
+                            case "DateV":
+                                issueModel.DateV = recordingData.ToDateTime();
+                                break;
+                            case "DateW":
+                                issueModel.DateW = recordingData.ToDateTime();
+                                break;
+                            case "DateX":
+                                issueModel.DateX = recordingData.ToDateTime();
+                                break;
+                            case "DateY":
+                                issueModel.DateY = recordingData.ToDateTime();
+                                break;
+                            case "DateZ":
+                                issueModel.DateZ = recordingData.ToDateTime();
+                                break;
+                            case "DescriptionA":
+                                issueModel.DescriptionA = recordingData.ToString();
+                                break;
+                            case "DescriptionB":
+                                issueModel.DescriptionB = recordingData.ToString();
+                                break;
+                            case "DescriptionC":
+                                issueModel.DescriptionC = recordingData.ToString();
+                                break;
+                            case "DescriptionD":
+                                issueModel.DescriptionD = recordingData.ToString();
+                                break;
+                            case "DescriptionE":
+                                issueModel.DescriptionE = recordingData.ToString();
+                                break;
+                            case "DescriptionF":
+                                issueModel.DescriptionF = recordingData.ToString();
+                                break;
+                            case "DescriptionG":
+                                issueModel.DescriptionG = recordingData.ToString();
+                                break;
+                            case "DescriptionH":
+                                issueModel.DescriptionH = recordingData.ToString();
+                                break;
+                            case "DescriptionI":
+                                issueModel.DescriptionI = recordingData.ToString();
+                                break;
+                            case "DescriptionJ":
+                                issueModel.DescriptionJ = recordingData.ToString();
+                                break;
+                            case "DescriptionK":
+                                issueModel.DescriptionK = recordingData.ToString();
+                                break;
+                            case "DescriptionL":
+                                issueModel.DescriptionL = recordingData.ToString();
+                                break;
+                            case "DescriptionM":
+                                issueModel.DescriptionM = recordingData.ToString();
+                                break;
+                            case "DescriptionN":
+                                issueModel.DescriptionN = recordingData.ToString();
+                                break;
+                            case "DescriptionO":
+                                issueModel.DescriptionO = recordingData.ToString();
+                                break;
+                            case "DescriptionP":
+                                issueModel.DescriptionP = recordingData.ToString();
+                                break;
+                            case "DescriptionQ":
+                                issueModel.DescriptionQ = recordingData.ToString();
+                                break;
+                            case "DescriptionR":
+                                issueModel.DescriptionR = recordingData.ToString();
+                                break;
+                            case "DescriptionS":
+                                issueModel.DescriptionS = recordingData.ToString();
+                                break;
+                            case "DescriptionT":
+                                issueModel.DescriptionT = recordingData.ToString();
+                                break;
+                            case "DescriptionU":
+                                issueModel.DescriptionU = recordingData.ToString();
+                                break;
+                            case "DescriptionV":
+                                issueModel.DescriptionV = recordingData.ToString();
+                                break;
+                            case "DescriptionW":
+                                issueModel.DescriptionW = recordingData.ToString();
+                                break;
+                            case "DescriptionX":
+                                issueModel.DescriptionX = recordingData.ToString();
+                                break;
+                            case "DescriptionY":
+                                issueModel.DescriptionY = recordingData.ToString();
+                                break;
+                            case "DescriptionZ":
+                                issueModel.DescriptionZ = recordingData.ToString();
+                                break;
+                            case "CheckA":
+                                issueModel.CheckA = recordingData.ToBool();
+                                break;
+                            case "CheckB":
+                                issueModel.CheckB = recordingData.ToBool();
+                                break;
+                            case "CheckC":
+                                issueModel.CheckC = recordingData.ToBool();
+                                break;
+                            case "CheckD":
+                                issueModel.CheckD = recordingData.ToBool();
+                                break;
+                            case "CheckE":
+                                issueModel.CheckE = recordingData.ToBool();
+                                break;
+                            case "CheckF":
+                                issueModel.CheckF = recordingData.ToBool();
+                                break;
+                            case "CheckG":
+                                issueModel.CheckG = recordingData.ToBool();
+                                break;
+                            case "CheckH":
+                                issueModel.CheckH = recordingData.ToBool();
+                                break;
+                            case "CheckI":
+                                issueModel.CheckI = recordingData.ToBool();
+                                break;
+                            case "CheckJ":
+                                issueModel.CheckJ = recordingData.ToBool();
+                                break;
+                            case "CheckK":
+                                issueModel.CheckK = recordingData.ToBool();
+                                break;
+                            case "CheckL":
+                                issueModel.CheckL = recordingData.ToBool();
+                                break;
+                            case "CheckM":
+                                issueModel.CheckM = recordingData.ToBool();
+                                break;
+                            case "CheckN":
+                                issueModel.CheckN = recordingData.ToBool();
+                                break;
+                            case "CheckO":
+                                issueModel.CheckO = recordingData.ToBool();
+                                break;
+                            case "CheckP":
+                                issueModel.CheckP = recordingData.ToBool();
+                                break;
+                            case "CheckQ":
+                                issueModel.CheckQ = recordingData.ToBool();
+                                break;
+                            case "CheckR":
+                                issueModel.CheckR = recordingData.ToBool();
+                                break;
+                            case "CheckS":
+                                issueModel.CheckS = recordingData.ToBool();
+                                break;
+                            case "CheckT":
+                                issueModel.CheckT = recordingData.ToBool();
+                                break;
+                            case "CheckU":
+                                issueModel.CheckU = recordingData.ToBool();
+                                break;
+                            case "CheckV":
+                                issueModel.CheckV = recordingData.ToBool();
+                                break;
+                            case "CheckW":
+                                issueModel.CheckW = recordingData.ToBool();
+                                break;
+                            case "CheckX":
+                                issueModel.CheckX = recordingData.ToBool();
+                                break;
+                            case "CheckY":
+                                issueModel.CheckY = recordingData.ToBool();
+                                break;
+                            case "CheckZ":
+                                issueModel.CheckZ = recordingData.ToBool();
+                                break;
+                            case "Comments":
+                                if (issueModel.AccessStatus != Databases.AccessStatuses.Selected &&
+                                    !data.Row[column.Key].IsNullOrEmpty())
                                 {
-                                    issueHash.Add(data.Index, issueModel);
+                                    issueModel.Comments.Prepend(data.Row[column.Key]);
                                 }
-                            }
-                        }
-                        if (!param.Any(o => o.Name == column.Value.ColumnName))
-                        {
-                            switch (column.Value.ColumnName)
-                            {
-                                case "Title": param.Title(recordingData, _using: recordingData != null); break;
-                                case "Body": param.Body(recordingData, _using: recordingData != null); break;
-                                case "StartTime": param.StartTime(recordingData, _using: recordingData != null); break;
-                                case "CompletionTime": param.CompletionTime(recordingData, _using: recordingData != null); break;
-                                case "WorkValue": param.WorkValue(recordingData, _using: recordingData != null); break;
-                                case "ProgressRate": param.ProgressRate(recordingData, _using: recordingData != null); break;
-                                case "Status": param.Status(recordingData, _using: recordingData != null); break;
-                                case "Manager": param.Manager(recordingData, _using: recordingData != null); break;
-                                case "Owner": param.Owner(recordingData, _using: recordingData != null); break;
-                                case "ClassA": param.ClassA(recordingData, _using: recordingData != null); break;
-                                case "ClassB": param.ClassB(recordingData, _using: recordingData != null); break;
-                                case "ClassC": param.ClassC(recordingData, _using: recordingData != null); break;
-                                case "ClassD": param.ClassD(recordingData, _using: recordingData != null); break;
-                                case "ClassE": param.ClassE(recordingData, _using: recordingData != null); break;
-                                case "ClassF": param.ClassF(recordingData, _using: recordingData != null); break;
-                                case "ClassG": param.ClassG(recordingData, _using: recordingData != null); break;
-                                case "ClassH": param.ClassH(recordingData, _using: recordingData != null); break;
-                                case "ClassI": param.ClassI(recordingData, _using: recordingData != null); break;
-                                case "ClassJ": param.ClassJ(recordingData, _using: recordingData != null); break;
-                                case "ClassK": param.ClassK(recordingData, _using: recordingData != null); break;
-                                case "ClassL": param.ClassL(recordingData, _using: recordingData != null); break;
-                                case "ClassM": param.ClassM(recordingData, _using: recordingData != null); break;
-                                case "ClassN": param.ClassN(recordingData, _using: recordingData != null); break;
-                                case "ClassO": param.ClassO(recordingData, _using: recordingData != null); break;
-                                case "ClassP": param.ClassP(recordingData, _using: recordingData != null); break;
-                                case "ClassQ": param.ClassQ(recordingData, _using: recordingData != null); break;
-                                case "ClassR": param.ClassR(recordingData, _using: recordingData != null); break;
-                                case "ClassS": param.ClassS(recordingData, _using: recordingData != null); break;
-                                case "ClassT": param.ClassT(recordingData, _using: recordingData != null); break;
-                                case "ClassU": param.ClassU(recordingData, _using: recordingData != null); break;
-                                case "ClassV": param.ClassV(recordingData, _using: recordingData != null); break;
-                                case "ClassW": param.ClassW(recordingData, _using: recordingData != null); break;
-                                case "ClassX": param.ClassX(recordingData, _using: recordingData != null); break;
-                                case "ClassY": param.ClassY(recordingData, _using: recordingData != null); break;
-                                case "ClassZ": param.ClassZ(recordingData, _using: recordingData != null); break;
-                                case "NumA": param.NumA(recordingData, _using: recordingData != null); break;
-                                case "NumB": param.NumB(recordingData, _using: recordingData != null); break;
-                                case "NumC": param.NumC(recordingData, _using: recordingData != null); break;
-                                case "NumD": param.NumD(recordingData, _using: recordingData != null); break;
-                                case "NumE": param.NumE(recordingData, _using: recordingData != null); break;
-                                case "NumF": param.NumF(recordingData, _using: recordingData != null); break;
-                                case "NumG": param.NumG(recordingData, _using: recordingData != null); break;
-                                case "NumH": param.NumH(recordingData, _using: recordingData != null); break;
-                                case "NumI": param.NumI(recordingData, _using: recordingData != null); break;
-                                case "NumJ": param.NumJ(recordingData, _using: recordingData != null); break;
-                                case "NumK": param.NumK(recordingData, _using: recordingData != null); break;
-                                case "NumL": param.NumL(recordingData, _using: recordingData != null); break;
-                                case "NumM": param.NumM(recordingData, _using: recordingData != null); break;
-                                case "NumN": param.NumN(recordingData, _using: recordingData != null); break;
-                                case "NumO": param.NumO(recordingData, _using: recordingData != null); break;
-                                case "NumP": param.NumP(recordingData, _using: recordingData != null); break;
-                                case "NumQ": param.NumQ(recordingData, _using: recordingData != null); break;
-                                case "NumR": param.NumR(recordingData, _using: recordingData != null); break;
-                                case "NumS": param.NumS(recordingData, _using: recordingData != null); break;
-                                case "NumT": param.NumT(recordingData, _using: recordingData != null); break;
-                                case "NumU": param.NumU(recordingData, _using: recordingData != null); break;
-                                case "NumV": param.NumV(recordingData, _using: recordingData != null); break;
-                                case "NumW": param.NumW(recordingData, _using: recordingData != null); break;
-                                case "NumX": param.NumX(recordingData, _using: recordingData != null); break;
-                                case "NumY": param.NumY(recordingData, _using: recordingData != null); break;
-                                case "NumZ": param.NumZ(recordingData, _using: recordingData != null); break;
-                                case "DateA": param.DateA(recordingData, _using: recordingData != null); break;
-                                case "DateB": param.DateB(recordingData, _using: recordingData != null); break;
-                                case "DateC": param.DateC(recordingData, _using: recordingData != null); break;
-                                case "DateD": param.DateD(recordingData, _using: recordingData != null); break;
-                                case "DateE": param.DateE(recordingData, _using: recordingData != null); break;
-                                case "DateF": param.DateF(recordingData, _using: recordingData != null); break;
-                                case "DateG": param.DateG(recordingData, _using: recordingData != null); break;
-                                case "DateH": param.DateH(recordingData, _using: recordingData != null); break;
-                                case "DateI": param.DateI(recordingData, _using: recordingData != null); break;
-                                case "DateJ": param.DateJ(recordingData, _using: recordingData != null); break;
-                                case "DateK": param.DateK(recordingData, _using: recordingData != null); break;
-                                case "DateL": param.DateL(recordingData, _using: recordingData != null); break;
-                                case "DateM": param.DateM(recordingData, _using: recordingData != null); break;
-                                case "DateN": param.DateN(recordingData, _using: recordingData != null); break;
-                                case "DateO": param.DateO(recordingData, _using: recordingData != null); break;
-                                case "DateP": param.DateP(recordingData, _using: recordingData != null); break;
-                                case "DateQ": param.DateQ(recordingData, _using: recordingData != null); break;
-                                case "DateR": param.DateR(recordingData, _using: recordingData != null); break;
-                                case "DateS": param.DateS(recordingData, _using: recordingData != null); break;
-                                case "DateT": param.DateT(recordingData, _using: recordingData != null); break;
-                                case "DateU": param.DateU(recordingData, _using: recordingData != null); break;
-                                case "DateV": param.DateV(recordingData, _using: recordingData != null); break;
-                                case "DateW": param.DateW(recordingData, _using: recordingData != null); break;
-                                case "DateX": param.DateX(recordingData, _using: recordingData != null); break;
-                                case "DateY": param.DateY(recordingData, _using: recordingData != null); break;
-                                case "DateZ": param.DateZ(recordingData, _using: recordingData != null); break;
-                                case "DescriptionA": param.DescriptionA(recordingData, _using: recordingData != null); break;
-                                case "DescriptionB": param.DescriptionB(recordingData, _using: recordingData != null); break;
-                                case "DescriptionC": param.DescriptionC(recordingData, _using: recordingData != null); break;
-                                case "DescriptionD": param.DescriptionD(recordingData, _using: recordingData != null); break;
-                                case "DescriptionE": param.DescriptionE(recordingData, _using: recordingData != null); break;
-                                case "DescriptionF": param.DescriptionF(recordingData, _using: recordingData != null); break;
-                                case "DescriptionG": param.DescriptionG(recordingData, _using: recordingData != null); break;
-                                case "DescriptionH": param.DescriptionH(recordingData, _using: recordingData != null); break;
-                                case "DescriptionI": param.DescriptionI(recordingData, _using: recordingData != null); break;
-                                case "DescriptionJ": param.DescriptionJ(recordingData, _using: recordingData != null); break;
-                                case "DescriptionK": param.DescriptionK(recordingData, _using: recordingData != null); break;
-                                case "DescriptionL": param.DescriptionL(recordingData, _using: recordingData != null); break;
-                                case "DescriptionM": param.DescriptionM(recordingData, _using: recordingData != null); break;
-                                case "DescriptionN": param.DescriptionN(recordingData, _using: recordingData != null); break;
-                                case "DescriptionO": param.DescriptionO(recordingData, _using: recordingData != null); break;
-                                case "DescriptionP": param.DescriptionP(recordingData, _using: recordingData != null); break;
-                                case "DescriptionQ": param.DescriptionQ(recordingData, _using: recordingData != null); break;
-                                case "DescriptionR": param.DescriptionR(recordingData, _using: recordingData != null); break;
-                                case "DescriptionS": param.DescriptionS(recordingData, _using: recordingData != null); break;
-                                case "DescriptionT": param.DescriptionT(recordingData, _using: recordingData != null); break;
-                                case "DescriptionU": param.DescriptionU(recordingData, _using: recordingData != null); break;
-                                case "DescriptionV": param.DescriptionV(recordingData, _using: recordingData != null); break;
-                                case "DescriptionW": param.DescriptionW(recordingData, _using: recordingData != null); break;
-                                case "DescriptionX": param.DescriptionX(recordingData, _using: recordingData != null); break;
-                                case "DescriptionY": param.DescriptionY(recordingData, _using: recordingData != null); break;
-                                case "DescriptionZ": param.DescriptionZ(recordingData, _using: recordingData != null); break;
-                                case "CheckA": param.CheckA(recordingData, _using: recordingData != null); break;
-                                case "CheckB": param.CheckB(recordingData, _using: recordingData != null); break;
-                                case "CheckC": param.CheckC(recordingData, _using: recordingData != null); break;
-                                case "CheckD": param.CheckD(recordingData, _using: recordingData != null); break;
-                                case "CheckE": param.CheckE(recordingData, _using: recordingData != null); break;
-                                case "CheckF": param.CheckF(recordingData, _using: recordingData != null); break;
-                                case "CheckG": param.CheckG(recordingData, _using: recordingData != null); break;
-                                case "CheckH": param.CheckH(recordingData, _using: recordingData != null); break;
-                                case "CheckI": param.CheckI(recordingData, _using: recordingData != null); break;
-                                case "CheckJ": param.CheckJ(recordingData, _using: recordingData != null); break;
-                                case "CheckK": param.CheckK(recordingData, _using: recordingData != null); break;
-                                case "CheckL": param.CheckL(recordingData, _using: recordingData != null); break;
-                                case "CheckM": param.CheckM(recordingData, _using: recordingData != null); break;
-                                case "CheckN": param.CheckN(recordingData, _using: recordingData != null); break;
-                                case "CheckO": param.CheckO(recordingData, _using: recordingData != null); break;
-                                case "CheckP": param.CheckP(recordingData, _using: recordingData != null); break;
-                                case "CheckQ": param.CheckQ(recordingData, _using: recordingData != null); break;
-                                case "CheckR": param.CheckR(recordingData, _using: recordingData != null); break;
-                                case "CheckS": param.CheckS(recordingData, _using: recordingData != null); break;
-                                case "CheckT": param.CheckT(recordingData, _using: recordingData != null); break;
-                                case "CheckU": param.CheckU(recordingData, _using: recordingData != null); break;
-                                case "CheckV": param.CheckV(recordingData, _using: recordingData != null); break;
-                                case "CheckW": param.CheckW(recordingData, _using: recordingData != null); break;
-                                case "CheckX": param.CheckX(recordingData, _using: recordingData != null); break;
-                                case "CheckY": param.CheckY(recordingData, _using: recordingData != null); break;
-                                case "CheckZ": param.CheckZ(recordingData, _using: recordingData != null); break;
-                                case "Comments": param.Comments(recordingData, _using: recordingData != null); break;
-                            }
+                                break;
                         }
                     });
-                    if (!issueHash.ContainsKey(data.Index))
-                    {
-                        param.IssueId(raw: Def.Sql.Identity);
-                    }
-                    paramHash.Add(data.Index, param);
+                    issueHash.Add(data.Index, issueModel);
                 });
-                var errorTitle = Imports.Validate(
-                    paramHash, ss.GetColumn("Title"));
-                if (errorTitle != null) return errorTitle;
                 var errorCompletionTime = Imports.Validate(
-                    paramHash, ss.GetColumn("CompletionTime"));
+                    issueHash.ToDictionary(
+                        o => o.Key,
+                        o => o.Value.CompletionTime.Value.ToString()),
+                    ss.GetColumn("CompletionTime"));
                 if (errorCompletionTime != null) return errorCompletionTime;
                 var insertCount = 0;
                 var updateCount = 0;
-                paramHash.ForEach(data =>
+                issueHash.Values.ForEach(issueModel =>
                 {
-                    if (issueHash.ContainsKey(data.Key))
+                    issueModel.SetTitle(ss);
+                    if (issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
-                        var issueModel = issueHash[data.Key];
                         issueModel.VerUp = Versions.MustVerUp(issueModel);
-                        issueModel.Update(ss, param: data.Value);
-                        updateCount++;
+                        if (issueModel.Updated())
+                        {
+                            issueModel.Update(ss: ss);
+                            updateCount++;
+                        }
                     }
                     else
                     {
-                        new IssueModel()
-                        {
-                            SiteId = ss.SiteId,
-                            Title = new Title(data.Value.FirstOrDefault(o =>
-                                o.Name == "Title")?.Value.ToString() ?? string.Empty)
-                        }.Create(ss, param: data.Value);
+                        issueModel.Create(ss: ss);
                         insertCount++;
                     }
                 });
@@ -3594,14 +3863,14 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static object ImportRecordingData(
+        private static string ImportRecordingData(
             Column column, string value, long inheritPermission)
         {
             var recordingData = column.RecordingData(value, inheritPermission);
             switch (column.ColumnName)
             {
                 case "CompletionTime":
-                    recordingData = recordingData.ToDateTime().AddDays(1);
+                    recordingData = recordingData.ToDateTime().AddDays(1).ToString();
                     break;
             }
             return recordingData;

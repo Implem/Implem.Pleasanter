@@ -317,11 +317,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public object RecordingData(string value, long siteId)
+        public string RecordingData(string value, long siteId)
         {
             var tenantId = Sessions.TenantId();
             var userHash = SiteInfo.TenantCaches[tenantId].UserHash;
-            object recordingData = value;
+            var recordingData = value;
             if (UserColumn)
             {
                 if (SiteUserHash == null)
@@ -330,7 +330,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => userHash.ContainsKey(o))
                         .ToDictionary(o => userHash[o].Name, o => o);
                 }
-                recordingData = SiteUserHash.Get(value);
+                recordingData = SiteUserHash.Get(value).ToString();
             }
             else if (TypeCs == "Comments")
             {
@@ -347,17 +347,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 recordingData = ChoiceValueHash.Get(value);
             }
-            if (recordingData == null) return null;
-            switch (TypeName)
-            {
-                case "bit": return recordingData.ToBool();
-                case "int": return recordingData.ToInt();
-                case "bigint": return recordingData.ToLong();
-                case "float": return recordingData.ToFloat();
-                case "decimal": return recordingData.ToDecimal();
-                case "datetime": return recordingData.ToDateTime().ToUniversal();
-                default: return recordingData;
-            }
+            return recordingData;
         }
 
         public string Display(decimal value, bool unit = false, bool format = true)

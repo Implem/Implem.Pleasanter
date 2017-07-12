@@ -1,5 +1,4 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
-using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -23,10 +22,9 @@ namespace Implem.Pleasanter.Libraries.Models
             return null;
         }
 
-        public static string Validate(
-            Dictionary<int, SqlParamCollection> paramHash, Column column)
+        public static string Validate(Dictionary<int, string> hash, Column column)
         {
-            foreach (var data in paramHash.Where(o => o.Value.Any(p => HasError(p, column))))
+            foreach (var data in hash.Where(o => HasError(o.Value, column)))
             {
                 return Messages.ResponseInvalidCsvData(
                     (data.Key + 2).ToString(), column.LabelText).ToJson();
@@ -34,19 +32,12 @@ namespace Implem.Pleasanter.Libraries.Models
             return null;
         }
 
-        private static bool HasError(SqlParam sqlParam, Column column)
+        private static bool HasError(string data, Column column)
         {
-            if (sqlParam.Name == column.ColumnName)
+            switch (column.TypeName)
             {
-                switch (column.TypeName)
-                {
-                    case "datetime": return !Times.InRange(sqlParam.Value.ToDateTime());
-                    default: return sqlParam.Value == null;
-                }
-            }
-            else
-            {
-                return false;
+                case "datetime": return !Times.InRange(data.ToDateTime());
+                default: return data == null;
             }
         }
     }
