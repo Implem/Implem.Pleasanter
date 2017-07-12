@@ -146,7 +146,8 @@ namespace Implem.Pleasanter.Models
             RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
-            bool paramAll = false)
+            bool paramAll = false,
+            bool get = true)
         {
             Size = Bin.Length;
             var statements = CreateStatements(tableType, param, paramAll);
@@ -155,7 +156,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             BinaryId = newId != 0 ? newId : BinaryId;
-            Get();
+            if (get) Get();
             return Error.Types.None;
         }
 
@@ -177,7 +178,8 @@ namespace Implem.Pleasanter.Models
         public Error.Types Update(
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
-            bool paramAll = false)
+            bool paramAll = false,
+            bool get = true)
         {
             SetBySession();
             var statements = UpdateStatements(param, paramAll);
@@ -186,7 +188,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
-            Get();
+            if (get) Get();
             return Error.Types.None;
         }
 

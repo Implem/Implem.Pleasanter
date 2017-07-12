@@ -231,7 +231,8 @@ namespace Implem.Pleasanter.Models
             RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
-            bool paramAll = false)
+            bool paramAll = false,
+            bool get = true)
         {
             PasswordExpirationPeriod();
             var statements = CreateStatements(ss, tableType, param, paramAll);
@@ -252,7 +253,7 @@ namespace Implem.Pleasanter.Models
                     throw;
                 }
             }
-            Get(ss);
+            if (get) Get(ss);
             return Error.Types.None;
         }
 
@@ -279,7 +280,8 @@ namespace Implem.Pleasanter.Models
             bool permissionChanged = false,
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
-            bool paramAll = false)
+            bool paramAll = false,
+            bool get = true)
         {
             SetBySession();
             var statements = UpdateStatements(param, paramAll);
@@ -302,7 +304,7 @@ namespace Implem.Pleasanter.Models
                     throw;
                 }
             }
-            Get(ss);
+            if (get) Get(ss);
             UpdateMailAddresses();
             SetSiteInfo();
             return Error.Types.None;

@@ -207,7 +207,8 @@ namespace Implem.Pleasanter.Models
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool notice = false,
-            bool paramAll = false)
+            bool paramAll = false,
+            bool get = true)
         {
             var statements = CreateStatements(ss, tableType, param, paramAll);
             var newId = Rds.ExecuteScalar_long(
@@ -221,7 +222,7 @@ namespace Implem.Pleasanter.Models
                 CheckNotificationConditions(ss);
                 Notice(ss, "Created");
             }
-            Get(ss);
+            if (get) Get(ss);
             Rds.ExecuteNonQuery(
                 rdsUser: rdsUser,
                 statements: Rds.UpdateItems(
@@ -263,7 +264,8 @@ namespace Implem.Pleasanter.Models
             bool notice = false,
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
-            bool paramAll = false)
+            bool paramAll = false,
+            bool get = true)
         {
             if (Contract.Notice() && notice)
             {
@@ -285,7 +287,7 @@ namespace Implem.Pleasanter.Models
                 CheckNotificationConditions(ss);
                 Notice(ss, "Updated");
             }
-            Get(ss);
+            if (get) Get(ss);
             UpdateRelatedRecords(ss);
             SiteInfo.Reflesh();
             return Error.Types.None;

@@ -1258,7 +1258,8 @@ namespace Implem.Pleasanter.Models
             bool synchronizeSummary = false,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
-            bool paramAll = false)
+            bool paramAll = false,
+            bool get = true)
         {
             var statements = CreateStatements(ss, tableType, param, paramAll);
             statements.CreatePermissions(ss, ss.Columns
@@ -1278,7 +1279,7 @@ namespace Implem.Pleasanter.Models
                 CheckNotificationConditions(ss);
                 Notice(ss, "Created");
             }
-            Get(ss);
+            if (get) Get(ss);
             Rds.ExecuteNonQuery(
                 rdsUser: rdsUser,
                 statements: Rds.UpdateItems(
@@ -1321,7 +1322,8 @@ namespace Implem.Pleasanter.Models
             bool notice = false,
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
-            bool paramAll = false)
+            bool paramAll = false,
+            bool get = true)
         {
             if (Contract.Notice() && notice)
             {
@@ -1344,7 +1346,7 @@ namespace Implem.Pleasanter.Models
                 CheckNotificationConditions(ss);
                 Notice(ss, "Updated");
             }
-            Get(ss);
+            if (get) Get(ss);
             UpdateRelatedRecords(ss);
             return Error.Types.None;
         }

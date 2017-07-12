@@ -325,7 +325,8 @@ namespace Implem.Pleasanter.Models
             bool permissionChanged = false,
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
-            bool paramAll = false)
+            bool paramAll = false,
+            bool get = true)
         {
             SetBySession();
             var statements = UpdateStatements(param, paramAll);
@@ -338,7 +339,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
-            Get();
+            if (get) Get();
             UpdateRelatedRecords();
             SiteInfo.Reflesh();
             return Error.Types.None;

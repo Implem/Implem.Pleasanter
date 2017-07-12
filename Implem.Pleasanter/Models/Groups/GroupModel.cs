@@ -117,7 +117,8 @@ namespace Implem.Pleasanter.Models
             RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
-            bool paramAll = false)
+            bool paramAll = false,
+            bool get = true)
         {
             var statements = CreateStatements(ss, tableType, param, paramAll);
             var newId = Rds.ExecuteScalar_int(
@@ -125,7 +126,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             GroupId = newId != 0 ? newId : GroupId;
-            Get(ss);
+            if (get) Get(ss);
             return Error.Types.None;
         }
 
@@ -158,7 +159,8 @@ namespace Implem.Pleasanter.Models
             bool permissionChanged = false,
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
-            bool paramAll = false)
+            bool paramAll = false,
+            bool get = true)
         {
             SetBySession();
             var statements = UpdateStatements(param, paramAll);
@@ -167,7 +169,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
-            Get(ss);
+            if (get) Get(ss);
             statements = new List<SqlStatement>
             {
                 Rds.PhysicalDeleteGroupMembers(
