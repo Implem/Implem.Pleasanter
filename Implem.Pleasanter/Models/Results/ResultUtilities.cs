@@ -3638,13 +3638,13 @@ namespace Implem.Pleasanter.Models
                         resultModel.VerUp = Versions.MustVerUp(resultModel);
                         if (resultModel.Updated())
                         {
-                            resultModel.Update(ss: ss);
+                            resultModel.Update(ss: ss, get: false);
                             updateCount++;
                         }
                     }
                     else
                     {
-                        resultModel.Create(ss: ss);
+                        resultModel.Create(ss: ss, get: false);
                         insertCount++;
                     }
                 });

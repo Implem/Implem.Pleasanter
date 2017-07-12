@@ -3839,13 +3839,13 @@ namespace Implem.Pleasanter.Models
                         issueModel.VerUp = Versions.MustVerUp(issueModel);
                         if (issueModel.Updated())
                         {
-                            issueModel.Update(ss: ss);
+                            issueModel.Update(ss: ss, get: false);
                             updateCount++;
                         }
                     }
                     else
                     {
-                        issueModel.Create(ss: ss);
+                        issueModel.Create(ss: ss, get: false);
                         insertCount++;
                     }
                 });
