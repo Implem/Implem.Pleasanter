@@ -330,7 +330,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => userHash.ContainsKey(o))
                         .ToDictionary(o => userHash[o].Name, o => o);
                 }
-                recordingData = SiteUserHash.Get(value).ToString();
+                var userId = SiteUserHash.Get(value);
+                recordingData = userId != 0
+                    ? userId.ToString()
+                    : User.UserTypes.Anonymous.ToInt().ToString();
             }
             else if (TypeCs == "Comments")
             {
