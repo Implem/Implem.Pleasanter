@@ -149,7 +149,10 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         issueModel.SetByFormula(destinationSs);
                         issueModel.VerUp = Versions.MustVerUp(issueModel);
-                        issueModel.Update(ss: destinationSs, synchronizeSummary: false);
+                        issueModel.Update(
+                            ss: destinationSs,
+                            synchronizeSummary: false,
+                            get: false);
                     }
                 });
             }
@@ -545,7 +548,10 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         resultModel.SetByFormula(destinationSs);
                         resultModel.VerUp = Versions.MustVerUp(resultModel);
-                        resultModel.Update(ss: destinationSs, synchronizeSummary: false);
+                        resultModel.Update(
+                            ss: destinationSs,
+                            synchronizeSummary: false,
+                            get: false);
                     }
                 });
             }
