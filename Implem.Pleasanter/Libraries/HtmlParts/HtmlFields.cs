@@ -259,8 +259,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 unit: column.Unit,
                                 validateRequired: required,
                                 validateNumber: column.ValidateNumber ?? false,
-                                validateMinNumber: column.MinNumber(),
-                                validateMaxNumber: column.MaxNumber(),
+                                validateMinNumber: !preview
+                                    ? column.MinNumber()
+                                    : 0,
+                                validateMaxNumber: !preview
+                                    ? column.MaxNumber()
+                                    : 0,
                                 validateDate: column.ValidateDate ?? false,
                                 validateEmail: column.ValidateEmail ?? false,
                                 validateEqualTo: column.ValidateEqualTo,
