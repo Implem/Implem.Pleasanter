@@ -3380,7 +3380,7 @@ namespace Implem.Pleasanter.Models
                 var issueHash = new Dictionary<int, IssueModel>();
                 csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
                 {
-                    var issueModel = new IssueModel(ss: ss);
+                    var issueModel = new IssueModel() { SiteId = ss.SiteId };
                     if (Forms.Bool("UpdatableImport") && idColumn > -1)
                     {
                         var model = new IssueModel(ss, data.Row[idColumn].ToLong());

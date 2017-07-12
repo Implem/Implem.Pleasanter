@@ -3197,7 +3197,7 @@ namespace Implem.Pleasanter.Models
                 var resultHash = new Dictionary<int, ResultModel>();
                 csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
                 {
-                    var resultModel = new ResultModel(ss: ss);
+                    var resultModel = new ResultModel() { SiteId = ss.SiteId };
                     if (Forms.Bool("UpdatableImport") && idColumn > -1)
                     {
                         var model = new ResultModel(ss, data.Row[idColumn].ToLong());
