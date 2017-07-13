@@ -53,18 +53,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return HtmlTemplates.Error(invalid);
             }
-            var links = ss.GetUseSearchLinks();
-            links?.ForEach(link =>
-                ss.SetChoiceHash(
-                    columnName: link.ColumnName,
-                    selectedValues: issueCollection
-                        .Select(o => o.PropertyValue(link.ColumnName))
-                        .Distinct()));
-            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
-            {
-                issueCollection.ForEach(issueModel =>
-                    issueModel.SetTitle(ss));
-            }
+            issueCollection.SetLinks(ss);
             ss.SetColumnAccessControls();
             return hb.Template(
                 ss: ss,
@@ -3910,6 +3899,7 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(ss: ss),
                 orderBy: view.OrderBy(ss, Rds.IssuesOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)));
+            issueCollection.SetLinks(ss);
             var csv = new System.Text.StringBuilder();
             ss.SetColumnAccessControls();
             var allowedColumns = Permissions.AllowedColumns(ss);
@@ -5358,6 +5348,21 @@ namespace Implem.Pleasanter.Models
             issueModel.VerUp = Versions.MustVerUp(issueModel);
             issueModel.Update(ss, notice: true);
             return KambanJson(ss);
+        }
+
+        private static void SetLinks(this List<IssueModel> issues, SiteSettings ss)
+        {
+            var links = ss.GetUseSearchLinks();
+            links?.ForEach(link =>
+                ss.SetChoiceHash(
+                    columnName: link.ColumnName,
+                    selectedValues: issues
+                        .Select(o => o.PropertyValue(link.ColumnName))
+                        .Distinct()));
+            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            {
+                issues.ForEach(issueModel => issueModel.SetTitle(ss));
+            }
         }
 
         /// <summary>

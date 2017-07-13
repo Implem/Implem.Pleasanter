@@ -53,18 +53,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return HtmlTemplates.Error(invalid);
             }
-            var links = ss.GetUseSearchLinks();
-            links?.ForEach(link =>
-                ss.SetChoiceHash(
-                    columnName: link.ColumnName,
-                    selectedValues: resultCollection
-                        .Select(o => o.PropertyValue(link.ColumnName))
-                        .Distinct()));
-            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
-            {
-                resultCollection.ForEach(resultModel =>
-                    resultModel.SetTitle(ss));
-            }
+            resultCollection.SetLinks(ss);
             ss.SetColumnAccessControls();
             return hb.Template(
                 ss: ss,
@@ -3700,6 +3689,7 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(ss: ss),
                 orderBy: view.OrderBy(ss, Rds.ResultsOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)));
+            resultCollection.SetLinks(ss);
             var csv = new System.Text.StringBuilder();
             ss.SetColumnAccessControls();
             var allowedColumns = Permissions.AllowedColumns(ss);
@@ -4958,6 +4948,21 @@ namespace Implem.Pleasanter.Models
             resultModel.VerUp = Versions.MustVerUp(resultModel);
             resultModel.Update(ss, notice: true);
             return KambanJson(ss);
+        }
+
+        private static void SetLinks(this List<ResultModel> results, SiteSettings ss)
+        {
+            var links = ss.GetUseSearchLinks();
+            links?.ForEach(link =>
+                ss.SetChoiceHash(
+                    columnName: link.ColumnName,
+                    selectedValues: results
+                        .Select(o => o.PropertyValue(link.ColumnName))
+                        .Distinct()));
+            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            {
+                results.ForEach(resultModel => resultModel.SetTitle(ss));
+            }
         }
 
         /// <summary>
