@@ -2962,6 +2962,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                ss = SiteSettingsUtilities.Get(siteId);
                 return EditorResponse(ss, issueModel)
                     .Message(Messages.Moved(issueModel.Title.Value))
                     .Val("#BackUrl", Locations.ItemIndex(siteId))
