@@ -1139,6 +1139,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnDefinitionHash.GridDefinitions()
                         .Where(o => !GridColumns.Contains(o.ColumnName))
+                        .OrderBy(o => o.History)
                         .Select(o => o.ColumnName));
         }
 
@@ -1149,6 +1150,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnDefinitionHash.FilterDefinitions()
                         .Where(o => !FilterColumns.Contains(o.ColumnName))
+                        .OrderBy(o => o.History)
                         .Select(o => o.ColumnName));
         }
 
@@ -1159,6 +1161,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnDefinitionHash.EditorDefinitions()
                         .Where(o => !EditorColumns.Contains(o.ColumnName))
+                        .OrderBy(o => o.History)
                         .Select(o => o.ColumnName));
         }
 
@@ -1170,6 +1173,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnDefinitionHash.TitleDefinitions()
                         .Where(o => !titleColumns.Contains(o.ColumnName))
+                        .OrderBy(o => o.History)
                         .Select(o => o.ColumnName));
         }
 
@@ -1180,6 +1184,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnDefinitionHash.LinkDefinitions()
                         .Where(o => !LinkColumns.Contains(o.ColumnName))
+                        .OrderBy(o => o.History)
                         .Select(o => o.ColumnName));
         }
 
@@ -1190,6 +1195,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnDefinitionHash.HistoryDefinitions()
                         .Where(o => !HistoryColumns.Contains(o.ColumnName))
+                        .OrderBy(o => o.History)
                         .Select(o => o.ColumnName));
         }
 
@@ -1218,6 +1224,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnDefinitionHash.MonitorChangesDefinitions()
                         .Where(o => !monitorChangesColumns.Contains(o.ColumnName))
+                        .OrderBy(o => o.History)
                         .Select(o => o.ColumnName));
         }
 
@@ -1229,6 +1236,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     o => o.Id.ToString(),
                     o => new ControlData(o.LabelText))
                 : ColumnDefinitionHash.ExportDefinitions()
+                    .OrderBy(o => o.History)
                     .Select((o, i) => new ExportColumn(this, i + 1, o.ColumnName))
                     .ToDictionary(
                         o => o.ColumnName,
