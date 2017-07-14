@@ -53,7 +53,6 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return HtmlTemplates.Error(invalid);
             }
-            resultCollection.SetLinks(ss);
             ss.SetColumnAccessControls();
             return hb.Template(
                 ss: ss,
@@ -137,6 +136,7 @@ namespace Implem.Pleasanter.Models
             ResultCollection resultCollection,
             View view)
         {
+            resultCollection.SetLinks(ss);
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
@@ -173,10 +173,12 @@ namespace Implem.Pleasanter.Models
             ResponseCollection res = null,
             int offset = 0,
             bool clearCheck = false,
+            bool setLinks = false,
             Message message = null)
         {
             var view = Views.GetBySession(ss);
             var resultCollection = ResultCollection(ss, view, offset);
+            if (setLinks) resultCollection.SetLinks(ss);
             return (res ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -3008,6 +3010,7 @@ namespace Implem.Pleasanter.Models
                 return GridRows(
                     ss,
                     clearCheck: true,
+                    setLinks: true,
                     message: Messages.BulkMoved(count.ToString()));
             }
             else
@@ -3094,6 +3097,7 @@ namespace Implem.Pleasanter.Models
                 return GridRows(
                     ss,
                     clearCheck: true,
+                    setLinks: true,
                     message: Messages.BulkDeleted(count.ToString()));
             }
             else
