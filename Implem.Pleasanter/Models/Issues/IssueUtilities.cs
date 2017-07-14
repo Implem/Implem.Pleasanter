@@ -3325,7 +3325,7 @@ namespace Implem.Pleasanter.Models
         public static string Import(SiteModel siteModel)
         {
             if (!Contract.Import()) return null;
-            var ss = siteModel.IssuesSiteSettings(siteModel.SiteId);
+            var ss = siteModel.IssuesSiteSettings(siteModel.SiteId, setAllChoices: true);
             if (!ss.CanCreate())
             {
                 return Messages.ResponseHasNotPermission().ToJson();
