@@ -11,4 +11,5 @@
 $p.export = function () {
     location.href = $('.main-form').attr('action').replace('_action_', 'export') + '?id=' +
         $('#ExportId').val();
+    $p.closeDialog($('#ExportSelectorDialog'));
 }
