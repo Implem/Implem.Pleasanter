@@ -344,7 +344,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (ChoiceValueHash == null)
                 {
                     ChoiceValueHash = ChoiceHash
-                        .GroupBy(o => o.Value)
+                        .GroupBy(o => o.Value.Text)
                         .Select(o => o.First())
                         .ToDictionary(o => o.Value.Text, o => o.Key);
                 }
