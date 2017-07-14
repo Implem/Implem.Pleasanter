@@ -350,7 +350,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 recordingData = ChoiceValueHash.Get(value);
             }
-            return recordingData;
+            return recordingData ?? string.Empty;
         }
 
         public string Display(decimal value, bool unit = false, bool format = true)
