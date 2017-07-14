@@ -2982,26 +2982,23 @@ namespace Implem.Pleasanter.Models
         public static string BulkMove(SiteSettings ss)
         {
             var siteId = Forms.Long("MoveTargets");
-            var all = Forms.Bool("GridCheckAll");
-            var selected = all
-                ? GridItems("GridUnCheckedItems")
-                : GridItems("GridCheckedItems");
-            var count = BulkMoveCount(siteId, ss, selected, all: all);
+            var selector = new GridSelector();
+            var count = BulkMoveCount(siteId, ss, selector);
             if (Contract.ItemsLimit(siteId, count))
             {
                 return Error.Types.ItemsLimit.MessageJson();
             }
             if (Permissions.CanMove(ss, SiteSettingsUtilities.Get(siteId, siteId)))
             {
-                if (all)
+                if (selector.All)
                 {
-                    count = BulkMove(siteId, ss, selected, all: all);
+                    count = BulkMove(siteId, ss, selector);
                 }
                 else
                 {
-                    if (selected.Any())
+                    if (selector.Selected.Any())
                     {
-                        count = BulkMove(siteId, ss, selected);
+                        count = BulkMove(siteId, ss, selector);
                     }
                     else
                     {
@@ -3023,8 +3020,7 @@ namespace Implem.Pleasanter.Models
         private static int BulkMoveCount(
             long siteId,
             SiteSettings ss,
-            IEnumerable<long> selected,
-            bool all = false)
+            GridSelector selector)
         {
             return Rds.ExecuteScalar_int(statements:
                 Rds.SelectResults(
@@ -3033,16 +3029,15 @@ namespace Implem.Pleasanter.Models
                         ss, Rds.ResultsWhere()
                             .SiteId(ss.SiteId)
                             .ResultId_In(
-                                value: selected,
-                                negative: all,
-                                _using: selected.Any()))));
+                                value: selector.Selected,
+                                negative: selector.All,
+                                _using: selector.Selected.Any()))));
         }
 
         private static int BulkMove(
             long siteId,
             SiteSettings ss,
-            IEnumerable<long> selected,
-            bool all = false)
+            GridSelector selector)
         {
             return Rds.ExecuteScalar_int(
                 transactional: true,
@@ -3053,9 +3048,9 @@ namespace Implem.Pleasanter.Models
                             ss, Rds.ResultsWhere()
                                 .SiteId(ss.SiteId)
                                 .ResultId_In(
-                                    value: selected,
-                                    negative: all,
-                                    _using: selected.Any())),
+                                    value: selector.Selected,
+                                    negative: selector.All,
+                                    _using: selector.Selected.Any())),
                         param: Rds.ResultsParam().SiteId(siteId),
                         countRecord: true),
                     Rds.UpdateItems(
@@ -3073,22 +3068,17 @@ namespace Implem.Pleasanter.Models
         {
             if (ss.CanDelete())
             {
+                var selector = new GridSelector();
                 var count = 0;
-                if (Forms.Bool("GridCheckAll"))
+                if (selector.All)
                 {
-                    count = BulkDelete(
-                        ss,
-                        GridItems("GridUnCheckedItems"),
-                        negative: true);
+                    count = BulkDelete(ss, selector.Selected, negative: true);
                 }
                 else
                 {
-                    var checkedItems = GridItems("GridCheckedItems");
-                    if (checkedItems.Any())
+                    if (selector.Selected.Any())
                     {
-                        count = BulkDelete(
-                            ss,
-                            checkedItems);
+                        count = BulkDelete(ss, selector.Selected);
                     }
                     else
                     {
@@ -3133,15 +3123,6 @@ namespace Implem.Pleasanter.Models
                         where: where, 
                         countRecord: true)
                 });
-        }
-
-        private static IEnumerable<long> GridItems(string name)
-        {
-            return Forms.Data(name)
-                .Split(',')
-                .Select(o => o.ToLong())
-                .Where(o => o != 0)
-                .Distinct();
         }
 
         public static string Import(SiteModel siteModel)

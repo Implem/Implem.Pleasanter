@@ -263,6 +263,7 @@
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_006.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_005.cs" />
     <Compile Include="Libraries\Requests\Calendars.cs" />
+    <Compile Include="Libraries\Requests\GridSelector.cs" />
     <Compile Include="Libraries\Responses\Displays.cs" />
     <Compile Include="Libraries\Security\Defenses.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
