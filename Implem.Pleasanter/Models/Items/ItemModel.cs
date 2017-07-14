@@ -575,10 +575,10 @@ namespace Implem.Pleasanter.Models
                             param: Rds.SitesParam()
                                 .TenantId(Sessions.TenantId())
                                 .ReferenceType(Site.ReferenceType)
+                                .SiteId(Site.SiteId)
                                 .Permissions_PermissionType(
                                     Permissions.Types.Update.ToInt().ToString())))
-                                        .AsEnumerable()), 
-                    selectedValue: Site.SiteId.ToString())).ToJson();
+                                        .AsEnumerable()))).ToJson();
         }
 
         private Dictionary<string, ControlData> MoveTargets(IEnumerable<DataRow> siteCollection)
