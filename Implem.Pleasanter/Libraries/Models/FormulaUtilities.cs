@@ -12,11 +12,6 @@ namespace Implem.Pleasanter.Libraries.Models
             Update(siteModel, 0, selected);
         }
 
-        public static void Update(long id)
-        {
-            Update(new SiteModel(new ItemModel(id).SiteId), id);
-        }
-
         private static void Update(SiteModel siteModel, long id, IEnumerable<int> selected = null)
         {
             var hasFormula = siteModel.SiteSettings.Formulas?.Any() ?? false;
