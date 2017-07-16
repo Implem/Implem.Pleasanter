@@ -160,6 +160,11 @@ namespace Implem.Pleasanter.Libraries.Security
                 : Types.NotSet;
         }
 
+        public static bool Can(long siteId, Types type)
+        {
+            return ((Get(siteId) & type) == type);
+        }
+
         public static bool CanRead(long siteId)
         {
             return ((Get(siteId) & Types.Read) == Types.Read);
