@@ -73,12 +73,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             {
                                 case "new":
                                 case "edit":
-                                    return QueryStrings.Int("back") == 1 && !referer.IsNullOrEmpty()
-                                        ? referer
-                                        : Locations.Get(
-                                            "Items",
-                                            siteId.ToString(),
-                                            Requests.ViewModes.GetBySession(siteId));
+                                    return
+                                        QueryStrings.Int("back") == 1 &&
+                                        !referer.IsNullOrEmpty()
+                                            ? referer
+                                            : Locations.Get(
+                                                "Items",
+                                                siteId.ToString(),
+                                                Requests.ViewModes.GetBySession(siteId));
                                 default:
                                     return Locations.ItemIndex(parentId);
                             }
