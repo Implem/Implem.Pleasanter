@@ -26,7 +26,6 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
             {
                 ss.Exports = ss.Exports ?? new SettingList<Export>();
                 ss.Exports.Add(new Export(
-                    ss: ss,
                     id: ss.Exports.Any()
                         ? ss.Exports.Max(o => o.Id) + 1
                         : 1,
@@ -34,7 +33,8 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
                     header: exportSettingModel.AddHeader,
                     columns: exportSettingModel.ExportColumns.Columns
                         .Where(o => o.Value)
-                        .Select(o => o.Key)));
+                        .Select((o, i) => new ExportColumn(ss, o.Key, i + 1))
+                        .ToList()));
                 Rds.ExecuteNonQuery(statements:
                     Rds.UpdateSites(
                         param: Rds.SitesParam().SiteSettings(ss.RecordingJson()),

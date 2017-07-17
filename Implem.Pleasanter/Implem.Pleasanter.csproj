@@ -275,7 +275,9 @@
     <Compile Include="Libraries\Settings\DateColumnExtensions.cs" />
     <Compile Include="Libraries\Settings\ExportColumn.cs" />
     <Compile Include="Libraries\Settings\Export.cs" />
+    <Compile Include="Libraries\Settings\ExportUtilities.cs" />
     <Compile Include="Libraries\Settings\FormulaSet.cs" />
+    <Compile Include="Libraries\Settings\Join.cs" />
     <Compile Include="Libraries\Settings\NumColumnExtensions.cs" />
     <Compile Include="Libraries\Converts\MatchExtensions.cs" />
     <Compile Include="Libraries\Settings\SettingList.cs" />
@@ -1166,6 +1168,7 @@
     <Content Include="App_Data\Displays\EnterTitle.json" />
     <Content Include="App_Data\Displays\ValidateMaxNumber.json" />
     <Content Include="App_Data\Displays\ValidateMinNumber.json" />
+    <Content Include="App_Data\Displays\Tables.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

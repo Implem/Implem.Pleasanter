@@ -890,6 +890,12 @@ namespace Implem.Pleasanter.Models
                 case "DeleteExports":
                     DeleteExports(res);
                     break;
+                case "ExportJoin":
+                    SetExportColumnsSelectable(res);
+                    break;
+                case "SearchExportColumns":
+                    SetExportColumnsSelectableBySearch(res);
+                    break;
                 case "MoveUpExportColumns":
                 case "MoveDownExportColumns":
                 case "ToDisableExportColumns":
@@ -1922,9 +1928,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenExportDialog(ResponseCollection res, string controlId)
         {
+            SiteSettings.SetExports();
             if (controlId == "NewExport")
             {
-                OpenExportDialog(res, SiteSettings.DefaultExport());
+                OpenExportDialog(res, new Export(SiteSettings.DefaultExportColumns()));
             }
             else
             {
@@ -1971,12 +1978,14 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                SiteSettings.SetExports();
                 var export = Session_Export();
                 export.Id = SiteSettings.Exports.Any()
                     ? SiteSettings.Exports.Max(o => o.Id) + 1
                     : 1;
                 export.Name = Forms.Data("ExportName");
                 export.Header = Forms.Bool("ExportHeader");
+                export.Join = Forms.Data("ExportJoin").Deserialize<Join>();
                 SiteSettings.Exports.Add(export);
                 SetExportsResponseCollection(res);
             }
@@ -2000,9 +2009,11 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
+                    SiteSettings.SetExports();
                     export.Update(
                         Forms.Data("ExportName"),
                         Forms.Bool("ExportHeader"),
+                        Forms.Data("ExportJoin").Deserialize<Join>(),
                         Session_Export().Columns);
                     SetExportsResponseCollection(res);
                 }
@@ -2056,6 +2067,63 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void SetExportColumnsSelectable(ResponseCollection res)
+        {
+            SiteSettings.SetExports();
+            var join = Forms.Data("ExportJoin").Deserialize<Join>();
+            var searchText = Forms.Data("SearchExportColumns");
+            var current = new List<ExportColumn>();
+            var sources = new List<ExportColumn>();
+            var allows = join?
+                .Where(o => SiteSettings.JoinedSiteSettings?.ContainsKey(o.SiteId) == true)
+                .ToList();
+            allows?.Reverse();
+            allows?.ForEach(link =>
+            {
+                var ss = SiteSettings.JoinedSiteSettings.Get(link.SiteId);
+                current.AddRange(ss.DefaultExportColumns());
+                sources.AddRange(ss.ExportColumns(searchText));
+            });
+            current.AddRange(SiteSettings.DefaultExportColumns());
+            sources.AddRange(SiteSettings.ExportColumns(searchText));
+            Session_Export(new Export(current));
+            res
+                .Html("#ExportColumns", new HtmlBuilder()
+                    .SelectableItems(listItemCollection: ExportUtilities
+                        .CurrentColumnOptions(current)))
+                .SetFormData("ExportColumns", "[]")
+                .Html("#ExportSourceColumns", new HtmlBuilder()
+                    .SelectableItems(listItemCollection: ExportUtilities
+                        .SourceColumnOptions(sources)))
+                .SetFormData("ExportSourceColumns", "[]");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetExportColumnsSelectableBySearch(ResponseCollection res)
+        {
+            SiteSettings.SetExports();
+            var join = Forms.Data("ExportJoin").Deserialize<Join>();
+            var searchText = Forms.Data("SearchExportColumns");
+            var sources = new List<ExportColumn>();
+            var allows = join?
+                .Where(o => SiteSettings.JoinedSiteSettings?.ContainsKey(o.SiteId) == true)
+                .ToList();
+            allows?.Reverse();
+            allows?.ForEach(link => sources.AddRange(
+                SiteSettings.JoinedSiteSettings.Get(link.SiteId).ExportColumns(searchText)));
+            sources.AddRange(SiteSettings.ExportColumns(searchText));
+            res
+                .Html("#ExportSourceColumns", new HtmlBuilder()
+                    .SelectableItems(listItemCollection: ExportUtilities
+                        .SourceColumnOptions(sources)))
+                .SetFormData("ExportSourceColumns", "[]");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void SetExportColumns(ResponseCollection res, string controlId)
         {
             if (!Contract.Export())
@@ -2072,25 +2140,32 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
+                    SiteSettings.SetExports();
                     var command = ColumnUtilities.ChangeCommand(controlId);
                     var selectedColumns = Forms.List("ExportColumns");
                     var selectedSourceColumns = Forms.List("ExportSourceColumns");
                     switch (command)
                     {
-                        case "ToEnable":
-                            var columns = new List<string>();
-                            selectedSourceColumns.ForEach(column =>
-                            {
-                                var id = Export.NewColumnId();
-                                columns.Add(id.ToString());
-                                Export.Columns.Add(new ExportColumn(SiteSettings, id, column));
-                            });
-                            selectedSourceColumns = columns;
-                            break;
                         case "ToDisable":
                             Export.Columns.RemoveAll(o =>
                                 selectedColumns.Any(p => p == o.Id.ToString()));
                             selectedColumns = new List<string>();
+                            break;
+                        case "ToEnable":
+                            var columns = new List<string>();
+                            selectedSourceColumns
+                                .Select(o => o.Deserialize<ExportColumn>())
+                                .Where(o => o != null)
+                                .ForEach(exportColumn =>
+                                {
+                                    exportColumn.Id = Export.NewColumnId();
+                                    exportColumn.Init(SiteSettings.JoinedSiteSettings
+                                        .Get(exportColumn.SiteId));
+                                    Export.Columns.Add(exportColumn);
+                                    columns.Add(exportColumn.Id.ToString());
+                                });
+                            selectedColumns = columns;
+                            ExportSourceColumnResponse(res);
                             break;
                         default:
                             Export.Columns = ColumnUtilities.GetChanged(
@@ -2103,17 +2178,31 @@ namespace Implem.Pleasanter.Models
                                     .ToList();
                             break;
                     }
-                    SetResponseAfterChangeColumns(
-                        res,
-                        command,
-                        "Export",
-                        SiteSettings.ExportSelectableOptions(Export.Columns),
-                        selectedColumns,
-                        SiteSettings.ExportSelectableOptions(Export.Columns, enabled: false),
-                        selectedSourceColumns);
+                    res
+                        .Html("#ExportColumns", new HtmlBuilder()
+                            .SelectableItems(
+                                listItemCollection: ExportUtilities
+                                    .CurrentColumnOptions(Export.Columns),
+                                selectedValueTextCollection: selectedColumns))
+                        .SetFormData("ExportColumns", selectedColumns.ToJson());
                     Session_Export(Export);
                 }
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ExportSourceColumnResponse(ResponseCollection res)
+        {
+            res
+                .Html("#ExportSourceColumns", new HtmlBuilder()
+                    .SelectableItems(listItemCollection: ExportUtilities
+                        .SourceColumnOptions(
+                            SiteSettings,
+                            Forms.Data("ExportJoin").Deserialize<Join>(),
+                            Forms.Data("SearchExportColumns"))))
+                .SetFormData("ExportSourceColumns", "[]");
         }
 
         /// <summary>
@@ -2181,7 +2270,7 @@ namespace Implem.Pleasanter.Models
                 res.Html("#ExportColumnsDialog", SiteUtilities.ExportColumnsDialog(
                     ss: SiteSettings,
                     controlId: Forms.ControlId(),
-                    column: column));
+                    exportColumn: column));
             }
         }
 
@@ -2197,8 +2286,8 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var export = Session_Export();
-                var column = export.Columns
-                    .FirstOrDefault(o => o.Id == Forms.Int("ExportColumnId"));
+                var column = export.Columns.FirstOrDefault(o =>
+                    o.Id == Forms.Int("ExportColumnId"));
                 if (column == null)
                 {
                     res.Message(Messages.NotFound());
@@ -2206,13 +2295,14 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     var selected = new List<string> { column.Id.ToString() };
-                    column.LabelText = Forms.Data("ExportColumnLabelText");
-                    column.Type = (ExportColumn.Types)Forms.Int("ExportColumnType");
-                    column.Format = Forms.Data("ExportFormat");
+                    column.Update(
+                        Forms.Data("ExportColumnLabelText"),
+                        (ExportColumn.Types)Forms.Int("ExportColumnType"),
+                        Forms.Data("ExportFormat"));
                     res
                         .Html("#ExportColumns", new HtmlBuilder().SelectableItems(
-                            listItemCollection: SiteSettings
-                                .ExportSelectableOptions(export.Columns),
+                            listItemCollection: ExportUtilities
+                                .CurrentColumnOptions(export.Columns),
                             selectedValueTextCollection: selected))
                         .SetFormData("ExportColumns", selected.ToJson())
                         .CloseDialog("#ExportColumnsDialog");

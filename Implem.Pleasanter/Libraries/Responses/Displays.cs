@@ -445,6 +445,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Support(params string[] data) { return Get("Support", data); }
         public static string SynchronizationCompleted(params string[] data) { return Get("SynchronizationCompleted", data); }
         public static string Synchronize(params string[] data) { return Get("Synchronize", data); }
+        public static string Tables(params string[] data) { return Get("Tables", data); }
         public static string ManageTable(params string[] data) { return Get("ManageTable", data); }
         public static string Target(params string[] data) { return Get("Target", data); }
         public static string Template(params string[] data) { return Get("Template", data); }

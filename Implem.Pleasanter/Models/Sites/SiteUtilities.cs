@@ -4627,6 +4627,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static HtmlBuilder EditExport(this HtmlBuilder hb, SiteSettings ss)
         {
+            ss.SetExports();
             var selected = Forms.Data("EditExport").Deserialize<IEnumerable<int>>();
             return hb.Table(
                 id: "EditExport",
@@ -4638,7 +4639,7 @@ namespace Implem.Pleasanter.Models
                     .DataMethod("post"),
                 action: () => hb
                     .EditExportHeader(ss: ss, selected: selected)
-                    .EditExportBody(ss: ss, selected: selected));
+                    .EditExportBody(ss: ss, selected: selected, tables: ss.ExportJoinOptions()));
         }
 
         /// <summary>
@@ -4659,6 +4660,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Name()))
                     .Th(action: () => hb
+                        .Text(text: Displays.Tables()))
+                    .Th(action: () => hb
                         .Text(text: Displays.OutputHeader()))));
         }
 
@@ -4666,29 +4669,33 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static HtmlBuilder EditExportBody(
-            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            IEnumerable<int> selected,
+            Dictionary<string, string> tables)
         {
-            return hb.TBody(action: () => ss.Exports?.ForEach(export =>
-            {
-                hb.Tr(
-                    css: "grid-row",
-                    attributes: new HtmlAttributes()
-                        .DataId(export.Id.ToString()),
-                    action: () => hb
-                        .Td(action: () => hb
-                            .CheckBox(
-                                controlCss: "select",
-                                _checked: selected?
-                                    .Contains(export.Id) == true))
-                        .Td(action: () => hb
-                            .Text(text: export.Id.ToString()))
-                        .Td(action: () => hb
-                            .Text(text: export.Name))
-                        .Td(action: () => hb
-                            .Span(
-                                css: "ui-icon ui-icon-circle-check",
-                                _using: export.Header == true)));
-            }));
+            return hb.TBody(action: () => ss.Exports?
+                .ForEach(export => hb
+                    .Tr(
+                        css: "grid-row",
+                        attributes: new HtmlAttributes()
+                            .DataId(export.Id.ToString()),
+                        action: () => hb
+                            .Td(action: () => hb
+                                .CheckBox(
+                                    controlCss: "select",
+                                    _checked: selected?
+                                        .Contains(export.Id) == true))
+                            .Td(action: () => hb
+                                .Text(text: export.Id.ToString()))
+                            .Td(action: () => hb
+                                .Text(text: export.Name))
+                            .Td(action: () => hb
+                                .Text(text: tables.Get(export.Join.ToJson())))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: export.Header == true)))));
         }
 
         /// <summary>
@@ -4719,6 +4726,16 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.OutputHeader(),
                         _checked: export.Header == true)
+                    .FieldDropDown(
+                        controlId: "ExportJoin",
+                        fieldCss: " field-wide",
+                        controlCss: " auto-postback always-send",
+                        labelText: Displays.Tables(),
+                        optionCollection: ss.ExportJoinOptions(),
+                        selectedValue: export.Join.ToJson(),
+                        addSelectedValue: false,
+                        action: "SetSiteSettings",
+                        method: "post")
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.ExportColumns(),
@@ -4727,9 +4744,10 @@ namespace Implem.Pleasanter.Models
                                 controlId: "ExportColumns",
                                 fieldCss: "field-vertical",
                                 controlContainerCss: "container-selectable",
-                                controlWrapperCss: " h400",
+                                controlWrapperCss: " h300",
                                 labelText: Displays.CurrentSettings(),
-                                listItemCollection: ss.ExportSelectableOptions(export.Columns),
+                                listItemCollection: ExportUtilities
+                                    .CurrentColumnOptions(export.Columns),
                                 commandOptionPositionIsTop: true,
                                 commandOptionAction: () => hb
                                     .Div(css: "command-center", action: () => hb
@@ -4769,13 +4787,13 @@ namespace Implem.Pleasanter.Models
                                 controlId: "ExportSourceColumns",
                                 fieldCss: "field-vertical",
                                 controlContainerCss: "container-selectable",
-                                controlWrapperCss: " h400",
+                                controlWrapperCss: " h300",
                                 labelText: Displays.OptionList(),
-                                listItemCollection: ss
-                                    .ExportSelectableOptions(export.Columns, enabled: false),
+                                listItemCollection: ExportUtilities
+                                    .SourceColumnOptions(ss, export.Join),
                                 commandOptionPositionIsTop: true,
                                 commandOptionAction: () => hb
-                                    .Div(css: "command-center", action: () => hb
+                                    .Div(css: "command-left", action: () => hb
                                         .Button(
                                             controlId: "ToEnableExportColumns",
                                             text: Displays.ToEnable(),
@@ -4783,7 +4801,14 @@ namespace Implem.Pleasanter.Models
                                             onClick: "$p.send($(this));",
                                             icon: "ui-icon-circle-triangle-w",
                                             action: "SetSiteSettings",
-                                            method: "put"))))
+                                            method: "put")
+                                        .Span(css: "ui-icon ui-icon-search")
+                                        .TextBox(
+                                            controlId: "SearchExportColumns",
+                                            controlCss: " auto-postback w100",
+                                            placeholder: Displays.Search(),
+                                            action: "SetSiteSettings",
+                                            method: "post"))))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -4815,7 +4840,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static HtmlBuilder ExportColumnsDialog(
-            SiteSettings ss, string controlId, ExportColumn column)
+            SiteSettings ss, string controlId, ExportColumn exportColumn)
         {
             var hb = new HtmlBuilder();
             return hb.Form(
@@ -4825,12 +4850,12 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .FieldText(
                         labelText: Displays.Column(),
-                        text: column.ColumnLabelText)
+                        text: exportColumn.GetColumnLabelText())
                     .FieldTextBox(
                         controlId: "ExportColumnLabelText",
                         controlCss: " always-send",
                         labelText: Displays.DisplayName(),
-                        text: column.LabelText,
+                        text: exportColumn.GetLabelText(),
                         validateRequired: true)
                     .FieldDropDown(
                         controlId: "ExportColumnType",
@@ -4851,18 +4876,18 @@ namespace Implem.Pleasanter.Models
                                 Displays.Value()
                             }
                         },
-                        selectedValue: column.Type.ToInt().ToString())
+                        selectedValue: exportColumn.GetType())
                     .FieldDropDown(
                         controlId: "ExportFormat",
                         controlCss: " always-send",
                         labelText: Displays.ExportFormat(),
                         optionCollection: DateTimeOptions(),
-                        selectedValue: column.Format,
-                        _using: ss.GetColumn(column.ColumnName).TypeName == "datetime")
+                        selectedValue: exportColumn.GetFormat(),
+                        _using: exportColumn.Column.TypeName == "datetime")
                     .Hidden(
                         controlId: "ExportColumnId",
                         css: " always-send",
-                        value: column.Id.ToString())
+                        value: exportColumn.Id.ToString())
                     .P(id: "ExportColumnsMessage", css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

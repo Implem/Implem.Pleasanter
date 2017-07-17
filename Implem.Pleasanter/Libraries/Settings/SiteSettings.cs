@@ -48,6 +48,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, Column> ColumnHash;
         [NonSerialized]
         public Dictionary<string, ColumnDefinition> ColumnDefinitionHash;
+        [NonSerialized]
+        public Dictionary<long, SiteSettings> JoinedSiteSettings;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
@@ -143,7 +145,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateHistoryColumns();
             UpdateColumns();
             UpdateColumnHash();
-            UpdateExports();
             var accessControlColumns = Columns
                 .Where(o => o.EditorColumn || o.ColumnName == "Comments")
                 .Where(o => !o.NotEditorSettings)
@@ -270,6 +271,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var param = Parameters.General;
             var ss = new SiteSettings()
             {
+                SiteId = SiteId,
                 Version = Version,
                 ReferenceType = ReferenceType,
                 ViewLatestId = ViewLatestId
@@ -376,7 +378,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     ss.Exports = new SettingList<Export>();
                 }
-                ss.Exports.Add(ExportSetting.GetRecordingData(this));
+                ss.Exports.Add(ExportSetting);
             });
             Aggregations?.ForEach(aggregations =>
             {
@@ -942,13 +944,48 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnHash = Columns.ToDictionary(o => o.ColumnName, o => o);
         }
 
-        private void UpdateExports()
+        public void SetExports()
         {
-            Exports?.ForEach(export =>
+            if (Links?.Any() == true)
             {
-                export.Header = export.Header ?? true;
-                export.Columns.ForEach(column => column.Init(this));
-            });
+                SetJoineddSiteSettings();
+                Exports?.ForEach(export =>
+                {
+                    export.Header = export.Header ?? true;
+                    export.Columns
+                        .Where(o => JoinedSiteSettings.Get(o.SiteId) != null)
+                        .ForEach(o => o.Init(JoinedSiteSettings.Get(o.SiteId)));
+                });
+            }
+        }
+
+        public void SetJoineddSiteSettings()
+        {
+            JoinedSiteSettings = JoinedSiteSettings ??
+                new Dictionary<long, SiteSettings>()
+                {
+                    { SiteId, this }
+                }.AddRange(GetJoinedSiteSettings(
+                    Links, new Dictionary<long, SiteSettings>()));
+        }
+
+        private Dictionary<long, SiteSettings> GetJoinedSiteSettings(
+            List<Link> links, Dictionary<long, SiteSettings> hash)
+        {
+            links?
+                .Where(o => o.SiteId != SiteId)
+                .Where(o => !hash.ContainsKey(o.SiteId))
+                .Where(o => Permissions.Can(
+                    Permissions.InheritPermission(o.SiteId),
+                    Permissions.Types.Export))
+                .ToList()
+                .ForEach(link =>
+                {
+                    var ss = SiteSettingsUtilities.GetByDataRow(link.SiteId);
+                    hash.Add(link.SiteId, ss);
+                    GetJoinedSiteSettings(ss.Links, hash);
+                });
+            return hash;
         }
 
         private void Update_CreateColumnAccessControls(IEnumerable<Column> columns)
@@ -1228,19 +1265,34 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName));
         }
 
-        public Dictionary<string, ControlData> ExportSelectableOptions(
-            IEnumerable<ExportColumn> exportColumns, bool enabled = true)
+        public Dictionary<string, string> ExportJoinOptions()
         {
-            return enabled
-                ? exportColumns.ToDictionary(
-                    o => o.Id.ToString(),
-                    o => new ControlData(o.LabelText))
-                : ColumnDefinitionHash.ExportDefinitions()
-                    .OrderBy(o => o.History)
-                    .Select((o, i) => new ExportColumn(this, i + 1, o.ColumnName))
-                    .ToDictionary(
-                        o => o.ColumnName,
-                        o => new ControlData(o.LabelText));
+            return ExportTableJoins(Links, new Join(Title), new List<Join> { new Join(Title) })
+                .ToDictionary(o => o.ToJson(), o => o.Title.Join(" - "));
+        }
+
+        private List<Join> ExportTableJoins(List<Link> links, Join join, List<Join> joins)
+        {
+            links?
+                .Where(o =>
+                    o.SiteId != SiteId &&
+                    !join.Any(p => p.SiteId == o.SiteId))
+                .ForEach(link =>
+                {
+                    var ss = JoinedSiteSettings.Get(link.SiteId);
+                    if (ss != null)
+                    {
+                        var column = ss.GetColumn(link.ColumnName);
+                        if (column != null)
+                        {
+                            var copy = join.ToList();
+                            copy.Add(link, ss.Title);
+                            joins.Add(copy);
+                            ExportTableJoins(ss?.Links, copy, joins);
+                        }
+                    }
+                });
+            return joins;
         }
 
         public Dictionary<string, ControlData> ColumnAccessControlOptions(
@@ -1718,10 +1770,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Link> GetUseSearchLinks(bool titleOnly = false)
         {
             return Links?
-                .Where(o =>
-                    (GridColumns.Contains(o.ColumnName) && !titleOnly) ||
-                    TitleColumns.Contains(o.ColumnName) ||
-                    Aggregations.Any(p => p.GroupBy == o.ColumnName))
                 .Where(o => GetColumn(o.ColumnName).UseSearch == true)
                 .ToList();
         }
@@ -2045,20 +2093,29 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Export GetExport(int id)
         {
-            return Exports?.FirstOrDefault(o => o.Id == id) ?? DefaultExport();
+            return Exports?.FirstOrDefault(o => o.Id == id) ?? new Export(DefaultExportColumns());
         }
 
-        public Export DefaultExport()
+        public List<ExportColumn> DefaultExportColumns()
         {
-            var columns = EditorColumns.Where(o => o != "Ver");
-            return new Export(
-                ss: this,
-                id: 0,
-                name: string.Empty,
-                header: true,
-                columns: ColumnDefinitionHash.ExportDefinitions()
-                    .Where(o => columns.Contains(o.ColumnName) || o.ExportColumn)
-                    .Select(o => o.ColumnName));
+            var columns = EditorColumns.Where(o => o != "Ver").ToList();
+            return ColumnDefinitionHash.ExportDefinitions()
+                .Where(o => columns.Contains(o.ColumnName) || o.ExportColumn)
+                .Select(o => new ExportColumn(this, o.ColumnName))
+                .ToList();
+        }
+
+        public List<ExportColumn> ExportColumns(string searchText)
+        {
+            return ColumnDefinitionHash.ExportDefinitions()
+                .OrderBy(o => o.History)
+                .Select((o, i) => new ExportColumn(this, o.ColumnName))
+                .Where(o =>
+                    searchText.IsNullOrEmpty() ||
+                    Title.Contains(searchText) ||
+                    o.ColumnName.Contains(searchText) ||
+                    o.GetLabelText().Contains(searchText))
+                .ToList();
         }
 
         public bool EnableViewMode(string name)

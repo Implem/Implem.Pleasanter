@@ -1,5 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Data;
@@ -383,6 +385,32 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
             return ss;
+        }
+
+        public static SiteSettings GetByDataRow(long siteId)
+        {
+            var dataRow = Rds.ExecuteTable(statements: Rds.SelectSites(
+                column: Rds.SitesColumn()
+                    .SiteSettings()
+                    .Title(),
+                where: Rds.SitesWhere()
+                    .TenantId(Sessions.TenantId())
+                    .SiteId(siteId)))
+                        .AsEnumerable()
+                        .FirstOrDefault();
+            if (dataRow != null)
+            {
+                var ss = dataRow["SiteSettings"]
+                    .ToString()
+                    .Deserialize<SiteSettings>() ?? new SiteSettings();
+                ss.SiteId = siteId;
+                ss.Title = dataRow["Title"].ToString();
+                return ss;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

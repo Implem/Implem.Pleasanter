@@ -385,6 +385,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Notice_RelatedDataColumnCases": Code.Model_Notice_RelatedDataColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Notice_RelatedDataColumnCases, definitionRow, CodeXls); break;
                     case "Model_NoticeColumnCases": Code.Model_NoticeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NoticeColumnCases, definitionRow, CodeXls); break;
                     case "Model_UpdateStatus": Code.Model_UpdateStatus = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateStatus, definitionRow, CodeXls); break;
+                    case "Model_CsvData": Code.Model_CsvData = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CsvData, definitionRow, CodeXls); break;
+                    case "Model_CsvDataCases": Code.Model_CsvDataCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CsvDataCases, definitionRow, CodeXls); break;
                     case "Model_SwitchItems": Code.Model_SwitchItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems, definitionRow, CodeXls); break;
                     case "Model_IndexCases": Code.Model_IndexCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexCases, definitionRow, CodeXls); break;
                     case "Model_IndexJsonCases": Code.Model_IndexJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexJsonCases, definitionRow, CodeXls); break;
@@ -529,7 +531,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_ImportValidatorHeaders": Code.Model_Utilities_ImportValidatorHeaders = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorHeaders, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorCases": Code.Model_Utilities_ImportValidatorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_Export": Code.Model_Utilities_Export = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Export, definitionRow, CodeXls); break;
-                    case "Model_Utilities_CsvColumnCases": Code.Model_Utilities_CsvColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CsvColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_NotNull": Code.Model_Utilities_NotNull = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_NotNull, definitionRow, CodeXls); break;
                     case "Model_Utilities_TitleDisplay": Code.Model_Utilities_TitleDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TitleDisplay, definitionRow, CodeXls); break;
                     case "Model_Utilities_Calendar": Code.Model_Utilities_Calendar = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Calendar, definitionRow, CodeXls); break;
@@ -634,6 +635,10 @@ namespace Implem.DefinitionAccessor
                     case "Indexes_CreateTableCases": Code.Indexes_CreateTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Indexes_CreateTableCases, definitionRow, CodeXls); break;
                     case "ItemsInitializer": Code.ItemsInitializer = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ItemsInitializer, definitionRow, CodeXls); break;
                     case "ItemsInitializer_InitItems": Code.ItemsInitializer_InitItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ItemsInitializer_InitItems, definitionRow, CodeXls); break;
+                    case "ExportUtilities": Code.ExportUtilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ExportUtilities, definitionRow, CodeXls); break;
+                    case "ExportUtilities_TableCases": Code.ExportUtilities_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ExportUtilities_TableCases, definitionRow, CodeXls); break;
+                    case "ExportUtilities_LinkedTableCases": Code.ExportUtilities_LinkedTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ExportUtilities_LinkedTableCases, definitionRow, CodeXls); break;
+                    case "ExportUtilities_Data": Code.ExportUtilities_Data = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ExportUtilities_Data, definitionRow, CodeXls); break;
                     case "SiteSettings": Code.SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings, definitionRow, CodeXls); break;
                     case "SiteSettings_GetCases": Code.SiteSettings_GetCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetCases, definitionRow, CodeXls); break;
                     case "SiteSettings_GetByItemCases": Code.SiteSettings_GetByItemCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetByItemCases, definitionRow, CodeXls); break;
@@ -4494,6 +4499,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Notice_RelatedDataColumnCases;
         public string Model_NoticeColumnCases;
         public string Model_UpdateStatus;
+        public string Model_CsvData;
+        public string Model_CsvDataCases;
         public string Model_SwitchItems;
         public string Model_IndexCases;
         public string Model_IndexJsonCases;
@@ -4638,7 +4645,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_ImportValidatorHeaders;
         public string Model_Utilities_ImportValidatorCases;
         public string Model_Utilities_Export;
-        public string Model_Utilities_CsvColumnCases;
         public string Model_Utilities_NotNull;
         public string Model_Utilities_TitleDisplay;
         public string Model_Utilities_Calendar;
@@ -4743,6 +4749,10 @@ namespace Implem.DefinitionAccessor
         public string Indexes_CreateTableCases;
         public string ItemsInitializer;
         public string ItemsInitializer_InitItems;
+        public string ExportUtilities;
+        public string ExportUtilities_TableCases;
+        public string ExportUtilities_LinkedTableCases;
+        public string ExportUtilities_Data;
         public string SiteSettings;
         public string SiteSettings_GetCases;
         public string SiteSettings_GetByItemCases;
@@ -4957,6 +4967,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Notice_RelatedDataColumnCases = new CodeDefinition();
         public CodeDefinition Model_NoticeColumnCases = new CodeDefinition();
         public CodeDefinition Model_UpdateStatus = new CodeDefinition();
+        public CodeDefinition Model_CsvData = new CodeDefinition();
+        public CodeDefinition Model_CsvDataCases = new CodeDefinition();
         public CodeDefinition Model_SwitchItems = new CodeDefinition();
         public CodeDefinition Model_IndexCases = new CodeDefinition();
         public CodeDefinition Model_IndexJsonCases = new CodeDefinition();
@@ -5101,7 +5113,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_ImportValidatorHeaders = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_Export = new CodeDefinition();
-        public CodeDefinition Model_Utilities_CsvColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_NotNull = new CodeDefinition();
         public CodeDefinition Model_Utilities_TitleDisplay = new CodeDefinition();
         public CodeDefinition Model_Utilities_Calendar = new CodeDefinition();
@@ -5206,6 +5217,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Indexes_CreateTableCases = new CodeDefinition();
         public CodeDefinition ItemsInitializer = new CodeDefinition();
         public CodeDefinition ItemsInitializer_InitItems = new CodeDefinition();
+        public CodeDefinition ExportUtilities = new CodeDefinition();
+        public CodeDefinition ExportUtilities_TableCases = new CodeDefinition();
+        public CodeDefinition ExportUtilities_LinkedTableCases = new CodeDefinition();
+        public CodeDefinition ExportUtilities_Data = new CodeDefinition();
         public CodeDefinition SiteSettings = new CodeDefinition();
         public CodeDefinition SiteSettings_GetCases = new CodeDefinition();
         public CodeDefinition SiteSettings_GetByItemCases = new CodeDefinition();
