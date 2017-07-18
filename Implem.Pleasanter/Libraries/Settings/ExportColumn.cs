@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string GetColumnLabelText()
         {
-            return "[" + SiteTitle + "]" + Column.LabelText;
+            return "[" + SiteTitle + "]" + Column?.LabelText;
         }
 
         public string GetLabelText(bool withSiteTitle = false)
@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return (withSiteTitle
                 ? "[" + SiteTitle + "]"
                 : string.Empty)
-                    + (LabelText ?? Column.LabelText);
+                    + (LabelText ?? Column?.LabelText);
         }
 
         public new string GetType()
@@ -63,16 +63,16 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string GetFormat()
         {
-            switch (Column.TypeName)
+            switch (Column?.TypeName)
             {
-                case "datetime": return Format ?? Column.EditorFormat;
+                case "datetime": return Format ?? Column?.EditorFormat;
                 default: return null;
             }
         }
 
         public void Update(string labelText, Types type, string format)
         {
-            if (labelText != Column.LabelText)
+            if (labelText != Column?.LabelText)
             {
                 LabelText = labelText;
             }
@@ -80,7 +80,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 Type = type;
             }
-            if (!format.IsNullOrEmpty() && format != Column.EditorFormat)
+            if (!format.IsNullOrEmpty() && format != Column?.EditorFormat)
             {
                 Format = format;
             }

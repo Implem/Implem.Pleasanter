@@ -946,17 +946,17 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetExports()
         {
-            if (Links?.Any() == true)
-            {
-                SetJoineddSiteSettings();
-                Exports?.ForEach(export =>
-                {
-                    export.Header = export.Header ?? true;
-                    export.Columns
-                        .Where(o => JoinedSiteSettings.Get(o.SiteId) != null)
-                        .ForEach(o => o.Init(JoinedSiteSettings.Get(o.SiteId)));
-                });
-            }
+            SetJoineddSiteSettings();
+            Exports?.ForEach(export => SetExport(export));
+        }
+
+        public void SetExport(Export export)
+        {
+            SetJoineddSiteSettings();
+            export.Header = export.Header ?? true;
+            export.Columns
+                .Where(o => JoinedSiteSettings.Get(o.SiteId) != null)
+                .ForEach(o => o.Init(JoinedSiteSettings.Get(o.SiteId)));
         }
 
         public void SetJoineddSiteSettings()

@@ -2132,15 +2132,14 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var export = SiteSettings.Exports.Get(Forms.Int("ExportId"));
                 Export = Session_Export();
-                if (export == null && controlId == "EditExport")
+                if (Export == null && controlId == "EditExport")
                 {
                     res.Message(Messages.NotFound());
                 }
                 else
                 {
-                    SiteSettings.SetExports();
+                    SiteSettings.SetExport(Export);
                     var command = ColumnUtilities.ChangeCommand(controlId);
                     var selectedColumns = Forms.List("ExportColumns");
                     var selectedSourceColumns = Forms.List("ExportSourceColumns");
@@ -2235,7 +2234,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenExportColumnsDialog(ResponseCollection res, string controlId)
         {
-            var export = Session_Export();
+            Export = Session_Export();
+            SiteSettings.SetExport(Export);
             var selected = Forms.List("ExportColumns");
             if (selected.Count() != 1)
             {
@@ -2243,7 +2243,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var column = export.Columns.FirstOrDefault(o =>
+                var column = Export.Columns.FirstOrDefault(o =>
                     o.Id.ToString() == selected[0]);
                 if (column == null)
                 {
@@ -2285,8 +2285,9 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var export = Session_Export();
-                var column = export.Columns.FirstOrDefault(o =>
+                Export = Session_Export();
+                SiteSettings.SetExport(Export);
+                var column = Export.Columns.FirstOrDefault(o =>
                     o.Id == Forms.Int("ExportColumnId"));
                 if (column == null)
                 {
@@ -2302,7 +2303,7 @@ namespace Implem.Pleasanter.Models
                     res
                         .Html("#ExportColumns", new HtmlBuilder().SelectableItems(
                             listItemCollection: ExportUtilities
-                                .CurrentColumnOptions(export.Columns),
+                                .CurrentColumnOptions(Export.Columns),
                             selectedValueTextCollection: selected))
                         .SetFormData("ExportColumns", selected.ToJson())
                         .CloseDialog("#ExportColumnsDialog");

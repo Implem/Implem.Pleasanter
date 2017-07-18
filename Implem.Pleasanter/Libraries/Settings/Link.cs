@@ -1,5 +1,7 @@
-﻿namespace Implem.Pleasanter.Libraries.Settings
+﻿using System;
+namespace Implem.Pleasanter.Libraries.Settings
 {
+    [Serializable]
     public class Link
     {
         public string ColumnName;
