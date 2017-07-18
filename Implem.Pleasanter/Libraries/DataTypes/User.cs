@@ -110,7 +110,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToExport(Column column, ExportColumn exportColumn)
         {
-            return Name.ToStr();
+            return column.ChoicePart(Id.ToString(), exportColumn.Type);
         }
 
         public string ToNotice(
