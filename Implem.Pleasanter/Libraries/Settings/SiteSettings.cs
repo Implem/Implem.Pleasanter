@@ -973,16 +973,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<Link> links, Dictionary<long, SiteSettings> hash)
         {
             links?
-                .Where(o => o.SiteId != SiteId)
-                .Where(o => !hash.ContainsKey(o.SiteId))
+                .Select(o => o.SiteId)
+                .Distinct()
+                .Where(o => o != SiteId)
+                .Where(o => !hash.ContainsKey(o))
                 .Where(o => Permissions.Can(
-                    Permissions.InheritPermission(o.SiteId),
+                    Permissions.InheritPermission(o),
                     Permissions.Types.Export))
                 .ToList()
-                .ForEach(link =>
+                .ForEach(siteId =>
                 {
-                    var ss = SiteSettingsUtilities.GetByDataRow(link.SiteId);
-                    hash.Add(link.SiteId, ss);
+                    var ss = SiteSettingsUtilities.GetByDataRow(siteId);
+                    hash.Add(siteId, ss);
                     GetJoinedSiteSettings(ss.Links, hash);
                 });
             return hash;
