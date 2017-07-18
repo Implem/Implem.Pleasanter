@@ -367,7 +367,6 @@
     <Compile Include="Libraries\Responses\ResponseCollection.cs" />
     <Compile Include="Libraries\Responses\ResponseComment.cs" />
     <Compile Include="Libraries\Responses\ResponseFile.cs" />
-    <Compile Include="Libraries\Responses\ResponseFileNames.cs" />
     <Compile Include="Libraries\Responses\ResponseImage.cs" />
     <Compile Include="Libraries\Responses\ResponseSpecials.cs" />
     <Compile Include="Libraries\Scripts\JavaScripts.cs" />
