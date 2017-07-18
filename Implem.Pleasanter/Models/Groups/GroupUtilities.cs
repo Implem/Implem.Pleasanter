@@ -234,7 +234,6 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .CloseDialog()
-                .Message(message)
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     ss: ss,
                     aggregations: groupCollection.Aggregations),
@@ -250,6 +249,7 @@ namespace Implem.Pleasanter.Models
                     groupCollection.Count(),
                     groupCollection.Aggregations.TotalCount))
                 .Paging("#Grid")
+                .Message(message)
                 .ToJson();
         }
 

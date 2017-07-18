@@ -185,7 +185,6 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .CloseDialog()
-                .Message(message)
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     ss: ss,
                     aggregations: resultCollection.Aggregations),
@@ -201,6 +200,7 @@ namespace Implem.Pleasanter.Models
                     resultCollection.Count(),
                     resultCollection.Aggregations.TotalCount))
                 .Paging("#Grid")
+                .Message(message)
                 .ToJson();
         }
 
@@ -3624,10 +3624,10 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 });
-                return GridRows(ss, res
-                    .WindowScrollTop()
-                    .CloseDialog()
-                    .Message(Messages.Imported(insertCount.ToString(), updateCount.ToString())));
+                return GridRows(
+                    ss: ss,
+                    res: res.WindowScrollTop(),
+                    message: Messages.Imported(insertCount.ToString(), updateCount.ToString()));
             }
             else
             {
