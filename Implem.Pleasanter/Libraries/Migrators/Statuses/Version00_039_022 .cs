@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
                     column: Rds.SitesColumn().SiteSettings(),
                     where: Rds.SitesWhere().SiteId(exportSettingModel.ReferenceId)))
                         .Deserialize<SiteSettings>();
+            ss.SiteId = exportSettingModel.ReferenceId;
             if (ss != null)
             {
                 ss.Exports = ss.Exports ?? new SettingList<Export>();
