@@ -1168,6 +1168,8 @@
     <Content Include="App_Data\Displays\ValidateMaxNumber.json" />
     <Content Include="App_Data\Displays\ValidateMinNumber.json" />
     <Content Include="App_Data\Displays\Tables.json" />
+    <Content Include="App_Data\Displays\Section.json" />
+    <Content Include="App_Data\Displays\NoWrap.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

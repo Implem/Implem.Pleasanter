@@ -45,6 +45,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool preview = false,
             bool _using = true)
         {
+            if (column.Section != null)
+            {
+                hb.Div(css: "field-section", action: () => hb
+                    .Text(text: column.Section));
+            }
             if (column.UserColumn && value == User.UserTypes.Anonymous.ToInt().ToString())
             {
                 value = string.Empty;
@@ -60,7 +65,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: !preview
                         ? column.Id
                         : null,
-                    fieldCss: Strings.CoalesceEmpty(fieldCss, column.FieldCss),
+                    fieldCss: FieldCss(column, fieldCss),
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     controlCss: Strings.CoalesceEmpty(controlCss, column.ControlCss),
@@ -73,6 +78,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 return hb;
             }
+        }
+
+        private static string FieldCss(Column column, string fieldCss)
+        {
+            return Strings.CoalesceEmpty(fieldCss, column.FieldCss) +
+                (column.NoWrap == true
+                    ? " both"
+                    : string.Empty);
         }
 
         private static Dictionary<string, ControlData> EditChoices(

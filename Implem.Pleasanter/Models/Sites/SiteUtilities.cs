@@ -2831,6 +2831,15 @@ namespace Implem.Pleasanter.Models
                     {
                         hb.EditorColumnTitleProperties(ss, titleColumns);
                     }
+                    hb
+                        .FieldCheckBox(
+                            controlId: "NoWrap",
+                            labelText: Displays.NoWrap(),
+                            _checked: column.NoWrap == true)
+                        .FieldTextBox(
+                            controlId: "Section",
+                            labelText: Displays.Section(),
+                            text: column.Section);
                 });
             return hb
                 .Hidden(

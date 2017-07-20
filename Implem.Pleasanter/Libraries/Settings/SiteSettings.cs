@@ -552,6 +552,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.Format = column.Format;
                     }
+                    if (column.NoWrap == true)
+                    {
+                        enabled = true;
+                        newColumn.NoWrap = column.NoWrap;
+                    }
+                    if (column.Section?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.Section = column.Section;
+                    }
                     if (column.GridDesign != null &&
                         column.GridDesign != DefaultGridDesignEditorText(column))
                     {
@@ -1673,6 +1683,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridLabelText": column.GridLabelText = value; break;
                 case "ControlType": column.ControlType = value; break;
                 case "Format": column.Format = value; break;
+                case "NoWrap": column.NoWrap = value.ToBool(); break;
+                case "Section": column.Section = value; break;
                 case "GridDesign":
                     column.GridDesign = GridDesignRecordingData(column, value);
                     break;

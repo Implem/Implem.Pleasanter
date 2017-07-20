@@ -24,6 +24,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ExportFormat;
         public string ControlType;
         public string Format;
+        public bool? NoWrap;
+        public string Section;
         public string GridDesign;
         public bool? ValidateRequired;
         public bool? ValidateNumber;

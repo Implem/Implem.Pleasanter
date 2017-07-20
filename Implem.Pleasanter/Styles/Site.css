@@ -1478,6 +1478,17 @@ pre{
     padding:5px 0px 0px 5px;
 }
 
+.field-section{
+    width:100%;
+    display:block;
+    float:left;
+    margin:15px;
+    padding:2px 5px;
+    font-weight:bold;
+    border-bottom:solid 1px silver;
+    clear:both;
+}
+
 .container-left{
     width:340px;
     float:left;

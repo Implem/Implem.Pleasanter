@@ -332,6 +332,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string NotOutput(params string[] data) { return Get("NotOutput", data); }
         public static string NotRequiredColumn(params string[] data) { return Get("NotRequiredColumn", data); }
         public static string NotSet(params string[] data) { return Get("NotSet", data); }
+        public static string NoWrap(params string[] data) { return Get("NoWrap", data); }
         public static string NumericColumn(params string[] data) { return Get("NumericColumn", data); }
         public static string Off(params string[] data) { return Get("Off", data); }
         public static string Older(params string[] data) { return Get("Older", data); }
@@ -398,6 +399,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Scripts(params string[] data) { return Get("Scripts", data); }
         public static string Search(params string[] data) { return Get("Search", data); }
         public static string SecondsAgo(params string[] data) { return Get("SecondsAgo", data); }
+        public static string Section(params string[] data) { return Get("Section", data); }
         public static string Select(params string[] data) { return Get("Select", data); }
         public static string SelectableMembers(params string[] data) { return Get("SelectableMembers", data); }
         public static string SelectOne(params string[] data) { return Get("SelectOne", data); }
