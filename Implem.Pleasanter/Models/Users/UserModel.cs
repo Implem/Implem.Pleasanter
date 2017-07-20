@@ -676,7 +676,7 @@ namespace Implem.Pleasanter.Models
             switch (Parameters.Authentication.Provider)
             {
                 case "LDAP":
-                    ret = Ldap.Authenticate(LoginId, Password);
+                    ret = Ldap.Authenticate(LoginId, Forms.Data("Users_Password"));
                     if (ret)
                     {
                         Get(SiteSettingsUtilities.UsersSiteSettings(),
