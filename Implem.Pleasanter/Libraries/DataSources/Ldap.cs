@@ -3,6 +3,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Models;
 using System;
+using System.Collections.Generic;
 using System.DirectoryServices;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
@@ -34,41 +35,52 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             var deptCode = entry.Property(Parameters.Authentication.LdapDeptCode);
             var deptName = entry.Property(Parameters.Authentication.LdapDeptName);
+            var deptExists = !deptCode.IsNullOrEmpty() && !deptName.IsNullOrEmpty();
             var userCode = entry.Property(Parameters.Authentication.LdapUserCode);
             var firstName = entry.Property(Parameters.Authentication.LdapFirstName);
             var lastName = entry.Property(Parameters.Authentication.LdapLastName);
             var mailAddress = entry.Property(Parameters.Authentication.LdapMailAddress);
-            Rds.ExecuteNonQuery(statements: new SqlStatement[]
+            var statements = new List<SqlStatement>();
+            if (deptExists)
             {
-                    Rds.UpdateOrInsertDepts(
-                        param: Rds.DeptsParam()
-                            .TenantId(Parameters.Authentication.LdapTenantId)
-                            .DeptCode(deptCode)
-                            .DeptName(deptName),
-                        where: Rds.DeptsWhere().DeptCode(deptCode)),
-                    Rds.UpdateOrInsertUsers(
-                        param: Rds.UsersParam()
-                            .TenantId(Parameters.Authentication.LdapTenantId)
-                            .LoginId(loginId)
-                            .UserCode(userCode)
-                            .Name(lastName + " " + firstName)
-                            .DeptId(sub: Rds.SelectDepts(
-                                column: Rds.DeptsColumn().DeptId(),
-                                where: Rds.DeptsWhere().DeptCode(deptCode))),
-                        where: Rds.UsersWhere().LoginId(loginId)),
-                    Rds.UpdateOrInsertMailAddresses(
-                        param: Rds.MailAddressesParam()
-                            .OwnerId(sub: Rds.SelectUsers(
-                                column: Rds.UsersColumn().UserId(),
-                                where: Rds.UsersWhere().LoginId(loginId)))
-                            .OwnerType("Users")
-                            .MailAddress(mailAddress),
-                        where: Rds.MailAddressesWhere()
-                            .OwnerType("Users")
-                            .OwnerId(sub: Rds.SelectUsers(
-                                column: Rds.UsersColumn().UserId(),
-                                where: Rds.UsersWhere().LoginId(loginId))))
-            });
+                statements.Add(Rds.UpdateOrInsertDepts(
+                    param: Rds.DeptsParam()
+                        .TenantId(Parameters.Authentication.LdapTenantId)
+                        .DeptCode(deptCode)
+                        .DeptName(deptName),
+                    where: Rds.DeptsWhere().DeptCode(deptCode)));
+            }
+            statements.Add(Rds.UpdateOrInsertUsers(
+                param: Rds.UsersParam()
+                    .TenantId(Parameters.Authentication.LdapTenantId)
+                    .LoginId(loginId)
+                    .UserCode(userCode)
+                    .Name(lastName + " " + firstName)
+                    .DeptId(
+                        sub: Rds.SelectDepts(
+                            column: Rds.DeptsColumn().DeptId(),
+                            where: Rds.DeptsWhere().DeptCode(deptCode)),
+                        _using: deptExists)
+                    .DeptId(0, _using: !deptExists),
+                where: Rds.UsersWhere().LoginId(loginId)));
+            if (!mailAddress.IsNullOrEmpty())
+            {
+                statements.Add(Rds.UpdateOrInsertMailAddresses(
+                    param: Rds.MailAddressesParam()
+                        .OwnerId(sub: Rds.SelectUsers(
+                            column: Rds.UsersColumn().UserId(),
+                            where: Rds.UsersWhere().LoginId(loginId)))
+                        .OwnerType("Users")
+                        .MailAddress(mailAddress),
+                    where: Rds.MailAddressesWhere()
+                        .OwnerType("Users")
+                        .OwnerId(sub: Rds.SelectUsers(
+                            column: Rds.UsersColumn().UserId(),
+                            where: Rds.UsersWhere().LoginId(loginId)))));
+            }
+            Rds.ExecuteNonQuery(
+                transactional: true,
+                statements: statements.ToArray());
         }
 
         private static string Property(this DirectoryEntry entry, string propertyName)
