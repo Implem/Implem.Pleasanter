@@ -78,6 +78,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             column: Rds.UsersColumn().UserId(),
                             where: Rds.UsersWhere().LoginId(loginId)))));
             }
+            statements.Add(StatusUtilities.UpdateStatus(
+                StatusUtilities.Types.DeptsUpdated,
+                tenantId: Parameters.Authentication.LdapTenantId));
+            statements.Add(StatusUtilities.UpdateStatus(
+                StatusUtilities.Types.UsersUpdated,
+                tenantId: Parameters.Authentication.LdapTenantId));
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: statements.ToArray());

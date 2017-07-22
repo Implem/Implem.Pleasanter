@@ -152,9 +152,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static SqlUpdateOrInsert UpdateStatus(Types type, string value = "")
+        public static SqlUpdateOrInsert UpdateStatus(
+            Types type, string value = "", long? tenantId = null)
         {
-            var tenantId = Sessions.TenantId();
+            tenantId = tenantId ?? Sessions.TenantId();
             return Rds.UpdateOrInsertStatuses(
                 where: Rds.StatusesWhere()
                     .TenantId(tenantId)
