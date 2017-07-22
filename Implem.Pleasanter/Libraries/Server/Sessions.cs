@@ -40,14 +40,9 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static int TenantId()
         {
-            if (HttpContext.Current?.Session != null)
-            {
-                return HttpContext.Current.Session["TenantId"].ToInt();
-            }
-            else
-            {
-                return 0;
-            }
+            return HttpContext.Current?.Session != null
+                ? HttpContext.Current.Session["TenantId"].ToInt()
+                : 0;
         }
 
         public static bool LoggedIn()
