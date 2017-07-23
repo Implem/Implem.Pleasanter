@@ -287,14 +287,9 @@ namespace Implem.Pleasanter.Models
                 siteModel.Comments.Clear();
             }
             var error = siteModel.Create(paramAll: true);
-            if (error.Has())
-            {
-                return error.MessageJson();
-            }
-            else
-            {
-                return EditorResponse(siteModel).ToJson();
-            }
+            return error.Has()
+                ? error.MessageJson()
+                : EditorResponse(siteModel, Messages.Copied()).ToJson();
         }
 
         public static string Delete(SiteSettings ss, long siteId)
