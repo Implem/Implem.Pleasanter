@@ -833,6 +833,7 @@ namespace Implem.Pleasanter.Models
             };
             permissions.AddRange(ss.Columns
                 .Where(o => o.UserColumn)
+                .Where(o => o.ColumnName != "Creator" && o.ColumnName != "Updator")
                 .Select(o => ss.GetPermissionForCreating(o.ColumnName)));
             return permissions;
         }
