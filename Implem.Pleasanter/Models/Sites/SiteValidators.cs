@@ -221,6 +221,20 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
+        public static Error.Types OnLinking(
+            long sourceInheritSiteId, long destinationInheritSiteId)
+        {
+            if (!Permissions.Can(sourceInheritSiteId, Permissions.Types.ManageSite))
+            {
+                return Error.Types.HasNotPermission;
+            }
+            if (!Permissions.Can(destinationInheritSiteId, Permissions.Types.Read))
+            {
+                return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
+
         public static Error.Types OnSetSiteSettings(SiteSettings ss, out string data)
         {
             data = null;

@@ -852,6 +852,13 @@ namespace Implem.Pleasanter.Models
             {
                 return SiteMenuError(id, siteModel, Error.Types.AlreadyLinked);
             }
+            var invalid = SiteValidators.OnLinking(
+                sourceSiteModel.InheritPermission, destinationSiteModel.InheritPermission);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return SiteMenuError(id, siteModel, invalid);
+            }
             var columns = sourceSiteModel.SiteSettings.Columns
                 .Where(o => o.ColumnName.StartsWith("Class"));
             var hb = new HtmlBuilder();
@@ -943,6 +950,13 @@ namespace Implem.Pleasanter.Models
                 destinationSiteModel.NotFound())
             {
                 return SiteMenuError(id, siteModel, Error.Types.NotFound);
+            }
+            var invalid = SiteValidators.OnLinking(
+                sourceSiteModel.InheritPermission, destinationSiteModel.InheritPermission);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return SiteMenuError(id, siteModel, invalid);
             }
             switch (sourceSiteModel.ReferenceType)
             {
