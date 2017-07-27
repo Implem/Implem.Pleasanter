@@ -136,10 +136,10 @@ namespace Implem.Pleasanter.Libraries.Models
                 {
                     if (matchingConditions.Any(o => o == issueModel.IssueId))
                     {
-                        if (data.ContainsKey(issueModel.IssueId))
-                        {
-                            Set(issueModel, destinationColumn, data.Get(issueModel.IssueId));
-                        }
+                        Set(
+                            issueModel,
+                            destinationColumn,
+                            data.Get(issueModel.IssueId));
                     }
                     else if (setZeroWhenOutOfCondition)
                     {
@@ -535,10 +535,10 @@ namespace Implem.Pleasanter.Libraries.Models
                 {
                     if (matchingConditions.Any(o => o == resultModel.ResultId))
                     {
-                        if (data.ContainsKey(resultModel.ResultId))
-                        {
-                            Set(resultModel, destinationColumn, data.Get(resultModel.ResultId));
-                        }
+                        Set(
+                            resultModel,
+                            destinationColumn,
+                            data.Get(resultModel.ResultId));
                     }
                     else if (setZeroWhenOutOfCondition)
                     {
