@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public Status(DataRow dataRow, string name)
         {
-            Value = dataRow[name].ToInt();
+            Value = dataRow.Int(name);
         }
 
         public Status(int value)
