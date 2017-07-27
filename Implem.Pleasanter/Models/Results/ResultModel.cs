@@ -1991,7 +1991,7 @@ namespace Implem.Pleasanter.Models
             RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
-            bool synchronizeSummary = false,
+            bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
             bool paramAll = false,
