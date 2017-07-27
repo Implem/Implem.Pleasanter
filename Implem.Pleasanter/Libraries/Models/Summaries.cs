@@ -12,11 +12,19 @@ namespace Implem.Pleasanter.Libraries.Models
 {
     public static class Summaries
     {
+        public static void Synchronize(SiteSettings ss)
+        {
+            ss.Summaries?.ForEach(summary => Synchronize(ss, summary));
+        }
+
         public static void Synchronize(SiteSettings ss, int id)
         {
-            var destinationSs = SiteSettingsUtilities.Get(
-                ss.Summaries.FirstOrDefault(o => o.Id == id)?.SiteId ?? 0);
             var summary = ss.Summaries?.Get(id);
+        }
+
+        public static void Synchronize(SiteSettings ss, Summary summary)
+        {
+            var destinationSs = SiteSettingsUtilities.Get(summary?.SiteId ?? 0);
             if (destinationSs != null && summary != null)
             {
                 Synchronize(

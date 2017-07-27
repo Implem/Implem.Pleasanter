@@ -3188,6 +3188,7 @@ namespace Implem.Pleasanter.Models
                         return Messages.ResponseSelectTargets().ToJson();
                     }
                 }
+                Summaries.Synchronize(ss);
                 return GridRows(
                     ss,
                     clearCheck: true,
@@ -3268,6 +3269,7 @@ namespace Implem.Pleasanter.Models
                         return Messages.ResponseSelectTargets().ToJson();
                     }
                 }
+                Summaries.Synchronize(ss);
                 return GridRows(
                     ss,
                     clearCheck: true,
