@@ -2277,6 +2277,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.IssuesWhere().IssueId(IssueId),
                     param: Rds.IssuesParam().SiteId(SiteId))
             });
+            SynchronizeSummary(ss);
             Get(ss);
             Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;
