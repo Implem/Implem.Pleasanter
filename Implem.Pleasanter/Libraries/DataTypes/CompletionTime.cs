@@ -27,13 +27,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Value = dataRow.DateTime(name);
             DisplayValue = Value.ToLocal().AddDays(-1);
             Status = new Status(dataRow, "Status");
-            UpdatedTime = dataRow["UpdatedTime"].ToDateTime();
-            if (dataRow.Table.Columns.Contains("IsHistory"))
-            {
-                VerType = dataRow["IsHistory"].ToBool()
-                    ? Versions.VerTypes.History
-                    : Versions.VerTypes.Latest;
-            }
+            UpdatedTime = dataRow.DateTime("UpdatedTime");
+            VerType = dataRow.Bool("IsHistory")
+                ? Versions.VerTypes.History
+                : Versions.VerTypes.Latest;
         }
 
         public CompletionTime(
