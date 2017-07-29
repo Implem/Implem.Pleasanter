@@ -163,6 +163,32 @@ namespace Implem.Pleasanter.Models
         public bool CheckX = false;
         public bool CheckY = false;
         public bool CheckZ = false;
+        public string AttachmentA = string.Empty;
+        public string AttachmentB = string.Empty;
+        public string AttachmentC = string.Empty;
+        public string AttachmentD = string.Empty;
+        public string AttachmentE = string.Empty;
+        public string AttachmentF = string.Empty;
+        public string AttachmentG = string.Empty;
+        public string AttachmentH = string.Empty;
+        public string AttachmentI = string.Empty;
+        public string AttachmentJ = string.Empty;
+        public string AttachmentK = string.Empty;
+        public string AttachmentL = string.Empty;
+        public string AttachmentM = string.Empty;
+        public string AttachmentN = string.Empty;
+        public string AttachmentO = string.Empty;
+        public string AttachmentP = string.Empty;
+        public string AttachmentQ = string.Empty;
+        public string AttachmentR = string.Empty;
+        public string AttachmentS = string.Empty;
+        public string AttachmentT = string.Empty;
+        public string AttachmentU = string.Empty;
+        public string AttachmentV = string.Empty;
+        public string AttachmentW = string.Empty;
+        public string AttachmentX = string.Empty;
+        public string AttachmentY = string.Empty;
+        public string AttachmentZ = string.Empty;
         public TitleBody TitleBody { get { return new TitleBody(IssueId, Title.Value, Title.DisplayValue, Body); } }
         public SiteTitle SiteTitle { get { return new SiteTitle(SiteId); } }
         public long SavedIssueId = 0;
@@ -304,6 +330,32 @@ namespace Implem.Pleasanter.Models
         public bool SavedCheckX = false;
         public bool SavedCheckY = false;
         public bool SavedCheckZ = false;
+        public string SavedAttachmentA = string.Empty;
+        public string SavedAttachmentB = string.Empty;
+        public string SavedAttachmentC = string.Empty;
+        public string SavedAttachmentD = string.Empty;
+        public string SavedAttachmentE = string.Empty;
+        public string SavedAttachmentF = string.Empty;
+        public string SavedAttachmentG = string.Empty;
+        public string SavedAttachmentH = string.Empty;
+        public string SavedAttachmentI = string.Empty;
+        public string SavedAttachmentJ = string.Empty;
+        public string SavedAttachmentK = string.Empty;
+        public string SavedAttachmentL = string.Empty;
+        public string SavedAttachmentM = string.Empty;
+        public string SavedAttachmentN = string.Empty;
+        public string SavedAttachmentO = string.Empty;
+        public string SavedAttachmentP = string.Empty;
+        public string SavedAttachmentQ = string.Empty;
+        public string SavedAttachmentR = string.Empty;
+        public string SavedAttachmentS = string.Empty;
+        public string SavedAttachmentT = string.Empty;
+        public string SavedAttachmentU = string.Empty;
+        public string SavedAttachmentV = string.Empty;
+        public string SavedAttachmentW = string.Empty;
+        public string SavedAttachmentX = string.Empty;
+        public string SavedAttachmentY = string.Empty;
+        public string SavedAttachmentZ = string.Empty;
         public bool StartTime_Updated { get { return StartTime != SavedStartTime && StartTime != null; } }
         public bool CompletionTime_Updated { get { return CompletionTime.Value != SavedCompletionTime && CompletionTime.Value != null; } }
         public bool WorkValue_Updated { get { return WorkValue.Value != SavedWorkValue; } }
@@ -441,6 +493,32 @@ namespace Implem.Pleasanter.Models
         public bool CheckX_Updated { get { return CheckX != SavedCheckX; } }
         public bool CheckY_Updated { get { return CheckY != SavedCheckY; } }
         public bool CheckZ_Updated { get { return CheckZ != SavedCheckZ; } }
+        public bool AttachmentA_Updated { get { return AttachmentA != SavedAttachmentA && AttachmentA != null; } }
+        public bool AttachmentB_Updated { get { return AttachmentB != SavedAttachmentB && AttachmentB != null; } }
+        public bool AttachmentC_Updated { get { return AttachmentC != SavedAttachmentC && AttachmentC != null; } }
+        public bool AttachmentD_Updated { get { return AttachmentD != SavedAttachmentD && AttachmentD != null; } }
+        public bool AttachmentE_Updated { get { return AttachmentE != SavedAttachmentE && AttachmentE != null; } }
+        public bool AttachmentF_Updated { get { return AttachmentF != SavedAttachmentF && AttachmentF != null; } }
+        public bool AttachmentG_Updated { get { return AttachmentG != SavedAttachmentG && AttachmentG != null; } }
+        public bool AttachmentH_Updated { get { return AttachmentH != SavedAttachmentH && AttachmentH != null; } }
+        public bool AttachmentI_Updated { get { return AttachmentI != SavedAttachmentI && AttachmentI != null; } }
+        public bool AttachmentJ_Updated { get { return AttachmentJ != SavedAttachmentJ && AttachmentJ != null; } }
+        public bool AttachmentK_Updated { get { return AttachmentK != SavedAttachmentK && AttachmentK != null; } }
+        public bool AttachmentL_Updated { get { return AttachmentL != SavedAttachmentL && AttachmentL != null; } }
+        public bool AttachmentM_Updated { get { return AttachmentM != SavedAttachmentM && AttachmentM != null; } }
+        public bool AttachmentN_Updated { get { return AttachmentN != SavedAttachmentN && AttachmentN != null; } }
+        public bool AttachmentO_Updated { get { return AttachmentO != SavedAttachmentO && AttachmentO != null; } }
+        public bool AttachmentP_Updated { get { return AttachmentP != SavedAttachmentP && AttachmentP != null; } }
+        public bool AttachmentQ_Updated { get { return AttachmentQ != SavedAttachmentQ && AttachmentQ != null; } }
+        public bool AttachmentR_Updated { get { return AttachmentR != SavedAttachmentR && AttachmentR != null; } }
+        public bool AttachmentS_Updated { get { return AttachmentS != SavedAttachmentS && AttachmentS != null; } }
+        public bool AttachmentT_Updated { get { return AttachmentT != SavedAttachmentT && AttachmentT != null; } }
+        public bool AttachmentU_Updated { get { return AttachmentU != SavedAttachmentU && AttachmentU != null; } }
+        public bool AttachmentV_Updated { get { return AttachmentV != SavedAttachmentV && AttachmentV != null; } }
+        public bool AttachmentW_Updated { get { return AttachmentW != SavedAttachmentW && AttachmentW != null; } }
+        public bool AttachmentX_Updated { get { return AttachmentX != SavedAttachmentX && AttachmentX != null; } }
+        public bool AttachmentY_Updated { get { return AttachmentY != SavedAttachmentY && AttachmentY != null; } }
+        public bool AttachmentZ_Updated { get { return AttachmentZ != SavedAttachmentZ && AttachmentZ != null; } }
 
         public string PropertyValue(string name)
         {
@@ -591,6 +669,32 @@ namespace Implem.Pleasanter.Models
                 case "CheckX": return CheckX.ToString();
                 case "CheckY": return CheckY.ToString();
                 case "CheckZ": return CheckZ.ToString();
+                case "AttachmentA": return AttachmentA;
+                case "AttachmentB": return AttachmentB;
+                case "AttachmentC": return AttachmentC;
+                case "AttachmentD": return AttachmentD;
+                case "AttachmentE": return AttachmentE;
+                case "AttachmentF": return AttachmentF;
+                case "AttachmentG": return AttachmentG;
+                case "AttachmentH": return AttachmentH;
+                case "AttachmentI": return AttachmentI;
+                case "AttachmentJ": return AttachmentJ;
+                case "AttachmentK": return AttachmentK;
+                case "AttachmentL": return AttachmentL;
+                case "AttachmentM": return AttachmentM;
+                case "AttachmentN": return AttachmentN;
+                case "AttachmentO": return AttachmentO;
+                case "AttachmentP": return AttachmentP;
+                case "AttachmentQ": return AttachmentQ;
+                case "AttachmentR": return AttachmentR;
+                case "AttachmentS": return AttachmentS;
+                case "AttachmentT": return AttachmentT;
+                case "AttachmentU": return AttachmentU;
+                case "AttachmentV": return AttachmentV;
+                case "AttachmentW": return AttachmentW;
+                case "AttachmentX": return AttachmentX;
+                case "AttachmentY": return AttachmentY;
+                case "AttachmentZ": return AttachmentZ;
                 case "SiteTitle": return SiteTitle.SiteId.ToString();
                 case "Comments": return Comments.ToJson();
                 case "Creator": return Creator.Id.ToString();
@@ -1043,6 +1147,84 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "CheckZ":
                         hash.Add("CheckZ", CheckZ.ToString());
+                        break;
+                    case "AttachmentA":
+                        hash.Add("AttachmentA", AttachmentA);
+                        break;
+                    case "AttachmentB":
+                        hash.Add("AttachmentB", AttachmentB);
+                        break;
+                    case "AttachmentC":
+                        hash.Add("AttachmentC", AttachmentC);
+                        break;
+                    case "AttachmentD":
+                        hash.Add("AttachmentD", AttachmentD);
+                        break;
+                    case "AttachmentE":
+                        hash.Add("AttachmentE", AttachmentE);
+                        break;
+                    case "AttachmentF":
+                        hash.Add("AttachmentF", AttachmentF);
+                        break;
+                    case "AttachmentG":
+                        hash.Add("AttachmentG", AttachmentG);
+                        break;
+                    case "AttachmentH":
+                        hash.Add("AttachmentH", AttachmentH);
+                        break;
+                    case "AttachmentI":
+                        hash.Add("AttachmentI", AttachmentI);
+                        break;
+                    case "AttachmentJ":
+                        hash.Add("AttachmentJ", AttachmentJ);
+                        break;
+                    case "AttachmentK":
+                        hash.Add("AttachmentK", AttachmentK);
+                        break;
+                    case "AttachmentL":
+                        hash.Add("AttachmentL", AttachmentL);
+                        break;
+                    case "AttachmentM":
+                        hash.Add("AttachmentM", AttachmentM);
+                        break;
+                    case "AttachmentN":
+                        hash.Add("AttachmentN", AttachmentN);
+                        break;
+                    case "AttachmentO":
+                        hash.Add("AttachmentO", AttachmentO);
+                        break;
+                    case "AttachmentP":
+                        hash.Add("AttachmentP", AttachmentP);
+                        break;
+                    case "AttachmentQ":
+                        hash.Add("AttachmentQ", AttachmentQ);
+                        break;
+                    case "AttachmentR":
+                        hash.Add("AttachmentR", AttachmentR);
+                        break;
+                    case "AttachmentS":
+                        hash.Add("AttachmentS", AttachmentS);
+                        break;
+                    case "AttachmentT":
+                        hash.Add("AttachmentT", AttachmentT);
+                        break;
+                    case "AttachmentU":
+                        hash.Add("AttachmentU", AttachmentU);
+                        break;
+                    case "AttachmentV":
+                        hash.Add("AttachmentV", AttachmentV);
+                        break;
+                    case "AttachmentW":
+                        hash.Add("AttachmentW", AttachmentW);
+                        break;
+                    case "AttachmentX":
+                        hash.Add("AttachmentX", AttachmentX);
+                        break;
+                    case "AttachmentY":
+                        hash.Add("AttachmentY", AttachmentY);
+                        break;
+                    case "AttachmentZ":
+                        hash.Add("AttachmentZ", AttachmentZ);
                         break;
                     case "SiteTitle":
                         hash.Add("SiteTitle", SiteTitle.SiteId.ToString());
@@ -1801,6 +1983,136 @@ namespace Implem.Pleasanter.Models
                         ? CheckZ.ToExport(column, exportColumn)
                         : string.Empty;
                     break;
+                case "AttachmentA":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentA.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentB":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentB.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentC":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentC.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentD":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentD.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentE":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentE.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentF":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentF.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentG":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentG.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentH":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentH.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentI":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentI.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentJ":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentJ.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentK":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentK.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentL":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentL.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentM":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentM.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentN":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentN.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentO":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentO.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentP":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentP.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentQ":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentQ.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentR":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentR.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentS":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentS.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentT":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentT.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentU":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentU.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentV":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentV.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentW":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentW.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentX":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentX.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentY":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentY.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
+                case "AttachmentZ":
+                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                        ? AttachmentZ.ToExport(column, exportColumn)
+                        : string.Empty;
+                    break;
                 case "SiteTitle":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                         ? SiteTitle.ToExport(column, exportColumn)
@@ -2482,6 +2794,32 @@ namespace Implem.Pleasanter.Models
                     case "Issues_CheckX": CheckX = Forms.Data(controlId).ToBool(); break;
                     case "Issues_CheckY": CheckY = Forms.Data(controlId).ToBool(); break;
                     case "Issues_CheckZ": CheckZ = Forms.Data(controlId).ToBool(); break;
+                    case "Issues_AttachmentA": AttachmentA = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentB": AttachmentB = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentC": AttachmentC = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentD": AttachmentD = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentE": AttachmentE = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentF": AttachmentF = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentG": AttachmentG = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentH": AttachmentH = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentI": AttachmentI = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentJ": AttachmentJ = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentK": AttachmentK = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentL": AttachmentL = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentM": AttachmentM = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentN": AttachmentN = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentO": AttachmentO = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentP": AttachmentP = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentQ": AttachmentQ = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentR": AttachmentR = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentS": AttachmentS = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentT": AttachmentT = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentU": AttachmentU = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentV": AttachmentV = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentW": AttachmentW = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentX": AttachmentX = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentY": AttachmentY = Forms.Data(controlId).ToString(); break;
+                    case "Issues_AttachmentZ": AttachmentZ = Forms.Data(controlId).ToString(); break;
                     case "Issues_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
@@ -3195,6 +3533,32 @@ namespace Implem.Pleasanter.Models
                     case "CheckX": body.Append(CheckX.ToNotice(SavedCheckX, column, CheckX_Updated, update)); break;
                     case "CheckY": body.Append(CheckY.ToNotice(SavedCheckY, column, CheckY_Updated, update)); break;
                     case "CheckZ": body.Append(CheckZ.ToNotice(SavedCheckZ, column, CheckZ_Updated, update)); break;
+                    case "AttachmentA": body.Append(AttachmentA.ToNotice(SavedAttachmentA, column, AttachmentA_Updated, update)); break;
+                    case "AttachmentB": body.Append(AttachmentB.ToNotice(SavedAttachmentB, column, AttachmentB_Updated, update)); break;
+                    case "AttachmentC": body.Append(AttachmentC.ToNotice(SavedAttachmentC, column, AttachmentC_Updated, update)); break;
+                    case "AttachmentD": body.Append(AttachmentD.ToNotice(SavedAttachmentD, column, AttachmentD_Updated, update)); break;
+                    case "AttachmentE": body.Append(AttachmentE.ToNotice(SavedAttachmentE, column, AttachmentE_Updated, update)); break;
+                    case "AttachmentF": body.Append(AttachmentF.ToNotice(SavedAttachmentF, column, AttachmentF_Updated, update)); break;
+                    case "AttachmentG": body.Append(AttachmentG.ToNotice(SavedAttachmentG, column, AttachmentG_Updated, update)); break;
+                    case "AttachmentH": body.Append(AttachmentH.ToNotice(SavedAttachmentH, column, AttachmentH_Updated, update)); break;
+                    case "AttachmentI": body.Append(AttachmentI.ToNotice(SavedAttachmentI, column, AttachmentI_Updated, update)); break;
+                    case "AttachmentJ": body.Append(AttachmentJ.ToNotice(SavedAttachmentJ, column, AttachmentJ_Updated, update)); break;
+                    case "AttachmentK": body.Append(AttachmentK.ToNotice(SavedAttachmentK, column, AttachmentK_Updated, update)); break;
+                    case "AttachmentL": body.Append(AttachmentL.ToNotice(SavedAttachmentL, column, AttachmentL_Updated, update)); break;
+                    case "AttachmentM": body.Append(AttachmentM.ToNotice(SavedAttachmentM, column, AttachmentM_Updated, update)); break;
+                    case "AttachmentN": body.Append(AttachmentN.ToNotice(SavedAttachmentN, column, AttachmentN_Updated, update)); break;
+                    case "AttachmentO": body.Append(AttachmentO.ToNotice(SavedAttachmentO, column, AttachmentO_Updated, update)); break;
+                    case "AttachmentP": body.Append(AttachmentP.ToNotice(SavedAttachmentP, column, AttachmentP_Updated, update)); break;
+                    case "AttachmentQ": body.Append(AttachmentQ.ToNotice(SavedAttachmentQ, column, AttachmentQ_Updated, update)); break;
+                    case "AttachmentR": body.Append(AttachmentR.ToNotice(SavedAttachmentR, column, AttachmentR_Updated, update)); break;
+                    case "AttachmentS": body.Append(AttachmentS.ToNotice(SavedAttachmentS, column, AttachmentS_Updated, update)); break;
+                    case "AttachmentT": body.Append(AttachmentT.ToNotice(SavedAttachmentT, column, AttachmentT_Updated, update)); break;
+                    case "AttachmentU": body.Append(AttachmentU.ToNotice(SavedAttachmentU, column, AttachmentU_Updated, update)); break;
+                    case "AttachmentV": body.Append(AttachmentV.ToNotice(SavedAttachmentV, column, AttachmentV_Updated, update)); break;
+                    case "AttachmentW": body.Append(AttachmentW.ToNotice(SavedAttachmentW, column, AttachmentW_Updated, update)); break;
+                    case "AttachmentX": body.Append(AttachmentX.ToNotice(SavedAttachmentX, column, AttachmentX_Updated, update)); break;
+                    case "AttachmentY": body.Append(AttachmentY.ToNotice(SavedAttachmentY, column, AttachmentY_Updated, update)); break;
+                    case "AttachmentZ": body.Append(AttachmentZ.ToNotice(SavedAttachmentZ, column, AttachmentZ_Updated, update)); break;
                     case "Comments": body.Append(Comments.ToNotice(SavedComments, column, Comments_Updated, update)); break;
                     case "Creator": body.Append(Creator.ToNotice(SavedCreator, column, Creator_Updated, update)); break;
                     case "Updator": body.Append(Updator.ToNotice(SavedUpdator, column, Updator_Updated, update)); break;
@@ -3382,6 +3746,32 @@ namespace Implem.Pleasanter.Models
                     case "CheckX": CheckX = dataRow[name].ToBool(); SavedCheckX = CheckX; break;
                     case "CheckY": CheckY = dataRow[name].ToBool(); SavedCheckY = CheckY; break;
                     case "CheckZ": CheckZ = dataRow[name].ToBool(); SavedCheckZ = CheckZ; break;
+                    case "AttachmentA": AttachmentA = dataRow[name].ToString(); SavedAttachmentA = AttachmentA; break;
+                    case "AttachmentB": AttachmentB = dataRow[name].ToString(); SavedAttachmentB = AttachmentB; break;
+                    case "AttachmentC": AttachmentC = dataRow[name].ToString(); SavedAttachmentC = AttachmentC; break;
+                    case "AttachmentD": AttachmentD = dataRow[name].ToString(); SavedAttachmentD = AttachmentD; break;
+                    case "AttachmentE": AttachmentE = dataRow[name].ToString(); SavedAttachmentE = AttachmentE; break;
+                    case "AttachmentF": AttachmentF = dataRow[name].ToString(); SavedAttachmentF = AttachmentF; break;
+                    case "AttachmentG": AttachmentG = dataRow[name].ToString(); SavedAttachmentG = AttachmentG; break;
+                    case "AttachmentH": AttachmentH = dataRow[name].ToString(); SavedAttachmentH = AttachmentH; break;
+                    case "AttachmentI": AttachmentI = dataRow[name].ToString(); SavedAttachmentI = AttachmentI; break;
+                    case "AttachmentJ": AttachmentJ = dataRow[name].ToString(); SavedAttachmentJ = AttachmentJ; break;
+                    case "AttachmentK": AttachmentK = dataRow[name].ToString(); SavedAttachmentK = AttachmentK; break;
+                    case "AttachmentL": AttachmentL = dataRow[name].ToString(); SavedAttachmentL = AttachmentL; break;
+                    case "AttachmentM": AttachmentM = dataRow[name].ToString(); SavedAttachmentM = AttachmentM; break;
+                    case "AttachmentN": AttachmentN = dataRow[name].ToString(); SavedAttachmentN = AttachmentN; break;
+                    case "AttachmentO": AttachmentO = dataRow[name].ToString(); SavedAttachmentO = AttachmentO; break;
+                    case "AttachmentP": AttachmentP = dataRow[name].ToString(); SavedAttachmentP = AttachmentP; break;
+                    case "AttachmentQ": AttachmentQ = dataRow[name].ToString(); SavedAttachmentQ = AttachmentQ; break;
+                    case "AttachmentR": AttachmentR = dataRow[name].ToString(); SavedAttachmentR = AttachmentR; break;
+                    case "AttachmentS": AttachmentS = dataRow[name].ToString(); SavedAttachmentS = AttachmentS; break;
+                    case "AttachmentT": AttachmentT = dataRow[name].ToString(); SavedAttachmentT = AttachmentT; break;
+                    case "AttachmentU": AttachmentU = dataRow[name].ToString(); SavedAttachmentU = AttachmentU; break;
+                    case "AttachmentV": AttachmentV = dataRow[name].ToString(); SavedAttachmentV = AttachmentV; break;
+                    case "AttachmentW": AttachmentW = dataRow[name].ToString(); SavedAttachmentW = AttachmentW; break;
+                    case "AttachmentX": AttachmentX = dataRow[name].ToString(); SavedAttachmentX = AttachmentX; break;
+                    case "AttachmentY": AttachmentY = dataRow[name].ToString(); SavedAttachmentY = AttachmentY; break;
+                    case "AttachmentZ": AttachmentZ = dataRow[name].ToString(); SavedAttachmentZ = AttachmentZ; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
@@ -3536,6 +3926,32 @@ namespace Implem.Pleasanter.Models
                 CheckX_Updated ||
                 CheckY_Updated ||
                 CheckZ_Updated ||
+                AttachmentA_Updated ||
+                AttachmentB_Updated ||
+                AttachmentC_Updated ||
+                AttachmentD_Updated ||
+                AttachmentE_Updated ||
+                AttachmentF_Updated ||
+                AttachmentG_Updated ||
+                AttachmentH_Updated ||
+                AttachmentI_Updated ||
+                AttachmentJ_Updated ||
+                AttachmentK_Updated ||
+                AttachmentL_Updated ||
+                AttachmentM_Updated ||
+                AttachmentN_Updated ||
+                AttachmentO_Updated ||
+                AttachmentP_Updated ||
+                AttachmentQ_Updated ||
+                AttachmentR_Updated ||
+                AttachmentS_Updated ||
+                AttachmentT_Updated ||
+                AttachmentU_Updated ||
+                AttachmentV_Updated ||
+                AttachmentW_Updated ||
+                AttachmentX_Updated ||
+                AttachmentY_Updated ||
+                AttachmentZ_Updated ||
                 Comments_Updated ||
                 Creator_Updated ||
                 Updator_Updated ||

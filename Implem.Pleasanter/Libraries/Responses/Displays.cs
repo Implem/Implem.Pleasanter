@@ -861,6 +861,32 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Issues_CheckX(params string[] data) { return Get("Issues_CheckX", data); }
         public static string Issues_CheckY(params string[] data) { return Get("Issues_CheckY", data); }
         public static string Issues_CheckZ(params string[] data) { return Get("Issues_CheckZ", data); }
+        public static string Issues_AttachmentA(params string[] data) { return Get("Issues_AttachmentA", data); }
+        public static string Issues_AttachmentB(params string[] data) { return Get("Issues_AttachmentB", data); }
+        public static string Issues_AttachmentC(params string[] data) { return Get("Issues_AttachmentC", data); }
+        public static string Issues_AttachmentD(params string[] data) { return Get("Issues_AttachmentD", data); }
+        public static string Issues_AttachmentE(params string[] data) { return Get("Issues_AttachmentE", data); }
+        public static string Issues_AttachmentF(params string[] data) { return Get("Issues_AttachmentF", data); }
+        public static string Issues_AttachmentG(params string[] data) { return Get("Issues_AttachmentG", data); }
+        public static string Issues_AttachmentH(params string[] data) { return Get("Issues_AttachmentH", data); }
+        public static string Issues_AttachmentI(params string[] data) { return Get("Issues_AttachmentI", data); }
+        public static string Issues_AttachmentJ(params string[] data) { return Get("Issues_AttachmentJ", data); }
+        public static string Issues_AttachmentK(params string[] data) { return Get("Issues_AttachmentK", data); }
+        public static string Issues_AttachmentL(params string[] data) { return Get("Issues_AttachmentL", data); }
+        public static string Issues_AttachmentM(params string[] data) { return Get("Issues_AttachmentM", data); }
+        public static string Issues_AttachmentN(params string[] data) { return Get("Issues_AttachmentN", data); }
+        public static string Issues_AttachmentO(params string[] data) { return Get("Issues_AttachmentO", data); }
+        public static string Issues_AttachmentP(params string[] data) { return Get("Issues_AttachmentP", data); }
+        public static string Issues_AttachmentQ(params string[] data) { return Get("Issues_AttachmentQ", data); }
+        public static string Issues_AttachmentR(params string[] data) { return Get("Issues_AttachmentR", data); }
+        public static string Issues_AttachmentS(params string[] data) { return Get("Issues_AttachmentS", data); }
+        public static string Issues_AttachmentT(params string[] data) { return Get("Issues_AttachmentT", data); }
+        public static string Issues_AttachmentU(params string[] data) { return Get("Issues_AttachmentU", data); }
+        public static string Issues_AttachmentV(params string[] data) { return Get("Issues_AttachmentV", data); }
+        public static string Issues_AttachmentW(params string[] data) { return Get("Issues_AttachmentW", data); }
+        public static string Issues_AttachmentX(params string[] data) { return Get("Issues_AttachmentX", data); }
+        public static string Issues_AttachmentY(params string[] data) { return Get("Issues_AttachmentY", data); }
+        public static string Issues_AttachmentZ(params string[] data) { return Get("Issues_AttachmentZ", data); }
         public static string Issues_SiteTitle(params string[] data) { return Get("Issues_SiteTitle", data); }
         public static string Results_ResultId(params string[] data) { return Get("Results_ResultId", data); }
         public static string Results_Title(params string[] data) { return Get("Results_Title", data); }
@@ -997,6 +1023,32 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Results_CheckX(params string[] data) { return Get("Results_CheckX", data); }
         public static string Results_CheckY(params string[] data) { return Get("Results_CheckY", data); }
         public static string Results_CheckZ(params string[] data) { return Get("Results_CheckZ", data); }
+        public static string Results_AttachmentA(params string[] data) { return Get("Results_AttachmentA", data); }
+        public static string Results_AttachmentB(params string[] data) { return Get("Results_AttachmentB", data); }
+        public static string Results_AttachmentC(params string[] data) { return Get("Results_AttachmentC", data); }
+        public static string Results_AttachmentD(params string[] data) { return Get("Results_AttachmentD", data); }
+        public static string Results_AttachmentE(params string[] data) { return Get("Results_AttachmentE", data); }
+        public static string Results_AttachmentF(params string[] data) { return Get("Results_AttachmentF", data); }
+        public static string Results_AttachmentG(params string[] data) { return Get("Results_AttachmentG", data); }
+        public static string Results_AttachmentH(params string[] data) { return Get("Results_AttachmentH", data); }
+        public static string Results_AttachmentI(params string[] data) { return Get("Results_AttachmentI", data); }
+        public static string Results_AttachmentJ(params string[] data) { return Get("Results_AttachmentJ", data); }
+        public static string Results_AttachmentK(params string[] data) { return Get("Results_AttachmentK", data); }
+        public static string Results_AttachmentL(params string[] data) { return Get("Results_AttachmentL", data); }
+        public static string Results_AttachmentM(params string[] data) { return Get("Results_AttachmentM", data); }
+        public static string Results_AttachmentN(params string[] data) { return Get("Results_AttachmentN", data); }
+        public static string Results_AttachmentO(params string[] data) { return Get("Results_AttachmentO", data); }
+        public static string Results_AttachmentP(params string[] data) { return Get("Results_AttachmentP", data); }
+        public static string Results_AttachmentQ(params string[] data) { return Get("Results_AttachmentQ", data); }
+        public static string Results_AttachmentR(params string[] data) { return Get("Results_AttachmentR", data); }
+        public static string Results_AttachmentS(params string[] data) { return Get("Results_AttachmentS", data); }
+        public static string Results_AttachmentT(params string[] data) { return Get("Results_AttachmentT", data); }
+        public static string Results_AttachmentU(params string[] data) { return Get("Results_AttachmentU", data); }
+        public static string Results_AttachmentV(params string[] data) { return Get("Results_AttachmentV", data); }
+        public static string Results_AttachmentW(params string[] data) { return Get("Results_AttachmentW", data); }
+        public static string Results_AttachmentX(params string[] data) { return Get("Results_AttachmentX", data); }
+        public static string Results_AttachmentY(params string[] data) { return Get("Results_AttachmentY", data); }
+        public static string Results_AttachmentZ(params string[] data) { return Get("Results_AttachmentZ", data); }
         public static string Results_SiteTitle(params string[] data) { return Get("Results_SiteTitle", data); }
         public static string Wikis_WikiId(params string[] data) { return Get("Wikis_WikiId", data); }
         public static string Tenants_Ver(params string[] data) { return Get("Tenants_Ver", data); }

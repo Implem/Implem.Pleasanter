@@ -852,6 +852,110 @@ namespace Implem.Pleasanter.Models
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: issueModel.CheckZ)
                             : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentA":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentA)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentB":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentB)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentC":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentC)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentD":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentD)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentE":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentE)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentF":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentF)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentG":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentG)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentH":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentH)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentI":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentI)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentJ":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentJ)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentK":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentK)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentL":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentL)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentM":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentM)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentN":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentN)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentO":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentO)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentP":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentP)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentQ":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentQ)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentR":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentR)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentS":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentS)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentT":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentT)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentU":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentU)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentV":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentV)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentW":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentW)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentX":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentX)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentY":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentY)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "AttachmentZ":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: issueModel.AttachmentZ)
+                            : hb.Td(column: column, value: string.Empty);
                     case "SiteTitle":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: issueModel.SiteTitle)
@@ -1030,6 +1134,32 @@ namespace Implem.Pleasanter.Models
                     case "CheckX": value = issueModel.CheckX.GridText(column: column); break;
                     case "CheckY": value = issueModel.CheckY.GridText(column: column); break;
                     case "CheckZ": value = issueModel.CheckZ.GridText(column: column); break;
+                    case "AttachmentA": value = issueModel.AttachmentA.GridText(column: column); break;
+                    case "AttachmentB": value = issueModel.AttachmentB.GridText(column: column); break;
+                    case "AttachmentC": value = issueModel.AttachmentC.GridText(column: column); break;
+                    case "AttachmentD": value = issueModel.AttachmentD.GridText(column: column); break;
+                    case "AttachmentE": value = issueModel.AttachmentE.GridText(column: column); break;
+                    case "AttachmentF": value = issueModel.AttachmentF.GridText(column: column); break;
+                    case "AttachmentG": value = issueModel.AttachmentG.GridText(column: column); break;
+                    case "AttachmentH": value = issueModel.AttachmentH.GridText(column: column); break;
+                    case "AttachmentI": value = issueModel.AttachmentI.GridText(column: column); break;
+                    case "AttachmentJ": value = issueModel.AttachmentJ.GridText(column: column); break;
+                    case "AttachmentK": value = issueModel.AttachmentK.GridText(column: column); break;
+                    case "AttachmentL": value = issueModel.AttachmentL.GridText(column: column); break;
+                    case "AttachmentM": value = issueModel.AttachmentM.GridText(column: column); break;
+                    case "AttachmentN": value = issueModel.AttachmentN.GridText(column: column); break;
+                    case "AttachmentO": value = issueModel.AttachmentO.GridText(column: column); break;
+                    case "AttachmentP": value = issueModel.AttachmentP.GridText(column: column); break;
+                    case "AttachmentQ": value = issueModel.AttachmentQ.GridText(column: column); break;
+                    case "AttachmentR": value = issueModel.AttachmentR.GridText(column: column); break;
+                    case "AttachmentS": value = issueModel.AttachmentS.GridText(column: column); break;
+                    case "AttachmentT": value = issueModel.AttachmentT.GridText(column: column); break;
+                    case "AttachmentU": value = issueModel.AttachmentU.GridText(column: column); break;
+                    case "AttachmentV": value = issueModel.AttachmentV.GridText(column: column); break;
+                    case "AttachmentW": value = issueModel.AttachmentW.GridText(column: column); break;
+                    case "AttachmentX": value = issueModel.AttachmentX.GridText(column: column); break;
+                    case "AttachmentY": value = issueModel.AttachmentY.GridText(column: column); break;
+                    case "AttachmentZ": value = issueModel.AttachmentZ.GridText(column: column); break;
                     case "SiteTitle": value = issueModel.SiteTitle.GridText(column: column); break;
                     case "Comments": value = issueModel.Comments.GridText(column: column); break;
                     case "Creator": value = issueModel.Creator.GridText(column: column); break;
@@ -2551,6 +2681,240 @@ namespace Implem.Pleasanter.Models
                             column.ColumnPermissionType(),
                             preview: preview);
                         break;
+                    case "AttachmentA":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentA.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentB":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentB.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentC":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentC.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentD":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentD.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentE":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentE.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentF":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentF.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentG":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentG.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentH":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentH.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentI":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentI.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentJ":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentJ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentK":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentK.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentL":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentL.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentM":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentM.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentN":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentN.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentO":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentO.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentP":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentP.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentQ":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentQ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentR":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentR.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentS":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentS.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentT":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentT.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentU":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentU.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentV":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentV.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentW":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentW.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentX":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentX.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentY":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentY.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "AttachmentZ":
+                        hb.Field(
+                            ss,
+                            column,
+                            issueModel.MethodType,
+                            issueModel.AttachmentZ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
                 }
             });
             if (!preview)
@@ -3789,6 +4153,84 @@ namespace Implem.Pleasanter.Models
                                 break;
                             case "CheckZ":
                                 issueModel.CheckZ = recordingData.ToBool();
+                                break;
+                            case "AttachmentA":
+                                issueModel.AttachmentA = recordingData.ToString();
+                                break;
+                            case "AttachmentB":
+                                issueModel.AttachmentB = recordingData.ToString();
+                                break;
+                            case "AttachmentC":
+                                issueModel.AttachmentC = recordingData.ToString();
+                                break;
+                            case "AttachmentD":
+                                issueModel.AttachmentD = recordingData.ToString();
+                                break;
+                            case "AttachmentE":
+                                issueModel.AttachmentE = recordingData.ToString();
+                                break;
+                            case "AttachmentF":
+                                issueModel.AttachmentF = recordingData.ToString();
+                                break;
+                            case "AttachmentG":
+                                issueModel.AttachmentG = recordingData.ToString();
+                                break;
+                            case "AttachmentH":
+                                issueModel.AttachmentH = recordingData.ToString();
+                                break;
+                            case "AttachmentI":
+                                issueModel.AttachmentI = recordingData.ToString();
+                                break;
+                            case "AttachmentJ":
+                                issueModel.AttachmentJ = recordingData.ToString();
+                                break;
+                            case "AttachmentK":
+                                issueModel.AttachmentK = recordingData.ToString();
+                                break;
+                            case "AttachmentL":
+                                issueModel.AttachmentL = recordingData.ToString();
+                                break;
+                            case "AttachmentM":
+                                issueModel.AttachmentM = recordingData.ToString();
+                                break;
+                            case "AttachmentN":
+                                issueModel.AttachmentN = recordingData.ToString();
+                                break;
+                            case "AttachmentO":
+                                issueModel.AttachmentO = recordingData.ToString();
+                                break;
+                            case "AttachmentP":
+                                issueModel.AttachmentP = recordingData.ToString();
+                                break;
+                            case "AttachmentQ":
+                                issueModel.AttachmentQ = recordingData.ToString();
+                                break;
+                            case "AttachmentR":
+                                issueModel.AttachmentR = recordingData.ToString();
+                                break;
+                            case "AttachmentS":
+                                issueModel.AttachmentS = recordingData.ToString();
+                                break;
+                            case "AttachmentT":
+                                issueModel.AttachmentT = recordingData.ToString();
+                                break;
+                            case "AttachmentU":
+                                issueModel.AttachmentU = recordingData.ToString();
+                                break;
+                            case "AttachmentV":
+                                issueModel.AttachmentV = recordingData.ToString();
+                                break;
+                            case "AttachmentW":
+                                issueModel.AttachmentW = recordingData.ToString();
+                                break;
+                            case "AttachmentX":
+                                issueModel.AttachmentX = recordingData.ToString();
+                                break;
+                            case "AttachmentY":
+                                issueModel.AttachmentY = recordingData.ToString();
+                                break;
+                            case "AttachmentZ":
+                                issueModel.AttachmentZ = recordingData.ToString();
                                 break;
                             case "Comments":
                                 if (issueModel.AccessStatus != Databases.AccessStatuses.Selected &&
