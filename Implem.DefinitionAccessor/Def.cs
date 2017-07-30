@@ -1693,7 +1693,6 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("UpdateMonitor")) { newColumnDefinition.UpdateMonitor = definitionRow["UpdateMonitor"].ToBool(); newColumnDefinition.SavedUpdateMonitor = newColumnDefinition.UpdateMonitor; }
                 if (definitionRow.ContainsKey("FieldCss")) { newColumnDefinition.FieldCss = definitionRow["FieldCss"].ToString(); newColumnDefinition.SavedFieldCss = newColumnDefinition.FieldCss; }
                 if (definitionRow.ContainsKey("ControlCss")) { newColumnDefinition.ControlCss = definitionRow["ControlCss"].ToString(); newColumnDefinition.SavedControlCss = newColumnDefinition.ControlCss; }
-                if (definitionRow.ContainsKey("MarkDown")) { newColumnDefinition.MarkDown = definitionRow["MarkDown"].ToBool(); newColumnDefinition.SavedMarkDown = newColumnDefinition.MarkDown; }
                 if (definitionRow.ContainsKey("GridStyle")) { newColumnDefinition.GridStyle = definitionRow["GridStyle"].ToString(); newColumnDefinition.SavedGridStyle = newColumnDefinition.GridStyle; }
                 if (definitionRow.ContainsKey("Hash")) { newColumnDefinition.Hash = definitionRow["Hash"].ToBool(); newColumnDefinition.SavedHash = newColumnDefinition.Hash; }
                 if (definitionRow.ContainsKey("Calc")) { newColumnDefinition.Calc = definitionRow["Calc"].ToString(); newColumnDefinition.SavedCalc = newColumnDefinition.Calc; }
@@ -1806,7 +1805,6 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("UpdateMonitor")) { definition.UpdateMonitor = definitionRow["UpdateMonitor"].ToBool(); definition.SavedUpdateMonitor = definition.UpdateMonitor; }
             if (definitionRow.ContainsKey("FieldCss")) { definition.FieldCss = definitionRow["FieldCss"].ToString(); definition.SavedFieldCss = definition.FieldCss; }
             if (definitionRow.ContainsKey("ControlCss")) { definition.ControlCss = definitionRow["ControlCss"].ToString(); definition.SavedControlCss = definition.ControlCss; }
-            if (definitionRow.ContainsKey("MarkDown")) { definition.MarkDown = definitionRow["MarkDown"].ToBool(); definition.SavedMarkDown = definition.MarkDown; }
             if (definitionRow.ContainsKey("GridStyle")) { definition.GridStyle = definitionRow["GridStyle"].ToString(); definition.SavedGridStyle = definition.GridStyle; }
             if (definitionRow.ContainsKey("Hash")) { definition.Hash = definitionRow["Hash"].ToBool(); definition.SavedHash = definition.Hash; }
             if (definitionRow.ContainsKey("Calc")) { definition.Calc = definitionRow["Calc"].ToString(); definition.SavedCalc = definition.Calc; }
@@ -3754,7 +3752,6 @@ namespace Implem.DefinitionAccessor
                         case "UpdateMonitor": columnDefinition.UpdateMonitor = optionValue.ToBool(); break;
                         case "FieldCss": columnDefinition.FieldCss = optionValue.ToString(); break;
                         case "ControlCss": columnDefinition.ControlCss = optionValue.ToString(); break;
-                        case "MarkDown": columnDefinition.MarkDown = optionValue.ToBool(); break;
                         case "GridStyle": columnDefinition.GridStyle = optionValue.ToString(); break;
                         case "Hash": columnDefinition.Hash = optionValue.ToBool(); break;
                         case "Calc": columnDefinition.Calc = optionValue.ToString(); break;
@@ -5423,7 +5420,6 @@ namespace Implem.DefinitionAccessor
         public bool UpdateMonitor; public bool SavedUpdateMonitor;
         public string FieldCss; public string SavedFieldCss;
         public string ControlCss; public string SavedControlCss;
-        public bool MarkDown; public bool SavedMarkDown;
         public string GridStyle; public string SavedGridStyle;
         public bool Hash; public bool SavedHash;
         public string Calc; public string SavedCalc;
@@ -5537,7 +5533,6 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("UpdateMonitor")) UpdateMonitor = propertyCollection["UpdateMonitor"].ToBool(); else UpdateMonitor = false;
             if (propertyCollection.ContainsKey("FieldCss")) FieldCss = propertyCollection["FieldCss"].ToString(); else FieldCss = string.Empty;
             if (propertyCollection.ContainsKey("ControlCss")) ControlCss = propertyCollection["ControlCss"].ToString(); else ControlCss = string.Empty;
-            if (propertyCollection.ContainsKey("MarkDown")) MarkDown = propertyCollection["MarkDown"].ToBool(); else MarkDown = false;
             if (propertyCollection.ContainsKey("GridStyle")) GridStyle = propertyCollection["GridStyle"].ToString(); else GridStyle = string.Empty;
             if (propertyCollection.ContainsKey("Hash")) Hash = propertyCollection["Hash"].ToBool(); else Hash = false;
             if (propertyCollection.ContainsKey("Calc")) Calc = propertyCollection["Calc"].ToString(); else Calc = string.Empty;
@@ -5651,7 +5646,6 @@ namespace Implem.DefinitionAccessor
                     case "UpdateMonitor": return UpdateMonitor;
                     case "FieldCss": return FieldCss;
                     case "ControlCss": return ControlCss;
-                    case "MarkDown": return MarkDown;
                     case "GridStyle": return GridStyle;
                     case "Hash": return Hash;
                     case "Calc": return Calc;
@@ -5765,7 +5759,6 @@ namespace Implem.DefinitionAccessor
             UpdateMonitor = SavedUpdateMonitor;
             FieldCss = SavedFieldCss;
             ControlCss = SavedControlCss;
-            MarkDown = SavedMarkDown;
             GridStyle = SavedGridStyle;
             Hash = SavedHash;
             Calc = SavedCalc;

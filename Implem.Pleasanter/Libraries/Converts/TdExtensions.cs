@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.Converts
                         action: () => hb
                             .Text(choice.TextMini));
                 })
-                : column.MarkDown
+                : column.ControlType == "MarkDown"
                     ? hb.Td(action: () => hb
                         .Div(css: "grid-title-body", action: () => hb
                             .P(css: "body markup", action: () => hb

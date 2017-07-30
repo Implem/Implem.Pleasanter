@@ -102,8 +102,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string ControlCss;
         [NonSerialized]
-        public bool MarkDown;
-        [NonSerialized]
         public string GridStyle;
         [NonSerialized]
         public bool Aggregatable;

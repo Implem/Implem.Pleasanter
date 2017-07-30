@@ -942,7 +942,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.UnitDefault = columnDefinition.Unit;
                 column.Width = columnDefinition.Width;
                 column.ControlCss = columnDefinition.ControlCss;
-                column.MarkDown = columnDefinition.MarkDown;
                 column.GridStyle = columnDefinition.GridStyle;
                 column.Aggregatable = columnDefinition.Aggregatable;
                 column.Computable = columnDefinition.Computable;

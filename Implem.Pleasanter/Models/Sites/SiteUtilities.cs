@@ -2688,7 +2688,9 @@ namespace Implem.Pleasanter.Models
                                             { "field-wide", Displays.Wide() }
                                         },
                                         selectedValue: column.FieldCss,
-                                        _using: !column.MarkDown)
+                                        _using: 
+                                            column.ControlType != "MarkDown" &&
+                                            column.ControlType != "Attachment")
                                     .FieldCheckBox(
                                         controlId: "ValidateRequired",
                                         labelText: Displays.Required(),
@@ -2798,22 +2800,25 @@ namespace Implem.Pleasanter.Models
                         case Types.CsString:
                             if (column.ColumnName != "Comments")
                             {
-                                if (column.MarkDown)
+                                switch (column.ControlType)
                                 {
-                                    hb.FieldTextBox(
-                                        textType: HtmlTypes.TextTypes.MultiLine,
-                                        controlId: "DefaultInput",
-                                        fieldCss: column.FieldCss,
-                                        labelText: Displays.DefaultInput(),
-                                        text: column.DefaultInput);
-                                }
-                                else
-                                {
-                                    hb.FieldTextBox(
-                                        controlId: "DefaultInput",
-                                        fieldCss: column.FieldCss,
-                                        labelText: Displays.DefaultInput(),
-                                        text: column.DefaultInput);
+                                    case "MarkDown":
+                                        hb.FieldTextBox(
+                                            textType: HtmlTypes.TextTypes.MultiLine,
+                                            controlId: "DefaultInput",
+                                            fieldCss: column.FieldCss,
+                                            labelText: Displays.DefaultInput(),
+                                            text: column.DefaultInput);
+                                        break;
+                                    case "Attachment":
+                                        break;
+                                    default:
+                                        hb.FieldTextBox(
+                                            controlId: "DefaultInput",
+                                            fieldCss: column.FieldCss,
+                                            labelText: Displays.DefaultInput(),
+                                            text: column.DefaultInput);
+                                        break;
                                 }
                             }
                             break;

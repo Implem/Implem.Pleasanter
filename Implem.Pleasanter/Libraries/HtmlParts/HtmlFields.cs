@@ -393,7 +393,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     case Types.CsBool:
                         return ControlTypes.CheckBox;
                     default:
-                        return column.MarkDown
+                        return column.ControlType == "MarkDown"
                             ? ControlTypes.MarkDown
                             : ControlTypes.Text;
                 }
@@ -418,7 +418,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case Types.CsString:
                     return column.HasChoices()
                         ? ControlTypes.DropDown
-                        : column.MarkDown
+                        : column.ControlType == "MarkDown"
                             ? ControlTypes.MarkDown
                             : column.Max.ToInt() == -1 ||
                               column.Max.ToInt() >= Parameters.General.SizeToUseTextArea
