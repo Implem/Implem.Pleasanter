@@ -761,6 +761,8 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Exclude")) { newCodeDefinition.Exclude = definitionRow["Exclude"].ToString(); newCodeDefinition.SavedExclude = newCodeDefinition.Exclude; }
                 if (definitionRow.ContainsKey("IncludeTypeName")) { newCodeDefinition.IncludeTypeName = definitionRow["IncludeTypeName"].ToString(); newCodeDefinition.SavedIncludeTypeName = newCodeDefinition.IncludeTypeName; }
                 if (definitionRow.ContainsKey("ExcludeTypeName")) { newCodeDefinition.ExcludeTypeName = definitionRow["ExcludeTypeName"].ToString(); newCodeDefinition.SavedExcludeTypeName = newCodeDefinition.ExcludeTypeName; }
+                if (definitionRow.ContainsKey("IncludeTypeCs")) { newCodeDefinition.IncludeTypeCs = definitionRow["IncludeTypeCs"].ToString(); newCodeDefinition.SavedIncludeTypeCs = newCodeDefinition.IncludeTypeCs; }
+                if (definitionRow.ContainsKey("ExcludeTypeCs")) { newCodeDefinition.ExcludeTypeCs = definitionRow["ExcludeTypeCs"].ToString(); newCodeDefinition.SavedExcludeTypeCs = newCodeDefinition.ExcludeTypeCs; }
                 if (definitionRow.ContainsKey("IncludeDefaultCs")) { newCodeDefinition.IncludeDefaultCs = definitionRow["IncludeDefaultCs"].ToString(); newCodeDefinition.SavedIncludeDefaultCs = newCodeDefinition.IncludeDefaultCs; }
                 if (definitionRow.ContainsKey("ExcludeDefaultCs")) { newCodeDefinition.ExcludeDefaultCs = definitionRow["ExcludeDefaultCs"].ToString(); newCodeDefinition.SavedExcludeDefaultCs = newCodeDefinition.ExcludeDefaultCs; }
                 if (definitionRow.ContainsKey("History")) { newCodeDefinition.History = definitionRow["History"].ToBool(); newCodeDefinition.SavedHistory = newCodeDefinition.History; }
@@ -839,6 +841,8 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Exclude")) { definition.Exclude = definitionRow["Exclude"].ToString(); definition.SavedExclude = definition.Exclude; }
             if (definitionRow.ContainsKey("IncludeTypeName")) { definition.IncludeTypeName = definitionRow["IncludeTypeName"].ToString(); definition.SavedIncludeTypeName = definition.IncludeTypeName; }
             if (definitionRow.ContainsKey("ExcludeTypeName")) { definition.ExcludeTypeName = definitionRow["ExcludeTypeName"].ToString(); definition.SavedExcludeTypeName = definition.ExcludeTypeName; }
+            if (definitionRow.ContainsKey("IncludeTypeCs")) { definition.IncludeTypeCs = definitionRow["IncludeTypeCs"].ToString(); definition.SavedIncludeTypeCs = definition.IncludeTypeCs; }
+            if (definitionRow.ContainsKey("ExcludeTypeCs")) { definition.ExcludeTypeCs = definitionRow["ExcludeTypeCs"].ToString(); definition.SavedExcludeTypeCs = definition.ExcludeTypeCs; }
             if (definitionRow.ContainsKey("IncludeDefaultCs")) { definition.IncludeDefaultCs = definitionRow["IncludeDefaultCs"].ToString(); definition.SavedIncludeDefaultCs = definition.IncludeDefaultCs; }
             if (definitionRow.ContainsKey("ExcludeDefaultCs")) { definition.ExcludeDefaultCs = definitionRow["ExcludeDefaultCs"].ToString(); definition.SavedExcludeDefaultCs = definition.ExcludeDefaultCs; }
             if (definitionRow.ContainsKey("History")) { definition.History = definitionRow["History"].ToBool(); definition.SavedHistory = definition.History; }
@@ -3653,6 +3657,8 @@ namespace Implem.DefinitionAccessor
                         case "Exclude": codeDefinition.Exclude = optionValue.ToString(); break;
                         case "IncludeTypeName": codeDefinition.IncludeTypeName = optionValue.ToString(); break;
                         case "ExcludeTypeName": codeDefinition.ExcludeTypeName = optionValue.ToString(); break;
+                        case "IncludeTypeCs": codeDefinition.IncludeTypeCs = optionValue.ToString(); break;
+                        case "ExcludeTypeCs": codeDefinition.ExcludeTypeCs = optionValue.ToString(); break;
                         case "IncludeDefaultCs": codeDefinition.IncludeDefaultCs = optionValue.ToString(); break;
                         case "ExcludeDefaultCs": codeDefinition.ExcludeDefaultCs = optionValue.ToString(); break;
                         case "History": codeDefinition.History = optionValue.ToBool(); break;
@@ -4157,6 +4163,8 @@ namespace Implem.DefinitionAccessor
         public string Exclude; public string SavedExclude;
         public string IncludeTypeName; public string SavedIncludeTypeName;
         public string ExcludeTypeName; public string SavedExcludeTypeName;
+        public string IncludeTypeCs; public string SavedIncludeTypeCs;
+        public string ExcludeTypeCs; public string SavedExcludeTypeCs;
         public string IncludeDefaultCs; public string SavedIncludeDefaultCs;
         public string ExcludeDefaultCs; public string SavedExcludeDefaultCs;
         public bool History; public bool SavedHistory;
@@ -4236,6 +4244,8 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Exclude")) Exclude = propertyCollection["Exclude"].ToString(); else Exclude = string.Empty;
             if (propertyCollection.ContainsKey("IncludeTypeName")) IncludeTypeName = propertyCollection["IncludeTypeName"].ToString(); else IncludeTypeName = string.Empty;
             if (propertyCollection.ContainsKey("ExcludeTypeName")) ExcludeTypeName = propertyCollection["ExcludeTypeName"].ToString(); else ExcludeTypeName = string.Empty;
+            if (propertyCollection.ContainsKey("IncludeTypeCs")) IncludeTypeCs = propertyCollection["IncludeTypeCs"].ToString(); else IncludeTypeCs = string.Empty;
+            if (propertyCollection.ContainsKey("ExcludeTypeCs")) ExcludeTypeCs = propertyCollection["ExcludeTypeCs"].ToString(); else ExcludeTypeCs = string.Empty;
             if (propertyCollection.ContainsKey("IncludeDefaultCs")) IncludeDefaultCs = propertyCollection["IncludeDefaultCs"].ToString(); else IncludeDefaultCs = string.Empty;
             if (propertyCollection.ContainsKey("ExcludeDefaultCs")) ExcludeDefaultCs = propertyCollection["ExcludeDefaultCs"].ToString(); else ExcludeDefaultCs = string.Empty;
             if (propertyCollection.ContainsKey("History")) History = propertyCollection["History"].ToBool(); else History = false;
@@ -4315,6 +4325,8 @@ namespace Implem.DefinitionAccessor
                     case "Exclude": return Exclude;
                     case "IncludeTypeName": return IncludeTypeName;
                     case "ExcludeTypeName": return ExcludeTypeName;
+                    case "IncludeTypeCs": return IncludeTypeCs;
+                    case "ExcludeTypeCs": return ExcludeTypeCs;
                     case "IncludeDefaultCs": return IncludeDefaultCs;
                     case "ExcludeDefaultCs": return ExcludeDefaultCs;
                     case "History": return History;
@@ -4394,6 +4406,8 @@ namespace Implem.DefinitionAccessor
             Exclude = SavedExclude;
             IncludeTypeName = SavedIncludeTypeName;
             ExcludeTypeName = SavedExcludeTypeName;
+            IncludeTypeCs = SavedIncludeTypeCs;
+            ExcludeTypeCs = SavedExcludeTypeCs;
             IncludeDefaultCs = SavedIncludeDefaultCs;
             ExcludeDefaultCs = SavedExcludeDefaultCs;
             History = SavedHistory;

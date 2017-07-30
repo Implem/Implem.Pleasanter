@@ -100,6 +100,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.EditorColumn || o.ColumnName == "Comments")
                 .Where(o => !o.NotEditorSettings)
                 .Where(o => !o.Unique)
+                .Where(o => o.ControlType != "Attachment")
                 .Where(o => o.ColumnName != "Ver")
                 .OrderBy(o => o.No);
         }
@@ -109,6 +110,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return definitions.Values
                 .Where(o => o.GridColumn > 0)
+                .Where(o => o.ControlType != "Attachment")
                 .OrderBy(o => o.GridColumn);
         }
 

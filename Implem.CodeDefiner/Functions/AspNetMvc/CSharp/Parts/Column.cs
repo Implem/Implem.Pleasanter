@@ -104,6 +104,8 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.Exclude != string.Empty && codeDefinition.Exclude.Split(',').Contains(columnDefinition.ColumnName)) return true;
             if (codeDefinition.IncludeTypeName != string.Empty && !codeDefinition.IncludeTypeName.Split(',').Contains(columnDefinition.TypeName)) return true;
             if (codeDefinition.ExcludeTypeName != string.Empty && codeDefinition.ExcludeTypeName.Split(',').Contains(columnDefinition.TypeName)) return true;
+            if (codeDefinition.IncludeTypeCs != string.Empty && !codeDefinition.IncludeTypeCs.Split(',').Contains(columnDefinition.TypeCs)) return true;
+            if (codeDefinition.ExcludeTypeCs != string.Empty && codeDefinition.ExcludeTypeCs.Split(',').Contains(columnDefinition.TypeCs)) return true;
             if (codeDefinition.IncludeDefaultCs != string.Empty && !codeDefinition.IncludeDefaultCs.Split(',').Contains(columnDefinition.DefaultCs)) return true;
             if (codeDefinition.ExcludeDefaultCs != string.Empty && codeDefinition.ExcludeDefaultCs.Split(',').Contains(columnDefinition.DefaultCs)) return true;
             if (codeDefinition.NotTypeCs && columnDefinition.TypeCs != string.Empty) return true;
