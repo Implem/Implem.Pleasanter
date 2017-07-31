@@ -578,8 +578,8 @@ namespace Implem.Pleasanter.Models
                             .AsEnumerable()
                             .ForEach(dataRow =>
                             {
-                                users.Add(dataRow["Creator"].ToLong());
-                                users.Add(dataRow["Updator"].ToLong());
+                                users.Add(dataRow.Long("Creator"));
+                                users.Add(dataRow.Long("Updator"));
                             });
                     notification.ReplaceRelatedUsers(users);
                 }

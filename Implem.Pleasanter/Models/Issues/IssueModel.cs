@@ -3352,10 +3352,10 @@ namespace Implem.Pleasanter.Models
                             .AsEnumerable()
                             .ForEach(dataRow =>
                             {
-                                users.Add(dataRow["Manager"].ToLong());
-                                users.Add(dataRow["Owner"].ToLong());
-                                users.Add(dataRow["Creator"].ToLong());
-                                users.Add(dataRow["Updator"].ToLong());
+                                users.Add(dataRow.Long("Manager"));
+                                users.Add(dataRow.Long("Owner"));
+                                users.Add(dataRow.Long("Creator"));
+                                users.Add(dataRow.Long("Updator"));
                             });
                     notification.ReplaceRelatedUsers(users);
                 }
