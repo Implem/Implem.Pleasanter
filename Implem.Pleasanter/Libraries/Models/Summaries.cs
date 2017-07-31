@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.Models
         public static void Synchronize(SiteSettings ss, int id)
         {
             var summary = ss.Summaries?.Get(id);
+            Synchronize(ss, summary);
         }
 
         public static void Synchronize(SiteSettings ss, Summary summary)
