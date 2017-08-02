@@ -2140,7 +2140,7 @@ namespace Implem.Pleasanter.Models
                     break;
                 default: return string.Empty;
             }
-            return "\"" + value.Replace("\"", "\"\"") + "\"";
+            return "\"" + value?.Replace("\"", "\"\"") + "\"";
         }
 
         public List<long> SwitchTargets;
