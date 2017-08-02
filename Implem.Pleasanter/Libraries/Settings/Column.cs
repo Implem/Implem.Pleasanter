@@ -299,11 +299,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return !Required && ValidateRequired != true;
         }
 
-        public Choice Choice(string selectedValue)
+        public Choice Choice(string selectedValue, string nullCase = null)
         {
             return ChoiceHash != null && ChoiceHash.ContainsKey(selectedValue)
                 ? ChoiceHash[selectedValue]
-                : new Choice(string.Empty);
+                : new Choice(nullCase);
         }
 
         public string ChoicePart(string selectedValue, ExportColumn.Types? type)

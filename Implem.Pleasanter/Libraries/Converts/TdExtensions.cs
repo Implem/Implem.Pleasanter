@@ -29,7 +29,11 @@ namespace Implem.Pleasanter.Libraries.Converts
             return column.HasChoices()
                 ? hb.Td(action: () =>
                 {
-                    var choice = column.Choice(value);
+                    var choice = column.Choice(
+                        value,
+                        nullCase: value.IsNullOrEmpty()
+                            ? null
+                            : "? " + value);
                     hb.P(
                         attributes: new HtmlAttributes()
                             .Class(choice.CssClass)
