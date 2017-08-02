@@ -165,13 +165,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             else if (groupBy.HasChoices())
             {
                 var label = groupBy.Choice(selectedValue).TextMini;
-                if (groupBy.TypeName.CsTypeSummary() == Types.CsNumeric && label == "0")
-                {
-                    return Displays.NotSet();
-                }
-                return label != string.Empty
-                    ? label
-                    : Displays.NotSet();
+                return label.IsNullOrEmpty()
+                    ? Displays.NotSet()
+                    : label;
             }
             else
             {
