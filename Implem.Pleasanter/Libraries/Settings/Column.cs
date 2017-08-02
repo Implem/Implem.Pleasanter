@@ -308,12 +308,13 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string ChoicePart(string selectedValue, ExportColumn.Types? type)
         {
+            var choice = Choice(selectedValue, nullCase: selectedValue);
             switch (type)
             {
-                case ExportColumn.Types.Value: return Choice(selectedValue).Value;
-                case ExportColumn.Types.Text: return Choice(selectedValue).Text;
-                case ExportColumn.Types.TextMini: return Choice(selectedValue).TextMini;
-                default: return Choice(selectedValue).Text;
+                case ExportColumn.Types.Value: return choice.Value;
+                case ExportColumn.Types.Text: return choice.Text;
+                case ExportColumn.Types.TextMini: return choice.TextMini;
+                default: return choice.Text;
             }
         }
 
