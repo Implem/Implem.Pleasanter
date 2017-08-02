@@ -203,12 +203,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string DataValue(Column groupBy, string key)
         {
-            if (groupBy.UserColumn)
+            switch (groupBy.ColumnName)
             {
-                if (User.UserTypes.Anonymous.ToInt().ToString() == key)
-                {
-                    return "\t";
-                }
+                case "Status":
+                    if (key == "0")
+                    {
+                        return "\t";
+                    }
+                    break;
+                default:
+                    if (groupBy.UserColumn)
+                    {
+                        if (User.UserTypes.Anonymous.ToInt().ToString() == key)
+                        {
+                            return "\t";
+                        }
+                    }
+                    break;
             }
             return key != string.Empty ? key : "\t";
         }
