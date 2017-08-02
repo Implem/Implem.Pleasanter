@@ -349,7 +349,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.First())
                         .ToDictionary(o => o.Value.Text, o => o.Key);
                 }
-                recordingData = ChoiceValueHash.Get(value);
+                recordingData = ChoiceValueHash.Get(value) ?? value;
             }
             return recordingData ?? string.Empty;
         }
