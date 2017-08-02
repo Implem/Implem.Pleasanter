@@ -257,6 +257,7 @@ namespace Implem.DefinitionAccessor
                     case "Base_Property": Code.Base_Property = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_Property, definitionRow, CodeXls); break;
                     case "Base_PropertyCalc": Code.Base_PropertyCalc = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_PropertyCalc, definitionRow, CodeXls); break;
                     case "Base_SavedProperty": Code.Base_SavedProperty = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_SavedProperty, definitionRow, CodeXls); break;
+                    case "Base_SavedProperty_Attachments": Code.Base_SavedProperty_Attachments = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_SavedProperty_Attachments, definitionRow, CodeXls); break;
                     case "Base_PropertyUpdated": Code.Base_PropertyUpdated = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_PropertyUpdated, definitionRow, CodeXls); break;
                     case "Base_PropertyUpdated_NotNull": Code.Base_PropertyUpdated_NotNull = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_PropertyUpdated_NotNull, definitionRow, CodeXls); break;
                     case "Model": Code.Model = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model, definitionRow, CodeXls); break;
@@ -4451,6 +4452,7 @@ namespace Implem.DefinitionAccessor
         public string Base_Property;
         public string Base_PropertyCalc;
         public string Base_SavedProperty;
+        public string Base_SavedProperty_Attachments;
         public string Base_PropertyUpdated;
         public string Base_PropertyUpdated_NotNull;
         public string Model;
@@ -4919,6 +4921,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Base_Property = new CodeDefinition();
         public CodeDefinition Base_PropertyCalc = new CodeDefinition();
         public CodeDefinition Base_SavedProperty = new CodeDefinition();
+        public CodeDefinition Base_SavedProperty_Attachments = new CodeDefinition();
         public CodeDefinition Base_PropertyUpdated = new CodeDefinition();
         public CodeDefinition Base_PropertyUpdated_NotNull = new CodeDefinition();
         public CodeDefinition Model = new CodeDefinition();

@@ -320,32 +320,32 @@ namespace Implem.Pleasanter.Models
         public bool SavedCheckX = false;
         public bool SavedCheckY = false;
         public bool SavedCheckZ = false;
-        public string SavedAttachmentA = string.Empty;
-        public string SavedAttachmentB = string.Empty;
-        public string SavedAttachmentC = string.Empty;
-        public string SavedAttachmentD = string.Empty;
-        public string SavedAttachmentE = string.Empty;
-        public string SavedAttachmentF = string.Empty;
-        public string SavedAttachmentG = string.Empty;
-        public string SavedAttachmentH = string.Empty;
-        public string SavedAttachmentI = string.Empty;
-        public string SavedAttachmentJ = string.Empty;
-        public string SavedAttachmentK = string.Empty;
-        public string SavedAttachmentL = string.Empty;
-        public string SavedAttachmentM = string.Empty;
-        public string SavedAttachmentN = string.Empty;
-        public string SavedAttachmentO = string.Empty;
-        public string SavedAttachmentP = string.Empty;
-        public string SavedAttachmentQ = string.Empty;
-        public string SavedAttachmentR = string.Empty;
-        public string SavedAttachmentS = string.Empty;
-        public string SavedAttachmentT = string.Empty;
-        public string SavedAttachmentU = string.Empty;
-        public string SavedAttachmentV = string.Empty;
-        public string SavedAttachmentW = string.Empty;
-        public string SavedAttachmentX = string.Empty;
-        public string SavedAttachmentY = string.Empty;
-        public string SavedAttachmentZ = string.Empty;
+        public string SavedAttachmentA = "[]";
+        public string SavedAttachmentB = "[]";
+        public string SavedAttachmentC = "[]";
+        public string SavedAttachmentD = "[]";
+        public string SavedAttachmentE = "[]";
+        public string SavedAttachmentF = "[]";
+        public string SavedAttachmentG = "[]";
+        public string SavedAttachmentH = "[]";
+        public string SavedAttachmentI = "[]";
+        public string SavedAttachmentJ = "[]";
+        public string SavedAttachmentK = "[]";
+        public string SavedAttachmentL = "[]";
+        public string SavedAttachmentM = "[]";
+        public string SavedAttachmentN = "[]";
+        public string SavedAttachmentO = "[]";
+        public string SavedAttachmentP = "[]";
+        public string SavedAttachmentQ = "[]";
+        public string SavedAttachmentR = "[]";
+        public string SavedAttachmentS = "[]";
+        public string SavedAttachmentT = "[]";
+        public string SavedAttachmentU = "[]";
+        public string SavedAttachmentV = "[]";
+        public string SavedAttachmentW = "[]";
+        public string SavedAttachmentX = "[]";
+        public string SavedAttachmentY = "[]";
+        public string SavedAttachmentZ = "[]";
         public bool Status_Updated { get { return Status.Value != SavedStatus; } }
         public bool Manager_Updated { get { return Manager.Id != SavedManager; } }
         public bool Owner_Updated { get { return Owner.Id != SavedOwner; } }
@@ -2081,7 +2081,7 @@ namespace Implem.Pleasanter.Models
                     break;
                 default: return string.Empty;
             }
-            return "\"" + value.Replace("\"", "\"\"") + "\"";
+            return "\"" + value?.Replace("\"", "\"\"") + "\"";
         }
 
         public List<long> SwitchTargets;
