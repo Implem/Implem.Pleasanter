@@ -886,158 +886,158 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentA":
-                        if (!ss.GetColumn("AttachmentA").CanCreate)
+                    case "Issues_AttachmentsA":
+                        if (!ss.GetColumn("AttachmentsA").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentB":
-                        if (!ss.GetColumn("AttachmentB").CanCreate)
+                    case "Issues_AttachmentsB":
+                        if (!ss.GetColumn("AttachmentsB").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentC":
-                        if (!ss.GetColumn("AttachmentC").CanCreate)
+                    case "Issues_AttachmentsC":
+                        if (!ss.GetColumn("AttachmentsC").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentD":
-                        if (!ss.GetColumn("AttachmentD").CanCreate)
+                    case "Issues_AttachmentsD":
+                        if (!ss.GetColumn("AttachmentsD").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentE":
-                        if (!ss.GetColumn("AttachmentE").CanCreate)
+                    case "Issues_AttachmentsE":
+                        if (!ss.GetColumn("AttachmentsE").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentF":
-                        if (!ss.GetColumn("AttachmentF").CanCreate)
+                    case "Issues_AttachmentsF":
+                        if (!ss.GetColumn("AttachmentsF").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentG":
-                        if (!ss.GetColumn("AttachmentG").CanCreate)
+                    case "Issues_AttachmentsG":
+                        if (!ss.GetColumn("AttachmentsG").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentH":
-                        if (!ss.GetColumn("AttachmentH").CanCreate)
+                    case "Issues_AttachmentsH":
+                        if (!ss.GetColumn("AttachmentsH").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentI":
-                        if (!ss.GetColumn("AttachmentI").CanCreate)
+                    case "Issues_AttachmentsI":
+                        if (!ss.GetColumn("AttachmentsI").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentJ":
-                        if (!ss.GetColumn("AttachmentJ").CanCreate)
+                    case "Issues_AttachmentsJ":
+                        if (!ss.GetColumn("AttachmentsJ").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentK":
-                        if (!ss.GetColumn("AttachmentK").CanCreate)
+                    case "Issues_AttachmentsK":
+                        if (!ss.GetColumn("AttachmentsK").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentL":
-                        if (!ss.GetColumn("AttachmentL").CanCreate)
+                    case "Issues_AttachmentsL":
+                        if (!ss.GetColumn("AttachmentsL").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentM":
-                        if (!ss.GetColumn("AttachmentM").CanCreate)
+                    case "Issues_AttachmentsM":
+                        if (!ss.GetColumn("AttachmentsM").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentN":
-                        if (!ss.GetColumn("AttachmentN").CanCreate)
+                    case "Issues_AttachmentsN":
+                        if (!ss.GetColumn("AttachmentsN").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentO":
-                        if (!ss.GetColumn("AttachmentO").CanCreate)
+                    case "Issues_AttachmentsO":
+                        if (!ss.GetColumn("AttachmentsO").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentP":
-                        if (!ss.GetColumn("AttachmentP").CanCreate)
+                    case "Issues_AttachmentsP":
+                        if (!ss.GetColumn("AttachmentsP").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentQ":
-                        if (!ss.GetColumn("AttachmentQ").CanCreate)
+                    case "Issues_AttachmentsQ":
+                        if (!ss.GetColumn("AttachmentsQ").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentR":
-                        if (!ss.GetColumn("AttachmentR").CanCreate)
+                    case "Issues_AttachmentsR":
+                        if (!ss.GetColumn("AttachmentsR").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentS":
-                        if (!ss.GetColumn("AttachmentS").CanCreate)
+                    case "Issues_AttachmentsS":
+                        if (!ss.GetColumn("AttachmentsS").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentT":
-                        if (!ss.GetColumn("AttachmentT").CanCreate)
+                    case "Issues_AttachmentsT":
+                        if (!ss.GetColumn("AttachmentsT").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentU":
-                        if (!ss.GetColumn("AttachmentU").CanCreate)
+                    case "Issues_AttachmentsU":
+                        if (!ss.GetColumn("AttachmentsU").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentV":
-                        if (!ss.GetColumn("AttachmentV").CanCreate)
+                    case "Issues_AttachmentsV":
+                        if (!ss.GetColumn("AttachmentsV").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentW":
-                        if (!ss.GetColumn("AttachmentW").CanCreate)
+                    case "Issues_AttachmentsW":
+                        if (!ss.GetColumn("AttachmentsW").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentX":
-                        if (!ss.GetColumn("AttachmentX").CanCreate)
+                    case "Issues_AttachmentsX":
+                        if (!ss.GetColumn("AttachmentsX").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentY":
-                        if (!ss.GetColumn("AttachmentY").CanCreate)
+                    case "Issues_AttachmentsY":
+                        if (!ss.GetColumn("AttachmentsY").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentZ":
-                        if (!ss.GetColumn("AttachmentZ").CanCreate)
+                    case "Issues_AttachmentsZ":
+                        if (!ss.GetColumn("AttachmentsZ").CanCreate)
                         {
                             return Error.Types.HasNotPermission;
                         }
@@ -2037,184 +2037,184 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentA":
-                        if (issueModel.AttachmentA_Updated &&
-                            !ss.GetColumn("AttachmentA").CanUpdate)
+                    case "Issues_AttachmentsA":
+                        if (issueModel.AttachmentsA_Updated &&
+                            !ss.GetColumn("AttachmentsA").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentB":
-                        if (issueModel.AttachmentB_Updated &&
-                            !ss.GetColumn("AttachmentB").CanUpdate)
+                    case "Issues_AttachmentsB":
+                        if (issueModel.AttachmentsB_Updated &&
+                            !ss.GetColumn("AttachmentsB").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentC":
-                        if (issueModel.AttachmentC_Updated &&
-                            !ss.GetColumn("AttachmentC").CanUpdate)
+                    case "Issues_AttachmentsC":
+                        if (issueModel.AttachmentsC_Updated &&
+                            !ss.GetColumn("AttachmentsC").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentD":
-                        if (issueModel.AttachmentD_Updated &&
-                            !ss.GetColumn("AttachmentD").CanUpdate)
+                    case "Issues_AttachmentsD":
+                        if (issueModel.AttachmentsD_Updated &&
+                            !ss.GetColumn("AttachmentsD").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentE":
-                        if (issueModel.AttachmentE_Updated &&
-                            !ss.GetColumn("AttachmentE").CanUpdate)
+                    case "Issues_AttachmentsE":
+                        if (issueModel.AttachmentsE_Updated &&
+                            !ss.GetColumn("AttachmentsE").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentF":
-                        if (issueModel.AttachmentF_Updated &&
-                            !ss.GetColumn("AttachmentF").CanUpdate)
+                    case "Issues_AttachmentsF":
+                        if (issueModel.AttachmentsF_Updated &&
+                            !ss.GetColumn("AttachmentsF").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentG":
-                        if (issueModel.AttachmentG_Updated &&
-                            !ss.GetColumn("AttachmentG").CanUpdate)
+                    case "Issues_AttachmentsG":
+                        if (issueModel.AttachmentsG_Updated &&
+                            !ss.GetColumn("AttachmentsG").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentH":
-                        if (issueModel.AttachmentH_Updated &&
-                            !ss.GetColumn("AttachmentH").CanUpdate)
+                    case "Issues_AttachmentsH":
+                        if (issueModel.AttachmentsH_Updated &&
+                            !ss.GetColumn("AttachmentsH").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentI":
-                        if (issueModel.AttachmentI_Updated &&
-                            !ss.GetColumn("AttachmentI").CanUpdate)
+                    case "Issues_AttachmentsI":
+                        if (issueModel.AttachmentsI_Updated &&
+                            !ss.GetColumn("AttachmentsI").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentJ":
-                        if (issueModel.AttachmentJ_Updated &&
-                            !ss.GetColumn("AttachmentJ").CanUpdate)
+                    case "Issues_AttachmentsJ":
+                        if (issueModel.AttachmentsJ_Updated &&
+                            !ss.GetColumn("AttachmentsJ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentK":
-                        if (issueModel.AttachmentK_Updated &&
-                            !ss.GetColumn("AttachmentK").CanUpdate)
+                    case "Issues_AttachmentsK":
+                        if (issueModel.AttachmentsK_Updated &&
+                            !ss.GetColumn("AttachmentsK").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentL":
-                        if (issueModel.AttachmentL_Updated &&
-                            !ss.GetColumn("AttachmentL").CanUpdate)
+                    case "Issues_AttachmentsL":
+                        if (issueModel.AttachmentsL_Updated &&
+                            !ss.GetColumn("AttachmentsL").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentM":
-                        if (issueModel.AttachmentM_Updated &&
-                            !ss.GetColumn("AttachmentM").CanUpdate)
+                    case "Issues_AttachmentsM":
+                        if (issueModel.AttachmentsM_Updated &&
+                            !ss.GetColumn("AttachmentsM").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentN":
-                        if (issueModel.AttachmentN_Updated &&
-                            !ss.GetColumn("AttachmentN").CanUpdate)
+                    case "Issues_AttachmentsN":
+                        if (issueModel.AttachmentsN_Updated &&
+                            !ss.GetColumn("AttachmentsN").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentO":
-                        if (issueModel.AttachmentO_Updated &&
-                            !ss.GetColumn("AttachmentO").CanUpdate)
+                    case "Issues_AttachmentsO":
+                        if (issueModel.AttachmentsO_Updated &&
+                            !ss.GetColumn("AttachmentsO").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentP":
-                        if (issueModel.AttachmentP_Updated &&
-                            !ss.GetColumn("AttachmentP").CanUpdate)
+                    case "Issues_AttachmentsP":
+                        if (issueModel.AttachmentsP_Updated &&
+                            !ss.GetColumn("AttachmentsP").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentQ":
-                        if (issueModel.AttachmentQ_Updated &&
-                            !ss.GetColumn("AttachmentQ").CanUpdate)
+                    case "Issues_AttachmentsQ":
+                        if (issueModel.AttachmentsQ_Updated &&
+                            !ss.GetColumn("AttachmentsQ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentR":
-                        if (issueModel.AttachmentR_Updated &&
-                            !ss.GetColumn("AttachmentR").CanUpdate)
+                    case "Issues_AttachmentsR":
+                        if (issueModel.AttachmentsR_Updated &&
+                            !ss.GetColumn("AttachmentsR").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentS":
-                        if (issueModel.AttachmentS_Updated &&
-                            !ss.GetColumn("AttachmentS").CanUpdate)
+                    case "Issues_AttachmentsS":
+                        if (issueModel.AttachmentsS_Updated &&
+                            !ss.GetColumn("AttachmentsS").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentT":
-                        if (issueModel.AttachmentT_Updated &&
-                            !ss.GetColumn("AttachmentT").CanUpdate)
+                    case "Issues_AttachmentsT":
+                        if (issueModel.AttachmentsT_Updated &&
+                            !ss.GetColumn("AttachmentsT").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentU":
-                        if (issueModel.AttachmentU_Updated &&
-                            !ss.GetColumn("AttachmentU").CanUpdate)
+                    case "Issues_AttachmentsU":
+                        if (issueModel.AttachmentsU_Updated &&
+                            !ss.GetColumn("AttachmentsU").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentV":
-                        if (issueModel.AttachmentV_Updated &&
-                            !ss.GetColumn("AttachmentV").CanUpdate)
+                    case "Issues_AttachmentsV":
+                        if (issueModel.AttachmentsV_Updated &&
+                            !ss.GetColumn("AttachmentsV").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentW":
-                        if (issueModel.AttachmentW_Updated &&
-                            !ss.GetColumn("AttachmentW").CanUpdate)
+                    case "Issues_AttachmentsW":
+                        if (issueModel.AttachmentsW_Updated &&
+                            !ss.GetColumn("AttachmentsW").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentX":
-                        if (issueModel.AttachmentX_Updated &&
-                            !ss.GetColumn("AttachmentX").CanUpdate)
+                    case "Issues_AttachmentsX":
+                        if (issueModel.AttachmentsX_Updated &&
+                            !ss.GetColumn("AttachmentsX").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentY":
-                        if (issueModel.AttachmentY_Updated &&
-                            !ss.GetColumn("AttachmentY").CanUpdate)
+                    case "Issues_AttachmentsY":
+                        if (issueModel.AttachmentsY_Updated &&
+                            !ss.GetColumn("AttachmentsY").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
-                    case "Issues_AttachmentZ":
-                        if (issueModel.AttachmentZ_Updated &&
-                            !ss.GetColumn("AttachmentZ").CanUpdate)
+                    case "Issues_AttachmentsZ":
+                        if (issueModel.AttachmentsZ_Updated &&
+                            !ss.GetColumn("AttachmentsZ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }

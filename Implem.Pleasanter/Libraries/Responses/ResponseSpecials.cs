@@ -1698,110 +1698,110 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static IssuesResponseCollection CheckZ(this IssuesResponseCollection res, string value) { return res.Val("#Issues_CheckZ", value); }
         public static IssuesResponseCollection CheckZ_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_CheckZ", res.IssueModel.CheckZ.ToResponse()); }
         public static IssuesResponseCollection CheckZ_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_CheckZ", value); }
-        public static IssuesResponseCollection AttachmentA(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentA", res.IssueModel.AttachmentA.ToResponse()); }
-        public static IssuesResponseCollection AttachmentA(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentA", value); }
-        public static IssuesResponseCollection AttachmentA_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentA", res.IssueModel.AttachmentA.ToResponse()); }
-        public static IssuesResponseCollection AttachmentA_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentA", value); }
-        public static IssuesResponseCollection AttachmentB(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentB", res.IssueModel.AttachmentB.ToResponse()); }
-        public static IssuesResponseCollection AttachmentB(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentB", value); }
-        public static IssuesResponseCollection AttachmentB_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentB", res.IssueModel.AttachmentB.ToResponse()); }
-        public static IssuesResponseCollection AttachmentB_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentB", value); }
-        public static IssuesResponseCollection AttachmentC(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentC", res.IssueModel.AttachmentC.ToResponse()); }
-        public static IssuesResponseCollection AttachmentC(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentC", value); }
-        public static IssuesResponseCollection AttachmentC_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentC", res.IssueModel.AttachmentC.ToResponse()); }
-        public static IssuesResponseCollection AttachmentC_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentC", value); }
-        public static IssuesResponseCollection AttachmentD(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentD", res.IssueModel.AttachmentD.ToResponse()); }
-        public static IssuesResponseCollection AttachmentD(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentD", value); }
-        public static IssuesResponseCollection AttachmentD_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentD", res.IssueModel.AttachmentD.ToResponse()); }
-        public static IssuesResponseCollection AttachmentD_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentD", value); }
-        public static IssuesResponseCollection AttachmentE(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentE", res.IssueModel.AttachmentE.ToResponse()); }
-        public static IssuesResponseCollection AttachmentE(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentE", value); }
-        public static IssuesResponseCollection AttachmentE_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentE", res.IssueModel.AttachmentE.ToResponse()); }
-        public static IssuesResponseCollection AttachmentE_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentE", value); }
-        public static IssuesResponseCollection AttachmentF(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentF", res.IssueModel.AttachmentF.ToResponse()); }
-        public static IssuesResponseCollection AttachmentF(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentF", value); }
-        public static IssuesResponseCollection AttachmentF_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentF", res.IssueModel.AttachmentF.ToResponse()); }
-        public static IssuesResponseCollection AttachmentF_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentF", value); }
-        public static IssuesResponseCollection AttachmentG(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentG", res.IssueModel.AttachmentG.ToResponse()); }
-        public static IssuesResponseCollection AttachmentG(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentG", value); }
-        public static IssuesResponseCollection AttachmentG_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentG", res.IssueModel.AttachmentG.ToResponse()); }
-        public static IssuesResponseCollection AttachmentG_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentG", value); }
-        public static IssuesResponseCollection AttachmentH(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentH", res.IssueModel.AttachmentH.ToResponse()); }
-        public static IssuesResponseCollection AttachmentH(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentH", value); }
-        public static IssuesResponseCollection AttachmentH_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentH", res.IssueModel.AttachmentH.ToResponse()); }
-        public static IssuesResponseCollection AttachmentH_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentH", value); }
-        public static IssuesResponseCollection AttachmentI(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentI", res.IssueModel.AttachmentI.ToResponse()); }
-        public static IssuesResponseCollection AttachmentI(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentI", value); }
-        public static IssuesResponseCollection AttachmentI_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentI", res.IssueModel.AttachmentI.ToResponse()); }
-        public static IssuesResponseCollection AttachmentI_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentI", value); }
-        public static IssuesResponseCollection AttachmentJ(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentJ", res.IssueModel.AttachmentJ.ToResponse()); }
-        public static IssuesResponseCollection AttachmentJ(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentJ", value); }
-        public static IssuesResponseCollection AttachmentJ_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentJ", res.IssueModel.AttachmentJ.ToResponse()); }
-        public static IssuesResponseCollection AttachmentJ_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentJ", value); }
-        public static IssuesResponseCollection AttachmentK(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentK", res.IssueModel.AttachmentK.ToResponse()); }
-        public static IssuesResponseCollection AttachmentK(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentK", value); }
-        public static IssuesResponseCollection AttachmentK_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentK", res.IssueModel.AttachmentK.ToResponse()); }
-        public static IssuesResponseCollection AttachmentK_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentK", value); }
-        public static IssuesResponseCollection AttachmentL(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentL", res.IssueModel.AttachmentL.ToResponse()); }
-        public static IssuesResponseCollection AttachmentL(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentL", value); }
-        public static IssuesResponseCollection AttachmentL_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentL", res.IssueModel.AttachmentL.ToResponse()); }
-        public static IssuesResponseCollection AttachmentL_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentL", value); }
-        public static IssuesResponseCollection AttachmentM(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentM", res.IssueModel.AttachmentM.ToResponse()); }
-        public static IssuesResponseCollection AttachmentM(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentM", value); }
-        public static IssuesResponseCollection AttachmentM_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentM", res.IssueModel.AttachmentM.ToResponse()); }
-        public static IssuesResponseCollection AttachmentM_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentM", value); }
-        public static IssuesResponseCollection AttachmentN(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentN", res.IssueModel.AttachmentN.ToResponse()); }
-        public static IssuesResponseCollection AttachmentN(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentN", value); }
-        public static IssuesResponseCollection AttachmentN_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentN", res.IssueModel.AttachmentN.ToResponse()); }
-        public static IssuesResponseCollection AttachmentN_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentN", value); }
-        public static IssuesResponseCollection AttachmentO(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentO", res.IssueModel.AttachmentO.ToResponse()); }
-        public static IssuesResponseCollection AttachmentO(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentO", value); }
-        public static IssuesResponseCollection AttachmentO_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentO", res.IssueModel.AttachmentO.ToResponse()); }
-        public static IssuesResponseCollection AttachmentO_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentO", value); }
-        public static IssuesResponseCollection AttachmentP(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentP", res.IssueModel.AttachmentP.ToResponse()); }
-        public static IssuesResponseCollection AttachmentP(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentP", value); }
-        public static IssuesResponseCollection AttachmentP_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentP", res.IssueModel.AttachmentP.ToResponse()); }
-        public static IssuesResponseCollection AttachmentP_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentP", value); }
-        public static IssuesResponseCollection AttachmentQ(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentQ", res.IssueModel.AttachmentQ.ToResponse()); }
-        public static IssuesResponseCollection AttachmentQ(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentQ", value); }
-        public static IssuesResponseCollection AttachmentQ_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentQ", res.IssueModel.AttachmentQ.ToResponse()); }
-        public static IssuesResponseCollection AttachmentQ_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentQ", value); }
-        public static IssuesResponseCollection AttachmentR(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentR", res.IssueModel.AttachmentR.ToResponse()); }
-        public static IssuesResponseCollection AttachmentR(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentR", value); }
-        public static IssuesResponseCollection AttachmentR_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentR", res.IssueModel.AttachmentR.ToResponse()); }
-        public static IssuesResponseCollection AttachmentR_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentR", value); }
-        public static IssuesResponseCollection AttachmentS(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentS", res.IssueModel.AttachmentS.ToResponse()); }
-        public static IssuesResponseCollection AttachmentS(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentS", value); }
-        public static IssuesResponseCollection AttachmentS_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentS", res.IssueModel.AttachmentS.ToResponse()); }
-        public static IssuesResponseCollection AttachmentS_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentS", value); }
-        public static IssuesResponseCollection AttachmentT(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentT", res.IssueModel.AttachmentT.ToResponse()); }
-        public static IssuesResponseCollection AttachmentT(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentT", value); }
-        public static IssuesResponseCollection AttachmentT_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentT", res.IssueModel.AttachmentT.ToResponse()); }
-        public static IssuesResponseCollection AttachmentT_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentT", value); }
-        public static IssuesResponseCollection AttachmentU(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentU", res.IssueModel.AttachmentU.ToResponse()); }
-        public static IssuesResponseCollection AttachmentU(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentU", value); }
-        public static IssuesResponseCollection AttachmentU_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentU", res.IssueModel.AttachmentU.ToResponse()); }
-        public static IssuesResponseCollection AttachmentU_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentU", value); }
-        public static IssuesResponseCollection AttachmentV(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentV", res.IssueModel.AttachmentV.ToResponse()); }
-        public static IssuesResponseCollection AttachmentV(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentV", value); }
-        public static IssuesResponseCollection AttachmentV_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentV", res.IssueModel.AttachmentV.ToResponse()); }
-        public static IssuesResponseCollection AttachmentV_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentV", value); }
-        public static IssuesResponseCollection AttachmentW(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentW", res.IssueModel.AttachmentW.ToResponse()); }
-        public static IssuesResponseCollection AttachmentW(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentW", value); }
-        public static IssuesResponseCollection AttachmentW_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentW", res.IssueModel.AttachmentW.ToResponse()); }
-        public static IssuesResponseCollection AttachmentW_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentW", value); }
-        public static IssuesResponseCollection AttachmentX(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentX", res.IssueModel.AttachmentX.ToResponse()); }
-        public static IssuesResponseCollection AttachmentX(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentX", value); }
-        public static IssuesResponseCollection AttachmentX_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentX", res.IssueModel.AttachmentX.ToResponse()); }
-        public static IssuesResponseCollection AttachmentX_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentX", value); }
-        public static IssuesResponseCollection AttachmentY(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentY", res.IssueModel.AttachmentY.ToResponse()); }
-        public static IssuesResponseCollection AttachmentY(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentY", value); }
-        public static IssuesResponseCollection AttachmentY_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentY", res.IssueModel.AttachmentY.ToResponse()); }
-        public static IssuesResponseCollection AttachmentY_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentY", value); }
-        public static IssuesResponseCollection AttachmentZ(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentZ", res.IssueModel.AttachmentZ.ToResponse()); }
-        public static IssuesResponseCollection AttachmentZ(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentZ", value); }
-        public static IssuesResponseCollection AttachmentZ_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentZ", res.IssueModel.AttachmentZ.ToResponse()); }
-        public static IssuesResponseCollection AttachmentZ_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentZ", value); }
+        public static IssuesResponseCollection AttachmentsA(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsA", res.IssueModel.AttachmentsA.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsA(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsA", value); }
+        public static IssuesResponseCollection AttachmentsA_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsA", res.IssueModel.AttachmentsA.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsA_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsA", value); }
+        public static IssuesResponseCollection AttachmentsB(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsB", res.IssueModel.AttachmentsB.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsB(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsB", value); }
+        public static IssuesResponseCollection AttachmentsB_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsB", res.IssueModel.AttachmentsB.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsB_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsB", value); }
+        public static IssuesResponseCollection AttachmentsC(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsC", res.IssueModel.AttachmentsC.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsC(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsC", value); }
+        public static IssuesResponseCollection AttachmentsC_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsC", res.IssueModel.AttachmentsC.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsC_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsC", value); }
+        public static IssuesResponseCollection AttachmentsD(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsD", res.IssueModel.AttachmentsD.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsD(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsD", value); }
+        public static IssuesResponseCollection AttachmentsD_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsD", res.IssueModel.AttachmentsD.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsD_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsD", value); }
+        public static IssuesResponseCollection AttachmentsE(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsE", res.IssueModel.AttachmentsE.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsE(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsE", value); }
+        public static IssuesResponseCollection AttachmentsE_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsE", res.IssueModel.AttachmentsE.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsE_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsE", value); }
+        public static IssuesResponseCollection AttachmentsF(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsF", res.IssueModel.AttachmentsF.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsF(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsF", value); }
+        public static IssuesResponseCollection AttachmentsF_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsF", res.IssueModel.AttachmentsF.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsF_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsF", value); }
+        public static IssuesResponseCollection AttachmentsG(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsG", res.IssueModel.AttachmentsG.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsG(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsG", value); }
+        public static IssuesResponseCollection AttachmentsG_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsG", res.IssueModel.AttachmentsG.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsG_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsG", value); }
+        public static IssuesResponseCollection AttachmentsH(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsH", res.IssueModel.AttachmentsH.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsH(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsH", value); }
+        public static IssuesResponseCollection AttachmentsH_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsH", res.IssueModel.AttachmentsH.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsH_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsH", value); }
+        public static IssuesResponseCollection AttachmentsI(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsI", res.IssueModel.AttachmentsI.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsI(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsI", value); }
+        public static IssuesResponseCollection AttachmentsI_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsI", res.IssueModel.AttachmentsI.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsI_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsI", value); }
+        public static IssuesResponseCollection AttachmentsJ(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsJ", res.IssueModel.AttachmentsJ.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsJ(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsJ", value); }
+        public static IssuesResponseCollection AttachmentsJ_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsJ", res.IssueModel.AttachmentsJ.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsJ_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsJ", value); }
+        public static IssuesResponseCollection AttachmentsK(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsK", res.IssueModel.AttachmentsK.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsK(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsK", value); }
+        public static IssuesResponseCollection AttachmentsK_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsK", res.IssueModel.AttachmentsK.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsK_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsK", value); }
+        public static IssuesResponseCollection AttachmentsL(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsL", res.IssueModel.AttachmentsL.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsL(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsL", value); }
+        public static IssuesResponseCollection AttachmentsL_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsL", res.IssueModel.AttachmentsL.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsL_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsL", value); }
+        public static IssuesResponseCollection AttachmentsM(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsM", res.IssueModel.AttachmentsM.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsM(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsM", value); }
+        public static IssuesResponseCollection AttachmentsM_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsM", res.IssueModel.AttachmentsM.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsM_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsM", value); }
+        public static IssuesResponseCollection AttachmentsN(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsN", res.IssueModel.AttachmentsN.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsN(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsN", value); }
+        public static IssuesResponseCollection AttachmentsN_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsN", res.IssueModel.AttachmentsN.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsN_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsN", value); }
+        public static IssuesResponseCollection AttachmentsO(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsO", res.IssueModel.AttachmentsO.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsO(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsO", value); }
+        public static IssuesResponseCollection AttachmentsO_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsO", res.IssueModel.AttachmentsO.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsO_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsO", value); }
+        public static IssuesResponseCollection AttachmentsP(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsP", res.IssueModel.AttachmentsP.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsP(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsP", value); }
+        public static IssuesResponseCollection AttachmentsP_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsP", res.IssueModel.AttachmentsP.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsP_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsP", value); }
+        public static IssuesResponseCollection AttachmentsQ(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsQ", res.IssueModel.AttachmentsQ.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsQ(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsQ", value); }
+        public static IssuesResponseCollection AttachmentsQ_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsQ", res.IssueModel.AttachmentsQ.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsQ_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsQ", value); }
+        public static IssuesResponseCollection AttachmentsR(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsR", res.IssueModel.AttachmentsR.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsR(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsR", value); }
+        public static IssuesResponseCollection AttachmentsR_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsR", res.IssueModel.AttachmentsR.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsR_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsR", value); }
+        public static IssuesResponseCollection AttachmentsS(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsS", res.IssueModel.AttachmentsS.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsS(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsS", value); }
+        public static IssuesResponseCollection AttachmentsS_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsS", res.IssueModel.AttachmentsS.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsS_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsS", value); }
+        public static IssuesResponseCollection AttachmentsT(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsT", res.IssueModel.AttachmentsT.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsT(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsT", value); }
+        public static IssuesResponseCollection AttachmentsT_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsT", res.IssueModel.AttachmentsT.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsT_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsT", value); }
+        public static IssuesResponseCollection AttachmentsU(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsU", res.IssueModel.AttachmentsU.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsU(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsU", value); }
+        public static IssuesResponseCollection AttachmentsU_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsU", res.IssueModel.AttachmentsU.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsU_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsU", value); }
+        public static IssuesResponseCollection AttachmentsV(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsV", res.IssueModel.AttachmentsV.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsV(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsV", value); }
+        public static IssuesResponseCollection AttachmentsV_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsV", res.IssueModel.AttachmentsV.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsV_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsV", value); }
+        public static IssuesResponseCollection AttachmentsW(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsW", res.IssueModel.AttachmentsW.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsW(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsW", value); }
+        public static IssuesResponseCollection AttachmentsW_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsW", res.IssueModel.AttachmentsW.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsW_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsW", value); }
+        public static IssuesResponseCollection AttachmentsX(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsX", res.IssueModel.AttachmentsX.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsX(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsX", value); }
+        public static IssuesResponseCollection AttachmentsX_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsX", res.IssueModel.AttachmentsX.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsX_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsX", value); }
+        public static IssuesResponseCollection AttachmentsY(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsY", res.IssueModel.AttachmentsY.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsY(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsY", value); }
+        public static IssuesResponseCollection AttachmentsY_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsY", res.IssueModel.AttachmentsY.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsY_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsY", value); }
+        public static IssuesResponseCollection AttachmentsZ(this IssuesResponseCollection res) { return res.Val("#Issues_AttachmentsZ", res.IssueModel.AttachmentsZ.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsZ(this IssuesResponseCollection res, string value) { return res.Val("#Issues_AttachmentsZ", value); }
+        public static IssuesResponseCollection AttachmentsZ_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_AttachmentsZ", res.IssueModel.AttachmentsZ.ToResponse()); }
+        public static IssuesResponseCollection AttachmentsZ_FormData(this IssuesResponseCollection res, string value) { return res.ValAndFormData("#Issues_AttachmentsZ", value); }
         public static IssuesResponseCollection Comments(this IssuesResponseCollection res) { return res.Val("#Issues_Comments", res.IssueModel.Comments.ToResponse()); }
         public static IssuesResponseCollection Comments(this IssuesResponseCollection res, string value) { return res.Val("#Issues_Comments", value); }
         public static IssuesResponseCollection Comments_FormData(this IssuesResponseCollection res) { return res.ValAndFormData("#Issues_Comments", res.IssueModel.Comments.ToResponse()); }
@@ -2366,110 +2366,110 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResultsResponseCollection CheckZ(this ResultsResponseCollection res, string value) { return res.Val("#Results_CheckZ", value); }
         public static ResultsResponseCollection CheckZ_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_CheckZ", res.ResultModel.CheckZ.ToResponse()); }
         public static ResultsResponseCollection CheckZ_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_CheckZ", value); }
-        public static ResultsResponseCollection AttachmentA(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentA", res.ResultModel.AttachmentA.ToResponse()); }
-        public static ResultsResponseCollection AttachmentA(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentA", value); }
-        public static ResultsResponseCollection AttachmentA_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentA", res.ResultModel.AttachmentA.ToResponse()); }
-        public static ResultsResponseCollection AttachmentA_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentA", value); }
-        public static ResultsResponseCollection AttachmentB(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentB", res.ResultModel.AttachmentB.ToResponse()); }
-        public static ResultsResponseCollection AttachmentB(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentB", value); }
-        public static ResultsResponseCollection AttachmentB_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentB", res.ResultModel.AttachmentB.ToResponse()); }
-        public static ResultsResponseCollection AttachmentB_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentB", value); }
-        public static ResultsResponseCollection AttachmentC(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentC", res.ResultModel.AttachmentC.ToResponse()); }
-        public static ResultsResponseCollection AttachmentC(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentC", value); }
-        public static ResultsResponseCollection AttachmentC_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentC", res.ResultModel.AttachmentC.ToResponse()); }
-        public static ResultsResponseCollection AttachmentC_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentC", value); }
-        public static ResultsResponseCollection AttachmentD(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentD", res.ResultModel.AttachmentD.ToResponse()); }
-        public static ResultsResponseCollection AttachmentD(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentD", value); }
-        public static ResultsResponseCollection AttachmentD_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentD", res.ResultModel.AttachmentD.ToResponse()); }
-        public static ResultsResponseCollection AttachmentD_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentD", value); }
-        public static ResultsResponseCollection AttachmentE(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentE", res.ResultModel.AttachmentE.ToResponse()); }
-        public static ResultsResponseCollection AttachmentE(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentE", value); }
-        public static ResultsResponseCollection AttachmentE_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentE", res.ResultModel.AttachmentE.ToResponse()); }
-        public static ResultsResponseCollection AttachmentE_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentE", value); }
-        public static ResultsResponseCollection AttachmentF(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentF", res.ResultModel.AttachmentF.ToResponse()); }
-        public static ResultsResponseCollection AttachmentF(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentF", value); }
-        public static ResultsResponseCollection AttachmentF_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentF", res.ResultModel.AttachmentF.ToResponse()); }
-        public static ResultsResponseCollection AttachmentF_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentF", value); }
-        public static ResultsResponseCollection AttachmentG(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentG", res.ResultModel.AttachmentG.ToResponse()); }
-        public static ResultsResponseCollection AttachmentG(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentG", value); }
-        public static ResultsResponseCollection AttachmentG_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentG", res.ResultModel.AttachmentG.ToResponse()); }
-        public static ResultsResponseCollection AttachmentG_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentG", value); }
-        public static ResultsResponseCollection AttachmentH(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentH", res.ResultModel.AttachmentH.ToResponse()); }
-        public static ResultsResponseCollection AttachmentH(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentH", value); }
-        public static ResultsResponseCollection AttachmentH_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentH", res.ResultModel.AttachmentH.ToResponse()); }
-        public static ResultsResponseCollection AttachmentH_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentH", value); }
-        public static ResultsResponseCollection AttachmentI(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentI", res.ResultModel.AttachmentI.ToResponse()); }
-        public static ResultsResponseCollection AttachmentI(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentI", value); }
-        public static ResultsResponseCollection AttachmentI_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentI", res.ResultModel.AttachmentI.ToResponse()); }
-        public static ResultsResponseCollection AttachmentI_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentI", value); }
-        public static ResultsResponseCollection AttachmentJ(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentJ", res.ResultModel.AttachmentJ.ToResponse()); }
-        public static ResultsResponseCollection AttachmentJ(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentJ", value); }
-        public static ResultsResponseCollection AttachmentJ_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentJ", res.ResultModel.AttachmentJ.ToResponse()); }
-        public static ResultsResponseCollection AttachmentJ_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentJ", value); }
-        public static ResultsResponseCollection AttachmentK(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentK", res.ResultModel.AttachmentK.ToResponse()); }
-        public static ResultsResponseCollection AttachmentK(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentK", value); }
-        public static ResultsResponseCollection AttachmentK_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentK", res.ResultModel.AttachmentK.ToResponse()); }
-        public static ResultsResponseCollection AttachmentK_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentK", value); }
-        public static ResultsResponseCollection AttachmentL(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentL", res.ResultModel.AttachmentL.ToResponse()); }
-        public static ResultsResponseCollection AttachmentL(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentL", value); }
-        public static ResultsResponseCollection AttachmentL_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentL", res.ResultModel.AttachmentL.ToResponse()); }
-        public static ResultsResponseCollection AttachmentL_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentL", value); }
-        public static ResultsResponseCollection AttachmentM(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentM", res.ResultModel.AttachmentM.ToResponse()); }
-        public static ResultsResponseCollection AttachmentM(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentM", value); }
-        public static ResultsResponseCollection AttachmentM_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentM", res.ResultModel.AttachmentM.ToResponse()); }
-        public static ResultsResponseCollection AttachmentM_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentM", value); }
-        public static ResultsResponseCollection AttachmentN(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentN", res.ResultModel.AttachmentN.ToResponse()); }
-        public static ResultsResponseCollection AttachmentN(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentN", value); }
-        public static ResultsResponseCollection AttachmentN_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentN", res.ResultModel.AttachmentN.ToResponse()); }
-        public static ResultsResponseCollection AttachmentN_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentN", value); }
-        public static ResultsResponseCollection AttachmentO(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentO", res.ResultModel.AttachmentO.ToResponse()); }
-        public static ResultsResponseCollection AttachmentO(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentO", value); }
-        public static ResultsResponseCollection AttachmentO_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentO", res.ResultModel.AttachmentO.ToResponse()); }
-        public static ResultsResponseCollection AttachmentO_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentO", value); }
-        public static ResultsResponseCollection AttachmentP(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentP", res.ResultModel.AttachmentP.ToResponse()); }
-        public static ResultsResponseCollection AttachmentP(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentP", value); }
-        public static ResultsResponseCollection AttachmentP_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentP", res.ResultModel.AttachmentP.ToResponse()); }
-        public static ResultsResponseCollection AttachmentP_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentP", value); }
-        public static ResultsResponseCollection AttachmentQ(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentQ", res.ResultModel.AttachmentQ.ToResponse()); }
-        public static ResultsResponseCollection AttachmentQ(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentQ", value); }
-        public static ResultsResponseCollection AttachmentQ_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentQ", res.ResultModel.AttachmentQ.ToResponse()); }
-        public static ResultsResponseCollection AttachmentQ_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentQ", value); }
-        public static ResultsResponseCollection AttachmentR(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentR", res.ResultModel.AttachmentR.ToResponse()); }
-        public static ResultsResponseCollection AttachmentR(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentR", value); }
-        public static ResultsResponseCollection AttachmentR_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentR", res.ResultModel.AttachmentR.ToResponse()); }
-        public static ResultsResponseCollection AttachmentR_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentR", value); }
-        public static ResultsResponseCollection AttachmentS(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentS", res.ResultModel.AttachmentS.ToResponse()); }
-        public static ResultsResponseCollection AttachmentS(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentS", value); }
-        public static ResultsResponseCollection AttachmentS_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentS", res.ResultModel.AttachmentS.ToResponse()); }
-        public static ResultsResponseCollection AttachmentS_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentS", value); }
-        public static ResultsResponseCollection AttachmentT(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentT", res.ResultModel.AttachmentT.ToResponse()); }
-        public static ResultsResponseCollection AttachmentT(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentT", value); }
-        public static ResultsResponseCollection AttachmentT_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentT", res.ResultModel.AttachmentT.ToResponse()); }
-        public static ResultsResponseCollection AttachmentT_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentT", value); }
-        public static ResultsResponseCollection AttachmentU(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentU", res.ResultModel.AttachmentU.ToResponse()); }
-        public static ResultsResponseCollection AttachmentU(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentU", value); }
-        public static ResultsResponseCollection AttachmentU_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentU", res.ResultModel.AttachmentU.ToResponse()); }
-        public static ResultsResponseCollection AttachmentU_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentU", value); }
-        public static ResultsResponseCollection AttachmentV(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentV", res.ResultModel.AttachmentV.ToResponse()); }
-        public static ResultsResponseCollection AttachmentV(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentV", value); }
-        public static ResultsResponseCollection AttachmentV_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentV", res.ResultModel.AttachmentV.ToResponse()); }
-        public static ResultsResponseCollection AttachmentV_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentV", value); }
-        public static ResultsResponseCollection AttachmentW(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentW", res.ResultModel.AttachmentW.ToResponse()); }
-        public static ResultsResponseCollection AttachmentW(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentW", value); }
-        public static ResultsResponseCollection AttachmentW_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentW", res.ResultModel.AttachmentW.ToResponse()); }
-        public static ResultsResponseCollection AttachmentW_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentW", value); }
-        public static ResultsResponseCollection AttachmentX(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentX", res.ResultModel.AttachmentX.ToResponse()); }
-        public static ResultsResponseCollection AttachmentX(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentX", value); }
-        public static ResultsResponseCollection AttachmentX_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentX", res.ResultModel.AttachmentX.ToResponse()); }
-        public static ResultsResponseCollection AttachmentX_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentX", value); }
-        public static ResultsResponseCollection AttachmentY(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentY", res.ResultModel.AttachmentY.ToResponse()); }
-        public static ResultsResponseCollection AttachmentY(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentY", value); }
-        public static ResultsResponseCollection AttachmentY_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentY", res.ResultModel.AttachmentY.ToResponse()); }
-        public static ResultsResponseCollection AttachmentY_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentY", value); }
-        public static ResultsResponseCollection AttachmentZ(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentZ", res.ResultModel.AttachmentZ.ToResponse()); }
-        public static ResultsResponseCollection AttachmentZ(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentZ", value); }
-        public static ResultsResponseCollection AttachmentZ_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentZ", res.ResultModel.AttachmentZ.ToResponse()); }
-        public static ResultsResponseCollection AttachmentZ_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentZ", value); }
+        public static ResultsResponseCollection AttachmentsA(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsA", res.ResultModel.AttachmentsA.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsA(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsA", value); }
+        public static ResultsResponseCollection AttachmentsA_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsA", res.ResultModel.AttachmentsA.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsA_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsA", value); }
+        public static ResultsResponseCollection AttachmentsB(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsB", res.ResultModel.AttachmentsB.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsB(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsB", value); }
+        public static ResultsResponseCollection AttachmentsB_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsB", res.ResultModel.AttachmentsB.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsB_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsB", value); }
+        public static ResultsResponseCollection AttachmentsC(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsC", res.ResultModel.AttachmentsC.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsC(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsC", value); }
+        public static ResultsResponseCollection AttachmentsC_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsC", res.ResultModel.AttachmentsC.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsC_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsC", value); }
+        public static ResultsResponseCollection AttachmentsD(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsD", res.ResultModel.AttachmentsD.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsD(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsD", value); }
+        public static ResultsResponseCollection AttachmentsD_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsD", res.ResultModel.AttachmentsD.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsD_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsD", value); }
+        public static ResultsResponseCollection AttachmentsE(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsE", res.ResultModel.AttachmentsE.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsE(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsE", value); }
+        public static ResultsResponseCollection AttachmentsE_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsE", res.ResultModel.AttachmentsE.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsE_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsE", value); }
+        public static ResultsResponseCollection AttachmentsF(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsF", res.ResultModel.AttachmentsF.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsF(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsF", value); }
+        public static ResultsResponseCollection AttachmentsF_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsF", res.ResultModel.AttachmentsF.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsF_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsF", value); }
+        public static ResultsResponseCollection AttachmentsG(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsG", res.ResultModel.AttachmentsG.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsG(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsG", value); }
+        public static ResultsResponseCollection AttachmentsG_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsG", res.ResultModel.AttachmentsG.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsG_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsG", value); }
+        public static ResultsResponseCollection AttachmentsH(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsH", res.ResultModel.AttachmentsH.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsH(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsH", value); }
+        public static ResultsResponseCollection AttachmentsH_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsH", res.ResultModel.AttachmentsH.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsH_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsH", value); }
+        public static ResultsResponseCollection AttachmentsI(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsI", res.ResultModel.AttachmentsI.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsI(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsI", value); }
+        public static ResultsResponseCollection AttachmentsI_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsI", res.ResultModel.AttachmentsI.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsI_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsI", value); }
+        public static ResultsResponseCollection AttachmentsJ(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsJ", res.ResultModel.AttachmentsJ.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsJ(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsJ", value); }
+        public static ResultsResponseCollection AttachmentsJ_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsJ", res.ResultModel.AttachmentsJ.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsJ_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsJ", value); }
+        public static ResultsResponseCollection AttachmentsK(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsK", res.ResultModel.AttachmentsK.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsK(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsK", value); }
+        public static ResultsResponseCollection AttachmentsK_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsK", res.ResultModel.AttachmentsK.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsK_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsK", value); }
+        public static ResultsResponseCollection AttachmentsL(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsL", res.ResultModel.AttachmentsL.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsL(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsL", value); }
+        public static ResultsResponseCollection AttachmentsL_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsL", res.ResultModel.AttachmentsL.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsL_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsL", value); }
+        public static ResultsResponseCollection AttachmentsM(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsM", res.ResultModel.AttachmentsM.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsM(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsM", value); }
+        public static ResultsResponseCollection AttachmentsM_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsM", res.ResultModel.AttachmentsM.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsM_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsM", value); }
+        public static ResultsResponseCollection AttachmentsN(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsN", res.ResultModel.AttachmentsN.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsN(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsN", value); }
+        public static ResultsResponseCollection AttachmentsN_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsN", res.ResultModel.AttachmentsN.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsN_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsN", value); }
+        public static ResultsResponseCollection AttachmentsO(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsO", res.ResultModel.AttachmentsO.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsO(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsO", value); }
+        public static ResultsResponseCollection AttachmentsO_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsO", res.ResultModel.AttachmentsO.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsO_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsO", value); }
+        public static ResultsResponseCollection AttachmentsP(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsP", res.ResultModel.AttachmentsP.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsP(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsP", value); }
+        public static ResultsResponseCollection AttachmentsP_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsP", res.ResultModel.AttachmentsP.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsP_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsP", value); }
+        public static ResultsResponseCollection AttachmentsQ(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsQ", res.ResultModel.AttachmentsQ.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsQ(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsQ", value); }
+        public static ResultsResponseCollection AttachmentsQ_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsQ", res.ResultModel.AttachmentsQ.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsQ_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsQ", value); }
+        public static ResultsResponseCollection AttachmentsR(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsR", res.ResultModel.AttachmentsR.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsR(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsR", value); }
+        public static ResultsResponseCollection AttachmentsR_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsR", res.ResultModel.AttachmentsR.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsR_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsR", value); }
+        public static ResultsResponseCollection AttachmentsS(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsS", res.ResultModel.AttachmentsS.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsS(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsS", value); }
+        public static ResultsResponseCollection AttachmentsS_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsS", res.ResultModel.AttachmentsS.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsS_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsS", value); }
+        public static ResultsResponseCollection AttachmentsT(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsT", res.ResultModel.AttachmentsT.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsT(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsT", value); }
+        public static ResultsResponseCollection AttachmentsT_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsT", res.ResultModel.AttachmentsT.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsT_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsT", value); }
+        public static ResultsResponseCollection AttachmentsU(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsU", res.ResultModel.AttachmentsU.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsU(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsU", value); }
+        public static ResultsResponseCollection AttachmentsU_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsU", res.ResultModel.AttachmentsU.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsU_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsU", value); }
+        public static ResultsResponseCollection AttachmentsV(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsV", res.ResultModel.AttachmentsV.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsV(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsV", value); }
+        public static ResultsResponseCollection AttachmentsV_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsV", res.ResultModel.AttachmentsV.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsV_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsV", value); }
+        public static ResultsResponseCollection AttachmentsW(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsW", res.ResultModel.AttachmentsW.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsW(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsW", value); }
+        public static ResultsResponseCollection AttachmentsW_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsW", res.ResultModel.AttachmentsW.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsW_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsW", value); }
+        public static ResultsResponseCollection AttachmentsX(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsX", res.ResultModel.AttachmentsX.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsX(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsX", value); }
+        public static ResultsResponseCollection AttachmentsX_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsX", res.ResultModel.AttachmentsX.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsX_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsX", value); }
+        public static ResultsResponseCollection AttachmentsY(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsY", res.ResultModel.AttachmentsY.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsY(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsY", value); }
+        public static ResultsResponseCollection AttachmentsY_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsY", res.ResultModel.AttachmentsY.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsY_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsY", value); }
+        public static ResultsResponseCollection AttachmentsZ(this ResultsResponseCollection res) { return res.Val("#Results_AttachmentsZ", res.ResultModel.AttachmentsZ.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsZ(this ResultsResponseCollection res, string value) { return res.Val("#Results_AttachmentsZ", value); }
+        public static ResultsResponseCollection AttachmentsZ_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_AttachmentsZ", res.ResultModel.AttachmentsZ.ToResponse()); }
+        public static ResultsResponseCollection AttachmentsZ_FormData(this ResultsResponseCollection res, string value) { return res.ValAndFormData("#Results_AttachmentsZ", value); }
         public static ResultsResponseCollection Comments(this ResultsResponseCollection res) { return res.Val("#Results_Comments", res.ResultModel.Comments.ToResponse()); }
         public static ResultsResponseCollection Comments(this ResultsResponseCollection res, string value) { return res.Val("#Results_Comments", value); }
         public static ResultsResponseCollection Comments_FormData(this ResultsResponseCollection res) { return res.ValAndFormData("#Results_Comments", res.ResultModel.Comments.ToResponse()); }
