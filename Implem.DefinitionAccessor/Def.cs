@@ -2273,7 +2273,8 @@ namespace Implem.DefinitionAccessor
                     case "_dot_paragraph": Css._dot_paragraph = definitionRow[1].ToString(); SetCssTable(CssTable._dot_paragraph, definitionRow, CssXls); break;
                     case "_dot_dialog": Css._dot_dialog = definitionRow[1].ToString(); SetCssTable(CssTable._dot_dialog, definitionRow, CssXls); break;
                     case "_dot_dialog_space__dot_fieldset": Css._dot_dialog_space__dot_fieldset = definitionRow[1].ToString(); SetCssTable(CssTable._dot_dialog_space__dot_fieldset, definitionRow, CssXls); break;
-                    case "_dot_link": Css._dot_link = definitionRow[1].ToString(); SetCssTable(CssTable._dot_link, definitionRow, CssXls); break;
+                    case "_dot_link_space_span": Css._dot_link_space_span = definitionRow[1].ToString(); SetCssTable(CssTable._dot_link_space_span, definitionRow, CssXls); break;
+                    case "_dot_link_space_span_dot_bold": Css._dot_link_space_span_dot_bold = definitionRow[1].ToString(); SetCssTable(CssTable._dot_link_space_span_dot_bold, definitionRow, CssXls); break;
                     case "_dot_histories_form": Css._dot_histories_form = definitionRow[1].ToString(); SetCssTable(CssTable._dot_histories_form, definitionRow, CssXls); break;
                     case "_dot_ui_widget_space_input_comma__space__dot_ui_widget_space_select_comma__space__dot_ui_widget_space_button": Css._dot_ui_widget_space_input_comma__space__dot_ui_widget_space_select_comma__space__dot_ui_widget_space_button = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_widget_space_input_comma__space__dot_ui_widget_space_select_comma__space__dot_ui_widget_space_button, definitionRow, CssXls); break;
                     case "_dot_ui_widget_space_textarea": Css._dot_ui_widget_space_textarea = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_widget_space_textarea, definitionRow, CssXls); break;
@@ -7955,7 +7956,8 @@ namespace Implem.DefinitionAccessor
         public string _dot_paragraph;
         public string _dot_dialog;
         public string _dot_dialog_space__dot_fieldset;
-        public string _dot_link;
+        public string _dot_link_space_span;
+        public string _dot_link_space_span_dot_bold;
         public string _dot_histories_form;
         public string _dot_ui_widget_space_input_comma__space__dot_ui_widget_space_select_comma__space__dot_ui_widget_space_button;
         public string _dot_ui_widget_space_textarea;
@@ -8383,7 +8385,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_paragraph = new CssDefinition();
         public CssDefinition _dot_dialog = new CssDefinition();
         public CssDefinition _dot_dialog_space__dot_fieldset = new CssDefinition();
-        public CssDefinition _dot_link = new CssDefinition();
+        public CssDefinition _dot_link_space_span = new CssDefinition();
+        public CssDefinition _dot_link_space_span_dot_bold = new CssDefinition();
         public CssDefinition _dot_histories_form = new CssDefinition();
         public CssDefinition _dot_ui_widget_space_input_comma__space__dot_ui_widget_space_select_comma__space__dot_ui_widget_space_button = new CssDefinition();
         public CssDefinition _dot_ui_widget_space_textarea = new CssDefinition();

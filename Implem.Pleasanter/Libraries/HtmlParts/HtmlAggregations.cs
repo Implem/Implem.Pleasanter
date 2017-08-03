@@ -113,22 +113,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         targetColumn: targetColumn,
                         aggregation: aggregation);
                     aggregation.Data.OrderByDescending(o => o.Value).ForEach(data =>
-                    {
                         hb.LabelValue(
                             label: groupBy != null
                                 ? Label(
                                     groupBy: groupBy,
                                     selectedValue: data.Key)
                                 : string.Empty,
-                            value: (targetColumn != null 
-                                ? targetColumn.Display(data.Value) 
+                            value: (targetColumn != null
+                                ? targetColumn.Display(data.Value)
                                 : data.Value.ToString()) +
                                     (aggregation.Type != Aggregation.Types.Count
                                         ? targetColumn?.Unit
                                         : string.Empty),
+                            bold: groupBy?.HasChoices() == true
+                                ? groupBy.ChoiceHash.Get(data.Key) != null
+                                : true,
                             attributes: new HtmlAttributes()
-                                .Attributes(ss, aggregation, groupBy, data.Key));
-                    });
+                                .Attributes(ss, aggregation, groupBy, data.Key)));
                 });
             return hb;
         }
@@ -166,7 +167,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 var label = groupBy.Choice(selectedValue).TextMini;
                 return label.IsNullOrEmpty()
-                    ? Displays.NotSet()
+                    ? "? " + selectedValue
                     : label;
             }
             else
@@ -218,6 +219,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     break;
             }
             return key != string.Empty ? key : "\t";
+        }
+
+        private static HtmlBuilder LabelValue(
+            this HtmlBuilder hb,
+            string label,
+            string value,
+            bool bold,
+            HtmlAttributes attributes)
+        {
+            return hb.Span(attributes: attributes, action: () =>
+            {
+                if (label != string.Empty)
+                {
+                    hb.Span(
+                        css: bold ? "bold" : null,
+                        action: () => hb
+                            .Text(label));
+                }
+                hb.Text(value);
+            });
         }
     }
 }

@@ -2385,7 +2385,12 @@ h3.title-header{
     margin:0px 10px 10px 10px;
 }
 
-.link{
+.link span{
+    margin-right:5px;
+}
+
+.link span.bold{
+    font-weight:bold;
     cursor:pointer;
 }
 

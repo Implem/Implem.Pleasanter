@@ -28,22 +28,5 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 action: () => hb
                     .Text(choice.TextMini));
         }
-
-        public static HtmlBuilder LabelValue(
-            this HtmlBuilder hb,
-            string label,
-            string value,
-            HtmlAttributes attributes)
-        {
-            return hb.Span(attributes: attributes, action: () =>
-            {
-                if (label != string.Empty)
-                {
-                    hb.Em(action: () => hb
-                        .Text(label));
-                }
-                hb.Text(value);
-            });
-        }
     }
 }
