@@ -131,16 +131,18 @@ namespace Implem.Pleasanter.Libraries.Models
                     : issueCollection
                         .Select(o => o.IssueId)
                         .ToList();
-                var data = Data(
-                    ss: ss,
-                    destinationColumn: destinationColumn,
-                    destinations: issueCollection.Select(o => o.IssueId),
-                    sourceSiteId: sourceSiteId,
-                    sourceReferenceType: sourceReferenceType,
-                    linkColumn: linkColumn,
-                    type: type,
-                    sourceColumn: sourceColumn,
-                    sourceCondition: sourceCondition);
+                var data = issueCollection.Any()
+                    ? Data(
+                        ss: ss,
+                        destinationColumn: destinationColumn,
+                        destinations: issueCollection.Select(o => o.IssueId),
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)
+                    : new Dictionary<long, decimal>();
                 issueCollection.ForEach(issueModel =>
                 {
                     if (matchingConditions.Any(o => o == issueModel.IssueId))
@@ -530,16 +532,18 @@ namespace Implem.Pleasanter.Libraries.Models
                     : resultCollection
                         .Select(o => o.ResultId)
                         .ToList();
-                var data = Data(
-                    ss: ss,
-                    destinationColumn: destinationColumn,
-                    destinations: resultCollection.Select(o => o.ResultId),
-                    sourceSiteId: sourceSiteId,
-                    sourceReferenceType: sourceReferenceType,
-                    linkColumn: linkColumn,
-                    type: type,
-                    sourceColumn: sourceColumn,
-                    sourceCondition: sourceCondition);
+                var data = resultCollection.Any()
+                    ? Data(
+                        ss: ss,
+                        destinationColumn: destinationColumn,
+                        destinations: resultCollection.Select(o => o.ResultId),
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)
+                    : new Dictionary<long, decimal>();
                 resultCollection.ForEach(resultModel =>
                 {
                     if (matchingConditions.Any(o => o == resultModel.ResultId))
