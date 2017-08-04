@@ -69,7 +69,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToExport(Column column, ExportColumn exportColumn)
         {
-            return column.ChoicePart(ToString(), exportColumn.Type);
+            return Value == 0 && !column.ChoiceHash.ContainsKey(ToString())
+                ? null
+                : column.ChoicePart(ToString(), exportColumn.Type);
         }
 
         public string ToNotice(
