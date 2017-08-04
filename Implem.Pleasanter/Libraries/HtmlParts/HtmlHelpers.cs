@@ -16,17 +16,5 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.P(css: "dept", action: () => hb
                 .Icon(iconCss: "ui-icon-contact", text: SiteInfo.Dept(id).Name));
         }
-
-        public static HtmlBuilder HtmlStatus(
-            this HtmlBuilder hb, Column column, string selectedValue)
-        {
-            var choice = column.Choice(selectedValue);
-            return hb.P(
-                attributes: new HtmlAttributes()
-                    .Class(choice.CssClass)
-                    .Style(choice.Style),
-                action: () => hb
-                    .Text(choice.TextMini));
-        }
     }
 }
