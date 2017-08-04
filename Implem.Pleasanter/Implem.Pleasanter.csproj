@@ -504,6 +504,8 @@
     <Content Include="Images\logo-corp.png" />
     <Content Include="Scripts\AggregationEvents.js" />
     <Content Include="Scripts\AnchorEvents.js" />
+    <Content Include="Scripts\Attachments.js" />
+    <Content Include="Scripts\AttachmentsEvents.js" />
     <Content Include="Scripts\Basket.js" />
     <Content Include="Scripts\BasketEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
