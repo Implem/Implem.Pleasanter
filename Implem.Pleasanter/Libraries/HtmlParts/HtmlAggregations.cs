@@ -108,10 +108,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     var groupBy = ss.GetColumn(aggregation.GroupBy);
                     var targetColumn = ss.GetColumn(aggregation.Target);
                     if (aggregation.Data.Count > 0)
-                    hb.GroupBy(
-                        groupBy: groupBy,
-                        targetColumn: targetColumn,
-                        aggregation: aggregation);
+                        hb.GroupBy(
+                            groupBy: groupBy,
+                            targetColumn: targetColumn,
+                            aggregation: aggregation);
                     aggregation.Data.OrderByDescending(o => o.Value).ForEach(data =>
                         hb.LabelValue(
                             label: groupBy != null
@@ -125,9 +125,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     (aggregation.Type != Aggregation.Types.Count
                                         ? targetColumn?.Unit
                                         : string.Empty),
-                            bold: groupBy?.HasChoices() == true
-                                ? groupBy.ChoiceHash.Get(data.Key) != null
-                                : true,
+                            bold: Bold(groupBy, data.Key),
                             attributes: new HtmlAttributes()
                                 .Attributes(ss, aggregation, groupBy, data.Key)));
                 });
@@ -167,7 +165,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 var label = groupBy.Choice(selectedValue).TextMini;
                 return label.IsNullOrEmpty()
-                    ? "? " + selectedValue
+                    ? NumericZero(groupBy, selectedValue)
+                        ? Displays.NotSet()
+                        : StringEmpty(groupBy, selectedValue)
+                            ? Displays.NotSet()
+                            : "? " + selectedValue
                     : label;
             }
             else
@@ -239,6 +241,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 }
                 hb.Text(value);
             });
+        }
+
+        private static bool Bold(Column groupBy, string value)
+        {
+            return groupBy?.HasChoices() == true
+                ? groupBy.ChoiceHash.Get(value) != null ||
+                    NumericZero(groupBy, value) ||
+                    StringEmpty(groupBy, value)
+                : true;
+        }
+
+        private static bool NumericZero(Column column, string value)
+        {
+            return column.TypeName.CsTypeSummary() == Types.CsNumeric && value == "0";
+        }
+
+        private static bool StringEmpty(Column column, string value)
+        {
+            return column.TypeName.CsTypeSummary() == Types.CsString && value == string.Empty;
         }
     }
 }
