@@ -187,7 +187,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlAttributes attributes,
             SiteSettings ss,
             Aggregation aggregation,
-            Column groupBy, string key)
+            Column groupBy,
+            string key)
         {
             return groupBy != null
                 ? attributes
