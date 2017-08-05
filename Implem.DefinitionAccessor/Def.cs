@@ -3461,6 +3461,14 @@ namespace Implem.DefinitionAccessor
                     case "Template225": Template.Template225 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template225, definitionRow, TemplateXls); break;
                     case "Template226": Template.Template226 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template226, definitionRow, TemplateXls); break;
                     case "Template227": Template.Template227 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template227, definitionRow, TemplateXls); break;
+                    case "Template228": Template.Template228 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template228, definitionRow, TemplateXls); break;
+                    case "Template229": Template.Template229 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template229, definitionRow, TemplateXls); break;
+                    case "Template230": Template.Template230 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template230, definitionRow, TemplateXls); break;
+                    case "Template231": Template.Template231 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template231, definitionRow, TemplateXls); break;
+                    case "Template232": Template.Template232 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template232, definitionRow, TemplateXls); break;
+                    case "Template233": Template.Template233 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template233, definitionRow, TemplateXls); break;
+                    case "Template234": Template.Template234 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template234, definitionRow, TemplateXls); break;
+                    case "Template235": Template.Template235 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template235, definitionRow, TemplateXls); break;
                     default: break;
                 }
             });
@@ -10279,6 +10287,14 @@ namespace Implem.DefinitionAccessor
         public string Template225;
         public string Template226;
         public string Template227;
+        public string Template228;
+        public string Template229;
+        public string Template230;
+        public string Template231;
+        public string Template232;
+        public string Template233;
+        public string Template234;
+        public string Template235;
     }
 
     public class TemplateTable
@@ -10510,6 +10526,14 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template225 = new TemplateDefinition();
         public TemplateDefinition Template226 = new TemplateDefinition();
         public TemplateDefinition Template227 = new TemplateDefinition();
+        public TemplateDefinition Template228 = new TemplateDefinition();
+        public TemplateDefinition Template229 = new TemplateDefinition();
+        public TemplateDefinition Template230 = new TemplateDefinition();
+        public TemplateDefinition Template231 = new TemplateDefinition();
+        public TemplateDefinition Template232 = new TemplateDefinition();
+        public TemplateDefinition Template233 = new TemplateDefinition();
+        public TemplateDefinition Template234 = new TemplateDefinition();
+        public TemplateDefinition Template235 = new TemplateDefinition();
     }
 
     public class ViewModeDefinition
