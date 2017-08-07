@@ -248,9 +248,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return groupBy?.HasChoices() == true
                 ? groupBy.ChoiceHash.Get(value) != null ||
+                    UserNotSet(groupBy, value) ||
                     NumericZero(groupBy, value) ||
                     StringEmpty(groupBy, value)
                 : true;
+        }
+
+        private static bool UserNotSet(Column column, string value)
+        {
+            return column.UserColumn && (value == "0" || value == "2");
         }
 
         private static bool NumericZero(Column column, string value)

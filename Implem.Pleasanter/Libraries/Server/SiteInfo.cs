@@ -180,9 +180,11 @@ namespace Implem.Pleasanter.Libraries.Server
         public static string UserName(int userId, bool notSet = true)
         {
             var name = User(userId).Name;
-            return notSet || name != Displays.NotSet()
+            return name != null
                 ? name
-                : string.Empty;
+                : notSet
+                    ? Displays.NotSet()
+                    : string.Empty;
         }
 
         public static string IndexReferenceType(string referenceType, long referenceId)
