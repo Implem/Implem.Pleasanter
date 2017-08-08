@@ -99,9 +99,11 @@ namespace Implem.Pleasanter.Libraries.Security
             }
             else if (!ss.CanRead(site: true))
             {
-                return where.Add(
-                    subLeft: ExistsPermissions(ss),
-                    _operator: string.Empty);
+                return where
+                    .Add(raw: "[SiteId]={0}".Params(ss.SiteId))
+                    .Add(
+                        subLeft: ExistsPermissions(ss),
+                        _operator: string.Empty);
             }
             else
             {
