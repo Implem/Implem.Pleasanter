@@ -1,6 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Server;
 using System.Collections.Generic;
 using System.Linq;
