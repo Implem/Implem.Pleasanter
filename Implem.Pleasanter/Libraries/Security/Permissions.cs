@@ -107,7 +107,7 @@ namespace Implem.Pleasanter.Libraries.Security
             }
             else
             {
-                return ss.Columns.Any(o => o.ColumnName == "SiteId")
+                return Routes.Controller() == "items"
                     ? where.Add(raw: "[SiteId]={0}".Params(ss.SiteId))
                     : where;
             }
