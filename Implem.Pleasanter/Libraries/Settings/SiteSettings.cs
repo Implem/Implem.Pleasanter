@@ -706,6 +706,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var excludeColumns = Parameters.ExcludeColumns.Get(ReferenceType);
             ColumnDefinitionHash = Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == ReferenceType)
+                .Where(o => o.ControlType != "Attachments")
                 .Where(o => excludeColumns?.Contains(o.ColumnName) != true)
                 .ToDictionary(o => o.ColumnName, o => o);
         }
