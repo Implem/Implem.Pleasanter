@@ -196,6 +196,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 view: view,
                                 optionCollection: column.EditChoices(addNotSet: true));
                         }
+                        else if (ss.EditorColumns.Contains(column.ColumnName))
+                        {
+                            hb.FieldTextBox(
+                                controlId: "ViewFilters_" + column.Id,
+                                fieldCss: "field-auto-thin",
+                                controlCss: " auto-postback",
+                                labelText: Displays.Get(column.GridLabelText),
+                                text: view.ColumnFilter(column.ColumnName),
+                                method: "post");
+                        }
                         break;
                     default:
                         break;

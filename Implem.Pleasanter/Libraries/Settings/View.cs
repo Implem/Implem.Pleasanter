@@ -662,7 +662,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                             case Types.CsString:
                                 CsStringColumns(
-                                    data.ColumnName, data.Value, where);
+                                    data.Column, data.Value, where);
                                 break;
                         }
                     }
@@ -827,14 +827,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
-        private void CsStringColumns(string columnName, string value, SqlWhereCollection where)
+        private void CsStringColumns(Column column, string value, SqlWhereCollection where)
         {
-            var param = value.Deserialize<List<string>>();
-            if (param.Any())
+            if (column.HasChoices())
             {
-                where.Add(or: new SqlWhereCollection(
-                    CsStringColumnsWhere(columnName, param),
-                    CsStringColumnsWhereNull(columnName, param)));
+                var param = value.Deserialize<List<string>>();
+                if (param.Any())
+                {
+                    where.Add(or: new SqlWhereCollection(
+                        CsStringColumnsWhere(column.ColumnName, param),
+                        CsStringColumnsWhereNull(column.ColumnName, param)));
+                }
+            }
+            else
+            {
+                if (!value.IsNullOrEmpty())
+                {
+                    where.Add(new SqlWhere(
+                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
+                        name: column.ColumnName,
+                        value: value));
+                }
             }
         }
 
