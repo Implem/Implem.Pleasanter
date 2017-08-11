@@ -28,65 +28,98 @@ namespace Implem.Pleasanter.Libraries.Converts
 
         public static void FullText(this DateTime self, List<string> fullText)
         {
-            var data = self.ToLocal();
-            if (data.InRange())
+            var value = self.ToLocal();
+            if (value.InRange())
             {
-                fullText.Add(self.ToLocal().ToString());
+                fullText.Add(value.ToString());
             }
         }
 
         public static void FullText(this string self, List<string> fullText)
         {
-            fullText.Add(self);
+            if (self != null)
+            {
+                fullText.Add(self);
+            }
         }
 
         public static void FullText(this string self, Column column, List<string> fullText)
         {
-            fullText.Add(column?.HasChoices() == true
-                ? column.Choice(self).SearchText()
-                : self);
+            if (self != null)
+            {
+                fullText.Add(column?.HasChoices() == true
+                    ? column.Choice(self).SearchText()
+                    : self);
+            }
         }
 
         public static void FullText(this IEnumerable<SiteMenuElement> self, List<string> fullText)
         {
-            fullText.Add(self.Select(o => o.Title).Join(" "));
+            if (self != null)
+            {
+                fullText.Add(self.Select(o => o.Title).Join(" "));
+            }
         }
 
         public static void FullText(this ProgressRate self, List<string> fullText)
         {
-            fullText.Add(self.Value.ToString());
+            if (self != null)
+            {
+                fullText.Add(self.Value.ToString());
+            }
         }
 
         public static void FullText(this Status self, Column column, List<string> fullText)
         {
-            fullText.Add(column?.HasChoices() == true
-                ? column.Choice(self.Value.ToString()).SearchText()
-                : self.Value.ToString());
+            if (self != null)
+            {
+                fullText.Add(column?.HasChoices() == true
+                    ? column.Choice(self.Value.ToString()).SearchText()
+                    : self.Value.ToString());
+            }
         }
 
         public static void FullText(this Time self, List<string> fullText)
         {
-            fullText.Add(self.Value.ToLocal().ToString());
+            var value = self?.Value.ToLocal();
+            if (value?.InRange() == true)
+            {
+                fullText.Add(value.ToString());
+            }
         }
 
         public static void FullText(this Title self, List<string> fullText)
         {
-            fullText.Add(self.Value);
+            if (self != null)
+            {
+                fullText.Add(self.Value);
+            }
         }
 
         public static void FullText(this User self, List<string> fullText)
         {
-            fullText.Add(self.Name);
+            if (self != null)
+            {
+                fullText.Add(self.Name);
+            }
         }
 
         public static void FullText(this Comments self, List<string> fullText)
         {
-            fullText.Add(self.Select(o => SiteInfo.UserName(o.Creator) + " " + o.Body).Join(" "));
+            if (self != null)
+            {
+                fullText.Add(self.Select(o =>
+                    SiteInfo.UserName(o.Creator) + " " + o.Body)
+                        .Join(" "));
+            }
         }
 
         public static void FullText(this WorkValue self, List<string> fullText)
         {
-            fullText.Add(self.Value.ToString());
+            if (self != null)
+            {
+                fullText.Add(self.Value.ToString());
+            }
         }
 
         public static void OutgoingMailsFullText(
@@ -104,7 +137,6 @@ namespace Implem.Pleasanter.Libraries.Converts
                         fullText.Add(o.Title.Value);
                         fullText.Add(o.Body);
                     });
-
         }
     }
 }
