@@ -179,7 +179,7 @@ namespace Implem.Pleasanter.Models
         {
             if (Parameters.Search.Provider != "FullText") return null;
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
-            if (AccessStatus != Databases.AccessStatuses.Selected) return null;
+            if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
             var fullText = new List<string>();
             SiteInfo.TenantCaches[Sessions.TenantId()]
                 .SiteMenu.Breadcrumb(SiteId).FullText(fullText);
