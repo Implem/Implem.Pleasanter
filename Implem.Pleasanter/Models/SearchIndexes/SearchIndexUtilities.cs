@@ -346,14 +346,14 @@ namespace Implem.Pleasanter.Models
             int pageSize = 0,
             bool countRecord = false)
         {
-            var words = CSharp.Japanese.Kanaxs.KanaEx.ToKatakana(searchText)
+            var words = searchText
                 .Replace("　", " ")
                 .Replace("\"", " ")
                 .Trim()
                 .Split(' ')
                 .Where(o => o != string.Empty)
                 .Distinct()
-                .Select(o => "\"" + o + "\"")
+                .Select(o => FullTextClause(o))
                 .ToList();
             if (words?.Any() != true) return null;
             return Rds.ExecuteDataSet(statements:
@@ -380,6 +380,18 @@ namespace Implem.Pleasanter.Models
                     offset: offset,
                     pageSize: pageSize,
                     countRecord: countRecord));
+        }
+
+        private static string FullTextClause(string word)
+        {
+            var data = new List<string> { word };
+            var katakana = CSharp.Japanese.Kanaxs.KanaEx.ToKatakana(word);
+            var hiragana = CSharp.Japanese.Kanaxs.KanaEx.ToHiragana(word);
+            if (word != katakana) data.Add(katakana);
+            if (word != hiragana) data.Add(hiragana);
+            return data.Count() == 1
+                ? "\"" + word + "*\""
+                : "(" + data.Select(o => "\"" + o + "*\"").Join(" or ") + ")";
         }
 
         /// <summary>

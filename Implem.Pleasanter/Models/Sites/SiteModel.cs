@@ -312,11 +312,11 @@ namespace Implem.Pleasanter.Models
             Updator.FullText(fullText);
             CreatedTime.FullText(fullText);
             FullTextExtensions.OutgoingMailsFullText(fullText, "Sites", SiteId);
-            return CSharp.Japanese.Kanaxs.KanaEx.ToKatakana(fullText
+            return fullText
                 .Where(o => !o.IsNullOrEmpty())
                 .Select(o => o.Trim())
                 .Distinct()
-                .Join(" "));
+                .Join(" ");
         }
 
         public Dictionary<string, int> SearchIndexHash(SiteSettings ss)
