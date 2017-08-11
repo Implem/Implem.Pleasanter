@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System;
 using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Initializers
@@ -19,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 {
                     if (siteModel.SiteSettings != null)
                     {
+                        var fullText = siteModel.FullText(siteModel.SiteSettings);
                         Rds.ExecuteNonQuery(
                             connectionString: Parameters.Rds.OwnerConnectionString,
                             statements: new SqlStatement[]
@@ -29,7 +31,9 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         .ReferenceId(siteModel.SiteId)
                                         .ReferenceType("Sites")
                                         .SiteId(siteModel.SiteId)
-                                        .Title(siteModel.Title.Value)),
+                                        .Title(siteModel.Title.Value)
+                                        .FullText(fullText)
+                                        .SearchIndexCreatedTime(DateTime.Now)),
                                 Rds.IdentityInsertItems(on: false)
                             });
                     }
@@ -73,6 +77,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         if (ss != null &&
                             issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                         {
+                            var fullText = issueModel.FullText(ss);
                             Rds.ExecuteNonQuery(
                                 connectionString: Parameters.Rds.OwnerConnectionString,
                                 statements: new SqlStatement[]
@@ -83,7 +88,9 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceId(issueModel.IssueId)
                                             .ReferenceType("Issues")
                                             .SiteId(issueModel.SiteId)
-                                            .Title(issueModel.Title.DisplayValue)),
+                                            .Title(issueModel.Title.DisplayValue)
+                                            .FullText(fullText, _using: fullText != null)
+                                            .SearchIndexCreatedTime(DateTime.Now)),
                                     Rds.IdentityInsertItems(on: false)
                                 });
                         }
@@ -144,6 +151,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         if (ss != null &&
                             resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                         {
+                            var fullText = resultModel.FullText(ss);
                             Rds.ExecuteNonQuery(
                                 connectionString: Parameters.Rds.OwnerConnectionString,
                                 statements: new SqlStatement[]
@@ -154,7 +162,9 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceId(resultModel.ResultId)
                                             .ReferenceType("Results")
                                             .SiteId(resultModel.SiteId)
-                                            .Title(resultModel.Title.DisplayValue)),
+                                            .Title(resultModel.Title.DisplayValue)
+                                            .FullText(fullText, _using: fullText != null)
+                                            .SearchIndexCreatedTime(DateTime.Now)),
                                     Rds.IdentityInsertItems(on: false)
                                 });
                         }
@@ -215,6 +225,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         if (ss != null &&
                             wikiModel.AccessStatus == Databases.AccessStatuses.Selected)
                         {
+                            var fullText = wikiModel.FullText(ss);
                             Rds.ExecuteNonQuery(
                                 connectionString: Parameters.Rds.OwnerConnectionString,
                                 statements: new SqlStatement[]
@@ -225,7 +236,9 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceId(wikiModel.WikiId)
                                             .ReferenceType("Wikis")
                                             .SiteId(wikiModel.SiteId)
-                                            .Title(wikiModel.Title.DisplayValue)),
+                                            .Title(wikiModel.Title.DisplayValue)
+                                            .FullText(fullText, _using: fullText != null)
+                                            .SearchIndexCreatedTime(DateTime.Now)),
                                     Rds.IdentityInsertItems(on: false)
                                 });
                         }
