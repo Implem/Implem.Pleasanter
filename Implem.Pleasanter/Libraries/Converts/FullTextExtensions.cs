@@ -79,6 +79,15 @@ namespace Implem.Pleasanter.Libraries.Converts
             }
         }
 
+        public static void FullText(this CompletionTime self, List<string> fullText)
+        {
+            var value = self?.Value.ToLocal().AddDays(-1);
+            if (value?.InRange() == true)
+            {
+                fullText.Add(value.ToString());
+            }
+        }
+
         public static void FullText(this Time self, List<string> fullText)
         {
             var value = self?.Value.ToLocal();
