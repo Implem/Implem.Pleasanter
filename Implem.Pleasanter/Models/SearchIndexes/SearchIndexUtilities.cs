@@ -382,6 +382,9 @@ namespace Implem.Pleasanter.Models
                     countRecord: countRecord));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static string FullTextClause(string word)
         {
             var data = new List<string> { word };
