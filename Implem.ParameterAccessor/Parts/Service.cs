@@ -9,7 +9,6 @@
         public bool ImportData;
         public bool ShowTenantTitle;
         public bool ShowProfiles;
-        public bool CreateIndexes;
         public bool Demo;
         public int DemoUsagePeriod;
     }

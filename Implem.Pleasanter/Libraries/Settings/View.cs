@@ -564,14 +564,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SqlWhereCollection Where(SiteSettings ss, SqlWhereCollection where = null)
         {
             if (where == null) where = new SqlWhereCollection();
-            GeneralsWhere(ss, where);
-            ColumnsWhere(ss, where);
-            SearchWhere(ss, where);
-            Permissions.CanRead(ss, where);
+            SetGeneralsWhere(ss, where);
+            SetColumnsWhere(ss, where);
+            SetSearchWhere(ss, where);
+            Permissions.SetCanReadWhere(ss, where);
             return where;
         }
 
-        private SqlWhereCollection GeneralsWhere(SiteSettings ss, SqlWhereCollection where)
+        private void SetGeneralsWhere(SiteSettings ss, SqlWhereCollection where)
         {
             if (Incomplete == true)
             {
@@ -623,10 +623,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         columnBrackets: new string[] { "[CompletionTime]" },
                         _operator: "<getdate()");
             }
-            return where;
         }
 
-        private SqlWhereCollection ColumnsWhere(SiteSettings ss, SqlWhereCollection where)
+        private void SetColumnsWhere(SiteSettings ss, SqlWhereCollection where)
         {
             var prefix = "ViewFilters_" + ss.ReferenceType + "_";
             var prefixLength = prefix.Length;
@@ -667,7 +666,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                     }
                 });
-            return where;
         }
 
         private void CsBoolColumns(
@@ -873,53 +871,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                         columnBrackets: new string[] { "[" + columnName + "]" },
                         _operator: "=''")))
                 : null;
-        }
-
-        private SqlWhereCollection SearchWhere(SiteSettings ss, SqlWhereCollection where)
-        {
-            var words = Search.SearchIndexes();
-            return words.Count() != 0
-                ? SearchWhere(ss, where, words)
-                : where;
-        }
-
-        private SqlWhereCollection SearchWhere(
-            SiteSettings ss, SqlWhereCollection where, IEnumerable<string> words)
-        {
-            var results = SearchIndexUtilities.GetIdCollection(
-                searchIndexes: words,
-                siteIdList: ss.AllowedIntegratedSites != null
-                    ? ss.AllowedIntegratedSites
-                    : new List<long> { ss.SiteId }).Join();
-            if (results != string.Empty)
-            {
-                switch (ss.ReferenceType)
-                {
-                    case "Issues":
-                        where.Add(
-                            columnBrackets: new string[] { "[IssueId]" },
-                            name: "IssueId",
-                            _operator: " in (" + results + ")");
-                        break;
-                    case "Results":
-                        where.Add(
-                            columnBrackets: new string[] { "[ResultId]" },
-                            name: "ResultId",
-                            _operator: " in (" + results + ")");
-                        break;
-                    case "Wikis":
-                        where.Add(
-                            columnBrackets: new string[] { "[WikiId]" },
-                            name: "WikiId",
-                            _operator: " in (" + results + ")");
-                        break;
-                }
-            }
-            else
-            {
-                where.Add(raw: "0=1");
-            }
-            return where;
         }
 
         public SqlOrderByCollection OrderBy(SiteSettings ss, SqlOrderByCollection orderBy)
@@ -1362,6 +1313,45 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
             }
             return orderBy;
+        }
+
+        private void SetSearchWhere(SiteSettings ss, SqlWhereCollection where)
+        {
+            if (Search.IsNullOrEmpty()) return;
+            var results = SearchIndexUtilities.GetIdCollection(
+                searchText: Search,
+                siteIdList: ss.AllowedIntegratedSites != null
+                    ? ss.AllowedIntegratedSites
+                    : new List<long> { ss.SiteId })?
+                        .Join();
+            if (!results.IsNullOrEmpty())
+            {
+                switch (ss.ReferenceType)
+                {
+                    case "Issues":
+                        where.Add(
+                            columnBrackets: new string[] { "[IssueId]" },
+                            name: "IssueId",
+                            _operator: " in (" + results + ")");
+                        break;
+                    case "Results":
+                        where.Add(
+                            columnBrackets: new string[] { "[ResultId]" },
+                            name: "ResultId",
+                            _operator: " in (" + results + ")");
+                        break;
+                    case "Wikis":
+                        where.Add(
+                            columnBrackets: new string[] { "[WikiId]" },
+                            name: "WikiId",
+                            _operator: " in (" + results + ")");
+                        break;
+                }
+            }
+            else
+            {
+                where.Add(raw: "0=1");
+            }
         }
     }
 }

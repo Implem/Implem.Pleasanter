@@ -292,6 +292,10 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetItemsDefaultColumns": Code.Model_GetItemsDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetItemsDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_SetSiteSettingsProperties": Code.Model_SetSiteSettingsProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettingsProperties, definitionRow, CodeXls); break;
                     case "Model_SetTenantId": Code.Model_SetTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantId, definitionRow, CodeXls); break;
+                    case "Model_FullText": Code.Model_FullText = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullText, definitionRow, CodeXls); break;
+                    case "Model_FullTextColumnCases": Code.Model_FullTextColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullTextColumnCases, definitionRow, CodeXls); break;
+                    case "Model_FullTextColumn": Code.Model_FullTextColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullTextColumn, definitionRow, CodeXls); break;
+                    case "Model_FullText_Sites_Wikis": Code.Model_FullText_Sites_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullText_Sites_Wikis, definitionRow, CodeXls); break;
                     case "Model_SearchIndexHash": Code.Model_SearchIndexHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SearchIndexHash, definitionRow, CodeXls); break;
                     case "Model_SearchIndexHashColumnCases": Code.Model_SearchIndexHashColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SearchIndexHashColumnCases, definitionRow, CodeXls); break;
                     case "Model_SearchIndexHashColumn": Code.Model_SearchIndexHashColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SearchIndexHashColumn, definitionRow, CodeXls); break;
@@ -1049,12 +1053,13 @@ namespace Implem.DefinitionAccessor
                     case "SearchIndexes_ReferenceType": Column.SearchIndexes_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_ReferenceType, definitionRow, ColumnXls); break;
                     case "SearchIndexes_Title": Column.SearchIndexes_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_Title, definitionRow, ColumnXls); break;
                     case "SearchIndexes_Subset": Column.SearchIndexes_Subset = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_Subset, definitionRow, ColumnXls); break;
-                    case "SearchIndexes_PermissionType": Column.SearchIndexes_PermissionType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_PermissionType, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_InheritPermission": Column.SearchIndexes_InheritPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_InheritPermission, definitionRow, ColumnXls); break;
                     case "Items_ReferenceId": Column.Items_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_ReferenceId, definitionRow, ColumnXls); break;
                     case "Items_ReferenceType": Column.Items_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_ReferenceType, definitionRow, ColumnXls); break;
                     case "Items_SiteId": Column.Items_SiteId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_SiteId, definitionRow, ColumnXls); break;
                     case "Items_Title": Column.Items_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Title, definitionRow, ColumnXls); break;
                     case "Items_Site": Column.Items_Site = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Site, definitionRow, ColumnXls); break;
+                    case "Items_FullText": Column.Items_FullText = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_FullText, definitionRow, ColumnXls); break;
                     case "Items_SearchIndexCreatedTime": Column.Items_SearchIndexCreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_SearchIndexCreatedTime, definitionRow, ColumnXls); break;
                     case "Items_UpdatedTime": Column.Items_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_UpdatedTime, definitionRow, ColumnXls); break;
                     case "Sites_TenantId": Column.Sites_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_TenantId, definitionRow, ColumnXls); break;
@@ -3469,6 +3474,28 @@ namespace Implem.DefinitionAccessor
                     case "Template233": Template.Template233 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template233, definitionRow, TemplateXls); break;
                     case "Template234": Template.Template234 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template234, definitionRow, TemplateXls); break;
                     case "Template235": Template.Template235 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template235, definitionRow, TemplateXls); break;
+                    case "Template236": Template.Template236 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template236, definitionRow, TemplateXls); break;
+                    case "Template237": Template.Template237 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template237, definitionRow, TemplateXls); break;
+                    case "Template238": Template.Template238 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template238, definitionRow, TemplateXls); break;
+                    case "Template239": Template.Template239 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template239, definitionRow, TemplateXls); break;
+                    case "Template240": Template.Template240 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template240, definitionRow, TemplateXls); break;
+                    case "Template241": Template.Template241 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template241, definitionRow, TemplateXls); break;
+                    case "Template242": Template.Template242 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template242, definitionRow, TemplateXls); break;
+                    case "Template243": Template.Template243 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template243, definitionRow, TemplateXls); break;
+                    case "Template244": Template.Template244 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template244, definitionRow, TemplateXls); break;
+                    case "Template245": Template.Template245 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template245, definitionRow, TemplateXls); break;
+                    case "Template246": Template.Template246 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template246, definitionRow, TemplateXls); break;
+                    case "Template247": Template.Template247 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template247, definitionRow, TemplateXls); break;
+                    case "Template248": Template.Template248 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template248, definitionRow, TemplateXls); break;
+                    case "Template249": Template.Template249 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template249, definitionRow, TemplateXls); break;
+                    case "Template250": Template.Template250 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template250, definitionRow, TemplateXls); break;
+                    case "Template251": Template.Template251 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template251, definitionRow, TemplateXls); break;
+                    case "Template252": Template.Template252 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template252, definitionRow, TemplateXls); break;
+                    case "Template253": Template.Template253 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template253, definitionRow, TemplateXls); break;
+                    case "Template254": Template.Template254 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template254, definitionRow, TemplateXls); break;
+                    case "Template255": Template.Template255 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template255, definitionRow, TemplateXls); break;
+                    case "Template256": Template.Template256 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template256, definitionRow, TemplateXls); break;
+                    case "Template257": Template.Template257 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template257, definitionRow, TemplateXls); break;
                     default: break;
                 }
             });
@@ -4498,6 +4525,10 @@ namespace Implem.DefinitionAccessor
         public string Model_GetItemsDefaultColumns;
         public string Model_SetSiteSettingsProperties;
         public string Model_SetTenantId;
+        public string Model_FullText;
+        public string Model_FullTextColumnCases;
+        public string Model_FullTextColumn;
+        public string Model_FullText_Sites_Wikis;
         public string Model_SearchIndexHash;
         public string Model_SearchIndexHashColumnCases;
         public string Model_SearchIndexHashColumn;
@@ -4967,6 +4998,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetItemsDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_SetSiteSettingsProperties = new CodeDefinition();
         public CodeDefinition Model_SetTenantId = new CodeDefinition();
+        public CodeDefinition Model_FullText = new CodeDefinition();
+        public CodeDefinition Model_FullTextColumnCases = new CodeDefinition();
+        public CodeDefinition Model_FullTextColumn = new CodeDefinition();
+        public CodeDefinition Model_FullText_Sites_Wikis = new CodeDefinition();
         public CodeDefinition Model_SearchIndexHash = new CodeDefinition();
         public CodeDefinition Model_SearchIndexHashColumnCases = new CodeDefinition();
         public CodeDefinition Model_SearchIndexHashColumn = new CodeDefinition();
@@ -5995,12 +6030,13 @@ namespace Implem.DefinitionAccessor
         public string SearchIndexes_ReferenceType;
         public string SearchIndexes_Title;
         public string SearchIndexes_Subset;
-        public string SearchIndexes_PermissionType;
+        public string SearchIndexes_InheritPermission;
         public string Items_ReferenceId;
         public string Items_ReferenceType;
         public string Items_SiteId;
         public string Items_Title;
         public string Items_Site;
+        public string Items_FullText;
         public string Items_SearchIndexCreatedTime;
         public string Items_UpdatedTime;
         public string Sites_TenantId;
@@ -6739,12 +6775,13 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SearchIndexes_ReferenceType = new ColumnDefinition();
         public ColumnDefinition SearchIndexes_Title = new ColumnDefinition();
         public ColumnDefinition SearchIndexes_Subset = new ColumnDefinition();
-        public ColumnDefinition SearchIndexes_PermissionType = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_InheritPermission = new ColumnDefinition();
         public ColumnDefinition Items_ReferenceId = new ColumnDefinition();
         public ColumnDefinition Items_ReferenceType = new ColumnDefinition();
         public ColumnDefinition Items_SiteId = new ColumnDefinition();
         public ColumnDefinition Items_Title = new ColumnDefinition();
         public ColumnDefinition Items_Site = new ColumnDefinition();
+        public ColumnDefinition Items_FullText = new ColumnDefinition();
         public ColumnDefinition Items_SearchIndexCreatedTime = new ColumnDefinition();
         public ColumnDefinition Items_UpdatedTime = new ColumnDefinition();
         public ColumnDefinition Sites_TenantId = new ColumnDefinition();
@@ -10295,6 +10332,28 @@ namespace Implem.DefinitionAccessor
         public string Template233;
         public string Template234;
         public string Template235;
+        public string Template236;
+        public string Template237;
+        public string Template238;
+        public string Template239;
+        public string Template240;
+        public string Template241;
+        public string Template242;
+        public string Template243;
+        public string Template244;
+        public string Template245;
+        public string Template246;
+        public string Template247;
+        public string Template248;
+        public string Template249;
+        public string Template250;
+        public string Template251;
+        public string Template252;
+        public string Template253;
+        public string Template254;
+        public string Template255;
+        public string Template256;
+        public string Template257;
     }
 
     public class TemplateTable
@@ -10534,6 +10593,28 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template233 = new TemplateDefinition();
         public TemplateDefinition Template234 = new TemplateDefinition();
         public TemplateDefinition Template235 = new TemplateDefinition();
+        public TemplateDefinition Template236 = new TemplateDefinition();
+        public TemplateDefinition Template237 = new TemplateDefinition();
+        public TemplateDefinition Template238 = new TemplateDefinition();
+        public TemplateDefinition Template239 = new TemplateDefinition();
+        public TemplateDefinition Template240 = new TemplateDefinition();
+        public TemplateDefinition Template241 = new TemplateDefinition();
+        public TemplateDefinition Template242 = new TemplateDefinition();
+        public TemplateDefinition Template243 = new TemplateDefinition();
+        public TemplateDefinition Template244 = new TemplateDefinition();
+        public TemplateDefinition Template245 = new TemplateDefinition();
+        public TemplateDefinition Template246 = new TemplateDefinition();
+        public TemplateDefinition Template247 = new TemplateDefinition();
+        public TemplateDefinition Template248 = new TemplateDefinition();
+        public TemplateDefinition Template249 = new TemplateDefinition();
+        public TemplateDefinition Template250 = new TemplateDefinition();
+        public TemplateDefinition Template251 = new TemplateDefinition();
+        public TemplateDefinition Template252 = new TemplateDefinition();
+        public TemplateDefinition Template253 = new TemplateDefinition();
+        public TemplateDefinition Template254 = new TemplateDefinition();
+        public TemplateDefinition Template255 = new TemplateDefinition();
+        public TemplateDefinition Template256 = new TemplateDefinition();
+        public TemplateDefinition Template257 = new TemplateDefinition();
     }
 
     public class ViewModeDefinition

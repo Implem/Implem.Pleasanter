@@ -91,7 +91,7 @@ namespace Implem.Pleasanter.Models
         public static string Search()
         {
             var dataSet = Get(
-                searchIndexes: QueryStrings.Data("text").SearchIndexes(),
+                searchText: QueryStrings.Data("text"),
                 offset: QueryStrings.Int("offset"),
                 pageSize: Parameters.General.SearchPageSize);
             return MainContainer(
@@ -107,9 +107,9 @@ namespace Implem.Pleasanter.Models
         public static string SearchJson()
         {
             var offset = QueryStrings.Int("offset");
-            var text = QueryStrings.Data("text");
+            var searchText = QueryStrings.Data("text");
             var dataSet = Get(
-                searchIndexes: text.SearchIndexes(),
+                searchText: searchText,
                 offset: offset,
                 pageSize: Parameters.General.SearchPageSize);
             var results = dataSet?.Tables["Main"].AsEnumerable();
@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Models
                     .ReplaceAll(
                         "#MainContainer",
                         MainContainer(
-                            text: text,
+                            text: searchText,
                             offset: 0,
                             results: results,
                             count: Rds.Count(dataSet)))
@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.Models
                 : res
                     .Append(
                         "#SearchResults",
-                        new HtmlBuilder().Results(text: text, offset: offset, results: results))
+                        new HtmlBuilder().Results(text: searchText, offset: offset, results: results))
                     .Val(
                         "#SearchOffset",
                         (results != null &&
@@ -247,33 +247,54 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static IEnumerable<long> GetIdCollection(
-            IEnumerable<string> searchIndexes, IEnumerable<long> siteIdList)
+            string searchText, IEnumerable<long> siteIdList)
         {
-            return Get(
-                searchIndexes: searchIndexes,
-                column: Rds.SearchIndexesColumn().ReferenceId(),
-                siteIdList: siteIdList)
-                    .Tables[0]
-                    .AsEnumerable()
-                    .Distinct()
-                    .Select(o => o["ReferenceId"].ToLong());
+            DataSet dataSet;
+            switch (Parameters.Search.Provider)
+            {
+                case "FullText":
+                    dataSet = Get(searchText: searchText);
+                    break;
+                default:
+                    dataSet = Get(
+                        searchIndexes: searchText.SearchIndexes(),
+                        column: Rds.SearchIndexesColumn().ReferenceId(),
+                        siteIdList: siteIdList);
+                    break;
+            }
+            return dataSet?
+                .Tables[0]
+                .AsEnumerable()
+                .Distinct()
+                .Select(o => o["ReferenceId"].ToLong())
+                .ToList();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static DataSet Get(IEnumerable<string> searchIndexes, int offset, int pageSize)
+        public static DataSet Get(string searchText, int offset, int pageSize)
         {
-            return Get(
-                searchIndexes: searchIndexes,
-                column: Rds.SearchIndexesColumn()
-                    .ReferenceId()
-                    .ReferenceType()
-                    .Priority(function: Sqls.Functions.Sum)
-                    .SearchIndexesCount(),
-                offset: offset,
-                pageSize: pageSize,
-                countRecord: offset == 0);
+            switch (Parameters.Search.Provider)
+            {
+                case "FullText":
+                    return Get(
+                        searchText: searchText,
+                        offset: offset,
+                        pageSize: pageSize,
+                        countRecord: offset == 0);
+                default:
+                    return Get(
+                        searchIndexes: searchText.SearchIndexes(),
+                        column: Rds.SearchIndexesColumn()
+                            .ReferenceId()
+                            .ReferenceType()
+                            .Priority(function: Sqls.Functions.Sum)
+                            .SearchIndexesCount(),
+                        offset: offset,
+                        pageSize: pageSize,
+                        countRecord: offset == 0);
+            }
         }
 
         /// <summary>
@@ -297,7 +318,7 @@ namespace Implem.Pleasanter.Models
                     join: Rds.SearchIndexesJoinDefault(),
                     where: Rds.SearchIndexesWhere()
                         .Word(searchIndexes, multiParamOperator: " or ")
-                        .PermissionType(0, _operator: "<>")
+                        .Add(raw: Def.Sql.CanRead)
                         .Add(
                             raw: "[Items].[SiteId] in ({0})".Params(siteIdList?.Join()),
                             _using: siteIdList?.Any() == true),
@@ -310,6 +331,52 @@ namespace Implem.Pleasanter.Models
                         .SearchIndexesCount(SqlOrderBy.Types.desc)
                         .Priority(function: Sqls.Functions.Sum)
                         .UpdatedTime(SqlOrderBy.Types.desc, function: Sqls.Functions.Max),
+                    offset: offset,
+                    pageSize: pageSize,
+                    countRecord: countRecord));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static DataSet Get(
+            string searchText,
+            IEnumerable<long> siteIdList = null,
+            int offset = 0,
+            int pageSize = 0,
+            bool countRecord = false)
+        {
+            var words = CSharp.Japanese.Kanaxs.KanaEx.ToKatakana(searchText)
+                .Replace("　", " ")
+                .Replace("\"", " ")
+                .Trim()
+                .Split(' ')
+                .Where(o => o != string.Empty)
+                .Distinct()
+                .Select(o => "\"" + o + "\"")
+                .ToList();
+            if (words?.Any() != true) return null;
+            return Rds.ExecuteDataSet(statements:
+                Rds.SelectItems(
+                    dataTableName: "Main",
+                    column: Rds.ItemsColumn()
+                        .ReferenceId()
+                        .ReferenceType(),
+                    join: Rds.ItemsJoinDefault()
+                        .Add(new SqlJoin(
+                            tableName: "[Sites]",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                    where: Rds.ItemsWhere()
+                        .Add(raw: "contains(FullText, @Words_Param)")
+                        .Add(raw: Def.Sql.CanRead)
+                        .Add(
+                            raw: "[Items].[SiteId] in ({0})".Params(siteIdList?.Join()),
+                            _using: siteIdList?.Any() == true),
+                    orderBy: Rds.ItemsOrderBy()
+                        .UpdatedTime(SqlOrderBy.Types.desc),
+                    param: Rds.ItemsParam()
+                        .Add(name: "Words", value: words.Join(" and ")),
                     offset: offset,
                     pageSize: pageSize,
                     countRecord: countRecord));

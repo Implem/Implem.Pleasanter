@@ -201,10 +201,12 @@ namespace Implem.Pleasanter.Models
             new SiteCollection(where: Rds.SitesWhere().TenantId(demoModel.TenantId))
                 .ForEach(siteModel =>
                 {
+                    var fullText = siteModel.FullText(siteModel.SiteSettings);
                     Rds.ExecuteNonQuery(statements: Rds.UpdateItems(
                         param: Rds.ItemsParam()
                             .SiteId(siteModel.SiteId)
-                            .Title(siteModel.Title.DisplayValue),
+                            .Title(siteModel.Title.DisplayValue)
+                            .FullText(fullText, _using: fullText != null),
                         where: Rds.ItemsWhere().ReferenceId(siteModel.SiteId),
                         addUpdatorParam: false,
                         addUpdatedTimeParam: false));
@@ -446,11 +448,13 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SitesWhere().SiteId(idHash.Get(demoDefinition.ParentId)));
                     var ss = siteModel.IssuesSiteSettings(issueId);
                     var issueModel = new IssueModel(ss, issueId);
+                    var fullText = issueModel.FullText(ss);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()
                                 .SiteId(issueModel.SiteId)
-                                .Title(issueModel.Title.DisplayValue),
+                                .Title(issueModel.Title.DisplayValue)
+                                .FullText(fullText, _using: fullText != null),
                             where: Rds.ItemsWhere().ReferenceId(issueModel.IssueId),
                             addUpdatorParam: false,
                             addUpdatedTimeParam: false));
@@ -696,11 +700,13 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SitesWhere().SiteId(idHash.Get(demoDefinition.ParentId)));
                     var ss = siteModel.ResultsSiteSettings(resultId);
                     var resultModel = new ResultModel(ss, resultId);
+                    var fullText = resultModel.FullText(ss);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()
                                 .SiteId(resultModel.SiteId)
-                                .Title(resultModel.Title.DisplayValue),
+                                .Title(resultModel.Title.DisplayValue)
+                                .FullText(fullText, _using: fullText != null),
                             where: Rds.ItemsWhere().ReferenceId(resultModel.ResultId),
                             addUpdatorParam: false,
                             addUpdatedTimeParam: false));

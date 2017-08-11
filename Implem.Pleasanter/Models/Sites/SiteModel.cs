@@ -294,6 +294,31 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public string FullText(SiteSettings ss, bool backgroundTask = false)
+        {
+            if (Parameters.Search.Provider != "FullText") return null;
+            if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
+            if (AccessStatus != Databases.AccessStatuses.Selected) return null;
+            if (ReferenceType == "Wikis") return null;
+            var fullText = new List<string>();
+            SiteInfo.TenantCaches[Sessions.TenantId()]
+                .SiteMenu.Breadcrumb(SiteId).FullText(fullText);
+            SiteId.FullText(fullText);
+            UpdatedTime.FullText(fullText);
+            Title.FullText(fullText);
+            Body.FullText(fullText);
+            Comments.FullText(fullText);
+            Creator.FullText(fullText);
+            Updator.FullText(fullText);
+            CreatedTime.FullText(fullText);
+            FullTextExtensions.OutgoingMailsFullText(fullText, "Sites", SiteId);
+            return CSharp.Japanese.Kanaxs.KanaEx.ToKatakana(fullText
+                .Where(o => !o.IsNullOrEmpty())
+                .Select(o => o.Trim())
+                .Distinct()
+                .Join(" "));
+        }
+
         public Dictionary<string, int> SearchIndexHash(SiteSettings ss)
         {
             if (AccessStatus != Databases.AccessStatuses.Selected)
@@ -367,6 +392,7 @@ namespace Implem.Pleasanter.Models
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
+            var fullText = FullText(SiteSettings);
             Rds.ExecuteNonQuery(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -376,7 +402,8 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(SiteId),
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
-                            .Title(Title.DisplayValue),
+                            .Title(Title.DisplayValue)
+                            .FullText(fullText, _using: fullText != null),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam,
                         _using: updateItems),

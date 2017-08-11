@@ -27,17 +27,20 @@ namespace Implem.Pleasanter.Models
         public long SiteId = 0;
         public string Title = string.Empty;
         public SiteModel Site = null;
+        public string FullText = string.Empty;
         public DateTime SearchIndexCreatedTime = 0.ToDateTime();
         public long SavedReferenceId = 0;
         public string SavedReferenceType = string.Empty;
         public long SavedSiteId = 0;
         public string SavedTitle = string.Empty;
         public SiteModel SavedSite = null;
+        public string SavedFullText = string.Empty;
         public DateTime SavedSearchIndexCreatedTime = 0.ToDateTime();
         public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
         public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
         public bool SiteId_Updated { get { return SiteId != SavedSiteId; } }
         public bool Title_Updated { get { return Title != SavedTitle && Title != null; } }
+        public bool FullText_Updated { get { return FullText != SavedFullText && FullText != null; } }
         public bool SearchIndexCreatedTime_Updated { get { return SearchIndexCreatedTime != SavedSearchIndexCreatedTime && SearchIndexCreatedTime != null; } }
 
         public ItemModel(DataRow dataRow)
@@ -874,6 +877,7 @@ namespace Implem.Pleasanter.Models
                     case "ReferenceType": ReferenceType = dataRow[name].ToString(); SavedReferenceType = ReferenceType; break;
                     case "SiteId": SiteId = dataRow[name].ToLong(); SavedSiteId = SiteId; break;
                     case "Title": Title = dataRow[name].ToString(); SavedTitle = Title; break;
+                    case "FullText": FullText = dataRow[name].ToString(); SavedFullText = FullText; break;
                     case "SearchIndexCreatedTime": SearchIndexCreatedTime = dataRow[name].ToDateTime(); SavedSearchIndexCreatedTime = SearchIndexCreatedTime; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
@@ -893,6 +897,7 @@ namespace Implem.Pleasanter.Models
                 ReferenceType_Updated ||
                 SiteId_Updated ||
                 Title_Updated ||
+                FullText_Updated ||
                 SearchIndexCreatedTime_Updated ||
                 Comments_Updated ||
                 Creator_Updated ||

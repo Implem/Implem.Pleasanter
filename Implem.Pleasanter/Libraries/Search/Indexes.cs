@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -14,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.Search
     {
         public static void Create(SiteSettings ss, long id, bool backgroundTask = false)
         {
-            if (Parameters.Service.CreateIndexes)
+            if (Parameters.Search.Provider.IsNullOrEmpty() && Parameters.Search.CreateIndexes)
             {
                 var itemModel = new ItemModel(id);
                 switch (itemModel.ReferenceType)
@@ -56,10 +57,20 @@ namespace Implem.Pleasanter.Libraries.Search
                 {
                     case "Sites":
                         var siteModel = new SiteModel(id);
-                        CreateIndexes(
-                            ss,
-                            siteModel.SearchIndexHash(ss),
-                            id);
+                        switch (Parameters.Search.Provider)
+                        {
+                            case "FullText":
+                                CreateFullText(
+                                    id,
+                                    siteModel.FullText(ss, backgroundTask: true));
+                                break;
+                            default:
+                                CreateIndexes(
+                                    ss,
+                                    siteModel.SearchIndexHash(ss),
+                                    id);
+                                break;
+                        }
                         break;
                     case "Issues":
                         var issueModel = new IssueModel(ss, id);
@@ -72,10 +83,20 @@ namespace Implem.Pleasanter.Libraries.Search
                                     {
                                         issueModel.PropertyValue(link.ColumnName)
                                     }));
-                        CreateIndexes(
-                            ss,
-                            issueModel.SearchIndexHash(ss),
-                            id);
+                        switch (Parameters.Search.Provider)
+                        {
+                            case "FullText":
+                                CreateFullText(
+                                    id,
+                                    issueModel.FullText(ss, backgroundTask: true));
+                                break;
+                            default:
+                                CreateIndexes(
+                                    ss,
+                                    issueModel.SearchIndexHash(ss),
+                                    id);
+                                break;
+                        }
                         break;
                     case "Results":
                         var resultModel = new ResultModel(ss, id);
@@ -88,17 +109,37 @@ namespace Implem.Pleasanter.Libraries.Search
                                     {
                                         resultModel.PropertyValue(link.ColumnName)
                                     }));
-                        CreateIndexes(
-                            ss,
-                            resultModel.SearchIndexHash(ss),
-                            id);
+                        switch (Parameters.Search.Provider)
+                        {
+                            case "FullText":
+                                CreateFullText(
+                                    id,
+                                    resultModel.FullText(ss, backgroundTask: true));
+                                break;
+                            default:
+                                CreateIndexes(
+                                    ss,
+                                    resultModel.SearchIndexHash(ss),
+                                    id);
+                                break;
+                        }
                         break;
                     case "Wikis":
                         var wikiModel = new WikiModel(ss, id);
-                        CreateIndexes(
-                            ss,
-                            wikiModel.SearchIndexHash(ss),
-                            id);
+                        switch (Parameters.Search.Provider)
+                        {
+                            case "FullText":
+                                CreateFullText(
+                                    id,
+                                    wikiModel.FullText(ss, backgroundTask: true));
+                                break;
+                            default:
+                                CreateIndexes(
+                                    ss,
+                                    wikiModel.SearchIndexHash(ss),
+                                    id);
+                                break;
+                        }
                         break;
                 }
             }
@@ -106,7 +147,7 @@ namespace Implem.Pleasanter.Libraries.Search
 
         public static void Create(SiteSettings ss, SiteModel siteModel)
         {
-            if (Parameters.Service.CreateIndexes)
+            if (Parameters.Search.Provider.IsNullOrEmpty() && Parameters.Search.CreateIndexes)
             {
                 Task.Run(() => CreateIndexes(
                     ss,
@@ -117,7 +158,7 @@ namespace Implem.Pleasanter.Libraries.Search
 
         public static void Create(SiteSettings ss, IssueModel issueModel)
         {
-            if (Parameters.Service.CreateIndexes)
+            if (Parameters.Search.Provider.IsNullOrEmpty() && Parameters.Search.CreateIndexes)
             {
                 Task.Run(() => CreateIndexes(
                     ss,
@@ -128,7 +169,7 @@ namespace Implem.Pleasanter.Libraries.Search
 
         public static void Create(SiteSettings ss, ResultModel resultModel)
         {
-            if (Parameters.Service.CreateIndexes)
+            if (Parameters.Search.Provider.IsNullOrEmpty() && Parameters.Search.CreateIndexes)
             {
                 Task.Run(() => CreateIndexes(
                     ss,
@@ -139,7 +180,7 @@ namespace Implem.Pleasanter.Libraries.Search
 
         public static void Create(SiteSettings ss, WikiModel wikiModel)
         {
-            if (Parameters.Service.CreateIndexes)
+            if (Parameters.Search.Provider.IsNullOrEmpty() && Parameters.Search.CreateIndexes)
             {
                 Task.Run(() => CreateIndexes(
                     ss,
@@ -195,6 +236,19 @@ namespace Implem.Pleasanter.Libraries.Search
                         .ReferenceId(raw: id.ToString())
                         .Priority(raw: word.Value.ToString()))));
             return statements.ToArray();
+        }
+
+        private static void CreateFullText(long id, string fullText)
+        {
+            if (fullText != null)
+            {
+                Rds.ExecuteNonQuery(statements:
+                    Rds.UpdateItems(
+                        where: Rds.ItemsWhere().ReferenceId(id),
+                        param: Rds.ItemsParam().FullText(fullText),
+                        addUpdatorParam: false,
+                        addUpdatedTimeParam: false));
+            }
         }
     }
 }

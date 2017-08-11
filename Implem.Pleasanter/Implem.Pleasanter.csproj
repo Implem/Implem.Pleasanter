@@ -218,6 +218,7 @@
     <Compile Include="Interfaces\ISettingListItem.cs" />
     <Compile Include="Libraries\Converts\FormatExtension.cs" />
     <Compile Include="Libraries\Converts\GridTextExtensions.cs" />
+    <Compile Include="Libraries\Converts\FullTextExtensions.cs" />
     <Compile Include="Libraries\Converts\ToNoticeExtensions.cs" />
     <Compile Include="Libraries\Converts\SearchIndexExtensions.cs" />
     <Compile Include="Libraries\Converts\TdExtensions.cs" />
@@ -1174,6 +1175,7 @@
     <Content Include="App_Data\Displays\Tables.json" />
     <Content Include="App_Data\Displays\Section.json" />
     <Content Include="App_Data\Displays\NoWrap.json" />
+    <Content Include="App_Data\Parameters\Search.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

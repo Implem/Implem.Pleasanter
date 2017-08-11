@@ -671,12 +671,13 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SearchIndexes_ReferenceType(params string[] data) { return Get("SearchIndexes_ReferenceType", data); }
         public static string SearchIndexes_Title(params string[] data) { return Get("SearchIndexes_Title", data); }
         public static string SearchIndexes_Subset(params string[] data) { return Get("SearchIndexes_Subset", data); }
-        public static string SearchIndexes_PermissionType(params string[] data) { return Get("SearchIndexes_PermissionType", data); }
+        public static string SearchIndexes_InheritPermission(params string[] data) { return Get("SearchIndexes_InheritPermission", data); }
         public static string Items_ReferenceId(params string[] data) { return Get("Items_ReferenceId", data); }
         public static string Items_ReferenceType(params string[] data) { return Get("Items_ReferenceType", data); }
         public static string Items_SiteId(params string[] data) { return Get("Items_SiteId", data); }
         public static string Items_Title(params string[] data) { return Get("Items_Title", data); }
         public static string Items_Site(params string[] data) { return Get("Items_Site", data); }
+        public static string Items_FullText(params string[] data) { return Get("Items_FullText", data); }
         public static string Items_SearchIndexCreatedTime(params string[] data) { return Get("Items_SearchIndexCreatedTime", data); }
         public static string Items_UpdatedTime(params string[] data) { return Get("Items_UpdatedTime", data); }
         public static string Sites_TenantId(params string[] data) { return Get("Sites_TenantId", data); }

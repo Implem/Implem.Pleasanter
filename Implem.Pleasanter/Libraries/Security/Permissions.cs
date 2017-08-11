@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Libraries.Security
                                     .AsEnumerable());
         }
 
-        public static SqlWhereCollection CanRead(SiteSettings ss, SqlWhereCollection where)
+        public static SqlWhereCollection SetCanReadWhere(SiteSettings ss, SqlWhereCollection where)
         {
             if (ss.AllowedIntegratedSites != null)
             {

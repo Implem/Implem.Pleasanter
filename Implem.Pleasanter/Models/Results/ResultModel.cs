@@ -2165,6 +2165,138 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public string FullText(SiteSettings ss, bool backgroundTask = false)
+        {
+            if (Parameters.Search.Provider != "FullText") return null;
+            if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
+            if (AccessStatus != Databases.AccessStatuses.Selected) return null;
+            var fullText = new List<string>();
+            SiteInfo.TenantCaches[Sessions.TenantId()]
+                .SiteMenu.Breadcrumb(SiteId).FullText(fullText);
+            SiteId.FullText(fullText);
+            UpdatedTime.FullText(fullText);
+            ResultId.FullText(fullText);
+            Title.FullText(fullText);
+            Body.FullText(fullText);
+            Status.FullText(ss.GetColumn("Status"), fullText);
+            Manager.FullText(fullText);
+            Owner.FullText(fullText);
+            ClassA.FullText(ss.GetColumn("ClassA"), fullText);
+            ClassB.FullText(ss.GetColumn("ClassB"), fullText);
+            ClassC.FullText(ss.GetColumn("ClassC"), fullText);
+            ClassD.FullText(ss.GetColumn("ClassD"), fullText);
+            ClassE.FullText(ss.GetColumn("ClassE"), fullText);
+            ClassF.FullText(ss.GetColumn("ClassF"), fullText);
+            ClassG.FullText(ss.GetColumn("ClassG"), fullText);
+            ClassH.FullText(ss.GetColumn("ClassH"), fullText);
+            ClassI.FullText(ss.GetColumn("ClassI"), fullText);
+            ClassJ.FullText(ss.GetColumn("ClassJ"), fullText);
+            ClassK.FullText(ss.GetColumn("ClassK"), fullText);
+            ClassL.FullText(ss.GetColumn("ClassL"), fullText);
+            ClassM.FullText(ss.GetColumn("ClassM"), fullText);
+            ClassN.FullText(ss.GetColumn("ClassN"), fullText);
+            ClassO.FullText(ss.GetColumn("ClassO"), fullText);
+            ClassP.FullText(ss.GetColumn("ClassP"), fullText);
+            ClassQ.FullText(ss.GetColumn("ClassQ"), fullText);
+            ClassR.FullText(ss.GetColumn("ClassR"), fullText);
+            ClassS.FullText(ss.GetColumn("ClassS"), fullText);
+            ClassT.FullText(ss.GetColumn("ClassT"), fullText);
+            ClassU.FullText(ss.GetColumn("ClassU"), fullText);
+            ClassV.FullText(ss.GetColumn("ClassV"), fullText);
+            ClassW.FullText(ss.GetColumn("ClassW"), fullText);
+            ClassX.FullText(ss.GetColumn("ClassX"), fullText);
+            ClassY.FullText(ss.GetColumn("ClassY"), fullText);
+            ClassZ.FullText(ss.GetColumn("ClassZ"), fullText);
+            NumA.FullText(fullText);
+            NumB.FullText(fullText);
+            NumC.FullText(fullText);
+            NumD.FullText(fullText);
+            NumE.FullText(fullText);
+            NumF.FullText(fullText);
+            NumG.FullText(fullText);
+            NumH.FullText(fullText);
+            NumI.FullText(fullText);
+            NumJ.FullText(fullText);
+            NumK.FullText(fullText);
+            NumL.FullText(fullText);
+            NumM.FullText(fullText);
+            NumN.FullText(fullText);
+            NumO.FullText(fullText);
+            NumP.FullText(fullText);
+            NumQ.FullText(fullText);
+            NumR.FullText(fullText);
+            NumS.FullText(fullText);
+            NumT.FullText(fullText);
+            NumU.FullText(fullText);
+            NumV.FullText(fullText);
+            NumW.FullText(fullText);
+            NumX.FullText(fullText);
+            NumY.FullText(fullText);
+            NumZ.FullText(fullText);
+            DateA.FullText(fullText);
+            DateB.FullText(fullText);
+            DateC.FullText(fullText);
+            DateD.FullText(fullText);
+            DateE.FullText(fullText);
+            DateF.FullText(fullText);
+            DateG.FullText(fullText);
+            DateH.FullText(fullText);
+            DateI.FullText(fullText);
+            DateJ.FullText(fullText);
+            DateK.FullText(fullText);
+            DateL.FullText(fullText);
+            DateM.FullText(fullText);
+            DateN.FullText(fullText);
+            DateO.FullText(fullText);
+            DateP.FullText(fullText);
+            DateQ.FullText(fullText);
+            DateR.FullText(fullText);
+            DateS.FullText(fullText);
+            DateT.FullText(fullText);
+            DateU.FullText(fullText);
+            DateV.FullText(fullText);
+            DateW.FullText(fullText);
+            DateX.FullText(fullText);
+            DateY.FullText(fullText);
+            DateZ.FullText(fullText);
+            DescriptionA.FullText(fullText);
+            DescriptionB.FullText(fullText);
+            DescriptionC.FullText(fullText);
+            DescriptionD.FullText(fullText);
+            DescriptionE.FullText(fullText);
+            DescriptionF.FullText(fullText);
+            DescriptionG.FullText(fullText);
+            DescriptionH.FullText(fullText);
+            DescriptionI.FullText(fullText);
+            DescriptionJ.FullText(fullText);
+            DescriptionK.FullText(fullText);
+            DescriptionL.FullText(fullText);
+            DescriptionM.FullText(fullText);
+            DescriptionN.FullText(fullText);
+            DescriptionO.FullText(fullText);
+            DescriptionP.FullText(fullText);
+            DescriptionQ.FullText(fullText);
+            DescriptionR.FullText(fullText);
+            DescriptionS.FullText(fullText);
+            DescriptionT.FullText(fullText);
+            DescriptionU.FullText(fullText);
+            DescriptionV.FullText(fullText);
+            DescriptionW.FullText(fullText);
+            DescriptionX.FullText(fullText);
+            DescriptionY.FullText(fullText);
+            DescriptionZ.FullText(fullText);
+            Comments.FullText(fullText);
+            Creator.FullText(fullText);
+            Updator.FullText(fullText);
+            CreatedTime.FullText(fullText);
+            FullTextExtensions.OutgoingMailsFullText(fullText, "Results", ResultId);
+            return CSharp.Japanese.Kanaxs.KanaEx.ToKatakana(fullText
+                .Where(o => !o.IsNullOrEmpty())
+                .Select(o => o.Trim())
+                .Distinct()
+                .Join(" "));
+        }
+
         public Dictionary<string, int> SearchIndexHash(SiteSettings ss)
         {
             if (AccessStatus != Databases.AccessStatuses.Selected)
@@ -2328,11 +2460,13 @@ namespace Implem.Pleasanter.Models
                 Notice(ss, "Created");
             }
             if (get) Get(ss);
+            var fullText = FullText(ss);
             Rds.ExecuteNonQuery(
                 rdsUser: rdsUser,
                 statements: Rds.UpdateItems(
                     param: Rds.ItemsParam()
-                        .Title(Title.DisplayValue),
+                        .Title(Title.DisplayValue)
+                        .FullText(fullText, _using: fullText != null),
                     where: Rds.ItemsWhere().ReferenceId(ResultId)));
             Libraries.Search.Indexes.Create(ss, this);
             if (ss.PermissionForCreating != null) ss.SetPermissions(ResultId);
@@ -2421,6 +2555,7 @@ namespace Implem.Pleasanter.Models
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
+            var fullText = FullText(ss);
             Rds.ExecuteNonQuery(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -2430,7 +2565,8 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(ResultId),
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
-                            .Title(Title.DisplayValue),
+                            .Title(Title.DisplayValue)
+                            .FullText(fullText, _using: fullText != null),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam,
                         _using: updateItems),
@@ -2517,11 +2653,14 @@ namespace Implem.Pleasanter.Models
         public Error.Types Move(SiteSettings ss, long siteId)
         {
             SiteId = siteId;
+            var fullText = FullText(ss);
             Rds.ExecuteNonQuery(statements: new SqlStatement[]
             {
                 Rds.UpdateItems(
                     where: Rds.ItemsWhere().ReferenceId(ResultId),
-                    param: Rds.ItemsParam().SiteId(SiteId)),
+                    param: Rds.ItemsParam()
+                        .SiteId(SiteId)
+                        .FullText(fullText, _using: fullText != null)),
                 Rds.UpdateResults(
                     where: Rds.ResultsWhere().ResultId(ResultId),
                     param: Rds.ResultsParam().SiteId(SiteId))

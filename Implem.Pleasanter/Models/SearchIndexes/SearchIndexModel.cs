@@ -28,14 +28,14 @@ namespace Implem.Pleasanter.Models
         public string ReferenceType = string.Empty;
         public string Title = string.Empty;
         public string Subset = string.Empty;
-        public Permissions.Types PermissionType = (Permissions.Types)31;
+        public long InheritPermission = 0;
         public string SavedWord = string.Empty;
         public long SavedReferenceId = 0;
         public int SavedPriority = 0;
         public string SavedReferenceType = string.Empty;
         public string SavedTitle = string.Empty;
         public string SavedSubset = string.Empty;
-        public long SavedPermissionType = 31;
+        public long SavedInheritPermission = 0;
         public bool Word_Updated { get { return Word != SavedWord && Word != null; } }
         public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
         public bool Priority_Updated { get { return Priority != SavedPriority; } }
@@ -110,7 +110,7 @@ namespace Implem.Pleasanter.Models
                     case "ReferenceType": ReferenceType = dataRow[name].ToString(); SavedReferenceType = ReferenceType; break;
                     case "Title": Title = dataRow[name].ToString(); SavedTitle = Title; break;
                     case "Subset": Subset = dataRow[name].ToString(); SavedSubset = Subset; break;
-                    case "PermissionType": PermissionType = (Permissions.Types)dataRow[name].ToLong(); SavedPermissionType = PermissionType.ToLong(); break;
+                    case "InheritPermission": InheritPermission = dataRow[name].ToLong(); SavedInheritPermission = InheritPermission; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
