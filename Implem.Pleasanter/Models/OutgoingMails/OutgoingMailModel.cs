@@ -184,7 +184,7 @@ namespace Implem.Pleasanter.Models
             if (get) Get();
             var siteModel = new ItemModel(ReferenceId).GetSite();
             var ss = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
-            Libraries.Search.Indexes.Create(ss, ReferenceId);
+            Libraries.Search.Indexes.Create(ss, ReferenceId, force: true);
             return Error.Types.None;
         }
 

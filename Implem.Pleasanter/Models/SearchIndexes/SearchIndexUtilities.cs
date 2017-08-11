@@ -466,7 +466,7 @@ namespace Implem.Pleasanter.Models
                                 hash.Add(data.SiteId, siteModel);
                             }
                             Libraries.Search.Indexes.Create(
-                                siteModel.SiteSettings, data.ReferenceId, backgroundTask: true);
+                                siteModel.SiteSettings, data.ReferenceId, force: true);
                             Rds.ExecuteNonQuery(statements: Rds.UpdateItems(
                                 where: Rds.ItemsWhere().ReferenceId(data.ReferenceId),
                                 param: Rds.ItemsParam().SearchIndexCreatedTime(data.UpdatedTime),

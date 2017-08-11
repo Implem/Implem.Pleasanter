@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.Search
 {
     public static class Indexes
     {
-        public static void Create(SiteSettings ss, long id, bool backgroundTask = false)
+        public static void Create(SiteSettings ss, long id, bool force = false)
         {
             if (Parameters.Search.Provider.IsNullOrEmpty() && Parameters.Search.CreateIndexes)
             {
@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Libraries.Search
                         break;
                 }
             }
-            else if (backgroundTask)
+            else if (force)
             {
                 var itemModel = new ItemModel(id);
                 switch (itemModel.ReferenceType)
