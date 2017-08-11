@@ -52,24 +52,6 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             });
                     }
                 });
-                new SiteCollection(tableType: Sqls.TableTypes.History).ForEach(siteModel =>
-                {
-                    if (siteModel.SiteSettings != null)
-                    {
-                        Rds.ExecuteNonQuery(
-                            statements: new SqlStatement[]
-                            {
-                                Rds.InsertItems(
-                                    tableType: Sqls.TableTypes.History,
-                                    param: Rds.ItemsParam()
-                                        .ReferenceId(siteModel.SiteId)
-                                        .Ver(siteModel.Ver)
-                                        .ReferenceType("Sites")
-                                        .SiteId(siteModel.SiteId)
-                                        .Title(siteModel.Title.Value))
-                            });
-                    }
-                });
                 Rds.ExecuteTable(statements: Rds.SelectIssues(
                     tableType: Sqls.TableTypes.Normal,
                     column: Rds.IssuesColumn()
