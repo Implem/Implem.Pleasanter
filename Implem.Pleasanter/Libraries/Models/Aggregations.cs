@@ -57,8 +57,11 @@ namespace Implem.Pleasanter.Libraries.Models
                             }
                             else
                             {
-                                data.Aggregation.Data.Add(
-                                    string.Empty, dataRow[0].ToDecimal());
+                                if (!data.Aggregation.Data.ContainsKey(string.Empty))
+                                {
+                                    data.Aggregation.Data.Add(
+                                        string.Empty, dataRow[0].ToDecimal());
+                                }
                             }
                         });
                 });
