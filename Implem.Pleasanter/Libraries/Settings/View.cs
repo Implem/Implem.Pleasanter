@@ -1318,13 +1318,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void SetSearchWhere(SiteSettings ss, SqlWhereCollection where)
         {
             if (Search.IsNullOrEmpty()) return;
-            var results = SearchIndexUtilities.GetIdCollection(
+            var select = SearchIndexUtilities.Select(
                 searchText: Search,
                 siteIdList: ss.AllowedIntegratedSites != null
                     ? ss.AllowedIntegratedSites
-                    : new List<long> { ss.SiteId })?
-                        .Join();
-            if (!results.IsNullOrEmpty())
+                    : new List<long> { ss.SiteId });
+            if (select != null)
             {
                 switch (ss.ReferenceType)
                 {
@@ -1332,19 +1331,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                         where.Add(
                             columnBrackets: new string[] { "[IssueId]" },
                             name: "IssueId",
-                            _operator: " in (" + results + ")");
+                            _operator: " in ",
+                            sub: select);
                         break;
                     case "Results":
                         where.Add(
                             columnBrackets: new string[] { "[ResultId]" },
                             name: "ResultId",
-                            _operator: " in (" + results + ")");
+                            _operator: " in ",
+                            sub: select);
                         break;
                     case "Wikis":
                         where.Add(
                             columnBrackets: new string[] { "[WikiId]" },
                             name: "WikiId",
-                            _operator: " in (" + results + ")");
+                            _operator: " in ",
+                            sub: select);
                         break;
                 }
             }
