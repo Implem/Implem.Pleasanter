@@ -171,9 +171,10 @@ namespace Implem.Pleasanter.Libraries.Converts
         public static IEnumerable<string> SearchIndexes(this string self, bool createIndex = false)
         {
             return new Search.WordBreaker(self, createIndex).Results
-                .Select(o => o.Trim())
+                .Select(o => o.Trim().ToLower())
                 .Where(o => o != string.Empty)
-                .Distinct();
+                .Distinct()
+                .ToList();
         }
     }
 }

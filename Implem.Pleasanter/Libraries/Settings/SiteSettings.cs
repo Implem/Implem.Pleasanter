@@ -1940,10 +1940,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.First())
                         .Where(o =>
                             selectedValues?.Any() != true ||
-                            selectedValues.Any(p => p == o.Split_1st()))
+                            selectedValues.All(p => p == o.Split_1st()))
+                        .ToDictionary(o => o, o => o.SearchIndexes())
                         .Where(o =>
                             searchIndexes?.Any() != true ||
-                            searchIndexes.All(p => o.Contains(p)))
+                            searchIndexes.All(p => o.Value.Any(q => q.Contains(p))))
+                        .Select(o => o.Key)
                         .Take(Parameters.General.DropDownSearchLimit));
         }
 
