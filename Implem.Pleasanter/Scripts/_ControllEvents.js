@@ -34,13 +34,6 @@
     $(document).on('change', '.auto-postback:not([type="text"],select[multiple])', function () {
         $p.send($(this));
     });
-    $(document).on('change', '.auto-postback[type="text"]', function () {
-        var $control = $(this);
-        if ($control.val() !== $control.attr('data-previous')) {
-            $p.send($control);
-        }
-        $control.attr('data-previous', $control.val());
-    });
     $(document).on('keyup', '.auto-postback[type="text"]', function (e) {
         var $control = $(this);
         $p.setData($control);
