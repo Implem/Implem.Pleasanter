@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
@@ -1814,7 +1815,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             SetChoiceHash(
                 columnName: null,
-                searchIndexes: null,
+                searchText: null,
                 linkHash: withLink
                     ? LinkHash(all: all)
                     : null);
@@ -1822,25 +1823,26 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetChoiceHash(
             string columnName,
-            IEnumerable<string> searchIndexes = null,
+            string searchText = null,
             IEnumerable<string> selectedValues = null)
         {
             SetChoiceHash(
                 columnName: columnName,
-                searchIndexes: searchIndexes,
-                linkHash: LinkHash(columnName, searchIndexes, selectedValues));
+                searchText: searchText,
+                linkHash: LinkHash(columnName, searchText, selectedValues));
         }
 
         private void SetChoiceHash(
             string columnName,
-            IEnumerable<string> searchIndexes,
+            string searchText,
             Dictionary<string, IEnumerable<string>> linkHash)
         {
             Columns?
                 .Where(o => o.HasChoices())
                 .Where(o => columnName == null || o.ColumnName == columnName)
                 .ForEach(column =>
-                    column.SetChoiceHash(InheritPermission, linkHash, searchIndexes));
+                    column.SetChoiceHash(
+                        InheritPermission, linkHash, searchText.SearchIndexes()));
         }
 
         private Dictionary<string, IEnumerable<string>> LinkHash(bool all)
@@ -1889,7 +1891,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private Dictionary<string, IEnumerable<string>> LinkHash(
             string columnName,
-            IEnumerable<string> searchIndexes,
+            string searchText,
             IEnumerable<string> selectedValues)
         {
             var hash = new Dictionary<string, IEnumerable<string>>();
@@ -1905,12 +1907,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         column: Rds.SitesColumn().ReferenceType(),
                         where: Rds.SitesWhere().SiteId(link.SiteId))) == "Wikis")
                     {
-                        WikisLinkHash(searchIndexes, selectedValues, link, hash, allowSites);
+                        WikisLinkHash(searchText, selectedValues, link, hash, allowSites);
                     }
                     else
                     {
                         LinkHash(
-                            searchIndexes,
+                            searchText,
                             selectedValues?.Select(o => o.ToLong()),
                             link,
                             hash,
@@ -1921,12 +1923,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private static void WikisLinkHash(
-            IEnumerable<string> searchIndexes,
+            string searchText,
             IEnumerable<string> selectedValues,
             Link link,
             Dictionary<string, IEnumerable<string>> hash,
             IEnumerable<long> allowSites)
         {
+            var searchIndexes = searchText.SearchIndexes();
             hash.Add("[[" + link.SiteId + "]]", Rds.ExecuteScalar_string(statements:
                 Rds.SelectWikis(
                     column: Rds.WikisColumn().Body(),
@@ -1945,22 +1948,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private static void LinkHash(
-            IEnumerable<string> searchIndexes,
+            string searchText,
             IEnumerable<long> selectedValues,
             Link link,
             Dictionary<string, IEnumerable<string>> hash,
             IEnumerable<long> allowSites)
         {
-            var results = searchIndexes?.Any() == true
-                ? SearchIndexUtilities.Get(
-                    searchIndexes: searchIndexes,
-                    column: Rds.SearchIndexesColumn().ReferenceId(),
-                    siteIdList: new List<long> { link.SiteId },
-                    pageSize: Parameters.General.DropDownSearchLimit)
-                        .Tables[0]
-                        .AsEnumerable()
-                        .Select(o => o["ReferenceId"].ToLong())
-                : null;
+            var select = SearchIndexUtilities.Select(
+                searchText: searchText,
+                siteIdList: new List<long> { link.SiteId });
             var dataRows = Rds.ExecuteTable(statements:
                 Rds.SelectItems(
                     top: Parameters.General.DropDownSearchLimit,
@@ -1970,9 +1966,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .SiteId()
                         .Title(),
                     where: Rds.ItemsWhere()
-                        .ReferenceId_In(results, _using:
-                            results?.Any() == true ||
-                            searchIndexes?.Any() == true)
+                        .ReferenceId(
+                            _operator: " in ",
+                            sub: select,
+                            _using: select != null)
                         .ReferenceId_In(
                             selectedValues,
                             _using: selectedValues?.Any() == true)

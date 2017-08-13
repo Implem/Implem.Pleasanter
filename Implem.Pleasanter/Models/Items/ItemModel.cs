@@ -394,7 +394,7 @@ namespace Implem.Pleasanter.Models
                 controlId.EndsWith(ss.ReferenceType + "_" + o.ColumnName));
             ss.SetChoiceHash(
                 columnName: column?.ColumnName,
-                searchIndexes: Forms.Data("DropDownSearchText").SearchIndexes());
+                searchText: Forms.Data("DropDownSearchText"));
             return new ResponseCollection()
                 .ReplaceAll(
                     "#DropDownSearchResults",
@@ -414,7 +414,7 @@ namespace Implem.Pleasanter.Models
                 controlId.EndsWith(ss.ReferenceType + "_" + o.ColumnName));
             ss.SetChoiceHash(
                 columnName: column?.ColumnName,
-                searchIndexes: Forms.Data("DropDownSearchText").SearchIndexes());
+                searchText: Forms.Data("DropDownSearchText"));
             var selected = Forms.List("DropDownSearchResults");
             var multiple = Forms.Bool("DropDownSearchMultiple");
             if (multiple)

@@ -332,7 +332,7 @@ namespace Implem.Pleasanter.Models
 
         private static List<string> Words(string searchText)
         {
-            return searchText
+            return searchText?
                 .Replace("　", " ")
                 .Replace("\"", " ")
                 .Trim()
@@ -395,7 +395,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static DataSet Get(
+        private static DataSet Get(
             IEnumerable<string> searchIndexes,
             SqlColumnCollection column,
             IEnumerable<long> siteIdList = null,
