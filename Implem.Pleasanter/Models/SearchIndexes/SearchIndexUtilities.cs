@@ -330,6 +330,9 @@ namespace Implem.Pleasanter.Models
                     countRecord: countRecord));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static List<string> Words(string searchText)
         {
             return searchText?
