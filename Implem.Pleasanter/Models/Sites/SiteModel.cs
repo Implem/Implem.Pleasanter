@@ -694,7 +694,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private SiteSettings GetSiteSettings(DataRow dataRow)
         {
-            return dataRow["SiteSettings"].ToString().Deserialize<SiteSettings>() ??
+            return dataRow.String("SiteSettings").Deserialize<SiteSettings>() ??
                 new SiteSettings(ReferenceType);
         }
 
