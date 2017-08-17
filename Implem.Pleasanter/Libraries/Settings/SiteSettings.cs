@@ -992,11 +992,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Permissions.InheritPermission(o),
                     Permissions.Types.Export))
                 .ToList()
+                .Distinct()
                 .ForEach(siteId =>
                 {
                     var ss = SiteSettingsUtilities.GetByDataRow(siteId);
-                    hash.Add(siteId, ss);
-                    GetJoinedSiteSettings(ss.Links, hash);
+                    if (ss != null)
+                    {
+                        hash.Add(siteId, ss);
+                        GetJoinedSiteSettings(ss.Links, hash);
+                    }
                 });
             return hash;
         }
