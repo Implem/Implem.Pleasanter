@@ -31,6 +31,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
+        public static void UpdateOrInsert(string loginId)
+        {
+            var searchRoot = new DirectoryEntry(Parameters.Authentication.LdapSearchRoot);
+            var directorySearcher = new DirectorySearcher(searchRoot);
+            directorySearcher.Filter = "({0}={1})".Params(
+                Parameters.Authentication.LdapSearchProperty,
+                loginId.Split_2nd('\\'));
+            var searchResult = directorySearcher.FindOne();
+            var entry = new DirectoryEntry(searchResult.Path);
+            UpdateOrInsert(loginId, entry);
+        }
+
         private static void UpdateOrInsert(string loginId, DirectoryEntry entry)
         {
             var deptCode = entry.Property(Parameters.Authentication.LdapDeptCode);

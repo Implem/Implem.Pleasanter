@@ -1,6 +1,8 @@
 ﻿using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Configuration;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Security;
 namespace Implem.Pleasanter.Libraries.Security
 {
@@ -24,6 +26,12 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             FormsAuthentication.SignOut();
             HttpContext.Current.Session.Abandon();
+        }
+
+        public static bool Windows()
+        {
+            return ((AuthenticationSection)ConfigurationManager
+                .GetSection("system.web/authentication")).Mode.ToString() == "Windows";
         }
     }
 }

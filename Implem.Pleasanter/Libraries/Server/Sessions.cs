@@ -1,6 +1,8 @@
 ﻿using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -47,30 +49,45 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static bool LoggedIn()
         {
-            return UserId() != Implem.Libraries.Classes.RdsUser.UserTypes.Anonymous.ToInt();
+            return
+                HttpContext.Current?.User?.Identity.Name.IsNullOrEmpty() == false &&
+                HttpContext.Current?.User.Identity.Name !=
+                    Implem.Libraries.Classes.RdsUser.UserTypes.Anonymous.ToInt().ToString();
         }
 
         private static int UserIdentity()
         {
-            return HttpContext.Current?.User.Identity.Name.ToInt() ?? 0;
+            var id = HttpContext.Current.Session["UserId"]?.ToInt();
+            if (id != null)
+            {
+                return id.ToInt();
+            }
+            else
+            {
+                var name = HttpContext.Current?.User.Identity.Name;
+                var userId = Authentications.Windows() || name != null
+                    ? Rds.ExecuteScalar_int(statements:
+                        Rds.SelectUsers(
+                            column: Rds.UsersColumn().UserId(),
+                            where: Rds.UsersWhere().LoginId(name)))
+                    : name.ToInt();
+                HttpContext.Current.Session["UserId"] = userId;
+                return userId;
+            }
         }
 
         public static int UserId()
         {
-            return (
-                HttpContext.Current?.User != null &&
-                HttpContext.Current?.User.Identity.Name != string.Empty)
-                    ? UserIdentity()
-                    : Implem.Libraries.Classes.RdsUser.UserTypes.Anonymous.ToInt();
+            return LoggedIn()
+                ? UserIdentity()
+                : Implem.Libraries.Classes.RdsUser.UserTypes.Anonymous.ToInt();
         }
 
         public static int DeptId()
         {
-            return (
-                HttpContext.Current?.User != null &&
-                HttpContext.Current?.User.Identity.Name != string.Empty)
-                    ? SiteInfo.User(UserIdentity()).DeptId
-                    : 0;
+            return LoggedIn()
+                ? SiteInfo.User(UserIdentity()).DeptId
+                : 0;
         }
 
         public static User User()

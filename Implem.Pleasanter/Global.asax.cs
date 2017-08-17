@@ -88,7 +88,11 @@ namespace Implem.Pleasanter
             Session["SessionGuid"] = Strings.NewGuid();
             if (Sessions.LoggedIn())
             {
-                var userId = HttpContext.Current.User.Identity.Name.ToInt();
+                if (Authentications.Windows())
+                {
+                    Ldap.UpdateOrInsert(HttpContext.Current.User.Identity.Name);
+                }
+                var userId = Sessions.UserId();
                 var tenantId = Rds.ExecuteScalar_int(statements:
                     Rds.SelectUsers(
                         column: Rds.UsersColumn().TenantId(),
