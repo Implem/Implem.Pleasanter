@@ -996,7 +996,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ForEach(siteId =>
                 {
                     var ss = SiteSettingsUtilities.GetByDataRow(siteId);
-                    if (ss != null)
+                    if (ss != null && !hash.ContainsKey(siteId))
                     {
                         hash.Add(siteId, ss);
                         GetJoinedSiteSettings(ss.Links, hash);
