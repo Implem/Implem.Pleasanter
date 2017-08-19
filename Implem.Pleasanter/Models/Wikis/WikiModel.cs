@@ -175,7 +175,8 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public string FullText(SiteSettings ss, bool backgroundTask = false)
+        public string FullText(
+            SiteSettings ss, bool backgroundTask = false, bool onCreating = false)
         {
             if (Parameters.Search.Provider != "FullText") return null;
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
@@ -192,7 +193,10 @@ namespace Implem.Pleasanter.Models
             Creator.FullText(fullText);
             Updator.FullText(fullText);
             CreatedTime.FullText(fullText);
-            FullTextExtensions.OutgoingMailsFullText(fullText, "Wikis", WikiId);
+            if (!onCreating)
+            {
+                FullTextExtensions.OutgoingMailsFullText(fullText, "Wikis", WikiId);
+            }
             return fullText
                 .Where(o => !o.IsNullOrEmpty())
                 .Select(o => o.Trim())
@@ -248,7 +252,7 @@ namespace Implem.Pleasanter.Models
                 Notice(ss, "Created");
             }
             if (get) Get(ss);
-            var fullText = FullText(ss);
+            var fullText = FullText(ss, onCreating: true);
             Rds.ExecuteNonQuery(
                 rdsUser: rdsUser,
                 statements: Rds.UpdateItems(

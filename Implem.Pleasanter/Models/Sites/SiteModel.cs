@@ -294,7 +294,8 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public string FullText(SiteSettings ss, bool backgroundTask = false)
+        public string FullText(
+            SiteSettings ss, bool backgroundTask = false, bool onCreating = false)
         {
             if (Parameters.Search.Provider != "FullText") return null;
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
@@ -311,7 +312,10 @@ namespace Implem.Pleasanter.Models
             Creator.FullText(fullText);
             Updator.FullText(fullText);
             CreatedTime.FullText(fullText);
-            FullTextExtensions.OutgoingMailsFullText(fullText, "Sites", SiteId);
+            if (!onCreating)
+            {
+                FullTextExtensions.OutgoingMailsFullText(fullText, "Sites", SiteId);
+            }
             return fullText
                 .Where(o => !o.IsNullOrEmpty())
                 .Select(o => o.Trim())
