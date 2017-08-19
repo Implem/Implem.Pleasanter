@@ -236,11 +236,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             dataTable.AsEnumerable().ForEach(dataRow =>
             {
                 var ss = SiteSettingsUtilities.Get(dataRow);
-                ss.SiteId = dataRow["SiteId"].ToLong();
-                ss.Title = dataRow["Title"].ToString();
-                ss.ReferenceType = dataRow["ReferenceType"].ToString();
-                ss.ParentId = dataRow["ParentId"].ToLong();
-                ss.InheritPermission = dataRow["InheritPermission"].ToLong();
+                ss.SiteId = dataRow.Long("SiteId");
+                ss.Title = dataRow.String("Title");
+                ss.ReferenceType = dataRow.String("ReferenceType");
+                ss.ParentId = dataRow.Long("ParentId");
+                ss.InheritPermission = dataRow.Long("InheritPermission");
                 ss.SetChoiceHash();
                 ssList.Add(ss);
             });
