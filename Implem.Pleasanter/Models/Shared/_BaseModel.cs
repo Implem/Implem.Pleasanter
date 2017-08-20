@@ -32,13 +32,13 @@ namespace Implem.Pleasanter.Models
         public string Timestamp = string.Empty;
         public int DeleteCommentId;
         public int SavedVer = 1;
-        public string SavedComments = string.Empty;
         public int SavedCreator = 0;
         public int SavedUpdator = 0;
         public DateTime SavedCreatedTime = 0.ToDateTime();
         public DateTime SavedUpdatedTime = 0.ToDateTime();
         public bool SavedVerUp = false;
         public string SavedTimestamp = string.Empty;
+        public string SavedComments = "[]";
         public bool Ver_Updated { get { return Ver != SavedVer; } }
         public bool Comments_Updated { get { return Comments.ToJson() != SavedComments && Comments.ToJson() != null; } }
         public bool Creator_Updated { get { return Creator.Id != SavedCreator; } }
