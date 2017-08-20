@@ -57,15 +57,15 @@ namespace Implem.Pleasanter.Libraries.Server
 
         private static int UserIdentity()
         {
-            var id = HttpContext.Current.Session["UserId"]?.ToInt();
-            if (id != null)
+            var id = HttpContext.Current.Session["UserId"].ToInt();
+            if (id != 0)
             {
                 return id.ToInt();
             }
             else
             {
                 var name = HttpContext.Current?.User.Identity.Name;
-                var userId = Authentications.Windows() || name != null
+                var userId = Authentications.Windows() && name != null
                     ? Rds.ExecuteScalar_int(statements:
                         Rds.SelectUsers(
                             column: Rds.UsersColumn().UserId(),
