@@ -7,7 +7,7 @@
 http://qiita.com/Implem/items/39ef5be388f40aa21c04
 
 ## 使い方マニュアル
-プリザンターのインストール手順及び、操作方法を解説します。  
+プリザンターのインストール手順及び、操作方法を解説します。  
 https://github.com/Implem/Implem.Pleasanter/wiki/プリザンターの使い方マニュアル
 
 ## デモサイト
