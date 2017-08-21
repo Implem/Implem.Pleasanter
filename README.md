@@ -50,7 +50,7 @@ https://implem.co.jp/category/blog/
 |.NET Framework 4.5|導入済|導入済|-|
 |IIS|◯|◯|-|
 |ASP.NET 4.5|◯|◯|-|
-|SQL Server 2012/2014/2016|◯|◯|-|
+|SQL Server 2014/2016|◯|◯|-|
 |Web Deploy v3.5|◯|◯|-|
 |Microsoft Azure Web App|-|-|◯|
 |Microsoft Azure SQL Database|-|-|◯|
