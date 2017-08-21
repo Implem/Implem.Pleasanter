@@ -6,9 +6,9 @@
 プリザンターの機能の概要をアニメーションGIFを用いて説明します。  
 http://qiita.com/Implem/items/39ef5be388f40aa21c04
 
-## 利用ガイド
-プリザンターのセットアップ手順及び、操作手順を説明します。  
-https://github.com/Implem/Implem.Pleasanter/wiki
+## 使い方マニュアル
+プリザンターのインストール手順及び、操作方法を解説します。  
+https://github.com/Implem/Implem.Pleasanter/wiki/プリザンターの使い方マニュアル
 
 ## デモサイト
 下記のサイトでe-mailアドレスを登録するとプリザンターを試行することが出来ます。  
