@@ -26,22 +26,22 @@ https://implem.co.jp/category/blog/
 * 操作イメージ
 ![default](https://user-images.githubusercontent.com/17098267/26913025-36b4d106-4c53-11e7-9220-eeaf521aa9e4.gif)
 
-* [カレンダー](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：カレンダー)
+* [カレンダー](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：カレンダー)
 ![default](https://user-images.githubusercontent.com/17098267/26912816-ddbdcc48-4c51-11e7-9626-fe6e14864ec2.gif)
 
-* [クロス集計](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：クロス集計)
+* [クロス集計](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：クロス集計)
 ![default](https://user-images.githubusercontent.com/17098267/26914950-e92cf0a6-4c5e-11e7-8d71-9712e91b12fd.gif)
 
-* [ガントチャート](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：ガントチャート)
+* [ガントチャート](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：ガントチャート)
 ![default](https://user-images.githubusercontent.com/17098267/27017681-49f03c82-4f65-11e7-9df9-97ae76780096.gif)
 
-* [バーンダウンチャート](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：バーンダウンチャート)
+* [バーンダウンチャート](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：バーンダウンチャート)
 ![default](https://user-images.githubusercontent.com/17098267/26912848-08ead8ca-4c52-11e7-8159-bb6d2184f84c.gif)
 
-* [時系列チャート](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：時系列チャート)
+* [時系列チャート](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：時系列チャート)
 ![default](https://user-images.githubusercontent.com/17098267/26912851-0c1b82f6-4c52-11e7-9461-8efbfd6cfea4.gif)
 
-* [カンバン](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：カンバン)
+* [カンバン](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：カンバン)
 ![default](https://user-images.githubusercontent.com/17098267/26912853-0d61e2b8-4c52-11e7-8eb4-56feb7576d24.gif)
 
 ## 動作条件
@@ -58,19 +58,18 @@ https://implem.co.jp/category/blog/
 ## 機能一覧
 | 項目               | 説明                                  |
 |:-------------------|:--------------------------------------|
-|[サイトメニュー](https://github.com/Implem/Implem.Pleasanter/wiki/サイト機能：サイトメニュー)|ファイルサーバのような階層構造|
-|[サイト](https://github.com/Implem/Implem.Pleasanter/wiki/サイト機能：サイト)|情報の入れ物|
-|[期限付きテーブル](https://github.com/Implem/Implem.Pleasanter/wiki/サイト機能：期限付きテーブル)|タスク管理など期限のあるデータを表形式で管理するテーブルの入れ物|
-|[記録テーブル](https://github.com/Implem/Implem.Pleasanter/wiki/サイト機能：記録テーブル)|顧客リストなど期限の無いデータを表形式で管理するテーブルの入れ物|
-|[Wiki](https://github.com/Implem/Implem.Pleasanter/wiki/サイト機能：Wiki)|マークダウン記法に対応したマニュアルやリンク集のページ|
-|[サイト設定](https://github.com/Implem/Implem.Pleasanter/wiki/サイト機能：サイト設定)|サイトのカスタマイズ|
-|[アクセス制御](https://github.com/Implem/Implem.Pleasanter/wiki/サイト機能：サイト設定：サイトのアクセス制御)|サイト単位に利用者の権限を設定|
-|[メール](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：基本機能：メール)|テーブルからメールを送信|
-|[分割](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：基本機能：分割)|テーブルを複数のテーブルに分割|
-|[コメント](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：基本機能：コメント)|テーブルにコメントを追加|
-|[変更履歴](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：基本機能：変更履歴)|テーブルの更新履歴の保存と参照|
-|[インポート](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：基本機能：インポート)|テーブルをCSVファイルからインポート|
-|[エクスポート](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：基本機能：エクスポート)|テーブルをCSVファイルにエクスポート|
+|[フォルダ](https://github.com/Implem/Implem.Pleasanter/wiki/%E3%83%97%E3%83%AA%E3%82%B6%E3%83%B3%E3%82%BF%E3%83%BC%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB#%E3%83%95%E3%82%A9%E3%83%AB%E3%83%80%E6%A9%9F%E8%83%BD)|ファイルサーバのようなツリー形式のデータ構造を作るための機能|
+|[期限付きテーブル](https://github.com/Implem/Implem.Pleasanter/wiki/%E3%83%97%E3%83%AA%E3%82%B6%E3%83%B3%E3%82%BF%E3%83%BC%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB#%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E6%A9%9F%E8%83%BD)タスク管理など期限の管理を行うための一覧表を作るための機能|
+|[記録テーブル](https://github.com/Implem/Implem.Pleasanter/wiki/%E3%83%97%E3%83%AA%E3%82%B6%E3%83%B3%E3%82%BF%E3%83%BC%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB#%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E6%A9%9F%E8%83%BD)|資産管理やノウハウ集など情報の記録や管理に役立つ一覧表を作るための機能|
+|[Wiki](https://github.com/Implem/Implem.Pleasanter/wiki/%E3%83%97%E3%83%AA%E3%82%B6%E3%83%B3%E3%82%BF%E3%83%BC%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB#wiki%E6%A9%9F%E8%83%BD)|メモやリンク集などに利用できるWikiを作るための機能|
+|[テーブルの管理](https://github.com/Implem/Implem.Pleasanter/wiki/テーブルの管理)|テーブルの設定をカスタマイズするための機能|
+|[アクセス制御](https://github.com/Implem/Implem.Pleasanter/wiki/管理機能：サイトのアクセス制御)|サイト単位に利用者の権限を設定|
+|[メール](https://github.com/Implem/Implem.Pleasanter/wiki/共通機能：メール)|テーブルからメールを送信|
+|[分割](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：分割)|テーブルを複数のテーブルに分割|
+|[コメント](https://github.com/Implem/Implem.Pleasanter/wiki/共通機能：コメント)|テーブルにコメントを追加|
+|[変更履歴](https://github.com/Implem/Implem.Pleasanter/wiki/共通機能：変更履歴)|テーブルの更新履歴の保存と参照|
+|[インポート](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：インポート)|テーブルをCSVファイルからインポート|
+|[エクスポート](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：エクスポート)|テーブルをCSVファイルにエクスポート|
 |[カスタム項目](https://github.com/Implem/Implem.Pleasanter/wiki#%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0%E9%A0%85%E7%9B%AE)|テーブルのカスタマイズ可能な入力フィールドの設定|
 |[リンク](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：ビジネスロジック：リンク)|テーブルでサイト間のテーブルの親子関係を設定|
 |[サマリ](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：ビジネスロジック：サマリ)|リンクしているテーブルの件数または数値フィールドの合計、平均、最大、最小をカスタムフィールドに格納|
