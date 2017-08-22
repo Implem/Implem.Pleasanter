@@ -235,7 +235,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanRead(this SiteSettings ss, bool site = false)
         {
-            switch (Routes.Controller().ToLower())
+            switch (Routes.Controller())
             {
                 case "depts":
                     return CanManageTenant();
@@ -250,7 +250,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanCreate(this SiteSettings ss, bool site = false)
         {
-            switch (Routes.Controller().ToLower())
+            switch (Routes.Controller())
             {
                 case "depts":
                 case "users":
@@ -264,7 +264,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanUpdate(this SiteSettings ss, bool site = false)
         {
-            switch (Routes.Controller().ToLower())
+            switch (Routes.Controller())
             {
                 case "depts":
                     return CanManageTenant();
@@ -291,7 +291,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanDelete(this SiteSettings ss, bool site = false)
         {
-            switch (Routes.Controller().ToLower())
+            switch (Routes.Controller())
             {
                 case "depts":
                     return CanManageTenant();

@@ -281,7 +281,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 labelText: Displays.Search(),
                 text: view.Search,
                 method: "post",
-                _using: Routes.Controller().ToLower() == "items");
+                _using: Routes.Controller() == "items");
         }
     }
 }
