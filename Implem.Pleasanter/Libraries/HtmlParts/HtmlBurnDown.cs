@@ -193,7 +193,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Td(
-            this HtmlBuilder hb, decimal value, string unit, string css = "")
+            this HtmlBuilder hb, decimal value, string unit, string css = null)
         {
             return hb.Td(
                 css: css + (value <= 0
