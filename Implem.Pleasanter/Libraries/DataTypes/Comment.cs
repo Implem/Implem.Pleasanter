@@ -12,7 +12,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public int Creator;
         public string Body;
 
-        public HtmlBuilder Html(HtmlBuilder hb, string controlId = "", Action action = null)
+        public HtmlBuilder Html(HtmlBuilder hb, string controlId = null, Action action = null)
         {
             return hb.Div(
                 id: controlId,
