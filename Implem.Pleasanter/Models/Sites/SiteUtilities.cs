@@ -1850,7 +1850,6 @@ namespace Implem.Pleasanter.Models
                                 ss: siteModel.SiteSettings,
                                 siteId: siteModel.SiteId,
                                 verType: siteModel.VerType,
-                                referenceType: "items",
                                 referenceId: siteModel.SiteId,
                                 updateButton: true,
                                 copyButton: true,

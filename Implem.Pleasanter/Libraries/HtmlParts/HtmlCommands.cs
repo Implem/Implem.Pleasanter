@@ -14,7 +14,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             long siteId,
             Versions.VerTypes verType,
-            string referenceType = "",
             long referenceId = 0,
             bool backButton = true,
             bool updateButton = false,

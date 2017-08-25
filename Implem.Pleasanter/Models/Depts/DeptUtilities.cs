@@ -469,7 +469,6 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 siteId: 0,
                                 verType: deptModel.VerType,
-                                referenceType: "Depts",
                                 referenceId: deptModel.DeptId,
                                 updateButton: true,
                                 mailButton: true,

@@ -225,7 +225,6 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 siteId: wikiModel.SiteId,
                                 verType: wikiModel.VerType,
-                                referenceType: "items",
                                 referenceId: wikiModel.WikiId,
                                 updateButton: true,
                                 copyButton: false,

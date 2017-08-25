@@ -528,7 +528,6 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 siteId: 0,
                                 verType: userModel.VerType,
-                                referenceType: "Users",
                                 referenceId: userModel.UserId,
                                 updateButton: true,
                                 mailButton: true,

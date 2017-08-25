@@ -483,7 +483,6 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 siteId: 0,
                                 verType: groupModel.VerType,
-                                referenceType: "Groups",
                                 referenceId: groupModel.GroupId,
                                 updateButton: true,
                                 mailButton: true,

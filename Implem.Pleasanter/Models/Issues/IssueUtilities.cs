@@ -1283,7 +1283,6 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 siteId: issueModel.SiteId,
                                 verType: issueModel.VerType,
-                                referenceType: "items",
                                 referenceId: issueModel.IssueId,
                                 updateButton: true,
                                 copyButton: true,
