@@ -56,42 +56,7 @@ https://implem.co.jp/category/blog/
 |Microsoft Azure SQL Database|-|-|◯|
 
 ## 機能一覧
-| 項目               | 説明                                  |
-|:-------------------|:--------------------------------------|
-|[フォルダ](https://github.com/Implem/Implem.Pleasanter/wiki/%E3%83%97%E3%83%AA%E3%82%B6%E3%83%B3%E3%82%BF%E3%83%BC%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB#%E3%83%95%E3%82%A9%E3%83%AB%E3%83%80%E6%A9%9F%E8%83%BD)|ファイルサーバのようなツリー形式のデータ構造を作るための機能|
-|[期限付きテーブル](https://github.com/Implem/Implem.Pleasanter/wiki/%E3%83%97%E3%83%AA%E3%82%B6%E3%83%B3%E3%82%BF%E3%83%BC%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB#%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E6%A9%9F%E8%83%BD)タスク管理など期限の管理を行うための一覧表を作るための機能|
-|[記録テーブル](https://github.com/Implem/Implem.Pleasanter/wiki/%E3%83%97%E3%83%AA%E3%82%B6%E3%83%B3%E3%82%BF%E3%83%BC%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB#%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E6%A9%9F%E8%83%BD)|資産管理やノウハウ集など情報の記録や管理に役立つ一覧表を作るための機能|
-|[Wiki](https://github.com/Implem/Implem.Pleasanter/wiki/%E3%83%97%E3%83%AA%E3%82%B6%E3%83%B3%E3%82%BF%E3%83%BC%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB#wiki%E6%A9%9F%E8%83%BD)|メモやリンク集などに利用できるWikiを作るための機能|
-|[テーブルの管理](https://github.com/Implem/Implem.Pleasanter/wiki/テーブルの管理)|テーブルの設定をカスタマイズするための機能|
-|[アクセス制御](https://github.com/Implem/Implem.Pleasanter/wiki/管理機能：サイトのアクセス制御)|サイト単位に利用者の権限を設定|
-|[メール](https://github.com/Implem/Implem.Pleasanter/wiki/共通機能：メール)|テーブルからメールを送信|
-|[分割](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：分割)|テーブルを複数のテーブルに分割|
-|[コメント](https://github.com/Implem/Implem.Pleasanter/wiki/共通機能：コメント)|テーブルにコメントを追加|
-|[変更履歴](https://github.com/Implem/Implem.Pleasanter/wiki/共通機能：変更履歴)|テーブルの更新履歴の保存と参照|
-|[インポート](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：インポート)|テーブルをCSVファイルからインポート|
-|[エクスポート](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：エクスポート)|テーブルをCSVファイルにエクスポート|
-|[カスタム項目](https://github.com/Implem/Implem.Pleasanter/wiki#%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0%E9%A0%85%E7%9B%AE)|テーブルのカスタマイズ可能な入力フィールドの設定|
-|[リンク](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：ビジネスロジック：リンク)|テーブルでサイト間のテーブルの親子関係を設定|
-|[サマリ](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：ビジネスロジック：サマリ)|リンクしているテーブルの件数または数値フィールドの合計、平均、最大、最小をカスタムフィールドに格納|
-|[計算式](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：ビジネスロジック：計算式)|テーブルで四則演算の結果をカスタムフィールドに格納|
-|[スクリプト](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：ビジネスロジック：スクリプト)|カスタムJavaScript|
-|[フィルタ](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：フィルタ)|テーブルのフィルタリング|
-|[ソータ](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：ソータ)|一覧の並び替え|
-|[ビューモード](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：ビューモード)|テーブルの表示形式を一覧、カレンダー、クロス集計、ガントチャート、バーンダウンチャート、時系列チャート、カンバンに切り替え|
-|[レコード一覧](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：レコード一覧)|レコードの一覧表示|
-|[集計](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：集計)|テーブルの件数または数値フィールドの合計、平均、最大、最小を分類毎に集計して表示|
-|[スタイル](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：スタイル)|カスタムCSS|
-|[通知](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：通知)|テーブルでテーブルの追加、変更、削除をSlackまたはメールで通知|
-|[キーワード検索](https://github.com/Implem/Implem.Pleasanter/wiki/データ管理：アウトプット：キーワード検索)|テーブルやWikiの横断検索|
-|[カレンダー](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：カレンダー)|テーブルのカレンダー表示|
-|[クロス集計](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：クロス集計)|テーブルのクロス集計表示|
-|[ガントチャート](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：ガントチャート)|テーブルのガントチャート表示|
-|[バーンダウンチャート](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：バーンダウンチャート)|テーブルのバーンダウンチャート表示|
-|[時系列チャート](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：時系列チャート)|テーブルのテーブルの件数または数値フィールドの合計、平均、最大、最小を面グラフで表示|
-|[カンバン](https://github.com/Implem/Implem.Pleasanter/wiki/ビューモードの種類：カンバン)|テーブルの状況やカスタムフィールドの分類をカンバン表示|
-|[認証](https://github.com/Implem/Implem.Pleasanter/wiki/システム機能：認証)|ローカル認証、LDAP認証|
-|[マルチ言語](https://github.com/Implem/Implem.Pleasanter/wiki/システム機能：マルチ言語)|日英（拡張可能）|
-|[マークダウン](https://github.com/Implem/Implem.Pleasanter/wiki/その他：マークダウン)|マークダウン記法でテキストをスタイリング|
+[プリザンターの使い方マニュアル](../wiki/プリザンターの使い方マニュアル)
 
 ## Auther
 Implem Inc.  
