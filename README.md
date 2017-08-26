@@ -56,7 +56,7 @@ https://implem.co.jp/category/blog/
 |Microsoft Azure SQL Database|-|-|◯|
 
 ## 機能一覧
-[プリザンターの使い方マニュアル](../wiki/プリザンターの使い方マニュアル)
+[プリザンターの使い方マニュアル](https://github.com/Implem/Implem.Pleasanter/wiki/プリザンターの使い方マニュアル)
 
 ## Auther
 Implem Inc.  
