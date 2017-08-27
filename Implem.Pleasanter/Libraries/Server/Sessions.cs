@@ -172,11 +172,6 @@ namespace Implem.Pleasanter.Libraries.Server
             }
         }
 
-        public static object PageSession(long id, string name = "")
-        {
-            return HttpContext.Current.Session[Pages.Key() + name.ExistsTo("/{0}")];
-        }
-
         public static object PageSession(this BaseModel baseModel, string name)
         {
             return HttpContext.Current.Session[Pages.Key(baseModel, name)];
