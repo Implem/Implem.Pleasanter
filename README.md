@@ -58,6 +58,5 @@ https://implem.co.jp/category/blog/
 ## 機能一覧
 [プリザンターの使い方マニュアル](https://github.com/Implem/Implem.Pleasanter/wiki/プリザンターの使い方マニュアル)
 
-## Auther
-Implem Inc.  
-<https://implem.co.jp>
+## 開発元
+[株式会社インプリム](https://implem.co.jp)
