@@ -48,10 +48,9 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static HtmlBuilder OutgoingMailListItem(
-            this HtmlBuilder hb, OutgoingMailModel outgoingMailModel, string selector = "")
+            this HtmlBuilder hb, OutgoingMailModel outgoingMailModel)
         {
             return hb.Div(
-                id: selector,
                 css: "item",
                 action: () => hb
                     .H(number: 3, css: "title-header", action: () => hb
@@ -563,9 +562,9 @@ namespace Implem.Pleasanter.Models
                     .Html("#OutgoingMailDialog", string.Empty)
                     .Val("#OutgoingMails_Title", string.Empty)
                     .Val("#OutgoingMails_Body", string.Empty)
-                    .Prepend("#OutgoingMailsForm", new HtmlBuilder().OutgoingMailListItem(
-                        outgoingMailModel,
-                        selector: "#ImmediatelyAfterSending" + outgoingMailModel.OutgoingMailId))
+                    .Prepend(
+                        "#OutgoingMailsForm",
+                        new HtmlBuilder().OutgoingMailListItem(outgoingMailModel))
                     .Message(Messages.MailTransmissionCompletion())
                     .ToJson();
         }
