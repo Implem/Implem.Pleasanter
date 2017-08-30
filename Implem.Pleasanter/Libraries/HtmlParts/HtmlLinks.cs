@@ -151,6 +151,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     switch (ss.ReferenceType)
                     {
                         case "Issues":
+                            var issueCollection = new IssueCollection(ss, dataRows);
+                            issueCollection.SetLinks(ss);
                             hb
                                 .Caption(caption: "{0} : {1} - {2} {3}".Params(
                                     caption,
@@ -161,10 +163,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     dataRows.Count()))
                                 .THead(action: () => hb
                                     .GridHeader(columns: columns, sort: false, checkRow: false))
-                                .TBody(action: () => dataRows
-                                    .ForEach(dataRow =>
+                                .TBody(action: () => issueCollection
+                                    .ForEach(issueModel =>
                                     {
-                                        var issueModel = new IssueModel(ss, dataRow);
                                         ss.SetColumnAccessControls(issueModel.Mine());
                                         hb.Tr(
                                             attributes: new HtmlAttributes()
@@ -179,6 +180,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     }));
                             break;
                         case "Results":
+                            var resultCollection = new ResultCollection(ss, dataRows);
+                            resultCollection.SetLinks(ss);
                             hb
                                 .Caption(caption: "{0} : {1} - {2} {3}".Params(
                                     caption,
@@ -189,10 +192,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     dataRows.Count()))
                                 .THead(action: () => hb
                                     .GridHeader(columns: columns, sort: false, checkRow: false))
-                                .TBody(action: () => dataRows
-                                    .ForEach(dataRow =>
+                                .TBody(action: () => resultCollection
+                                    .ForEach(resultModel =>
                                     {
-                                        var resultModel = new ResultModel(ss, dataRow);
                                         ss.SetColumnAccessControls(resultModel.Mine());
                                         hb.Tr(
                                             attributes: new HtmlAttributes()
