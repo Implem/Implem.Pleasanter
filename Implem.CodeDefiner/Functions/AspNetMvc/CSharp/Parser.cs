@@ -70,21 +70,11 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
 
         private void SetCodeType()
         {
-            if (Id.IndexOf(" class ") != -1)
-            {
-                CodeType = CodeTypes.Class;
-            }
-            else
-            {
-                if (Id.IndexOf("namespace ") != -1)
-                {
-                    CodeType = CodeTypes.Namespace;
-                }
-                else
-                {
-                    CodeType = CodeTypes.Method;
-                }
-            }
+            CodeType = Id.IndexOf(" class ") != -1
+                ? CodeTypes.Class
+                : Id.IndexOf("namespace ") != -1
+                    ? CodeTypes.Namespace
+                    : CodeTypes.Method;
         }
 
         private void SetName()
