@@ -193,7 +193,7 @@ namespace Implem.Pleasanter.Libraries.Security
                         .TenantId(Sessions.TenantId())
                         .SiteId_In(sites)
                         .ReferenceType(referenceType, _using: referenceType != null)
-                        .Add(raw: Def.Sql.CanRead)))
+                        .Add(raw: Def.Sql.CanReadSites)))
                             .AsEnumerable()
                             .Select(o => o["SiteId"].ToLong());
         }
