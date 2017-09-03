@@ -125,6 +125,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         month: month,
                         dataRows: dataRows);
                 }
+                else
+                {
+                    hb.Div(id: "CrosstabBody");
+                }
             });
         }
 
