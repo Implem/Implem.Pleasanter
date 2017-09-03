@@ -24,7 +24,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string value,
             string timePeriod,
             DateTime month,
-            EnumerableRowCollection<DataRow> dataRows)
+            EnumerableRowCollection<DataRow> dataRows,
+            bool inRange = true)
         {
             return hb.Div(id: "Crosstab", css: "both", action: () =>
             {
@@ -109,8 +110,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: "button-icon",
                         accessKey: "n",
                         onClick: "$p.moveCrosstab('ThisMonth');",
-                        icon: "ui-icon-Crosstab")
-                    .CrosstabBody(
+                        icon: "ui-icon-Crosstab");
+                if (inRange)
+                {
+                    hb.CrosstabBody(
                         ss: ss,
                         view: view,
                         groupByX: groupByX,
@@ -121,6 +124,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         timePeriod: timePeriod,
                         month: month,
                         dataRows: dataRows);
+                }
             });
         }
 
@@ -148,8 +152,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string value,
             string timePeriod,
             DateTime month,
-            EnumerableRowCollection<DataRow> dataRows)
+            EnumerableRowCollection<DataRow> dataRows,
+            bool inRange = true)
         {
+            if (!inRange) return hb;
             if (groupByY != "Columns")
             {
                 hb.CrosstabBody(

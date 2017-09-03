@@ -4331,23 +4331,19 @@ namespace Implem.Pleasanter.Models
                 resultCollection: resultCollection,
                 view: view,
                 viewMode: viewMode,
-                viewModeBody: () =>
-                {
-                    if (inRangeX && inRangeY)
-                    {
-                        hb.Crosstab(
-                            ss: ss,
-                            view: view,
-                            groupByX: groupByX,
-                            groupByY: groupByY,
-                            columns: columns,
-                            aggregateType: aggregateType,
-                            value: value,
-                            timePeriod: timePeriod,
-                            month: month,
-                            dataRows: dataRows);
-                    }
-                });
+                viewModeBody: () => hb
+                    .Crosstab(
+                        ss: ss,
+                        view: view,
+                        groupByX: groupByX,
+                        groupByY: groupByY,
+                        columns: columns,
+                        aggregateType: aggregateType,
+                        value: value,
+                        timePeriod: timePeriod,
+                        month: month,
+                        dataRows: dataRows,
+                        inRange: inRangeX && inRangeY));
         }
 
         public static string CrosstabJson(SiteSettings ss)
@@ -4416,7 +4412,20 @@ namespace Implem.Pleasanter.Models
                 : new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#CrosstabBody",
-                        new HtmlBuilder())
+                        !bodyOnly
+                            ? new HtmlBuilder().Crosstab(
+                                ss: ss,
+                                view: view,
+                                groupByX: groupByX,
+                                groupByY: groupByY,
+                                columns: columns,
+                                aggregateType: aggregateType,
+                                value: value,
+                                timePeriod: timePeriod,
+                                month: month,
+                                dataRows: dataRows,
+                                inRange: false)
+                            : new HtmlBuilder())
                     .View(ss: ss, view: view)
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
