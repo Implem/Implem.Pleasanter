@@ -34,6 +34,9 @@
     $(document).on('change', '.auto-postback:not([type="text"],select[multiple])', function () {
         $p.send($(this));
     });
+    $(document).on('change', '.datepicker.auto-postback', function () {
+        $p.send($(this));
+    });
     $(document).on('keyup', '.auto-postback[type="text"]', function (e) {
         var $control = $(this);
         $p.setData($control);
