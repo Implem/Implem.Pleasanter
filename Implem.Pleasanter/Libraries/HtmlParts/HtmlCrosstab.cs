@@ -110,25 +110,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: "button-icon",
                         accessKey: "n",
                         onClick: "$p.moveCrosstab('ThisMonth');",
-                        icon: "ui-icon-Crosstab");
-                if (inRange)
-                {
-                    hb.CrosstabBody(
-                        ss: ss,
-                        view: view,
-                        groupByX: groupByX,
-                        groupByY: groupByY,
-                        columns: columns,
-                        aggregateType: aggregateType,
-                        value: value,
-                        timePeriod: timePeriod,
-                        month: month,
-                        dataRows: dataRows);
-                }
-                else
-                {
-                    hb.Div(id: "CrosstabBody");
-                }
+                        icon: "ui-icon-Crosstab")
+                    .Div(id: "CrosstabBody", action: () =>
+                    {
+                        if (inRange)
+                        {
+                            hb.CrosstabBody(
+                                ss: ss,
+                                view: view,
+                                groupByX: groupByX,
+                                groupByY: groupByY,
+                                columns: columns,
+                                aggregateType: aggregateType,
+                                value: value,
+                                timePeriod: timePeriod,
+                                month: month,
+                                dataRows: dataRows);
+                        }
+                    });
             });
         }
 
@@ -217,22 +216,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     xColumn, xColumn?.Choices(data.Select(o => o.GroupByX)));
             var choicesY = CorrectedChoices(
                 yColumn, yColumn?.Choices(data.Select(o => o.GroupByY)));
-            return hb
-                .Div(
-                    attributes: new HtmlAttributes()
-                        .Id("CrosstabBody")
-                        .DataAction("UpdateByCrosstab")
-                        .DataMethod("post"),
-                    action: () => hb
-                        .Table(
-                            ss: ss,
-                            choicesX: choicesX,
-                            choicesY: choicesY,
-                            aggregateType: aggregateType,
-                            value: ss.GetColumn(value),
-                            daily: Daily(xColumn, timePeriod),
-                            columns: null,
-                            data: data));
+            return hb.Table(
+                ss: ss,
+                choicesX: choicesX,
+                choicesY: choicesY,
+                aggregateType: aggregateType,
+                value: ss.GetColumn(value),
+                daily: Daily(xColumn, timePeriod),
+                columns: null,
+                data: data);
         }
 
         private static HtmlBuilder CrosstabColumnsBody(
@@ -264,22 +256,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var choicesY = columnList.ToDictionary(
                 o => o,
                 o => new ControlData(ss.GetColumn(o)?.LabelText));
-            return hb
-                .Div(
-                    attributes: new HtmlAttributes()
-                        .Id("CrosstabBody")
-                        .DataAction("UpdateByCrosstab")
-                        .DataMethod("post"),
-                    action: () => hb
-                        .Table(
-                            ss: ss,
-                            choicesX: choicesX,
-                            choicesY: choicesY,
-                            aggregateType: aggregateType,
-                            value: ss.GetColumn(value),
-                            daily: Daily(xColumn, timePeriod),
-                            columns: columnList,
-                            data: data));
+            return hb.Table(
+                ss: ss,
+                choicesX: choicesX,
+                choicesY: choicesY,
+                aggregateType: aggregateType,
+                value: ss.GetColumn(value),
+                daily: Daily(xColumn, timePeriod),
+                columns: columnList,
+                data: data);
         }
 
         private static bool Daily(Column xColumn, string timePeriod)
