@@ -21,7 +21,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             int period,
             DateTime startDate,
             GanttRange range,
-            EnumerableRowCollection<DataRow> dataRows)
+            EnumerableRowCollection<DataRow> dataRows,
+            bool inRange = true)
         {
             return hb.Div(css: "both", action: () => hb
                 .FieldDropDown(
@@ -91,17 +92,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     step: 1,
                     value: period,
                     method: "post")
-                .Svg(id: "Gantt")
-                .Svg(id: "GanttAxis")
-                .Div(id: "GanttBody", action: () => hb
-                    .GanttBody(
-                        ss: ss,
-                        groupBy: groupBy,
-                        sortBy: sortBy,
-                        period: period,
-                        startDate: startDate,
-                        range: range,
-                        dataRows: dataRows)));
+                .Div(id: "GanttBody", action: () =>
+                {
+                    if (inRange)
+                    {
+                        hb.GanttBody(
+                            ss: ss,
+                            groupBy: groupBy,
+                            sortBy: sortBy,
+                            period: period,
+                            startDate: startDate,
+                            range: range,
+                            dataRows: dataRows);
+                    }
+                }));
         }
 
         private static Dictionary<string, ControlData> GanttDays(
@@ -130,6 +134,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return dataRows != null
                 ? hb
+                    .Svg(id: "Gantt")
+                    .Svg(id: "GanttAxis")
                     .Hidden(
                         controlId: "GanttJson",
                         value: new Gantt(ss, dataRows, groupBy, sortBy).Json())
