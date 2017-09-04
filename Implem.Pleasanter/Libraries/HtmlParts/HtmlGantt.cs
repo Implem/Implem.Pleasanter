@@ -105,6 +105,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             range: range,
                             dataRows: dataRows);
                     }
+                    else
+                    {
+                        hb.GanttParams(
+                            ss: ss,
+                            period: period,
+                            startDate: startDate,
+                            range: range);
+                    }
                 }));
         }
 
@@ -139,34 +147,49 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(
                         controlId: "GanttJson",
                         value: new Gantt(ss, dataRows, groupBy, sortBy).Json())
-                    .Hidden(
-                        controlId: "GanttMinDate",
-                        value: startDate.ToLocal().ToString(
-                            "d", Sessions.CultureInfo()))
-                    .Hidden(
-                        controlId: "GanttMaxDate",
-                        value: startDate.AddDays(period).ToLocal().ToString(
-                            "d", Sessions.CultureInfo()))
-                    .Hidden(
-                        controlId: "GanttPrevious",
-                        value: startDate.AddDays(-7).ToLocal().ToString(
-                            "d", Sessions.CultureInfo()))
-                    .Hidden(
-                        controlId: "GanttNext",
-                        value: startDate.AddDays(7).ToLocal().ToString(
-                            "d", Sessions.CultureInfo()))
-                    .Hidden(
-                        controlId: "GanttFirstDay",
-                        value: range.Min.ToLocal().ToString(
-                            "d", Sessions.CultureInfo()))
-                    .Hidden(
-                        controlId: "GanttToday",
-                        value: DateTime.Today.ToLocal().ToString(
-                            "d", Sessions.CultureInfo()))
-                    .Hidden(
-                        controlId: "ShowGanttProgressRate",
-                        value: ss.ShowGanttProgressRate.ToBool().ToOneOrZeroString())
+                    .GanttParams(
+                        ss: ss,
+                        period: period,
+                        startDate: startDate,
+                        range: range)
                 : hb;
+        }
+
+        public static HtmlBuilder GanttParams(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            int period,
+            DateTime startDate,
+            GanttRange range)
+        {
+            return hb
+                .Hidden(
+                    controlId: "GanttMinDate",
+                    value: startDate.ToLocal().ToString(
+                        "d", Sessions.CultureInfo()))
+                .Hidden(
+                    controlId: "GanttMaxDate",
+                    value: startDate.AddDays(period).ToLocal().ToString(
+                        "d", Sessions.CultureInfo()))
+                .Hidden(
+                    controlId: "GanttPrevious",
+                    value: startDate.AddDays(-7).ToLocal().ToString(
+                        "d", Sessions.CultureInfo()))
+                .Hidden(
+                    controlId: "GanttNext",
+                    value: startDate.AddDays(7).ToLocal().ToString(
+                        "d", Sessions.CultureInfo()))
+                .Hidden(
+                    controlId: "GanttFirstDay",
+                    value: range.Min.ToLocal().ToString(
+                        "d", Sessions.CultureInfo()))
+                .Hidden(
+                    controlId: "GanttToday",
+                    value: DateTime.Today.ToLocal().ToString(
+                        "d", Sessions.CultureInfo()))
+                .Hidden(
+                    controlId: "ShowGanttProgressRate",
+                    value: ss.ShowGanttProgressRate.ToBool().ToOneOrZeroString());
         }
     }
 }

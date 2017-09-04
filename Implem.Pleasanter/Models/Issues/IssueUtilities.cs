@@ -4842,7 +4842,11 @@ namespace Implem.Pleasanter.Models
                                 range: range,
                                 bodyOnly: bodyOnly,
                                 inRange: false)
-                            : new HtmlBuilder())
+                            : new HtmlBuilder().GanttParams(
+                                ss: ss,
+                                period: period,
+                                startDate: startDate,
+                                range: range))
                     .View(ss: ss, view: view)
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
