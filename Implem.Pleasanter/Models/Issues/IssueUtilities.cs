@@ -4786,11 +4786,11 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("Gantt");
+            var range = new Libraries.ViewModes.GanttRange(ss, view);
             var groupBy = view.GetGanttGroupBy();
             var sortBy = view.GetGanttSortBy();
             var period = view.GanttPeriod.ToInt();
             var startDate = view.GanttStartDate.ToDateTime();
-            var range = new Libraries.ViewModes.GanttRange(ss, view);
             var dataRows = GanttDataRows(ss, view, groupBy, sortBy);
             if (dataRows.Count() <= Parameters.General.GanttLimit)
             {
