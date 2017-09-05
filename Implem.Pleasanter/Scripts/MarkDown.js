@@ -55,8 +55,8 @@ $p.markup = function (markdownValue, encoded) {
     }
 
     function replaceUrl(text) {
-        var regex_t = /(\[[^\]]+\]\(\b(https?|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+)/gi;
-        var regex = /(\b(https?|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
+        var regex_t = /(\[[^\]]+\]\(\b(https?|notes|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+)/gi;
+        var regex = /(\b(https?|notes|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
         return text
             .replace(regex_t, function ($1) {
                 return '<a href="' + cutBrackets($1.match(regex)[0], 0) + '" target="_blank">' +
