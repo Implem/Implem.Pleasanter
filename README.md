@@ -45,7 +45,7 @@ https://implem.co.jp/category/blog/
 ![default](https://user-images.githubusercontent.com/17098267/26912853-0d61e2b8-4c52-11e7-8eb4-56feb7576d24.gif)
 
 ## 動作条件
-|条件|Windows Server 2012 R2 / 2016|Windows 10|Windows 7|Microsoft Azure|
+|条件|Windows Server 2012 / 2016|Windows 10|Windows 7|Microsoft Azure|
 |:--|:--:|:--:|:--:|:--:|
 |.NET Framework 4.5|導入済|導入済|◯|-|
 |IIS|◯|◯|◯|-|
