@@ -22,7 +22,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string value,
             int? columns,
             bool aggregationView,
-            IEnumerable<KambanElement> data)
+            IEnumerable<KambanElement> data,
+            bool inRange)
         {
             return hb.Div(id: "Kamban", css: "both", action: () =>
             {
@@ -88,7 +89,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: ss.GetColumn(value),
                         columns: columns,
                         aggregationView: aggregationView,
-                        data: data);
+                        data: data,
+                        inRange: inRange);
             });
         }
 
@@ -103,8 +105,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             int? columns,
             bool aggregationView,
             IEnumerable<KambanElement> data,
-            long changedItemId = 0)
+            long changedItemId = 0,
+            bool inRange = true)
         {
+            if (!inRange) return hb;
             var choicesY = CorrectedChoices(
                 groupByY, groupByY?.Choices(view));
             return hb.Div(

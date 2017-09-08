@@ -5264,23 +5264,18 @@ namespace Implem.Pleasanter.Models
                 issueCollection: issueCollection,
                 view: view,
                 viewMode: viewMode,
-                viewModeBody: () =>
-                {
-                    if (inRange)
-                    {
-                        hb.Kamban(
-                            ss: ss,
-                            view: view,
-                            bodyOnly: false);
-                    }
-                });
+                viewModeBody: () => hb
+                    .Kamban(
+                        ss: ss,
+                        view: view,
+                        bodyOnly: false,
+                        inRange: inRange));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string KambanJson(
-            SiteSettings ss)
+        public static string KambanJson(SiteSettings ss)
         {
             if (ss.EnableKamban != true)
             {
@@ -5309,7 +5304,11 @@ namespace Implem.Pleasanter.Models
                 : new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
-                        new HtmlBuilder())
+                        new HtmlBuilder().Kamban(
+                            ss: ss,
+                            view: view,
+                            bodyOnly: bodyOnly,
+                            inRange: false))
                     .View(ss: ss, view: view)
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
@@ -5328,7 +5327,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             View view,
             bool bodyOnly,
-            long changedItemId = 0)
+            long changedItemId = 0,
+            bool inRange = true)
         {
             var groupByX = !view.KambanGroupByX.IsNullOrEmpty()
                 ? view.KambanGroupByX
@@ -5363,7 +5363,8 @@ namespace Implem.Pleasanter.Models
                         groupByX,
                         groupByY,
                         value,
-                        KambanColumns(ss, groupByX, groupByY, value)))
+                        KambanColumns(ss, groupByX, groupByY, value)),
+                    inRange: inRange)
                 : hb.KambanBody(
                     ss: ss,
                     view: view,

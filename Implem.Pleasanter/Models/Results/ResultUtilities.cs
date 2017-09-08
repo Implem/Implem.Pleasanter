@@ -4724,16 +4724,12 @@ namespace Implem.Pleasanter.Models
                 resultCollection: resultCollection,
                 view: view,
                 viewMode: viewMode,
-                viewModeBody: () =>
-                {
-                    if (inRange)
-                    {
-                        hb.Kamban(
-                            ss: ss,
-                            view: view,
-                            bodyOnly: false);
-                    }
-                });
+                viewModeBody: () => hb
+                    .Kamban(
+                        ss: ss,
+                        view: view,
+                        bodyOnly: false,
+                        inRange: inRange));
         }
 
         /// <summary>
@@ -4756,7 +4752,8 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             view: view,
                             bodyOnly: bodyOnly,
-                            changedItemId: Forms.Long("KambanId")))
+                            changedItemId: Forms.Long("KambanId"),
+                            inRange: true))
                     .View(ss: ss, view: view)
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
@@ -4787,7 +4784,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             View view,
             bool bodyOnly,
-            long changedItemId = 0)
+            long changedItemId = 0,
+            bool inRange = true)
         {
             var groupByX = !view.KambanGroupByX.IsNullOrEmpty()
                 ? view.KambanGroupByX
@@ -4822,7 +4820,8 @@ namespace Implem.Pleasanter.Models
                         groupByX,
                         groupByY,
                         value,
-                        KambanColumns(ss, groupByX, groupByY, value)))
+                        KambanColumns(ss, groupByX, groupByY, value)),
+                    inRange: inRange)
                 : hb.KambanBody(
                     ss: ss,
                     view: view,
@@ -4839,7 +4838,8 @@ namespace Implem.Pleasanter.Models
                         groupByY,
                         value,
                         KambanColumns(ss, groupByX, groupByY, value)),
-                    changedItemId: changedItemId);
+                    changedItemId: changedItemId,
+                    inRange: inRange);
         }
 
         /// <summary>
