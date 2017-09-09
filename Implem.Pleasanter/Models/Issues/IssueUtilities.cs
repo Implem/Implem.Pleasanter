@@ -5122,15 +5122,11 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 viewMode: viewMode,
                 viewModeBody: () =>
-                {
-                    if (inRange)
-                    {
-                        hb.TimeSeries(
-                            ss: ss,
-                            view: view,
-                            bodyOnly: false);
-                    }
-                });
+                    hb.TimeSeries(
+                        ss: ss,
+                        view: view,
+                        bodyOnly: false,
+                        inRange: inRange));
         }
 
         /// <summary>
@@ -5152,7 +5148,8 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().TimeSeries(
                             ss: ss,
                             view: view,
-                            bodyOnly: bodyOnly))
+                            bodyOnly: bodyOnly,
+                            inRange: true))
                     .View(ss: ss, view: view)
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
@@ -5164,7 +5161,11 @@ namespace Implem.Pleasanter.Models
                 : new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#TimeSeriesBody",
-                        new HtmlBuilder())
+                        new HtmlBuilder().TimeSeries(
+                            ss: ss,
+                            view: view,
+                            bodyOnly: bodyOnly,
+                            inRange: false))
                     .View(ss: ss, view: view)
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
@@ -5182,7 +5183,8 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             View view,
-            bool bodyOnly)
+            bool bodyOnly,
+            bool inRange)
         {
             var groupBy = !view.TimeSeriesGroupBy.IsNullOrEmpty()
                 ? view.TimeSeriesGroupBy
@@ -5208,7 +5210,8 @@ namespace Implem.Pleasanter.Models
                     groupBy: groupBy,
                     aggregateType: aggregateType,
                     value: value,
-                    dataRows: dataRows)
+                    dataRows: dataRows,
+                    inRange: inRange)
                 : hb.TimeSeriesBody(
                     ss: ss,
                     groupBy: groupBy,

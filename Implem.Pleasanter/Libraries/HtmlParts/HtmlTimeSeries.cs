@@ -15,7 +15,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string groupBy,
             string aggregateType,
             string value,
-            IEnumerable<DataRow> dataRows)
+            IEnumerable<DataRow> dataRows,
+            bool inRange)
         {
             return hb.Div(css: "both", action: () => hb
                 .FieldDropDown(
@@ -46,13 +47,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     selectedValue: value,
                     addSelectedValue: false,
                     method: "post")
-                .Div(id: "TimeSeriesBody", action: () => hb
-                    .TimeSeriesBody(
-                        ss: ss,
-                        groupBy: groupBy,
-                        aggregateType: aggregateType,
-                        value: value,
-                        dataRows: dataRows)));
+                .Div(id: "TimeSeriesBody", action: () =>
+                {
+                    if (inRange)
+                    {
+                        hb.TimeSeriesBody(
+                            ss: ss,
+                            groupBy: groupBy,
+                            aggregateType: aggregateType,
+                            value: value,
+                            dataRows: dataRows);
+                    }
+                }));
         }
 
         public static HtmlBuilder TimeSeriesBody(
