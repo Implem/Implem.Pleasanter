@@ -24,3 +24,4 @@ conn.Execute "BACKUP DATABASE " & _
              "NOUNLOAD, " & _
              "STATS=10"
 conn.Close
+Set conn = Nothing
