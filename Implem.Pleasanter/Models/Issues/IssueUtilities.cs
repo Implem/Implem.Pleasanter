@@ -5115,8 +5115,8 @@ namespace Implem.Pleasanter.Models
                 issueCollection: issueCollection,
                 view: view,
                 viewMode: viewMode,
-                viewModeBody: () =>
-                    hb.TimeSeries(
+                viewModeBody: () => hb
+                    .TimeSeries(
                         ss: ss,
                         view: view,
                         bodyOnly: false,
