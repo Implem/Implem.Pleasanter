@@ -45,7 +45,7 @@
     "CrosstabEnd": 120,
     "CrosstabXLimit": 50,
     "CrosstabYLimit": 500,
-    "GanttLimit": 1000,
+    "GanttLimit": 10,
     "GanttItemMinHeight": 25,
     "GanttItemMaxHeight": 75,
     "GanttPeriodMin": 7,

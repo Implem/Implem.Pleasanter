@@ -92,28 +92,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     step: 1,
                     value: period,
                     method: "post")
-                .Div(id: "GanttBody", action: () =>
-                {
-                    if (inRange)
-                    {
-                        hb.GanttBody(
-                            ss: ss,
-                            groupBy: groupBy,
-                            sortBy: sortBy,
-                            period: period,
-                            startDate: startDate,
-                            range: range,
-                            dataRows: dataRows);
-                    }
-                    else
-                    {
-                        hb.GanttParams(
-                            ss: ss,
-                            period: period,
-                            startDate: startDate,
-                            range: range);
-                    }
-                }));
+                .Div(id: "GanttBody", action: () => hb
+                    .GanttBody(
+                        ss: ss,
+                        groupBy: groupBy,
+                        sortBy: sortBy,
+                        period: period,
+                        startDate: startDate,
+                        range: range,
+                        dataRows: dataRows,
+                        inRange: inRange)));
         }
 
         private static Dictionary<string, ControlData> GanttDays(
@@ -138,31 +126,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             int period,
             DateTime startDate,
             GanttRange range,
-            EnumerableRowCollection<DataRow> dataRows)
+            EnumerableRowCollection<DataRow> dataRows,
+            bool inRange)
         {
-            return dataRows != null
-                ? hb
-                    .Svg(id: "Gantt")
-                    .Svg(id: "GanttAxis")
-                    .Hidden(
-                        controlId: "GanttJson",
-                        value: new Gantt(ss, dataRows, groupBy, sortBy).Json())
-                    .GanttParams(
-                        ss: ss,
-                        period: period,
-                        startDate: startDate,
-                        range: range)
-                : hb;
-        }
-
-        public static HtmlBuilder GanttParams(
-            this HtmlBuilder hb,
-            SiteSettings ss,
-            int period,
-            DateTime startDate,
-            GanttRange range)
-        {
-            return hb
+            hb
                 .Hidden(
                     controlId: "GanttMinDate",
                     value: startDate.ToLocal().ToString(
@@ -190,6 +157,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Hidden(
                     controlId: "ShowGanttProgressRate",
                     value: ss.ShowGanttProgressRate.ToBool().ToOneOrZeroString());
+            if (!inRange) return hb;
+            return dataRows != null
+                ? hb
+                    .Svg(id: "Gantt")
+                    .Svg(id: "GanttAxis")
+                    .Hidden(
+                        controlId: "GanttJson",
+                        value: new Gantt(ss, dataRows, groupBy, sortBy).Json())
+                : hb;
         }
     }
 }

@@ -4804,25 +4804,17 @@ namespace Implem.Pleasanter.Models
                 return new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#GanttBody",
-                        !bodyOnly
-                            ? new HtmlBuilder().Gantt(
-                                ss: ss,
-                                view: view,
-                                dataRows: dataRows,
-                                groupBy: groupBy,
-                                sortBy: sortBy,
-                                period: period,
-                                startDate: startDate,
-                                range: range,
-                                bodyOnly: bodyOnly)
-                            : new HtmlBuilder().GanttBody(
-                                ss: ss,
-                                groupBy: groupBy,
-                                sortBy: sortBy,
-                                period: period,
-                                startDate: startDate,
-                                range: range,
-                                dataRows: dataRows))
+                        new HtmlBuilder().Gantt(
+                            ss: ss,
+                            view: view,
+                            dataRows: dataRows,
+                            groupBy: groupBy,
+                            sortBy: sortBy,
+                            period: period,
+                            startDate: startDate,
+                            range: range,
+                            bodyOnly: bodyOnly,
+                            inRange: true))
                     .View(ss: ss, view: view)
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
@@ -4837,23 +4829,17 @@ namespace Implem.Pleasanter.Models
                 return new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#GanttBody",
-                        !bodyOnly
-                            ? new HtmlBuilder().Gantt(
-                                ss: ss,
-                                view: view,
-                                dataRows: dataRows,
-                                groupBy: groupBy,
-                                sortBy: sortBy,
-                                period: view.GanttPeriod.ToInt(),
-                                startDate: view.GanttStartDate.ToDateTime(),
-                                range: range,
-                                bodyOnly: bodyOnly,
-                                inRange: false)
-                            : new HtmlBuilder().GanttParams(
-                                ss: ss,
-                                period: period,
-                                startDate: startDate,
-                                range: range))
+                        new HtmlBuilder().Gantt(
+                            ss: ss,
+                            view: view,
+                            dataRows: dataRows,
+                            groupBy: groupBy,
+                            sortBy: sortBy,
+                            period: view.GanttPeriod.ToInt(),
+                            startDate: view.GanttStartDate.ToDateTime(),
+                            range: range,
+                            bodyOnly: bodyOnly,
+                            inRange: false))
                     .View(ss: ss, view: view)
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
@@ -4895,7 +4881,8 @@ namespace Implem.Pleasanter.Models
                     period: period,
                     startDate: startDate,
                     range: range,
-                    dataRows: dataRows);
+                    dataRows: dataRows,
+                    inRange: inRange);
         }
 
         private static EnumerableRowCollection<DataRow> GanttDataRows(
