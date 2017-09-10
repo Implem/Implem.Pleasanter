@@ -4282,19 +4282,15 @@ namespace Implem.Pleasanter.Models
                 issueCollection: issueCollection,
                 view: view,
                 viewMode: viewMode,
-                viewModeBody: () =>
-                {
-                    if (inRange)
-                    {
-                        hb.Calendar(
-                            ss: ss,
-                            columnName: columnName,
-                            month: month,
-                            begin: begin,
-                            dataRows: dataRows,
-                            bodyOnly: false);
-                    }
-                });
+                viewModeBody: () => hb
+                    .Calendar(
+                        ss: ss,
+                        columnName: columnName,
+                        month: month,
+                        begin: begin,
+                        dataRows: dataRows,
+                        bodyOnly: false,
+                        inRange: inRange));
         }
 
         public static string UpdateByCalendar(SiteSettings ss)
@@ -4346,7 +4342,8 @@ namespace Implem.Pleasanter.Models
                             month: month,
                             begin: begin,
                             dataRows: dataRows,
-                            bodyOnly: bodyOnly))
+                            bodyOnly: bodyOnly,
+                            inRange: true))
                     .View(ss: ss, view: view)
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
@@ -4358,7 +4355,14 @@ namespace Implem.Pleasanter.Models
                 : new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#CalendarBody",
-                        new HtmlBuilder())
+                        new HtmlBuilder().Calendar(
+                            ss: ss,
+                            columnName: columnName,
+                            month: month,
+                            begin: begin,
+                            dataRows: dataRows,
+                            bodyOnly: bodyOnly,
+                            inRange: false))
                     .View(ss: ss, view: view)
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
@@ -4483,7 +4487,8 @@ namespace Implem.Pleasanter.Models
             DateTime month,
             DateTime begin,
             EnumerableRowCollection<DataRow> dataRows,
-            bool bodyOnly)
+            bool bodyOnly,
+            bool inRange)
         {
             return !bodyOnly
                 ? hb.Calendar(
@@ -4491,13 +4496,15 @@ namespace Implem.Pleasanter.Models
                     columnName: columnName,
                     month: month,
                     begin: begin,
-                    dataRows: dataRows)
+                    dataRows: dataRows,
+                    inRange: inRange)
                 : hb.CalendarBody(
                     ss: ss,
                     column: ss.GetColumn(columnName),
                     month: month,
                     begin: begin,
-                    dataRows: dataRows);
+                    dataRows: dataRows,
+                    inRange: inRange);
         }
 
         public static string Crosstab(SiteSettings ss)

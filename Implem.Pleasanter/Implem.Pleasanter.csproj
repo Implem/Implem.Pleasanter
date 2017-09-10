@@ -605,6 +605,7 @@
     <Content Include="Styles\Plugins\jquery.multiselect.filter.css" />
     <Content Include="Styles\Plugins\Normalize.css" />
     <Content Include="Styles\Site.css" />
+    <Content Include="Tools\DbBackup.vbs" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

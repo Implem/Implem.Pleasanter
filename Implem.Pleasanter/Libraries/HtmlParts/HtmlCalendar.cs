@@ -20,7 +20,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string columnName,
             DateTime month,
             DateTime begin,
-            IEnumerable<DataRow> dataRows)
+            IEnumerable<DataRow> dataRows,
+            bool inRange)
         {
             return hb.Div(id: "Calendar", css: "both", action: () => hb
                 .FieldDropDown(
@@ -56,12 +57,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlCss: "button-icon",
                     onClick: "$p.moveCalendar('ThisMonth');",
                     icon: "ui-icon-calendar")
-                .CalendarBody(
-                    ss: ss,
-                    column: ss.GetColumn(columnName),
-                    month: month,
-                    begin: begin,
-                    dataRows: dataRows));
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("CalendarBody")
+                        .DataAction("UpdateByCalendar")
+                        .DataMethod("post"),
+                    action: () => hb
+                        .CalendarBody(
+                            ss: ss,
+                            column: ss.GetColumn(columnName),
+                            month: month,
+                            begin: begin,
+                            dataRows: dataRows,
+                            inRange: inRange)));
         }
 
         private static Dictionary<string, ControlData> CalendarMonth()
@@ -83,8 +91,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column column,
             DateTime month,
             DateTime begin,
-            IEnumerable<DataRow> dataRows)
+            IEnumerable<DataRow> dataRows,
+            bool inRange)
         {
+            hb
+                .Hidden(
+                    controlId: "CalendarCanUpdate",
+                    value: (
+                        !column.RecordedTime &&
+                        column.EditorReadOnly != true &&
+                        column.CanUpdate).ToOneOrZeroString())
+                .Hidden(controlId: "CalendarPrevious", value: Times.PreviousMonth(month))
+                .Hidden(controlId: "CalendarNext", value: Times.NextMonth(month))
+                .Hidden(controlId: "CalendarThisMonth", value: Times.ThisMonth());
+            if (!inRange) return hb;
             var data = dataRows
                 .Select(o => new CalendarElement
                 (
@@ -102,61 +122,44 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .ToDictionary(
                     o => o.First().Date,
                     o => o.Select(p => p));
-            return hb
-                .Table(
-                    attributes: new HtmlAttributes()
-                        .Id("CalendarBody")
-                        .DataAction("UpdateByCalendar")
-                        .DataMethod("post"), 
-                    action: () =>
+            return hb.Table(action: () => hb
+                .THead(action: () => hb
+                    .Tr(action: () =>
                     {
-                        hb.THead(action: () => hb
-                            .Tr(action: () =>
-                            {
-                                for (var x = 0; x < 7; x++)
-                                {
-                                    hb.Th(css: DayOfWeekCss(x), action: () => hb
-                                        .Text(text: DayOfWeekString(x)));
-                                }
-                            }));
-                        hb.TBody(action: () =>
+                        for (var x = 0; x < 7; x++)
                         {
-                            for (var y = 0; y < 6; y++)
+                            hb.Th(css: DayOfWeekCss(x), action: () => hb
+                                .Text(text: DayOfWeekString(x)));
+                        }
+                    }))
+                .TBody(action: () =>
+                {
+                    for (var y = 0; y < 6; y++)
+                    {
+                        hb.Tr(action: () =>
+                        {
+                            for (var x = 0; x < 7; x++)
                             {
-                                hb.Tr(action: () =>
-                                {
-                                    for (var x = 0; x < 7; x++)
-                                    {
-                                        var date = begin.ToLocal().AddDays(y * 7 + x);
-                                        hb.Td(
-                                            attributes: new HtmlAttributes()
-                                                .Class("container" +
-                                                    (date == DateTime.Now.ToLocal().Date
-                                                        ? " today"
-                                                        : string.Empty) +
-                                                    (month.ToLocal().Month != date.ToLocal().Month
-                                                        ? " other-month"
-                                                        : string.Empty))
-                                                .DataId(date.ToString()),
-                                            action: () => hb
-                                                .Items(
-                                                    month: month,
-                                                    date: date,
-                                                    data: data));
-                                    }
-                                });
+                                var date = begin.ToLocal().AddDays(y * 7 + x);
+                                hb.Td(
+                                    attributes: new HtmlAttributes()
+                                        .Class("container" +
+                                            (date == DateTime.Now.ToLocal().Date
+                                                ? " today"
+                                                : string.Empty) +
+                                            (month.ToLocal().Month != date.ToLocal().Month
+                                                ? " other-month"
+                                                : string.Empty))
+                                        .DataId(date.ToString()),
+                                    action: () => hb
+                                        .Items(
+                                            month: month,
+                                            date: date,
+                                            data: data));
                             }
                         });
-                    })
-                .Hidden(
-                    controlId: "CalendarCanUpdate",
-                    value: (
-                        !column.RecordedTime &&
-                        column.EditorReadOnly != true &&
-                        column.CanUpdate).ToOneOrZeroString())
-                .Hidden(controlId: "CalendarPrevious", value: Times.PreviousMonth(month))
-                .Hidden(controlId: "CalendarNext", value: Times.NextMonth(month))
-                .Hidden(controlId: "CalendarThisMonth", value: Times.ThisMonth());
+                    }
+                }));
         }
 
         private static string DayOfWeekCss(int x)
@@ -179,7 +182,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             DateTime date,
             Dictionary<DateTime, IEnumerable<CalendarElement>> data)
         {
-            hb.Div(css: "day", action: () =>
+            return hb.Div(css: "day", action: () =>
             {
                 hb.Div(action: () => hb
                     .Text(date.Day.ToString()));
@@ -197,7 +200,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Span(css: "ui-icon ui-icon-pencil")
                             .Text(text: element.Title)));
             });
-            return hb;
         }
     }
 }

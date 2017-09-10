@@ -1935,7 +1935,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Aggregations_space_em": Css._sharp_Aggregations_space_em = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space_em, definitionRow, CssXls); break;
                     case "_sharp_Aggregations_space___space__dot_display_control": Css._sharp_Aggregations_space___space__dot_display_control = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space___space__dot_display_control, definitionRow, CssXls); break;
                     case "_sharp_CalendarMonth": Css._sharp_CalendarMonth = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarMonth, definitionRow, CssXls); break;
-                    case "_sharp_CalendarBody": Css._sharp_CalendarBody = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space_table": Css._sharp_CalendarBody_space_table = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_table, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space_th": Css._sharp_CalendarBody_space_th = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_th, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_saturday": Css._sharp_CalendarBody_space__dot_saturday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_saturday, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_sunday": Css._sharp_CalendarBody_space__dot_sunday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_sunday, definitionRow, CssXls); break;
@@ -7661,7 +7661,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Aggregations_space_em;
         public string _sharp_Aggregations_space___space__dot_display_control;
         public string _sharp_CalendarMonth;
-        public string _sharp_CalendarBody;
+        public string _sharp_CalendarBody_space_table;
         public string _sharp_CalendarBody_space_th;
         public string _sharp_CalendarBody_space__dot_saturday;
         public string _sharp_CalendarBody_space__dot_sunday;
@@ -8090,7 +8090,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Aggregations_space_em = new CssDefinition();
         public CssDefinition _sharp_Aggregations_space___space__dot_display_control = new CssDefinition();
         public CssDefinition _sharp_CalendarMonth = new CssDefinition();
-        public CssDefinition _sharp_CalendarBody = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space_table = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space_th = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_saturday = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_sunday = new CssDefinition();
