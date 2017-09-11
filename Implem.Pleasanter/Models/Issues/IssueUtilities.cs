@@ -5211,7 +5211,8 @@ namespace Implem.Pleasanter.Models
                     groupBy: groupBy,
                     aggregateType: aggregateType,
                     value: value,
-                    dataRows: dataRows);
+                    dataRows: dataRows,
+                    inRange: inRange);
         }
 
         /// <summary>
