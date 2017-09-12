@@ -5379,7 +5379,8 @@ namespace Implem.Pleasanter.Models
                         groupByY,
                         value,
                         KambanColumns(ss, groupByX, groupByY, value)),
-                    changedItemId: changedItemId);
+                    changedItemId: changedItemId,
+                    inRange: inRange);
         }
 
         /// <summary>
