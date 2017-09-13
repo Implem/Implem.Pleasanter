@@ -1535,6 +1535,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : -1;
         }
 
+        public bool ShowComments(Permissions.ColumnPermissionTypes columnPermissionType)
+        {
+            return
+                EditorColumns?.Contains("Comments") == true &&
+                columnPermissionType != Permissions.ColumnPermissionTypes.Deny;
+        }
+
         public void Set(string propertyName, string value)
         {
             switch (propertyName)
