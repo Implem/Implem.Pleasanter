@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Value = data.Get("Title");
             var displayValue = ss.GetTitleColumns()
                 .Select(o => GetDisplayValue(o, data))
-                .Where(o => o != string.Empty)
+                .Where(o => !o.IsNullOrEmpty())
                 .Join(ss.TitleSeparator);
             DisplayValue = displayValue != string.Empty
                 ? displayValue
