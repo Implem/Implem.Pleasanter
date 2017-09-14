@@ -3439,7 +3439,7 @@ namespace Implem.Pleasanter.Models
         private string NoticeBody(SiteSettings ss, Notification notification, bool update = false)
         {
             var body = new System.Text.StringBuilder();
-            notification.MonitorChangesColumnCollection(ss).ForEach(column =>
+            notification.MonitorChangesColumnCollection(ss)?.ForEach(column =>
             {
                 switch (column.ColumnName)
                 {
