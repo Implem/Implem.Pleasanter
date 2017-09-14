@@ -79,12 +79,6 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public MailAddressCollection(
-            string commandText, SqlParamCollection param = null)
-        {
-            Set(Get(commandText, param));
-        }
-
         private EnumerableRowCollection<DataRow> Get(
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -125,16 +119,6 @@ namespace Implem.Pleasanter.Models
                 statements: statements.ToArray());
             Aggregations.Set(dataSet, aggregationCollection);
             return dataSet.Tables["Main"].AsEnumerable();
-        }
-
-        private EnumerableRowCollection<DataRow> Get(string commandText, SqlParamCollection param = null)
-        {
-            return Rds.ExecuteTable(
-                transactional: false,
-                statements: Rds.MailAddressesStatement(
-                    commandText: commandText,
-                    param: param ?? null))
-                        .AsEnumerable();
         }
     }
 }

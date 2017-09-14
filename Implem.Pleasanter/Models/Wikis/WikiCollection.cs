@@ -81,12 +81,6 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public WikiCollection(
-            SiteSettings ss, string commandText, SqlParamCollection param = null)
-        {
-            Set(ss, Get(commandText, param));
-        }
-
         private EnumerableRowCollection<DataRow> Get(
             SiteSettings ss,
             SqlColumnCollection column = null,
@@ -128,16 +122,6 @@ namespace Implem.Pleasanter.Models
                 statements: statements.ToArray());
             Aggregations.Set(dataSet, aggregationCollection, ss);
             return dataSet.Tables["Main"].AsEnumerable();
-        }
-
-        private EnumerableRowCollection<DataRow> Get(string commandText, SqlParamCollection param = null)
-        {
-            return Rds.ExecuteTable(
-                transactional: false,
-                statements: Rds.WikisStatement(
-                    commandText: commandText,
-                    param: param ?? null))
-                        .AsEnumerable();
         }
     }
 }

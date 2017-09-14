@@ -79,12 +79,6 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public SiteCollection(
-            string commandText, SqlParamCollection param = null)
-        {
-            Set(Get(commandText, param));
-        }
-
         private EnumerableRowCollection<DataRow> Get(
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -124,16 +118,6 @@ namespace Implem.Pleasanter.Models
                 transactional: false,
                 statements: statements.ToArray());
             return dataSet.Tables["Main"].AsEnumerable();
-        }
-
-        private EnumerableRowCollection<DataRow> Get(string commandText, SqlParamCollection param = null)
-        {
-            return Rds.ExecuteTable(
-                transactional: false,
-                statements: Rds.SitesStatement(
-                    commandText: commandText,
-                    param: param ?? null))
-                        .AsEnumerable();
         }
     }
 }
