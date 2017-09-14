@@ -141,12 +141,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public IEnumerable<Column> MonitorChangesColumnCollection(SiteSettings ss)
+        public IEnumerable<Column> ColumnCollection(SiteSettings ss, bool update)
         {
-            return MonitorChangesColumns?
-                .Select(o => ss.GetColumn(o))
-                .Where(o => o != null)
-                .ToList();
+            return (update
+                ? MonitorChangesColumns
+                : ss.EditorColumns)?
+                    .Select(o => ss.GetColumn(o))
+                    .Where(o => o != null)
+                    .ToList();
         }
 
         public bool HasRelatedUsers()
