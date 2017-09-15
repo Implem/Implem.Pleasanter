@@ -186,12 +186,5 @@ namespace Implem.Pleasanter.Libraries.Server
                     ? Displays.NotSet()
                     : string.Empty;
         }
-
-        public static string IndexReferenceType(string referenceType, long referenceId)
-        {
-            return referenceType.ToLower() == "items"
-                ? new SiteModel(referenceId).ReferenceType
-                : referenceType;
-        }
     }
 }
