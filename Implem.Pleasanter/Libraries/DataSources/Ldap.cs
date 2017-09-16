@@ -49,8 +49,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             var deptName = entry.Property(Parameters.Authentication.LdapDeptName);
             var deptExists = !deptCode.IsNullOrEmpty() && !deptName.IsNullOrEmpty();
             var userCode = entry.Property(Parameters.Authentication.LdapUserCode);
-            var firstName = entry.Property(Parameters.Authentication.LdapFirstName);
-            var lastName = entry.Property(Parameters.Authentication.LdapLastName);
+            var name = Name(loginId, entry);
             var mailAddress = entry.Property(Parameters.Authentication.LdapMailAddress);
             var statements = new List<SqlStatement>();
             if (deptExists)
@@ -67,7 +66,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .TenantId(Parameters.Authentication.LdapTenantId)
                     .LoginId(loginId)
                     .UserCode(userCode)
-                    .Name(lastName + " " + firstName)
+                    .Name(name)
                     .DeptId(
                         sub: Rds.SelectDepts(
                             column: Rds.DeptsColumn().DeptId(),
@@ -112,6 +111,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 catch (Exception e) { new SysLogModel(e); }
             }
             return string.Empty;
+        }
+
+        private static string Name(string loginId, DirectoryEntry entry)
+        {
+            var name = "{0} {1}".Params(
+                entry.Property(Parameters.Authentication.LdapLastName),
+                entry.Property(Parameters.Authentication.LdapFirstName));
+            return name != " "
+                ? name
+                : loginId;
         }
     }
 }
