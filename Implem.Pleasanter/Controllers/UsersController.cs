@@ -281,5 +281,17 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(json.Length);
             return json;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [AllowAnonymous]
+        public string SyncByLdap()
+        {
+            var log = new SysLogModel();
+            var json = UserUtilities.SyncByLdap();
+            log.Finish(json.Length);
+            return json;
+        }
     }
 }

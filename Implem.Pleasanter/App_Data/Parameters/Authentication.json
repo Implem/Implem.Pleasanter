@@ -11,5 +11,10 @@
     "LdapUserCode": null,
     "LdapFirstName": "givenName",
     "LdapLastName": "sn",
-    "LdapMailAddress": "mail"
+    "LdapMailAddress": "mail",
+    "LdapSyncPatterns": [
+        "(&(ObjectCategory=User)(ObjectClass=Person))"
+    ],
+    "LdapSyncUser": null,
+    "LdapSyncPassword": null
 }

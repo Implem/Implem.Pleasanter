@@ -1558,5 +1558,14 @@ namespace Implem.Pleasanter.Models
                                 action: "DeleteMailAddresses",
                                 method: "put"))));
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string SyncByLdap()
+        {
+            Ldap.Sync();
+            return string.Empty;
+        }
     }
 }

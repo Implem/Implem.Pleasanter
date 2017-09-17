@@ -13,14 +13,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             try
             {
-                var searchRoot = new DirectoryEntry(
-                    Parameters.Authentication.LdapSearchRoot, loginId, password);
-                var directorySearcher = new DirectorySearcher(searchRoot);
+                var directorySearcher = DirectorySearcher(loginId, password);
                 directorySearcher.Filter = "({0}={1})"
                     .Params(Parameters.Authentication.LdapSearchProperty, loginId);
                 var searchResult = directorySearcher.FindOne();
                 if (searchResult == null) return false;
-                var entry = new DirectoryEntry(searchResult.Path, loginId, password);
+                var entry = searchResult.Entry(loginId, password);
                 UpdateOrInsert(loginId, entry);
                 return true;
             }
@@ -98,6 +96,52 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: statements.ToArray());
+        }
+
+        public static void Sync()
+        {
+            Parameters.Authentication.LdapSyncPatterns?.ForEach(pattern =>
+                Sync(pattern));
+        }
+
+        private static void Sync(string pattern)
+        {
+            try
+            {
+                var directorySearcher = DirectorySearcher(
+                    Parameters.Authentication.LdapSyncUser,
+                    Parameters.Authentication.LdapSyncPassword);
+                directorySearcher.Filter = pattern;
+                var results = directorySearcher.FindAll();
+                foreach (SearchResult result in results)
+                {
+                    var entry = result.Entry(
+                        Parameters.Authentication.LdapSyncUser,
+                        Parameters.Authentication.LdapSyncPassword);
+                    UpdateOrInsert(
+                        entry.Property(Parameters.Authentication.LdapSearchProperty),
+                        entry);
+                }
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(e);
+            }
+        }
+
+        private static DirectorySearcher DirectorySearcher(string loginId, string password)
+        {
+            return new DirectorySearcher(loginId != null && password != null
+                ? new DirectoryEntry(Parameters.Authentication.LdapSearchRoot, loginId, password)
+                : new DirectoryEntry(Parameters.Authentication.LdapSearchRoot));
+        }
+
+        private static DirectoryEntry Entry(
+            this SearchResult searchResult, string loginId, string password)
+        {
+            return loginId != null && password != null
+                ? new DirectoryEntry(searchResult.Path, loginId, password)
+                : new DirectoryEntry(searchResult.Path);
         }
 
         private static string Property(this DirectoryEntry entry, string propertyName)

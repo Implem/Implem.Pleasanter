@@ -1,4 +1,5 @@
-﻿namespace Implem.ParameterAccessor.Parts
+﻿using System.Collections.Generic;
+namespace Implem.ParameterAccessor.Parts
 {
     public class Authentication
     {
@@ -15,5 +16,8 @@
         public string LdapMailAddress;
         public string ServiceId;
         public string ExtensionUrl;
+        public List<string> LdapSyncPatterns;
+        public string LdapSyncUser;
+        public string LdapSyncPassword;
     }
 }
