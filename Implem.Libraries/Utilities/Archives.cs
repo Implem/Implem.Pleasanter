@@ -58,6 +58,5 @@ namespace Implem.Libraries.Utilities
                 zipArchive.CreateEntryFromFile(sourceFilePath, distinationFileName);
             }
         }
-
     }
 }
