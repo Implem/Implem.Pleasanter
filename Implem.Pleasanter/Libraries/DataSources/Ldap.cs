@@ -1,6 +1,8 @@
-﻿using Implem.DefinitionAccessor;
+﻿using ActiveDs;
+using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
@@ -118,9 +120,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var entry = result.Entry(
                         Parameters.Authentication.LdapSyncUser,
                         Parameters.Authentication.LdapSyncPassword);
-                    UpdateOrInsert(
-                        entry.Property(Parameters.Authentication.LdapSearchProperty),
-                        entry);
+                    if (Authentications.Windows())
+                    {
+                        UpdateOrInsert(NetBiosName(entry), entry);
+                    }
+                    else
+                    {
+                        UpdateOrInsert(
+                            entry.Property(Parameters.Authentication.LdapSearchProperty),
+                            entry);
+                    }
                 }
             }
             catch (Exception e)
@@ -165,6 +174,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return name != " "
                 ? name
                 : loginId;
+        }
+
+        public static string NetBiosName(DirectoryEntry entry)
+        {
+            var nameTranslate = new NameTranslate();
+            nameTranslate.Set(
+                (int)ADS_NAME_TYPE_ENUM.ADS_NAME_TYPE_1779,
+                entry.Properties["distinguishedName"].Value.ToString());
+            return nameTranslate.Get((int)ADS_NAME_TYPE_ENUM.ADS_NAME_TYPE_NT4);
         }
     }
 }
