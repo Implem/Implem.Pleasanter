@@ -14,9 +14,12 @@ http://pleasanter.org
 下記のサイトでe-mailアドレスを登録するとプリザンターを試行することが出来ます。  
 https://pleasanter.azurewebsites.net
 
-## ブログ
-プリザンターの活用方法を紹介するブログです。  
-https://implem.co.jp/category/blog/
+## 主な利用シーン
+* [問合せ管理](https://implem.co.jp/2017/08/19/1728/)
+* [ナレッジ管理](https://implem.co.jp/2017/08/27/1987/)
+* [プロジェクト管理](https://implem.co.jp/2017/08/29/2015/)
+* [顧客管理](https://implem.co.jp/2017/08/31/2108/)
+* [営業支援](https://implem.co.jp/2017/08/22/1822/)
 
 ## 動作イメージ
 * 操作イメージ
