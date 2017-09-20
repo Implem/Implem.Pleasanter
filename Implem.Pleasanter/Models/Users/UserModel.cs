@@ -584,22 +584,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public User User()
-        {
-            return new User()
-            {
-                Id = UserId,
-                DeptId = DeptId,
-                LoginId = LoginId,
-                Name = Name,
-                TenantManager = TenantManager,
-                ServiceManager = ServiceManager
-            };
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public RdsUser RdsUser()
         {
             return new RdsUser()
