@@ -14,11 +14,6 @@ namespace Implem.Libraries.Utilities
             return string.Join(delimiter, self.Select(o => o.ToString()).ToArray());
         }
 
-        public static string JoinDot(this IEnumerable<string> self)
-        {
-            return string.Join(".", self);
-        }
-
         public static string JoinReturn(this IEnumerable<string> self)
         {
             return string.Join("\r\n", self);

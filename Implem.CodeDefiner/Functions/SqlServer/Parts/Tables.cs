@@ -119,7 +119,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
 
         private static string SqlBracket(this string columnName)
         {
-            return columnName.Split('.').Select(o => "[" + o + "]").JoinDot();
+            return columnName.Split('.').Select(o => "[" + o + "]").Join(".");
         }
 
         internal static bool Exists(string sourceTableName)
