@@ -48,6 +48,7 @@ namespace Implem.Pleasanter.Libraries.Server
                             .TenantId()
                             .UserId()
                             .DeptId()
+                            .LoginId()
                             .Name()
                             .TenantManager()
                             .ServiceManager(),

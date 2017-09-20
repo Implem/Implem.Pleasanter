@@ -9,6 +9,7 @@ using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Web;
 namespace Implem.Pleasanter.Libraries.Security
 {
     public static class Permissions
@@ -164,12 +165,12 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool Can(long siteId, Types type)
         {
-            return ((Get(siteId) & type) == type);
+            return (Get(siteId) & type) == type || HasPrivilege();
         }
 
         public static bool CanRead(long siteId)
         {
-            return ((Get(siteId) & Types.Read) == Types.Read);
+            return (Get(siteId) & Types.Read) == Types.Read || HasPrivilege();
         }
 
         public static long InheritPermission(long id)
@@ -230,7 +231,10 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool HasPermission(this SiteSettings ss)
         {
-            return ss.PermissionType != null || ss.ItemPermissionType != null;
+            return
+                ss.PermissionType != null ||
+                ss.ItemPermissionType != null ||
+                HasPrivilege();
         }
 
         public static bool CanRead(this SiteSettings ss, bool site = false)
@@ -374,26 +378,32 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanManageTenant()
         {
-            return Sessions.User().TenantManager;
+            return Sessions.User().TenantManager || HasPrivilege();
         }
 
         public static bool CanReadGroup()
         {
             return 
                 Sessions.UserSettings().DisableGroupAdmin != true &&
-                (Routes.Id() == 0 || CanManageTenant() || Groups().Any());
+                (Routes.Id() == 0 ||
+                CanManageTenant() ||
+                Groups().Any() ||
+                HasPrivilege());
         }
 
         public static bool CanEditGroup()
         {
             return
                 Sessions.UserSettings().DisableGroupAdmin != true &&
-                (Routes.Id() == 0 || CanManageTenant() || Groups().Any(o => o["Admin"].ToBool()));
+                (Routes.Id() == 0 ||
+                CanManageTenant() ||
+                Groups().Any(o => o["Admin"].ToBool()) ||
+                HasPrivilege());
         }
 
         private static bool Can(this SiteSettings ss, Types type, bool site)
         {
-            return (ss.GetPermissionType(site) & type) == type;
+            return (ss.GetPermissionType(site) & type) == type || HasPrivilege();
         }
 
         private static EnumerableRowCollection<DataRow> Groups()
@@ -415,6 +425,12 @@ namespace Implem.Pleasanter.Libraries.Security
             if (user.TenantManager) type |= Types.ManageTenant;
             if (user.ServiceManager) type |= Types.ManageService;
             return type;
+        }
+
+        public static bool HasPrivilege()
+        {
+            return Parameters.Security.PrivilegedUsers?.Contains(
+                Sessions.User().LoginId) ?? false;
         }
     }
 }

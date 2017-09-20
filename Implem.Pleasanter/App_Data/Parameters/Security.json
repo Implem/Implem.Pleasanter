@@ -1,3 +1,4 @@
 ﻿{
-    "RequestLimit": 0
+    "RequestLimit": 0,
+    "PrivilegedUsers": null
 }

@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public int TenantId;
         public int Id;
         public int DeptId;
+        public string LoginId;
         public string Name;
         public bool TenantManager;
         public bool ServiceManager;
@@ -39,6 +40,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .TenantId()
                             .UserId()
                             .DeptId()
+                            .LoginId()
                             .Name()
                             .TenantManager()
                             .ServiceManager(),
@@ -69,6 +71,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             TenantId = dataRow.Int("TenantId");
             Id = dataRow.Int("UserId");
             DeptId = dataRow.Int("DeptId");
+            LoginId = dataRow.String("LoginId");
             Name = dataRow.String("Name");
             TenantManager = dataRow.Bool("TenantManager");
             ServiceManager = dataRow.Bool("ServiceManager");
@@ -79,6 +82,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             TenantId = 0;
             Id = UserTypes.Anonymous.ToInt();
             DeptId = 0;
+            LoginId = "Anonymous";
             TenantManager = false;
             ServiceManager = false;
         }

@@ -590,6 +590,7 @@ namespace Implem.Pleasanter.Models
             {
                 Id = UserId,
                 DeptId = DeptId,
+                LoginId = LoginId,
                 Name = Name,
                 TenantManager = TenantManager,
                 ServiceManager = ServiceManager
