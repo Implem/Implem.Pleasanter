@@ -258,7 +258,8 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.UpdateItems(
                     param: Rds.ItemsParam()
                         .Title(Title.DisplayValue)
-                        .FullText(fullText, _using: fullText != null),
+                        .FullText(fullText, _using: fullText != null)
+                        .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
                     where: Rds.ItemsWhere().ReferenceId(WikiId)));
             Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;
@@ -357,7 +358,8 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
                             .Title(Title.DisplayValue)
-                            .FullText(fullText, _using: fullText != null),
+                            .FullText(fullText, _using: fullText != null)
+                            .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam,
                         _using: updateItems),

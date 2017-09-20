@@ -407,7 +407,8 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
                             .Title(Title.DisplayValue)
-                            .FullText(fullText, _using: fullText != null),
+                            .FullText(fullText, _using: fullText != null)
+                            .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam,
                         _using: updateItems),

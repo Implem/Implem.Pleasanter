@@ -245,7 +245,9 @@ namespace Implem.Pleasanter.Libraries.Search
                 Rds.ExecuteNonQuery(statements:
                     Rds.UpdateItems(
                         where: Rds.ItemsWhere().ReferenceId(id),
-                        param: Rds.ItemsParam().FullText(fullText),
+                        param: Rds.ItemsParam()
+                            .FullText(fullText)
+                            .SearchIndexCreatedTime(DateTime.Now),
                         addUpdatorParam: false,
                         addUpdatedTimeParam: false));
             }
