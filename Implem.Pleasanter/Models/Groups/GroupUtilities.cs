@@ -1010,8 +1010,8 @@ namespace Implem.Pleasanter.Models
                             .SqlWhereLike(
                                 searchText,
                                 Rds.Users_LoginId_WhereLike(),
-                                Rds.Users_UserId_WhereLike(),
                                 Rds.Users_Name_WhereLike(),
+                                Rds.Users_UserCode_WhereLike(),
                                 Rds.Depts_DeptCode_WhereLike(),
                                 Rds.Depts_DeptName_WhereLike()))
                 })

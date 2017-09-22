@@ -488,9 +488,9 @@ namespace Implem.Pleasanter.Models
             this SqlWhereCollection self, string searchText)
         {
             return self.SqlWhereLike(searchText,
-                Rds.Users_UserId_WhereLike(),
                 Rds.Users_LoginId_WhereLike(),
                 Rds.Users_Name_WhereLike(),
+                Rds.Users_UserCode_WhereLike(),
                 Rds.MailAddresses_MailAddress_WhereLike("MailAddresses"));
         }
 
