@@ -283,6 +283,11 @@ namespace Implem.Pleasanter.Models
                 transactional: false,
                 statements: Rds.SelectUsers(
                     column: Rds.UsersColumn().UserId(),
+                    join: Rds.UsersJoin()
+                        .Add(new SqlJoin(
+                            tableName: "[Depts]",
+                            joinType: SqlJoin.JoinTypes.LeftOuter,
+                            joinExpression: "[Users].[DeptId]=[Depts].[DeptId]")),
                     where: Rds.UsersWhere()
                         .TenantId(Sessions.TenantId())
                         .UserId(_operator: ">0")
@@ -290,9 +295,11 @@ namespace Implem.Pleasanter.Models
                             searchText,
                             Rds.Users_UserId_WhereLike(),
                             Rds.Users_LoginId_WhereLike(),
-                            Rds.Users_UserCode_WhereLike(),
                             Rds.Users_Name_WhereLike(),
-                            Rds.Users_DeptId_WhereLike())))
+                            Rds.Users_UserCode_WhereLike(),
+                            Rds.Depts_DeptCode_WhereLike(),
+                            Rds.Depts_DeptName_WhereLike(),
+                            Rds.Depts_Body_WhereLike())))
                                 .AsEnumerable()
                                 .ForEach(dataRow =>
                                     sourceCollection.Add(
