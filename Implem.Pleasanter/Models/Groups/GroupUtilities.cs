@@ -972,7 +972,10 @@ namespace Implem.Pleasanter.Models
                     Rds.SelectDepts(
                         column: Rds.DeptsColumn()
                             .DeptId()
-                            .Add("0 as [UserId]"),
+                            .DeptCode()
+                            .Add("0 as [UserId]")
+                            .Add("'' as [UserCode]")
+                            .Add("0 as [IsUser]"),
                         where: Rds.DeptsWhere()
                             .TenantId(Sessions.TenantId())
                             .DeptId_In(
@@ -982,14 +985,21 @@ namespace Implem.Pleasanter.Models
                                 negative: true)
                             .SqlWhereLike(
                                 searchText,
-                                Rds.Depts_DeptId_WhereLike(),
                                 Rds.Depts_DeptCode_WhereLike(),
                                 Rds.Depts_DeptName_WhereLike())),
                     Rds.SelectUsers(
                         unionType: Sqls.UnionTypes.Union,
                         column: Rds.UsersColumn()
                             .Add("0 as [DeptId]")
-                            .UserId(),
+                            .Add("'' as [DeptCode]")
+                            .UserId()
+                            .UserCode()
+                            .Add("1 as [IsUser]"),
+                        join: Rds.UsersJoin()
+                            .Add(new SqlJoin(
+                                tableName: "[Depts]",
+                                joinType: SqlJoin.JoinTypes.LeftOuter,
+                                joinExpression: "[Users].[DeptId]=[Depts].[DeptId]")),
                         where: Rds.UsersWhere()
                             .TenantId(Sessions.TenantId())
                             .UserId_In(
@@ -1001,9 +1011,15 @@ namespace Implem.Pleasanter.Models
                                 searchText,
                                 Rds.Users_LoginId_WhereLike(),
                                 Rds.Users_UserId_WhereLike(),
-                                Rds.Users_Name_WhereLike()))
+                                Rds.Users_Name_WhereLike(),
+                                Rds.Depts_DeptCode_WhereLike(),
+                                Rds.Depts_DeptName_WhereLike()))
                 })
                     .AsEnumerable()
+                    .OrderBy(o => o["IsUser"])
+                    .ThenBy(o => o["DeptCode"])
+                    .ThenBy(o => o["DeptId"])
+                    .ThenBy(o => o["UserCode"])
                     .ForEach(dataRow =>
                         data.AddMember(dataRow));
             }
