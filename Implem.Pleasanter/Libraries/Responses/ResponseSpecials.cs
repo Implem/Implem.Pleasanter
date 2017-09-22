@@ -650,6 +650,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static UsersResponseCollection Name(this UsersResponseCollection res, string value) { return res.Val("#Users_Name", value); }
         public static UsersResponseCollection Name_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_Name", res.UserModel.Name.ToResponse()); }
         public static UsersResponseCollection Name_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_Name", value); }
+        public static UsersResponseCollection UserCode(this UsersResponseCollection res) { return res.Val("#Users_UserCode", res.UserModel.UserCode.ToResponse()); }
+        public static UsersResponseCollection UserCode(this UsersResponseCollection res, string value) { return res.Val("#Users_UserCode", value); }
+        public static UsersResponseCollection UserCode_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_UserCode", res.UserModel.UserCode.ToResponse()); }
+        public static UsersResponseCollection UserCode_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_UserCode", value); }
         public static UsersResponseCollection Password(this UsersResponseCollection res) { return res.Val("#Users_Password", res.UserModel.Password.ToResponse()); }
         public static UsersResponseCollection Password(this UsersResponseCollection res, string value) { return res.Val("#Users_Password", value); }
         public static UsersResponseCollection Password_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_Password", res.UserModel.Password.ToResponse()); }
