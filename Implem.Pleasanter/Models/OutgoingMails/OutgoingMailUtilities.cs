@@ -440,6 +440,10 @@ namespace Implem.Pleasanter.Models
             string searchRange,
             string searchText = "")
         {
+            var joinDepts = new SqlJoin(
+                "[Depts]",
+                SqlJoin.JoinTypes.LeftOuter,
+                "[Users].[DeptId]=[Depts].[DeptId]");
             var joinMailAddresses = new SqlJoin(
                 "[MailAddresses]",
                 SqlJoin.JoinTypes.Inner,
@@ -462,7 +466,7 @@ namespace Implem.Pleasanter.Models
                         "([Users].[UserId]=[Permissions].[UserId] and [Permissions].[UserId] <> 0) or " +
                         "([Users].[DeptId]=[Permissions].[DeptId] and [Permissions].[DeptId] <> 0)");
                     return DestinationCollection(
-                        Sqls.SqlJoinCollection(joinMailAddresses, joinPermissions),
+                        Sqls.SqlJoinCollection(joinDepts, joinMailAddresses, joinPermissions),
                         Rds.UsersWhere()
                             .MailAddresses_OwnerType("Users")
                             .Permissions_ReferenceId(referenceId)
@@ -472,7 +476,7 @@ namespace Implem.Pleasanter.Models
                 default:
                     return !searchText.IsNullOrEmpty()
                         ? DestinationCollection(
-                            Sqls.SqlJoinCollection(joinMailAddresses),
+                            Sqls.SqlJoinCollection(joinDepts, joinMailAddresses),
                             Rds.UsersWhere()
                                 .MailAddresses_OwnerType("Users")
                                 .SearchText(searchText)
@@ -491,6 +495,9 @@ namespace Implem.Pleasanter.Models
                 Rds.Users_LoginId_WhereLike(),
                 Rds.Users_Name_WhereLike(),
                 Rds.Users_UserCode_WhereLike(),
+                Rds.Depts_DeptCode_WhereLike(),
+                Rds.Depts_DeptName_WhereLike(),
+                Rds.Depts_Body_WhereLike(),
                 Rds.MailAddresses_MailAddress_WhereLike("MailAddresses"));
         }
 
