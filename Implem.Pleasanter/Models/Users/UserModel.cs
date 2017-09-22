@@ -40,6 +40,7 @@ namespace Implem.Pleasanter.Models
         public string TimeZone = "Tokyo Standard Time";
         public int DeptId = 0;
         public Names.FirstAndLastNameOrders FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)2;
+        public string Body = string.Empty;
         public Time LastLoginTime = new Time();
         public Time PasswordExpirationTime = new Time();
         public Time PasswordChangeTime = new Time();
@@ -79,6 +80,7 @@ namespace Implem.Pleasanter.Models
         public string SavedTimeZone = "Tokyo Standard Time";
         public int SavedDeptId = 0;
         public int SavedFirstAndLastNameOrder = 2;
+        public string SavedBody = string.Empty;
         public DateTime SavedLastLoginTime = 0.ToDateTime();
         public DateTime SavedPasswordExpirationTime = 0.ToDateTime();
         public DateTime SavedPasswordChangeTime = 0.ToDateTime();
@@ -112,6 +114,7 @@ namespace Implem.Pleasanter.Models
         public bool TimeZone_Updated { get { return TimeZone != SavedTimeZone && TimeZone != null; } }
         public bool DeptId_Updated { get { return DeptId != SavedDeptId; } }
         public bool FirstAndLastNameOrder_Updated { get { return FirstAndLastNameOrder.ToInt() != SavedFirstAndLastNameOrder; } }
+        public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
         public bool LastLoginTime_Updated { get { return LastLoginTime.Value != SavedLastLoginTime && LastLoginTime.Value != null; } }
         public bool PasswordExpirationTime_Updated { get { return PasswordExpirationTime.Value != SavedPasswordExpirationTime && PasswordExpirationTime.Value != null; } }
         public bool PasswordChangeTime_Updated { get { return PasswordChangeTime.Value != SavedPasswordChangeTime && PasswordChangeTime.Value != null; } }
@@ -392,6 +395,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_TimeZone": TimeZone = Forms.Data(controlId).ToString(); break;
                     case "Users_DeptId": DeptId = Forms.Data(controlId).ToInt(); break;
                     case "Users_FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)Forms.Data(controlId).ToInt(); break;
+                    case "Users_Body": Body = Forms.Data(controlId).ToString(); break;
                     case "Users_LastLoginTime": LastLoginTime = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
                     case "Users_PasswordExpirationTime": PasswordExpirationTime = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
                     case "Users_PasswordChangeTime": PasswordChangeTime = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
@@ -466,6 +470,7 @@ namespace Implem.Pleasanter.Models
                     case "TimeZone": TimeZone = dataRow[name].ToString(); SavedTimeZone = TimeZone; break;
                     case "DeptId": DeptId = dataRow[name].ToInt(); SavedDeptId = DeptId; break;
                     case "FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)dataRow[name].ToInt(); SavedFirstAndLastNameOrder = FirstAndLastNameOrder.ToInt(); break;
+                    case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
                     case "LastLoginTime": LastLoginTime = new Time(dataRow, "LastLoginTime"); SavedLastLoginTime = LastLoginTime.Value; break;
                     case "PasswordExpirationTime": PasswordExpirationTime = new Time(dataRow, "PasswordExpirationTime"); SavedPasswordExpirationTime = PasswordExpirationTime.Value; break;
                     case "PasswordChangeTime": PasswordChangeTime = new Time(dataRow, "PasswordChangeTime"); SavedPasswordChangeTime = PasswordChangeTime.Value; break;
@@ -505,6 +510,7 @@ namespace Implem.Pleasanter.Models
                 TimeZone_Updated ||
                 DeptId_Updated ||
                 FirstAndLastNameOrder_Updated ||
+                Body_Updated ||
                 LastLoginTime_Updated ||
                 PasswordExpirationTime_Updated ||
                 PasswordChangeTime_Updated ||

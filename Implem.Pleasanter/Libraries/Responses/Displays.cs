@@ -614,6 +614,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_Dept(params string[] data) { return Get("Users_Dept", data); }
         public static string Users_FirstAndLastNameOrder(params string[] data) { return Get("Users_FirstAndLastNameOrder", data); }
         public static string Users_Title(params string[] data) { return Get("Users_Title", data); }
+        public static string Users_Body(params string[] data) { return Get("Users_Body", data); }
         public static string Users_LastLoginTime(params string[] data) { return Get("Users_LastLoginTime", data); }
         public static string Users_PasswordExpirationTime(params string[] data) { return Get("Users_PasswordExpirationTime", data); }
         public static string Users_PasswordChangeTime(params string[] data) { return Get("Users_PasswordChangeTime", data); }

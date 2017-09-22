@@ -921,6 +921,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Users_DeptId": orderBy.Users_DeptId(data.Value); break;
                         case "Users_Dept": orderBy.Users_Dept(data.Value); break;
                         case "Users_FirstAndLastNameOrder": orderBy.Users_FirstAndLastNameOrder(data.Value); break;
+                        case "Users_Body": orderBy.Users_Body(data.Value); break;
                         case "Users_LastLoginTime": orderBy.Users_LastLoginTime(data.Value); break;
                         case "Users_PasswordExpirationTime": orderBy.Users_PasswordExpirationTime(data.Value); break;
                         case "Users_PasswordChangeTime": orderBy.Users_PasswordChangeTime(data.Value); break;

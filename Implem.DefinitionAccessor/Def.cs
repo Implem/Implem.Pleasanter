@@ -996,6 +996,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_Dept": Column.Users_Dept = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Dept, definitionRow, ColumnXls); break;
                     case "Users_FirstAndLastNameOrder": Column.Users_FirstAndLastNameOrder = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_FirstAndLastNameOrder, definitionRow, ColumnXls); break;
                     case "Users_Title": Column.Users_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Title, definitionRow, ColumnXls); break;
+                    case "Users_Body": Column.Users_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Body, definitionRow, ColumnXls); break;
                     case "Users_LastLoginTime": Column.Users_LastLoginTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LastLoginTime, definitionRow, ColumnXls); break;
                     case "Users_PasswordExpirationTime": Column.Users_PasswordExpirationTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_PasswordExpirationTime, definitionRow, ColumnXls); break;
                     case "Users_PasswordChangeTime": Column.Users_PasswordChangeTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_PasswordChangeTime, definitionRow, ColumnXls); break;
@@ -5974,6 +5975,7 @@ namespace Implem.DefinitionAccessor
         public string Users_Dept;
         public string Users_FirstAndLastNameOrder;
         public string Users_Title;
+        public string Users_Body;
         public string Users_LastLoginTime;
         public string Users_PasswordExpirationTime;
         public string Users_PasswordChangeTime;
@@ -6719,6 +6721,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_Dept = new ColumnDefinition();
         public ColumnDefinition Users_FirstAndLastNameOrder = new ColumnDefinition();
         public ColumnDefinition Users_Title = new ColumnDefinition();
+        public ColumnDefinition Users_Body = new ColumnDefinition();
         public ColumnDefinition Users_LastLoginTime = new ColumnDefinition();
         public ColumnDefinition Users_PasswordExpirationTime = new ColumnDefinition();
         public ColumnDefinition Users_PasswordChangeTime = new ColumnDefinition();

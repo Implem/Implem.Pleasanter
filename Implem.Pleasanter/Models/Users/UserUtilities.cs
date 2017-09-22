@@ -345,6 +345,10 @@ namespace Implem.Pleasanter.Models
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.Dept)
                             : hb.Td(column: column, value: string.Empty);
+                    case "Body":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.Body)
+                            : hb.Td(column: column, value: string.Empty);
                     case "LastLoginTime":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.LastLoginTime)
@@ -411,6 +415,7 @@ namespace Implem.Pleasanter.Models
                     case "Language": value = userModel.Language.GridText(column: column); break;
                     case "TimeZoneInfo": value = userModel.TimeZoneInfo.GridText(column: column); break;
                     case "Dept": value = userModel.Dept.GridText(column: column); break;
+                    case "Body": value = userModel.Body.GridText(column: column); break;
                     case "LastLoginTime": value = userModel.LastLoginTime.GridText(column: column); break;
                     case "PasswordExpirationTime": value = userModel.PasswordExpirationTime.GridText(column: column); break;
                     case "PasswordChangeTime": value = userModel.PasswordChangeTime.GridText(column: column); break;
@@ -721,6 +726,15 @@ namespace Implem.Pleasanter.Models
                             column,
                             userModel.MethodType,
                             userModel.FirstAndLastNameOrder.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "Body":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.Body.ToControl(ss, column),
                             column.ColumnPermissionType(),
                             preview: preview);
                         break;

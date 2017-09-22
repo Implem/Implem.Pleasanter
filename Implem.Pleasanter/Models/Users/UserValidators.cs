@@ -145,6 +145,12 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
+                    case "Users_Body":
+                        if (!ss.GetColumn("Body").CanCreate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
                     case "Users_LastLoginTime":
                         if (!ss.GetColumn("LastLoginTime").CanCreate)
                         {
@@ -300,6 +306,13 @@ namespace Implem.Pleasanter.Models
                     case "Users_FirstAndLastNameOrder":
                         if (userModel.FirstAndLastNameOrder_Updated &&
                             !ss.GetColumn("FirstAndLastNameOrder").CanUpdate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
+                    case "Users_Body":
+                        if (userModel.Body_Updated &&
+                            !ss.GetColumn("Body").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }

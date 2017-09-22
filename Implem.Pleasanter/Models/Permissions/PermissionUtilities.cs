@@ -294,7 +294,8 @@ namespace Implem.Pleasanter.Models
                             searchText,
                             Rds.Users_LoginId_WhereLike(),
                             Rds.Users_Name_WhereLike(),
-                            Rds.Users_UserCode_WhereLike(),
+                            Rds.Users_UserCode_WhereLike(),                            
+                            Rds.Users_Body_WhereLike(),
                             Rds.Depts_DeptCode_WhereLike(),
                             Rds.Depts_DeptName_WhereLike(),
                             Rds.Depts_Body_WhereLike())))
