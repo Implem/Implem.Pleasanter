@@ -255,7 +255,6 @@ namespace Implem.Pleasanter.Models
                         .DeptId(_operator: ">0")
                         .SqlWhereLike(
                             searchText,
-                            Rds.Depts_DeptId_WhereLike(),
                             Rds.Depts_DeptCode_WhereLike(),
                             Rds.Depts_DeptName_WhereLike(),
                             Rds.Depts_Body_WhereLike())))
