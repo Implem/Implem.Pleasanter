@@ -91,32 +91,6 @@ namespace Implem.Libraries.Utilities
             return CultureInfo.CurrentCulture.CompareInfo.IndexOf(self, value, compareOptions);
         }
 
-        public static string Before(this string self, string find)
-        {
-            return self.IndexOf(find) != -1
-                ? self.Substring(0, self.IndexOf(find))
-                : self;
-        }
-
-        public static string After(this string self, string find)
-        {
-            return self.IndexOf(find) != -1
-                ? self.Substring(self.IndexOf(find) + 1)
-                : self;
-        }
-
-        public static string PluralForm(this string self)
-        {
-            return self.Substring(0, 1).ToUpper() + self.Substring(1);
-        }
-
-        public static string ExistsTo(this string self, string pattern)
-        {
-            return !self.IsNullOrEmpty()
-                ? pattern.Params(self)
-                : string.Empty;
-        }
-
         public static string EnclosedString(string self)
         {
             var started = false;
