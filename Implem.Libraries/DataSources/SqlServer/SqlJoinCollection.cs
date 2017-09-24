@@ -8,7 +8,7 @@ namespace Implem.Libraries.DataSources.SqlServer
     {
         public SqlJoinCollection(params SqlJoin[] sqlJoinCollection)
         {
-            sqlJoinCollection.ForEach(sqlFrom => Add(sqlFrom));
+            sqlJoinCollection.ForEach(sqlJoin => Add(sqlJoin));
         }
 
         public SqlJoinCollection Add(
