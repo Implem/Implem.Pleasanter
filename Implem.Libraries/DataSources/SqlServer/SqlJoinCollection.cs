@@ -6,9 +6,9 @@ namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlJoinCollection : ListEx<SqlJoin>
     {
-        public SqlJoinCollection(params SqlJoin[] sqlFromCollection)
+        public SqlJoinCollection(params SqlJoin[] sqlJoinCollection)
         {
-            sqlFromCollection.ForEach(sqlFrom => Add(sqlFrom));
+            sqlJoinCollection.ForEach(sqlFrom => Add(sqlFrom));
         }
 
         public SqlJoinCollection Add(
