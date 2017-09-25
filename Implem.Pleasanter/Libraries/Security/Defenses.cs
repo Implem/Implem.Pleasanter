@@ -1,5 +1,4 @@
 ﻿using Implem.Libraries.Classes;
-using System;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Security
 {
