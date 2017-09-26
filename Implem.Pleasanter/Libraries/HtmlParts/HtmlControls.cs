@@ -632,12 +632,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             {
                                 hb
                                     .Span(action: () => hb
-                                        .Text(listItem.Value.Text))
+                                        .Text(listItem.Value?.Text))
                                     .Span(css: "ui-icon ui-icon-close delete");
                             }
                             else
                             {
-                                hb.Text(text: listItem.Value.Text);
+                                hb.Text(text: listItem.Value?.Text);
                             }
                         }));
             }
