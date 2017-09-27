@@ -33,7 +33,6 @@ namespace Implem.Libraries.DataSources.SqlServer
             StringBuilder commandText,
             int pageSize,
             Sqls.TableTypes tableType,
-            Sqls.UnionTypes unionType,
             int? commandCount)
         {
             if (Count > 0)
@@ -42,9 +41,10 @@ namespace Implem.Libraries.DataSources.SqlServer
                     "order by ",
                     this
                         .GroupBy(o => o.ColumnBracket)
-                        .Select(o => o.FirstOrDefault().Sql(
-                            tableType: tableType,
-                            unionType: unionType))
+                        .Select(o => o.FirstOrDefault())
+                        .Select(o => o.Sql(
+                            tableBracket: Sqls.GetTableBracket(tableType, o.TableName),
+                            tableType: tableType))
                         .Join(),
                     " ");
                 if (pageSize != 0)

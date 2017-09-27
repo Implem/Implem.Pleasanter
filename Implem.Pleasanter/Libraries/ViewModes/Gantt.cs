@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -22,22 +23,22 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             dataRows.ForEach(dataRow =>
                 Add(new GanttElement(
                     GroupBy != null
-                        ? dataRow["GroupBy"].ToString()
+                        ? dataRow.String("GroupBy")
                         : string.Empty,
                     SortBy != null
-                        ? dataRow["SortBy"]
+                        ? dataRow.Object("SortBy")
                         : string.Empty,
-                    dataRow["Id"].ToLong(),
-                    new Title(ss, dataRow, "Id").DisplayValue,
-                    dataRow["WorkValue"].ToDecimal(),
-                    dataRow["StartTime"].ToDateTime(),
-                    dataRow["CompletionTime"].ToDateTime(),
-                    dataRow["ProgressRate"].ToDecimal(),
-                    dataRow["Status"].ToInt(),
-                    dataRow["Owner"].ToInt(),
-                    dataRow["Updator"].ToInt(),
-                    dataRow["CreatedTime"].ToDateTime(),
-                    dataRow["UpdatedTime"].ToDateTime(),
+                    dataRow.Long(Rds.IdColumn(ss.ReferenceType)),
+                    new Title(ss, dataRow).DisplayValue,
+                    dataRow.Decimal("WorkValue"),
+                    dataRow.DateTime("StartTime"),
+                    dataRow.DateTime("CompletionTime"),
+                    dataRow.Decimal("ProgressRate"),
+                    dataRow.Int("Status"),
+                    dataRow.Int("Owner"),
+                    dataRow.Int("Updator"),
+                    dataRow.DateTime("CreatedTime"),
+                    dataRow.DateTime("UpdatedTime"),
                     status,
                     workValue,
                     progressRate,
@@ -57,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             {
                 GroupBy.EditChoices(insertBlank: true).ForEach(choice =>
                 {
-                    var groupBy = dataRows.Where(o => o["GroupBy"].ToString() == choice.Key);
+                    var groupBy = dataRows.Where(o => o.String("GroupBy") == choice.Key);
                     if (groupBy.Any())
                     {
                         groupCount++;
@@ -98,32 +99,32 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             Column progressRate,
             IEnumerable<DataRow> dataRows)
         {
-            var workValueData = dataRows.Sum(o => o["WorkValue"].ToDecimal());
+            var workValueData = dataRows.Sum(o => o.Decimal("WorkValue"));
             Add(new GanttElement(
                 groupBy,
                 string.Empty,
                 0,
                 Displays.Total() + ": " + title,
                 workValueData,
-                dataRows.Min(o => o["StartTime"].ToDateTime()),
-                dataRows.Max(o => o["CompletionTime"].ToDateTime()),
+                dataRows.Min(o => o.DateTime("StartTime")),
+                dataRows.Max(o => o.DateTime("CompletionTime")),
                 workValueData != 0
                     ? dataRows.Sum(o =>
-                        o["WorkValue"].ToDecimal() *
-                        o["ProgressRate"].ToDecimal()) /
+                        o.Decimal("WorkValue") *
+                        o.Decimal("ProgressRate")) /
                         workValueData
                     : 0,
-                dataRows.Select(o => o["Status"]).AllEqual()
-                    ? dataRows.FirstOrDefault()["Status"].ToInt()
+                dataRows.Select(o => o.Int("Status")).AllEqual()
+                    ? dataRows.FirstOrDefault().Int("Status")
                     : 0,
-                dataRows.Select(o => o["Owner"]).AllEqual()
-                    ? dataRows.FirstOrDefault()["Owner"].ToInt()
+                dataRows.Select(o => o.Int("Owner")).AllEqual()
+                    ? dataRows.FirstOrDefault().Int("Owner")
                     : 0,
-                dataRows.Select(o => o["Updator"]).AllEqual()
-                    ? dataRows.FirstOrDefault()["Updator"].ToInt()
+                dataRows.Select(o => o.Int("Updator")).AllEqual()
+                    ? dataRows.FirstOrDefault().Int("Updator")
                     : 0,
-                dataRows.Min(o => o["CreatedTime"].ToDateTime()),
-                dataRows.Max(o => o["UpdatedTime"].ToDateTime()),
+                dataRows.Min(o => o.DateTime("CreatedTime")),
+                dataRows.Max(o => o.DateTime("UpdatedTime")),
                 status,
                 workValue,
                 progressRate,

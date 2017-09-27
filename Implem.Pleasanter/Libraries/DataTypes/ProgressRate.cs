@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Converts;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
@@ -25,21 +26,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public ProgressRate(
-            DataRow dataRow,
-            string createdTimeColumnName = "CreatedTime",
-            string startTimeColumnName = "StartTime",
-            string completionTimeColumnName = "CompletionTime",
-            string progressRateColumnName = "ProgressRate")
+        public ProgressRate(DataRow dataRow, Column column)
         {
-            CreatedTime = dataRow.DateTime(createdTimeColumnName);
-            StartTime = dataRow.DateTime(startTimeColumnName);
-            CompletionTime = dataRow.DateTime(completionTimeColumnName);
-            Value = dataRow.Decimal(progressRateColumnName);
-            UpdatedTime = dataRow["UpdatedTime"].ToDateTime();
-            if (dataRow.Table.Columns.Contains("IsHistory"))
+            CreatedTime = dataRow.DateTime(Rds.DataColumnName(column, "CreatedTime"));
+            StartTime = dataRow.DateTime(Rds.DataColumnName(column, "StartTime"));
+            CompletionTime = dataRow.DateTime(Rds.DataColumnName(column, "CompletionTime"));
+            Value = dataRow.Decimal(Rds.DataColumnName(column, "ProgressRate"));
+            UpdatedTime = dataRow.DateTime(Rds.DataColumnName(column, "UpdatedTime"));
+            if (dataRow.Table.Columns.Contains(Rds.DataColumnName(column, "IsHistory")))
             {
-                VerType = dataRow["IsHistory"].ToBool()
+                VerType = dataRow.Bool(Rds.DataColumnName(column, "IsHistory"))
                     ? Versions.VerTypes.History
                     : Versions.VerTypes.Latest;
             }

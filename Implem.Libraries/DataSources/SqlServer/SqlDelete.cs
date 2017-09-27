@@ -16,13 +16,21 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount = null)
         {
             if (!Using) return;
-            Build_If(commandText);
-            Build_DeleteStatement(sqlContainer, sqlCommand, commandText, commandCount);
-            AddParams_Where(sqlCommand, commandCount);
-            AddParams_Param(sqlCommand, commandCount);
-            AddTermination(commandText);
-            Build_CountRecord(commandText);
-            Build_EndIf(commandText);
+            Build_If(commandText: commandText);
+            Build_DeleteStatement(
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                commandCount: commandCount);
+            AddParams_Where(
+                sqlCommand: sqlCommand,
+                commandCount: commandCount);
+            AddParams_Param(
+                sqlCommand: sqlCommand,
+                commandCount: commandCount);
+            AddTermination(commandText: commandText);
+            Build_CountRecord(commandText: commandText);
+            Build_EndIf(commandText: commandText);
         }
 
         private void Build_DeleteStatement(
@@ -33,7 +41,10 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             commandText.Append(CommandText
                 .Params(SqlWhereCollection.Sql(
-                    sqlContainer, sqlCommand, TableType, commandCount)));
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    tableType: TableType,
+                    commandCount: commandCount)));
         }
     }
 }

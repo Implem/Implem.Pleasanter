@@ -118,8 +118,29 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss, IEnumerable<string> columns)
         {
             return columns.ToDictionary(
-                o => o,
-                o => new ControlData(Displays.Get(ss.GetColumn(o).LabelText)));
+                columnName => columnName,
+                columnName => SelectableOptionsLabelText(
+                    ss: ss.GetJoinedSs(columnName),
+                    columnName: columnName));
+        }
+
+        public static Dictionary<string, ControlData> SelectableSourceOptions(
+            SiteSettings ss, IEnumerable<string> columns)
+        {
+            return columns.ToDictionary(
+                columnName => columnName,
+                columnName => SelectableOptionsLabelText(
+                    ss: ss,
+                    columnName: columnName));
+        }
+
+        private static ControlData SelectableOptionsLabelText(SiteSettings ss, string columnName)
+        {
+            var labelText = ss.GetColumn(columnName.Split(',').Last())?.LabelText;
+            return new ControlData(
+                "[" + ss.Title + "]" + (!labelText.IsNullOrEmpty()
+                    ? Displays.Get(labelText)
+                    : string.Empty));
         }
 
         public static string ChangeCommand(string controlId)

@@ -82,7 +82,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static HtmlBuilder TdCustomValue(
+        private static HtmlBuilder TdCustomValue(
             this HtmlBuilder hb, SiteSettings ss, string gridDesign, SiteModel siteModel)
         {
             ss.IncludedColumns(gridDesign).ForEach(column =>
@@ -2151,7 +2151,7 @@ namespace Implem.Pleasanter.Models
                         listItemCollection: ss.GridSelectableOptions(enabled: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
+                            .Div(css: "command-left", action: () => hb
                                 .Button(
                                     controlId: "ToEnableGridColumns",
                                     text: Displays.ToEnable(),
@@ -2159,7 +2159,16 @@ namespace Implem.Pleasanter.Models
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
-                                    method: "put"))));
+                                    method: "put")
+                                .FieldDropDown(
+                                    controlId: "GridJoin",
+                                    fieldCss: "w150",
+                                    controlCss: " auto-postback always-send",
+                                    optionCollection: ss.JoinOptions(),
+                                    selectedValue: "",
+                                    addSelectedValue: false,
+                                    action: "SetSiteSettings",
+                                    method: "post"))));
         }
 
         /// <summary>

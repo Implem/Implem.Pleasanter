@@ -210,8 +210,11 @@ namespace Implem.CodeDefiner.Functions.SqlServer
             string value)
         {
             sqlStatement.SqlWhereCollection.Add(
-                new SqlWhere(new string[] { "[{0}].[{1}]".Params(tableName, columnName) },
-                columnName, value));
+                new SqlWhere(
+                    tableName: tableName,
+                    columnBrackets: new string[] { "[{0}]".Params(columnName) },
+                    name: columnName,
+                    value: value));
         }
 
         private static void BulkInsert(string importTextPath, string tableName)

@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Converts;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
@@ -22,13 +23,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public CompletionTime(DataRow dataRow, string name)
+        public CompletionTime(DataRow dataRow, Column column)
         {
-            Value = dataRow.DateTime(name);
+            Value = dataRow.DateTime(Rds.DataColumnName(column, "CompletionTime"));
             DisplayValue = Value.ToLocal().AddDays(-1);
-            Status = new Status(dataRow, "Status");
-            UpdatedTime = dataRow.DateTime("UpdatedTime");
-            VerType = dataRow.Bool("IsHistory")
+            Status = new Status(dataRow, column);
+            UpdatedTime = dataRow.DateTime(Rds.DataColumnName(column, "UpdatedTime"));
+            VerType = dataRow.Bool(Rds.DataColumnName(column, "IsHistory"))
                 ? Versions.VerTypes.History
                 : Versions.VerTypes.Latest;
         }

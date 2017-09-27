@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<string, ColumnDefinition> ColumnDefinitionHash;
         [NonSerialized]
-        public Dictionary<long, SiteSettings> JoinedSiteSettings;
+        public Dictionary<long, SiteSettings> JoinedSsHash;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
@@ -718,10 +718,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 GridColumns = DefaultGridColumns();
             }
-            else
-            {
-                GridColumns.RemoveAll(o => !GridColumn(ColumnDefinitionHash.Get(o)));
-            }
         }
 
         private List<string> DefaultGridColumns()
@@ -957,30 +953,29 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetExports()
         {
-            SetJoineddSiteSettings();
+            SetJoinedSsHash();
             Exports?.ForEach(export => SetExport(export));
         }
 
         public void SetExport(Export export)
         {
-            SetJoineddSiteSettings();
+            SetJoinedSsHash();
             export.Header = export.Header ?? true;
             export.Columns
-                .Where(o => JoinedSiteSettings.Get(o.SiteId) != null)
-                .ForEach(o => o.Init(JoinedSiteSettings.Get(o.SiteId)));
+                .Where(o => JoinedSsHash.Get(o.SiteId) != null)
+                .ForEach(o => o.Init(JoinedSsHash.Get(o.SiteId)));
         }
 
-        public void SetJoineddSiteSettings()
+        public void SetJoinedSsHash()
         {
-            JoinedSiteSettings = JoinedSiteSettings ??
+            JoinedSsHash = JoinedSsHash ??
                 new Dictionary<long, SiteSettings>()
                 {
                     { SiteId, this }
-                }.AddRange(GetJoinedSiteSettings(
-                    Links, new Dictionary<long, SiteSettings>()));
+                }.AddRange(GetJoinedSsHash(Links, new Dictionary<long, SiteSettings>()));
         }
 
-        private Dictionary<long, SiteSettings> GetJoinedSiteSettings(
+        private Dictionary<long, SiteSettings> GetJoinedSsHash(
             List<Link> links, Dictionary<long, SiteSettings> hash)
         {
             links?
@@ -990,7 +985,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => !hash.ContainsKey(o))
                 .Where(o => Permissions.Can(
                     Permissions.InheritPermission(o),
-                    Permissions.Types.Export))
+                    Permissions.Types.Read))
                 .ToList()
                 .Distinct()
                 .ForEach(siteId =>
@@ -999,7 +994,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (ss != null && !hash.ContainsKey(siteId))
                     {
                         hash.Add(siteId, ss);
-                        GetJoinedSiteSettings(ss.Links, hash);
+                        GetJoinedSsHash(ss.Links, hash);
                     }
                 });
             return hash;
@@ -1075,9 +1070,33 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Column GetColumn(string columnName)
         {
-            return columnName != null && ColumnHash.Keys.Contains(columnName)
-                ? ColumnHash[columnName]
-                : null;
+            if (columnName.Contains(','))
+            {
+                var alias = columnName.Split_1st();
+                var siteId = alias.Split('-').Last().Split_2nd(':').ToLong();
+                var name = columnName.Split_2nd();
+                var column = JoinedSsHash.Get(siteId)?.GetColumn(name);
+                if (column != null)
+                {
+                    column.DataColumnName = columnName;
+                    column.TableAlias = alias;
+                    column.SiteId = siteId;
+                    column.Joined = true;
+                }
+                return column;
+            }
+            else
+            {
+                var column = columnName != null && ColumnHash.Keys.Contains(columnName)
+                    ? ColumnHash[columnName]
+                    : null;
+                if (column != null)
+                {
+                    column.SiteSettings = this;
+                    column.DataColumnName = columnName;
+                }
+                return column;
+            }
         }
 
         public Column GridColumn(string columnName)
@@ -1186,15 +1205,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                 EditorColumns.Contains(o.ColumnName));
         }
 
-        public Dictionary<string, ControlData> GridSelectableOptions(bool enabled = true)
+        public Dictionary<string, ControlData> GridSelectableOptions(
+            bool enabled = true, string join = null)
         {
+            SetJoinedSsHash();
+            var currentSs = GetJoinedSs(join);
             return enabled
-                ? ColumnUtilities.SelectableOptions(this, GridColumns)
-                : ColumnUtilities.SelectableOptions(
-                    this, ColumnDefinitionHash.GridDefinitions()
-                        .Where(o => !GridColumns.Contains(o.ColumnName))
-                        .OrderBy(o => o.History)
-                        .Select(o => o.ColumnName));
+                ? ColumnUtilities.SelectableOptions(
+                    ss: currentSs,
+                    columns: GridColumns)
+                : ColumnUtilities.SelectableSourceOptions(
+                    ss: currentSs,
+                    columns: currentSs.ColumnDefinitionHash.GridDefinitions()
+                        .OrderBy(o => o.No)
+                        .Select(o => join.IsNullOrEmpty()
+                            ? o.ColumnName
+                            : join + "," + o.ColumnName)
+                        .Where(o => !GridColumns.Contains(o)));
         }
 
         public Dictionary<string, ControlData> FilterSelectableOptions(bool enabled = true)
@@ -1282,13 +1309,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName));
         }
 
+        public Dictionary<string, string> JoinOptions()
+        {
+            return TableJoins(Links, new Join(Title), new List<Join> { new Join(Title) })
+                .ToDictionary(
+                    o => o.Select(p => "{0}:{1}".Params(p.ColumnName, p.SiteId)).Join("-"),
+                    o => o.Title.Join(" - "));
+        }
+
         public Dictionary<string, string> ExportJoinOptions()
         {
-            return ExportTableJoins(Links, new Join(Title), new List<Join> { new Join(Title) })
+            return TableJoins(Links, new Join(Title), new List<Join> { new Join(Title) })
                 .ToDictionary(o => o.ToJson(), o => o.Title.Join(" - "));
         }
 
-        private List<Join> ExportTableJoins(List<Link> links, Join join, List<Join> joins)
+        private List<Join> TableJoins(List<Link> links, Join join, List<Join> joins)
         {
             links?
                 .Where(o =>
@@ -1296,7 +1331,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     !join.Any(p => p.SiteId == o.SiteId))
                 .ForEach(link =>
                 {
-                    var ss = JoinedSiteSettings.Get(link.SiteId);
+                    var ss = JoinedSsHash.Get(link.SiteId);
                     if (ss != null)
                     {
                         var column = ss.GetColumn(link.ColumnName);
@@ -1305,11 +1340,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                             var copy = join.ToList();
                             copy.Add(link, ss.Title);
                             joins.Add(copy);
-                            ExportTableJoins(ss?.Links, copy, joins);
+                            TableJoins(ss?.Links, copy, joins);
                         }
                     }
                 });
             return joins;
+        }
+
+        public SiteSettings GetJoinedSs(string join)
+        {
+            return join?.Contains(":") == true
+                ? JoinedSsHash.Get(join
+                    .Split_1st(',')
+                    .Split('-')
+                    .Last()
+                    .Split_2nd(':')
+                    .ToLong())
+                : this;
         }
 
         public Dictionary<string, ControlData> ColumnAccessControlOptions(

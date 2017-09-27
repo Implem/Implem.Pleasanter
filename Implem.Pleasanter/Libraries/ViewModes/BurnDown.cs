@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
@@ -28,26 +29,26 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         {
             dataRows.ForEach(dataRow =>
             {
-                var id = dataRow["Id"].ToLong();
-                var ver = dataRow["Ver"].ToInt();
+                var id = dataRow.Long(Rds.IdColumn(ss.ReferenceType));
+                var ver = dataRow.Int("Ver");
                 var target = this.Where(o => o.Id == id && o.Ver < ver).LastOrDefault();
-                var workValue = dataRow["WorkValue"].ToDecimal();
-                var progressRate = dataRow["ProgressRate"].ToDecimal();
+                var workValue = dataRow.Decimal("WorkValue");
+                var progressRate = dataRow.Decimal("ProgressRate");
                 var progressRateAddtions = ProgressRateAddtions(target, progressRate);
                 Add(new BurnDownElement(
                     id,
                     ver,
-                    new Title(ss, dataRow, "Id").DisplayValue,
+                    new Title(ss, dataRow).DisplayValue,
                     workValue,
-                    dataRow["StartTime"].ToDateTime(),
-                    dataRow["CompletionTime"].ToDateTime(),
+                    dataRow.DateTime("StartTime"),
+                    dataRow.DateTime("CompletionTime"),
                     progressRate,
                     progressRateAddtions,
-                    dataRow["Status"].ToInt(),
-                    dataRow["Updator"].ToInt(),
+                    dataRow.Int("Status"),
+                    dataRow.Int("Updator"),
                     EarnedValueAddtions(workValue, progressRateAddtions),
-                    dataRow["CreatedTime"].ToDateTime(),
-                    dataRow["UpdatedTime"].ToDateTime()));
+                    dataRow.DateTime("CreatedTime"),
+                    dataRow.DateTime("UpdatedTime")));
             });
             if (this.Any())
             {
@@ -69,14 +70,6 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         private decimal EarnedValueAddtions(decimal workValue, decimal progressRateAddtions)
         {
             return workValue * progressRateAddtions / 100;
-        }
-
-        private decimal WorkValue(IEnumerable<DataRow> dataRows, long id)
-        {
-            return dataRows
-                .Where(o => o["Id"].ToLong() == id)
-                .Select(o => o["WorkValue"].ToDecimal())
-                .LastOrDefault();
         }
 
         public string Json()

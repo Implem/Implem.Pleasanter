@@ -2123,10 +2123,10 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public ResultModel(SiteSettings ss, DataRow dataRow)
+        public ResultModel(SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
-            Set(ss, dataRow);
+            Set(ss, dataRow, tableAlias);
             OnConstructed();
         }
 
@@ -3615,21 +3615,22 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void Set(SiteSettings ss, DataRow dataRow)
+        private void Set(SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var name = dataColumn.ColumnName;
-                switch(name)
+                var column = new Column(tableAlias, dataColumn);
+                var name = column.DataColumnName;
+                switch (column.ColumnName)
                 {
                     case "SiteId": if (dataRow[name] != DBNull.Value) { SiteId = dataRow[name].ToLong(); SavedSiteId = SiteId; } break;
-                    case "UpdatedTime": if (dataRow[name] != DBNull.Value) { UpdatedTime = new Time(dataRow, "UpdatedTime"); Timestamp = dataRow.Field<DateTime>("UpdatedTime").ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; } break;
+                    case "UpdatedTime": if (dataRow[name] != DBNull.Value) { UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; } break;
                     case "ResultId": if (dataRow[name] != DBNull.Value) { ResultId = dataRow[name].ToLong(); SavedResultId = ResultId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "Title": Title = new Title(ss, dataRow, "ResultId"); SavedTitle = Title.Value; break;
+                    case "Title": Title = new Title(ss, dataRow, column); SavedTitle = Title.Value; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
-                    case "Status": Status = new Status(dataRow, "Status"); SavedStatus = Status.Value; break;
+                    case "Status": Status = new Status(dataRow, column); SavedStatus = Status.Value; break;
                     case "Manager": Manager = SiteInfo.User(dataRow.Int(name)); SavedManager = Manager.Id; break;
                     case "Owner": Owner = SiteInfo.User(dataRow.Int(name)); SavedOwner = Owner.Id; break;
                     case "ClassA": ClassA = dataRow[name].ToString(); SavedClassA = ClassA; break;
@@ -3762,36 +3763,36 @@ namespace Implem.Pleasanter.Models
                     case "CheckX": CheckX = dataRow[name].ToBool(); SavedCheckX = CheckX; break;
                     case "CheckY": CheckY = dataRow[name].ToBool(); SavedCheckY = CheckY; break;
                     case "CheckZ": CheckZ = dataRow[name].ToBool(); SavedCheckZ = CheckZ; break;
-                    case "AttachmentsA": AttachmentsA = dataRow.String("AttatchmentA").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsA = AttachmentsA.ToJson(); break;
-                    case "AttachmentsB": AttachmentsB = dataRow.String("AttatchmentB").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsB = AttachmentsB.ToJson(); break;
-                    case "AttachmentsC": AttachmentsC = dataRow.String("AttatchmentC").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsC = AttachmentsC.ToJson(); break;
-                    case "AttachmentsD": AttachmentsD = dataRow.String("AttatchmentD").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsD = AttachmentsD.ToJson(); break;
-                    case "AttachmentsE": AttachmentsE = dataRow.String("AttatchmentE").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsE = AttachmentsE.ToJson(); break;
-                    case "AttachmentsF": AttachmentsF = dataRow.String("AttatchmentF").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsF = AttachmentsF.ToJson(); break;
-                    case "AttachmentsG": AttachmentsG = dataRow.String("AttatchmentG").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsG = AttachmentsG.ToJson(); break;
-                    case "AttachmentsH": AttachmentsH = dataRow.String("AttatchmentH").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsH = AttachmentsH.ToJson(); break;
-                    case "AttachmentsI": AttachmentsI = dataRow.String("AttatchmentI").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsI = AttachmentsI.ToJson(); break;
-                    case "AttachmentsJ": AttachmentsJ = dataRow.String("AttatchmentJ").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsJ = AttachmentsJ.ToJson(); break;
-                    case "AttachmentsK": AttachmentsK = dataRow.String("AttatchmentK").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsK = AttachmentsK.ToJson(); break;
-                    case "AttachmentsL": AttachmentsL = dataRow.String("AttatchmentL").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsL = AttachmentsL.ToJson(); break;
-                    case "AttachmentsM": AttachmentsM = dataRow.String("AttatchmentM").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsM = AttachmentsM.ToJson(); break;
-                    case "AttachmentsN": AttachmentsN = dataRow.String("AttatchmentN").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsN = AttachmentsN.ToJson(); break;
-                    case "AttachmentsO": AttachmentsO = dataRow.String("AttatchmentO").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsO = AttachmentsO.ToJson(); break;
-                    case "AttachmentsP": AttachmentsP = dataRow.String("AttatchmentP").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsP = AttachmentsP.ToJson(); break;
-                    case "AttachmentsQ": AttachmentsQ = dataRow.String("AttatchmentQ").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsQ = AttachmentsQ.ToJson(); break;
-                    case "AttachmentsR": AttachmentsR = dataRow.String("AttatchmentR").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsR = AttachmentsR.ToJson(); break;
-                    case "AttachmentsS": AttachmentsS = dataRow.String("AttatchmentS").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsS = AttachmentsS.ToJson(); break;
-                    case "AttachmentsT": AttachmentsT = dataRow.String("AttatchmentT").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsT = AttachmentsT.ToJson(); break;
-                    case "AttachmentsU": AttachmentsU = dataRow.String("AttatchmentU").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsU = AttachmentsU.ToJson(); break;
-                    case "AttachmentsV": AttachmentsV = dataRow.String("AttatchmentV").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsV = AttachmentsV.ToJson(); break;
-                    case "AttachmentsW": AttachmentsW = dataRow.String("AttatchmentW").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsW = AttachmentsW.ToJson(); break;
-                    case "AttachmentsX": AttachmentsX = dataRow.String("AttatchmentX").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsX = AttachmentsX.ToJson(); break;
-                    case "AttachmentsY": AttachmentsY = dataRow.String("AttatchmentY").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsY = AttachmentsY.ToJson(); break;
-                    case "AttachmentsZ": AttachmentsZ = dataRow.String("AttatchmentZ").Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsZ = AttachmentsZ.ToJson(); break;
-                    case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
+                    case "AttachmentsA": AttachmentsA = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsA = AttachmentsA.ToJson(); break;
+                    case "AttachmentsB": AttachmentsB = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsB = AttachmentsB.ToJson(); break;
+                    case "AttachmentsC": AttachmentsC = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsC = AttachmentsC.ToJson(); break;
+                    case "AttachmentsD": AttachmentsD = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsD = AttachmentsD.ToJson(); break;
+                    case "AttachmentsE": AttachmentsE = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsE = AttachmentsE.ToJson(); break;
+                    case "AttachmentsF": AttachmentsF = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsF = AttachmentsF.ToJson(); break;
+                    case "AttachmentsG": AttachmentsG = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsG = AttachmentsG.ToJson(); break;
+                    case "AttachmentsH": AttachmentsH = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsH = AttachmentsH.ToJson(); break;
+                    case "AttachmentsI": AttachmentsI = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsI = AttachmentsI.ToJson(); break;
+                    case "AttachmentsJ": AttachmentsJ = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsJ = AttachmentsJ.ToJson(); break;
+                    case "AttachmentsK": AttachmentsK = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsK = AttachmentsK.ToJson(); break;
+                    case "AttachmentsL": AttachmentsL = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsL = AttachmentsL.ToJson(); break;
+                    case "AttachmentsM": AttachmentsM = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsM = AttachmentsM.ToJson(); break;
+                    case "AttachmentsN": AttachmentsN = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsN = AttachmentsN.ToJson(); break;
+                    case "AttachmentsO": AttachmentsO = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsO = AttachmentsO.ToJson(); break;
+                    case "AttachmentsP": AttachmentsP = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsP = AttachmentsP.ToJson(); break;
+                    case "AttachmentsQ": AttachmentsQ = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsQ = AttachmentsQ.ToJson(); break;
+                    case "AttachmentsR": AttachmentsR = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsR = AttachmentsR.ToJson(); break;
+                    case "AttachmentsS": AttachmentsS = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsS = AttachmentsS.ToJson(); break;
+                    case "AttachmentsT": AttachmentsT = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsT = AttachmentsT.ToJson(); break;
+                    case "AttachmentsU": AttachmentsU = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsU = AttachmentsU.ToJson(); break;
+                    case "AttachmentsV": AttachmentsV = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsV = AttachmentsV.ToJson(); break;
+                    case "AttachmentsW": AttachmentsW = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsW = AttachmentsW.ToJson(); break;
+                    case "AttachmentsX": AttachmentsX = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsX = AttachmentsX.ToJson(); break;
+                    case "AttachmentsY": AttachmentsY = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsY = AttachmentsY.ToJson(); break;
+                    case "AttachmentsZ": AttachmentsZ = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsZ = AttachmentsZ.ToJson(); break;
+                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, "CreatedTime"); SavedCreatedTime = CreatedTime.Value; break;
+                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }

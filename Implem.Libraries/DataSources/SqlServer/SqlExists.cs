@@ -20,7 +20,11 @@ namespace Implem.Libraries.DataSources.SqlServer
             commandText.Append("exists(select * from ", TableBracket, " ");
             SqlJoinCollection?.BuildCommandText(commandText);
             SqlWhereCollection?.BuildCommandText(
-                sqlContainer, sqlCommand, commandText, TableType, commandCount);
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: TableType,
+                commandCount: commandCount);
             commandText.Append(")");
             AddTermination(commandText);
             AddParams_Where(sqlCommand, commandCount);

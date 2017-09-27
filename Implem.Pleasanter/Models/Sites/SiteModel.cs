@@ -244,10 +244,10 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public SiteModel(DataRow dataRow)
+        public SiteModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
-            Set(dataRow);
+            Set(dataRow, tableAlias);
             OnConstructed();
         }
 
@@ -580,17 +580,18 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void Set(DataRow dataRow)
+        private void Set(DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var name = dataColumn.ColumnName;
-                switch(name)
+                var column = new Column(tableAlias, dataColumn);
+                var name = column.DataColumnName;
+                switch (column.ColumnName)
                 {
                     case "TenantId": if (dataRow[name] != DBNull.Value) { TenantId = dataRow[name].ToInt(); SavedTenantId = TenantId; } break;
                     case "SiteId": if (dataRow[name] != DBNull.Value) { SiteId = dataRow[name].ToLong(); SavedSiteId = SiteId; } break;
-                    case "UpdatedTime": if (dataRow[name] != DBNull.Value) { UpdatedTime = new Time(dataRow, "UpdatedTime"); Timestamp = dataRow.Field<DateTime>("UpdatedTime").ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; } break;
+                    case "UpdatedTime": if (dataRow[name] != DBNull.Value) { UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
                     case "Title": Title = new Title(dataRow, "SiteId"); SavedTitle = Title.Value; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
@@ -598,10 +599,10 @@ namespace Implem.Pleasanter.Models
                     case "ParentId": ParentId = dataRow[name].ToLong(); SavedParentId = ParentId; break;
                     case "InheritPermission": InheritPermission = dataRow[name].ToLong(); SavedInheritPermission = InheritPermission; break;
                     case "SiteSettings": SiteSettings = GetSiteSettings(dataRow); SavedSiteSettings = SiteSettings.RecordingJson(); break;
-                    case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
+                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, "CreatedTime"); SavedCreatedTime = CreatedTime.Value; break;
+                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }
@@ -770,6 +771,9 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "SetGridColumn":
                     SetGridColumn(res);
+                    break;
+                case "GridJoin":
+                    SetGridColumnsSelectable(res);
                     break;
                 case "MoveUpFilterColumns":
                 case "MoveDownFilterColumns":
@@ -978,7 +982,7 @@ namespace Implem.Pleasanter.Models
                 "Grid",
                 SiteSettings.GridSelectableOptions(),
                 selectedColumns,
-                SiteSettings.GridSelectableOptions(enabled: false),
+                SiteSettings.GridSelectableOptions(enabled: false, join: Forms.Data("GridJoin")),
                 selectedSourceColumns);
         }
 
@@ -994,10 +998,15 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var column = SiteSettings.GridColumn(selectedColumns.FirstOrDefault());
+                SiteSettings.SetJoinedSsHash();
+                var column = SiteSettings.GetColumn(selectedColumns.FirstOrDefault());
                 if (column == null)
                 {
                     res.Message(Messages.InvalidRequest());
+                }
+                else if(column.Joined)
+                {
+                    res.Message(Messages.CanNotPerformed());
                 }
                 else
                 {
@@ -1044,6 +1053,24 @@ namespace Implem.Pleasanter.Models
                         : null;
                 default:
                     return value;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetGridColumnsSelectable(ResponseCollection res)
+        {
+            var listItemCollection = SiteSettings
+                .GridSelectableOptions(enabled: false, join: Forms.Data("GridJoin"));
+            if (!listItemCollection.Any())
+            {
+                res.Message(Messages.NotFound());
+            }
+            else
+            {
+                res.Html("#GridSourceColumns", new HtmlBuilder()
+                    .SelectableItems(listItemCollection: listItemCollection));
             }
         }
 
@@ -2107,12 +2134,12 @@ namespace Implem.Pleasanter.Models
             var current = new List<ExportColumn>();
             var sources = new List<ExportColumn>();
             var allows = join?
-                .Where(o => SiteSettings.JoinedSiteSettings?.ContainsKey(o.SiteId) == true)
+                .Where(o => SiteSettings.JoinedSsHash?.ContainsKey(o.SiteId) == true)
                 .ToList();
             allows?.Reverse();
             allows?.ForEach(link =>
             {
-                var ss = SiteSettings.JoinedSiteSettings.Get(link.SiteId);
+                var ss = SiteSettings.JoinedSsHash.Get(link.SiteId);
                 current.AddRange(ss.DefaultExportColumns());
                 sources.AddRange(ss.ExportColumns(searchText));
             });
@@ -2140,11 +2167,11 @@ namespace Implem.Pleasanter.Models
             var searchText = Forms.Data("SearchExportColumns");
             var sources = new List<ExportColumn>();
             var allows = join?
-                .Where(o => SiteSettings.JoinedSiteSettings?.ContainsKey(o.SiteId) == true)
+                .Where(o => SiteSettings.JoinedSsHash?.ContainsKey(o.SiteId) == true)
                 .ToList();
             allows?.Reverse();
             allows?.ForEach(link => sources.AddRange(
-                SiteSettings.JoinedSiteSettings.Get(link.SiteId).ExportColumns(searchText)));
+                SiteSettings.JoinedSsHash.Get(link.SiteId).ExportColumns(searchText)));
             sources.AddRange(SiteSettings.ExportColumns(searchText));
             res
                 .Html("#ExportSourceColumns", new HtmlBuilder()
@@ -2190,7 +2217,7 @@ namespace Implem.Pleasanter.Models
                                 .ForEach(exportColumn =>
                                 {
                                     exportColumn.Id = Export.NewColumnId();
-                                    exportColumn.Init(SiteSettings.JoinedSiteSettings
+                                    exportColumn.Init(SiteSettings.JoinedSsHash
                                         .Get(exportColumn.SiteId));
                                     Export.Columns.Add(exportColumn);
                                     columns.Add(exportColumn.Id.ToString());

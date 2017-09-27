@@ -222,5 +222,16 @@ namespace Implem.Libraries.DataSources.SqlServer
                 commandText.Append("end\n");
             }
         }
+
+        public string GetTableBracket()
+        {
+            switch (TableType)
+            {
+                case Sqls.TableTypes.Normal: return TableBracket;
+                case Sqls.TableTypes.History: return HistoryTableBracket;
+                case Sqls.TableTypes.Deleted: return DeletedTableBracket;
+                default: return null;
+            }
+        }
     }
 }

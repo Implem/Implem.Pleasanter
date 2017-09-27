@@ -105,6 +105,15 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                                 columnNameAlias,
                                 selectColumnAlias: true));
                         break;
+                    case "Columns":
+                        code = code.Replace(
+                            "#Columns#",
+                            Columns(
+                                columnDefinition,
+                                tableNameAlias,
+                                columnNameAlias,
+                                selectColumnAlias: true));
+                        break;
                     case "OrderByColumns":
                         code = code.Replace(
                             "#OrderByColumns#", 
@@ -180,6 +189,18 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                     ? ColumnBracket(columnDefinition, tableNameAlias, columnNameAlias)
                     : ComputeColumn(columnDefinition, string.Empty, tableNameAlias, columnNameAlias)
                 : SelectColumns(columnDefinition, tableNameAlias, selectColumnAlias);
+        }
+
+        private static string Columns(
+            ColumnDefinition columnDefinition,
+            string tableNameAlias,
+            string columnNameAlias = "",
+            bool selectColumnAlias = true)
+        {
+            return columnDefinition.SelectColumns
+                .Split(',')
+                .Select(o => "\"" + o.RegexFirst("[a-zA-Z0-9]+") + "\"")
+                .Join(", ");
         }
 
         private static string SelectColumns(

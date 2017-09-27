@@ -100,7 +100,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 tableType: Sqls.TableTypes.History,
-                from: From(HistoryTableBracket, As),
+                tableBracket: HistoryTableBracket,
                 unionType: unionType,
                 orderBy: true,
                 countRecord: CountRecord,
@@ -119,7 +119,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 tableType: Sqls.TableTypes.Normal,
-                from: From(TableBracket, As),
+                tableBracket: TableBracket,
                 unionType: Sqls.UnionTypes.None,
                 orderBy: false,
                 countRecord: false,
@@ -145,7 +145,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 tableType: Sqls.TableTypes.Normal,
-                from: From(TableBracket, As),
+                tableBracket: TableBracket,
                 unionType: Sqls.UnionTypes.None,
                 orderBy: false,
                 countRecord: false,
@@ -173,7 +173,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 tableType: Sqls.TableTypes.Deleted,
-                from: From(DeletedTableBracket, As),
+                tableBracket: DeletedTableBracket,
                 unionType: unionType,
                 orderBy: true,
                 countRecord: CountRecord,
@@ -191,7 +191,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 tableType: Sqls.TableTypes.Normal,
-                from: From(TableBracket, As),
+                tableBracket: TableBracket,
                 unionType: UnionType,
                 orderBy: true,
                 countRecord: CountRecord,
@@ -228,7 +228,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlCommand sqlCommand,
             StringBuilder commandText,
             Sqls.TableTypes tableType,
-            string from,
+            string tableBracket,
             Sqls.UnionTypes unionType,
             bool orderBy,
             bool countRecord,
@@ -238,27 +238,38 @@ namespace Implem.Libraries.DataSources.SqlServer
             if (!DataTableName.IsNullOrEmpty()) sqlContainer.DataTableNames.Add(DataTableName);
             AddUnion(commandText, unionType);
             SqlColumnCollection?.BuildCommandText(
-                sqlContainer,
-                sqlCommand,
-                commandText,
-                tableType,
-                commandCount,
-                Distinct,
-                Top);
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: tableType,
+                commandCount: commandCount,
+                distinct: Distinct,
+                top: Top);
+            var from = From(tableBracket, As);
             commandText.Append(from);
-            SqlJoinCollection?.BuildCommandText(commandText);
+            SqlJoinCollection?.BuildCommandText(commandText: commandText);
             SqlWhereCollection?.BuildCommandText(
-                sqlContainer, sqlCommand, commandText, TableType, commandCount, select: true);
-            SqlGroupByCollection?.BuildCommandText(commandText, tableType);
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: tableType,
+                commandCount: commandCount,
+                select: true);
+            SqlGroupByCollection?.BuildCommandText(
+                commandText: commandText,
+                tableBracket: tableBracket);
             SqlHavingCollection?.BuildCommandText(
-                sqlContainer, sqlCommand, commandText, tableType, commandCount);
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: tableType,
+                commandCount: commandCount);
             if (orderBy)
             {
                 SqlOrderByCollection?.BuildCommandText(
                     commandText: commandText,
                     pageSize: PageSize,
-                    tableType: tableType,
-                    unionType: unionType,
+                    tableType: TableType,
                     commandCount: commandCount);
             }
             AddTermination(commandText);
@@ -267,12 +278,23 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlContainer.DataTableNames.Add("Count");
                 commandText.Append("select count(*) from ( select 1 as [c] ");
                 commandText.Append(from);
-                SqlJoinCollection?.BuildCommandText(commandText);
+                SqlJoinCollection?.BuildCommandText(commandText: commandText);
                 SqlWhereCollection?.BuildCommandText(
-                    sqlContainer, sqlCommand, commandText, TableType, commandCount, select: true);
-                SqlGroupByCollection?.BuildCommandText(commandText, tableType);
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    commandText: commandText,
+                    tableType: TableType,
+                    commandCount: commandCount,
+                    select: true);
+                SqlGroupByCollection?.BuildCommandText(
+                    commandText: commandText,
+                    tableBracket: tableBracket);
                 SqlHavingCollection?.BuildCommandText(
-                    sqlContainer, sqlCommand, commandText, tableType, commandCount);
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    commandText: commandText,
+                    tableType: tableType,
+                    commandCount: commandCount);
                 commandText.Append(") as [table_count]");
                 AddTermination(commandText);
             }
@@ -284,7 +306,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private void AddParams_Paging(SqlCommand sqlCommand, int? commandCount)
         {
-            if (SqlOrderByCollection?.Count > 0 && PageSize != 0)
+            if (PageSize != 0)
             {
                 AddParam(sqlCommand, "_Offset", Offset, commandCount);
                 AddParam(sqlCommand, "_PageSize", PageSize, commandCount);

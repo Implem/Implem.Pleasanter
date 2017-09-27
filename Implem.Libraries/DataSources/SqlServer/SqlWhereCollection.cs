@@ -16,8 +16,8 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public SqlWhereCollection Add(
+            string tableName,
             string[] columnBrackets = null,
-            string tableName = null,
             string name = null,
             object value = null,
             string _operator = "=",
@@ -26,7 +26,6 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlStatement subLeft = null,
             SqlStatement sub = null,
             string raw = null,
-            SqlWhereCollection or = null,
             bool _using = true)
         {
             Add(new SqlWhere(
@@ -40,8 +39,13 @@ namespace Implem.Libraries.DataSources.SqlServer
                 subLeft: subLeft,
                 sub: sub,
                 raw: raw,
-                or: or,
                 _using: _using));
+            return this;
+        }
+
+        public SqlWhereCollection Add(SqlWhereCollection or = null, bool _using = true)
+        {
+            Add(new SqlWhere(or: or, _using: _using));
             return this;
         }
 
@@ -53,7 +57,12 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount,
             bool select = false)
         {
-            commandText.Append(Sql(sqlContainer, sqlCommand, tableType, commandCount, select));
+            commandText.Append(Sql(
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                tableType: tableType,
+                commandCount: commandCount,
+                select: select));
         }
 
         public string Sql(
@@ -73,7 +82,12 @@ namespace Implem.Libraries.DataSources.SqlServer
                 ? Clause + this
                     .Where(o => o != null)
                     .Where(o => o.Using)
-                    .Select(o => o.Sql(sqlContainer, sqlCommand, tableType, commandCount))
+                    .Select(o => o.Sql(
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        tableType: tableType,
+                        tableBracket: Sqls.GetTableBracket(tableType, o.TableName),
+                        commandCount: commandCount))
                     .Join(MultiClauseOperator) + " "
                 : string.Empty;
         }

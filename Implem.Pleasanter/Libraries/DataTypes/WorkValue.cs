@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Converts;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Settings;
@@ -18,13 +19,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public WorkValue(
-            DataRow dataRow,
-            string progressRateColumnName = "ProgressRate",
-            string valueColumnName = "WorkValue")
+        public WorkValue(DataRow dataRow, Column column)
         {
-            ProgressRate = dataRow.Decimal(progressRateColumnName);
-            Value = dataRow.Decimal(valueColumnName);
+            ProgressRate = dataRow.Decimal(Rds.DataColumnName(column, "ProgressRate"));
+            Value = dataRow.Decimal(Rds.DataColumnName(column, "WorkValue"));
         }
 
         public WorkValue(decimal value, decimal progressRate)

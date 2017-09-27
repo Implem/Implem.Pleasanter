@@ -42,13 +42,13 @@ namespace Implem.Libraries.DataSources.SqlServer
                             break;
                     }
                 }
-                commandText.Append(sqlFrom.TableName + " ");
+                commandText.Append(sqlFrom.TableBracket, " ");
                 if (!sqlFrom.As.IsNullOrEmpty())
                 {
                     commandText.Append(
-                        "as ",
+                        "as [",
                         sqlFrom.As,
-                        " ");
+                        "] ");
                 }
                 if (sqlFrom.JoinExpression != null)
                 {

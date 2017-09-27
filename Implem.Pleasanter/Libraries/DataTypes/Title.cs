@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Converts;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
@@ -32,14 +33,19 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             DisplayValue = Value;
         }
 
-        public Title(SiteSettings ss, DataRow dataRow, string name)
+        public Title(SiteSettings ss, DataRow dataRow, Column column = null)
         {
-            Id = dataRow.Long(name);
-            Value = dataRow.String("Title");
-            var displayValue = dataRow.Table.Columns.Contains("ItemTitle")
-                ? dataRow.String("ItemTitle")
+            Id = dataRow.Long((column?.Joined == true
+                ? column.TableAlias + ","
+                : string.Empty) +
+                    Rds.IdColumn(ss.ReferenceType));
+            Value = dataRow.String(Rds.DataColumnName(column, "Title"));
+            var itemTitlePath = Rds.DataColumnName(column, "ItemTitle");
+            var displayValue = dataRow.Table.Columns.Contains(itemTitlePath)
+                ? dataRow.String(itemTitlePath)
                 : ss.GetTitleColumns()
-                    .Select(o => GetDisplayValue(o, dataRow))
+                    .Select(o => GetDisplayValue(
+                        o, dataRow, Rds.DataColumnName(column, o.ColumnName)))
                     .Where(o => !o.IsNullOrEmpty())
                     .Join(ss.TitleSeparator);
             DisplayValue = displayValue != string.Empty
@@ -60,32 +66,32 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : Displays.NoTitle();
         }
 
-        private string GetDisplayValue(Column column, DataRow dataRow)
+        private string GetDisplayValue(Column column, DataRow dataRow, string path)
         {
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsNumeric:
                     return column.HasChoices()
                         ? column.UserColumn
-                            ? SiteInfo.UserName(dataRow.Int(column.ColumnName))
-                            : column.Choice(dataRow.Long(column.ColumnName).ToString()).Text
-                        : column.Display(dataRow.Decimal(column.ColumnName), unit: true);
+                            ? SiteInfo.UserName(dataRow.Int(path))
+                            : column.Choice(dataRow.Long(path).ToString()).Text
+                        : column.Display(dataRow.Decimal(path), unit: true);
                 case Types.CsDateTime:
-                    switch (column.ColumnName)
+                    switch (path)
                     {
                         case "CompletionTime":
                             return column.DisplayControl(
-                                dataRow.DateTime(column.ColumnName).ToLocal().AddDays(-1));
+                                dataRow.DateTime(path).ToLocal().AddDays(-1));
                         default:
                             return column.DisplayControl(
-                                dataRow.DateTime(column.ColumnName).ToLocal());
+                                dataRow.DateTime(path).ToLocal());
                     }
                 case Types.CsString:
                     return column.HasChoices()
-                        ? column.Choice(dataRow.String(column.ColumnName)).Text
-                        : dataRow.String(column.ColumnName);
+                        ? column.Choice(dataRow.String(path)).Text
+                        : dataRow.String(path);
                 default:
-                    return dataRow.String(column.ColumnName);
+                    return dataRow.String(path);
             }
         }
 

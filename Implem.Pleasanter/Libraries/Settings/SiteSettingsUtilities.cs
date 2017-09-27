@@ -267,6 +267,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init();
             ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
+            ss.SetJoinedSsHash();
             return ss;
         }
 
@@ -296,6 +297,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init();
             ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
+            ss.SetJoinedSsHash();
             if (setSiteIntegration) ss.SetSiteIntegration();
             ss.SetChoiceHash(all: setAllChoices);
             return ss;
@@ -328,6 +330,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init();
             ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
+            ss.SetJoinedSsHash();
             if (setSiteIntegration) ss.SetSiteIntegration();
             ss.SetChoiceHash(all: setAllChoices);
             return ss;
@@ -360,6 +363,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init();
             ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
+            ss.SetJoinedSsHash();
             ss.SetChoiceHash(all: setAllChoices);
             return ss;
         }

@@ -82,11 +82,16 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                 case "Title#ByDataRow#":
                 case "Body#ByDataRow#":
                 case "Status#ByDataRow#":
-                case "Time#ByDataRow#":
                 case "CompletionTime#ByDataRow#":
+                case "ProgressRate#ByDataRow#":
+                case "WorkValue#ByDataRow#":
                     return code.Replace(
                         placeholder,
-                        CreateObjectByDataRow(columnDefinition));
+                        CreateObjectByDataRow(columnDefinition, "column"));
+                case "Time#ByDataRow#":
+                    return code.Replace(
+                        placeholder,
+                        CreateObjectByDataRow(columnDefinition, "name"));
                 default:
                     return code.Replace(
                         placeholder, AsPrefix(columnDefinition, codeVariable));
@@ -102,10 +107,10 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                 additionalArguments);
         }
 
-        private static string CreateObjectByDataRow(ColumnDefinition columnDefinition)
+        private static string CreateObjectByDataRow(
+            ColumnDefinition columnDefinition, string param)
         {
-            return "new {0}(dataRow, \"{1}\")".Params(
-                columnDefinition.TypeCs, columnDefinition.ColumnName);
+            return "new {0}(dataRow, {1})".Params(columnDefinition.TypeCs, param);
         }
 
         internal static string CastType(this string type)

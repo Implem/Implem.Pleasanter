@@ -7,6 +7,11 @@ namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlColumnCollection : ListEx<SqlColumn>
     {
+        public SqlColumnCollection(params SqlColumn[] sqlColumnCollection)
+        {
+            sqlColumnCollection.ForEach(sqlColumn => Add(sqlColumn));
+        }
+
         public SqlColumnCollection Add(
             string columnBracket = null,
             string tableName = null,
@@ -47,7 +52,12 @@ namespace Implem.Libraries.DataSources.SqlServer
             Build_DistinctClause(commandText, distinct);
             Build_TopClause(commandText, top);
             commandText.Append(this
-                .Select(o => o.CommandText(sqlContainer, sqlCommand, tableType, commandCount))
+                .Select(o => o.CommandText(
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    tableType: tableType,
+                    tableBracket: Sqls.GetTableBracket(tableType, o.TableName),
+                    commandCount: commandCount))
                 .Join(), " ");
             RemoveAll(o => o.AdHoc);
         }

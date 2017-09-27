@@ -17,14 +17,13 @@ namespace Implem.Libraries.DataSources.SqlServer
             return this;
         }
 
-        public void BuildCommandText(StringBuilder commandText, Sqls.TableTypes tableType)
+        public void BuildCommandText(StringBuilder commandText, string tableBracket)
         {
             if (this.Any())
             {
                 commandText.Append("group by ", this.Select(o =>
                     Sqls.TableAndColumnBracket(
-                        tableName: o.TableName,
-                        tableType: tableType,
+                        tableBracket: tableBracket,
                         columnBracket: o.ColumnBracket))
                             .Join(), " ");
             }

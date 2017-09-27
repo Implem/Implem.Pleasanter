@@ -70,10 +70,10 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public GroupModel(SiteSettings ss, DataRow dataRow)
+        public GroupModel(SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
-            Set(ss, dataRow);
+            Set(ss, dataRow, tableAlias);
             OnConstructed();
         }
 
@@ -324,24 +324,25 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void Set(SiteSettings ss, DataRow dataRow)
+        private void Set(SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var name = dataColumn.ColumnName;
-                switch(name)
+                var column = new Column(tableAlias, dataColumn);
+                var name = column.DataColumnName;
+                switch (column.ColumnName)
                 {
                     case "TenantId": if (dataRow[name] != DBNull.Value) { TenantId = dataRow[name].ToInt(); SavedTenantId = TenantId; } break;
                     case "GroupId": if (dataRow[name] != DBNull.Value) { GroupId = dataRow[name].ToInt(); SavedGroupId = GroupId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
                     case "GroupName": GroupName = dataRow[name].ToString(); SavedGroupName = GroupName; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
-                    case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
+                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, "CreatedTime"); SavedCreatedTime = CreatedTime.Value; break;
-                    case "UpdatedTime": UpdatedTime = new Time(dataRow, "UpdatedTime"); Timestamp = dataRow.Field<DateTime>("UpdatedTime").ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
+                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
+                    case "UpdatedTime": UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }

@@ -60,28 +60,13 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
         }
 
-        public static string TableAndColumnBracket(
-            string tableName, TableTypes tableType, string columnBracket)
+        public static string TableAndColumnBracket(string tableBracket, string columnBracket)
         {
-            var tableBracket = string.Empty;
-            if (!tableName.IsNullOrEmpty() && columnBracket.StartsWith("["))
-            {
-                switch (tableType)
-                {
-                    case TableTypes.Normal:
-                        tableBracket = "[" + tableName + "].";
-                        break;
-                    case TableTypes.History:
-                        tableBracket = "[" + tableName + "_History].";
-                        break;
-                    case TableTypes.Deleted:
-                        tableBracket = "[" + tableName + "_Deleted].";
-                        break;
-                }
-            }
-            return columnBracket.StartsWith("(")
-                ? columnBracket.Replace("$[", tableBracket + "[")
-                : tableBracket + columnBracket;
+            return columnBracket.StartsWith("[")
+                ? tableBracket + "." + columnBracket
+                : columnBracket.StartsWith("(")
+                    ? columnBracket.Replace("#TableBracket#", tableBracket)
+                    : columnBracket;
         }
 
         public static SqlJoinCollection SqlJoinCollection(
@@ -104,12 +89,11 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public static SqlWhereCollection SqlWhereLike(
-            this SqlWhereCollection self,
-            string searchText,
-            params string[] clauseCollection)
+            this SqlWhereCollection self, string searchText, params string[] clauseCollection)
         {
-            var searchTextCollection = Sqls.SearchTextCollection(searchText);
+            var searchTextCollection = SearchTextCollection(searchText);
             return self.Add(
+                tableName: null,
                 name: "SearchText",
                 value: searchTextCollection,
                 raw: "(@SearchText#ParamCount#_#CommandCount# = '' or (" +
@@ -119,11 +103,13 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public static SqlWhereCollection SqlWhereExists(
             this SqlWhereCollection self,
+            string tableName,
             string clauseFormat,
             params string[] whereCollection)
         {
-            return self.Add(raw:
-                clauseFormat.Replace("#SqlWhere#", whereCollection.Join(" and ")));
+            return self.Add(
+                tableName: tableName,
+                raw: clauseFormat.Replace("#SqlWhere#", whereCollection.Join(" and ")));
         }
 
         public static bool TryOpenConnections(
@@ -154,6 +140,21 @@ namespace Implem.Libraries.DataSources.SqlServer
                 number = -1;
                 message = e.Message;
                 return false;
+            }
+        }
+
+        public static string GetTableBracket(TableTypes tableType, string tableName)
+        {
+            switch (tableType)
+            {
+                case TableTypes.Normal:
+                    return "[" + tableName + "]";
+                case TableTypes.History:
+                case TableTypes.HistoryWithoutFlag:
+                    return "[" + tableName + "_history]";
+                case TableTypes.Deleted:
+                    return "[" + tableName + "_deleted]";
+                default: return null;
             }
         }
     }

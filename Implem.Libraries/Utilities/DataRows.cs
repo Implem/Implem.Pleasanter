@@ -41,9 +41,22 @@ namespace Implem.Libraries.Utilities
 
         public static string String(this DataRow dataRow, string name)
         {
-            return dataRow.Table.Columns.Contains(name)
-                ? dataRow.Field<string>(name) ?? string.Empty
-                : string.Empty;
+            if (dataRow.Table.Columns.Contains(name))
+            {
+                switch (dataRow.Table.Columns[name].DataType.Name)
+                {
+                    case "Int32":
+                        return dataRow.Field<int>(name).ToString();
+                    case "Int64":
+                        return dataRow.Field<long>(name).ToString();
+                    default:
+                        return dataRow.Field<string>(name) ?? string.Empty;
+                }
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         public static byte[] Bytes(this DataRow dataRow, string name)
@@ -52,6 +65,13 @@ namespace Implem.Libraries.Utilities
                 ? dataRow[name] is DBNull 
                     ? dataRow[name] as byte[]
                     : null
+                : null;
+        }
+
+        public static object Object(this DataRow dataRow, string name)
+        {
+            return dataRow.Table.Columns.Contains(name)
+                ? dataRow.Field<object>(name) ?? null
                 : null;
         }
     }

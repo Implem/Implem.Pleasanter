@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
@@ -108,13 +109,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var data = dataRows
                 .Select(o => new CalendarElement
                 (
-                    o["Id"].ToLong(),
+                    o.Long(Rds.IdColumn(ss.ReferenceType)),
                     (ss.GetColumn(column.ColumnName).EditorFormat == "Ymdhm"
-                        ? o["Date"].ToDateTime().ToLocal().ToString("t") + " "
-                        : string.Empty) + new Title(ss, o, "Id").DisplayValue,
+                        ? o.DateTime("Date").ToLocal().ToString("t") + " "
+                        : string.Empty) + new Title(ss, o).DisplayValue,
                     column.ColumnName == "CompletionTime"
-                        ? o["Date"].ToDateTime().ToLocal().AddDays(-1)
-                        : o["Date"].ToDateTime().ToLocal()
+                        ? o.DateTime("Date").ToDateTime().ToLocal().AddDays(-1)
+                        : o.DateTime("Date").ToDateTime().ToLocal()
                 ))
                 .OrderBy(o => o.Time)
                 .ThenBy(o => o.Title)
@@ -192,7 +193,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .ForEach(element => hb
                     .Div(
                         attributes: new HtmlAttributes()
-                            .Class( "item")
+                            .Class("item")
                             .Title(element.Title)
                             .DataId(element.Id.ToString())
                             .DataValue(element.Time.ToString()),

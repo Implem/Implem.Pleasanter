@@ -19,14 +19,26 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             if (!Using) return;
             Build_If(commandText);
-            Build_UpdateStatement(sqlContainer, sqlCommand, commandText, commandCount);
+            Build_UpdateStatement(
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                commandCount: commandCount);
             SqlWhereCollection?.BuildCommandText(
-                sqlContainer, sqlCommand, commandText, TableType, commandCount);
-            AddParams_Where(sqlCommand, commandCount);
-            AddParams_Param(sqlCommand, commandCount);
-            AddTermination(commandText);
-            Build_CountRecord(commandText);
-            Build_EndIf(commandText);
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: TableType,
+                commandCount: commandCount);
+            AddParams_Where(
+                sqlCommand: sqlCommand,
+                commandCount: commandCount);
+            AddParams_Param(
+                sqlCommand: sqlCommand,
+                commandCount: commandCount);
+            AddTermination(commandText: commandText);
+            Build_CountRecord(commandText: commandText);
+            Build_EndIf(commandText: commandText);
         }
 
         private void Build_UpdateStatement(

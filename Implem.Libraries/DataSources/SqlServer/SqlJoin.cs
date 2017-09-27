@@ -2,7 +2,7 @@
 {
     public class SqlJoin
     {
-        public string TableName;
+        public string TableBracket;
         public JoinTypes JoinType;
         public string JoinExpression;
         public string As;
@@ -15,12 +15,12 @@
         }
 
         public SqlJoin(
-            string tableName,
+            string tableBracket,
             JoinTypes joinType = JoinTypes.Inner,
             string joinExpression = null,
             string _as = null)
         {
-            TableName = tableName;
+            TableBracket = tableBracket;
             JoinType = joinType;
             JoinExpression = joinExpression;
             As = _as;

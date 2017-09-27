@@ -265,6 +265,7 @@
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_007.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_006.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_005.cs" />
+    <Compile Include="Libraries\Models\GridData.cs" />
     <Compile Include="Libraries\Requests\Calendars.cs" />
     <Compile Include="Libraries\Requests\GridSelector.cs" />
     <Compile Include="Libraries\Responses\Displays.cs" />
@@ -1197,7 +1198,7 @@
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>True</Isolated>
+      <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>

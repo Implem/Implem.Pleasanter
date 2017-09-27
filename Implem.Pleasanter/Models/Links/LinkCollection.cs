@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Models
             int offset = 0,
             int pageSize = 0,
             bool countRecord = false,
-            IEnumerable<Aggregation> aggregationCollection = null,
+            IEnumerable<Aggregation> aggregations = null,
             bool get = true)
         {
             if (get)
@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Models
                     offset: offset,
                     pageSize: pageSize,
                     countRecord: countRecord,
-                    aggregationCollection: aggregationCollection));
+                    aggregations: aggregations));
             }
         }
 
@@ -92,7 +92,7 @@ namespace Implem.Pleasanter.Models
             int pageSize = 0,
             bool history = false,
             bool countRecord = false,
-            IEnumerable<Aggregation> aggregationCollection = null)
+            IEnumerable<Aggregation> aggregations = null)
         {
             var statements = new List<SqlStatement>
             {
@@ -110,14 +110,14 @@ namespace Implem.Pleasanter.Models
                     pageSize: pageSize,
                     countRecord: countRecord)
             };
-            if (aggregationCollection != null)
+            if (aggregations != null)
             {
-                statements.AddRange(Rds.LinksAggregations(aggregationCollection, where));
+                statements.AddRange(Rds.LinksAggregations(aggregations, where));
             }
             var dataSet = Rds.ExecuteDataSet(
                 transactional: false,
                 statements: statements.ToArray());
-            Aggregations.Set(dataSet, aggregationCollection);
+            Aggregations.Set(dataSet, aggregations);
             return dataSet.Tables["Main"].AsEnumerable();
         }
     }

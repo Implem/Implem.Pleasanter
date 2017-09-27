@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(ss);
-            var userCollection = UserCollection(ss, view);
+            var gridData = GetGridData(ss, view);
             return hb.Template(
                 ss: ss,
                 verType: Versions.VerTypes.Latest,
@@ -54,11 +54,11 @@ namespace Implem.Pleasanter.Models
                                 .ViewFilters(ss: ss, view: view)
                                 .Aggregations(
                                     ss: ss,
-                                    aggregations: userCollection.Aggregations)
+                                    aggregations: gridData.Aggregations)
                                 .Div(id: "ViewModeContainer", action: () => hb
                                     .Grid(
                                         ss: ss,
-                                        userCollection: userCollection,
+                                        gridData: gridData,
                                         view: view))
                                 .MainCommands(
                                     ss: ss,
@@ -84,7 +84,7 @@ namespace Implem.Pleasanter.Models
         private static string ViewModeTemplate(
             this HtmlBuilder hb,
             SiteSettings ss,
-            UserCollection userCollection,
+            GridData gridData,
             View view,
             string viewMode,
             Action viewModeBody)
@@ -117,7 +117,7 @@ namespace Implem.Pleasanter.Models
                             .ViewFilters(ss: ss, view: view)
                             .Aggregations(
                                 ss: ss,
-                                aggregations: userCollection.Aggregations)
+                                aggregations: gridData.Aggregations)
                             .Div(id: "ViewModeContainer", action: () => viewModeBody())
                             .MainCommands(
                                 ss: ss,
@@ -141,16 +141,16 @@ namespace Implem.Pleasanter.Models
         public static string IndexJson(SiteSettings ss)
         {
             var view = Views.GetBySession(ss);
-            var userCollection = UserCollection(ss, view);
+            var gridData = GetGridData(ss, view);
             return new ResponseCollection()
                 .Html("#ViewModeContainer", new HtmlBuilder().Grid(
                     ss: ss,
-                    userCollection: userCollection,
+                    gridData: gridData,
                     view: view))
                 .View(ss: ss, view: view)
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     ss: ss,
-                    aggregations: userCollection.Aggregations))
+                    aggregations: gridData.Aggregations))
                 .Paging("#Grid")
                 .ToJson();
         }
@@ -167,13 +167,25 @@ namespace Implem.Pleasanter.Models
                 offset: offset,
                 pageSize: ss.GridPageSize.ToInt(),
                 countRecord: true,
-                aggregationCollection: ss.Aggregations);
+                aggregations: ss.Aggregations);
+        }
+
+        private static GridData GetGridData(
+            SiteSettings ss, View view, int offset = 0)
+        {
+            return new GridData(
+                ss: ss,
+                view: view,
+                offset: offset,
+                pageSize: ss.GridPageSize.ToInt(),
+                countRecord: true,
+                aggregations: ss.Aggregations);
         }
 
         private static HtmlBuilder Grid(
             this HtmlBuilder hb,
             SiteSettings ss,
-            UserCollection userCollection,
+            GridData gridData,
             View view)
         {
             return hb
@@ -186,14 +198,14 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .GridRows(
                             ss: ss,
-                            userCollection: userCollection,
+                            gridData: gridData,
                             view: view))
                 .Hidden(
                     controlId: "GridOffset",
                     value: ss.GridNextOffset(
                         0,
-                        userCollection.Count(),
-                        userCollection.Aggregations.TotalCount)
+                        gridData.DataRows.Count(),
+                        gridData.Aggregations.TotalCount)
                             .ToString())
                 .Button(
                     controlId: "ViewSorter",
@@ -215,7 +227,7 @@ namespace Implem.Pleasanter.Models
             Message message = null)
         {
             var view = Views.GetBySession(ss);
-            var userCollection = UserCollection(ss, view, offset);
+            var gridData = GetGridData(ss, view, offset: offset);
             return (res ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -224,18 +236,18 @@ namespace Implem.Pleasanter.Models
                 .CloseDialog()
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     ss: ss,
-                    aggregations: userCollection.Aggregations),
+                    aggregations: gridData.Aggregations),
                     _using: offset == 0)
                 .Append("#Grid", new HtmlBuilder().GridRows(
                     ss: ss,
-                    userCollection: userCollection,
+                    gridData: gridData,
                     view: view,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
                 .Val("#GridOffset", ss.GridNextOffset(
                     offset,
-                    userCollection.Count(),
-                    userCollection.Aggregations.TotalCount))
+                    gridData.DataRows.Count(),
+                    gridData.Aggregations.TotalCount))
                 .Paging("#Grid")
                 .Message(message)
                 .ToJson();
@@ -244,13 +256,13 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder GridRows(
             this HtmlBuilder hb,
             SiteSettings ss,
-            UserCollection userCollection,
+            GridData gridData,
             View view,
             bool addHeader = true,
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
-            var columns = ss.GetGridColumns(checkPermission: true);
+            var columns = ss.GetGridColumns();
             return hb
                 .THead(
                     _using: addHeader,
@@ -259,26 +271,11 @@ namespace Implem.Pleasanter.Models
                             columns: columns, 
                             view: view,
                             checkAll: checkAll))
-                .TBody(action: () => userCollection
-                    .ForEach(userModel => hb
-                        .Tr(
-                            attributes: new HtmlAttributes()
-                                .Class("grid-row")
-                                .DataId(userModel.UserId.ToString()),
-                            action: () =>
-                            {
-                                hb.Td(action: () => hb
-                                    .CheckBox(
-                                        controlCss: "grid-check",
-                                        _checked: checkAll,
-                                        dataId: userModel.UserId.ToString()));
-                                columns
-                                    .ForEach(column => hb
-                                        .TdValue(
-                                            ss: ss,
-                                            column: column,
-                                            userModel: userModel));
-                            })));
+                .TBody(action: () => gridData.TBody(
+                    hb: hb,
+                    ss: ss,
+                    columns: columns,
+                    checkAll: checkAll));
         }
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings ss)
@@ -286,6 +283,18 @@ namespace Implem.Pleasanter.Models
             var sqlColumnCollection = Rds.UsersColumn();
             new List<string> { "UserId", "Creator", "Updator" }
                 .Concat(ss.GridColumns)
+                .Concat(ss.IncludedColumns())
+                .Concat(ss.GetUseSearchLinks().Select(o => o.ColumnName))
+                .Concat(ss.TitleColumns)
+                    .Distinct().ForEach(column =>
+                        sqlColumnCollection.UsersColumn(column));
+            return sqlColumnCollection;
+        }
+
+        private static SqlColumnCollection DefaultSqlColumns(SiteSettings ss)
+        {
+            var sqlColumnCollection = Rds.UsersColumn();
+            new List<string> { "UserId", "Creator", "Updator" }
                 .Concat(ss.IncludedColumns())
                 .Concat(ss.GetUseSearchLinks().Select(o => o.ColumnName))
                 .Concat(ss.TitleColumns)
@@ -402,7 +411,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static HtmlBuilder TdCustomValue(
+        private static HtmlBuilder TdCustomValue(
             this HtmlBuilder hb, SiteSettings ss, string gridDesign, UserModel userModel)
         {
             ss.IncludedColumns(gridDesign).ForEach(column =>

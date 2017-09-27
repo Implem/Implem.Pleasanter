@@ -365,7 +365,7 @@ namespace Implem.Pleasanter.Models
                 column: column,
                 join: Rds.ItemsJoinDefault()
                     .Add(new SqlJoin(
-                        tableName: "[Sites]",
+                        tableBracket: "[Sites]",
                         joinType: SqlJoin.JoinTypes.Inner,
                         joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                 where: Rds.ItemsWhere()

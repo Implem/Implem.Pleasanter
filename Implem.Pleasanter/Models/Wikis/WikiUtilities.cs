@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static HtmlBuilder TdCustomValue(
+        private static HtmlBuilder TdCustomValue(
             this HtmlBuilder hb, SiteSettings ss, string gridDesign, WikiModel wikiModel)
         {
             ss.IncludedColumns(gridDesign).ForEach(column =>

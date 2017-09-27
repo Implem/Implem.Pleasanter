@@ -37,11 +37,18 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
             Sqls.TableTypes tableType,
+            string tableBracket,
             int? commandCount)
         {
             return Sub != null
-                ? Sql_Sub(sqlContainer, sqlCommand, commandCount)
-                : CommandText(tableType) + AsBracket(tableType);
+                ? Sql_Sub(
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    commandCount: commandCount)
+                : CommandText(
+                    tableType: tableType,
+                    tableBracket: tableBracket) +
+                        AsBracket(tableType: tableType);
         }
 
         private string AsBracket(Sqls.TableTypes tableType)
@@ -55,10 +62,10 @@ namespace Implem.Libraries.DataSources.SqlServer
                         : string.Empty);
         }
 
-        private string CommandText(Sqls.TableTypes tableType)
+        private string CommandText(Sqls.TableTypes tableType, string tableBracket)
         {
             var columnBracket = Sqls.TableAndColumnBracket(
-                tableName: TableName, tableType: tableType, columnBracket: ColumnBracket);
+                tableBracket: tableBracket, columnBracket: ColumnBracket);
             switch (Function)
             {
                 case Sqls.Functions.Count:

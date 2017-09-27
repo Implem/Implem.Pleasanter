@@ -133,10 +133,10 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public WikiModel(SiteSettings ss, DataRow dataRow)
+        public WikiModel(SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
-            Set(ss, dataRow);
+            Set(ss, dataRow, tableAlias);
             OnConstructed();
         }
 
@@ -690,24 +690,25 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void Set(SiteSettings ss, DataRow dataRow)
+        private void Set(SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var name = dataColumn.ColumnName;
-                switch(name)
+                var column = new Column(tableAlias, dataColumn);
+                var name = column.DataColumnName;
+                switch (column.ColumnName)
                 {
                     case "SiteId": if (dataRow[name] != DBNull.Value) { SiteId = dataRow[name].ToLong(); SavedSiteId = SiteId; } break;
-                    case "UpdatedTime": if (dataRow[name] != DBNull.Value) { UpdatedTime = new Time(dataRow, "UpdatedTime"); Timestamp = dataRow.Field<DateTime>("UpdatedTime").ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; } break;
+                    case "UpdatedTime": if (dataRow[name] != DBNull.Value) { UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; } break;
                     case "WikiId": if (dataRow[name] != DBNull.Value) { WikiId = dataRow[name].ToLong(); SavedWikiId = WikiId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "Title": Title = new Title(ss, dataRow, "WikiId"); SavedTitle = Title.Value; break;
+                    case "Title": Title = new Title(ss, dataRow, column); SavedTitle = Title.Value; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
-                    case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
+                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, "CreatedTime"); SavedCreatedTime = CreatedTime.Value; break;
+                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }

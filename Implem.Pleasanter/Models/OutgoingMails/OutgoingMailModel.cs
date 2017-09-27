@@ -95,10 +95,10 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public OutgoingMailModel(DataRow dataRow)
+        public OutgoingMailModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
-            Set(dataRow);
+            Set(dataRow, tableAlias);
             OnConstructed();
         }
 
@@ -310,13 +310,14 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void Set(DataRow dataRow)
+        private void Set(DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var name = dataColumn.ColumnName;
-                switch(name)
+                var column = new Column(tableAlias, dataColumn);
+                var name = column.DataColumnName;
+                switch (column.ColumnName)
                 {
                     case "ReferenceType": if (dataRow[name] != DBNull.Value) { ReferenceType = dataRow[name].ToString(); SavedReferenceType = ReferenceType; } break;
                     case "ReferenceId": if (dataRow[name] != DBNull.Value) { ReferenceId = dataRow[name].ToLong(); SavedReferenceId = ReferenceId; } break;
@@ -325,18 +326,18 @@ namespace Implem.Pleasanter.Models
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
                     case "Host": Host = dataRow[name].ToString(); SavedHost = Host; break;
                     case "Port": Port = dataRow[name].ToInt(); SavedPort = Port; break;
-                    case "From": From = new System.Net.Mail.MailAddress(dataRow.String("From")); SavedFrom = From.ToString(); break;
+                    case "From": From = new System.Net.Mail.MailAddress(dataRow.String(name)); SavedFrom = From.ToString(); break;
                     case "To": To = dataRow[name].ToString(); SavedTo = To; break;
                     case "Cc": Cc = dataRow[name].ToString(); SavedCc = Cc; break;
                     case "Bcc": Bcc = dataRow[name].ToString(); SavedBcc = Bcc; break;
                     case "Title": Title = new Title(dataRow, "OutgoingMailId"); SavedTitle = Title.Value; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
-                    case "SentTime": SentTime = new Time(dataRow, "SentTime"); SavedSentTime = SentTime.Value; break;
-                    case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
+                    case "SentTime": SentTime = new Time(dataRow, name); SavedSentTime = SentTime.Value; break;
+                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, "CreatedTime"); SavedCreatedTime = CreatedTime.Value; break;
-                    case "UpdatedTime": UpdatedTime = new Time(dataRow, "UpdatedTime"); Timestamp = dataRow.Field<DateTime>("UpdatedTime").ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
+                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
+                    case "UpdatedTime": UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }

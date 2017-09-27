@@ -185,10 +185,10 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public UserModel(SiteSettings ss, DataRow dataRow)
+        public UserModel(SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
-            Set(ss, dataRow);
+            Set(ss, dataRow, tableAlias);
             OnConstructed();
         }
 
@@ -446,13 +446,14 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void Set(SiteSettings ss, DataRow dataRow)
+        private void Set(SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var name = dataColumn.ColumnName;
-                switch(name)
+                var column = new Column(tableAlias, dataColumn);
+                var name = column.DataColumnName;
+                switch (column.ColumnName)
                 {
                     case "TenantId": if (dataRow[name] != DBNull.Value) { TenantId = dataRow[name].ToInt(); SavedTenantId = TenantId; } break;
                     case "UserId": if (dataRow[name] != DBNull.Value) { UserId = dataRow[name].ToInt(); SavedUserId = UserId; } break;
@@ -464,16 +465,16 @@ namespace Implem.Pleasanter.Models
                     case "Password": Password = dataRow[name].ToString(); SavedPassword = Password; break;
                     case "LastName": LastName = dataRow[name].ToString(); SavedLastName = LastName; break;
                     case "FirstName": FirstName = dataRow[name].ToString(); SavedFirstName = FirstName; break;
-                    case "Birthday": Birthday = new Time(dataRow, "Birthday"); SavedBirthday = Birthday.Value; break;
+                    case "Birthday": Birthday = new Time(dataRow, name); SavedBirthday = Birthday.Value; break;
                     case "Gender": Gender = dataRow[name].ToString(); SavedGender = Gender; break;
                     case "Language": Language = dataRow[name].ToString(); SavedLanguage = Language; break;
                     case "TimeZone": TimeZone = dataRow[name].ToString(); SavedTimeZone = TimeZone; break;
                     case "DeptId": DeptId = dataRow[name].ToInt(); SavedDeptId = DeptId; break;
                     case "FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)dataRow[name].ToInt(); SavedFirstAndLastNameOrder = FirstAndLastNameOrder.ToInt(); break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
-                    case "LastLoginTime": LastLoginTime = new Time(dataRow, "LastLoginTime"); SavedLastLoginTime = LastLoginTime.Value; break;
-                    case "PasswordExpirationTime": PasswordExpirationTime = new Time(dataRow, "PasswordExpirationTime"); SavedPasswordExpirationTime = PasswordExpirationTime.Value; break;
-                    case "PasswordChangeTime": PasswordChangeTime = new Time(dataRow, "PasswordChangeTime"); SavedPasswordChangeTime = PasswordChangeTime.Value; break;
+                    case "LastLoginTime": LastLoginTime = new Time(dataRow, name); SavedLastLoginTime = LastLoginTime.Value; break;
+                    case "PasswordExpirationTime": PasswordExpirationTime = new Time(dataRow, name); SavedPasswordExpirationTime = PasswordExpirationTime.Value; break;
+                    case "PasswordChangeTime": PasswordChangeTime = new Time(dataRow, name); SavedPasswordChangeTime = PasswordChangeTime.Value; break;
                     case "NumberOfLogins": NumberOfLogins = dataRow[name].ToInt(); SavedNumberOfLogins = NumberOfLogins; break;
                     case "NumberOfDenial": NumberOfDenial = dataRow[name].ToInt(); SavedNumberOfDenial = NumberOfDenial; break;
                     case "TenantManager": TenantManager = dataRow[name].ToBool(); SavedTenantManager = TenantManager; break;
@@ -481,11 +482,11 @@ namespace Implem.Pleasanter.Models
                     case "Disabled": Disabled = dataRow[name].ToBool(); SavedDisabled = Disabled; break;
                     case "Developer": Developer = dataRow[name].ToBool(); SavedDeveloper = Developer; break;
                     case "UserSettings": UserSettings = GetUserSettings(dataRow); SavedUserSettings = UserSettings.RecordingJson(); break;
-                    case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
+                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, "CreatedTime"); SavedCreatedTime = CreatedTime.Value; break;
-                    case "UpdatedTime": UpdatedTime = new Time(dataRow, "UpdatedTime"); Timestamp = dataRow.Field<DateTime>("UpdatedTime").ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
+                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
+                    case "UpdatedTime": UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }

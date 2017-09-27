@@ -9,7 +9,6 @@ using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web;
 namespace Implem.Pleasanter.Libraries.Security
 {
     public static class Permissions
@@ -92,24 +91,33 @@ namespace Implem.Pleasanter.Libraries.Security
             if (ss.AllowedIntegratedSites != null)
             {
                 return where.Or(new SqlWhereCollection()
-                    .Add(raw: "[SiteId] in ({0})".Params(
-                        ss.AllowedIntegratedSites.Join()))
                     .Add(
+                        tableName: ss.ReferenceType,
+                        raw: "#TableBracket#.[SiteId] in ({0})".Params(
+                            ss.AllowedIntegratedSites.Join()))
+                    .Add(
+                        tableName: ss.ReferenceType,
                         subLeft: ExistsPermissions(ss),
                         _operator: string.Empty));
             }
             else if (!ss.CanRead(site: true))
             {
                 return where
-                    .Add(raw: "[SiteId]={0}".Params(ss.SiteId))
                     .Add(
+                        tableName: ss.ReferenceType,
+                        raw: "#TableBracket#.[SiteId]={0}".Params(
+                            ss.SiteId))
+                    .Add(
+                        tableName: ss.ReferenceType,
                         subLeft: ExistsPermissions(ss),
                         _operator: string.Empty);
             }
             else
             {
                 return Routes.Controller() == "items"
-                    ? where.Add(raw: "[SiteId]={0}".Params(ss.SiteId))
+                    ? where.Add(
+                        tableName: ss.ReferenceType,
+                        raw: "#TableBracket#.[SiteId]={0}".Params(ss.SiteId))
                     : where;
             }
         }

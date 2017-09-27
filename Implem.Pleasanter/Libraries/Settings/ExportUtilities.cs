@@ -33,11 +33,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var sources = new List<ExportColumn>();
             var allows = join?
-                .Where(o => ss.JoinedSiteSettings?.ContainsKey(o.SiteId) == true)
+                .Where(o => ss.JoinedSsHash?.ContainsKey(o.SiteId) == true)
                 .ToList();
             allows?.Reverse();
             allows?.ForEach(link =>
-                sources.AddRange(ss.JoinedSiteSettings.Get(link.SiteId)
+                sources.AddRange(ss.JoinedSsHash.Get(link.SiteId)
                     .ExportColumns(searchText)));
             sources.AddRange(ss.ExportColumns(searchText));
             return SourceColumnOptions(sources);
@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             export.Join?.ForEach(link =>
             {
-                var currentSs = ss.JoinedSiteSettings.Get(link.SiteId);
+                var currentSs = ss.JoinedSsHash.Get(link.SiteId);
                 switch (currentSs.ReferenceType)
                 {
                     case "Issues":

@@ -26,14 +26,22 @@
             Function = function;
         }
 
-        public string Sql(Sqls.TableTypes tableType, Sqls.UnionTypes unionType)
+        public string Sql(string tableBracket, Sqls.TableTypes tableType)
         {
-            var columnBracket = Sqls.TableAndColumnBracket(
-                tableName: unionType == Sqls.UnionTypes.None
-                    ? TableName
-                    : null,
-                tableType: tableType,
-                columnBracket: ColumnBracket);
+            string columnBracket;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.Normal:
+                case Sqls.TableTypes.History:
+                case Sqls.TableTypes.Deleted:
+                    columnBracket = Sqls.TableAndColumnBracket(
+                        tableBracket: tableBracket,
+                        columnBracket: ColumnBracket);
+                    break;
+                default:
+                    columnBracket = ColumnBracket;
+                    break;
+            }
             var orderType = " " + OrderType.ToString().ToLower();
             switch (Function)
             {

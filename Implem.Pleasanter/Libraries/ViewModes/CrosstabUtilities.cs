@@ -1,6 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -65,40 +65,42 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 : end.AddDays((week - 1) * -1);
         }
 
-        public static Rds.ResultsWhereCollection Where(
+        public static SqlWhereCollection Where(
             SiteSettings ss, string columnName, string timePeriod, DateTime month)
         {
-            string columnBracket = ColumnBracket(ss, columnName);
             switch (timePeriod)
             {
                 case "Monthly":
-                    return new Rds.ResultsWhereCollection()
-                        .Add(new string[]
+                    return new SqlWhereCollection(new SqlWhere(
+                        tableName: ss.ReferenceType,
+                        columnBrackets: new string[]
                         {
-                            "{0} between '{1}' and '{2}'".Params(
-                                columnBracket,
+                            "[{0}] between '{1}' and '{2}'".Params(
+                                columnName,
                                 month.AddMonths(-11).ToUniversal(),
                                 month.AddMonths(1).AddMilliseconds(-3).ToUniversal())
-                        }, _operator: null);
+                        }, _operator: null));
                 case "Weekly":
                     var end = WeeklyEndDate(month);
-                    return new Rds.ResultsWhereCollection()
-                        .Add(new string[]
+                    return new SqlWhereCollection(new SqlWhere(
+                        tableName: ss.ReferenceType,
+                        columnBrackets: new string[]
                         {
-                            "{0} between '{1}' and '{2}'".Params(
-                                columnBracket,
+                            "[{0}] between '{1}' and '{2}'".Params(
+                                columnName,
                                 end.AddDays(-77).ToUniversal(),
                                 end.AddDays(7).AddMilliseconds(-3).ToUniversal())
-                        }, _operator: null);
+                        }, _operator: null));
                 case "Daily":
-                    return new Rds.ResultsWhereCollection()
-                        .Add(new string[]
+                    return new SqlWhereCollection(new SqlWhere(
+                        tableName: ss.ReferenceType,
+                        columnBrackets: new string[]
                         {
-                            "{0} between '{1}' and '{2}'".Params(
-                                columnBracket,
+                            "[{0}] between '{1}' and '{2}'".Params(
+                                columnName,
                                 month.ToUniversal(),
                                 month.AddMonths(1).AddMilliseconds(-3).ToUniversal())
-                        }, _operator: null);
+                        }, _operator: null));
                 default: return null;
             }
         }

@@ -35,10 +35,10 @@ namespace Implem.Pleasanter.Models
         public bool OwnerId_Updated { get { return OwnerId != SavedOwnerId; } }
         public bool Data_Updated { get { return Data.ToJson() != SavedData && Data.ToJson() != null; } }
 
-        public OrderModel(DataRow dataRow)
+        public OrderModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
-            Set(dataRow);
+            Set(dataRow, tableAlias);
             OnConstructed();
         }
 
@@ -90,24 +90,25 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void Set(DataRow dataRow)
+        private void Set(DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var name = dataColumn.ColumnName;
-                switch(name)
+                var column = new Column(tableAlias, dataColumn);
+                var name = column.DataColumnName;
+                switch (column.ColumnName)
                 {
                     case "ReferenceId": if (dataRow[name] != DBNull.Value) { ReferenceId = dataRow[name].ToLong(); SavedReferenceId = ReferenceId; } break;
                     case "ReferenceType": if (dataRow[name] != DBNull.Value) { ReferenceType = dataRow[name].ToString(); SavedReferenceType = ReferenceType; } break;
                     case "OwnerId": if (dataRow[name] != DBNull.Value) { OwnerId = dataRow[name].ToInt(); SavedOwnerId = OwnerId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "Data": Data = dataRow.String("Data").Deserialize<List<long>>() ?? new List<long>(); SavedData = Data.ToJson(); break;
-                    case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
+                    case "Data": Data = dataRow.String(name).Deserialize<List<long>>() ?? new List<long>(); SavedData = Data.ToJson(); break;
+                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, "CreatedTime"); SavedCreatedTime = CreatedTime.Value; break;
-                    case "UpdatedTime": UpdatedTime = new Time(dataRow, "UpdatedTime"); Timestamp = dataRow.Field<DateTime>("UpdatedTime").ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
+                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
+                    case "UpdatedTime": UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }

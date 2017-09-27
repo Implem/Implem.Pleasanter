@@ -284,7 +284,7 @@ namespace Implem.Pleasanter.Models
                     column: Rds.UsersColumn().UserId(),
                     join: Rds.UsersJoin()
                         .Add(new SqlJoin(
-                            tableName: "[Depts]",
+                            tableBracket: "[Depts]",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
                             joinExpression: "[Users].[DeptId]=[Depts].[DeptId]")),
                     where: Rds.UsersWhere()

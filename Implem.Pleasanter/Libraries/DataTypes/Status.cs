@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Converts;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Settings;
@@ -16,9 +17,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public Status(DataRow dataRow, string name)
+        public Status(DataRow dataRow, Column column)
         {
-            Value = dataRow.Int(name);
+            Value = dataRow.Int(Rds.DataColumnName(column, "Status"));
         }
 
         public Status(int value)

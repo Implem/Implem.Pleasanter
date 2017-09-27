@@ -39,10 +39,10 @@ namespace Implem.Pleasanter.Models
         public bool DestinationId_Updated { get { return DestinationId != SavedDestinationId; } }
         public bool SourceId_Updated { get { return SourceId != SavedSourceId; } }
 
-        public LinkModel(DataRow dataRow)
+        public LinkModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
-            Set(dataRow);
+            Set(dataRow, tableAlias);
             OnConstructed();
         }
 
@@ -94,13 +94,14 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void Set(DataRow dataRow)
+        private void Set(DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var name = dataColumn.ColumnName;
-                switch(name)
+                var column = new Column(tableAlias, dataColumn);
+                var name = column.DataColumnName;
+                switch (column.ColumnName)
                 {
                     case "DestinationId": if (dataRow[name] != DBNull.Value) { DestinationId = dataRow[name].ToLong(); SavedDestinationId = DestinationId; } break;
                     case "SourceId": if (dataRow[name] != DBNull.Value) { SourceId = dataRow[name].ToLong(); SavedSourceId = SourceId; } break;
@@ -110,11 +111,11 @@ namespace Implem.Pleasanter.Models
                     case "Title": Title = dataRow[name].ToString(); SavedTitle = Title; break;
                     case "Subset": Subset = dataRow[name].ToString(); SavedSubset = Subset; break;
                     case "SiteTitle": SiteTitle = dataRow[name].ToString(); SavedSiteTitle = SiteTitle; break;
-                    case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
+                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, "CreatedTime"); SavedCreatedTime = CreatedTime.Value; break;
-                    case "UpdatedTime": UpdatedTime = new Time(dataRow, "UpdatedTime"); Timestamp = dataRow.Field<DateTime>("UpdatedTime").ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
+                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
+                    case "UpdatedTime": UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }
