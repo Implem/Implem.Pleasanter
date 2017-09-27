@@ -15,9 +15,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             {
                 switch (column.TypeName.CsTypeSummary())
                 {
-                    case "numeric": return self.ThenBy(o => o.SortBy.ToDecimal());
-                    case "DateTime": return self.ThenBy(o => o.SortBy.ToDateTime());
-                    case "string": return self.ThenBy(o => o.SortBy.ToString());
+                    case "numeric": return self.ThenBy(o => o.SortBy?.ToDecimal());
+                    case "DateTime": return self.ThenBy(o => o.SortBy?.ToDateTime());
+                    case "string": return self.ThenBy(o => o.SortBy?.ToString());
                     default: return self;
                 }
             }
