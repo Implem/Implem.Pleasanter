@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Delay(ss: ss, view: view)
                         .Limit(ss: ss, view: view)
                         .Columns(ss: ss, view: view)
-                        .Search(ss: ss, view: view))
+                        .Search(view: view))
                 : hb.Div(
                     id: "ViewFilters",
                     css: "reduced",
@@ -154,17 +154,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             ss.GetFilterColumns(checkPermission: true).ForEach(column =>
             {
+                ss = column.SiteSettings;
                 switch (column.TypeName.CsTypeSummary())
                 {
                     case Types.CsBool:
                         hb.CheckBox(
                             column: column,
-                            ss: ss,
                             view: view);
                         break;
                     case Types.CsNumeric:
                         hb.DropDown(
-                            ss: ss,
                             column: column,
                             view: view,
                             optionCollection: column.HasChoices()
@@ -173,7 +172,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         break;
                     case Types.CsDateTime:
                         hb.DropDown(
-                            ss: ss,
                             column: column,
                             view: view,
                             optionCollection: column.DateFilterOptions());
@@ -181,17 +179,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     case Types.CsString:
                         if (column.HasChoices())
                         {
-                            if (view.ColumnFilterHash?.ContainsKey(column.ColumnName) == true &&
+                            if (view.ColumnFilterHash?.ContainsKey(column.DataColumnName) == true &&
                                 column.UseSearch == true &&
                                 ss.Links?.Any(o => o.ColumnName == column.ColumnName) == true)
                             {
                                 ss.SetChoiceHash(
                                     columnName: column?.ColumnName,
-                                    selectedValues: view.ColumnFilter(column.ColumnName)
+                                    selectedValues: view.ColumnFilter(column.DataColumnName)
                                         .Select(o => o.ToString()));
                             }
                             hb.DropDown(
-                                ss: ss,
                                 column: column,
                                 view: view,
                                 optionCollection: column.EditChoices(addNotSet: true));
@@ -199,11 +196,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         else if (ss.EditorColumns.Contains(column.ColumnName))
                         {
                             hb.FieldTextBox(
-                                controlId: "ViewFilters_" + column.Id,
+                                controlId: "ViewFilters__" + column.DataColumnName,
                                 fieldCss: "field-auto-thin",
                                 controlCss: " auto-postback",
                                 labelText: Displays.Get(column.GridLabelText),
-                                text: view.ColumnFilter(column.ColumnName),
+                                text: view.ColumnFilter(column.DataColumnName),
                                 method: "post");
                         }
                         break;
@@ -214,9 +211,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb;
         }
 
-        private static HtmlBuilder CheckBox(
-            this HtmlBuilder hb, SiteSettings ss, Column column, View view)
+        private static HtmlBuilder CheckBox(this HtmlBuilder hb, Column column, View view)
         {
+            var ss = column.SiteSettings;
             if (ss.GridColumns.Contains(column.ColumnName) ||
                 ss.EditorColumns.Contains(column.ColumnName))
             {
@@ -224,20 +221,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     case ColumnUtilities.CheckFilterControlTypes.OnOnly:
                         return hb.FieldCheckBox(
-                            controlId: "ViewFilters_" + column.Id,
+                            controlId: "ViewFilters__" + column.DataColumnName,
                             fieldCss: "field-auto-thin",
                             controlCss: " auto-postback",
                             labelText: Displays.Get(column.GridLabelText),
-                            _checked: view.ColumnFilter(column.ColumnName).ToBool(),
+                            _checked: view.ColumnFilter(column.DataColumnName).ToBool(),
                             method: "post");
                     case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
                         return hb.FieldDropDown(
-                            controlId: "ViewFilters_" + column.Id,
+                            controlId: "ViewFilters__" + column.DataColumnName,
                             fieldCss: "field-auto-thin",
                             controlCss: " auto-postback",
                             labelText: Displays.Get(column.GridLabelText),
                             optionCollection: ColumnUtilities.CheckFilterTypeOptions(),
-                            selectedValue: view.ColumnFilter(column.ColumnName),
+                            selectedValue: view.ColumnFilter(column.DataColumnName),
                             addSelectedValue: false,
                             insertBlank: true,
                             method: "post");
@@ -248,20 +245,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder DropDown(
             this HtmlBuilder hb,
-            SiteSettings ss,
             Column column,
             View view,
             Dictionary<string, ControlData> optionCollection)
         {
+            var ss = column.SiteSettings;
             return hb.FieldDropDown(
-                controlId: "ViewFilters_" + column.Id,
+                controlId: "ViewFilters__" + column.DataColumnName,
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback" + (column.UseSearch == true
                     ? " search"
                     : string.Empty),
                 labelText: Displays.Get(column.GridLabelText),
                 optionCollection: optionCollection,
-                selectedValue: view.ColumnFilter(column.ColumnName),
+                selectedValue: view.ColumnFilter(column.DataColumnName),
                 multiple: true,
                 addSelectedValue: false,
                 method: "post",
@@ -271,8 +268,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     column.RecordedTime);
         }
 
-        private static HtmlBuilder Search(
-            this HtmlBuilder hb, SiteSettings ss, View view)
+        private static HtmlBuilder Search(this HtmlBuilder hb, View view)
         {
             return hb.FieldTextBox(
                 controlId: "ViewFilters_Search",

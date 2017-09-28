@@ -159,7 +159,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetByForm(SiteSettings ss)
         {
-            var columnFilterPrefix = "ViewFilters_{0}_".Params(ss.ReferenceType);
+            var columnFilterPrefix = "ViewFilters__";
             var columnSorterPrefix = "ViewSorters_{0}_".Params(ss.ReferenceType);
             switch (Forms.Data("ControlId"))
             {
@@ -278,7 +278,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 controlId.Substring(columnFilterPrefix.Length),
                                 Forms.Data(controlId));
                         }
-                        if (controlId.StartsWith(columnSorterPrefix))
+                        else if (controlId.StartsWith(columnSorterPrefix))
                         {
                             AddColumnSorterHash(
                                 ss,
@@ -360,7 +360,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ColumnFilterHash = new Dictionary<string, string>();
             }
-            if (ss.Columns.Any(o => o.ColumnName == columnName))
+            var column = ss.GetColumn(columnName);
+            if (column != null)
             {
                 if (value != string.Empty)
                 {
@@ -648,39 +649,30 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     if (data.ColumnName == "SiteTitle")
                     {
-                        CsNumericColumns(tableName, data.Column, "SiteId", data.Value, where);
+                        CsNumericColumns(ss.GetColumn("SiteId"), data.Value, where);
                     }
                     else
                     {
                         switch (data.Column.TypeName.CsTypeSummary())
                         {
                             case Types.CsBool:
-                                CsBoolColumns(
-                                    tableName, data.Column, data.ColumnName, data.Value, where);
+                                CsBoolColumns(data.Column, data.Value, where);
                                 break;
                             case Types.CsNumeric:
-                                CsNumericColumns(
-                                    tableName, data.Column, data.ColumnName, data.Value, where);
+                                CsNumericColumns(data.Column, data.Value, where);
                                 break;
                             case Types.CsDateTime:
-                                CsDateTimeColumns(
-                                    tableName, data.Column, data.ColumnName, data.Value, where);
+                                CsDateTimeColumns(data.Column, data.Value, where);
                                 break;
                             case Types.CsString:
-                                CsStringColumns(
-                                    tableName, data.Column, data.Value, where);
+                                CsStringColumns(data.Column, data.Value, where);
                                 break;
                         }
                     }
                 });
         }
 
-        private void CsBoolColumns(
-            string tableName,
-            Column column,
-            string columnName,
-            string value,
-            SqlWhereCollection where)
+        private void CsBoolColumns(Column column, string value, SqlWhereCollection where)
         {
             switch (column.CheckFilterControlType)
             {
@@ -688,8 +680,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (value.ToBool())
                     {
                         where.Add(
-                            tableName: tableName,
-                            raw: "[" + columnName + "]=1");
+                            tableName: column.TableName(),
+                            raw: "[" + column.ColumnName + "]=1");
                     }
                     break;
                 case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
@@ -697,64 +689,54 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         case ColumnUtilities.CheckFilterTypes.On:
                             where.Add(
-                                tableName: tableName,
-                                raw: "[" + columnName + "]=1");
+                                tableName: column.TableName(),
+                                raw: "[" + column.ColumnName + "]=1");
                             break;
                         case ColumnUtilities.CheckFilterTypes.Off:
                             where.Add(
-                                tableName: tableName,
+                                tableName: column.TableName(),
                                 raw: "(#TableName#.[{0}] is null or #TableName#.[{0}]=0)"
-                                    .Params(columnName));
+                                    .Params(column.ColumnName));
                             break;
                     }
                     break;
             }
         }
 
-        private void CsNumericColumns(
-            string tableName,
-            Column column,
-            string columnName,
-            string value,
-            SqlWhereCollection where)
+        private void CsNumericColumns(Column column, string value, SqlWhereCollection where)
         {
             var param = value.Deserialize<List<string>>();
             if (param.Any())
             {
                 if (param.All(o => o.RegexExists(@"^[0-9\.]*,[0-9\.]*$")))
                 {
-                    CsNumericRangeColumns(tableName, column, columnName, param, where);
+                    CsNumericRangeColumns(column, param, where);
                 }
                 else
                 {
-                    CsNumericColumns(tableName, column, columnName, param, where);
+                    CsNumericColumns(column, param, where);
                 }
             }
         }
 
         private void CsNumericColumns(
-            string tableName,
-            Column column,
-            string columnName,
-            List<string> param,
-            SqlWhereCollection where)
+            Column column, List<string> param, SqlWhereCollection where)
         {
             if (param.Any())
             {
                 where.Add(or: new SqlWhereCollection(
-                    CsNumericColumnsWhere(tableName, columnName, param),
-                    CsNumericColumnsWhereNull(tableName, column, columnName, param)));
+                    CsNumericColumnsWhere(column, param),
+                    CsNumericColumnsWhereNull(column, param)));
             }
         }
 
-        private SqlWhere CsNumericColumnsWhere(
-            string tableName, string columnName, List<string> param)
+        private SqlWhere CsNumericColumnsWhere(Column column, List<string> param)
         {
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
-                    tableName: tableName,
-                    columnBrackets: new string[] { "[" + columnName + "]" },
-                    name: columnName,
+                    tableName: column.TableName(),
+                    columnBrackets: new string[] { "[" + column.ColumnName + "]" },
+                    name: column.ColumnName,
                     _operator: " in ({0})".Params(param
                         .Where(o => o != "\t")
                         .Select(o => o.ToDecimal())
@@ -762,18 +744,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
-        private SqlWhere CsNumericColumnsWhereNull(
-            string tableName, Column column, string columnName, List<string> param)
+        private SqlWhere CsNumericColumnsWhereNull(Column column, List<string> param)
         {
             return param.Any(o => o == "\t")
                 ? new SqlWhere(or: new SqlWhereCollection(
                     new SqlWhere(
-                        tableName: tableName,
-                        columnBrackets: new string[] { "[" + columnName + "]" },
+                        tableName: column.TableName(),
+                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
                         _operator: " is null"),
                     new SqlWhere(
-                        tableName: tableName,
-                        columnBrackets: new string[] { "[" + columnName + "]" },
+                        tableName: column.TableName(),
+                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
                         _operator: "={0}".Params(column.UserColumn
                             ? User.UserTypes.Anonymous.ToInt()
                             : 0))))
@@ -781,9 +762,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private void CsNumericRangeColumns(
-            string tableName,
             Column column,
-            string columnName,
             List<string> param,
             SqlWhereCollection where)
         {
@@ -795,22 +774,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (from == string.Empty)
                 {
                     parts.Add(new SqlWhere(
-                        tableName: tableName,
-                        columnBrackets: new string[] { "[" + columnName + "]" },
+                        tableName: column.TableName(),
+                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
                         _operator: "<{0}".Params(to.ToDecimal())));
                 }
                 else if (to == string.Empty)
                 {
                     parts.Add(new SqlWhere(
-                        tableName: tableName,
-                        columnBrackets: new string[] { "[" + columnName + "]" },
+                        tableName: column.TableName(),
+                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
                         _operator: ">={0}".Params(from.ToDecimal())));
                 }
                 else
                 {
                     parts.Add(new SqlWhere(
-                        tableName: tableName,
-                        columnBrackets: new string[] { "[" + columnName + "]" },
+                        tableName: column.TableName(),
+                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
                         _operator: " between {0} and {1}".Params(
                             from.ToDecimal(), to.ToDecimal())));
                 }
@@ -819,30 +798,25 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private void CsDateTimeColumns(
-            string tableName,
-            Column column,
-            string columnName,
-            string value,
-            SqlWhereCollection where)
+            Column column, string value, SqlWhereCollection where)
         {
             var param = value.Deserialize<List<string>>();
             if (param.Any())
             {
                 where.Add(or: new SqlWhereCollection(
-                    CsDateTimeColumnsWhere(tableName, columnName, param),
-                    CsDateTimeColumnsWhereNull(tableName, column, columnName, param)));
+                    CsDateTimeColumnsWhere(column, param),
+                    CsDateTimeColumnsWhereNull(column, param)));
             }
         }
 
-        private SqlWhere CsDateTimeColumnsWhere(
-            string tableName, string columnName, List<string> param)
+        private SqlWhere CsDateTimeColumnsWhere(Column column, List<string> param)
         {
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
-                    tableName: tableName,
+                    tableName: column.TableName(),
                     raw: param.Select(range =>
-                        "[{0}] between '{1}' and '{2}'".Params(
-                            columnName,
+                        "#TableBracket#.[{0}] between '{1}' and '{2}'".Params(
+                            column.ColumnName,
                             range.Split_1st().ToDateTime().ToUniversal()
                                 .ToString("yyyy/M/d H:m:s"),
                             range.Split_2nd().ToDateTime().ToUniversal()
@@ -850,18 +824,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
-        private SqlWhere CsDateTimeColumnsWhereNull(
-            string tableName, Column column, string columnName, List<string> param)
+        private SqlWhere CsDateTimeColumnsWhereNull(Column column, List<string> param)
         {
             return param.Any(o => o == "\t")
                 ? new SqlWhere(or: new SqlWhereCollection(
                     new SqlWhere(
-                        tableName: tableName,
-                        columnBrackets: new string[] { "[" + columnName + "]" },
+                        tableName: column.TableName(),
+                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
                         _operator: " is null"),
                     new SqlWhere(
-                        tableName: tableName,
-                        columnBrackets: new string[] { "[" + columnName + "]" },
+                        tableName: column.TableName(),
+                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
                         _operator: " not between '{0}' and '{1}'".Params(
                             Parameters.General.MinTime.ToUniversal()
                                 .ToString("yyyy/M/d H:m:s"),
@@ -870,8 +843,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
-        private void CsStringColumns(
-            string tableName, Column column, string value, SqlWhereCollection where)
+        private void CsStringColumns(Column column, string value, SqlWhereCollection where)
         {
             if (column.HasChoices())
             {
@@ -879,8 +851,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (param.Any())
                 {
                     where.Add(or: new SqlWhereCollection(
-                        CsStringColumnsWhere(tableName, column.ColumnName, param),
-                        CsStringColumnsWhereNull(tableName, column.ColumnName, param)));
+                        CsStringColumnsWhere(column, param),
+                        CsStringColumnsWhereNull(column, param)));
                 }
             }
             else
@@ -888,7 +860,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (!value.IsNullOrEmpty())
                 {
                     where.Add(new SqlWhere(
-                        tableName: tableName,
+                        tableName: column.TableName(),
                         columnBrackets: new string[] { "[" + column.ColumnName + "]" },
                         name: column.ColumnName,
                         value: value));
@@ -896,31 +868,29 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private SqlWhere CsStringColumnsWhere(
-            string tableName, string columnName, List<string> param)
+        private SqlWhere CsStringColumnsWhere(Column column, List<string> param)
         {
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
-                    tableName: tableName,
-                    columnBrackets: new string[] { "[" + columnName + "]" },
-                    name: columnName,
+                    tableName: column.TableName(),
+                    columnBrackets: new string[] { "[" + column.ColumnName + "]" },
+                    name: column.ColumnName,
                     value: param.Where(o => o != "\t"),
                     multiParamOperator: " or ")
                 : null;
         }
 
-        private SqlWhere CsStringColumnsWhereNull(
-            string tableName, string columnName, List<string> param)
+        private SqlWhere CsStringColumnsWhereNull(Column column, List<string> param)
         {
             return param.Any(o => o == "\t")
                 ? new SqlWhere(or: new SqlWhereCollection(
                     new SqlWhere(
-                        tableName: tableName,
-                        columnBrackets: new string[] { "[" + columnName + "]" },
+                        tableName: column.TableName(),
+                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
                         _operator: " is null"),
                     new SqlWhere(
-                        tableName: tableName,
-                        columnBrackets: new string[] { "[" + columnName + "]" },
+                        tableName: column.TableName(),
+                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
                         _operator: "=''")))
                 : null;
         }

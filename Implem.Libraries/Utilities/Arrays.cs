@@ -59,5 +59,12 @@ namespace Implem.Libraries.Utilities
                         ? (self as IEnumerable<long>).Select(p => p as object)
                         : null;
         }
+
+        public static List<T> Concat<T>(params List<T>[] data)
+        {
+            var list = new List<T>();
+            data.ForEach(o => list = list.Concat(o).ToList());
+            return list;
+        }
     }
 }

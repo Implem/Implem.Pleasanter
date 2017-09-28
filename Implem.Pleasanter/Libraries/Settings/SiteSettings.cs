@@ -738,10 +738,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 FilterColumns = DefaultFilterColumns();
             }
-            else
-            {
-                FilterColumns.RemoveAll(o => !FilterColumn(ColumnDefinitionHash.Get(o)));
-            }
         }
 
         private List<string> DefaultFilterColumns()
@@ -749,11 +745,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ColumnDefinitionHash.FilterDefinitions(enableOnly: true)
                 .Select(o => o.ColumnName)
                 .ToList();
-        }
-
-        private bool FilterColumn(ColumnDefinition columnDefinition)
-        {
-            return columnDefinition?.FilterColumn > 0;
         }
 
         private void UpdateEditorColumns()
@@ -1073,7 +1064,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (columnName.Contains(','))
             {
                 var alias = columnName.Split_1st();
-                var siteId = alias.Split('-').Last().Split_2nd(':').ToLong();
+                var siteId = alias.Split('-').Last().Split_2nd('~').ToLong();
                 var name = columnName.Split_2nd();
                 var column = JoinedSsHash.Get(siteId)?.GetColumn(name);
                 if (column != null)
@@ -1224,15 +1215,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => !GridColumns.Contains(o)));
         }
 
-        public Dictionary<string, ControlData> FilterSelectableOptions(bool enabled = true)
+        public Dictionary<string, ControlData> FilterSelectableOptions(
+            bool enabled = true, string join = null)
         {
+            SetJoinedSsHash();
+            var currentSs = GetJoinedSs(join);
             return enabled
-                ? ColumnUtilities.SelectableOptions(this, FilterColumns)
-                : ColumnUtilities.SelectableOptions(
-                    this, ColumnDefinitionHash.FilterDefinitions()
-                        .Where(o => !FilterColumns.Contains(o.ColumnName))
-                        .OrderBy(o => o.History)
-                        .Select(o => o.ColumnName));
+                ? ColumnUtilities.SelectableOptions(
+                    ss: currentSs,
+                    columns: FilterColumns)
+                : ColumnUtilities.SelectableSourceOptions(
+                    ss: currentSs,
+                    columns: currentSs.ColumnDefinitionHash.FilterDefinitions()
+                        .OrderBy(o => o.No)
+                        .Select(o => join.IsNullOrEmpty()
+                            ? o.ColumnName
+                            : join + "," + o.ColumnName)
+                        .Where(o => !FilterColumns.Contains(o)));
         }
 
         public Dictionary<string, ControlData> EditorSelectableOptions(bool enabled = true)
@@ -1313,7 +1312,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return TableJoins(Links, new Join(Title), new List<Join> { new Join(Title) })
                 .ToDictionary(
-                    o => o.Select(p => "{0}:{1}".Params(p.ColumnName, p.SiteId)).Join("-"),
+                    o => o.Select(p => "{0}~{1}".Params(p.ColumnName, p.SiteId)).Join("-"),
                     o => o.Title.Join(" - "));
         }
 
@@ -1349,12 +1348,12 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public SiteSettings GetJoinedSs(string join)
         {
-            return join?.Contains(":") == true
+            return join?.Contains("~") == true
                 ? JoinedSsHash.Get(join
                     .Split_1st(',')
                     .Split('-')
                     .Last()
-                    .Split_2nd(':')
+                    .Split_2nd('~')
                     .ToLong())
                 : this;
         }
@@ -2352,6 +2351,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
             });
             return data;
+        }
+
+        public SqlColumnCollection SqlColumnCollection(IEnumerable<Column> columns)
+        {
+            return new SqlColumnCollection(columns
+                .SelectMany(column => column.SqlColumnCollection(this))
+                .GroupBy(o => o.ColumnBracket + o.As)
+                .Select(o => o.First())
+                .ToArray());
+        }
+
+        public SqlJoinCollection SqlJoinCollection(IEnumerable<Column> columns)
+        {
+            return new SqlJoinCollection(columns
+                .SelectMany(o => o.SqlJoinCollection(this))
+                .Where(o => o != null)
+                .OrderBy(o => o.JoinExpression.Length)
+                .GroupBy(o => o.JoinExpression)
+                .Select(o => o.First())
+                .ToArray());
         }
     }
 }

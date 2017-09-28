@@ -2309,7 +2309,7 @@ namespace Implem.Pleasanter.Models
                             listItemCollection: ss.FilterSelectableOptions(enabled: false),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
-                                .Div(css: "command-center", action: () => hb
+                                .Div(css: "command-left", action: () => hb
                                     .Button(
                                         controlId: "ToEnableFilterColumns",
                                         text: Displays.ToEnable(),
@@ -2317,7 +2317,15 @@ namespace Implem.Pleasanter.Models
                                         onClick: "$p.send($(this));",
                                         icon: "ui-icon-circle-triangle-w",
                                         action: "SetSiteSettings",
-                                        method: "put"))))
+                                        method: "put")
+                                    .FieldDropDown(
+                                        controlId: "FilterJoin",
+                                        fieldCss: "w150",
+                                        controlCss: " auto-postback always-send",
+                                        optionCollection: ss.JoinOptions(),
+                                        addSelectedValue: false,
+                                        action: "SetSiteSettings",
+                                        method: "post"))))
                 .FieldSpinner(
                     controlId: "NearCompletionTimeAfterDays",
                     fieldCss: "field-auto-thin",

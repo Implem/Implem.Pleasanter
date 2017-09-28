@@ -629,12 +629,18 @@ namespace Implem.Pleasanter.Models
         {
             var view = Views.GetBySession(ss);
             var where = view.Where(ss: ss, where: Rds.DeptsWhere().TenantId(Sessions.TenantId()));
+            var join = ss.SqlJoinCollection(ss.FilterColumns
+                .Where(o => o.Contains(","))
+                .Select(o => ss.GetColumn(o))
+                .ToList());
             var switchTargets = Rds.ExecuteScalar_int(statements:
                 Rds.SelectDepts(
                     column: Rds.DeptsColumn().DeptsCount(),
+                    join: join,
                     where: where)) <= Parameters.General.SwitchTargetsLimit
                         ? Rds.ExecuteTable(statements: Rds.SelectDepts(
                             column: Rds.DeptsColumn().DeptId(),
+                            join: join,
                             where: where,
                             orderBy: view.OrderBy(ss, Rds.DeptsOrderBy()
                                 .UpdatedTime(SqlOrderBy.Types.desc))))

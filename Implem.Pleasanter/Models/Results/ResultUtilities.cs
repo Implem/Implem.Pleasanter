@@ -2907,12 +2907,18 @@ namespace Implem.Pleasanter.Models
         {
             var view = Views.GetBySession(ss);
             var where = view.Where(ss: ss);
+            var join = ss.SqlJoinCollection(ss.FilterColumns
+                .Where(o => o.Contains(","))
+                .Select(o => ss.GetColumn(o))
+                .ToList());
             var switchTargets = Rds.ExecuteScalar_int(statements:
                 Rds.SelectResults(
                     column: Rds.ResultsColumn().ResultsCount(),
+                    join: join,
                     where: where)) <= Parameters.General.SwitchTargetsLimit
                         ? Rds.ExecuteTable(statements: Rds.SelectResults(
                             column: Rds.ResultsColumn().ResultId(),
+                            join: join,
                             where: where,
                             orderBy: view.OrderBy(ss, Rds.ResultsOrderBy()
                                 .UpdatedTime(SqlOrderBy.Types.desc))))

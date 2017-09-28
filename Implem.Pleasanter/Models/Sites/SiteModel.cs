@@ -787,6 +787,9 @@ namespace Implem.Pleasanter.Models
                 case "SetFilterColumn":
                     SetFilterColumn(res);
                     break;
+                case "FilterJoin":
+                    SetFilterColumnsSelectable(res);
+                    break;
                 case "AddAggregations":
                 case "DeleteAggregations":
                 case "MoveUpAggregations":
@@ -1105,12 +1108,16 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var column = SiteSettings.FilterColumn(selectedColumns.FirstOrDefault());
+                SiteSettings.SetJoinedSsHash();
+                var column = SiteSettings.GetColumn(selectedColumns.FirstOrDefault());
                 if (column == null)
                 {
                     res.Message(Messages.InvalidRequest());
                 }
-                else
+                else if (column.Joined)
+                {
+                    res.Message(Messages.CanNotPerformed());
+                }
                 {
                     res.Html(
                         "#FilterColumnDialog",
@@ -1139,6 +1146,24 @@ namespace Implem.Pleasanter.Models
                         listItemCollection: SiteSettings.FilterSelectableOptions(),
                         selectedValueTextCollection: new List<string> { columnName }))
                     .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetFilterColumnsSelectable(ResponseCollection res)
+        {
+            var listItemCollection = SiteSettings
+                .FilterSelectableOptions(enabled: false, join: Forms.Data("FilterJoin"));
+            if (!listItemCollection.Any())
+            {
+                res.Message(Messages.NotFound());
+            }
+            else
+            {
+                res.Html("#FilterSourceColumns", new HtmlBuilder()
+                    .SelectableItems(listItemCollection: listItemCollection));
             }
         }
 

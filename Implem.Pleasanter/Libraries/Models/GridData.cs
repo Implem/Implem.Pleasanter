@@ -49,19 +49,9 @@ namespace Implem.Pleasanter.Libraries.Models
             bool countRecord = false,
             IEnumerable<Aggregation> aggregations = null)
         {
-            var columns = GridDefaultColumns(ss)
-                .Distinct()
-                .Select(o => ss.GetColumn(o))
-                .Where(o => o != null)
-                .ToList();
-            columns
-                .GroupBy(o => o.SiteId)
-                .Select(o => o.First().SiteSettings)
-                .ForEach(o =>
-                {
-                    o.SetPermissions(o.SiteId);
-                    o.SetChoiceHash();
-                });
+            var column = Column(ss);
+            var join = Join(ss);
+            SetSiteSettings(Arrays.Concat(column, join), ss.SiteId);
             var where = view.Where(ss);
             var orderBy = view.OrderBy(ss);
             if (pageSize > 0 && orderBy?.Any() != true)
@@ -76,8 +66,8 @@ namespace Implem.Pleasanter.Libraries.Models
                 Rds.Select(
                     tableName: ss.ReferenceType,
                     dataTableName: "Main",
-                    column: Column(ss, columns),
-                    join: Join(ss, columns.Where(o => o.Joined)),
+                    column: ss.SqlColumnCollection(column),
+                    join: ss.SqlJoinCollection(join),
                     where: where,
                     orderBy: orderBy,
                     tableType: tableType,
@@ -97,7 +87,20 @@ namespace Implem.Pleasanter.Libraries.Models
             DataRows = dataSet.Tables["Main"].AsEnumerable();
         }
 
-        private static List<string> GridDefaultColumns(SiteSettings ss)
+        private static void SetSiteSettings(List<Column> columns, long siteId)
+        {
+            columns
+                .GroupBy(o => o.SiteId)
+                .Select(o => o.First().SiteSettings)
+                .Where(o => o.SiteId != siteId)
+                .ForEach(o =>
+                {
+                    o.SetPermissions(o.SiteId);
+                    o.SetChoiceHash();
+                });
+        }
+
+        private static List<Column> Column(SiteSettings ss)
         {
             var columns = ss.GridColumns.ToList();
             var hash = columns
@@ -111,7 +114,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         .Split_1st()
                         .Split('-')
                         .Last()
-                        .Split_2nd(':')
+                        .Split_2nd('~')
                         .ToLong()));
             hash
                 .Where(o => o.Value != null)
@@ -119,7 +122,11 @@ namespace Implem.Pleasanter.Libraries.Models
                     dataTableName: data.Key,
                     ss: data.Value,
                     columns: columns));
-            return columns;
+            return columns
+                .Distinct()
+                .Select(o => ss.GetColumn(o))
+                .Where(o => o != null)
+                .ToList();
         }
 
         private static void AddDefaultColumns(
@@ -131,24 +138,12 @@ namespace Implem.Pleasanter.Libraries.Models
             columns.Add(dataTableName + "Updator");
         }
 
-        private static SqlColumnCollection Column(SiteSettings ss, IEnumerable<Column> columns)
+        private static List<Column> Join(SiteSettings ss)
         {
-            return new SqlColumnCollection(columns
-                .SelectMany(column => column.SqlColumnCollection(ss))
-                .GroupBy(o => o.ColumnBracket + o.As)
-                .Select(o => o.First())
-                .ToArray());
-        }
-
-        private static SqlJoinCollection Join(SiteSettings ss, IEnumerable<Column> joins)
-        {
-            return new SqlJoinCollection(joins
-                .SelectMany(o => o.SqlJoinCollection(ss))
-                .Where(o => o != null)
-                .OrderBy(o => o.JoinExpression.Length)
-                .GroupBy(o => o.JoinExpression)
-                .Select(o => o.First())
-                .ToArray());
+            return Arrays.Concat(ss.GridColumns, ss.FilterColumns)
+                .Where(o => o.Contains(","))
+                .Select(o => ss.GetColumn(o))
+                .ToList();
         }
 
         private static void SetAggregations(

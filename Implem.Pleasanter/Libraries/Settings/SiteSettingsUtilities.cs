@@ -396,7 +396,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             var dataRow = Rds.ExecuteTable(statements: Rds.SelectSites(
                 column: Rds.SitesColumn()
                     .SiteSettings()
-                    .Title(),
+                    .Title()
+                    .InheritPermission(),
                 where: Rds.SitesWhere()
                     .TenantId(Sessions.TenantId())
                     .SiteId(siteId)))
@@ -404,11 +405,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .FirstOrDefault();
             if (dataRow != null)
             {
-                var ss = dataRow["SiteSettings"]
-                    .ToString()
+                var ss = dataRow.String("SiteSettings")
                     .Deserialize<SiteSettings>() ?? new SiteSettings();
                 ss.SiteId = siteId;
-                ss.Title = dataRow["Title"].ToString();
+                ss.Title = dataRow.String("Title");
+                ss.InheritPermission = dataRow.Long("InheritPermission");
                 return ss;
             }
             else

@@ -163,12 +163,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Column(string tableAlias, DataColumn dataColumn)
         {
             DataColumnName = dataColumn.ColumnName;
-            if (tableAlias?.Contains(":") == true)
+            if (tableAlias?.Contains("~") == true)
             {
                 if (DataColumnName.StartsWith(tableAlias + ","))
                 {
                     TableAlias = DataColumnName.Split_1st();
-                    SiteId = TableAlias.Split('-').Last().Split_2nd(':').ToLong();
+                    SiteId = TableAlias.Split('-').Last().Split_2nd('~').ToLong();
                     ColumnName = DataColumnName.Split_2nd();
                     Joined = true;
                 }
@@ -508,10 +508,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var path = new List<string>();
                 foreach (var part in TableAlias.Split('-'))
                 {
-                    var siteId = part.Split_2nd(':').ToLong();
+                    var siteId = part.Split_2nd('~').ToLong();
                     var currentSs = ss.JoinedSsHash?.Get(siteId);
                     var tableName = currentSs?.ReferenceType;
-                    var columnName = currentSs?.GetColumn(part.Split_1st(':'))?.ColumnName;
+                    var columnName = currentSs?.GetColumn(part.Split_1st('~'))?.ColumnName;
                     path.Add(part);
                     var alias = path.Join("-");
                     if (tableName != null && columnName != null)
@@ -519,11 +519,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         sql.Add(new SqlJoin(
                             tableBracket: "[" + tableName + "]",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "[{0}].[{1}]=[{2}].[{3}]".Params(
-                                left,
-                                columnName,
-                                alias,
-                                Rds.IdColumn(tableName)),
+                            joinExpression: JoinExpression(
+                                left, tableName, columnName, alias, siteId),
                             _as: alias));
                         left = part;
                     }
@@ -536,9 +533,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private string TableName(SiteSettings ss, long siteId)
+        private static string JoinExpression(
+            string left, string tableName, string columnName, string alias, long siteId)
         {
-            return ss.JoinedSsHash?.Get(siteId)?.ReferenceType;
+            return "[{2}].[SiteId]={4} and case when isnumeric([{0}].[{1}])=1 then [{0}].[{1}] else 0 end=[{2}].[{3}]"
+                .Params(left, columnName, alias, Rds.IdColumn(tableName), siteId);
+        }
+
+        public string TableName()
+        {
+            return TableAlias ?? SiteSettings.ReferenceType;
         }
 
         private void SelectColumns(
