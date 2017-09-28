@@ -175,6 +175,7 @@ namespace Implem.Pleasanter.Models
             return new GridData(
                 ss: ss,
                 view: view,
+                where: Rds.DeptsWhere().TenantId(Sessions.TenantId()),
                 offset: offset,
                 pageSize: ss.GridPageSize.ToInt(),
                 countRecord: true,

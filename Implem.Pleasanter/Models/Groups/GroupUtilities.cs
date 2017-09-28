@@ -169,10 +169,7 @@ namespace Implem.Pleasanter.Models
                         sub: Rds.SelectGroupMembers(
                             distinct: true,
                             column: Rds.GroupMembersColumn().GroupId(),
-                            where: Rds.GroupMembersWhere()
-                                .Or(Rds.GroupMembersWhere()
-                                    .DeptId(Sessions.DeptId())
-                                    .UserId(Sessions.UserId()))),
+                            where: Permissions.GroupMembersWhere()),
                         _using: !Permissions.CanManageTenant())),
                 orderBy: view.OrderBy(ss, Rds.GroupsOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)),
@@ -182,12 +179,22 @@ namespace Implem.Pleasanter.Models
                 aggregations: ss.Aggregations);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static GridData GetGridData(
             SiteSettings ss, View view, int offset = 0)
         {
             return new GridData(
                 ss: ss,
                 view: view,
+                where: Rds.GroupsWhere()
+                    .TenantId(Sessions.TenantId())
+                    .GroupId_In(sub: Rds.SelectGroupMembers(
+                        distinct: true,
+                        column: Rds.GroupMembersColumn().GroupId(),
+                        where: Permissions.GroupMembersWhere()),
+                        _using: !Permissions.CanManageTenant()),
                 offset: offset,
                 pageSize: ss.GridPageSize.ToInt(),
                 countRecord: true,

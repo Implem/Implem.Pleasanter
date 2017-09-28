@@ -19,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.Models
         public GridData(
             SiteSettings ss,
             View view,
+            SqlWhereCollection where = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             int top = 0,
             int offset = 0,
@@ -30,6 +31,7 @@ namespace Implem.Pleasanter.Libraries.Models
             Get(
                 ss: ss,
                 view: view,
+                where: where,
                 tableType: tableType,
                 top: top,
                 offset: offset,
@@ -41,6 +43,7 @@ namespace Implem.Pleasanter.Libraries.Models
         private void Get(
             SiteSettings ss,
             View view,
+            SqlWhereCollection where = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             int top = 0,
             int offset = 0,
@@ -52,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.Models
             var column = Column(ss);
             var join = Join(ss);
             SetSiteSettings(Arrays.Concat(column, join), ss.SiteId);
-            var where = view.Where(ss);
+            where = view.Where(ss, where);
             var orderBy = view.OrderBy(ss);
             if (pageSize > 0 && orderBy?.Any() != true)
             {

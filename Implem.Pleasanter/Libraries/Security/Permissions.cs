@@ -421,10 +421,13 @@ namespace Implem.Pleasanter.Libraries.Security
                     column: Rds.GroupMembersColumn().Admin(),
                     where: Rds.GroupMembersWhere()
                         .GroupId(Routes.Id())
-                        .Or(Rds.GroupMembersWhere()
-                            .DeptId(Sessions.DeptId())
-                            .UserId(Sessions.UserId()))))
-                                .AsEnumerable();
+                        .Add(raw: DeptOrUser("GroupMembers"))))
+                            .AsEnumerable();
+        }
+
+        public static SqlWhereCollection GroupMembersWhere()
+        {
+            return Rds.GroupMembersWhere().Add(raw: DeptOrUser("GroupMembers"));
         }
 
         public static Types? Admins(Types? type = Types.NotSet)
