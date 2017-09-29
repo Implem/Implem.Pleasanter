@@ -727,11 +727,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        private bool GridColumn(ColumnDefinition columnDefinition)
-        {
-            return columnDefinition?.GridColumn > 0;
-        }
-
         private void UpdateFilterColumns()
         {
             if (FilterColumns == null)
