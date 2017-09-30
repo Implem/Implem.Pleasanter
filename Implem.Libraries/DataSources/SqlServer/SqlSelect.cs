@@ -257,7 +257,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 select: true);
             SqlGroupByCollection?.BuildCommandText(
                 commandText: commandText,
-                tableBracket: tableBracket);
+                tableType: tableType);
             SqlHavingCollection?.BuildCommandText(
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
@@ -288,7 +288,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     select: true);
                 SqlGroupByCollection?.BuildCommandText(
                     commandText: commandText,
-                    tableBracket: tableBracket);
+                    tableType: tableType);
                 SqlHavingCollection?.BuildCommandText(
                     sqlContainer: sqlContainer,
                     sqlCommand: sqlCommand,
