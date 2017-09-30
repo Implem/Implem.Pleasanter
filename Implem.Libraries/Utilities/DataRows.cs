@@ -41,7 +41,7 @@ namespace Implem.Libraries.Utilities
 
         public static string String(this DataRow dataRow, string name)
         {
-            if (dataRow.Table.Columns.Contains(name))
+            if (dataRow.Table.Columns.Contains(name) && dataRow[name] != DBNull.Value)
             {
                 switch (dataRow.Table.Columns[name].DataType.Name)
                 {
@@ -50,7 +50,7 @@ namespace Implem.Libraries.Utilities
                     case "Int64":
                         return dataRow.Field<long>(name).ToString();
                     default:
-                        return dataRow.Field<string>(name) ?? string.Empty;
+                        return dataRow.Field<string>(name);
                 }
             }
             else
