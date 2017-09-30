@@ -109,7 +109,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string GetCrosstabValue(SiteSettings ss)
         {
-            var options = ss.CrosstabValueOptions();
+            var options = ss.CrosstabColumnsOptions();
             return !CrosstabValue.IsNullOrEmpty()
                 ? CrosstabValue
                 : options.ContainsKey(Definition(ss, "Crosstab")?.Option4)

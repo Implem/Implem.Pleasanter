@@ -189,5 +189,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (command == "MoveDown") Array.Reverse(order);
             return order.ToList();
         }
+
+        public static string DataColumnName(string join, string columnName)
+        {
+            return !join.IsNullOrEmpty()
+                ? join + "," + columnName
+                : columnName;
+        }
     }
 }

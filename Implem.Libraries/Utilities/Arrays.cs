@@ -66,5 +66,12 @@ namespace Implem.Libraries.Utilities
             data.ForEach(o => list = list.Concat(o).ToList());
             return list;
         }
+
+        public static List<T> Concat<T>(this List<T> self, params T[] data)
+        {
+            var list = self?.ToList() ?? new List<T>();
+            list.AddRange(data);
+            return list;
+        }
     }
 }

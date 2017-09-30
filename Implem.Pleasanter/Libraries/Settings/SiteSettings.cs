@@ -1056,7 +1056,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Column GetColumn(string columnName)
         {
-            if (columnName.Contains(','))
+            if (columnName?.Contains(',') == true)
             {
                 var alias = columnName.Split_1st();
                 var siteId = alias.Split('-').Last().Split_2nd('~').ToLong();
@@ -1303,18 +1303,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName));
         }
 
-        public Dictionary<string, string> JoinOptions()
+        public Dictionary<string, string> JoinOptions(bool reverce = false, bool bracket = false)
         {
             return TableJoins(Links, new Join(Title), new List<Join> { new Join(Title) })
                 .ToDictionary(
                     o => o.Select(p => "{0}~{1}".Params(p.ColumnName, p.SiteId)).Join("-"),
-                    o => o.Title.Join(" - "));
+                    o => o.GetTitle(reverce, bracket));
         }
 
         public Dictionary<string, string> ExportJoinOptions()
         {
             return TableJoins(Links, new Join(Title), new List<Join> { new Join(Title) })
-                .ToDictionary(o => o.ToJson(), o => o.Title.Join(" - "));
+                .ToDictionary(o => o.ToJson(), o => o.GetTitle());
         }
 
         private List<Join> TableJoins(List<Link> links, Join join, List<Join> joins)
@@ -1425,30 +1425,14 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> CrosstabGroupByXOptions()
         {
-            var hash = EditorColumns
-                .Select(o => GetColumn(o))
-                .Where(o => o.HasChoices() || o.TypeName == "datetime")
-                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
-            hash.AddRange(Columns
-                .Where(o => o.HasChoices())
-                .Where(o => !hash.ContainsKey(o.ColumnName))
-                .ToDictionary(o => o.ColumnName, o => o.GridLabelText));
-            hash.Add("CreatedTime", Displays.CreatedTime());
-            hash.Add("UpdatedTime", Displays.UpdatedTime());
-            return hash;
+            SetJoinedSsHash();
+            return CrosstabGroupByOptions(datetime: true);
         }
 
         public Dictionary<string, string> CrosstabGroupByYOptions()
         {
-            var hash = EditorColumns
-                .Select(o => GetColumn(o))
-                .Where(o => o.HasChoices())
-                .OrderBy(o => o.No)
-                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
-            hash.AddRange(Columns
-                .Where(o => o.HasChoices())
-                .Where(o => !hash.ContainsKey(o.ColumnName))
-                .ToDictionary(o => o.ColumnName, o => o.GridLabelText));
+            SetJoinedSsHash();
+            var hash = CrosstabGroupByOptions();
             if (CrosstabColumnsOptions().Any())
             {
                 hash.Add("Columns", Displays.NumericColumn());
@@ -1456,13 +1440,58 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
+        private Dictionary<string, string> CrosstabGroupByOptions(bool datetime = false)
+        {
+            var hash = new Dictionary<string, string>();
+            JoinOptions(reverce: true, bracket: true).ForEach(join =>
+            {
+                var siteId = join.Key.IsNullOrEmpty()
+                    ? SiteId
+                    : join.Key.Split('-').Last().Split_2nd('~').ToLong();
+                var ss = JoinedSsHash.Get(siteId);
+                if (ss != null)
+                {
+                    hash.AddRange(ss.Columns
+                        .Where(o => o.HasChoices() || (o.TypeName == "datetime" && datetime))
+                        .Where(o => ss.EditorColumns.Contains(o.ColumnName))
+                        .ToDictionary(
+                            o => ColumnUtilities.DataColumnName(join.Key, o.ColumnName),
+                            o => join.Value + " " + o.LabelText));
+                    if (datetime)
+                    {
+                        hash.Add(
+                            ColumnUtilities.DataColumnName(join.Key, "CreatedTime"),
+                            join.Value + " " + Displays.CreatedTime());
+                        hash.Add(
+                            ColumnUtilities.DataColumnName(join.Key, "UpdatedTime"),
+                            join.Value + " " + Displays.UpdatedTime());
+                    }
+                }
+            });
+            return hash;
+        }
+
         public Dictionary<string, string> CrosstabColumnsOptions()
         {
-            return EditorColumns
-                .Select(o => GetColumn(o))
-                .Where(o => o.Computable)
-                .Where(o => o.TypeName != "datetime")
-                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+            var hash = new Dictionary<string, string>();
+            JoinOptions(reverce: true, bracket: true).ForEach(join =>
+            {
+                var siteId = join.Key.IsNullOrEmpty()
+                    ? SiteId
+                    : join.Key.Split('-').Last().Split_2nd('~').ToLong();
+                var ss = JoinedSsHash.Get(siteId);
+                if (ss != null)
+                {
+                    hash.AddRange(ss.Columns
+                        .Where(o => o.Computable)
+                        .Where(o => o.TypeName != "datetime")
+                        .Where(o => ss.EditorColumns.Contains(o.ColumnName))
+                        .ToDictionary(
+                            o => ColumnUtilities.DataColumnName(join.Key, o.ColumnName),
+                            o => join.Value + " " + o.LabelText));
+                }
+            });
+            return hash;
         }
 
         public Dictionary<string, string> CrosstabAggregationTypeOptions()
@@ -1475,15 +1504,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 { "Max", Displays.Max() },
                 { "Min", Displays.Min() }
             };
-        }
-
-        public Dictionary<string, string> CrosstabValueOptions()
-        {
-            return EditorColumns
-                .Select(o => GetColumn(o))
-                .Where(o => o.Computable)
-                .Where(o => o.TypeName != "datetime")
-                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
         public Dictionary<string, string> CrosstabTimePeriodOptions()
@@ -2360,8 +2380,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SqlJoinCollection SqlJoinCollection(IEnumerable<Column> columns)
         {
             return new SqlJoinCollection(columns
-                .SelectMany(o => o.SqlJoinCollection(this))
                 .Where(o => o != null)
+                .SelectMany(o => o.SqlJoinCollection(this))
                 .OrderBy(o => o.JoinExpression.Length)
                 .GroupBy(o => o.JoinExpression)
                 .Select(o => o.First())

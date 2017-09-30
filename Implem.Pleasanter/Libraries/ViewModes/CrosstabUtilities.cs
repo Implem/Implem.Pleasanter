@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
     {
         public static bool InRangeX(EnumerableRowCollection<DataRow> dataRows)
         {
-            var inRange = dataRows.Select(o => o["GroupByX"].ToString()).Distinct().Count() <=
+            var inRange = dataRows.Select(o => o.String("GroupByX")).Distinct().Count() <=
                 Parameters.General.CrosstabXLimit;
             if (!inRange)
             {
@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         public static bool InRangeY(EnumerableRowCollection<DataRow> dataRows)
         {
-            var inRange = dataRows.Select(o => o["GroupByY"].ToString()).Distinct().Count() <=
+            var inRange = dataRows.Select(o => o.String("GroupByY")).Distinct().Count() <=
                 Parameters.General.CrosstabYLimit;
             if (!inRange)
             {
@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         public static string DateGroup(SiteSettings ss, Column column, string timePeriod)
         {
-            var columnBracket = ColumnBracket(ss, column.ColumnName);
+            var columnBracket = ColumnBracket(column);
             switch (timePeriod)
             {
                 case "Monthly":
@@ -66,38 +66,38 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         }
 
         public static SqlWhereCollection Where(
-            SiteSettings ss, string columnName, string timePeriod, DateTime month)
+            SiteSettings ss, Column column, string timePeriod, DateTime month)
         {
             switch (timePeriod)
             {
                 case "Monthly":
                     return new SqlWhereCollection(new SqlWhere(
-                        tableName: ss.ReferenceType,
+                        tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
                             "[{0}] between '{1}' and '{2}'".Params(
-                                columnName,
+                                column.ColumnName,
                                 month.AddMonths(-11).ToUniversal(),
                                 month.AddMonths(1).AddMilliseconds(-3).ToUniversal())
                         }, _operator: null));
                 case "Weekly":
                     var end = WeeklyEndDate(month);
                     return new SqlWhereCollection(new SqlWhere(
-                        tableName: ss.ReferenceType,
+                        tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
                             "[{0}] between '{1}' and '{2}'".Params(
-                                columnName,
+                                column.ColumnName,
                                 end.AddDays(-77).ToUniversal(),
                                 end.AddDays(7).AddMilliseconds(-3).ToUniversal())
                         }, _operator: null));
                 case "Daily":
                     return new SqlWhereCollection(new SqlWhere(
-                        tableName: ss.ReferenceType,
+                        tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
                             "[{0}] between '{1}' and '{2}'".Params(
-                                columnName,
+                                column.ColumnName,
                                 month.ToUniversal(),
                                 month.AddMonths(1).AddMilliseconds(-3).ToUniversal())
                         }, _operator: null));
@@ -105,12 +105,12 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }
         }
 
-        private static string ColumnBracket(SiteSettings ss, string columnName)
+        private static string ColumnBracket(Column column)
         {
-            var columnBracket = "[{0}].[{1}]".Params(ss.ReferenceType, columnName);
+            var columnBracket = "[{0}].[{1}]".Params(column.TableName(), column.ColumnName);
             var now = DateTime.Now;
             var diff = (now.ToLocal() - now).Hours;
-            switch (columnName)
+            switch (column.ColumnName)
             {
                 case "CompletionTime":
                     diff -= 24;
@@ -123,11 +123,11 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return columnBracket;
         }
 
-        public static IEnumerable<string> GetColumns(SiteSettings ss, IEnumerable<string> columns)
+        public static List<Column> GetColumns(SiteSettings ss, List<Column> columns)
         {
             return columns?.Any() == true
                 ? columns
-                : ss.CrosstabColumnsOptions().Select(o => o.Key);
+                : ss.CrosstabColumnsOptions().Select(o => ss.GetColumn(o.Key)).ToList();
         }
     }
 }

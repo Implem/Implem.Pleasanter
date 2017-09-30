@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Implem.Libraries.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
@@ -28,6 +29,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Join ToList()
         {
             return new Join(this) { Title = Title.ToList() };
+        }
+
+        public string GetTitle(bool reverce = false, bool bracket = false)
+        {
+            var title = Title.ToList();
+            if (reverce) title.Reverse();
+            return bracket
+                ? "[" + title.Join(" - ") + "]"
+                : title.Join(" - ");
         }
     }
 }

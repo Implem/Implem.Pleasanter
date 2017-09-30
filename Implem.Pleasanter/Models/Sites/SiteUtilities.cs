@@ -4163,7 +4163,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "CrosstabValue",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.AggregationTarget(),
-                        optionCollection: ss.CrosstabValueOptions(),
+                        optionCollection: ss.CrosstabColumnsOptions(),
                         selectedValue: view.GetCrosstabValue(ss))
                     .FieldDropDown(
                         controlId: "CrosstabTimePeriod",

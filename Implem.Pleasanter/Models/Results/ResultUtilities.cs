@@ -4315,14 +4315,14 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var gridData = GetGridData(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
-            var groupByX = view.GetCrosstabGroupByX(ss);
-            var groupByY = view.GetCrosstabGroupByY(ss);
-            var columns = view.CrosstabColumns;
+            var groupByX = ss.GetColumn(view.GetCrosstabGroupByX(ss));
+            var groupByY = ss.GetColumn(view.GetCrosstabGroupByY(ss));
+            var columns = CrosstabColumns(ss, view);
             var aggregateType = view.GetCrosstabAggregateType(ss);
-            var value = view.GetCrosstabValue(ss);
-            if (value.IsNullOrEmpty())
+            var value = ss.GetColumn(view.GetCrosstabValue(ss));
+            if (value == null)
             {
-                value = "ResultId";
+                value = ss.GetColumn("ResultId");
                 aggregateType = "Count";
             }
             var timePeriod = view.GetCrosstabTimePeriod(ss);
@@ -4331,7 +4331,7 @@ namespace Implem.Pleasanter.Models
                 ss, view, groupByX, groupByY, columns, value, aggregateType, timePeriod, month);
             var inRangeX = Libraries.ViewModes.CrosstabUtilities.InRangeX(dataRows);
             var inRangeY =
-                groupByY == "Columns" ||
+                view.CrosstabGroupByY == "Columns" ||
                 Libraries.ViewModes.CrosstabUtilities.InRangeY(dataRows);
             if (!inRangeX)
             {
@@ -4376,14 +4376,14 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var gridData = GetGridData(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
-            var groupByX = view.GetCrosstabGroupByX(ss);
-            var groupByY = view.GetCrosstabGroupByY(ss);
-            var columns = view.CrosstabColumns;
+            var groupByX = ss.GetColumn(view.GetCrosstabGroupByX(ss));
+            var groupByY = ss.GetColumn(view.GetCrosstabGroupByY(ss));
+            var columns = CrosstabColumns(ss, view);
             var aggregateType = view.GetCrosstabAggregateType(ss);
-            var value = view.GetCrosstabValue(ss);
-            if (value.IsNullOrEmpty())
+            var value = ss.GetColumn(view.GetCrosstabValue(ss));
+            if (value == null)
             {
-                value = "ResultId";
+                value = ss.GetColumn("ResultId");
                 aggregateType = "Count";
             }
             var timePeriod = view.GetCrosstabTimePeriod(ss);
@@ -4392,7 +4392,7 @@ namespace Implem.Pleasanter.Models
                 ss, view, groupByX, groupByY, columns, value, aggregateType, timePeriod, month);
             var inRangeX = Libraries.ViewModes.CrosstabUtilities.InRangeX(dataRows);
             var inRangeY =
-                groupByY == "Columns" ||
+                view.CrosstabGroupByY == "Columns" ||
                 Libraries.ViewModes.CrosstabUtilities.InRangeY(dataRows);
             var bodyOnly = Forms.ControlId().StartsWith("Crosstab");
             return inRangeX && inRangeY
@@ -4461,83 +4461,95 @@ namespace Implem.Pleasanter.Models
                     .ToJson();
         }
 
+        private static List<Column> CrosstabColumns(SiteSettings ss, View view)
+        {
+            return Libraries.ViewModes.CrosstabUtilities.GetColumns(
+                ss,
+                view.CrosstabColumns?.Deserialize<IEnumerable<string>>()?
+                    .Select(o => ss.GetColumn(o))
+                    .ToList());
+        }
+
         private static EnumerableRowCollection<DataRow> CrosstabDataRows(
             SiteSettings ss,
             View view,
-            string groupByX,
-            string groupByY,
-            string columns,
-            string value,
+            Column groupByX,
+            Column groupByY,
+            List<Column> columns,
+            Column value,
             string aggregateType,
             string timePeriod,
             DateTime month)
         {
-            var column = ss.GetColumn(groupByX);
-            if (column?.TypeName != "datetime")
+            if (groupByX?.TypeName != "datetime")
             {
                 return Rds.ExecuteTable(statements:
                     Rds.SelectResults(
                         column: Rds.ResultsColumn()
-                            .ResultsColumn(groupByX, _as: "GroupByX")
+                            .Add(column: groupByX, _as: "GroupByX")
                             .CrosstabColumns(
-                                ss,
-                                groupByY,
-                                columns.Deserialize<IEnumerable<string>>(),
-                                value,
-                                aggregateType),
+                                ss: ss,
+                                view: view,
+                                groupByY: groupByY,
+                                columns: columns,
+                                value: value,
+                                aggregateType: aggregateType),
+                        join: ss.SqlJoinCollection(columns.Concat(groupByX, groupByY, value)),
                         where: view.Where(ss: ss),
                         groupBy: Rds.ResultsGroupBy()
-                            .ResultsGroupBy(groupByX)
-                            .ResultsGroupBy(groupByY, _using: groupByY != "Columns")))
+                            .Add(groupByX)
+                            .Add(groupByY, _using: view.CrosstabGroupByY != "Columns")))
                                 .AsEnumerable();
             }
             else
             {
                 var dateGroup = Libraries.ViewModes.CrosstabUtilities.DateGroup(
-                    ss, column, timePeriod);
+                    ss, groupByX, timePeriod);
                 return Rds.ExecuteTable(statements:
                     Rds.SelectResults(
                         column: Rds.ResultsColumn()
                             .Add(dateGroup, _as: "GroupByX")
                             .CrosstabColumns(
-                                ss,
-                                groupByY,
-                                columns.Deserialize<IEnumerable<string>>(),
-                                value,
-                                aggregateType),
+                                ss: ss,
+                                view: view,
+                                groupByY: groupByY,
+                                columns: columns,
+                                value: value,
+                                aggregateType: aggregateType),
+                        join: ss.SqlJoinCollection(columns.Concat(groupByX, groupByY, value)),
                         where: view.Where(
                             ss: ss,
                             where: Libraries.ViewModes.CrosstabUtilities.Where(
-                                ss, ss.GetColumn(groupByX)?.ColumnName, timePeriod, month)),
+                                ss, groupByX, timePeriod, month)),
                         groupBy: Rds.ResultsGroupBy()
                             .Add(dateGroup)
-                            .ResultsGroupBy(groupByY, _using: groupByY != "Columns")))
+                            .Add(groupByY, _using: view.CrosstabGroupByY != "Columns")))
                                 .AsEnumerable();
             }
         }
 
-        private static Rds.ResultsColumnCollection CrosstabColumns(
-            this Rds.ResultsColumnCollection self,
+        private static SqlColumnCollection CrosstabColumns(
+            this SqlColumnCollection self,
             SiteSettings ss,
-            string groupByY,
-            IEnumerable<string> columns,
-            string value,
+            View view,
+            Column groupByY,
+            List<Column> columns,
+            Column value,
             string aggregateType)
         {
-            if (groupByY != "Columns")
+            if (view.CrosstabGroupByY != "Columns")
             {
                 return self
-                    .ResultsColumn(groupByY, _as: "GroupByY")
-                    .ResultsColumn(value, _as: "Value", function: Sqls.Function(aggregateType));
+                    .Add(column: groupByY, _as: "GroupByY")
+                    .Add(column: value, _as: "Value", function: Sqls.Function(aggregateType));
             }
             else
             {
-                Libraries.ViewModes.CrosstabUtilities.GetColumns(ss, columns)
-                    .ForEach(column =>
-                        self.ResultsColumn(
-                            column,
-                            _as: column,
-                            function: Sqls.Function(aggregateType)));
+                columns.ForEach(column =>
+                    self.Add(
+                        column: column,
+                        _as: column.DataColumnName,
+                        function: Sqls.Function(aggregateType)));
                 return self;
             }
         }

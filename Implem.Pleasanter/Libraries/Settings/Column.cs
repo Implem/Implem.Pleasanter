@@ -497,13 +497,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public SqlJoinCollection SqlJoinCollection(SiteSettings ss)
         {
-            if (TableAlias.IsNullOrEmpty())
+            var sql = new SqlJoinCollection();
+            if (!TableAlias.IsNullOrEmpty())
             {
-                return null;
-            }
-            else
-            {
-                var sql = new SqlJoinCollection();
                 var left = ss.ReferenceType;
                 var path = new List<string>();
                 foreach (var part in TableAlias.Split('-'))
@@ -529,8 +525,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     }
                 }
-                return sql;
             }
+            return sql;
         }
 
         private static string JoinExpression(
