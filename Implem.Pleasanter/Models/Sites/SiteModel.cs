@@ -1145,7 +1145,8 @@ namespace Implem.Pleasanter.Models
                 "Filter",
                 SiteSettings.FilterSelectableOptions(),
                 selectedColumns,
-                SiteSettings.FilterSelectableOptions(enabled: false),
+                SiteSettings.FilterSelectableOptions(
+                    enabled: false, join: Forms.Data("FilterJoin")),
                 selectedSourceColumns);
         }
 
