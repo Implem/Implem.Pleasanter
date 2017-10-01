@@ -456,6 +456,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_SetLinksExec": Code.Model_Utilities_SetLinksExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetLinksExec, definitionRow, CodeXls); break;
                     case "Model_Utilities_DropDownSearchDialog": Code.Model_Utilities_DropDownSearchDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DropDownSearchDialog, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportSettings": Code.Model_Utilities_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportSettings, definitionRow, CodeXls); break;
+                    case "Model_Utilities_WhereTenantId": Code.Model_Utilities_WhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_WhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridRows_OnClick": Code.Model_Utilities_GridRows_OnClick = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridRows_OnClick, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridRows_OnClickItem": Code.Model_Utilities_GridRows_OnClickItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridRows_OnClickItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_TdValue": Code.Model_Utilities_TdValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TdValue, definitionRow, CodeXls); break;
@@ -563,6 +564,8 @@ namespace Implem.DefinitionAccessor
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
                     case "Rds_IdColumnCases": Code.Rds_IdColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_IdColumnCases, definitionRow, CodeXls); break;
                     case "Rds_SqlStatement": Code.Rds_SqlStatement = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlStatement, definitionRow, CodeXls); break;
+                    case "Rds_ColumnBracketTableCases": Code.Rds_ColumnBracketTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ColumnBracketTableCases, definitionRow, CodeXls); break;
+                    case "Rds_ColumnBracketColumnCases": Code.Rds_ColumnBracketColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ColumnBracketColumnCases, definitionRow, CodeXls); break;
                     case "Rds_SqlSelect": Code.Rds_SqlSelect = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlSelect, definitionRow, CodeXls); break;
                     case "Rds_SqlExists": Code.Rds_SqlExists = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlExists, definitionRow, CodeXls); break;
                     case "Rds_SqlInsert": Code.Rds_SqlInsert = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlInsert, definitionRow, CodeXls); break;
@@ -4698,6 +4701,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_SetLinksExec;
         public string Model_Utilities_DropDownSearchDialog;
         public string Model_Utilities_ImportSettings;
+        public string Model_Utilities_WhereTenantId;
         public string Model_Utilities_GridRows_OnClick;
         public string Model_Utilities_GridRows_OnClickItem;
         public string Model_Utilities_TdValue;
@@ -4805,6 +4809,8 @@ namespace Implem.DefinitionAccessor
         public string Rds;
         public string Rds_IdColumnCases;
         public string Rds_SqlStatement;
+        public string Rds_ColumnBracketTableCases;
+        public string Rds_ColumnBracketColumnCases;
         public string Rds_SqlSelect;
         public string Rds_SqlExists;
         public string Rds_SqlInsert;
@@ -5178,6 +5184,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_SetLinksExec = new CodeDefinition();
         public CodeDefinition Model_Utilities_DropDownSearchDialog = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportSettings = new CodeDefinition();
+        public CodeDefinition Model_Utilities_WhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridRows_OnClick = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridRows_OnClickItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_TdValue = new CodeDefinition();
@@ -5285,6 +5292,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds = new CodeDefinition();
         public CodeDefinition Rds_IdColumnCases = new CodeDefinition();
         public CodeDefinition Rds_SqlStatement = new CodeDefinition();
+        public CodeDefinition Rds_ColumnBracketTableCases = new CodeDefinition();
+        public CodeDefinition Rds_ColumnBracketColumnCases = new CodeDefinition();
         public CodeDefinition Rds_SqlSelect = new CodeDefinition();
         public CodeDefinition Rds_SqlExists = new CodeDefinition();
         public CodeDefinition Rds_SqlInsert = new CodeDefinition();
