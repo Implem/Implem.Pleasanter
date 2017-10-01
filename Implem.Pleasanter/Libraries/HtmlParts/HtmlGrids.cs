@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.Th(css: "sortable", action: () => hb
                                 .Div(
                                     attributes: new HtmlAttributes()
-                                        .Id("ViewSorters_" + column.Id)
+                                        .Id("ViewSorters__" + column.ColumnName)
                                         .Add("data-order-type", OrderBy(
                                             view, column.ColumnName))
                                         .DataAction("GridRows")
