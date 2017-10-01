@@ -277,21 +277,62 @@ namespace Implem.Pleasanter.Models
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var column = new Column(tableAlias, dataColumn);
-                var name = column.DataColumnName;
-                switch (column.ColumnName)
+                var column = new ColumnNameInfo(dataColumn.ColumnName);
+                if (column.TableAlias == tableAlias)
                 {
-                    case "OwnerId": if (dataRow[name] != DBNull.Value) { OwnerId = dataRow[name].ToLong(); SavedOwnerId = OwnerId; } break;
-                    case "OwnerType": if (dataRow[name] != DBNull.Value) { OwnerType = dataRow[name].ToString(); SavedOwnerType = OwnerType; } break;
-                    case "MailAddressId": if (dataRow[name] != DBNull.Value) { MailAddressId = dataRow[name].ToLong(); SavedMailAddressId = MailAddressId; } break;
-                    case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "MailAddress": MailAddress = dataRow[name].ToString(); SavedMailAddress = MailAddress; break;
-                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
-                    case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
-                    case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
-                    case "UpdatedTime": UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
-                    case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    switch (column.Name)
+                    {
+                        case "OwnerId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                OwnerId = dataRow[column.ColumnName].ToLong();
+                                SavedOwnerId = OwnerId;
+                            }
+                            break;
+                        case "OwnerType":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                OwnerType = dataRow[column.ColumnName].ToString();
+                                SavedOwnerType = OwnerType;
+                            }
+                            break;
+                        case "MailAddressId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                MailAddressId = dataRow[column.ColumnName].ToLong();
+                                SavedMailAddressId = MailAddressId;
+                            }
+                            break;
+                        case "Ver":
+                            Ver = dataRow[column.ColumnName].ToInt();
+                            SavedVer = Ver;
+                            break;
+                        case "MailAddress":
+                            MailAddress = dataRow[column.ColumnName].ToString();
+                            SavedMailAddress = MailAddress;
+                            break;
+                        case "Comments":
+                            Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
+                            SavedComments = Comments.ToJson();
+                            break;
+                        case "Creator":
+                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedCreator = Creator.Id;
+                            break;
+                        case "Updator":
+                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedUpdator = Updator.Id;
+                            break;
+                        case "CreatedTime":
+                            CreatedTime = new Time(dataRow, column.ColumnName);
+                            SavedCreatedTime = CreatedTime.Value;
+                            break;
+                        case "UpdatedTime":
+                            UpdatedTime = new Time(dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
+                            SavedUpdatedTime = UpdatedTime.Value;
+                            break;
+                        case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    }
                 }
             }
         }

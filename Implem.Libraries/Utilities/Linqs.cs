@@ -7,7 +7,7 @@ namespace Implem.Libraries.Utilities
     {
         public static V Get<K, V>(this IDictionary<K, V> self, K key)
         {
-            return self?.ContainsKey(key) == true
+            return key != null && self?.ContainsKey(key) == true
                 ? self[key]
                 : default(V);
         }

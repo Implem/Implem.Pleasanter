@@ -138,7 +138,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var labelText = ss.GetColumn(columnName.Split(',').Last())?.LabelText;
             return new ControlData(
-                "[" + ss.Title + "]" + (!labelText.IsNullOrEmpty()
+                "[" + ss.Title + "] " + (!labelText.IsNullOrEmpty()
                     ? Displays.Get(labelText)
                     : string.Empty));
         }
@@ -190,11 +190,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             return order.ToList();
         }
 
-        public static string DataColumnName(string join, string columnName)
+        public static string ColumnName(string tableAlias, string columnName)
         {
-            return !join.IsNullOrEmpty()
-                ? join + "," + columnName
+            return !tableAlias.IsNullOrEmpty()
+                ? tableAlias + "," + columnName
                 : columnName;
+        }
+
+        public static long GetSiteIdByTableAlias(string tableAlias, long siteId)
+        {
+            return tableAlias.IsNullOrEmpty()
+                ? siteId
+                : tableAlias.Split('-').Last().Split_2nd('~').ToLong();
+        }
+
+        public static long GetSiteIdByTableAlias(string tableAlias)
+        {
+            return tableAlias.Split('-').Last().Split_2nd('~').ToLong();
         }
     }
 }

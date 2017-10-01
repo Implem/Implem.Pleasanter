@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public ProgressRate(DataRow dataRow, Column column)
+        public ProgressRate(DataRow dataRow, ColumnNameInfo column)
         {
             CreatedTime = dataRow.DateTime(Rds.DataColumnName(column, "CreatedTime"));
             StartTime = dataRow.DateTime(Rds.DataColumnName(column, "StartTime"));

@@ -681,7 +681,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         where.Add(
                             tableName: column.TableName(),
-                            raw: "[" + column.ColumnName + "]=1");
+                            raw: "[" + column.Name + "]=1");
                     }
                     break;
                 case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
@@ -690,13 +690,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case ColumnUtilities.CheckFilterTypes.On:
                             where.Add(
                                 tableName: column.TableName(),
-                                raw: "[" + column.ColumnName + "]=1");
+                                raw: "[" + column.Name + "]=1");
                             break;
                         case ColumnUtilities.CheckFilterTypes.Off:
                             where.Add(
                                 tableName: column.TableName(),
                                 raw: "(#TableName#.[{0}] is null or #TableName#.[{0}]=0)"
-                                    .Params(column.ColumnName));
+                                    .Params(column.Name));
                             break;
                     }
                     break;
@@ -735,8 +735,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
                     tableName: column.TableName(),
-                    columnBrackets: new string[] { "[" + column.ColumnName + "]" },
-                    name: column.ColumnName,
+                    columnBrackets: new string[] { "[" + column.Name + "]" },
+                    name: column.Name,
                     _operator: " in ({0})".Params(param
                         .Where(o => o != "\t")
                         .Select(o => o.ToDecimal())
@@ -750,11 +750,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? new SqlWhere(or: new SqlWhereCollection(
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
+                        columnBrackets: new string[] { "[" + column.Name + "]" },
                         _operator: " is null"),
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
+                        columnBrackets: new string[] { "[" + column.Name + "]" },
                         _operator: "={0}".Params(column.UserColumn
                             ? User.UserTypes.Anonymous.ToInt()
                             : 0))))
@@ -775,21 +775,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     parts.Add(new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
+                        columnBrackets: new string[] { "[" + column.Name + "]" },
                         _operator: "<{0}".Params(to.ToDecimal())));
                 }
                 else if (to == string.Empty)
                 {
                     parts.Add(new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
+                        columnBrackets: new string[] { "[" + column.Name + "]" },
                         _operator: ">={0}".Params(from.ToDecimal())));
                 }
                 else
                 {
                     parts.Add(new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
+                        columnBrackets: new string[] { "[" + column.Name + "]" },
                         _operator: " between {0} and {1}".Params(
                             from.ToDecimal(), to.ToDecimal())));
                 }
@@ -816,7 +816,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     tableName: column.TableName(),
                     raw: param.Select(range =>
                         "#TableBracket#.[{0}] between '{1}' and '{2}'".Params(
-                            column.ColumnName,
+                            column.Name,
                             range.Split_1st().ToDateTime().ToUniversal()
                                 .ToString("yyyy/M/d H:m:s"),
                             range.Split_2nd().ToDateTime().ToUniversal()
@@ -830,11 +830,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? new SqlWhere(or: new SqlWhereCollection(
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
+                        columnBrackets: new string[] { "[" + column.Name + "]" },
                         _operator: " is null"),
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
+                        columnBrackets: new string[] { "[" + column.Name + "]" },
                         _operator: " not between '{0}' and '{1}'".Params(
                             Parameters.General.MinTime.ToUniversal()
                                 .ToString("yyyy/M/d H:m:s"),
@@ -861,8 +861,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     where.Add(new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
-                        name: column.ColumnName,
+                        columnBrackets: new string[] { "[" + column.Name + "]" },
+                        name: column.ParamName(),
                         value: value));
                 }
             }
@@ -873,8 +873,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
                     tableName: column.TableName(),
-                    columnBrackets: new string[] { "[" + column.ColumnName + "]" },
-                    name: column.ColumnName,
+                    columnBrackets: new string[] { "[" + column.Name + "]" },
+                    name: column.ParamName(),
                     value: param.Where(o => o != "\t"),
                     multiParamOperator: " or ")
                 : null;
@@ -886,11 +886,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? new SqlWhere(or: new SqlWhereCollection(
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
+                        columnBrackets: new string[] { "[" + column.Name + "]" },
                         _operator: " is null"),
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: new string[] { "[" + column.ColumnName + "]" },
+                        columnBrackets: new string[] { "[" + column.Name + "]" },
                         _operator: "=''")))
                 : null;
         }

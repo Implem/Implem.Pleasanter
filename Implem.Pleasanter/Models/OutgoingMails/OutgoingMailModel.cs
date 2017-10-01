@@ -315,30 +315,101 @@ namespace Implem.Pleasanter.Models
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var column = new Column(tableAlias, dataColumn);
-                var name = column.DataColumnName;
-                switch (column.ColumnName)
+                var column = new ColumnNameInfo(dataColumn.ColumnName);
+                if (column.TableAlias == tableAlias)
                 {
-                    case "ReferenceType": if (dataRow[name] != DBNull.Value) { ReferenceType = dataRow[name].ToString(); SavedReferenceType = ReferenceType; } break;
-                    case "ReferenceId": if (dataRow[name] != DBNull.Value) { ReferenceId = dataRow[name].ToLong(); SavedReferenceId = ReferenceId; } break;
-                    case "ReferenceVer": if (dataRow[name] != DBNull.Value) { ReferenceVer = dataRow[name].ToInt(); SavedReferenceVer = ReferenceVer; } break;
-                    case "OutgoingMailId": if (dataRow[name] != DBNull.Value) { OutgoingMailId = dataRow[name].ToLong(); SavedOutgoingMailId = OutgoingMailId; } break;
-                    case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "Host": Host = dataRow[name].ToString(); SavedHost = Host; break;
-                    case "Port": Port = dataRow[name].ToInt(); SavedPort = Port; break;
-                    case "From": From = new System.Net.Mail.MailAddress(dataRow.String(name)); SavedFrom = From.ToString(); break;
-                    case "To": To = dataRow[name].ToString(); SavedTo = To; break;
-                    case "Cc": Cc = dataRow[name].ToString(); SavedCc = Cc; break;
-                    case "Bcc": Bcc = dataRow[name].ToString(); SavedBcc = Bcc; break;
-                    case "Title": Title = new Title(dataRow, "OutgoingMailId"); SavedTitle = Title.Value; break;
-                    case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
-                    case "SentTime": SentTime = new Time(dataRow, name); SavedSentTime = SentTime.Value; break;
-                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
-                    case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
-                    case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
-                    case "UpdatedTime": UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
-                    case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    switch (column.Name)
+                    {
+                        case "ReferenceType":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                ReferenceType = dataRow[column.ColumnName].ToString();
+                                SavedReferenceType = ReferenceType;
+                            }
+                            break;
+                        case "ReferenceId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                ReferenceId = dataRow[column.ColumnName].ToLong();
+                                SavedReferenceId = ReferenceId;
+                            }
+                            break;
+                        case "ReferenceVer":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                ReferenceVer = dataRow[column.ColumnName].ToInt();
+                                SavedReferenceVer = ReferenceVer;
+                            }
+                            break;
+                        case "OutgoingMailId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                OutgoingMailId = dataRow[column.ColumnName].ToLong();
+                                SavedOutgoingMailId = OutgoingMailId;
+                            }
+                            break;
+                        case "Ver":
+                            Ver = dataRow[column.ColumnName].ToInt();
+                            SavedVer = Ver;
+                            break;
+                        case "Host":
+                            Host = dataRow[column.ColumnName].ToString();
+                            SavedHost = Host;
+                            break;
+                        case "Port":
+                            Port = dataRow[column.ColumnName].ToInt();
+                            SavedPort = Port;
+                            break;
+                        case "From":
+                            From = new System.Net.Mail.MailAddress(dataRow[column.ColumnName].ToString());
+                            SavedFrom = From.ToString();
+                            break;
+                        case "To":
+                            To = dataRow[column.ColumnName].ToString();
+                            SavedTo = To;
+                            break;
+                        case "Cc":
+                            Cc = dataRow[column.ColumnName].ToString();
+                            SavedCc = Cc;
+                            break;
+                        case "Bcc":
+                            Bcc = dataRow[column.ColumnName].ToString();
+                            SavedBcc = Bcc;
+                            break;
+                        case "Title":
+                            Title = new Title(dataRow, "OutgoingMailId");
+                            SavedTitle = Title.Value;
+                            break;
+                        case "Body":
+                            Body = dataRow[column.ColumnName].ToString();
+                            SavedBody = Body;
+                            break;
+                        case "SentTime":
+                            SentTime = new Time(dataRow, column.ColumnName);
+                            SavedSentTime = SentTime.Value;
+                            break;
+                        case "Comments":
+                            Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
+                            SavedComments = Comments.ToJson();
+                            break;
+                        case "Creator":
+                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedCreator = Creator.Id;
+                            break;
+                        case "Updator":
+                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedUpdator = Updator.Id;
+                            break;
+                        case "CreatedTime":
+                            CreatedTime = new Time(dataRow, column.ColumnName);
+                            SavedCreatedTime = CreatedTime.Value;
+                            break;
+                        case "UpdatedTime":
+                            UpdatedTime = new Time(dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
+                            SavedUpdatedTime = UpdatedTime.Value;
+                            break;
+                        case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    }
                 }
             }
         }

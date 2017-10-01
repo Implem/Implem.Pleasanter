@@ -91,7 +91,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                 case "Time#ByDataRow#":
                     return code.Replace(
                         placeholder,
-                        CreateObjectByDataRow(columnDefinition, "name"));
+                        CreateObjectByDataRow(columnDefinition, "column.ColumnName"));
                 default:
                     return code.Replace(
                         placeholder, AsPrefix(columnDefinition, codeVariable));

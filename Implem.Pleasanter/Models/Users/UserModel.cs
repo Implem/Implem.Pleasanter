@@ -451,43 +451,147 @@ namespace Implem.Pleasanter.Models
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var column = new Column(tableAlias, dataColumn);
-                var name = column.DataColumnName;
-                switch (column.ColumnName)
+                var column = new ColumnNameInfo(dataColumn.ColumnName);
+                if (column.TableAlias == tableAlias)
                 {
-                    case "TenantId": if (dataRow[name] != DBNull.Value) { TenantId = dataRow[name].ToInt(); SavedTenantId = TenantId; } break;
-                    case "UserId": if (dataRow[name] != DBNull.Value) { UserId = dataRow[name].ToInt(); SavedUserId = UserId; } break;
-                    case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "LoginId": LoginId = dataRow[name].ToString(); SavedLoginId = LoginId; break;
-                    case "GlobalId": GlobalId = dataRow[name].ToString(); SavedGlobalId = GlobalId; break;
-                    case "Name": Name = dataRow[name].ToString(); SavedName = Name; break;
-                    case "UserCode": UserCode = dataRow[name].ToString(); SavedUserCode = UserCode; break;
-                    case "Password": Password = dataRow[name].ToString(); SavedPassword = Password; break;
-                    case "LastName": LastName = dataRow[name].ToString(); SavedLastName = LastName; break;
-                    case "FirstName": FirstName = dataRow[name].ToString(); SavedFirstName = FirstName; break;
-                    case "Birthday": Birthday = new Time(dataRow, name); SavedBirthday = Birthday.Value; break;
-                    case "Gender": Gender = dataRow[name].ToString(); SavedGender = Gender; break;
-                    case "Language": Language = dataRow[name].ToString(); SavedLanguage = Language; break;
-                    case "TimeZone": TimeZone = dataRow[name].ToString(); SavedTimeZone = TimeZone; break;
-                    case "DeptId": DeptId = dataRow[name].ToInt(); SavedDeptId = DeptId; break;
-                    case "FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)dataRow[name].ToInt(); SavedFirstAndLastNameOrder = FirstAndLastNameOrder.ToInt(); break;
-                    case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
-                    case "LastLoginTime": LastLoginTime = new Time(dataRow, name); SavedLastLoginTime = LastLoginTime.Value; break;
-                    case "PasswordExpirationTime": PasswordExpirationTime = new Time(dataRow, name); SavedPasswordExpirationTime = PasswordExpirationTime.Value; break;
-                    case "PasswordChangeTime": PasswordChangeTime = new Time(dataRow, name); SavedPasswordChangeTime = PasswordChangeTime.Value; break;
-                    case "NumberOfLogins": NumberOfLogins = dataRow[name].ToInt(); SavedNumberOfLogins = NumberOfLogins; break;
-                    case "NumberOfDenial": NumberOfDenial = dataRow[name].ToInt(); SavedNumberOfDenial = NumberOfDenial; break;
-                    case "TenantManager": TenantManager = dataRow[name].ToBool(); SavedTenantManager = TenantManager; break;
-                    case "ServiceManager": ServiceManager = dataRow[name].ToBool(); SavedServiceManager = ServiceManager; break;
-                    case "Disabled": Disabled = dataRow[name].ToBool(); SavedDisabled = Disabled; break;
-                    case "Developer": Developer = dataRow[name].ToBool(); SavedDeveloper = Developer; break;
-                    case "UserSettings": UserSettings = GetUserSettings(dataRow); SavedUserSettings = UserSettings.RecordingJson(); break;
-                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
-                    case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
-                    case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
-                    case "UpdatedTime": UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
-                    case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    switch (column.Name)
+                    {
+                        case "TenantId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                TenantId = dataRow[column.ColumnName].ToInt();
+                                SavedTenantId = TenantId;
+                            }
+                            break;
+                        case "UserId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                UserId = dataRow[column.ColumnName].ToInt();
+                                SavedUserId = UserId;
+                            }
+                            break;
+                        case "Ver":
+                            Ver = dataRow[column.ColumnName].ToInt();
+                            SavedVer = Ver;
+                            break;
+                        case "LoginId":
+                            LoginId = dataRow[column.ColumnName].ToString();
+                            SavedLoginId = LoginId;
+                            break;
+                        case "GlobalId":
+                            GlobalId = dataRow[column.ColumnName].ToString();
+                            SavedGlobalId = GlobalId;
+                            break;
+                        case "Name":
+                            Name = dataRow[column.ColumnName].ToString();
+                            SavedName = Name;
+                            break;
+                        case "UserCode":
+                            UserCode = dataRow[column.ColumnName].ToString();
+                            SavedUserCode = UserCode;
+                            break;
+                        case "Password":
+                            Password = dataRow[column.ColumnName].ToString();
+                            SavedPassword = Password;
+                            break;
+                        case "LastName":
+                            LastName = dataRow[column.ColumnName].ToString();
+                            SavedLastName = LastName;
+                            break;
+                        case "FirstName":
+                            FirstName = dataRow[column.ColumnName].ToString();
+                            SavedFirstName = FirstName;
+                            break;
+                        case "Birthday":
+                            Birthday = new Time(dataRow, column.ColumnName);
+                            SavedBirthday = Birthday.Value;
+                            break;
+                        case "Gender":
+                            Gender = dataRow[column.ColumnName].ToString();
+                            SavedGender = Gender;
+                            break;
+                        case "Language":
+                            Language = dataRow[column.ColumnName].ToString();
+                            SavedLanguage = Language;
+                            break;
+                        case "TimeZone":
+                            TimeZone = dataRow[column.ColumnName].ToString();
+                            SavedTimeZone = TimeZone;
+                            break;
+                        case "DeptId":
+                            DeptId = dataRow[column.ColumnName].ToInt();
+                            SavedDeptId = DeptId;
+                            break;
+                        case "FirstAndLastNameOrder":
+                            FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)dataRow[column.ColumnName].ToInt();
+                            SavedFirstAndLastNameOrder = FirstAndLastNameOrder.ToInt();
+                            break;
+                        case "Body":
+                            Body = dataRow[column.ColumnName].ToString();
+                            SavedBody = Body;
+                            break;
+                        case "LastLoginTime":
+                            LastLoginTime = new Time(dataRow, column.ColumnName);
+                            SavedLastLoginTime = LastLoginTime.Value;
+                            break;
+                        case "PasswordExpirationTime":
+                            PasswordExpirationTime = new Time(dataRow, column.ColumnName);
+                            SavedPasswordExpirationTime = PasswordExpirationTime.Value;
+                            break;
+                        case "PasswordChangeTime":
+                            PasswordChangeTime = new Time(dataRow, column.ColumnName);
+                            SavedPasswordChangeTime = PasswordChangeTime.Value;
+                            break;
+                        case "NumberOfLogins":
+                            NumberOfLogins = dataRow[column.ColumnName].ToInt();
+                            SavedNumberOfLogins = NumberOfLogins;
+                            break;
+                        case "NumberOfDenial":
+                            NumberOfDenial = dataRow[column.ColumnName].ToInt();
+                            SavedNumberOfDenial = NumberOfDenial;
+                            break;
+                        case "TenantManager":
+                            TenantManager = dataRow[column.ColumnName].ToBool();
+                            SavedTenantManager = TenantManager;
+                            break;
+                        case "ServiceManager":
+                            ServiceManager = dataRow[column.ColumnName].ToBool();
+                            SavedServiceManager = ServiceManager;
+                            break;
+                        case "Disabled":
+                            Disabled = dataRow[column.ColumnName].ToBool();
+                            SavedDisabled = Disabled;
+                            break;
+                        case "Developer":
+                            Developer = dataRow[column.ColumnName].ToBool();
+                            SavedDeveloper = Developer;
+                            break;
+                        case "UserSettings":
+                            UserSettings = GetUserSettings(dataRow);
+                            SavedUserSettings = UserSettings.RecordingJson();
+                            break;
+                        case "Comments":
+                            Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
+                            SavedComments = Comments.ToJson();
+                            break;
+                        case "Creator":
+                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedCreator = Creator.Id;
+                            break;
+                        case "Updator":
+                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedUpdator = Updator.Id;
+                            break;
+                        case "CreatedTime":
+                            CreatedTime = new Time(dataRow, column.ColumnName);
+                            SavedCreatedTime = CreatedTime.Value;
+                            break;
+                        case "UpdatedTime":
+                            UpdatedTime = new Time(dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
+                            SavedUpdatedTime = UpdatedTime.Value;
+                            break;
+                        case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    }
                 }
             }
         }

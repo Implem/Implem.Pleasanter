@@ -76,7 +76,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         columnBrackets: new string[]
                         {
                             "[{0}] between '{1}' and '{2}'".Params(
-                                column.ColumnName,
+                                column.Name,
                                 month.AddMonths(-11).ToUniversal(),
                                 month.AddMonths(1).AddMilliseconds(-3).ToUniversal())
                         }, _operator: null));
@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         columnBrackets: new string[]
                         {
                             "[{0}] between '{1}' and '{2}'".Params(
-                                column.ColumnName,
+                                column.Name,
                                 end.AddDays(-77).ToUniversal(),
                                 end.AddDays(7).AddMilliseconds(-3).ToUniversal())
                         }, _operator: null));
@@ -97,7 +97,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         columnBrackets: new string[]
                         {
                             "[{0}] between '{1}' and '{2}'".Params(
-                                column.ColumnName,
+                                column.Name,
                                 month.ToUniversal(),
                                 month.AddMonths(1).AddMilliseconds(-3).ToUniversal())
                         }, _operator: null));
@@ -107,10 +107,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         private static string ColumnBracket(Column column)
         {
-            var columnBracket = "[{0}].[{1}]".Params(column.TableName(), column.ColumnName);
+            var columnBracket = "[{0}].[{1}]".Params(column.TableName(), column.Name);
             var now = DateTime.Now;
             var diff = (now.ToLocal() - now).Hours;
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "CompletionTime":
                     diff -= 24;

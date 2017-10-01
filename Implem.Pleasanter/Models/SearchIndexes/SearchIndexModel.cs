@@ -100,24 +100,71 @@ namespace Implem.Pleasanter.Models
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var column = new Column(tableAlias, dataColumn);
-                var name = column.DataColumnName;
-                switch (column.ColumnName)
+                var column = new ColumnNameInfo(dataColumn.ColumnName);
+                if (column.TableAlias == tableAlias)
                 {
-                    case "Word": if (dataRow[name] != DBNull.Value) { Word = dataRow[name].ToString(); SavedWord = Word; } break;
-                    case "ReferenceId": if (dataRow[name] != DBNull.Value) { ReferenceId = dataRow[name].ToLong(); SavedReferenceId = ReferenceId; } break;
-                    case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "Priority": Priority = dataRow[name].ToInt(); SavedPriority = Priority; break;
-                    case "ReferenceType": ReferenceType = dataRow[name].ToString(); SavedReferenceType = ReferenceType; break;
-                    case "Title": Title = dataRow[name].ToString(); SavedTitle = Title; break;
-                    case "Subset": Subset = dataRow[name].ToString(); SavedSubset = Subset; break;
-                    case "InheritPermission": InheritPermission = dataRow[name].ToLong(); SavedInheritPermission = InheritPermission; break;
-                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
-                    case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
-                    case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
-                    case "UpdatedTime": UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
-                    case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    switch (column.Name)
+                    {
+                        case "Word":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                Word = dataRow[column.ColumnName].ToString();
+                                SavedWord = Word;
+                            }
+                            break;
+                        case "ReferenceId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                ReferenceId = dataRow[column.ColumnName].ToLong();
+                                SavedReferenceId = ReferenceId;
+                            }
+                            break;
+                        case "Ver":
+                            Ver = dataRow[column.ColumnName].ToInt();
+                            SavedVer = Ver;
+                            break;
+                        case "Priority":
+                            Priority = dataRow[column.ColumnName].ToInt();
+                            SavedPriority = Priority;
+                            break;
+                        case "ReferenceType":
+                            ReferenceType = dataRow[column.ColumnName].ToString();
+                            SavedReferenceType = ReferenceType;
+                            break;
+                        case "Title":
+                            Title = dataRow[column.ColumnName].ToString();
+                            SavedTitle = Title;
+                            break;
+                        case "Subset":
+                            Subset = dataRow[column.ColumnName].ToString();
+                            SavedSubset = Subset;
+                            break;
+                        case "InheritPermission":
+                            InheritPermission = dataRow[column.ColumnName].ToLong();
+                            SavedInheritPermission = InheritPermission;
+                            break;
+                        case "Comments":
+                            Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
+                            SavedComments = Comments.ToJson();
+                            break;
+                        case "Creator":
+                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedCreator = Creator.Id;
+                            break;
+                        case "Updator":
+                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedUpdator = Updator.Id;
+                            break;
+                        case "CreatedTime":
+                            CreatedTime = new Time(dataRow, column.ColumnName);
+                            SavedCreatedTime = CreatedTime.Value;
+                            break;
+                        case "UpdatedTime":
+                            UpdatedTime = new Time(dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
+                            SavedUpdatedTime = UpdatedTime.Value;
+                            break;
+                        case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    }
                 }
             }
         }

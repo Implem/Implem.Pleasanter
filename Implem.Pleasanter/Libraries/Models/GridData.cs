@@ -54,7 +54,6 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             var column = Column(ss);
             var join = Join(ss);
-            SetSiteSettings(Arrays.Concat(column, join), ss.SiteId);
             where = view.Where(ss, where);
             var orderBy = view.OrderBy(ss);
             if (pageSize > 0 && orderBy?.Any() != true)
@@ -69,7 +68,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 Rds.Select(
                     tableName: ss.ReferenceType,
                     dataTableName: "Main",
-                    column: ss.SqlColumnCollection(column),
+                    column: SqlColumnCollection(column),
                     join: ss.SqlJoinCollection(join),
                     where: where,
                     orderBy: orderBy,
@@ -90,55 +89,43 @@ namespace Implem.Pleasanter.Libraries.Models
             DataRows = dataSet.Tables["Main"].AsEnumerable();
         }
 
-        private static void SetSiteSettings(List<Column> columns, long siteId)
+        private static SqlColumnCollection SqlColumnCollection(IEnumerable<Column> columns)
         {
-            columns
-                .GroupBy(o => o.SiteId)
-                .Select(o => o.First().SiteSettings)
-                .Where(o => o.SiteId != siteId)
-                .ForEach(o =>
-                {
-                    o.SetPermissions(o.SiteId);
-                    o.SetChoiceHash();
-                });
+            return new SqlColumnCollection(columns
+                .SelectMany(column => column.SqlColumnCollection())
+                .GroupBy(o => o.ColumnBracket + o.As)
+                .Select(o => o.First())
+                .ToArray());
         }
 
         private static List<Column> Column(SiteSettings ss)
         {
-            var columns = ss.GridColumns.ToList();
-            var hash = columns
-                .Select(o => o.Contains(",")
-                    ? o.Split_1st() + ","
-                    : string.Empty)
-                .Distinct()
-                .ToDictionary(o => o, o => o == string.Empty
-                    ? ss
-                    : ss.JoinedSsHash.Get(o
-                        .Split_1st()
-                        .Split('-')
-                        .Last()
-                        .Split_2nd('~')
-                        .ToLong()));
-            hash
-                .Where(o => o.Value != null)
-                .ForEach(data => AddDefaultColumns(
-                    dataTableName: data.Key,
-                    ss: data.Value,
-                    columns: columns));
+            var columns = ss.GetGridColumns(checkPermission: true).ToList();
+            columns
+                .GroupBy(o => o.SiteId)
+                .Select(o => o.First())
+                .ToList()
+                .ForEach(o => AddDefaultColumns(
+                    o.Joined
+                        ? o.TableAlias + ","
+                        : string.Empty,
+                    o.SiteSettings,
+                    columns));
             return columns
-                .Distinct()
-                .Select(o => ss.GetColumn(o))
                 .Where(o => o != null)
                 .ToList();
         }
 
         private static void AddDefaultColumns(
-            string dataTableName, SiteSettings ss, List<string> columns)
+            string tableAlias, SiteSettings ss, List<Column> columns)
         {
-            if (ss.ColumnHash.ContainsKey("SiteId")) columns.Add(dataTableName + "SiteId");
-            columns.Add(dataTableName + Rds.IdColumn(ss.ReferenceType));
-            columns.Add(dataTableName + "Creator");
-            columns.Add(dataTableName + "Updator");
+            if (ss.ColumnHash.ContainsKey("SiteId"))
+            {
+                columns.Add(ss.GetColumn(tableAlias + "SiteId"));
+            }
+            columns.Add(ss.GetColumn(tableAlias + Rds.IdColumn(ss.ReferenceType)));
+            columns.Add(ss.GetColumn(tableAlias + "Creator"));
+            columns.Add(ss.GetColumn(tableAlias + "Updator"));
         }
 
         private static List<Column> Join(SiteSettings ss)
@@ -204,76 +191,74 @@ namespace Implem.Pleasanter.Libraries.Models
                         var wikis = new Dictionary<string, WikiModel>();
                         columns.ForEach(column =>
                         {
-                            var tableAlias = column.Joined
-                                ? column.TableAlias
-                                : ss.ReferenceType;
+                            var key = column.TableName();
                             switch (column.SiteSettings?.ReferenceType)
                             {
                                 case "Depts":
-                                    if (!depts.ContainsKey(tableAlias))
+                                    if (!depts.ContainsKey(key))
                                     {
-                                        depts.Add(tableAlias, new DeptModel(
-                                            column.SiteSettings, dataRow, tableAlias));
+                                        depts.Add(key, new DeptModel(
+                                            column.SiteSettings, dataRow, column.TableAlias));
                                     }
                                     hb.TdValue(
                                         ss: column.SiteSettings,
                                         column: column,
-                                        deptModel: depts.Get(tableAlias));
+                                        deptModel: depts.Get(key));
                                     break;
                                 case "Groups":
-                                    if (!groups.ContainsKey(tableAlias))
+                                    if (!groups.ContainsKey(key))
                                     {
-                                        groups.Add(tableAlias, new GroupModel(
-                                            column.SiteSettings, dataRow, tableAlias));
+                                        groups.Add(key, new GroupModel(
+                                            column.SiteSettings, dataRow, column.TableAlias));
                                     }
                                     hb.TdValue(
                                         ss: column.SiteSettings,
                                         column: column,
-                                        groupModel: groups.Get(tableAlias));
+                                        groupModel: groups.Get(key));
                                     break;
                                 case "Users":
-                                    if (!users.ContainsKey(tableAlias))
+                                    if (!users.ContainsKey(key))
                                     {
-                                        users.Add(tableAlias, new UserModel(
-                                            column.SiteSettings, dataRow, tableAlias));
+                                        users.Add(key, new UserModel(
+                                            column.SiteSettings, dataRow, column.TableAlias));
                                     }
                                     hb.TdValue(
                                         ss: column.SiteSettings,
                                         column: column,
-                                        userModel: users.Get(tableAlias));
+                                        userModel: users.Get(key));
                                     break;
                                 case "Issues":
-                                    if (!issues.ContainsKey(tableAlias))
+                                    if (!issues.ContainsKey(key))
                                     {
-                                        issues.Add(tableAlias, new IssueModel(
-                                            column.SiteSettings, dataRow, tableAlias));
+                                        issues.Add(key, new IssueModel(
+                                            column.SiteSettings, dataRow, column.TableAlias));
                                     }
                                     hb.TdValue(
                                         ss: column.SiteSettings,
                                         column: column,
-                                        issueModel: issues.Get(tableAlias));
+                                        issueModel: issues.Get(key));
                                     break;
                                 case "Results":
-                                    if (!results.ContainsKey(tableAlias))
+                                    if (!results.ContainsKey(key))
                                     {
-                                        results.Add(tableAlias, new ResultModel(
-                                            column.SiteSettings, dataRow, tableAlias));
+                                        results.Add(key, new ResultModel(
+                                            column.SiteSettings, dataRow, column.TableAlias));
                                     }
                                     hb.TdValue(
                                         ss: column.SiteSettings,
                                         column: column,
-                                        resultModel: results.Get(tableAlias));
+                                        resultModel: results.Get(key));
                                     break;
                                 case "Wikis":
-                                    if (!wikis.ContainsKey(tableAlias))
+                                    if (!wikis.ContainsKey(key))
                                     {
-                                        wikis.Add(tableAlias, new WikiModel(
-                                            column.SiteSettings, dataRow, tableAlias));
+                                        wikis.Add(key, new WikiModel(
+                                            column.SiteSettings, dataRow, column.TableAlias));
                                     }
                                     hb.TdValue(
                                         ss: column.SiteSettings,
                                         column: column,
-                                        wikiModel: wikis.Get(tableAlias));
+                                        wikiModel: wikis.Get(key));
                                     break;
                             }
                         });

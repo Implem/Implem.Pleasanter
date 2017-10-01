@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public CompletionTime(DataRow dataRow, Column column)
+        public CompletionTime(DataRow dataRow, ColumnNameInfo column)
         {
             Value = dataRow.DateTime(Rds.DataColumnName(column, "CompletionTime"));
             DisplayValue = Value.ToLocal().AddDays(-1);

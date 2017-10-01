@@ -585,25 +585,78 @@ namespace Implem.Pleasanter.Models
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var column = new Column(tableAlias, dataColumn);
-                var name = column.DataColumnName;
-                switch (column.ColumnName)
+                var column = new ColumnNameInfo(dataColumn.ColumnName);
+                if (column.TableAlias == tableAlias)
                 {
-                    case "TenantId": if (dataRow[name] != DBNull.Value) { TenantId = dataRow[name].ToInt(); SavedTenantId = TenantId; } break;
-                    case "SiteId": if (dataRow[name] != DBNull.Value) { SiteId = dataRow[name].ToLong(); SavedSiteId = SiteId; } break;
-                    case "UpdatedTime": if (dataRow[name] != DBNull.Value) { UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; } break;
-                    case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "Title": Title = new Title(dataRow, "SiteId"); SavedTitle = Title.Value; break;
-                    case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
-                    case "ReferenceType": ReferenceType = dataRow[name].ToString(); SavedReferenceType = ReferenceType; break;
-                    case "ParentId": ParentId = dataRow[name].ToLong(); SavedParentId = ParentId; break;
-                    case "InheritPermission": InheritPermission = dataRow[name].ToLong(); SavedInheritPermission = InheritPermission; break;
-                    case "SiteSettings": SiteSettings = GetSiteSettings(dataRow); SavedSiteSettings = SiteSettings.RecordingJson(); break;
-                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
-                    case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
-                    case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
-                    case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    switch (column.Name)
+                    {
+                        case "TenantId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                TenantId = dataRow[column.ColumnName].ToInt();
+                                SavedTenantId = TenantId;
+                            }
+                            break;
+                        case "SiteId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                SiteId = dataRow[column.ColumnName].ToLong();
+                                SavedSiteId = SiteId;
+                            }
+                            break;
+                        case "UpdatedTime":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                UpdatedTime = new Time(dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
+                                SavedUpdatedTime = UpdatedTime.Value;
+                            }
+                            break;
+                        case "Ver":
+                            Ver = dataRow[column.ColumnName].ToInt();
+                            SavedVer = Ver;
+                            break;
+                        case "Title":
+                            Title = new Title(dataRow, "SiteId");
+                            SavedTitle = Title.Value;
+                            break;
+                        case "Body":
+                            Body = dataRow[column.ColumnName].ToString();
+                            SavedBody = Body;
+                            break;
+                        case "ReferenceType":
+                            ReferenceType = dataRow[column.ColumnName].ToString();
+                            SavedReferenceType = ReferenceType;
+                            break;
+                        case "ParentId":
+                            ParentId = dataRow[column.ColumnName].ToLong();
+                            SavedParentId = ParentId;
+                            break;
+                        case "InheritPermission":
+                            InheritPermission = dataRow[column.ColumnName].ToLong();
+                            SavedInheritPermission = InheritPermission;
+                            break;
+                        case "SiteSettings":
+                            SiteSettings = GetSiteSettings(dataRow);
+                            SavedSiteSettings = SiteSettings.RecordingJson();
+                            break;
+                        case "Comments":
+                            Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
+                            SavedComments = Comments.ToJson();
+                            break;
+                        case "Creator":
+                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedCreator = Creator.Id;
+                            break;
+                        case "Updator":
+                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedUpdator = Updator.Id;
+                            break;
+                        case "CreatedTime":
+                            CreatedTime = new Time(dataRow, column.ColumnName);
+                            SavedCreatedTime = CreatedTime.Value;
+                            break;
+                        case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    }
                 }
             }
         }
@@ -758,6 +811,7 @@ namespace Implem.Pleasanter.Models
         private void SetSiteSettings(ResponseCollection res)
         {
             var controlId = Forms.ControlId();
+            SiteSettings.SetJoinedSsHash();
             switch (controlId)
             {
                 case "MoveUpGridColumns":
@@ -1001,7 +1055,6 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                SiteSettings.SetJoinedSsHash();
                 var column = SiteSettings.GetColumn(selectedColumns.FirstOrDefault());
                 if (column == null)
                 {
@@ -1108,7 +1161,6 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                SiteSettings.SetJoinedSsHash();
                 var column = SiteSettings.GetColumn(selectedColumns.FirstOrDefault());
                 if (column == null)
                 {

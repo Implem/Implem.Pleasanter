@@ -1222,7 +1222,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss, Column column, ExportColumn exportColumn, List<string> mine)
         {
             var value = string.Empty;
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "SiteId":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
@@ -2592,7 +2592,7 @@ namespace Implem.Pleasanter.Models
             var link = new Dictionary<long, long>();
             ss.Columns.Where(o => o.Link.ToBool()).ForEach(column =>
             {
-                switch (column.ColumnName)
+                switch (column.Name)
                 {
                     case "ClassA": if (ClassA.ToLong() != 0 && !link.ContainsKey(ClassA.ToLong())) link.Add(ClassA.ToLong(), ResultId); break;
                     case "ClassB": if (ClassB.ToLong() != 0 && !link.ContainsKey(ClassB.ToLong())) link.Add(ClassB.ToLong(), ResultId); break;
@@ -3443,7 +3443,7 @@ namespace Implem.Pleasanter.Models
             var body = new System.Text.StringBuilder();
             notification.ColumnCollection(ss, update)?.ForEach(column =>
             {
-                switch (column.ColumnName)
+                switch (column.Name)
                 {
                     case "Title": body.Append(Title.ToNotice(SavedTitle, column, Title_Updated, update)); break;
                     case "Body": body.Append(Body.ToNotice(SavedBody, column, Body_Updated, update)); break;
@@ -3620,180 +3620,698 @@ namespace Implem.Pleasanter.Models
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var column = new Column(tableAlias, dataColumn);
-                var name = column.DataColumnName;
-                switch (column.ColumnName)
+                var column = new ColumnNameInfo(dataColumn.ColumnName);
+                if (column.TableAlias == tableAlias)
                 {
-                    case "SiteId": if (dataRow[name] != DBNull.Value) { SiteId = dataRow[name].ToLong(); SavedSiteId = SiteId; } break;
-                    case "UpdatedTime": if (dataRow[name] != DBNull.Value) { UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; } break;
-                    case "ResultId": if (dataRow[name] != DBNull.Value) { ResultId = dataRow[name].ToLong(); SavedResultId = ResultId; } break;
-                    case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "Title": Title = new Title(ss, dataRow, column); SavedTitle = Title.Value; break;
-                    case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
-                    case "Status": Status = new Status(dataRow, column); SavedStatus = Status.Value; break;
-                    case "Manager": Manager = SiteInfo.User(dataRow.Int(name)); SavedManager = Manager.Id; break;
-                    case "Owner": Owner = SiteInfo.User(dataRow.Int(name)); SavedOwner = Owner.Id; break;
-                    case "ClassA": ClassA = dataRow[name].ToString(); SavedClassA = ClassA; break;
-                    case "ClassB": ClassB = dataRow[name].ToString(); SavedClassB = ClassB; break;
-                    case "ClassC": ClassC = dataRow[name].ToString(); SavedClassC = ClassC; break;
-                    case "ClassD": ClassD = dataRow[name].ToString(); SavedClassD = ClassD; break;
-                    case "ClassE": ClassE = dataRow[name].ToString(); SavedClassE = ClassE; break;
-                    case "ClassF": ClassF = dataRow[name].ToString(); SavedClassF = ClassF; break;
-                    case "ClassG": ClassG = dataRow[name].ToString(); SavedClassG = ClassG; break;
-                    case "ClassH": ClassH = dataRow[name].ToString(); SavedClassH = ClassH; break;
-                    case "ClassI": ClassI = dataRow[name].ToString(); SavedClassI = ClassI; break;
-                    case "ClassJ": ClassJ = dataRow[name].ToString(); SavedClassJ = ClassJ; break;
-                    case "ClassK": ClassK = dataRow[name].ToString(); SavedClassK = ClassK; break;
-                    case "ClassL": ClassL = dataRow[name].ToString(); SavedClassL = ClassL; break;
-                    case "ClassM": ClassM = dataRow[name].ToString(); SavedClassM = ClassM; break;
-                    case "ClassN": ClassN = dataRow[name].ToString(); SavedClassN = ClassN; break;
-                    case "ClassO": ClassO = dataRow[name].ToString(); SavedClassO = ClassO; break;
-                    case "ClassP": ClassP = dataRow[name].ToString(); SavedClassP = ClassP; break;
-                    case "ClassQ": ClassQ = dataRow[name].ToString(); SavedClassQ = ClassQ; break;
-                    case "ClassR": ClassR = dataRow[name].ToString(); SavedClassR = ClassR; break;
-                    case "ClassS": ClassS = dataRow[name].ToString(); SavedClassS = ClassS; break;
-                    case "ClassT": ClassT = dataRow[name].ToString(); SavedClassT = ClassT; break;
-                    case "ClassU": ClassU = dataRow[name].ToString(); SavedClassU = ClassU; break;
-                    case "ClassV": ClassV = dataRow[name].ToString(); SavedClassV = ClassV; break;
-                    case "ClassW": ClassW = dataRow[name].ToString(); SavedClassW = ClassW; break;
-                    case "ClassX": ClassX = dataRow[name].ToString(); SavedClassX = ClassX; break;
-                    case "ClassY": ClassY = dataRow[name].ToString(); SavedClassY = ClassY; break;
-                    case "ClassZ": ClassZ = dataRow[name].ToString(); SavedClassZ = ClassZ; break;
-                    case "NumA": NumA = dataRow[name].ToDecimal(); SavedNumA = NumA; break;
-                    case "NumB": NumB = dataRow[name].ToDecimal(); SavedNumB = NumB; break;
-                    case "NumC": NumC = dataRow[name].ToDecimal(); SavedNumC = NumC; break;
-                    case "NumD": NumD = dataRow[name].ToDecimal(); SavedNumD = NumD; break;
-                    case "NumE": NumE = dataRow[name].ToDecimal(); SavedNumE = NumE; break;
-                    case "NumF": NumF = dataRow[name].ToDecimal(); SavedNumF = NumF; break;
-                    case "NumG": NumG = dataRow[name].ToDecimal(); SavedNumG = NumG; break;
-                    case "NumH": NumH = dataRow[name].ToDecimal(); SavedNumH = NumH; break;
-                    case "NumI": NumI = dataRow[name].ToDecimal(); SavedNumI = NumI; break;
-                    case "NumJ": NumJ = dataRow[name].ToDecimal(); SavedNumJ = NumJ; break;
-                    case "NumK": NumK = dataRow[name].ToDecimal(); SavedNumK = NumK; break;
-                    case "NumL": NumL = dataRow[name].ToDecimal(); SavedNumL = NumL; break;
-                    case "NumM": NumM = dataRow[name].ToDecimal(); SavedNumM = NumM; break;
-                    case "NumN": NumN = dataRow[name].ToDecimal(); SavedNumN = NumN; break;
-                    case "NumO": NumO = dataRow[name].ToDecimal(); SavedNumO = NumO; break;
-                    case "NumP": NumP = dataRow[name].ToDecimal(); SavedNumP = NumP; break;
-                    case "NumQ": NumQ = dataRow[name].ToDecimal(); SavedNumQ = NumQ; break;
-                    case "NumR": NumR = dataRow[name].ToDecimal(); SavedNumR = NumR; break;
-                    case "NumS": NumS = dataRow[name].ToDecimal(); SavedNumS = NumS; break;
-                    case "NumT": NumT = dataRow[name].ToDecimal(); SavedNumT = NumT; break;
-                    case "NumU": NumU = dataRow[name].ToDecimal(); SavedNumU = NumU; break;
-                    case "NumV": NumV = dataRow[name].ToDecimal(); SavedNumV = NumV; break;
-                    case "NumW": NumW = dataRow[name].ToDecimal(); SavedNumW = NumW; break;
-                    case "NumX": NumX = dataRow[name].ToDecimal(); SavedNumX = NumX; break;
-                    case "NumY": NumY = dataRow[name].ToDecimal(); SavedNumY = NumY; break;
-                    case "NumZ": NumZ = dataRow[name].ToDecimal(); SavedNumZ = NumZ; break;
-                    case "DateA": DateA = dataRow[name].ToDateTime(); SavedDateA = DateA; break;
-                    case "DateB": DateB = dataRow[name].ToDateTime(); SavedDateB = DateB; break;
-                    case "DateC": DateC = dataRow[name].ToDateTime(); SavedDateC = DateC; break;
-                    case "DateD": DateD = dataRow[name].ToDateTime(); SavedDateD = DateD; break;
-                    case "DateE": DateE = dataRow[name].ToDateTime(); SavedDateE = DateE; break;
-                    case "DateF": DateF = dataRow[name].ToDateTime(); SavedDateF = DateF; break;
-                    case "DateG": DateG = dataRow[name].ToDateTime(); SavedDateG = DateG; break;
-                    case "DateH": DateH = dataRow[name].ToDateTime(); SavedDateH = DateH; break;
-                    case "DateI": DateI = dataRow[name].ToDateTime(); SavedDateI = DateI; break;
-                    case "DateJ": DateJ = dataRow[name].ToDateTime(); SavedDateJ = DateJ; break;
-                    case "DateK": DateK = dataRow[name].ToDateTime(); SavedDateK = DateK; break;
-                    case "DateL": DateL = dataRow[name].ToDateTime(); SavedDateL = DateL; break;
-                    case "DateM": DateM = dataRow[name].ToDateTime(); SavedDateM = DateM; break;
-                    case "DateN": DateN = dataRow[name].ToDateTime(); SavedDateN = DateN; break;
-                    case "DateO": DateO = dataRow[name].ToDateTime(); SavedDateO = DateO; break;
-                    case "DateP": DateP = dataRow[name].ToDateTime(); SavedDateP = DateP; break;
-                    case "DateQ": DateQ = dataRow[name].ToDateTime(); SavedDateQ = DateQ; break;
-                    case "DateR": DateR = dataRow[name].ToDateTime(); SavedDateR = DateR; break;
-                    case "DateS": DateS = dataRow[name].ToDateTime(); SavedDateS = DateS; break;
-                    case "DateT": DateT = dataRow[name].ToDateTime(); SavedDateT = DateT; break;
-                    case "DateU": DateU = dataRow[name].ToDateTime(); SavedDateU = DateU; break;
-                    case "DateV": DateV = dataRow[name].ToDateTime(); SavedDateV = DateV; break;
-                    case "DateW": DateW = dataRow[name].ToDateTime(); SavedDateW = DateW; break;
-                    case "DateX": DateX = dataRow[name].ToDateTime(); SavedDateX = DateX; break;
-                    case "DateY": DateY = dataRow[name].ToDateTime(); SavedDateY = DateY; break;
-                    case "DateZ": DateZ = dataRow[name].ToDateTime(); SavedDateZ = DateZ; break;
-                    case "DescriptionA": DescriptionA = dataRow[name].ToString(); SavedDescriptionA = DescriptionA; break;
-                    case "DescriptionB": DescriptionB = dataRow[name].ToString(); SavedDescriptionB = DescriptionB; break;
-                    case "DescriptionC": DescriptionC = dataRow[name].ToString(); SavedDescriptionC = DescriptionC; break;
-                    case "DescriptionD": DescriptionD = dataRow[name].ToString(); SavedDescriptionD = DescriptionD; break;
-                    case "DescriptionE": DescriptionE = dataRow[name].ToString(); SavedDescriptionE = DescriptionE; break;
-                    case "DescriptionF": DescriptionF = dataRow[name].ToString(); SavedDescriptionF = DescriptionF; break;
-                    case "DescriptionG": DescriptionG = dataRow[name].ToString(); SavedDescriptionG = DescriptionG; break;
-                    case "DescriptionH": DescriptionH = dataRow[name].ToString(); SavedDescriptionH = DescriptionH; break;
-                    case "DescriptionI": DescriptionI = dataRow[name].ToString(); SavedDescriptionI = DescriptionI; break;
-                    case "DescriptionJ": DescriptionJ = dataRow[name].ToString(); SavedDescriptionJ = DescriptionJ; break;
-                    case "DescriptionK": DescriptionK = dataRow[name].ToString(); SavedDescriptionK = DescriptionK; break;
-                    case "DescriptionL": DescriptionL = dataRow[name].ToString(); SavedDescriptionL = DescriptionL; break;
-                    case "DescriptionM": DescriptionM = dataRow[name].ToString(); SavedDescriptionM = DescriptionM; break;
-                    case "DescriptionN": DescriptionN = dataRow[name].ToString(); SavedDescriptionN = DescriptionN; break;
-                    case "DescriptionO": DescriptionO = dataRow[name].ToString(); SavedDescriptionO = DescriptionO; break;
-                    case "DescriptionP": DescriptionP = dataRow[name].ToString(); SavedDescriptionP = DescriptionP; break;
-                    case "DescriptionQ": DescriptionQ = dataRow[name].ToString(); SavedDescriptionQ = DescriptionQ; break;
-                    case "DescriptionR": DescriptionR = dataRow[name].ToString(); SavedDescriptionR = DescriptionR; break;
-                    case "DescriptionS": DescriptionS = dataRow[name].ToString(); SavedDescriptionS = DescriptionS; break;
-                    case "DescriptionT": DescriptionT = dataRow[name].ToString(); SavedDescriptionT = DescriptionT; break;
-                    case "DescriptionU": DescriptionU = dataRow[name].ToString(); SavedDescriptionU = DescriptionU; break;
-                    case "DescriptionV": DescriptionV = dataRow[name].ToString(); SavedDescriptionV = DescriptionV; break;
-                    case "DescriptionW": DescriptionW = dataRow[name].ToString(); SavedDescriptionW = DescriptionW; break;
-                    case "DescriptionX": DescriptionX = dataRow[name].ToString(); SavedDescriptionX = DescriptionX; break;
-                    case "DescriptionY": DescriptionY = dataRow[name].ToString(); SavedDescriptionY = DescriptionY; break;
-                    case "DescriptionZ": DescriptionZ = dataRow[name].ToString(); SavedDescriptionZ = DescriptionZ; break;
-                    case "CheckA": CheckA = dataRow[name].ToBool(); SavedCheckA = CheckA; break;
-                    case "CheckB": CheckB = dataRow[name].ToBool(); SavedCheckB = CheckB; break;
-                    case "CheckC": CheckC = dataRow[name].ToBool(); SavedCheckC = CheckC; break;
-                    case "CheckD": CheckD = dataRow[name].ToBool(); SavedCheckD = CheckD; break;
-                    case "CheckE": CheckE = dataRow[name].ToBool(); SavedCheckE = CheckE; break;
-                    case "CheckF": CheckF = dataRow[name].ToBool(); SavedCheckF = CheckF; break;
-                    case "CheckG": CheckG = dataRow[name].ToBool(); SavedCheckG = CheckG; break;
-                    case "CheckH": CheckH = dataRow[name].ToBool(); SavedCheckH = CheckH; break;
-                    case "CheckI": CheckI = dataRow[name].ToBool(); SavedCheckI = CheckI; break;
-                    case "CheckJ": CheckJ = dataRow[name].ToBool(); SavedCheckJ = CheckJ; break;
-                    case "CheckK": CheckK = dataRow[name].ToBool(); SavedCheckK = CheckK; break;
-                    case "CheckL": CheckL = dataRow[name].ToBool(); SavedCheckL = CheckL; break;
-                    case "CheckM": CheckM = dataRow[name].ToBool(); SavedCheckM = CheckM; break;
-                    case "CheckN": CheckN = dataRow[name].ToBool(); SavedCheckN = CheckN; break;
-                    case "CheckO": CheckO = dataRow[name].ToBool(); SavedCheckO = CheckO; break;
-                    case "CheckP": CheckP = dataRow[name].ToBool(); SavedCheckP = CheckP; break;
-                    case "CheckQ": CheckQ = dataRow[name].ToBool(); SavedCheckQ = CheckQ; break;
-                    case "CheckR": CheckR = dataRow[name].ToBool(); SavedCheckR = CheckR; break;
-                    case "CheckS": CheckS = dataRow[name].ToBool(); SavedCheckS = CheckS; break;
-                    case "CheckT": CheckT = dataRow[name].ToBool(); SavedCheckT = CheckT; break;
-                    case "CheckU": CheckU = dataRow[name].ToBool(); SavedCheckU = CheckU; break;
-                    case "CheckV": CheckV = dataRow[name].ToBool(); SavedCheckV = CheckV; break;
-                    case "CheckW": CheckW = dataRow[name].ToBool(); SavedCheckW = CheckW; break;
-                    case "CheckX": CheckX = dataRow[name].ToBool(); SavedCheckX = CheckX; break;
-                    case "CheckY": CheckY = dataRow[name].ToBool(); SavedCheckY = CheckY; break;
-                    case "CheckZ": CheckZ = dataRow[name].ToBool(); SavedCheckZ = CheckZ; break;
-                    case "AttachmentsA": AttachmentsA = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsA = AttachmentsA.ToJson(); break;
-                    case "AttachmentsB": AttachmentsB = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsB = AttachmentsB.ToJson(); break;
-                    case "AttachmentsC": AttachmentsC = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsC = AttachmentsC.ToJson(); break;
-                    case "AttachmentsD": AttachmentsD = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsD = AttachmentsD.ToJson(); break;
-                    case "AttachmentsE": AttachmentsE = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsE = AttachmentsE.ToJson(); break;
-                    case "AttachmentsF": AttachmentsF = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsF = AttachmentsF.ToJson(); break;
-                    case "AttachmentsG": AttachmentsG = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsG = AttachmentsG.ToJson(); break;
-                    case "AttachmentsH": AttachmentsH = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsH = AttachmentsH.ToJson(); break;
-                    case "AttachmentsI": AttachmentsI = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsI = AttachmentsI.ToJson(); break;
-                    case "AttachmentsJ": AttachmentsJ = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsJ = AttachmentsJ.ToJson(); break;
-                    case "AttachmentsK": AttachmentsK = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsK = AttachmentsK.ToJson(); break;
-                    case "AttachmentsL": AttachmentsL = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsL = AttachmentsL.ToJson(); break;
-                    case "AttachmentsM": AttachmentsM = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsM = AttachmentsM.ToJson(); break;
-                    case "AttachmentsN": AttachmentsN = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsN = AttachmentsN.ToJson(); break;
-                    case "AttachmentsO": AttachmentsO = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsO = AttachmentsO.ToJson(); break;
-                    case "AttachmentsP": AttachmentsP = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsP = AttachmentsP.ToJson(); break;
-                    case "AttachmentsQ": AttachmentsQ = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsQ = AttachmentsQ.ToJson(); break;
-                    case "AttachmentsR": AttachmentsR = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsR = AttachmentsR.ToJson(); break;
-                    case "AttachmentsS": AttachmentsS = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsS = AttachmentsS.ToJson(); break;
-                    case "AttachmentsT": AttachmentsT = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsT = AttachmentsT.ToJson(); break;
-                    case "AttachmentsU": AttachmentsU = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsU = AttachmentsU.ToJson(); break;
-                    case "AttachmentsV": AttachmentsV = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsV = AttachmentsV.ToJson(); break;
-                    case "AttachmentsW": AttachmentsW = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsW = AttachmentsW.ToJson(); break;
-                    case "AttachmentsX": AttachmentsX = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsX = AttachmentsX.ToJson(); break;
-                    case "AttachmentsY": AttachmentsY = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsY = AttachmentsY.ToJson(); break;
-                    case "AttachmentsZ": AttachmentsZ = dataRow.String(name).Deserialize<Attachments>() ?? new Attachments(); SavedAttachmentsZ = AttachmentsZ.ToJson(); break;
-                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
-                    case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
-                    case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
-                    case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    switch (column.Name)
+                    {
+                        case "SiteId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                SiteId = dataRow[column.ColumnName].ToLong();
+                                SavedSiteId = SiteId;
+                            }
+                            break;
+                        case "UpdatedTime":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                UpdatedTime = new Time(dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
+                                SavedUpdatedTime = UpdatedTime.Value;
+                            }
+                            break;
+                        case "ResultId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                ResultId = dataRow[column.ColumnName].ToLong();
+                                SavedResultId = ResultId;
+                            }
+                            break;
+                        case "Ver":
+                            Ver = dataRow[column.ColumnName].ToInt();
+                            SavedVer = Ver;
+                            break;
+                        case "Title":
+                            Title = new Title(ss, dataRow, column);
+                            SavedTitle = Title.Value;
+                            break;
+                        case "Body":
+                            Body = dataRow[column.ColumnName].ToString();
+                            SavedBody = Body;
+                            break;
+                        case "Status":
+                            Status = new Status(dataRow, column);
+                            SavedStatus = Status.Value;
+                            break;
+                        case "Manager":
+                            Manager = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedManager = Manager.Id;
+                            break;
+                        case "Owner":
+                            Owner = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedOwner = Owner.Id;
+                            break;
+                        case "ClassA":
+                            ClassA = dataRow[column.ColumnName].ToString();
+                            SavedClassA = ClassA;
+                            break;
+                        case "ClassB":
+                            ClassB = dataRow[column.ColumnName].ToString();
+                            SavedClassB = ClassB;
+                            break;
+                        case "ClassC":
+                            ClassC = dataRow[column.ColumnName].ToString();
+                            SavedClassC = ClassC;
+                            break;
+                        case "ClassD":
+                            ClassD = dataRow[column.ColumnName].ToString();
+                            SavedClassD = ClassD;
+                            break;
+                        case "ClassE":
+                            ClassE = dataRow[column.ColumnName].ToString();
+                            SavedClassE = ClassE;
+                            break;
+                        case "ClassF":
+                            ClassF = dataRow[column.ColumnName].ToString();
+                            SavedClassF = ClassF;
+                            break;
+                        case "ClassG":
+                            ClassG = dataRow[column.ColumnName].ToString();
+                            SavedClassG = ClassG;
+                            break;
+                        case "ClassH":
+                            ClassH = dataRow[column.ColumnName].ToString();
+                            SavedClassH = ClassH;
+                            break;
+                        case "ClassI":
+                            ClassI = dataRow[column.ColumnName].ToString();
+                            SavedClassI = ClassI;
+                            break;
+                        case "ClassJ":
+                            ClassJ = dataRow[column.ColumnName].ToString();
+                            SavedClassJ = ClassJ;
+                            break;
+                        case "ClassK":
+                            ClassK = dataRow[column.ColumnName].ToString();
+                            SavedClassK = ClassK;
+                            break;
+                        case "ClassL":
+                            ClassL = dataRow[column.ColumnName].ToString();
+                            SavedClassL = ClassL;
+                            break;
+                        case "ClassM":
+                            ClassM = dataRow[column.ColumnName].ToString();
+                            SavedClassM = ClassM;
+                            break;
+                        case "ClassN":
+                            ClassN = dataRow[column.ColumnName].ToString();
+                            SavedClassN = ClassN;
+                            break;
+                        case "ClassO":
+                            ClassO = dataRow[column.ColumnName].ToString();
+                            SavedClassO = ClassO;
+                            break;
+                        case "ClassP":
+                            ClassP = dataRow[column.ColumnName].ToString();
+                            SavedClassP = ClassP;
+                            break;
+                        case "ClassQ":
+                            ClassQ = dataRow[column.ColumnName].ToString();
+                            SavedClassQ = ClassQ;
+                            break;
+                        case "ClassR":
+                            ClassR = dataRow[column.ColumnName].ToString();
+                            SavedClassR = ClassR;
+                            break;
+                        case "ClassS":
+                            ClassS = dataRow[column.ColumnName].ToString();
+                            SavedClassS = ClassS;
+                            break;
+                        case "ClassT":
+                            ClassT = dataRow[column.ColumnName].ToString();
+                            SavedClassT = ClassT;
+                            break;
+                        case "ClassU":
+                            ClassU = dataRow[column.ColumnName].ToString();
+                            SavedClassU = ClassU;
+                            break;
+                        case "ClassV":
+                            ClassV = dataRow[column.ColumnName].ToString();
+                            SavedClassV = ClassV;
+                            break;
+                        case "ClassW":
+                            ClassW = dataRow[column.ColumnName].ToString();
+                            SavedClassW = ClassW;
+                            break;
+                        case "ClassX":
+                            ClassX = dataRow[column.ColumnName].ToString();
+                            SavedClassX = ClassX;
+                            break;
+                        case "ClassY":
+                            ClassY = dataRow[column.ColumnName].ToString();
+                            SavedClassY = ClassY;
+                            break;
+                        case "ClassZ":
+                            ClassZ = dataRow[column.ColumnName].ToString();
+                            SavedClassZ = ClassZ;
+                            break;
+                        case "NumA":
+                            NumA = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumA = NumA;
+                            break;
+                        case "NumB":
+                            NumB = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumB = NumB;
+                            break;
+                        case "NumC":
+                            NumC = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumC = NumC;
+                            break;
+                        case "NumD":
+                            NumD = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumD = NumD;
+                            break;
+                        case "NumE":
+                            NumE = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumE = NumE;
+                            break;
+                        case "NumF":
+                            NumF = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumF = NumF;
+                            break;
+                        case "NumG":
+                            NumG = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumG = NumG;
+                            break;
+                        case "NumH":
+                            NumH = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumH = NumH;
+                            break;
+                        case "NumI":
+                            NumI = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumI = NumI;
+                            break;
+                        case "NumJ":
+                            NumJ = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumJ = NumJ;
+                            break;
+                        case "NumK":
+                            NumK = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumK = NumK;
+                            break;
+                        case "NumL":
+                            NumL = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumL = NumL;
+                            break;
+                        case "NumM":
+                            NumM = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumM = NumM;
+                            break;
+                        case "NumN":
+                            NumN = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumN = NumN;
+                            break;
+                        case "NumO":
+                            NumO = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumO = NumO;
+                            break;
+                        case "NumP":
+                            NumP = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumP = NumP;
+                            break;
+                        case "NumQ":
+                            NumQ = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumQ = NumQ;
+                            break;
+                        case "NumR":
+                            NumR = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumR = NumR;
+                            break;
+                        case "NumS":
+                            NumS = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumS = NumS;
+                            break;
+                        case "NumT":
+                            NumT = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumT = NumT;
+                            break;
+                        case "NumU":
+                            NumU = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumU = NumU;
+                            break;
+                        case "NumV":
+                            NumV = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumV = NumV;
+                            break;
+                        case "NumW":
+                            NumW = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumW = NumW;
+                            break;
+                        case "NumX":
+                            NumX = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumX = NumX;
+                            break;
+                        case "NumY":
+                            NumY = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumY = NumY;
+                            break;
+                        case "NumZ":
+                            NumZ = dataRow[column.ColumnName].ToDecimal();
+                            SavedNumZ = NumZ;
+                            break;
+                        case "DateA":
+                            DateA = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateA = DateA;
+                            break;
+                        case "DateB":
+                            DateB = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateB = DateB;
+                            break;
+                        case "DateC":
+                            DateC = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateC = DateC;
+                            break;
+                        case "DateD":
+                            DateD = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateD = DateD;
+                            break;
+                        case "DateE":
+                            DateE = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateE = DateE;
+                            break;
+                        case "DateF":
+                            DateF = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateF = DateF;
+                            break;
+                        case "DateG":
+                            DateG = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateG = DateG;
+                            break;
+                        case "DateH":
+                            DateH = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateH = DateH;
+                            break;
+                        case "DateI":
+                            DateI = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateI = DateI;
+                            break;
+                        case "DateJ":
+                            DateJ = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateJ = DateJ;
+                            break;
+                        case "DateK":
+                            DateK = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateK = DateK;
+                            break;
+                        case "DateL":
+                            DateL = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateL = DateL;
+                            break;
+                        case "DateM":
+                            DateM = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateM = DateM;
+                            break;
+                        case "DateN":
+                            DateN = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateN = DateN;
+                            break;
+                        case "DateO":
+                            DateO = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateO = DateO;
+                            break;
+                        case "DateP":
+                            DateP = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateP = DateP;
+                            break;
+                        case "DateQ":
+                            DateQ = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateQ = DateQ;
+                            break;
+                        case "DateR":
+                            DateR = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateR = DateR;
+                            break;
+                        case "DateS":
+                            DateS = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateS = DateS;
+                            break;
+                        case "DateT":
+                            DateT = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateT = DateT;
+                            break;
+                        case "DateU":
+                            DateU = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateU = DateU;
+                            break;
+                        case "DateV":
+                            DateV = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateV = DateV;
+                            break;
+                        case "DateW":
+                            DateW = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateW = DateW;
+                            break;
+                        case "DateX":
+                            DateX = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateX = DateX;
+                            break;
+                        case "DateY":
+                            DateY = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateY = DateY;
+                            break;
+                        case "DateZ":
+                            DateZ = dataRow[column.ColumnName].ToDateTime();
+                            SavedDateZ = DateZ;
+                            break;
+                        case "DescriptionA":
+                            DescriptionA = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionA = DescriptionA;
+                            break;
+                        case "DescriptionB":
+                            DescriptionB = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionB = DescriptionB;
+                            break;
+                        case "DescriptionC":
+                            DescriptionC = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionC = DescriptionC;
+                            break;
+                        case "DescriptionD":
+                            DescriptionD = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionD = DescriptionD;
+                            break;
+                        case "DescriptionE":
+                            DescriptionE = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionE = DescriptionE;
+                            break;
+                        case "DescriptionF":
+                            DescriptionF = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionF = DescriptionF;
+                            break;
+                        case "DescriptionG":
+                            DescriptionG = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionG = DescriptionG;
+                            break;
+                        case "DescriptionH":
+                            DescriptionH = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionH = DescriptionH;
+                            break;
+                        case "DescriptionI":
+                            DescriptionI = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionI = DescriptionI;
+                            break;
+                        case "DescriptionJ":
+                            DescriptionJ = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionJ = DescriptionJ;
+                            break;
+                        case "DescriptionK":
+                            DescriptionK = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionK = DescriptionK;
+                            break;
+                        case "DescriptionL":
+                            DescriptionL = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionL = DescriptionL;
+                            break;
+                        case "DescriptionM":
+                            DescriptionM = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionM = DescriptionM;
+                            break;
+                        case "DescriptionN":
+                            DescriptionN = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionN = DescriptionN;
+                            break;
+                        case "DescriptionO":
+                            DescriptionO = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionO = DescriptionO;
+                            break;
+                        case "DescriptionP":
+                            DescriptionP = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionP = DescriptionP;
+                            break;
+                        case "DescriptionQ":
+                            DescriptionQ = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionQ = DescriptionQ;
+                            break;
+                        case "DescriptionR":
+                            DescriptionR = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionR = DescriptionR;
+                            break;
+                        case "DescriptionS":
+                            DescriptionS = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionS = DescriptionS;
+                            break;
+                        case "DescriptionT":
+                            DescriptionT = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionT = DescriptionT;
+                            break;
+                        case "DescriptionU":
+                            DescriptionU = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionU = DescriptionU;
+                            break;
+                        case "DescriptionV":
+                            DescriptionV = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionV = DescriptionV;
+                            break;
+                        case "DescriptionW":
+                            DescriptionW = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionW = DescriptionW;
+                            break;
+                        case "DescriptionX":
+                            DescriptionX = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionX = DescriptionX;
+                            break;
+                        case "DescriptionY":
+                            DescriptionY = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionY = DescriptionY;
+                            break;
+                        case "DescriptionZ":
+                            DescriptionZ = dataRow[column.ColumnName].ToString();
+                            SavedDescriptionZ = DescriptionZ;
+                            break;
+                        case "CheckA":
+                            CheckA = dataRow[column.ColumnName].ToBool();
+                            SavedCheckA = CheckA;
+                            break;
+                        case "CheckB":
+                            CheckB = dataRow[column.ColumnName].ToBool();
+                            SavedCheckB = CheckB;
+                            break;
+                        case "CheckC":
+                            CheckC = dataRow[column.ColumnName].ToBool();
+                            SavedCheckC = CheckC;
+                            break;
+                        case "CheckD":
+                            CheckD = dataRow[column.ColumnName].ToBool();
+                            SavedCheckD = CheckD;
+                            break;
+                        case "CheckE":
+                            CheckE = dataRow[column.ColumnName].ToBool();
+                            SavedCheckE = CheckE;
+                            break;
+                        case "CheckF":
+                            CheckF = dataRow[column.ColumnName].ToBool();
+                            SavedCheckF = CheckF;
+                            break;
+                        case "CheckG":
+                            CheckG = dataRow[column.ColumnName].ToBool();
+                            SavedCheckG = CheckG;
+                            break;
+                        case "CheckH":
+                            CheckH = dataRow[column.ColumnName].ToBool();
+                            SavedCheckH = CheckH;
+                            break;
+                        case "CheckI":
+                            CheckI = dataRow[column.ColumnName].ToBool();
+                            SavedCheckI = CheckI;
+                            break;
+                        case "CheckJ":
+                            CheckJ = dataRow[column.ColumnName].ToBool();
+                            SavedCheckJ = CheckJ;
+                            break;
+                        case "CheckK":
+                            CheckK = dataRow[column.ColumnName].ToBool();
+                            SavedCheckK = CheckK;
+                            break;
+                        case "CheckL":
+                            CheckL = dataRow[column.ColumnName].ToBool();
+                            SavedCheckL = CheckL;
+                            break;
+                        case "CheckM":
+                            CheckM = dataRow[column.ColumnName].ToBool();
+                            SavedCheckM = CheckM;
+                            break;
+                        case "CheckN":
+                            CheckN = dataRow[column.ColumnName].ToBool();
+                            SavedCheckN = CheckN;
+                            break;
+                        case "CheckO":
+                            CheckO = dataRow[column.ColumnName].ToBool();
+                            SavedCheckO = CheckO;
+                            break;
+                        case "CheckP":
+                            CheckP = dataRow[column.ColumnName].ToBool();
+                            SavedCheckP = CheckP;
+                            break;
+                        case "CheckQ":
+                            CheckQ = dataRow[column.ColumnName].ToBool();
+                            SavedCheckQ = CheckQ;
+                            break;
+                        case "CheckR":
+                            CheckR = dataRow[column.ColumnName].ToBool();
+                            SavedCheckR = CheckR;
+                            break;
+                        case "CheckS":
+                            CheckS = dataRow[column.ColumnName].ToBool();
+                            SavedCheckS = CheckS;
+                            break;
+                        case "CheckT":
+                            CheckT = dataRow[column.ColumnName].ToBool();
+                            SavedCheckT = CheckT;
+                            break;
+                        case "CheckU":
+                            CheckU = dataRow[column.ColumnName].ToBool();
+                            SavedCheckU = CheckU;
+                            break;
+                        case "CheckV":
+                            CheckV = dataRow[column.ColumnName].ToBool();
+                            SavedCheckV = CheckV;
+                            break;
+                        case "CheckW":
+                            CheckW = dataRow[column.ColumnName].ToBool();
+                            SavedCheckW = CheckW;
+                            break;
+                        case "CheckX":
+                            CheckX = dataRow[column.ColumnName].ToBool();
+                            SavedCheckX = CheckX;
+                            break;
+                        case "CheckY":
+                            CheckY = dataRow[column.ColumnName].ToBool();
+                            SavedCheckY = CheckY;
+                            break;
+                        case "CheckZ":
+                            CheckZ = dataRow[column.ColumnName].ToBool();
+                            SavedCheckZ = CheckZ;
+                            break;
+                        case "AttachmentsA":
+                            AttachmentsA = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsA = AttachmentsA.ToJson();
+                            break;
+                        case "AttachmentsB":
+                            AttachmentsB = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsB = AttachmentsB.ToJson();
+                            break;
+                        case "AttachmentsC":
+                            AttachmentsC = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsC = AttachmentsC.ToJson();
+                            break;
+                        case "AttachmentsD":
+                            AttachmentsD = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsD = AttachmentsD.ToJson();
+                            break;
+                        case "AttachmentsE":
+                            AttachmentsE = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsE = AttachmentsE.ToJson();
+                            break;
+                        case "AttachmentsF":
+                            AttachmentsF = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsF = AttachmentsF.ToJson();
+                            break;
+                        case "AttachmentsG":
+                            AttachmentsG = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsG = AttachmentsG.ToJson();
+                            break;
+                        case "AttachmentsH":
+                            AttachmentsH = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsH = AttachmentsH.ToJson();
+                            break;
+                        case "AttachmentsI":
+                            AttachmentsI = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsI = AttachmentsI.ToJson();
+                            break;
+                        case "AttachmentsJ":
+                            AttachmentsJ = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsJ = AttachmentsJ.ToJson();
+                            break;
+                        case "AttachmentsK":
+                            AttachmentsK = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsK = AttachmentsK.ToJson();
+                            break;
+                        case "AttachmentsL":
+                            AttachmentsL = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsL = AttachmentsL.ToJson();
+                            break;
+                        case "AttachmentsM":
+                            AttachmentsM = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsM = AttachmentsM.ToJson();
+                            break;
+                        case "AttachmentsN":
+                            AttachmentsN = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsN = AttachmentsN.ToJson();
+                            break;
+                        case "AttachmentsO":
+                            AttachmentsO = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsO = AttachmentsO.ToJson();
+                            break;
+                        case "AttachmentsP":
+                            AttachmentsP = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsP = AttachmentsP.ToJson();
+                            break;
+                        case "AttachmentsQ":
+                            AttachmentsQ = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsQ = AttachmentsQ.ToJson();
+                            break;
+                        case "AttachmentsR":
+                            AttachmentsR = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsR = AttachmentsR.ToJson();
+                            break;
+                        case "AttachmentsS":
+                            AttachmentsS = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsS = AttachmentsS.ToJson();
+                            break;
+                        case "AttachmentsT":
+                            AttachmentsT = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsT = AttachmentsT.ToJson();
+                            break;
+                        case "AttachmentsU":
+                            AttachmentsU = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsU = AttachmentsU.ToJson();
+                            break;
+                        case "AttachmentsV":
+                            AttachmentsV = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsV = AttachmentsV.ToJson();
+                            break;
+                        case "AttachmentsW":
+                            AttachmentsW = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsW = AttachmentsW.ToJson();
+                            break;
+                        case "AttachmentsX":
+                            AttachmentsX = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsX = AttachmentsX.ToJson();
+                            break;
+                        case "AttachmentsY":
+                            AttachmentsY = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsY = AttachmentsY.ToJson();
+                            break;
+                        case "AttachmentsZ":
+                            AttachmentsZ = dataRow[column.ColumnName].ToString().Deserialize<Attachments>() ?? new Attachments();
+                            SavedAttachmentsZ = AttachmentsZ.ToJson();
+                            break;
+                        case "Comments":
+                            Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
+                            SavedComments = Comments.ToJson();
+                            break;
+                        case "Creator":
+                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedCreator = Creator.Id;
+                            break;
+                        case "Updator":
+                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedUpdator = Updator.Id;
+                            break;
+                        case "CreatedTime":
+                            CreatedTime = new Time(dataRow, column.ColumnName);
+                            SavedCreatedTime = CreatedTime.Value;
+                            break;
+                        case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    }
                 }
             }
         }

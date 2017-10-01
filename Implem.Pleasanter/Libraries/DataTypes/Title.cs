@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             DisplayValue = Value;
         }
 
-        public Title(SiteSettings ss, DataRow dataRow, Column column = null)
+        public Title(SiteSettings ss, DataRow dataRow, ColumnNameInfo column = null)
         {
             Id = dataRow.Long((column?.Joined == true
                 ? column.TableAlias + ","

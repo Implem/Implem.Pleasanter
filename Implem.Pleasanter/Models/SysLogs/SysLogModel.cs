@@ -190,51 +190,179 @@ namespace Implem.Pleasanter.Models
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var column = new Column(tableAlias, dataColumn);
-                var name = column.DataColumnName;
-                switch (column.ColumnName)
+                var column = new ColumnNameInfo(dataColumn.ColumnName);
+                if (column.TableAlias == tableAlias)
                 {
-                    case "CreatedTime": if (dataRow[name] != DBNull.Value) { CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; } break;
-                    case "SysLogId": if (dataRow[name] != DBNull.Value) { SysLogId = dataRow[name].ToLong(); SavedSysLogId = SysLogId; } break;
-                    case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "SysLogType": SysLogType = (SysLogTypes)dataRow[name].ToInt(); SavedSysLogType = SysLogType.ToInt(); break;
-                    case "OnAzure": OnAzure = dataRow[name].ToBool(); SavedOnAzure = OnAzure; break;
-                    case "MachineName": MachineName = dataRow[name].ToString(); SavedMachineName = MachineName; break;
-                    case "ServiceName": ServiceName = dataRow[name].ToString(); SavedServiceName = ServiceName; break;
-                    case "TenantName": TenantName = dataRow[name].ToString(); SavedTenantName = TenantName; break;
-                    case "Application": Application = dataRow[name].ToString(); SavedApplication = Application; break;
-                    case "Class": Class = dataRow[name].ToString(); SavedClass = Class; break;
-                    case "Method": Method = dataRow[name].ToString(); SavedMethod = Method; break;
-                    case "RequestData": RequestData = dataRow[name].ToString(); SavedRequestData = RequestData; break;
-                    case "HttpMethod": HttpMethod = dataRow[name].ToString(); SavedHttpMethod = HttpMethod; break;
-                    case "RequestSize": RequestSize = dataRow[name].ToInt(); SavedRequestSize = RequestSize; break;
-                    case "ResponseSize": ResponseSize = dataRow[name].ToInt(); SavedResponseSize = ResponseSize; break;
-                    case "Elapsed": Elapsed = dataRow[name].ToDouble(); SavedElapsed = Elapsed; break;
-                    case "ApplicationAge": ApplicationAge = dataRow[name].ToDouble(); SavedApplicationAge = ApplicationAge; break;
-                    case "ApplicationRequestInterval": ApplicationRequestInterval = dataRow[name].ToDouble(); SavedApplicationRequestInterval = ApplicationRequestInterval; break;
-                    case "SessionAge": SessionAge = dataRow[name].ToDouble(); SavedSessionAge = SessionAge; break;
-                    case "SessionRequestInterval": SessionRequestInterval = dataRow[name].ToDouble(); SavedSessionRequestInterval = SessionRequestInterval; break;
-                    case "WorkingSet64": WorkingSet64 = dataRow[name].ToLong(); SavedWorkingSet64 = WorkingSet64; break;
-                    case "VirtualMemorySize64": VirtualMemorySize64 = dataRow[name].ToLong(); SavedVirtualMemorySize64 = VirtualMemorySize64; break;
-                    case "ProcessId": ProcessId = dataRow[name].ToInt(); SavedProcessId = ProcessId; break;
-                    case "ProcessName": ProcessName = dataRow[name].ToString(); SavedProcessName = ProcessName; break;
-                    case "BasePriority": BasePriority = dataRow[name].ToInt(); SavedBasePriority = BasePriority; break;
-                    case "Url": Url = dataRow[name].ToString(); SavedUrl = Url; break;
-                    case "UrlReferer": UrlReferer = dataRow[name].ToString(); SavedUrlReferer = UrlReferer; break;
-                    case "UserHostName": UserHostName = dataRow[name].ToString(); SavedUserHostName = UserHostName; break;
-                    case "UserHostAddress": UserHostAddress = dataRow[name].ToString(); SavedUserHostAddress = UserHostAddress; break;
-                    case "UserLanguage": UserLanguage = dataRow[name].ToString(); SavedUserLanguage = UserLanguage; break;
-                    case "UserAgent": UserAgent = dataRow[name].ToString(); SavedUserAgent = UserAgent; break;
-                    case "SessionGuid": SessionGuid = dataRow[name].ToString(); SavedSessionGuid = SessionGuid; break;
-                    case "ErrMessage": ErrMessage = dataRow[name].ToString(); SavedErrMessage = ErrMessage; break;
-                    case "ErrStackTrace": ErrStackTrace = dataRow[name].ToString(); SavedErrStackTrace = ErrStackTrace; break;
-                    case "InDebug": InDebug = dataRow[name].ToBool(); SavedInDebug = InDebug; break;
-                    case "AssemblyVersion": AssemblyVersion = dataRow[name].ToString(); SavedAssemblyVersion = AssemblyVersion; break;
-                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
-                    case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
-                    case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "UpdatedTime": UpdatedTime = new Time(dataRow, name); Timestamp = dataRow.Field<DateTime>(name).ToString("yyyy/M/d H:m:s.fff"); SavedUpdatedTime = UpdatedTime.Value; break;
-                    case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    switch (column.Name)
+                    {
+                        case "CreatedTime":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                CreatedTime = new Time(dataRow, column.ColumnName);
+                                SavedCreatedTime = CreatedTime.Value;
+                            }
+                            break;
+                        case "SysLogId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                SysLogId = dataRow[column.ColumnName].ToLong();
+                                SavedSysLogId = SysLogId;
+                            }
+                            break;
+                        case "Ver":
+                            Ver = dataRow[column.ColumnName].ToInt();
+                            SavedVer = Ver;
+                            break;
+                        case "SysLogType":
+                            SysLogType = (SysLogTypes)dataRow[column.ColumnName].ToInt();
+                            SavedSysLogType = SysLogType.ToInt();
+                            break;
+                        case "OnAzure":
+                            OnAzure = dataRow[column.ColumnName].ToBool();
+                            SavedOnAzure = OnAzure;
+                            break;
+                        case "MachineName":
+                            MachineName = dataRow[column.ColumnName].ToString();
+                            SavedMachineName = MachineName;
+                            break;
+                        case "ServiceName":
+                            ServiceName = dataRow[column.ColumnName].ToString();
+                            SavedServiceName = ServiceName;
+                            break;
+                        case "TenantName":
+                            TenantName = dataRow[column.ColumnName].ToString();
+                            SavedTenantName = TenantName;
+                            break;
+                        case "Application":
+                            Application = dataRow[column.ColumnName].ToString();
+                            SavedApplication = Application;
+                            break;
+                        case "Class":
+                            Class = dataRow[column.ColumnName].ToString();
+                            SavedClass = Class;
+                            break;
+                        case "Method":
+                            Method = dataRow[column.ColumnName].ToString();
+                            SavedMethod = Method;
+                            break;
+                        case "RequestData":
+                            RequestData = dataRow[column.ColumnName].ToString();
+                            SavedRequestData = RequestData;
+                            break;
+                        case "HttpMethod":
+                            HttpMethod = dataRow[column.ColumnName].ToString();
+                            SavedHttpMethod = HttpMethod;
+                            break;
+                        case "RequestSize":
+                            RequestSize = dataRow[column.ColumnName].ToInt();
+                            SavedRequestSize = RequestSize;
+                            break;
+                        case "ResponseSize":
+                            ResponseSize = dataRow[column.ColumnName].ToInt();
+                            SavedResponseSize = ResponseSize;
+                            break;
+                        case "Elapsed":
+                            Elapsed = dataRow[column.ColumnName].ToDouble();
+                            SavedElapsed = Elapsed;
+                            break;
+                        case "ApplicationAge":
+                            ApplicationAge = dataRow[column.ColumnName].ToDouble();
+                            SavedApplicationAge = ApplicationAge;
+                            break;
+                        case "ApplicationRequestInterval":
+                            ApplicationRequestInterval = dataRow[column.ColumnName].ToDouble();
+                            SavedApplicationRequestInterval = ApplicationRequestInterval;
+                            break;
+                        case "SessionAge":
+                            SessionAge = dataRow[column.ColumnName].ToDouble();
+                            SavedSessionAge = SessionAge;
+                            break;
+                        case "SessionRequestInterval":
+                            SessionRequestInterval = dataRow[column.ColumnName].ToDouble();
+                            SavedSessionRequestInterval = SessionRequestInterval;
+                            break;
+                        case "WorkingSet64":
+                            WorkingSet64 = dataRow[column.ColumnName].ToLong();
+                            SavedWorkingSet64 = WorkingSet64;
+                            break;
+                        case "VirtualMemorySize64":
+                            VirtualMemorySize64 = dataRow[column.ColumnName].ToLong();
+                            SavedVirtualMemorySize64 = VirtualMemorySize64;
+                            break;
+                        case "ProcessId":
+                            ProcessId = dataRow[column.ColumnName].ToInt();
+                            SavedProcessId = ProcessId;
+                            break;
+                        case "ProcessName":
+                            ProcessName = dataRow[column.ColumnName].ToString();
+                            SavedProcessName = ProcessName;
+                            break;
+                        case "BasePriority":
+                            BasePriority = dataRow[column.ColumnName].ToInt();
+                            SavedBasePriority = BasePriority;
+                            break;
+                        case "Url":
+                            Url = dataRow[column.ColumnName].ToString();
+                            SavedUrl = Url;
+                            break;
+                        case "UrlReferer":
+                            UrlReferer = dataRow[column.ColumnName].ToString();
+                            SavedUrlReferer = UrlReferer;
+                            break;
+                        case "UserHostName":
+                            UserHostName = dataRow[column.ColumnName].ToString();
+                            SavedUserHostName = UserHostName;
+                            break;
+                        case "UserHostAddress":
+                            UserHostAddress = dataRow[column.ColumnName].ToString();
+                            SavedUserHostAddress = UserHostAddress;
+                            break;
+                        case "UserLanguage":
+                            UserLanguage = dataRow[column.ColumnName].ToString();
+                            SavedUserLanguage = UserLanguage;
+                            break;
+                        case "UserAgent":
+                            UserAgent = dataRow[column.ColumnName].ToString();
+                            SavedUserAgent = UserAgent;
+                            break;
+                        case "SessionGuid":
+                            SessionGuid = dataRow[column.ColumnName].ToString();
+                            SavedSessionGuid = SessionGuid;
+                            break;
+                        case "ErrMessage":
+                            ErrMessage = dataRow[column.ColumnName].ToString();
+                            SavedErrMessage = ErrMessage;
+                            break;
+                        case "ErrStackTrace":
+                            ErrStackTrace = dataRow[column.ColumnName].ToString();
+                            SavedErrStackTrace = ErrStackTrace;
+                            break;
+                        case "InDebug":
+                            InDebug = dataRow[column.ColumnName].ToBool();
+                            SavedInDebug = InDebug;
+                            break;
+                        case "AssemblyVersion":
+                            AssemblyVersion = dataRow[column.ColumnName].ToString();
+                            SavedAssemblyVersion = AssemblyVersion;
+                            break;
+                        case "Comments":
+                            Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
+                            SavedComments = Comments.ToJson();
+                            break;
+                        case "Creator":
+                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedCreator = Creator.Id;
+                            break;
+                        case "Updator":
+                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedUpdator = Updator.Id;
+                            break;
+                        case "UpdatedTime":
+                            UpdatedTime = new Time(dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
+                            SavedUpdatedTime = UpdatedTime.Value;
+                            break;
+                        case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    }
                 }
             }
         }

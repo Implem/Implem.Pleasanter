@@ -21,5 +21,12 @@ namespace Implem.Libraries.Utilities
                 return default(T);
             }
         }
+
+        public static T Copy<T>(this T self)
+        {
+            return self != null
+                ? self.ToJson().Deserialize<T>()
+                : default(T);
+        }
     }
 }

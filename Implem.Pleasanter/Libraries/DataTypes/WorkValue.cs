@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public WorkValue(DataRow dataRow, Column column)
+        public WorkValue(DataRow dataRow, ColumnNameInfo column)
         {
             ProgressRate = dataRow.Decimal(Rds.DataColumnName(column, "ProgressRate"));
             Value = dataRow.Decimal(Rds.DataColumnName(column, "WorkValue"));

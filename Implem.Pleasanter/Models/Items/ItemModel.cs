@@ -869,23 +869,64 @@ namespace Implem.Pleasanter.Models
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
-                var column = new Column(tableAlias, dataColumn);
-                var name = column.DataColumnName;
-                switch (column.ColumnName)
+                var column = new ColumnNameInfo(dataColumn.ColumnName);
+                if (column.TableAlias == tableAlias)
                 {
-                    case "ReferenceId": if (dataRow[name] != DBNull.Value) { ReferenceId = dataRow[name].ToLong(); SavedReferenceId = ReferenceId; } break;
-                    case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "ReferenceType": ReferenceType = dataRow[name].ToString(); SavedReferenceType = ReferenceType; break;
-                    case "SiteId": SiteId = dataRow[name].ToLong(); SavedSiteId = SiteId; break;
-                    case "Title": Title = dataRow[name].ToString(); SavedTitle = Title; break;
-                    case "FullText": FullText = dataRow[name].ToString(); SavedFullText = FullText; break;
-                    case "SearchIndexCreatedTime": SearchIndexCreatedTime = dataRow[name].ToDateTime(); SavedSearchIndexCreatedTime = SearchIndexCreatedTime; break;
-                    case "Comments": Comments = dataRow[name].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
-                    case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
-                    case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
-                    case "CreatedTime": CreatedTime = new Time(dataRow, name); SavedCreatedTime = CreatedTime.Value; break;
-                    case "UpdatedTime": UpdatedTime = new Time(dataRow, name); SavedUpdatedTime = UpdatedTime.Value; break;
-                    case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    switch (column.Name)
+                    {
+                        case "ReferenceId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                ReferenceId = dataRow[column.ColumnName].ToLong();
+                                SavedReferenceId = ReferenceId;
+                            }
+                            break;
+                        case "Ver":
+                            Ver = dataRow[column.ColumnName].ToInt();
+                            SavedVer = Ver;
+                            break;
+                        case "ReferenceType":
+                            ReferenceType = dataRow[column.ColumnName].ToString();
+                            SavedReferenceType = ReferenceType;
+                            break;
+                        case "SiteId":
+                            SiteId = dataRow[column.ColumnName].ToLong();
+                            SavedSiteId = SiteId;
+                            break;
+                        case "Title":
+                            Title = dataRow[column.ColumnName].ToString();
+                            SavedTitle = Title;
+                            break;
+                        case "FullText":
+                            FullText = dataRow[column.ColumnName].ToString();
+                            SavedFullText = FullText;
+                            break;
+                        case "SearchIndexCreatedTime":
+                            SearchIndexCreatedTime = dataRow[column.ColumnName].ToDateTime();
+                            SavedSearchIndexCreatedTime = SearchIndexCreatedTime;
+                            break;
+                        case "Comments":
+                            Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
+                            SavedComments = Comments.ToJson();
+                            break;
+                        case "Creator":
+                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedCreator = Creator.Id;
+                            break;
+                        case "Updator":
+                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            SavedUpdator = Updator.Id;
+                            break;
+                        case "CreatedTime":
+                            CreatedTime = new Time(dataRow, column.ColumnName);
+                            SavedCreatedTime = CreatedTime.Value;
+                            break;
+                        case "UpdatedTime":
+                            UpdatedTime = new Time(dataRow, column.ColumnName);
+                            SavedUpdatedTime = UpdatedTime.Value;
+                            break;
+                        case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                    }
                 }
             }
         }

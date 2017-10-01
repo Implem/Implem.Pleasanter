@@ -405,7 +405,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .FirstOrDefault();
             if (dataRow != null)
             {
-                var ss = dataRow.String("SiteSettings")
+                var ss = dataRow
+                    .String("SiteSettings")
                     .Deserialize<SiteSettings>() ?? new SiteSettings();
                 ss.SiteId = siteId;
                 ss.Title = dataRow.String("Title");

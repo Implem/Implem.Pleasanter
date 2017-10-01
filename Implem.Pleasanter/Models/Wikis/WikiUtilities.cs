@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var mine = wikiModel.Mine();
-                switch (column.ColumnName)
+                switch (column.Name)
                 {
                     case "SiteId":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
@@ -92,7 +92,7 @@ namespace Implem.Pleasanter.Models
             ss.IncludedColumns(gridDesign).ForEach(column =>
             {
                 var value = string.Empty;
-                switch (column.ColumnName)
+                switch (column.Name)
                 {
                     case "SiteId": value = wikiModel.SiteId.GridText(column: column); break;
                     case "UpdatedTime": value = wikiModel.UpdatedTime.GridText(column: column); break;
@@ -287,7 +287,7 @@ namespace Implem.Pleasanter.Models
         {
             ss.GetEditorColumns().ForEach(column =>
             {
-                switch (column.ColumnName)
+                switch (column.Name)
                 {
                     case "WikiId":
                         hb.Field(
@@ -379,7 +379,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o != null)
                 .ForEach(column =>
                 {
-                    switch (column.ColumnName)
+                    switch (column.Name)
                     {
                         default: break;
                     }

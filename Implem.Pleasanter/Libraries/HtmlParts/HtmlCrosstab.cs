@@ -158,6 +158,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             EnumerableRowCollection<DataRow> dataRows,
             bool inRange = true)
         {
+            SetChoiceHash(groupByX, groupByY, dataRows);
             if (!inRange) return hb;
             if (view.CrosstabGroupByY != "Columns")
             {
@@ -190,6 +191,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Hidden(controlId: "CrosstabPrevious", value: Times.PreviousMonth(month))
                 .Hidden(controlId: "CrosstabNext", value: Times.NextMonth(month))
                 .Hidden(controlId: "CrosstabThisMonth", value: Times.ThisMonth());
+        }
+
+        private static void SetChoiceHash(
+            Column groupByX, Column groupByY, EnumerableRowCollection<DataRow> dataRows)
+        {
+            if (groupByX?.Linked() == true)
+            {
+                groupByX.SetChoiceHash(dataRows, "groupByX");
+            }
+            if (groupByY?.Linked() == true)
+            {
+                groupByY.SetChoiceHash(dataRows, "groupByY");
+            }
         }
 
         private static HtmlBuilder CrosstabBody(
@@ -243,14 +257,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 columnList.ForEach(column =>
                     data.Add(new CrosstabElement(
                         o.String("GroupByX"),
-                        column.DataColumnName,
-                        o.Decimal(column.DataColumnName)))));
+                        column.ColumnName,
+                        o.Decimal(column.ColumnName)))));
             var choicesX = groupByX?.TypeName == "datetime"
                 ? CorrectedChoices(groupByX, timePeriod, month)
                 : CorrectedChoices(
                     groupByX, groupByX?.Choices(data.Select(o => o.GroupByX)));
             var choicesY = columnList.ToDictionary(
-                o => o.DataColumnName,
+                o => o.ColumnName,
                 o => new ControlData(o?.LabelText));
             return hb.Table(
                 ss: ss,

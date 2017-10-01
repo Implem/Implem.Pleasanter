@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var mine = siteModel.Mine();
-                switch (column.ColumnName)
+                switch (column.Name)
                 {
                     case "SiteId":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
@@ -88,7 +88,7 @@ namespace Implem.Pleasanter.Models
             ss.IncludedColumns(gridDesign).ForEach(column =>
             {
                 var value = string.Empty;
-                switch (column.ColumnName)
+                switch (column.Name)
                 {
                     case "SiteId": value = siteModel.SiteId.GridText(column: column); break;
                     case "UpdatedTime": value = siteModel.UpdatedTime.GridText(column: column); break;

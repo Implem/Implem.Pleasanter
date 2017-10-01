@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public Status(DataRow dataRow, Column column)
+        public Status(DataRow dataRow, ColumnNameInfo column)
         {
             Value = dataRow.Int(Rds.DataColumnName(column, "Status"));
         }

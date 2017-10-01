@@ -275,6 +275,7 @@
     <Compile Include="Libraries\Server\TenantCache.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Settings\ColumnAccessControl.cs" />
+    <Compile Include="Libraries\Settings\ColumnNameInfo.cs" />
     <Compile Include="Libraries\Settings\ContractSettings.cs" />
     <Compile Include="Libraries\Settings\DateColumnExtensions.cs" />
     <Compile Include="Libraries\Settings\ExportColumn.cs" />

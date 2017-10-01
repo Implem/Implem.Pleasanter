@@ -279,7 +279,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var mine = resultModel.Mine();
-                switch (column.ColumnName)
+                switch (column.Name)
                 {
                     case "SiteId":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
@@ -976,7 +976,7 @@ namespace Implem.Pleasanter.Models
             ss.IncludedColumns(gridDesign).ForEach(column =>
             {
                 var value = string.Empty;
-                switch (column.ColumnName)
+                switch (column.Name)
                 {
                     case "SiteId": value = resultModel.SiteId.GridText(column: column); break;
                     case "UpdatedTime": value = resultModel.UpdatedTime.GridText(column: column); break;
@@ -1383,7 +1383,7 @@ namespace Implem.Pleasanter.Models
         {
             ss.GetEditorColumns().ForEach(column =>
             {
-                switch (column.ColumnName)
+                switch (column.Name)
                 {
                     case "ResultId":
                         hb.Field(
@@ -2944,7 +2944,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o != null)
                 .ForEach(column =>
                 {
-                    switch (column.ColumnName)
+                    switch (column.Name)
                     {
                         case "NumA":
                             res.Val(
@@ -4481,12 +4481,15 @@ namespace Implem.Pleasanter.Models
             string timePeriod,
             DateTime month)
         {
+            var groupByX_Title = ss.LinkedTitleColumn(groupByX);
+            var groupByY_Title = ss.LinkedTitleColumn(groupByY);
             if (groupByX?.TypeName != "datetime")
             {
                 return Rds.ExecuteTable(statements:
                     Rds.SelectResults(
                         column: Rds.ResultsColumn()
-                            .Add(column: groupByX, _as: "GroupByX")
+                            .Add(groupByX, _as: "GroupByX")
+                            .Add(groupByX_Title, _as: "GroupByX_Title")
                             .CrosstabColumns(
                                 ss: ss,
                                 view: view,
@@ -4498,7 +4501,9 @@ namespace Implem.Pleasanter.Models
                         where: view.Where(ss: ss),
                         groupBy: Rds.ResultsGroupBy()
                             .Add(groupByX)
-                            .Add(groupByY, _using: view.CrosstabGroupByY != "Columns")))
+                            .Add(groupByX_Title)
+                            .Add(groupByY)
+                            .Add(groupByY_Title)))
                                 .AsEnumerable();
             }
             else
@@ -4523,7 +4528,8 @@ namespace Implem.Pleasanter.Models
                                 ss, groupByX, timePeriod, month)),
                         groupBy: Rds.ResultsGroupBy()
                             .Add(dateGroup)
-                            .Add(groupByY, _using: view.CrosstabGroupByY != "Columns")))
+                            .Add(groupByY)
+                            .Add(groupByY_Title)))
                                 .AsEnumerable();
             }
         }
@@ -4548,7 +4554,7 @@ namespace Implem.Pleasanter.Models
                 columns.ForEach(column =>
                     self.Add(
                         column: column,
-                        _as: column.DataColumnName,
+                        _as: column.ColumnName,
                         function: Sqls.Function(aggregateType)));
                 return self;
             }

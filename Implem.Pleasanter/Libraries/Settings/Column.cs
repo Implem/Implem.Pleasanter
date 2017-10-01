@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public SiteSettings SiteSettings;
         [NonSerialized]
-        public string DataColumnName;
+        public string Name;
         [NonSerialized]
         public string TableAlias;
         [NonSerialized]
@@ -160,30 +160,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnName = columnName;
         }
 
-        public Column(string tableAlias, DataColumn dataColumn)
-        {
-            DataColumnName = dataColumn.ColumnName;
-            if (tableAlias?.Contains("~") == true)
-            {
-                if (DataColumnName.StartsWith(tableAlias + ","))
-                {
-                    TableAlias = DataColumnName.Split_1st();
-                    SiteId = TableAlias.Split('-').Last().Split_2nd('~').ToLong();
-                    ColumnName = DataColumnName.Split_2nd();
-                    Joined = true;
-                }
-            }
-            else
-            {
-                ColumnName = DataColumnName;
-                Joined = false;
-            }
-        }
-
         public void SetChoiceHash(
             long siteId,
-            Dictionary<string, IEnumerable<string>> linkHash,
-            IEnumerable<string> searchIndexes)
+            Dictionary<string, IEnumerable<string>> linkHash = null,
+            IEnumerable<string> searchIndexes = null)
         {
             var tenantId = Sessions.TenantId();
             ChoiceHash = new Dictionary<string, Choice>();
@@ -267,6 +247,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                     break;
             }
+        }
+
+        public void SetChoiceHash(EnumerableRowCollection<DataRow> dataRows, string alias = null)
+        {
+            dataRows.ForEach(dataRow =>
+            {
+                var columnName = alias ?? ColumnName;
+                var key = dataRow.String(columnName);
+                var value = dataRow.String(columnName + "_Title");
+                if (key != null && value != null)
+                {
+                    AddToChoiceHash(key, value);
+                }
+            });
         }
 
         public bool Linked(SiteSettings ss, long fromSiteId)
@@ -473,23 +467,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : 0;
         }
 
-        public SqlColumnCollection SqlColumnCollection(SiteSettings ss)
+        public SqlColumnCollection SqlColumnCollection()
         {
             var sql = new SqlColumnCollection();
-            var currentSs = Joined
-                ? ss.JoinedSsHash.Get(SiteId)
-                : ss;
-            if (currentSs != null)
+            if (SiteSettings != null)
             {
                 SelectColumns(
                     sql: sql,
-                    tableName: currentSs.ReferenceType,
-                    columnName: ColumnName,
+                    tableName: SiteSettings.ReferenceType,
+                    columnName: Name,
                     path: Joined
                         ? TableAlias
-                        : currentSs.ReferenceType,
+                        : SiteSettings.ReferenceType,
                     _as: Joined
-                        ? "{0},{1}".Params(TableAlias, ColumnName)
+                        ? ColumnName
                         : null);
             }
             return sql;
@@ -507,16 +498,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                     var siteId = part.Split_2nd('~').ToLong();
                     var currentSs = ss.JoinedSsHash?.Get(siteId);
                     var tableName = currentSs?.ReferenceType;
-                    var columnName = currentSs?.GetColumn(part.Split_1st('~'))?.ColumnName;
+                    var name = currentSs?.GetColumn(part.Split_1st('~'))?.Name;
                     path.Add(part);
                     var alias = path.Join("-");
-                    if (tableName != null && columnName != null)
+                    if (tableName != null && name != null)
                     {
                         sql.Add(new SqlJoin(
                             tableBracket: "[" + tableName + "]",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
                             joinExpression: JoinExpression(
-                                left, tableName, columnName, alias, siteId),
+                                left, tableName, name, alias, siteId),
                             _as: alias));
                         left = part;
                     }
@@ -530,15 +521,28 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private static string JoinExpression(
-            string left, string tableName, string columnName, string alias, long siteId)
+            string left, string tableName, string name, string alias, long siteId)
         {
             return "[{2}].[SiteId]={4} and case when isnumeric([{0}].[{1}])=1 then [{0}].[{1}] else 0 end=[{2}].[{3}]"
-                .Params(left, columnName, alias, Rds.IdColumn(tableName), siteId);
+                .Params(left, name, alias, Rds.IdColumn(tableName), siteId);
         }
 
         public string TableName()
         {
             return TableAlias ?? SiteSettings.ReferenceType;
+        }
+
+        public string ParamName()
+        {
+            return ColumnName
+                .Replace(",", "_")
+                .Replace("-", "_")
+                .Replace("~", "_");
+        }
+
+        public bool Linked()
+        {
+            return SiteSettings.Links?.Any(o => o.ColumnName == Name) == true;
         }
 
         private void SelectColumns(

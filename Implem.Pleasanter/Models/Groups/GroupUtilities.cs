@@ -335,7 +335,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var mine = groupModel.Mine();
-                switch (column.ColumnName)
+                switch (column.Name)
                 {
                     case "GroupId":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
@@ -384,7 +384,7 @@ namespace Implem.Pleasanter.Models
             ss.IncludedColumns(gridDesign).ForEach(column =>
             {
                 var value = string.Empty;
-                switch (column.ColumnName)
+                switch (column.Name)
                 {
                     case "GroupId": value = groupModel.GroupId.GridText(column: column); break;
                     case "Ver": value = groupModel.Ver.GridText(column: column); break;
@@ -567,7 +567,7 @@ namespace Implem.Pleasanter.Models
         {
             ss.GetEditorColumns().ForEach(column =>
             {
-                switch (column.ColumnName)
+                switch (column.Name)
                 {
                     case "GroupId":
                         hb.Field(
