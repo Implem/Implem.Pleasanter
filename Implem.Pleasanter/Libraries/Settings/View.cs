@@ -282,7 +282,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         {
                             AddColumnSorterHash(
                                 ss,
-                                controlId.Substring(columnFilterPrefix.Length),
+                                controlId.Substring(columnSorterPrefix.Length),
                                 OrderByType(Forms.Data(controlId)));
                         }
                         break;
