@@ -123,6 +123,10 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 columns.Add(ss.GetColumn(tableAlias + "SiteId"));
             }
+            ss.TitleColumns
+                .Where(o => ss.ColumnHash.ContainsKey(o))
+                .ForEach(name =>
+                    columns.Add(ss.GetColumn(tableAlias + name)));
             columns.Add(ss.GetColumn(tableAlias + Rds.IdColumn(ss.ReferenceType)));
             columns.Add(ss.GetColumn(tableAlias + "Creator"));
             columns.Add(ss.GetColumn(tableAlias + "Updator"));
