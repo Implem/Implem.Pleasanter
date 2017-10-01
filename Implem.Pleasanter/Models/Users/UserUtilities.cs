@@ -383,6 +383,10 @@ namespace Implem.Pleasanter.Models
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.NumberOfDenial)
                             : hb.Td(column: column, value: string.Empty);
+                    case "TenantManager":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.TenantManager)
+                            : hb.Td(column: column, value: string.Empty);
                     case "Disabled":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.Disabled)
@@ -436,6 +440,7 @@ namespace Implem.Pleasanter.Models
                     case "PasswordChangeTime": value = userModel.PasswordChangeTime.GridText(column: column); break;
                     case "NumberOfLogins": value = userModel.NumberOfLogins.GridText(column: column); break;
                     case "NumberOfDenial": value = userModel.NumberOfDenial.GridText(column: column); break;
+                    case "TenantManager": value = userModel.TenantManager.GridText(column: column); break;
                     case "Disabled": value = userModel.Disabled.GridText(column: column); break;
                     case "Comments": value = userModel.Comments.GridText(column: column); break;
                     case "Creator": value = userModel.Creator.GridText(column: column); break;
