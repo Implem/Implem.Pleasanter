@@ -95,7 +95,6 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return HtmlTemplates.Error(invalid);
             }
-            ss.SetColumnAccessControls();
             return hb.Template(
                 ss: ss,
                 verType: Versions.VerTypes.Latest,
@@ -173,6 +172,7 @@ namespace Implem.Pleasanter.Models
         private static GridData GetGridData(
             SiteSettings ss, View view, int offset = 0)
         {
+            ss.SetColumnAccessControls();
             return new GridData(
                 ss: ss,
                 view: view,
@@ -263,7 +263,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
-            var columns = ss.GetGridColumns();
+            var columns = ss.GetGridColumns(checkPermission: true);
             return hb
                 .THead(
                     _using: addHeader,
