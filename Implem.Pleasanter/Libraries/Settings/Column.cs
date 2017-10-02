@@ -491,7 +491,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var sql = new SqlJoinCollection();
             if (!TableAlias.IsNullOrEmpty())
             {
-                var left = ss.ReferenceType;
+                var left = new List<string>();
                 var path = new List<string>();
                 foreach (var part in TableAlias.Split('-'))
                 {
@@ -507,9 +507,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                             tableBracket: "[" + tableName + "]",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
                             joinExpression: JoinExpression(
-                                left, tableName, name, alias, siteId),
+                                left.Any()
+                                    ? left.Join("-")
+                                    : ss.ReferenceType,
+                                tableName,
+                                name,
+                                alias,
+                                siteId),
                             _as: alias));
-                        left = part;
+                        left.Add(part);
                     }
                     else
                     {
