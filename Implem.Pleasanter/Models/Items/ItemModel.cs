@@ -391,7 +391,7 @@ namespace Implem.Pleasanter.Models
             var ss = SiteSettingsUtilities.Get(Site, ReferenceId, setSiteIntegration: true);
             var controlId = Forms.Data("DropDownSearchTarget");
             var column = ss.Columns.FirstOrDefault(o =>
-                controlId.EndsWith(ss.ReferenceType + "_" + o.ColumnName));
+                controlId.EndsWith("_" + o.ColumnName));
             ss.SetChoiceHash(
                 columnName: column?.ColumnName,
                 searchText: Forms.Data("DropDownSearchText"));
@@ -411,7 +411,7 @@ namespace Implem.Pleasanter.Models
             var ss = SiteSettingsUtilities.Get(Site, ReferenceId);
             var controlId = Forms.Data("DropDownSearchTarget");
             var column = ss.Columns.FirstOrDefault(o =>
-                controlId.EndsWith(ss.ReferenceType + "_" + o.ColumnName));
+                controlId.EndsWith("_" + o.ColumnName));
             ss.SetChoiceHash(
                 columnName: column?.ColumnName,
                 searchText: Forms.Data("DropDownSearchText"));
