@@ -2165,7 +2165,6 @@ namespace Implem.Pleasanter.Models
                                     fieldCss: "w150",
                                     controlCss: " auto-postback always-send",
                                     optionCollection: ss.JoinOptions(),
-                                    selectedValue: "",
                                     addSelectedValue: false,
                                     action: "SetSiteSettings",
                                     method: "post"))));
