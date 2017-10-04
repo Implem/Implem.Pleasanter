@@ -401,13 +401,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .TrimEndZero();
         }
 
-        private static string TrimZero(string str)
-        {
-            return str.Contains(".")
-                ? str.TrimEnd('0')
-                : str;
-        }
-
         public string Display(SiteSettings ss, decimal value, bool format = true)
         {
             return Display(value, format: format) + (EditorReadOnly.ToBool() || !CanUpdate
