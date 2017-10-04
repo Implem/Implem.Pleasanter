@@ -3,12 +3,15 @@
     public class ControlData
     {
         public string Text;
+        public string Title;
         public string Css;
         public string Style;
 
-        public ControlData(string text, string css = null, string style = null)
+        public ControlData(
+            string text, string title = null, string css = null, string style = null)
         {
             Text = text;
+            Title = title;
             Css = css;
             Style = style;
         }

@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return columns.ToDictionary(
                 columnName => columnName,
-                columnName => SelectableOptionsLabelText(
+                columnName => SelectableOptionsControlData(
                     ss: ss.GetJoinedSs(columnName),
                     columnName: columnName));
         }
@@ -129,18 +129,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return columns.ToDictionary(
                 columnName => columnName,
-                columnName => SelectableOptionsLabelText(
+                columnName => SelectableOptionsControlData(
                     ss: ss,
                     columnName: columnName));
         }
 
-        private static ControlData SelectableOptionsLabelText(SiteSettings ss, string columnName)
+        private static ControlData SelectableOptionsControlData(SiteSettings ss, string columnName)
         {
-            var labelText = ss.GetColumn(columnName.Split(',').Last())?.LabelText;
-            return new ControlData(
-                "[" + ss.Title + "] " + (!labelText.IsNullOrEmpty()
-                    ? Displays.Get(labelText)
-                    : string.Empty));
+            var column = ss.GetColumn(columnName.Split(',').Last());
+            return column != null
+                ? new ControlData(
+                    text: "[" + ss.Title + "] " + Displays.Get(column.LabelText),
+                    title: column.LabelTextDefault)
+                : new ControlData(string.Empty);
         }
 
         public static string ChangeCommand(string controlId)

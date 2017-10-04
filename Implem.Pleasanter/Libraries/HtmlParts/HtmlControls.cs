@@ -625,6 +625,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 selectedValueTextCollection?.Contains(listItem.Key) == true
                                     ? "ui-widget-content ui-selected"
                                     : "ui-widget-content")
+                            .Title(listItem.Value.Title)
                             .Value(listItem.Key),
                         action: () =>
                         {
