@@ -849,7 +849,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (column.HasChoices())
             {
                 var param = value.Deserialize<List<string>>();
-                if (param.Any())
+                if (param?.Any() == true)
                 {
                     where.Add(or: new SqlWhereCollection(
                         CsStringColumnsWhere(column, param),
