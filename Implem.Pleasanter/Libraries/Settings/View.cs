@@ -860,11 +860,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 if (!value.IsNullOrEmpty())
                 {
-                    where.Add(new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: new string[] { "[" + column.Name + "]" },
-                        name: column.ParamName(),
-                        value: value));
+                    where.SqlWhereLike(
+                        value,
+                        "([{0}].[{1}] like '%' + @SearchText#ParamCount#_#CommandCount# + '%')"
+                            .Params(column.TableName(), column.Name));
                 }
             }
         }
