@@ -69,7 +69,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     tableName: ss.ReferenceType,
                     dataTableName: "Main",
                     column: SqlColumnCollection(column),
-                    join: ss.SqlJoinCollection(join),
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     tableType: tableType,
@@ -80,7 +80,12 @@ namespace Implem.Pleasanter.Libraries.Models
             };
             if (aggregations != null)
             {
-                SetAggregations(ss, aggregations, where, statements);
+                SetAggregations(
+                    ss: ss,
+                    aggregations: aggregations,
+                    join: join,
+                    where: where,
+                    statements: statements);
             }
             var dataSet = Rds.ExecuteDataSet(
                 transactional: false,
@@ -132,39 +137,40 @@ namespace Implem.Pleasanter.Libraries.Models
             columns.Add(ss.GetColumn(tableAlias + "Updator"));
         }
 
-        private static List<Column> Join(SiteSettings ss)
+        private static SqlJoinCollection Join(SiteSettings ss)
         {
-            return Arrays.Concat(ss.GridColumns, ss.FilterColumns)
+            return ss.SqlJoinCollection(Arrays.Concat(ss.GridColumns, ss.FilterColumns)
                 .Where(o => o.Contains(","))
                 .Select(o => ss.GetColumn(o))
-                .ToList();
+                .ToList());
         }
 
         private static void SetAggregations(
             SiteSettings ss,
             IEnumerable<Aggregation> aggregations,
+            SqlJoinCollection join,
             SqlWhereCollection where,
             List<SqlStatement> statements)
         {
             switch (ss.ReferenceType)
             {
                 case "Depts":
-                    statements.AddRange(Rds.DeptsAggregations(aggregations, where));
+                    statements.AddRange(Rds.DeptsAggregations(aggregations, join, where));
                     break;
                 case "Groups":
-                    statements.AddRange(Rds.GroupsAggregations(aggregations, where));
+                    statements.AddRange(Rds.GroupsAggregations(aggregations, join, where));
                     break;
                 case "Users":
-                    statements.AddRange(Rds.UsersAggregations(aggregations, where));
+                    statements.AddRange(Rds.UsersAggregations(aggregations, join, where));
                     break;
                 case "Issues":
-                    statements.AddRange(Rds.IssuesAggregations(aggregations, where));
+                    statements.AddRange(Rds.IssuesAggregations(aggregations, join, where));
                     break;
                 case "Results":
-                    statements.AddRange(Rds.ResultsAggregations(aggregations, where));
+                    statements.AddRange(Rds.ResultsAggregations(aggregations, join, where));
                     break;
                 case "Wikis":
-                    statements.AddRange(Rds.WikisAggregations(aggregations, where));
+                    statements.AddRange(Rds.WikisAggregations(aggregations, join, where));
                     break;
             }
         }

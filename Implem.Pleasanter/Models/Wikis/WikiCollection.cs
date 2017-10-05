@@ -103,9 +103,9 @@ namespace Implem.Pleasanter.Models
                     dataTableName: "Main",
                     column: column ?? Rds.WikisDefaultColumns(),
                     join: join ??  Rds.WikisJoinDefault(),
-                    where: where ?? null,
-                    orderBy: orderBy ?? null,
-                    param: param ?? null,
+                    where: where,
+                    orderBy: orderBy,
+                    param: param,
                     tableType: tableType,
                     distinct: distinct,
                     top: top,
@@ -115,7 +115,10 @@ namespace Implem.Pleasanter.Models
             };
             if (aggregations != null)
             {
-                statements.AddRange(Rds.WikisAggregations(aggregations, where));
+                statements.AddRange(Rds.WikisAggregations(
+                    aggregations: aggregations,
+                    join: join ??  Rds.WikisJoinDefault(),
+                    where: where));
             }
             var dataSet = Rds.ExecuteDataSet(
                 transactional: false,

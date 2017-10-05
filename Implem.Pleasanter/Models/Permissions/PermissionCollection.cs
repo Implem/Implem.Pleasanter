@@ -100,9 +100,9 @@ namespace Implem.Pleasanter.Models
                     dataTableName: "Main",
                     column: column ?? Rds.PermissionsDefaultColumns(),
                     join: join ??  Rds.PermissionsJoinDefault(),
-                    where: where ?? null,
-                    orderBy: orderBy ?? null,
-                    param: param ?? null,
+                    where: where,
+                    orderBy: orderBy,
+                    param: param,
                     tableType: tableType,
                     distinct: distinct,
                     top: top,
@@ -112,7 +112,10 @@ namespace Implem.Pleasanter.Models
             };
             if (aggregations != null)
             {
-                statements.AddRange(Rds.PermissionsAggregations(aggregations, where));
+                statements.AddRange(Rds.PermissionsAggregations(
+                    aggregations: aggregations,
+                    join: join ??  Rds.PermissionsJoinDefault(),
+                    where: where));
             }
             var dataSet = Rds.ExecuteDataSet(
                 transactional: false,
