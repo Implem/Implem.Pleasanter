@@ -10,9 +10,11 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class SiteSettingsUtilities
     {
-        public static SiteSettings Get(long siteId)
+        public static SiteSettings Get(long siteId, long referenceId = 0)
         {
-            return Get(new SiteModel(siteId), siteId);
+            return Get(new SiteModel(siteId), referenceId != 0
+                ? referenceId
+                : siteId);
         }
 
         public static SiteSettings Get(DataRow dataRow)
