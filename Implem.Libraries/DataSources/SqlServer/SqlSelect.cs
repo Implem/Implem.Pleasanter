@@ -313,8 +313,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                     break;
             }
             return "from " + tableBlacket + (!_as.IsNullOrEmpty()
-                ? "as [" + _as + "]"
-                : "as " + TableBracket) + "\n";
+                ? " as [" + _as + "]"
+                : " as " + TableBracket) + "\n";
         }
     }
 }
