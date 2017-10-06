@@ -114,23 +114,7 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        private static ResultCollection ResultCollection(
-            SiteSettings ss, View view, int offset = 0)
-        {
-            return new ResultCollection(
-                ss: ss,
-                column: GridSqlColumnCollection(ss),
-                where: view.Where(ss: ss),
-                orderBy: view.OrderBy(ss, Rds.ResultsOrderBy()
-                    .UpdatedTime(SqlOrderBy.Types.desc)),
-                offset: offset,
-                pageSize: ss.GridPageSize.ToInt(),
-                countRecord: true,
-                aggregations: ss.Aggregations);
-        }
-
-        private static GridData GetGridData(
-            SiteSettings ss, View view, int offset = 0)
+        private static GridData GetGridData(SiteSettings ss, View view, int offset = 0)
         {
             ss.SetColumnAccessControls();
             return new GridData(
@@ -2907,10 +2891,7 @@ namespace Implem.Pleasanter.Models
         {
             var view = Views.GetBySession(ss);
             var where = view.Where(ss: ss);
-            var join = ss.SqlJoinCollection(ss.FilterColumns
-                .Where(o => o.Contains(","))
-                .Select(o => ss.GetColumn(o))
-                .ToList());
+            var join = Rds.Join(ss);
             var switchTargets = Rds.ExecuteScalar_int(statements:
                 Rds.SelectResults(
                     column: Rds.ResultsColumn().ResultsCount(),
@@ -4274,6 +4255,7 @@ namespace Implem.Pleasanter.Models
                         .ResultId()
                         .Title()
                         .ResultsColumn(columnName, _as: "Date"),
+                    join: Rds.Join(ss),
                     where: view.Where(ss: ss, where: where)))
                         .AsEnumerable();
         }
@@ -4649,9 +4631,9 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission().ToJson();
             }
             var view = Views.GetBySession(ss);
-            var resultCollection = ResultCollection(ss, view);
+            var gridData = GetGridData(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("TimeSeries");
-            return resultCollection.Aggregations.TotalCount <= Parameters.General.TimeSeriesLimit
+            return gridData.Aggregations.TotalCount <= Parameters.General.TimeSeriesLimit
                 ? new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#TimeSeriesBody",
@@ -4664,7 +4646,7 @@ namespace Implem.Pleasanter.Models
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
                         ss: ss,
-                        aggregations: resultCollection.Aggregations))
+                        aggregations: gridData.Aggregations))
                     .ClearFormData()
                     .Invoke("drawTimeSeries")
                     .ToJson()
@@ -4680,7 +4662,7 @@ namespace Implem.Pleasanter.Models
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
                         ss: ss,
-                        aggregations: resultCollection.Aggregations))
+                        aggregations: gridData.Aggregations))
                     .ClearFormData()
                     .Message(Messages.TooManyCases(Parameters.General.TimeSeriesLimit.ToString()))
                     .ToJson();
@@ -4747,6 +4729,7 @@ namespace Implem.Pleasanter.Models
                             .UpdatedTime()
                             .ResultsColumn(groupBy, _as: "Index")
                             .ResultsColumn(value, _as: "Value"),
+                        join: Rds.Join(ss),
                         where: view.Where(ss: ss)))
                             .AsEnumerable()
                 : null;
@@ -4796,9 +4779,9 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission().ToJson();
             }
             var view = Views.GetBySession(ss);
-            var resultCollection = ResultCollection(ss, view);
+            var gridData = GetGridData(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("Kamban");
-            return resultCollection.Aggregations.TotalCount <= Parameters.General.KambanLimit
+            return gridData.Aggregations.TotalCount <= Parameters.General.KambanLimit
                 ? new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
@@ -4812,7 +4795,7 @@ namespace Implem.Pleasanter.Models
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
                         ss: ss,
-                        aggregations: resultCollection.Aggregations))
+                        aggregations: gridData.Aggregations))
                     .ClearFormData()
                     .Invoke("setKamban")
                     .ToJson()
@@ -4824,7 +4807,7 @@ namespace Implem.Pleasanter.Models
                     .ReplaceAll(
                         "#Aggregations", new HtmlBuilder().Aggregations(
                         ss: ss,
-                        aggregations: resultCollection.Aggregations))
+                        aggregations: gridData.Aggregations))
                     .ClearFormData()
                     .Message(Messages.TooManyCases(Parameters.General.KambanLimit.ToString()))
                     .ToJson();
@@ -4943,6 +4926,7 @@ namespace Implem.Pleasanter.Models
             return new ResultCollection(
                 ss: ss,
                 column: column,
+                join: Rds.Join(ss),
                 where: view.Where(ss: ss),
                 orderBy: view.OrderBy(ss, Rds.ResultsOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)))

@@ -153,23 +153,7 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        private static DeptCollection DeptCollection(
-            SiteSettings ss, View view, int offset = 0)
-        {
-            return new DeptCollection(
-                ss: ss,
-                column: GridSqlColumnCollection(ss),
-                where: view.Where(ss: ss, where: Rds.DeptsWhere().TenantId(Sessions.TenantId())),
-                orderBy: view.OrderBy(ss, Rds.DeptsOrderBy()
-                    .UpdatedTime(SqlOrderBy.Types.desc)),
-                offset: offset,
-                pageSize: ss.GridPageSize.ToInt(),
-                countRecord: true,
-                aggregations: ss.Aggregations);
-        }
-
-        private static GridData GetGridData(
-            SiteSettings ss, View view, int offset = 0)
+        private static GridData GetGridData(SiteSettings ss, View view, int offset = 0)
         {
             ss.SetColumnAccessControls();
             return new GridData(
@@ -630,10 +614,7 @@ namespace Implem.Pleasanter.Models
         {
             var view = Views.GetBySession(ss);
             var where = view.Where(ss: ss, where: Rds.DeptsWhere().TenantId(Sessions.TenantId()));
-            var join = ss.SqlJoinCollection(ss.FilterColumns
-                .Where(o => o.Contains(","))
-                .Select(o => ss.GetColumn(o))
-                .ToList());
+            var join = Rds.Join(ss);
             var switchTargets = Rds.ExecuteScalar_int(statements:
                 Rds.SelectDepts(
                     column: Rds.DeptsColumn().DeptsCount(),

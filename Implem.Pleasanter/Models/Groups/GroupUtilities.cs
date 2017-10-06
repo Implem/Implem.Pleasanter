@@ -156,33 +156,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static GroupCollection GroupCollection(
-            SiteSettings ss, View view, int offset = 0)
-        {
-            return new GroupCollection(
-                ss: ss,
-                column: GridSqlColumnCollection(ss),
-                where: view.Where(ss: ss, where: Rds.GroupsWhere()
-                    .TenantId(Sessions.TenantId())
-                    .GroupId_In(
-                        sub: Rds.SelectGroupMembers(
-                            distinct: true,
-                            column: Rds.GroupMembersColumn().GroupId(),
-                            where: Permissions.GroupMembersWhere()),
-                        _using: !Permissions.CanManageTenant())),
-                orderBy: view.OrderBy(ss, Rds.GroupsOrderBy()
-                    .UpdatedTime(SqlOrderBy.Types.desc)),
-                offset: offset,
-                pageSize: ss.GridPageSize.ToInt(),
-                countRecord: true,
-                aggregations: ss.Aggregations);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static GridData GetGridData(
-            SiteSettings ss, View view, int offset = 0)
+        private static GridData GetGridData(SiteSettings ss, View view, int offset = 0)
         {
             return new GridData(
                 ss: ss,
@@ -648,10 +622,7 @@ namespace Implem.Pleasanter.Models
         {
             var view = Views.GetBySession(ss);
             var where = view.Where(ss: ss, where: Rds.GroupsWhere().TenantId(Sessions.TenantId()));
-            var join = ss.SqlJoinCollection(ss.FilterColumns
-                .Where(o => o.Contains(","))
-                .Select(o => ss.GetColumn(o))
-                .ToList());
+            var join = Rds.Join(ss);
             var switchTargets = Rds.ExecuteScalar_int(statements:
                 Rds.SelectGroups(
                     column: Rds.GroupsColumn().GroupsCount(),
@@ -849,6 +820,31 @@ namespace Implem.Pleasanter.Models
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(ss, groupModel).ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static GroupCollection GroupCollection(
+            SiteSettings ss, View view, int offset = 0)
+        {
+            return new GroupCollection(
+                ss: ss,
+                column: GridSqlColumnCollection(ss),
+                where: view.Where(ss: ss, where: Rds.GroupsWhere()
+                    .TenantId(Sessions.TenantId())
+                    .GroupId_In(
+                        sub: Rds.SelectGroupMembers(
+                            distinct: true,
+                            column: Rds.GroupMembersColumn().GroupId(),
+                            where: Permissions.GroupMembersWhere()),
+                        _using: !Permissions.CanManageTenant())),
+                orderBy: view.OrderBy(ss, Rds.GroupsOrderBy()
+                    .UpdatedTime(SqlOrderBy.Types.desc)),
+                offset: offset,
+                pageSize: ss.GridPageSize.ToInt(),
+                countRecord: true,
+                aggregations: ss.Aggregations);
         }
 
         /// <summary>

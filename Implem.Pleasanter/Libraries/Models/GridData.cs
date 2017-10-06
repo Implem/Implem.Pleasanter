@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Models
             IEnumerable<Aggregation> aggregations = null)
         {
             var column = Column(ss);
-            var join = Join(ss);
+            var join = Rds.Join(ss, withColumn: true);
             where = view.Where(ss, where);
             var orderBy = view.OrderBy(ss);
             if (pageSize > 0 && orderBy?.Any() != true)
@@ -136,14 +136,6 @@ namespace Implem.Pleasanter.Libraries.Models
             columns.Add(ss.GetColumn(tableAlias + Rds.IdColumn(currentSs.ReferenceType)));
             columns.Add(ss.GetColumn(tableAlias + "Creator"));
             columns.Add(ss.GetColumn(tableAlias + "Updator"));
-        }
-
-        private static SqlJoinCollection Join(SiteSettings ss)
-        {
-            return ss.SqlJoinCollection(Arrays.Concat(ss.GridColumns, ss.FilterColumns)
-                .Where(o => o.Contains(","))
-                .Select(o => ss.GetColumn(o))
-                .ToList());
         }
 
         private static void SetAggregations(

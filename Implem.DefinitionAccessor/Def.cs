@@ -566,6 +566,8 @@ namespace Implem.DefinitionAccessor
                     case "Rds_SqlStatement": Code.Rds_SqlStatement = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlStatement, definitionRow, CodeXls); break;
                     case "Rds_ColumnBracketTableCases": Code.Rds_ColumnBracketTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ColumnBracketTableCases, definitionRow, CodeXls); break;
                     case "Rds_ColumnBracketColumnCases": Code.Rds_ColumnBracketColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ColumnBracketColumnCases, definitionRow, CodeXls); break;
+                    case "Rds_OrderByTableCases": Code.Rds_OrderByTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_OrderByTableCases, definitionRow, CodeXls); break;
+                    case "Rds_OrderByColumnCases": Code.Rds_OrderByColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_OrderByColumnCases, definitionRow, CodeXls); break;
                     case "Rds_SqlSelect": Code.Rds_SqlSelect = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlSelect, definitionRow, CodeXls); break;
                     case "Rds_SqlExists": Code.Rds_SqlExists = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlExists, definitionRow, CodeXls); break;
                     case "Rds_SqlInsert": Code.Rds_SqlInsert = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlInsert, definitionRow, CodeXls); break;
@@ -662,8 +664,6 @@ namespace Implem.DefinitionAccessor
                     case "SiteSettings_GetModels_Includes": Code.SiteSettings_GetModels_Includes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Includes, definitionRow, CodeXls); break;
                     case "View": Code.View = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View, definitionRow, CodeXls); break;
                     case "View_Search_TableCases": Code.View_Search_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Search_TableCases, definitionRow, CodeXls); break;
-                    case "View_Sorter_TableCases": Code.View_Sorter_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Sorter_TableCases, definitionRow, CodeXls); break;
-                    case "View_Sorter_ColumnCases": Code.View_Sorter_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Sorter_ColumnCases, definitionRow, CodeXls); break;
                     case "HtmlLinks": Code.HtmlLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks, definitionRow, CodeXls); break;
                     case "HtmlLinks_DataSetTableCases": Code.HtmlLinks_DataSetTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_DataSetTableCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_SelectStatementTableCases": Code.HtmlLinks_SelectStatementTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_SelectStatementTableCases, definitionRow, CodeXls); break;
@@ -4811,6 +4811,8 @@ namespace Implem.DefinitionAccessor
         public string Rds_SqlStatement;
         public string Rds_ColumnBracketTableCases;
         public string Rds_ColumnBracketColumnCases;
+        public string Rds_OrderByTableCases;
+        public string Rds_OrderByColumnCases;
         public string Rds_SqlSelect;
         public string Rds_SqlExists;
         public string Rds_SqlInsert;
@@ -4907,8 +4909,6 @@ namespace Implem.DefinitionAccessor
         public string SiteSettings_GetModels_Includes;
         public string View;
         public string View_Search_TableCases;
-        public string View_Sorter_TableCases;
-        public string View_Sorter_ColumnCases;
         public string HtmlLinks;
         public string HtmlLinks_DataSetTableCases;
         public string HtmlLinks_SelectStatementTableCases;
@@ -5294,6 +5294,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_SqlStatement = new CodeDefinition();
         public CodeDefinition Rds_ColumnBracketTableCases = new CodeDefinition();
         public CodeDefinition Rds_ColumnBracketColumnCases = new CodeDefinition();
+        public CodeDefinition Rds_OrderByTableCases = new CodeDefinition();
+        public CodeDefinition Rds_OrderByColumnCases = new CodeDefinition();
         public CodeDefinition Rds_SqlSelect = new CodeDefinition();
         public CodeDefinition Rds_SqlExists = new CodeDefinition();
         public CodeDefinition Rds_SqlInsert = new CodeDefinition();
@@ -5390,8 +5392,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition SiteSettings_GetModels_Includes = new CodeDefinition();
         public CodeDefinition View = new CodeDefinition();
         public CodeDefinition View_Search_TableCases = new CodeDefinition();
-        public CodeDefinition View_Sorter_TableCases = new CodeDefinition();
-        public CodeDefinition View_Sorter_ColumnCases = new CodeDefinition();
         public CodeDefinition HtmlLinks = new CodeDefinition();
         public CodeDefinition HtmlLinks_DataSetTableCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_SelectStatementTableCases = new CodeDefinition();
