@@ -1,5 +1,5 @@
 ﻿$p.setDropDownSearch = function () {
-    var $control = $('#' + $('#DropDownSearchTarget').val());
+    var $control = $('[id="' + $('#DropDownSearchTarget').val() + '"]');
     if ($control.attr('multiple') === 'multiple') {
         $control.multiselect('refresh');
     }

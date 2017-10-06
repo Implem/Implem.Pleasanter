@@ -2001,7 +2001,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         siteId, dataRows.Where(o => o["SiteId"].ToLong() == siteId)));
         }
 
-        private Dictionary<string, IEnumerable<string>> LinkHash(
+        public Dictionary<string, IEnumerable<string>> LinkHash(
             string columnName,
             string searchText = null,
             IEnumerable<string> selectedValues = null)

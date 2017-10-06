@@ -388,13 +388,9 @@ namespace Implem.Pleasanter.Models
         public string SearchDropDown()
         {
             SetSite();
-            var ss = SiteSettingsUtilities.Get(Site, ReferenceId, setSiteIntegration: true);
             var controlId = Forms.Data("DropDownSearchTarget");
-            var column = ss.Columns.FirstOrDefault(o =>
-                controlId.EndsWith("_" + o.ColumnName));
-            ss.SetChoiceHash(
-                columnName: column?.ColumnName,
-                searchText: Forms.Data("DropDownSearchText"));
+            var searchText = Forms.Data("DropDownSearchText");
+            var column = SearchDropDownColumn(controlId, searchText);
             return new ResponseCollection()
                 .ReplaceAll(
                     "#DropDownSearchResults",
@@ -408,13 +404,9 @@ namespace Implem.Pleasanter.Models
         public string SelectSearchDropDown()
         {
             SetSite();
-            var ss = SiteSettingsUtilities.Get(Site, ReferenceId);
             var controlId = Forms.Data("DropDownSearchTarget");
-            var column = ss.Columns.FirstOrDefault(o =>
-                controlId.EndsWith("_" + o.ColumnName));
-            ss.SetChoiceHash(
-                columnName: column?.ColumnName,
-                searchText: Forms.Data("DropDownSearchText"));
+            var searchText = Forms.Data("DropDownSearchText");
+            var column = SearchDropDownColumn(controlId, searchText);
             var selected = Forms.List("DropDownSearchResults");
             var multiple = Forms.Bool("DropDownSearchMultiple");
             if (multiple)
@@ -433,16 +425,39 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        private Column SearchDropDownColumn(string controlId, string searchText)
+        {
+            var ss = SiteSettingsUtilities.Get(Site, ReferenceId, setSiteIntegration: true);
+            var column = ss.GetColumn(controlId.Substring(
+                controlId.StartsWith("ViewFilters__")
+                    ? "ViewFilters__".Length
+                    : (ss.ReferenceType + "_").Length));
+            if (column?.Linked() == true)
+            {
+                column?.SetChoiceHash(
+                    siteId: column.SiteId,
+                    linkHash: column.SiteSettings.LinkHash(column.Name, searchText),
+                    searchIndexes: searchText.SearchIndexes());    
+            }
+            else
+            {
+                ss.SetChoiceHash(
+                     columnName: column?.ColumnName,
+                     searchText: Forms.Data("DropDownSearchText"));
+            }
+            return column;
+        }
+
         private static string SelectSearchDropDownResponse(
             string controlId, Column column, List<string> selected, bool multiple)
         {
-            var optionCollection = column.EditChoices()?
+            var optionCollection = column?.EditChoices()?
                 .Where(o => selected.Contains(o.Key))
                 .ToDictionary(o => o.Key, o => o.Value);
             return optionCollection?.Any() == true
                 ? new ResponseCollection()
                     .CloseDialog()
-                    .Html("#" + controlId, new HtmlBuilder()
+                    .Html("[id=\"" + controlId + "\"]", new HtmlBuilder()
                         .OptionCollection(
                             optionCollection: optionCollection,
                             selectedValue: multiple
