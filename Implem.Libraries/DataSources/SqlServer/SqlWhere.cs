@@ -52,9 +52,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         public string Sql(
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
-            Sqls.TableTypes tableType,
             string tableBracket,
-            int? commandCount)
+            int? commandCount,
+            bool select)
         {
             if (Using)
             {
@@ -68,9 +68,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
                         left: left,
-                        tableType: tableType,
                         tableBracket: tableBracket,
-                        commandCount: commandCount);
+                        commandCount: commandCount,
+                        select: select);
                 }
                 else if (Sub != null)
                 {
@@ -78,26 +78,26 @@ namespace Implem.Libraries.DataSources.SqlServer
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
                         left: left,
-                        tableType: tableType,
                         tableBracket: tableBracket,
-                        commandCount: commandCount);
+                        commandCount: commandCount,
+                        select: select);
                 }
                 else if (Or != null)
                 {
                     return Sql_Or(
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
-                        tableType: tableType,
                         tableBracket: tableBracket,
-                        commandCount: commandCount);
+                        commandCount: commandCount,
+                        select: select);
                 }
                 else
                 {
                     return Sql_General(
                         left: left,
-                        tableType: tableType,
                         tableBracket: tableBracket,
-                        commandCount: commandCount);
+                        commandCount: commandCount,
+                        select: select);
                 }
             }
             else
@@ -108,9 +108,9 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private string Sql_General(
             IEnumerable<string> left,
-            Sqls.TableTypes tableType,
             string tableBracket,
-            int? commandCount)
+            int? commandCount,
+            bool select)
         {
             if (Value.IsCollection())
             {
@@ -121,10 +121,10 @@ namespace Implem.Libraries.DataSources.SqlServer
                          .Select(columnBracket =>
                             Sql_General(
                                 columnBracket: columnBracket,
-                                tableType: tableType,
                                 tableBracket: tableBracket,
                                 commandCount: commandCount,
-                                valueCollection: valueCollection))
+                                valueCollection: valueCollection,
+                                select: select))
                          .Join(MultiColumnOperator) + ")";
                 }
                 else
@@ -138,25 +138,26 @@ namespace Implem.Libraries.DataSources.SqlServer
                     .Select(columnBracket =>
                         Sql_General(
                             columnBracket: columnBracket,
-                            tableType: tableType,
                             tableBracket: tableBracket,
-                            commandCount: commandCount))
+                            commandCount: commandCount,
+                            select: select))
                     .Join(MultiColumnOperator) + ")";
             }
         }
 
         private string Sql_General(
             string columnBracket,
-            Sqls.TableTypes tableType,
             string tableBracket,
             int? commandCount,
-            IEnumerable<string> valueCollection)
+            IEnumerable<string> valueCollection,
+            bool select)
         {
             return valueCollection
                 .Select((o, i) =>
-                    Sqls.TableAndColumnBracket(
+                    TableAndColumnBracket(
                         tableBracket: tableBracket,
-                        columnBracket: columnBracket) +
+                        columnBracket: columnBracket,
+                        select: select) +
                     Operator +
                     Variable(
                         commandCount: commandCount,
@@ -166,14 +167,15 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private string Sql_General(
             string columnBracket,
-            Sqls.TableTypes tableType,
             string tableBracket,
-            int? commandCount)
+            int? commandCount,
+            bool select)
         {
             return
-                Sqls.TableAndColumnBracket(
+                TableAndColumnBracket(
                     tableBracket: tableBracket,
-                    columnBracket: columnBracket) +
+                    columnBracket: columnBracket,
+                    select: select) +
                 Operator +
                 Variable(commandCount: commandCount);
         }
@@ -189,9 +191,9 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
             IEnumerable<string> left,
-            Sqls.TableTypes tableType,
             string tableBracket,
-            int? commandCount)
+            int? commandCount,
+            bool select)
         {
             var commandText = Sub.GetCommandText(
                 sqlContainer: sqlContainer,
@@ -200,9 +202,10 @@ namespace Implem.Libraries.DataSources.SqlServer
                 commandCount: commandCount);
             return left != null
                 ? left.Select(columnBracket =>
-                    Sqls.TableAndColumnBracket(
+                    TableAndColumnBracket(
                         tableBracket: tableBracket,
-                        columnBracket: columnBracket) +
+                        columnBracket: columnBracket,
+                        select: select) +
                     Operator +
                     "(" + commandText + ")")
                         .Join(MultiColumnOperator)
@@ -215,9 +218,9 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
             IEnumerable<string> left,
-            Sqls.TableTypes tableType,
             string tableBracket,
-            int? commandCount)
+            int? commandCount,
+            bool select)
         {
             if (Value.IsCollection())
             {
@@ -235,9 +238,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                     sqlContainer: sqlContainer,
                     sqlCommand: sqlCommand,
                     left: left,
-                    tableType: tableType,
                     tableBracket: tableBracket,
-                    commandCount: commandCount);
+                    commandCount: commandCount,
+                    select: select);
             }
         }
 
@@ -245,15 +248,16 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
             IEnumerable<string> left,
-            Sqls.TableTypes tableType,
             string tableBracket,
-            int? commandCount)
+            int? commandCount,
+            bool select)
         {
             return left != null
                 ? left.Select(columnBracket =>
-                    Sqls.TableAndColumnBracket(
+                    TableAndColumnBracket(
                         tableBracket: tableBracket,
-                        columnBracket: columnBracket) +
+                        columnBracket: columnBracket,
+                        select: select) +
                     ReplacedRaw(
                         commandCount: commandCount,
                         tableBracket: tableBracket))
@@ -296,9 +300,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         private string Sql_Or(
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
-            Sqls.TableTypes tableType,
             string tableBracket,
-            int? commandCount)
+            int? commandCount,
+            bool select)
         {
             var commandText = new StringBuilder();
             Or.Clause = string.Empty;
@@ -307,8 +311,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
-                tableType: tableType,
-                commandCount: commandCount);
+                commandCount: commandCount,
+                select: select);
             return "(" + commandText + ")";
         }
 
@@ -332,6 +336,14 @@ namespace Implem.Libraries.DataSources.SqlServer
             {
                 return ColumnBrackets;
             }
+        }
+
+        private string TableAndColumnBracket(
+            string tableBracket, string columnBracket, bool select)
+        {
+            return select
+                ? Sqls.TableAndColumnBracket(tableBracket, columnBracket)
+                : columnBracket;
         }
     }
 }

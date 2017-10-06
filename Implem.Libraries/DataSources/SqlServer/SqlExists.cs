@@ -23,8 +23,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
-                tableType: TableType,
-                commandCount: commandCount);
+                commandCount: commandCount,
+                select: true);
             commandText.Append(")");
             AddTermination(commandText);
             AddParams_Where(sqlCommand, commandCount);

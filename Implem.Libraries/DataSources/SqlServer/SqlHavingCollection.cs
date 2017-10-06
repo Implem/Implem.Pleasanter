@@ -42,20 +42,17 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlContainer sqlContainer, 
             SqlCommand sqlCommand, 
             StringBuilder commandText,
-            Sqls.TableTypes tableType,
             int? commandCount)
         {
             commandText.Append(Sql(
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
-                tableType: tableType,
                 commandCount: commandCount));
         }
 
         public string Sql(
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
-            Sqls.TableTypes tableType,
             int? commandCount)
         {
             return this.Any(o => o.Using)
@@ -64,8 +61,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     .Select(o => o.Sql(
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
-                        tableType: tableType,
-                        tableBracket: Sqls.GetTableBracket(tableType, o.TableName),
+                        tableBracket: Sqls.GetTableBracket(o.TableName),
                         commandCount: commandCount))
                     .Join(MultiClauseOperator) + " "
                 : string.Empty;

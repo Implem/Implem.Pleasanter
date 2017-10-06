@@ -43,7 +43,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Params(SqlWhereCollection.Sql(
                     sqlContainer: sqlContainer,
                     sqlCommand: sqlCommand,
-                    tableType: TableType,
                     commandCount: commandCount)));
         }
     }

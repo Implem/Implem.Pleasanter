@@ -44,7 +44,6 @@ namespace Implem.Libraries.DataSources.SqlServer
         public string Sql(
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
-            Sqls.TableTypes tableType,
             string tableBracket,
             int? commandCount)
         {
@@ -58,7 +57,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
             else if (Or != null)
             {
-                return Sql_Or(sqlContainer, sqlCommand, tableType, commandCount);
+                return Sql_Or(sqlContainer, sqlCommand, commandCount);
             }
             else
             {
@@ -164,7 +163,6 @@ namespace Implem.Libraries.DataSources.SqlServer
         private string Sql_Or(
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
-            Sqls.TableTypes tableType,
             int? commandCount)
         {
             var commandText = new StringBuilder();
@@ -174,7 +172,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
-                tableType: tableType,
                 commandCount: commandCount);
             return "(" + commandText + ")";
         }

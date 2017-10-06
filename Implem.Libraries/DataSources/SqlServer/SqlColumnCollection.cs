@@ -43,7 +43,6 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
             StringBuilder commandText,
-            Sqls.TableTypes tableType,
             int? commandCount,
             bool distinct,
             int top)
@@ -55,8 +54,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Select(o => o.CommandText(
                     sqlContainer: sqlContainer,
                     sqlCommand: sqlCommand,
-                    tableType: tableType,
-                    tableBracket: Sqls.GetTableBracket(tableType, o.TableName),
+                    tableBracket: Sqls.GetTableBracket(o.TableName),
                     commandCount: commandCount))
                 .Join(), " ");
             RemoveAll(o => o.AdHoc);

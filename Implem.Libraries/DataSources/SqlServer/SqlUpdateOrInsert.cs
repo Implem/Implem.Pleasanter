@@ -110,7 +110,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
-                tableType: TableType,
                 commandCount: commandCount);
             commandText.Append(
                 " if @@rowcount = 0 insert into ",

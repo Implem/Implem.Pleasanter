@@ -43,7 +43,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         .GroupBy(o => o.ColumnBracket)
                         .Select(o => o.FirstOrDefault())
                         .Select(o => o.Sql(
-                            tableBracket: Sqls.GetTableBracket(tableType, o.TableName),
+                            tableBracket: Sqls.GetTableBracket(o.TableName),
                             tableType: tableType))
                         .Join(),
                     " ");

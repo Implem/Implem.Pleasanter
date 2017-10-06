@@ -143,19 +143,9 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
         }
 
-        public static string GetTableBracket(TableTypes tableType, string tableName)
+        public static string GetTableBracket(string tableName)
         {
-            switch (tableType)
-            {
-                case TableTypes.Normal:
-                    return "[" + tableName + "]";
-                case TableTypes.History:
-                case TableTypes.HistoryWithoutFlag:
-                    return "[" + tableName + "_history]";
-                case TableTypes.Deleted:
-                    return "[" + tableName + "_deleted]";
-                default: return null;
-            }
+            return "[" + tableName + "]";
         }
     }
 }

@@ -28,7 +28,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
-                tableType: TableType,
                 commandCount: commandCount);
             AddParams_Where(
                 sqlCommand: sqlCommand,
