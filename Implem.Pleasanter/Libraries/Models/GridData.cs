@@ -111,28 +111,29 @@ namespace Implem.Pleasanter.Libraries.Models
                 .Select(o => o.First())
                 .ToList()
                 .ForEach(o => AddDefaultColumns(
-                    o.Joined
+                    tableAlias: o.Joined
                         ? o.TableAlias + ","
                         : string.Empty,
-                    o.SiteSettings,
-                    columns));
+                    ss: ss,
+                    currentSs: o.SiteSettings,
+                    columns: columns));
             return columns
                 .Where(o => o != null)
                 .ToList();
         }
 
         private static void AddDefaultColumns(
-            string tableAlias, SiteSettings ss, List<Column> columns)
+            string tableAlias, SiteSettings ss, SiteSettings currentSs, List<Column> columns)
         {
-            if (ss.ColumnHash.ContainsKey("SiteId"))
+            if (currentSs.ColumnHash.ContainsKey("SiteId"))
             {
                 columns.Add(ss.GetColumn(tableAlias + "SiteId"));
             }
-            ss.TitleColumns
-                .Where(o => ss.ColumnHash.ContainsKey(o))
+            currentSs.TitleColumns
+                .Where(o => currentSs.ColumnHash.ContainsKey(o))
                 .ForEach(name =>
                     columns.Add(ss.GetColumn(tableAlias + name)));
-            columns.Add(ss.GetColumn(tableAlias + Rds.IdColumn(ss.ReferenceType)));
+            columns.Add(ss.GetColumn(tableAlias + Rds.IdColumn(currentSs.ReferenceType)));
             columns.Add(ss.GetColumn(tableAlias + "Creator"));
             columns.Add(ss.GetColumn(tableAlias + "Updator"));
         }
