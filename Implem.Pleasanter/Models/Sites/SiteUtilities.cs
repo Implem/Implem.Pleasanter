@@ -252,7 +252,7 @@ namespace Implem.Pleasanter.Models
                 var res = new SitesResponseCollection(siteModel);
                 res.ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(siteId));
                 return ResponseByUpdate(res, siteModel)
-                    .PrependComment(siteModel.Comments, siteModel.VerType)
+                    .PrependComment(ss, siteModel.Comments, siteModel.VerType)
                     .ToJson();
             }
         }
@@ -261,6 +261,7 @@ namespace Implem.Pleasanter.Models
             SitesResponseCollection res,
             SiteModel siteModel)
         {
+            var ss = siteModel.SiteSettings;
             return res
                 .Ver()
                 .Timestamp()
@@ -271,7 +272,7 @@ namespace Implem.Pleasanter.Models
                     baseModel: siteModel, tableName: "Sites"))
                 .SetMemory("formChanged", false)
                 .Message(Messages.Updated(siteModel.Title.Value))
-                .RemoveComment(siteModel.DeleteCommentId, _using: siteModel.DeleteCommentId != 0)
+                .Comment(ss, siteModel.Comments, siteModel.DeleteCommentId)
                 .ClearFormData();
         }
 
@@ -2654,7 +2655,12 @@ namespace Implem.Pleasanter.Models
                                         onClick: "$p.send($(this));",
                                         icon: "ui-icon-circle-triangle-w",
                                         action: "SetSiteSettings",
-                                        method: "put")))));
+                                        method: "put"))))
+                    .FieldCheckBox(
+                        controlId: "AllowEditingComments",
+                        fieldCss: "field-auto-thin both",
+                        labelText: Displays.AllowEditingComments(),
+                        _checked: ss.AllowEditingComments == true));
         }
 
         /// <summary>

@@ -1180,6 +1180,8 @@
     <Content Include="App_Data\Displays\Section.json" />
     <Content Include="App_Data\Displays\NoWrap.json" />
     <Content Include="App_Data\Parameters\Search.json" />
+    <Content Include="App_Data\Displays\AllowEditingComments.json" />
+    <Content Include="App_Data\Displays\CommentUpdated.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

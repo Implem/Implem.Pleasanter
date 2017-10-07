@@ -693,7 +693,7 @@ namespace Implem.Pleasanter.Models
             {
                 var res = new GroupsResponseCollection(groupModel);
                 return ResponseByUpdate(res, ss, groupModel)
-                    .PrependComment(groupModel.Comments, groupModel.VerType)
+                    .PrependComment(ss, groupModel.Comments, groupModel.VerType)
                     .ToJson();
             }
         }
@@ -713,7 +713,7 @@ namespace Implem.Pleasanter.Models
                     baseModel: groupModel, tableName: "Groups"))
                 .SetMemory("formChanged", false)
                 .Message(Messages.Updated(groupModel.Title.Value))
-                .RemoveComment(groupModel.DeleteCommentId, _using: groupModel.DeleteCommentId != 0)
+                .Comment(ss, groupModel.Comments, groupModel.DeleteCommentId)
                 .ClearFormData();
         }
 

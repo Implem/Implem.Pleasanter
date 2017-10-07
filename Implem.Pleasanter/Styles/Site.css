@@ -1541,7 +1541,7 @@ pre{
     border-radius:5px;
 }
 
-.control-markup{
+.field-control .control-markup{
     width:100%;
     min-height:100px;
     padding:4px 25px 4px 6px;
@@ -1750,29 +1750,53 @@ pre{
 }
 
 .comment{
+    width:100%;
+    display:block;
+    float:left;
     margin:0px 0px 5px 0px;
-    padding:5px;
+    padding:5px 10px 10px 20px;
     background:lightgoldenrodyellow;
     border:solid 1px silver;
     position:relative;
     clear:both;
 }
 
+.comment > *{
+    display:block;
+    float:left;
+}
+
 .comment > .time{
     float:left;
+    margin:0px 0px 8px -10px;
     margin-right:10px;
 }
 
 .comment > .body{
-    padding:5px 5px 3px 15px;
     clear:both;
 }
 
-.comment > .button{
+.comment > .button.edit{
+    position:absolute;
+    top:3px;
+    right:20px;
+    cursor:pointer;
+}
+
+.comment > .button.delete{
     position:absolute;
     top:3px;
     right:5px;
     cursor:pointer;
+}
+
+.comment > .control-markup{
+    width:100%;
+}
+
+.comment > .control-markdown{
+    width:100%;
+    display:none;
 }
 
 .user{
@@ -1900,7 +1924,7 @@ pre{
     min-width:200px;
     max-height:100px;
     margin:0px 0px 3px 0px;
-    padding:3px 6px;
+    padding:3px 6px 3px 15px;
     background:lightgoldenrodyellow;
     border:solid 1px white;
     clear:both;
@@ -2086,6 +2110,11 @@ label.error{
     right:5px;
     cursor:pointer;
     z-index:1;
+}
+
+.comment > .button-edit-markdown{
+    top:6px;
+    right:20px;
 }
 
 .button-delete-address{

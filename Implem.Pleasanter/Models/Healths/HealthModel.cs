@@ -248,7 +248,14 @@ namespace Implem.Pleasanter.Models
                     case "Healths_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
-                    default: break;
+                    default:
+                        if (controlId.RegexExists("Comment[0-9]+"))
+                        {
+                            Comments.Update(
+                                controlId.Substring("Comment".Length).ToInt(),
+                                Forms.Data(controlId));
+                        }
+                        break;
                 }
             });
             if (Routes.Action() == "deletecomment")

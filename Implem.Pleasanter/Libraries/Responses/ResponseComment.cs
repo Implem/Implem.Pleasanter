@@ -3,12 +3,15 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Settings;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class ResponseComment
     {
         public static ResponseCollection PrependComment(
             this ResponseCollection res,
+            SiteSettings ss,
             Comments comments,
             Versions.VerTypes verType)
         {
@@ -17,18 +20,40 @@ namespace Implem.Pleasanter.Libraries.Responses
                     .Val("#Comments", string.Empty)
                     .Focus("#Comments")
                     .Prepend("#CommentList", new HtmlBuilder()
-                        .Comment(comment: comments[0], verType: verType))
+                        .Comment(
+                            ss: ss,
+                            comment: comments[0],
+                            verType: verType))
                 : res;
         }
 
-        public static ResponseCollection RemoveComment(
-            this ResponseCollection res, int commentId, bool _using)
+        public static ResponseCollection Comment(
+            this ResponseCollection res,
+            SiteSettings ss,
+            Comments comments,
+            int deleteCommentId)
         {
-            return _using
-                ? res
-                    .Remove("#Comment" + commentId)
-                    .Focus("#Comments")
-                : res;
+            comments
+                .Where(o => Forms.Exists("Comment" + o.CommentId))
+                .ForEach(comment =>
+                    res.ReplaceAll(
+                        Selector(comment.CommentId),
+                        new HtmlBuilder().Comment(
+                            ss: ss,
+                            comment: comment,
+                            verType: Versions.VerTypes.Latest)));
+            if (deleteCommentId != 0)
+            {
+                res
+                    .Remove(Selector(deleteCommentId))
+                    .Focus("#Comments");
+            }
+            return res;
+        }
+
+        private static string Selector(int commentId)
+        {
+            return "[id=\"Comment" + commentId + ".wrapper\"]";
         }
     }
 }

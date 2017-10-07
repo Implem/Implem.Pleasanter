@@ -3136,7 +3136,7 @@ namespace Implem.Pleasanter.Models
             {
                 var res = new ResultsResponseCollection(resultModel);
                 return ResponseByUpdate(res, ss, resultModel)
-                    .PrependComment(resultModel.Comments, resultModel.VerType)
+                    .PrependComment(ss, resultModel.Comments, resultModel.VerType)
                     .ToJson();
             }
         }
@@ -3159,7 +3159,7 @@ namespace Implem.Pleasanter.Models
                     ss: ss, id: resultModel.ResultId))
                 .SetMemory("formChanged", false)
                 .Message(Messages.Updated(resultModel.Title.DisplayValue))
-                .RemoveComment(resultModel.DeleteCommentId, _using: resultModel.DeleteCommentId != 0)
+                .Comment(ss, resultModel.Comments, resultModel.DeleteCommentId)
                 .ClearFormData();
         }
 
@@ -3384,6 +3384,7 @@ namespace Implem.Pleasanter.Models
             return Rds.ExecuteScalar_int(statements:
                 Rds.SelectResults(
                     column: Rds.ResultsColumn().ResultsCount(),
+                    join: Rds.Join(ss),
                     where: Views.GetBySession(ss).Where(
                         ss, Rds.ResultsWhere()
                             .SiteId(ss.SiteId)

@@ -32,10 +32,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     CommentId = CommentId(),
                     CreatedTime = DateTime.Now,
                     Creator = Sessions.UserId(),
-                    Body = body
+                    Body = body,
+                    Created = true
                 });
             }
             return this;
+        }
+
+        public void Update(int commentId, string body)
+        {
+            this.FirstOrDefault(o => o.CommentId == commentId)?.Update(body);
         }
 
         public new string ToString()
@@ -72,8 +78,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public HtmlBuilder Td(HtmlBuilder hb, Column column)
         {
-            return hb.Td(action: () =>
-                this?.Take(DisplayCount()).ForEach(comment => comment.Html(hb: hb)));
+            return hb.Td(action: () => this?
+                .Take(DisplayCount())
+                .ForEach(comment => comment
+                    .Html(
+                        hb: hb,
+                        allowEditing: column.SiteSettings.AllowEditingComments == true)));
         }
 
         public string GridText(Column column)
@@ -105,18 +115,33 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToNotice(string saved, Column column, bool updated, bool update)
         {
-            switch (Routes.Action())
+            var body = string.Empty;
+            if (Routes.Action()== "deletecomment")
             {
-                case "deletecomment":
-                    return Displays.CommentDeleted();
-                default:
-                    return this.Any()
-                        ? this.FirstOrDefault().Body.ToNoticeLine(
+                body = Displays.CommentDeleted() + "\n";
+            }
+            if (this.Any())
+            {
+                body += this.FirstOrDefault(o => o.Created)?
+                    .Body
+                        .ToNoticeLine(
                             string.Empty,
                             column,
                             updated,
-                            update)
-                        : string.Empty;
+                            update);
+                this.Where(o => o.Updated).ForEach(comment =>
+                    body += comment.Body
+                        .ToNoticeLine(
+                            string.Empty,
+                            column,
+                            updated,
+                            update,
+                            Displays.CommentUpdated()));
+                return body;
+            }
+            else
+            {
+                return string.Empty;
             }
         }
     }

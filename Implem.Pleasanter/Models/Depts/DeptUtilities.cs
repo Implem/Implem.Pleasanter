@@ -685,7 +685,7 @@ namespace Implem.Pleasanter.Models
             {
                 var res = new DeptsResponseCollection(deptModel);
                 return ResponseByUpdate(res, ss, deptModel)
-                    .PrependComment(deptModel.Comments, deptModel.VerType)
+                    .PrependComment(ss, deptModel.Comments, deptModel.VerType)
                     .ToJson();
             }
         }
@@ -705,7 +705,7 @@ namespace Implem.Pleasanter.Models
                     baseModel: deptModel, tableName: "Depts"))
                 .SetMemory("formChanged", false)
                 .Message(Messages.Updated(deptModel.Title.Value))
-                .RemoveComment(deptModel.DeleteCommentId, _using: deptModel.DeleteCommentId != 0)
+                .Comment(ss, deptModel.Comments, deptModel.DeleteCommentId)
                 .ClearFormData();
         }
 

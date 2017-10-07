@@ -3236,7 +3236,7 @@ namespace Implem.Pleasanter.Models
                     ss.GetColumn("RemainingWorkValue")
                         .Display(ss, issueModel.RemainingWorkValue));
                 return ResponseByUpdate(res, ss, issueModel)
-                    .PrependComment(issueModel.Comments, issueModel.VerType)
+                    .PrependComment(ss, issueModel.Comments, issueModel.VerType)
                     .ToJson();
             }
         }
@@ -3259,7 +3259,7 @@ namespace Implem.Pleasanter.Models
                     ss: ss, id: issueModel.IssueId))
                 .SetMemory("formChanged", false)
                 .Message(Messages.Updated(issueModel.Title.DisplayValue))
-                .RemoveComment(issueModel.DeleteCommentId, _using: issueModel.DeleteCommentId != 0)
+                .Comment(ss, issueModel.Comments, issueModel.DeleteCommentId)
                 .ClearFormData();
         }
 
@@ -3567,6 +3567,7 @@ namespace Implem.Pleasanter.Models
             return Rds.ExecuteScalar_int(statements:
                 Rds.SelectIssues(
                     column: Rds.IssuesColumn().IssuesCount(),
+                    join: Rds.Join(ss),
                     where: Views.GetBySession(ss).Where(
                         ss, Rds.IssuesWhere()
                             .SiteId(ss.SiteId)

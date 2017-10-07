@@ -101,15 +101,16 @@ namespace Implem.Pleasanter.Libraries.Converts
             string saved,
             Column column,
             bool updated,
-            bool update)
+            bool update,
+            string suffix = null)
         {
             return update
                 ? updated
                     ? saved != string.Empty
-                        ? "{0} : {2} => {1}\n".Params(column.LabelText, self, saved)
-                        : "{0} : {1}\n".Params(column.LabelText, self)
+                        ? "{0}{3} : {2} => {1}\n".Params(column.LabelText, self, saved, suffix)
+                        : "{0}{2} : {1}\n".Params(column.LabelText, self, suffix)
                     : string.Empty
-                : "{0}: {1}\n".Params(column.LabelText, self);
+                : "{0}{2}: {1}\n".Params(column.LabelText, self, suffix);
         }
     }
 }

@@ -1030,7 +1030,7 @@ namespace Implem.Pleasanter.Models
             {
                 var res = new UsersResponseCollection(userModel);
                 return ResponseByUpdate(res, ss, userModel)
-                    .PrependComment(userModel.Comments, userModel.VerType)
+                    .PrependComment(ss, userModel.Comments, userModel.VerType)
                     .ToJson();
             }
         }
@@ -1050,7 +1050,7 @@ namespace Implem.Pleasanter.Models
                     baseModel: userModel, tableName: "Users"))
                 .SetMemory("formChanged", false)
                 .Message(Messages.Updated(userModel.Title.Value))
-                .RemoveComment(userModel.DeleteCommentId, _using: userModel.DeleteCommentId != 0)
+                .Comment(ss, userModel.Comments, userModel.DeleteCommentId)
                 .ClearFormData();
         }
 

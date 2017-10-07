@@ -2,8 +2,8 @@
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
-
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlComments
@@ -23,14 +23,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         columnPermissionType == Permissions.ColumnPermissionTypes.Update)
                 .Div(id: "CommentList", action: () => comments
                     .ForEach(comment => hb
-                        .Comment(comment, verType)));
+                        .Comment(column.SiteSettings, comment, verType)));
         }
 
         public static HtmlBuilder Comment(
-            this HtmlBuilder hb, Comment comment, Versions.VerTypes verType)
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            Comment comment,
+            Versions.VerTypes verType)
         {
             return comment.Html(
                 hb: hb,
+                allowEditing: ss.AllowEditingComments == true,
+                verType: verType,
                 controlId: "Comment" + comment.CommentId,
                 action: () => hb
                     .DeleteComment(comment: comment, verType: verType));
@@ -48,6 +53,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
+        private static HtmlBuilder EditComment(
+            this HtmlBuilder hb, Comment comment, Versions.VerTypes verType)
+        {
+            return verType == Versions.VerTypes.Latest && comment.Creator == Sessions.UserId()
+                ? hb.P(
+                    attributes: new HtmlAttributes()
+                        .Id("EditComment," + comment.CommentId)
+                        .Class("button edit")
+                        .OnClick("$p.editComment($(this));"),
+                    action: () => hb
+                        .Icon(iconCss: "ui-icon ui-icon-pencil"))
+                : hb;
+        }
+
         private static HtmlBuilder DeleteComment(
             this HtmlBuilder hb, Comment comment, Versions.VerTypes verType)
         {
@@ -55,7 +74,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.P(
                     attributes: new HtmlAttributes()
                         .Id("DeleteComment," + comment.CommentId)
-                        .Class("button")
+                        .Class("button delete")
                         .OnClick("$p.send($(this));")
                         .DataAction("DeleteComment")
                         .DataMethod("delete")

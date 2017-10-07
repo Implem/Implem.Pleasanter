@@ -52,6 +52,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string AggregationType(params string[] data) { return Get("AggregationType", data); }
         public static string AggregationView(params string[] data) { return Get("AggregationView", data); }
         public static string All(params string[] data) { return Get("All", data); }
+        public static string AllowEditingComments(params string[] data) { return Get("AllowEditingComments", data); }
         public static string AllowedUsers(params string[] data) { return Get("AllowedUsers", data); }
         public static string AlreadyAdded(params string[] data) { return Get("AlreadyAdded", data); }
         public static string AlreadyLinked(params string[] data) { return Get("AlreadyLinked", data); }
@@ -102,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ColumnList(params string[] data) { return Get("ColumnList", data); }
         public static string CommentDeleted(params string[] data) { return Get("CommentDeleted", data); }
         public static string Comments(params string[] data) { return Get("Comments", data); }
+        public static string CommentUpdated(params string[] data) { return Get("CommentUpdated", data); }
         public static string Condition(params string[] data) { return Get("Condition", data); }
         public static string ConfirmCreateLink(params string[] data) { return Get("ConfirmCreateLink", data); }
         public static string ConfirmDelete(params string[] data) { return Get("ConfirmDelete", data); }

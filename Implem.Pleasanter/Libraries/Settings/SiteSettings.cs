@@ -73,6 +73,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<View> Views;
         public SettingList<Notification> Notifications;
         public SettingList<Export> Exports;
+        public bool? AllowEditingComments;
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
         public bool? EnableGantt;
@@ -160,6 +161,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Formulas == null) Formulas = new SettingList<FormulaSet>();
             if (Notifications == null) Notifications = new SettingList<Notification>();
             if (Exports == null) Exports = new SettingList<Export>();
+            AllowEditingComments = AllowEditingComments ?? false;
             EnableCalendar = EnableCalendar ?? true;
             EnableCrosstab = EnableCrosstab ?? true;
             EnableGantt = EnableGantt ?? true;
@@ -316,6 +318,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!TitleColumns.SequenceEqual(DefaultTitleColumns()))
             {
                 ss.TitleColumns = TitleColumns;
+            }
+            if (AllowEditingComments == true)
+            {
+                ss.AllowEditingComments = AllowEditingComments;
             }
             if (EnableCalendar == false)
             {
@@ -1653,6 +1659,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridView": GridView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
+                case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
                 case "EnableGantt": EnableGantt = value.ToBool(); break;
