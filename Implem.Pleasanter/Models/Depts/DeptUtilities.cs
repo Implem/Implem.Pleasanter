@@ -614,7 +614,7 @@ namespace Implem.Pleasanter.Models
         {
             var view = Views.GetBySession(ss);
             var where = view.Where(ss: ss, where: Rds.DeptsWhere().TenantId(Sessions.TenantId()));
-            var join = Rds.Join(ss);
+            var join = ss.Join();
             var switchTargets = Rds.ExecuteScalar_int(statements:
                 Rds.SelectDepts(
                     column: Rds.DeptsColumn().DeptsCount(),

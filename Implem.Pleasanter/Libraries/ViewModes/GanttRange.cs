@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                             "CompletionTime",
                             _as: "CompletionTimeMax",
                             function: Sqls.Functions.Max),
-                    join: Rds.Join(ss),
+                    join: ss.Join(),
                     where: view.Where(ss: ss)))
                         .AsEnumerable()
                         .FirstOrDefault();

@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Models
             IEnumerable<Aggregation> aggregations = null)
         {
             var column = Column(ss);
-            var join = Rds.Join(ss, withColumn: true);
+            var join = ss.Join(withColumn: true);
             where = view.Where(ss, where);
             var orderBy = view.OrderBy(ss);
             if (pageSize > 0 && orderBy?.Any() != true)
@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 Rds.Select(
                     tableName: ss.ReferenceType,
                     dataTableName: "Main",
-                    column: SqlColumnCollection(column),
+                    column: SqlColumnCollection(ss, column),
                     join: join,
                     where: where,
                     orderBy: orderBy,
@@ -92,12 +92,14 @@ namespace Implem.Pleasanter.Libraries.Models
                 statements: statements.ToArray());
             Aggregations.Set(dataSet, aggregations, ss);
             DataRows = dataSet.Tables["Main"].AsEnumerable();
+            ss.SetChoiceHash(DataRows);
         }
 
-        private static SqlColumnCollection SqlColumnCollection(IEnumerable<Column> columns)
+        private static SqlColumnCollection SqlColumnCollection(
+            SiteSettings ss, IEnumerable<Column> columns)
         {
             return new SqlColumnCollection(columns
-                .SelectMany(column => column.SqlColumnCollection())
+                .SelectMany(column => column.SqlColumnCollection(ss))
                 .GroupBy(o => o.ColumnBracket + o.As)
                 .Select(o => o.First())
                 .ToArray());

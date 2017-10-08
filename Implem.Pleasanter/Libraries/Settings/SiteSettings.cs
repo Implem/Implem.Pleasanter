@@ -1930,6 +1930,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
         }
 
+        public void SetChoiceHash(EnumerableRowCollection<DataRow> dataRows)
+        {
+            dataRows?
+                .Columns()
+                .Where(o => o.StartsWith("Linked__"))
+                .Select(o => GetColumn(o.Substring("Linked__".Length)))
+                .ToList()
+                .ForEach(column =>
+                {
+                    column.ChoiceHash = new Dictionary<string, Choice>();
+                    dataRows
+                        .GroupBy(o => o.Long(column.ColumnName))
+                        .Select(o => o.First())
+                        .ForEach(dataRow =>
+                            column.ChoiceHash.Add(
+                                dataRow.Long(column.ColumnName).ToString(),
+                                new Choice(dataRow.String("Linked__" + column.ColumnName))));
+                });
+        }
+
         public void SetChoiceHash(bool withLink = true, bool all = false)
         {
             SetChoiceHash(
@@ -2415,6 +2435,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             return data;
         }
 
+        public SqlJoinCollection Join(bool withColumn = false)
+        {
+            return SqlJoinCollection((withColumn
+                ? Arrays.Concat(GridColumns, FilterColumns, UseSearchTitleColumns())
+                : Arrays.Concat(GridColumns, FilterColumns, UseSearchTitleColumns()))
+                    .Where(o => o.Contains(","))
+                    .Select(o => GetColumn(o))
+                    .ToList());
+        }
+
         public SqlJoinCollection SqlJoinCollection(IEnumerable<Column> columns)
         {
             return new SqlJoinCollection(columns
@@ -2424,6 +2454,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .GroupBy(o => o.JoinExpression)
                 .Select(o => o.First())
                 .ToArray());
+        }
+
+        private List<string> UseSearchTitleColumns(bool titleOnly = false)
+        {
+            return Columns
+                .Select(o => new
+                {
+                    Link = o.SiteSettings.Links.FirstOrDefault(p => p.ColumnName == o.Name),
+                    Column = o
+                })
+                .Where(o => o.Link != null)
+                .Select(o => (!o.Column.TableAlias.IsNullOrEmpty()
+                    ? o.Column.TableAlias + "-"
+                    : string.Empty) + 
+                        o.Link.ColumnName + "~" + o.Link.SiteId + ",Title")
+                .ToList();
         }
     }
 }

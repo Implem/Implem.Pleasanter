@@ -1,9 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 namespace Implem.Libraries.Utilities
 {
     public static class DataRows
     {
+        public static List<string> Columns(this EnumerableRowCollection<DataRow> dataRows)
+        {
+            return dataRows?.FirstOrDefault().Columns();
+        }
+
+        public static List<string> Columns(this DataRow dataRow)
+        {
+            var columns = new List<string>();
+            if (dataRow != null)
+            {
+                foreach (DataColumn column in dataRow.Table.Columns)
+                {
+                    columns.Add(column.ColumnName);
+                }
+            }
+            return columns;
+        }
+
         public static bool Bool(this DataRow dataRow, string name)
         {
             return dataRow.Table.Columns.Contains(name)

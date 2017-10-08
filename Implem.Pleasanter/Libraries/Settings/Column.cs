@@ -249,20 +249,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public void SetChoiceHash(EnumerableRowCollection<DataRow> dataRows, string alias = null)
-        {
-            dataRows.ForEach(dataRow =>
-            {
-                var columnName = alias ?? ColumnName;
-                var key = dataRow.String(columnName);
-                var value = dataRow.String(columnName + "_Title");
-                if (key != null && value != null)
-                {
-                    AddToChoiceHash(key, value);
-                }
-            });
-        }
-
         public bool Linked(SiteSettings ss, long fromSiteId)
         {
             return
@@ -460,21 +446,36 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : 0;
         }
 
-        public SqlColumnCollection SqlColumnCollection()
+        public SqlColumnCollection SqlColumnCollection(SiteSettings ss)
         {
             var sql = new SqlColumnCollection();
-            if (SiteSettings != null)
+            SelectColumns(
+                sql: sql,
+                tableName: SiteSettings.ReferenceType,
+                columnName: Name,
+                path: Joined
+                    ? TableAlias
+                    : SiteSettings.ReferenceType,
+                _as: Joined
+                    ? ColumnName
+                    : null);
+            LinkedSqlColumnCollection(sql);
+            return sql;
+        }
+
+        public SqlColumnCollection LinkedSqlColumnCollection(SqlColumnCollection sql)
+        {
+            var link = SiteSettings.Links?
+                .FirstOrDefault(o => o.ColumnName == Name);
+            if (link != null)
             {
-                SelectColumns(
-                    sql: sql,
-                    tableName: SiteSettings.ReferenceType,
-                    columnName: Name,
-                    path: Joined
-                        ? TableAlias
-                        : SiteSettings.ReferenceType,
-                    _as: Joined
-                        ? ColumnName
-                        : null);
+                sql.Add(
+                    columnBracket: "[Title]",
+                    tableName: (!TableAlias.IsNullOrEmpty()
+                        ? TableAlias + "-"
+                        : string.Empty) +
+                            link.ColumnName + "~" + link.SiteId,
+                    _as: "Linked__" + ColumnName);
             }
             return sql;
         }

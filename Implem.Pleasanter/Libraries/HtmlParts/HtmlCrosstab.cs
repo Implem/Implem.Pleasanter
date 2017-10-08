@@ -158,7 +158,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             EnumerableRowCollection<DataRow> dataRows,
             bool inRange = true)
         {
-            SetChoiceHash(groupByX, groupByY, dataRows);
             if (!inRange) return hb;
             if (view.CrosstabGroupByY != "Columns")
             {
@@ -193,19 +192,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Hidden(controlId: "CrosstabThisMonth", value: Times.ThisMonth());
         }
 
-        private static void SetChoiceHash(
-            Column groupByX, Column groupByY, EnumerableRowCollection<DataRow> dataRows)
-        {
-            if (groupByX?.Linked() == true)
-            {
-                groupByX.SetChoiceHash(dataRows, "groupByX");
-            }
-            if (groupByY?.Linked() == true)
-            {
-                groupByY.SetChoiceHash(dataRows, "groupByY");
-            }
-        }
-
         private static HtmlBuilder CrosstabBody(
             this HtmlBuilder hb,
             SiteSettings ss,
@@ -219,15 +205,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             EnumerableRowCollection<DataRow> dataRows)
         {
             var data = dataRows.Select(o => new CrosstabElement(
-                o.String("GroupByX"),
-                o.String("GroupByY"),
+                o.String(groupByX.ColumnName),
+                o.String(groupByY.ColumnName),
                 o.Decimal("Value")));
             var choicesX = groupByX?.TypeName == "datetime"
                 ? CorrectedChoices(groupByX, timePeriod, month)
-                : CorrectedChoices(
-                    groupByX, groupByX?.Choices(data.Select(o => o.GroupByX)));
-            var choicesY = CorrectedChoices(
-                groupByY, groupByY?.Choices(data.Select(o => o.GroupByY)));
+                : groupByX.ChoiceHash.ToDictionary(
+                    o => o.Key,
+                    o => new ControlData(o.Value.Text));
+            var choicesY = groupByY.ChoiceHash.ToDictionary(
+                    o => o.Key,
+                    o => new ControlData(o.Value.Text));
             return hb.Table(
                 ss: ss,
                 choicesX: choicesX,
@@ -256,13 +244,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             dataRows.ForEach(o =>
                 columnList.ForEach(column =>
                     data.Add(new CrosstabElement(
-                        o.String("GroupByX"),
+                        o.String(groupByX.ColumnName),
                         column.ColumnName,
                         o.Decimal(column.ColumnName)))));
             var choicesX = groupByX?.TypeName == "datetime"
                 ? CorrectedChoices(groupByX, timePeriod, month)
-                : CorrectedChoices(
-                    groupByX, groupByX?.Choices(data.Select(o => o.GroupByX)));
+                : groupByX.ChoiceHash.ToDictionary(
+                    o => o.Key,
+                    o => new ControlData(o.Value.Text));
             var choicesY = columnList.ToDictionary(
                 o => o.ColumnName,
                 o => new ControlData(o?.LabelText));

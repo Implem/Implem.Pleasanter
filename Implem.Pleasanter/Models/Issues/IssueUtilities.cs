@@ -2982,7 +2982,7 @@ namespace Implem.Pleasanter.Models
         {
             var view = Views.GetBySession(ss);
             var where = view.Where(ss: ss);
-            var join = Rds.Join(ss);
+            var join = ss.Join();
             var switchTargets = Rds.ExecuteScalar_int(statements:
                 Rds.SelectIssues(
                     column: Rds.IssuesColumn().IssuesCount(),
@@ -3567,7 +3567,7 @@ namespace Implem.Pleasanter.Models
             return Rds.ExecuteScalar_int(statements:
                 Rds.SelectIssues(
                     column: Rds.IssuesColumn().IssuesCount(),
-                    join: Rds.Join(ss),
+                    join: ss.Join(),
                     where: Views.GetBySession(ss).Where(
                         ss, Rds.IssuesWhere()
                             .SiteId(ss.SiteId)
@@ -4472,7 +4472,7 @@ namespace Implem.Pleasanter.Models
                         .IssueId()
                         .Title()
                         .IssuesColumn(columnName, _as: "Date"),
-                    join: Rds.Join(ss),
+                    join: ss.Join(),
                     where: view.Where(ss: ss, where: where)))
                         .AsEnumerable();
         }
@@ -4680,15 +4680,13 @@ namespace Implem.Pleasanter.Models
             string timePeriod,
             DateTime month)
         {
-            var groupByX_Title = ss.LinkedTitleColumn(groupByX);
-            var groupByY_Title = ss.LinkedTitleColumn(groupByY);
+            EnumerableRowCollection<DataRow> dataRows;
             if (groupByX?.TypeName != "datetime")
             {
-                return Rds.ExecuteTable(statements:
+                dataRows = Rds.ExecuteTable(statements:
                     Rds.SelectIssues(
                         column: Rds.IssuesColumn()
-                            .Add(groupByX, _as: "GroupByX")
-                            .Add(groupByX_Title, _as: "GroupByX_Title")
+                            .Add(groupByX)
                             .CrosstabColumns(
                                 ss: ss,
                                 view: view,
@@ -4696,23 +4694,21 @@ namespace Implem.Pleasanter.Models
                                 columns: columns,
                                 value: value,
                                 aggregateType: aggregateType),
-                        join: ss.SqlJoinCollection(columns.Concat(groupByX, groupByY, value)),
+                        join: ss.Join(),
                         where: view.Where(ss: ss),
                         groupBy: Rds.IssuesGroupBy()
                             .Add(groupByX)
-                            .Add(groupByX_Title)
-                            .Add(groupByY)
-                            .Add(groupByY_Title)))
+                            .Add(groupByY)))
                                 .AsEnumerable();
             }
             else
             {
                 var dateGroup = Libraries.ViewModes.CrosstabUtilities.DateGroup(
                     ss, groupByX, timePeriod);
-                return Rds.ExecuteTable(statements:
+                dataRows = Rds.ExecuteTable(statements:
                     Rds.SelectIssues(
                         column: Rds.IssuesColumn()
-                            .Add(dateGroup, _as: "GroupByX")
+                            .Add(dateGroup, _as: groupByX.ColumnName)
                             .CrosstabColumns(
                                 ss: ss,
                                 view: view,
@@ -4720,17 +4716,18 @@ namespace Implem.Pleasanter.Models
                                 columns: columns,
                                 value: value,
                                 aggregateType: aggregateType),
-                        join: ss.SqlJoinCollection(columns.Concat(groupByX, groupByY, value)),
+                        join: ss.Join(),
                         where: view.Where(
                             ss: ss,
                             where: Libraries.ViewModes.CrosstabUtilities.Where(
                                 ss, groupByX, timePeriod, month)),
                         groupBy: Rds.IssuesGroupBy()
                             .Add(dateGroup)
-                            .Add(groupByY)
-                            .Add(groupByY_Title)))
+                            .Add(groupByY)))
                                 .AsEnumerable();
             }
+            ss.SetChoiceHash(dataRows);
+            return dataRows;
         }
 
         private static SqlColumnCollection CrosstabColumns(
@@ -4745,7 +4742,7 @@ namespace Implem.Pleasanter.Models
             if (view.CrosstabGroupByY != "Columns")
             {
                 return self
-                    .Add(column: groupByY, _as: "GroupByY")
+                    .Add(column: groupByY)
                     .Add(column: value, _as: "Value", function: Sqls.Function(aggregateType));
             }
             else
@@ -4921,7 +4918,7 @@ namespace Implem.Pleasanter.Models
                             groupBy, _as: "GroupBy", function: Sqls.Functions.SingleColumn)
                         .IssuesColumn(
                             sortBy, _as: "SortBy", function: Sqls.Functions.SingleColumn),
-                    join: Rds.Join(ss),
+                    join: ss.Join(),
                     where: view.Where(
                         ss: ss, where: Libraries.ViewModes.GanttUtilities.Where(view))))
                             .AsEnumerable();
@@ -5075,7 +5072,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss, View view)
         {
             var where = view.Where(ss: ss);
-            var join = Rds.Join(ss);
+            var join = ss.Join();
             return Rds.ExecuteTable(statements: new SqlStatement[]
             {
                 Rds.SelectIssues(
@@ -5261,7 +5258,7 @@ namespace Implem.Pleasanter.Models
                             .UpdatedTime()
                             .IssuesColumn(groupBy, _as: "Index")
                             .IssuesColumn(value, _as: "Value"),
-                        join: Rds.Join(ss),
+                        join: ss.Join(),
                         where: view.Where(ss: ss)))
                             .AsEnumerable()
                 : null;
@@ -5452,7 +5449,7 @@ namespace Implem.Pleasanter.Models
             return new IssueCollection(
                 ss: ss,
                 column: column,
-                join: Rds.Join(ss),
+                join: ss.Join(),
                 where: view.Where(ss: ss),
                 orderBy: view.OrderBy(ss, Rds.IssuesOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)))
