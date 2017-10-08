@@ -165,7 +165,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     break;
                 case "index":
                     hb.A(
-                        href: Locations.ItemEdit(Id),
+                        href: Locations.ItemEdit(Id) + (column.Joined
+                            ? "?back=1"
+                            : string.Empty),
                         text: DisplayValue);
                     break;
                 default:
