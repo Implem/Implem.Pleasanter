@@ -4683,7 +4683,7 @@ namespace Implem.Pleasanter.Models
                 dataRows = Rds.ExecuteTable(statements:
                     Rds.SelectIssues(
                         column: Rds.IssuesColumn()
-                            .Add(groupByX)
+                            .Add(ss, groupByX)
                             .CrosstabColumns(
                                 ss: ss,
                                 view: view,
@@ -4694,8 +4694,8 @@ namespace Implem.Pleasanter.Models
                         join: join,
                         where: view.Where(ss: ss),
                         groupBy: Rds.IssuesGroupBy()
-                            .Add(groupByX)
-                            .Add(groupByY)))
+                            .Add(ss, groupByX)
+                            .Add(ss, groupByY)))
                                 .AsEnumerable();
             }
             else
@@ -4720,7 +4720,7 @@ namespace Implem.Pleasanter.Models
                                 ss, groupByX, timePeriod, month)),
                         groupBy: Rds.IssuesGroupBy()
                             .Add(dateGroup)
-                            .Add(groupByY)))
+                            .Add(ss, groupByY)))
                                 .AsEnumerable();
             }
             ss.SetChoiceHash(dataRows);
@@ -4739,13 +4739,20 @@ namespace Implem.Pleasanter.Models
             if (view.CrosstabGroupByY != "Columns")
             {
                 return self
-                    .Add(column: groupByY)
-                    .Add(column: value, _as: "Value", function: Sqls.Function(aggregateType));
+                    .Add(
+                        ss: ss,
+                        column: groupByY)
+                    .Add(
+                        ss: ss,
+                        column: value,
+                        _as: "Value",
+                        function: Sqls.Function(aggregateType));
             }
             else
             {
                 columns.ForEach(column =>
                     self.Add(
+                        ss: ss,
                         column: column,
                         _as: column.ColumnName,
                         function: Sqls.Function(aggregateType)));

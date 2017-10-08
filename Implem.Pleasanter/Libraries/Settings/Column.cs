@@ -459,23 +459,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                 _as: Joined
                     ? ColumnName
                     : null);
-            LinkedSqlColumnCollection(sql);
+            LinkedSqlColumnCollection(ss, sql);
             return sql;
         }
 
-        public SqlColumnCollection LinkedSqlColumnCollection(SqlColumnCollection sql)
+        public SqlColumnCollection LinkedSqlColumnCollection(
+            SiteSettings ss, SqlColumnCollection sql)
         {
             var link = SiteSettings.Links?
                 .FirstOrDefault(o => o.ColumnName == Name);
             if (link != null)
             {
-                sql.Add(
-                    columnBracket: "[Title]",
-                    tableName: (!TableAlias.IsNullOrEmpty()
-                        ? TableAlias + "-"
-                        : string.Empty) +
-                            link.ColumnName + "~" + link.SiteId,
-                    _as: "Linked__" + ColumnName);
+                if (ss.JoinedSsHash?.ContainsKey(link.SiteId) == true)
+                {
+                    sql.Add(
+                        columnBracket: "[Title]",
+                        tableName: (!TableAlias.IsNullOrEmpty()
+                            ? TableAlias + "-"
+                            : string.Empty) +
+                                link.ColumnName + "~" + link.SiteId,
+                        _as: "Linked__" + ColumnName);
+                }
             }
             return sql;
         }

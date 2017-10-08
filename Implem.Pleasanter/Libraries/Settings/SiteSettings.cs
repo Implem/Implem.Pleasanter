@@ -1016,7 +1016,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ForEach(siteId =>
                 {
                     var ss = SiteSettingsUtilities.GetByDataRow(siteId);
-                    if (ss != null && !hash.ContainsKey(siteId))
+                    if (ss != null && !hash.ContainsKey(siteId) && ss.ReferenceType != "Wikis")
                     {
                         hash.Add(siteId, ss);
                         GetJoinedSsHash(ss.Links, hash);
