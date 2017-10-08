@@ -2435,12 +2435,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             return data;
         }
 
-        public SqlJoinCollection Join(bool withColumn = false)
+        public SqlJoinCollection Join(bool withColumn = false, List<string> columns = null)
         {
             return SqlJoinCollection((withColumn
-                ? Arrays.Concat(GridColumns, FilterColumns, UseSearchTitleColumns())
-                : Arrays.Concat(GridColumns, FilterColumns, UseSearchTitleColumns()))
-                    .Where(o => o.Contains(","))
+                ? Arrays.Concat(GridColumns, FilterColumns, UseSearchTitleColumns(), columns)
+                : Arrays.Concat(GridColumns, FilterColumns, UseSearchTitleColumns(), columns))
+                    .Where(o => o?.Contains(",") == true)
                     .Select(o => GetColumn(o))
                     .ToList());
         }

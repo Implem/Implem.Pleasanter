@@ -4460,6 +4460,8 @@ namespace Implem.Pleasanter.Models
             DateTime month)
         {
             EnumerableRowCollection<DataRow> dataRows;
+            var join = ss.Join(columns: Libraries.ViewModes.CrosstabUtilities
+                .JoinColumns(view, groupByX, groupByY, columns));
             if (groupByX?.TypeName != "datetime")
             {
                 dataRows = Rds.ExecuteTable(statements:
@@ -4473,7 +4475,7 @@ namespace Implem.Pleasanter.Models
                                 columns: columns,
                                 value: value,
                                 aggregateType: aggregateType),
-                        join: ss.Join(),
+                        join: join,
                         where: view.Where(ss: ss),
                         groupBy: Rds.ResultsGroupBy()
                             .Add(groupByX)
@@ -4495,7 +4497,7 @@ namespace Implem.Pleasanter.Models
                                 columns: columns,
                                 value: value,
                                 aggregateType: aggregateType),
-                        join: ss.Join(),
+                        join: join,
                         where: view.Where(
                             ss: ss,
                             where: Libraries.ViewModes.CrosstabUtilities.Where(
