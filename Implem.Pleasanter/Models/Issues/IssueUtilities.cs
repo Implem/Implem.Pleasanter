@@ -132,7 +132,6 @@ namespace Implem.Pleasanter.Models
             GridData gridData,
             View view)
         {
-            gridData.SetLinks(ss);
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
@@ -169,12 +168,10 @@ namespace Implem.Pleasanter.Models
             ResponseCollection res = null,
             int offset = 0,
             bool clearCheck = false,
-            bool setLinks = false,
             Message message = null)
         {
             var view = Views.GetBySession(ss);
             var gridData = GetGridData(ss, view, offset: offset);
-            if (setLinks) gridData.SetLinks(ss);
             return (res ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -3550,7 +3547,6 @@ namespace Implem.Pleasanter.Models
                 return GridRows(
                     ss,
                     clearCheck: true,
-                    setLinks: true,
                     message: Messages.BulkMoved(count.ToString()));
             }
             else
@@ -3632,7 +3628,6 @@ namespace Implem.Pleasanter.Models
                 return GridRows(
                     ss,
                     clearCheck: true,
-                    setLinks: true,
                     message: Messages.BulkDeleted(count.ToString()));
             }
             else
@@ -4955,17 +4950,6 @@ namespace Implem.Pleasanter.Models
             {
                 issues.ForEach(issueModel => issueModel.SetTitle(ss));
             }
-        }
-
-        private static void SetLinks(this GridData gridData, SiteSettings ss)
-        {
-            var links = ss.GetUseSearchLinks();
-            links?.ForEach(link =>
-                ss.SetChoiceHash(
-                    columnName: link.ColumnName,
-                    selectedValues: gridData.DataRows
-                        .Select(o => o.String(link.ColumnName))
-                        .Distinct()));
         }
 
         /// <summary>

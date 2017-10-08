@@ -478,12 +478,10 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.GridRows(
                     ss: Site.IssuesSiteSettings(ReferenceId, setSiteIntegration: true),
-                    offset: DataViewGrid.Offset(),
-                    setLinks: true);
+                    offset: DataViewGrid.Offset());
                 case "Results": return ResultUtilities.GridRows(
                     ss: Site.ResultsSiteSettings(ReferenceId, setSiteIntegration: true),
-                    offset: DataViewGrid.Offset(),
-                    setLinks: true);
+                    offset: DataViewGrid.Offset());
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
