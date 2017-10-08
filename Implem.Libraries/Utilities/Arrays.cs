@@ -63,7 +63,9 @@ namespace Implem.Libraries.Utilities
         public static List<T> Concat<T>(params List<T>[] data)
         {
             var list = new List<T>();
-            data.ForEach(o => list = list.Concat(o).ToList());
+            data?
+                .Where(o => o != null)
+                .ForEach(o => list = list.Concat(o).ToList());
             return list;
         }
 
