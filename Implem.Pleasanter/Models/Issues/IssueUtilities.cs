@@ -4904,11 +4904,10 @@ namespace Implem.Pleasanter.Models
         private static EnumerableRowCollection<DataRow> GanttDataRows(
             SiteSettings ss, View view, Column groupBy, Column sortBy)
         {
-            var dataRows = Rds.ExecuteTable(statements:
+            return Rds.ExecuteTable(statements:
                 Rds.SelectIssues(
                     column: Rds.IssuesTitleColumn(ss)
                         .IssueId()
-                        .Title()
                         .WorkValue()
                         .StartTime()
                         .CompletionTime()
@@ -4918,6 +4917,7 @@ namespace Implem.Pleasanter.Models
                         .Updator()
                         .CreatedTime()
                         .UpdatedTime()
+                        .ItemTitle(ss)
                         .Add(
                             ss: ss,
                             column: groupBy,
@@ -4930,8 +4930,6 @@ namespace Implem.Pleasanter.Models
                     where: view.Where(
                         ss: ss, where: Libraries.ViewModes.GanttUtilities.Where(view))))
                             .AsEnumerable();
-            ss.SetChoiceHash(dataRows);
-            return dataRows;
         }
 
         public static string UpdateByKamban(SiteSettings ss)
