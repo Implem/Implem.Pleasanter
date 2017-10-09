@@ -98,7 +98,8 @@ namespace Implem.Pleasanter.Models
                     columnName: link.ColumnName,
                     selectedValues: issueCollection
                         .Select(o => o.PropertyValue(link.ColumnName))
-                        .Distinct()));
+                        .Distinct(),
+                    noLimit: true));
             if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 issueCollection.ForEach(issueModel =>
@@ -139,7 +140,8 @@ namespace Implem.Pleasanter.Models
                     columnName: link.ColumnName,
                     selectedValues: resultCollection
                         .Select(o => o.PropertyValue(link.ColumnName))
-                        .Distinct()));
+                        .Distinct(),
+                    noLimit: true));
             if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 resultCollection.ForEach(resultModel =>
@@ -180,7 +182,8 @@ namespace Implem.Pleasanter.Models
                     columnName: link.ColumnName,
                     selectedValues: wikiCollection
                         .Select(o => o.PropertyValue(link.ColumnName))
-                        .Distinct()));
+                        .Distinct(),
+                    noLimit: true));
             if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 wikiCollection.ForEach(wikiModel =>

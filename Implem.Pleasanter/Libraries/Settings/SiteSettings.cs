@@ -1992,12 +1992,17 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetChoiceHash(
             string columnName,
             string searchText = null,
-            IEnumerable<string> selectedValues = null)
+            IEnumerable<string> selectedValues = null,
+            bool noLimit = false)
         {
             SetChoiceHash(
                 columnName: columnName,
                 searchText: searchText,
-                linkHash: LinkHash(columnName, searchText, selectedValues));
+                linkHash: LinkHash(
+                    columnName: columnName,
+                    searchText: searchText,
+                    selectedValues: selectedValues,
+                    noLimit: noLimit));
         }
 
         private void SetChoiceHash(
@@ -2060,7 +2065,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, IEnumerable<string>> LinkHash(
             string columnName,
             string searchText = null,
-            IEnumerable<string> selectedValues = null)
+            IEnumerable<string> selectedValues = null,
+            bool noLimit = false)
         {
             var hash = new Dictionary<string, IEnumerable<string>>();
             var allowSites = Permissions.AllowSites(Links?.Select(o => o.SiteId));
@@ -2080,11 +2086,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     else
                     {
                         LinkHash(
-                            searchText,
-                            selectedValues?.Select(o => o.ToLong()),
-                            link,
-                            hash,
-                            allowSites);
+                            searchText: searchText,
+                            selectedValues: selectedValues?.Select(o => o.ToLong()),
+                            link: link,
+                            hash: hash,
+                            allowSites: allowSites,
+                            noLimit: noLimit);
                     }
                 });
             return hash;
@@ -2122,14 +2129,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             IEnumerable<long> selectedValues,
             Link link,
             Dictionary<string, IEnumerable<string>> hash,
-            IEnumerable<long> allowSites)
+            IEnumerable<long> allowSites,
+            bool noLimit)
         {
             var select = SearchIndexUtilities.Select(
                 searchText: searchText,
                 siteIdList: new List<long> { link.SiteId });
             var dataRows = Rds.ExecuteTable(statements:
                 Rds.SelectItems(
-                    top: Parameters.General.DropDownSearchLimit,
+                    top: !noLimit
+                        ? Parameters.General.DropDownSearchLimit
+                        : 0,
                     column: Rds.ItemsColumn()
                         .ReferenceId()
                         .ReferenceType()
