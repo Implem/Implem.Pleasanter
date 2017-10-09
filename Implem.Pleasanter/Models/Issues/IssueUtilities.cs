@@ -4770,8 +4770,8 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var gridData = GetGridData(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
-            var groupBy = view.GetGanttGroupBy();
-            var sortBy = view.GetGanttSortBy();
+            var groupBy = ss.GetColumn(view.GetGanttGroupBy());
+            var sortBy = ss.GetColumn(view.GetGanttSortBy());
             var range = new Libraries.ViewModes.GanttRange(ss, view);
             var dataRows = GanttDataRows(ss, view, groupBy, sortBy);
             var inRange = dataRows.Count() <= Parameters.General.GanttLimit;
@@ -4810,8 +4810,8 @@ namespace Implem.Pleasanter.Models
             var gridData = GetGridData(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("Gantt");
             var range = new Libraries.ViewModes.GanttRange(ss, view);
-            var groupBy = view.GetGanttGroupBy();
-            var sortBy = view.GetGanttSortBy();
+            var groupBy = ss.GetColumn(view.GetGanttGroupBy());
+            var sortBy = ss.GetColumn(view.GetGanttSortBy());
             var period = view.GanttPeriod.ToInt();
             var startDate = view.GanttStartDate.ToDateTime();
             var dataRows = GanttDataRows(ss, view, groupBy, sortBy);
@@ -4872,8 +4872,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             View view,
             EnumerableRowCollection<DataRow> dataRows,
-            string groupBy,
-            string sortBy,
+            Column groupBy,
+            Column sortBy,
             int period,
             DateTime startDate,
             Libraries.ViewModes.GanttRange range,
@@ -4902,9 +4902,9 @@ namespace Implem.Pleasanter.Models
         }
 
         private static EnumerableRowCollection<DataRow> GanttDataRows(
-            SiteSettings ss, View view, string groupBy, string sortBy)
+            SiteSettings ss, View view, Column groupBy, Column sortBy)
         {
-            return Rds.ExecuteTable(statements:
+            var dataRows = Rds.ExecuteTable(statements:
                 Rds.SelectIssues(
                     column: Rds.IssuesTitleColumn(ss)
                         .IssueId()
@@ -4918,14 +4918,20 @@ namespace Implem.Pleasanter.Models
                         .Updator()
                         .CreatedTime()
                         .UpdatedTime()
-                        .IssuesColumn(
-                            groupBy, _as: "GroupBy", function: Sqls.Functions.SingleColumn)
-                        .IssuesColumn(
-                            sortBy, _as: "SortBy", function: Sqls.Functions.SingleColumn),
+                        .Add(
+                            ss: ss,
+                            column: groupBy,
+                            function: Sqls.Functions.SingleColumn)
+                        .Add(
+                            ss: ss,
+                            column: sortBy,
+                            function: Sqls.Functions.SingleColumn),
                     join: ss.Join(),
                     where: view.Where(
                         ss: ss, where: Libraries.ViewModes.GanttUtilities.Where(view))))
                             .AsEnumerable();
+            ss.SetChoiceHash(dataRows);
+            return dataRows;
         }
 
         public static string UpdateByKamban(SiteSettings ss)

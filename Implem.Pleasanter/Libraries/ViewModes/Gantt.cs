@@ -10,23 +10,18 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 {
     public class Gantt : List<GanttElement>
     {
-        public Column GroupBy;
-        public Column SortBy;
-
-        public Gantt(SiteSettings ss, IEnumerable<DataRow> dataRows, string groupBy, string sortBy)
+        public Gantt(SiteSettings ss, IEnumerable<DataRow> dataRows, Column groupBy, Column sortBy)
         {
-            GroupBy = ss.GetColumn(groupBy);
-            SortBy = ss.GetColumn(sortBy);
             var status = ss.GetColumn("Status");
             var workValue = ss.GetColumn("WorkValue");
             var progressRate = ss.GetColumn("ProgressRate");
             dataRows.ForEach(dataRow =>
                 Add(new GanttElement(
-                    GroupBy != null
-                        ? dataRow.String("GroupBy")
+                    groupBy != null
+                        ? dataRow.String(groupBy.ColumnName)
                         : string.Empty,
-                    SortBy != null
-                        ? dataRow.Object("SortBy")
+                    sortBy != null
+                        ? dataRow.Object(sortBy.ColumnName)
                         : string.Empty,
                     dataRow.Long(Rds.IdColumn(ss.ReferenceType)),
                     new Title(ss, dataRow).DisplayValue,
@@ -43,23 +38,31 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     workValue,
                     progressRate,
                     ss.ShowGanttProgressRate.ToBool())));
-            AddSummary(ss, dataRows, status, workValue, progressRate);
+            AddSummary(
+                ss: ss,
+                dataRows: dataRows,
+                groupBy: groupBy,
+                status: status,
+                workValue: workValue,
+                progressRate: progressRate);
         }
 
         private void AddSummary(
             SiteSettings ss,
             IEnumerable<DataRow> dataRows,
+            Column groupBy,
             Column status,
             Column workValue,
-            Column progressRateColumn)
+            Column progressRate)
         {
             var groupCount = 0;
-            if (GroupBy != null)
+            if (groupBy != null)
             {
-                GroupBy.EditChoices(insertBlank: true).ForEach(choice =>
+                groupBy.ChoiceHash.ForEach(choice =>
                 {
-                    var groupBy = dataRows.Where(o => o.String("GroupBy") == choice.Key);
-                    if (groupBy.Any())
+                    var groupDataRows = dataRows.Where(o =>
+                        o.String(groupBy.ColumnName) == choice.Key);
+                    if (groupDataRows.Any())
                     {
                         groupCount++;
                         AddSummary(
@@ -68,8 +71,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                             choice.Value.Text,
                             status,
                             workValue,
-                            progressRateColumn,
-                            groupBy);
+                            progressRate,
+                            groupDataRows);
                     }
                 });
             }
@@ -84,7 +87,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         string.Empty,
                         status,
                         workValue,
-                        progressRateColumn,
+                        progressRate,
                         dataRows);
                 }
             }
@@ -132,16 +135,16 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 summary: true));
         }
 
-        public string Json()
+        public string Json(Column groupBy, Column sortBy)
         {
-            var choices = GroupBy?
-                .EditChoices(insertBlank: true)
+            var choices = groupBy?
+                .ChoiceHash
                 .Select(o => o.Key)
                 .ToList();
             return this
                 .OrderBy(o => choices?.IndexOf(o.GroupBy))
                 .ThenByDescending(o => o.GroupSummary)
-                .Sort(SortBy)
+                .Sort(sortBy)
                 .ThenBy(o => o.StartTime)
                 .ThenBy(o => o.CompletionTime)
                 .ThenBy(o => o.Title)

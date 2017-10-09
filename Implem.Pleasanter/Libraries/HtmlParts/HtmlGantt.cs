@@ -16,8 +16,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Gantt(
             this HtmlBuilder hb,
             SiteSettings ss,
-            string groupBy,
-            string sortBy,
+            Column groupBy,
+            Column sortBy,
             int period,
             DateTime startDate,
             GanttRange range,
@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlCss: " auto-postback",
                     labelText: Displays.GroupBy(),
                     optionCollection: ss.GanttGroupByOptions(),
-                    selectedValue: groupBy,
+                    selectedValue: groupBy?.ColumnName,
                     insertBlank: true,
                     method: "post")
                 .FieldDropDown(
@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlCss: " auto-postback",
                     labelText: Displays.SortBy(),
                     optionCollection: ss.GanttSortByOptions(),
-                    selectedValue: sortBy,
+                    selectedValue: sortBy?.ColumnName,
                     insertBlank: true,
                     method: "post")
                 .Div(css: "field-auto-thin", action: () => hb
@@ -121,8 +121,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder GanttBody(
             this HtmlBuilder hb,
             SiteSettings ss,
-            string groupBy,
-            string sortBy,
+            Column groupBy,
+            Column sortBy,
             int period,
             DateTime startDate,
             GanttRange range,
@@ -164,7 +164,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Svg(id: "GanttAxis")
                     .Hidden(
                         controlId: "GanttJson",
-                        value: new Gantt(ss, dataRows, groupBy, sortBy).Json())
+                        value: new Gantt(ss, dataRows, groupBy, sortBy)
+                            .Json(groupBy, sortBy))
                 : hb;
         }
     }
