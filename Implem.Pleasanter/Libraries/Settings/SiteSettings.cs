@@ -1964,6 +1964,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Columns()
                 .Where(o => o.StartsWith("Linked__"))
                 .Select(o => GetColumn(o.Substring("Linked__".Length)))
+                .Where(o => o != null)
                 .ToList()
                 .ForEach(column =>
                 {

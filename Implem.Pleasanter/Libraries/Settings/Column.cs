@@ -473,11 +473,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (ss.JoinedSsHash?.ContainsKey(link.SiteId) == true)
                 {
                     sql.Add(
-                        columnBracket: "[Title]",
-                        tableName: (!TableAlias.IsNullOrEmpty()
-                            ? TableAlias + "-"
-                            : string.Empty) +
-                                link.ColumnName + "~" + link.SiteId,
+                        sub: Rds.SelectItems(
+                            column: Rds.ItemsColumn().Title(),
+                            where: Rds.ItemsWhere()
+                                .SiteId(raw: link.SiteId.ToString())
+                                .ReferenceId(raw:
+                                    "case when isnumeric([{0}].[{1}])=1 then [{0}].[{1}] else 0 end"
+                                        .Params(TableName(), link.ColumnName))),
                         _as: "Linked__" + ColumnName);
                 }
             }
