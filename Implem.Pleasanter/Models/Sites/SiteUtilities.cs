@@ -992,7 +992,22 @@ namespace Implem.Pleasanter.Models
             {
                 sourceSiteModel.SiteSettings.EditorColumns.Add(column.ColumnName);
             }
-            sourceSiteModel.Update(sourceSiteModel.SiteSettings);
+            Rds.ExecuteNonQuery(transactional:true, statements: new SqlStatement[]
+            {
+                Rds.UpdateSites(
+                param: Rds.SitesParam()
+                    .SiteSettings(sourceSiteModel.SiteSettings.RecordingJson()),
+                where: Rds.SitesWhere()
+                    .TenantId(Sessions.TenantId())
+                    .SiteId(sourceSiteModel.SiteId)),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated),
+                Rds.PhysicalDeleteLinks(
+                    where: Rds.LinksWhere().SourceId(sourceSiteModel.SiteId)),
+                LinkUtilities.Insert(sourceSiteModel.SiteSettings.Links
+                    .Select(o => o.SiteId)
+                    .Distinct()
+                    .ToDictionary(o => o, o => sourceSiteModel.SiteId))
+            });
             return new ResponseCollection()
                 .CloseDialog()
                 .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
