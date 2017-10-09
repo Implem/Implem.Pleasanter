@@ -163,6 +163,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 _checked: value.ToBool(),
                                 disabled: true);
+                        case ControlTypes.MarkDown:
+                            return hb.FieldMarkDown(
+                                fieldId: controlId + "Field",
+                                controlId: controlId,
+                                fieldCss: fieldCss,
+                                labelCss: labelCss,
+                                controlContainerCss: controlContainerCss,
+                                controlCss: controlCss,
+                                labelText: column.LabelText,
+                                text: value,
+                                placeholder: column.LabelText,
+                                readOnly: column.EditorReadOnly == true,
+                                validateRequired: required,
+                                preview: preview);
                         default:
                             return hb.FieldText(
                                 fieldId: controlId + "Field",
