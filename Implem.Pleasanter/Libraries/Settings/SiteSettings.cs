@@ -1199,6 +1199,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.Computable)
                 .Where(o => !o.NotUpdate)
                 .Where(o => o.TypeName != "datetime")
+                .Where(o => !o.Joined)
                 .FirstOrDefault();
         }
 
@@ -1351,6 +1352,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.Computable)
                 .Where(o => !o.NotUpdate)
                 .Where(o => o.TypeName != "datetime")
+                .Where(o => !o.Joined)
                 .OrderBy(o => o.Id)
                 .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
         }
@@ -1490,6 +1492,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return Columns
                 .Where(o => o.TypeName == "datetime")
+                .Where(o => !o.Joined)
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
@@ -1586,6 +1589,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return Columns
                 .Where(o => o.HasChoices())
+                .Where(o => !o.Joined)
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
@@ -1601,6 +1605,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return Columns
                 .Where(o => o.HasChoices())
+                .Where(o => !o.Joined)
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.LabelText);
         }
@@ -1622,6 +1627,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Columns
                 .Where(o => o.Computable)
                 .Where(o => o.TypeName != "datetime")
+                .Where(o => !o.Joined)
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.LabelText);
         }
@@ -1630,6 +1636,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return Columns
                 .Where(o => o.HasChoices())
+                .Where(o => !o.Joined)
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
@@ -1651,6 +1658,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Columns
                 .Where(o => o.Computable)
                 .Where(o => o.TypeName != "datetime")
+                .Where(o => !o.Joined)
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
