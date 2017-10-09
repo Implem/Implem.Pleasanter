@@ -995,11 +995,11 @@ namespace Implem.Pleasanter.Models
             Rds.ExecuteNonQuery(transactional:true, statements: new SqlStatement[]
             {
                 Rds.UpdateSites(
-                param: Rds.SitesParam()
-                    .SiteSettings(sourceSiteModel.SiteSettings.RecordingJson()),
-                where: Rds.SitesWhere()
-                    .TenantId(Sessions.TenantId())
-                    .SiteId(sourceSiteModel.SiteId)),
+                    param: Rds.SitesParam()
+                        .SiteSettings(sourceSiteModel.SiteSettings.RecordingJson()),
+                    where: Rds.SitesWhere()
+                        .TenantId(Sessions.TenantId())
+                        .SiteId(sourceSiteModel.SiteId)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated),
                 Rds.PhysicalDeleteLinks(
                     where: Rds.LinksWhere().SourceId(sourceSiteModel.SiteId)),
