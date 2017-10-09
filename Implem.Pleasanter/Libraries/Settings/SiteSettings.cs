@@ -1072,11 +1072,31 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetColumnAccessControls(List<string> mine = null)
         {
             CreateColumnAccessControls.ForEach(o =>
-                GetColumn(o.ColumnName).CanCreate = o.Allowed(PermissionType, mine));
+            {
+                var column = GetColumn(o.ColumnName);
+                if (column != null)
+                {
+                    column.CanCreate = o.Allowed(PermissionType, mine);
+                }
+            });
             ReadColumnAccessControls.ForEach(o =>
-                GetColumn(o.ColumnName).CanRead = o.Allowed(PermissionType, mine));
+            {
+                var column = GetColumn(o.ColumnName);
+                if (column != null)
+                {
+                    column.CanCreate = o.Allowed(PermissionType, mine);
+                }
+            });
             UpdateColumnAccessControls.ForEach(o =>
-                GetColumn(o.ColumnName).CanUpdate = o.Allowed(PermissionType, mine));
+            {
+                var column = GetColumn(o.ColumnName);
+                if (column != null)
+                {
+                    column.CanUpdate =
+                        o.Allowed(PermissionType, mine) &&
+                        column.EditorReadOnly != true;
+                }
+            });
         }
 
         private decimal DefaultMax(ColumnDefinition columnDefinition)
