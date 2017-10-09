@@ -1084,7 +1084,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var column = GetColumn(o.ColumnName);
                 if (column != null)
                 {
-                    column.CanCreate = o.Allowed(PermissionType, mine);
+                    column.CanRead = o.Allowed(PermissionType, mine);
                 }
             });
             UpdateColumnAccessControls.ForEach(o =>
