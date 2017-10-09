@@ -4465,8 +4465,8 @@ namespace Implem.Pleasanter.Models
                 Rds.SelectIssues(
                     column: Rds.IssuesTitleColumn(ss)
                         .IssueId()
-                        .Title()
-                        .IssuesColumn(columnName, _as: "Date"),
+                        .IssuesColumn(columnName, _as: "Date")
+                        .ItemTitle(ss),
                     join: ss.Join(),
                     where: view.Where(ss: ss, where: where)))
                         .AsEnumerable();

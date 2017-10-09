@@ -4249,8 +4249,8 @@ namespace Implem.Pleasanter.Models
                 Rds.SelectResults(
                     column: Rds.ResultsTitleColumn(ss)
                         .ResultId()
-                        .Title()
-                        .ResultsColumn(columnName, _as: "Date"),
+                        .ResultsColumn(columnName, _as: "Date")
+                        .ItemTitle(ss),
                     join: ss.Join(),
                     where: view.Where(ss: ss, where: where)))
                         .AsEnumerable();

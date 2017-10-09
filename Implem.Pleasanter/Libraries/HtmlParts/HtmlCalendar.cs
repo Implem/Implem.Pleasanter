@@ -1,7 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
@@ -106,17 +105,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Hidden(controlId: "CalendarNext", value: Times.NextMonth(month))
                 .Hidden(controlId: "CalendarThisMonth", value: Times.ThisMonth());
             if (!inRange) return hb;
-            var data = dataRows
-                .Select(o => new CalendarElement
-                (
-                    o.Long(Rds.IdColumn(ss.ReferenceType)),
-                    (ss.GetColumn(column.ColumnName).EditorFormat == "Ymdhm"
-                        ? o.DateTime("Date").ToLocal().ToString("t") + " "
-                        : string.Empty) + new Title(ss, o).DisplayValue,
-                    column.ColumnName == "CompletionTime"
-                        ? o.DateTime("Date").ToDateTime().ToLocal().AddDays(-1)
-                        : o.DateTime("Date").ToDateTime().ToLocal()
-                ))
+            var data = dataRows.Select(dataRow => new CalendarElement
+            (
+                id: dataRow.Long(Rds.IdColumn(ss.ReferenceType)),
+                title: (ss.GetColumn(column.ColumnName).EditorFormat == "Ymdhm"
+                    ? dataRow.DateTime("Date").ToLocal().ToString("t") + " "
+                    : string.Empty) + dataRow.String("ItemTitle"),
+                time: column.ColumnName == "CompletionTime"
+                    ? dataRow.DateTime("Date").ToDateTime().ToLocal().AddDays(-1)
+                    : dataRow.DateTime("Date").ToDateTime().ToLocal()
+            ))
                 .OrderBy(o => o.Time)
                 .ThenBy(o => o.Title)
                 .GroupBy(o => o.Date)
