@@ -108,6 +108,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         private static void Sync(string pattern)
         {
+            var log = new Dictionary<string, string>()
+            {
+                { "pattern", pattern }
+            };
             try
             {
                 var directorySearcher = DirectorySearcher(
@@ -115,11 +119,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     Parameters.Authentication.LdapSyncPassword);
                 directorySearcher.Filter = pattern;
                 var results = directorySearcher.FindAll();
+                log.Add("results", results.Count.ToString());
                 foreach (SearchResult result in results)
                 {
                     var entry = result.Entry(
                         Parameters.Authentication.LdapSyncUser,
                         Parameters.Authentication.LdapSyncPassword);
+                    log.Add("entry", entry.Path);
                     if (Authentications.Windows())
                     {
                         UpdateOrInsert(NetBiosName(entry), entry);
@@ -134,7 +140,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
             catch (Exception e)
             {
-                new SysLogModel(e);
+                new SysLogModel(e, log);
             }
         }
 
@@ -155,13 +161,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         private static string Property(this DirectoryEntry entry, string propertyName)
         {
+            var log = new Dictionary<string, string>()
+            {
+                { "entry", entry.Path },
+                { "propertyName", propertyName }
+            };
             if (!propertyName.IsNullOrEmpty())
             {
                 try
                 {
                     return entry.Properties[propertyName][0].ToString();
                 }
-                catch (Exception e) { new SysLogModel(e); }
+                catch (Exception e) { new SysLogModel(e, log); }
             }
             return string.Empty;
         }
