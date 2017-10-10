@@ -370,7 +370,9 @@ namespace Implem.Pleasanter.Models
                         joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                 where: Rds.ItemsWhere()
                     .Add(raw: "contains(FullText, '" + words.Join(" and ") + "')")
-                    .Add(raw: Def.Sql.CanRead)
+                    .Add(
+                        raw: Def.Sql.CanRead,
+                        _using: !Permissions.HasPrivilege())
                     .Add(
                         raw: "[Items].[SiteId] in ({0})".Params(siteIdList?.Join()),
                         _using: siteIdList?.Any() == true),
@@ -442,7 +444,9 @@ namespace Implem.Pleasanter.Models
                 join: Rds.SearchIndexesJoinDefault(),
                 where: Rds.SearchIndexesWhere()
                     .Word(searchIndexes, multiParamOperator: " or ")
-                    .Add(raw: Def.Sql.CanRead)
+                    .Add(
+                        raw: Def.Sql.CanRead,
+                        _using: !Permissions.HasPrivilege())
                     .Add(
                         raw: "[Items].[SiteId] in ({0})".Params(siteIdList?.Join()),
                         _using: siteIdList?.Any() == true),
