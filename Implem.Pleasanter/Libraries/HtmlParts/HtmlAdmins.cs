@@ -2,7 +2,7 @@
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static string AdminsIndex(this HtmlBuilder hb)
         {
-            if (!Sessions.User().TenantManager)
+            if (!Permissions.CanManageTenant())
             {
                 return HtmlTemplates.Error(Error.Types.HasNotPermission);
             }
