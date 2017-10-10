@@ -25,8 +25,7 @@ namespace Implem.Pleasanter.Libraries.Models
             int offset = 0,
             int pageSize = 0,
             bool countRecord = false,
-            IEnumerable<Aggregation> aggregations = null,
-            bool get = true)
+            IEnumerable<Aggregation> aggregations = null)
         {
             Get(
                 ss: ss,
