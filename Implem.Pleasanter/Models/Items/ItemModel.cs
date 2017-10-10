@@ -117,7 +117,7 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.IndexJson(ss: Site.SiteSettings);
                 case "Results": return ResultUtilities.IndexJson(ss: Site.SiteSettings);
-                default: return HtmlTemplates.Error(Error.Types.NotFound);
+                default: return Messages.ResponseNotFound().ToJson();
             }
         }
 
