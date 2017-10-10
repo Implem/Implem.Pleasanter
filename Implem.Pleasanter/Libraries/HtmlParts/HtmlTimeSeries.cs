@@ -12,9 +12,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder TimeSeries(
             this HtmlBuilder hb,
             SiteSettings ss,
-            string groupBy,
+            Column groupBy,
             string aggregateType,
-            string value,
+            Column value,
             IEnumerable<DataRow> dataRows,
             bool inRange)
         {
@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlCss: " auto-postback",
                     labelText: Displays.GroupBy(),
                     optionCollection: ss.TimeSeriesGroupByOptions(),
-                    selectedValue: groupBy,
+                    selectedValue: groupBy?.ColumnName,
                     addSelectedValue: false,
                     method: "post")
                 .FieldDropDown(
@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlCss: " auto-postback",
                     labelText: Displays.AggregationTarget(),
                     optionCollection: ss.TimeSeriesValueOptions(),
-                    selectedValue: value,
+                    selectedValue: value?.ColumnName,
                     addSelectedValue: false,
                     method: "post")
                 .Div(id: "TimeSeriesBody", action: () => hb
@@ -60,9 +60,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder TimeSeriesBody(
             this HtmlBuilder hb,
             SiteSettings ss,
-            string groupBy,
+            Column groupBy,
             string aggregateType,
-            string value,
+            Column value,
             IEnumerable<DataRow> dataRows,
             bool inRange)
         {
@@ -74,7 +74,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Svg(id: "TimeSeries")
                     .Hidden(
                         controlId: "TimeSeriesJson",
-                        value: timeSeries.Json());
+                        value: timeSeries.Json(groupBy, value));
             }
             else
             {

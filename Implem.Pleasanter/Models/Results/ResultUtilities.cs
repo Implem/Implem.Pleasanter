@@ -4669,15 +4669,15 @@ namespace Implem.Pleasanter.Models
             bool bodyOnly,
             bool inRange)
         {
-            var groupBy = !view.TimeSeriesGroupBy.IsNullOrEmpty()
+            var groupBy = ss.GetColumn(!view.TimeSeriesGroupBy.IsNullOrEmpty()
                 ? view.TimeSeriesGroupBy
-                : ss.TimeSeriesGroupByOptions().FirstOrDefault().Key;
+                : ss.TimeSeriesGroupByOptions().FirstOrDefault().Key);
             var aggregateType = !view.TimeSeriesAggregateType.IsNullOrEmpty()
                 ? view.TimeSeriesAggregateType
                 : "Count";
-            var value = !view.TimeSeriesValue.IsNullOrEmpty()
+            var value = ss.GetColumn(!view.TimeSeriesValue.IsNullOrEmpty()
                 ? view.TimeSeriesValue
-                : ss.TimeSeriesValueOptions().FirstOrDefault().Key;
+                : ss.TimeSeriesValueOptions().FirstOrDefault().Key);
             var dataRows = TimeSeriesDataRows(
                 ss: ss,
                 view: view,
@@ -4708,22 +4708,29 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
-            SiteSettings ss, View view, string groupBy, string value)
+            SiteSettings ss, View view, Column groupBy, Column value)
         {
-            return groupBy != string.Empty && value != string.Empty
-                ? Rds.ExecuteTable(statements:
+            if (groupBy != null && value != null)
+            {
+                var dataRows = Rds.ExecuteTable(statements:
                     Rds.SelectResults(
                         tableType: Sqls.TableTypes.NormalAndHistory,
                         column: Rds.ResultsColumn()
                             .ResultId(_as: "Id")
                             .Ver()
                             .UpdatedTime()
-                            .ResultsColumn(groupBy, _as: "Index")
-                            .ResultsColumn(value, _as: "Value"),
+                            .Add(ss: ss, column: groupBy)
+                            .Add(ss: ss, column: value),
                         join: ss.Join(),
                         where: view.Where(ss: ss)))
-                            .AsEnumerable()
-                : null;
+                            .AsEnumerable();
+                ss.SetChoiceHash(dataRows);
+                return dataRows;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>

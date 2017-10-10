@@ -11,9 +11,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
     public class TimeSeries : List<TimeSeriesElement>
     {
         public SiteSettings SiteSettings;
-        public string GroupByColumn;
         public string AggregationType;
-        public string ValueColumn;
         public DateTime MinTime;
         public DateTime MaxTime;
         public double Days;
@@ -43,23 +41,21 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         public TimeSeries(
             SiteSettings ss,
-            string groupBy,
+            Column groupBy,
             string aggregationType,
-            string value,
+            Column value,
             IEnumerable<DataRow> dataRows)
         {
             SiteSettings = ss;
-            GroupByColumn = groupBy;
             AggregationType = aggregationType;
-            ValueColumn = value;
             dataRows.ForEach(dataRow =>
                 Add(new TimeSeriesElement(
-                    SiteSettings.GetColumn(GroupByColumn)?.UserColumn == true,
+                    groupBy?.UserColumn == true,
                     dataRow["Id"].ToLong(),
                     dataRow["Ver"].ToInt(),
                     dataRow["UpdatedTime"].ToDateTime().ToLocal().Date,
-                    dataRow["Index"].ToString(),
-                    dataRow["Value"].ToDecimal(),
+                    dataRow[groupBy.ColumnName].ToString(),
+                    dataRow[value.ColumnName].ToDecimal(),
                     dataRow["IsHistory"].ToBool())));
             if (this.Any())
             {
@@ -81,16 +77,16 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }
         }
 
-        public string Json()
+        public string Json(Column groupBy, Column value)
         {
             var elements = new List<Element>();
-            var groupByColumn = SiteSettings.GetColumn(GroupByColumn);
-            var choices = groupByColumn
-                .EditChoices(addNotSet: true)
+            var choices = groupBy
+                .ChoiceHash
+                .ToDictionary(o => o.Key, o => new ControlData(o.Value.Text))
                 .Reverse()
                 .Where(o => this.Select(p => p.Index).Contains(o.Key))
                 .ToDictionary(o => o.Key, o => o.Value);
-            var valueColumn = SiteSettings.GetColumn(ValueColumn);
+            var valueColumn = value;
             var choiceKeys = choices.Keys.ToList();
             var indexes = choices.Select((o, i) => new Index
             {
