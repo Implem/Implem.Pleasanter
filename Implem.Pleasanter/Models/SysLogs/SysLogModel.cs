@@ -439,11 +439,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public SysLogModel(Exception e)
+        public SysLogModel(Exception e, Dictionary<string, string> log = null)
         {
             Class = Routes.Controller();
             Method = Routes.Action();
-            ErrMessage = e.Message;
+            ErrMessage = e.Message + (log?.Any() == true
+                ? "\n" + log.Select(o => o.Key + ": " + o.Value).Join("\n")
+                : string.Empty);
             ErrStackTrace = e.StackTrace;
             WriteSysLog();
         }
