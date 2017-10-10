@@ -90,6 +90,10 @@ namespace Implem.Pleasanter.Models
             {
                 return SiteUtilities.SiteTop();
             }
+            if (ReferenceType != "Sites")
+            {
+                return HtmlTemplates.Error(Error.Types.NotFound);
+            }
             SetSite(initSiteSettings: true, setSiteIntegration: true);
             ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
@@ -103,6 +107,10 @@ namespace Implem.Pleasanter.Models
 
         public string IndexJson()
         {
+            if (ReferenceType != "Sites")
+            {
+                return Messages.ResponseNotFound().ToJson();
+            }
             SetSite(initSiteSettings: true, setSiteIntegration: true);
             ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
