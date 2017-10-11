@@ -53,6 +53,7 @@
     <Compile Include="Parts\Format.cs" />
     <Compile Include="Parts\General.cs" />
     <Compile Include="Parts\Health.cs" />
+    <Compile Include="Parts\Notification.cs" />
     <Compile Include="Parts\Search.cs" />
     <Compile Include="Parts\Security.cs" />
     <Compile Include="Parts\Mail.cs" />

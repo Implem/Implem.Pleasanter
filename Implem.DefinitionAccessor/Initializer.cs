@@ -87,6 +87,8 @@ namespace Implem.DefinitionAccessor
                 .Deserialize<ParameterAccessor.Parts.Health>();
             Parameters.Mail = Files.Read(ParametersPath("Mail"))
                 .Deserialize<ParameterAccessor.Parts.Mail>();
+            Parameters.Notification = Files.Read(ParametersPath("Notification"))
+                .Deserialize<ParameterAccessor.Parts.Notification>();
             Parameters.Path = Files.Read(ParametersPath("Path"))
                 .Deserialize<ParameterAccessor.Parts.Path>();
             Parameters.Permissions = Files.Read(ParametersPath("Permissions"))

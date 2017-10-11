@@ -14,6 +14,7 @@ namespace Implem.DefinitionAccessor
         public static General General;
         public static Health Health;
         public static Mail Mail;
+        public static Notification Notification;
         public static Path Path;
         public static Permissions Permissions;
         public static Rds Rds;

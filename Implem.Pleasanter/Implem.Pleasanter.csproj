@@ -250,6 +250,7 @@
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
     <Compile Include="Libraries\General\AssemblyVersion.cs" />
     <Compile Include="Libraries\General\Log.cs" />
+    <Compile Include="Libraries\General\Logs.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlAssemblyVersions.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlDropDownSearches.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlCalendar.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="Libraries\Settings\ExportUtilities.cs" />
     <Compile Include="Libraries\Settings\FormulaSet.cs" />
     <Compile Include="Libraries\Settings\Join.cs" />
+    <Compile Include="Libraries\Settings\NotificationUtilities.cs" />
     <Compile Include="Libraries\Settings\NumColumnExtensions.cs" />
     <Compile Include="Libraries\Converts\MatchExtensions.cs" />
     <Compile Include="Libraries\Settings\SettingList.cs" />
@@ -1183,6 +1185,7 @@
     <Content Include="App_Data\Parameters\Search.json" />
     <Content Include="App_Data\Displays\AllowEditingComments.json" />
     <Content Include="App_Data\Displays\CommentUpdated.json" />
+    <Content Include="App_Data\Parameters\Notification.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

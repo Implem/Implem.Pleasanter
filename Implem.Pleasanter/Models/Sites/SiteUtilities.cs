@@ -1108,7 +1108,9 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#NotificationsSettingsEditor",
                                             text: Displays.Notifications()),
-                                    _using: Contract.Notice())
+                                    _using:
+                                        Contract.Notice() &&
+                                        NotificationUtilities.Types().Any())
                                 .Li(action: () => hb
                                     .A(
                                         href: "#MailSettingsEditor",
@@ -4472,21 +4474,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "NotificationType",
                         controlCss: " always-send",
                         labelText: Displays.NotificationType(),
-                        optionCollection: new Dictionary<string, string>
-                        {
-                            {
-                                Notification.Types.Mail.ToInt().ToString(),
-                                Displays.Mail()
-                            },
-                            {
-                                Notification.Types.Slack.ToInt().ToString(),
-                                Displays.Slack()
-                            },
-                            {
-                                Notification.Types.ChatWork.ToInt().ToString(),
-                                Displays.ChatWork()
-                            }
-                        },
+                        optionCollection: NotificationUtilities.Types(),
                         selectedValue: notification.Type.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "NotificationPrefix",
@@ -4503,7 +4491,7 @@ namespace Implem.Pleasanter.Models
                     .FieldTextBox(
                         fieldId: "NotificationTokenField",
                         controlId: "NotificationToken",
-                        fieldCss: "field-wide" + (!TokenList().Contains(notification.Type.ToInt())
+                        fieldCss: "field-wide" + (!NotificationUtilities.RequireToken(notification)
                             ? " hidden"
                             : string.Empty),
                         controlCss: " always-send",
@@ -4511,7 +4499,7 @@ namespace Implem.Pleasanter.Models
                         text: notification.Token)
                     .Hidden(
                         controlId: "NotificationTokenEnableList",
-                        value: TokenList().Join())
+                        value: NotificationUtilities.Tokens())
                     .Div(_using: ss.Views?.Any() == true, action: () => hb
                         .FieldDropDown(
                             controlId: "BeforeCondition",
@@ -4629,14 +4617,6 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static IEnumerable<int> TokenList()
-        {
-            return new List<int> { Notification.Types.ChatWork.ToInt() };
         }
 
         /// <summary>

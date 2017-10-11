@@ -109,32 +109,41 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (Type)
             {
                 case Types.Mail:
-                    var mailFrom = new System.Net.Mail.MailAddress(
-                        Addresses.BadAddress(from) == string.Empty
-                            ? from
-                            : Parameters.Mail.SupportFrom);
-                    new OutgoingMailModel()
+                    if (Parameters.Notification.Mail)
                     {
-                        Title = new Title(Prefix + title),
-                        Body = "{0}\n{1}".Params(url, body) + (Addresses.FixedFrom(mailFrom)
-                            ? "\n\n{0}<{1}>".Params(mailFrom.DisplayName, mailFrom.Address)
-                            : string.Empty),
-                        From = mailFrom,
-                        To = Address
-                    }.Send();
+                        var mailFrom = new System.Net.Mail.MailAddress(
+                            Addresses.BadAddress(from) == string.Empty
+                                ? from
+                                : Parameters.Mail.SupportFrom);
+                        new OutgoingMailModel()
+                        {
+                            Title = new Title(Prefix + title),
+                            Body = "{0}\n{1}".Params(url, body) + (Addresses.FixedFrom(mailFrom)
+                                ? "\n\n{0}<{1}>".Params(mailFrom.DisplayName, mailFrom.Address)
+                                : string.Empty),
+                            From = mailFrom,
+                            To = Address
+                        }.Send();
+                    }
                     break;
                 case Types.Slack:
-                    new Slack(
-                        "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
-                        from)
-                            .Send(Address);
+                    if (Parameters.Notification.Slack)
+                    {
+                        new Slack(
+                            "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
+                            from)
+                                .Send(Address);
+                    }
                     break;
                 case Types.ChatWork:
-                    new ChatWork(
-                        "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
-                        from,
-                        Token)
-                            .Send(Address);
+                    if (Parameters.Notification.ChatWork)
+                    {
+                        new ChatWork(
+                            "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
+                            from,
+                            Token)
+                                .Send(Address);
+                    }
                     break;
                 default:
                     break;
