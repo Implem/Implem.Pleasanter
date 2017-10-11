@@ -249,6 +249,7 @@
     <Compile Include="Libraries\DataTypes\User.cs" />
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
     <Compile Include="Libraries\General\AssemblyVersion.cs" />
+    <Compile Include="Libraries\General\Log.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlAssemblyVersions.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlDropDownSearches.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlCalendar.cs" />

@@ -2,6 +2,7 @@
 using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Models;
 using System;
@@ -108,9 +109,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         private static void Sync(string pattern)
         {
-            var log = new Dictionary<string, string>()
+            var logs = new Logs()
             {
-                { "pattern", pattern }
+                new Log("pattern", pattern)
             };
             try
             {
@@ -119,13 +120,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     Parameters.Authentication.LdapSyncPassword);
                 directorySearcher.Filter = pattern;
                 var results = directorySearcher.FindAll();
-                log.Add("results", results.Count.ToString());
+                logs.Add("results", results.Count.ToString());
                 foreach (SearchResult result in results)
                 {
                     var entry = result.Entry(
                         Parameters.Authentication.LdapSyncUser,
                         Parameters.Authentication.LdapSyncPassword);
-                    log.Add("entry", entry.Path);
+                    logs.Add("entry", entry.Path);
                     if (Authentications.Windows())
                     {
                         UpdateOrInsert(NetBiosName(entry), entry);
@@ -140,7 +141,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
             catch (Exception e)
             {
-                new SysLogModel(e, log);
+                new SysLogModel(e, logs);
             }
         }
 
@@ -161,10 +162,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         private static string Property(this DirectoryEntry entry, string propertyName)
         {
-            var log = new Dictionary<string, string>()
+            var logs = new Logs()
             {
-                { "entry", entry.Path },
-                { "propertyName", propertyName }
+                new Log("entry", entry.Path),
+                new Log("propertyName", propertyName)
             };
             if (!propertyName.IsNullOrEmpty())
             {
@@ -174,7 +175,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         ? entry.Properties[propertyName][0].ToString()
                         : string.Empty;
                 }
-                catch (Exception e) { new SysLogModel(e, log); }
+                catch (Exception e) { new SysLogModel(e, logs); }
             }
             return string.Empty;
         }
