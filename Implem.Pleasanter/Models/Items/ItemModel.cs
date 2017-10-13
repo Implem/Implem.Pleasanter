@@ -600,9 +600,9 @@ namespace Implem.Pleasanter.Models
                                 .TenantId(Sessions.TenantId())
                                 .ReferenceType(Site.ReferenceType)
                                 .SiteId(Site.SiteId)
-                                .Permissions_PermissionType(
-                                    Permissions.Types.Update.ToInt().ToString())))
-                                        .AsEnumerable()))).ToJson();
+                                .Add(name: "HasPrivilege", value: Permissions.HasPrivilege())))
+                                    .AsEnumerable())))
+                                        .ToJson();
         }
 
         private Dictionary<string, ControlData> MoveTargets(IEnumerable<DataRow> siteCollection)
