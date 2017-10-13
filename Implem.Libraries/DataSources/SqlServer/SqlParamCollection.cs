@@ -14,9 +14,12 @@ namespace Implem.Libraries.DataSources.SqlServer
             object value,
             SqlStatement sub,
             string raw,
-            bool _using)
+            bool _using = true)
         {
-            Add(new SqlParam(columnBracket, name, value, sub, raw, _using: _using));
+            if (_using)
+            {
+                Add(new SqlParam(columnBracket, name, value, sub, raw));
+            }
             return this;
         }
 
