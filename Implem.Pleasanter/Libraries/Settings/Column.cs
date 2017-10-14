@@ -477,9 +477,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             column: Rds.ItemsColumn().Title(),
                             where: Rds.ItemsWhere()
                                 .SiteId(raw: link.SiteId.ToString())
-                                .ReferenceId(raw:
-                                    "case when isnumeric([{0}].[{1}])=1 then [{0}].[{1}] else 0 end"
-                                        .Params(TableName(), link.ColumnName))),
+                                .ReferenceId(raw: "try_cast([{0}].[{1}] as bigint)"
+                                    .Params(TableName(), link.ColumnName))),
                         _as: "Linked__" + ColumnName);
                 }
             }
@@ -529,7 +528,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private static string JoinExpression(
             string left, string tableName, string name, string alias, long siteId)
         {
-            return "[{2}].[SiteId]={4} and case when isnumeric([{0}].[{1}])=1 then [{0}].[{1}] else 0 end=[{2}].[{3}]"
+            return "[{2}].[SiteId]={4} and try_cast([{0}].[{1}] as bigint)=[{2}].[{3}]"
                 .Params(left, name, alias, Rds.IdColumn(tableName), siteId);
         }
 
