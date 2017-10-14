@@ -16,6 +16,7 @@ $p.openDropDownSearchDialog = function ($control) {
     $('#DropDownSearchResults').empty();
     $target.val(id);
     $text.val('');
+    $('#DropDownSearchOnEditor').val($('#Editor').length === 1);
     $('#DropDownSearchMultiple').val($control.attr('multiple') === 'multiple');
     $p.send($text);
     $($('#DropDownSearchDialog')).dialog({

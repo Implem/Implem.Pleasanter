@@ -37,6 +37,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlId: "DropDownSearchTarget",
                                 css: "always-send")
                             .Hidden(
+                                controlId: "DropDownSearchOnEditor",
+                                css: "always-send")
+                            .Hidden(
                                 controlId: "DropDownSearchMultiple",
                                 css: "always-send")
                             .P(css: "message-dialog")

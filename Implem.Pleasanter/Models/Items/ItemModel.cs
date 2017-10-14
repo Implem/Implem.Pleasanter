@@ -404,7 +404,7 @@ namespace Implem.Pleasanter.Models
                     "#DropDownSearchResults",
                     new HtmlBuilder().Selectable(
                         controlId: "DropDownSearchResults",
-                        listItemCollection: column?.EditChoices()))
+                        listItemCollection: column?.EditChoices(addNotSet: true)))
                 .ClearFormData("DropDownSearchResults")
                 .ToJson();
         }
@@ -416,10 +416,11 @@ namespace Implem.Pleasanter.Models
             var searchText = Forms.Data("DropDownSearchText");
             var column = SearchDropDownColumn(controlId, searchText);
             var selected = Forms.List("DropDownSearchResults");
+            var editor = Forms.Bool("DropDownSearchOnEditor");
             var multiple = Forms.Bool("DropDownSearchMultiple");
             if (multiple)
             {
-                return SelectSearchDropDownResponse(controlId, column, selected, multiple);
+                return SelectSearchDropDownResponse(controlId, column, selected, editor, multiple);
             }
             else if (selected.Count() != 1)
             {
@@ -429,7 +430,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return SelectSearchDropDownResponse(controlId, column, selected, multiple);
+                return SelectSearchDropDownResponse(controlId, column, selected, editor, multiple);
             }
         }
 
@@ -457,9 +458,9 @@ namespace Implem.Pleasanter.Models
         }
 
         private static string SelectSearchDropDownResponse(
-            string controlId, Column column, List<string> selected, bool multiple)
+            string controlId, Column column, List<string> selected, bool editor, bool multiple)
         {
-            var optionCollection = column?.EditChoices()?
+            var optionCollection = column?.EditChoices(addNotSet: true)?
                 .Where(o => selected.Contains(o.Key))
                 .ToDictionary(o => o.Key, o => o.Value);
             return optionCollection?.Any() == true
@@ -468,15 +469,31 @@ namespace Implem.Pleasanter.Models
                     .Html("[id=\"" + controlId + "\"]", new HtmlBuilder()
                         .OptionCollection(
                             optionCollection: optionCollection,
-                            selectedValue: multiple
-                                ? selected.ToJson()
-                                : selected.FirstOrDefault(),
-                            multiple: multiple))
+                            selectedValue: SelectSearchDropDownSelectedValue(
+                                selected, editor, multiple),
+                            multiple: multiple,
+                            insertBlank: editor))
                     .Invoke("setDropDownSearch")
                     .ToJson()
                 : new ResponseCollection()
                     .Message(Messages.NotFound())
                     .ToJson();
+        }
+
+        public static string SelectSearchDropDownSelectedValue(
+            List<string> selected, bool editor, bool multiple)
+        {
+            if (multiple)
+            {
+                return selected.ToJson();
+            }
+            else
+            {
+                var value = selected.FirstOrDefault();
+                return editor && value == "\t"
+                    ? null
+                    : selected.FirstOrDefault();
+            }
         }
 
         public string GridRows()
