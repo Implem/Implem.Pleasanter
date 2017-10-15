@@ -1177,7 +1177,7 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#RemindersSettingsEditor",
                                             text: Displays.Reminders()),
-                                    _using: Contract.Notice())
+                                    _using: Contract.Remind())
                                 .Li(
                                     action: () => hb
                                         .A(
@@ -4637,7 +4637,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder RemindersSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            if (!Contract.Notice()) return hb;
+            if (!Contract.Remind()) return hb;
             return hb.FieldSet(id: "RemindersSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
@@ -4933,7 +4933,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder ExportsSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            if (!Contract.Notice()) return hb;
+            if (!Contract.Export()) return hb;
             return hb.FieldSet(id: "ExportsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
