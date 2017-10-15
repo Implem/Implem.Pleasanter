@@ -425,7 +425,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ToExport(Column column, ExportColumn exportColumn)
+        public string ToExport(Column column, ExportColumn exportColumn = null)
         {
             return DeptName;
         }

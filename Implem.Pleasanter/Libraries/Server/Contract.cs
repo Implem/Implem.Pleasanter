@@ -122,6 +122,14 @@ namespace Implem.Pleasanter.Libraries.Server
                 ContractHash[tenantId]?.Notice != false;
         }
 
+        public static bool Remind()
+        {
+            var tenantId = Sessions.TenantId();
+            return
+                ContractHash.ContainsKey(tenantId) &&
+                ContractHash[tenantId]?.Remind != false;
+        }
+
         public static bool Mail()
         {
             var tenantId = Sessions.TenantId();

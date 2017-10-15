@@ -72,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int ViewLatestId;
         public List<View> Views;
         public SettingList<Notification> Notifications;
+        public SettingList<Reminder> Reminders;
         public SettingList<Export> Exports;
         public bool? AllowEditingComments;
         public bool? EnableCalendar;
@@ -160,6 +161,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Summaries == null) Summaries = new SettingList<Summary>();
             if (Formulas == null) Formulas = new SettingList<FormulaSet>();
             if (Notifications == null) Notifications = new SettingList<Notification>();
+            if (Reminders == null) Reminders = new SettingList<Reminder>();
             if (Exports == null) Exports = new SettingList<Export>();
             AllowEditingComments = AllowEditingComments ?? false;
             EnableCalendar = EnableCalendar ?? true;
@@ -379,6 +381,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.Notifications.Add(notification.GetRecordingData());
             });
+            Reminders?.ForEach(notification =>
+            {
+                if (ss.Reminders == null)
+                {
+                    ss.Reminders = new SettingList<Reminder>();
+                }
+                ss.Reminders.Add(notification.GetRecordingData());
+            });
             Exports?.ForEach(ExportSetting =>
             {
                 if (ss.Exports == null)
@@ -573,7 +583,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         newColumn.Section = column.Section;
                     }
                     if (column.GridDesign != null &&
-                        column.GridDesign != DefaultGridDesignEditorText(column))
+                        column.GridDesign != LabelTextBracket(column))
                     {
                         enabled = true;
                         newColumn.GridDesign = column.GridDesign;
@@ -1376,6 +1386,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName));
         }
 
+        public Dictionary<string, ControlData> ReminderColumnOptions()
+        {
+            return Columns
+                .Where(o => o.TypeName == "datetime")
+                .Where(o => !o.RecordedTime)
+                .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
+        }
+
         public Dictionary<string, string> JoinOptions(bool reverce = false, bool bracket = false)
         {
             return TableJoins(Links, new Join(Title), new List<Join> { new Join(Title) })
@@ -1579,9 +1597,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return new Dictionary<string, string>
             {
-                { "Monthly", Displays.Monthly() },
-                { "Weekly", Displays.Weekly() },
-                { "Daily", Displays.Daily() }
+                { "Monthly", Displays.Month() },
+                { "Weekly", Displays.Week() },
+                { "Daily", Displays.Day() }
             };
         }
 
@@ -1834,7 +1852,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NoWrap": column.NoWrap = value.ToBool(); break;
                 case "Section": column.Section = value; break;
                 case "GridDesign":
-                    column.GridDesign = GridDesignRecordingData(column, value);
+                    column.GridDesign = LabelTextToColumnName(column, value);
                     break;
                 case "ValidateRequired": column.ValidateRequired = value.ToBool(); break;
                 case "ValidateNumber": column.ValidateNumber = value.ToBool(); break;
@@ -1870,13 +1888,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private string GridDesignRecordingData(Column currentColumn, string value)
+        private string LabelTextToColumnName(Column currentColumn, string value)
         {
             if (!value.IsNullOrEmpty())
             {
-                IncludedColumns(value, labelText: true).ForEach(column =>
-                    value = value.Replace(
-                        "[" + column.LabelText + "]", "[" + column.ColumnName + "]"));
+                value = LabelTextToColumnName(value);
                 return value != "[" + currentColumn.ColumnName + "]"
                     ? value
                     : null;
@@ -1887,24 +1903,32 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public string LabelTextToColumnName(string text)
+        {
+            IncludedColumns(text, labelText: true).ForEach(column =>
+                text = text.Replace(
+                    "[" + column.LabelText + "]", "[" + column.ColumnName + "]"));
+            return text;
+        }
+
         public string GridDesignEditorText(Column column)
         {
             return column.GridDesign.IsNullOrEmpty()
-                ? DefaultGridDesignEditorText(column)
-                : GridDesignEditorText(column.GridDesign);
+                ? LabelTextBracket(column)
+                : ColumnNameToLabelText(column.GridDesign);
         }
 
-        public string DefaultGridDesignEditorText(Column column)
+        public string LabelTextBracket(Column column)
         {
             return "[" + column.LabelText + "]";
         }
 
-        private string GridDesignEditorText(string gridDesign)
+        public string ColumnNameToLabelText(string text)
         {
-            IncludedColumns(gridDesign).ForEach(column =>
-                gridDesign = gridDesign.Replace(
+            IncludedColumns(text).ForEach(column =>
+                text = text.Replace(
                     "[" + column.ColumnName + "]", "[" + column.LabelText + "]"));
-            return gridDesign;
+            return text;
         }
 
         public IEnumerable<string> IncludedColumns()

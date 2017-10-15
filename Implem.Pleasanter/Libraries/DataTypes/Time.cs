@@ -84,9 +84,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return column.DisplayGrid(DisplayValue);
         }
 
-        public string ToExport(Column column, ExportColumn exportColumn)
+        public string ToExport(Column column, ExportColumn exportColumn = null)
         {
-            return DisplayValue.Display(exportColumn.Format);
+            return DisplayValue.Display(exportColumn?.Format ?? "Ymd");
         }
 
         public virtual string ToNotice(

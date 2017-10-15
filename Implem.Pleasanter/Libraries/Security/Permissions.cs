@@ -86,9 +86,20 @@ namespace Implem.Pleasanter.Libraries.Security
                                     .AsEnumerable());
         }
 
-        public static SqlWhereCollection SetCanReadWhere(SiteSettings ss, SqlWhereCollection where)
+        public static SqlWhereCollection SetCanReadWhere(
+            SiteSettings ss,
+            SqlWhereCollection where,
+            bool checkPermission = true)
         {
-            if (ss.AllowedIntegratedSites != null)
+            if (!checkPermission)
+            {
+                return Routes.Controller() == "items"
+                    ? where.Add(
+                        tableName: ss.ReferenceType,
+                        raw: "#TableBracket#.[SiteId]={0}".Params(ss.SiteId))
+                    : where;
+            }
+            else if (ss.AllowedIntegratedSites != null)
             {
                 return where.Or(new SqlWhereCollection()
                     .Add(

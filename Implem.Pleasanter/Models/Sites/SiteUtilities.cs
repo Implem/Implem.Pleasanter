@@ -1175,6 +1175,12 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#RemindersSettingsEditor",
+                                            text: Displays.Reminders()),
+                                    _using: Contract.Notice())
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#ExportsSettingsEditor",
                                             text: Displays.Export()),
                                     _using: Contract.Export())
@@ -1919,6 +1925,12 @@ namespace Implem.Pleasanter.Models
                     _using: Contract.Notice())
                 .Div(
                     attributes: new HtmlAttributes()
+                        .Id("ReminderDialog")
+                        .Class("dialog")
+                        .Title(Displays.Reminders()),
+                    _using: Contract.Remind())
+                .Div(
+                    attributes: new HtmlAttributes()
                         .Id("ExportDialog")
                         .Class("dialog")
                         .Title(Displays.Export()),
@@ -2038,6 +2050,7 @@ namespace Implem.Pleasanter.Models
                             .FormulasSettingsEditor(siteModel.SiteSettings)
                             .ViewsSettingsEditor(siteModel.SiteSettings)
                             .NotificationsSettingsEditor(siteModel.SiteSettings)
+                            .RemindersSettingsEditor(siteModel.SiteSettings)
                             .ExportsSettingsEditor(siteModel.SiteSettings)
                             .CalendarSettingsEditor(siteModel.SiteSettings)
                             .CrosstabSettingsEditor(siteModel.SiteSettings)
@@ -4612,6 +4625,302 @@ namespace Implem.Pleasanter.Models
                             action: "SetSiteSettings",
                             method: "post",
                             _using: controlId == "EditNotification")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder RemindersSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            if (!Contract.Notice()) return hb;
+            return hb.FieldSet(id: "RemindersSettingsEditor", action: () => hb
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpReminders",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(),
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownReminders",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(),
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewReminder",
+                        text: Displays.New(),
+                        controlCss: "button-icon",
+                        onClick: "$p.openReminderDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
+                        controlId: "DeleteReminders",
+                        text: Displays.Delete(),
+                        controlCss: "button-icon",
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "delete",
+                        confirm: Displays.ConfirmDelete())
+                    .Button(
+                        controlId: "TestReminders",
+                        text: Displays.Test(),
+                        controlCss: "button-icon",
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-mail-closed",
+                        action: "SetSiteSettings",
+                        method: "post",
+                        confirm: Displays.ConfirmSendMail()))
+                .EditReminder(ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditReminder(this HtmlBuilder hb, SiteSettings ss)
+        {
+            var selected = Forms.Data("EditReminder").Deserialize<IEnumerable<int>>();
+            return hb.Table(
+                id: "EditReminder",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("ReminderId")
+                    .DataFunc("openReminderDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditReminderHeader(ss: ss, selected: selected)
+                    .EditReminderBody(ss: ss, selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditReminderHeader(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.Summaries?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Subject()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Body()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Line()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.From()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.To()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Column()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.StartDateTime()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.PeriodType()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Range()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.SendCompletedInPast()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Condition()))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditReminderBody(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => ss
+                .Reminders?.ForEach(reminder =>
+                {
+                    var condition = ss.Views?.Get(reminder.Condition);
+                    hb.Tr(
+                        css: "grid-row",
+                        attributes: new HtmlAttributes()
+                            .DataId(reminder.Id.ToString()),
+                        action: () => hb
+                            .Td(action: () => hb
+                                .CheckBox(
+                                    controlCss: "select",
+                                    _checked: selected?
+                                        .Contains(reminder.Id) == true))
+                            .Td(action: () => hb
+                                .Text(text: reminder.Id.ToString()))
+                            .Td(action: () => hb
+                                .Text(text: reminder.Subject))
+                            .Td(action: () => hb
+                                .Text(text: reminder.Body))
+                            .Td(action: () => hb
+                                .Text(text: reminder.DisplayLine(ss)))
+                            .Td(action: () => hb
+                                .Text(text: reminder.From))
+                            .Td(action: () => hb
+                                .Text(text: reminder.To))
+                            .Td(action: () => hb
+                                .Text(text: ss.GetColumn(reminder.Column)?.LabelText))
+                            .Td(action: () => hb
+                                .Text(text: reminder.StartDateTime.ToLocal().ToString()))
+                            .Td(action: () => hb
+                                .Text(text: Displays.Get(reminder.Type.ToString())))
+                            .Td(action: () => hb
+                                .Text(text: reminder.Range.ToString()))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: reminder.SendCompletedInPast == true))
+                            .Td(action: () => hb
+                                .Text(text: condition?.Name)));
+                }));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ReminderDialog(
+            SiteSettings ss, string controlId, Reminder reminder)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ReminderForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "ReminderId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(),
+                        text: reminder.Id.ToString(),
+                        _using: controlId == "EditReminder")
+                    .FieldTextBox(
+                        controlId: "ReminderSubject",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Subject(),
+                        text: reminder.Subject,
+                        validateRequired: true)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        controlId: "ReminderBody",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Body(),
+                        text: reminder.Body,
+                        validateRequired: true)
+                    .FieldTextBox(
+                        controlId: "ReminderLine",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Line(),
+                        text: reminder.DisplayLine(ss),
+                        validateRequired: true)
+                    .FieldTextBox(
+                        controlId: "ReminderFrom",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.From(),
+                        text: reminder.From,
+                        validateRequired: true)
+                    .FieldTextBox(
+                        controlId: "ReminderTo",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.To(),
+                        text: reminder.To,
+                        validateRequired: true)
+                    .FieldDropDown(
+                        controlId: "ReminderColumn",
+                        controlCss: " always-send",
+                        labelText: Displays.Column(),
+                        optionCollection: ss.ReminderColumnOptions(),
+                        selectedValue: reminder.GetColumn(ss))
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.DateTime,
+                        controlId: "ReminderStartDateTime",
+                        controlCss: " always-send",
+                        labelText: Displays.StartDateTime(),
+                        text: reminder.StartDateTime.InRange()
+                            ? reminder.StartDateTime.ToString(Displays.Get("YmdhmFormat"))
+                            : null,
+                        timepiker: true,
+                        validateRequired: true,
+                        validateDate: true)
+                    .FieldDropDown(
+                        controlId: "ReminderType",
+                        controlCss: " always-send",
+                        labelText: Displays.PeriodType(),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Reminder.Types.Daily.ToInt().ToString(),
+                                Displays.Daily()
+                            },
+                            {
+                                Reminder.Types.Weekly.ToInt().ToString(),
+                                Displays.Weekly()
+                            }
+                        },
+                        selectedValue: reminder.Type.ToInt().ToString())
+                    .FieldSpinner(
+                        controlId: "ReminderRange",
+                        controlCss: " always-send",
+                        labelText: Displays.Range(),
+                        value: reminder.Range,
+                        min: Parameters.General.GridPageSizeMin,
+                        max: Parameters.General.GridPageSizeMax,
+                        step: 1,
+                        width: 25,
+                        unit: Displays.Day())
+                    .FieldCheckBox(
+                        controlId: "ReminderSendCompletedInPast",
+                        controlCss: " always-send",
+                        labelText: Displays.SendCompletedInPast(),
+                        _checked: reminder.SendCompletedInPast == true)
+                    .FieldDropDown(
+                        controlId: "ReminderCondition",
+                        controlCss: " always-send",
+                        labelText: Displays.Condition(),
+                        optionCollection: ss.ViewSelectableOptions(),
+                        selectedValue: reminder.Condition.ToString(),
+                        insertBlank: true)
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddReminder",
+                            text: Displays.Add(),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.setReminder($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewReminder")
+                        .Button(
+                            controlId: "UpdateReminder",
+                            text: Displays.Change(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.setReminder($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditReminder")
                         .Button(
                             text: Displays.Cancel(),
                             controlCss: "button-icon",

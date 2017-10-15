@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
-        public string ToExport(Column column, ExportColumn exportColumn)
+        public string ToExport(Column column, ExportColumn exportColumn = null)
         {
             return this.Select(o =>
                 new Time(o.CreatedTime).ToViewText() + " " +

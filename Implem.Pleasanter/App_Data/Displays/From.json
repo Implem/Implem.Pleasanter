@@ -1,0 +1,13 @@
+﻿{
+    "Id": "From",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "From"
+        },
+        {
+            "Language": "ja",
+            "Body": "差出人"
+        }
+    ]
+}

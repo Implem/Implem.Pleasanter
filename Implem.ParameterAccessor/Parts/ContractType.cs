@@ -9,6 +9,7 @@
         public bool Import;
         public bool Export;
         public bool Notice;
+        public bool Remind;
         public bool Mail;
         public bool Style;
         public bool Script;

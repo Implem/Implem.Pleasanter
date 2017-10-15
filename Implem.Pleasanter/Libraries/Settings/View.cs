@@ -562,14 +562,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             return view;
         }
 
-        public SqlWhereCollection Where(SiteSettings ss, SqlWhereCollection where = null)
+        public SqlWhereCollection Where(
+            SiteSettings ss,
+            SqlWhereCollection where = null,
+            bool checkPermission = true)
         {
             var tableName = ss.ReferenceType;
             if (where == null) where = new SqlWhereCollection();
             SetGeneralsWhere(ss, where, tableName);
             SetColumnsWhere(ss, where, tableName);
             SetSearchWhere(ss, where, tableName);
-            Permissions.SetCanReadWhere(ss, where);
+            Permissions.SetCanReadWhere(ss, where, checkPermission);
             return where;
         }
 

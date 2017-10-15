@@ -183,7 +183,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return DisplayValue;
         }
 
-        public virtual string ToExport(Column column, ExportColumn exportColumn)
+        public virtual string ToExport(Column column, ExportColumn exportColumn = null)
         {
             return Value;
         }

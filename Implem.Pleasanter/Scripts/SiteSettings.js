@@ -70,6 +70,16 @@ $p.setNotification = function ($control) {
     $p.send($control);
 }
 
+$p.openReminderDialog = function ($control) {
+    $p.data.ReminderForm = {};
+    $p.openSiteSettingsDialog($control, '#ReminderDialog');
+}
+
+$p.setReminder = function ($control) {
+    $p.setData($('#EditReminder'), $p.getData($control));
+    $p.send($control);
+}
+
 $p.openExportDialog = function ($control) {
     $p.data.ExportForm = {};
     $p.openSiteSettingsDialog($control, '#ExportDialog');

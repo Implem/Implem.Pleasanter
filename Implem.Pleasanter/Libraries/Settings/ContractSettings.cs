@@ -16,6 +16,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Import;
         public bool? Export;
         public bool? Notice;
+        public bool? Remind;
         public bool? Mail;
         public bool? Style;
         public bool? Script;
@@ -53,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Import = Import ?? _default.Import;
                 Export = Export ?? _default.Export;
                 Notice = Notice ?? _default.Notice;
+                Remind = Remind ?? _default.Remind;
                 Mail = Mail ?? _default.Mail;
                 Style = Style ?? _default.Style;
                 Script = Script ?? _default.Script;
@@ -65,6 +67,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Import = true;
                 Export = true;
                 Notice = true;
+                Remind = true;
                 Mail = true;
                 Style = true;
                 Script = true;

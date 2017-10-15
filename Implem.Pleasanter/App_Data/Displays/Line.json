@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Line",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Line"
+        },
+        {
+            "Language": "ja",
+            "Body": "行"
+        }
+    ]
+}

@@ -770,6 +770,7 @@ namespace Implem.Pleasanter.Models
         public void SetSiteSettingsPropertiesBySession()
         {
             SiteSettings = Session_SiteSettings();
+            SiteSettings.InheritPermission = InheritPermission;
             SetSiteSettingsProperties();
         }
 
@@ -972,6 +973,22 @@ namespace Implem.Pleasanter.Models
                 case "ToDisableMonitorChangesColumns":
                 case "ToEnableMonitorChangesColumns":
                     SetMonitorChangesColumns(res, controlId);
+                    break;
+                case "NewReminder":
+                case "EditReminder":
+                    OpenReminderDialog(res, controlId);
+                    break;
+                case "AddReminder":
+                    AddReminder(res, controlId);
+                    break;
+                case "UpdateReminder":
+                    UpdateReminder(res, controlId);
+                    break;
+                case "DeleteReminders":
+                    DeleteReminders(res);
+                    break;
+                case "TestReminders":
+                    TestReminders(res);
                     break;
                 case "MoveUpExports":
                 case "MoveDownExports":
@@ -2063,6 +2080,209 @@ namespace Implem.Pleasanter.Models
                     SiteSettings.Notifications.Delete(selected);
                     res.ReplaceAll("#EditNotification", new HtmlBuilder()
                         .EditNotification(ss: SiteSettings));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenReminderDialog(ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewReminder")
+            {
+                OpenReminderDialog(res, new Reminder());
+            }
+            else
+            {
+                var reminder = SiteSettings.Reminders?.Get(Forms.Int("ReminderId"));
+                if (reminder == null)
+                {
+                    OpenDialogError(res, Messages.SelectOne());
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(this, SiteId);
+                    OpenReminderDialog(res, reminder);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenReminderDialog(ResponseCollection res, Reminder reminder)
+        {
+            if (!Contract.Remind())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                res.Html("#ReminderDialog", SiteUtilities.ReminderDialog(
+                    ss: SiteSettings,
+                    controlId: Forms.ControlId(),
+                    reminder: reminder));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddReminder(ResponseCollection res, string controlId)
+        {
+            if (!Contract.Remind())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                SiteSettings.Reminders.Add(new Reminder(
+                    id: SiteSettings.Reminders?.Any() == true
+                        ? SiteSettings.Reminders.Select(o => o.Id).Max() + 1
+                        : 1,
+                    subject: Forms.Data("ReminderSubject"),
+                    body: Forms.Data("ReminderBody"),
+                    line: SiteSettings.LabelTextToColumnName(Forms.Data("ReminderLine")),
+                    from: Forms.Data("ReminderFrom"),
+                    to: Forms.Data("ReminderTo"),
+                    column: Forms.Data("ReminderColumn"),
+                    startDateTime: Forms.DateTime("ReminderStartDateTime"),
+                    type: (Reminder.Types)Forms.Int("ReminderType"),
+                    range: Forms.Int("ReminderRange"),
+                    sendCompletedInPast: Forms.Bool("ReminderSendCompletedInPast"),
+                    condition: Forms.Int("ReminderCondition")));
+                SetRemindersResponseCollection(res);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateReminder(ResponseCollection res, string controlId)
+        {
+            if (!Contract.Remind())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                var reminder = SiteSettings.Reminders.Get(Forms.Int("ReminderId"));
+                if (reminder == null)
+                {
+                    res.Message(Messages.NotFound());
+                }
+                else
+                {
+                    reminder.Update(
+                        subject: Forms.Data("ReminderSubject"),
+                        body: Forms.Data("ReminderBody"),
+                        line: SiteSettings.LabelTextToColumnName(Forms.Data("ReminderLine")),
+                        from: Forms.Data("ReminderFrom"),
+                        to: Forms.Data("ReminderTo"),
+                        column: Forms.Data("ReminderColumn"),
+                        startDateTime: Forms.DateTime("ReminderStartDateTime"),
+                        type: (Reminder.Types)Forms.Int("ReminderType"),
+                        range: Forms.Int("ReminderRange"),
+                        sendCompletedInPast: Forms.Bool("ReminderSendCompletedInPast"),
+                        condition: Forms.Int("ReminderCondition"));
+                    SetRemindersResponseCollection(res);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetRemindersOrder(ResponseCollection res, string controlId)
+        {
+            if (!Contract.Remind())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                var selected = Forms.IntList("EditReminder");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets()).ToJson();
+                }
+                else
+                {
+                    SiteSettings.Reminders.MoveUpOrDown(
+                        ColumnUtilities.ChangeCommand(controlId), selected);
+                    res.Html("#EditReminder", new HtmlBuilder()
+                        .EditReminder(ss: SiteSettings));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetRemindersResponseCollection(ResponseCollection res)
+        {
+            if (!Contract.Remind())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                res
+                    .ReplaceAll("#EditReminder", new HtmlBuilder()
+                        .EditReminder(ss: SiteSettings))
+                    .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteReminders(ResponseCollection res)
+        {
+            if (!Contract.Remind())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                var selected = Forms.IntList("EditReminder");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets()).ToJson();
+                }
+                else
+                {
+                    SiteSettings.Reminders.Delete(selected);
+                    res.ReplaceAll("#EditReminder", new HtmlBuilder()
+                        .EditReminder(ss: SiteSettings));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void TestReminders(ResponseCollection res)
+        {
+            if (!Contract.Remind())
+            {
+                res.Message(Messages.Restricted());
+            }
+            else
+            {
+                var selected = Forms.IntList("EditReminder");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets()).ToJson();
+                }
+                else
+                {
+                    SiteSettings.Reminders
+                        .Where(o => selected.Contains(o.Id))
+                        .ForEach(reminder => reminder.Test(SiteSettings));
+                    res.ReplaceAll("#EditReminder", new HtmlBuilder()
+                        .EditReminder(ss: SiteSettings));
                 }
             }
         }

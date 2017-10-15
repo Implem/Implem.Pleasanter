@@ -68,11 +68,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return column.Choice(ToString()).TextMini;
         }
 
-        public string ToExport(Column column, ExportColumn exportColumn)
+        public string ToExport(Column column, ExportColumn exportColumn = null)
         {
             return Value == 0 && !column.ChoiceHash.ContainsKey(ToString())
                 ? null
-                : column.ChoicePart(ToString(), exportColumn.Type);
+                : column.ChoicePart(ToString(), exportColumn?.Type ?? ExportColumn.Types.Text);
         }
 
         public string ToNotice(

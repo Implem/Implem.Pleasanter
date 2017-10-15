@@ -1,0 +1,7 @@
+﻿{
+    "Limit": 1000,
+    "DefaultLine": "[Title] --- [Owner] ([Status])",
+    "MinRange": 1,
+    "MaxRange": 360,
+    "DefaultRange": 30
+}

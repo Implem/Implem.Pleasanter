@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return string.Empty;
         }
 
-        public string ToExport(Column column, ExportColumn exportColumn)
+        public string ToExport(Column column, ExportColumn exportColumn = null)
         {
             return string.Empty;
         }

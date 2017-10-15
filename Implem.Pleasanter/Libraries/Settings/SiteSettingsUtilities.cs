@@ -84,6 +84,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "demos": return DemosSiteSettings();
                 case "syslogs": return SysLogsSiteSettings();
                 case "statuses": return StatusesSiteSettings();
+                case "reminderschedules": return ReminderSchedulesSiteSettings();
                 case "healths": return HealthsSiteSettings();
                 case "depts": return DeptsSiteSettings();
                 case "groups": return GroupsSiteSettings();
@@ -130,6 +131,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var ss = new SiteSettings();
             ss.ReferenceType = "Statuses";
+            ss.Init();
+            return ss;
+        }
+
+        public static SiteSettings ReminderSchedulesSiteSettings()
+        {
+            var ss = new SiteSettings();
+            ss.ReferenceType = "ReminderSchedules";
             ss.Init();
             return ss;
         }

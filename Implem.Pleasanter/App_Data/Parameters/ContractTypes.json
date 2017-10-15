@@ -7,6 +7,7 @@
         "Import": false,
         "Export": false,
         "Notice": false,
+        "Remind": false,
         "Mail": false,
         "Style": false,
         "Script": false
@@ -19,6 +20,7 @@
         "Import": false,
         "Export": false,
         "Notice": false,
+        "Remind": false,
         "Mail": false,
         "Style": false,
         "Script": false
@@ -31,6 +33,7 @@
         "Import": true,
         "Export": true,
         "Notice": true,
+        "Remind": true,
         "Mail": true,
         "Style": true,
         "Script": true
@@ -43,6 +46,7 @@
         "Import": true,
         "Export": true,
         "Notice": true,
+        "Remind": true,
         "Mail": true,
         "Style": true,
         "Script": true

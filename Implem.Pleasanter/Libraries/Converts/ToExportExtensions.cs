@@ -7,41 +7,41 @@ namespace Implem.Pleasanter.Libraries.Converts
     public static class ToExportExtensions
     {
         public static string ToExport(
-            this string value, Column column, ExportColumn exportColumn)
+            this string value, Column column, ExportColumn exportColumn = null)
         {
             return column.HasChoices()
-                ? column.ChoicePart(value, exportColumn.Type)
+                ? column.ChoicePart(value, exportColumn?.Type ?? ExportColumn.Types.Text)
                 : value;
         }
 
         public static string ToExport(
-            this int value, Column column, ExportColumn exportColumn)
+            this int value, Column column, ExportColumn exportColumn = null)
         {
             return value.ToString(column.StringFormat);
         }
 
         public static string ToExport(
-            this long value, Column column, ExportColumn exportColumn)
+            this long value, Column column, ExportColumn exportColumn = null)
         {
             return value.ToString(column.StringFormat);
         }
 
         public static string ToExport(
-            this decimal value, Column column, ExportColumn exportColumn)
+            this decimal value, Column column, ExportColumn exportColumn = null)
         {
             return value.ToString(column.StringFormat);
         }
 
         public static string ToExport(
-            this DateTime value, Column column, ExportColumn exportColumn)
+            this DateTime value, Column column, ExportColumn exportColumn = null)
         {
             return value.InRange()
-                ? value.ToLocal().Display(exportColumn.Format)
+                ? value.ToLocal().Display(exportColumn?.Format ?? "Ymd")
                 : string.Empty;
         }
 
         public static string ToExport(
-            this bool value, Column column, ExportColumn exportColumn)
+            this bool value, Column column, ExportColumn exportColumn = null)
         {
             return value
                 ? "1"
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.Converts
         }
 
         public static string ToExport(
-            this Enum value, Column column, ExportColumn exportColumn)
+            this Enum value, Column column, ExportColumn exportColumn = null)
         {
             return value.ToString();
         }

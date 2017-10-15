@@ -68,6 +68,28 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class ReminderSchedulesResponseCollection : ResponseCollection
+    {
+        public ReminderScheduleModel ReminderScheduleModel;
+
+        public ReminderSchedulesResponseCollection(ReminderScheduleModel reminderScheduleModel)
+        {
+            ReminderScheduleModel = reminderScheduleModel;
+        }
+
+        public ReminderSchedulesResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public ReminderSchedulesResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class HealthsResponseCollection : ResponseCollection
     {
         public HealthModel HealthModel;
@@ -526,6 +548,26 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static StatusesResponseCollection Timestamp(this StatusesResponseCollection res, string value) { return res.Val("#Statuses_Timestamp", value); }
         public static StatusesResponseCollection Timestamp_FormData(this StatusesResponseCollection res) { return res.ValAndFormData("#Statuses_Timestamp", res.StatusModel.Timestamp.ToResponse()); }
         public static StatusesResponseCollection Timestamp_FormData(this StatusesResponseCollection res, string value) { return res.ValAndFormData("#Statuses_Timestamp", value); }
+        public static ReminderSchedulesResponseCollection Ver(this ReminderSchedulesResponseCollection res) { return res.Val("#ReminderSchedules_Ver", res.ReminderScheduleModel.Ver.ToResponse()); }
+        public static ReminderSchedulesResponseCollection Ver(this ReminderSchedulesResponseCollection res, string value) { return res.Val("#ReminderSchedules_Ver", value); }
+        public static ReminderSchedulesResponseCollection Ver_FormData(this ReminderSchedulesResponseCollection res) { return res.ValAndFormData("#ReminderSchedules_Ver", res.ReminderScheduleModel.Ver.ToResponse()); }
+        public static ReminderSchedulesResponseCollection Ver_FormData(this ReminderSchedulesResponseCollection res, string value) { return res.ValAndFormData("#ReminderSchedules_Ver", value); }
+        public static ReminderSchedulesResponseCollection Comments(this ReminderSchedulesResponseCollection res) { return res.Val("#ReminderSchedules_Comments", res.ReminderScheduleModel.Comments.ToResponse()); }
+        public static ReminderSchedulesResponseCollection Comments(this ReminderSchedulesResponseCollection res, string value) { return res.Val("#ReminderSchedules_Comments", value); }
+        public static ReminderSchedulesResponseCollection Comments_FormData(this ReminderSchedulesResponseCollection res) { return res.ValAndFormData("#ReminderSchedules_Comments", res.ReminderScheduleModel.Comments.ToResponse()); }
+        public static ReminderSchedulesResponseCollection Comments_FormData(this ReminderSchedulesResponseCollection res, string value) { return res.ValAndFormData("#ReminderSchedules_Comments", value); }
+        public static ReminderSchedulesResponseCollection CreatedTime(this ReminderSchedulesResponseCollection res) { return res.Val("#ReminderSchedules_CreatedTime", res.ReminderScheduleModel.CreatedTime.ToResponse()); }
+        public static ReminderSchedulesResponseCollection CreatedTime(this ReminderSchedulesResponseCollection res, string value) { return res.Val("#ReminderSchedules_CreatedTime", value); }
+        public static ReminderSchedulesResponseCollection CreatedTime_FormData(this ReminderSchedulesResponseCollection res) { return res.ValAndFormData("#ReminderSchedules_CreatedTime", res.ReminderScheduleModel.CreatedTime.ToResponse()); }
+        public static ReminderSchedulesResponseCollection CreatedTime_FormData(this ReminderSchedulesResponseCollection res, string value) { return res.ValAndFormData("#ReminderSchedules_CreatedTime", value); }
+        public static ReminderSchedulesResponseCollection UpdatedTime(this ReminderSchedulesResponseCollection res) { return res.Val("#ReminderSchedules_UpdatedTime", res.ReminderScheduleModel.UpdatedTime.ToResponse()); }
+        public static ReminderSchedulesResponseCollection UpdatedTime(this ReminderSchedulesResponseCollection res, string value) { return res.Val("#ReminderSchedules_UpdatedTime", value); }
+        public static ReminderSchedulesResponseCollection UpdatedTime_FormData(this ReminderSchedulesResponseCollection res) { return res.ValAndFormData("#ReminderSchedules_UpdatedTime", res.ReminderScheduleModel.UpdatedTime.ToResponse()); }
+        public static ReminderSchedulesResponseCollection UpdatedTime_FormData(this ReminderSchedulesResponseCollection res, string value) { return res.ValAndFormData("#ReminderSchedules_UpdatedTime", value); }
+        public static ReminderSchedulesResponseCollection Timestamp(this ReminderSchedulesResponseCollection res) { return res.Val("#ReminderSchedules_Timestamp", res.ReminderScheduleModel.Timestamp.ToResponse()); }
+        public static ReminderSchedulesResponseCollection Timestamp(this ReminderSchedulesResponseCollection res, string value) { return res.Val("#ReminderSchedules_Timestamp", value); }
+        public static ReminderSchedulesResponseCollection Timestamp_FormData(this ReminderSchedulesResponseCollection res) { return res.ValAndFormData("#ReminderSchedules_Timestamp", res.ReminderScheduleModel.Timestamp.ToResponse()); }
+        public static ReminderSchedulesResponseCollection Timestamp_FormData(this ReminderSchedulesResponseCollection res, string value) { return res.ValAndFormData("#ReminderSchedules_Timestamp", value); }
         public static HealthsResponseCollection Ver(this HealthsResponseCollection res) { return res.Val("#Healths_Ver", res.HealthModel.Ver.ToResponse()); }
         public static HealthsResponseCollection Ver(this HealthsResponseCollection res, string value) { return res.Val("#Healths_Ver", value); }
         public static HealthsResponseCollection Ver_FormData(this HealthsResponseCollection res) { return res.ValAndFormData("#Healths_Ver", res.HealthModel.Ver.ToResponse()); }
