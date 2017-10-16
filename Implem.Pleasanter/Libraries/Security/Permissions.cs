@@ -91,49 +91,41 @@ namespace Implem.Pleasanter.Libraries.Security
             SqlWhereCollection where,
             bool checkPermission = true)
         {
-            if (!checkPermission)
+            if (ss.ColumnHash.ContainsKey("SiteId"))
             {
-                return Routes.Controller() == "items"
-                    ? where.Add(
+                if (ss.AllowedIntegratedSites != null)
+                {
+                    where.Or(new SqlWhereCollection()
+                        .Add(
+                            tableName: ss.ReferenceType,
+                            raw: "#TableBracket#.[SiteId] in ({0})".Params(
+                                ss.AllowedIntegratedSites.Join()))
+                        .CheckRecordPermission(ss));
+                }
+                else
+                {
+                    where.Add(
                         tableName: ss.ReferenceType,
-                        raw: "#TableBracket#.[SiteId]={0}".Params(ss.SiteId))
-                    : where;
+                        raw: "#TableBracket#.[SiteId]={0}".Params(ss.SiteId));
+                    if (!ss.CanRead(site: true) && checkPermission)
+                    {
+                        where.CheckRecordPermission(ss);
+                    }
+                }
             }
-            else if (ss.AllowedIntegratedSites != null)
-            {
-                return where.Or(new SqlWhereCollection()
-                    .Add(
-                        tableName: ss.ReferenceType,
-                        raw: "#TableBracket#.[SiteId] in ({0})".Params(
-                            ss.AllowedIntegratedSites.Join()))
-                    .Add(
-                        tableName: ss.ReferenceType,
-                        subLeft: ExistsPermissions(ss),
-                        _operator: string.Empty));
-            }
-            else if (!ss.CanRead(site: true))
-            {
-                return where
-                    .Add(
-                        tableName: ss.ReferenceType,
-                        raw: "#TableBracket#.[SiteId]={0}".Params(
-                            ss.SiteId))
-                    .Add(
-                        tableName: ss.ReferenceType,
-                        subLeft: ExistsPermissions(ss),
-                        _operator: string.Empty);
-            }
-            else
-            {
-                return Routes.Controller() == "items"
-                    ? where.Add(
-                        tableName: ss.ReferenceType,
-                        raw: "#TableBracket#.[SiteId]={0}".Params(ss.SiteId))
-                    : where;
-            }
+            return where;
         }
 
-        public static SqlExists ExistsPermissions(SiteSettings ss)
+        private static SqlWhereCollection CheckRecordPermission(
+            this SqlWhereCollection where, SiteSettings ss)
+        {
+            return where.Add(
+                tableName: ss.ReferenceType,
+                subLeft: CheckRecordPermission(ss),
+                _operator: null);
+        }
+
+        public static SqlExists CheckRecordPermission(SiteSettings ss)
         {
             return Rds.ExistsPermissions(
                 where: Rds.PermissionsWhere()
