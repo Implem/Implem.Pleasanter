@@ -129,6 +129,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             Init();
         }
 
+        public SiteSettings SiteSettingsOnUpdate()
+        {
+            var ss = new SiteSettings();
+            ss.InheritPermission = InheritPermission;
+            ss.PermissionType = PermissionType;
+            ss.ReferenceType = ReferenceType;
+            ss.Init();
+            return ss;
+        }
+
         public void Init()
         {
             Version = Parameters.Asset.SiteSettingsVersion;

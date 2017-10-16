@@ -219,7 +219,7 @@ namespace Implem.Pleasanter.Models
         {
             siteModel.SetByForm();
             siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteId);
-            var ss = siteModel.SiteSettings;
+            var ss = siteModel.SiteSettings.SiteSettingsOnUpdate();
             var invalid = SiteValidators.OnUpdating(ss, siteModel);
             switch (invalid)
             {
