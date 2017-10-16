@@ -3846,7 +3846,7 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.Delete(),
                                 controlCss: "button-icon",
                                 onClick: "$p.send($(this));",
-                                icon: "ui-icon-circle-triangle-e",
+                                icon: "ui-icon-trash",
                                 action: "SetSiteSettings",
                                 method: "put"))));
         }
@@ -4364,7 +4364,7 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Delete(),
                         controlCss: "button-icon",
                         onClick: "$p.send($(this));",
-                        icon: "ui-icon-gear",
+                        icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
                         confirm: Displays.ConfirmDelete()))
@@ -4965,7 +4965,7 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Delete(),
                         controlCss: "button-icon",
                         onClick: "$p.send($(this));",
-                        icon: "ui-icon-gear",
+                        icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
                         confirm: Displays.ConfirmDelete()))
