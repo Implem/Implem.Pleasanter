@@ -54,7 +54,7 @@ namespace Implem.Pleasanter.Libraries.Models
             bool countRecord = false,
             IEnumerable<Aggregation> aggregations = null)
         {
-            column = column ?? SqlColumnCollection(ss, Column(ss));
+            column = column ?? SqlColumnCollection(ss, GridColumns(ss));
             var join = ss.Join(withColumn: true);
             where = view.Where(ss, where);
             var orderBy = view.OrderBy(ss);
@@ -107,7 +107,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 .ToArray());
         }
 
-        private static List<Column> Column(SiteSettings ss)
+        private static List<Column> GridColumns(SiteSettings ss)
         {
             var columns = ss.GetGridColumns(checkPermission: true).ToList();
             columns
@@ -121,6 +121,9 @@ namespace Implem.Pleasanter.Libraries.Models
                     ss: ss,
                     currentSs: o.SiteSettings,
                     columns: columns));
+            columns = columns
+                .Concat(ss.IncludedColumns().Select(o => ss.GetColumn(o)))
+                .ToList();
             return columns
                 .Where(o => o != null)
                 .ToList();
