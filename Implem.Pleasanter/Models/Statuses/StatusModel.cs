@@ -66,8 +66,8 @@ namespace Implem.Pleasanter.Models
                 column: column ?? Rds.StatusesDefaultColumns(),
                 join: join ??  Rds.StatusesJoinDefault(),
                 where: where ?? Rds.StatusesWhereDefault(this),
-                orderBy: orderBy ?? null,
-                param: param ?? null,
+                orderBy: orderBy,
+                param: param,
                 distinct: distinct,
                 top: top)));
             return this;

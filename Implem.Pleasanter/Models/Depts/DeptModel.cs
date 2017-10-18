@@ -109,8 +109,8 @@ namespace Implem.Pleasanter.Models
                 column: column ?? Rds.DeptsDefaultColumns(),
                 join: join ??  Rds.DeptsJoinDefault(),
                 where: where ?? Rds.DeptsWhereDefault(this),
-                orderBy: orderBy ?? null,
-                param: param ?? null,
+                orderBy: orderBy,
+                param: param,
                 distinct: distinct,
                 top: top)));
             return this;

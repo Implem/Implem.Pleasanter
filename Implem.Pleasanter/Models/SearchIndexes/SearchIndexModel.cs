@@ -74,8 +74,8 @@ namespace Implem.Pleasanter.Models
                 column: column ?? Rds.SearchIndexesDefaultColumns(),
                 join: join ??  Rds.SearchIndexesJoinDefault(),
                 where: where ?? Rds.SearchIndexesWhereDefault(this),
-                orderBy: orderBy ?? null,
-                param: param ?? null,
+                orderBy: orderBy,
+                param: param,
                 distinct: distinct,
                 top: top)));
             return this;

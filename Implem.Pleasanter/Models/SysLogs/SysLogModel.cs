@@ -164,8 +164,8 @@ namespace Implem.Pleasanter.Models
                 column: column ?? Rds.SysLogsDefaultColumns(),
                 join: join ??  Rds.SysLogsJoinDefault(),
                 where: where ?? Rds.SysLogsWhereDefault(this),
-                orderBy: orderBy ?? null,
-                param: param ?? null,
+                orderBy: orderBy,
+                param: param,
                 distinct: distinct,
                 top: top)));
             return this;

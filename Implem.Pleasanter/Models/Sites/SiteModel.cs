@@ -286,8 +286,8 @@ namespace Implem.Pleasanter.Models
                 column: column ?? Rds.SitesDefaultColumns(),
                 join: join ??  Rds.SitesJoinDefault(),
                 where: where ?? Rds.SitesWhereDefault(this),
-                orderBy: orderBy ?? null,
-                param: param ?? null,
+                orderBy: orderBy,
+                param: param,
                 distinct: distinct,
                 top: top)));
             SetSiteSettingsProperties();

@@ -168,8 +168,8 @@ namespace Implem.Pleasanter.Models
                 column: column ?? Rds.WikisEditorColumns(ss),
                 join: join ??  Rds.WikisJoinDefault(),
                 where: where ?? Rds.WikisWhereDefault(this),
-                orderBy: orderBy ?? null,
-                param: param ?? null,
+                orderBy: orderBy,
+                param: param,
                 distinct: distinct,
                 top: top)));
             return this;

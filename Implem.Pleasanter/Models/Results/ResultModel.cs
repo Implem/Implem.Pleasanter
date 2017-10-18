@@ -2158,8 +2158,8 @@ namespace Implem.Pleasanter.Models
                 column: column ?? Rds.ResultsEditorColumns(ss),
                 join: join ??  Rds.ResultsJoinDefault(),
                 where: where ?? Rds.ResultsWhereDefault(this),
-                orderBy: orderBy ?? null,
-                param: param ?? null,
+                orderBy: orderBy,
+                param: param,
                 distinct: distinct,
                 top: top)));
             return this;

@@ -2217,8 +2217,8 @@ namespace Implem.Pleasanter.Models
                 column: column ?? Rds.IssuesEditorColumns(ss),
                 join: join ??  Rds.IssuesJoinDefault(),
                 where: where ?? Rds.IssuesWhereDefault(this),
-                orderBy: orderBy ?? null,
-                param: param ?? null,
+                orderBy: orderBy,
+                param: param,
                 distinct: distinct,
                 top: top)));
             return this;

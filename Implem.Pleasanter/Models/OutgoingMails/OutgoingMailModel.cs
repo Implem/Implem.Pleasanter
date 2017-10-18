@@ -129,8 +129,8 @@ namespace Implem.Pleasanter.Models
                 column: column ?? Rds.OutgoingMailsDefaultColumns(),
                 join: join ??  Rds.OutgoingMailsJoinDefault(),
                 where: where ?? Rds.OutgoingMailsWhereDefault(this),
-                orderBy: orderBy ?? null,
-                param: param ?? null,
+                orderBy: orderBy,
+                param: param,
                 distinct: distinct,
                 top: top)));
             return this;

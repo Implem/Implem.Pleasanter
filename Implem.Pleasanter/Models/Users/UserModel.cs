@@ -222,8 +222,8 @@ namespace Implem.Pleasanter.Models
                 column: column ?? Rds.UsersDefaultColumns(),
                 join: join ??  Rds.UsersJoinDefault(),
                 where: where ?? Rds.UsersWhereDefault(this),
-                orderBy: orderBy ?? null,
-                param: param ?? null,
+                orderBy: orderBy,
+                param: param,
                 distinct: distinct,
                 top: top)));
             return this;

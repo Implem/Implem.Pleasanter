@@ -66,8 +66,8 @@ namespace Implem.Pleasanter.Models
                 column: column ?? Rds.ReminderSchedulesDefaultColumns(),
                 join: join ??  Rds.ReminderSchedulesJoinDefault(),
                 where: where ?? Rds.ReminderSchedulesWhereDefault(this),
-                orderBy: orderBy ?? null,
-                param: param ?? null,
+                orderBy: orderBy,
+                param: param,
                 distinct: distinct,
                 top: top)));
             return this;

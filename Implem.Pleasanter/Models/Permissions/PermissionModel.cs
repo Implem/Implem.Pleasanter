@@ -78,8 +78,8 @@ namespace Implem.Pleasanter.Models
                 column: column ?? Rds.PermissionsDefaultColumns(),
                 join: join ??  Rds.PermissionsJoinDefault(),
                 where: where ?? Rds.PermissionsWhereDefault(this),
-                orderBy: orderBy ?? null,
-                param: param ?? null,
+                orderBy: orderBy,
+                param: param,
                 distinct: distinct,
                 top: top)));
             return this;

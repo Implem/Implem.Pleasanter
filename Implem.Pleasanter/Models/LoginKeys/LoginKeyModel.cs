@@ -72,8 +72,8 @@ namespace Implem.Pleasanter.Models
                 column: column ?? Rds.LoginKeysDefaultColumns(),
                 join: join ??  Rds.LoginKeysJoinDefault(),
                 where: where ?? Rds.LoginKeysWhereDefault(this),
-                orderBy: orderBy ?? null,
-                param: param ?? null,
+                orderBy: orderBy,
+                param: param,
                 distinct: distinct,
                 top: top)));
             return this;
