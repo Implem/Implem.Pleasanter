@@ -121,7 +121,9 @@ namespace Implem.Pleasanter.Models
                         .TenantId(Sessions.TenantId())
                         .SiteId(siteId, _operator: "<>")
                         .InheritPermission(raw: "[Sites].[SiteId]")
-                        .Add(raw: Def.Sql.CanReadSites),
+                        .Add(
+                            raw: Def.Sql.CanReadSites,
+                            _using: !Permissions.HasPrivilege()),
                     orderBy: Rds.SitesOrderBy().Title()))
                         .AsEnumerable();
         }
