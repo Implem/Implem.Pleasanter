@@ -25,15 +25,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public enum Types
-        {
-            Current,
-            Source
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static string Permission(long referenceId)
         {
             var itemModel = new ItemModel(referenceId);
