@@ -3,6 +3,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -133,8 +134,10 @@ namespace Implem.Pleasanter.Libraries.Server
                     .TenantId(Sessions.TenantId())
                     .SiteId_In(hash.SelectMany(o => o.Value))
                     .ReferenceType("Sites", _operator: "<>")
-                    .Add(raw: Def.Sql.CanReadSites)))
-                        .AsEnumerable();
+                    .Add(
+                        raw: Def.Sql.CanReadSites,
+                        _using: !Permissions.HasPrivilege())))
+                            .AsEnumerable();
             var issues = sites
                 .Where(o => o["ReferenceType"].ToString() == "Issues")
                 .Select(o => o["SiteId"].ToLong());
