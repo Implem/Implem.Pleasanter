@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Models
                 case "Results": return ResultUtilities.CalendarJson(
                     ss: Site.ResultsSiteSettings(
                         ReferenceId, setAllChoices: true, setSiteIntegration: true));
-                default: return HtmlTemplates.Error(Error.Types.NotFound);
+                default: return Messages.ResponseNotFound().ToJson();
             }
         }
 
@@ -181,7 +181,7 @@ namespace Implem.Pleasanter.Models
                 case "Results": return ResultUtilities.CrosstabJson(
                     ss: Site.ResultsSiteSettings(
                         ReferenceId, setAllChoices: true, setSiteIntegration: true));
-                default: return HtmlTemplates.Error(Error.Types.NotFound);
+                default: return Messages.ResponseNotFound().ToJson();
             }
         }
 
@@ -207,7 +207,7 @@ namespace Implem.Pleasanter.Models
                 case "Issues": return IssueUtilities.GanttJson(
                     ss: Site.IssuesSiteSettings(
                         ReferenceId, setAllChoices: true, setSiteIntegration: true));
-                default: return HtmlTemplates.Error(Error.Types.NotFound);
+                default: return Messages.ResponseNotFound().ToJson();
             }
         }
 
@@ -229,7 +229,7 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.BurnDownJson(ss: Site.SiteSettings);
-                default: return HtmlTemplates.Error(Error.Types.NotFound);
+                default: return Messages.ResponseNotFound().ToJson();
             }
         }
 
@@ -271,7 +271,7 @@ namespace Implem.Pleasanter.Models
                 case "Results": return ResultUtilities.TimeSeriesJson(
                     ss: Site.ResultsSiteSettings(
                         ReferenceId, setAllChoices: true, setSiteIntegration: true));
-                default: return HtmlTemplates.Error(Error.Types.NotFound);
+                default: return Messages.ResponseNotFound().ToJson();
             }
         }
 
@@ -303,7 +303,7 @@ namespace Implem.Pleasanter.Models
                 case "Results": return ResultUtilities.KambanJson(
                     ss: Site.ResultsSiteSettings(
                         ReferenceId, setAllChoices: true, setSiteIntegration: true));
-                default: return HtmlTemplates.Error(Error.Types.NotFound);
+                default: return Messages.ResponseNotFound().ToJson();
             }
         }
 
