@@ -1,0 +1,13 @@
+﻿{
+    "Id": "EndOfMonth",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "End of the month"
+        },
+        {
+            "Language": "ja",
+            "Body": "月末"
+        }
+    ]
+}

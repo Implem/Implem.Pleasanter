@@ -174,6 +174,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string EditStyle(params string[] data) { return Get("EditStyle", data); }
         public static string Education(params string[] data) { return Get("Education", data); }
         public static string Enabled(params string[] data) { return Get("Enabled", data); }
+        public static string EndOfMonth(params string[] data) { return Get("EndOfMonth", data); }
         public static string EnterTitle(params string[] data) { return Get("EnterTitle", data); }
         public static string Error(params string[] data) { return Get("Error", data); }
         public static string Excel(params string[] data) { return Get("Excel", data); }
@@ -340,6 +341,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string NotRequiredColumn(params string[] data) { return Get("NotRequiredColumn", data); }
         public static string NotSet(params string[] data) { return Get("NotSet", data); }
         public static string NoWrap(params string[] data) { return Get("NoWrap", data); }
+        public static string NumberWeekly(params string[] data) { return Get("NumberWeekly", data); }
         public static string NumericColumn(params string[] data) { return Get("NumericColumn", data); }
         public static string Off(params string[] data) { return Get("Off", data); }
         public static string Older(params string[] data) { return Get("Older", data); }
@@ -517,6 +519,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Weekly(params string[] data) { return Get("Weekly", data); }
         public static string Wide(params string[] data) { return Get("Wide", data); }
         public static string WorkValue(params string[] data) { return Get("WorkValue", data); }
+        public static string Yearly(params string[] data) { return Get("Yearly", data); }
         public static string YearsAgo(params string[] data) { return Get("YearsAgo", data); }
         public static string Ym(params string[] data) { return Get("Ym", data); }
         public static string Ymd(params string[] data) { return Get("Ymd", data); }

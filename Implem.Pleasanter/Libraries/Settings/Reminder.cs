@@ -27,16 +27,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string To;
         public string Column;
         public DateTime StartDateTime;
-        public Types Type;
+        public Times.RepeatTypes Type;
         public int Range;
         public bool? SendCompletedInPast;
         public int Condition;
-
-        public enum Types : int
-        {
-            Daily = 1,
-            Weekly = 2
-        }
 
         public Reminder()
         {
@@ -55,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string to,
             string column,
             DateTime startDateTime,
-            Types type,
+            Times.RepeatTypes type,
             int range,
             bool sendCompletedInPast,
             int condition)
@@ -82,7 +76,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string to,
             string column,
             DateTime startDateTime,
-            Types type,
+            Times.RepeatTypes type,
             int range,
             bool sendCompletedInPast,
             int condition)

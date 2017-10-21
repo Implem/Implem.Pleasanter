@@ -363,6 +363,18 @@ namespace Implem.Pleasanter.Models
             {
                 statements.UpdatePermissions(ss, SiteId, permissions, site: true);
             }
+            statements.Add(Rds.PhysicalDeleteReminderSchedules(
+                where: Rds.ReminderSchedulesWhere()
+                    .SiteId(SiteId)));
+            SiteSettings.Reminders?.ForEach(reminder =>
+                statements.Add(Rds.UpdateOrInsertReminderSchedules(
+                    param: Rds.ReminderSchedulesParam()
+                        .SiteId(SiteId)
+                        .Id(reminder.Id)
+                        .ScheduledTime(reminder.StartDateTime.Next(reminder.Type)),
+                    where: Rds.ReminderSchedulesWhere()
+                        .SiteId(SiteId)
+                        .Id(reminder.Id))));
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -2148,7 +2160,7 @@ namespace Implem.Pleasanter.Models
                     to: Forms.Data("ReminderTo"),
                     column: Forms.Data("ReminderColumn"),
                     startDateTime: Forms.DateTime("ReminderStartDateTime"),
-                    type: (Reminder.Types)Forms.Int("ReminderType"),
+                    type: (Times.RepeatTypes)Forms.Int("ReminderType"),
                     range: Forms.Int("ReminderRange"),
                     sendCompletedInPast: Forms.Bool("ReminderSendCompletedInPast"),
                     condition: Forms.Int("ReminderCondition")));
@@ -2182,7 +2194,7 @@ namespace Implem.Pleasanter.Models
                         to: Forms.Data("ReminderTo"),
                         column: Forms.Data("ReminderColumn"),
                         startDateTime: Forms.DateTime("ReminderStartDateTime"),
-                        type: (Reminder.Types)Forms.Int("ReminderType"),
+                        type: (Times.RepeatTypes)Forms.Int("ReminderType"),
                         range: Forms.Int("ReminderRange"),
                         sendCompletedInPast: Forms.Bool("ReminderSendCompletedInPast"),
                         condition: Forms.Int("ReminderCondition"));

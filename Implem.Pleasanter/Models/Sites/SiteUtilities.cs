@@ -4870,12 +4870,28 @@ namespace Implem.Pleasanter.Models
                         optionCollection: new Dictionary<string, string>
                         {
                             {
-                                Reminder.Types.Daily.ToInt().ToString(),
+                                Times.RepeatTypes.Daily.ToInt().ToString(),
                                 Displays.Daily()
                             },
                             {
-                                Reminder.Types.Weekly.ToInt().ToString(),
+                                Times.RepeatTypes.Weekly.ToInt().ToString(),
                                 Displays.Weekly()
+                            },
+                            {
+                                Times.RepeatTypes.NumberWeekly.ToInt().ToString(),
+                                Displays.NumberWeekly()
+                            },
+                            {
+                                Times.RepeatTypes.Monthly.ToInt().ToString(),
+                                Displays.Monthly()
+                            },
+                            {
+                                Times.RepeatTypes.EndOfMonth.ToInt().ToString(),
+                                Displays.EndOfMonth()
+                            },
+                            {
+                                Times.RepeatTypes.Yearly.ToInt().ToString(),
+                                Displays.Yearly()
                             }
                         },
                         selectedValue: reminder.Type.ToInt().ToString())

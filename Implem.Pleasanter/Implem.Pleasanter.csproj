@@ -1207,6 +1207,9 @@
     <Content Include="App_Data\Displays\Week.json" />
     <Content Include="App_Data\Displays\Month.json" />
     <Content Include="App_Data\Displays\Test.json" />
+    <Content Include="App_Data\Displays\Yearly.json" />
+    <Content Include="App_Data\Displays\EndOfMonth.json" />
+    <Content Include="App_Data\Displays\NumberWeekly.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
