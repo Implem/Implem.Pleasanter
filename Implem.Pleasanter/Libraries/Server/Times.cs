@@ -140,7 +140,7 @@ namespace Implem.Pleasanter.Libraries.Server
         private static DateTime NextDaily(this DateTime self, DateTime start)
         {
             var ret = self.AddDays((DateDiff(Types.Days, self, start).ToInt()));
-            return ret > start
+            return ret >= start
                 ? ret
                 : ret.AddDays(1);
         }
