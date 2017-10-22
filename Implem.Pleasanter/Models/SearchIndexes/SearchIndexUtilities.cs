@@ -519,23 +519,7 @@ namespace Implem.Pleasanter.Models
                         {
                             var siteModel = hash.Get(data.SiteId) ??
                                 new SiteModel().Get(where: Rds.SitesWhere().SiteId(data.SiteId));
-                            System.Web.HttpContext.Current.Session["TenantId"] =
-                                siteModel.TenantId;
-                            System.Web.HttpContext.Current.Session["RdsUser"] =
-                                Rds.ExecuteTable(statements: Rds.SelectUsers(
-                                    column: Rds.UsersColumn().UserId().DeptId(),
-                                    where: Rds.UsersWhere().UserId(data.Updator)))
-                                        .AsEnumerable()
-                                        .Select(o => new RdsUser()
-                                        {
-                                            DeptId = o["DeptId"].ToInt(),
-                                            UserId = o["UserId"].ToInt()
-                                        })
-                                        .FirstOrDefault();
-                            if (!SiteInfo.TenantCaches.ContainsKey(Sessions.TenantId()))
-                            {
-                                SiteInfo.Reflesh();
-                            }
+                            Sessions.Set(siteModel.TenantId, data.Updator);
                             if (!hash.ContainsKey(data.SiteId))
                             {
                                 siteModel.SiteSettings = SiteSettingsUtilities.Get(

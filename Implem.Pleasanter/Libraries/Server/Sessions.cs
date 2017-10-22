@@ -6,7 +6,9 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
+using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.Server
 {
@@ -38,6 +40,26 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             HttpContext.Current.Session["TenantId"] = tenantId;
             SiteInfo.Reflesh();
+        }
+
+        public static void Set(int tenantId, int userId)
+        {
+            HttpContext.Current.Session["TenantId"] = tenantId;
+            HttpContext.Current.Session["RdsUser"] =
+                Rds.ExecuteTable(statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn().UserId().DeptId(),
+                    where: Rds.UsersWhere().UserId(userId)))
+                        .AsEnumerable()
+                        .Select(dataRow => new RdsUser()
+                        {
+                            DeptId = dataRow.Int("DeptId"),
+                            UserId = dataRow.Int("UserId")
+                        })
+                        .FirstOrDefault();
+            if (!SiteInfo.TenantCaches.ContainsKey(TenantId()))
+            {
+                SiteInfo.Reflesh();
+            }
         }
 
         public static int TenantId()
