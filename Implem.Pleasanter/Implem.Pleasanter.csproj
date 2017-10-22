@@ -197,6 +197,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
+    <Compile Include="Controllers\ReminderSchedulesController.cs" />
     <Compile Include="Controllers\BackgroundTasksController.cs" />
     <Compile Include="Controllers\BinariesController.cs" />
     <Compile Include="Controllers\DemosController.cs" />

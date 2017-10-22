@@ -2317,6 +2317,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
         }
 
+        public void Remind(List<int> selected = null, bool test = false)
+        {
+            Reminders?
+                .Where(o => selected == null || selected.Contains(o.Id))
+                .ForEach(reminder => reminder.Remind(this, test: test));
+        }
+
         public Export GetExport(int id)
         {
             return Exports?.FirstOrDefault(o => o.Id == id) ?? new Export(DefaultExportColumns());

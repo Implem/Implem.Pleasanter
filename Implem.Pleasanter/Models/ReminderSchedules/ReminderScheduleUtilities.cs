@@ -22,5 +22,45 @@ namespace Implem.Pleasanter.Models
 {
     public static class ReminderScheduleUtilities
     {
+        /// <summary>
+        /// Fixed
+        /// </summary>
+        public static string Remind()
+        {
+            var now = DateTime.Now;
+            while ((DateTime.Now - now).Seconds <= Parameters.Reminder.Span)
+            {
+                var targets = Rds.ExecuteTable(statements: Rds.SelectReminderSchedules(
+                    column: Rds.ReminderSchedulesColumn()
+                        .SiteId()
+                        .Id()
+                        .Updator()
+                        .Sites_TenantId(),
+                    join: Rds.ReminderSchedulesJoin()
+                        .Add(
+                            tableName: "Sites",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Sites].[SiteId]=[ReminderSchedules].[SiteId]"),
+                    where: Rds.ReminderSchedulesWhere()
+                        .ScheduledTime(
+                            DateTime.Now.ToLocal(),
+                            _operator: "<=")))
+                                .AsEnumerable();
+                targets.ForEach(dataRow => Remind(dataRow));
+                System.Threading.Thread.Sleep(Parameters.Reminder.Interval);
+            }
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void Remind(DataRow dataRow)
+        {
+            Sessions.Set(dataRow.Int("TenantId"), dataRow.Int("Updator"));
+            SiteSettingsUtilities.Get(dataRow.Long("SiteId"))?.Remind();
+            Sessions.Clear("TenantId");
+            Sessions.Clear("RdsUser");
+        }
     }
 }

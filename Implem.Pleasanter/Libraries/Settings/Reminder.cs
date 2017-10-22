@@ -10,6 +10,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net.Mail;
@@ -107,11 +108,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : null);
         }
 
-        public void Test(SiteSettings ss)
-        {
-            Remind(ss, test: true);
-        }
-
         public void Remind(SiteSettings ss, bool test = false)
         {
             ss.SetChoiceHash(withLink: true, all: true);
@@ -121,7 +117,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Body = GetBody(ss),
                 From = new MailAddress(From),
                 To = To
-            }.Send();
+            }.Send(additionalStatements: !test
+                ? new List <SqlStatement>
+                {
+                    Rds.UpdateReminderSchedules(
+                        param: Rds.ReminderSchedulesParam()
+                            .ScheduledTime(StartDateTime.Next(Type)),
+                        where: Rds.ReminderSchedulesWhere()
+                            .SiteId(ss.SiteId)
+                            .Id(Id))
+                }
+                : null);
         }
 
         private Title GetSubject(bool test)

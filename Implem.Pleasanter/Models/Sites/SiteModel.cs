@@ -2298,7 +2298,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    SiteSettings.TestRemind(selected);
+                    SiteSettings.Remind(selected, test: true);
                     res.ReplaceAll("#EditReminder", new HtmlBuilder()
                         .EditReminder(ss: SiteSettings));
                 }

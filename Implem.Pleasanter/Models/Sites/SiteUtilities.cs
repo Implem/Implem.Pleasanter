@@ -4778,7 +4778,8 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Text(text: ss.GetColumn(reminder.Column)?.LabelText))
                             .Td(action: () => hb
-                                .Text(text: reminder.StartDateTime.ToLocal().ToString()))
+                                .Text(text: reminder.StartDateTime
+                                    .ToString(Sessions.CultureInfo())))
                             .Td(action: () => hb
                                 .Text(text: Displays.Get(reminder.Type.ToString())))
                             .Td(action: () => hb
