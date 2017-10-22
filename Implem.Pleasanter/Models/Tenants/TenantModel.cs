@@ -146,11 +146,12 @@ namespace Implem.Pleasanter.Models
         public Error.Types Update(
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
+            List<SqlStatement> additionalStatements = null,
             bool paramAll = false,
             bool get = true)
         {
             SetBySession();
-            var statements = UpdateStatements(param, paramAll);
+            var statements = UpdateStatements(param, paramAll, additionalStatements);
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -160,11 +161,13 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public List<SqlStatement> UpdateStatements(
-            SqlParamCollection param, bool paramAll = false)
+        private List<SqlStatement> UpdateStatements(
+            SqlParamCollection param,
+            bool paramAll = false,
+            List<SqlStatement> additionalStatements = null)
         {
             var timestamp = Timestamp.ToDateTime();
-            return new List<SqlStatement>
+            var statements = new List<SqlStatement>
             {
                 Rds.UpdateTenants(
                     verUp: VerUp,
@@ -173,6 +176,11 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.TenantsParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             };
+            if (additionalStatements?.Any() == true)
+            {
+                statements.AddRange(additionalStatements);
+            }
+            return statements;
         }
 
         public Error.Types UpdateOrCreate(

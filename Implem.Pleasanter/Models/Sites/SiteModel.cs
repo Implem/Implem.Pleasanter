@@ -354,11 +354,12 @@ namespace Implem.Pleasanter.Models
             bool permissionChanged = false,
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
+            List<SqlStatement> additionalStatements = null,
             bool paramAll = false,
             bool get = true)
         {
             SetBySession();
-            var statements = UpdateStatements(param, paramAll);
+            var statements = UpdateStatements(param, paramAll, additionalStatements);
             if (permissionChanged)
             {
                 statements.UpdatePermissions(ss, SiteId, permissions, site: true);
@@ -386,11 +387,13 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public List<SqlStatement> UpdateStatements(
-            SqlParamCollection param, bool paramAll = false)
+        private List<SqlStatement> UpdateStatements(
+            SqlParamCollection param,
+            bool paramAll = false,
+            List<SqlStatement> additionalStatements = null)
         {
             var timestamp = Timestamp.ToDateTime();
-            return new List<SqlStatement>
+            var statements = new List<SqlStatement>
             {
                 Rds.UpdateSites(
                     verUp: VerUp,
@@ -400,6 +403,11 @@ namespace Implem.Pleasanter.Models
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
             };
+            if (additionalStatements?.Any() == true)
+            {
+                statements.AddRange(additionalStatements);
+            }
+            return statements;
         }
 
         public void UpdateRelatedRecords(
@@ -2290,9 +2298,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    SiteSettings.Reminders
-                        .Where(o => selected.Contains(o.Id))
-                        .ForEach(reminder => reminder.Test(SiteSettings));
+                    SiteSettings.TestRemind(selected);
                     res.ReplaceAll("#EditReminder", new HtmlBuilder()
                         .EditReminder(ss: SiteSettings));
                 }

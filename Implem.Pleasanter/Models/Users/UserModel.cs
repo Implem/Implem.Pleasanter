@@ -283,11 +283,12 @@ namespace Implem.Pleasanter.Models
             bool permissionChanged = false,
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
+            List<SqlStatement> additionalStatements = null,
             bool paramAll = false,
             bool get = true)
         {
             SetBySession();
-            var statements = UpdateStatements(param, paramAll);
+            var statements = UpdateStatements(param, paramAll, additionalStatements);
             try
             {
                 var count = Rds.ExecuteScalar_int(
@@ -313,11 +314,13 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public List<SqlStatement> UpdateStatements(
-            SqlParamCollection param, bool paramAll = false)
+        private List<SqlStatement> UpdateStatements(
+            SqlParamCollection param,
+            bool paramAll = false,
+            List<SqlStatement> additionalStatements = null)
         {
             var timestamp = Timestamp.ToDateTime();
-            return new List<SqlStatement>
+            var statements = new List<SqlStatement>
             {
                 Rds.UpdateUsers(
                     verUp: VerUp,
@@ -327,6 +330,11 @@ namespace Implem.Pleasanter.Models
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
             };
+            if (additionalStatements?.Any() == true)
+            {
+                statements.AddRange(additionalStatements);
+            }
+            return statements;
         }
 
         public Error.Types Delete(SiteSettings ss, bool notice = false)

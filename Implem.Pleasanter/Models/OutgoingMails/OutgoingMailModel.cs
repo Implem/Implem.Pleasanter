@@ -171,11 +171,12 @@ namespace Implem.Pleasanter.Models
         public Error.Types Update(
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
+            List<SqlStatement> additionalStatements = null,
             bool paramAll = false,
             bool get = true)
         {
             SetBySession();
-            var statements = UpdateStatements(param, paramAll);
+            var statements = UpdateStatements(param, paramAll, additionalStatements);
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -188,11 +189,13 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public List<SqlStatement> UpdateStatements(
-            SqlParamCollection param, bool paramAll = false)
+        private List<SqlStatement> UpdateStatements(
+            SqlParamCollection param,
+            bool paramAll = false,
+            List<SqlStatement> additionalStatements = null)
         {
             var timestamp = Timestamp.ToDateTime();
-            return new List<SqlStatement>
+            var statements = new List<SqlStatement>
             {
                 Rds.UpdateOutgoingMails(
                     verUp: VerUp,
@@ -201,6 +204,11 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.OutgoingMailsParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             };
+            if (additionalStatements?.Any() == true)
+            {
+                statements.AddRange(additionalStatements);
+            }
+            return statements;
         }
 
         public Error.Types UpdateOrCreate(
@@ -494,7 +502,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types Send()
+        public Error.Types Send(List<SqlStatement> additionalStatements = null)
         {
             var error = Create();
             if (error.Has()) return error;
@@ -506,7 +514,7 @@ namespace Implem.Pleasanter.Models
                 default: SendBySmtp(); break;
             }
             SentTime = new Time(DateTime.Now);
-            error = Update();
+            error = Update(additionalStatements: additionalStatements);
             return error.Has()
                 ? error
                 : Error.Types.None;
