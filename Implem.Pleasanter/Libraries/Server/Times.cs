@@ -147,9 +147,12 @@ namespace Implem.Pleasanter.Libraries.Server
 
         private static DateTime NextWeek(this DateTime self, DateTime start)
         {
-            var days = start.SameDayOfWeek(self.DayOfWeek);
-            return (days.Any(o => o >= start.Date)
-                ? days.FirstOrDefault(o => o >= start.Date)
+            var days = start.SameDayOfWeek(self.DayOfWeek)
+                .Select(o => o.AddTime(self))
+                .ToList();
+            return (days.
+                Any(o => o >= start)
+                ? days.FirstOrDefault(o => o >= start)
                 : days.Last().AddDays(7))
                     .AddTime(self);
         }
