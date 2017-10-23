@@ -286,5 +286,19 @@ namespace Implem.Pleasanter.Models
             }
             return Error.Types.None;
         }
+
+        public static Error.Types SetReminder(out string data)
+        {
+            data = null;
+            var badFrom = MailAddressValidators.BadMailAddress(
+                Forms.Data("ReminderFrom"), out data);
+            if (badFrom != Error.Types.None) return badFrom;
+            var badTo = MailAddressValidators.BadMailAddress(
+                Forms.Data("ReminderTo"), out data);
+            if (badTo != Error.Types.None) return badTo;
+            var externalTo = MailAddressValidators.ExternalMailAddress(
+                Forms.Data("ReminderTo"), out data);
+            return Error.Types.None;
+        }
     }
 }

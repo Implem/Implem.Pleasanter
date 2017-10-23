@@ -1007,6 +1007,10 @@ namespace Implem.Pleasanter.Models
                 case "DeleteReminders":
                     DeleteReminders(res);
                     break;
+                case "MoveUpReminders":
+                case "MoveDownReminders":
+                    SetRemindersOrder(res, controlId);
+                    break;
                 case "TestReminders":
                     TestReminders(res);
                     break;
@@ -2157,22 +2161,37 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                SiteSettings.Reminders.Add(new Reminder(
-                    id: SiteSettings.Reminders?.Any() == true
-                        ? SiteSettings.Reminders.Select(o => o.Id).Max() + 1
-                        : 1,
-                    subject: Forms.Data("ReminderSubject"),
-                    body: Forms.Data("ReminderBody"),
-                    line: SiteSettings.LabelTextToColumnName(Forms.Data("ReminderLine")),
-                    from: Forms.Data("ReminderFrom"),
-                    to: Forms.Data("ReminderTo"),
-                    column: Forms.Data("ReminderColumn"),
-                    startDateTime: Forms.DateTime("ReminderStartDateTime"),
-                    type: (Times.RepeatTypes)Forms.Int("ReminderType"),
-                    range: Forms.Int("ReminderRange"),
-                    sendCompletedInPast: Forms.Bool("ReminderSendCompletedInPast"),
-                    condition: Forms.Int("ReminderCondition")));
-                SetRemindersResponseCollection(res);
+                var invalidMailAddress = string.Empty;
+                var invalid = SiteValidators.SetReminder(out invalidMailAddress);
+                switch (invalid)
+                {
+                    case Error.Types.None:
+                        SiteSettings.Reminders.Add(new Reminder(
+                            id: SiteSettings.Reminders?.Any() == true
+                                ? SiteSettings.Reminders.Select(o => o.Id).Max() + 1
+                                : 1,
+                            subject: Forms.Data("ReminderSubject"),
+                            body: Forms.Data("ReminderBody"),
+                            line: SiteSettings.LabelTextToColumnName(
+                                Forms.Data("ReminderLine")),
+                            from: Forms.Data("ReminderFrom"),
+                            to: Forms.Data("ReminderTo"),
+                            column: Forms.Data("ReminderColumn"),
+                            startDateTime: Forms.DateTime("ReminderStartDateTime"),
+                            type: (Times.RepeatTypes)Forms.Int("ReminderType"),
+                            range: Forms.Int("ReminderRange"),
+                            sendCompletedInPast: Forms.Bool("ReminderSendCompletedInPast"),
+                            condition: Forms.Int("ReminderCondition")));
+                        SetRemindersResponseCollection(res);
+                        break;
+                    case Error.Types.BadMailAddress:
+                    case Error.Types.ExternalMailAddress:
+                        res.Message(invalid.Message(invalidMailAddress));
+                        break;
+                    default:
+                        res.Message(invalid.Message());
+                        break;
+                }
             }
         }
 
@@ -2194,19 +2213,34 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    reminder.Update(
-                        subject: Forms.Data("ReminderSubject"),
-                        body: Forms.Data("ReminderBody"),
-                        line: SiteSettings.LabelTextToColumnName(Forms.Data("ReminderLine")),
-                        from: Forms.Data("ReminderFrom"),
-                        to: Forms.Data("ReminderTo"),
-                        column: Forms.Data("ReminderColumn"),
-                        startDateTime: Forms.DateTime("ReminderStartDateTime"),
-                        type: (Times.RepeatTypes)Forms.Int("ReminderType"),
-                        range: Forms.Int("ReminderRange"),
-                        sendCompletedInPast: Forms.Bool("ReminderSendCompletedInPast"),
-                        condition: Forms.Int("ReminderCondition"));
-                    SetRemindersResponseCollection(res);
+                    var invalidMailAddress = string.Empty;
+                    var invalid = SiteValidators.SetReminder(out invalidMailAddress);
+                    switch (invalid)
+                    {
+                        case Error.Types.None:
+                            reminder.Update(
+                                subject: Forms.Data("ReminderSubject"),
+                                body: Forms.Data("ReminderBody"),
+                                line: SiteSettings.LabelTextToColumnName(
+                                    Forms.Data("ReminderLine")),
+                                from: Forms.Data("ReminderFrom"),
+                                to: Forms.Data("ReminderTo"),
+                                column: Forms.Data("ReminderColumn"),
+                                startDateTime: Forms.DateTime("ReminderStartDateTime"),
+                                type: (Times.RepeatTypes)Forms.Int("ReminderType"),
+                                range: Forms.Int("ReminderRange"),
+                                sendCompletedInPast: Forms.Bool("ReminderSendCompletedInPast"),
+                                condition: Forms.Int("ReminderCondition"));
+                            SetRemindersResponseCollection(res);
+                            break;
+                        case Error.Types.BadMailAddress:
+                        case Error.Types.ExternalMailAddress:
+                            res.Message(invalid.Message(invalidMailAddress));
+                            break;
+                        default:
+                            res.Message(invalid.Message());
+                            break;
+                    }
                 }
             }
         }
