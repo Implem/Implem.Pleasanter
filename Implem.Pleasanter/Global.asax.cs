@@ -121,6 +121,7 @@ namespace Implem.Pleasanter
             switch (Request.AppRelativeCurrentExecutionFilePath.ToLower())
             {
                 case "~/backgroundtasks/do":
+                case "~/reminderschedules/remind":
                     break;
                 default:
                     new SysLogModel().Finish();
