@@ -4901,8 +4901,8 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Range(),
                         value: reminder.Range,
-                        min: Parameters.General.GridPageSizeMin,
-                        max: Parameters.General.GridPageSizeMax,
+                        min: Parameters.Reminder.MinRange,
+                        max: Parameters.Reminder.MaxRange,
                         step: 1,
                         width: 25,
                         unit: Displays.Day())
