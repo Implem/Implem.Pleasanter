@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.Mails
     {
         public static IEnumerable<string> GetEnumerable(string addresses)
         {
-            return addresses.Split(';')
+            return addresses.Split(';', ',')
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty);
         }
