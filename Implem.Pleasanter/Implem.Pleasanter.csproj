@@ -1211,7 +1211,7 @@
     <Content Include="App_Data\Displays\Yearly.json" />
     <Content Include="App_Data\Displays\EndOfMonth.json" />
     <Content Include="App_Data\Displays\NumberWeekly.json" />
-    <Content Include="Tools\BackgroundTasks.ps1" />
+    <Content Include="Tools\Reminder.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
     <Content Include="Views\Items\TimeSeries.cshtml" />
@@ -1223,6 +1223,7 @@
     <Content Include="Views\Items\Calendar.cshtml" />
     <Content Include="Views\Errors\BadRequest.cshtml" />
     <Content Include="Views\Items\Crosstab.cshtml" />
+    <Content Include="Tools\BackgroundTasks.ps1" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="ActiveDs">
