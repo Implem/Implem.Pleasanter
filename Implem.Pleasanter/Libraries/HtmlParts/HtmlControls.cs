@@ -295,7 +295,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static Dictionary<string, ControlData> InsertBlank(
             Dictionary<string, ControlData> optionCollection)
         {
-            return !optionCollection.ContainsKey(string.Empty)
+            return optionCollection?.ContainsKey(string.Empty) == false
                 ? new Dictionary<string, ControlData>
                 {
                     { string.Empty, new ControlData(string.Empty) }
