@@ -4800,6 +4800,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss, string controlId, Reminder reminder)
         {
             var hb = new HtmlBuilder();
+            var conditions = ss.ViewSelectableOptions();
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ReminderForm")
@@ -4915,9 +4916,10 @@ namespace Implem.Pleasanter.Models
                         controlId: "ReminderCondition",
                         controlCss: " always-send",
                         labelText: Displays.Condition(),
-                        optionCollection: ss.ViewSelectableOptions(),
+                        optionCollection: conditions,
                         selectedValue: reminder.Condition.ToString(),
-                        insertBlank: true)
+                        insertBlank: true,
+                        _using: conditions?.Any() == true)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
