@@ -100,18 +100,13 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder OutgoingMailListItemDestination(
             this HtmlBuilder hb, string destinations, string labelText)
         {
-            if (destinations != string.Empty)
-            {
-                return hb.FieldText(
+            return destinations != string.Empty
+                ? hb.FieldText(
                     controlId: string.Empty,
                     labelText: labelText,
                     text: destinations,
-                    fieldCss: "field-wide");
-            }
-            else
-            {
-                return hb;
-            }
+                    fieldCss: "field-wide")
+                : hb;
         }
 
         /// <summary>
