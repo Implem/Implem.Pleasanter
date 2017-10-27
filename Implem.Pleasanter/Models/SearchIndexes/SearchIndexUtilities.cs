@@ -205,7 +205,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Results(
             this HtmlBuilder hb, string text, int offset, EnumerableRowCollection<DataRow> results)
         {
-            if (results != null && results.Any())
+            if (results?.Any() == true)
             {
                 var dataSet = ResultContents(results);
                 results.ForEach(result =>
