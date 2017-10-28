@@ -237,7 +237,7 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnSetSiteSettings(SiteSettings ss, out string data)
         {
             data = null;
-            if (!ss.CanUpdate())
+            if (!ss.CanManageSite())
             {
                 return Error.Types.HasNotPermission;
             }
