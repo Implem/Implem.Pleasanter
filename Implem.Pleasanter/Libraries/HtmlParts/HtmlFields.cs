@@ -451,6 +451,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelCss = null,
             string controlContainerCss = null,
             string labelText = null,
+            string labelTitle = null,
             Action controlAction = null,
             Action actionOptions = null,
             string tagControlContainer = "div",
@@ -464,7 +465,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Label(
                             controlId: controlId,
                             labelCss: labelCss,
-                            labelText: labelText),
+                            labelText: labelText,
+                            labelTitle: labelTitle),
                     actionControl: () => hb
                         .Control(
                             controlAction: controlAction,
@@ -516,14 +518,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string controlId = null,
             string labelCss = null,
-            string labelText = null)
+            string labelText = null,
+            string labelTitle = null)
         {
             return labelText != string.Empty
                 ? hb.P(css: "field-label", action: () => hb
                     .Label(
                         attributes: new HtmlAttributes()
                             .For(controlId)
-                            .Class(labelCss),
+                            .Class(labelCss)
+                            .Title(labelTitle),
                         action: () => hb
                             .Text(labelText)))
                 : hb;
@@ -556,6 +560,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelTitle = null,
             string text = null,
             string dataValue = null,
             bool _using = true)
@@ -567,6 +572,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: fieldCss,
                     labelCss: labelCss,
                     labelText: labelText,
+                    labelTitle: labelTitle,
                     controlAction: () => hb
                         .Span(
                             attributes: new HtmlAttributes()
@@ -590,6 +596,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelTitle = null,
             string text = null,
             string unit = null,
             string format = null,
@@ -616,6 +623,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelTitle: labelTitle,
                     controlAction: () => hb
                         .TextBox(
                             textType: textType,
@@ -654,6 +662,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelTitle = null,
             string text = null,
             string placeholder = null,
             bool readOnly = false,
@@ -670,6 +679,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelTitle: labelTitle,
                     controlAction: () => hb
                         .MarkDown(
                             controlId: controlId,
@@ -692,6 +702,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelTitle = null,
             string text = null,
             Dictionary<string, string> attributes = null,
             bool _using = true)
@@ -704,6 +715,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelTitle: labelTitle,
                     controlAction: () => hb
                         .MarkUp(
                             controlId: controlId,
@@ -722,6 +734,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelTitle = null,
             Dictionary<string, string> optionCollection = null,
             string selectedValue = null,
             bool multiple = false,
@@ -742,6 +755,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelTitle: labelTitle,
                     controlAction: () => hb
                         .DropDown(
                             controlId: controlId,
@@ -769,6 +783,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelTitle = null,
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValue = null,
             bool multiple = false,
@@ -789,6 +804,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelTitle: labelTitle,
                     controlAction: () => hb
                         .DropDown(
                             controlId: controlId,
@@ -815,6 +831,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelTitle = null,
             bool _checked = false,
             bool disabled = false,
             string dataId = null,
@@ -834,6 +851,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelTitle: labelTitle,
                     controlAction: () => hb
                         .CheckBox(
                             controlId: controlId,
@@ -854,6 +872,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: string.Empty,
+                    labelTitle: labelTitle,
                     controlAction: () => hb
                         .CheckBox(
                             controlId: controlId,
@@ -876,6 +895,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelTitle = null,
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValueText = null,
             string action = null,
@@ -889,6 +909,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelTitle: labelTitle,
                     controlAction: () => hb
                         .RadioButtons(
                             name: name,
@@ -907,6 +928,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelTitle = null,
             decimal? value = 0,
             decimal min = -1,
             decimal max = -1,
@@ -926,6 +948,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelTitle: labelTitle,
                     controlAction: () =>
                     {
                         hb.Spinner(
@@ -957,6 +980,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelTitle = null,
             decimal value = 0,
             decimal min = -1,
             decimal max = -1,
@@ -974,6 +998,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelTitle: labelTitle,
                     controlAction: () => hb
                         .Slider(
                             controlId: controlId,
@@ -1029,6 +1054,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlWrapperCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelTitle = null,
             Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
             bool commandOptionPositionIsTop = false,
@@ -1047,6 +1073,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelTitle: labelTitle,
                     controlAction: () => hb
                         .SelectableWrapper(
                             controlId: controlId,
@@ -1067,6 +1094,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelTitle: labelTitle,
                     controlAction: () => 
                     {
                         commandOptionAction();
@@ -1090,6 +1118,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelCss = null,
             string controlContainerCss = null,
             string controlCss = null,
+            string title = null,
             Action labelAction = null,
             Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
