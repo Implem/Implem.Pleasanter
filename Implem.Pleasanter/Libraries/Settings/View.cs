@@ -417,8 +417,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
             Forms.List("ViewSorters").ForEach(data =>
             {
-                var columnName = data.Split_1st();
-                var type = OrderByType(data.Split_2nd());
+                var columnName = data.Split_1st('&');
+                var type = OrderByType(data.Split_2nd('&'));
                 switch (type)
                 {
                     case SqlOrderBy.Types.asc:

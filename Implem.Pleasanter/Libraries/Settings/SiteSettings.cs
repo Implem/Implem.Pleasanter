@@ -1355,6 +1355,27 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
+        public Dictionary<string, string> ViewSorterOptions()
+        {
+            var hash = new Dictionary<string, string>();
+            JoinOptionHash?.ForEach(join =>
+            {
+                var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
+                var ss = JoinedSsHash.Get(siteId);
+                if (ss != null)
+                {
+                    hash.AddRange(ss.ColumnDefinitionHash.Values
+                        .Where(o => o.GridColumn > 0)
+                        .OrderBy(o => o.GridColumn)
+                        .Select(o => ss.GetColumn(o.ColumnName))
+                        .ToDictionary(
+                            o => ColumnUtilities.ColumnName(join.Key, o.Name),
+                            o => join.Value + " " + o.LabelText));
+                }
+            });
+            return hash;
+        }
+
         public Dictionary<string, ControlData> EditorSelectableOptions(bool enabled = true)
         {
             return enabled
@@ -2576,6 +2597,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : string.Empty) + 
                         o.Link.ColumnName + "~" + o.Link.SiteId + ",Title")
                 .ToList();
+        }
+
+        public string LabelTitle(string columnName)
+        {
+            var column = GetColumn(columnName);
+            return column != null
+                ? LabelTitle(column)
+                : null;
         }
 
         public string LabelTitle(Column column)

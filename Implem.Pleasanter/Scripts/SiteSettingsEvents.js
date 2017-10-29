@@ -48,6 +48,6 @@
         $p.addBasket(
             $('#ViewSorters'),
             $dataViewSorter.text() + '(' + $p.display('Order' + orderType) + ')',
-            $dataViewSorter.val() + ',' + orderType);
+            $dataViewSorter.val() + '&' + orderType);
     });
 });

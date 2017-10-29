@@ -4122,7 +4122,7 @@ namespace Implem.Pleasanter.Models
                     listItemCollection: view.ColumnSorterHash?.ToDictionary(
                         o => "{0},{1}".Params(o.Key, o.Value),
                         o => new ControlData("{0}({1})".Params(
-                            ss.GetColumn(o.Key)?.LabelText,
+                            ss.LabelTitle(o.Key),
                             Displays.Get("Order" + o.Value.ToString().ToUpperFirstChar())))),
                     labelAction: () => hb
                         .Text(text: Displays.Sorters()))
@@ -4130,11 +4130,7 @@ namespace Implem.Pleasanter.Models
                     controlId: "ViewSorterSelector",
                     fieldCss: "field-auto-thin",
                     controlCss: " always-send",
-                    optionCollection: ss.ColumnDefinitionHash.GridDefinitions()
-                        .Where(o => !view.SorterContains(o.ColumnName))
-                        .ToDictionary(
-                            o => o.ColumnName,
-                            o => ss.GetColumn(o.ColumnName).LabelText))
+                    optionCollection: ss.ViewSorterOptions())
                 .FieldDropDown(
                     controlId: "ViewSorterOrderTypes",
                     fieldCss: "field-auto-thin",
