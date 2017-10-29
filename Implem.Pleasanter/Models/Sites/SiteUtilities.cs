@@ -888,7 +888,8 @@ namespace Implem.Pleasanter.Models
                                 controlId: "LinkColumnLabelText",
                                 labelText: Displays.DisplayName(),
                                 controlCss: " always-send",
-                                text: destinationSiteModel.Title.Value)
+                                text: destinationSiteModel.Title.Value,
+                                validateRequired: true)
                             .Hidden(
                                 controlId: "DestinationId",
                                 value: destinationSiteModel.SiteId.ToString())
@@ -899,7 +900,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     text: Displays.Create(),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon validate",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-disk",
                                     action: "CreateLink",
