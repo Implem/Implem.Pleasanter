@@ -4004,11 +4004,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "ViewFilterSelector",
                         fieldCss: "field-auto-thin",
                         controlCss: " always-send",
-                        optionCollection: ss.ColumnDefinitionHash.FilterDefinitions()
-                            .Where(o => !view.FilterContains(o.ColumnName))
-                            .ToDictionary(
-                                o => o.ColumnName,
-                                o => ss.GetColumn(o.ColumnName).LabelText))
+                        optionCollection: ss.ViewFilterOptions())
                     .Button(
                         controlId: "AddViewFilter",
                         controlCss: "button-icon",
@@ -4026,7 +4022,10 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, SiteSettings ss, View view)
         {
             view.ColumnFilterHash?.ForEach(data => hb
-                .ViewFilter(ss.GetColumn(data.Key), data.Value));
+                .ViewFilter(
+                    ss: ss,
+                    column: ss.GetColumn(data.Key),
+                    value: data.Value));
             return hb;
         }
 
@@ -4034,8 +4033,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static HtmlBuilder ViewFilter(
-            this HtmlBuilder hb, Column column, string value = null)
+            this HtmlBuilder hb, SiteSettings ss, Column column, string value = null)
         {
+            var labelTitle = ss.LabelTitle(column);
+            var controlId = "ViewFilters__" + column.ColumnName;
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsBool:
@@ -4043,15 +4044,17 @@ namespace Implem.Pleasanter.Models
                     {
                         case ColumnUtilities.CheckFilterControlTypes.OnOnly:
                             return hb.FieldCheckBox(
-                                controlId: "ViewFilters__" + column.Name,
+                                controlId: controlId,
                                 fieldCss: "field-auto-thin",
-                                labelText: Displays.Get(column.GridLabelText),
+                                labelText: column.LabelText,
+                                labelTitle: labelTitle,
                                 _checked: value.ToBool());
                         case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
                             return hb.FieldDropDown(
-                                controlId: "ViewFilters__" + column.Name,
+                                controlId: controlId,
                                 fieldCss: "field-auto-thin",
-                                labelText: Displays.Get(column.GridLabelText),
+                                labelText: column.LabelText,
+                                labelTitle: labelTitle,
                                 optionCollection: ColumnUtilities.CheckFilterTypeOptions(),
                                 selectedValue: value,
                                 addSelectedValue: false,
@@ -4061,20 +4064,22 @@ namespace Implem.Pleasanter.Models
                     }
                 case Types.CsDateTime:
                     return hb.FieldDropDown(
-                        controlId: "ViewFilters__" + column.Name,
+                        controlId: controlId,
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
-                        labelText: Displays.Get(column.GridLabelText),
+                        labelText: column.LabelText,
+                        labelTitle: labelTitle,
                         optionCollection: column.DateFilterOptions(),
                         selectedValue: value,
                         multiple: true,
                         addSelectedValue: false);
                 case Types.CsNumeric:
                     return hb.FieldDropDown(
-                        controlId: "ViewFilters__" + column.Name,
+                        controlId: controlId,
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
-                        labelText: Displays.Get(column.GridLabelText),
+                        labelText: column.LabelText,
+                        labelTitle: labelTitle,
                         optionCollection: column.HasChoices()
                             ? column.EditChoices()
                             : column.NumFilterOptions(),
@@ -4084,18 +4089,20 @@ namespace Implem.Pleasanter.Models
                 case Types.CsString:
                     return column.HasChoices()
                         ? hb.FieldDropDown(
-                            controlId: "ViewFilters__" + column.Name,
+                            controlId: controlId,
                             fieldCss: "field-auto-thin",
                             controlCss: " auto-postback",
-                            labelText: Displays.Get(column.GridLabelText),
+                            labelText: column.LabelText,
+                            labelTitle: labelTitle,
                             optionCollection: column.EditChoices(),
                             selectedValue: value,
                             multiple: true,
                             addSelectedValue: false)
                         : hb.FieldTextBox(
-                            controlId: "ViewFilters__" + column.Name,
+                            controlId: controlId,
                             fieldCss: "field-auto-thin",
-                            labelText: Displays.Get(column.GridLabelText),
+                            labelText: column.LabelText,
+                            labelTitle: labelTitle,
                             text: value);
                 default:
                     return hb;

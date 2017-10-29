@@ -1842,7 +1842,8 @@ namespace Implem.Pleasanter.Models
                 .Append(
                     "#ViewFiltersTab .items",
                     new HtmlBuilder().ViewFilter(
-                        SiteSettings.GetColumn(Forms.Data("ViewFilterSelector"))))
+                        ss: SiteSettings,
+                        column: SiteSettings.GetColumn(Forms.Data("ViewFilterSelector"))))
                 .Remove("#ViewFilterSelector option:selected");
         }
 
