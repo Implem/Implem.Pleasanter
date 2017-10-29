@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
@@ -67,10 +68,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         "(select [title] from [items] where [ReferenceId]=[IssueId])",
                         _as: "ItemTitle")
                     .Add("'" + direction + "' as Direction"),
-                join: Rds.IssuesJoinDefault(),
-                where: Rds.IssuesWhere().IssueId_In(targets
-                    .Where(o => o["Direction"].ToString() == direction)
-                    .Select(o => o["Id"].ToLong())));
+                join: Rds.IssuesJoinDefault()
+                    .Add(
+                        tableName: "Sites",
+                        joinType: SqlJoin.JoinTypes.Inner,
+                        joinExpression: "[Sites].[SiteId]=[Issues].[SiteId]"),
+                where: Rds.IssuesWhere()
+                    .IssueId_In(targets
+                        .Where(o => o["Direction"].ToString() == direction)
+                        .Select(o => o["Id"].ToLong()))
+                    .Add(raw: Def.Sql.CanReadSites));
         }
 
         private static SqlStatement SelectResults(
@@ -84,10 +91,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         "(select [title] from [items] where [ReferenceId]=[ResultId])",
                         _as: "ItemTitle")
                     .Add("'" + direction + "' as Direction"),
-                join: Rds.ResultsJoinDefault(),
-                where: Rds.ResultsWhere().ResultId_In(targets
-                    .Where(o => o["Direction"].ToString() == direction)
-                    .Select(o => o["Id"].ToLong())));
+                join: Rds.ResultsJoinDefault()
+                    .Add(
+                        tableName: "Sites",
+                        joinType: SqlJoin.JoinTypes.Inner,
+                        joinExpression: "[Sites].[SiteId]=[Results].[SiteId]"),
+                where: Rds.ResultsWhere()
+                    .ResultId_In(targets
+                        .Where(o => o["Direction"].ToString() == direction)
+                        .Select(o => o["Id"].ToLong()))
+                    .Add(raw: Def.Sql.CanReadSites));
         }
 
         private static bool Contains(SiteSettings ss, DataSet dataSet)
