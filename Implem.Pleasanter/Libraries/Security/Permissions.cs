@@ -116,20 +116,33 @@ namespace Implem.Pleasanter.Libraries.Security
             return where;
         }
 
+        public static SqlWhereCollection CanRead(
+            this SqlWhereCollection where, string idColumnBracket)
+        {
+            return where.Or(or: new SqlWhereCollection()
+                .Add(
+                    tableName: null,
+                    raw: Def.Sql.CanReadSites)
+                .Add(
+                    tableName: null,
+                    subLeft: CheckRecordPermission(idColumnBracket),
+                    _operator: null));
+        }
+
         private static SqlWhereCollection CheckRecordPermission(
             this SqlWhereCollection where, SiteSettings ss)
         {
             return where.Add(
                 tableName: ss.ReferenceType,
-                subLeft: CheckRecordPermission(ss),
+                subLeft: CheckRecordPermission(ss.IdColumnBracket()),
                 _operator: null);
         }
 
-        public static SqlExists CheckRecordPermission(SiteSettings ss)
+        public static SqlExists CheckRecordPermission(string idColumnBracket)
         {
             return Rds.ExistsPermissions(
                 where: Rds.PermissionsWhere()
-                    .ReferenceId(raw: ss.IdColumnBracket())
+                    .ReferenceId(raw: idColumnBracket)
                     .PermissionType(_operator: " & 1 = 1")
                     .Or(Rds.PermissionsWhere()
                         .GroupId_In(sub: Rds.SelectGroupMembers(

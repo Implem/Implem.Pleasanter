@@ -4,6 +4,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -77,7 +78,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .IssueId_In(targets
                         .Where(o => o["Direction"].ToString() == direction)
                         .Select(o => o["Id"].ToLong()))
-                    .Add(raw: Def.Sql.CanReadSites));
+                    .CanRead("[IssueId]"));
         }
 
         private static SqlStatement SelectResults(
@@ -100,7 +101,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .ResultId_In(targets
                         .Where(o => o["Direction"].ToString() == direction)
                         .Select(o => o["Id"].ToLong()))
-                    .Add(raw: Def.Sql.CanReadSites));
+                    .CanRead("[ResultId]"));
         }
 
         private static bool Contains(SiteSettings ss, DataSet dataSet)
