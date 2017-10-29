@@ -2195,7 +2195,7 @@ namespace Implem.Pleasanter.Models
                                     controlId: "GridJoin",
                                     fieldCss: "w150",
                                     controlCss: " auto-postback always-send",
-                                    optionCollection: ss.JoinOptions(),
+                                    optionCollection: ss.JoinOptionHash,
                                     addSelectedValue: false,
                                     action: "SetSiteSettings",
                                     method: "post"))));
@@ -2352,7 +2352,7 @@ namespace Implem.Pleasanter.Models
                                         controlId: "FilterJoin",
                                         fieldCss: "w150",
                                         controlCss: " auto-postback always-send",
-                                        optionCollection: ss.JoinOptions(),
+                                        optionCollection: ss.JoinOptionHash,
                                         addSelectedValue: false,
                                         action: "SetSiteSettings",
                                         method: "post"))))

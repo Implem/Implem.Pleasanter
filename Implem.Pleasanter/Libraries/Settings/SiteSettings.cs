@@ -1020,8 +1020,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ForEach(o => UpdateColumn(
                             ss,
                             ss.ColumnDefinitionHash.Get(new ColumnNameInfo(o).Name), o)));
-                JoinOptionHash = JoinOptions(reverce: true, bracket: true);
+                JoinOptionHash = GetJoinOptionHash();
             }
+        }
+
+        private Dictionary<string, string> GetJoinOptionHash()
+        {
+            return TableJoins(Links, new Join(Title), new List<Join> { new Join(Title) })
+                .ToDictionary(
+                    o => o.Select(p => "{0}~{1}".Params(p.ColumnName, p.SiteId)).Join("-"),
+                    o => o.GetTitle(reverce: true, bracket: true));
         }
 
         private Dictionary<long, SiteSettings> GetJoinedSsHash(
@@ -1328,7 +1336,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, string> ViewFilterOptions()
         {
             var hash = new Dictionary<string, string>();
-            JoinOptions(reverce: true, bracket: true).ForEach(join =>
+            JoinOptionHash?.ForEach(join =>
             {
                 var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
                 var ss = JoinedSsHash.Get(siteId);
@@ -1428,14 +1436,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.TypeName == "datetime")
                 .Where(o => !o.RecordedTime)
                 .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
-        }
-
-        public Dictionary<string, string> JoinOptions(bool reverce = false, bool bracket = false)
-        {
-            return TableJoins(Links, new Join(Title), new List<Join> { new Join(Title) })
-                .ToDictionary(
-                    o => o.Select(p => "{0}~{1}".Params(p.ColumnName, p.SiteId)).Join("-"),
-                    o => o.GetTitle(reverce, bracket));
         }
 
         public Dictionary<string, string> ExportJoinOptions()
@@ -1568,7 +1568,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private Dictionary<string, string> CrosstabGroupByOptions(bool datetime = false)
         {
             var hash = new Dictionary<string, string>();
-            JoinOptions(reverce: true, bracket: true).ForEach(join =>
+            JoinOptionHash?.ForEach(join =>
             {
                 var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
                 var ss = JoinedSsHash.Get(siteId);
@@ -1598,7 +1598,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, string> CrosstabColumnsOptions()
         {
             var hash = new Dictionary<string, string>();
-            JoinOptions(reverce: true, bracket: true).ForEach(join =>
+            JoinOptionHash?.ForEach(join =>
             {
                 var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
                 var ss = JoinedSsHash.Get(siteId);
