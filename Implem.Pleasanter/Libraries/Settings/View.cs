@@ -337,21 +337,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
-        public bool FilterContains(string name)
-        {
-            return ColumnFilterHash != null && ColumnFilterHash.ContainsKey(name);
-        }
-
         public SqlOrderBy.Types ColumnSorter(string columnName)
         {
             return ColumnSorterHash?.ContainsKey(columnName) == true
                 ? ColumnSorterHash[columnName]
                 : SqlOrderBy.Types.release;
-        }
-
-        public bool SorterContains(string name)
-        {
-            return ColumnSorterHash != null && ColumnSorterHash.ContainsKey(name);
         }
 
         private void AddColumnFilterHash(SiteSettings ss, string columnName, string value)
