@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Value = byForm
                 ? value.ToUniversal().AddDays(1)
                 : value;
-            DisplayValue = value.ToUniversal();
+            DisplayValue = value;
             Status = status;
         }
 
