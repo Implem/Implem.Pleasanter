@@ -2116,7 +2116,7 @@ namespace Implem.Pleasanter.Models
         {
             if (controlId == "NewReminder")
             {
-                OpenReminderDialog(res, new Reminder());
+                OpenReminderDialog(res, new Reminder() { Subject = Title.Value });
             }
             else
             {
