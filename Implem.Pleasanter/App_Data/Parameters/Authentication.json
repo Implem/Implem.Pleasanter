@@ -15,6 +15,7 @@
     "LdapSyncPatterns": [
         "(&(ObjectCategory=User)(ObjectClass=Person))"
     ],
+    "LdapExcludeAccountDisabled": false,
     "LdapSyncUser": null,
     "LdapSyncPassword": null
 }

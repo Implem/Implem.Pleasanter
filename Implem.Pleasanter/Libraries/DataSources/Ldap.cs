@@ -124,19 +124,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 logs.Add("results", results.Count.ToString());
                 foreach (SearchResult result in results)
                 {
-                    var entry = result.Entry(
+                    DirectoryEntry entry = result.Entry(
                         Parameters.Authentication.LdapSyncUser,
                         Parameters.Authentication.LdapSyncPassword);
-                    logs.Add("entry", entry.Path);
-                    if (Authentications.Windows())
+                    if (Enabled(entry))
                     {
-                        UpdateOrInsert(NetBiosName(entry), entry);
-                    }
-                    else
-                    {
-                        UpdateOrInsert(
-                            entry.Property(Parameters.Authentication.LdapSearchProperty),
-                            entry);
+                        logs.Add("entry", entry.Path);
+                        if (Authentications.Windows())
+                        {
+                            UpdateOrInsert(NetBiosName(entry), entry);
+                        }
+                        else
+                        {
+                            UpdateOrInsert(
+                                entry.Property(Parameters.Authentication.LdapSearchProperty),
+                                entry);
+                        }
                     }
                 }
             }
@@ -144,6 +147,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 new SysLogModel(e, logs);
             }
+        }
+
+        private static bool Enabled(DirectoryEntry entry)
+        {
+            var accountDisabled = 2;
+            return
+                !Parameters.Authentication.LdapExcludeAccountDisabled ||
+                (entry.Properties["UserAccountControl"].Value.ToLong() & accountDisabled) == 0;
         }
 
         private static DirectorySearcher DirectorySearcher(string loginId, string password)

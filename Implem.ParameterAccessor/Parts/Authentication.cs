@@ -17,6 +17,7 @@ namespace Implem.ParameterAccessor.Parts
         public string ServiceId;
         public string ExtensionUrl;
         public List<string> LdapSyncPatterns;
+        public bool LdapExcludeAccountDisabled;
         public string LdapSyncUser;
         public string LdapSyncPassword;
     }
