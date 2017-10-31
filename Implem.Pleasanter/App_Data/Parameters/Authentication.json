@@ -3,19 +3,23 @@
     "ServiceId": null,
     "ExtensionUrl": null,
     "PasswordExpirationPeriod": 0,
-    "LdapSearchRoot": null,
-    "LdapSearchProperty": "mail",
-    "LdapTenantId": 1,
-    "LdapDeptCode": null,
-    "LdapDeptName": null,
-    "LdapUserCode": null,
-    "LdapFirstName": "givenName",
-    "LdapLastName": "sn",
-    "LdapMailAddress": "mail",
-    "LdapSyncPatterns": [
-        "(&(ObjectCategory=User)(ObjectClass=Person))"
-    ],
-    "LdapExcludeAccountDisabled": false,
-    "LdapSyncUser": null,
-    "LdapSyncPassword": null
+    "LdapParameters": [
+        {
+            "LdapSearchRoot": null,
+            "LdapSearchProperty": "sAMAccountName",
+            "LdapTenantId": 1,
+            "LdapDeptCode": null,
+            "LdapDeptName": null,
+            "LdapUserCode": null,
+            "LdapFirstName": "givenName",
+            "LdapLastName": "sn",
+            "LdapMailAddress": "mail",
+            "LdapSyncPatterns": [
+                "(&(ObjectCategory=User)(ObjectClass=Person))"
+            ],
+            "LdapExcludeAccountDisabled": false,
+            "LdapSyncUser": null,
+            "LdapSyncPassword": null
+        }
+    ]
 }
