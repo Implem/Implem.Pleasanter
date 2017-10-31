@@ -119,6 +119,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     Parameters.Authentication.LdapSyncUser,
                     Parameters.Authentication.LdapSyncPassword);
                 directorySearcher.Filter = pattern;
+                directorySearcher.PageSize = 1000;
                 var results = directorySearcher.FindAll();
                 logs.Add("results", results.Count.ToString());
                 foreach (SearchResult result in results)
