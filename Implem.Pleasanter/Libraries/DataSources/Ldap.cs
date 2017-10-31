@@ -171,8 +171,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 try
                 {
-                    return entry.Properties[propertyName].Count > 0
-                        ? entry.Properties[propertyName][0].ToString()
+                    return entry.Properties[propertyName].Value != null
+                        ? entry.Properties[propertyName].Value.ToString()
                         : string.Empty;
                 }
                 catch (Exception e) { new SysLogModel(e, logs); }
