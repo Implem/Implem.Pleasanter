@@ -9,11 +9,17 @@
             "LdapSearchProperty": "sAMAccountName",
             "LdapTenantId": 1,
             "LdapDeptCode": null,
+            "LdapDeptCodePattern": null,
             "LdapDeptName": null,
+            "LdapDeptNamePattern": null,
             "LdapUserCode": null,
+            "LdapUserCodePattern": null,
             "LdapFirstName": "givenName",
+            "LdapFirstNamePattern": null,
             "LdapLastName": "sn",
+            "LdapLastNamePattern": null,
             "LdapMailAddress": "mail",
+            "LdapMailAddressPattern": null,
             "LdapSyncPatterns": [
                 "(&(ObjectCategory=User)(ObjectClass=Person))"
             ],

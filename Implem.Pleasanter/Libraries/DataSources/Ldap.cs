@@ -71,12 +71,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
         private static void UpdateOrInsert(
             string loginId, DirectoryEntry entry, ParameterAccessor.Parts.Ldap ldap)
         {
-            var deptCode = entry.Property(ldap.LdapDeptCode);
-            var deptName = entry.Property(ldap.LdapDeptName);
+            var deptCode = entry.Property(ldap.LdapDeptCode, ldap.LdapDeptCodePattern);
+            var deptName = entry.Property(ldap.LdapDeptName, ldap.LdapDeptNamePattern);
             var deptExists = !deptCode.IsNullOrEmpty() && !deptName.IsNullOrEmpty();
-            var userCode = entry.Property(ldap.LdapUserCode);
+            var userCode = entry.Property(ldap.LdapUserCode, ldap.LdapUserCodePattern);
             var name = Name(loginId, entry, ldap);
-            var mailAddress = entry.Property(ldap.LdapMailAddress);
+            var mailAddress = entry.Property(ldap.LdapMailAddress, ldap.LdapMailAddressPattern);
             var statements = new List<SqlStatement>();
             if (deptExists)
             {
@@ -164,7 +164,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         else
                         {
                             UpdateOrInsert(
-                                entry.Property(ldap.LdapSearchProperty),
+                                entry.Property(ldap.LdapSearchProperty, null),
                                 entry,
                                 ldap);
                         }
@@ -201,19 +201,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : new DirectoryEntry(searchResult.Path);
         }
 
-        private static string Property(this DirectoryEntry entry, string propertyName)
+        private static string Property(this DirectoryEntry entry, string name, string pattern)
         {
             var logs = new Logs()
             {
                 new Log("entry", entry.Path),
-                new Log("propertyName", propertyName)
+                new Log("propertyName", name)
             };
-            if (!propertyName.IsNullOrEmpty())
+            if (!name.IsNullOrEmpty())
             {
                 try
                 {
-                    return entry.Properties[propertyName].Value != null
-                        ? entry.Properties[propertyName].Value.ToString()
+                    return entry.Properties[name].Value != null
+                        ? pattern.IsNullOrEmpty()
+                            ? entry.Properties[name].Value.ToString()
+                            : entry.Properties[name].Value.ToString().RegexFirst(pattern)
                         : string.Empty;
                 }
                 catch (Exception e) { new SysLogModel(e, logs); }
@@ -225,8 +227,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string loginId, DirectoryEntry entry, ParameterAccessor.Parts.Ldap ldap)
         {
             var name = "{0} {1}".Params(
-                entry.Property(ldap.LdapLastName),
-                entry.Property(ldap.LdapFirstName));
+                entry.Property(ldap.LdapLastName, ldap.LdapLastNamePattern),
+                entry.Property(ldap.LdapFirstName, ldap.LdapFirstNamePattern));
             return name != " "
                 ? name
                 : loginId;
