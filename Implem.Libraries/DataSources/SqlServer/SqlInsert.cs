@@ -68,11 +68,11 @@ namespace Implem.Libraries.DataSources.SqlServer
                     }
                     else if (sqlParam.Sub != null)
                     {
-                        valueCollection.Add(sqlParam.Sub.GetCommandText(
+                        valueCollection.Add("(" + sqlParam.Sub.GetCommandText(
                             sqlContainer: sqlContainer,
                             sqlCommand: sqlCommand,
                             prefix: "_sub",
-                            commandCount: commandCount));
+                            commandCount: commandCount) + ")");
                     }
                     else
                     {
