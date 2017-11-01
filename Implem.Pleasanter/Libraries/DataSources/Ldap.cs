@@ -102,18 +102,19 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 where: Rds.UsersWhere().LoginId(loginId)));
             if (!mailAddress.IsNullOrEmpty())
             {
-                statements.Add(Rds.UpdateOrInsertMailAddresses(
-                    param: Rds.MailAddressesParam()
-                        .OwnerId(sub: Rds.SelectUsers(
-                            column: Rds.UsersColumn().UserId(),
-                            where: Rds.UsersWhere().LoginId(loginId)))
-                        .OwnerType("Users")
-                        .MailAddress(mailAddress),
+                statements.Add(Rds.PhysicalDeleteMailAddresses(
                     where: Rds.MailAddressesWhere()
                         .OwnerType("Users")
                         .OwnerId(sub: Rds.SelectUsers(
                             column: Rds.UsersColumn().UserId(),
                             where: Rds.UsersWhere().LoginId(loginId)))));
+                statements.Add(Rds.InsertMailAddresses(
+                    param: Rds.MailAddressesParam()
+                        .OwnerId(sub: Rds.SelectUsers(
+                            column: Rds.UsersColumn().UserId(),
+                            where: Rds.UsersWhere().LoginId(loginId)))
+                        .OwnerType("Users")
+                        .MailAddress(mailAddress)));
             }
             statements.Add(StatusUtilities.UpdateStatus(
                 StatusUtilities.Types.DeptsUpdated,
