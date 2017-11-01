@@ -231,7 +231,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 entry.Property(ldap.LdapLastName, ldap.LdapLastNamePattern),
                 entry.Property(ldap.LdapFirstName, ldap.LdapFirstNamePattern));
             return name != " "
-                ? name
+                ? name.Trim()
                 : loginId;
         }
 
