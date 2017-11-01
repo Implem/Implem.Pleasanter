@@ -2111,11 +2111,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         Parameters.General.DropDownSearchLimit, _operator: ">")))
                             .AsEnumerable()
                             .ForEach(data =>
-                            {
-                                var column = GetColumn(Links.FirstOrDefault(o =>
-                                    o.SiteId == data["SiteId"].ToLong())?.ColumnName);
-                                if (column != null) column.UseSearch = true;
-                            });
+                                Links
+                                    .Where(o => o.SiteId == data["SiteId"].ToLong())
+                                    .Select(o => GetColumn(o.ColumnName))
+                                    .ForEach(column =>
+                                        column.UseSearch = true));
             var targetSites = Links?
                 .Where(o => all || GetColumn(o.ColumnName)?.UseSearch != true)
                 .Select(o => o.SiteId)
