@@ -1,5 +1,4 @@
-﻿using ActiveDs;
-using Implem.DefinitionAccessor;
+﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
@@ -160,7 +159,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         logs.Add("entry", entry.Path);
                         if (Authentications.Windows())
                         {
-                            UpdateOrInsert(NetBiosName(entry), entry, ldap);
+                            UpdateOrInsert(NetBiosName(entry, ldap), entry, ldap);
                         }
                         else
                         {
@@ -235,13 +234,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : loginId;
         }
 
-        public static string NetBiosName(DirectoryEntry entry)
+        public static string NetBiosName(DirectoryEntry entry, ParameterAccessor.Parts.Ldap ldap)
         {
-            var nameTranslate = new NameTranslate();
-            nameTranslate.Set(
-                (int)ADS_NAME_TYPE_ENUM.ADS_NAME_TYPE_1779,
-                entry.Properties["distinguishedName"].Value.ToString());
-            return nameTranslate.Get((int)ADS_NAME_TYPE_ENUM.ADS_NAME_TYPE_NT4);
+            return ldap.NetBiosDomainName + "\\" + entry.Property("sAMAccountName", null);
         }
     }
 }

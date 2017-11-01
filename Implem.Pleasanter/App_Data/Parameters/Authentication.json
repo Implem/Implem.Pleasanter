@@ -7,6 +7,7 @@
         {
             "LdapSearchRoot": null,
             "LdapSearchProperty": "sAMAccountName",
+            "NetBiosDomainName": null,
             "LdapTenantId": 1,
             "LdapDeptCode": null,
             "LdapDeptCodePattern": null,

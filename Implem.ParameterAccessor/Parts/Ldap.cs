@@ -5,6 +5,7 @@ namespace Implem.ParameterAccessor.Parts
     {
         public string LdapSearchRoot;
         public string LdapSearchProperty;
+        public string NetBiosDomainName;
         public int LdapTenantId;
         public string LdapDeptCode;
         public string LdapDeptCodePattern;
