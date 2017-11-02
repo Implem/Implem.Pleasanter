@@ -198,6 +198,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "[[Depts]]":
                     SiteInfo.TenantCaches[tenantId].DeptHash
                         .Where(o => o.Value.TenantId == tenantId)
+                        .Where(o => searchIndexes?.Any() != true ||
+                            searchIndexes.All(p =>
+                                o.Key == p.ToInt() ||
+                                o.Value.Name.Contains(p)))
                         .ForEach(o => AddToChoiceHash(
                             o.Key.ToString(),
                             SiteInfo.Dept(o.Key).Name));
