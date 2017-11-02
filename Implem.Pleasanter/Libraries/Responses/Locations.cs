@@ -64,7 +64,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ItemEditAbsoluteUri(long id)
         {
             return Parameters.Service.AbsoluteUri != null
-                ? Parameters.Service.AbsoluteUri + ItemEdit(id)
+                ? Parameters.Service.AbsoluteUri + "/items/" + id
                 : Url.AbsoluteUri().Replace(Url.AbsolutePath(), ItemEdit(id));
         }
 
