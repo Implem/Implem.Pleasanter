@@ -3497,8 +3497,7 @@ namespace Implem.Pleasanter.Models
 
         private void Notice(SiteSettings ss, string type)
         {
-            var url = Url.AbsoluteUri().Replace(
-                Url.AbsolutePath(), Locations.ItemEdit(IssueId));
+            var url = Locations.ItemEditAbsoluteUri(IssueId);
             ss.Notifications.Where(o => o.Enabled).ForEach(notification =>
             {
                 if (notification.HasRelatedUsers())

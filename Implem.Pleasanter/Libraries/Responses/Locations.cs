@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
@@ -58,6 +59,13 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ItemEdit(long id)
         {
             return Get("Items", id.ToString(), "Edit");
+        }
+
+        public static string ItemEditAbsoluteUri(long id)
+        {
+            return Parameters.Service.AbsoluteUri != null
+                ? Parameters.Service.AbsoluteUri + ItemEdit(id)
+                : Url.AbsoluteUri().Replace(Url.AbsolutePath(), Locations.ItemEdit(id));
         }
 
         public static string ItemEdit(long id, string controller)

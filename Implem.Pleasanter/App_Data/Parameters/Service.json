@@ -2,6 +2,7 @@
     "Name": "Implem.Pleasanter",
     "TimeZoneDefault": "Tokyo Standard Time",
     "DefaultPassword": "pleasanter",
+    "AbsoluteUri": null,
     "RequireHttps": false,
     "ImportData": false,
     "ShowTenantTitle": false,
