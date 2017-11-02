@@ -156,14 +156,19 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnDeleting(SiteSettings ss, SiteModel siteModel)
         {
-            if (ss.Title != Forms.Data("DeleteSiteTitle") || !Authentications.Try(
-                Forms.Data("Users_LoginId"), Forms.Data("Users_Password").Sha512Cng()))
+            if (ss.Title != Forms.Data("DeleteSiteTitle") || !Authenticate())
             {
                 return Error.Types.IncorrectSiteDeleting;
             }
             return ss.CanManageSite()
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
+        }
+
+        private static bool Authenticate()
+        {
+            return Authentications.Windows() || Authentications.Try(
+                Forms.Data("Users_LoginId"), Forms.Data("Users_Password").Sha512Cng());
         }
 
         public static Error.Types OnRestoring()

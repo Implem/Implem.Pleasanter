@@ -5505,11 +5505,13 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.SiteTitle())
                     .FieldTextBox(
                         controlId: "Users_LoginId",
-                        labelText: Displays.Users_LoginId())
+                        labelText: Displays.Users_LoginId(),
+                        _using: !Authentications.Windows())
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.Password,
                         controlId: "Users_Password",
-                        labelText: Displays.Users_Password())
+                        labelText: Displays.Users_Password(),
+                        _using: !Authentications.Windows())
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
