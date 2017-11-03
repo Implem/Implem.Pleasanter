@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Models
     public static class ReminderScheduleUtilities
     {
         /// <summary>
-        /// Fixed
+        /// Fixed:
         /// </summary>
         public static string Remind()
         {
