@@ -202,13 +202,14 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete()
         {
+            var statements = new List<SqlStatement>
+            {
+                Rds.DeleteMailAddresses(
+                    where: Rds.MailAddressesWhere().MailAddressId(MailAddressId))
+            };
             Rds.ExecuteNonQuery(
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteMailAddresses(
-                        where: Rds.MailAddressesWhere().MailAddressId(MailAddressId))
-                });
+                statements: statements.ToArray());
             return Error.Types.None;
         }
 

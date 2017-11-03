@@ -2451,6 +2451,7 @@ namespace Implem.Pleasanter.Models
                 .ToDictionary(o =>
                     o.ColumnName,
                     o => SiteInfo.User(PropertyValue(o.ColumnName).ToInt())));
+            statements.OnCreatingExtendedSqls(SiteId);
             var newId = Rds.ExecuteScalar_long(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -2523,6 +2524,7 @@ namespace Implem.Pleasanter.Models
             {
                 statements.UpdatePermissions(ss, ResultId, permissions);
             }
+            statements.OnUpdatingExtendedSqls(SiteId);
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -2691,15 +2693,17 @@ namespace Implem.Pleasanter.Models
             {
                 CheckNotificationConditions(ss, before: true);
             }
+            var statements = new List<SqlStatement>
+            {
+                Rds.DeleteItems(
+                    where: Rds.ItemsWhere().ReferenceId(ResultId)),
+                Rds.DeleteResults(
+                    where: Rds.ResultsWhere().SiteId(SiteId).ResultId(ResultId))
+            };
+            statements.OnDeletingExtendedSqls(SiteId);
             Rds.ExecuteNonQuery(
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteItems(
-                        where: Rds.ItemsWhere().ReferenceId(ResultId)),
-                    Rds.DeleteResults(
-                        where: Rds.ResultsWhere().SiteId(SiteId).ResultId(ResultId))
-                });
+                statements: statements.ToArray());
             SynchronizeSummary(ss);
             if (Contract.Notice() && notice)
             {

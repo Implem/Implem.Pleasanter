@@ -222,14 +222,15 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete(SiteSettings ss, bool notice = false)
         {
+            var statements = new List<SqlStatement>
+            {
+                Rds.DeleteDepts(
+                    where: Rds.DeptsWhere().DeptId(DeptId)),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
+            };
             Rds.ExecuteNonQuery(
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteDepts(
-                        where: Rds.DeptsWhere().DeptId(DeptId)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
-                });
+                statements: statements.ToArray());
             var deptHash = SiteInfo.TenantCaches[Sessions.TenantId()].DeptHash;
             if (deptHash.Keys.Contains(DeptId))
             {

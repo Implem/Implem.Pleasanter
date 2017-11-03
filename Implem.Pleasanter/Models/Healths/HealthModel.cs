@@ -207,13 +207,14 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete()
         {
+            var statements = new List<SqlStatement>
+            {
+                Rds.DeleteHealths(
+                    where: Rds.HealthsWhere().HealthId(HealthId))
+            };
             Rds.ExecuteNonQuery(
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteHealths(
-                        where: Rds.HealthsWhere().HealthId(HealthId))
-                });
+                statements: statements.ToArray());
             return Error.Types.None;
         }
 

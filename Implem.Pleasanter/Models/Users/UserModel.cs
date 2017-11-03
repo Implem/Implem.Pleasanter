@@ -339,14 +339,15 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete(SiteSettings ss, bool notice = false)
         {
+            var statements = new List<SqlStatement>
+            {
+                Rds.DeleteUsers(
+                    where: Rds.UsersWhere().UserId(UserId)),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
+            };
             Rds.ExecuteNonQuery(
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteUsers(
-                        where: Rds.UsersWhere().UserId(UserId)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
-                });
+                statements: statements.ToArray());
             var userHash = SiteInfo.TenantCaches[Sessions.TenantId()].UserHash;
             if (userHash.Keys.Contains(UserId))
             {

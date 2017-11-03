@@ -207,13 +207,14 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete()
         {
+            var statements = new List<SqlStatement>
+            {
+                Rds.DeleteTenants(
+                    where: Rds.TenantsWhere().TenantId(TenantId))
+            };
             Rds.ExecuteNonQuery(
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteTenants(
-                        where: Rds.TenantsWhere().TenantId(TenantId))
-                });
+                statements: statements.ToArray());
             return Error.Types.None;
         }
 

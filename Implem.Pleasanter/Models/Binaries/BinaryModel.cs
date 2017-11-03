@@ -239,13 +239,14 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete()
         {
+            var statements = new List<SqlStatement>
+            {
+                Rds.DeleteBinaries(
+                    where: Rds.BinariesWhere().BinaryId(BinaryId))
+            };
             Rds.ExecuteNonQuery(
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteBinaries(
-                        where: Rds.BinariesWhere().BinaryId(BinaryId))
-                });
+                statements: statements.ToArray());
             return Error.Types.None;
         }
 

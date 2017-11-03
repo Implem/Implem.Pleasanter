@@ -240,6 +240,7 @@ namespace Implem.Pleasanter.Models
             bool get = true)
         {
             var statements = CreateStatements(ss, tableType, param, paramAll);
+            statements.OnCreatingExtendedSqls(SiteId);
             var newId = Rds.ExecuteScalar_long(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -310,6 +311,7 @@ namespace Implem.Pleasanter.Models
             {
                 statements.UpdatePermissions(ss, WikiId, permissions);
             }
+            statements.OnUpdatingExtendedSqls(SiteId);
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -433,19 +435,21 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types Delete(SiteSettings ss, bool notice = false)
         {
+            var statements = new List<SqlStatement>
+            {
+                Rds.DeleteItems(
+                    where: Rds.ItemsWhere().ReferenceId(WikiId)),
+                Rds.DeleteWikis(
+                    where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId)),
+                Rds.DeleteItems(
+                    where: Rds.ItemsWhere().ReferenceId(SiteId)),
+                Rds.DeleteSites(
+                    where: Rds.SitesWhere().SiteId(SiteId))
+            };
+            statements.OnDeletingExtendedSqls(SiteId);
             Rds.ExecuteNonQuery(
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteItems(
-                        where: Rds.ItemsWhere().ReferenceId(WikiId)),
-                    Rds.DeleteWikis(
-                        where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId)),
-                    Rds.DeleteItems(
-                        where: Rds.ItemsWhere().ReferenceId(SiteId)),
-                    Rds.DeleteSites(
-                        where: Rds.SitesWhere().SiteId(SiteId))
-                });
+                statements: statements.ToArray());
             if (Contract.Notice() && notice) Notice(ss, "Deleted");
             return Error.Types.None;
         }

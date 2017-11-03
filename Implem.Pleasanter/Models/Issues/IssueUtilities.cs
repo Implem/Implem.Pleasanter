@@ -3015,10 +3015,200 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (column.Name)
                     {
+                        case "SiteId":
+                            res.Val(
+                                "#Issues_SiteId",
+                                issueModel.SiteId.ToControl(ss, column));
+                            break;
+                        case "UpdatedTime":
+                            res.Val(
+                                "#Issues_UpdatedTime",
+                                issueModel.UpdatedTime.ToControl(ss, column));
+                            break;
+                        case "IssueId":
+                            res.Val(
+                                "#Issues_IssueId",
+                                issueModel.IssueId.ToControl(ss, column));
+                            break;
+                        case "Ver":
+                            res.Val(
+                                "#Issues_Ver",
+                                issueModel.Ver.ToControl(ss, column));
+                            break;
+                        case "Title":
+                            res.Val(
+                                "#Issues_Title",
+                                issueModel.Title.ToControl(ss, column));
+                            break;
+                        case "Body":
+                            res.Val(
+                                "#Issues_Body",
+                                issueModel.Body.ToControl(ss, column));
+                            break;
+                        case "StartTime":
+                            res.Val(
+                                "#Issues_StartTime",
+                                issueModel.StartTime.ToControl(ss, column));
+                            break;
+                        case "CompletionTime":
+                            res.Val(
+                                "#Issues_CompletionTime",
+                                issueModel.CompletionTime.ToControl(ss, column));
+                            break;
                         case "WorkValue":
                             res.Val(
                                 "#Issues_WorkValue",
                                 issueModel.WorkValue.ToControl(ss, column));
+                            break;
+                        case "ProgressRate":
+                            res.Val(
+                                "#Issues_ProgressRate",
+                                issueModel.ProgressRate.ToControl(ss, column));
+                            break;
+                        case "Status":
+                            res.Val(
+                                "#Issues_Status",
+                                issueModel.Status.ToControl(ss, column));
+                            break;
+                        case "Manager":
+                            res.Val(
+                                "#Issues_Manager",
+                                issueModel.Manager.ToControl(ss, column));
+                            break;
+                        case "Owner":
+                            res.Val(
+                                "#Issues_Owner",
+                                issueModel.Owner.ToControl(ss, column));
+                            break;
+                        case "ClassA":
+                            res.Val(
+                                "#Issues_ClassA",
+                                issueModel.ClassA.ToControl(ss, column));
+                            break;
+                        case "ClassB":
+                            res.Val(
+                                "#Issues_ClassB",
+                                issueModel.ClassB.ToControl(ss, column));
+                            break;
+                        case "ClassC":
+                            res.Val(
+                                "#Issues_ClassC",
+                                issueModel.ClassC.ToControl(ss, column));
+                            break;
+                        case "ClassD":
+                            res.Val(
+                                "#Issues_ClassD",
+                                issueModel.ClassD.ToControl(ss, column));
+                            break;
+                        case "ClassE":
+                            res.Val(
+                                "#Issues_ClassE",
+                                issueModel.ClassE.ToControl(ss, column));
+                            break;
+                        case "ClassF":
+                            res.Val(
+                                "#Issues_ClassF",
+                                issueModel.ClassF.ToControl(ss, column));
+                            break;
+                        case "ClassG":
+                            res.Val(
+                                "#Issues_ClassG",
+                                issueModel.ClassG.ToControl(ss, column));
+                            break;
+                        case "ClassH":
+                            res.Val(
+                                "#Issues_ClassH",
+                                issueModel.ClassH.ToControl(ss, column));
+                            break;
+                        case "ClassI":
+                            res.Val(
+                                "#Issues_ClassI",
+                                issueModel.ClassI.ToControl(ss, column));
+                            break;
+                        case "ClassJ":
+                            res.Val(
+                                "#Issues_ClassJ",
+                                issueModel.ClassJ.ToControl(ss, column));
+                            break;
+                        case "ClassK":
+                            res.Val(
+                                "#Issues_ClassK",
+                                issueModel.ClassK.ToControl(ss, column));
+                            break;
+                        case "ClassL":
+                            res.Val(
+                                "#Issues_ClassL",
+                                issueModel.ClassL.ToControl(ss, column));
+                            break;
+                        case "ClassM":
+                            res.Val(
+                                "#Issues_ClassM",
+                                issueModel.ClassM.ToControl(ss, column));
+                            break;
+                        case "ClassN":
+                            res.Val(
+                                "#Issues_ClassN",
+                                issueModel.ClassN.ToControl(ss, column));
+                            break;
+                        case "ClassO":
+                            res.Val(
+                                "#Issues_ClassO",
+                                issueModel.ClassO.ToControl(ss, column));
+                            break;
+                        case "ClassP":
+                            res.Val(
+                                "#Issues_ClassP",
+                                issueModel.ClassP.ToControl(ss, column));
+                            break;
+                        case "ClassQ":
+                            res.Val(
+                                "#Issues_ClassQ",
+                                issueModel.ClassQ.ToControl(ss, column));
+                            break;
+                        case "ClassR":
+                            res.Val(
+                                "#Issues_ClassR",
+                                issueModel.ClassR.ToControl(ss, column));
+                            break;
+                        case "ClassS":
+                            res.Val(
+                                "#Issues_ClassS",
+                                issueModel.ClassS.ToControl(ss, column));
+                            break;
+                        case "ClassT":
+                            res.Val(
+                                "#Issues_ClassT",
+                                issueModel.ClassT.ToControl(ss, column));
+                            break;
+                        case "ClassU":
+                            res.Val(
+                                "#Issues_ClassU",
+                                issueModel.ClassU.ToControl(ss, column));
+                            break;
+                        case "ClassV":
+                            res.Val(
+                                "#Issues_ClassV",
+                                issueModel.ClassV.ToControl(ss, column));
+                            break;
+                        case "ClassW":
+                            res.Val(
+                                "#Issues_ClassW",
+                                issueModel.ClassW.ToControl(ss, column));
+                            break;
+                        case "ClassX":
+                            res.Val(
+                                "#Issues_ClassX",
+                                issueModel.ClassX.ToControl(ss, column));
+                            break;
+                        case "ClassY":
+                            res.Val(
+                                "#Issues_ClassY",
+                                issueModel.ClassY.ToControl(ss, column));
+                            break;
+                        case "ClassZ":
+                            res.Val(
+                                "#Issues_ClassZ",
+                                issueModel.ClassZ.ToControl(ss, column));
                             break;
                         case "NumA":
                             res.Val(
@@ -3149,6 +3339,546 @@ namespace Implem.Pleasanter.Models
                             res.Val(
                                 "#Issues_NumZ",
                                 issueModel.NumZ.ToControl(ss, column));
+                            break;
+                        case "DateA":
+                            res.Val(
+                                "#Issues_DateA",
+                                issueModel.DateA.ToControl(ss, column));
+                            break;
+                        case "DateB":
+                            res.Val(
+                                "#Issues_DateB",
+                                issueModel.DateB.ToControl(ss, column));
+                            break;
+                        case "DateC":
+                            res.Val(
+                                "#Issues_DateC",
+                                issueModel.DateC.ToControl(ss, column));
+                            break;
+                        case "DateD":
+                            res.Val(
+                                "#Issues_DateD",
+                                issueModel.DateD.ToControl(ss, column));
+                            break;
+                        case "DateE":
+                            res.Val(
+                                "#Issues_DateE",
+                                issueModel.DateE.ToControl(ss, column));
+                            break;
+                        case "DateF":
+                            res.Val(
+                                "#Issues_DateF",
+                                issueModel.DateF.ToControl(ss, column));
+                            break;
+                        case "DateG":
+                            res.Val(
+                                "#Issues_DateG",
+                                issueModel.DateG.ToControl(ss, column));
+                            break;
+                        case "DateH":
+                            res.Val(
+                                "#Issues_DateH",
+                                issueModel.DateH.ToControl(ss, column));
+                            break;
+                        case "DateI":
+                            res.Val(
+                                "#Issues_DateI",
+                                issueModel.DateI.ToControl(ss, column));
+                            break;
+                        case "DateJ":
+                            res.Val(
+                                "#Issues_DateJ",
+                                issueModel.DateJ.ToControl(ss, column));
+                            break;
+                        case "DateK":
+                            res.Val(
+                                "#Issues_DateK",
+                                issueModel.DateK.ToControl(ss, column));
+                            break;
+                        case "DateL":
+                            res.Val(
+                                "#Issues_DateL",
+                                issueModel.DateL.ToControl(ss, column));
+                            break;
+                        case "DateM":
+                            res.Val(
+                                "#Issues_DateM",
+                                issueModel.DateM.ToControl(ss, column));
+                            break;
+                        case "DateN":
+                            res.Val(
+                                "#Issues_DateN",
+                                issueModel.DateN.ToControl(ss, column));
+                            break;
+                        case "DateO":
+                            res.Val(
+                                "#Issues_DateO",
+                                issueModel.DateO.ToControl(ss, column));
+                            break;
+                        case "DateP":
+                            res.Val(
+                                "#Issues_DateP",
+                                issueModel.DateP.ToControl(ss, column));
+                            break;
+                        case "DateQ":
+                            res.Val(
+                                "#Issues_DateQ",
+                                issueModel.DateQ.ToControl(ss, column));
+                            break;
+                        case "DateR":
+                            res.Val(
+                                "#Issues_DateR",
+                                issueModel.DateR.ToControl(ss, column));
+                            break;
+                        case "DateS":
+                            res.Val(
+                                "#Issues_DateS",
+                                issueModel.DateS.ToControl(ss, column));
+                            break;
+                        case "DateT":
+                            res.Val(
+                                "#Issues_DateT",
+                                issueModel.DateT.ToControl(ss, column));
+                            break;
+                        case "DateU":
+                            res.Val(
+                                "#Issues_DateU",
+                                issueModel.DateU.ToControl(ss, column));
+                            break;
+                        case "DateV":
+                            res.Val(
+                                "#Issues_DateV",
+                                issueModel.DateV.ToControl(ss, column));
+                            break;
+                        case "DateW":
+                            res.Val(
+                                "#Issues_DateW",
+                                issueModel.DateW.ToControl(ss, column));
+                            break;
+                        case "DateX":
+                            res.Val(
+                                "#Issues_DateX",
+                                issueModel.DateX.ToControl(ss, column));
+                            break;
+                        case "DateY":
+                            res.Val(
+                                "#Issues_DateY",
+                                issueModel.DateY.ToControl(ss, column));
+                            break;
+                        case "DateZ":
+                            res.Val(
+                                "#Issues_DateZ",
+                                issueModel.DateZ.ToControl(ss, column));
+                            break;
+                        case "DescriptionA":
+                            res.Val(
+                                "#Issues_DescriptionA",
+                                issueModel.DescriptionA.ToControl(ss, column));
+                            break;
+                        case "DescriptionB":
+                            res.Val(
+                                "#Issues_DescriptionB",
+                                issueModel.DescriptionB.ToControl(ss, column));
+                            break;
+                        case "DescriptionC":
+                            res.Val(
+                                "#Issues_DescriptionC",
+                                issueModel.DescriptionC.ToControl(ss, column));
+                            break;
+                        case "DescriptionD":
+                            res.Val(
+                                "#Issues_DescriptionD",
+                                issueModel.DescriptionD.ToControl(ss, column));
+                            break;
+                        case "DescriptionE":
+                            res.Val(
+                                "#Issues_DescriptionE",
+                                issueModel.DescriptionE.ToControl(ss, column));
+                            break;
+                        case "DescriptionF":
+                            res.Val(
+                                "#Issues_DescriptionF",
+                                issueModel.DescriptionF.ToControl(ss, column));
+                            break;
+                        case "DescriptionG":
+                            res.Val(
+                                "#Issues_DescriptionG",
+                                issueModel.DescriptionG.ToControl(ss, column));
+                            break;
+                        case "DescriptionH":
+                            res.Val(
+                                "#Issues_DescriptionH",
+                                issueModel.DescriptionH.ToControl(ss, column));
+                            break;
+                        case "DescriptionI":
+                            res.Val(
+                                "#Issues_DescriptionI",
+                                issueModel.DescriptionI.ToControl(ss, column));
+                            break;
+                        case "DescriptionJ":
+                            res.Val(
+                                "#Issues_DescriptionJ",
+                                issueModel.DescriptionJ.ToControl(ss, column));
+                            break;
+                        case "DescriptionK":
+                            res.Val(
+                                "#Issues_DescriptionK",
+                                issueModel.DescriptionK.ToControl(ss, column));
+                            break;
+                        case "DescriptionL":
+                            res.Val(
+                                "#Issues_DescriptionL",
+                                issueModel.DescriptionL.ToControl(ss, column));
+                            break;
+                        case "DescriptionM":
+                            res.Val(
+                                "#Issues_DescriptionM",
+                                issueModel.DescriptionM.ToControl(ss, column));
+                            break;
+                        case "DescriptionN":
+                            res.Val(
+                                "#Issues_DescriptionN",
+                                issueModel.DescriptionN.ToControl(ss, column));
+                            break;
+                        case "DescriptionO":
+                            res.Val(
+                                "#Issues_DescriptionO",
+                                issueModel.DescriptionO.ToControl(ss, column));
+                            break;
+                        case "DescriptionP":
+                            res.Val(
+                                "#Issues_DescriptionP",
+                                issueModel.DescriptionP.ToControl(ss, column));
+                            break;
+                        case "DescriptionQ":
+                            res.Val(
+                                "#Issues_DescriptionQ",
+                                issueModel.DescriptionQ.ToControl(ss, column));
+                            break;
+                        case "DescriptionR":
+                            res.Val(
+                                "#Issues_DescriptionR",
+                                issueModel.DescriptionR.ToControl(ss, column));
+                            break;
+                        case "DescriptionS":
+                            res.Val(
+                                "#Issues_DescriptionS",
+                                issueModel.DescriptionS.ToControl(ss, column));
+                            break;
+                        case "DescriptionT":
+                            res.Val(
+                                "#Issues_DescriptionT",
+                                issueModel.DescriptionT.ToControl(ss, column));
+                            break;
+                        case "DescriptionU":
+                            res.Val(
+                                "#Issues_DescriptionU",
+                                issueModel.DescriptionU.ToControl(ss, column));
+                            break;
+                        case "DescriptionV":
+                            res.Val(
+                                "#Issues_DescriptionV",
+                                issueModel.DescriptionV.ToControl(ss, column));
+                            break;
+                        case "DescriptionW":
+                            res.Val(
+                                "#Issues_DescriptionW",
+                                issueModel.DescriptionW.ToControl(ss, column));
+                            break;
+                        case "DescriptionX":
+                            res.Val(
+                                "#Issues_DescriptionX",
+                                issueModel.DescriptionX.ToControl(ss, column));
+                            break;
+                        case "DescriptionY":
+                            res.Val(
+                                "#Issues_DescriptionY",
+                                issueModel.DescriptionY.ToControl(ss, column));
+                            break;
+                        case "DescriptionZ":
+                            res.Val(
+                                "#Issues_DescriptionZ",
+                                issueModel.DescriptionZ.ToControl(ss, column));
+                            break;
+                        case "CheckA":
+                            res.Val(
+                                "#Issues_CheckA",
+                                issueModel.CheckA.ToControl(ss, column));
+                            break;
+                        case "CheckB":
+                            res.Val(
+                                "#Issues_CheckB",
+                                issueModel.CheckB.ToControl(ss, column));
+                            break;
+                        case "CheckC":
+                            res.Val(
+                                "#Issues_CheckC",
+                                issueModel.CheckC.ToControl(ss, column));
+                            break;
+                        case "CheckD":
+                            res.Val(
+                                "#Issues_CheckD",
+                                issueModel.CheckD.ToControl(ss, column));
+                            break;
+                        case "CheckE":
+                            res.Val(
+                                "#Issues_CheckE",
+                                issueModel.CheckE.ToControl(ss, column));
+                            break;
+                        case "CheckF":
+                            res.Val(
+                                "#Issues_CheckF",
+                                issueModel.CheckF.ToControl(ss, column));
+                            break;
+                        case "CheckG":
+                            res.Val(
+                                "#Issues_CheckG",
+                                issueModel.CheckG.ToControl(ss, column));
+                            break;
+                        case "CheckH":
+                            res.Val(
+                                "#Issues_CheckH",
+                                issueModel.CheckH.ToControl(ss, column));
+                            break;
+                        case "CheckI":
+                            res.Val(
+                                "#Issues_CheckI",
+                                issueModel.CheckI.ToControl(ss, column));
+                            break;
+                        case "CheckJ":
+                            res.Val(
+                                "#Issues_CheckJ",
+                                issueModel.CheckJ.ToControl(ss, column));
+                            break;
+                        case "CheckK":
+                            res.Val(
+                                "#Issues_CheckK",
+                                issueModel.CheckK.ToControl(ss, column));
+                            break;
+                        case "CheckL":
+                            res.Val(
+                                "#Issues_CheckL",
+                                issueModel.CheckL.ToControl(ss, column));
+                            break;
+                        case "CheckM":
+                            res.Val(
+                                "#Issues_CheckM",
+                                issueModel.CheckM.ToControl(ss, column));
+                            break;
+                        case "CheckN":
+                            res.Val(
+                                "#Issues_CheckN",
+                                issueModel.CheckN.ToControl(ss, column));
+                            break;
+                        case "CheckO":
+                            res.Val(
+                                "#Issues_CheckO",
+                                issueModel.CheckO.ToControl(ss, column));
+                            break;
+                        case "CheckP":
+                            res.Val(
+                                "#Issues_CheckP",
+                                issueModel.CheckP.ToControl(ss, column));
+                            break;
+                        case "CheckQ":
+                            res.Val(
+                                "#Issues_CheckQ",
+                                issueModel.CheckQ.ToControl(ss, column));
+                            break;
+                        case "CheckR":
+                            res.Val(
+                                "#Issues_CheckR",
+                                issueModel.CheckR.ToControl(ss, column));
+                            break;
+                        case "CheckS":
+                            res.Val(
+                                "#Issues_CheckS",
+                                issueModel.CheckS.ToControl(ss, column));
+                            break;
+                        case "CheckT":
+                            res.Val(
+                                "#Issues_CheckT",
+                                issueModel.CheckT.ToControl(ss, column));
+                            break;
+                        case "CheckU":
+                            res.Val(
+                                "#Issues_CheckU",
+                                issueModel.CheckU.ToControl(ss, column));
+                            break;
+                        case "CheckV":
+                            res.Val(
+                                "#Issues_CheckV",
+                                issueModel.CheckV.ToControl(ss, column));
+                            break;
+                        case "CheckW":
+                            res.Val(
+                                "#Issues_CheckW",
+                                issueModel.CheckW.ToControl(ss, column));
+                            break;
+                        case "CheckX":
+                            res.Val(
+                                "#Issues_CheckX",
+                                issueModel.CheckX.ToControl(ss, column));
+                            break;
+                        case "CheckY":
+                            res.Val(
+                                "#Issues_CheckY",
+                                issueModel.CheckY.ToControl(ss, column));
+                            break;
+                        case "CheckZ":
+                            res.Val(
+                                "#Issues_CheckZ",
+                                issueModel.CheckZ.ToControl(ss, column));
+                            break;
+                        case "AttachmentsA":
+                            res.Val(
+                                "#Issues_AttachmentsA",
+                                issueModel.AttachmentsA.ToControl(ss, column));
+                            break;
+                        case "AttachmentsB":
+                            res.Val(
+                                "#Issues_AttachmentsB",
+                                issueModel.AttachmentsB.ToControl(ss, column));
+                            break;
+                        case "AttachmentsC":
+                            res.Val(
+                                "#Issues_AttachmentsC",
+                                issueModel.AttachmentsC.ToControl(ss, column));
+                            break;
+                        case "AttachmentsD":
+                            res.Val(
+                                "#Issues_AttachmentsD",
+                                issueModel.AttachmentsD.ToControl(ss, column));
+                            break;
+                        case "AttachmentsE":
+                            res.Val(
+                                "#Issues_AttachmentsE",
+                                issueModel.AttachmentsE.ToControl(ss, column));
+                            break;
+                        case "AttachmentsF":
+                            res.Val(
+                                "#Issues_AttachmentsF",
+                                issueModel.AttachmentsF.ToControl(ss, column));
+                            break;
+                        case "AttachmentsG":
+                            res.Val(
+                                "#Issues_AttachmentsG",
+                                issueModel.AttachmentsG.ToControl(ss, column));
+                            break;
+                        case "AttachmentsH":
+                            res.Val(
+                                "#Issues_AttachmentsH",
+                                issueModel.AttachmentsH.ToControl(ss, column));
+                            break;
+                        case "AttachmentsI":
+                            res.Val(
+                                "#Issues_AttachmentsI",
+                                issueModel.AttachmentsI.ToControl(ss, column));
+                            break;
+                        case "AttachmentsJ":
+                            res.Val(
+                                "#Issues_AttachmentsJ",
+                                issueModel.AttachmentsJ.ToControl(ss, column));
+                            break;
+                        case "AttachmentsK":
+                            res.Val(
+                                "#Issues_AttachmentsK",
+                                issueModel.AttachmentsK.ToControl(ss, column));
+                            break;
+                        case "AttachmentsL":
+                            res.Val(
+                                "#Issues_AttachmentsL",
+                                issueModel.AttachmentsL.ToControl(ss, column));
+                            break;
+                        case "AttachmentsM":
+                            res.Val(
+                                "#Issues_AttachmentsM",
+                                issueModel.AttachmentsM.ToControl(ss, column));
+                            break;
+                        case "AttachmentsN":
+                            res.Val(
+                                "#Issues_AttachmentsN",
+                                issueModel.AttachmentsN.ToControl(ss, column));
+                            break;
+                        case "AttachmentsO":
+                            res.Val(
+                                "#Issues_AttachmentsO",
+                                issueModel.AttachmentsO.ToControl(ss, column));
+                            break;
+                        case "AttachmentsP":
+                            res.Val(
+                                "#Issues_AttachmentsP",
+                                issueModel.AttachmentsP.ToControl(ss, column));
+                            break;
+                        case "AttachmentsQ":
+                            res.Val(
+                                "#Issues_AttachmentsQ",
+                                issueModel.AttachmentsQ.ToControl(ss, column));
+                            break;
+                        case "AttachmentsR":
+                            res.Val(
+                                "#Issues_AttachmentsR",
+                                issueModel.AttachmentsR.ToControl(ss, column));
+                            break;
+                        case "AttachmentsS":
+                            res.Val(
+                                "#Issues_AttachmentsS",
+                                issueModel.AttachmentsS.ToControl(ss, column));
+                            break;
+                        case "AttachmentsT":
+                            res.Val(
+                                "#Issues_AttachmentsT",
+                                issueModel.AttachmentsT.ToControl(ss, column));
+                            break;
+                        case "AttachmentsU":
+                            res.Val(
+                                "#Issues_AttachmentsU",
+                                issueModel.AttachmentsU.ToControl(ss, column));
+                            break;
+                        case "AttachmentsV":
+                            res.Val(
+                                "#Issues_AttachmentsV",
+                                issueModel.AttachmentsV.ToControl(ss, column));
+                            break;
+                        case "AttachmentsW":
+                            res.Val(
+                                "#Issues_AttachmentsW",
+                                issueModel.AttachmentsW.ToControl(ss, column));
+                            break;
+                        case "AttachmentsX":
+                            res.Val(
+                                "#Issues_AttachmentsX",
+                                issueModel.AttachmentsX.ToControl(ss, column));
+                            break;
+                        case "AttachmentsY":
+                            res.Val(
+                                "#Issues_AttachmentsY",
+                                issueModel.AttachmentsY.ToControl(ss, column));
+                            break;
+                        case "AttachmentsZ":
+                            res.Val(
+                                "#Issues_AttachmentsZ",
+                                issueModel.AttachmentsZ.ToControl(ss, column));
+                            break;
+                        case "Comments":
+                            res.Val(
+                                "#Issues_Comments",
+                                issueModel.Comments.ToControl(ss, column));
+                            break;
+                        case "Creator":
+                            res.Val(
+                                "#Issues_Creator",
+                                issueModel.Creator.ToControl(ss, column));
+                            break;
+                        case "Updator":
+                            res.Val(
+                                "#Issues_Updator",
+                                issueModel.Updator.ToControl(ss, column));
+                            break;
+                        case "CreatedTime":
+                            res.Val(
+                                "#Issues_CreatedTime",
+                                issueModel.CreatedTime.ToControl(ss, column));
                             break;
                         default: break;
                     }

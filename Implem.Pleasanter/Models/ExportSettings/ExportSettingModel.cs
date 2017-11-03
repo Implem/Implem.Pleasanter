@@ -246,13 +246,14 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete()
         {
+            var statements = new List<SqlStatement>
+            {
+                Rds.DeleteExportSettings(
+                    where: Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId))
+            };
             Rds.ExecuteNonQuery(
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteExportSettings(
-                        where: Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId))
-                });
+                statements: statements.ToArray());
             return Error.Types.None;
         }
 

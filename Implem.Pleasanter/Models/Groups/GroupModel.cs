@@ -249,17 +249,18 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete(SiteSettings ss, bool notice = false)
         {
+            var statements = new List<SqlStatement>
+            {
+                Rds.DeleteGroups(
+                    where: Rds.GroupsWhere().GroupId(GroupId)),
+                Rds.PhysicalDeleteGroupMembers(
+                    where: Rds.GroupMembersWhere()
+                        .GroupId(GroupId)),
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
+            };
             Rds.ExecuteNonQuery(
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteGroups(
-                        where: Rds.GroupsWhere().GroupId(GroupId)),
-                    Rds.PhysicalDeleteGroupMembers(
-                        where: Rds.GroupMembersWhere()
-                            .GroupId(GroupId)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
-                });
+                statements: statements.ToArray());
             return Error.Types.None;
         }
 

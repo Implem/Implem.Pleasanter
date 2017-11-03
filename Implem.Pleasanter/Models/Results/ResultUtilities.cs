@@ -2924,6 +2924,181 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (column.Name)
                     {
+                        case "SiteId":
+                            res.Val(
+                                "#Results_SiteId",
+                                resultModel.SiteId.ToControl(ss, column));
+                            break;
+                        case "UpdatedTime":
+                            res.Val(
+                                "#Results_UpdatedTime",
+                                resultModel.UpdatedTime.ToControl(ss, column));
+                            break;
+                        case "ResultId":
+                            res.Val(
+                                "#Results_ResultId",
+                                resultModel.ResultId.ToControl(ss, column));
+                            break;
+                        case "Ver":
+                            res.Val(
+                                "#Results_Ver",
+                                resultModel.Ver.ToControl(ss, column));
+                            break;
+                        case "Title":
+                            res.Val(
+                                "#Results_Title",
+                                resultModel.Title.ToControl(ss, column));
+                            break;
+                        case "Body":
+                            res.Val(
+                                "#Results_Body",
+                                resultModel.Body.ToControl(ss, column));
+                            break;
+                        case "Status":
+                            res.Val(
+                                "#Results_Status",
+                                resultModel.Status.ToControl(ss, column));
+                            break;
+                        case "Manager":
+                            res.Val(
+                                "#Results_Manager",
+                                resultModel.Manager.ToControl(ss, column));
+                            break;
+                        case "Owner":
+                            res.Val(
+                                "#Results_Owner",
+                                resultModel.Owner.ToControl(ss, column));
+                            break;
+                        case "ClassA":
+                            res.Val(
+                                "#Results_ClassA",
+                                resultModel.ClassA.ToControl(ss, column));
+                            break;
+                        case "ClassB":
+                            res.Val(
+                                "#Results_ClassB",
+                                resultModel.ClassB.ToControl(ss, column));
+                            break;
+                        case "ClassC":
+                            res.Val(
+                                "#Results_ClassC",
+                                resultModel.ClassC.ToControl(ss, column));
+                            break;
+                        case "ClassD":
+                            res.Val(
+                                "#Results_ClassD",
+                                resultModel.ClassD.ToControl(ss, column));
+                            break;
+                        case "ClassE":
+                            res.Val(
+                                "#Results_ClassE",
+                                resultModel.ClassE.ToControl(ss, column));
+                            break;
+                        case "ClassF":
+                            res.Val(
+                                "#Results_ClassF",
+                                resultModel.ClassF.ToControl(ss, column));
+                            break;
+                        case "ClassG":
+                            res.Val(
+                                "#Results_ClassG",
+                                resultModel.ClassG.ToControl(ss, column));
+                            break;
+                        case "ClassH":
+                            res.Val(
+                                "#Results_ClassH",
+                                resultModel.ClassH.ToControl(ss, column));
+                            break;
+                        case "ClassI":
+                            res.Val(
+                                "#Results_ClassI",
+                                resultModel.ClassI.ToControl(ss, column));
+                            break;
+                        case "ClassJ":
+                            res.Val(
+                                "#Results_ClassJ",
+                                resultModel.ClassJ.ToControl(ss, column));
+                            break;
+                        case "ClassK":
+                            res.Val(
+                                "#Results_ClassK",
+                                resultModel.ClassK.ToControl(ss, column));
+                            break;
+                        case "ClassL":
+                            res.Val(
+                                "#Results_ClassL",
+                                resultModel.ClassL.ToControl(ss, column));
+                            break;
+                        case "ClassM":
+                            res.Val(
+                                "#Results_ClassM",
+                                resultModel.ClassM.ToControl(ss, column));
+                            break;
+                        case "ClassN":
+                            res.Val(
+                                "#Results_ClassN",
+                                resultModel.ClassN.ToControl(ss, column));
+                            break;
+                        case "ClassO":
+                            res.Val(
+                                "#Results_ClassO",
+                                resultModel.ClassO.ToControl(ss, column));
+                            break;
+                        case "ClassP":
+                            res.Val(
+                                "#Results_ClassP",
+                                resultModel.ClassP.ToControl(ss, column));
+                            break;
+                        case "ClassQ":
+                            res.Val(
+                                "#Results_ClassQ",
+                                resultModel.ClassQ.ToControl(ss, column));
+                            break;
+                        case "ClassR":
+                            res.Val(
+                                "#Results_ClassR",
+                                resultModel.ClassR.ToControl(ss, column));
+                            break;
+                        case "ClassS":
+                            res.Val(
+                                "#Results_ClassS",
+                                resultModel.ClassS.ToControl(ss, column));
+                            break;
+                        case "ClassT":
+                            res.Val(
+                                "#Results_ClassT",
+                                resultModel.ClassT.ToControl(ss, column));
+                            break;
+                        case "ClassU":
+                            res.Val(
+                                "#Results_ClassU",
+                                resultModel.ClassU.ToControl(ss, column));
+                            break;
+                        case "ClassV":
+                            res.Val(
+                                "#Results_ClassV",
+                                resultModel.ClassV.ToControl(ss, column));
+                            break;
+                        case "ClassW":
+                            res.Val(
+                                "#Results_ClassW",
+                                resultModel.ClassW.ToControl(ss, column));
+                            break;
+                        case "ClassX":
+                            res.Val(
+                                "#Results_ClassX",
+                                resultModel.ClassX.ToControl(ss, column));
+                            break;
+                        case "ClassY":
+                            res.Val(
+                                "#Results_ClassY",
+                                resultModel.ClassY.ToControl(ss, column));
+                            break;
+                        case "ClassZ":
+                            res.Val(
+                                "#Results_ClassZ",
+                                resultModel.ClassZ.ToControl(ss, column));
+                            break;
                         case "NumA":
                             res.Val(
                                 "#Results_NumA",
@@ -3053,6 +3228,546 @@ namespace Implem.Pleasanter.Models
                             res.Val(
                                 "#Results_NumZ",
                                 resultModel.NumZ.ToControl(ss, column));
+                            break;
+                        case "DateA":
+                            res.Val(
+                                "#Results_DateA",
+                                resultModel.DateA.ToControl(ss, column));
+                            break;
+                        case "DateB":
+                            res.Val(
+                                "#Results_DateB",
+                                resultModel.DateB.ToControl(ss, column));
+                            break;
+                        case "DateC":
+                            res.Val(
+                                "#Results_DateC",
+                                resultModel.DateC.ToControl(ss, column));
+                            break;
+                        case "DateD":
+                            res.Val(
+                                "#Results_DateD",
+                                resultModel.DateD.ToControl(ss, column));
+                            break;
+                        case "DateE":
+                            res.Val(
+                                "#Results_DateE",
+                                resultModel.DateE.ToControl(ss, column));
+                            break;
+                        case "DateF":
+                            res.Val(
+                                "#Results_DateF",
+                                resultModel.DateF.ToControl(ss, column));
+                            break;
+                        case "DateG":
+                            res.Val(
+                                "#Results_DateG",
+                                resultModel.DateG.ToControl(ss, column));
+                            break;
+                        case "DateH":
+                            res.Val(
+                                "#Results_DateH",
+                                resultModel.DateH.ToControl(ss, column));
+                            break;
+                        case "DateI":
+                            res.Val(
+                                "#Results_DateI",
+                                resultModel.DateI.ToControl(ss, column));
+                            break;
+                        case "DateJ":
+                            res.Val(
+                                "#Results_DateJ",
+                                resultModel.DateJ.ToControl(ss, column));
+                            break;
+                        case "DateK":
+                            res.Val(
+                                "#Results_DateK",
+                                resultModel.DateK.ToControl(ss, column));
+                            break;
+                        case "DateL":
+                            res.Val(
+                                "#Results_DateL",
+                                resultModel.DateL.ToControl(ss, column));
+                            break;
+                        case "DateM":
+                            res.Val(
+                                "#Results_DateM",
+                                resultModel.DateM.ToControl(ss, column));
+                            break;
+                        case "DateN":
+                            res.Val(
+                                "#Results_DateN",
+                                resultModel.DateN.ToControl(ss, column));
+                            break;
+                        case "DateO":
+                            res.Val(
+                                "#Results_DateO",
+                                resultModel.DateO.ToControl(ss, column));
+                            break;
+                        case "DateP":
+                            res.Val(
+                                "#Results_DateP",
+                                resultModel.DateP.ToControl(ss, column));
+                            break;
+                        case "DateQ":
+                            res.Val(
+                                "#Results_DateQ",
+                                resultModel.DateQ.ToControl(ss, column));
+                            break;
+                        case "DateR":
+                            res.Val(
+                                "#Results_DateR",
+                                resultModel.DateR.ToControl(ss, column));
+                            break;
+                        case "DateS":
+                            res.Val(
+                                "#Results_DateS",
+                                resultModel.DateS.ToControl(ss, column));
+                            break;
+                        case "DateT":
+                            res.Val(
+                                "#Results_DateT",
+                                resultModel.DateT.ToControl(ss, column));
+                            break;
+                        case "DateU":
+                            res.Val(
+                                "#Results_DateU",
+                                resultModel.DateU.ToControl(ss, column));
+                            break;
+                        case "DateV":
+                            res.Val(
+                                "#Results_DateV",
+                                resultModel.DateV.ToControl(ss, column));
+                            break;
+                        case "DateW":
+                            res.Val(
+                                "#Results_DateW",
+                                resultModel.DateW.ToControl(ss, column));
+                            break;
+                        case "DateX":
+                            res.Val(
+                                "#Results_DateX",
+                                resultModel.DateX.ToControl(ss, column));
+                            break;
+                        case "DateY":
+                            res.Val(
+                                "#Results_DateY",
+                                resultModel.DateY.ToControl(ss, column));
+                            break;
+                        case "DateZ":
+                            res.Val(
+                                "#Results_DateZ",
+                                resultModel.DateZ.ToControl(ss, column));
+                            break;
+                        case "DescriptionA":
+                            res.Val(
+                                "#Results_DescriptionA",
+                                resultModel.DescriptionA.ToControl(ss, column));
+                            break;
+                        case "DescriptionB":
+                            res.Val(
+                                "#Results_DescriptionB",
+                                resultModel.DescriptionB.ToControl(ss, column));
+                            break;
+                        case "DescriptionC":
+                            res.Val(
+                                "#Results_DescriptionC",
+                                resultModel.DescriptionC.ToControl(ss, column));
+                            break;
+                        case "DescriptionD":
+                            res.Val(
+                                "#Results_DescriptionD",
+                                resultModel.DescriptionD.ToControl(ss, column));
+                            break;
+                        case "DescriptionE":
+                            res.Val(
+                                "#Results_DescriptionE",
+                                resultModel.DescriptionE.ToControl(ss, column));
+                            break;
+                        case "DescriptionF":
+                            res.Val(
+                                "#Results_DescriptionF",
+                                resultModel.DescriptionF.ToControl(ss, column));
+                            break;
+                        case "DescriptionG":
+                            res.Val(
+                                "#Results_DescriptionG",
+                                resultModel.DescriptionG.ToControl(ss, column));
+                            break;
+                        case "DescriptionH":
+                            res.Val(
+                                "#Results_DescriptionH",
+                                resultModel.DescriptionH.ToControl(ss, column));
+                            break;
+                        case "DescriptionI":
+                            res.Val(
+                                "#Results_DescriptionI",
+                                resultModel.DescriptionI.ToControl(ss, column));
+                            break;
+                        case "DescriptionJ":
+                            res.Val(
+                                "#Results_DescriptionJ",
+                                resultModel.DescriptionJ.ToControl(ss, column));
+                            break;
+                        case "DescriptionK":
+                            res.Val(
+                                "#Results_DescriptionK",
+                                resultModel.DescriptionK.ToControl(ss, column));
+                            break;
+                        case "DescriptionL":
+                            res.Val(
+                                "#Results_DescriptionL",
+                                resultModel.DescriptionL.ToControl(ss, column));
+                            break;
+                        case "DescriptionM":
+                            res.Val(
+                                "#Results_DescriptionM",
+                                resultModel.DescriptionM.ToControl(ss, column));
+                            break;
+                        case "DescriptionN":
+                            res.Val(
+                                "#Results_DescriptionN",
+                                resultModel.DescriptionN.ToControl(ss, column));
+                            break;
+                        case "DescriptionO":
+                            res.Val(
+                                "#Results_DescriptionO",
+                                resultModel.DescriptionO.ToControl(ss, column));
+                            break;
+                        case "DescriptionP":
+                            res.Val(
+                                "#Results_DescriptionP",
+                                resultModel.DescriptionP.ToControl(ss, column));
+                            break;
+                        case "DescriptionQ":
+                            res.Val(
+                                "#Results_DescriptionQ",
+                                resultModel.DescriptionQ.ToControl(ss, column));
+                            break;
+                        case "DescriptionR":
+                            res.Val(
+                                "#Results_DescriptionR",
+                                resultModel.DescriptionR.ToControl(ss, column));
+                            break;
+                        case "DescriptionS":
+                            res.Val(
+                                "#Results_DescriptionS",
+                                resultModel.DescriptionS.ToControl(ss, column));
+                            break;
+                        case "DescriptionT":
+                            res.Val(
+                                "#Results_DescriptionT",
+                                resultModel.DescriptionT.ToControl(ss, column));
+                            break;
+                        case "DescriptionU":
+                            res.Val(
+                                "#Results_DescriptionU",
+                                resultModel.DescriptionU.ToControl(ss, column));
+                            break;
+                        case "DescriptionV":
+                            res.Val(
+                                "#Results_DescriptionV",
+                                resultModel.DescriptionV.ToControl(ss, column));
+                            break;
+                        case "DescriptionW":
+                            res.Val(
+                                "#Results_DescriptionW",
+                                resultModel.DescriptionW.ToControl(ss, column));
+                            break;
+                        case "DescriptionX":
+                            res.Val(
+                                "#Results_DescriptionX",
+                                resultModel.DescriptionX.ToControl(ss, column));
+                            break;
+                        case "DescriptionY":
+                            res.Val(
+                                "#Results_DescriptionY",
+                                resultModel.DescriptionY.ToControl(ss, column));
+                            break;
+                        case "DescriptionZ":
+                            res.Val(
+                                "#Results_DescriptionZ",
+                                resultModel.DescriptionZ.ToControl(ss, column));
+                            break;
+                        case "CheckA":
+                            res.Val(
+                                "#Results_CheckA",
+                                resultModel.CheckA.ToControl(ss, column));
+                            break;
+                        case "CheckB":
+                            res.Val(
+                                "#Results_CheckB",
+                                resultModel.CheckB.ToControl(ss, column));
+                            break;
+                        case "CheckC":
+                            res.Val(
+                                "#Results_CheckC",
+                                resultModel.CheckC.ToControl(ss, column));
+                            break;
+                        case "CheckD":
+                            res.Val(
+                                "#Results_CheckD",
+                                resultModel.CheckD.ToControl(ss, column));
+                            break;
+                        case "CheckE":
+                            res.Val(
+                                "#Results_CheckE",
+                                resultModel.CheckE.ToControl(ss, column));
+                            break;
+                        case "CheckF":
+                            res.Val(
+                                "#Results_CheckF",
+                                resultModel.CheckF.ToControl(ss, column));
+                            break;
+                        case "CheckG":
+                            res.Val(
+                                "#Results_CheckG",
+                                resultModel.CheckG.ToControl(ss, column));
+                            break;
+                        case "CheckH":
+                            res.Val(
+                                "#Results_CheckH",
+                                resultModel.CheckH.ToControl(ss, column));
+                            break;
+                        case "CheckI":
+                            res.Val(
+                                "#Results_CheckI",
+                                resultModel.CheckI.ToControl(ss, column));
+                            break;
+                        case "CheckJ":
+                            res.Val(
+                                "#Results_CheckJ",
+                                resultModel.CheckJ.ToControl(ss, column));
+                            break;
+                        case "CheckK":
+                            res.Val(
+                                "#Results_CheckK",
+                                resultModel.CheckK.ToControl(ss, column));
+                            break;
+                        case "CheckL":
+                            res.Val(
+                                "#Results_CheckL",
+                                resultModel.CheckL.ToControl(ss, column));
+                            break;
+                        case "CheckM":
+                            res.Val(
+                                "#Results_CheckM",
+                                resultModel.CheckM.ToControl(ss, column));
+                            break;
+                        case "CheckN":
+                            res.Val(
+                                "#Results_CheckN",
+                                resultModel.CheckN.ToControl(ss, column));
+                            break;
+                        case "CheckO":
+                            res.Val(
+                                "#Results_CheckO",
+                                resultModel.CheckO.ToControl(ss, column));
+                            break;
+                        case "CheckP":
+                            res.Val(
+                                "#Results_CheckP",
+                                resultModel.CheckP.ToControl(ss, column));
+                            break;
+                        case "CheckQ":
+                            res.Val(
+                                "#Results_CheckQ",
+                                resultModel.CheckQ.ToControl(ss, column));
+                            break;
+                        case "CheckR":
+                            res.Val(
+                                "#Results_CheckR",
+                                resultModel.CheckR.ToControl(ss, column));
+                            break;
+                        case "CheckS":
+                            res.Val(
+                                "#Results_CheckS",
+                                resultModel.CheckS.ToControl(ss, column));
+                            break;
+                        case "CheckT":
+                            res.Val(
+                                "#Results_CheckT",
+                                resultModel.CheckT.ToControl(ss, column));
+                            break;
+                        case "CheckU":
+                            res.Val(
+                                "#Results_CheckU",
+                                resultModel.CheckU.ToControl(ss, column));
+                            break;
+                        case "CheckV":
+                            res.Val(
+                                "#Results_CheckV",
+                                resultModel.CheckV.ToControl(ss, column));
+                            break;
+                        case "CheckW":
+                            res.Val(
+                                "#Results_CheckW",
+                                resultModel.CheckW.ToControl(ss, column));
+                            break;
+                        case "CheckX":
+                            res.Val(
+                                "#Results_CheckX",
+                                resultModel.CheckX.ToControl(ss, column));
+                            break;
+                        case "CheckY":
+                            res.Val(
+                                "#Results_CheckY",
+                                resultModel.CheckY.ToControl(ss, column));
+                            break;
+                        case "CheckZ":
+                            res.Val(
+                                "#Results_CheckZ",
+                                resultModel.CheckZ.ToControl(ss, column));
+                            break;
+                        case "AttachmentsA":
+                            res.Val(
+                                "#Results_AttachmentsA",
+                                resultModel.AttachmentsA.ToControl(ss, column));
+                            break;
+                        case "AttachmentsB":
+                            res.Val(
+                                "#Results_AttachmentsB",
+                                resultModel.AttachmentsB.ToControl(ss, column));
+                            break;
+                        case "AttachmentsC":
+                            res.Val(
+                                "#Results_AttachmentsC",
+                                resultModel.AttachmentsC.ToControl(ss, column));
+                            break;
+                        case "AttachmentsD":
+                            res.Val(
+                                "#Results_AttachmentsD",
+                                resultModel.AttachmentsD.ToControl(ss, column));
+                            break;
+                        case "AttachmentsE":
+                            res.Val(
+                                "#Results_AttachmentsE",
+                                resultModel.AttachmentsE.ToControl(ss, column));
+                            break;
+                        case "AttachmentsF":
+                            res.Val(
+                                "#Results_AttachmentsF",
+                                resultModel.AttachmentsF.ToControl(ss, column));
+                            break;
+                        case "AttachmentsG":
+                            res.Val(
+                                "#Results_AttachmentsG",
+                                resultModel.AttachmentsG.ToControl(ss, column));
+                            break;
+                        case "AttachmentsH":
+                            res.Val(
+                                "#Results_AttachmentsH",
+                                resultModel.AttachmentsH.ToControl(ss, column));
+                            break;
+                        case "AttachmentsI":
+                            res.Val(
+                                "#Results_AttachmentsI",
+                                resultModel.AttachmentsI.ToControl(ss, column));
+                            break;
+                        case "AttachmentsJ":
+                            res.Val(
+                                "#Results_AttachmentsJ",
+                                resultModel.AttachmentsJ.ToControl(ss, column));
+                            break;
+                        case "AttachmentsK":
+                            res.Val(
+                                "#Results_AttachmentsK",
+                                resultModel.AttachmentsK.ToControl(ss, column));
+                            break;
+                        case "AttachmentsL":
+                            res.Val(
+                                "#Results_AttachmentsL",
+                                resultModel.AttachmentsL.ToControl(ss, column));
+                            break;
+                        case "AttachmentsM":
+                            res.Val(
+                                "#Results_AttachmentsM",
+                                resultModel.AttachmentsM.ToControl(ss, column));
+                            break;
+                        case "AttachmentsN":
+                            res.Val(
+                                "#Results_AttachmentsN",
+                                resultModel.AttachmentsN.ToControl(ss, column));
+                            break;
+                        case "AttachmentsO":
+                            res.Val(
+                                "#Results_AttachmentsO",
+                                resultModel.AttachmentsO.ToControl(ss, column));
+                            break;
+                        case "AttachmentsP":
+                            res.Val(
+                                "#Results_AttachmentsP",
+                                resultModel.AttachmentsP.ToControl(ss, column));
+                            break;
+                        case "AttachmentsQ":
+                            res.Val(
+                                "#Results_AttachmentsQ",
+                                resultModel.AttachmentsQ.ToControl(ss, column));
+                            break;
+                        case "AttachmentsR":
+                            res.Val(
+                                "#Results_AttachmentsR",
+                                resultModel.AttachmentsR.ToControl(ss, column));
+                            break;
+                        case "AttachmentsS":
+                            res.Val(
+                                "#Results_AttachmentsS",
+                                resultModel.AttachmentsS.ToControl(ss, column));
+                            break;
+                        case "AttachmentsT":
+                            res.Val(
+                                "#Results_AttachmentsT",
+                                resultModel.AttachmentsT.ToControl(ss, column));
+                            break;
+                        case "AttachmentsU":
+                            res.Val(
+                                "#Results_AttachmentsU",
+                                resultModel.AttachmentsU.ToControl(ss, column));
+                            break;
+                        case "AttachmentsV":
+                            res.Val(
+                                "#Results_AttachmentsV",
+                                resultModel.AttachmentsV.ToControl(ss, column));
+                            break;
+                        case "AttachmentsW":
+                            res.Val(
+                                "#Results_AttachmentsW",
+                                resultModel.AttachmentsW.ToControl(ss, column));
+                            break;
+                        case "AttachmentsX":
+                            res.Val(
+                                "#Results_AttachmentsX",
+                                resultModel.AttachmentsX.ToControl(ss, column));
+                            break;
+                        case "AttachmentsY":
+                            res.Val(
+                                "#Results_AttachmentsY",
+                                resultModel.AttachmentsY.ToControl(ss, column));
+                            break;
+                        case "AttachmentsZ":
+                            res.Val(
+                                "#Results_AttachmentsZ",
+                                resultModel.AttachmentsZ.ToControl(ss, column));
+                            break;
+                        case "Comments":
+                            res.Val(
+                                "#Results_Comments",
+                                resultModel.Comments.ToControl(ss, column));
+                            break;
+                        case "Creator":
+                            res.Val(
+                                "#Results_Creator",
+                                resultModel.Creator.ToControl(ss, column));
+                            break;
+                        case "Updator":
+                            res.Val(
+                                "#Results_Updator",
+                                resultModel.Updator.ToControl(ss, column));
+                            break;
+                        case "CreatedTime":
+                            res.Val(
+                                "#Results_CreatedTime",
+                                resultModel.CreatedTime.ToControl(ss, column));
                             break;
                         default: break;
                     }
