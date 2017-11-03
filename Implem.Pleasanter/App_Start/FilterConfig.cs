@@ -11,10 +11,7 @@ namespace Implem.Pleasanter
             filters.Add(new HandleErrorExAttribute());
             filters.Add(new RequestLimitAttribute());
             filters.Add(new AuthorizeAttribute());
-            if (Parameters.Security.RequestLimit > 0)
-            {
-                filters.Add(new CheckUserAttributes());
-            }
+            filters.Add(new CheckUserAttributes());
             if (Parameters.Service.RequireHttps)
             {
                 filters.Add(new RequireHttpsAttribute());
