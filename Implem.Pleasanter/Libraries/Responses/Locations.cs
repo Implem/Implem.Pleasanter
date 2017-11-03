@@ -51,11 +51,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(controller, id.ToString(), "Edit");
         }
 
-        public static string Edit(string table, long id, string controller)
-        {
-            return Get(table, id.ToString(), controller, "Edit");
-        }
-
         public static string ItemEdit(long id)
         {
             return Get("Items", id.ToString(), "Edit");
@@ -68,19 +63,9 @@ namespace Implem.Pleasanter.Libraries.Responses
                 : Url.AbsoluteUri().Replace(Url.AbsolutePath(), ItemEdit(id));
         }
 
-        public static string ItemEdit(long id, string controller)
-        {
-            return Get("Items", id.ToString(), controller, "Edit");
-        }
-
         public static string ItemView(long id, string action)
         {
             return Get("Items", id.ToString(), action);
-        }
-
-        public static string Export(string controller, long id)
-        {
-            return Get(controller, id.ToString(), "Export");
         }
 
         public static string Images(params string[] parts)
@@ -110,16 +95,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return id != -1
                 ? Get("Items", id.ToString(), "_action_")
                 : Get("Items", "_action_");
-        }
-
-        public static string ItemAction(long id, string controller)
-        {
-            return Get("Items", id.ToString(), controller, "_action_");
-        }
-
-        public static string ItemAction(long id, string controller, string action)
-        {
-            return Get("Items", id.ToString(), controller, action);
         }
 
         public static string BadRequest()
