@@ -65,7 +65,7 @@ namespace Implem.DefinitionAccessor
             }
         }
 
-        private static void SetParameters()
+        public static void SetParameters()
         {
             Parameters.Asset = Files.Read(ParametersPath("Asset"))
                 .Deserialize<ParameterAccessor.Parts.Asset>();
