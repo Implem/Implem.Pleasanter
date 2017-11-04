@@ -8,6 +8,6 @@ while (1)
     catch
     {
         [DateTime]::Now.ToString() + ": " + $error
-        Start-Sleep -s 5
     }
+	Start-Sleep -s 5
 }
