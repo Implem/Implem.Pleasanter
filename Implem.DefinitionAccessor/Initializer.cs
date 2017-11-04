@@ -79,8 +79,7 @@ namespace Implem.DefinitionAccessor
                 .Deserialize<List<ParameterAccessor.Parts.ContractType>>();
             Parameters.ExcludeColumns = Files.Read(ParametersPath("ExcludeColumns"))
                 .Deserialize<Dictionary<string, IEnumerable<string>>>();
-            Parameters.ExtendedSqls = Files.Read(ParametersPath("ExtendedSqls"))
-                .Deserialize<List< ParameterAccessor.Parts.ExtendedSql>>();
+            Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.Formats = Files.Read(ParametersPath("Formats"))
                 .Deserialize<List<ParameterAccessor.Parts.Format>>();
             Parameters.General = Files.Read(ParametersPath("General"))
@@ -107,6 +106,32 @@ namespace Implem.DefinitionAccessor
                 .Deserialize<ParameterAccessor.Parts.Service>();
             Parameters.SysLog = Files.Read(ParametersPath("SysLog"))
                 .Deserialize<ParameterAccessor.Parts.SysLog>();
+        }
+
+        private static List<ParameterAccessor.Parts.ExtendedSql> ExtendedSqls(
+            string path = null, List<ParameterAccessor.Parts.ExtendedSql> list = null)
+        {
+            list = list ?? new List<ParameterAccessor.Parts.ExtendedSql>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedSqls");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
+            {
+                var extendedSql = Files.Read(file.FullName)
+                    .Deserialize<ParameterAccessor.Parts.ExtendedSql>();
+                if (extendedSql != null)
+                {
+                    extendedSql.Path = file.FullName;
+                    list.Add(extendedSql);
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedSqls(dir.FullName, list);
+            }
+            return list;
         }
 
         private static string ParametersPath(string name)

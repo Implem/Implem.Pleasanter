@@ -150,7 +150,8 @@ namespace Implem.Pleasanter.Models
             bool get = true)
         {
             Size = Bin.Length;
-            var statements = CreateStatements(tableType, param, paramAll);
+            var statements = new List<SqlStatement>();
+            CreateStatements(statements, tableType, param, paramAll);
             var newId = Rds.ExecuteScalar_long(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -161,18 +162,20 @@ namespace Implem.Pleasanter.Models
         }
 
         public List<SqlStatement> CreateStatements(
+            List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            return new List<SqlStatement>
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertBinaries(
                     tableType: tableType,
                         selectIdentity: true,
                     param: param ?? Rds.BinariesParamDefault(
                         this, setDefault: true, paramAll: paramAll))
-            };
+            });
+            return statements;
         }
 
         public Error.Types Update(
@@ -183,7 +186,9 @@ namespace Implem.Pleasanter.Models
             bool get = true)
         {
             SetBySession();
-            var statements = UpdateStatements(param, paramAll, additionalStatements);
+            var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>();
+            UpdateStatements(statements, timestamp, param, paramAll, additionalStatements);
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -194,12 +199,13 @@ namespace Implem.Pleasanter.Models
         }
 
         private List<SqlStatement> UpdateStatements(
+            List<SqlStatement> statements,
+            DateTime timestamp,
             SqlParamCollection param,
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
-            var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateBinaries(
                     verUp: VerUp,
@@ -207,7 +213,7 @@ namespace Implem.Pleasanter.Models
                         .UpdatedTime(timestamp, _using: timestamp.InRange()),
                     param: param ?? Rds.BinariesParamDefault(this, paramAll: paramAll),
                     countRecord: true)
-            };
+            });
             if (additionalStatements?.Any() == true)
             {
                 statements.AddRange(additionalStatements);
@@ -239,11 +245,12 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete()
         {
-            var statements = new List<SqlStatement>
+            var statements = new List<SqlStatement>();
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.DeleteBinaries(
                     where: Rds.BinariesWhere().BinaryId(BinaryId))
-            };
+            });
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: statements.ToArray());

@@ -1,0 +1,5 @@
+{
+    "SiteId": 2,
+    "OnUpdated": true,
+    "CommandText": "update [Issues] set [DateA] = getdate() where [Issues].[IssueId] = {{Id}};"
+}

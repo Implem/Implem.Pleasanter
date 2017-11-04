@@ -239,8 +239,10 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             bool get = true)
         {
-            var statements = CreateStatements(ss, tableType, param, paramAll);
-            statements.OnCreatingExtendedSqls(SiteId);
+            var statements = new List<SqlStatement>();
+            statements.OnCreatingExtendedSqls(SiteId, WikiId);
+            CreateStatements(statements, ss, tableType, param, paramAll);
+            statements.OnCreatedExtendedSqls(SiteId, WikiId);
             var newId = Rds.ExecuteScalar_long(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -267,12 +269,13 @@ namespace Implem.Pleasanter.Models
         }
 
         public List<SqlStatement> CreateStatements(
+            List<SqlStatement> statements,
             SiteSettings ss, 
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            return new List<SqlStatement>
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertItems(
                     selectIdentity: true,
@@ -285,7 +288,8 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.WikisParamDefault(
                         this, setDefault: true, paramAll: paramAll)),
                     InsertLinks(ss, selectIdentity: true),
-            };
+            });
+            return statements;
         }
 
         public Error.Types Update(
@@ -306,12 +310,15 @@ namespace Implem.Pleasanter.Models
                 CheckNotificationConditions(ss, before: true);
             }
             SetBySession();
-            var statements = UpdateStatements(param, paramAll, additionalStatements);
+            var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>();
+            statements.OnUpdatingExtendedSqls(SiteId, WikiId, timestamp);
+            UpdateStatements(statements, timestamp, param, paramAll, additionalStatements);
             if (permissionChanged)
             {
                 statements.UpdatePermissions(ss, WikiId, permissions);
             }
-            statements.OnUpdatingExtendedSqls(SiteId);
+            statements.OnUpdatedExtendedSqls(SiteId, WikiId);
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -329,12 +336,13 @@ namespace Implem.Pleasanter.Models
         }
 
         private List<SqlStatement> UpdateStatements(
+            List<SqlStatement> statements,
+            DateTime timestamp,
             SqlParamCollection param,
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
-            var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateWikis(
                     verUp: VerUp,
@@ -342,7 +350,7 @@ namespace Implem.Pleasanter.Models
                         .UpdatedTime(timestamp, _using: timestamp.InRange()),
                     param: param ?? Rds.WikisParamDefault(this, paramAll: paramAll),
                     countRecord: true)
-            };
+            });
             if (additionalStatements?.Any() == true)
             {
                 statements.AddRange(additionalStatements);
@@ -435,7 +443,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types Delete(SiteSettings ss, bool notice = false)
         {
-            var statements = new List<SqlStatement>
+            var statements = new List<SqlStatement>();
+            statements.OnDeletingExtendedSqls(SiteId, WikiId);
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.DeleteItems(
                     where: Rds.ItemsWhere().ReferenceId(WikiId)),
@@ -445,8 +455,8 @@ namespace Implem.Pleasanter.Models
                     where: Rds.ItemsWhere().ReferenceId(SiteId)),
                 Rds.DeleteSites(
                     where: Rds.SitesWhere().SiteId(SiteId))
-            };
-            statements.OnDeletingExtendedSqls(SiteId);
+            });
+            statements.OnDeletedExtendedSqls(SiteId, WikiId);
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: statements.ToArray());

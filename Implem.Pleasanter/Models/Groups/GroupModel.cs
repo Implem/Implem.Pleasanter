@@ -120,7 +120,8 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             bool get = true)
         {
-            var statements = CreateStatements(ss, tableType, param, paramAll);
+            var statements = new List<SqlStatement>();
+            CreateStatements(statements, ss, tableType, param, paramAll);
             var newId = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -131,12 +132,13 @@ namespace Implem.Pleasanter.Models
         }
 
         public List<SqlStatement> CreateStatements(
+            List<SqlStatement> statements,
             SiteSettings ss, 
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            return new List<SqlStatement>
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertGroups(
                     tableType: tableType,
@@ -150,7 +152,8 @@ namespace Implem.Pleasanter.Models
                             .UserId(Sessions.UserId())
                             .Admin(true)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
-            };
+            });
+            return statements;
         }
 
         public Error.Types Update(
@@ -164,7 +167,9 @@ namespace Implem.Pleasanter.Models
             bool get = true)
         {
             SetBySession();
-            var statements = UpdateStatements(param, paramAll, additionalStatements);
+            var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>();
+            UpdateStatements(statements, timestamp, param, paramAll, additionalStatements);
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -201,12 +206,13 @@ namespace Implem.Pleasanter.Models
         }
 
         private List<SqlStatement> UpdateStatements(
+            List<SqlStatement> statements,
+            DateTime timestamp,
             SqlParamCollection param,
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
-            var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateGroups(
                     verUp: VerUp,
@@ -215,7 +221,7 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.GroupsParamDefault(this, paramAll: paramAll),
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
-            };
+            });
             if (additionalStatements?.Any() == true)
             {
                 statements.AddRange(additionalStatements);
@@ -249,7 +255,8 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete(SiteSettings ss, bool notice = false)
         {
-            var statements = new List<SqlStatement>
+            var statements = new List<SqlStatement>();
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.DeleteGroups(
                     where: Rds.GroupsWhere().GroupId(GroupId)),
@@ -257,7 +264,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.GroupMembersWhere()
                         .GroupId(GroupId)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
-            };
+            });
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: statements.ToArray());

@@ -143,7 +143,8 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             bool get = true)
         {
-            var statements = CreateStatements(tableType, param, paramAll);
+            var statements = new List<SqlStatement>();
+            CreateStatements(statements, tableType, param, paramAll);
             var newId = Rds.ExecuteScalar_long(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -154,18 +155,20 @@ namespace Implem.Pleasanter.Models
         }
 
         public List<SqlStatement> CreateStatements(
+            List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            return new List<SqlStatement>
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertOutgoingMails(
                     tableType: tableType,
                         selectIdentity: true,
                     param: param ?? Rds.OutgoingMailsParamDefault(
                         this, setDefault: true, paramAll: paramAll))
-            };
+            });
+            return statements;
         }
 
         public Error.Types Update(
@@ -176,7 +179,9 @@ namespace Implem.Pleasanter.Models
             bool get = true)
         {
             SetBySession();
-            var statements = UpdateStatements(param, paramAll, additionalStatements);
+            var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>();
+            UpdateStatements(statements, timestamp, param, paramAll, additionalStatements);
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -190,12 +195,13 @@ namespace Implem.Pleasanter.Models
         }
 
         private List<SqlStatement> UpdateStatements(
+            List<SqlStatement> statements,
+            DateTime timestamp,
             SqlParamCollection param,
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
-            var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateOutgoingMails(
                     verUp: VerUp,
@@ -203,7 +209,7 @@ namespace Implem.Pleasanter.Models
                         .UpdatedTime(timestamp, _using: timestamp.InRange()),
                     param: param ?? Rds.OutgoingMailsParamDefault(this, paramAll: paramAll),
                     countRecord: true)
-            };
+            });
             if (additionalStatements?.Any() == true)
             {
                 statements.AddRange(additionalStatements);
@@ -235,11 +241,12 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete()
         {
-            var statements = new List<SqlStatement>
+            var statements = new List<SqlStatement>();
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.DeleteOutgoingMails(
                     where: Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId))
-            };
+            });
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: statements.ToArray());

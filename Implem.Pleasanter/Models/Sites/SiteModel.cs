@@ -359,7 +359,9 @@ namespace Implem.Pleasanter.Models
             bool get = true)
         {
             SetBySession();
-            var statements = UpdateStatements(param, paramAll, additionalStatements);
+            var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>();
+            UpdateStatements(statements, timestamp, param, paramAll, additionalStatements);
             if (permissionChanged)
             {
                 statements.UpdatePermissions(ss, SiteId, permissions, site: true);
@@ -388,12 +390,13 @@ namespace Implem.Pleasanter.Models
         }
 
         private List<SqlStatement> UpdateStatements(
+            List<SqlStatement> statements,
+            DateTime timestamp,
             SqlParamCollection param,
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
-            var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateSites(
                     verUp: VerUp,
@@ -402,7 +405,7 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.SitesParamDefault(this, paramAll: paramAll),
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
-            };
+            });
             if (additionalStatements?.Any() == true)
             {
                 statements.AddRange(additionalStatements);

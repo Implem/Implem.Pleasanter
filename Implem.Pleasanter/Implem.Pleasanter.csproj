@@ -512,7 +512,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Content Include="App_Data\Displays\ManageSite.json" />
     <Content Include="App_Data\Displays\Read.json" />
-    <None Include="App_Data\Parameters\ExtendedSqls.json" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\loading.gif" />
@@ -689,6 +688,7 @@
     <Content Include="Views\Users\New.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\Parameters\ExtendedSqls\" />
     <Folder Include="Views\AdminTasks\" />
     <Folder Include="Views\Mainte\" />
   </ItemGroup>
