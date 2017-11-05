@@ -1,0 +1,6 @@
+﻿{
+    "Description": "Sample",
+    "SiteId": 2,
+    "OnUpdated": true,
+    "CommandText": "-- Write an arbitrary SQL statement."
+}
