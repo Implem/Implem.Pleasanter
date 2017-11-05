@@ -336,7 +336,7 @@ namespace Implem.Pleasanter.Models
                             permissionType: data.Value));
                         break;
                     case "Group":
-                        Groups(ss.InheritPermission).ForEach(groupId =>
+                        Groups().ForEach(groupId =>
                             insertSet.Add(new PermissionModel(
                                 referenceId: 0,
                                 deptId: 0,
@@ -378,12 +378,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static IEnumerable<int> Groups(long inheritPermission)
+        private static IEnumerable<int> Groups()
         {
-            return Rds.ExecuteTable(statements: Rds.SelectPermissions(
-                column: Rds.PermissionsColumn().GroupId(),
-                where: Rds.PermissionsWhere()
-                    .ReferenceId(inheritPermission)
+            return Rds.ExecuteTable(statements: Rds.SelectGroups(
+                column: Rds.GroupsColumn().GroupId(),
+                where: Rds.GroupsWhere()
                     .GroupId_In(sub: Rds.SelectGroupMembers(
                         column: Rds.GroupMembersColumn().GroupId(),
                         where: Rds.GroupMembersWhere()
