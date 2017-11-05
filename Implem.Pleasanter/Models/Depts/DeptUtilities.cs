@@ -51,6 +51,7 @@ namespace Implem.Pleasanter.Models
                                 .Class("main-form")
                                 .Action(Locations.Action("Depts")),
                             action: () => hb
+                                .ViewFilters(ss: ss, view: view)
                                 .Aggregations(
                                     ss: ss,
                                     aggregations: gridData.Aggregations)
