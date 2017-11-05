@@ -35,6 +35,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? referer
                         : Locations.Top();
                 case "depts":
+                case "groups":
                 case "users":
                     switch (Routes.Action())
                     {
