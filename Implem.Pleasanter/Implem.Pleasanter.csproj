@@ -512,7 +512,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Content Include="App_Data\Displays\ManageSite.json" />
     <Content Include="App_Data\Displays\Read.json" />
-    <None Include="App_Data\Parameters\ExtendedSqls\Sample.json" />
+    <Content Include="App_Data\Parameters\ExtendedSqls\Sample.json.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\loading.gif" />
