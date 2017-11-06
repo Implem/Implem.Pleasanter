@@ -6,7 +6,7 @@ namespace Implem.ParameterAccessor.Parts
         public string Path;
         public string Description;
         public bool Disabled;
-        public long SiteId;
+        public List<long> SiteIdList;
         public List<long> IdList;
         public bool OnCreating;
         public bool OnCreated;
