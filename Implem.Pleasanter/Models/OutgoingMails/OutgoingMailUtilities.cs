@@ -486,15 +486,17 @@ namespace Implem.Pleasanter.Models
         public static SqlWhereCollection SearchText(
             this SqlWhereCollection self, string searchText)
         {
-            return self.SqlWhereLike(searchText,
-                Rds.Users_LoginId_WhereLike(),
-                Rds.Users_Name_WhereLike(),
-                Rds.Users_UserCode_WhereLike(),
-                Rds.Users_Body_WhereLike(),
-                Rds.Depts_DeptCode_WhereLike(),
-                Rds.Depts_DeptName_WhereLike(),
-                Rds.Depts_Body_WhereLike(),
-                Rds.MailAddresses_MailAddress_WhereLike("MailAddresses"));
+            return self
+                .SqlWhereLike(searchText,
+                    Rds.Users_LoginId_WhereLike(),
+                    Rds.Users_Name_WhereLike(),
+                    Rds.Users_UserCode_WhereLike(),
+                    Rds.Users_Body_WhereLike(),
+                    Rds.Depts_DeptCode_WhereLike(),
+                    Rds.Depts_DeptName_WhereLike(),
+                    Rds.Depts_Body_WhereLike(),
+                    Rds.MailAddresses_MailAddress_WhereLike("MailAddresses"))
+                .Users_Disabled(0);
         }
 
         /// <summary>
