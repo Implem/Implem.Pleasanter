@@ -1033,7 +1033,8 @@ namespace Implem.Pleasanter.Models
                                 Rds.Users_Body_WhereLike(),
                                 Rds.Depts_DeptCode_WhereLike(),
                                 Rds.Depts_DeptName_WhereLike(),
-                                Rds.Depts_Body_WhereLike()))
+                                Rds.Depts_Body_WhereLike())
+                            .Users_Disabled(0))
                 })
                     .AsEnumerable()
                     .OrderBy(o => o["IsUser"])
