@@ -23,9 +23,9 @@ namespace Implem.Pleasanter.Controllers
                 else
                 {
                     var log = new SysLogModel();
-                    var html = ReminderScheduleUtilities.Remind();
-                    log.Finish(html.Length);
-                    return html;
+                    var json = ReminderScheduleUtilities.Remind();
+                    log.Finish(json.Length);
+                    return json;
                 }
             }
             else
