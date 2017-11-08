@@ -208,6 +208,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
                 case "[[Users]]":
                     SiteInfo.SiteUsers(tenantId, siteId)
+                        .Where(o => !SiteInfo.User(o).Disabled)
                         .ToDictionary(o => o.ToString(), o => SiteInfo.UserName(o))
                         .Where(o => searchIndexes?.Any() != true ||
                             searchIndexes.All(p =>

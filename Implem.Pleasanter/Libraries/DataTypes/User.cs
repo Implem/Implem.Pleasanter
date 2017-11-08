@@ -19,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string Name;
         public bool TenantManager;
         public bool ServiceManager;
+        public bool Disabled;
 
         public enum UserTypes : int
         {
@@ -43,7 +44,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .LoginId()
                             .Name()
                             .TenantManager()
-                            .ServiceManager(),
+                            .ServiceManager()
+                            .Disabled(),
                         where: Rds.UsersWhere()
                             .UserId(userId)));
                 if (dataTable.Rows.Count == 1)
@@ -75,6 +77,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Name = dataRow.String("Name");
             TenantManager = dataRow.Bool("TenantManager");
             ServiceManager = dataRow.Bool("ServiceManager");
+            Disabled = dataRow.Bool("Disabled");
         }
 
         private void SetAnonymouse()

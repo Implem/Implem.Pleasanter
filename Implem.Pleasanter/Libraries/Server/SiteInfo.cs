@@ -51,7 +51,8 @@ namespace Implem.Pleasanter.Libraries.Server
                             .LoginId()
                             .Name()
                             .TenantManager()
-                            .ServiceManager(),
+                            .ServiceManager()
+                            .Disabled(),
                         where: Rds.UsersWhere().TenantId(tenantId),
                         _using: monitor.UsersUpdated || force)
                 });
