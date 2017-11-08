@@ -325,6 +325,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string ChoicePart(string selectedValue, ExportColumn.Types? type)
         {
+            if (UserColumn) AddNotIncludedUser(selectedValue);
             var choice = Choice(selectedValue, nullCase: selectedValue);
             switch (type)
             {
@@ -332,6 +333,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case ExportColumn.Types.Text: return choice.Text;
                 case ExportColumn.Types.TextMini: return choice.TextMini;
                 default: return choice.Text;
+            }
+        }
+
+        private void AddNotIncludedUser(string selectedValue)
+        {
+            if (ChoiceHash?.ContainsKey(selectedValue) == false)
+            {
+                var user = SiteInfo.User(selectedValue.ToInt());
+                if (!user.Anonymous())
+                {
+                    ChoiceHash.Add(selectedValue, new Choice(user.Name));
+                }
             }
         }
 
