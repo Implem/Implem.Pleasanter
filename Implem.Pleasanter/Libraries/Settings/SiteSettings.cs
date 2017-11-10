@@ -2054,9 +2054,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .GroupBy(o => o.Long(column.ColumnName))
                         .Select(o => o.First())
                         .ForEach(dataRow =>
+                        {
+                            var id = dataRow.Long(column.ColumnName).ToString();
                             column.ChoiceHash.Add(
-                                dataRow.Long(column.ColumnName).ToString(),
-                                new Choice(dataRow.String("Linked__" + column.ColumnName))));
+                                id,
+                                new Choice(
+                                    id,
+                                    dataRow.String("Linked__" + column.ColumnName)));
+                        });
                 });
         }
 
