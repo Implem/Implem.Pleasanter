@@ -144,7 +144,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var column = new SqlColumnCollection()
                 .Add(ss, ss.GetColumn(Rds.IdColumn(ss.ReferenceType)))
                 .Add(ss, orderByColumn)
-                .ItemTitle(ss);
+                .ItemTitle(ss.SiteId, ss.ReferenceType, Rds.IdColumn(ss.ReferenceType));
             var columns = ss.IncludedColumns(Line).ToList();
             columns.ForEach(o => column.Add(ss, o));
             if (columns.Any(o => o.ColumnName == "Status"))
