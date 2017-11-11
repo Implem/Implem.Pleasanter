@@ -1148,7 +1148,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Column GetColumn(string columnName)
         {
             var column = ColumnHash.Get(columnName);
-            if (column == null && columnName?.Contains(',') == true)
+            if (column == null &&
+                columnName?.Contains(',') == true &&
+                JoinOptionHash?.ContainsKey(columnName.Split_1st()) == true)
             {
                 column = AddJoinedColumn(columnName);
             }
