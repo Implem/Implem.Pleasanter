@@ -23,7 +23,7 @@ http://pleasanter.org
 https://pleasanter.azurewebsites.net
 
 ## 動作イメージ
-* 操作イメージ
+* レコード操作
 ![default](https://user-images.githubusercontent.com/17098267/26913025-36b4d106-4c53-11e7-9220-eeaf521aa9e4.gif)
 
 * [カレンダー](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：カレンダー)
