@@ -757,56 +757,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                     }
                     break;
-                case "Sites":
-                    switch (columnName)
-                    {
-                        case "TenantId":
-                            sql.Sites_TenantId(tableName: path, _as: _as);
-                            break;
-                        case "SiteId":
-                            sql.Sites_SiteId(tableName: path, _as: _as);
-                            break;
-                        case "UpdatedTime":
-                            sql.Sites_UpdatedTime(tableName: path, _as: _as);
-                            break;
-                        case "Ver":
-                            sql.Sites_Ver(tableName: path, _as: _as);
-                            break;
-                        case "Title":
-                            sql.Sites_Title(tableName: path, _as: _as);
-                            break;
-                        case "Body":
-                            sql.Sites_Body(tableName: path, _as: _as);
-                            break;
-                        case "TitleBody":
-                            sql.Sites_TitleBody(tableName: path, _as: _as);
-                            break;
-                        case "ReferenceType":
-                            sql.Sites_ReferenceType(tableName: path, _as: _as);
-                            break;
-                        case "ParentId":
-                            sql.Sites_ParentId(tableName: path, _as: _as);
-                            break;
-                        case "InheritPermission":
-                            sql.Sites_InheritPermission(tableName: path, _as: _as);
-                            break;
-                        case "SiteSettings":
-                            sql.Sites_SiteSettings(tableName: path, _as: _as);
-                            break;
-                        case "Comments":
-                            sql.Sites_Comments(tableName: path, _as: _as);
-                            break;
-                        case "Creator":
-                            sql.Sites_Creator(tableName: path, _as: _as);
-                            break;
-                        case "Updator":
-                            sql.Sites_Updator(tableName: path, _as: _as);
-                            break;
-                        case "CreatedTime":
-                            sql.Sites_CreatedTime(tableName: path, _as: _as);
-                            break;
-                    }
-                    break;
                 case "Issues":
                     switch (columnName)
                     {
@@ -822,14 +772,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Ver":
                             sql.Issues_Ver(tableName: path, _as: _as);
                             break;
-                        case "Title":
-                            sql.Issues_Title(tableName: path, _as: _as);
-                            break;
                         case "Body":
                             sql.Issues_Body(tableName: path, _as: _as);
-                            break;
-                        case "TitleBody":
-                            sql.Issues_TitleBody(tableName: path, _as: _as);
                             break;
                         case "StartTime":
                             sql.Issues_StartTime(tableName: path, _as: _as);
@@ -1338,6 +1282,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "CreatedTime":
                             sql.Issues_CreatedTime(tableName: path, _as: _as);
                             break;
+                        case "TitleBody":
+                            sql.Issues_Body(tableName: path, _as: Joined
+                                ? path + ",Body"
+                                : "Body");
+                            goto case "Title";
+                        case "Title":
+                            sql.ItemTitle(
+                                siteId: SiteSettings.SiteId,
+                                tableName: path,
+                                idColumn: Rds.IdColumn(SiteSettings.ReferenceType),
+                                _as: Joined
+                                    ? path + ",Title"
+                                    : "Title");
+                            break;
                     }
                     break;
                 case "Results":
@@ -1355,14 +1313,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Ver":
                             sql.Results_Ver(tableName: path, _as: _as);
                             break;
-                        case "Title":
-                            sql.Results_Title(tableName: path, _as: _as);
-                            break;
                         case "Body":
                             sql.Results_Body(tableName: path, _as: _as);
-                            break;
-                        case "TitleBody":
-                            sql.Results_TitleBody(tableName: path, _as: _as);
                             break;
                         case "Status":
                             sql.Results_Status(tableName: path, _as: _as);
@@ -1856,43 +1808,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "CreatedTime":
                             sql.Results_CreatedTime(tableName: path, _as: _as);
                             break;
-                    }
-                    break;
-                case "Wikis":
-                    switch (columnName)
-                    {
-                        case "SiteId":
-                            sql.Wikis_SiteId(tableName: path, _as: _as);
-                            break;
-                        case "UpdatedTime":
-                            sql.Wikis_UpdatedTime(tableName: path, _as: _as);
-                            break;
-                        case "WikiId":
-                            sql.Wikis_WikiId(tableName: path, _as: _as);
-                            break;
-                        case "Ver":
-                            sql.Wikis_Ver(tableName: path, _as: _as);
-                            break;
-                        case "Title":
-                            sql.Wikis_Title(tableName: path, _as: _as);
-                            break;
-                        case "Body":
-                            sql.Wikis_Body(tableName: path, _as: _as);
-                            break;
                         case "TitleBody":
-                            sql.Wikis_TitleBody(tableName: path, _as: _as);
-                            break;
-                        case "Comments":
-                            sql.Wikis_Comments(tableName: path, _as: _as);
-                            break;
-                        case "Creator":
-                            sql.Wikis_Creator(tableName: path, _as: _as);
-                            break;
-                        case "Updator":
-                            sql.Wikis_Updator(tableName: path, _as: _as);
-                            break;
-                        case "CreatedTime":
-                            sql.Wikis_CreatedTime(tableName: path, _as: _as);
+                            sql.Results_Body(tableName: path, _as: Joined
+                                ? path + ",Body"
+                                : "Body");
+                            goto case "Title";
+                        case "Title":
+                            sql.ItemTitle(
+                                siteId: SiteSettings.SiteId,
+                                tableName: path,
+                                idColumn: Rds.IdColumn(SiteSettings.ReferenceType),
+                                _as: Joined
+                                    ? path + ",Title"
+                                    : "Title");
                             break;
                     }
                     break;
