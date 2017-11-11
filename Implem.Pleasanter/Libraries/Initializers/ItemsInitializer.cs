@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         .ReferenceType("Sites")
                                         .SiteId(siteModel.SiteId)
                                         .Title(siteModel.Title.Value)
-                                        .FullText(fullText)
+                                        .FullText(fullText, _using: fullText != null)
                                         .SearchIndexCreatedTime(DateTime.Now)),
                                 Rds.IdentityInsertItems(on: false)
                             });
