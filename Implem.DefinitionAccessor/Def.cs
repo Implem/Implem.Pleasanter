@@ -657,6 +657,7 @@ namespace Implem.DefinitionAccessor
                     case "Column": Code.Column = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Column, definitionRow, CodeXls); break;
                     case "Column_TableCases": Code.Column_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Column_TableCases, definitionRow, CodeXls); break;
                     case "Column_ColumnCases": Code.Column_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Column_ColumnCases, definitionRow, CodeXls); break;
+                    case "Column_ItemTitleColumn": Code.Column_ItemTitleColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Column_ItemTitleColumn, definitionRow, CodeXls); break;
                     case "Reminder": Code.Reminder = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Reminder, definitionRow, CodeXls); break;
                     case "Reminder_TableCases": Code.Reminder_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Reminder_TableCases, definitionRow, CodeXls); break;
                     case "Reminder_ColumnCases": Code.Reminder_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Reminder_ColumnCases, definitionRow, CodeXls); break;
@@ -4926,6 +4927,7 @@ namespace Implem.DefinitionAccessor
         public string Column;
         public string Column_TableCases;
         public string Column_ColumnCases;
+        public string Column_ItemTitleColumn;
         public string Reminder;
         public string Reminder_TableCases;
         public string Reminder_ColumnCases;
@@ -5417,6 +5419,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Column = new CodeDefinition();
         public CodeDefinition Column_TableCases = new CodeDefinition();
         public CodeDefinition Column_ColumnCases = new CodeDefinition();
+        public CodeDefinition Column_ItemTitleColumn = new CodeDefinition();
         public CodeDefinition Reminder = new CodeDefinition();
         public CodeDefinition Reminder_TableCases = new CodeDefinition();
         public CodeDefinition Reminder_ColumnCases = new CodeDefinition();
