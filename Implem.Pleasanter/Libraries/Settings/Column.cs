@@ -1289,7 +1289,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                             goto case "Title";
                         case "Title":
                             sql.ItemTitle(
-                                siteId: SiteSettings.SiteId,
                                 tableName: path,
                                 idColumn: Rds.IdColumn(SiteSettings.ReferenceType),
                                 _as: Joined
@@ -1815,7 +1814,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                             goto case "Title";
                         case "Title":
                             sql.ItemTitle(
-                                siteId: SiteSettings.SiteId,
                                 tableName: path,
                                 idColumn: Rds.IdColumn(SiteSettings.ReferenceType),
                                 _as: Joined

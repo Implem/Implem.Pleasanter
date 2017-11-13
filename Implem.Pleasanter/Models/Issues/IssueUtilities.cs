@@ -5196,7 +5196,7 @@ namespace Implem.Pleasanter.Models
                     column: Rds.IssuesTitleColumn(ss)
                         .IssueId()
                         .IssuesColumn(columnName, _as: "Date")
-                        .ItemTitle(ss.SiteId, ss.ReferenceType, Rds.IdColumn(ss.ReferenceType)),
+                        .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType)),
                     join: ss.Join(),
                     where: view.Where(ss: ss, where: where)))
                         .AsEnumerable();
@@ -5647,7 +5647,7 @@ namespace Implem.Pleasanter.Models
                         .Updator()
                         .CreatedTime()
                         .UpdatedTime()
-                        .ItemTitle(ss.SiteId, ss.ReferenceType, Rds.IdColumn(ss.ReferenceType))
+                        .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType))
                         .Add(
                             ss: ss,
                             column: groupBy,

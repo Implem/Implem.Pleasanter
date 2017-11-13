@@ -4965,7 +4965,7 @@ namespace Implem.Pleasanter.Models
                     column: Rds.ResultsTitleColumn(ss)
                         .ResultId()
                         .ResultsColumn(columnName, _as: "Date")
-                        .ItemTitle(ss.SiteId, ss.ReferenceType, Rds.IdColumn(ss.ReferenceType)),
+                        .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType)),
                     join: ss.Join(),
                     where: view.Where(ss: ss, where: where)))
                         .AsEnumerable();
