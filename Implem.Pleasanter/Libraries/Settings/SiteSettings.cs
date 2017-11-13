@@ -89,7 +89,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string MailToDefault;
         public string MailCcDefault;
         public string MailBccDefault;
-        public IEnumerable<long> IntegratedSites;
+        public List<long> IntegratedSites;
         public string GridStyle;
         public string NewStyle;
         public string EditStyle;
@@ -2515,7 +2515,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Split(',')
                 .Select(o => o.ToLong())
                 .Where(o => o != 0)
-                .Distinct();
+                .Distinct()
+                .ToList();
         }
 
         private void SetPermissionForCreating(string value)

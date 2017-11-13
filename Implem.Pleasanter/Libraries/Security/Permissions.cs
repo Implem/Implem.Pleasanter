@@ -100,7 +100,7 @@ namespace Implem.Pleasanter.Libraries.Security
                             tableName: ss.ReferenceType,
                             raw: "#TableBracket#.[SiteId] in ({0})".Params(
                                 ss.AllowedIntegratedSites.Join()))
-                        .CheckRecordPermission(ss));
+                        .CheckRecordPermission(ss, ss.IntegratedSites));
                 }
                 else
                 {
@@ -130,19 +130,27 @@ namespace Implem.Pleasanter.Libraries.Security
         }
 
         private static SqlWhereCollection CheckRecordPermission(
-            this SqlWhereCollection where, SiteSettings ss)
+            this SqlWhereCollection where, SiteSettings ss, List<long> siteIdList = null)
         {
             return where.Add(
                 tableName: ss.ReferenceType,
-                subLeft: CheckRecordPermission(ss.IdColumnBracket()),
+                subLeft: CheckRecordPermission(ss.IdColumnBracket(), siteIdList),
                 _operator: null);
         }
 
-        public static SqlExists CheckRecordPermission(string idColumnBracket)
+        public static SqlExists CheckRecordPermission(
+            string idColumnBracket, List<long> siteIdList = null)
         {
             return Rds.ExistsPermissions(
                 where: Rds.PermissionsWhere()
                     .ReferenceId(raw: idColumnBracket)
+                    .ReferenceId(
+                        sub: Rds.SelectItems(
+                        column: Rds.ItemsColumn().ReferenceId(),
+                            where: Rds.ItemsWhere()
+                                .ReferenceId(raw: "[Permissions].[ReferenceId]")
+                                .SiteId_In(siteIdList)),
+                        _using: siteIdList?.Any() == true)
                     .PermissionType(_operator: " & 1 = 1")
                     .Or(Rds.PermissionsWhere()
                         .GroupId_In(sub: Rds.SelectGroupMembers(
