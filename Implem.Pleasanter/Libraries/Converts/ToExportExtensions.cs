@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.Converts
         public static string ToExport(
             this decimal value, Column column, ExportColumn exportColumn = null)
         {
-            return value.ToString(column.StringFormat);
+            return column.Display(value, format: false);
         }
 
         public static string ToExport(
