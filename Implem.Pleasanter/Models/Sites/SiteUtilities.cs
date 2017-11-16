@@ -2732,19 +2732,14 @@ namespace Implem.Pleasanter.Models
                             case Types.CsBool:
                                 break;
                             default:
+                                var optionCollection = FieldCssOptions(column);
                                 hb
                                     .FieldDropDown(
                                         controlId: "FieldCss",
                                         labelText: Displays.Style(),
-                                        optionCollection: new Dictionary<string, string>
-                                        {
-                                            { "field-normal", Displays.Normal() },
-                                            { "field-wide", Displays.Wide() }
-                                        },
+                                        optionCollection: optionCollection,
                                         selectedValue: column.FieldCss,
-                                        _using: 
-                                            column.ControlType != "MarkDown" &&
-                                            column.ControlType != "Attachment")
+                                        _using: optionCollection?.Any() == true)
                                     .FieldCheckBox(
                                         controlId: "ValidateRequired",
                                         labelText: Displays.Required(),
@@ -2929,6 +2924,31 @@ namespace Implem.Pleasanter.Models
                         controlCss: "button-icon",
                         onClick: "$p.closeDialog($(this));",
                         icon: "ui-icon-cancel"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Dictionary<string, string> FieldCssOptions(Column column)
+        {
+            switch (column.ControlType)
+            {
+                case "MarkDown":
+                    return new Dictionary<string, string>
+                    {
+                        { "field-normal", Displays.Normal() },
+                        { "field-wide", Displays.Wide() },
+                        { "field-markdown", Displays.MarkDown() }
+                    };
+                case "Attachment":
+                    return null;
+                default:
+                    return new Dictionary<string, string>
+                    {
+                        { "field-normal", Displays.Normal() },
+                        { "field-wide", Displays.Wide() }
+                    };
+            }
         }
 
         /// <summary>
