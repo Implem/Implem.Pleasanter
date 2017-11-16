@@ -213,7 +213,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : groupByX.ChoiceHash.ToDictionary(
                     o => o.Key,
                     o => new ControlData(o.Value.Text));
-            var choicesY = groupByY.ChoiceHash.ToDictionary(
+            var choicesY = groupByY?.ChoiceHash.ToDictionary(
                     o => o.Key,
                     o => new ControlData(o.Value.Text));
             return hb.Table(
