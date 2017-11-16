@@ -407,7 +407,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     case Types.CsBool:
                         return ControlTypes.CheckBox;
                     default:
-                        return column.ControlType == "MarkDown"
+                        return column.FieldCss == "field-markdown"
                             ? ControlTypes.MarkDown
                             : ControlTypes.Text;
                 }
@@ -430,16 +430,31 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case Types.CsDateTime:
                     return ControlTypes.TextBoxDateTime;
                 case Types.CsString:
-                    return column.HasChoices()
-                        ? ControlTypes.DropDown
-                        : column.ControlType == "MarkDown"
-                            ? ControlTypes.MarkDown
-                            : column.Max.ToInt() == -1 ||
-                              column.Max.ToInt() >= Parameters.General.SizeToUseTextArea
-                                ? ControlTypes.TextBoxMultiLine
-                                : ControlTypes.TextBox;
+                    return StringControlType(column);
                 default:
                     return ControlTypes.Text;
+            }
+        }
+
+        private static ControlTypes StringControlType(Column column)
+        {
+            if (column.HasChoices())
+            {
+                return ControlTypes.DropDown;
+            }
+            switch (column.FieldCss)
+            {
+                case "field-normal":
+                case "field-wide":
+                    return ControlTypes.TextBox;
+                case "field-markdown":
+                    return ControlTypes.MarkDown;
+                default:
+                    return 
+                        column.Max.ToInt() == -1 ||
+                        column.Max.ToInt() >= Parameters.General.SizeToUseTextArea
+                            ? ControlTypes.TextBoxMultiLine
+                            : ControlTypes.TextBox;
             }
         }
 

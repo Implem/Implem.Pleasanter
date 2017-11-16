@@ -298,6 +298,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ManageSite(params string[] data) { return Get("ManageSite", data); }
         public static string ManageWiki(params string[] data) { return Get("ManageWiki", data); }
         public static string Manufacture(params string[] data) { return Get("Manufacture", data); }
+        public static string MarkDown(params string[] data) { return Get("MarkDown", data); }
         public static string Marketing(params string[] data) { return Get("Marketing", data); }
         public static string Max(params string[] data) { return Get("Max", data); }
         public static string MaxColumns(params string[] data) { return Get("MaxColumns", data); }
