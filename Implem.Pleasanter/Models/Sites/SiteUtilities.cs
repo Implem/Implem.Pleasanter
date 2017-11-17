@@ -2855,7 +2855,7 @@ namespace Implem.Pleasanter.Models
                                         hb.FieldTextBox(
                                             textType: HtmlTypes.TextTypes.MultiLine,
                                             controlId: "DefaultInput",
-                                            fieldCss: column.FieldCss,
+                                            fieldCss: "field-wide",
                                             labelText: Displays.DefaultInput(),
                                             text: column.DefaultInput);
                                         break;
@@ -2864,7 +2864,7 @@ namespace Implem.Pleasanter.Models
                                     default:
                                         hb.FieldTextBox(
                                             controlId: "DefaultInput",
-                                            fieldCss: column.FieldCss,
+                                            fieldCss: "field-wide",
                                             labelText: Displays.DefaultInput(),
                                             text: column.DefaultInput);
                                         break;
