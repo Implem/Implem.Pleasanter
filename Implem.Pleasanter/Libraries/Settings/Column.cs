@@ -1288,12 +1288,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 : "Body");
                             goto case "Title";
                         case "Title":
-                            sql.ItemTitle(
-                                tableName: path,
-                                idColumn: Rds.IdColumn(SiteSettings.ReferenceType),
-                                _as: Joined
-                                    ? path + ",Title"
-                                    : "Title");
+                            sql
+                                .Issues_Title(tableName: path, _as: _as)
+                                .ItemTitle(
+                                    tableName: path,
+                                    idColumn: Rds.IdColumn(SiteSettings.ReferenceType),
+                                    _as: Joined
+                                        ? path + ",ItemTitle"
+                                        : "ItemTitle");
                             break;
                     }
                     break;
@@ -1813,12 +1815,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 : "Body");
                             goto case "Title";
                         case "Title":
-                            sql.ItemTitle(
-                                tableName: path,
-                                idColumn: Rds.IdColumn(SiteSettings.ReferenceType),
-                                _as: Joined
-                                    ? path + ",Title"
-                                    : "Title");
+                            sql
+                                .Results_Title(tableName: path, _as: _as)
+                                .ItemTitle(
+                                    tableName: path,
+                                    idColumn: Rds.IdColumn(SiteSettings.ReferenceType),
+                                    _as: Joined
+                                        ? path + ",ItemTitle"
+                                        : "ItemTitle");
                             break;
                     }
                     break;
