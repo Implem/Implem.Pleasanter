@@ -606,7 +606,8 @@ namespace Implem.Pleasanter.Models
         {
             if (ss.Notifications.Any())
             {
-                ss.EnableNotifications(
+                ss.Notifications?.CheckConditions(
+                    views: ss.Views,
                     before: before,
                     dataSet: Rds.ExecuteDataSet(statements:
                         ss.Notifications.Select((o, i) =>
