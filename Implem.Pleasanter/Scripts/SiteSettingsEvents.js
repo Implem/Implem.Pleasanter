@@ -43,11 +43,19 @@
     });
     $(document).on('click', '#AddViewSorter', function () {
         var $dataViewSorter = $('#ViewSorterSelector option:selected');
-        var $dataViewSorterOrderType = $('#ViewSorterOrderTypes option:selected');
-        var orderType = $dataViewSorterOrderType.val();
+        var orderType = $('#ViewSorterOrderTypes option:selected').val();
+        var orderText = '';
+        switch (orderType) {
+            case 'asc':
+                orderText = '(' + $p.display('OrderAsc') + ')';
+                break;
+            case 'desc':
+                orderText = '(' + $p.display('OrderDesc') + ')';
+                break;
+        }
         $p.addBasket(
             $('#ViewSorters'),
-            $dataViewSorter.text() + '(' + $p.display('Order' + orderType) + ')',
+            $dataViewSorter.text() + orderText,
             $dataViewSorter.val() + '&' + orderType);
     });
 });
