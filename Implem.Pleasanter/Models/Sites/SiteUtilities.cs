@@ -4141,7 +4141,7 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-wide",
                     controlCss: "control-basket cf",
                     listItemCollection: view.ColumnSorterHash?.ToDictionary(
-                        o => "{0},{1}".Params(o.Key, o.Value),
+                        o => "{0}&{1}".Params(o.Key, o.Value),
                         o => new ControlData("{0}({1})".Params(
                             ss.LabelTitle(o.Key),
                             Displays.Get("Order" + o.Value.ToString().ToUpperFirstChar())))),
@@ -4158,8 +4158,8 @@ namespace Implem.Pleasanter.Models
                     controlCss: " always-send",
                     optionCollection: new Dictionary<string, string>
                     {
-                        { "Asc", Displays.OrderAsc() },
-                        { "Desc", Displays.OrderDesc() }
+                        { "asc", Displays.OrderAsc() },
+                        { "desc", Displays.OrderDesc() }
                     })
                 .Button(
                     controlId: "AddViewSorter",

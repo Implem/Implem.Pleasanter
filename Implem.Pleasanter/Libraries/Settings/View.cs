@@ -430,8 +430,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             switch (type)
             {
-                case "Asc": return SqlOrderBy.Types.asc;
-                case "Desc": return SqlOrderBy.Types.desc;
+                case "asc": return SqlOrderBy.Types.asc;
+                case "desc": return SqlOrderBy.Types.desc;
                 default: return SqlOrderBy.Types.release;
             }
         }
