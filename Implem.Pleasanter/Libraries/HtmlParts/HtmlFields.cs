@@ -524,7 +524,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         actionLabel();
                         actionControl();
-                        if (actionOptions != null) actionOptions();
+                        actionOptions?.Invoke();
                     })
                 : hb;
         }
