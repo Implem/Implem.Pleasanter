@@ -625,8 +625,7 @@ namespace Implem.Pleasanter.Models
                             column: Rds.DeptsColumn().DeptId(),
                             join: join,
                             where: where,
-                            orderBy: view.OrderBy(ss, Rds.DeptsOrderBy()
-                                .UpdatedTime(SqlOrderBy.Types.desc))))
+                            orderBy: view.OrderBy(ss).Depts_UpdatedTime(SqlOrderBy.Types.desc)))
                                 .AsEnumerable()
                                 .Select(o => o["DeptId"].ToInt())
                                 .ToList()

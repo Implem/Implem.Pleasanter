@@ -2989,8 +2989,7 @@ namespace Implem.Pleasanter.Models
                             column: Rds.IssuesColumn().IssueId(),
                             join: join,
                             where: where,
-                            orderBy: view.OrderBy(ss, Rds.IssuesOrderBy()
-                                .UpdatedTime(SqlOrderBy.Types.desc))))
+                            orderBy: view.OrderBy(ss).Issues_UpdatedTime(SqlOrderBy.Types.desc)))
                                 .AsEnumerable()
                                 .Select(o => o["IssueId"].ToLong())
                                 .ToList()

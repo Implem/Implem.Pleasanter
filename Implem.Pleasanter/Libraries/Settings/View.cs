@@ -884,9 +884,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public SqlOrderByCollection OrderBy(SiteSettings ss, SqlOrderByCollection orderBy = null)
         {
+            orderBy = orderBy ?? new SqlOrderByCollection();
             if (ColumnSorterHash?.Any() == true)
             {
-                orderBy = orderBy ?? new SqlOrderByCollection();
                 ColumnSorterHash?.ForEach(data =>
                     orderBy.Add(ss.GetColumn(data.Key), data.Value));
             }
