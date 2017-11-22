@@ -187,6 +187,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ForEach(group =>
                 {
                     var date = group.First().DateTime(Column).ToLocal().Date;
+                    switch (Column)
+                    {
+                        case "CompletionTime":
+                            date = date.AddDays(-1);
+                            break;
+                    }
                     sb.Append("{0} ({1})\n".Params(
                         date.ToString(Displays.Get("YmdaFormat"), Sessions.CultureInfo()),
                         Relative(date)));
