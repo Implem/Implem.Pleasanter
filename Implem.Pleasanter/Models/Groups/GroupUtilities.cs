@@ -633,8 +633,7 @@ namespace Implem.Pleasanter.Models
                             column: Rds.GroupsColumn().GroupId(),
                             join: join,
                             where: where,
-                            orderBy: view.OrderBy(ss, Rds.GroupsOrderBy()
-                                .UpdatedTime(SqlOrderBy.Types.desc))))
+                            orderBy: view.OrderBy(ss).Groups_UpdatedTime(SqlOrderBy.Types.desc)))
                                 .AsEnumerable()
                                 .Select(o => o["GroupId"].ToInt())
                                 .ToList()
