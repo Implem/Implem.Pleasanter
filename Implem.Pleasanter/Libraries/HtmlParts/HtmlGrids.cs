@@ -59,9 +59,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             switch (view?.ColumnSorter(key))
             {
-                case SqlOrderBy.Types.asc: return "Desc";
+                case SqlOrderBy.Types.asc: return "desc";
                 case SqlOrderBy.Types.desc: return string.Empty;
-                default: return "Asc";
+                default: return "asc";
             }
         }
 

@@ -73,7 +73,7 @@ $(function () {
         addMenu: function (iconCss, orderType) {
             $(this).append($('<li/>')
                 .addClass('sort')
-                .attr('data-order-type', orderType)
+                .attr('data-order-type', orderType.toLowerCase())
                 .append($('<span/>').addClass('ui-icon ' + iconCss))
                 .append($('<span/>').text($p.display('Order' + orderType))));
             return $(this);
