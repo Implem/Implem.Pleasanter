@@ -215,7 +215,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private string Relative(DateTime time)
         {
-            var diff = DateTime.Today.ToLocal().Date - time;
+            var diff = DateTime.Now.ToLocal().Date - time;
             if (diff.TotalDays == 0)
             {
                 return Displays.Today();
