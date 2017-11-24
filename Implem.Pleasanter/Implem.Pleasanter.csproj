@@ -1227,6 +1227,7 @@
     <Content Include="Views\Errors\BadRequest.cshtml" />
     <Content Include="Views\Items\Crosstab.cshtml" />
     <Content Include="Tools\BackgroundTasks.ps1" />
+    <Content Include="Tools\SyncByLdap.ps1" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
