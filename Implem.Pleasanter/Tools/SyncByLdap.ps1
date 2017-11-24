@@ -1,1 +1,1 @@
-Invoke-RestMethod http://localhost/pleasanter/syncbyldap
+Invoke-RestMethod http://localhost/pleasanter/users/syncbyldap
