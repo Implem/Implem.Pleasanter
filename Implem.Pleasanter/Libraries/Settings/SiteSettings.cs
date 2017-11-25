@@ -2338,10 +2338,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             Views.Add(view);
         }
 
-        public void Remind(List<int> selected = null, bool test = false)
+        public void Remind(List<int> idList, bool test = false)
         {
             Reminders?
-                .Where(o => selected == null || selected.Contains(o.Id))
+                .Where(o => idList.Contains(o.Id))
                 .ForEach(reminder => reminder.Remind(this, test: test));
         }
 
