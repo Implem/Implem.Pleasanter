@@ -44,7 +44,9 @@ namespace Implem.Pleasanter.Models
             demoModel.Initialize(new OutgoingMailModel()
             {
                 Title = new Title(Displays.DemoMailTitle()),
-                Body = Displays.DemoMailBody(Url.Server(), passphrase),
+                Body = Displays.DemoMailBody(
+                    Locations.DemoUri(passphrase),
+                    Parameters.Service.DemoUsagePeriod.ToString()),
                 From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
                 To = mailAddress,
                 Bcc = Parameters.Mail.SupportFrom
