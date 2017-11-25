@@ -58,7 +58,8 @@ namespace Implem.Pleasanter.Models
         private static void Remind(DataRow dataRow)
         {
             Sessions.Set(dataRow.Int("TenantId"), dataRow.Int("Updator"));
-            SiteSettingsUtilities.Get(dataRow.Long("SiteId"))?.Remind();
+            SiteSettingsUtilities.Get(dataRow.Long("SiteId"))?
+                .Remind(new List<int> { dataRow.Int("Id") });
             Sessions.Clear("TenantId");
             Sessions.Clear("RdsUser");
         }
