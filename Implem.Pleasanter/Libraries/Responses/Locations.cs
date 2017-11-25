@@ -63,6 +63,14 @@ namespace Implem.Pleasanter.Libraries.Responses
                 : Url.AbsoluteUri().Replace(Url.AbsolutePath(), ItemEdit(id));
         }
 
+        public static string DemoUri(string passphrase)
+        {
+            var path = "/demos/login?passphrase=" + passphrase;
+            return Parameters.Service.AbsoluteUri != null
+                ? Parameters.Service.AbsoluteUri + path
+                : Url.AbsoluteUri().Replace(Url.AbsolutePath(), Get(path));
+        }
+
         public static string ItemView(long id, string action)
         {
             return Get("Items", id.ToString(), action);
