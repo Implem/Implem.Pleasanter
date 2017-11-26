@@ -2117,9 +2117,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     having: Rds.ItemsHaving().ItemsCount(
                         Parameters.General.DropDownSearchLimit, _operator: ">")))
                             .AsEnumerable()
-                            .ForEach(data =>
+                            .ForEach(dataRow =>
                                 Links
-                                    .Where(o => o.SiteId == data["SiteId"].ToLong())
+                                    .Where(o => o.SiteId == dataRow.Long("SiteId"))
                                     .Select(o => GetColumn(o.ColumnName))
                                     .ForEach(column =>
                                         column.UseSearch = true));
