@@ -5258,6 +5258,170 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Kamban(SiteSettings ss)
+        {
+            if (ss.EnableKamban != true)
+            {
+                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+            }
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(ss, view);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var inRange = gridData.Aggregations.TotalCount <=
+                Parameters.General.KambanLimit;
+            if (!inRange)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.KambanLimit.ToString()).Html);
+            }
+            return hb.ViewModeTemplate(
+                ss: ss,
+                gridData: gridData,
+                view: view,
+                viewMode: viewMode,
+                viewModeBody: () => hb
+                    .Kamban(
+                        ss: ss,
+                        view: view,
+                        bodyOnly: false,
+                        inRange: inRange));
+        }
+
+        public static string KambanJson(SiteSettings ss)
+        {
+            if (ss.EnableKamban != true)
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(ss, view);
+            var bodyOnly = Forms.ControlId().StartsWith("Kamban");
+            return gridData.Aggregations.TotalCount <= Parameters.General.KambanLimit
+                ? new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
+                        new HtmlBuilder().Kamban(
+                            ss: ss,
+                            view: view,
+                            bodyOnly: bodyOnly,
+                            changedItemId: Forms.Long("KambanId")))
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: gridData.Aggregations))
+                    .ClearFormData()
+                    .Invoke("setKamban")
+                    .ToJson()
+                : new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
+                        new HtmlBuilder().Kamban(
+                            ss: ss,
+                            view: view,
+                            bodyOnly: bodyOnly,
+                            inRange: false))
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: gridData.Aggregations))
+                    .ClearFormData()
+                    .Message(Messages.TooManyCases(Parameters.General.KambanLimit.ToString()))
+                    .ToJson();
+        }
+
+        private static HtmlBuilder Kamban(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            View view,
+            bool bodyOnly,
+            long changedItemId = 0,
+            bool inRange = true)
+        {
+            var groupByX = ss.GetColumn(view.GetKambanGroupByX(ss));
+            var groupByY = ss.GetColumn(view.GetKambanGroupByY(ss));
+            var aggregateType = view.GetKambanAggregationType(ss);
+            var value = view.GetKambanValue(ss);
+            var aggregationView = view.KambanAggregationView ?? false;
+            if (groupByX == null)
+            {
+                return hb;
+            }
+            return !bodyOnly
+                ? hb.Kamban(
+                    ss: ss,
+                    view: view,
+                    groupByX: groupByX,
+                    groupByY: groupByY,
+                    aggregateType: aggregateType,
+                    value: value,
+                    columns: view.KambanColumns,
+                    aggregationView: aggregationView,
+                    data: KambanElements(
+                        ss,
+                        view,
+                        groupByX,
+                        groupByY,
+                        value,
+                        KambanColumns(ss, groupByX, groupByY, value)),
+                    inRange: inRange)
+                : hb.KambanBody(
+                    ss: ss,
+                    view: view,
+                    groupByX: groupByX,
+                    groupByY: groupByY,
+                    aggregateType: aggregateType,
+                    value: ss.GetColumn(value),
+                    columns: view.KambanColumns,
+                    aggregationView: aggregationView,
+                    data: KambanElements(
+                        ss,
+                        view,
+                        groupByX,
+                        groupByY,
+                        value,
+                        KambanColumns(ss, groupByX, groupByY, value)),
+                    changedItemId: changedItemId,
+                    inRange: inRange);
+        }
+
+        private static SqlColumnCollection KambanColumns(
+            SiteSettings ss, Column groupByX, Column groupByY, string value)
+        {
+            return Rds.ResultsColumn()
+                .ResultId()
+                .ResultsColumn(groupByX.ColumnName)
+                .ResultsColumn(groupByY.ColumnName)
+                .ResultsColumn(value)
+                .ItemTitle(tableName: "Results", idColumn: "ResultId");
+        }
+
+        private static IEnumerable<Libraries.ViewModes.KambanElement> KambanElements(
+            SiteSettings ss,
+            View view,
+            Column groupByX,
+            Column groupByY,
+            string value,
+            SqlColumnCollection column)
+        {
+            return new GridData(
+                ss: ss,
+                view: view,
+                column: column)
+                    .DataRows
+                    .Select(o => new Libraries.ViewModes.KambanElement()
+                    {
+                        Id = o.Long("ResultId"),
+                        Title = o.String("ItemTitle"),
+                        GroupX = o.String(groupByX.ColumnName),
+                        GroupY = o.String(groupByY.ColumnName),
+                        Value = o.Decimal(value)
+                    });
+        }
+
         public static string UpdateByKamban(SiteSettings ss)
         {
             var resultModel = new ResultModel(ss, Forms.Long("KambanId"), setByForm: true);
@@ -5445,150 +5609,6 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string Kamban(SiteSettings ss)
-        {
-            if (ss.EnableKamban != true)
-            {
-                return HtmlTemplates.Error(Error.Types.HasNotPermission);
-            }
-            var hb = new HtmlBuilder();
-            var view = Views.GetBySession(ss);
-            var gridData = GetGridData(ss, view);
-            var viewMode = ViewModes.GetBySession(ss.SiteId);
-            var inRange = gridData.Aggregations.TotalCount <=
-                Parameters.General.KambanLimit;
-            if (!inRange)
-            {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyCases(Parameters.General.KambanLimit.ToString()).Html);
-            }
-            return hb.ViewModeTemplate(
-                ss: ss,
-                gridData: gridData,
-                view: view,
-                viewMode: viewMode,
-                viewModeBody: () => hb
-                    .Kamban(
-                        ss: ss,
-                        view: view,
-                        bodyOnly: false,
-                        inRange: inRange));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string KambanJson(SiteSettings ss)
-        {
-            if (ss.EnableKamban != true)
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            var view = Views.GetBySession(ss);
-            var gridData = GetGridData(ss, view);
-            var bodyOnly = Forms.ControlId().StartsWith("Kamban");
-            return gridData.Aggregations.TotalCount <= Parameters.General.KambanLimit
-                ? new ResponseCollection()
-                    .Html(
-                        !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
-                        new HtmlBuilder().Kamban(
-                            ss: ss,
-                            view: view,
-                            bodyOnly: bodyOnly,
-                            changedItemId: Forms.Long("KambanId"),
-                            inRange: true))
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
-                        ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Invoke("setKamban")
-                    .ToJson()
-                : new ResponseCollection()
-                    .Html(
-                        !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
-                        new HtmlBuilder())
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
-                        ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Message(Messages.TooManyCases(Parameters.General.KambanLimit.ToString()))
-                    .ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder Kamban(
-            this HtmlBuilder hb,
-            SiteSettings ss,
-            View view,
-            bool bodyOnly,
-            long changedItemId = 0,
-            bool inRange = true)
-        {
-            var groupByX = !view.KambanGroupByX.IsNullOrEmpty()
-                ? view.KambanGroupByX
-                : ss.KambanGroupByOptions().FirstOrDefault().Key;
-            var groupByY = !view.KambanGroupByY.IsNullOrEmpty()
-                ? view.KambanGroupByY
-                : string.Empty;
-            var aggregateType = !view.KambanAggregateType.IsNullOrEmpty()
-                ? view.KambanAggregateType
-                : ss.KambanAggregationTypeOptions().FirstOrDefault().Key;
-            var value = !view.KambanValue.IsNullOrEmpty()
-                ? view.KambanValue
-                : KambanValue(ss);
-            var aggregationView = view.KambanAggregationView ?? false;
-            if (groupByX == null)
-            {
-                return hb;
-            }
-            return !bodyOnly
-                ? hb.Kamban(
-                    ss: ss,
-                    view: view,
-                    groupByX: groupByX,
-                    groupByY: groupByY,
-                    aggregateType: aggregateType,
-                    value: value,
-                    columns: view.KambanColumns,
-                    aggregationView: aggregationView,
-                    data: KambanElements(
-                        ss,
-                        view,
-                        groupByX,
-                        groupByY,
-                        value,
-                        KambanColumns(ss, groupByX, groupByY, value)),
-                    inRange: inRange)
-                : hb.KambanBody(
-                    ss: ss,
-                    view: view,
-                    groupByX: ss.GetColumn(groupByX),
-                    groupByY: ss.GetColumn(groupByY),
-                    aggregateType: aggregateType,
-                    value: ss.GetColumn(value),
-                    columns: view.KambanColumns,
-                    aggregationView: aggregationView,
-                    data: KambanElements(
-                        ss,
-                        view,
-                        groupByX,
-                        groupByY,
-                        value,
-                        KambanColumns(ss, groupByX, groupByY, value)),
-                    changedItemId: changedItemId,
-                    inRange: inRange);
         }
 
         /// <summary>

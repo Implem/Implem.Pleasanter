@@ -151,6 +151,46 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : string.Empty;
         }
 
+        public string GetKambanGroupByX(SiteSettings ss)
+        {
+            var options = ss.KambanGroupByOptions();
+            return !KambanGroupByX.IsNullOrEmpty()
+                ? KambanGroupByX
+                : options.ContainsKey(Definition(ss, "Kamban")?.Option1)
+                    ? Definition(ss, "Kamban")?.Option1
+                    : options.FirstOrDefault().Key;
+        }
+
+        public string GetKambanGroupByY(SiteSettings ss)
+        {
+            var options = ss.KambanGroupByOptions();
+            return !KambanGroupByY.IsNullOrEmpty()
+                ? KambanGroupByY
+                : options.ContainsKey(Definition(ss, "Kamban")?.Option2)
+                    ? Definition(ss, "Kamban")?.Option2
+                    : options.FirstOrDefault().Key;
+        }
+
+        public string GetKambanAggregationType(SiteSettings ss)
+        {
+            var options = ss.KambanAggregationTypeOptions();
+            return !KambanAggregateType.IsNullOrEmpty()
+                ? KambanAggregateType
+                : options.ContainsKey(Definition(ss, "Kamban")?.Option3)
+                    ? Definition(ss, "Kamban")?.Option3
+                    : options.FirstOrDefault().Key;
+        }
+
+        public string GetKambanValue(SiteSettings ss)
+        {
+            var options = ss.KambanValueOptions();
+            return !KambanValue.IsNullOrEmpty()
+                ? KambanValue
+                : options.ContainsKey(Definition(ss, "Kamban")?.Option4)
+                    ? Definition(ss, "Kamban")?.Option4
+                    : options.FirstOrDefault().Key;
+        }
+
         private ViewModeDefinition Definition(SiteSettings ss, string name)
         {
             return Def.ViewModeDefinitionCollection.FirstOrDefault(o =>

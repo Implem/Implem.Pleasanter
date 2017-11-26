@@ -548,6 +548,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_CalendarColumnCases": Code.Model_Utilities_CalendarColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CalendarColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_Crosstab": Code.Model_Utilities_Crosstab = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Crosstab, definitionRow, CodeXls); break;
                     case "Model_Utilities_Gantt": Code.Model_Utilities_Gantt = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Gantt, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Kamban": Code.Model_Utilities_Kamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Kamban, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateByKamban": Code.Model_Utilities_UpdateByKamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByKamban, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetNoticeParam": Code.Model_Utilities_SetNoticeParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetNoticeParam, definitionRow, CodeXls); break;
                     case "Model_Utilities_SearchIndexes": Code.Model_Utilities_SearchIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes, definitionRow, CodeXls); break;
@@ -2129,6 +2130,10 @@ namespace Implem.DefinitionAccessor
                     case "_dot_field_wide_space___space__dot_field_label": Css._dot_field_wide_space___space__dot_field_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_wide_space___space__dot_field_label, definitionRow, CssXls); break;
                     case "_dot_field_wide_space___space__dot_field_control": Css._dot_field_wide_space___space__dot_field_control = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_wide_space___space__dot_field_control, definitionRow, CssXls); break;
                     case "_dot_field_wide_space__dot_container_normal": Css._dot_field_wide_space__dot_container_normal = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_wide_space__dot_container_normal, definitionRow, CssXls); break;
+                    case "_dot_field_markdown": Css._dot_field_markdown = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_markdown, definitionRow, CssXls); break;
+                    case "_dot_field_markdown_space___space__dot_field_label": Css._dot_field_markdown_space___space__dot_field_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_markdown_space___space__dot_field_label, definitionRow, CssXls); break;
+                    case "_dot_field_markdown_space___space__dot_field_control": Css._dot_field_markdown_space___space__dot_field_control = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_markdown_space___space__dot_field_control, definitionRow, CssXls); break;
+                    case "_dot_field_markdown_space__dot_container_normal": Css._dot_field_markdown_space__dot_container_normal = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_markdown_space__dot_container_normal, definitionRow, CssXls); break;
                     case "_dot_field_auto": Css._dot_field_auto = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_auto, definitionRow, CssXls); break;
                     case "_dot_field_auto_space___space__dot_field_label": Css._dot_field_auto_space___space__dot_field_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_auto_space___space__dot_field_label, definitionRow, CssXls); break;
                     case "_dot_field_auto_space___space__dot_field_label_space___space_label": Css._dot_field_auto_space___space__dot_field_label_space___space_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_auto_space___space__dot_field_label_space___space_label, definitionRow, CssXls); break;
@@ -4818,6 +4823,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_CalendarColumnCases;
         public string Model_Utilities_Crosstab;
         public string Model_Utilities_Gantt;
+        public string Model_Utilities_Kamban;
         public string Model_Utilities_UpdateByKamban;
         public string Model_Utilities_SetNoticeParam;
         public string Model_Utilities_SearchIndexes;
@@ -5310,6 +5316,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_CalendarColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_Crosstab = new CodeDefinition();
         public CodeDefinition Model_Utilities_Gantt = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Kamban = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateByKamban = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetNoticeParam = new CodeDefinition();
         public CodeDefinition Model_Utilities_SearchIndexes = new CodeDefinition();
@@ -7922,6 +7929,10 @@ namespace Implem.DefinitionAccessor
         public string _dot_field_wide_space___space__dot_field_label;
         public string _dot_field_wide_space___space__dot_field_control;
         public string _dot_field_wide_space__dot_container_normal;
+        public string _dot_field_markdown;
+        public string _dot_field_markdown_space___space__dot_field_label;
+        public string _dot_field_markdown_space___space__dot_field_control;
+        public string _dot_field_markdown_space__dot_container_normal;
         public string _dot_field_auto;
         public string _dot_field_auto_space___space__dot_field_label;
         public string _dot_field_auto_space___space__dot_field_label_space___space_label;
@@ -8356,6 +8367,10 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_field_wide_space___space__dot_field_label = new CssDefinition();
         public CssDefinition _dot_field_wide_space___space__dot_field_control = new CssDefinition();
         public CssDefinition _dot_field_wide_space__dot_container_normal = new CssDefinition();
+        public CssDefinition _dot_field_markdown = new CssDefinition();
+        public CssDefinition _dot_field_markdown_space___space__dot_field_label = new CssDefinition();
+        public CssDefinition _dot_field_markdown_space___space__dot_field_control = new CssDefinition();
+        public CssDefinition _dot_field_markdown_space__dot_container_normal = new CssDefinition();
         public CssDefinition _dot_field_auto = new CssDefinition();
         public CssDefinition _dot_field_auto_space___space__dot_field_label = new CssDefinition();
         public CssDefinition _dot_field_auto_space___space__dot_field_label_space___space_label = new CssDefinition();
