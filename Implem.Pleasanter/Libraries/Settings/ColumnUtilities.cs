@@ -117,11 +117,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static Dictionary<string, ControlData> SelectableOptions(
             SiteSettings ss, IEnumerable<string> columns)
         {
-            return columns.ToDictionary(
-                columnName => columnName,
-                columnName => SelectableOptionsControlData(
-                    ss: ss.GetJoinedSs(columnName),
-                    columnName: columnName));
+            return columns
+                .Distinct()
+                .ToDictionary(
+                    columnName => columnName,
+                    columnName => SelectableOptionsControlData(
+                        ss: ss.GetJoinedSs(columnName),
+                        columnName: columnName));
         }
 
         public static Dictionary<string, ControlData> SelectableSourceOptions(
