@@ -151,6 +151,36 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : string.Empty;
         }
 
+        public string GetTimeSeriesGroupBy(SiteSettings ss)
+        {
+            var options = ss.TimeSeriesGroupByOptions();
+            return !TimeSeriesGroupBy.IsNullOrEmpty()
+                ? TimeSeriesGroupBy
+                : options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
+                    ? Definition(ss, "TimeSeries")?.Option1
+                    : options.FirstOrDefault().Key;
+        }
+
+        public string GetTimeSeriesAggregationType(SiteSettings ss)
+        {
+            var options = ss.TimeSeriesAggregationTypeOptions();
+            return !TimeSeriesAggregateType.IsNullOrEmpty()
+                ? TimeSeriesAggregateType
+                : options.ContainsKey(Definition(ss, "TimeSeries")?.Option2)
+                    ? Definition(ss, "TimeSeries")?.Option2
+                    : options.FirstOrDefault().Key;
+        }
+
+        public string GetTimeSeriesValue(SiteSettings ss)
+        {
+            var options = ss.TimeSeriesValueOptions();
+            return !TimeSeriesValue.IsNullOrEmpty()
+                ? TimeSeriesValue
+                : options.ContainsKey(Definition(ss, "TimeSeries")?.Option3)
+                    ? Definition(ss, "TimeSeries")?.Option3
+                    : options.FirstOrDefault().Key;
+        }
+
         public string GetKambanGroupByX(SiteSettings ss)
         {
             var options = ss.KambanGroupByOptions();

@@ -5797,6 +5797,143 @@ namespace Implem.Pleasanter.Models
             }).AsEnumerable();
         }
 
+        public static string TimeSeries(SiteSettings ss)
+        {
+            if (ss.EnableTimeSeries != true)
+            {
+                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+            }
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(ss, view);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var inRange = gridData.Aggregations.TotalCount <=
+                Parameters.General.TimeSeriesLimit;
+            if (!inRange)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.TimeSeriesLimit.ToString()).Html);
+            }
+            return hb.ViewModeTemplate(
+                ss: ss,
+                gridData: gridData,
+                view: view,
+                viewMode: viewMode,
+                viewModeBody: () => hb
+                    .TimeSeries(
+                        ss: ss,
+                        view: view,
+                        bodyOnly: false,
+                        inRange: inRange));
+        }
+
+        public static string TimeSeriesJson(SiteSettings ss)
+        {
+            if (ss.EnableTimeSeries != true)
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(ss, view);
+            var bodyOnly = Forms.ControlId().StartsWith("TimeSeries");
+            return gridData.Aggregations.TotalCount <= Parameters.General.TimeSeriesLimit
+                ? new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#TimeSeriesBody",
+                        new HtmlBuilder().TimeSeries(
+                            ss: ss,
+                            view: view,
+                            bodyOnly: bodyOnly,
+                            inRange: true))
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: gridData.Aggregations))
+                    .ClearFormData()
+                    .Invoke("drawTimeSeries")
+                    .ToJson()
+                : new ResponseCollection()
+                    .Html(
+                        !bodyOnly ? "#ViewModeContainer" : "#TimeSeriesBody",
+                        new HtmlBuilder().TimeSeries(
+                            ss: ss,
+                            view: view,
+                            bodyOnly: bodyOnly,
+                            inRange: false))
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: gridData.Aggregations))
+                    .ClearFormData()
+                    .Message(Messages.TooManyCases(Parameters.General.TimeSeriesLimit.ToString()))
+                    .ToJson();
+        }
+
+        private static HtmlBuilder TimeSeries(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            View view,
+            bool bodyOnly,
+            bool inRange)
+        {
+            var groupBy = ss.GetColumn(view.GetTimeSeriesGroupBy(ss));
+            var aggregateType = view.GetTimeSeriesAggregationType(ss);
+            var value = ss.GetColumn(view.GetTimeSeriesValue(ss));
+            var dataRows = TimeSeriesDataRows(
+                ss: ss,
+                view: view,
+                groupBy: groupBy,
+                value: value);
+            if (groupBy == null)
+            {
+                return hb;
+            }
+            return !bodyOnly
+                ? hb.TimeSeries(
+                    ss: ss,
+                    groupBy: groupBy,
+                    aggregateType: aggregateType,
+                    value: value,
+                    dataRows: dataRows,
+                    inRange: inRange)
+                : hb.TimeSeriesBody(
+                    ss: ss,
+                    groupBy: groupBy,
+                    aggregateType: aggregateType,
+                    value: value,
+                    dataRows: dataRows,
+                    inRange: inRange);
+        }
+
+        private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
+            SiteSettings ss, View view, Column groupBy, Column value)
+        {
+            if (groupBy != null && value != null)
+            {
+                var dataRows = Rds.ExecuteTable(statements:
+                    Rds.SelectIssues(
+                        tableType: Sqls.TableTypes.NormalAndHistory,
+                        column: Rds.IssuesColumn()
+                            .IssueId(_as: "Id")
+                            .Ver()
+                            .UpdatedTime()
+                            .Add(ss: ss,column: groupBy)
+                            .Add(ss: ss, column: value),
+                        join: ss.Join(),
+                        where: view.Where(ss: ss)))
+                            .AsEnumerable();
+                ss.SetChoiceHash(dataRows);
+                return dataRows;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static string Kamban(SiteSettings ss)
         {
             if (ss.EnableKamban != true)
@@ -5991,161 +6128,6 @@ namespace Implem.Pleasanter.Models
             if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 issues.ForEach(issueModel => issueModel.SetTitle(ss));
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string TimeSeries(SiteSettings ss)
-        {
-            if (ss.EnableTimeSeries != true)
-            {
-                return HtmlTemplates.Error(Error.Types.HasNotPermission);
-            }
-            var hb = new HtmlBuilder();
-            var view = Views.GetBySession(ss);
-            var gridData = GetGridData(ss, view);
-            var viewMode = ViewModes.GetBySession(ss.SiteId);
-            var inRange = gridData.Aggregations.TotalCount <=
-                Parameters.General.TimeSeriesLimit;
-            if (!inRange)
-            {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyCases(Parameters.General.TimeSeriesLimit.ToString()).Html);
-            }
-            return hb.ViewModeTemplate(
-                ss: ss,
-                gridData: gridData,
-                view: view,
-                viewMode: viewMode,
-                viewModeBody: () => hb
-                    .TimeSeries(
-                        ss: ss,
-                        view: view,
-                        bodyOnly: false,
-                        inRange: inRange));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string TimeSeriesJson(SiteSettings ss)
-        {
-            if (ss.EnableTimeSeries != true)
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            var view = Views.GetBySession(ss);
-            var gridData = GetGridData(ss, view);
-            var bodyOnly = Forms.ControlId().StartsWith("TimeSeries");
-            return gridData.Aggregations.TotalCount <= Parameters.General.TimeSeriesLimit
-                ? new ResponseCollection()
-                    .Html(
-                        !bodyOnly ? "#ViewModeContainer" : "#TimeSeriesBody",
-                        new HtmlBuilder().TimeSeries(
-                            ss: ss,
-                            view: view,
-                            bodyOnly: bodyOnly,
-                            inRange: true))
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
-                        ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Invoke("drawTimeSeries")
-                    .ToJson()
-                : new ResponseCollection()
-                    .Html(
-                        !bodyOnly ? "#ViewModeContainer" : "#TimeSeriesBody",
-                        new HtmlBuilder().TimeSeries(
-                            ss: ss,
-                            view: view,
-                            bodyOnly: bodyOnly,
-                            inRange: false))
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
-                        ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Message(Messages.TooManyCases(Parameters.General.TimeSeriesLimit.ToString()))
-                    .ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder TimeSeries(
-            this HtmlBuilder hb,
-            SiteSettings ss,
-            View view,
-            bool bodyOnly,
-            bool inRange)
-        {
-            var groupBy = ss.GetColumn(!view.TimeSeriesGroupBy.IsNullOrEmpty()
-                ? view.TimeSeriesGroupBy
-                : ss.TimeSeriesGroupByOptions().FirstOrDefault().Key);
-            var aggregateType = !view.TimeSeriesAggregateType.IsNullOrEmpty()
-                ? view.TimeSeriesAggregateType
-                : "Count";
-            var value = ss.GetColumn(!view.TimeSeriesValue.IsNullOrEmpty()
-                ? view.TimeSeriesValue
-                : ss.TimeSeriesValueOptions().FirstOrDefault().Key);
-            var dataRows = TimeSeriesDataRows(
-                ss: ss,
-                view: view,
-                groupBy: groupBy,
-                value: value);
-            if (groupBy == null)
-            {
-                return hb;
-            }
-            return !bodyOnly
-                ? hb.TimeSeries(
-                    ss: ss,
-                    groupBy: groupBy,
-                    aggregateType: aggregateType,
-                    value: value,
-                    dataRows: dataRows,
-                    inRange: inRange)
-                : hb.TimeSeriesBody(
-                    ss: ss,
-                    groupBy: groupBy,
-                    aggregateType: aggregateType,
-                    value: value,
-                    dataRows: dataRows,
-                    inRange: inRange);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
-            SiteSettings ss, View view, Column groupBy, Column value)
-        {
-            if (groupBy != null && value != null)
-            {
-                var dataRows = Rds.ExecuteTable(statements:
-                    Rds.SelectIssues(
-                        tableType: Sqls.TableTypes.NormalAndHistory,
-                        column: Rds.IssuesColumn()
-                            .IssueId(_as: "Id")
-                            .Ver()
-                            .UpdatedTime()
-                            .Add(ss: ss,column: groupBy)
-                            .Add(ss: ss, column: value),
-                        join: ss.Join(),
-                        where: view.Where(ss: ss)))
-                            .AsEnumerable();
-                ss.SetChoiceHash(dataRows);
-                return dataRows;
-            }
-            else
-            {
-                return null;
             }
         }
     }
