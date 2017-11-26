@@ -5661,6 +5661,142 @@ namespace Implem.Pleasanter.Models
                             .AsEnumerable();
         }
 
+        public static string BurnDown(SiteSettings ss)
+        {
+            if (ss.EnableBurnDown != true)
+            {
+                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+            }
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(ss, view);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var inRange = gridData.Aggregations.TotalCount <=
+                Parameters.General.BurnDownLimit;
+            if (!inRange)
+            {
+                Sessions.Set(
+                    "Message",
+                    Messages.TooManyCases(Parameters.General.BurnDownLimit.ToString()).Html);
+            }
+            return hb.ViewModeTemplate(
+                ss: ss,
+                gridData: gridData,
+                view: view,
+                viewMode: viewMode,
+                viewModeBody: () =>
+                {
+                    if (inRange)
+                    {
+                        hb.BurnDown(
+                            ss: ss,
+                            dataRows: BurnDownDataRows(ss: ss, view: view),
+                            ownerLabelText: ss.GetColumn("Owner").GridLabelText,
+                            column: ss.GetColumn("WorkValue"));
+                    }
+                });
+        }
+
+        public static string BurnDownJson(SiteSettings ss)
+        {
+            if (ss.EnableBurnDown != true)
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(ss, view);
+            return gridData.Aggregations.TotalCount <= Parameters.General.BurnDownLimit
+                ? new ResponseCollection()
+                    .Html(
+                        "#ViewModeContainer",
+                        new HtmlBuilder().BurnDown(
+                            ss: ss,
+                            dataRows: BurnDownDataRows(ss, view),
+                            ownerLabelText: ss.GetColumn("Owner").GridLabelText,
+                            column: ss.GetColumn("WorkValue")))
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: gridData.Aggregations))
+                    .ClearFormData()
+                    .Invoke("drawBurnDown")
+                    .ToJson()
+                : new ResponseCollection()
+                    .Html("#ViewModeContainer", new HtmlBuilder())
+                    .View(ss: ss, view: view)
+                    .ReplaceAll(
+                        "#Aggregations", new HtmlBuilder().Aggregations(
+                        ss: ss,
+                        aggregations: gridData.Aggregations))
+                    .ClearFormData()
+                    .Message(Messages.TooManyCases(Parameters.General.BurnDownLimit.ToString()))
+                    .ToJson();
+        }
+
+        public static string BurnDownRecordDetails(SiteSettings ss)
+        {
+            var date = Forms.DateTime("BurnDownDate");
+            return new ResponseCollection()
+                .After(string.Empty, new HtmlBuilder().BurnDownRecordDetails(
+                    elements: new Libraries.ViewModes.BurnDown(ss, BurnDownDataRows(
+                        ss: ss,
+                        view: Views.GetBySession(ss)))
+                            .Where(o => o.UpdatedTime == date),
+                    progressRateColumn: ss.GetColumn("ProgressRate"),
+                    statusColumn: ss.GetColumn("Status"),
+                    colspan: Forms.Int("BurnDownColspan"),
+                    unit: ss.GetColumn("WorkValue").Unit)).ToJson();
+        }
+
+        private static EnumerableRowCollection<DataRow> BurnDownDataRows(
+            SiteSettings ss, View view)
+        {
+            var where = view.Where(ss: ss);
+            var join = ss.Join();
+            return Rds.ExecuteTable(statements: new SqlStatement[]
+            {
+                Rds.SelectIssues(
+                    column: Rds.IssuesTitleColumn(ss)
+                        .IssueId()
+                        .Ver()
+                        .Title()
+                        .WorkValue()
+                        .StartTime()
+                        .CompletionTime()
+                        .ProgressRate()
+                        .Status()
+                        .Updator()
+                        .CreatedTime()
+                        .UpdatedTime(),
+                    join: join,
+                    where: where),
+                Rds.SelectIssues(
+                    unionType: Sqls.UnionTypes.Union,
+                    tableType: Sqls.TableTypes.HistoryWithoutFlag,
+                    column: Rds.IssuesTitleColumn(ss)
+                        .IssueId(_as: "Id")
+                        .Ver()
+                        .Title()
+                        .WorkValue()
+                        .StartTime()
+                        .CompletionTime()
+                        .ProgressRate()
+                        .Status()
+                        .Updator()
+                        .CreatedTime()
+                        .UpdatedTime(),
+                    join: join,
+                    where: Rds.IssuesWhere()
+                        .IssueId_In(sub: Rds.SelectIssues(
+                            column: Rds.IssuesColumn().IssueId(),
+                            where: where)),
+                    orderBy: Rds.IssuesOrderBy()
+                        .IssueId()
+                        .Ver())
+            }).AsEnumerable();
+        }
+
         public static string Kamban(SiteSettings ss)
         {
             if (ss.EnableKamban != true)
@@ -5856,154 +5992,6 @@ namespace Implem.Pleasanter.Models
             {
                 issues.ForEach(issueModel => issueModel.SetTitle(ss));
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string BurnDown(SiteSettings ss)
-        {
-            if (ss.EnableBurnDown != true)
-            {
-                return HtmlTemplates.Error(Error.Types.HasNotPermission);
-            }
-            var hb = new HtmlBuilder();
-            var view = Views.GetBySession(ss);
-            var gridData = GetGridData(ss, view);
-            var viewMode = ViewModes.GetBySession(ss.SiteId);
-            var inRange = gridData.Aggregations.TotalCount <=
-                Parameters.General.BurnDownLimit;
-            if (!inRange)
-            {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyCases(Parameters.General.BurnDownLimit.ToString()).Html);
-            }
-            return hb.ViewModeTemplate(
-                ss: ss,
-                gridData: gridData,
-                view: view,
-                viewMode: viewMode,
-                viewModeBody: () =>
-                {
-                    if (inRange)
-                    {
-                        hb.BurnDown(
-                            ss: ss,
-                            dataRows: BurnDownDataRows(ss: ss, view: view),
-                            ownerLabelText: ss.GetColumn("Owner").GridLabelText,
-                            column: ss.GetColumn("WorkValue"));
-                    }
-                });
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string BurnDownJson(SiteSettings ss)
-        {
-            if (ss.EnableBurnDown != true)
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            var view = Views.GetBySession(ss);
-            var gridData = GetGridData(ss, view);
-            return gridData.Aggregations.TotalCount <= Parameters.General.BurnDownLimit
-                ? new ResponseCollection()
-                    .Html(
-                        "#ViewModeContainer",
-                        new HtmlBuilder().BurnDown(
-                            ss: ss,
-                            dataRows: BurnDownDataRows(ss, view),
-                            ownerLabelText: ss.GetColumn("Owner").GridLabelText,
-                            column: ss.GetColumn("WorkValue")))
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
-                        ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Invoke("drawBurnDown")
-                    .ToJson()
-                : new ResponseCollection()
-                    .Html("#ViewModeContainer", new HtmlBuilder())
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
-                        ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Message(Messages.TooManyCases(Parameters.General.BurnDownLimit.ToString()))
-                    .ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string BurnDownRecordDetails(SiteSettings ss)
-        {
-            var date = Forms.DateTime("BurnDownDate");
-            return new ResponseCollection()
-                .After(string.Empty, new HtmlBuilder().BurnDownRecordDetails(
-                    elements: new Libraries.ViewModes.BurnDown(ss, BurnDownDataRows(
-                        ss: ss,
-                        view: Views.GetBySession(ss)))
-                            .Where(o => o.UpdatedTime == date),
-                    progressRateColumn: ss.GetColumn("ProgressRate"),
-                    statusColumn: ss.GetColumn("Status"),
-                    colspan: Forms.Int("BurnDownColspan"),
-                    unit: ss.GetColumn("WorkValue").Unit)).ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static EnumerableRowCollection<DataRow> BurnDownDataRows(
-            SiteSettings ss, View view)
-        {
-            var where = view.Where(ss: ss);
-            var join = ss.Join();
-            return Rds.ExecuteTable(statements: new SqlStatement[]
-            {
-                Rds.SelectIssues(
-                    column: Rds.IssuesTitleColumn(ss)
-                        .IssueId()
-                        .Ver()
-                        .Title()
-                        .WorkValue()
-                        .StartTime()
-                        .CompletionTime()
-                        .ProgressRate()
-                        .Status()
-                        .Updator()
-                        .CreatedTime()
-                        .UpdatedTime(),
-                    join: join,
-                    where: where),
-                Rds.SelectIssues(
-                    unionType: Sqls.UnionTypes.Union,
-                    tableType: Sqls.TableTypes.HistoryWithoutFlag,
-                    column: Rds.IssuesTitleColumn(ss)
-                        .IssueId(_as: "Id")
-                        .Ver()
-                        .Title()
-                        .WorkValue()
-                        .StartTime()
-                        .CompletionTime()
-                        .ProgressRate()
-                        .Status()
-                        .Updator()
-                        .CreatedTime()
-                        .UpdatedTime(),
-                    join: join,
-                    where: Rds.IssuesWhere()
-                        .IssueId_In(sub: Rds.SelectIssues(
-                            column: Rds.IssuesColumn().IssueId(),
-                            where: where)),
-                    orderBy: Rds.IssuesOrderBy()
-                        .IssueId()
-                        .Ver())
-            }).AsEnumerable();
         }
 
         /// <summary>
