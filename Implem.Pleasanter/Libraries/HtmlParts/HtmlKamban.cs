@@ -16,8 +16,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             SiteSettings ss,
             View view,
-            string groupByX,
-            string groupByY,
+            Column groupByX,
+            Column groupByY,
             string aggregateType,
             string value,
             int? columns,
@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: " auto-postback",
                         labelText: Displays.GroupByX(),
                         optionCollection: ss.KambanGroupByOptions(),
-                        selectedValue: groupByX,
+                        selectedValue: groupByX.ColumnName,
                         method: "post")
                     .FieldDropDown(
                         controlId: "KambanGroupByY",
@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: " auto-postback",
                         labelText: Displays.GroupByY(),
                         optionCollection: ss.KambanGroupByOptions(),
-                        selectedValue: groupByY,
+                        selectedValue: groupByY.ColumnName,
                         insertBlank: true,
                         method: "post")
                     .FieldDropDown(
@@ -83,8 +83,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .KambanBody(
                         ss: ss,
                         view: view,
-                        groupByX: ss.GetColumn(groupByX),
-                        groupByY: ss.GetColumn(groupByY),
+                        groupByX: groupByX,
+                        groupByY: groupByY,
                         aggregateType: aggregateType,
                         value: ss.GetColumn(value),
                         columns: columns,
