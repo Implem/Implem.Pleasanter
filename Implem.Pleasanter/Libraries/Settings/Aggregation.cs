@@ -22,14 +22,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
-        public Aggregation(Aggregation source)
-        {
-            Id = source.Id;
-            GroupBy = source.GroupBy;
-            Type = source.Type;
-            Target = source.Target;
-        }
-
         public Aggregation(
             long id,
             string groupBy,
