@@ -338,6 +338,7 @@ namespace Implem.Pleasanter.Models
             return searchText?
                 .Replace("　", " ")
                 .Replace("\"", " ")
+                .Replace("'", "’")
                 .Trim()
                 .Split(' ')
                 .Where(o => o != string.Empty)
