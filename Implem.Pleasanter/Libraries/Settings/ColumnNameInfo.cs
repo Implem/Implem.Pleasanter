@@ -1,5 +1,4 @@
 ﻿using Implem.Libraries.Utilities;
-using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class ColumnNameInfo
