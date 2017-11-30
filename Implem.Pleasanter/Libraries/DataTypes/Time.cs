@@ -86,7 +86,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToExport(Column column, ExportColumn exportColumn = null)
         {
-            return DisplayValue.Display(exportColumn?.Format ?? "Ymd");
+            return DisplayValue.Display(
+                exportColumn?.Format ??
+                column?.EditorFormat ??
+                "Ymd");
         }
 
         public virtual string ToNotice(
