@@ -36,7 +36,10 @@ namespace Implem.Pleasanter.Libraries.Converts
             this DateTime value, Column column, ExportColumn exportColumn = null)
         {
             return value.InRange()
-                ? value.ToLocal().Display(exportColumn?.Format ?? "Ymd")
+                ? value.ToLocal().Display(
+                    exportColumn?.Format ??
+                    column?.EditorFormat ??
+                    "Ymd")
                 : string.Empty;
         }
 
