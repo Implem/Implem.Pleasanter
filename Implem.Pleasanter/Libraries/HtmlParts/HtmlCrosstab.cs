@@ -159,7 +159,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool inRange = true)
         {
             if (!inRange) return hb;
-            if (view.CrosstabGroupByY != "Columns")
+            if (groupByY != null)
             {
                 hb.CrosstabBody(
                     ss: ss,
