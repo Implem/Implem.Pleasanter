@@ -119,14 +119,16 @@ namespace Implem.Pleasanter.Libraries.Security
         public static SqlWhereCollection CanRead(
             this SqlWhereCollection where, string idColumnBracket)
         {
-            return where.Or(or: new SqlWhereCollection()
-                .Add(
-                    tableName: null,
-                    raw: Def.Sql.CanReadSites)
-                .Add(
-                    tableName: null,
-                    subLeft: CheckRecordPermission(idColumnBracket),
-                    _operator: null));
+            return HasPrivilege()
+                ? where
+                : where.Or(or: new SqlWhereCollection()
+                    .Add(
+                        tableName: null,
+                        raw: Def.Sql.CanReadSites)
+                    .Add(
+                        tableName: null,
+                        subLeft: CheckRecordPermission(idColumnBracket),
+                        _operator: null));
         }
 
         private static SqlWhereCollection CheckRecordPermission(
