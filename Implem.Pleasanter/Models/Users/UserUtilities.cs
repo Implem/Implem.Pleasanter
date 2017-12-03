@@ -36,11 +36,13 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(ss);
             var gridData = GetGridData(ss, view);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
             return hb.Template(
                 ss: ss,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 referenceType: "Users",
+                script: Libraries.Scripts.JavaScripts.ViewMode(viewMode),
                 title: Displays.Users() + " - " + Displays.List(),
                 action: () =>
                 {
