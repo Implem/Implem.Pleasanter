@@ -4179,16 +4179,21 @@ namespace Implem.Pleasanter.Models
                         value: checkedItems,
                         negative: negative,
                         _using: checkedItems.Any()));
+            var sub = Rds.SelectResults(
+                column: Rds.ResultsColumn().ResultId(),
+                where: where);
             return Rds.ExecuteScalar_int(
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.DeleteItems(
                         where: Rds.ItemsWhere()
-                            .ReferenceId_In(
-                                sub: Rds.SelectResults(
-                                    column: Rds.ResultsColumn().ResultId(),
-                                    where: where))),
+                            .ReferenceId_In(sub: sub)),
+                    Rds.DeleteLinks(
+                        where: Rds.LinksWhere()
+                            .Or(or: Rds.LinksWhere()
+                                .DestinationId_In(sub: sub)
+                                .SourceId_In(sub: sub))),
                     Rds.DeleteResults(
                         where: where, 
                         countRecord: true)
