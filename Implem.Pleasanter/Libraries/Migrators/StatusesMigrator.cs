@@ -16,6 +16,11 @@ namespace Implem.Pleasanter.Libraries.Migrators
                 Statuses.Version00_039_022.Migrate();
                 StatusUtilities.UpdateAssemblyVersion("0.39.22.0");
             }
+            if (LowerThan("0.43.52.0"))
+            {
+                Statuses.Version00_043_052.Migrate();
+                StatusUtilities.UpdateAssemblyVersion("0.43.52.0");
+            }
         }
 
         private static bool LowerThan(string version)
