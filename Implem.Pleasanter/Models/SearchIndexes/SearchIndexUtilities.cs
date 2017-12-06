@@ -393,9 +393,11 @@ namespace Implem.Pleasanter.Models
             var hiragana = CSharp.Japanese.Kanaxs.KanaEx.ToHiragana(word);
             if (word != katakana) data.Add(katakana);
             if (word != hiragana) data.Add(hiragana);
-            return data.Count() == 1
-                ? "\"" + word + "*\""
-                : "(" + data.Select(o => "\"" + o + "*\"").Join(" or ") + ")";
+            return "(" + data
+                .SelectMany(o => new List<string> { o, o + "*" })
+                .Distinct()
+                .Select(o => "\"" + o + "\"")
+                .Join(" or ") + ")";
         }
 
         /// <summary>
