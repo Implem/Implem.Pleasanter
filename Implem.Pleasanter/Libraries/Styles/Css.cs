@@ -1,5 +1,4 @@
-﻿using System.Linq;
-namespace Implem.Pleasanter.Libraries.Styles
+﻿namespace Implem.Pleasanter.Libraries.Styles
 {
     public static class Css
     {
@@ -21,11 +20,6 @@ namespace Implem.Pleasanter.Libraries.Styles
             {
                 return additional;
             }
-        }
-
-        public static bool ContainsClass(this string self, string css)
-        {
-            return self.Split(' ').Any(o => o == css);
         }
     }
 }
