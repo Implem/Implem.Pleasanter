@@ -33,9 +33,6 @@ namespace Implem.Pleasanter.Libraries.Mails
                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static string ExternalMailAddress(string mailAddresses)
         {
             var domains = Parameters.Mail.InternalDomains
