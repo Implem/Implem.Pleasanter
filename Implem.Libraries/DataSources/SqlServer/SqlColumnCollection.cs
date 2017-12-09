@@ -18,7 +18,8 @@ namespace Implem.Libraries.DataSources.SqlServer
             string columnName = null,
             string _as = null,
             Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
+            SqlStatement sub = null,
+            bool subPrefix = true)
         {
             if (!this.Any(o =>
                 o.ColumnBracket == columnBracket &&
@@ -34,7 +35,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                     columnName: columnName,
                     _as: _as,
                     function: function,
-                    sub: sub));
+                    sub: sub,
+                    subPrefix: subPrefix));
             }
             return this;
         }

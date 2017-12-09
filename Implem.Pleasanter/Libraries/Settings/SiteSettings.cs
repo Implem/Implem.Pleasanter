@@ -20,6 +20,13 @@ namespace Implem.Pleasanter.Libraries.Settings
     [Serializable()]
     public class SiteSettings
     {
+        public enum SearchTypes : int
+        {
+            FullText = 10,
+            MatchInFrontOfTitle = 20,
+            BroadMatchOfTitle = 30,
+        }
+
         public decimal Version;
         [NonSerialized]
         public List<SiteSettings> Destinations;
@@ -85,6 +92,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EnableTimeSeries;
         public bool? EnableKamban;
         public string TitleSeparator = ")";
+        public SearchTypes? SearchType;
         public string AddressBook;
         public string MailToDefault;
         public string MailCcDefault;
@@ -369,6 +377,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (TitleSeparator != ")")
             {
                 ss.TitleSeparator = TitleSeparator;
+            }
+            if (SearchType != SearchTypes.FullText)
+            {
+                ss.SearchType = SearchType;
             }
             if (!LinkColumns.SequenceEqual(DefaultLinkColumns()))
             {
@@ -1772,6 +1784,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "EnableBurnDown": EnableBurnDown = value.ToBool(); break;
                 case "EnableTimeSeries": EnableTimeSeries = value.ToBool(); break;
                 case "EnableKamban": EnableKamban = value.ToBool(); break;
+                case "SearchType": SearchType = (SearchTypes)value.ToInt(); break;
                 case "AddressBook": AddressBook = value; break;
                 case "MailToDefault": MailToDefault = value; break;
                 case "MailCcDefault": MailCcDefault = value; break;
@@ -2212,7 +2225,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Take(Parameters.General.DropDownSearchLimit));
         }
 
-        private static void LinkHash(
+        private void LinkHash(
             string searchText,
             IEnumerable<long> selectedValues,
             Link link,
@@ -2221,6 +2234,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool noLimit)
         {
             var select = SearchIndexUtilities.Select(
+                searchType: Destinations.Get(link.SiteId)?.SearchType,
                 searchText: searchText,
                 siteIdList: new List<long> { link.SiteId });
             var dataRows = Rds.ExecuteTable(statements:
@@ -2237,6 +2251,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ReferenceId(
                             _operator: " in ",
                             sub: select,
+                            subPrefix: false,
                             _using: select != null)
                         .ReferenceId_In(
                             selectedValues,

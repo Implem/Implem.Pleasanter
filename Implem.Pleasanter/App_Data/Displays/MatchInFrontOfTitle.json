@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MatchInFrontOfTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Match in front of the title"
+        },
+        {
+            "Language": "ja",
+            "Body": "タイトルの前方一致"
+        }
+    ]
+}

@@ -15,6 +15,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public string Raw;
         public SqlHavingCollection Or;
         public Sqls.Functions Function;
+        public bool SubPrefix;
         public bool Using = true;
 
         public SqlHaving(
@@ -27,6 +28,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             string raw = null,
             SqlHavingCollection or = null,
             Sqls.Functions function = Sqls.Functions.None,
+            bool subPrefix = true,
             bool _using = true)
         {
             ColumnBracket = columnBracket;
@@ -38,6 +40,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             Raw = raw;
             Or = or;
             Function = function;
+            SubPrefix = subPrefix;
             Using = _using;
         }
 
@@ -103,7 +106,9 @@ namespace Implem.Libraries.DataSources.SqlServer
             var commandText = Sub.GetCommandText(
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
-                prefix: "_sub",
+                prefix: SubPrefix
+                    ? "_sub"
+                    : string.Empty,
                 commandCount: commandCount);
             return ColumnBracket != null
                 ? Functions(tableBracket) + Operator + "(" + commandText + ")"

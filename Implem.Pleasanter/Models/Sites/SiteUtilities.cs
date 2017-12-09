@@ -1233,6 +1233,10 @@ namespace Implem.Pleasanter.Models
                                     _using: Def.ViewModeDefinitionCollection
                                         .Where(o => o.Name == "Kamban")
                                         .Any(o => o.ReferenceType == siteModel.ReferenceType))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#SearchSettingsEditor",
+                                        text: Displays.Search()))
                                 .Li(
                                     action: () => hb
                                         .A(
@@ -2059,6 +2063,7 @@ namespace Implem.Pleasanter.Models
                             .BurnDownSettingsEditor(siteModel.SiteSettings)
                             .TimeSeriesSettingsEditor(siteModel.SiteSettings)
                             .KambanSettingsEditor(siteModel.SiteSettings)
+                            .SearchSettingsEditor(siteModel.SiteSettings)
                             .MailSettingsEditor(siteModel.SiteSettings)
                             .SiteIntegrationEditor(siteModel.SiteSettings)
                             .StylesSettingsEditor(siteModel.SiteSettings)
@@ -5403,6 +5408,34 @@ namespace Implem.Pleasanter.Models
                             labelText: Displays.Enabled(),
                             _checked: ss.EnableKamban == true))
                     : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SearchSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb.FieldSet(id: "SearchSettingsEditor", action: () => hb
+                .FieldDropDown(
+                    controlId: "SearchType",
+                    controlCss: " always-send",
+                    labelText: Displays.SearchTypes(),
+                    optionCollection: new Dictionary<string, string>()
+                    {
+                        {
+                            SiteSettings.SearchTypes.FullText.ToInt().ToString(),
+                            Displays.FullText()
+                        },
+                        {
+                            SiteSettings.SearchTypes.MatchInFrontOfTitle.ToInt().ToString(),
+                            Displays.MatchInFrontOfTitle()
+                        },
+                        {
+                            SiteSettings.SearchTypes.BroadMatchOfTitle.ToInt().ToString(),
+                            Displays.BroadMatchOfTitle()
+                        }
+                    },
+                    selectedValue: ss.SearchType.ToInt().ToString()));
         }
 
         /// <summary>

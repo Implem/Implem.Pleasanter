@@ -25,6 +25,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             string multiParamOperator = " and ",
             SqlStatement subLeft = null,
             SqlStatement sub = null,
+            bool subPrefix = true,
             string raw = null,
             bool _using = true)
         {
@@ -38,6 +39,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 multiParamOperator: multiParamOperator,
                 subLeft: subLeft,
                 sub: sub,
+                subPrefix: subPrefix,
                 raw: raw,
                 _using: _using));
             return this;

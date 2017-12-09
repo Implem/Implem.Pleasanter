@@ -69,6 +69,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string BeforeCondition(params string[] data) { return Get("BeforeCondition", data); }
         public static string Blog(params string[] data) { return Get("Blog", data); }
         public static string Body(params string[] data) { return Get("Body", data); }
+        public static string BroadMatchOfTitle(params string[] data) { return Get("BroadMatchOfTitle", data); }
         public static string BulkDelete(params string[] data) { return Get("BulkDelete", data); }
         public static string BulkDeleted(params string[] data) { return Get("BulkDeleted", data); }
         public static string BulkMove(params string[] data) { return Get("BulkMove", data); }
@@ -196,6 +197,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Formulas(params string[] data) { return Get("Formulas", data); }
         public static string Friday(params string[] data) { return Get("Friday", data); }
         public static string From(params string[] data) { return Get("From", data); }
+        public static string FullText(params string[] data) { return Get("FullText", data); }
         public static string Fy(params string[] data) { return Get("Fy", data); }
         public static string Gantt(params string[] data) { return Get("Gantt", data); }
         public static string General(params string[] data) { return Get("General", data); }
@@ -300,6 +302,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Manufacture(params string[] data) { return Get("Manufacture", data); }
         public static string MarkDown(params string[] data) { return Get("MarkDown", data); }
         public static string Marketing(params string[] data) { return Get("Marketing", data); }
+        public static string MatchInFrontOfTitle(params string[] data) { return Get("MatchInFrontOfTitle", data); }
         public static string Max(params string[] data) { return Get("Max", data); }
         public static string MaxColumns(params string[] data) { return Get("MaxColumns", data); }
         public static string Md(params string[] data) { return Get("Md", data); }
@@ -411,6 +414,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Save(params string[] data) { return Get("Save", data); }
         public static string Scripts(params string[] data) { return Get("Scripts", data); }
         public static string Search(params string[] data) { return Get("Search", data); }
+        public static string SearchTypes(params string[] data) { return Get("SearchTypes", data); }
         public static string SecondsAgo(params string[] data) { return Get("SecondsAgo", data); }
         public static string Section(params string[] data) { return Get("Section", data); }
         public static string Select(params string[] data) { return Get("Select", data); }
