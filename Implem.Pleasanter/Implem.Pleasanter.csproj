@@ -1215,6 +1215,10 @@
     <Content Include="App_Data\Displays\EndOfMonth.json" />
     <Content Include="App_Data\Displays\NumberWeekly.json" />
     <Content Include="App_Data\Displays\MarkDown.json" />
+    <Content Include="App_Data\Displays\FullText.json" />
+    <Content Include="App_Data\Displays\MatchInFrontOfTitle.json" />
+    <Content Include="App_Data\Displays\BroadMatchOfTitle.json" />
+    <Content Include="App_Data\Displays\SearchTypes.json" />
     <Content Include="Tools\Reminder.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

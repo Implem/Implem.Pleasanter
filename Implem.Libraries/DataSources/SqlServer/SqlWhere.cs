@@ -16,6 +16,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public string MultiParamOperator;
         public SqlStatement SubLeft;
         public SqlStatement Sub;
+        public bool SubPrefix;
         public string Raw;
         public SqlWhereCollection Or;
         public bool Using = true;
@@ -30,6 +31,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             string multiParamOperator = " and ",
             SqlStatement subLeft = null,
             SqlStatement sub = null,
+            bool subPrefix = true,
             string raw = null,
             SqlWhereCollection or = null,
             bool _using = true)
@@ -43,6 +45,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             MultiParamOperator = multiParamOperator;
             SubLeft = subLeft;
             Sub = sub;
+            SubPrefix = subPrefix;
             Raw = raw;
             Or = or;
             Using = _using;
@@ -198,7 +201,9 @@ namespace Implem.Libraries.DataSources.SqlServer
             var commandText = Sub.GetCommandText(
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
-                prefix: "_sub",
+                prefix: SubPrefix
+                    ? "_sub"
+                    : null,
                 commandCount: commandCount);
             return left != null
                 ? left.Select(columnBracket =>
@@ -328,7 +333,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                     "(" + SubLeft.GetCommandText(
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
-                        prefix: "_sub",
+                        prefix: SubPrefix
+                            ? "_sub"
+                            : null,
                         commandCount: commandCount) + ")"
                 };
             }

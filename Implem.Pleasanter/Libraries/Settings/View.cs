@@ -967,6 +967,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (Search.IsNullOrEmpty()) return;
             var select = SearchIndexUtilities.Select(
+                searchType: ss.SearchType,
                 searchText: Search,
                 siteIdList: ss.AllowedIntegratedSites != null
                     ? ss.AllowedIntegratedSites
@@ -981,7 +982,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             columnBrackets: new string[] { "[IssueId]" },
                             name: "IssueId",
                             _operator: " in ",
-                            sub: select);
+                            sub: select,
+                            subPrefix: false);
                         break;
                     case "Results":
                         where.Add(

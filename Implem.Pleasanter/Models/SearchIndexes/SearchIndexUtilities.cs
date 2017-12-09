@@ -249,27 +249,46 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static SqlSelect Select(string searchText, IEnumerable<long> siteIdList)
+        public static SqlSelect Select(
+            SiteSettings.SearchTypes? searchType, string searchText, IEnumerable<long> siteIdList)
         {
-            switch (Parameters.Search.Provider)
+            switch (searchType)
             {
-                case "FullText":
-                    var words = Words(searchText);
-                    if (words?.Any() != true) return null;
-                    return SelectByFullText(
-                        column: Rds.ItemsColumn().ReferenceId(),
-                        orderBy: null,
-                        siteIdList: siteIdList,
-                        words: words);
+                case SiteSettings.SearchTypes.MatchInFrontOfTitle:
+                    return Select(searchText, forward: true);
+                case SiteSettings.SearchTypes.BroadMatchOfTitle:
+                    return Select(searchText, forward: false);
                 default:
-                    var searchIndexes = searchText.SearchIndexes();
-                    if (searchIndexes.Count() == 0) return null;
-                    return SelectBySearchIndexes(
-                        searchIndexes: searchIndexes,
-                        column: Rds.SearchIndexesColumn().ReferenceId(),
-                        orderBy: null,
-                        siteIdList: siteIdList);
+                    switch (Parameters.Search.Provider)
+                    {
+                        case "FullText":
+                            var words = Words(searchText);
+                            if (words?.Any() != true) return null;
+                            return SelectByFullText(
+                                column: Rds.ItemsColumn().ReferenceId(),
+                                orderBy: null,
+                                siteIdList: siteIdList,
+                                words: words);
+                        default:
+                            var searchIndexes = searchText.SearchIndexes();
+                            if (searchIndexes.Count() == 0) return null;
+                            return SelectBySearchIndexes(
+                                searchIndexes: searchIndexes,
+                                column: Rds.SearchIndexesColumn().ReferenceId(),
+                                orderBy: null,
+                                siteIdList: siteIdList);
+                    }
             }
+        }
+
+        public static SqlSelect Select(string searchText, bool forward)
+        {
+            return Rds.SelectItems(
+                column: Rds.ItemsColumn().ReferenceId(),
+                where: Rds.ItemsWhere()
+                    .SqlWhereLike(
+                        searchText,
+                        Rds.Items_Title_WhereLike(forward: forward)));
         }
 
         /// <summary>

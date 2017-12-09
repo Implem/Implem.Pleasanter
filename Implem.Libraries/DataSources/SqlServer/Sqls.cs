@@ -83,13 +83,15 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public static IEnumerable<string> SearchTextCollection(string searchText)
         {
-            return searchText.Replace("　", " ").Split(' ')
+            return searchText?.Replace("　", " ").Split(' ')
                 .Select(o => o.Trim())
-                .Where(o => o != string.Empty);
+                .Where(o => o != string.Empty) ?? new List<string>();
         }
 
         public static SqlWhereCollection SqlWhereLike(
-            this SqlWhereCollection self, string searchText, params string[] clauseCollection)
+            this SqlWhereCollection self,
+            string searchText,
+            params string[] clauseCollection)
         {
             var searchTextCollection = SearchTextCollection(searchText);
             return self.Add(

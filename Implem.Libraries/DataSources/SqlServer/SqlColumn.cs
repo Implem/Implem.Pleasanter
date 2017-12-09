@@ -10,6 +10,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public Sqls.Functions Function;
         public bool AdHoc;
         public SqlStatement Sub;
+        bool SubPrefix;
 
         public SqlColumn()
         {
@@ -22,7 +23,8 @@ namespace Implem.Libraries.DataSources.SqlServer
             string _as = null,
             Sqls.Functions function = Sqls.Functions.None,
             bool adHoc = false,
-            SqlStatement sub = null)
+            SqlStatement sub = null,
+            bool subPrefix = true)
         {
             ColumnBracket = columnBracket;
             TableName = tableName;
@@ -31,6 +33,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             Function = function;
             AdHoc = adHoc;
             Sub = sub;
+            SubPrefix = subPrefix;
         }
 
         public string CommandText(
@@ -84,7 +87,9 @@ namespace Implem.Libraries.DataSources.SqlServer
             return "(" + Sub.GetCommandText(
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
-                prefix: "_sub",
+                prefix: SubPrefix
+                    ? "_sub"
+                    : null,
                 commandCount: commandCount) + ")" +
                     (As != null
                         ? " as [" + As + "]"
