@@ -392,13 +392,15 @@ namespace Implem.Pleasanter.Models
                         joinType: SqlJoin.JoinTypes.Inner,
                         joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                 where: Rds.ItemsWhere()
-                    .Add(raw: "contains(FullText, '" + words.Join(" and ") + "')")
+                    .Add(raw: "contains(FullText, @SearchText_Param#CommandCount#)")
                     .Add(
                         raw: Def.Sql.CanRead,
                         _using: !Permissions.HasPrivilege())
                     .Add(
                         raw: "[Items].[SiteId] in ({0})".Params(siteIdList?.Join()),
                         _using: siteIdList?.Any() == true),
+                param: Rds.ItemsParam()
+                    .Add(name: "SearchText", value: words.Join(" and ")),
                 orderBy: orderBy,
                 offset: offset,
                 pageSize: pageSize,
