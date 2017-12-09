@@ -281,6 +281,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static SqlSelect Select(string searchText, bool forward)
         {
             return Rds.SelectItems(
