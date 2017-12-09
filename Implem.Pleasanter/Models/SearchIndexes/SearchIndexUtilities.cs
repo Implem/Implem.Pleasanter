@@ -255,9 +255,9 @@ namespace Implem.Pleasanter.Models
             switch (searchType)
             {
                 case SiteSettings.SearchTypes.MatchInFrontOfTitle:
-                    return Select(searchText, forward: true);
+                    return Select(searchText, siteIdList, forward: true);
                 case SiteSettings.SearchTypes.BroadMatchOfTitle:
-                    return Select(searchText, forward: false);
+                    return Select(searchText, siteIdList, forward: false);
                 default:
                     switch (Parameters.Search.Provider)
                     {
@@ -284,11 +284,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static SqlSelect Select(string searchText, bool forward)
+        public static SqlSelect Select(
+            string searchText, IEnumerable<long> siteIdList, bool forward)
         {
             return Rds.SelectItems(
                 column: Rds.ItemsColumn().ReferenceId(),
                 where: Rds.ItemsWhere()
+                    .SiteId_In(siteIdList)
                     .SqlWhereLike(
                         searchText,
                         Rds.Items_Title_WhereLike(forward: forward)));
