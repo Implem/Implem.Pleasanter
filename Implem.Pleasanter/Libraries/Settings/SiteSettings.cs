@@ -2096,14 +2096,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             IEnumerable<string> selectedValues = null,
             bool noLimit = false)
         {
-            SetChoiceHash(
-                columnName: columnName,
-                searchText: searchText,
-                linkHash: LinkHash(
+            var column = GetColumn(columnName);
+            if (selectedValues?.All(o => column?.ChoiceHash?.ContainsKey(o) == true) != true)
+            {
+                SetChoiceHash(
                     columnName: columnName,
                     searchText: searchText,
-                    selectedValues: selectedValues,
-                    noLimit: noLimit));
+                    linkHash: LinkHash(
+                        columnName: columnName,
+                        searchText: searchText,
+                        selectedValues: selectedValues,
+                        noLimit: noLimit));
+            }
         }
 
         private void SetChoiceHash(
