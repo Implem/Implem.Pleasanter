@@ -2774,7 +2774,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.DeleteItems(
                     where: Rds.ItemsWhere().ReferenceId(IssueId)),
-                Rds.DeleteLinks(
+                Rds.PhysicalDeleteLinks(
                     where: Rds.LinksWhere()
                         .Or(or: Rds.LinksWhere()
                             .DestinationId(IssueId)
