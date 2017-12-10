@@ -8,7 +8,7 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
             var sub = Rds.SelectItems(
                 column: Rds.ItemsColumn().ReferenceId());
             Rds.ExecuteNonQuery(statements:
-                Rds.DeleteLinks(
+                Rds.PhysicalDeleteLinks(
                     where: Rds.LinksWhere()
                         .Or(or: Rds.LinksWhere()
                             .DestinationId_In(sub: sub, negative: true)
