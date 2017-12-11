@@ -40,9 +40,9 @@ namespace Implem.Pleasanter.Libraries.Mails
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty);
             if (domains.Count() == 0) return string.Empty;
-            foreach (var mailAddress in Libraries.Mails.Addresses.GetEnumerable(mailAddresses))
+            foreach (var mailAddress in GetEnumerable(mailAddresses))
             {
-                if (!domains.Any(o => Libraries.Mails.Addresses.Get(mailAddress).EndsWith(o)))
+                if (!domains.Any(o => Get(mailAddress).EndsWith(o)))
                 {
                     return mailAddress;
                 }
