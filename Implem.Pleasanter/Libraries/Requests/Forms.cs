@@ -117,14 +117,6 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        public static string TextFile(string key, Encoding encoding = null)
-        {
-            var file = File(key);
-            return file != null
-                ? (encoding ?? Encoding.UTF8).GetString(file)
-                : null;
-        }
-
         public static bool HasData(string key)
         {
             return HttpContext.Current.Request.Form[key] != null;
