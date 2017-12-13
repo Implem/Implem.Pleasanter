@@ -10,5 +10,7 @@
     "OnDeleted": false,
     "OnBulkDeleting": false,
     "OnBulkDeleted": false,
+    "OnImporting": false,
+    "OnImported": false,
     "CommandText": "-- Write an arbitrary SQL statement."
 }
