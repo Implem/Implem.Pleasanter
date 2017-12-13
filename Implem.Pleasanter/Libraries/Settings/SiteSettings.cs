@@ -2025,10 +2025,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public List<Link> GetUseSearchLinks(bool titleOnly = false)
+        public List<Link> GetUseSearchLinks(bool titleOnly = false, bool onlyUnSet = false)
         {
             return Links?
-                .Where(o => GetColumn(o.ColumnName).UseSearch == true)
+                .Where(o => GetColumn(o.ColumnName)?.UseSearch == true)
+                .Where(o => !onlyUnSet || GetColumn(o.ColumnName)?.ChoiceHash?.Any() != true)
                 .ToList();
         }
 
@@ -2096,18 +2097,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             IEnumerable<string> selectedValues = null,
             bool noLimit = false)
         {
-            var column = GetColumn(columnName);
-            if (selectedValues?.All(o => column?.ChoiceHash?.ContainsKey(o) == true) != true)
-            {
-                SetChoiceHash(
+            SetChoiceHash(
+                columnName: columnName,
+                searchText: searchText,
+                linkHash: LinkHash(
                     columnName: columnName,
                     searchText: searchText,
-                    linkHash: LinkHash(
-                        columnName: columnName,
-                        searchText: searchText,
-                        selectedValues: selectedValues,
-                        noLimit: noLimit));
-            }
+                    selectedValues: selectedValues,
+                    noLimit: noLimit));
         }
 
         private void SetChoiceHash(
