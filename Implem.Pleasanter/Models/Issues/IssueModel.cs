@@ -3737,7 +3737,7 @@ namespace Implem.Pleasanter.Models
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
-            var links = ss.GetUseSearchLinks(titleOnly: true);
+            var links = ss.GetUseSearchLinks(titleOnly: true, onlyUnSet: true);
             links?.ForEach(link =>
                 ss.SetChoiceHash(
                     columnName: link.ColumnName,
