@@ -3741,10 +3741,7 @@ namespace Implem.Pleasanter.Models
             links?.ForEach(link =>
                 ss.SetChoiceHash(
                     columnName: link.ColumnName,
-                    selectedValues: new List<string>
-                    {
-                        PropertyValue(link.ColumnName)
-                    }));
+                    selectedValues: PropertyValue(link.ColumnName).ToSingleList()));
             if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 SetTitle(ss);

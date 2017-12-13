@@ -30,5 +30,10 @@ namespace Implem.Libraries.Utilities
             }
             return self.ToDictionary(o => o.Key, o => o.Value);
         }
+
+        public static List<T> ToSingleList<T>(this T self)
+        {
+            return new List<T>() { self };
+        }
     }
 }
