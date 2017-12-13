@@ -4444,6 +4444,10 @@ namespace Implem.Pleasanter.Models
                 var error = Imports.ColumnValidate(ss, columnHash.Values
                     .Select(o => o.ColumnName), "CompletionTime");
                 if (error != null) return error;
+                Rds.ExecuteNonQuery(
+                    transactional: true,
+                    statements: new List<SqlStatement>()
+                        .OnImportingExtendedSqls(ss.SiteId).ToArray());
                 var issueHash = new Dictionary<int, IssueModel>();
                 csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
                 {
@@ -4916,6 +4920,10 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 });
+                Rds.ExecuteNonQuery(
+                    transactional: true,
+                    statements: new List<SqlStatement>()
+                        .OnImportedExtendedSqls(ss.SiteId).ToArray());
                 return GridRows(
                     ss: ss,
                     res: res.WindowScrollTop(),
