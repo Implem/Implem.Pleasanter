@@ -4182,22 +4182,23 @@ namespace Implem.Pleasanter.Models
             var sub = Rds.SelectResults(
                 column: Rds.ResultsColumn().ResultId(),
                 where: where);
+            var statements = new List<SqlStatement>();
+            statements.OnBulkDeletingExtendedSqls(ss.SiteId);
+            statements.Add(Rds.DeleteItems(
+                where: Rds.ItemsWhere()
+                    .ReferenceId_In(sub: sub)));
+            statements.Add(Rds.PhysicalDeleteLinks(
+                where: Rds.LinksWhere()
+                    .Or(or: Rds.LinksWhere()
+                        .DestinationId_In(sub: sub)
+                        .SourceId_In(sub: sub))));
+            statements.Add(Rds.DeleteResults(
+                where: where, 
+                countRecord: true));
+            statements.OnBulkDeletedExtendedSqls(ss.SiteId);
             return Rds.ExecuteScalar_int(
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteItems(
-                        where: Rds.ItemsWhere()
-                            .ReferenceId_In(sub: sub)),
-                    Rds.PhysicalDeleteLinks(
-                        where: Rds.LinksWhere()
-                            .Or(or: Rds.LinksWhere()
-                                .DestinationId_In(sub: sub)
-                                .SourceId_In(sub: sub))),
-                    Rds.DeleteResults(
-                        where: where, 
-                        countRecord: true)
-                });
+                statements: statements.ToArray());
         }
 
         public static string Import(SiteModel siteModel)

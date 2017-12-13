@@ -8,5 +8,7 @@
     "OnUpdated": true,
     "OnDeleting": false,
     "OnDeleted": false,
+    "OnBulkDeleting": false,
+    "OnBulkDeleted": false,
     "CommandText": "-- Write an arbitrary SQL statement."
 }
