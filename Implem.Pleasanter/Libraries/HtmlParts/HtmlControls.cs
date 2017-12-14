@@ -197,6 +197,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool insertBlank = false,
             bool disabled = false,
             string onChange = null,
+            bool validateRequired = false,
             string action = null,
             string method = null,
             Column column = null,
@@ -210,6 +211,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Multiple(multiple)
                         .Disabled(disabled)
                         .OnChange(onChange)
+                        .DataValidateRequired(validateRequired)
                         .DataAction(action)
                         .DataMethod(method),
                     action: () => hb
