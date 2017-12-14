@@ -7,6 +7,10 @@
     if ($control.hasClass('auto-postback')) {
         $p.send($control);
     }
+    if ($control.val() !== '' && $control.hasClass('error')) {
+        $control.removeClass('error');
+        $('[id="' + $control.attr('id') + '-error"]').remove();
+    }
 }
 
 $p.openDropDownSearchDialog = function ($control) {

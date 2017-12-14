@@ -211,6 +211,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 optionCollection: optionCollection,
                                 selectedValue: value,
                                 insertBlank: !required && column.UseSearch != true,
+                                validateRequired: required,
                                 column: column);
                         case ControlTypes.Text:
                             return hb.FieldText(
@@ -757,6 +758,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool insertBlank = false,
             bool disabled = false,
             string onChange = null,
+            bool validateRequired = false,
             string action = null,
             string method = null,
             Column column = null,
@@ -783,6 +785,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             insertBlank: insertBlank,
                             disabled: disabled,
                             onChange: onChange,
+                            validateRequired: validateRequired,
                             action: action,
                             method: method,
                             column: column))
@@ -806,6 +809,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool insertBlank = false,
             bool disabled = false,
             string onChange = null,
+            bool validateRequired = false,
             string action = null,
             string method = null,
             Column column = null,
@@ -831,6 +835,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             insertBlank: insertBlank,
                             disabled: disabled,
                             onChange: onChange,
+                            validateRequired: validateRequired,
                             action: action,
                             method: method,
                             column: column))
