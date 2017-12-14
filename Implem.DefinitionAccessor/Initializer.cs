@@ -124,6 +124,11 @@ namespace Implem.DefinitionAccessor
                 if (extendedSql != null)
                 {
                     extendedSql.Path = file.FullName;
+                    var sqlPath = file.FullName + ".sql";
+                    if (Files.Exists(sqlPath))
+                    {
+                        extendedSql.CommandText = Files.Read(sqlPath);
+                    }
                     list.Add(extendedSql);
                 }
             }
