@@ -2506,6 +2506,7 @@ namespace Implem.Pleasanter.Models
             RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            bool extendedSqls = true,
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
@@ -2513,14 +2514,14 @@ namespace Implem.Pleasanter.Models
             bool get = true)
         {
             var statements = new List<SqlStatement>();
-            statements.OnCreatingExtendedSqls(SiteId, IssueId);
+            if (extendedSqls) statements.OnCreatingExtendedSqls(SiteId, IssueId);
             CreateStatements(statements, ss, tableType, param, paramAll);
             statements.CreatePermissions(ss, ss.Columns
                 .Where(o => o.UserColumn)
                 .ToDictionary(o =>
                     o.ColumnName,
                     o => SiteInfo.User(PropertyValue(o.ColumnName).ToInt())));
-            statements.OnCreatedExtendedSqls(SiteId, IssueId);
+            if (extendedSqls) statements.OnCreatedExtendedSqls(SiteId, IssueId);
             var newId = Rds.ExecuteScalar_long(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -2576,6 +2577,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
+            bool extendedSqls = true,
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
@@ -2592,13 +2594,13 @@ namespace Implem.Pleasanter.Models
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            statements.OnUpdatingExtendedSqls(SiteId, IssueId, timestamp);
+            if (extendedSqls) statements.OnUpdatingExtendedSqls(SiteId, IssueId, timestamp);
             UpdateStatements(statements, timestamp, param, paramAll, additionalStatements);
             if (permissionChanged)
             {
                 statements.UpdatePermissions(ss, IssueId, permissions);
             }
-            statements.OnUpdatedExtendedSqls(SiteId, IssueId);
+            if (extendedSqls) statements.OnUpdatedExtendedSqls(SiteId, IssueId);
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
