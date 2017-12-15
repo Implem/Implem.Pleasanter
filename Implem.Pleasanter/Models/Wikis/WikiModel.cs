@@ -235,14 +235,15 @@ namespace Implem.Pleasanter.Models
             RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            bool extendedSqls = true,
             bool notice = false,
             bool paramAll = false,
             bool get = true)
         {
             var statements = new List<SqlStatement>();
-            statements.OnCreatingExtendedSqls(SiteId, WikiId);
+            if (extendedSqls) statements.OnCreatingExtendedSqls(SiteId, WikiId);
             CreateStatements(statements, ss, tableType, param, paramAll);
-            statements.OnCreatedExtendedSqls(SiteId, WikiId);
+            if (extendedSqls) statements.OnCreatedExtendedSqls(SiteId, WikiId);
             var newId = Rds.ExecuteScalar_long(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -296,6 +297,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
+            bool extendedSqls = true,
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
@@ -312,13 +314,13 @@ namespace Implem.Pleasanter.Models
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            statements.OnUpdatingExtendedSqls(SiteId, WikiId, timestamp);
+            if (extendedSqls) statements.OnUpdatingExtendedSqls(SiteId, WikiId, timestamp);
             UpdateStatements(statements, timestamp, param, paramAll, additionalStatements);
             if (permissionChanged)
             {
                 statements.UpdatePermissions(ss, WikiId, permissions);
             }
-            statements.OnUpdatedExtendedSqls(SiteId, WikiId);
+            if (extendedSqls) statements.OnUpdatedExtendedSqls(SiteId, WikiId);
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,

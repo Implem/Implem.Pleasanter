@@ -4694,13 +4694,13 @@ namespace Implem.Pleasanter.Models
                         resultModel.VerUp = Versions.MustVerUp(resultModel);
                         if (resultModel.Updated())
                         {
-                            resultModel.Update(ss: ss, get: false);
+                            resultModel.Update(ss: ss, extendedSqls: false, get: false);
                             updateCount++;
                         }
                     }
                     else
                     {
-                        resultModel.Create(ss: ss, get: false);
+                        resultModel.Create(ss: ss, extendedSqls: false, get: false);
                         insertCount++;
                     }
                 });
