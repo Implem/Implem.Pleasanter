@@ -336,6 +336,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string NoData(params string[] data) { return Get("NoData", data); }
         public static string NoLinks(params string[] data) { return Get("NoLinks", data); }
         public static string Normal(params string[] data) { return Get("Normal", data); }
+        public static string NoTargetRecord(params string[] data) { return Get("NoTargetRecord", data); }
         public static string NotFound(params string[] data) { return Get("NotFound", data); }
         public static string Notifications(params string[] data) { return Get("Notifications", data); }
         public static string NotificationType(params string[] data) { return Get("NotificationType", data); }

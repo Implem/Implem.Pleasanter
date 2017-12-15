@@ -181,33 +181,38 @@ namespace Implem.Pleasanter.Libraries.Settings
                     pageSize: Parameters.Reminder.Limit,
                     countRecord: true));
             var sb = new StringBuilder();
-            dataSet.Tables["Main"]
+            var timeGroups = dataSet.Tables["Main"]
                 .AsEnumerable()
                 .GroupBy(dataRow => dataRow.DateTime(Column).Date)
-                .ForEach(group =>
+                .ToList();
+            timeGroups.ForEach(timeGroup =>
+            {
+                var date = timeGroup.First().DateTime(Column).ToLocal().Date;
+                switch (Column)
                 {
-                    var date = group.First().DateTime(Column).ToLocal().Date;
-                    switch (Column)
-                    {
-                        case "CompletionTime":
-                            date = date.AddDays(-1);
-                            break;
-                    }
-                    sb.Append("{0} ({1})\n".Params(
-                        date.ToString(Displays.Get("YmdaFormat"), Sessions.CultureInfo()),
-                        Relative(date)));
-                    group
-                        .OrderBy(dataRow => dataRow.Int("Status"))
-                        .ForEach(dataRow =>
-                            sb.Append(
-                                "\t",
-                                ReplacedLine(ss, dataRow),
-                                "\n\t",
-                                Locations.ItemEditAbsoluteUri(
-                                    dataRow.Long(Rds.IdColumn(ss.ReferenceType))),
-                                "\n"));
-                    sb.Append("\n");
-                });
+                    case "CompletionTime":
+                        date = date.AddDays(-1);
+                        break;
+                }
+                sb.Append("{0} ({1})\n".Params(
+                    date.ToString(Displays.Get("YmdaFormat"), Sessions.CultureInfo()),
+                    Relative(date)));
+                timeGroup
+                    .OrderBy(dataRow => dataRow.Int("Status"))
+                    .ForEach(dataRow =>
+                        sb.Append(
+                            "\t",
+                            ReplacedLine(ss, dataRow),
+                            "\n\t",
+                            Locations.ItemEditAbsoluteUri(
+                                dataRow.Long(Rds.IdColumn(ss.ReferenceType))),
+                            "\n"));
+                sb.Append("\n");
+            });
+            if (!timeGroups.Any())
+            {
+                sb.Append(Displays.NoTargetRecord(), "\r\n");
+            }
             return Body.Contains(BodyPlaceholder)
                 ? Body.Replace(BodyPlaceholder, sb.ToString())
                 : Body + "\n" + sb.ToString();
