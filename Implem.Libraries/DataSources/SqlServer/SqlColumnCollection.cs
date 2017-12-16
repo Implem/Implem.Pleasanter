@@ -52,13 +52,20 @@ namespace Implem.Libraries.DataSources.SqlServer
             commandText.Append("select ");
             Build_DistinctClause(commandText, distinct);
             Build_TopClause(commandText, top);
-            commandText.Append(this
-                .Select(o => o.CommandText(
-                    sqlContainer: sqlContainer,
-                    sqlCommand: sqlCommand,
-                    tableBracket: Sqls.GetTableBracket(o.TableName),
-                    commandCount: commandCount))
-                .Join(), " ");
+            if (this.Any())
+            {
+                commandText.Append(this
+                    .Select(o => o.CommandText(
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        tableBracket: Sqls.GetTableBracket(o.TableName),
+                        commandCount: commandCount))
+                    .Join(), " ");
+            }
+            else
+            {
+                commandText.Append("* ");
+            }
             RemoveAll(o => o.AdHoc);
         }
 
