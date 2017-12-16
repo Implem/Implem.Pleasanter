@@ -991,7 +991,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             columnBrackets: new string[] { "[ResultId]" },
                             name: "ResultId",
                             _operator: " in ",
-                            sub: select);
+                            sub: select,
+                            subPrefix: false);
                         break;
                     case "Wikis":
                         where.Add(
@@ -999,7 +1000,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             columnBrackets: new string[] { "[WikiId]" },
                             name: "WikiId",
                             _operator: " in ",
-                            sub: select);
+                            sub: select,
+                            subPrefix: false);
                         break;
                 }
             }
