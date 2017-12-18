@@ -373,7 +373,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     ss.SetChoiceHash(
                         columnName: column?.ColumnName,
-                        selectedValues: new List<string>() { id });
+                        selectedValues: id.ToSingleList());
                 }
                 return id;
             }
