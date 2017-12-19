@@ -1142,7 +1142,7 @@ namespace Implem.Pleasanter.Models
                 res
                     .Html("#GridColumns", new HtmlBuilder().SelectableItems(
                         listItemCollection: SiteSettings.GridSelectableOptions(),
-                        selectedValueTextCollection: new List<string> { columnName }))
+                        selectedValueTextCollection: columnName.ToSingleList()))
                     .CloseDialog();
             }
         }
@@ -1248,7 +1248,7 @@ namespace Implem.Pleasanter.Models
                 res
                     .Html("#FilterColumns", new HtmlBuilder().SelectableItems(
                         listItemCollection: SiteSettings.FilterSelectableOptions(),
-                        selectedValueTextCollection: new List<string> { columnName }))
+                        selectedValueTextCollection: columnName.ToSingleList()))
                     .CloseDialog();
             }
         }
@@ -1406,7 +1406,7 @@ namespace Implem.Pleasanter.Models
                 res
                     .Html("#EditorColumns", new HtmlBuilder().SelectableItems(
                         listItemCollection: SiteSettings.EditorSelectableOptions(),
-                        selectedValueTextCollection: new List<string> { columnName }))
+                        selectedValueTextCollection: columnName.ToSingleList()))
                     .CloseDialog();
             }
         }
