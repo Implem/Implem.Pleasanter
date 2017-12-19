@@ -153,8 +153,7 @@ namespace Implem.Pleasanter.Libraries.Server
             return (days.
                 Any(o => o >= start)
                 ? days.FirstOrDefault(o => o >= start)
-                : days.Last().AddDays(7))
-                    .AddTime(self);
+                : days.Last().AddDays(7));
         }
 
         private static DateTime NextMonthly(this DateTime self, DateTime start)
