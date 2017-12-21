@@ -18,7 +18,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb
                 .TextArea(
                     labelText: column?.LabelText,
-                    _using: verType == Versions.VerTypes.Latest &&
+                    _using:
+                        verType == Versions.VerTypes.Latest &&
+                        column.SiteSettings.CanUpdate() &&
                         column?.EditorReadOnly != true &&
                         columnPermissionType == Permissions.ColumnPermissionTypes.Update)
                 .Div(id: "CommentList", action: () => comments
