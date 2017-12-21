@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     : value;
                 return hb.SwitchField(
                     column: column,
-                    columnPermissionType: columnPermissionType,
+                    columnPermissionType: ColumnPermissionType(ss, columnPermissionType, preview),
                     controlId: !preview
                         ? column.Id
                         : null,
@@ -78,6 +78,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 return hb;
             }
+        }
+
+        private static Permissions.ColumnPermissionTypes ColumnPermissionType(
+            SiteSettings ss,
+            Permissions.ColumnPermissionTypes columnPermissionType,
+            bool preview)
+        {
+            return
+                !Sessions.LoggedIn() ||
+                preview ||
+                ss.CanUpdate() ||
+                columnPermissionType != Permissions.ColumnPermissionTypes.Update
+                    ? columnPermissionType
+                    : Permissions.ColumnPermissionTypes.Read;
         }
 
         private static string FieldCss(Column column, string fieldCss)
