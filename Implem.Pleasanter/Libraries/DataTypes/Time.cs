@@ -60,13 +60,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : string.Empty;
         }
 
-        public virtual string ToViewText(string format = "")
-        {
-            return Value.InRange() 
-                ? DisplayValue.ToString(format, Sessions.CultureInfo())
-                : string.Empty;
-        }
-
         public bool DifferentDate()
         {
             return DisplayValue.Date != DateTime.Now.ToLocal().Date;
