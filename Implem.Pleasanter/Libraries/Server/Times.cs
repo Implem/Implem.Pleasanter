@@ -216,5 +216,12 @@ namespace Implem.Pleasanter.Libraries.Server
                 .Select(o => new DateTime(self.Year, self.Month, o))
                 .Where(o => o.DayOfWeek == (dayOfWeek ?? self.DayOfWeek));
         }
+
+        public static string ToViewText(this DateTime self, string format = "")
+        {
+            return self.InRange()
+                ? self.ToString(format, Sessions.CultureInfo())
+                : string.Empty;
+        }
     }
 }

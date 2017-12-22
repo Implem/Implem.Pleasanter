@@ -108,7 +108,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string ToExport(Column column, ExportColumn exportColumn = null)
         {
             return this.Select(o =>
-                new Time(o.CreatedTime).ToViewText() + " " +
+                o.CreatedTime.ToLocal().ToViewText() + " " +
                 SiteInfo.UserName(o.Creator) + "\n" +
                 o.Body).Join("\n\n");
         }
