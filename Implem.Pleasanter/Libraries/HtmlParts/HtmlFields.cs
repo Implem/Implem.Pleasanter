@@ -45,17 +45,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool preview = false,
             bool _using = true)
         {
-            if (column.Section != null)
-            {
-                hb.Div(css: "field-section", action: () => hb
-                    .Text(text: column.Section));
-            }
             if (column.UserColumn && value == User.UserTypes.Anonymous.ToInt().ToString())
             {
                 value = string.Empty;
             }
             if (columnPermissionType != Permissions.ColumnPermissionTypes.Deny && _using)
             {
+                if (column.Section != null)
+                {
+                    hb.Div(css: "field-section", action: () => hb
+                        .Text(text: column.Section));
+                }
                 value = methodType == BaseModel.MethodTypes.New
                     ? value.ToDefault(ss, column)
                     : value;
