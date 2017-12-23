@@ -2237,7 +2237,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var select = SearchIndexUtilities.Select(
                 searchType: Destinations?.Get(link.SiteId)?.SearchType,
                 searchText: searchText,
-                siteIdList: new List<long> { link.SiteId });
+                siteIdList: link.SiteId.ToSingleList());
             var dataRows = Rds.ExecuteTable(statements:
                 Rds.SelectItems(
                     top: !noLimit
