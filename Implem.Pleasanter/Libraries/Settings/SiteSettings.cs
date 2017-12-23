@@ -2059,25 +2059,49 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             dataRows?
                 .Columns()
-                .Where(o => o.StartsWith("Linked__"))
-                .Select(o => GetColumn(o.Substring("Linked__".Length)))
+                .Where(o => Links.Any(p => p.ColumnName == o))
+                .Select(o => GetColumn(o))
                 .Where(o => o != null)
                 .ToList()
                 .ForEach(column =>
                 {
                     column.ChoiceHash = new Dictionary<string, Choice>();
-                    dataRows
+                    var idList = dataRows
                         .GroupBy(o => o.Long(column.ColumnName))
-                        .Select(o => o.First())
-                        .ForEach(dataRow =>
-                        {
-                            var id = dataRow.Long(column.ColumnName).ToString();
+                        .Select(o => o.First());
+                    if (JoinedSsHash?.ContainsKey(
+                        Links.First(o => o.ColumnName == column.ColumnName).SiteId) == true)
+                    {
+                        idList.ForEach(dataRow =>
                             column.ChoiceHash.Add(
-                                id,
+                                dataRow.String(column.ColumnName),
                                 new Choice(
-                                    id,
-                                    dataRow.String("Linked__" + column.ColumnName)));
-                        });
+                                    dataRow.String(column.ColumnName),
+                                    dataRow.String("Linked__" + column.ColumnName))));
+                    }
+                    else
+                    {
+                        Rds.ExecuteTable(statements:
+                            Rds.SelectItems(
+                                column: Rds.ItemsColumn()
+                                    .ReferenceId()
+                                    .Title(),
+                                join: Rds.ItemsJoinDefault()
+                                    .Add(new SqlJoin(
+                                        tableBracket: "[Sites]",
+                                        joinType: SqlJoin.JoinTypes.Inner,
+                                        joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                                where: Rds.ItemsWhere()
+                                    .ReferenceId_In(idList.Select(o => o.Long(column.ColumnName)))
+                                    .CanRead("[Items].[ReferenceId]")))
+                                        .AsEnumerable()
+                                        .ForEach(dataRow =>
+                                            column.ChoiceHash.Add(
+                                                dataRow.String("ReferenceId"),
+                                                new Choice(
+                                                    dataRow.String("ReferenceId"),
+                                                    dataRow.String("Title"))));
+                    }
                 });
         }
 
