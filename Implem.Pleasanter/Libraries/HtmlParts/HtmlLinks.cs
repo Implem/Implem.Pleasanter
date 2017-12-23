@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .IssueId_In(targets
                         .Where(o => o["Direction"].ToString() == direction)
                         .Select(o => o["Id"].ToLong()))
-                    .CanRead("[IssueId]"));
+                    .CanRead("[Issues].[IssueId]"));
         }
 
         private static SqlStatement SelectResults(
@@ -100,7 +100,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .ResultId_In(targets
                         .Where(o => o["Direction"].ToString() == direction)
                         .Select(o => o["Id"].ToLong()))
-                    .CanRead("[ResultId]"));
+                    .CanRead("[Results].[ResultId]"));
         }
 
         private static bool Contains(SiteSettings ss, DataSet dataSet)
