@@ -4984,7 +4984,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Calendar(SiteSettings ss)
         {
-            if (ss.EnableCalendar != true)
+            if (!ss.EnableViewMode("Calendar"))
             {
                 return HtmlTemplates.Error(Error.Types.HasNotPermission);
             }
@@ -5047,7 +5047,7 @@ namespace Implem.Pleasanter.Models
 
         public static string CalendarJson(SiteSettings ss)
         {
-            if (ss.EnableCalendar != true)
+            if (!ss.EnableViewMode("Calendar"))
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
@@ -5244,7 +5244,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Crosstab(SiteSettings ss)
         {
-            if (ss.EnableCrosstab != true)
+            if (!ss.EnableViewMode("Crosstab"))
             {
                 return HtmlTemplates.Error(Error.Types.HasNotPermission);
             }
@@ -5306,7 +5306,7 @@ namespace Implem.Pleasanter.Models
 
         public static string CrosstabJson(SiteSettings ss)
         {
-            if (ss.EnableCrosstab != true)
+            if (!ss.EnableViewMode("Crosstab"))
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
@@ -5505,7 +5505,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Gantt(SiteSettings ss)
         {
-            if (ss.EnableGantt != true)
+            if (!ss.EnableViewMode("Gantt"))
             {
                 return HtmlTemplates.Error(Error.Types.HasNotPermission);
             }
@@ -5545,7 +5545,7 @@ namespace Implem.Pleasanter.Models
 
         public static string GanttJson(SiteSettings ss)
         {
-            if (ss.EnableGantt != true)
+            if (!ss.EnableViewMode("Gantt"))
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
@@ -5677,7 +5677,7 @@ namespace Implem.Pleasanter.Models
 
         public static string BurnDown(SiteSettings ss)
         {
-            if (ss.EnableBurnDown != true)
+            if (!ss.EnableViewMode("BurnDown"))
             {
                 return HtmlTemplates.Error(Error.Types.HasNotPermission);
             }
@@ -5713,7 +5713,7 @@ namespace Implem.Pleasanter.Models
 
         public static string BurnDownJson(SiteSettings ss)
         {
-            if (ss.EnableBurnDown != true)
+            if (!ss.EnableViewMode("BurnDown"))
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
@@ -5813,7 +5813,7 @@ namespace Implem.Pleasanter.Models
 
         public static string TimeSeries(SiteSettings ss)
         {
-            if (ss.EnableTimeSeries != true)
+            if (!ss.EnableViewMode("TimeSeries"))
             {
                 return HtmlTemplates.Error(Error.Types.HasNotPermission);
             }
@@ -5844,7 +5844,7 @@ namespace Implem.Pleasanter.Models
 
         public static string TimeSeriesJson(SiteSettings ss)
         {
-            if (ss.EnableTimeSeries != true)
+            if (!ss.EnableViewMode("TimeSeries"))
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
@@ -5950,7 +5950,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Kamban(SiteSettings ss)
         {
-            if (ss.EnableKamban != true)
+            if (!ss.EnableViewMode("Kamban"))
             {
                 return HtmlTemplates.Error(Error.Types.HasNotPermission);
             }
@@ -5981,7 +5981,7 @@ namespace Implem.Pleasanter.Models
 
         public static string KambanJson(SiteSettings ss)
         {
-            if (ss.EnableKamban != true)
+            if (!ss.EnableViewMode("Kamban"))
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
