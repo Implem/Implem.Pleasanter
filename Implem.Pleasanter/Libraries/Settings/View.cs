@@ -75,66 +75,75 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string GetCalendarColumn(SiteSettings ss)
         {
-            return !CalendarColumn.IsNullOrEmpty()
-                ? CalendarColumn
-                : Definition(ss, "Calendar")?.Option1;
+            if (CalendarColumn.IsNullOrEmpty())
+            {
+                CalendarColumn = Definition(ss, "Calendar")?.Option1;
+            }
+            return CalendarColumn;
         }
 
         public string GetCrosstabGroupByX(SiteSettings ss)
         {
             var options = ss.CrosstabGroupByXOptions();
-            return !CrosstabGroupByX.IsNullOrEmpty()
-                ? CrosstabGroupByX
-                : options.ContainsKey(Definition(ss, "Crosstab")?.Option1)
+            if (CrosstabGroupByX.IsNullOrEmpty())
+            {
+                CrosstabGroupByX = options.ContainsKey(Definition(ss, "Crosstab")?.Option1)
                     ? Definition(ss, "Crosstab")?.Option1
                     : options.FirstOrDefault().Key;
+            }
+            return CrosstabGroupByX;
         }
 
         public string GetCrosstabGroupByY(SiteSettings ss)
         {
             var options = ss.CrosstabGroupByYOptions();
-            return !CrosstabGroupByY.IsNullOrEmpty()
-                ? CrosstabGroupByY
-                : options.ContainsKey(Definition(ss, "Crosstab")?.Option2)
+            if (CrosstabGroupByY.IsNullOrEmpty())
+            {
+                CrosstabGroupByY = options.ContainsKey(Definition(ss, "Crosstab")?.Option2)
                     ? Definition(ss, "Crosstab")?.Option2
                     : options.FirstOrDefault().Key;
+            }
+            return CrosstabGroupByY;
         }
 
         public string GetCrosstabAggregateType(SiteSettings ss)
         {
-            return !CrosstabAggregateType.IsNullOrEmpty()
-                ? CrosstabAggregateType
-                : Definition(ss, "Crosstab")?.Option3;
+            if (CrosstabAggregateType.IsNullOrEmpty())
+            {
+                CrosstabAggregateType = Definition(ss, "Crosstab")?.Option3;
+            }
+            return CrosstabAggregateType;
         }
 
         public string GetCrosstabValue(SiteSettings ss)
         {
             var options = ss.CrosstabColumnsOptions();
-            return !CrosstabValue.IsNullOrEmpty()
-                ? CrosstabValue
-                : options.ContainsKey(Definition(ss, "Crosstab")?.Option4)
+            if (CrosstabValue.IsNullOrEmpty())
+            {
+                CrosstabValue = options.ContainsKey(Definition(ss, "Crosstab")?.Option4)
                     ? Definition(ss, "Crosstab")?.Option4
                     : options.FirstOrDefault().Key;
+            }
+            return CrosstabValue;
         }
 
         public string GetCrosstabTimePeriod(SiteSettings ss)
         {
-            return !CrosstabTimePeriod.IsNullOrEmpty()
-                ? CrosstabTimePeriod
-                : Definition(ss, "Crosstab")?.Option5;
+            if (CrosstabTimePeriod.IsNullOrEmpty())
+            {
+                CrosstabTimePeriod = Definition(ss, "Crosstab")?.Option5;
+            }
+            return CrosstabTimePeriod;
         }
 
         public DateTime GetCrosstabMonth(SiteSettings ss)
         {
-            if (CrosstabMonth != null)
-            {
-                return CrosstabMonth.ToDateTime();
-            }
-            else
+            if (CrosstabMonth?.InRange() != true)
             {
                 var now = DateTime.Now;
-                return new DateTime(now.Year, now.Month, 1);
+                CrosstabMonth = new DateTime(now.Year, now.Month, 1);
             }
+            return CrosstabMonth.ToDateTime();
         }
 
         public string GetGanttGroupBy()
@@ -154,71 +163,85 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GetTimeSeriesGroupBy(SiteSettings ss)
         {
             var options = ss.TimeSeriesGroupByOptions();
-            return !TimeSeriesGroupBy.IsNullOrEmpty()
-                ? TimeSeriesGroupBy
-                : options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
+            if (TimeSeriesGroupBy.IsNullOrEmpty())
+            {
+                TimeSeriesGroupBy = options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
                     ? Definition(ss, "TimeSeries")?.Option1
                     : options.FirstOrDefault().Key;
+            }
+            return TimeSeriesGroupBy;
         }
 
         public string GetTimeSeriesAggregationType(SiteSettings ss)
         {
             var options = ss.TimeSeriesAggregationTypeOptions();
-            return !TimeSeriesAggregateType.IsNullOrEmpty()
-                ? TimeSeriesAggregateType
-                : options.ContainsKey(Definition(ss, "TimeSeries")?.Option2)
+            if (TimeSeriesAggregateType.IsNullOrEmpty())
+            {
+                TimeSeriesAggregateType = options.ContainsKey(Definition(ss, "TimeSeries")?.Option2)
                     ? Definition(ss, "TimeSeries")?.Option2
                     : options.FirstOrDefault().Key;
+            }
+            return TimeSeriesAggregateType;
         }
 
         public string GetTimeSeriesValue(SiteSettings ss)
         {
             var options = ss.TimeSeriesValueOptions();
-            return !TimeSeriesValue.IsNullOrEmpty()
-                ? TimeSeriesValue
-                : options.ContainsKey(Definition(ss, "TimeSeries")?.Option3)
+            if (TimeSeriesValue.IsNullOrEmpty())
+            {
+                TimeSeriesValue = options.ContainsKey(Definition(ss, "TimeSeries")?.Option3)
                     ? Definition(ss, "TimeSeries")?.Option3
                     : options.FirstOrDefault().Key;
+            }
+            return TimeSeriesValue;
         }
 
         public string GetKambanGroupByX(SiteSettings ss)
         {
             var options = ss.KambanGroupByOptions();
-            return !KambanGroupByX.IsNullOrEmpty()
-                ? KambanGroupByX
-                : options.ContainsKey(Definition(ss, "Kamban")?.Option1)
+            if (KambanGroupByX.IsNullOrEmpty())
+            {
+                KambanGroupByX = options.ContainsKey(Definition(ss, "Kamban")?.Option1)
                     ? Definition(ss, "Kamban")?.Option1
                     : options.FirstOrDefault().Key;
+            }
+            return KambanGroupByX;
         }
 
         public string GetKambanGroupByY(SiteSettings ss)
         {
             var options = ss.KambanGroupByOptions();
-            return !KambanGroupByY.IsNullOrEmpty()
-                ? KambanGroupByY
-                : options.ContainsKey(Definition(ss, "Kamban")?.Option2)
+            if (KambanGroupByY.IsNullOrEmpty())
+            {
+                KambanGroupByY = options.ContainsKey(Definition(ss, "Kamban")?.Option2)
                     ? Definition(ss, "Kamban")?.Option2
                     : options.FirstOrDefault().Key;
+            }
+            return KambanGroupByY;
         }
 
         public string GetKambanAggregationType(SiteSettings ss)
         {
             var options = ss.KambanAggregationTypeOptions();
-            return !KambanAggregateType.IsNullOrEmpty()
-                ? KambanAggregateType
-                : options.ContainsKey(Definition(ss, "Kamban")?.Option3)
+            if (KambanAggregateType.IsNullOrEmpty())
+            {
+                KambanAggregateType = options.ContainsKey(Definition(ss, "Kamban")?.Option3)
                     ? Definition(ss, "Kamban")?.Option3
                     : options.FirstOrDefault().Key;
+            }
+            return KambanAggregateType;
         }
 
         public string GetKambanValue(SiteSettings ss)
         {
             var options = ss.KambanValueOptions();
-            return !KambanValue.IsNullOrEmpty()
-                ? KambanValue
-                : options.ContainsKey(Definition(ss, "Kamban")?.Option4)
+            if (KambanValue.IsNullOrEmpty())
+            {
+                KambanValue = options.ContainsKey(Definition(ss, "Kamban")?.Option4)
                     ? Definition(ss, "Kamban")?.Option4
                     : options.FirstOrDefault().Key;
+            }
+            return KambanValue;
         }
 
         private ViewModeDefinition Definition(SiteSettings ss, string name)
