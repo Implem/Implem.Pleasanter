@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Models
     {
         public static string Title(SiteSettings ss, long referenceId, List<Link> links)
         {
-            return Rds.ExecuteScalar_string(statements:
+            var dataRows = Rds.ExecuteTable(statements:
                 Rds.SelectItems(
                     column: Rds.ItemsColumn().Title(),
                     join: Rds.ItemsJoinDefault()
@@ -35,7 +35,11 @@ namespace Implem.Pleasanter.Models
                     where: Rds.ItemsWhere()
                         .ReferenceId(referenceId)
                         .SiteId_In(links?.Select(o => o.SiteId))
-                        .CanRead("[Items].[ReferenceId]")));
+                        .CanRead("[Items].[ReferenceId]")))
+                            .AsEnumerable();
+            return dataRows.Any()
+                ? dataRows.First().String("Title")
+                : "? " + referenceId;
         }
 
         public static void UpdateTitles(long siteId, long id)
