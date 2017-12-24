@@ -121,14 +121,16 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             return HasPrivilege()
                 ? where
-                : where.Or(or: new SqlWhereCollection()
-                    .Add(
-                        tableName: null,
-                        raw: Def.Sql.CanReadSites)
-                    .Add(
-                        tableName: null,
-                        subLeft: CheckRecordPermission(idColumnBracket),
-                        _operator: null));
+                : where
+                    .Sites_TenantId(Sessions.TenantId())
+                    .Or(or: new SqlWhereCollection()
+                        .Add(
+                            tableName: null,
+                            raw: Def.Sql.CanReadSites)
+                        .Add(
+                            tableName: null,
+                            subLeft: CheckRecordPermission(idColumnBracket),
+                            _operator: null));
         }
 
         private static SqlWhereCollection CheckRecordPermission(
