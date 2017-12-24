@@ -2074,29 +2074,28 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList()
                 .ForEach(column =>
                 {
-                    column.ChoiceHash = new Dictionary<string, Choice>();
-                    var idList = dataRows
-                        .GroupBy(o => o.Long(column.ColumnName))
-                        .Select(o => o.First());
                     if (JoinedSsHash?.ContainsKey(
                         Links.First(o => o.ColumnName == column.ColumnName).SiteId) == true)
                     {
-                        idList.ForEach(dataRow =>
-                            column.ChoiceHash.Add(
-                                dataRow.String(column.ColumnName),
-                                new Choice(
-                                    dataRow.String(column.ColumnName),
-                                    dataRow.String("Linked__" + column.ColumnName))));
-                    }
-                    else
-                    {
-                        LinkedItemTitles(idList.Select(o => o.Long(column.ColumnName)))
+                        column.ChoiceHash = new Dictionary<string, Choice>();
+                        dataRows
+                            .GroupBy(o => o.Long(column.ColumnName))
+                            .Select(o => o.First())
                             .ForEach(dataRow =>
                                 column.ChoiceHash.Add(
-                                    dataRow.String("ReferenceId"),
+                                    dataRow.String(column.ColumnName),
                                     new Choice(
-                                        dataRow.String("ReferenceId"),
-                                        dataRow.String("Title"))));
+                                        dataRow.String(column.ColumnName),
+                                        dataRow.String("Linked__" + column.ColumnName))));
+                    }
+                    else if (column.UseSearch == true)
+                    {
+                        SetChoiceHash(
+                            columnName: column.ColumnName,
+                            selectedValues: dataRows
+                                .Select(o => o.String(column.ColumnName))
+                                .Distinct()
+                                .ToList());
                     }
                 });
         }
@@ -2170,21 +2169,8 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private Dictionary<string, IEnumerable<string>> LinkHash(bool all)
         {
-            var allowSites = Permissions.AllowSites(Links?.Select(o => o.SiteId).Distinct());
-            Rds.ExecuteTable(statements:
-                Rds.SelectItems(
-                    column: Rds.ItemsColumn().SiteId(),
-                    where: Rds.ItemsWhere().SiteId_In(allowSites),
-                    groupBy: Rds.ItemsGroupBy().SiteId(),
-                    having: Rds.ItemsHaving().ItemsCount(
-                        Parameters.General.DropDownSearchLimit, _operator: ">")))
-                            .AsEnumerable()
-                            .ForEach(dataRow =>
-                                Links
-                                    .Where(o => o.SiteId == dataRow.Long("SiteId"))
-                                    .Select(o => GetColumn(o.ColumnName))
-                                    .ForEach(column =>
-                                        column.UseSearch = true));
+            var siteIdList = Links.Select(o => o.SiteId);
+            SetUseSearch(siteIdList);
             var targetSites = Links?
                 .Where(o => all || GetColumn(o.ColumnName)?.UseSearch != true)
                 .Select(o => o.SiteId)
@@ -2196,20 +2182,52 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ReferenceType()
                         .SiteId()
                         .Title(),
+                    join: Rds.ItemsJoinDefault()
+                        .Add(new SqlJoin(
+                            tableBracket: "[Sites]",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                     where: Rds.ItemsWhere()
                         .ReferenceType("Sites", _operator: "<>")
-                        .SiteId_In(allowSites)
+                        .SiteId_In(siteIdList)
+                        .CanRead("[Items].[ReferenceId]")
                         .Or(Rds.ItemsWhere()
                             .ReferenceType("Wikis")
                             .SiteId_In(targetSites, _using: targetSites.Any())),
                     orderBy: Rds.ItemsOrderBy()
                         .Title())).AsEnumerable();
-            return allowSites
+            return dataRows
+                .Select(dataRow => dataRow.Long("SiteId"))
                 .Distinct()
                 .ToDictionary(
                     siteId => "[[" + siteId + "]]",
                     siteId => LinkValue(
-                        siteId, dataRows.Where(o => o["SiteId"].ToLong() == siteId)));
+                        siteId, dataRows.Where(dataRow => dataRow.Long("SiteId") == siteId)));
+        }
+
+        private void SetUseSearch(IEnumerable<long> siteIdList)
+        {
+            Rds.ExecuteTable(statements:
+                Rds.SelectItems(
+                    column: Rds.ItemsColumn().SiteId(),
+                    join: Rds.ItemsJoinDefault()
+                        .Add(new SqlJoin(
+                            tableBracket: "[Sites]",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                    where: Rds.ItemsWhere()
+                        .SiteId_In(siteIdList)
+                        .CanRead("[Items].[ReferenceId]"),
+                    groupBy: Rds.ItemsGroupBy().SiteId(),
+                    having: Rds.ItemsHaving().ItemsCount(
+                        Parameters.General.DropDownSearchLimit, _operator: ">")))
+                            .AsEnumerable()
+                            .ForEach(dataRow =>
+                                Links
+                                    .Where(o => o.SiteId == dataRow.Long("SiteId"))
+                                    .Select(o => GetColumn(o.ColumnName))
+                                    .ForEach(column =>
+                                        column.UseSearch = true));
         }
 
         public Dictionary<string, IEnumerable<string>> LinkHash(
@@ -2219,7 +2237,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool noLimit = false)
         {
             var hash = new Dictionary<string, IEnumerable<string>>();
-            var allowSites = Permissions.AllowSites(Links?.Select(o => o.SiteId));
             Links?
                 .Where(o => o.ColumnName == columnName)
                 .Where(o => GetColumn(o.ColumnName)?.UseSearch == true)
@@ -2231,7 +2248,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         column: Rds.SitesColumn().ReferenceType(),
                         where: Rds.SitesWhere().SiteId(link.SiteId))) == "Wikis")
                     {
-                        WikisLinkHash(searchText, selectedValues, link, hash, allowSites);
+                        WikisLinkHash(searchText, selectedValues, link, hash);
                     }
                     else
                     {
@@ -2240,7 +2257,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                             selectedValues: selectedValues?.Select(o => o.ToLong()),
                             link: link,
                             hash: hash,
-                            allowSites: allowSites,
                             noLimit: noLimit);
                     }
                 });
@@ -2251,27 +2267,34 @@ namespace Implem.Pleasanter.Libraries.Settings
             string searchText,
             IEnumerable<string> selectedValues,
             Link link,
-            Dictionary<string, IEnumerable<string>> hash,
-            IEnumerable<long> allowSites)
+            Dictionary<string, IEnumerable<string>> hash)
         {
             var searchIndexes = searchText.SearchIndexes();
             hash.Add("[[" + link.SiteId + "]]", Rds.ExecuteScalar_string(statements:
                 Rds.SelectWikis(
                     column: Rds.WikisColumn().Body(),
-                    where: Rds.WikisWhere().SiteId(link.SiteId)))
-                        .SplitReturn()
-                        .Where(o => o.Trim() != string.Empty)
-                        .GroupBy(o => o.Split_1st())
-                        .Select(o => o.First())
-                        .Where(o =>
-                            selectedValues?.Any() != true ||
-                            selectedValues.All(p => p == o.Split_1st()))
-                        .ToDictionary(o => o, o => o.SearchIndexes())
-                        .Where(o =>
-                            searchIndexes?.Any() != true ||
-                            searchIndexes.All(p => o.Value.Any(q => q.Contains(p))))
-                        .Select(o => o.Key)
-                        .Take(Parameters.General.DropDownSearchLimit));
+                    join: Rds.ItemsJoinDefault()
+                        .Add(new SqlJoin(
+                            tableBracket: "[Sites]",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Wikis].[SiteId]=[Sites].[SiteId]")),
+                    where: Rds.WikisWhere()
+                        .SiteId(link.SiteId)
+                        .CanRead("[Sites].[SiteId]")))
+                            .SplitReturn()
+                            .Where(o => o.Trim() != string.Empty)
+                            .GroupBy(o => o.Split_1st())
+                            .Select(o => o.First())
+                            .Where(o =>
+                                selectedValues?.Any() != true ||
+                                selectedValues.Any(p => p == o.Split_1st()))
+                            .ToDictionary(o => o, o => o.SearchIndexes())
+                            .Where(o =>
+                                searchIndexes?.Any() != true ||
+                                searchIndexes.All(p => o.Value.Any(q => q.Contains(p))))
+                            .Select(o => o.Key)
+                            .Take(Parameters.General.DropDownSearchLimit)
+                            .ToList());
         }
 
         private void LinkHash(
@@ -2279,7 +2302,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             IEnumerable<long> selectedValues,
             Link link,
             Dictionary<string, IEnumerable<string>> hash,
-            IEnumerable<long> allowSites,
             bool noLimit)
         {
             var select = SearchIndexUtilities.Select(
@@ -2296,6 +2318,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ReferenceType()
                         .SiteId()
                         .Title(),
+                    join: Rds.ItemsJoinDefault()
+                        .Add(new SqlJoin(
+                            tableBracket: "[Sites]",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                     where: Rds.ItemsWhere()
                         .ReferenceId(
                             _operator: " in ",
@@ -2306,9 +2333,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                             selectedValues,
                             _using: selectedValues?.Any() == true)
                         .ReferenceType("Sites", _operator: "<>")
-                        .SiteId(link.SiteId)))
+                        .SiteId(link.SiteId)
+                        .CanRead("[Items].[ReferenceId]")))
                             .AsEnumerable();
-            if (dataRows != null && allowSites?.Contains(link.SiteId) == true)
+            if (dataRows.Any())
             {
                 hash.Add("[[" + link.SiteId + "]]", LinkValue(link.SiteId, dataRows));
             }
