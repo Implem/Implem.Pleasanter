@@ -22,26 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class ItemUtilities
     {
-        public static string Title(SiteSettings ss, long referenceId, List<Link> links)
-        {
-            var dataRows = Rds.ExecuteTable(statements:
-                Rds.SelectItems(
-                    column: Rds.ItemsColumn().Title(),
-                    join: Rds.ItemsJoinDefault()
-                        .Add(new SqlJoin(
-                            tableBracket: "[Sites]",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
-                    where: Rds.ItemsWhere()
-                        .ReferenceId(referenceId)
-                        .SiteId_In(links?.Select(o => o.SiteId))
-                        .CanRead("[Items].[ReferenceId]")))
-                            .AsEnumerable();
-            return dataRows.Any()
-                ? dataRows.First().String("Title")
-                : "? " + referenceId;
-        }
-
         public static void UpdateTitles(long siteId, long id)
         {
             UpdateTitles(siteId, new List<long> { id });
