@@ -2090,18 +2090,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                     else
                     {
-                        ItemTitles(column, idList).ForEach(dataRow =>
-                            column.ChoiceHash.Add(
-                                dataRow.String("ReferenceId"),
-                                new Choice(
+                        LinkedItemTitles(idList.Select(o => o.Long(column.ColumnName)))
+                            .ForEach(dataRow =>
+                                column.ChoiceHash.Add(
                                     dataRow.String("ReferenceId"),
-                                    dataRow.String("Title"))));
+                                    new Choice(
+                                        dataRow.String("ReferenceId"),
+                                        dataRow.String("Title"))));
                     }
                 });
         }
 
-        private static EnumerableRowCollection<DataRow> ItemTitles(
-            Column column, IEnumerable<DataRow> idList)
+        public string LinkedItemTitle(long referenceId, IEnumerable<long> siteIdList)
+        {
+            var dataRows = LinkedItemTitles(referenceId.ToSingleList(), siteIdList);
+            return dataRows.Any()
+                ? dataRows.First().String("Title")
+                : null;
+        }
+
+        private static EnumerableRowCollection<DataRow> LinkedItemTitles(
+            IEnumerable<long> idList, IEnumerable<long> siteIdList = null)
         {
             return Rds.ExecuteTable(statements:
                 Rds.SelectItems(
@@ -2114,7 +2123,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                     where: Rds.ItemsWhere()
-                        .ReferenceId_In(idList.Select(o => o.Long(column.ColumnName)))
+                        .ReferenceId_In(idList)
+                        .SiteId_In(siteIdList, _using: siteIdList != null)
                         .CanRead("[Items].[ReferenceId]")))
                             .AsEnumerable();
         }

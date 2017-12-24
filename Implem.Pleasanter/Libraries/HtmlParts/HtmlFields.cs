@@ -1,7 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
@@ -13,7 +11,6 @@ using Implem.Pleasanter.Libraries.Styles;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -125,7 +122,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 var referenceId = value.ToLong();
                 if (referenceId > 0 && ss.Links?.Any() == true)
                 {
-                    var title = Title(ss, referenceId, ss.Links);
+                    var title = ss.LinkedItemTitle(referenceId, ss.Links.Select(o => o.SiteId));
                     if (title != null)
                     {
                         return new Dictionary<string, ControlData>()
@@ -136,26 +133,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 }
                 return new Dictionary<string, ControlData>();
             }
-        }
-
-        public static string Title(SiteSettings ss, long referenceId, List<Link> links)
-        {
-            var dataRows = Rds.ExecuteTable(statements:
-                Rds.SelectItems(
-                    column: Rds.ItemsColumn().Title(),
-                    join: Rds.ItemsJoinDefault()
-                        .Add(new SqlJoin(
-                            tableBracket: "[Sites]",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
-                    where: Rds.ItemsWhere()
-                        .ReferenceId(referenceId)
-                        .SiteId_In(links?.Select(o => o.SiteId))
-                        .CanRead("[Items].[ReferenceId]")))
-                            .AsEnumerable();
-            return dataRows.Any()
-                ? dataRows.First().String("Title")
-                : null;
         }
 
         private static HtmlBuilder SwitchField(
