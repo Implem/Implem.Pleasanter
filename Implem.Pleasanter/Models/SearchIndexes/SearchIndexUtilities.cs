@@ -388,8 +388,8 @@ namespace Implem.Pleasanter.Models
             return Rds.SelectItems(
                 dataTableName: dataTableName,
                 column: column,
-                join: Rds.ItemsJoinDefault()
-                    .Add(new SqlJoin(
+                join: new SqlJoinCollection(
+                    new SqlJoin(
                         tableBracket: "[Sites]",
                         joinType: SqlJoin.JoinTypes.Inner,
                         joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),

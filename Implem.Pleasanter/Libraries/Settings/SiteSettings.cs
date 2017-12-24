@@ -2116,8 +2116,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     column: Rds.ItemsColumn()
                         .ReferenceId()
                         .Title(),
-                    join: Rds.ItemsJoinDefault()
-                        .Add(new SqlJoin(
+                    join: new SqlJoinCollection(
+                        new SqlJoin(
                             tableBracket: "[Sites]",
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
@@ -2182,8 +2182,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ReferenceType()
                         .SiteId()
                         .Title(),
-                    join: Rds.ItemsJoinDefault()
-                        .Add(new SqlJoin(
+                    join: new SqlJoinCollection(
+                        new SqlJoin(
                             tableBracket: "[Sites]",
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
@@ -2210,8 +2210,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Rds.ExecuteTable(statements:
                 Rds.SelectItems(
                     column: Rds.ItemsColumn().SiteId(),
-                    join: Rds.ItemsJoinDefault()
-                        .Add(new SqlJoin(
+                    join: new SqlJoinCollection(
+                        new SqlJoin(
                             tableBracket: "[Sites]",
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
@@ -2273,8 +2273,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             hash.Add("[[" + link.SiteId + "]]", Rds.ExecuteScalar_string(statements:
                 Rds.SelectWikis(
                     column: Rds.WikisColumn().Body(),
-                    join: Rds.ItemsJoinDefault()
-                        .Add(new SqlJoin(
+                    join: new SqlJoinCollection(
+                        new SqlJoin(
                             tableBracket: "[Sites]",
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "[Wikis].[SiteId]=[Sites].[SiteId]")),
@@ -2318,8 +2318,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ReferenceType()
                         .SiteId()
                         .Title(),
-                    join: Rds.ItemsJoinDefault()
-                        .Add(new SqlJoin(
+                    join: new SqlJoinCollection(
+                        new SqlJoin(
                             tableBracket: "[Sites]",
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
