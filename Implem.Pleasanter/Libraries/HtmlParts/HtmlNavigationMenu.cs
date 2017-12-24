@@ -243,6 +243,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder AccountMenu(this HtmlBuilder hb)
         {
             return hb.Ul(id: "AccountMenu", css: "menu", action: () => hb
+                .Li(action: () => hb
+                    .A(
+                        href: Locations.Logout(),
+                        action: () => hb
+                            .Span(css: "ui-icon ui-icon-locked")
+                            .Text(text: Displays.Logout())))
                 .Li(
                     action: () => hb
                         .A(
@@ -251,19 +257,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Span(css: "ui-icon ui-icon-wrench")
                                 .Text(text: Displays.EditProfile())),
                     _using: Parameters.Service.ShowProfiles)
-                .Li(action: () => hb
-                    .A(
-                        href: Locations.Logout(),
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-locked")
-                            .Text(text: Displays.Logout())))
-                .Li(action: () => hb
-                    .A(
-                        href: Parameters.General.HtmlPortalUrl,
-                        target: "_blank",
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-cart")
-                            .Text(text: Displays.Portal())))
                 .Li(action: () => hb
                     .A(
                         href: Parameters.General.HtmlUsageGuideUrl,
@@ -285,6 +278,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-contact")
                             .Text(text: Displays.Support())))
+                .Li(action: () => hb
+                    .A(
+                        href: Parameters.General.HtmlPortalUrl,
+                        target: "_blank",
+                        action: () => hb
+                            .Span(css: "ui-icon ui-icon-cart")
+                            .Text(text: Displays.Portal())))
                 .Li(action: () => hb
                     .A(
                         href: Locations.Get("versions"),
