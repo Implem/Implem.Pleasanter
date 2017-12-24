@@ -2090,28 +2090,33 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                     else
                     {
-                        Rds.ExecuteTable(statements:
-                            Rds.SelectItems(
-                                column: Rds.ItemsColumn()
-                                    .ReferenceId()
-                                    .Title(),
-                                join: Rds.ItemsJoinDefault()
-                                    .Add(new SqlJoin(
-                                        tableBracket: "[Sites]",
-                                        joinType: SqlJoin.JoinTypes.Inner,
-                                        joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
-                                where: Rds.ItemsWhere()
-                                    .ReferenceId_In(idList.Select(o => o.Long(column.ColumnName)))
-                                    .CanRead("[Items].[ReferenceId]")))
-                                        .AsEnumerable()
-                                        .ForEach(dataRow =>
-                                            column.ChoiceHash.Add(
-                                                dataRow.String("ReferenceId"),
-                                                new Choice(
-                                                    dataRow.String("ReferenceId"),
-                                                    dataRow.String("Title"))));
+                        ItemTitles(column, idList).ForEach(dataRow =>
+                            column.ChoiceHash.Add(
+                                dataRow.String("ReferenceId"),
+                                new Choice(
+                                    dataRow.String("ReferenceId"),
+                                    dataRow.String("Title"))));
                     }
                 });
+        }
+
+        private static EnumerableRowCollection<DataRow> ItemTitles(
+            Column column, IEnumerable<DataRow> idList)
+        {
+            return Rds.ExecuteTable(statements:
+                Rds.SelectItems(
+                    column: Rds.ItemsColumn()
+                        .ReferenceId()
+                        .Title(),
+                    join: Rds.ItemsJoinDefault()
+                        .Add(new SqlJoin(
+                            tableBracket: "[Sites]",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                    where: Rds.ItemsWhere()
+                        .ReferenceId_In(idList.Select(o => o.Long(column.ColumnName)))
+                        .CanRead("[Items].[ReferenceId]")))
+                            .AsEnumerable();
         }
 
         public void SetChoiceHash(bool withLink = true, bool all = false)
