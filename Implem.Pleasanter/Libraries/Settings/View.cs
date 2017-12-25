@@ -994,7 +994,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 searchText: Search,
                 siteIdList: ss.AllowedIntegratedSites != null
                     ? ss.AllowedIntegratedSites
-                    : ss.SiteId.ToSingleList());
+                    : new List<long> { ss.SiteId });
             if (select != null)
             {
                 switch (ss.ReferenceType)

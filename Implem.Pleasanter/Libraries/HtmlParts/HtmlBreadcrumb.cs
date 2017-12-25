@@ -29,9 +29,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? Breadcrumb(hb, controller, Displays.Groups())
                         : Breadcrumb(hb);
                 case "users":
-                    return Permissions.CanManageTenant()
-                        ? Breadcrumb(hb, controller, Displays.Users())
-                        : Breadcrumb(hb);
+                    switch (Routes.Action())
+                    {
+                        case "editapi":
+                            return hb.Breadcrumb(new Dictionary<string, string>
+                            {
+                                { Locations.Get("Users", "EditApi"), Displays.ApiSettings() }
+                            });
+                        default:
+                            return Permissions.CanManageTenant()
+                                ? Breadcrumb(hb, controller, Displays.Users())
+                                : Breadcrumb(hb);
+                    }
                 case "items":
                 case "permissions":
                     return hb.Breadcrumb(siteId);

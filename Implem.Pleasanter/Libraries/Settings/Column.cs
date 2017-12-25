@@ -740,6 +740,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "UserSettings":
                             sql.Users_UserSettings(tableName: path, _as: _as);
                             break;
+                        case "ApiKey":
+                            sql.Users_ApiKey(tableName: path, _as: _as);
+                            break;
                         case "Comments":
                             sql.Users_Comments(tableName: path, _as: _as);
                             break;

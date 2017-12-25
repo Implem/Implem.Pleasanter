@@ -333,6 +333,7 @@ pre{
 
 #HeaderTitleContainer{
     float:left;
+    margin:0px 0px 10px 0px;
 }
 
 #HeaderTitle{
@@ -974,6 +975,14 @@ pre{
     display:inline;
     float:none;
     margin:2px 4px;
+}
+
+#ApiEditorCommands{
+    padding:0px 5px 200px 140px;
+}
+
+#ApiEditorCommands > *{
+    margin-right:10px;
 }
 
 #BottomMargin{

@@ -293,5 +293,44 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(json.Length);
             return json;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public ActionResult EditApi()
+        {
+            var log = new SysLogModel();
+            var html = UserUtilities.ApiEditor(
+                ss: SiteSettingsUtilities.UsersSiteSettings());
+            ViewBag.HtmlBody = html;
+            log.Finish(html.Length);
+            return View();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
+        public string CreateApiKey()
+        {
+            var log = new SysLogModel();
+            var json = UserUtilities.CreateApiKey(
+                ss: SiteSettingsUtilities.UsersSiteSettings());
+            log.Finish(json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
+        public string DeleteApiKey()
+        {
+            var log = new SysLogModel();
+            var json = UserUtilities.DeleteApiKey(
+                ss: SiteSettingsUtilities.UsersSiteSettings());
+            log.Finish(json.Length);
+            return json;
+        }
     }
 }

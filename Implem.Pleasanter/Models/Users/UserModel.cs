@@ -51,6 +51,7 @@ namespace Implem.Pleasanter.Models
         public bool Disabled = false;
         public bool Developer = false;
         public UserSettings UserSettings = new UserSettings();
+        public string ApiKey = string.Empty;
         public string OldPassword = string.Empty;
         public string ChangedPassword = string.Empty;
         public string ChangedPasswordValidator = string.Empty;
@@ -91,6 +92,7 @@ namespace Implem.Pleasanter.Models
         public bool SavedDisabled = false;
         public bool SavedDeveloper = false;
         public string SavedUserSettings = string.Empty;
+        public string SavedApiKey = string.Empty;
         public string SavedOldPassword = string.Empty;
         public string SavedChangedPassword = string.Empty;
         public string SavedChangedPasswordValidator = string.Empty;
@@ -125,6 +127,7 @@ namespace Implem.Pleasanter.Models
         public bool Disabled_Updated { get { return Disabled != SavedDisabled; } }
         public bool Developer_Updated { get { return Developer != SavedDeveloper; } }
         public bool UserSettings_Updated { get { return UserSettings.RecordingJson() != SavedUserSettings && UserSettings.RecordingJson() != null; } }
+        public bool ApiKey_Updated { get { return ApiKey != SavedApiKey && ApiKey != null; } }
 
         public UserSettings Session_UserSettings()
         {
@@ -419,6 +422,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_NumberOfDenial": NumberOfDenial = Forms.Data(controlId).ToInt(); break;
                     case "Users_TenantManager": TenantManager = Forms.Data(controlId).ToBool(); break;
                     case "Users_Disabled": Disabled = Forms.Data(controlId).ToBool(); break;
+                    case "Users_ApiKey": ApiKey = Forms.Data(controlId).ToString(); break;
                     case "Users_OldPassword": OldPassword = Forms.Data(controlId).ToString().Sha512Cng(); break;
                     case "Users_ChangedPassword": ChangedPassword = Forms.Data(controlId).ToString().Sha512Cng(); break;
                     case "Users_ChangedPasswordValidator": ChangedPasswordValidator = Forms.Data(controlId).ToString().Sha512Cng(); break;
@@ -593,6 +597,10 @@ namespace Implem.Pleasanter.Models
                             UserSettings = GetUserSettings(dataRow);
                             SavedUserSettings = UserSettings.RecordingJson();
                             break;
+                        case "ApiKey":
+                            ApiKey = dataRow[column.ColumnName].ToString();
+                            SavedApiKey = ApiKey;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -649,6 +657,7 @@ namespace Implem.Pleasanter.Models
                 Disabled_Updated ||
                 Developer_Updated ||
                 UserSettings_Updated ||
+                ApiKey_Updated ||
                 Comments_Updated ||
                 Creator_Updated ||
                 Updator_Updated ||
@@ -1047,6 +1056,24 @@ namespace Implem.Pleasanter.Models
             MailAddresses.RemoveAll(o => selected.Contains(o));
             Session_MailAddresses(MailAddresses);
             return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public Error.Types CreateApiKey(SiteSettings ss)
+        {
+            ApiKey = Guid.NewGuid().ToString().Sha512Cng();
+            return Update(ss);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public Error.Types DeleteApiKey(SiteSettings ss)
+        {
+            ApiKey = string.Empty;
+            return Update(ss);
         }
     }
 }
