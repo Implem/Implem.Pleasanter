@@ -1220,6 +1220,12 @@
     <Content Include="App_Data\Displays\BroadMatchOfTitle.json" />
     <Content Include="App_Data\Displays\SearchTypes.json" />
     <Content Include="App_Data\Displays\NoTargetRecord.json" />
+    <Content Include="App_Data\Parameters\Api.json" />
+    <Content Include="App_Data\Displays\ApiSettings.json" />
+    <Content Include="App_Data\Displays\ApiKey.json" />
+    <Content Include="App_Data\Displays\ReCreate.json" />
+    <Content Include="App_Data\Displays\ApiKeyCreated.json" />
+    <Content Include="App_Data\Displays\ApiKeyDeleted.json" />
     <Content Include="Tools\Reminder.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
@@ -1234,6 +1240,7 @@
     <Content Include="Views\Items\Crosstab.cshtml" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
+    <Content Include="Views\Users\EditApi.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

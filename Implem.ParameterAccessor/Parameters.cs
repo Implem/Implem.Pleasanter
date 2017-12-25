@@ -4,6 +4,7 @@ namespace Implem.DefinitionAccessor
 {
     public static class Parameters
     {
+        public static Api Api;
         public static Asset Asset;
         public static Authentication Authentication;
         public static BackgroundTask BackgroundTask;

@@ -28,6 +28,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.AlreadyLinked(data), "alert-error");
         }
 
+        public static Message ApiKeyCreated(params string[] data)
+        {
+            return Get(Displays.ApiKeyCreated(data), "alert-success");
+        }
+
+        public static Message ApiKeyDeleted(params string[] data)
+        {
+            return Get(Displays.ApiKeyDeleted(data), "alert-success");
+        }
+
         public static Message ApplicationError(params string[] data)
         {
             return Get(Displays.ApplicationError(data), "alert-error");
@@ -421,6 +431,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseAlreadyLinked(params string[] data)
         {
             return ResponseMessage(AlreadyLinked(data));
+        }
+
+        public static ResponseCollection ResponseApiKeyCreated(params string[] data)
+        {
+            return ResponseMessage(ApiKeyCreated(data));
+        }
+
+        public static ResponseCollection ResponseApiKeyDeleted(params string[] data)
+        {
+            return ResponseMessage(ApiKeyDeleted(data));
         }
 
         public static ResponseCollection ResponseApplicationError(params string[] data)

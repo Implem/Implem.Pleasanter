@@ -67,6 +67,8 @@ namespace Implem.DefinitionAccessor
 
         public static void SetParameters()
         {
+            Parameters.Api = Files.Read(ParametersPath("Api"))
+                .Deserialize<ParameterAccessor.Parts.Api>();
             Parameters.Asset = Files.Read(ParametersPath("Asset"))
                 .Deserialize<ParameterAccessor.Parts.Asset>();
             Parameters.Authentication = Files.Read(ParametersPath("Authentication"))

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ApiKeyDeleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "The API Key was deleted."
+        },
+        {
+            "Language": "ja",
+            "Body": "APIキーが削除されました。"
+        }
+    ]
+}

@@ -1596,5 +1596,135 @@ namespace Implem.Pleasanter.Models
             Ldap.Sync();
             return string.Empty;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string ApiEditor(SiteSettings ss)
+        {
+            var userModel = new UserModel(ss, Sessions.UserId());
+            var invalid = UserValidators.OnApiEditing(userModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
+            var hb = new HtmlBuilder();
+            return hb.Template(
+                ss: ss,
+                verType: Versions.VerTypes.Latest,
+                methodType: BaseModel.MethodTypes.Index,
+                referenceType: "Users",
+                title: Displays.ApiSettings(),
+                action: () => hb
+                    .Form(
+                        attributes: new HtmlAttributes()
+                            .Id("UserForm")
+                            .Class("main-form")
+                            .Action(Locations.Action("Users")),
+                        action: () => hb
+                            .ApiEditor(userModel)
+                            .MainCommands(
+                                ss: ss,
+                                siteId: ss.SiteId,
+                                verType: Versions.VerTypes.Latest)
+                            .Div(css: "margin-bottom")))
+                                .ToString();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ApiEditor(this HtmlBuilder hb, UserModel userModel)
+        {
+            return hb
+                .Div(id: "EditorTabsContainer", css: "max", action: () => hb
+                    .Ul(id: "EditorTabs", action: () => hb
+                        .Li(action: () => hb
+                            .A(
+                                href: "#FieldSetGeneral",
+                                text: Displays.General())))
+                    .FieldSet(id: "FieldSetGeneral", action: () => hb
+                        .FieldText(
+                            controlId: "ApiKey",
+                            fieldCss: "field-wide",
+                            labelText: Displays.ApiKey(),
+                            text: userModel.ApiKey))
+                    .Div(
+                        id: "ApiEditorCommands",
+                        action: () => hb
+                            .Button(
+                                controlId: "CreateApiKey",
+                                controlCss: "button-icon",
+                                text: userModel.ApiKey.IsNullOrEmpty()
+                                    ? Displays.Create()
+                                    : Displays.ReCreate(),
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-disk",
+                                action: "CreateApiKey",
+                                method: "post")
+                            .Button(
+                                controlId: "DeleteApiKey",
+                                controlCss: "button-icon",
+                                text: Displays.Delete(),
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-trash",
+                                action: "DeleteApiKey",
+                                method: "post",
+                                confirm: "ConfirmDelete",
+                                _using: !userModel.ApiKey.IsNullOrEmpty())));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string CreateApiKey(SiteSettings ss)
+        {
+            var userModel = new UserModel(ss, Sessions.UserId());
+            var invalid = UserValidators.OnApiCreating(userModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
+            var error = userModel.CreateApiKey(ss);
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                return new ResponseCollection()
+                    .ReplaceAll("#EditorTabsContainer", new HtmlBuilder().ApiEditor(userModel))
+                    .Message(Messages.ApiKeyCreated())
+                    .ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string DeleteApiKey(SiteSettings ss)
+        {
+            var userModel = new UserModel(ss, Sessions.UserId());
+            var invalid = UserValidators.OnApiDeleting(userModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
+            var error = userModel.DeleteApiKey(ss);
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                return new ResponseCollection()
+                    .ReplaceAll("#EditorTabsContainer", new HtmlBuilder().ApiEditor(userModel))
+                    .Message(Messages.ApiKeyCreated())
+                    .ToJson();
+            }
+        }
     }
 }

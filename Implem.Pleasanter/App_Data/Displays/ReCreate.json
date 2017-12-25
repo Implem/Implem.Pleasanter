@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ReCreate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Re-create"
+        },
+        {
+            "Language": "ja",
+            "Body": "再作成"
+        }
+    ]
+}

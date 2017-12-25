@@ -257,6 +257,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Span(css: "ui-icon ui-icon-wrench")
                                 .Text(text: Displays.EditProfile())),
                     _using: Parameters.Service.ShowProfiles)
+                .Li(
+                    action: () => hb
+                        .A(
+                            href: Locations.Get("Users", "EditApi"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-link")
+                                .Text(text: Displays.ApiSettings())),
+                    _using: Parameters.Api.Enabled)
                 .Li(action: () => hb
                     .A(
                         href: Parameters.General.HtmlUsageGuideUrl,

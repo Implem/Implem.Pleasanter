@@ -193,6 +193,12 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
+                    case "Users_ApiKey":
+                        if (!ss.GetColumn("ApiKey").CanCreate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
                     case "Comments":
                         if (!ss.GetColumn("Comments").CanCreate)
                         {
@@ -366,6 +372,13 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
+                    case "Users_ApiKey":
+                        if (userModel.ApiKey_Updated &&
+                            !ss.GetColumn("ApiKey").CanUpdate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
                     case "Comments":
                         if (!ss.GetColumn("Comments").CanUpdate)
                         {
@@ -499,6 +512,54 @@ namespace Implem.Pleasanter.Models
             if (!Permissions.CanManageTenant() && !userModel.Self())
             {
                 return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnApiEditing(UserModel userModel)
+        {
+            if (!DefinitionAccessor.Parameters.Api.Enabled)
+            {
+                return Error.Types.InvalidRequest;
+            }
+            if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Error.Types.InvalidRequest;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnApiCreating(UserModel userModel)
+        {
+            if (!DefinitionAccessor.Parameters.Api.Enabled)
+            {
+                return Error.Types.InvalidRequest;
+            }
+            if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Error.Types.InvalidRequest;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnApiDeleting(UserModel userModel)
+        {
+            if (!DefinitionAccessor.Parameters.Api.Enabled)
+            {
+                return Error.Types.InvalidRequest;
+            }
+            if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Error.Types.InvalidRequest;
             }
             return Error.Types.None;
         }

@@ -43,6 +43,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         case "edit":
                             return Strings.CoalesceEmpty(
                                 referer, Locations.Get(controller));
+                        case "editapi":
+                            return referer != null
+                                ? referer
+                                : Locations.Top();
                         default:
                             return Locations.Get("Admins");
                     }

@@ -57,6 +57,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string AlreadyAdded(params string[] data) { return Get("AlreadyAdded", data); }
         public static string AlreadyLinked(params string[] data) { return Get("AlreadyLinked", data); }
         public static string And(params string[] data) { return Get("And", data); }
+        public static string ApiKey(params string[] data) { return Get("ApiKey", data); }
+        public static string ApiKeyCreated(params string[] data) { return Get("ApiKeyCreated", data); }
+        public static string ApiKeyDeleted(params string[] data) { return Get("ApiKeyDeleted", data); }
+        public static string ApiSettings(params string[] data) { return Get("ApiSettings", data); }
         public static string ApplicationError(params string[] data) { return Get("ApplicationError", data); }
         public static string Assembly(params string[] data) { return Get("Assembly", data); }
         public static string Authentication(params string[] data) { return Get("Authentication", data); }
@@ -396,6 +400,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ReadOnlyBecausePreviousVer(params string[] data) { return Get("ReadOnlyBecausePreviousVer", data); }
         public static string ReadWrite(params string[] data) { return Get("ReadWrite", data); }
         public static string RecordAccessControl(params string[] data) { return Get("RecordAccessControl", data); }
+        public static string ReCreate(params string[] data) { return Get("ReCreate", data); }
         public static string Register(params string[] data) { return Get("Register", data); }
         public static string Reload(params string[] data) { return Get("Reload", data); }
         public static string Reminders(params string[] data) { return Get("Reminders", data); }
@@ -654,6 +659,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_Disabled(params string[] data) { return Get("Users_Disabled", data); }
         public static string Users_Developer(params string[] data) { return Get("Users_Developer", data); }
         public static string Users_UserSettings(params string[] data) { return Get("Users_UserSettings", data); }
+        public static string Users_ApiKey(params string[] data) { return Get("Users_ApiKey", data); }
         public static string Users_OldPassword(params string[] data) { return Get("Users_OldPassword", data); }
         public static string Users_ChangedPassword(params string[] data) { return Get("Users_ChangedPassword", data); }
         public static string Users_ChangedPasswordValidator(params string[] data) { return Get("Users_ChangedPasswordValidator", data); }

@@ -1032,6 +1032,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_Disabled": Column.Users_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Disabled, definitionRow, ColumnXls); break;
                     case "Users_Developer": Column.Users_Developer = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Developer, definitionRow, ColumnXls); break;
                     case "Users_UserSettings": Column.Users_UserSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UserSettings, definitionRow, ColumnXls); break;
+                    case "Users_ApiKey": Column.Users_ApiKey = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ApiKey, definitionRow, ColumnXls); break;
                     case "Users_OldPassword": Column.Users_OldPassword = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_OldPassword, definitionRow, ColumnXls); break;
                     case "Users_ChangedPassword": Column.Users_ChangedPassword = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ChangedPassword, definitionRow, ColumnXls); break;
                     case "Users_ChangedPasswordValidator": Column.Users_ChangedPasswordValidator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ChangedPasswordValidator, definitionRow, ColumnXls); break;
@@ -2065,6 +2066,8 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_MainCommandsContainer": Css._sharp_MainCommandsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_MainCommandsContainer, definitionRow, CssXls); break;
                     case "_sharp_MainCommands": Css._sharp_MainCommands = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_MainCommands, definitionRow, CssXls); break;
                     case "_sharp_MainCommands_space___space_button": Css._sharp_MainCommands_space___space_button = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_MainCommands_space___space_button, definitionRow, CssXls); break;
+                    case "_sharp_ApiEditorCommands": Css._sharp_ApiEditorCommands = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ApiEditorCommands, definitionRow, CssXls); break;
+                    case "_sharp_ApiEditorCommands_space___space__asterisk_": Css._sharp_ApiEditorCommands_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ApiEditorCommands_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_sharp_BottomMargin": Css._sharp_BottomMargin = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BottomMargin, definitionRow, CssXls); break;
                     case "_sharp_Footer": Css._sharp_Footer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Footer, definitionRow, CssXls); break;
                     case "_sharp_Footer_space_a": Css._sharp_Footer_space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Footer_space_a, definitionRow, CssXls); break;
@@ -6019,6 +6022,7 @@ namespace Implem.DefinitionAccessor
         public string Users_Disabled;
         public string Users_Developer;
         public string Users_UserSettings;
+        public string Users_ApiKey;
         public string Users_OldPassword;
         public string Users_ChangedPassword;
         public string Users_ChangedPasswordValidator;
@@ -6776,6 +6780,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_Disabled = new ColumnDefinition();
         public ColumnDefinition Users_Developer = new ColumnDefinition();
         public ColumnDefinition Users_UserSettings = new ColumnDefinition();
+        public ColumnDefinition Users_ApiKey = new ColumnDefinition();
         public ColumnDefinition Users_OldPassword = new ColumnDefinition();
         public ColumnDefinition Users_ChangedPassword = new ColumnDefinition();
         public ColumnDefinition Users_ChangedPasswordValidator = new ColumnDefinition();
@@ -7812,6 +7817,8 @@ namespace Implem.DefinitionAccessor
         public string _sharp_MainCommandsContainer;
         public string _sharp_MainCommands;
         public string _sharp_MainCommands_space___space_button;
+        public string _sharp_ApiEditorCommands;
+        public string _sharp_ApiEditorCommands_space___space__asterisk_;
         public string _sharp_BottomMargin;
         public string _sharp_Footer;
         public string _sharp_Footer_space_a;
@@ -8250,6 +8257,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_MainCommandsContainer = new CssDefinition();
         public CssDefinition _sharp_MainCommands = new CssDefinition();
         public CssDefinition _sharp_MainCommands_space___space_button = new CssDefinition();
+        public CssDefinition _sharp_ApiEditorCommands = new CssDefinition();
+        public CssDefinition _sharp_ApiEditorCommands_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _sharp_BottomMargin = new CssDefinition();
         public CssDefinition _sharp_Footer = new CssDefinition();
         public CssDefinition _sharp_Footer_space_a = new CssDefinition();
