@@ -2174,7 +2174,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             var targetSites = Links?
                 .Where(o => all || GetColumn(o.ColumnName)?.UseSearch != true)
                 .Select(o => o.SiteId)
-                .Distinct();
+                .Distinct()
+                .ToList();
             var dataRows = Rds.ExecuteTable(
                 statements: Rds.SelectItems(
                     column: Rds.ItemsColumn()
