@@ -233,10 +233,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                             o.StandardName));
                     break;
                 default:
-                    if (linkHash != null && linkHash.ContainsKey(line))
+                    if (Linked())
                     {
-                        linkHash[line].ForEach(value =>
-                            AddToChoiceHash(value));
+                        if (linkHash != null && linkHash.ContainsKey(line))
+                        {
+                            linkHash[line].ForEach(value =>
+                                AddToChoiceHash(value));
+                        }
                     }
                     else if (TypeName != "bit")
                     {
