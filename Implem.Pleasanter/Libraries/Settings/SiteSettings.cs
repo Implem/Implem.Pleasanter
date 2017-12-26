@@ -1182,9 +1182,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (column != null)
                 {
                     column.ColumnName = columnName;
+                    UpdateColumn(ss, columnDefinition, column, columnNameInfo);
                     column.SetChoiceHash(ss.InheritPermission);
                     Columns.Add(column);
-                    UpdateColumn(ss, columnDefinition, column, columnNameInfo);
                     ColumnHash.Add(columnName, column);
                 }
                 return column;
