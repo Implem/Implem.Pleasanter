@@ -568,7 +568,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool Linked()
         {
-            return SiteSettings.Links?.Any(o => o.ColumnName == Name) == true;
+            return SiteSettings?.Links?.Any(o => o.ColumnName == Name) == true;
         }
 
         private void SelectColumns(
