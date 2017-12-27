@@ -193,7 +193,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static Types Get(long siteId)
         {
-            var data = Get(new List<long> { siteId });
+            var data = Get(siteId.ToSingleList());
             return data.Count() == 1
                 ? data.First().Value
                 : Types.NotSet;
