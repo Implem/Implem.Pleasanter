@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,10 +19,9 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class ResultModel : BaseItemModel
     {
-        public long Id { get { return ResultId; } }
-        public override long UrlId { get { return ResultId; } }
         public long ResultId = 0;
         public Status Status = new Status();
         public User Manager = new User();
@@ -184,327 +182,1455 @@ namespace Implem.Pleasanter.Models
         public Attachments AttachmentsX = new Attachments();
         public Attachments AttachmentsY = new Attachments();
         public Attachments AttachmentsZ = new Attachments();
-        public TitleBody TitleBody { get { return new TitleBody(ResultId, Title.Value, Title.DisplayValue, Body); } }
-        public SiteTitle SiteTitle { get { return new SiteTitle(SiteId); } }
-        public long SavedResultId = 0;
-        public int SavedStatus = 100;
-        public int SavedManager = 0;
-        public int SavedOwner = 0;
-        public string SavedClassA = string.Empty;
-        public string SavedClassB = string.Empty;
-        public string SavedClassC = string.Empty;
-        public string SavedClassD = string.Empty;
-        public string SavedClassE = string.Empty;
-        public string SavedClassF = string.Empty;
-        public string SavedClassG = string.Empty;
-        public string SavedClassH = string.Empty;
-        public string SavedClassI = string.Empty;
-        public string SavedClassJ = string.Empty;
-        public string SavedClassK = string.Empty;
-        public string SavedClassL = string.Empty;
-        public string SavedClassM = string.Empty;
-        public string SavedClassN = string.Empty;
-        public string SavedClassO = string.Empty;
-        public string SavedClassP = string.Empty;
-        public string SavedClassQ = string.Empty;
-        public string SavedClassR = string.Empty;
-        public string SavedClassS = string.Empty;
-        public string SavedClassT = string.Empty;
-        public string SavedClassU = string.Empty;
-        public string SavedClassV = string.Empty;
-        public string SavedClassW = string.Empty;
-        public string SavedClassX = string.Empty;
-        public string SavedClassY = string.Empty;
-        public string SavedClassZ = string.Empty;
-        public decimal SavedNumA = 0;
-        public decimal SavedNumB = 0;
-        public decimal SavedNumC = 0;
-        public decimal SavedNumD = 0;
-        public decimal SavedNumE = 0;
-        public decimal SavedNumF = 0;
-        public decimal SavedNumG = 0;
-        public decimal SavedNumH = 0;
-        public decimal SavedNumI = 0;
-        public decimal SavedNumJ = 0;
-        public decimal SavedNumK = 0;
-        public decimal SavedNumL = 0;
-        public decimal SavedNumM = 0;
-        public decimal SavedNumN = 0;
-        public decimal SavedNumO = 0;
-        public decimal SavedNumP = 0;
-        public decimal SavedNumQ = 0;
-        public decimal SavedNumR = 0;
-        public decimal SavedNumS = 0;
-        public decimal SavedNumT = 0;
-        public decimal SavedNumU = 0;
-        public decimal SavedNumV = 0;
-        public decimal SavedNumW = 0;
-        public decimal SavedNumX = 0;
-        public decimal SavedNumY = 0;
-        public decimal SavedNumZ = 0;
-        public DateTime SavedDateA = 0.ToDateTime();
-        public DateTime SavedDateB = 0.ToDateTime();
-        public DateTime SavedDateC = 0.ToDateTime();
-        public DateTime SavedDateD = 0.ToDateTime();
-        public DateTime SavedDateE = 0.ToDateTime();
-        public DateTime SavedDateF = 0.ToDateTime();
-        public DateTime SavedDateG = 0.ToDateTime();
-        public DateTime SavedDateH = 0.ToDateTime();
-        public DateTime SavedDateI = 0.ToDateTime();
-        public DateTime SavedDateJ = 0.ToDateTime();
-        public DateTime SavedDateK = 0.ToDateTime();
-        public DateTime SavedDateL = 0.ToDateTime();
-        public DateTime SavedDateM = 0.ToDateTime();
-        public DateTime SavedDateN = 0.ToDateTime();
-        public DateTime SavedDateO = 0.ToDateTime();
-        public DateTime SavedDateP = 0.ToDateTime();
-        public DateTime SavedDateQ = 0.ToDateTime();
-        public DateTime SavedDateR = 0.ToDateTime();
-        public DateTime SavedDateS = 0.ToDateTime();
-        public DateTime SavedDateT = 0.ToDateTime();
-        public DateTime SavedDateU = 0.ToDateTime();
-        public DateTime SavedDateV = 0.ToDateTime();
-        public DateTime SavedDateW = 0.ToDateTime();
-        public DateTime SavedDateX = 0.ToDateTime();
-        public DateTime SavedDateY = 0.ToDateTime();
-        public DateTime SavedDateZ = 0.ToDateTime();
-        public string SavedDescriptionA = string.Empty;
-        public string SavedDescriptionB = string.Empty;
-        public string SavedDescriptionC = string.Empty;
-        public string SavedDescriptionD = string.Empty;
-        public string SavedDescriptionE = string.Empty;
-        public string SavedDescriptionF = string.Empty;
-        public string SavedDescriptionG = string.Empty;
-        public string SavedDescriptionH = string.Empty;
-        public string SavedDescriptionI = string.Empty;
-        public string SavedDescriptionJ = string.Empty;
-        public string SavedDescriptionK = string.Empty;
-        public string SavedDescriptionL = string.Empty;
-        public string SavedDescriptionM = string.Empty;
-        public string SavedDescriptionN = string.Empty;
-        public string SavedDescriptionO = string.Empty;
-        public string SavedDescriptionP = string.Empty;
-        public string SavedDescriptionQ = string.Empty;
-        public string SavedDescriptionR = string.Empty;
-        public string SavedDescriptionS = string.Empty;
-        public string SavedDescriptionT = string.Empty;
-        public string SavedDescriptionU = string.Empty;
-        public string SavedDescriptionV = string.Empty;
-        public string SavedDescriptionW = string.Empty;
-        public string SavedDescriptionX = string.Empty;
-        public string SavedDescriptionY = string.Empty;
-        public string SavedDescriptionZ = string.Empty;
-        public bool SavedCheckA = false;
-        public bool SavedCheckB = false;
-        public bool SavedCheckC = false;
-        public bool SavedCheckD = false;
-        public bool SavedCheckE = false;
-        public bool SavedCheckF = false;
-        public bool SavedCheckG = false;
-        public bool SavedCheckH = false;
-        public bool SavedCheckI = false;
-        public bool SavedCheckJ = false;
-        public bool SavedCheckK = false;
-        public bool SavedCheckL = false;
-        public bool SavedCheckM = false;
-        public bool SavedCheckN = false;
-        public bool SavedCheckO = false;
-        public bool SavedCheckP = false;
-        public bool SavedCheckQ = false;
-        public bool SavedCheckR = false;
-        public bool SavedCheckS = false;
-        public bool SavedCheckT = false;
-        public bool SavedCheckU = false;
-        public bool SavedCheckV = false;
-        public bool SavedCheckW = false;
-        public bool SavedCheckX = false;
-        public bool SavedCheckY = false;
-        public bool SavedCheckZ = false;
-        public string SavedAttachmentsA = "[]";
-        public string SavedAttachmentsB = "[]";
-        public string SavedAttachmentsC = "[]";
-        public string SavedAttachmentsD = "[]";
-        public string SavedAttachmentsE = "[]";
-        public string SavedAttachmentsF = "[]";
-        public string SavedAttachmentsG = "[]";
-        public string SavedAttachmentsH = "[]";
-        public string SavedAttachmentsI = "[]";
-        public string SavedAttachmentsJ = "[]";
-        public string SavedAttachmentsK = "[]";
-        public string SavedAttachmentsL = "[]";
-        public string SavedAttachmentsM = "[]";
-        public string SavedAttachmentsN = "[]";
-        public string SavedAttachmentsO = "[]";
-        public string SavedAttachmentsP = "[]";
-        public string SavedAttachmentsQ = "[]";
-        public string SavedAttachmentsR = "[]";
-        public string SavedAttachmentsS = "[]";
-        public string SavedAttachmentsT = "[]";
-        public string SavedAttachmentsU = "[]";
-        public string SavedAttachmentsV = "[]";
-        public string SavedAttachmentsW = "[]";
-        public string SavedAttachmentsX = "[]";
-        public string SavedAttachmentsY = "[]";
-        public string SavedAttachmentsZ = "[]";
-        public bool Status_Updated { get { return Status.Value != SavedStatus; } }
-        public bool Manager_Updated { get { return Manager.Id != SavedManager; } }
-        public bool Owner_Updated { get { return Owner.Id != SavedOwner; } }
-        public bool ClassA_Updated { get { return ClassA != SavedClassA && ClassA != null; } }
-        public bool ClassB_Updated { get { return ClassB != SavedClassB && ClassB != null; } }
-        public bool ClassC_Updated { get { return ClassC != SavedClassC && ClassC != null; } }
-        public bool ClassD_Updated { get { return ClassD != SavedClassD && ClassD != null; } }
-        public bool ClassE_Updated { get { return ClassE != SavedClassE && ClassE != null; } }
-        public bool ClassF_Updated { get { return ClassF != SavedClassF && ClassF != null; } }
-        public bool ClassG_Updated { get { return ClassG != SavedClassG && ClassG != null; } }
-        public bool ClassH_Updated { get { return ClassH != SavedClassH && ClassH != null; } }
-        public bool ClassI_Updated { get { return ClassI != SavedClassI && ClassI != null; } }
-        public bool ClassJ_Updated { get { return ClassJ != SavedClassJ && ClassJ != null; } }
-        public bool ClassK_Updated { get { return ClassK != SavedClassK && ClassK != null; } }
-        public bool ClassL_Updated { get { return ClassL != SavedClassL && ClassL != null; } }
-        public bool ClassM_Updated { get { return ClassM != SavedClassM && ClassM != null; } }
-        public bool ClassN_Updated { get { return ClassN != SavedClassN && ClassN != null; } }
-        public bool ClassO_Updated { get { return ClassO != SavedClassO && ClassO != null; } }
-        public bool ClassP_Updated { get { return ClassP != SavedClassP && ClassP != null; } }
-        public bool ClassQ_Updated { get { return ClassQ != SavedClassQ && ClassQ != null; } }
-        public bool ClassR_Updated { get { return ClassR != SavedClassR && ClassR != null; } }
-        public bool ClassS_Updated { get { return ClassS != SavedClassS && ClassS != null; } }
-        public bool ClassT_Updated { get { return ClassT != SavedClassT && ClassT != null; } }
-        public bool ClassU_Updated { get { return ClassU != SavedClassU && ClassU != null; } }
-        public bool ClassV_Updated { get { return ClassV != SavedClassV && ClassV != null; } }
-        public bool ClassW_Updated { get { return ClassW != SavedClassW && ClassW != null; } }
-        public bool ClassX_Updated { get { return ClassX != SavedClassX && ClassX != null; } }
-        public bool ClassY_Updated { get { return ClassY != SavedClassY && ClassY != null; } }
-        public bool ClassZ_Updated { get { return ClassZ != SavedClassZ && ClassZ != null; } }
-        public bool NumA_Updated { get { return NumA != SavedNumA; } }
-        public bool NumB_Updated { get { return NumB != SavedNumB; } }
-        public bool NumC_Updated { get { return NumC != SavedNumC; } }
-        public bool NumD_Updated { get { return NumD != SavedNumD; } }
-        public bool NumE_Updated { get { return NumE != SavedNumE; } }
-        public bool NumF_Updated { get { return NumF != SavedNumF; } }
-        public bool NumG_Updated { get { return NumG != SavedNumG; } }
-        public bool NumH_Updated { get { return NumH != SavedNumH; } }
-        public bool NumI_Updated { get { return NumI != SavedNumI; } }
-        public bool NumJ_Updated { get { return NumJ != SavedNumJ; } }
-        public bool NumK_Updated { get { return NumK != SavedNumK; } }
-        public bool NumL_Updated { get { return NumL != SavedNumL; } }
-        public bool NumM_Updated { get { return NumM != SavedNumM; } }
-        public bool NumN_Updated { get { return NumN != SavedNumN; } }
-        public bool NumO_Updated { get { return NumO != SavedNumO; } }
-        public bool NumP_Updated { get { return NumP != SavedNumP; } }
-        public bool NumQ_Updated { get { return NumQ != SavedNumQ; } }
-        public bool NumR_Updated { get { return NumR != SavedNumR; } }
-        public bool NumS_Updated { get { return NumS != SavedNumS; } }
-        public bool NumT_Updated { get { return NumT != SavedNumT; } }
-        public bool NumU_Updated { get { return NumU != SavedNumU; } }
-        public bool NumV_Updated { get { return NumV != SavedNumV; } }
-        public bool NumW_Updated { get { return NumW != SavedNumW; } }
-        public bool NumX_Updated { get { return NumX != SavedNumX; } }
-        public bool NumY_Updated { get { return NumY != SavedNumY; } }
-        public bool NumZ_Updated { get { return NumZ != SavedNumZ; } }
-        public bool DateA_Updated { get { return DateA != SavedDateA && DateA != null; } }
-        public bool DateB_Updated { get { return DateB != SavedDateB && DateB != null; } }
-        public bool DateC_Updated { get { return DateC != SavedDateC && DateC != null; } }
-        public bool DateD_Updated { get { return DateD != SavedDateD && DateD != null; } }
-        public bool DateE_Updated { get { return DateE != SavedDateE && DateE != null; } }
-        public bool DateF_Updated { get { return DateF != SavedDateF && DateF != null; } }
-        public bool DateG_Updated { get { return DateG != SavedDateG && DateG != null; } }
-        public bool DateH_Updated { get { return DateH != SavedDateH && DateH != null; } }
-        public bool DateI_Updated { get { return DateI != SavedDateI && DateI != null; } }
-        public bool DateJ_Updated { get { return DateJ != SavedDateJ && DateJ != null; } }
-        public bool DateK_Updated { get { return DateK != SavedDateK && DateK != null; } }
-        public bool DateL_Updated { get { return DateL != SavedDateL && DateL != null; } }
-        public bool DateM_Updated { get { return DateM != SavedDateM && DateM != null; } }
-        public bool DateN_Updated { get { return DateN != SavedDateN && DateN != null; } }
-        public bool DateO_Updated { get { return DateO != SavedDateO && DateO != null; } }
-        public bool DateP_Updated { get { return DateP != SavedDateP && DateP != null; } }
-        public bool DateQ_Updated { get { return DateQ != SavedDateQ && DateQ != null; } }
-        public bool DateR_Updated { get { return DateR != SavedDateR && DateR != null; } }
-        public bool DateS_Updated { get { return DateS != SavedDateS && DateS != null; } }
-        public bool DateT_Updated { get { return DateT != SavedDateT && DateT != null; } }
-        public bool DateU_Updated { get { return DateU != SavedDateU && DateU != null; } }
-        public bool DateV_Updated { get { return DateV != SavedDateV && DateV != null; } }
-        public bool DateW_Updated { get { return DateW != SavedDateW && DateW != null; } }
-        public bool DateX_Updated { get { return DateX != SavedDateX && DateX != null; } }
-        public bool DateY_Updated { get { return DateY != SavedDateY && DateY != null; } }
-        public bool DateZ_Updated { get { return DateZ != SavedDateZ && DateZ != null; } }
-        public bool DescriptionA_Updated { get { return DescriptionA != SavedDescriptionA && DescriptionA != null; } }
-        public bool DescriptionB_Updated { get { return DescriptionB != SavedDescriptionB && DescriptionB != null; } }
-        public bool DescriptionC_Updated { get { return DescriptionC != SavedDescriptionC && DescriptionC != null; } }
-        public bool DescriptionD_Updated { get { return DescriptionD != SavedDescriptionD && DescriptionD != null; } }
-        public bool DescriptionE_Updated { get { return DescriptionE != SavedDescriptionE && DescriptionE != null; } }
-        public bool DescriptionF_Updated { get { return DescriptionF != SavedDescriptionF && DescriptionF != null; } }
-        public bool DescriptionG_Updated { get { return DescriptionG != SavedDescriptionG && DescriptionG != null; } }
-        public bool DescriptionH_Updated { get { return DescriptionH != SavedDescriptionH && DescriptionH != null; } }
-        public bool DescriptionI_Updated { get { return DescriptionI != SavedDescriptionI && DescriptionI != null; } }
-        public bool DescriptionJ_Updated { get { return DescriptionJ != SavedDescriptionJ && DescriptionJ != null; } }
-        public bool DescriptionK_Updated { get { return DescriptionK != SavedDescriptionK && DescriptionK != null; } }
-        public bool DescriptionL_Updated { get { return DescriptionL != SavedDescriptionL && DescriptionL != null; } }
-        public bool DescriptionM_Updated { get { return DescriptionM != SavedDescriptionM && DescriptionM != null; } }
-        public bool DescriptionN_Updated { get { return DescriptionN != SavedDescriptionN && DescriptionN != null; } }
-        public bool DescriptionO_Updated { get { return DescriptionO != SavedDescriptionO && DescriptionO != null; } }
-        public bool DescriptionP_Updated { get { return DescriptionP != SavedDescriptionP && DescriptionP != null; } }
-        public bool DescriptionQ_Updated { get { return DescriptionQ != SavedDescriptionQ && DescriptionQ != null; } }
-        public bool DescriptionR_Updated { get { return DescriptionR != SavedDescriptionR && DescriptionR != null; } }
-        public bool DescriptionS_Updated { get { return DescriptionS != SavedDescriptionS && DescriptionS != null; } }
-        public bool DescriptionT_Updated { get { return DescriptionT != SavedDescriptionT && DescriptionT != null; } }
-        public bool DescriptionU_Updated { get { return DescriptionU != SavedDescriptionU && DescriptionU != null; } }
-        public bool DescriptionV_Updated { get { return DescriptionV != SavedDescriptionV && DescriptionV != null; } }
-        public bool DescriptionW_Updated { get { return DescriptionW != SavedDescriptionW && DescriptionW != null; } }
-        public bool DescriptionX_Updated { get { return DescriptionX != SavedDescriptionX && DescriptionX != null; } }
-        public bool DescriptionY_Updated { get { return DescriptionY != SavedDescriptionY && DescriptionY != null; } }
-        public bool DescriptionZ_Updated { get { return DescriptionZ != SavedDescriptionZ && DescriptionZ != null; } }
-        public bool CheckA_Updated { get { return CheckA != SavedCheckA; } }
-        public bool CheckB_Updated { get { return CheckB != SavedCheckB; } }
-        public bool CheckC_Updated { get { return CheckC != SavedCheckC; } }
-        public bool CheckD_Updated { get { return CheckD != SavedCheckD; } }
-        public bool CheckE_Updated { get { return CheckE != SavedCheckE; } }
-        public bool CheckF_Updated { get { return CheckF != SavedCheckF; } }
-        public bool CheckG_Updated { get { return CheckG != SavedCheckG; } }
-        public bool CheckH_Updated { get { return CheckH != SavedCheckH; } }
-        public bool CheckI_Updated { get { return CheckI != SavedCheckI; } }
-        public bool CheckJ_Updated { get { return CheckJ != SavedCheckJ; } }
-        public bool CheckK_Updated { get { return CheckK != SavedCheckK; } }
-        public bool CheckL_Updated { get { return CheckL != SavedCheckL; } }
-        public bool CheckM_Updated { get { return CheckM != SavedCheckM; } }
-        public bool CheckN_Updated { get { return CheckN != SavedCheckN; } }
-        public bool CheckO_Updated { get { return CheckO != SavedCheckO; } }
-        public bool CheckP_Updated { get { return CheckP != SavedCheckP; } }
-        public bool CheckQ_Updated { get { return CheckQ != SavedCheckQ; } }
-        public bool CheckR_Updated { get { return CheckR != SavedCheckR; } }
-        public bool CheckS_Updated { get { return CheckS != SavedCheckS; } }
-        public bool CheckT_Updated { get { return CheckT != SavedCheckT; } }
-        public bool CheckU_Updated { get { return CheckU != SavedCheckU; } }
-        public bool CheckV_Updated { get { return CheckV != SavedCheckV; } }
-        public bool CheckW_Updated { get { return CheckW != SavedCheckW; } }
-        public bool CheckX_Updated { get { return CheckX != SavedCheckX; } }
-        public bool CheckY_Updated { get { return CheckY != SavedCheckY; } }
-        public bool CheckZ_Updated { get { return CheckZ != SavedCheckZ; } }
-        public bool AttachmentsA_Updated { get { return AttachmentsA.ToJson() != SavedAttachmentsA && AttachmentsA.ToJson() != null; } }
-        public bool AttachmentsB_Updated { get { return AttachmentsB.ToJson() != SavedAttachmentsB && AttachmentsB.ToJson() != null; } }
-        public bool AttachmentsC_Updated { get { return AttachmentsC.ToJson() != SavedAttachmentsC && AttachmentsC.ToJson() != null; } }
-        public bool AttachmentsD_Updated { get { return AttachmentsD.ToJson() != SavedAttachmentsD && AttachmentsD.ToJson() != null; } }
-        public bool AttachmentsE_Updated { get { return AttachmentsE.ToJson() != SavedAttachmentsE && AttachmentsE.ToJson() != null; } }
-        public bool AttachmentsF_Updated { get { return AttachmentsF.ToJson() != SavedAttachmentsF && AttachmentsF.ToJson() != null; } }
-        public bool AttachmentsG_Updated { get { return AttachmentsG.ToJson() != SavedAttachmentsG && AttachmentsG.ToJson() != null; } }
-        public bool AttachmentsH_Updated { get { return AttachmentsH.ToJson() != SavedAttachmentsH && AttachmentsH.ToJson() != null; } }
-        public bool AttachmentsI_Updated { get { return AttachmentsI.ToJson() != SavedAttachmentsI && AttachmentsI.ToJson() != null; } }
-        public bool AttachmentsJ_Updated { get { return AttachmentsJ.ToJson() != SavedAttachmentsJ && AttachmentsJ.ToJson() != null; } }
-        public bool AttachmentsK_Updated { get { return AttachmentsK.ToJson() != SavedAttachmentsK && AttachmentsK.ToJson() != null; } }
-        public bool AttachmentsL_Updated { get { return AttachmentsL.ToJson() != SavedAttachmentsL && AttachmentsL.ToJson() != null; } }
-        public bool AttachmentsM_Updated { get { return AttachmentsM.ToJson() != SavedAttachmentsM && AttachmentsM.ToJson() != null; } }
-        public bool AttachmentsN_Updated { get { return AttachmentsN.ToJson() != SavedAttachmentsN && AttachmentsN.ToJson() != null; } }
-        public bool AttachmentsO_Updated { get { return AttachmentsO.ToJson() != SavedAttachmentsO && AttachmentsO.ToJson() != null; } }
-        public bool AttachmentsP_Updated { get { return AttachmentsP.ToJson() != SavedAttachmentsP && AttachmentsP.ToJson() != null; } }
-        public bool AttachmentsQ_Updated { get { return AttachmentsQ.ToJson() != SavedAttachmentsQ && AttachmentsQ.ToJson() != null; } }
-        public bool AttachmentsR_Updated { get { return AttachmentsR.ToJson() != SavedAttachmentsR && AttachmentsR.ToJson() != null; } }
-        public bool AttachmentsS_Updated { get { return AttachmentsS.ToJson() != SavedAttachmentsS && AttachmentsS.ToJson() != null; } }
-        public bool AttachmentsT_Updated { get { return AttachmentsT.ToJson() != SavedAttachmentsT && AttachmentsT.ToJson() != null; } }
-        public bool AttachmentsU_Updated { get { return AttachmentsU.ToJson() != SavedAttachmentsU && AttachmentsU.ToJson() != null; } }
-        public bool AttachmentsV_Updated { get { return AttachmentsV.ToJson() != SavedAttachmentsV && AttachmentsV.ToJson() != null; } }
-        public bool AttachmentsW_Updated { get { return AttachmentsW.ToJson() != SavedAttachmentsW && AttachmentsW.ToJson() != null; } }
-        public bool AttachmentsX_Updated { get { return AttachmentsX.ToJson() != SavedAttachmentsX && AttachmentsX.ToJson() != null; } }
-        public bool AttachmentsY_Updated { get { return AttachmentsY.ToJson() != SavedAttachmentsY && AttachmentsY.ToJson() != null; } }
-        public bool AttachmentsZ_Updated { get { return AttachmentsZ.ToJson() != SavedAttachmentsZ && AttachmentsZ.ToJson() != null; } }
+
+        public TitleBody TitleBody
+        {
+            get
+            {
+                return new TitleBody(ResultId, Title.Value, Title.DisplayValue, Body);
+            }
+        }
+
+        public SiteTitle SiteTitle
+        {
+            get
+            {
+                return new SiteTitle(SiteId);
+            }
+        }
+
+        [NonSerialized] public long SavedResultId = 0;
+        [NonSerialized] public int SavedStatus = 100;
+        [NonSerialized] public int SavedManager = 0;
+        [NonSerialized] public int SavedOwner = 0;
+        [NonSerialized] public string SavedClassA = string.Empty;
+        [NonSerialized] public string SavedClassB = string.Empty;
+        [NonSerialized] public string SavedClassC = string.Empty;
+        [NonSerialized] public string SavedClassD = string.Empty;
+        [NonSerialized] public string SavedClassE = string.Empty;
+        [NonSerialized] public string SavedClassF = string.Empty;
+        [NonSerialized] public string SavedClassG = string.Empty;
+        [NonSerialized] public string SavedClassH = string.Empty;
+        [NonSerialized] public string SavedClassI = string.Empty;
+        [NonSerialized] public string SavedClassJ = string.Empty;
+        [NonSerialized] public string SavedClassK = string.Empty;
+        [NonSerialized] public string SavedClassL = string.Empty;
+        [NonSerialized] public string SavedClassM = string.Empty;
+        [NonSerialized] public string SavedClassN = string.Empty;
+        [NonSerialized] public string SavedClassO = string.Empty;
+        [NonSerialized] public string SavedClassP = string.Empty;
+        [NonSerialized] public string SavedClassQ = string.Empty;
+        [NonSerialized] public string SavedClassR = string.Empty;
+        [NonSerialized] public string SavedClassS = string.Empty;
+        [NonSerialized] public string SavedClassT = string.Empty;
+        [NonSerialized] public string SavedClassU = string.Empty;
+        [NonSerialized] public string SavedClassV = string.Empty;
+        [NonSerialized] public string SavedClassW = string.Empty;
+        [NonSerialized] public string SavedClassX = string.Empty;
+        [NonSerialized] public string SavedClassY = string.Empty;
+        [NonSerialized] public string SavedClassZ = string.Empty;
+        [NonSerialized] public decimal SavedNumA = 0;
+        [NonSerialized] public decimal SavedNumB = 0;
+        [NonSerialized] public decimal SavedNumC = 0;
+        [NonSerialized] public decimal SavedNumD = 0;
+        [NonSerialized] public decimal SavedNumE = 0;
+        [NonSerialized] public decimal SavedNumF = 0;
+        [NonSerialized] public decimal SavedNumG = 0;
+        [NonSerialized] public decimal SavedNumH = 0;
+        [NonSerialized] public decimal SavedNumI = 0;
+        [NonSerialized] public decimal SavedNumJ = 0;
+        [NonSerialized] public decimal SavedNumK = 0;
+        [NonSerialized] public decimal SavedNumL = 0;
+        [NonSerialized] public decimal SavedNumM = 0;
+        [NonSerialized] public decimal SavedNumN = 0;
+        [NonSerialized] public decimal SavedNumO = 0;
+        [NonSerialized] public decimal SavedNumP = 0;
+        [NonSerialized] public decimal SavedNumQ = 0;
+        [NonSerialized] public decimal SavedNumR = 0;
+        [NonSerialized] public decimal SavedNumS = 0;
+        [NonSerialized] public decimal SavedNumT = 0;
+        [NonSerialized] public decimal SavedNumU = 0;
+        [NonSerialized] public decimal SavedNumV = 0;
+        [NonSerialized] public decimal SavedNumW = 0;
+        [NonSerialized] public decimal SavedNumX = 0;
+        [NonSerialized] public decimal SavedNumY = 0;
+        [NonSerialized] public decimal SavedNumZ = 0;
+        [NonSerialized] public DateTime SavedDateA = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateB = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateC = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateD = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateE = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateF = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateG = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateH = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateI = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateJ = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateK = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateL = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateM = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateN = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateO = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateP = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateQ = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateR = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateS = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateT = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateU = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateV = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateW = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateX = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateY = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedDateZ = 0.ToDateTime();
+        [NonSerialized] public string SavedDescriptionA = string.Empty;
+        [NonSerialized] public string SavedDescriptionB = string.Empty;
+        [NonSerialized] public string SavedDescriptionC = string.Empty;
+        [NonSerialized] public string SavedDescriptionD = string.Empty;
+        [NonSerialized] public string SavedDescriptionE = string.Empty;
+        [NonSerialized] public string SavedDescriptionF = string.Empty;
+        [NonSerialized] public string SavedDescriptionG = string.Empty;
+        [NonSerialized] public string SavedDescriptionH = string.Empty;
+        [NonSerialized] public string SavedDescriptionI = string.Empty;
+        [NonSerialized] public string SavedDescriptionJ = string.Empty;
+        [NonSerialized] public string SavedDescriptionK = string.Empty;
+        [NonSerialized] public string SavedDescriptionL = string.Empty;
+        [NonSerialized] public string SavedDescriptionM = string.Empty;
+        [NonSerialized] public string SavedDescriptionN = string.Empty;
+        [NonSerialized] public string SavedDescriptionO = string.Empty;
+        [NonSerialized] public string SavedDescriptionP = string.Empty;
+        [NonSerialized] public string SavedDescriptionQ = string.Empty;
+        [NonSerialized] public string SavedDescriptionR = string.Empty;
+        [NonSerialized] public string SavedDescriptionS = string.Empty;
+        [NonSerialized] public string SavedDescriptionT = string.Empty;
+        [NonSerialized] public string SavedDescriptionU = string.Empty;
+        [NonSerialized] public string SavedDescriptionV = string.Empty;
+        [NonSerialized] public string SavedDescriptionW = string.Empty;
+        [NonSerialized] public string SavedDescriptionX = string.Empty;
+        [NonSerialized] public string SavedDescriptionY = string.Empty;
+        [NonSerialized] public string SavedDescriptionZ = string.Empty;
+        [NonSerialized] public bool SavedCheckA = false;
+        [NonSerialized] public bool SavedCheckB = false;
+        [NonSerialized] public bool SavedCheckC = false;
+        [NonSerialized] public bool SavedCheckD = false;
+        [NonSerialized] public bool SavedCheckE = false;
+        [NonSerialized] public bool SavedCheckF = false;
+        [NonSerialized] public bool SavedCheckG = false;
+        [NonSerialized] public bool SavedCheckH = false;
+        [NonSerialized] public bool SavedCheckI = false;
+        [NonSerialized] public bool SavedCheckJ = false;
+        [NonSerialized] public bool SavedCheckK = false;
+        [NonSerialized] public bool SavedCheckL = false;
+        [NonSerialized] public bool SavedCheckM = false;
+        [NonSerialized] public bool SavedCheckN = false;
+        [NonSerialized] public bool SavedCheckO = false;
+        [NonSerialized] public bool SavedCheckP = false;
+        [NonSerialized] public bool SavedCheckQ = false;
+        [NonSerialized] public bool SavedCheckR = false;
+        [NonSerialized] public bool SavedCheckS = false;
+        [NonSerialized] public bool SavedCheckT = false;
+        [NonSerialized] public bool SavedCheckU = false;
+        [NonSerialized] public bool SavedCheckV = false;
+        [NonSerialized] public bool SavedCheckW = false;
+        [NonSerialized] public bool SavedCheckX = false;
+        [NonSerialized] public bool SavedCheckY = false;
+        [NonSerialized] public bool SavedCheckZ = false;
+        [NonSerialized] public string SavedAttachmentsA = "[]";
+        [NonSerialized] public string SavedAttachmentsB = "[]";
+        [NonSerialized] public string SavedAttachmentsC = "[]";
+        [NonSerialized] public string SavedAttachmentsD = "[]";
+        [NonSerialized] public string SavedAttachmentsE = "[]";
+        [NonSerialized] public string SavedAttachmentsF = "[]";
+        [NonSerialized] public string SavedAttachmentsG = "[]";
+        [NonSerialized] public string SavedAttachmentsH = "[]";
+        [NonSerialized] public string SavedAttachmentsI = "[]";
+        [NonSerialized] public string SavedAttachmentsJ = "[]";
+        [NonSerialized] public string SavedAttachmentsK = "[]";
+        [NonSerialized] public string SavedAttachmentsL = "[]";
+        [NonSerialized] public string SavedAttachmentsM = "[]";
+        [NonSerialized] public string SavedAttachmentsN = "[]";
+        [NonSerialized] public string SavedAttachmentsO = "[]";
+        [NonSerialized] public string SavedAttachmentsP = "[]";
+        [NonSerialized] public string SavedAttachmentsQ = "[]";
+        [NonSerialized] public string SavedAttachmentsR = "[]";
+        [NonSerialized] public string SavedAttachmentsS = "[]";
+        [NonSerialized] public string SavedAttachmentsT = "[]";
+        [NonSerialized] public string SavedAttachmentsU = "[]";
+        [NonSerialized] public string SavedAttachmentsV = "[]";
+        [NonSerialized] public string SavedAttachmentsW = "[]";
+        [NonSerialized] public string SavedAttachmentsX = "[]";
+        [NonSerialized] public string SavedAttachmentsY = "[]";
+        [NonSerialized] public string SavedAttachmentsZ = "[]";
+
+        public bool Status_Updated
+        {
+            get
+            {
+                return Status.Value != SavedStatus;
+            }
+        }
+
+        public bool Manager_Updated
+        {
+            get
+            {
+                return Manager.Id != SavedManager;
+            }
+        }
+
+        public bool Owner_Updated
+        {
+            get
+            {
+                return Owner.Id != SavedOwner;
+            }
+        }
+
+        public bool ClassA_Updated
+        {
+            get
+            {
+                return ClassA != SavedClassA && ClassA != null;
+            }
+        }
+
+        public bool ClassB_Updated
+        {
+            get
+            {
+                return ClassB != SavedClassB && ClassB != null;
+            }
+        }
+
+        public bool ClassC_Updated
+        {
+            get
+            {
+                return ClassC != SavedClassC && ClassC != null;
+            }
+        }
+
+        public bool ClassD_Updated
+        {
+            get
+            {
+                return ClassD != SavedClassD && ClassD != null;
+            }
+        }
+
+        public bool ClassE_Updated
+        {
+            get
+            {
+                return ClassE != SavedClassE && ClassE != null;
+            }
+        }
+
+        public bool ClassF_Updated
+        {
+            get
+            {
+                return ClassF != SavedClassF && ClassF != null;
+            }
+        }
+
+        public bool ClassG_Updated
+        {
+            get
+            {
+                return ClassG != SavedClassG && ClassG != null;
+            }
+        }
+
+        public bool ClassH_Updated
+        {
+            get
+            {
+                return ClassH != SavedClassH && ClassH != null;
+            }
+        }
+
+        public bool ClassI_Updated
+        {
+            get
+            {
+                return ClassI != SavedClassI && ClassI != null;
+            }
+        }
+
+        public bool ClassJ_Updated
+        {
+            get
+            {
+                return ClassJ != SavedClassJ && ClassJ != null;
+            }
+        }
+
+        public bool ClassK_Updated
+        {
+            get
+            {
+                return ClassK != SavedClassK && ClassK != null;
+            }
+        }
+
+        public bool ClassL_Updated
+        {
+            get
+            {
+                return ClassL != SavedClassL && ClassL != null;
+            }
+        }
+
+        public bool ClassM_Updated
+        {
+            get
+            {
+                return ClassM != SavedClassM && ClassM != null;
+            }
+        }
+
+        public bool ClassN_Updated
+        {
+            get
+            {
+                return ClassN != SavedClassN && ClassN != null;
+            }
+        }
+
+        public bool ClassO_Updated
+        {
+            get
+            {
+                return ClassO != SavedClassO && ClassO != null;
+            }
+        }
+
+        public bool ClassP_Updated
+        {
+            get
+            {
+                return ClassP != SavedClassP && ClassP != null;
+            }
+        }
+
+        public bool ClassQ_Updated
+        {
+            get
+            {
+                return ClassQ != SavedClassQ && ClassQ != null;
+            }
+        }
+
+        public bool ClassR_Updated
+        {
+            get
+            {
+                return ClassR != SavedClassR && ClassR != null;
+            }
+        }
+
+        public bool ClassS_Updated
+        {
+            get
+            {
+                return ClassS != SavedClassS && ClassS != null;
+            }
+        }
+
+        public bool ClassT_Updated
+        {
+            get
+            {
+                return ClassT != SavedClassT && ClassT != null;
+            }
+        }
+
+        public bool ClassU_Updated
+        {
+            get
+            {
+                return ClassU != SavedClassU && ClassU != null;
+            }
+        }
+
+        public bool ClassV_Updated
+        {
+            get
+            {
+                return ClassV != SavedClassV && ClassV != null;
+            }
+        }
+
+        public bool ClassW_Updated
+        {
+            get
+            {
+                return ClassW != SavedClassW && ClassW != null;
+            }
+        }
+
+        public bool ClassX_Updated
+        {
+            get
+            {
+                return ClassX != SavedClassX && ClassX != null;
+            }
+        }
+
+        public bool ClassY_Updated
+        {
+            get
+            {
+                return ClassY != SavedClassY && ClassY != null;
+            }
+        }
+
+        public bool ClassZ_Updated
+        {
+            get
+            {
+                return ClassZ != SavedClassZ && ClassZ != null;
+            }
+        }
+
+        public bool NumA_Updated
+        {
+            get
+            {
+                return NumA != SavedNumA;
+            }
+        }
+
+        public bool NumB_Updated
+        {
+            get
+            {
+                return NumB != SavedNumB;
+            }
+        }
+
+        public bool NumC_Updated
+        {
+            get
+            {
+                return NumC != SavedNumC;
+            }
+        }
+
+        public bool NumD_Updated
+        {
+            get
+            {
+                return NumD != SavedNumD;
+            }
+        }
+
+        public bool NumE_Updated
+        {
+            get
+            {
+                return NumE != SavedNumE;
+            }
+        }
+
+        public bool NumF_Updated
+        {
+            get
+            {
+                return NumF != SavedNumF;
+            }
+        }
+
+        public bool NumG_Updated
+        {
+            get
+            {
+                return NumG != SavedNumG;
+            }
+        }
+
+        public bool NumH_Updated
+        {
+            get
+            {
+                return NumH != SavedNumH;
+            }
+        }
+
+        public bool NumI_Updated
+        {
+            get
+            {
+                return NumI != SavedNumI;
+            }
+        }
+
+        public bool NumJ_Updated
+        {
+            get
+            {
+                return NumJ != SavedNumJ;
+            }
+        }
+
+        public bool NumK_Updated
+        {
+            get
+            {
+                return NumK != SavedNumK;
+            }
+        }
+
+        public bool NumL_Updated
+        {
+            get
+            {
+                return NumL != SavedNumL;
+            }
+        }
+
+        public bool NumM_Updated
+        {
+            get
+            {
+                return NumM != SavedNumM;
+            }
+        }
+
+        public bool NumN_Updated
+        {
+            get
+            {
+                return NumN != SavedNumN;
+            }
+        }
+
+        public bool NumO_Updated
+        {
+            get
+            {
+                return NumO != SavedNumO;
+            }
+        }
+
+        public bool NumP_Updated
+        {
+            get
+            {
+                return NumP != SavedNumP;
+            }
+        }
+
+        public bool NumQ_Updated
+        {
+            get
+            {
+                return NumQ != SavedNumQ;
+            }
+        }
+
+        public bool NumR_Updated
+        {
+            get
+            {
+                return NumR != SavedNumR;
+            }
+        }
+
+        public bool NumS_Updated
+        {
+            get
+            {
+                return NumS != SavedNumS;
+            }
+        }
+
+        public bool NumT_Updated
+        {
+            get
+            {
+                return NumT != SavedNumT;
+            }
+        }
+
+        public bool NumU_Updated
+        {
+            get
+            {
+                return NumU != SavedNumU;
+            }
+        }
+
+        public bool NumV_Updated
+        {
+            get
+            {
+                return NumV != SavedNumV;
+            }
+        }
+
+        public bool NumW_Updated
+        {
+            get
+            {
+                return NumW != SavedNumW;
+            }
+        }
+
+        public bool NumX_Updated
+        {
+            get
+            {
+                return NumX != SavedNumX;
+            }
+        }
+
+        public bool NumY_Updated
+        {
+            get
+            {
+                return NumY != SavedNumY;
+            }
+        }
+
+        public bool NumZ_Updated
+        {
+            get
+            {
+                return NumZ != SavedNumZ;
+            }
+        }
+
+        public bool DateA_Updated
+        {
+            get
+            {
+                return DateA != SavedDateA && DateA != null;
+            }
+        }
+
+        public bool DateB_Updated
+        {
+            get
+            {
+                return DateB != SavedDateB && DateB != null;
+            }
+        }
+
+        public bool DateC_Updated
+        {
+            get
+            {
+                return DateC != SavedDateC && DateC != null;
+            }
+        }
+
+        public bool DateD_Updated
+        {
+            get
+            {
+                return DateD != SavedDateD && DateD != null;
+            }
+        }
+
+        public bool DateE_Updated
+        {
+            get
+            {
+                return DateE != SavedDateE && DateE != null;
+            }
+        }
+
+        public bool DateF_Updated
+        {
+            get
+            {
+                return DateF != SavedDateF && DateF != null;
+            }
+        }
+
+        public bool DateG_Updated
+        {
+            get
+            {
+                return DateG != SavedDateG && DateG != null;
+            }
+        }
+
+        public bool DateH_Updated
+        {
+            get
+            {
+                return DateH != SavedDateH && DateH != null;
+            }
+        }
+
+        public bool DateI_Updated
+        {
+            get
+            {
+                return DateI != SavedDateI && DateI != null;
+            }
+        }
+
+        public bool DateJ_Updated
+        {
+            get
+            {
+                return DateJ != SavedDateJ && DateJ != null;
+            }
+        }
+
+        public bool DateK_Updated
+        {
+            get
+            {
+                return DateK != SavedDateK && DateK != null;
+            }
+        }
+
+        public bool DateL_Updated
+        {
+            get
+            {
+                return DateL != SavedDateL && DateL != null;
+            }
+        }
+
+        public bool DateM_Updated
+        {
+            get
+            {
+                return DateM != SavedDateM && DateM != null;
+            }
+        }
+
+        public bool DateN_Updated
+        {
+            get
+            {
+                return DateN != SavedDateN && DateN != null;
+            }
+        }
+
+        public bool DateO_Updated
+        {
+            get
+            {
+                return DateO != SavedDateO && DateO != null;
+            }
+        }
+
+        public bool DateP_Updated
+        {
+            get
+            {
+                return DateP != SavedDateP && DateP != null;
+            }
+        }
+
+        public bool DateQ_Updated
+        {
+            get
+            {
+                return DateQ != SavedDateQ && DateQ != null;
+            }
+        }
+
+        public bool DateR_Updated
+        {
+            get
+            {
+                return DateR != SavedDateR && DateR != null;
+            }
+        }
+
+        public bool DateS_Updated
+        {
+            get
+            {
+                return DateS != SavedDateS && DateS != null;
+            }
+        }
+
+        public bool DateT_Updated
+        {
+            get
+            {
+                return DateT != SavedDateT && DateT != null;
+            }
+        }
+
+        public bool DateU_Updated
+        {
+            get
+            {
+                return DateU != SavedDateU && DateU != null;
+            }
+        }
+
+        public bool DateV_Updated
+        {
+            get
+            {
+                return DateV != SavedDateV && DateV != null;
+            }
+        }
+
+        public bool DateW_Updated
+        {
+            get
+            {
+                return DateW != SavedDateW && DateW != null;
+            }
+        }
+
+        public bool DateX_Updated
+        {
+            get
+            {
+                return DateX != SavedDateX && DateX != null;
+            }
+        }
+
+        public bool DateY_Updated
+        {
+            get
+            {
+                return DateY != SavedDateY && DateY != null;
+            }
+        }
+
+        public bool DateZ_Updated
+        {
+            get
+            {
+                return DateZ != SavedDateZ && DateZ != null;
+            }
+        }
+
+        public bool DescriptionA_Updated
+        {
+            get
+            {
+                return DescriptionA != SavedDescriptionA && DescriptionA != null;
+            }
+        }
+
+        public bool DescriptionB_Updated
+        {
+            get
+            {
+                return DescriptionB != SavedDescriptionB && DescriptionB != null;
+            }
+        }
+
+        public bool DescriptionC_Updated
+        {
+            get
+            {
+                return DescriptionC != SavedDescriptionC && DescriptionC != null;
+            }
+        }
+
+        public bool DescriptionD_Updated
+        {
+            get
+            {
+                return DescriptionD != SavedDescriptionD && DescriptionD != null;
+            }
+        }
+
+        public bool DescriptionE_Updated
+        {
+            get
+            {
+                return DescriptionE != SavedDescriptionE && DescriptionE != null;
+            }
+        }
+
+        public bool DescriptionF_Updated
+        {
+            get
+            {
+                return DescriptionF != SavedDescriptionF && DescriptionF != null;
+            }
+        }
+
+        public bool DescriptionG_Updated
+        {
+            get
+            {
+                return DescriptionG != SavedDescriptionG && DescriptionG != null;
+            }
+        }
+
+        public bool DescriptionH_Updated
+        {
+            get
+            {
+                return DescriptionH != SavedDescriptionH && DescriptionH != null;
+            }
+        }
+
+        public bool DescriptionI_Updated
+        {
+            get
+            {
+                return DescriptionI != SavedDescriptionI && DescriptionI != null;
+            }
+        }
+
+        public bool DescriptionJ_Updated
+        {
+            get
+            {
+                return DescriptionJ != SavedDescriptionJ && DescriptionJ != null;
+            }
+        }
+
+        public bool DescriptionK_Updated
+        {
+            get
+            {
+                return DescriptionK != SavedDescriptionK && DescriptionK != null;
+            }
+        }
+
+        public bool DescriptionL_Updated
+        {
+            get
+            {
+                return DescriptionL != SavedDescriptionL && DescriptionL != null;
+            }
+        }
+
+        public bool DescriptionM_Updated
+        {
+            get
+            {
+                return DescriptionM != SavedDescriptionM && DescriptionM != null;
+            }
+        }
+
+        public bool DescriptionN_Updated
+        {
+            get
+            {
+                return DescriptionN != SavedDescriptionN && DescriptionN != null;
+            }
+        }
+
+        public bool DescriptionO_Updated
+        {
+            get
+            {
+                return DescriptionO != SavedDescriptionO && DescriptionO != null;
+            }
+        }
+
+        public bool DescriptionP_Updated
+        {
+            get
+            {
+                return DescriptionP != SavedDescriptionP && DescriptionP != null;
+            }
+        }
+
+        public bool DescriptionQ_Updated
+        {
+            get
+            {
+                return DescriptionQ != SavedDescriptionQ && DescriptionQ != null;
+            }
+        }
+
+        public bool DescriptionR_Updated
+        {
+            get
+            {
+                return DescriptionR != SavedDescriptionR && DescriptionR != null;
+            }
+        }
+
+        public bool DescriptionS_Updated
+        {
+            get
+            {
+                return DescriptionS != SavedDescriptionS && DescriptionS != null;
+            }
+        }
+
+        public bool DescriptionT_Updated
+        {
+            get
+            {
+                return DescriptionT != SavedDescriptionT && DescriptionT != null;
+            }
+        }
+
+        public bool DescriptionU_Updated
+        {
+            get
+            {
+                return DescriptionU != SavedDescriptionU && DescriptionU != null;
+            }
+        }
+
+        public bool DescriptionV_Updated
+        {
+            get
+            {
+                return DescriptionV != SavedDescriptionV && DescriptionV != null;
+            }
+        }
+
+        public bool DescriptionW_Updated
+        {
+            get
+            {
+                return DescriptionW != SavedDescriptionW && DescriptionW != null;
+            }
+        }
+
+        public bool DescriptionX_Updated
+        {
+            get
+            {
+                return DescriptionX != SavedDescriptionX && DescriptionX != null;
+            }
+        }
+
+        public bool DescriptionY_Updated
+        {
+            get
+            {
+                return DescriptionY != SavedDescriptionY && DescriptionY != null;
+            }
+        }
+
+        public bool DescriptionZ_Updated
+        {
+            get
+            {
+                return DescriptionZ != SavedDescriptionZ && DescriptionZ != null;
+            }
+        }
+
+        public bool CheckA_Updated
+        {
+            get
+            {
+                return CheckA != SavedCheckA;
+            }
+        }
+
+        public bool CheckB_Updated
+        {
+            get
+            {
+                return CheckB != SavedCheckB;
+            }
+        }
+
+        public bool CheckC_Updated
+        {
+            get
+            {
+                return CheckC != SavedCheckC;
+            }
+        }
+
+        public bool CheckD_Updated
+        {
+            get
+            {
+                return CheckD != SavedCheckD;
+            }
+        }
+
+        public bool CheckE_Updated
+        {
+            get
+            {
+                return CheckE != SavedCheckE;
+            }
+        }
+
+        public bool CheckF_Updated
+        {
+            get
+            {
+                return CheckF != SavedCheckF;
+            }
+        }
+
+        public bool CheckG_Updated
+        {
+            get
+            {
+                return CheckG != SavedCheckG;
+            }
+        }
+
+        public bool CheckH_Updated
+        {
+            get
+            {
+                return CheckH != SavedCheckH;
+            }
+        }
+
+        public bool CheckI_Updated
+        {
+            get
+            {
+                return CheckI != SavedCheckI;
+            }
+        }
+
+        public bool CheckJ_Updated
+        {
+            get
+            {
+                return CheckJ != SavedCheckJ;
+            }
+        }
+
+        public bool CheckK_Updated
+        {
+            get
+            {
+                return CheckK != SavedCheckK;
+            }
+        }
+
+        public bool CheckL_Updated
+        {
+            get
+            {
+                return CheckL != SavedCheckL;
+            }
+        }
+
+        public bool CheckM_Updated
+        {
+            get
+            {
+                return CheckM != SavedCheckM;
+            }
+        }
+
+        public bool CheckN_Updated
+        {
+            get
+            {
+                return CheckN != SavedCheckN;
+            }
+        }
+
+        public bool CheckO_Updated
+        {
+            get
+            {
+                return CheckO != SavedCheckO;
+            }
+        }
+
+        public bool CheckP_Updated
+        {
+            get
+            {
+                return CheckP != SavedCheckP;
+            }
+        }
+
+        public bool CheckQ_Updated
+        {
+            get
+            {
+                return CheckQ != SavedCheckQ;
+            }
+        }
+
+        public bool CheckR_Updated
+        {
+            get
+            {
+                return CheckR != SavedCheckR;
+            }
+        }
+
+        public bool CheckS_Updated
+        {
+            get
+            {
+                return CheckS != SavedCheckS;
+            }
+        }
+
+        public bool CheckT_Updated
+        {
+            get
+            {
+                return CheckT != SavedCheckT;
+            }
+        }
+
+        public bool CheckU_Updated
+        {
+            get
+            {
+                return CheckU != SavedCheckU;
+            }
+        }
+
+        public bool CheckV_Updated
+        {
+            get
+            {
+                return CheckV != SavedCheckV;
+            }
+        }
+
+        public bool CheckW_Updated
+        {
+            get
+            {
+                return CheckW != SavedCheckW;
+            }
+        }
+
+        public bool CheckX_Updated
+        {
+            get
+            {
+                return CheckX != SavedCheckX;
+            }
+        }
+
+        public bool CheckY_Updated
+        {
+            get
+            {
+                return CheckY != SavedCheckY;
+            }
+        }
+
+        public bool CheckZ_Updated
+        {
+            get
+            {
+                return CheckZ != SavedCheckZ;
+            }
+        }
+
+        public bool AttachmentsA_Updated
+        {
+            get
+            {
+                return AttachmentsA.ToJson() != SavedAttachmentsA && AttachmentsA.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsB_Updated
+        {
+            get
+            {
+                return AttachmentsB.ToJson() != SavedAttachmentsB && AttachmentsB.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsC_Updated
+        {
+            get
+            {
+                return AttachmentsC.ToJson() != SavedAttachmentsC && AttachmentsC.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsD_Updated
+        {
+            get
+            {
+                return AttachmentsD.ToJson() != SavedAttachmentsD && AttachmentsD.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsE_Updated
+        {
+            get
+            {
+                return AttachmentsE.ToJson() != SavedAttachmentsE && AttachmentsE.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsF_Updated
+        {
+            get
+            {
+                return AttachmentsF.ToJson() != SavedAttachmentsF && AttachmentsF.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsG_Updated
+        {
+            get
+            {
+                return AttachmentsG.ToJson() != SavedAttachmentsG && AttachmentsG.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsH_Updated
+        {
+            get
+            {
+                return AttachmentsH.ToJson() != SavedAttachmentsH && AttachmentsH.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsI_Updated
+        {
+            get
+            {
+                return AttachmentsI.ToJson() != SavedAttachmentsI && AttachmentsI.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsJ_Updated
+        {
+            get
+            {
+                return AttachmentsJ.ToJson() != SavedAttachmentsJ && AttachmentsJ.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsK_Updated
+        {
+            get
+            {
+                return AttachmentsK.ToJson() != SavedAttachmentsK && AttachmentsK.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsL_Updated
+        {
+            get
+            {
+                return AttachmentsL.ToJson() != SavedAttachmentsL && AttachmentsL.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsM_Updated
+        {
+            get
+            {
+                return AttachmentsM.ToJson() != SavedAttachmentsM && AttachmentsM.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsN_Updated
+        {
+            get
+            {
+                return AttachmentsN.ToJson() != SavedAttachmentsN && AttachmentsN.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsO_Updated
+        {
+            get
+            {
+                return AttachmentsO.ToJson() != SavedAttachmentsO && AttachmentsO.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsP_Updated
+        {
+            get
+            {
+                return AttachmentsP.ToJson() != SavedAttachmentsP && AttachmentsP.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsQ_Updated
+        {
+            get
+            {
+                return AttachmentsQ.ToJson() != SavedAttachmentsQ && AttachmentsQ.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsR_Updated
+        {
+            get
+            {
+                return AttachmentsR.ToJson() != SavedAttachmentsR && AttachmentsR.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsS_Updated
+        {
+            get
+            {
+                return AttachmentsS.ToJson() != SavedAttachmentsS && AttachmentsS.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsT_Updated
+        {
+            get
+            {
+                return AttachmentsT.ToJson() != SavedAttachmentsT && AttachmentsT.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsU_Updated
+        {
+            get
+            {
+                return AttachmentsU.ToJson() != SavedAttachmentsU && AttachmentsU.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsV_Updated
+        {
+            get
+            {
+                return AttachmentsV.ToJson() != SavedAttachmentsV && AttachmentsV.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsW_Updated
+        {
+            get
+            {
+                return AttachmentsW.ToJson() != SavedAttachmentsW && AttachmentsW.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsX_Updated
+        {
+            get
+            {
+                return AttachmentsX.ToJson() != SavedAttachmentsX && AttachmentsX.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsY_Updated
+        {
+            get
+            {
+                return AttachmentsY.ToJson() != SavedAttachmentsY && AttachmentsY.ToJson() != null;
+            }
+        }
+
+        public bool AttachmentsZ_Updated
+        {
+            get
+            {
+                return AttachmentsZ.ToJson() != SavedAttachmentsZ && AttachmentsZ.ToJson() != null;
+            }
+        }
 
         public string PropertyValue(string name)
         {

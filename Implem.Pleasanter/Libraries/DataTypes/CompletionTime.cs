@@ -13,10 +13,12 @@ using System.Data;
 using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
+    [Serializable]
     public class CompletionTime : Time
     {
         public Status Status;
         public DateTime UpdatedTime;
+        [NonSerialized]
         public Versions.VerTypes VerType = Versions.VerTypes.Latest;
 
         public CompletionTime() : base()

@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class LinkModel : BaseModel
     {
         public long DestinationId = 0;
@@ -29,15 +29,29 @@ namespace Implem.Pleasanter.Models
         public string Title = string.Empty;
         public string Subset = string.Empty;
         public string SiteTitle = string.Empty;
-        public long SavedDestinationId = 0;
-        public long SavedSourceId = 0;
-        public string SavedReferenceType = string.Empty;
-        public long SavedSiteId = 0;
-        public string SavedTitle = string.Empty;
-        public string SavedSubset = string.Empty;
-        public string SavedSiteTitle = string.Empty;
-        public bool DestinationId_Updated { get { return DestinationId != SavedDestinationId; } }
-        public bool SourceId_Updated { get { return SourceId != SavedSourceId; } }
+        [NonSerialized] public long SavedDestinationId = 0;
+        [NonSerialized] public long SavedSourceId = 0;
+        [NonSerialized] public string SavedReferenceType = string.Empty;
+        [NonSerialized] public long SavedSiteId = 0;
+        [NonSerialized] public string SavedTitle = string.Empty;
+        [NonSerialized] public string SavedSubset = string.Empty;
+        [NonSerialized] public string SavedSiteTitle = string.Empty;
+
+        public bool DestinationId_Updated
+        {
+            get
+            {
+                return DestinationId != SavedDestinationId;
+            }
+        }
+
+        public bool SourceId_Updated
+        {
+            get
+            {
+                return SourceId != SavedSourceId;
+            }
+        }
 
         public LinkModel(DataRow dataRow, string tableAlias = null)
         {

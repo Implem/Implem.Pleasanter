@@ -6,9 +6,11 @@ using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Settings;
+using System;
 using System.Data;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
+    [Serializable]
     public class Status : IConvertable
     {
         public int Value;

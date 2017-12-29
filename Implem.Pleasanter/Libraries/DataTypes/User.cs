@@ -7,9 +7,11 @@ using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using System;
 using System.Data;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
+    [Serializable]
     public class User : IConvertable
     {
         public int TenantId;

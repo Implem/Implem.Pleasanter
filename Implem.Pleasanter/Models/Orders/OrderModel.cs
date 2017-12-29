@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,20 +19,49 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class OrderModel : BaseModel
     {
         public long ReferenceId = 0;
         public string ReferenceType = string.Empty;
         public int OwnerId = 0;
         public List<long> Data = new List<long>();
-        public long SavedReferenceId = 0;
-        public string SavedReferenceType = string.Empty;
-        public int SavedOwnerId = 0;
-        public string SavedData = "new List<long>()";
-        public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
-        public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
-        public bool OwnerId_Updated { get { return OwnerId != SavedOwnerId; } }
-        public bool Data_Updated { get { return Data.ToJson() != SavedData && Data.ToJson() != null; } }
+        [NonSerialized] public long SavedReferenceId = 0;
+        [NonSerialized] public string SavedReferenceType = string.Empty;
+        [NonSerialized] public int SavedOwnerId = 0;
+        [NonSerialized] public string SavedData = "new List<long>()";
+
+        public bool ReferenceId_Updated
+        {
+            get
+            {
+                return ReferenceId != SavedReferenceId;
+            }
+        }
+
+        public bool ReferenceType_Updated
+        {
+            get
+            {
+                return ReferenceType != SavedReferenceType && ReferenceType != null;
+            }
+        }
+
+        public bool OwnerId_Updated
+        {
+            get
+            {
+                return OwnerId != SavedOwnerId;
+            }
+        }
+
+        public bool Data_Updated
+        {
+            get
+            {
+                return Data.ToJson() != SavedData && Data.ToJson() != null;
+            }
+        }
 
         public OrderModel(DataRow dataRow, string tableAlias = null)
         {

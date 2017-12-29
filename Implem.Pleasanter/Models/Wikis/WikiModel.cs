@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,13 +19,20 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class WikiModel : BaseItemModel
     {
-        public long Id { get { return WikiId; } }
-        public override long UrlId { get { return WikiId; } }
         public long WikiId = 0;
-        public TitleBody TitleBody { get { return new TitleBody(WikiId, Title.Value, Title.DisplayValue, Body); } }
-        public long SavedWikiId = 0;
+
+        public TitleBody TitleBody
+        {
+            get
+            {
+                return new TitleBody(WikiId, Title.Value, Title.DisplayValue, Body);
+            }
+        }
+
+        [NonSerialized] public long SavedWikiId = 0;
 
         public string PropertyValue(string name)
         {

@@ -13,6 +13,7 @@ using System.Data;
 using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
+    [Serializable]
     public class ProgressRate : IConvertable
     {
         public DateTime CreatedTime;
@@ -20,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public DateTime CompletionTime;
         public decimal Value;
         public DateTime UpdatedTime;
+        [NonSerialized]
         public Versions.VerTypes VerType = Versions.VerTypes.Latest;
 
         public ProgressRate()

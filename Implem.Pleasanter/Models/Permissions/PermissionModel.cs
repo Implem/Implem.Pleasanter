@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class PermissionModel : BaseModel
     {
         public long ReferenceId = 0;
@@ -30,19 +30,54 @@ namespace Implem.Pleasanter.Models
         public string GroupName = string.Empty;
         public string Name = string.Empty;
         public Permissions.Types PermissionType = (Permissions.Types)31;
-        public long SavedReferenceId = 0;
-        public int SavedDeptId = 0;
-        public int SavedGroupId = 0;
-        public int SavedUserId = 0;
-        public string SavedDeptName = string.Empty;
-        public string SavedGroupName = string.Empty;
-        public string SavedName = string.Empty;
-        public long SavedPermissionType = 31;
-        public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
-        public bool DeptId_Updated { get { return DeptId != SavedDeptId; } }
-        public bool GroupId_Updated { get { return GroupId != SavedGroupId; } }
-        public bool UserId_Updated { get { return UserId != SavedUserId; } }
-        public bool PermissionType_Updated { get { return PermissionType.ToLong() != SavedPermissionType; } }
+        [NonSerialized] public long SavedReferenceId = 0;
+        [NonSerialized] public int SavedDeptId = 0;
+        [NonSerialized] public int SavedGroupId = 0;
+        [NonSerialized] public int SavedUserId = 0;
+        [NonSerialized] public string SavedDeptName = string.Empty;
+        [NonSerialized] public string SavedGroupName = string.Empty;
+        [NonSerialized] public string SavedName = string.Empty;
+        [NonSerialized] public long SavedPermissionType = 31;
+
+        public bool ReferenceId_Updated
+        {
+            get
+            {
+                return ReferenceId != SavedReferenceId;
+            }
+        }
+
+        public bool DeptId_Updated
+        {
+            get
+            {
+                return DeptId != SavedDeptId;
+            }
+        }
+
+        public bool GroupId_Updated
+        {
+            get
+            {
+                return GroupId != SavedGroupId;
+            }
+        }
+
+        public bool UserId_Updated
+        {
+            get
+            {
+                return UserId != SavedUserId;
+            }
+        }
+
+        public bool PermissionType_Updated
+        {
+            get
+            {
+                return PermissionType.ToLong() != SavedPermissionType;
+            }
+        }
 
         public PermissionModel(DataRow dataRow, string tableAlias = null)
         {

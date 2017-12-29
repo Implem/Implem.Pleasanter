@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,17 +19,39 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class ReminderScheduleModel : BaseModel
     {
         public long SiteId = 0;
         public int Id = 0;
         public DateTime ScheduledTime = 0.ToDateTime();
-        public long SavedSiteId = 0;
-        public int SavedId = 0;
-        public DateTime SavedScheduledTime = 0.ToDateTime();
-        public bool SiteId_Updated { get { return SiteId != SavedSiteId; } }
-        public bool Id_Updated { get { return Id != SavedId; } }
-        public bool ScheduledTime_Updated { get { return ScheduledTime != SavedScheduledTime && ScheduledTime != null; } }
+        [NonSerialized] public long SavedSiteId = 0;
+        [NonSerialized] public int SavedId = 0;
+        [NonSerialized] public DateTime SavedScheduledTime = 0.ToDateTime();
+
+        public bool SiteId_Updated
+        {
+            get
+            {
+                return SiteId != SavedSiteId;
+            }
+        }
+
+        public bool Id_Updated
+        {
+            get
+            {
+                return Id != SavedId;
+            }
+        }
+
+        public bool ScheduledTime_Updated
+        {
+            get
+            {
+                return ScheduledTime != SavedScheduledTime && ScheduledTime != null;
+            }
+        }
 
         public ReminderScheduleModel(DataRow dataRow, string tableAlias = null)
         {

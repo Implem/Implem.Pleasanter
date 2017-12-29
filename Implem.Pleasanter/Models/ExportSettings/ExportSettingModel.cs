@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class ExportSettingModel : BaseModel
     {
         public string ReferenceType = "Sites";
@@ -28,18 +28,60 @@ namespace Implem.Pleasanter.Models
         public long ExportSettingId = 0;
         public bool AddHeader = true;
         public ExportColumns ExportColumns = new ExportColumns();
-        public string SavedReferenceType = "Sites";
-        public long SavedReferenceId = 0;
-        public string SavedTitle = string.Empty;
-        public long SavedExportSettingId = 0;
-        public bool SavedAddHeader = true;
-        public string SavedExportColumns = string.Empty;
-        public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
-        public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
-        public bool Title_Updated { get { return Title.Value != SavedTitle && Title.Value != null; } }
-        public bool ExportSettingId_Updated { get { return ExportSettingId != SavedExportSettingId; } }
-        public bool AddHeader_Updated { get { return AddHeader != SavedAddHeader; } }
-        public bool ExportColumns_Updated { get { return ExportColumns.ToJson() != SavedExportColumns && ExportColumns.ToJson() != null; } }
+        [NonSerialized] public string SavedReferenceType = "Sites";
+        [NonSerialized] public long SavedReferenceId = 0;
+        [NonSerialized] public string SavedTitle = string.Empty;
+        [NonSerialized] public long SavedExportSettingId = 0;
+        [NonSerialized] public bool SavedAddHeader = true;
+        [NonSerialized] public string SavedExportColumns = string.Empty;
+
+        public bool ReferenceType_Updated
+        {
+            get
+            {
+                return ReferenceType != SavedReferenceType && ReferenceType != null;
+            }
+        }
+
+        public bool ReferenceId_Updated
+        {
+            get
+            {
+                return ReferenceId != SavedReferenceId;
+            }
+        }
+
+        public bool Title_Updated
+        {
+            get
+            {
+                return Title.Value != SavedTitle && Title.Value != null;
+            }
+        }
+
+        public bool ExportSettingId_Updated
+        {
+            get
+            {
+                return ExportSettingId != SavedExportSettingId;
+            }
+        }
+
+        public bool AddHeader_Updated
+        {
+            get
+            {
+                return AddHeader != SavedAddHeader;
+            }
+        }
+
+        public bool ExportColumns_Updated
+        {
+            get
+            {
+                return ExportColumns.ToJson() != SavedExportColumns && ExportColumns.ToJson() != null;
+            }
+        }
 
         public Title Session_Title()
         {

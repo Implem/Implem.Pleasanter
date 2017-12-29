@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,20 +19,49 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class GroupMemberModel : BaseModel
     {
         public int GroupId = 0;
         public int DeptId = 0;
         public int UserId = 0;
         public bool Admin = false;
-        public int SavedGroupId = 0;
-        public int SavedDeptId = 0;
-        public int SavedUserId = 0;
-        public bool SavedAdmin = false;
-        public bool GroupId_Updated { get { return GroupId != SavedGroupId; } }
-        public bool DeptId_Updated { get { return DeptId != SavedDeptId; } }
-        public bool UserId_Updated { get { return UserId != SavedUserId; } }
-        public bool Admin_Updated { get { return Admin != SavedAdmin; } }
+        [NonSerialized] public int SavedGroupId = 0;
+        [NonSerialized] public int SavedDeptId = 0;
+        [NonSerialized] public int SavedUserId = 0;
+        [NonSerialized] public bool SavedAdmin = false;
+
+        public bool GroupId_Updated
+        {
+            get
+            {
+                return GroupId != SavedGroupId;
+            }
+        }
+
+        public bool DeptId_Updated
+        {
+            get
+            {
+                return DeptId != SavedDeptId;
+            }
+        }
+
+        public bool UserId_Updated
+        {
+            get
+            {
+                return UserId != SavedUserId;
+            }
+        }
+
+        public bool Admin_Updated
+        {
+            get
+            {
+                return Admin != SavedAdmin;
+            }
+        }
 
         public GroupMemberModel(DataRow dataRow, string tableAlias = null)
         {

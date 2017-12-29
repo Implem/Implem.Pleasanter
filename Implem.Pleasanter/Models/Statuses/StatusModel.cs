@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,17 +19,39 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class StatusModel : BaseModel
     {
         public int TenantId = 0;
         public int StatusId = 0;
         public string Value = string.Empty;
-        public int SavedTenantId = 0;
-        public int SavedStatusId = 0;
-        public string SavedValue = string.Empty;
-        public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
-        public bool StatusId_Updated { get { return StatusId != SavedStatusId; } }
-        public bool Value_Updated { get { return Value != SavedValue && Value != null; } }
+        [NonSerialized] public int SavedTenantId = 0;
+        [NonSerialized] public int SavedStatusId = 0;
+        [NonSerialized] public string SavedValue = string.Empty;
+
+        public bool TenantId_Updated
+        {
+            get
+            {
+                return TenantId != SavedTenantId;
+            }
+        }
+
+        public bool StatusId_Updated
+        {
+            get
+            {
+                return StatusId != SavedStatusId;
+            }
+        }
+
+        public bool Value_Updated
+        {
+            get
+            {
+                return Value != SavedValue && Value != null;
+            }
+        }
 
         public StatusModel(DataRow dataRow, string tableAlias = null)
         {

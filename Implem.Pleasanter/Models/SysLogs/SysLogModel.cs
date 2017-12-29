@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class SysLogModel : BaseModel
     {
         public long SysLogId = 0;
@@ -58,77 +58,323 @@ namespace Implem.Pleasanter.Models
         public string ErrStackTrace = string.Empty;
         public bool InDebug = false;
         public string AssemblyVersion = string.Empty;
-        public Title Title { get { return new Title(SysLogId, SysLogId.ToString()); } }
-        public long SavedSysLogId = 0;
-        public DateTime SavedStartTime = 0.ToDateTime();
-        public DateTime SavedEndTime = 0.ToDateTime();
-        public int SavedSysLogType = 10;
-        public bool SavedOnAzure = false;
-        public string SavedMachineName = string.Empty;
-        public string SavedServiceName = string.Empty;
-        public string SavedTenantName = string.Empty;
-        public string SavedApplication = string.Empty;
-        public string SavedClass = string.Empty;
-        public string SavedMethod = string.Empty;
-        public string SavedRequestData = string.Empty;
-        public string SavedHttpMethod = string.Empty;
-        public int SavedRequestSize = 0;
-        public int SavedResponseSize = 0;
-        public double SavedElapsed = 0;
-        public double SavedApplicationAge = 0;
-        public double SavedApplicationRequestInterval = 0;
-        public double SavedSessionAge = 0;
-        public double SavedSessionRequestInterval = 0;
-        public long SavedWorkingSet64 = 0;
-        public long SavedVirtualMemorySize64 = 0;
-        public int SavedProcessId = 0;
-        public string SavedProcessName = string.Empty;
-        public int SavedBasePriority = 0;
-        public string SavedUrl = string.Empty;
-        public string SavedUrlReferer = string.Empty;
-        public string SavedUserHostName = string.Empty;
-        public string SavedUserHostAddress = string.Empty;
-        public string SavedUserLanguage = string.Empty;
-        public string SavedUserAgent = string.Empty;
-        public string SavedSessionGuid = string.Empty;
-        public string SavedErrMessage = string.Empty;
-        public string SavedErrStackTrace = string.Empty;
-        public bool SavedInDebug = false;
-        public string SavedAssemblyVersion = string.Empty;
-        public bool SysLogId_Updated { get { return SysLogId != SavedSysLogId; } }
-        public bool SysLogType_Updated { get { return SysLogType.ToInt() != SavedSysLogType; } }
-        public bool OnAzure_Updated { get { return OnAzure != SavedOnAzure; } }
-        public bool MachineName_Updated { get { return MachineName != SavedMachineName && MachineName != null; } }
-        public bool ServiceName_Updated { get { return ServiceName != SavedServiceName && ServiceName != null; } }
-        public bool TenantName_Updated { get { return TenantName != SavedTenantName && TenantName != null; } }
-        public bool Application_Updated { get { return Application != SavedApplication && Application != null; } }
-        public bool Class_Updated { get { return Class != SavedClass && Class != null; } }
-        public bool Method_Updated { get { return Method != SavedMethod && Method != null; } }
-        public bool RequestData_Updated { get { return RequestData != SavedRequestData && RequestData != null; } }
-        public bool HttpMethod_Updated { get { return HttpMethod != SavedHttpMethod && HttpMethod != null; } }
-        public bool RequestSize_Updated { get { return RequestSize != SavedRequestSize; } }
-        public bool ResponseSize_Updated { get { return ResponseSize != SavedResponseSize; } }
-        public bool Elapsed_Updated { get { return Elapsed != SavedElapsed; } }
-        public bool ApplicationAge_Updated { get { return ApplicationAge != SavedApplicationAge; } }
-        public bool ApplicationRequestInterval_Updated { get { return ApplicationRequestInterval != SavedApplicationRequestInterval; } }
-        public bool SessionAge_Updated { get { return SessionAge != SavedSessionAge; } }
-        public bool SessionRequestInterval_Updated { get { return SessionRequestInterval != SavedSessionRequestInterval; } }
-        public bool WorkingSet64_Updated { get { return WorkingSet64 != SavedWorkingSet64; } }
-        public bool VirtualMemorySize64_Updated { get { return VirtualMemorySize64 != SavedVirtualMemorySize64; } }
-        public bool ProcessId_Updated { get { return ProcessId != SavedProcessId; } }
-        public bool ProcessName_Updated { get { return ProcessName != SavedProcessName && ProcessName != null; } }
-        public bool BasePriority_Updated { get { return BasePriority != SavedBasePriority; } }
-        public bool Url_Updated { get { return Url != SavedUrl && Url != null; } }
-        public bool UrlReferer_Updated { get { return UrlReferer != SavedUrlReferer && UrlReferer != null; } }
-        public bool UserHostName_Updated { get { return UserHostName != SavedUserHostName && UserHostName != null; } }
-        public bool UserHostAddress_Updated { get { return UserHostAddress != SavedUserHostAddress && UserHostAddress != null; } }
-        public bool UserLanguage_Updated { get { return UserLanguage != SavedUserLanguage && UserLanguage != null; } }
-        public bool UserAgent_Updated { get { return UserAgent != SavedUserAgent && UserAgent != null; } }
-        public bool SessionGuid_Updated { get { return SessionGuid != SavedSessionGuid && SessionGuid != null; } }
-        public bool ErrMessage_Updated { get { return ErrMessage != SavedErrMessage && ErrMessage != null; } }
-        public bool ErrStackTrace_Updated { get { return ErrStackTrace != SavedErrStackTrace && ErrStackTrace != null; } }
-        public bool InDebug_Updated { get { return InDebug != SavedInDebug; } }
-        public bool AssemblyVersion_Updated { get { return AssemblyVersion != SavedAssemblyVersion && AssemblyVersion != null; } }
+
+        public Title Title
+        {
+            get
+            {
+                return new Title(SysLogId, SysLogId.ToString());
+            }
+        }
+
+        [NonSerialized] public long SavedSysLogId = 0;
+        [NonSerialized] public DateTime SavedStartTime = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedEndTime = 0.ToDateTime();
+        [NonSerialized] public int SavedSysLogType = 10;
+        [NonSerialized] public bool SavedOnAzure = false;
+        [NonSerialized] public string SavedMachineName = string.Empty;
+        [NonSerialized] public string SavedServiceName = string.Empty;
+        [NonSerialized] public string SavedTenantName = string.Empty;
+        [NonSerialized] public string SavedApplication = string.Empty;
+        [NonSerialized] public string SavedClass = string.Empty;
+        [NonSerialized] public string SavedMethod = string.Empty;
+        [NonSerialized] public string SavedRequestData = string.Empty;
+        [NonSerialized] public string SavedHttpMethod = string.Empty;
+        [NonSerialized] public int SavedRequestSize = 0;
+        [NonSerialized] public int SavedResponseSize = 0;
+        [NonSerialized] public double SavedElapsed = 0;
+        [NonSerialized] public double SavedApplicationAge = 0;
+        [NonSerialized] public double SavedApplicationRequestInterval = 0;
+        [NonSerialized] public double SavedSessionAge = 0;
+        [NonSerialized] public double SavedSessionRequestInterval = 0;
+        [NonSerialized] public long SavedWorkingSet64 = 0;
+        [NonSerialized] public long SavedVirtualMemorySize64 = 0;
+        [NonSerialized] public int SavedProcessId = 0;
+        [NonSerialized] public string SavedProcessName = string.Empty;
+        [NonSerialized] public int SavedBasePriority = 0;
+        [NonSerialized] public string SavedUrl = string.Empty;
+        [NonSerialized] public string SavedUrlReferer = string.Empty;
+        [NonSerialized] public string SavedUserHostName = string.Empty;
+        [NonSerialized] public string SavedUserHostAddress = string.Empty;
+        [NonSerialized] public string SavedUserLanguage = string.Empty;
+        [NonSerialized] public string SavedUserAgent = string.Empty;
+        [NonSerialized] public string SavedSessionGuid = string.Empty;
+        [NonSerialized] public string SavedErrMessage = string.Empty;
+        [NonSerialized] public string SavedErrStackTrace = string.Empty;
+        [NonSerialized] public bool SavedInDebug = false;
+        [NonSerialized] public string SavedAssemblyVersion = string.Empty;
+
+        public bool SysLogId_Updated
+        {
+            get
+            {
+                return SysLogId != SavedSysLogId;
+            }
+        }
+
+        public bool SysLogType_Updated
+        {
+            get
+            {
+                return SysLogType.ToInt() != SavedSysLogType;
+            }
+        }
+
+        public bool OnAzure_Updated
+        {
+            get
+            {
+                return OnAzure != SavedOnAzure;
+            }
+        }
+
+        public bool MachineName_Updated
+        {
+            get
+            {
+                return MachineName != SavedMachineName && MachineName != null;
+            }
+        }
+
+        public bool ServiceName_Updated
+        {
+            get
+            {
+                return ServiceName != SavedServiceName && ServiceName != null;
+            }
+        }
+
+        public bool TenantName_Updated
+        {
+            get
+            {
+                return TenantName != SavedTenantName && TenantName != null;
+            }
+        }
+
+        public bool Application_Updated
+        {
+            get
+            {
+                return Application != SavedApplication && Application != null;
+            }
+        }
+
+        public bool Class_Updated
+        {
+            get
+            {
+                return Class != SavedClass && Class != null;
+            }
+        }
+
+        public bool Method_Updated
+        {
+            get
+            {
+                return Method != SavedMethod && Method != null;
+            }
+        }
+
+        public bool RequestData_Updated
+        {
+            get
+            {
+                return RequestData != SavedRequestData && RequestData != null;
+            }
+        }
+
+        public bool HttpMethod_Updated
+        {
+            get
+            {
+                return HttpMethod != SavedHttpMethod && HttpMethod != null;
+            }
+        }
+
+        public bool RequestSize_Updated
+        {
+            get
+            {
+                return RequestSize != SavedRequestSize;
+            }
+        }
+
+        public bool ResponseSize_Updated
+        {
+            get
+            {
+                return ResponseSize != SavedResponseSize;
+            }
+        }
+
+        public bool Elapsed_Updated
+        {
+            get
+            {
+                return Elapsed != SavedElapsed;
+            }
+        }
+
+        public bool ApplicationAge_Updated
+        {
+            get
+            {
+                return ApplicationAge != SavedApplicationAge;
+            }
+        }
+
+        public bool ApplicationRequestInterval_Updated
+        {
+            get
+            {
+                return ApplicationRequestInterval != SavedApplicationRequestInterval;
+            }
+        }
+
+        public bool SessionAge_Updated
+        {
+            get
+            {
+                return SessionAge != SavedSessionAge;
+            }
+        }
+
+        public bool SessionRequestInterval_Updated
+        {
+            get
+            {
+                return SessionRequestInterval != SavedSessionRequestInterval;
+            }
+        }
+
+        public bool WorkingSet64_Updated
+        {
+            get
+            {
+                return WorkingSet64 != SavedWorkingSet64;
+            }
+        }
+
+        public bool VirtualMemorySize64_Updated
+        {
+            get
+            {
+                return VirtualMemorySize64 != SavedVirtualMemorySize64;
+            }
+        }
+
+        public bool ProcessId_Updated
+        {
+            get
+            {
+                return ProcessId != SavedProcessId;
+            }
+        }
+
+        public bool ProcessName_Updated
+        {
+            get
+            {
+                return ProcessName != SavedProcessName && ProcessName != null;
+            }
+        }
+
+        public bool BasePriority_Updated
+        {
+            get
+            {
+                return BasePriority != SavedBasePriority;
+            }
+        }
+
+        public bool Url_Updated
+        {
+            get
+            {
+                return Url != SavedUrl && Url != null;
+            }
+        }
+
+        public bool UrlReferer_Updated
+        {
+            get
+            {
+                return UrlReferer != SavedUrlReferer && UrlReferer != null;
+            }
+        }
+
+        public bool UserHostName_Updated
+        {
+            get
+            {
+                return UserHostName != SavedUserHostName && UserHostName != null;
+            }
+        }
+
+        public bool UserHostAddress_Updated
+        {
+            get
+            {
+                return UserHostAddress != SavedUserHostAddress && UserHostAddress != null;
+            }
+        }
+
+        public bool UserLanguage_Updated
+        {
+            get
+            {
+                return UserLanguage != SavedUserLanguage && UserLanguage != null;
+            }
+        }
+
+        public bool UserAgent_Updated
+        {
+            get
+            {
+                return UserAgent != SavedUserAgent && UserAgent != null;
+            }
+        }
+
+        public bool SessionGuid_Updated
+        {
+            get
+            {
+                return SessionGuid != SavedSessionGuid && SessionGuid != null;
+            }
+        }
+
+        public bool ErrMessage_Updated
+        {
+            get
+            {
+                return ErrMessage != SavedErrMessage && ErrMessage != null;
+            }
+        }
+
+        public bool ErrStackTrace_Updated
+        {
+            get
+            {
+                return ErrStackTrace != SavedErrStackTrace && ErrStackTrace != null;
+            }
+        }
+
+        public bool InDebug_Updated
+        {
+            get
+            {
+                return InDebug != SavedInDebug;
+            }
+        }
+
+        public bool AssemblyVersion_Updated
+        {
+            get
+            {
+                return AssemblyVersion != SavedAssemblyVersion && AssemblyVersion != null;
+            }
+        }
 
         public SysLogModel(DataRow dataRow, string tableAlias = null)
         {
@@ -498,7 +744,7 @@ namespace Implem.Pleasanter.Models
             MachineName = Environments.MachineName;
             ServiceName = Environments.ServiceName;
             Application = Environments.Application;
-            var request = new Request(HttpContext);
+            var request = new Request(System.Web.HttpContext.Current);
             if (request.HttpRequest != null)
             {
                 RequestData = request.ProcessedRequestData();

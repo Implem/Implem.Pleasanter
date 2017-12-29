@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,21 +19,58 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class MailAddressModel : BaseModel
     {
         public long OwnerId = 0;
         public string OwnerType = string.Empty;
         public long MailAddressId = 0;
         public string MailAddress = string.Empty;
-        public Title Title { get { return new Title(MailAddressId, MailAddress); } }
-        public long SavedOwnerId = 0;
-        public string SavedOwnerType = string.Empty;
-        public long SavedMailAddressId = 0;
-        public string SavedMailAddress = string.Empty;
-        public bool OwnerId_Updated { get { return OwnerId != SavedOwnerId; } }
-        public bool OwnerType_Updated { get { return OwnerType != SavedOwnerType && OwnerType != null; } }
-        public bool MailAddressId_Updated { get { return MailAddressId != SavedMailAddressId; } }
-        public bool MailAddress_Updated { get { return MailAddress != SavedMailAddress && MailAddress != null; } }
+
+        public Title Title
+        {
+            get
+            {
+                return new Title(MailAddressId, MailAddress);
+            }
+        }
+
+        [NonSerialized] public long SavedOwnerId = 0;
+        [NonSerialized] public string SavedOwnerType = string.Empty;
+        [NonSerialized] public long SavedMailAddressId = 0;
+        [NonSerialized] public string SavedMailAddress = string.Empty;
+
+        public bool OwnerId_Updated
+        {
+            get
+            {
+                return OwnerId != SavedOwnerId;
+            }
+        }
+
+        public bool OwnerType_Updated
+        {
+            get
+            {
+                return OwnerType != SavedOwnerType && OwnerType != null;
+            }
+        }
+
+        public bool MailAddressId_Updated
+        {
+            get
+            {
+                return MailAddressId != SavedMailAddressId;
+            }
+        }
+
+        public bool MailAddress_Updated
+        {
+            get
+            {
+                return MailAddress != SavedMailAddress && MailAddress != null;
+            }
+        }
 
         public MailAddressModel()
         {

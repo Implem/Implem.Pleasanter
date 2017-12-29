@@ -10,6 +10,7 @@ using System;
 using System.Data;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
+    [Serializable]
     public class WorkValue : IConvertable
     {
         public decimal Value;

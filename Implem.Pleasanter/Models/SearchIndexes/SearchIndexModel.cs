@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class SearchIndexModel : BaseModel
     {
         public string Word = string.Empty;
@@ -29,16 +29,37 @@ namespace Implem.Pleasanter.Models
         public string Title = string.Empty;
         public string Subset = string.Empty;
         public long InheritPermission = 0;
-        public string SavedWord = string.Empty;
-        public long SavedReferenceId = 0;
-        public int SavedPriority = 0;
-        public string SavedReferenceType = string.Empty;
-        public string SavedTitle = string.Empty;
-        public string SavedSubset = string.Empty;
-        public long SavedInheritPermission = 0;
-        public bool Word_Updated { get { return Word != SavedWord && Word != null; } }
-        public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
-        public bool Priority_Updated { get { return Priority != SavedPriority; } }
+        [NonSerialized] public string SavedWord = string.Empty;
+        [NonSerialized] public long SavedReferenceId = 0;
+        [NonSerialized] public int SavedPriority = 0;
+        [NonSerialized] public string SavedReferenceType = string.Empty;
+        [NonSerialized] public string SavedTitle = string.Empty;
+        [NonSerialized] public string SavedSubset = string.Empty;
+        [NonSerialized] public long SavedInheritPermission = 0;
+
+        public bool Word_Updated
+        {
+            get
+            {
+                return Word != SavedWord && Word != null;
+            }
+        }
+
+        public bool ReferenceId_Updated
+        {
+            get
+            {
+                return ReferenceId != SavedReferenceId;
+            }
+        }
+
+        public bool Priority_Updated
+        {
+            get
+            {
+                return Priority != SavedPriority;
+            }
+        }
 
         public SearchIndexModel(DataRow dataRow, string tableAlias = null)
         {

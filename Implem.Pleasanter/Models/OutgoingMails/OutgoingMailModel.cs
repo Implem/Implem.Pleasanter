@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class OutgoingMailModel : BaseModel
     {
         public string ReferenceType = string.Empty;
@@ -37,34 +37,125 @@ namespace Implem.Pleasanter.Models
         public Time SentTime = new Time();
         public string DestinationSearchRange = string.Empty;
         public string DestinationSearchText = string.Empty;
-        public string SavedReferenceType = string.Empty;
-        public long SavedReferenceId = 0;
-        public int SavedReferenceVer = 0;
-        public long SavedOutgoingMailId = 0;
-        public string SavedHost = string.Empty;
-        public int SavedPort = 0;
-        public string SavedFrom = "null";
-        public string SavedTo = string.Empty;
-        public string SavedCc = string.Empty;
-        public string SavedBcc = string.Empty;
-        public string SavedTitle = string.Empty;
-        public string SavedBody = string.Empty;
-        public DateTime SavedSentTime = 0.ToDateTime();
-        public string SavedDestinationSearchRange = string.Empty;
-        public string SavedDestinationSearchText = string.Empty;
-        public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
-        public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
-        public bool ReferenceVer_Updated { get { return ReferenceVer != SavedReferenceVer; } }
-        public bool OutgoingMailId_Updated { get { return OutgoingMailId != SavedOutgoingMailId; } }
-        public bool Host_Updated { get { return Host != SavedHost && Host != null; } }
-        public bool Port_Updated { get { return Port != SavedPort; } }
-        public bool From_Updated { get { return From.ToString() != SavedFrom && From.ToString() != null; } }
-        public bool To_Updated { get { return To != SavedTo && To != null; } }
-        public bool Cc_Updated { get { return Cc != SavedCc && Cc != null; } }
-        public bool Bcc_Updated { get { return Bcc != SavedBcc && Bcc != null; } }
-        public bool Title_Updated { get { return Title.Value != SavedTitle && Title.Value != null; } }
-        public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
-        public bool SentTime_Updated { get { return SentTime.Value != SavedSentTime && SentTime.Value != null; } }
+        [NonSerialized] public string SavedReferenceType = string.Empty;
+        [NonSerialized] public long SavedReferenceId = 0;
+        [NonSerialized] public int SavedReferenceVer = 0;
+        [NonSerialized] public long SavedOutgoingMailId = 0;
+        [NonSerialized] public string SavedHost = string.Empty;
+        [NonSerialized] public int SavedPort = 0;
+        [NonSerialized] public string SavedFrom = "null";
+        [NonSerialized] public string SavedTo = string.Empty;
+        [NonSerialized] public string SavedCc = string.Empty;
+        [NonSerialized] public string SavedBcc = string.Empty;
+        [NonSerialized] public string SavedTitle = string.Empty;
+        [NonSerialized] public string SavedBody = string.Empty;
+        [NonSerialized] public DateTime SavedSentTime = 0.ToDateTime();
+        [NonSerialized] public string SavedDestinationSearchRange = string.Empty;
+        [NonSerialized] public string SavedDestinationSearchText = string.Empty;
+
+        public bool ReferenceType_Updated
+        {
+            get
+            {
+                return ReferenceType != SavedReferenceType && ReferenceType != null;
+            }
+        }
+
+        public bool ReferenceId_Updated
+        {
+            get
+            {
+                return ReferenceId != SavedReferenceId;
+            }
+        }
+
+        public bool ReferenceVer_Updated
+        {
+            get
+            {
+                return ReferenceVer != SavedReferenceVer;
+            }
+        }
+
+        public bool OutgoingMailId_Updated
+        {
+            get
+            {
+                return OutgoingMailId != SavedOutgoingMailId;
+            }
+        }
+
+        public bool Host_Updated
+        {
+            get
+            {
+                return Host != SavedHost && Host != null;
+            }
+        }
+
+        public bool Port_Updated
+        {
+            get
+            {
+                return Port != SavedPort;
+            }
+        }
+
+        public bool From_Updated
+        {
+            get
+            {
+                return From.ToString() != SavedFrom && From.ToString() != null;
+            }
+        }
+
+        public bool To_Updated
+        {
+            get
+            {
+                return To != SavedTo && To != null;
+            }
+        }
+
+        public bool Cc_Updated
+        {
+            get
+            {
+                return Cc != SavedCc && Cc != null;
+            }
+        }
+
+        public bool Bcc_Updated
+        {
+            get
+            {
+                return Bcc != SavedBcc && Bcc != null;
+            }
+        }
+
+        public bool Title_Updated
+        {
+            get
+            {
+                return Title.Value != SavedTitle && Title.Value != null;
+            }
+        }
+
+        public bool Body_Updated
+        {
+            get
+            {
+                return Body != SavedBody && Body != null;
+            }
+        }
+
+        public bool SentTime_Updated
+        {
+            get
+            {
+                return SentTime.Value != SavedSentTime && SentTime.Value != null;
+            }
+        }
 
         public OutgoingMailModel()
         {
