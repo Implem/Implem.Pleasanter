@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class BinaryModel : BaseModel
     {
         public long ReferenceId = 0;
@@ -34,30 +34,114 @@ namespace Implem.Pleasanter.Models
         public string Extension = string.Empty;
         public int Size = 0;
         public BinarySettings BinarySettings = new BinarySettings();
-        public long SavedReferenceId = 0;
-        public long SavedBinaryId = 0;
-        public string SavedBinaryType = string.Empty;
-        public string SavedTitle = string.Empty;
-        public string SavedBody = string.Empty;
-        public byte[] SavedBin = null;
-        public byte[] SavedThumbnail = null;
-        public byte[] SavedIcon = null;
-        public string SavedFileName = string.Empty;
-        public string SavedExtension = string.Empty;
-        public int SavedSize = 0;
-        public string SavedBinarySettings = string.Empty;
-        public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
-        public bool BinaryId_Updated { get { return BinaryId != SavedBinaryId; } }
-        public bool BinaryType_Updated { get { return BinaryType != SavedBinaryType && BinaryType != null; } }
-        public bool Title_Updated { get { return Title.Value != SavedTitle && Title.Value != null; } }
-        public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
-        public bool Bin_Updated { get { return Bin != SavedBin && Bin != null; } }
-        public bool Thumbnail_Updated { get { return Thumbnail != SavedThumbnail && Thumbnail != null; } }
-        public bool Icon_Updated { get { return Icon != SavedIcon && Icon != null; } }
-        public bool FileName_Updated { get { return FileName != SavedFileName && FileName != null; } }
-        public bool Extension_Updated { get { return Extension != SavedExtension && Extension != null; } }
-        public bool Size_Updated { get { return Size != SavedSize; } }
-        public bool BinarySettings_Updated { get { return BinarySettings.ToJson() != SavedBinarySettings && BinarySettings.ToJson() != null; } }
+        [NonSerialized] public long SavedReferenceId = 0;
+        [NonSerialized] public long SavedBinaryId = 0;
+        [NonSerialized] public string SavedBinaryType = string.Empty;
+        [NonSerialized] public string SavedTitle = string.Empty;
+        [NonSerialized] public string SavedBody = string.Empty;
+        [NonSerialized] public byte[] SavedBin = null;
+        [NonSerialized] public byte[] SavedThumbnail = null;
+        [NonSerialized] public byte[] SavedIcon = null;
+        [NonSerialized] public string SavedFileName = string.Empty;
+        [NonSerialized] public string SavedExtension = string.Empty;
+        [NonSerialized] public int SavedSize = 0;
+        [NonSerialized] public string SavedBinarySettings = string.Empty;
+
+        public bool ReferenceId_Updated
+        {
+            get
+            {
+                return ReferenceId != SavedReferenceId;
+            }
+        }
+
+        public bool BinaryId_Updated
+        {
+            get
+            {
+                return BinaryId != SavedBinaryId;
+            }
+        }
+
+        public bool BinaryType_Updated
+        {
+            get
+            {
+                return BinaryType != SavedBinaryType && BinaryType != null;
+            }
+        }
+
+        public bool Title_Updated
+        {
+            get
+            {
+                return Title.Value != SavedTitle && Title.Value != null;
+            }
+        }
+
+        public bool Body_Updated
+        {
+            get
+            {
+                return Body != SavedBody && Body != null;
+            }
+        }
+
+        public bool Bin_Updated
+        {
+            get
+            {
+                return Bin != SavedBin && Bin != null;
+            }
+        }
+
+        public bool Thumbnail_Updated
+        {
+            get
+            {
+                return Thumbnail != SavedThumbnail && Thumbnail != null;
+            }
+        }
+
+        public bool Icon_Updated
+        {
+            get
+            {
+                return Icon != SavedIcon && Icon != null;
+            }
+        }
+
+        public bool FileName_Updated
+        {
+            get
+            {
+                return FileName != SavedFileName && FileName != null;
+            }
+        }
+
+        public bool Extension_Updated
+        {
+            get
+            {
+                return Extension != SavedExtension && Extension != null;
+            }
+        }
+
+        public bool Size_Updated
+        {
+            get
+            {
+                return Size != SavedSize;
+            }
+        }
+
+        public bool BinarySettings_Updated
+        {
+            get
+            {
+                return BinarySettings.ToJson() != SavedBinarySettings && BinarySettings.ToJson() != null;
+            }
+        }
 
         public BinarySettings Session_BinarySettings()
         {

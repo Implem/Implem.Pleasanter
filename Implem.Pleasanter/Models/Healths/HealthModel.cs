@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class HealthModel : BaseModel
     {
         public long HealthId = 0;
@@ -28,18 +28,60 @@ namespace Implem.Pleasanter.Models
         public int ItemCount = 0;
         public int ErrorCount = 0;
         public double Elapsed = 0;
-        public long SavedHealthId = 0;
-        public int SavedTenantCount = 0;
-        public int SavedUserCount = 0;
-        public int SavedItemCount = 0;
-        public int SavedErrorCount = 0;
-        public double SavedElapsed = 0;
-        public bool HealthId_Updated { get { return HealthId != SavedHealthId; } }
-        public bool TenantCount_Updated { get { return TenantCount != SavedTenantCount; } }
-        public bool UserCount_Updated { get { return UserCount != SavedUserCount; } }
-        public bool ItemCount_Updated { get { return ItemCount != SavedItemCount; } }
-        public bool ErrorCount_Updated { get { return ErrorCount != SavedErrorCount; } }
-        public bool Elapsed_Updated { get { return Elapsed != SavedElapsed; } }
+        [NonSerialized] public long SavedHealthId = 0;
+        [NonSerialized] public int SavedTenantCount = 0;
+        [NonSerialized] public int SavedUserCount = 0;
+        [NonSerialized] public int SavedItemCount = 0;
+        [NonSerialized] public int SavedErrorCount = 0;
+        [NonSerialized] public double SavedElapsed = 0;
+
+        public bool HealthId_Updated
+        {
+            get
+            {
+                return HealthId != SavedHealthId;
+            }
+        }
+
+        public bool TenantCount_Updated
+        {
+            get
+            {
+                return TenantCount != SavedTenantCount;
+            }
+        }
+
+        public bool UserCount_Updated
+        {
+            get
+            {
+                return UserCount != SavedUserCount;
+            }
+        }
+
+        public bool ItemCount_Updated
+        {
+            get
+            {
+                return ItemCount != SavedItemCount;
+            }
+        }
+
+        public bool ErrorCount_Updated
+        {
+            get
+            {
+                return ErrorCount != SavedErrorCount;
+            }
+        }
+
+        public bool Elapsed_Updated
+        {
+            get
+            {
+                return Elapsed != SavedElapsed;
+            }
+        }
 
         public HealthModel()
         {

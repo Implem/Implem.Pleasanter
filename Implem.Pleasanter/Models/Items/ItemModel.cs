@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class ItemModel : BaseModel
     {
         public long ReferenceId = 0;
@@ -29,19 +29,61 @@ namespace Implem.Pleasanter.Models
         public SiteModel Site = null;
         public string FullText = string.Empty;
         public DateTime SearchIndexCreatedTime = 0.ToDateTime();
-        public long SavedReferenceId = 0;
-        public string SavedReferenceType = string.Empty;
-        public long SavedSiteId = 0;
-        public string SavedTitle = string.Empty;
-        public SiteModel SavedSite = null;
-        public string SavedFullText = string.Empty;
-        public DateTime SavedSearchIndexCreatedTime = 0.ToDateTime();
-        public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
-        public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
-        public bool SiteId_Updated { get { return SiteId != SavedSiteId; } }
-        public bool Title_Updated { get { return Title != SavedTitle && Title != null; } }
-        public bool FullText_Updated { get { return FullText != SavedFullText && FullText != null; } }
-        public bool SearchIndexCreatedTime_Updated { get { return SearchIndexCreatedTime != SavedSearchIndexCreatedTime && SearchIndexCreatedTime != null; } }
+        [NonSerialized] public long SavedReferenceId = 0;
+        [NonSerialized] public string SavedReferenceType = string.Empty;
+        [NonSerialized] public long SavedSiteId = 0;
+        [NonSerialized] public string SavedTitle = string.Empty;
+        [NonSerialized] public SiteModel SavedSite = null;
+        [NonSerialized] public string SavedFullText = string.Empty;
+        [NonSerialized] public DateTime SavedSearchIndexCreatedTime = 0.ToDateTime();
+
+        public bool ReferenceId_Updated
+        {
+            get
+            {
+                return ReferenceId != SavedReferenceId;
+            }
+        }
+
+        public bool ReferenceType_Updated
+        {
+            get
+            {
+                return ReferenceType != SavedReferenceType && ReferenceType != null;
+            }
+        }
+
+        public bool SiteId_Updated
+        {
+            get
+            {
+                return SiteId != SavedSiteId;
+            }
+        }
+
+        public bool Title_Updated
+        {
+            get
+            {
+                return Title != SavedTitle && Title != null;
+            }
+        }
+
+        public bool FullText_Updated
+        {
+            get
+            {
+                return FullText != SavedFullText && FullText != null;
+            }
+        }
+
+        public bool SearchIndexCreatedTime_Updated
+        {
+            get
+            {
+                return SearchIndexCreatedTime != SavedSearchIndexCreatedTime && SearchIndexCreatedTime != null;
+            }
+        }
 
         public ItemModel(DataRow dataRow, string tableAlias = null)
         {

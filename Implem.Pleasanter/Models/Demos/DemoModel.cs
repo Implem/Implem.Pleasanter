@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class DemoModel : BaseModel
     {
         public int DemoId = 0;
@@ -29,19 +29,61 @@ namespace Implem.Pleasanter.Models
         public string MailAddress = string.Empty;
         public bool Initialized = false;
         public int TimeLag = 0;
-        public int SavedDemoId = 0;
-        public int SavedTenantId = 0;
-        public string SavedTitle = string.Empty;
-        public string SavedPassphrase = string.Empty;
-        public string SavedMailAddress = string.Empty;
-        public bool SavedInitialized = false;
-        public int SavedTimeLag = 0;
-        public bool DemoId_Updated { get { return DemoId != SavedDemoId; } }
-        public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
-        public bool Title_Updated { get { return Title.Value != SavedTitle && Title.Value != null; } }
-        public bool Passphrase_Updated { get { return Passphrase != SavedPassphrase && Passphrase != null; } }
-        public bool MailAddress_Updated { get { return MailAddress != SavedMailAddress && MailAddress != null; } }
-        public bool Initialized_Updated { get { return Initialized != SavedInitialized; } }
+        [NonSerialized] public int SavedDemoId = 0;
+        [NonSerialized] public int SavedTenantId = 0;
+        [NonSerialized] public string SavedTitle = string.Empty;
+        [NonSerialized] public string SavedPassphrase = string.Empty;
+        [NonSerialized] public string SavedMailAddress = string.Empty;
+        [NonSerialized] public bool SavedInitialized = false;
+        [NonSerialized] public int SavedTimeLag = 0;
+
+        public bool DemoId_Updated
+        {
+            get
+            {
+                return DemoId != SavedDemoId;
+            }
+        }
+
+        public bool TenantId_Updated
+        {
+            get
+            {
+                return TenantId != SavedTenantId;
+            }
+        }
+
+        public bool Title_Updated
+        {
+            get
+            {
+                return Title.Value != SavedTitle && Title.Value != null;
+            }
+        }
+
+        public bool Passphrase_Updated
+        {
+            get
+            {
+                return Passphrase != SavedPassphrase && Passphrase != null;
+            }
+        }
+
+        public bool MailAddress_Updated
+        {
+            get
+            {
+                return MailAddress != SavedMailAddress && MailAddress != null;
+            }
+        }
+
+        public bool Initialized_Updated
+        {
+            get
+            {
+                return Initialized != SavedInitialized;
+            }
+        }
 
         /// <summary>
         /// Fixed:

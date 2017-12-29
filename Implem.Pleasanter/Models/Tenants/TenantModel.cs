@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class TenantModel : BaseModel
     {
         public int TenantId = Sessions.TenantId();
@@ -28,18 +28,60 @@ namespace Implem.Pleasanter.Models
         public string Body = string.Empty;
         public ContractSettings ContractSettings = new ContractSettings();
         public DateTime ContractDeadline = 0.ToDateTime();
-        public int SavedTenantId = Sessions.TenantId();
-        public string SavedTenantName = string.Empty;
-        public string SavedTitle = string.Empty;
-        public string SavedBody = string.Empty;
-        public string SavedContractSettings = string.Empty;
-        public DateTime SavedContractDeadline = 0.ToDateTime();
-        public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
-        public bool TenantName_Updated { get { return TenantName != SavedTenantName && TenantName != null; } }
-        public bool Title_Updated { get { return Title.Value != SavedTitle && Title.Value != null; } }
-        public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
-        public bool ContractSettings_Updated { get { return ContractSettings?.RecordingJson() != SavedContractSettings && ContractSettings?.RecordingJson() != null; } }
-        public bool ContractDeadline_Updated { get { return ContractDeadline != SavedContractDeadline && ContractDeadline != null; } }
+        [NonSerialized] public int SavedTenantId = Sessions.TenantId();
+        [NonSerialized] public string SavedTenantName = string.Empty;
+        [NonSerialized] public string SavedTitle = string.Empty;
+        [NonSerialized] public string SavedBody = string.Empty;
+        [NonSerialized] public string SavedContractSettings = string.Empty;
+        [NonSerialized] public DateTime SavedContractDeadline = 0.ToDateTime();
+
+        public bool TenantId_Updated
+        {
+            get
+            {
+                return TenantId != SavedTenantId;
+            }
+        }
+
+        public bool TenantName_Updated
+        {
+            get
+            {
+                return TenantName != SavedTenantName && TenantName != null;
+            }
+        }
+
+        public bool Title_Updated
+        {
+            get
+            {
+                return Title.Value != SavedTitle && Title.Value != null;
+            }
+        }
+
+        public bool Body_Updated
+        {
+            get
+            {
+                return Body != SavedBody && Body != null;
+            }
+        }
+
+        public bool ContractSettings_Updated
+        {
+            get
+            {
+                return ContractSettings?.RecordingJson() != SavedContractSettings && ContractSettings?.RecordingJson() != null;
+            }
+        }
+
+        public bool ContractDeadline_Updated
+        {
+            get
+            {
+                return ContractDeadline != SavedContractDeadline && ContractDeadline != null;
+            }
+        }
 
         public TenantModel()
         {

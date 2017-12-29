@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,11 +19,10 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class SiteModel : BaseItemModel
     {
-        public long Id { get { return SiteId; } }
         public SiteSettings SiteSettings;
-        public override long UrlId { get { return SiteId; } }
         public int TenantId = Sessions.TenantId();
         public string ReferenceType = "Sites";
         public long ParentId = 0;
@@ -34,22 +32,65 @@ namespace Implem.Pleasanter.Models
         public List<string> MonitorChangesColumns = null;
         public List<string> TitleColumns = null;
         public Export Export = null;
-        public TitleBody TitleBody { get { return new TitleBody(SiteId, Title.Value, Title.DisplayValue, Body); } }
-        public int SavedTenantId = Sessions.TenantId();
-        public string SavedReferenceType = "Sites";
-        public long SavedParentId = 0;
-        public long SavedInheritPermission = 0;
-        public string SavedSiteSettings = string.Empty;
-        public SiteCollection SavedAncestors = null;
-        public int SavedSiteMenu = 0;
-        public List<string> SavedMonitorChangesColumns = null;
-        public List<string> SavedTitleColumns = null;
-        public Export SavedExport = null;
-        public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
-        public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
-        public bool ParentId_Updated { get { return ParentId != SavedParentId; } }
-        public bool InheritPermission_Updated { get { return InheritPermission != SavedInheritPermission; } }
-        public bool SiteSettings_Updated { get { return SiteSettings.RecordingJson() != SavedSiteSettings && SiteSettings.RecordingJson() != null; } }
+
+        public TitleBody TitleBody
+        {
+            get
+            {
+                return new TitleBody(SiteId, Title.Value, Title.DisplayValue, Body);
+            }
+        }
+
+        [NonSerialized] public int SavedTenantId = Sessions.TenantId();
+        [NonSerialized] public string SavedReferenceType = "Sites";
+        [NonSerialized] public long SavedParentId = 0;
+        [NonSerialized] public long SavedInheritPermission = 0;
+        [NonSerialized] public string SavedSiteSettings = string.Empty;
+        [NonSerialized] public SiteCollection SavedAncestors = null;
+        [NonSerialized] public int SavedSiteMenu = 0;
+        [NonSerialized] public List<string> SavedMonitorChangesColumns = null;
+        [NonSerialized] public List<string> SavedTitleColumns = null;
+        [NonSerialized] public Export SavedExport = null;
+
+        public bool TenantId_Updated
+        {
+            get
+            {
+                return TenantId != SavedTenantId;
+            }
+        }
+
+        public bool ReferenceType_Updated
+        {
+            get
+            {
+                return ReferenceType != SavedReferenceType && ReferenceType != null;
+            }
+        }
+
+        public bool ParentId_Updated
+        {
+            get
+            {
+                return ParentId != SavedParentId;
+            }
+        }
+
+        public bool InheritPermission_Updated
+        {
+            get
+            {
+                return InheritPermission != SavedInheritPermission;
+            }
+        }
+
+        public bool SiteSettings_Updated
+        {
+            get
+            {
+                return SiteSettings.RecordingJson() != SavedSiteSettings && SiteSettings.RecordingJson() != null;
+            }
+        }
 
         public SiteSettings Session_SiteSettings()
         {

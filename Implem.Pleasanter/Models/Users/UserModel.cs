@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class UserModel : BaseModel, Interfaces.IConvertable
     {
         public int TenantId = Sessions.TenantId();
@@ -60,74 +60,285 @@ namespace Implem.Pleasanter.Models
         public List<string> MailAddresses = new List<string>();
         public string DemoMailAddress = string.Empty;
         public string SessionGuid = string.Empty;
-        public TimeZoneInfo TimeZoneInfo { get { return TimeZoneInfo.GetSystemTimeZones().FirstOrDefault(o => o.Id == TimeZone); } }
-        public Dept Dept { get { return SiteInfo.Dept(DeptId); } }
-        public Title Title { get { return new Title(UserId, Name); } }
-        public int SavedTenantId = Sessions.TenantId();
-        public int SavedUserId = 0;
-        public string SavedLoginId = string.Empty;
-        public string SavedGlobalId = string.Empty;
-        public string SavedName = string.Empty;
-        public string SavedUserCode = string.Empty;
-        public string SavedPassword = string.Empty;
-        public string SavedPasswordValidate = string.Empty;
-        public string SavedPasswordDummy = string.Empty;
-        public bool SavedRememberMe = false;
-        public string SavedLastName = string.Empty;
-        public string SavedFirstName = string.Empty;
-        public DateTime SavedBirthday = 0.ToDateTime();
-        public string SavedGender = string.Empty;
-        public string SavedLanguage = "ja";
-        public string SavedTimeZone = "Tokyo Standard Time";
-        public int SavedDeptId = 0;
-        public int SavedFirstAndLastNameOrder = 2;
-        public string SavedBody = string.Empty;
-        public DateTime SavedLastLoginTime = 0.ToDateTime();
-        public DateTime SavedPasswordExpirationTime = 0.ToDateTime();
-        public DateTime SavedPasswordChangeTime = 0.ToDateTime();
-        public int SavedNumberOfLogins = 0;
-        public int SavedNumberOfDenial = 0;
-        public bool SavedTenantManager = false;
-        public bool SavedServiceManager = false;
-        public bool SavedDisabled = false;
-        public bool SavedDeveloper = false;
-        public string SavedUserSettings = string.Empty;
-        public string SavedApiKey = string.Empty;
-        public string SavedOldPassword = string.Empty;
-        public string SavedChangedPassword = string.Empty;
-        public string SavedChangedPasswordValidator = string.Empty;
-        public string SavedAfterResetPassword = string.Empty;
-        public string SavedAfterResetPasswordValidator = string.Empty;
-        public string SavedMailAddresses = string.Empty;
-        public string SavedDemoMailAddress = string.Empty;
-        public string SavedSessionGuid = string.Empty;
-        public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
-        public bool UserId_Updated { get { return UserId != SavedUserId; } }
-        public bool LoginId_Updated { get { return LoginId != SavedLoginId && LoginId != null; } }
-        public bool GlobalId_Updated { get { return GlobalId != SavedGlobalId && GlobalId != null; } }
-        public bool Name_Updated { get { return Name != SavedName && Name != null; } }
-        public bool UserCode_Updated { get { return UserCode != SavedUserCode && UserCode != null; } }
-        public bool Password_Updated { get { return Password != SavedPassword && Password != null; } }
-        public bool LastName_Updated { get { return LastName != SavedLastName && LastName != null; } }
-        public bool FirstName_Updated { get { return FirstName != SavedFirstName && FirstName != null; } }
-        public bool Birthday_Updated { get { return Birthday.Value != SavedBirthday && Birthday.Value != null; } }
-        public bool Gender_Updated { get { return Gender != SavedGender && Gender != null; } }
-        public bool Language_Updated { get { return Language != SavedLanguage && Language != null; } }
-        public bool TimeZone_Updated { get { return TimeZone != SavedTimeZone && TimeZone != null; } }
-        public bool DeptId_Updated { get { return DeptId != SavedDeptId; } }
-        public bool FirstAndLastNameOrder_Updated { get { return FirstAndLastNameOrder.ToInt() != SavedFirstAndLastNameOrder; } }
-        public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
-        public bool LastLoginTime_Updated { get { return LastLoginTime.Value != SavedLastLoginTime && LastLoginTime.Value != null; } }
-        public bool PasswordExpirationTime_Updated { get { return PasswordExpirationTime.Value != SavedPasswordExpirationTime && PasswordExpirationTime.Value != null; } }
-        public bool PasswordChangeTime_Updated { get { return PasswordChangeTime.Value != SavedPasswordChangeTime && PasswordChangeTime.Value != null; } }
-        public bool NumberOfLogins_Updated { get { return NumberOfLogins != SavedNumberOfLogins; } }
-        public bool NumberOfDenial_Updated { get { return NumberOfDenial != SavedNumberOfDenial; } }
-        public bool TenantManager_Updated { get { return TenantManager != SavedTenantManager; } }
-        public bool ServiceManager_Updated { get { return ServiceManager != SavedServiceManager; } }
-        public bool Disabled_Updated { get { return Disabled != SavedDisabled; } }
-        public bool Developer_Updated { get { return Developer != SavedDeveloper; } }
-        public bool UserSettings_Updated { get { return UserSettings.RecordingJson() != SavedUserSettings && UserSettings.RecordingJson() != null; } }
-        public bool ApiKey_Updated { get { return ApiKey != SavedApiKey && ApiKey != null; } }
+
+        public TimeZoneInfo TimeZoneInfo
+        {
+            get
+            {
+                return TimeZoneInfo.GetSystemTimeZones().FirstOrDefault(o => o.Id == TimeZone);
+            }
+        }
+
+        public Dept Dept
+        {
+            get
+            {
+                return SiteInfo.Dept(DeptId);
+            }
+        }
+
+        public Title Title
+        {
+            get
+            {
+                return new Title(UserId, Name);
+            }
+        }
+
+        [NonSerialized] public int SavedTenantId = Sessions.TenantId();
+        [NonSerialized] public int SavedUserId = 0;
+        [NonSerialized] public string SavedLoginId = string.Empty;
+        [NonSerialized] public string SavedGlobalId = string.Empty;
+        [NonSerialized] public string SavedName = string.Empty;
+        [NonSerialized] public string SavedUserCode = string.Empty;
+        [NonSerialized] public string SavedPassword = string.Empty;
+        [NonSerialized] public string SavedPasswordValidate = string.Empty;
+        [NonSerialized] public string SavedPasswordDummy = string.Empty;
+        [NonSerialized] public bool SavedRememberMe = false;
+        [NonSerialized] public string SavedLastName = string.Empty;
+        [NonSerialized] public string SavedFirstName = string.Empty;
+        [NonSerialized] public DateTime SavedBirthday = 0.ToDateTime();
+        [NonSerialized] public string SavedGender = string.Empty;
+        [NonSerialized] public string SavedLanguage = "ja";
+        [NonSerialized] public string SavedTimeZone = "Tokyo Standard Time";
+        [NonSerialized] public int SavedDeptId = 0;
+        [NonSerialized] public int SavedFirstAndLastNameOrder = 2;
+        [NonSerialized] public string SavedBody = string.Empty;
+        [NonSerialized] public DateTime SavedLastLoginTime = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedPasswordExpirationTime = 0.ToDateTime();
+        [NonSerialized] public DateTime SavedPasswordChangeTime = 0.ToDateTime();
+        [NonSerialized] public int SavedNumberOfLogins = 0;
+        [NonSerialized] public int SavedNumberOfDenial = 0;
+        [NonSerialized] public bool SavedTenantManager = false;
+        [NonSerialized] public bool SavedServiceManager = false;
+        [NonSerialized] public bool SavedDisabled = false;
+        [NonSerialized] public bool SavedDeveloper = false;
+        [NonSerialized] public string SavedUserSettings = string.Empty;
+        [NonSerialized] public string SavedApiKey = string.Empty;
+        [NonSerialized] public string SavedOldPassword = string.Empty;
+        [NonSerialized] public string SavedChangedPassword = string.Empty;
+        [NonSerialized] public string SavedChangedPasswordValidator = string.Empty;
+        [NonSerialized] public string SavedAfterResetPassword = string.Empty;
+        [NonSerialized] public string SavedAfterResetPasswordValidator = string.Empty;
+        [NonSerialized] public string SavedMailAddresses = string.Empty;
+        [NonSerialized] public string SavedDemoMailAddress = string.Empty;
+        [NonSerialized] public string SavedSessionGuid = string.Empty;
+
+        public bool TenantId_Updated
+        {
+            get
+            {
+                return TenantId != SavedTenantId;
+            }
+        }
+
+        public bool UserId_Updated
+        {
+            get
+            {
+                return UserId != SavedUserId;
+            }
+        }
+
+        public bool LoginId_Updated
+        {
+            get
+            {
+                return LoginId != SavedLoginId && LoginId != null;
+            }
+        }
+
+        public bool GlobalId_Updated
+        {
+            get
+            {
+                return GlobalId != SavedGlobalId && GlobalId != null;
+            }
+        }
+
+        public bool Name_Updated
+        {
+            get
+            {
+                return Name != SavedName && Name != null;
+            }
+        }
+
+        public bool UserCode_Updated
+        {
+            get
+            {
+                return UserCode != SavedUserCode && UserCode != null;
+            }
+        }
+
+        public bool Password_Updated
+        {
+            get
+            {
+                return Password != SavedPassword && Password != null;
+            }
+        }
+
+        public bool LastName_Updated
+        {
+            get
+            {
+                return LastName != SavedLastName && LastName != null;
+            }
+        }
+
+        public bool FirstName_Updated
+        {
+            get
+            {
+                return FirstName != SavedFirstName && FirstName != null;
+            }
+        }
+
+        public bool Birthday_Updated
+        {
+            get
+            {
+                return Birthday.Value != SavedBirthday && Birthday.Value != null;
+            }
+        }
+
+        public bool Gender_Updated
+        {
+            get
+            {
+                return Gender != SavedGender && Gender != null;
+            }
+        }
+
+        public bool Language_Updated
+        {
+            get
+            {
+                return Language != SavedLanguage && Language != null;
+            }
+        }
+
+        public bool TimeZone_Updated
+        {
+            get
+            {
+                return TimeZone != SavedTimeZone && TimeZone != null;
+            }
+        }
+
+        public bool DeptId_Updated
+        {
+            get
+            {
+                return DeptId != SavedDeptId;
+            }
+        }
+
+        public bool FirstAndLastNameOrder_Updated
+        {
+            get
+            {
+                return FirstAndLastNameOrder.ToInt() != SavedFirstAndLastNameOrder;
+            }
+        }
+
+        public bool Body_Updated
+        {
+            get
+            {
+                return Body != SavedBody && Body != null;
+            }
+        }
+
+        public bool LastLoginTime_Updated
+        {
+            get
+            {
+                return LastLoginTime.Value != SavedLastLoginTime && LastLoginTime.Value != null;
+            }
+        }
+
+        public bool PasswordExpirationTime_Updated
+        {
+            get
+            {
+                return PasswordExpirationTime.Value != SavedPasswordExpirationTime && PasswordExpirationTime.Value != null;
+            }
+        }
+
+        public bool PasswordChangeTime_Updated
+        {
+            get
+            {
+                return PasswordChangeTime.Value != SavedPasswordChangeTime && PasswordChangeTime.Value != null;
+            }
+        }
+
+        public bool NumberOfLogins_Updated
+        {
+            get
+            {
+                return NumberOfLogins != SavedNumberOfLogins;
+            }
+        }
+
+        public bool NumberOfDenial_Updated
+        {
+            get
+            {
+                return NumberOfDenial != SavedNumberOfDenial;
+            }
+        }
+
+        public bool TenantManager_Updated
+        {
+            get
+            {
+                return TenantManager != SavedTenantManager;
+            }
+        }
+
+        public bool ServiceManager_Updated
+        {
+            get
+            {
+                return ServiceManager != SavedServiceManager;
+            }
+        }
+
+        public bool Disabled_Updated
+        {
+            get
+            {
+                return Disabled != SavedDisabled;
+            }
+        }
+
+        public bool Developer_Updated
+        {
+            get
+            {
+                return Developer != SavedDeveloper;
+            }
+        }
+
+        public bool UserSettings_Updated
+        {
+            get
+            {
+                return UserSettings.RecordingJson() != SavedUserSettings && UserSettings.RecordingJson() != null;
+            }
+        }
+
+        public bool ApiKey_Updated
+        {
+            get
+            {
+                return ApiKey != SavedApiKey && ApiKey != null;
+            }
+        }
 
         public UserSettings Session_UserSettings()
         {
@@ -938,12 +1149,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void SetSession()
         {
-            HttpContext.Session["UserId"] = UserId;
-            HttpContext.Session["Language"] = Language;
-            HttpContext.Session["Developer"] = Developer;
-            HttpContext.Session["TimeZoneInfo"] = TimeZoneInfo;
-            HttpContext.Session["RdsUser"] = RdsUser();
-            HttpContext.Session["UserSettings"] = UserSettings.ToJson();
+            Sessions.Set("UserId", UserId);
+            Sessions.Set("Language", Language);
+            Sessions.Set("Developer", Developer);
+            Sessions.Set("TimeZoneInfo", TimeZoneInfo);
+            Sessions.Set("RdsUser", RdsUser());
+            Sessions.Set("UserSettings", UserSettings.ToJson());
             Contract.Set();
         }
 

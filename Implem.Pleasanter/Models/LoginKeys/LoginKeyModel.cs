@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class LoginKeyModel : BaseModel
     {
         public string LoginId = string.Empty;
@@ -27,16 +27,51 @@ namespace Implem.Pleasanter.Models
         public string TenantNames = string.Empty;
         public int TenantId = 0;
         public int UserId = 0;
-        public string SavedLoginId = string.Empty;
-        public string SavedKey = string.Empty;
-        public string SavedTenantNames = string.Empty;
-        public int SavedTenantId = 0;
-        public int SavedUserId = 0;
-        public bool LoginId_Updated { get { return LoginId != SavedLoginId && LoginId != null; } }
-        public bool Key_Updated { get { return Key != SavedKey && Key != null; } }
-        public bool TenantNames_Updated { get { return TenantNames != SavedTenantNames && TenantNames != null; } }
-        public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
-        public bool UserId_Updated { get { return UserId != SavedUserId; } }
+        [NonSerialized] public string SavedLoginId = string.Empty;
+        [NonSerialized] public string SavedKey = string.Empty;
+        [NonSerialized] public string SavedTenantNames = string.Empty;
+        [NonSerialized] public int SavedTenantId = 0;
+        [NonSerialized] public int SavedUserId = 0;
+
+        public bool LoginId_Updated
+        {
+            get
+            {
+                return LoginId != SavedLoginId && LoginId != null;
+            }
+        }
+
+        public bool Key_Updated
+        {
+            get
+            {
+                return Key != SavedKey && Key != null;
+            }
+        }
+
+        public bool TenantNames_Updated
+        {
+            get
+            {
+                return TenantNames != SavedTenantNames && TenantNames != null;
+            }
+        }
+
+        public bool TenantId_Updated
+        {
+            get
+            {
+                return TenantId != SavedTenantId;
+            }
+        }
+
+        public bool UserId_Updated
+        {
+            get
+            {
+                return UserId != SavedUserId;
+            }
+        }
 
         public LoginKeyModel(DataRow dataRow, string tableAlias = null)
         {

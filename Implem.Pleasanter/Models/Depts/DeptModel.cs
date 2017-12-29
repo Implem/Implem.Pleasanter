@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class DeptModel : BaseModel, Interfaces.IConvertable
     {
         public int TenantId = Sessions.TenantId();
@@ -27,18 +27,69 @@ namespace Implem.Pleasanter.Models
         public string DeptCode = string.Empty;
         public string DeptName = string.Empty;
         public string Body = string.Empty;
-        public Dept Dept { get { return SiteInfo.Dept(DeptId); } }
-        public Title Title { get { return new Title(DeptId, DeptName); } }
-        public int SavedTenantId = Sessions.TenantId();
-        public int SavedDeptId = 0;
-        public string SavedDeptCode = string.Empty;
-        public string SavedDeptName = string.Empty;
-        public string SavedBody = string.Empty;
-        public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
-        public bool DeptId_Updated { get { return DeptId != SavedDeptId; } }
-        public bool DeptCode_Updated { get { return DeptCode != SavedDeptCode && DeptCode != null; } }
-        public bool DeptName_Updated { get { return DeptName != SavedDeptName && DeptName != null; } }
-        public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
+
+        public Dept Dept
+        {
+            get
+            {
+                return SiteInfo.Dept(DeptId);
+            }
+        }
+
+        public Title Title
+        {
+            get
+            {
+                return new Title(DeptId, DeptName);
+            }
+        }
+
+        [NonSerialized] public int SavedTenantId = Sessions.TenantId();
+        [NonSerialized] public int SavedDeptId = 0;
+        [NonSerialized] public string SavedDeptCode = string.Empty;
+        [NonSerialized] public string SavedDeptName = string.Empty;
+        [NonSerialized] public string SavedBody = string.Empty;
+
+        public bool TenantId_Updated
+        {
+            get
+            {
+                return TenantId != SavedTenantId;
+            }
+        }
+
+        public bool DeptId_Updated
+        {
+            get
+            {
+                return DeptId != SavedDeptId;
+            }
+        }
+
+        public bool DeptCode_Updated
+        {
+            get
+            {
+                return DeptCode != SavedDeptCode && DeptCode != null;
+            }
+        }
+
+        public bool DeptName_Updated
+        {
+            get
+            {
+                return DeptName != SavedDeptName && DeptName != null;
+            }
+        }
+
+        public bool Body_Updated
+        {
+            get
+            {
+                return Body != SavedBody && Body != null;
+            }
+        }
+
         public List<int> SwitchTargets;
 
         public DeptModel()

@@ -266,7 +266,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_IConvertable": Code.Model_IConvertable = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IConvertable, definitionRow, CodeXls); break;
                     case "Model_ItemProperties": Code.Model_ItemProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ItemProperties, definitionRow, CodeXls); break;
                     case "Model_ItemProperties_Sites": Code.Model_ItemProperties_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ItemProperties_Sites, definitionRow, CodeXls); break;
-                    case "Model_UrlId": Code.Model_UrlId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UrlId, definitionRow, CodeXls); break;
                     case "Model_SessionProperties": Code.Model_SessionProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SessionProperties, definitionRow, CodeXls); break;
                     case "Model_PropertyValue": Code.Model_PropertyValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue, definitionRow, CodeXls); break;
                     case "Model_PropertyValue_ColumnCases": Code.Model_PropertyValue_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_ColumnCases, definitionRow, CodeXls); break;
@@ -4490,7 +4489,6 @@ namespace Implem.DefinitionAccessor
         public string Model_IConvertable;
         public string Model_ItemProperties;
         public string Model_ItemProperties_Sites;
-        public string Model_UrlId;
         public string Model_SessionProperties;
         public string Model_PropertyValue;
         public string Model_PropertyValue_ColumnCases;
@@ -4985,7 +4983,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_IConvertable = new CodeDefinition();
         public CodeDefinition Model_ItemProperties = new CodeDefinition();
         public CodeDefinition Model_ItemProperties_Sites = new CodeDefinition();
-        public CodeDefinition Model_UrlId = new CodeDefinition();
         public CodeDefinition Model_SessionProperties = new CodeDefinition();
         public CodeDefinition Model_PropertyValue = new CodeDefinition();
         public CodeDefinition Model_PropertyValue_ColumnCases = new CodeDefinition();

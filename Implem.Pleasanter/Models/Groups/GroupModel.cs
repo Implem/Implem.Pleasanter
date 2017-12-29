@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,21 +19,59 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class GroupModel : BaseModel
     {
         public int TenantId = Sessions.TenantId();
         public int GroupId = 0;
         public string GroupName = string.Empty;
         public string Body = string.Empty;
-        public Title Title { get { return new Title(GroupId, GroupName); } }
-        public int SavedTenantId = Sessions.TenantId();
-        public int SavedGroupId = 0;
-        public string SavedGroupName = string.Empty;
-        public string SavedBody = string.Empty;
-        public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
-        public bool GroupId_Updated { get { return GroupId != SavedGroupId; } }
-        public bool GroupName_Updated { get { return GroupName != SavedGroupName && GroupName != null; } }
-        public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
+
+        public Title Title
+        {
+            get
+            {
+                return new Title(GroupId, GroupName);
+            }
+        }
+
+        [NonSerialized] public int SavedTenantId = Sessions.TenantId();
+        [NonSerialized] public int SavedGroupId = 0;
+        [NonSerialized] public string SavedGroupName = string.Empty;
+        [NonSerialized] public string SavedBody = string.Empty;
+
+        public bool TenantId_Updated
+        {
+            get
+            {
+                return TenantId != SavedTenantId;
+            }
+        }
+
+        public bool GroupId_Updated
+        {
+            get
+            {
+                return GroupId != SavedGroupId;
+            }
+        }
+
+        public bool GroupName_Updated
+        {
+            get
+            {
+                return GroupName != SavedGroupName && GroupName != null;
+            }
+        }
+
+        public bool Body_Updated
+        {
+            get
+            {
+                return Body != SavedBody && Body != null;
+            }
+        }
+
         public List<int> SwitchTargets;
 
         public GroupModel()
