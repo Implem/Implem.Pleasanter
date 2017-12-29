@@ -184,13 +184,6 @@ namespace Implem.Pleasanter.Libraries.Security
             return hash;
         }
 
-        public static Types Get(string controller, long id)
-        {
-            return controller.ToLower() == "items"
-                ? Get(InheritPermission(id))
-                : Types.NotSet;
-        }
-
         public static Types Get(long siteId)
         {
             var data = Get(siteId.ToSingleList());
