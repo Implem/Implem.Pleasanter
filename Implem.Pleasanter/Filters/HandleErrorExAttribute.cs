@@ -15,7 +15,6 @@ namespace Implem.Pleasanter.Filters
             }
             try
             {
-                filterContext.HttpContext.Session["Error"] = filterContext;
                 new SysLogModel(filterContext);
             }
             catch
