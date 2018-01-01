@@ -197,6 +197,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
+    <Compile Include="Controllers\Api_ItemsController.cs" />
     <Compile Include="Controllers\ReminderSchedulesController.cs" />
     <Compile Include="Controllers\BackgroundTasksController.cs" />
     <Compile Include="Controllers\BinariesController.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="Controllers\OutgoingMailsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VersionsController.cs" />
+    <Compile Include="Filters\CheckApiAuthentication.cs" />
     <Compile Include="Filters\CheckUserAttributes.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
     <Compile Include="Filters\CheckContractAttribute.cs" />
@@ -272,8 +274,12 @@
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_006.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_005.cs" />
     <Compile Include="Libraries\Models\GridData.cs" />
+    <Compile Include="Libraries\Requests\Api.cs" />
     <Compile Include="Libraries\Requests\Calendars.cs" />
     <Compile Include="Libraries\Requests\GridSelector.cs" />
+    <Compile Include="Libraries\Responses\ApiResponse.cs" />
+    <Compile Include="Libraries\Responses\ApiResponses.cs" />
+    <Compile Include="Libraries\Responses\ApiResults.cs" />
     <Compile Include="Libraries\Responses\Displays.cs" />
     <Compile Include="Libraries\Security\Defenses.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
@@ -1226,6 +1232,7 @@
     <Content Include="App_Data\Displays\ReCreate.json" />
     <Content Include="App_Data\Displays\ApiKeyCreated.json" />
     <Content Include="App_Data\Displays\ApiKeyDeleted.json" />
+    <Content Include="App_Data\Displays\Unauthorized.json" />
     <Content Include="Tools\Reminder.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

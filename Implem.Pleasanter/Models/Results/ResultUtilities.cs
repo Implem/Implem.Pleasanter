@@ -3819,6 +3819,34 @@ namespace Implem.Pleasanter.Models
                     o.SiteId == siteId)?.ColumnName) == Forms.Data("LinkId");
         }
 
+        public static System.Web.Mvc.ContentResult CreateByApi(SiteSettings ss)
+        {
+            var resultModel = Forms.String().Deserialize<ResultModel>();
+            if (resultModel == null)
+            {
+                return ApiResults.Get(ApiResponses.BadRequest());
+            }
+            var invalid = ResultValidators.OnCreating(ss, resultModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return ApiResults.Error(invalid);
+            }
+            resultModel.SiteId = ss.SiteId;
+            resultModel.SetTitle(ss);
+            var error = resultModel.Create(ss);
+            if (error.Has())
+            {
+                return ApiResults.Error(error);
+            }
+            else
+            {
+                return ApiResults.Success(
+                    resultModel.ResultId,
+                    Displays.Created(resultModel.Title.DisplayValue));
+            }
+        }
+
         public static string Update(SiteSettings ss, long resultId)
         {
             var resultModel = new ResultModel(ss, resultId, setByForm: true);

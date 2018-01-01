@@ -3,12 +3,16 @@ using Implem.Pleasanter.Libraries.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public static class Forms
     {
+        public static string String()
+        {
+            return HttpUtility.UrlDecode(HttpContext.Current.Request.Form.ToString(), System.Text.Encoding.UTF8);
+        }
+
         public static Dictionary<string, string> All()
         {
             var hash = new Dictionary<string, string>();
@@ -73,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             foreach (var key in HttpContext.Current.Request.Form.Keys)
             {
-                yield return key.ToString();
+                yield return key?.ToString();
             }
         }
 
