@@ -32,36 +32,24 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedOwnerId = 0;
         [NonSerialized] public string SavedData = "new List<long>()";
 
-        public bool ReferenceId_Updated
+        public bool ReferenceId_Updated()
         {
-            get
-            {
-                return ReferenceId != SavedReferenceId;
-            }
+            return ReferenceId != SavedReferenceId;
         }
 
-        public bool ReferenceType_Updated
+        public bool ReferenceType_Updated()
         {
-            get
-            {
-                return ReferenceType != SavedReferenceType && ReferenceType != null;
-            }
+            return ReferenceType != SavedReferenceType && ReferenceType != null;
         }
 
-        public bool OwnerId_Updated
+        public bool OwnerId_Updated()
         {
-            get
-            {
-                return OwnerId != SavedOwnerId;
-            }
+            return OwnerId != SavedOwnerId;
         }
 
-        public bool Data_Updated
+        public bool Data_Updated()
         {
-            get
-            {
-                return Data.ToJson() != SavedData && Data.ToJson() != null;
-            }
+            return Data.ToJson() != SavedData && Data.ToJson() != null;
         }
 
         public OrderModel(DataRow dataRow, string tableAlias = null)
@@ -187,16 +175,16 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                ReferenceId_Updated ||
-                ReferenceType_Updated ||
-                OwnerId_Updated ||
-                Ver_Updated ||
-                Data_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                ReferenceId_Updated() ||
+                ReferenceType_Updated() ||
+                OwnerId_Updated() ||
+                Ver_Updated() ||
+                Data_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
 
         /// <summary>

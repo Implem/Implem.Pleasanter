@@ -36,52 +36,34 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedErrorCount = 0;
         [NonSerialized] public double SavedElapsed = 0;
 
-        public bool HealthId_Updated
+        public bool HealthId_Updated()
         {
-            get
-            {
-                return HealthId != SavedHealthId;
-            }
+            return HealthId != SavedHealthId;
         }
 
-        public bool TenantCount_Updated
+        public bool TenantCount_Updated()
         {
-            get
-            {
-                return TenantCount != SavedTenantCount;
-            }
+            return TenantCount != SavedTenantCount;
         }
 
-        public bool UserCount_Updated
+        public bool UserCount_Updated()
         {
-            get
-            {
-                return UserCount != SavedUserCount;
-            }
+            return UserCount != SavedUserCount;
         }
 
-        public bool ItemCount_Updated
+        public bool ItemCount_Updated()
         {
-            get
-            {
-                return ItemCount != SavedItemCount;
-            }
+            return ItemCount != SavedItemCount;
         }
 
-        public bool ErrorCount_Updated
+        public bool ErrorCount_Updated()
         {
-            get
-            {
-                return ErrorCount != SavedErrorCount;
-            }
+            return ErrorCount != SavedErrorCount;
         }
 
-        public bool Elapsed_Updated
+        public bool Elapsed_Updated()
         {
-            get
-            {
-                return Elapsed != SavedElapsed;
-            }
+            return Elapsed != SavedElapsed;
         }
 
         public HealthModel()
@@ -415,18 +397,18 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                HealthId_Updated ||
-                Ver_Updated ||
-                TenantCount_Updated ||
-                UserCount_Updated ||
-                ItemCount_Updated ||
-                ErrorCount_Updated ||
-                Elapsed_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                HealthId_Updated() ||
+                Ver_Updated() ||
+                TenantCount_Updated() ||
+                UserCount_Updated() ||
+                ItemCount_Updated() ||
+                ErrorCount_Updated() ||
+                Elapsed_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
 
         /// <summary>

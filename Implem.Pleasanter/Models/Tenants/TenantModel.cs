@@ -36,52 +36,34 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedContractSettings = string.Empty;
         [NonSerialized] public DateTime SavedContractDeadline = 0.ToDateTime();
 
-        public bool TenantId_Updated
+        public bool TenantId_Updated()
         {
-            get
-            {
-                return TenantId != SavedTenantId;
-            }
+            return TenantId != SavedTenantId;
         }
 
-        public bool TenantName_Updated
+        public bool TenantName_Updated()
         {
-            get
-            {
-                return TenantName != SavedTenantName && TenantName != null;
-            }
+            return TenantName != SavedTenantName && TenantName != null;
         }
 
-        public bool Title_Updated
+        public bool Title_Updated()
         {
-            get
-            {
-                return Title.Value != SavedTitle && Title.Value != null;
-            }
+            return Title.Value != SavedTitle && Title.Value != null;
         }
 
-        public bool Body_Updated
+        public bool Body_Updated()
         {
-            get
-            {
-                return Body != SavedBody && Body != null;
-            }
+            return Body != SavedBody && Body != null;
         }
 
-        public bool ContractSettings_Updated
+        public bool ContractSettings_Updated()
         {
-            get
-            {
-                return ContractSettings?.RecordingJson() != SavedContractSettings && ContractSettings?.RecordingJson() != null;
-            }
+            return ContractSettings?.RecordingJson() != SavedContractSettings && ContractSettings?.RecordingJson() != null;
         }
 
-        public bool ContractDeadline_Updated
+        public bool ContractDeadline_Updated()
         {
-            get
-            {
-                return ContractDeadline != SavedContractDeadline && ContractDeadline != null;
-            }
+            return ContractDeadline != SavedContractDeadline && ContractDeadline != null;
         }
 
         public TenantModel()
@@ -414,18 +396,18 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                TenantId_Updated ||
-                Ver_Updated ||
-                TenantName_Updated ||
-                Title_Updated ||
-                Body_Updated ||
-                ContractSettings_Updated ||
-                ContractDeadline_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                TenantId_Updated() ||
+                Ver_Updated() ||
+                TenantName_Updated() ||
+                Title_Updated() ||
+                Body_Updated() ||
+                ContractSettings_Updated() ||
+                ContractDeadline_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
 
         /// <summary>

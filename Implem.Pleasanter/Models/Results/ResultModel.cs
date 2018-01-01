@@ -361,1276 +361,799 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedAttachmentsY = "[]";
         [NonSerialized] public string SavedAttachmentsZ = "[]";
 
-        public bool Status_Updated
+        public bool Status_Updated()
         {
-            get
-            {
-                return Status.Value != SavedStatus;
-            }
+            return Status.Value != SavedStatus;
         }
 
-        public bool Manager_Updated
+        public bool Manager_Updated()
         {
-            get
-            {
-                return Manager.Id != SavedManager;
-            }
+            return Manager.Id != SavedManager;
         }
 
-        public bool Owner_Updated
+        public bool Owner_Updated()
         {
-            get
-            {
-                return Owner.Id != SavedOwner;
-            }
+            return Owner.Id != SavedOwner;
         }
 
-        public bool ClassA_Updated
+        public bool ClassA_Updated()
         {
-            get
-            {
-                return ClassA != SavedClassA && ClassA != null;
-            }
+            return ClassA != SavedClassA && ClassA != null;
         }
 
-        public bool ClassB_Updated
+        public bool ClassB_Updated()
         {
-            get
-            {
-                return ClassB != SavedClassB && ClassB != null;
-            }
+            return ClassB != SavedClassB && ClassB != null;
         }
 
-        public bool ClassC_Updated
+        public bool ClassC_Updated()
         {
-            get
-            {
-                return ClassC != SavedClassC && ClassC != null;
-            }
+            return ClassC != SavedClassC && ClassC != null;
         }
 
-        public bool ClassD_Updated
+        public bool ClassD_Updated()
         {
-            get
-            {
-                return ClassD != SavedClassD && ClassD != null;
-            }
+            return ClassD != SavedClassD && ClassD != null;
         }
 
-        public bool ClassE_Updated
+        public bool ClassE_Updated()
         {
-            get
-            {
-                return ClassE != SavedClassE && ClassE != null;
-            }
+            return ClassE != SavedClassE && ClassE != null;
         }
 
-        public bool ClassF_Updated
+        public bool ClassF_Updated()
         {
-            get
-            {
-                return ClassF != SavedClassF && ClassF != null;
-            }
+            return ClassF != SavedClassF && ClassF != null;
         }
 
-        public bool ClassG_Updated
+        public bool ClassG_Updated()
         {
-            get
-            {
-                return ClassG != SavedClassG && ClassG != null;
-            }
+            return ClassG != SavedClassG && ClassG != null;
         }
 
-        public bool ClassH_Updated
+        public bool ClassH_Updated()
         {
-            get
-            {
-                return ClassH != SavedClassH && ClassH != null;
-            }
+            return ClassH != SavedClassH && ClassH != null;
         }
 
-        public bool ClassI_Updated
+        public bool ClassI_Updated()
         {
-            get
-            {
-                return ClassI != SavedClassI && ClassI != null;
-            }
+            return ClassI != SavedClassI && ClassI != null;
         }
 
-        public bool ClassJ_Updated
+        public bool ClassJ_Updated()
         {
-            get
-            {
-                return ClassJ != SavedClassJ && ClassJ != null;
-            }
+            return ClassJ != SavedClassJ && ClassJ != null;
         }
 
-        public bool ClassK_Updated
+        public bool ClassK_Updated()
         {
-            get
-            {
-                return ClassK != SavedClassK && ClassK != null;
-            }
+            return ClassK != SavedClassK && ClassK != null;
         }
 
-        public bool ClassL_Updated
+        public bool ClassL_Updated()
         {
-            get
-            {
-                return ClassL != SavedClassL && ClassL != null;
-            }
+            return ClassL != SavedClassL && ClassL != null;
         }
 
-        public bool ClassM_Updated
+        public bool ClassM_Updated()
         {
-            get
-            {
-                return ClassM != SavedClassM && ClassM != null;
-            }
+            return ClassM != SavedClassM && ClassM != null;
         }
 
-        public bool ClassN_Updated
+        public bool ClassN_Updated()
         {
-            get
-            {
-                return ClassN != SavedClassN && ClassN != null;
-            }
+            return ClassN != SavedClassN && ClassN != null;
         }
 
-        public bool ClassO_Updated
+        public bool ClassO_Updated()
         {
-            get
-            {
-                return ClassO != SavedClassO && ClassO != null;
-            }
+            return ClassO != SavedClassO && ClassO != null;
         }
 
-        public bool ClassP_Updated
+        public bool ClassP_Updated()
         {
-            get
-            {
-                return ClassP != SavedClassP && ClassP != null;
-            }
+            return ClassP != SavedClassP && ClassP != null;
         }
 
-        public bool ClassQ_Updated
+        public bool ClassQ_Updated()
         {
-            get
-            {
-                return ClassQ != SavedClassQ && ClassQ != null;
-            }
+            return ClassQ != SavedClassQ && ClassQ != null;
         }
 
-        public bool ClassR_Updated
+        public bool ClassR_Updated()
         {
-            get
-            {
-                return ClassR != SavedClassR && ClassR != null;
-            }
+            return ClassR != SavedClassR && ClassR != null;
         }
 
-        public bool ClassS_Updated
+        public bool ClassS_Updated()
         {
-            get
-            {
-                return ClassS != SavedClassS && ClassS != null;
-            }
+            return ClassS != SavedClassS && ClassS != null;
         }
 
-        public bool ClassT_Updated
+        public bool ClassT_Updated()
         {
-            get
-            {
-                return ClassT != SavedClassT && ClassT != null;
-            }
+            return ClassT != SavedClassT && ClassT != null;
         }
 
-        public bool ClassU_Updated
+        public bool ClassU_Updated()
         {
-            get
-            {
-                return ClassU != SavedClassU && ClassU != null;
-            }
+            return ClassU != SavedClassU && ClassU != null;
         }
 
-        public bool ClassV_Updated
+        public bool ClassV_Updated()
         {
-            get
-            {
-                return ClassV != SavedClassV && ClassV != null;
-            }
+            return ClassV != SavedClassV && ClassV != null;
         }
 
-        public bool ClassW_Updated
+        public bool ClassW_Updated()
         {
-            get
-            {
-                return ClassW != SavedClassW && ClassW != null;
-            }
+            return ClassW != SavedClassW && ClassW != null;
         }
 
-        public bool ClassX_Updated
+        public bool ClassX_Updated()
         {
-            get
-            {
-                return ClassX != SavedClassX && ClassX != null;
-            }
+            return ClassX != SavedClassX && ClassX != null;
         }
 
-        public bool ClassY_Updated
+        public bool ClassY_Updated()
         {
-            get
-            {
-                return ClassY != SavedClassY && ClassY != null;
-            }
+            return ClassY != SavedClassY && ClassY != null;
         }
 
-        public bool ClassZ_Updated
+        public bool ClassZ_Updated()
         {
-            get
-            {
-                return ClassZ != SavedClassZ && ClassZ != null;
-            }
+            return ClassZ != SavedClassZ && ClassZ != null;
         }
 
-        public bool NumA_Updated
+        public bool NumA_Updated()
         {
-            get
-            {
-                return NumA != SavedNumA;
-            }
+            return NumA != SavedNumA;
         }
 
-        public bool NumB_Updated
+        public bool NumB_Updated()
         {
-            get
-            {
-                return NumB != SavedNumB;
-            }
+            return NumB != SavedNumB;
         }
 
-        public bool NumC_Updated
+        public bool NumC_Updated()
         {
-            get
-            {
-                return NumC != SavedNumC;
-            }
+            return NumC != SavedNumC;
         }
 
-        public bool NumD_Updated
+        public bool NumD_Updated()
         {
-            get
-            {
-                return NumD != SavedNumD;
-            }
+            return NumD != SavedNumD;
         }
 
-        public bool NumE_Updated
+        public bool NumE_Updated()
         {
-            get
-            {
-                return NumE != SavedNumE;
-            }
+            return NumE != SavedNumE;
         }
 
-        public bool NumF_Updated
+        public bool NumF_Updated()
         {
-            get
-            {
-                return NumF != SavedNumF;
-            }
+            return NumF != SavedNumF;
         }
 
-        public bool NumG_Updated
+        public bool NumG_Updated()
         {
-            get
-            {
-                return NumG != SavedNumG;
-            }
+            return NumG != SavedNumG;
         }
 
-        public bool NumH_Updated
+        public bool NumH_Updated()
         {
-            get
-            {
-                return NumH != SavedNumH;
-            }
+            return NumH != SavedNumH;
         }
 
-        public bool NumI_Updated
+        public bool NumI_Updated()
         {
-            get
-            {
-                return NumI != SavedNumI;
-            }
+            return NumI != SavedNumI;
         }
 
-        public bool NumJ_Updated
+        public bool NumJ_Updated()
         {
-            get
-            {
-                return NumJ != SavedNumJ;
-            }
+            return NumJ != SavedNumJ;
         }
 
-        public bool NumK_Updated
+        public bool NumK_Updated()
         {
-            get
-            {
-                return NumK != SavedNumK;
-            }
+            return NumK != SavedNumK;
         }
 
-        public bool NumL_Updated
+        public bool NumL_Updated()
         {
-            get
-            {
-                return NumL != SavedNumL;
-            }
+            return NumL != SavedNumL;
         }
 
-        public bool NumM_Updated
+        public bool NumM_Updated()
         {
-            get
-            {
-                return NumM != SavedNumM;
-            }
+            return NumM != SavedNumM;
         }
 
-        public bool NumN_Updated
+        public bool NumN_Updated()
         {
-            get
-            {
-                return NumN != SavedNumN;
-            }
+            return NumN != SavedNumN;
         }
 
-        public bool NumO_Updated
+        public bool NumO_Updated()
         {
-            get
-            {
-                return NumO != SavedNumO;
-            }
+            return NumO != SavedNumO;
         }
 
-        public bool NumP_Updated
+        public bool NumP_Updated()
         {
-            get
-            {
-                return NumP != SavedNumP;
-            }
+            return NumP != SavedNumP;
         }
 
-        public bool NumQ_Updated
+        public bool NumQ_Updated()
         {
-            get
-            {
-                return NumQ != SavedNumQ;
-            }
+            return NumQ != SavedNumQ;
         }
 
-        public bool NumR_Updated
+        public bool NumR_Updated()
         {
-            get
-            {
-                return NumR != SavedNumR;
-            }
+            return NumR != SavedNumR;
         }
 
-        public bool NumS_Updated
+        public bool NumS_Updated()
         {
-            get
-            {
-                return NumS != SavedNumS;
-            }
+            return NumS != SavedNumS;
         }
 
-        public bool NumT_Updated
+        public bool NumT_Updated()
         {
-            get
-            {
-                return NumT != SavedNumT;
-            }
+            return NumT != SavedNumT;
         }
 
-        public bool NumU_Updated
+        public bool NumU_Updated()
         {
-            get
-            {
-                return NumU != SavedNumU;
-            }
+            return NumU != SavedNumU;
         }
 
-        public bool NumV_Updated
+        public bool NumV_Updated()
         {
-            get
-            {
-                return NumV != SavedNumV;
-            }
+            return NumV != SavedNumV;
         }
 
-        public bool NumW_Updated
+        public bool NumW_Updated()
         {
-            get
-            {
-                return NumW != SavedNumW;
-            }
+            return NumW != SavedNumW;
         }
 
-        public bool NumX_Updated
+        public bool NumX_Updated()
         {
-            get
-            {
-                return NumX != SavedNumX;
-            }
+            return NumX != SavedNumX;
         }
 
-        public bool NumY_Updated
+        public bool NumY_Updated()
         {
-            get
-            {
-                return NumY != SavedNumY;
-            }
+            return NumY != SavedNumY;
         }
 
-        public bool NumZ_Updated
+        public bool NumZ_Updated()
         {
-            get
-            {
-                return NumZ != SavedNumZ;
-            }
+            return NumZ != SavedNumZ;
         }
 
-        public bool DateA_Updated
+        public bool DateA_Updated()
         {
-            get
-            {
-                return DateA != SavedDateA && DateA != null;
-            }
+            return DateA != SavedDateA && DateA != null;
         }
 
-        public bool DateB_Updated
+        public bool DateB_Updated()
         {
-            get
-            {
-                return DateB != SavedDateB && DateB != null;
-            }
+            return DateB != SavedDateB && DateB != null;
         }
 
-        public bool DateC_Updated
+        public bool DateC_Updated()
         {
-            get
-            {
-                return DateC != SavedDateC && DateC != null;
-            }
+            return DateC != SavedDateC && DateC != null;
         }
 
-        public bool DateD_Updated
+        public bool DateD_Updated()
         {
-            get
-            {
-                return DateD != SavedDateD && DateD != null;
-            }
+            return DateD != SavedDateD && DateD != null;
         }
 
-        public bool DateE_Updated
+        public bool DateE_Updated()
         {
-            get
-            {
-                return DateE != SavedDateE && DateE != null;
-            }
+            return DateE != SavedDateE && DateE != null;
         }
 
-        public bool DateF_Updated
+        public bool DateF_Updated()
         {
-            get
-            {
-                return DateF != SavedDateF && DateF != null;
-            }
+            return DateF != SavedDateF && DateF != null;
         }
 
-        public bool DateG_Updated
+        public bool DateG_Updated()
         {
-            get
-            {
-                return DateG != SavedDateG && DateG != null;
-            }
+            return DateG != SavedDateG && DateG != null;
         }
 
-        public bool DateH_Updated
+        public bool DateH_Updated()
         {
-            get
-            {
-                return DateH != SavedDateH && DateH != null;
-            }
+            return DateH != SavedDateH && DateH != null;
         }
 
-        public bool DateI_Updated
+        public bool DateI_Updated()
         {
-            get
-            {
-                return DateI != SavedDateI && DateI != null;
-            }
+            return DateI != SavedDateI && DateI != null;
         }
 
-        public bool DateJ_Updated
+        public bool DateJ_Updated()
         {
-            get
-            {
-                return DateJ != SavedDateJ && DateJ != null;
-            }
+            return DateJ != SavedDateJ && DateJ != null;
         }
 
-        public bool DateK_Updated
+        public bool DateK_Updated()
         {
-            get
-            {
-                return DateK != SavedDateK && DateK != null;
-            }
+            return DateK != SavedDateK && DateK != null;
         }
 
-        public bool DateL_Updated
+        public bool DateL_Updated()
         {
-            get
-            {
-                return DateL != SavedDateL && DateL != null;
-            }
+            return DateL != SavedDateL && DateL != null;
         }
 
-        public bool DateM_Updated
+        public bool DateM_Updated()
         {
-            get
-            {
-                return DateM != SavedDateM && DateM != null;
-            }
+            return DateM != SavedDateM && DateM != null;
         }
 
-        public bool DateN_Updated
+        public bool DateN_Updated()
         {
-            get
-            {
-                return DateN != SavedDateN && DateN != null;
-            }
+            return DateN != SavedDateN && DateN != null;
         }
 
-        public bool DateO_Updated
+        public bool DateO_Updated()
         {
-            get
-            {
-                return DateO != SavedDateO && DateO != null;
-            }
+            return DateO != SavedDateO && DateO != null;
         }
 
-        public bool DateP_Updated
+        public bool DateP_Updated()
         {
-            get
-            {
-                return DateP != SavedDateP && DateP != null;
-            }
+            return DateP != SavedDateP && DateP != null;
         }
 
-        public bool DateQ_Updated
+        public bool DateQ_Updated()
         {
-            get
-            {
-                return DateQ != SavedDateQ && DateQ != null;
-            }
+            return DateQ != SavedDateQ && DateQ != null;
         }
 
-        public bool DateR_Updated
+        public bool DateR_Updated()
         {
-            get
-            {
-                return DateR != SavedDateR && DateR != null;
-            }
+            return DateR != SavedDateR && DateR != null;
         }
 
-        public bool DateS_Updated
+        public bool DateS_Updated()
         {
-            get
-            {
-                return DateS != SavedDateS && DateS != null;
-            }
+            return DateS != SavedDateS && DateS != null;
         }
 
-        public bool DateT_Updated
+        public bool DateT_Updated()
         {
-            get
-            {
-                return DateT != SavedDateT && DateT != null;
-            }
+            return DateT != SavedDateT && DateT != null;
         }
 
-        public bool DateU_Updated
+        public bool DateU_Updated()
         {
-            get
-            {
-                return DateU != SavedDateU && DateU != null;
-            }
+            return DateU != SavedDateU && DateU != null;
         }
 
-        public bool DateV_Updated
+        public bool DateV_Updated()
         {
-            get
-            {
-                return DateV != SavedDateV && DateV != null;
-            }
+            return DateV != SavedDateV && DateV != null;
         }
 
-        public bool DateW_Updated
+        public bool DateW_Updated()
         {
-            get
-            {
-                return DateW != SavedDateW && DateW != null;
-            }
+            return DateW != SavedDateW && DateW != null;
         }
 
-        public bool DateX_Updated
+        public bool DateX_Updated()
         {
-            get
-            {
-                return DateX != SavedDateX && DateX != null;
-            }
+            return DateX != SavedDateX && DateX != null;
         }
 
-        public bool DateY_Updated
+        public bool DateY_Updated()
         {
-            get
-            {
-                return DateY != SavedDateY && DateY != null;
-            }
+            return DateY != SavedDateY && DateY != null;
         }
 
-        public bool DateZ_Updated
+        public bool DateZ_Updated()
         {
-            get
-            {
-                return DateZ != SavedDateZ && DateZ != null;
-            }
+            return DateZ != SavedDateZ && DateZ != null;
         }
 
-        public bool DescriptionA_Updated
+        public bool DescriptionA_Updated()
         {
-            get
-            {
-                return DescriptionA != SavedDescriptionA && DescriptionA != null;
-            }
+            return DescriptionA != SavedDescriptionA && DescriptionA != null;
         }
 
-        public bool DescriptionB_Updated
+        public bool DescriptionB_Updated()
         {
-            get
-            {
-                return DescriptionB != SavedDescriptionB && DescriptionB != null;
-            }
+            return DescriptionB != SavedDescriptionB && DescriptionB != null;
         }
 
-        public bool DescriptionC_Updated
+        public bool DescriptionC_Updated()
         {
-            get
-            {
-                return DescriptionC != SavedDescriptionC && DescriptionC != null;
-            }
+            return DescriptionC != SavedDescriptionC && DescriptionC != null;
         }
 
-        public bool DescriptionD_Updated
+        public bool DescriptionD_Updated()
         {
-            get
-            {
-                return DescriptionD != SavedDescriptionD && DescriptionD != null;
-            }
+            return DescriptionD != SavedDescriptionD && DescriptionD != null;
         }
 
-        public bool DescriptionE_Updated
+        public bool DescriptionE_Updated()
         {
-            get
-            {
-                return DescriptionE != SavedDescriptionE && DescriptionE != null;
-            }
+            return DescriptionE != SavedDescriptionE && DescriptionE != null;
         }
 
-        public bool DescriptionF_Updated
+        public bool DescriptionF_Updated()
         {
-            get
-            {
-                return DescriptionF != SavedDescriptionF && DescriptionF != null;
-            }
+            return DescriptionF != SavedDescriptionF && DescriptionF != null;
         }
 
-        public bool DescriptionG_Updated
+        public bool DescriptionG_Updated()
         {
-            get
-            {
-                return DescriptionG != SavedDescriptionG && DescriptionG != null;
-            }
+            return DescriptionG != SavedDescriptionG && DescriptionG != null;
         }
 
-        public bool DescriptionH_Updated
+        public bool DescriptionH_Updated()
         {
-            get
-            {
-                return DescriptionH != SavedDescriptionH && DescriptionH != null;
-            }
+            return DescriptionH != SavedDescriptionH && DescriptionH != null;
         }
 
-        public bool DescriptionI_Updated
+        public bool DescriptionI_Updated()
         {
-            get
-            {
-                return DescriptionI != SavedDescriptionI && DescriptionI != null;
-            }
+            return DescriptionI != SavedDescriptionI && DescriptionI != null;
         }
 
-        public bool DescriptionJ_Updated
+        public bool DescriptionJ_Updated()
         {
-            get
-            {
-                return DescriptionJ != SavedDescriptionJ && DescriptionJ != null;
-            }
+            return DescriptionJ != SavedDescriptionJ && DescriptionJ != null;
         }
 
-        public bool DescriptionK_Updated
+        public bool DescriptionK_Updated()
         {
-            get
-            {
-                return DescriptionK != SavedDescriptionK && DescriptionK != null;
-            }
+            return DescriptionK != SavedDescriptionK && DescriptionK != null;
         }
 
-        public bool DescriptionL_Updated
+        public bool DescriptionL_Updated()
         {
-            get
-            {
-                return DescriptionL != SavedDescriptionL && DescriptionL != null;
-            }
+            return DescriptionL != SavedDescriptionL && DescriptionL != null;
         }
 
-        public bool DescriptionM_Updated
+        public bool DescriptionM_Updated()
         {
-            get
-            {
-                return DescriptionM != SavedDescriptionM && DescriptionM != null;
-            }
+            return DescriptionM != SavedDescriptionM && DescriptionM != null;
         }
 
-        public bool DescriptionN_Updated
+        public bool DescriptionN_Updated()
         {
-            get
-            {
-                return DescriptionN != SavedDescriptionN && DescriptionN != null;
-            }
+            return DescriptionN != SavedDescriptionN && DescriptionN != null;
         }
 
-        public bool DescriptionO_Updated
+        public bool DescriptionO_Updated()
         {
-            get
-            {
-                return DescriptionO != SavedDescriptionO && DescriptionO != null;
-            }
+            return DescriptionO != SavedDescriptionO && DescriptionO != null;
         }
 
-        public bool DescriptionP_Updated
+        public bool DescriptionP_Updated()
         {
-            get
-            {
-                return DescriptionP != SavedDescriptionP && DescriptionP != null;
-            }
+            return DescriptionP != SavedDescriptionP && DescriptionP != null;
         }
 
-        public bool DescriptionQ_Updated
+        public bool DescriptionQ_Updated()
         {
-            get
-            {
-                return DescriptionQ != SavedDescriptionQ && DescriptionQ != null;
-            }
+            return DescriptionQ != SavedDescriptionQ && DescriptionQ != null;
         }
 
-        public bool DescriptionR_Updated
+        public bool DescriptionR_Updated()
         {
-            get
-            {
-                return DescriptionR != SavedDescriptionR && DescriptionR != null;
-            }
+            return DescriptionR != SavedDescriptionR && DescriptionR != null;
         }
 
-        public bool DescriptionS_Updated
+        public bool DescriptionS_Updated()
         {
-            get
-            {
-                return DescriptionS != SavedDescriptionS && DescriptionS != null;
-            }
+            return DescriptionS != SavedDescriptionS && DescriptionS != null;
         }
 
-        public bool DescriptionT_Updated
+        public bool DescriptionT_Updated()
         {
-            get
-            {
-                return DescriptionT != SavedDescriptionT && DescriptionT != null;
-            }
+            return DescriptionT != SavedDescriptionT && DescriptionT != null;
         }
 
-        public bool DescriptionU_Updated
+        public bool DescriptionU_Updated()
         {
-            get
-            {
-                return DescriptionU != SavedDescriptionU && DescriptionU != null;
-            }
+            return DescriptionU != SavedDescriptionU && DescriptionU != null;
         }
 
-        public bool DescriptionV_Updated
+        public bool DescriptionV_Updated()
         {
-            get
-            {
-                return DescriptionV != SavedDescriptionV && DescriptionV != null;
-            }
+            return DescriptionV != SavedDescriptionV && DescriptionV != null;
         }
 
-        public bool DescriptionW_Updated
+        public bool DescriptionW_Updated()
         {
-            get
-            {
-                return DescriptionW != SavedDescriptionW && DescriptionW != null;
-            }
+            return DescriptionW != SavedDescriptionW && DescriptionW != null;
         }
 
-        public bool DescriptionX_Updated
+        public bool DescriptionX_Updated()
         {
-            get
-            {
-                return DescriptionX != SavedDescriptionX && DescriptionX != null;
-            }
+            return DescriptionX != SavedDescriptionX && DescriptionX != null;
         }
 
-        public bool DescriptionY_Updated
+        public bool DescriptionY_Updated()
         {
-            get
-            {
-                return DescriptionY != SavedDescriptionY && DescriptionY != null;
-            }
+            return DescriptionY != SavedDescriptionY && DescriptionY != null;
         }
 
-        public bool DescriptionZ_Updated
+        public bool DescriptionZ_Updated()
         {
-            get
-            {
-                return DescriptionZ != SavedDescriptionZ && DescriptionZ != null;
-            }
+            return DescriptionZ != SavedDescriptionZ && DescriptionZ != null;
         }
 
-        public bool CheckA_Updated
+        public bool CheckA_Updated()
         {
-            get
-            {
-                return CheckA != SavedCheckA;
-            }
+            return CheckA != SavedCheckA;
         }
 
-        public bool CheckB_Updated
+        public bool CheckB_Updated()
         {
-            get
-            {
-                return CheckB != SavedCheckB;
-            }
+            return CheckB != SavedCheckB;
         }
 
-        public bool CheckC_Updated
+        public bool CheckC_Updated()
         {
-            get
-            {
-                return CheckC != SavedCheckC;
-            }
+            return CheckC != SavedCheckC;
         }
 
-        public bool CheckD_Updated
+        public bool CheckD_Updated()
         {
-            get
-            {
-                return CheckD != SavedCheckD;
-            }
+            return CheckD != SavedCheckD;
         }
 
-        public bool CheckE_Updated
+        public bool CheckE_Updated()
         {
-            get
-            {
-                return CheckE != SavedCheckE;
-            }
+            return CheckE != SavedCheckE;
         }
 
-        public bool CheckF_Updated
+        public bool CheckF_Updated()
         {
-            get
-            {
-                return CheckF != SavedCheckF;
-            }
+            return CheckF != SavedCheckF;
         }
 
-        public bool CheckG_Updated
+        public bool CheckG_Updated()
         {
-            get
-            {
-                return CheckG != SavedCheckG;
-            }
+            return CheckG != SavedCheckG;
         }
 
-        public bool CheckH_Updated
+        public bool CheckH_Updated()
         {
-            get
-            {
-                return CheckH != SavedCheckH;
-            }
+            return CheckH != SavedCheckH;
         }
 
-        public bool CheckI_Updated
+        public bool CheckI_Updated()
         {
-            get
-            {
-                return CheckI != SavedCheckI;
-            }
+            return CheckI != SavedCheckI;
         }
 
-        public bool CheckJ_Updated
+        public bool CheckJ_Updated()
         {
-            get
-            {
-                return CheckJ != SavedCheckJ;
-            }
+            return CheckJ != SavedCheckJ;
         }
 
-        public bool CheckK_Updated
+        public bool CheckK_Updated()
         {
-            get
-            {
-                return CheckK != SavedCheckK;
-            }
+            return CheckK != SavedCheckK;
         }
 
-        public bool CheckL_Updated
+        public bool CheckL_Updated()
         {
-            get
-            {
-                return CheckL != SavedCheckL;
-            }
+            return CheckL != SavedCheckL;
         }
 
-        public bool CheckM_Updated
+        public bool CheckM_Updated()
         {
-            get
-            {
-                return CheckM != SavedCheckM;
-            }
+            return CheckM != SavedCheckM;
         }
 
-        public bool CheckN_Updated
+        public bool CheckN_Updated()
         {
-            get
-            {
-                return CheckN != SavedCheckN;
-            }
+            return CheckN != SavedCheckN;
         }
 
-        public bool CheckO_Updated
+        public bool CheckO_Updated()
         {
-            get
-            {
-                return CheckO != SavedCheckO;
-            }
+            return CheckO != SavedCheckO;
         }
 
-        public bool CheckP_Updated
+        public bool CheckP_Updated()
         {
-            get
-            {
-                return CheckP != SavedCheckP;
-            }
+            return CheckP != SavedCheckP;
         }
 
-        public bool CheckQ_Updated
+        public bool CheckQ_Updated()
         {
-            get
-            {
-                return CheckQ != SavedCheckQ;
-            }
+            return CheckQ != SavedCheckQ;
         }
 
-        public bool CheckR_Updated
+        public bool CheckR_Updated()
         {
-            get
-            {
-                return CheckR != SavedCheckR;
-            }
+            return CheckR != SavedCheckR;
         }
 
-        public bool CheckS_Updated
+        public bool CheckS_Updated()
         {
-            get
-            {
-                return CheckS != SavedCheckS;
-            }
+            return CheckS != SavedCheckS;
         }
 
-        public bool CheckT_Updated
+        public bool CheckT_Updated()
         {
-            get
-            {
-                return CheckT != SavedCheckT;
-            }
+            return CheckT != SavedCheckT;
         }
 
-        public bool CheckU_Updated
+        public bool CheckU_Updated()
         {
-            get
-            {
-                return CheckU != SavedCheckU;
-            }
+            return CheckU != SavedCheckU;
         }
 
-        public bool CheckV_Updated
+        public bool CheckV_Updated()
         {
-            get
-            {
-                return CheckV != SavedCheckV;
-            }
+            return CheckV != SavedCheckV;
         }
 
-        public bool CheckW_Updated
+        public bool CheckW_Updated()
         {
-            get
-            {
-                return CheckW != SavedCheckW;
-            }
+            return CheckW != SavedCheckW;
         }
 
-        public bool CheckX_Updated
+        public bool CheckX_Updated()
         {
-            get
-            {
-                return CheckX != SavedCheckX;
-            }
+            return CheckX != SavedCheckX;
         }
 
-        public bool CheckY_Updated
+        public bool CheckY_Updated()
         {
-            get
-            {
-                return CheckY != SavedCheckY;
-            }
+            return CheckY != SavedCheckY;
         }
 
-        public bool CheckZ_Updated
+        public bool CheckZ_Updated()
         {
-            get
-            {
-                return CheckZ != SavedCheckZ;
-            }
+            return CheckZ != SavedCheckZ;
         }
 
-        public bool AttachmentsA_Updated
+        public bool AttachmentsA_Updated()
         {
-            get
-            {
-                return AttachmentsA.ToJson() != SavedAttachmentsA && AttachmentsA.ToJson() != null;
-            }
+            return AttachmentsA.ToJson() != SavedAttachmentsA && AttachmentsA.ToJson() != null;
         }
 
-        public bool AttachmentsB_Updated
+        public bool AttachmentsB_Updated()
         {
-            get
-            {
-                return AttachmentsB.ToJson() != SavedAttachmentsB && AttachmentsB.ToJson() != null;
-            }
+            return AttachmentsB.ToJson() != SavedAttachmentsB && AttachmentsB.ToJson() != null;
         }
 
-        public bool AttachmentsC_Updated
+        public bool AttachmentsC_Updated()
         {
-            get
-            {
-                return AttachmentsC.ToJson() != SavedAttachmentsC && AttachmentsC.ToJson() != null;
-            }
+            return AttachmentsC.ToJson() != SavedAttachmentsC && AttachmentsC.ToJson() != null;
         }
 
-        public bool AttachmentsD_Updated
+        public bool AttachmentsD_Updated()
         {
-            get
-            {
-                return AttachmentsD.ToJson() != SavedAttachmentsD && AttachmentsD.ToJson() != null;
-            }
+            return AttachmentsD.ToJson() != SavedAttachmentsD && AttachmentsD.ToJson() != null;
         }
 
-        public bool AttachmentsE_Updated
+        public bool AttachmentsE_Updated()
         {
-            get
-            {
-                return AttachmentsE.ToJson() != SavedAttachmentsE && AttachmentsE.ToJson() != null;
-            }
+            return AttachmentsE.ToJson() != SavedAttachmentsE && AttachmentsE.ToJson() != null;
         }
 
-        public bool AttachmentsF_Updated
+        public bool AttachmentsF_Updated()
         {
-            get
-            {
-                return AttachmentsF.ToJson() != SavedAttachmentsF && AttachmentsF.ToJson() != null;
-            }
+            return AttachmentsF.ToJson() != SavedAttachmentsF && AttachmentsF.ToJson() != null;
         }
 
-        public bool AttachmentsG_Updated
+        public bool AttachmentsG_Updated()
         {
-            get
-            {
-                return AttachmentsG.ToJson() != SavedAttachmentsG && AttachmentsG.ToJson() != null;
-            }
+            return AttachmentsG.ToJson() != SavedAttachmentsG && AttachmentsG.ToJson() != null;
         }
 
-        public bool AttachmentsH_Updated
+        public bool AttachmentsH_Updated()
         {
-            get
-            {
-                return AttachmentsH.ToJson() != SavedAttachmentsH && AttachmentsH.ToJson() != null;
-            }
+            return AttachmentsH.ToJson() != SavedAttachmentsH && AttachmentsH.ToJson() != null;
         }
 
-        public bool AttachmentsI_Updated
+        public bool AttachmentsI_Updated()
         {
-            get
-            {
-                return AttachmentsI.ToJson() != SavedAttachmentsI && AttachmentsI.ToJson() != null;
-            }
+            return AttachmentsI.ToJson() != SavedAttachmentsI && AttachmentsI.ToJson() != null;
         }
 
-        public bool AttachmentsJ_Updated
+        public bool AttachmentsJ_Updated()
         {
-            get
-            {
-                return AttachmentsJ.ToJson() != SavedAttachmentsJ && AttachmentsJ.ToJson() != null;
-            }
+            return AttachmentsJ.ToJson() != SavedAttachmentsJ && AttachmentsJ.ToJson() != null;
         }
 
-        public bool AttachmentsK_Updated
+        public bool AttachmentsK_Updated()
         {
-            get
-            {
-                return AttachmentsK.ToJson() != SavedAttachmentsK && AttachmentsK.ToJson() != null;
-            }
+            return AttachmentsK.ToJson() != SavedAttachmentsK && AttachmentsK.ToJson() != null;
         }
 
-        public bool AttachmentsL_Updated
+        public bool AttachmentsL_Updated()
         {
-            get
-            {
-                return AttachmentsL.ToJson() != SavedAttachmentsL && AttachmentsL.ToJson() != null;
-            }
+            return AttachmentsL.ToJson() != SavedAttachmentsL && AttachmentsL.ToJson() != null;
         }
 
-        public bool AttachmentsM_Updated
+        public bool AttachmentsM_Updated()
         {
-            get
-            {
-                return AttachmentsM.ToJson() != SavedAttachmentsM && AttachmentsM.ToJson() != null;
-            }
+            return AttachmentsM.ToJson() != SavedAttachmentsM && AttachmentsM.ToJson() != null;
         }
 
-        public bool AttachmentsN_Updated
+        public bool AttachmentsN_Updated()
         {
-            get
-            {
-                return AttachmentsN.ToJson() != SavedAttachmentsN && AttachmentsN.ToJson() != null;
-            }
+            return AttachmentsN.ToJson() != SavedAttachmentsN && AttachmentsN.ToJson() != null;
         }
 
-        public bool AttachmentsO_Updated
+        public bool AttachmentsO_Updated()
         {
-            get
-            {
-                return AttachmentsO.ToJson() != SavedAttachmentsO && AttachmentsO.ToJson() != null;
-            }
+            return AttachmentsO.ToJson() != SavedAttachmentsO && AttachmentsO.ToJson() != null;
         }
 
-        public bool AttachmentsP_Updated
+        public bool AttachmentsP_Updated()
         {
-            get
-            {
-                return AttachmentsP.ToJson() != SavedAttachmentsP && AttachmentsP.ToJson() != null;
-            }
+            return AttachmentsP.ToJson() != SavedAttachmentsP && AttachmentsP.ToJson() != null;
         }
 
-        public bool AttachmentsQ_Updated
+        public bool AttachmentsQ_Updated()
         {
-            get
-            {
-                return AttachmentsQ.ToJson() != SavedAttachmentsQ && AttachmentsQ.ToJson() != null;
-            }
+            return AttachmentsQ.ToJson() != SavedAttachmentsQ && AttachmentsQ.ToJson() != null;
         }
 
-        public bool AttachmentsR_Updated
+        public bool AttachmentsR_Updated()
         {
-            get
-            {
-                return AttachmentsR.ToJson() != SavedAttachmentsR && AttachmentsR.ToJson() != null;
-            }
+            return AttachmentsR.ToJson() != SavedAttachmentsR && AttachmentsR.ToJson() != null;
         }
 
-        public bool AttachmentsS_Updated
+        public bool AttachmentsS_Updated()
         {
-            get
-            {
-                return AttachmentsS.ToJson() != SavedAttachmentsS && AttachmentsS.ToJson() != null;
-            }
+            return AttachmentsS.ToJson() != SavedAttachmentsS && AttachmentsS.ToJson() != null;
         }
 
-        public bool AttachmentsT_Updated
+        public bool AttachmentsT_Updated()
         {
-            get
-            {
-                return AttachmentsT.ToJson() != SavedAttachmentsT && AttachmentsT.ToJson() != null;
-            }
+            return AttachmentsT.ToJson() != SavedAttachmentsT && AttachmentsT.ToJson() != null;
         }
 
-        public bool AttachmentsU_Updated
+        public bool AttachmentsU_Updated()
         {
-            get
-            {
-                return AttachmentsU.ToJson() != SavedAttachmentsU && AttachmentsU.ToJson() != null;
-            }
+            return AttachmentsU.ToJson() != SavedAttachmentsU && AttachmentsU.ToJson() != null;
         }
 
-        public bool AttachmentsV_Updated
+        public bool AttachmentsV_Updated()
         {
-            get
-            {
-                return AttachmentsV.ToJson() != SavedAttachmentsV && AttachmentsV.ToJson() != null;
-            }
+            return AttachmentsV.ToJson() != SavedAttachmentsV && AttachmentsV.ToJson() != null;
         }
 
-        public bool AttachmentsW_Updated
+        public bool AttachmentsW_Updated()
         {
-            get
-            {
-                return AttachmentsW.ToJson() != SavedAttachmentsW && AttachmentsW.ToJson() != null;
-            }
+            return AttachmentsW.ToJson() != SavedAttachmentsW && AttachmentsW.ToJson() != null;
         }
 
-        public bool AttachmentsX_Updated
+        public bool AttachmentsX_Updated()
         {
-            get
-            {
-                return AttachmentsX.ToJson() != SavedAttachmentsX && AttachmentsX.ToJson() != null;
-            }
+            return AttachmentsX.ToJson() != SavedAttachmentsX && AttachmentsX.ToJson() != null;
         }
 
-        public bool AttachmentsY_Updated
+        public bool AttachmentsY_Updated()
         {
-            get
-            {
-                return AttachmentsY.ToJson() != SavedAttachmentsY && AttachmentsY.ToJson() != null;
-            }
+            return AttachmentsY.ToJson() != SavedAttachmentsY && AttachmentsY.ToJson() != null;
         }
 
-        public bool AttachmentsZ_Updated
+        public bool AttachmentsZ_Updated()
         {
-            get
-            {
-                return AttachmentsZ.ToJson() != SavedAttachmentsZ && AttachmentsZ.ToJson() != null;
-            }
+            return AttachmentsZ.ToJson() != SavedAttachmentsZ && AttachmentsZ.ToJson() != null;
         }
 
         public string PropertyValue(string name)
@@ -4608,145 +4131,562 @@ namespace Implem.Pleasanter.Models
             {
                 switch (column.Name)
                 {
-                    case "Title": body.Append(Title.ToNotice(SavedTitle, column, Title_Updated, update)); break;
-                    case "Body": body.Append(Body.ToNotice(SavedBody, column, Body_Updated, update)); break;
-                    case "Status": body.Append(Status.ToNotice(SavedStatus, column, Status_Updated, update)); break;
-                    case "Manager": body.Append(Manager.ToNotice(SavedManager, column, Manager_Updated, update)); break;
-                    case "Owner": body.Append(Owner.ToNotice(SavedOwner, column, Owner_Updated, update)); break;
-                    case "ClassA": body.Append(ClassA.ToNotice(SavedClassA, column, ClassA_Updated, update)); break;
-                    case "ClassB": body.Append(ClassB.ToNotice(SavedClassB, column, ClassB_Updated, update)); break;
-                    case "ClassC": body.Append(ClassC.ToNotice(SavedClassC, column, ClassC_Updated, update)); break;
-                    case "ClassD": body.Append(ClassD.ToNotice(SavedClassD, column, ClassD_Updated, update)); break;
-                    case "ClassE": body.Append(ClassE.ToNotice(SavedClassE, column, ClassE_Updated, update)); break;
-                    case "ClassF": body.Append(ClassF.ToNotice(SavedClassF, column, ClassF_Updated, update)); break;
-                    case "ClassG": body.Append(ClassG.ToNotice(SavedClassG, column, ClassG_Updated, update)); break;
-                    case "ClassH": body.Append(ClassH.ToNotice(SavedClassH, column, ClassH_Updated, update)); break;
-                    case "ClassI": body.Append(ClassI.ToNotice(SavedClassI, column, ClassI_Updated, update)); break;
-                    case "ClassJ": body.Append(ClassJ.ToNotice(SavedClassJ, column, ClassJ_Updated, update)); break;
-                    case "ClassK": body.Append(ClassK.ToNotice(SavedClassK, column, ClassK_Updated, update)); break;
-                    case "ClassL": body.Append(ClassL.ToNotice(SavedClassL, column, ClassL_Updated, update)); break;
-                    case "ClassM": body.Append(ClassM.ToNotice(SavedClassM, column, ClassM_Updated, update)); break;
-                    case "ClassN": body.Append(ClassN.ToNotice(SavedClassN, column, ClassN_Updated, update)); break;
-                    case "ClassO": body.Append(ClassO.ToNotice(SavedClassO, column, ClassO_Updated, update)); break;
-                    case "ClassP": body.Append(ClassP.ToNotice(SavedClassP, column, ClassP_Updated, update)); break;
-                    case "ClassQ": body.Append(ClassQ.ToNotice(SavedClassQ, column, ClassQ_Updated, update)); break;
-                    case "ClassR": body.Append(ClassR.ToNotice(SavedClassR, column, ClassR_Updated, update)); break;
-                    case "ClassS": body.Append(ClassS.ToNotice(SavedClassS, column, ClassS_Updated, update)); break;
-                    case "ClassT": body.Append(ClassT.ToNotice(SavedClassT, column, ClassT_Updated, update)); break;
-                    case "ClassU": body.Append(ClassU.ToNotice(SavedClassU, column, ClassU_Updated, update)); break;
-                    case "ClassV": body.Append(ClassV.ToNotice(SavedClassV, column, ClassV_Updated, update)); break;
-                    case "ClassW": body.Append(ClassW.ToNotice(SavedClassW, column, ClassW_Updated, update)); break;
-                    case "ClassX": body.Append(ClassX.ToNotice(SavedClassX, column, ClassX_Updated, update)); break;
-                    case "ClassY": body.Append(ClassY.ToNotice(SavedClassY, column, ClassY_Updated, update)); break;
-                    case "ClassZ": body.Append(ClassZ.ToNotice(SavedClassZ, column, ClassZ_Updated, update)); break;
-                    case "NumA": body.Append(NumA.ToNotice(SavedNumA, column, NumA_Updated, update)); break;
-                    case "NumB": body.Append(NumB.ToNotice(SavedNumB, column, NumB_Updated, update)); break;
-                    case "NumC": body.Append(NumC.ToNotice(SavedNumC, column, NumC_Updated, update)); break;
-                    case "NumD": body.Append(NumD.ToNotice(SavedNumD, column, NumD_Updated, update)); break;
-                    case "NumE": body.Append(NumE.ToNotice(SavedNumE, column, NumE_Updated, update)); break;
-                    case "NumF": body.Append(NumF.ToNotice(SavedNumF, column, NumF_Updated, update)); break;
-                    case "NumG": body.Append(NumG.ToNotice(SavedNumG, column, NumG_Updated, update)); break;
-                    case "NumH": body.Append(NumH.ToNotice(SavedNumH, column, NumH_Updated, update)); break;
-                    case "NumI": body.Append(NumI.ToNotice(SavedNumI, column, NumI_Updated, update)); break;
-                    case "NumJ": body.Append(NumJ.ToNotice(SavedNumJ, column, NumJ_Updated, update)); break;
-                    case "NumK": body.Append(NumK.ToNotice(SavedNumK, column, NumK_Updated, update)); break;
-                    case "NumL": body.Append(NumL.ToNotice(SavedNumL, column, NumL_Updated, update)); break;
-                    case "NumM": body.Append(NumM.ToNotice(SavedNumM, column, NumM_Updated, update)); break;
-                    case "NumN": body.Append(NumN.ToNotice(SavedNumN, column, NumN_Updated, update)); break;
-                    case "NumO": body.Append(NumO.ToNotice(SavedNumO, column, NumO_Updated, update)); break;
-                    case "NumP": body.Append(NumP.ToNotice(SavedNumP, column, NumP_Updated, update)); break;
-                    case "NumQ": body.Append(NumQ.ToNotice(SavedNumQ, column, NumQ_Updated, update)); break;
-                    case "NumR": body.Append(NumR.ToNotice(SavedNumR, column, NumR_Updated, update)); break;
-                    case "NumS": body.Append(NumS.ToNotice(SavedNumS, column, NumS_Updated, update)); break;
-                    case "NumT": body.Append(NumT.ToNotice(SavedNumT, column, NumT_Updated, update)); break;
-                    case "NumU": body.Append(NumU.ToNotice(SavedNumU, column, NumU_Updated, update)); break;
-                    case "NumV": body.Append(NumV.ToNotice(SavedNumV, column, NumV_Updated, update)); break;
-                    case "NumW": body.Append(NumW.ToNotice(SavedNumW, column, NumW_Updated, update)); break;
-                    case "NumX": body.Append(NumX.ToNotice(SavedNumX, column, NumX_Updated, update)); break;
-                    case "NumY": body.Append(NumY.ToNotice(SavedNumY, column, NumY_Updated, update)); break;
-                    case "NumZ": body.Append(NumZ.ToNotice(SavedNumZ, column, NumZ_Updated, update)); break;
-                    case "DateA": body.Append(DateA.ToNotice(SavedDateA, column, DateA_Updated, update)); break;
-                    case "DateB": body.Append(DateB.ToNotice(SavedDateB, column, DateB_Updated, update)); break;
-                    case "DateC": body.Append(DateC.ToNotice(SavedDateC, column, DateC_Updated, update)); break;
-                    case "DateD": body.Append(DateD.ToNotice(SavedDateD, column, DateD_Updated, update)); break;
-                    case "DateE": body.Append(DateE.ToNotice(SavedDateE, column, DateE_Updated, update)); break;
-                    case "DateF": body.Append(DateF.ToNotice(SavedDateF, column, DateF_Updated, update)); break;
-                    case "DateG": body.Append(DateG.ToNotice(SavedDateG, column, DateG_Updated, update)); break;
-                    case "DateH": body.Append(DateH.ToNotice(SavedDateH, column, DateH_Updated, update)); break;
-                    case "DateI": body.Append(DateI.ToNotice(SavedDateI, column, DateI_Updated, update)); break;
-                    case "DateJ": body.Append(DateJ.ToNotice(SavedDateJ, column, DateJ_Updated, update)); break;
-                    case "DateK": body.Append(DateK.ToNotice(SavedDateK, column, DateK_Updated, update)); break;
-                    case "DateL": body.Append(DateL.ToNotice(SavedDateL, column, DateL_Updated, update)); break;
-                    case "DateM": body.Append(DateM.ToNotice(SavedDateM, column, DateM_Updated, update)); break;
-                    case "DateN": body.Append(DateN.ToNotice(SavedDateN, column, DateN_Updated, update)); break;
-                    case "DateO": body.Append(DateO.ToNotice(SavedDateO, column, DateO_Updated, update)); break;
-                    case "DateP": body.Append(DateP.ToNotice(SavedDateP, column, DateP_Updated, update)); break;
-                    case "DateQ": body.Append(DateQ.ToNotice(SavedDateQ, column, DateQ_Updated, update)); break;
-                    case "DateR": body.Append(DateR.ToNotice(SavedDateR, column, DateR_Updated, update)); break;
-                    case "DateS": body.Append(DateS.ToNotice(SavedDateS, column, DateS_Updated, update)); break;
-                    case "DateT": body.Append(DateT.ToNotice(SavedDateT, column, DateT_Updated, update)); break;
-                    case "DateU": body.Append(DateU.ToNotice(SavedDateU, column, DateU_Updated, update)); break;
-                    case "DateV": body.Append(DateV.ToNotice(SavedDateV, column, DateV_Updated, update)); break;
-                    case "DateW": body.Append(DateW.ToNotice(SavedDateW, column, DateW_Updated, update)); break;
-                    case "DateX": body.Append(DateX.ToNotice(SavedDateX, column, DateX_Updated, update)); break;
-                    case "DateY": body.Append(DateY.ToNotice(SavedDateY, column, DateY_Updated, update)); break;
-                    case "DateZ": body.Append(DateZ.ToNotice(SavedDateZ, column, DateZ_Updated, update)); break;
-                    case "DescriptionA": body.Append(DescriptionA.ToNotice(SavedDescriptionA, column, DescriptionA_Updated, update)); break;
-                    case "DescriptionB": body.Append(DescriptionB.ToNotice(SavedDescriptionB, column, DescriptionB_Updated, update)); break;
-                    case "DescriptionC": body.Append(DescriptionC.ToNotice(SavedDescriptionC, column, DescriptionC_Updated, update)); break;
-                    case "DescriptionD": body.Append(DescriptionD.ToNotice(SavedDescriptionD, column, DescriptionD_Updated, update)); break;
-                    case "DescriptionE": body.Append(DescriptionE.ToNotice(SavedDescriptionE, column, DescriptionE_Updated, update)); break;
-                    case "DescriptionF": body.Append(DescriptionF.ToNotice(SavedDescriptionF, column, DescriptionF_Updated, update)); break;
-                    case "DescriptionG": body.Append(DescriptionG.ToNotice(SavedDescriptionG, column, DescriptionG_Updated, update)); break;
-                    case "DescriptionH": body.Append(DescriptionH.ToNotice(SavedDescriptionH, column, DescriptionH_Updated, update)); break;
-                    case "DescriptionI": body.Append(DescriptionI.ToNotice(SavedDescriptionI, column, DescriptionI_Updated, update)); break;
-                    case "DescriptionJ": body.Append(DescriptionJ.ToNotice(SavedDescriptionJ, column, DescriptionJ_Updated, update)); break;
-                    case "DescriptionK": body.Append(DescriptionK.ToNotice(SavedDescriptionK, column, DescriptionK_Updated, update)); break;
-                    case "DescriptionL": body.Append(DescriptionL.ToNotice(SavedDescriptionL, column, DescriptionL_Updated, update)); break;
-                    case "DescriptionM": body.Append(DescriptionM.ToNotice(SavedDescriptionM, column, DescriptionM_Updated, update)); break;
-                    case "DescriptionN": body.Append(DescriptionN.ToNotice(SavedDescriptionN, column, DescriptionN_Updated, update)); break;
-                    case "DescriptionO": body.Append(DescriptionO.ToNotice(SavedDescriptionO, column, DescriptionO_Updated, update)); break;
-                    case "DescriptionP": body.Append(DescriptionP.ToNotice(SavedDescriptionP, column, DescriptionP_Updated, update)); break;
-                    case "DescriptionQ": body.Append(DescriptionQ.ToNotice(SavedDescriptionQ, column, DescriptionQ_Updated, update)); break;
-                    case "DescriptionR": body.Append(DescriptionR.ToNotice(SavedDescriptionR, column, DescriptionR_Updated, update)); break;
-                    case "DescriptionS": body.Append(DescriptionS.ToNotice(SavedDescriptionS, column, DescriptionS_Updated, update)); break;
-                    case "DescriptionT": body.Append(DescriptionT.ToNotice(SavedDescriptionT, column, DescriptionT_Updated, update)); break;
-                    case "DescriptionU": body.Append(DescriptionU.ToNotice(SavedDescriptionU, column, DescriptionU_Updated, update)); break;
-                    case "DescriptionV": body.Append(DescriptionV.ToNotice(SavedDescriptionV, column, DescriptionV_Updated, update)); break;
-                    case "DescriptionW": body.Append(DescriptionW.ToNotice(SavedDescriptionW, column, DescriptionW_Updated, update)); break;
-                    case "DescriptionX": body.Append(DescriptionX.ToNotice(SavedDescriptionX, column, DescriptionX_Updated, update)); break;
-                    case "DescriptionY": body.Append(DescriptionY.ToNotice(SavedDescriptionY, column, DescriptionY_Updated, update)); break;
-                    case "DescriptionZ": body.Append(DescriptionZ.ToNotice(SavedDescriptionZ, column, DescriptionZ_Updated, update)); break;
-                    case "CheckA": body.Append(CheckA.ToNotice(SavedCheckA, column, CheckA_Updated, update)); break;
-                    case "CheckB": body.Append(CheckB.ToNotice(SavedCheckB, column, CheckB_Updated, update)); break;
-                    case "CheckC": body.Append(CheckC.ToNotice(SavedCheckC, column, CheckC_Updated, update)); break;
-                    case "CheckD": body.Append(CheckD.ToNotice(SavedCheckD, column, CheckD_Updated, update)); break;
-                    case "CheckE": body.Append(CheckE.ToNotice(SavedCheckE, column, CheckE_Updated, update)); break;
-                    case "CheckF": body.Append(CheckF.ToNotice(SavedCheckF, column, CheckF_Updated, update)); break;
-                    case "CheckG": body.Append(CheckG.ToNotice(SavedCheckG, column, CheckG_Updated, update)); break;
-                    case "CheckH": body.Append(CheckH.ToNotice(SavedCheckH, column, CheckH_Updated, update)); break;
-                    case "CheckI": body.Append(CheckI.ToNotice(SavedCheckI, column, CheckI_Updated, update)); break;
-                    case "CheckJ": body.Append(CheckJ.ToNotice(SavedCheckJ, column, CheckJ_Updated, update)); break;
-                    case "CheckK": body.Append(CheckK.ToNotice(SavedCheckK, column, CheckK_Updated, update)); break;
-                    case "CheckL": body.Append(CheckL.ToNotice(SavedCheckL, column, CheckL_Updated, update)); break;
-                    case "CheckM": body.Append(CheckM.ToNotice(SavedCheckM, column, CheckM_Updated, update)); break;
-                    case "CheckN": body.Append(CheckN.ToNotice(SavedCheckN, column, CheckN_Updated, update)); break;
-                    case "CheckO": body.Append(CheckO.ToNotice(SavedCheckO, column, CheckO_Updated, update)); break;
-                    case "CheckP": body.Append(CheckP.ToNotice(SavedCheckP, column, CheckP_Updated, update)); break;
-                    case "CheckQ": body.Append(CheckQ.ToNotice(SavedCheckQ, column, CheckQ_Updated, update)); break;
-                    case "CheckR": body.Append(CheckR.ToNotice(SavedCheckR, column, CheckR_Updated, update)); break;
-                    case "CheckS": body.Append(CheckS.ToNotice(SavedCheckS, column, CheckS_Updated, update)); break;
-                    case "CheckT": body.Append(CheckT.ToNotice(SavedCheckT, column, CheckT_Updated, update)); break;
-                    case "CheckU": body.Append(CheckU.ToNotice(SavedCheckU, column, CheckU_Updated, update)); break;
-                    case "CheckV": body.Append(CheckV.ToNotice(SavedCheckV, column, CheckV_Updated, update)); break;
-                    case "CheckW": body.Append(CheckW.ToNotice(SavedCheckW, column, CheckW_Updated, update)); break;
-                    case "CheckX": body.Append(CheckX.ToNotice(SavedCheckX, column, CheckX_Updated, update)); break;
-                    case "CheckY": body.Append(CheckY.ToNotice(SavedCheckY, column, CheckY_Updated, update)); break;
-                    case "CheckZ": body.Append(CheckZ.ToNotice(SavedCheckZ, column, CheckZ_Updated, update)); break;
-                    case "Comments": body.Append(Comments.ToNotice(SavedComments, column, Comments_Updated, update)); break;
-                    case "Creator": body.Append(Creator.ToNotice(SavedCreator, column, Creator_Updated, update)); break;
-                    case "Updator": body.Append(Updator.ToNotice(SavedUpdator, column, Updator_Updated, update)); break;
-                    case "CreatedTime": body.Append(CreatedTime.ToNotice(SavedCreatedTime, column, CreatedTime_Updated, update)); break;
+                    case "Title":
+                        body.Append(Title.ToNotice(
+                            SavedTitle, column, Title_Updated(), update));
+                        break;
+                    case "Body":
+                        body.Append(Body.ToNotice(
+                            SavedBody, column, Body_Updated(), update));
+                        break;
+                    case "Status":
+                        body.Append(Status.ToNotice(
+                            SavedStatus, column, Status_Updated(), update));
+                        break;
+                    case "Manager":
+                        body.Append(Manager.ToNotice(
+                            SavedManager, column, Manager_Updated(), update));
+                        break;
+                    case "Owner":
+                        body.Append(Owner.ToNotice(
+                            SavedOwner, column, Owner_Updated(), update));
+                        break;
+                    case "ClassA":
+                        body.Append(ClassA.ToNotice(
+                            SavedClassA, column, ClassA_Updated(), update));
+                        break;
+                    case "ClassB":
+                        body.Append(ClassB.ToNotice(
+                            SavedClassB, column, ClassB_Updated(), update));
+                        break;
+                    case "ClassC":
+                        body.Append(ClassC.ToNotice(
+                            SavedClassC, column, ClassC_Updated(), update));
+                        break;
+                    case "ClassD":
+                        body.Append(ClassD.ToNotice(
+                            SavedClassD, column, ClassD_Updated(), update));
+                        break;
+                    case "ClassE":
+                        body.Append(ClassE.ToNotice(
+                            SavedClassE, column, ClassE_Updated(), update));
+                        break;
+                    case "ClassF":
+                        body.Append(ClassF.ToNotice(
+                            SavedClassF, column, ClassF_Updated(), update));
+                        break;
+                    case "ClassG":
+                        body.Append(ClassG.ToNotice(
+                            SavedClassG, column, ClassG_Updated(), update));
+                        break;
+                    case "ClassH":
+                        body.Append(ClassH.ToNotice(
+                            SavedClassH, column, ClassH_Updated(), update));
+                        break;
+                    case "ClassI":
+                        body.Append(ClassI.ToNotice(
+                            SavedClassI, column, ClassI_Updated(), update));
+                        break;
+                    case "ClassJ":
+                        body.Append(ClassJ.ToNotice(
+                            SavedClassJ, column, ClassJ_Updated(), update));
+                        break;
+                    case "ClassK":
+                        body.Append(ClassK.ToNotice(
+                            SavedClassK, column, ClassK_Updated(), update));
+                        break;
+                    case "ClassL":
+                        body.Append(ClassL.ToNotice(
+                            SavedClassL, column, ClassL_Updated(), update));
+                        break;
+                    case "ClassM":
+                        body.Append(ClassM.ToNotice(
+                            SavedClassM, column, ClassM_Updated(), update));
+                        break;
+                    case "ClassN":
+                        body.Append(ClassN.ToNotice(
+                            SavedClassN, column, ClassN_Updated(), update));
+                        break;
+                    case "ClassO":
+                        body.Append(ClassO.ToNotice(
+                            SavedClassO, column, ClassO_Updated(), update));
+                        break;
+                    case "ClassP":
+                        body.Append(ClassP.ToNotice(
+                            SavedClassP, column, ClassP_Updated(), update));
+                        break;
+                    case "ClassQ":
+                        body.Append(ClassQ.ToNotice(
+                            SavedClassQ, column, ClassQ_Updated(), update));
+                        break;
+                    case "ClassR":
+                        body.Append(ClassR.ToNotice(
+                            SavedClassR, column, ClassR_Updated(), update));
+                        break;
+                    case "ClassS":
+                        body.Append(ClassS.ToNotice(
+                            SavedClassS, column, ClassS_Updated(), update));
+                        break;
+                    case "ClassT":
+                        body.Append(ClassT.ToNotice(
+                            SavedClassT, column, ClassT_Updated(), update));
+                        break;
+                    case "ClassU":
+                        body.Append(ClassU.ToNotice(
+                            SavedClassU, column, ClassU_Updated(), update));
+                        break;
+                    case "ClassV":
+                        body.Append(ClassV.ToNotice(
+                            SavedClassV, column, ClassV_Updated(), update));
+                        break;
+                    case "ClassW":
+                        body.Append(ClassW.ToNotice(
+                            SavedClassW, column, ClassW_Updated(), update));
+                        break;
+                    case "ClassX":
+                        body.Append(ClassX.ToNotice(
+                            SavedClassX, column, ClassX_Updated(), update));
+                        break;
+                    case "ClassY":
+                        body.Append(ClassY.ToNotice(
+                            SavedClassY, column, ClassY_Updated(), update));
+                        break;
+                    case "ClassZ":
+                        body.Append(ClassZ.ToNotice(
+                            SavedClassZ, column, ClassZ_Updated(), update));
+                        break;
+                    case "NumA":
+                        body.Append(NumA.ToNotice(
+                            SavedNumA, column, NumA_Updated(), update));
+                        break;
+                    case "NumB":
+                        body.Append(NumB.ToNotice(
+                            SavedNumB, column, NumB_Updated(), update));
+                        break;
+                    case "NumC":
+                        body.Append(NumC.ToNotice(
+                            SavedNumC, column, NumC_Updated(), update));
+                        break;
+                    case "NumD":
+                        body.Append(NumD.ToNotice(
+                            SavedNumD, column, NumD_Updated(), update));
+                        break;
+                    case "NumE":
+                        body.Append(NumE.ToNotice(
+                            SavedNumE, column, NumE_Updated(), update));
+                        break;
+                    case "NumF":
+                        body.Append(NumF.ToNotice(
+                            SavedNumF, column, NumF_Updated(), update));
+                        break;
+                    case "NumG":
+                        body.Append(NumG.ToNotice(
+                            SavedNumG, column, NumG_Updated(), update));
+                        break;
+                    case "NumH":
+                        body.Append(NumH.ToNotice(
+                            SavedNumH, column, NumH_Updated(), update));
+                        break;
+                    case "NumI":
+                        body.Append(NumI.ToNotice(
+                            SavedNumI, column, NumI_Updated(), update));
+                        break;
+                    case "NumJ":
+                        body.Append(NumJ.ToNotice(
+                            SavedNumJ, column, NumJ_Updated(), update));
+                        break;
+                    case "NumK":
+                        body.Append(NumK.ToNotice(
+                            SavedNumK, column, NumK_Updated(), update));
+                        break;
+                    case "NumL":
+                        body.Append(NumL.ToNotice(
+                            SavedNumL, column, NumL_Updated(), update));
+                        break;
+                    case "NumM":
+                        body.Append(NumM.ToNotice(
+                            SavedNumM, column, NumM_Updated(), update));
+                        break;
+                    case "NumN":
+                        body.Append(NumN.ToNotice(
+                            SavedNumN, column, NumN_Updated(), update));
+                        break;
+                    case "NumO":
+                        body.Append(NumO.ToNotice(
+                            SavedNumO, column, NumO_Updated(), update));
+                        break;
+                    case "NumP":
+                        body.Append(NumP.ToNotice(
+                            SavedNumP, column, NumP_Updated(), update));
+                        break;
+                    case "NumQ":
+                        body.Append(NumQ.ToNotice(
+                            SavedNumQ, column, NumQ_Updated(), update));
+                        break;
+                    case "NumR":
+                        body.Append(NumR.ToNotice(
+                            SavedNumR, column, NumR_Updated(), update));
+                        break;
+                    case "NumS":
+                        body.Append(NumS.ToNotice(
+                            SavedNumS, column, NumS_Updated(), update));
+                        break;
+                    case "NumT":
+                        body.Append(NumT.ToNotice(
+                            SavedNumT, column, NumT_Updated(), update));
+                        break;
+                    case "NumU":
+                        body.Append(NumU.ToNotice(
+                            SavedNumU, column, NumU_Updated(), update));
+                        break;
+                    case "NumV":
+                        body.Append(NumV.ToNotice(
+                            SavedNumV, column, NumV_Updated(), update));
+                        break;
+                    case "NumW":
+                        body.Append(NumW.ToNotice(
+                            SavedNumW, column, NumW_Updated(), update));
+                        break;
+                    case "NumX":
+                        body.Append(NumX.ToNotice(
+                            SavedNumX, column, NumX_Updated(), update));
+                        break;
+                    case "NumY":
+                        body.Append(NumY.ToNotice(
+                            SavedNumY, column, NumY_Updated(), update));
+                        break;
+                    case "NumZ":
+                        body.Append(NumZ.ToNotice(
+                            SavedNumZ, column, NumZ_Updated(), update));
+                        break;
+                    case "DateA":
+                        body.Append(DateA.ToNotice(
+                            SavedDateA, column, DateA_Updated(), update));
+                        break;
+                    case "DateB":
+                        body.Append(DateB.ToNotice(
+                            SavedDateB, column, DateB_Updated(), update));
+                        break;
+                    case "DateC":
+                        body.Append(DateC.ToNotice(
+                            SavedDateC, column, DateC_Updated(), update));
+                        break;
+                    case "DateD":
+                        body.Append(DateD.ToNotice(
+                            SavedDateD, column, DateD_Updated(), update));
+                        break;
+                    case "DateE":
+                        body.Append(DateE.ToNotice(
+                            SavedDateE, column, DateE_Updated(), update));
+                        break;
+                    case "DateF":
+                        body.Append(DateF.ToNotice(
+                            SavedDateF, column, DateF_Updated(), update));
+                        break;
+                    case "DateG":
+                        body.Append(DateG.ToNotice(
+                            SavedDateG, column, DateG_Updated(), update));
+                        break;
+                    case "DateH":
+                        body.Append(DateH.ToNotice(
+                            SavedDateH, column, DateH_Updated(), update));
+                        break;
+                    case "DateI":
+                        body.Append(DateI.ToNotice(
+                            SavedDateI, column, DateI_Updated(), update));
+                        break;
+                    case "DateJ":
+                        body.Append(DateJ.ToNotice(
+                            SavedDateJ, column, DateJ_Updated(), update));
+                        break;
+                    case "DateK":
+                        body.Append(DateK.ToNotice(
+                            SavedDateK, column, DateK_Updated(), update));
+                        break;
+                    case "DateL":
+                        body.Append(DateL.ToNotice(
+                            SavedDateL, column, DateL_Updated(), update));
+                        break;
+                    case "DateM":
+                        body.Append(DateM.ToNotice(
+                            SavedDateM, column, DateM_Updated(), update));
+                        break;
+                    case "DateN":
+                        body.Append(DateN.ToNotice(
+                            SavedDateN, column, DateN_Updated(), update));
+                        break;
+                    case "DateO":
+                        body.Append(DateO.ToNotice(
+                            SavedDateO, column, DateO_Updated(), update));
+                        break;
+                    case "DateP":
+                        body.Append(DateP.ToNotice(
+                            SavedDateP, column, DateP_Updated(), update));
+                        break;
+                    case "DateQ":
+                        body.Append(DateQ.ToNotice(
+                            SavedDateQ, column, DateQ_Updated(), update));
+                        break;
+                    case "DateR":
+                        body.Append(DateR.ToNotice(
+                            SavedDateR, column, DateR_Updated(), update));
+                        break;
+                    case "DateS":
+                        body.Append(DateS.ToNotice(
+                            SavedDateS, column, DateS_Updated(), update));
+                        break;
+                    case "DateT":
+                        body.Append(DateT.ToNotice(
+                            SavedDateT, column, DateT_Updated(), update));
+                        break;
+                    case "DateU":
+                        body.Append(DateU.ToNotice(
+                            SavedDateU, column, DateU_Updated(), update));
+                        break;
+                    case "DateV":
+                        body.Append(DateV.ToNotice(
+                            SavedDateV, column, DateV_Updated(), update));
+                        break;
+                    case "DateW":
+                        body.Append(DateW.ToNotice(
+                            SavedDateW, column, DateW_Updated(), update));
+                        break;
+                    case "DateX":
+                        body.Append(DateX.ToNotice(
+                            SavedDateX, column, DateX_Updated(), update));
+                        break;
+                    case "DateY":
+                        body.Append(DateY.ToNotice(
+                            SavedDateY, column, DateY_Updated(), update));
+                        break;
+                    case "DateZ":
+                        body.Append(DateZ.ToNotice(
+                            SavedDateZ, column, DateZ_Updated(), update));
+                        break;
+                    case "DescriptionA":
+                        body.Append(DescriptionA.ToNotice(
+                            SavedDescriptionA, column, DescriptionA_Updated(), update));
+                        break;
+                    case "DescriptionB":
+                        body.Append(DescriptionB.ToNotice(
+                            SavedDescriptionB, column, DescriptionB_Updated(), update));
+                        break;
+                    case "DescriptionC":
+                        body.Append(DescriptionC.ToNotice(
+                            SavedDescriptionC, column, DescriptionC_Updated(), update));
+                        break;
+                    case "DescriptionD":
+                        body.Append(DescriptionD.ToNotice(
+                            SavedDescriptionD, column, DescriptionD_Updated(), update));
+                        break;
+                    case "DescriptionE":
+                        body.Append(DescriptionE.ToNotice(
+                            SavedDescriptionE, column, DescriptionE_Updated(), update));
+                        break;
+                    case "DescriptionF":
+                        body.Append(DescriptionF.ToNotice(
+                            SavedDescriptionF, column, DescriptionF_Updated(), update));
+                        break;
+                    case "DescriptionG":
+                        body.Append(DescriptionG.ToNotice(
+                            SavedDescriptionG, column, DescriptionG_Updated(), update));
+                        break;
+                    case "DescriptionH":
+                        body.Append(DescriptionH.ToNotice(
+                            SavedDescriptionH, column, DescriptionH_Updated(), update));
+                        break;
+                    case "DescriptionI":
+                        body.Append(DescriptionI.ToNotice(
+                            SavedDescriptionI, column, DescriptionI_Updated(), update));
+                        break;
+                    case "DescriptionJ":
+                        body.Append(DescriptionJ.ToNotice(
+                            SavedDescriptionJ, column, DescriptionJ_Updated(), update));
+                        break;
+                    case "DescriptionK":
+                        body.Append(DescriptionK.ToNotice(
+                            SavedDescriptionK, column, DescriptionK_Updated(), update));
+                        break;
+                    case "DescriptionL":
+                        body.Append(DescriptionL.ToNotice(
+                            SavedDescriptionL, column, DescriptionL_Updated(), update));
+                        break;
+                    case "DescriptionM":
+                        body.Append(DescriptionM.ToNotice(
+                            SavedDescriptionM, column, DescriptionM_Updated(), update));
+                        break;
+                    case "DescriptionN":
+                        body.Append(DescriptionN.ToNotice(
+                            SavedDescriptionN, column, DescriptionN_Updated(), update));
+                        break;
+                    case "DescriptionO":
+                        body.Append(DescriptionO.ToNotice(
+                            SavedDescriptionO, column, DescriptionO_Updated(), update));
+                        break;
+                    case "DescriptionP":
+                        body.Append(DescriptionP.ToNotice(
+                            SavedDescriptionP, column, DescriptionP_Updated(), update));
+                        break;
+                    case "DescriptionQ":
+                        body.Append(DescriptionQ.ToNotice(
+                            SavedDescriptionQ, column, DescriptionQ_Updated(), update));
+                        break;
+                    case "DescriptionR":
+                        body.Append(DescriptionR.ToNotice(
+                            SavedDescriptionR, column, DescriptionR_Updated(), update));
+                        break;
+                    case "DescriptionS":
+                        body.Append(DescriptionS.ToNotice(
+                            SavedDescriptionS, column, DescriptionS_Updated(), update));
+                        break;
+                    case "DescriptionT":
+                        body.Append(DescriptionT.ToNotice(
+                            SavedDescriptionT, column, DescriptionT_Updated(), update));
+                        break;
+                    case "DescriptionU":
+                        body.Append(DescriptionU.ToNotice(
+                            SavedDescriptionU, column, DescriptionU_Updated(), update));
+                        break;
+                    case "DescriptionV":
+                        body.Append(DescriptionV.ToNotice(
+                            SavedDescriptionV, column, DescriptionV_Updated(), update));
+                        break;
+                    case "DescriptionW":
+                        body.Append(DescriptionW.ToNotice(
+                            SavedDescriptionW, column, DescriptionW_Updated(), update));
+                        break;
+                    case "DescriptionX":
+                        body.Append(DescriptionX.ToNotice(
+                            SavedDescriptionX, column, DescriptionX_Updated(), update));
+                        break;
+                    case "DescriptionY":
+                        body.Append(DescriptionY.ToNotice(
+                            SavedDescriptionY, column, DescriptionY_Updated(), update));
+                        break;
+                    case "DescriptionZ":
+                        body.Append(DescriptionZ.ToNotice(
+                            SavedDescriptionZ, column, DescriptionZ_Updated(), update));
+                        break;
+                    case "CheckA":
+                        body.Append(CheckA.ToNotice(
+                            SavedCheckA, column, CheckA_Updated(), update));
+                        break;
+                    case "CheckB":
+                        body.Append(CheckB.ToNotice(
+                            SavedCheckB, column, CheckB_Updated(), update));
+                        break;
+                    case "CheckC":
+                        body.Append(CheckC.ToNotice(
+                            SavedCheckC, column, CheckC_Updated(), update));
+                        break;
+                    case "CheckD":
+                        body.Append(CheckD.ToNotice(
+                            SavedCheckD, column, CheckD_Updated(), update));
+                        break;
+                    case "CheckE":
+                        body.Append(CheckE.ToNotice(
+                            SavedCheckE, column, CheckE_Updated(), update));
+                        break;
+                    case "CheckF":
+                        body.Append(CheckF.ToNotice(
+                            SavedCheckF, column, CheckF_Updated(), update));
+                        break;
+                    case "CheckG":
+                        body.Append(CheckG.ToNotice(
+                            SavedCheckG, column, CheckG_Updated(), update));
+                        break;
+                    case "CheckH":
+                        body.Append(CheckH.ToNotice(
+                            SavedCheckH, column, CheckH_Updated(), update));
+                        break;
+                    case "CheckI":
+                        body.Append(CheckI.ToNotice(
+                            SavedCheckI, column, CheckI_Updated(), update));
+                        break;
+                    case "CheckJ":
+                        body.Append(CheckJ.ToNotice(
+                            SavedCheckJ, column, CheckJ_Updated(), update));
+                        break;
+                    case "CheckK":
+                        body.Append(CheckK.ToNotice(
+                            SavedCheckK, column, CheckK_Updated(), update));
+                        break;
+                    case "CheckL":
+                        body.Append(CheckL.ToNotice(
+                            SavedCheckL, column, CheckL_Updated(), update));
+                        break;
+                    case "CheckM":
+                        body.Append(CheckM.ToNotice(
+                            SavedCheckM, column, CheckM_Updated(), update));
+                        break;
+                    case "CheckN":
+                        body.Append(CheckN.ToNotice(
+                            SavedCheckN, column, CheckN_Updated(), update));
+                        break;
+                    case "CheckO":
+                        body.Append(CheckO.ToNotice(
+                            SavedCheckO, column, CheckO_Updated(), update));
+                        break;
+                    case "CheckP":
+                        body.Append(CheckP.ToNotice(
+                            SavedCheckP, column, CheckP_Updated(), update));
+                        break;
+                    case "CheckQ":
+                        body.Append(CheckQ.ToNotice(
+                            SavedCheckQ, column, CheckQ_Updated(), update));
+                        break;
+                    case "CheckR":
+                        body.Append(CheckR.ToNotice(
+                            SavedCheckR, column, CheckR_Updated(), update));
+                        break;
+                    case "CheckS":
+                        body.Append(CheckS.ToNotice(
+                            SavedCheckS, column, CheckS_Updated(), update));
+                        break;
+                    case "CheckT":
+                        body.Append(CheckT.ToNotice(
+                            SavedCheckT, column, CheckT_Updated(), update));
+                        break;
+                    case "CheckU":
+                        body.Append(CheckU.ToNotice(
+                            SavedCheckU, column, CheckU_Updated(), update));
+                        break;
+                    case "CheckV":
+                        body.Append(CheckV.ToNotice(
+                            SavedCheckV, column, CheckV_Updated(), update));
+                        break;
+                    case "CheckW":
+                        body.Append(CheckW.ToNotice(
+                            SavedCheckW, column, CheckW_Updated(), update));
+                        break;
+                    case "CheckX":
+                        body.Append(CheckX.ToNotice(
+                            SavedCheckX, column, CheckX_Updated(), update));
+                        break;
+                    case "CheckY":
+                        body.Append(CheckY.ToNotice(
+                            SavedCheckY, column, CheckY_Updated(), update));
+                        break;
+                    case "CheckZ":
+                        body.Append(CheckZ.ToNotice(
+                            SavedCheckZ, column, CheckZ_Updated(), update));
+                        break;
+                    case "Comments":
+                        body.Append(Comments.ToNotice(
+                            SavedComments, column, Comments_Updated(), update));
+                        break;
+                    case "Creator":
+                        body.Append(Creator.ToNotice(
+                            SavedCreator, column, Creator_Updated(), update));
+                        break;
+                    case "Updator":
+                        body.Append(Updator.ToNotice(
+                            SavedUpdator, column, Updator_Updated(), update));
+                        break;
+                    case "CreatedTime":
+                        body.Append(CreatedTime.ToNotice(
+                            SavedCreatedTime, column, CreatedTime_Updated(), update));
+                        break;
                 }
             });
             return body.ToString();
@@ -5479,174 +5419,174 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                SiteId_Updated ||
-                UpdatedTime_Updated ||
-                Ver_Updated ||
-                Title_Updated ||
-                Body_Updated ||
-                Status_Updated ||
-                Manager_Updated ||
-                Owner_Updated ||
-                ClassA_Updated ||
-                ClassB_Updated ||
-                ClassC_Updated ||
-                ClassD_Updated ||
-                ClassE_Updated ||
-                ClassF_Updated ||
-                ClassG_Updated ||
-                ClassH_Updated ||
-                ClassI_Updated ||
-                ClassJ_Updated ||
-                ClassK_Updated ||
-                ClassL_Updated ||
-                ClassM_Updated ||
-                ClassN_Updated ||
-                ClassO_Updated ||
-                ClassP_Updated ||
-                ClassQ_Updated ||
-                ClassR_Updated ||
-                ClassS_Updated ||
-                ClassT_Updated ||
-                ClassU_Updated ||
-                ClassV_Updated ||
-                ClassW_Updated ||
-                ClassX_Updated ||
-                ClassY_Updated ||
-                ClassZ_Updated ||
-                NumA_Updated ||
-                NumB_Updated ||
-                NumC_Updated ||
-                NumD_Updated ||
-                NumE_Updated ||
-                NumF_Updated ||
-                NumG_Updated ||
-                NumH_Updated ||
-                NumI_Updated ||
-                NumJ_Updated ||
-                NumK_Updated ||
-                NumL_Updated ||
-                NumM_Updated ||
-                NumN_Updated ||
-                NumO_Updated ||
-                NumP_Updated ||
-                NumQ_Updated ||
-                NumR_Updated ||
-                NumS_Updated ||
-                NumT_Updated ||
-                NumU_Updated ||
-                NumV_Updated ||
-                NumW_Updated ||
-                NumX_Updated ||
-                NumY_Updated ||
-                NumZ_Updated ||
-                DateA_Updated ||
-                DateB_Updated ||
-                DateC_Updated ||
-                DateD_Updated ||
-                DateE_Updated ||
-                DateF_Updated ||
-                DateG_Updated ||
-                DateH_Updated ||
-                DateI_Updated ||
-                DateJ_Updated ||
-                DateK_Updated ||
-                DateL_Updated ||
-                DateM_Updated ||
-                DateN_Updated ||
-                DateO_Updated ||
-                DateP_Updated ||
-                DateQ_Updated ||
-                DateR_Updated ||
-                DateS_Updated ||
-                DateT_Updated ||
-                DateU_Updated ||
-                DateV_Updated ||
-                DateW_Updated ||
-                DateX_Updated ||
-                DateY_Updated ||
-                DateZ_Updated ||
-                DescriptionA_Updated ||
-                DescriptionB_Updated ||
-                DescriptionC_Updated ||
-                DescriptionD_Updated ||
-                DescriptionE_Updated ||
-                DescriptionF_Updated ||
-                DescriptionG_Updated ||
-                DescriptionH_Updated ||
-                DescriptionI_Updated ||
-                DescriptionJ_Updated ||
-                DescriptionK_Updated ||
-                DescriptionL_Updated ||
-                DescriptionM_Updated ||
-                DescriptionN_Updated ||
-                DescriptionO_Updated ||
-                DescriptionP_Updated ||
-                DescriptionQ_Updated ||
-                DescriptionR_Updated ||
-                DescriptionS_Updated ||
-                DescriptionT_Updated ||
-                DescriptionU_Updated ||
-                DescriptionV_Updated ||
-                DescriptionW_Updated ||
-                DescriptionX_Updated ||
-                DescriptionY_Updated ||
-                DescriptionZ_Updated ||
-                CheckA_Updated ||
-                CheckB_Updated ||
-                CheckC_Updated ||
-                CheckD_Updated ||
-                CheckE_Updated ||
-                CheckF_Updated ||
-                CheckG_Updated ||
-                CheckH_Updated ||
-                CheckI_Updated ||
-                CheckJ_Updated ||
-                CheckK_Updated ||
-                CheckL_Updated ||
-                CheckM_Updated ||
-                CheckN_Updated ||
-                CheckO_Updated ||
-                CheckP_Updated ||
-                CheckQ_Updated ||
-                CheckR_Updated ||
-                CheckS_Updated ||
-                CheckT_Updated ||
-                CheckU_Updated ||
-                CheckV_Updated ||
-                CheckW_Updated ||
-                CheckX_Updated ||
-                CheckY_Updated ||
-                CheckZ_Updated ||
-                AttachmentsA_Updated ||
-                AttachmentsB_Updated ||
-                AttachmentsC_Updated ||
-                AttachmentsD_Updated ||
-                AttachmentsE_Updated ||
-                AttachmentsF_Updated ||
-                AttachmentsG_Updated ||
-                AttachmentsH_Updated ||
-                AttachmentsI_Updated ||
-                AttachmentsJ_Updated ||
-                AttachmentsK_Updated ||
-                AttachmentsL_Updated ||
-                AttachmentsM_Updated ||
-                AttachmentsN_Updated ||
-                AttachmentsO_Updated ||
-                AttachmentsP_Updated ||
-                AttachmentsQ_Updated ||
-                AttachmentsR_Updated ||
-                AttachmentsS_Updated ||
-                AttachmentsT_Updated ||
-                AttachmentsU_Updated ||
-                AttachmentsV_Updated ||
-                AttachmentsW_Updated ||
-                AttachmentsX_Updated ||
-                AttachmentsY_Updated ||
-                AttachmentsZ_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated;
+                SiteId_Updated() ||
+                UpdatedTime_Updated() ||
+                Ver_Updated() ||
+                Title_Updated() ||
+                Body_Updated() ||
+                Status_Updated() ||
+                Manager_Updated() ||
+                Owner_Updated() ||
+                ClassA_Updated() ||
+                ClassB_Updated() ||
+                ClassC_Updated() ||
+                ClassD_Updated() ||
+                ClassE_Updated() ||
+                ClassF_Updated() ||
+                ClassG_Updated() ||
+                ClassH_Updated() ||
+                ClassI_Updated() ||
+                ClassJ_Updated() ||
+                ClassK_Updated() ||
+                ClassL_Updated() ||
+                ClassM_Updated() ||
+                ClassN_Updated() ||
+                ClassO_Updated() ||
+                ClassP_Updated() ||
+                ClassQ_Updated() ||
+                ClassR_Updated() ||
+                ClassS_Updated() ||
+                ClassT_Updated() ||
+                ClassU_Updated() ||
+                ClassV_Updated() ||
+                ClassW_Updated() ||
+                ClassX_Updated() ||
+                ClassY_Updated() ||
+                ClassZ_Updated() ||
+                NumA_Updated() ||
+                NumB_Updated() ||
+                NumC_Updated() ||
+                NumD_Updated() ||
+                NumE_Updated() ||
+                NumF_Updated() ||
+                NumG_Updated() ||
+                NumH_Updated() ||
+                NumI_Updated() ||
+                NumJ_Updated() ||
+                NumK_Updated() ||
+                NumL_Updated() ||
+                NumM_Updated() ||
+                NumN_Updated() ||
+                NumO_Updated() ||
+                NumP_Updated() ||
+                NumQ_Updated() ||
+                NumR_Updated() ||
+                NumS_Updated() ||
+                NumT_Updated() ||
+                NumU_Updated() ||
+                NumV_Updated() ||
+                NumW_Updated() ||
+                NumX_Updated() ||
+                NumY_Updated() ||
+                NumZ_Updated() ||
+                DateA_Updated() ||
+                DateB_Updated() ||
+                DateC_Updated() ||
+                DateD_Updated() ||
+                DateE_Updated() ||
+                DateF_Updated() ||
+                DateG_Updated() ||
+                DateH_Updated() ||
+                DateI_Updated() ||
+                DateJ_Updated() ||
+                DateK_Updated() ||
+                DateL_Updated() ||
+                DateM_Updated() ||
+                DateN_Updated() ||
+                DateO_Updated() ||
+                DateP_Updated() ||
+                DateQ_Updated() ||
+                DateR_Updated() ||
+                DateS_Updated() ||
+                DateT_Updated() ||
+                DateU_Updated() ||
+                DateV_Updated() ||
+                DateW_Updated() ||
+                DateX_Updated() ||
+                DateY_Updated() ||
+                DateZ_Updated() ||
+                DescriptionA_Updated() ||
+                DescriptionB_Updated() ||
+                DescriptionC_Updated() ||
+                DescriptionD_Updated() ||
+                DescriptionE_Updated() ||
+                DescriptionF_Updated() ||
+                DescriptionG_Updated() ||
+                DescriptionH_Updated() ||
+                DescriptionI_Updated() ||
+                DescriptionJ_Updated() ||
+                DescriptionK_Updated() ||
+                DescriptionL_Updated() ||
+                DescriptionM_Updated() ||
+                DescriptionN_Updated() ||
+                DescriptionO_Updated() ||
+                DescriptionP_Updated() ||
+                DescriptionQ_Updated() ||
+                DescriptionR_Updated() ||
+                DescriptionS_Updated() ||
+                DescriptionT_Updated() ||
+                DescriptionU_Updated() ||
+                DescriptionV_Updated() ||
+                DescriptionW_Updated() ||
+                DescriptionX_Updated() ||
+                DescriptionY_Updated() ||
+                DescriptionZ_Updated() ||
+                CheckA_Updated() ||
+                CheckB_Updated() ||
+                CheckC_Updated() ||
+                CheckD_Updated() ||
+                CheckE_Updated() ||
+                CheckF_Updated() ||
+                CheckG_Updated() ||
+                CheckH_Updated() ||
+                CheckI_Updated() ||
+                CheckJ_Updated() ||
+                CheckK_Updated() ||
+                CheckL_Updated() ||
+                CheckM_Updated() ||
+                CheckN_Updated() ||
+                CheckO_Updated() ||
+                CheckP_Updated() ||
+                CheckQ_Updated() ||
+                CheckR_Updated() ||
+                CheckS_Updated() ||
+                CheckT_Updated() ||
+                CheckU_Updated() ||
+                CheckV_Updated() ||
+                CheckW_Updated() ||
+                CheckX_Updated() ||
+                CheckY_Updated() ||
+                CheckZ_Updated() ||
+                AttachmentsA_Updated() ||
+                AttachmentsB_Updated() ||
+                AttachmentsC_Updated() ||
+                AttachmentsD_Updated() ||
+                AttachmentsE_Updated() ||
+                AttachmentsF_Updated() ||
+                AttachmentsG_Updated() ||
+                AttachmentsH_Updated() ||
+                AttachmentsI_Updated() ||
+                AttachmentsJ_Updated() ||
+                AttachmentsK_Updated() ||
+                AttachmentsL_Updated() ||
+                AttachmentsM_Updated() ||
+                AttachmentsN_Updated() ||
+                AttachmentsO_Updated() ||
+                AttachmentsP_Updated() ||
+                AttachmentsQ_Updated() ||
+                AttachmentsR_Updated() ||
+                AttachmentsS_Updated() ||
+                AttachmentsT_Updated() ||
+                AttachmentsU_Updated() ||
+                AttachmentsV_Updated() ||
+                AttachmentsW_Updated() ||
+                AttachmentsX_Updated() ||
+                AttachmentsY_Updated() ||
+                AttachmentsZ_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated();
         }
 
         public List<string> Mine()

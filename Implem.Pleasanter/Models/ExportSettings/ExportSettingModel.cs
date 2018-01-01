@@ -36,52 +36,34 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public bool SavedAddHeader = true;
         [NonSerialized] public string SavedExportColumns = string.Empty;
 
-        public bool ReferenceType_Updated
+        public bool ReferenceType_Updated()
         {
-            get
-            {
-                return ReferenceType != SavedReferenceType && ReferenceType != null;
-            }
+            return ReferenceType != SavedReferenceType && ReferenceType != null;
         }
 
-        public bool ReferenceId_Updated
+        public bool ReferenceId_Updated()
         {
-            get
-            {
-                return ReferenceId != SavedReferenceId;
-            }
+            return ReferenceId != SavedReferenceId;
         }
 
-        public bool Title_Updated
+        public bool Title_Updated()
         {
-            get
-            {
-                return Title.Value != SavedTitle && Title.Value != null;
-            }
+            return Title.Value != SavedTitle && Title.Value != null;
         }
 
-        public bool ExportSettingId_Updated
+        public bool ExportSettingId_Updated()
         {
-            get
-            {
-                return ExportSettingId != SavedExportSettingId;
-            }
+            return ExportSettingId != SavedExportSettingId;
         }
 
-        public bool AddHeader_Updated
+        public bool AddHeader_Updated()
         {
-            get
-            {
-                return AddHeader != SavedAddHeader;
-            }
+            return AddHeader != SavedAddHeader;
         }
 
-        public bool ExportColumns_Updated
+        public bool ExportColumns_Updated()
         {
-            get
-            {
-                return ExportColumns.ToJson() != SavedExportColumns && ExportColumns.ToJson() != null;
-            }
+            return ExportColumns.ToJson() != SavedExportColumns && ExportColumns.ToJson() != null;
         }
 
         public Title Session_Title()
@@ -465,18 +447,18 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                ReferenceType_Updated ||
-                ReferenceId_Updated ||
-                Title_Updated ||
-                ExportSettingId_Updated ||
-                Ver_Updated ||
-                AddHeader_Updated ||
-                ExportColumns_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                ReferenceType_Updated() ||
+                ReferenceId_Updated() ||
+                Title_Updated() ||
+                ExportSettingId_Updated() ||
+                Ver_Updated() ||
+                AddHeader_Updated() ||
+                ExportColumns_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
     }
 }

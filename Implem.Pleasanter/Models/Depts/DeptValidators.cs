@@ -96,21 +96,21 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Depts_DeptCode":
-                        if (deptModel.DeptCode_Updated &&
+                        if (deptModel.DeptCode_Updated() &&
                             !ss.GetColumn("DeptCode").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Depts_DeptName":
-                        if (deptModel.DeptName_Updated &&
+                        if (deptModel.DeptName_Updated() &&
                             !ss.GetColumn("DeptName").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Depts_Body":
-                        if (deptModel.Body_Updated &&
+                        if (deptModel.Body_Updated() &&
                             !ss.GetColumn("Body").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;

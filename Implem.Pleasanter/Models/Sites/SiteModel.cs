@@ -53,44 +53,29 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public List<string> SavedTitleColumns = null;
         [NonSerialized] public Export SavedExport = null;
 
-        public bool TenantId_Updated
+        public bool TenantId_Updated()
         {
-            get
-            {
-                return TenantId != SavedTenantId;
-            }
+            return TenantId != SavedTenantId;
         }
 
-        public bool ReferenceType_Updated
+        public bool ReferenceType_Updated()
         {
-            get
-            {
-                return ReferenceType != SavedReferenceType && ReferenceType != null;
-            }
+            return ReferenceType != SavedReferenceType && ReferenceType != null;
         }
 
-        public bool ParentId_Updated
+        public bool ParentId_Updated()
         {
-            get
-            {
-                return ParentId != SavedParentId;
-            }
+            return ParentId != SavedParentId;
         }
 
-        public bool InheritPermission_Updated
+        public bool InheritPermission_Updated()
         {
-            get
-            {
-                return InheritPermission != SavedInheritPermission;
-            }
+            return InheritPermission != SavedInheritPermission;
         }
 
-        public bool SiteSettings_Updated
+        public bool SiteSettings_Updated()
         {
-            get
-            {
-                return SiteSettings.RecordingJson() != SavedSiteSettings && SiteSettings.RecordingJson() != null;
-            }
+            return SiteSettings.RecordingJson() != SavedSiteSettings && SiteSettings.RecordingJson() != null;
         }
 
         public SiteSettings Session_SiteSettings()
@@ -736,19 +721,19 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                TenantId_Updated ||
-                UpdatedTime_Updated ||
-                Ver_Updated ||
-                Title_Updated ||
-                Body_Updated ||
-                ReferenceType_Updated ||
-                ParentId_Updated ||
-                InheritPermission_Updated ||
-                SiteSettings_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated;
+                TenantId_Updated() ||
+                UpdatedTime_Updated() ||
+                Ver_Updated() ||
+                Title_Updated() ||
+                Body_Updated() ||
+                ReferenceType_Updated() ||
+                ParentId_Updated() ||
+                InheritPermission_Updated() ||
+                SiteSettings_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated();
         }
 
         public List<string> Mine()

@@ -48,100 +48,64 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedSize = 0;
         [NonSerialized] public string SavedBinarySettings = string.Empty;
 
-        public bool ReferenceId_Updated
+        public bool ReferenceId_Updated()
         {
-            get
-            {
-                return ReferenceId != SavedReferenceId;
-            }
+            return ReferenceId != SavedReferenceId;
         }
 
-        public bool BinaryId_Updated
+        public bool BinaryId_Updated()
         {
-            get
-            {
-                return BinaryId != SavedBinaryId;
-            }
+            return BinaryId != SavedBinaryId;
         }
 
-        public bool BinaryType_Updated
+        public bool BinaryType_Updated()
         {
-            get
-            {
-                return BinaryType != SavedBinaryType && BinaryType != null;
-            }
+            return BinaryType != SavedBinaryType && BinaryType != null;
         }
 
-        public bool Title_Updated
+        public bool Title_Updated()
         {
-            get
-            {
-                return Title.Value != SavedTitle && Title.Value != null;
-            }
+            return Title.Value != SavedTitle && Title.Value != null;
         }
 
-        public bool Body_Updated
+        public bool Body_Updated()
         {
-            get
-            {
-                return Body != SavedBody && Body != null;
-            }
+            return Body != SavedBody && Body != null;
         }
 
-        public bool Bin_Updated
+        public bool Bin_Updated()
         {
-            get
-            {
-                return Bin != SavedBin && Bin != null;
-            }
+            return Bin != SavedBin && Bin != null;
         }
 
-        public bool Thumbnail_Updated
+        public bool Thumbnail_Updated()
         {
-            get
-            {
-                return Thumbnail != SavedThumbnail && Thumbnail != null;
-            }
+            return Thumbnail != SavedThumbnail && Thumbnail != null;
         }
 
-        public bool Icon_Updated
+        public bool Icon_Updated()
         {
-            get
-            {
-                return Icon != SavedIcon && Icon != null;
-            }
+            return Icon != SavedIcon && Icon != null;
         }
 
-        public bool FileName_Updated
+        public bool FileName_Updated()
         {
-            get
-            {
-                return FileName != SavedFileName && FileName != null;
-            }
+            return FileName != SavedFileName && FileName != null;
         }
 
-        public bool Extension_Updated
+        public bool Extension_Updated()
         {
-            get
-            {
-                return Extension != SavedExtension && Extension != null;
-            }
+            return Extension != SavedExtension && Extension != null;
         }
 
-        public bool Size_Updated
+        public bool Size_Updated()
         {
-            get
-            {
-                return Size != SavedSize;
-            }
+            return Size != SavedSize;
         }
 
-        public bool BinarySettings_Updated
+        public bool BinarySettings_Updated()
         {
-            get
-            {
-                return BinarySettings.ToJson() != SavedBinarySettings && BinarySettings.ToJson() != null;
-            }
+            return BinarySettings.ToJson() != SavedBinarySettings && BinarySettings.ToJson() != null;
         }
 
         public BinarySettings Session_BinarySettings()
@@ -521,24 +485,24 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                ReferenceId_Updated ||
-                BinaryId_Updated ||
-                Ver_Updated ||
-                BinaryType_Updated ||
-                Title_Updated ||
-                Body_Updated ||
-                Bin_Updated ||
-                Thumbnail_Updated ||
-                Icon_Updated ||
-                FileName_Updated ||
-                Extension_Updated ||
-                Size_Updated ||
-                BinarySettings_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                ReferenceId_Updated() ||
+                BinaryId_Updated() ||
+                Ver_Updated() ||
+                BinaryType_Updated() ||
+                Title_Updated() ||
+                Body_Updated() ||
+                Bin_Updated() ||
+                Thumbnail_Updated() ||
+                Icon_Updated() ||
+                FileName_Updated() ||
+                Extension_Updated() ||
+                Size_Updated() ||
+                BinarySettings_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
 
         /// <summary>

@@ -32,36 +32,24 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedUserId = 0;
         [NonSerialized] public bool SavedAdmin = false;
 
-        public bool GroupId_Updated
+        public bool GroupId_Updated()
         {
-            get
-            {
-                return GroupId != SavedGroupId;
-            }
+            return GroupId != SavedGroupId;
         }
 
-        public bool DeptId_Updated
+        public bool DeptId_Updated()
         {
-            get
-            {
-                return DeptId != SavedDeptId;
-            }
+            return DeptId != SavedDeptId;
         }
 
-        public bool UserId_Updated
+        public bool UserId_Updated()
         {
-            get
-            {
-                return UserId != SavedUserId;
-            }
+            return UserId != SavedUserId;
         }
 
-        public bool Admin_Updated
+        public bool Admin_Updated()
         {
-            get
-            {
-                return Admin != SavedAdmin;
-            }
+            return Admin != SavedAdmin;
         }
 
         public GroupMemberModel(DataRow dataRow, string tableAlias = null)
@@ -187,16 +175,16 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                GroupId_Updated ||
-                DeptId_Updated ||
-                UserId_Updated ||
-                Ver_Updated ||
-                Admin_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                GroupId_Updated() ||
+                DeptId_Updated() ||
+                UserId_Updated() ||
+                Ver_Updated() ||
+                Admin_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
     }
 }

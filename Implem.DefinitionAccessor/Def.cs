@@ -419,6 +419,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_OpenExportSelectorDialogCases": Code.Model_OpenExportSelectorDialogCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OpenExportSelectorDialogCases, definitionRow, CodeXls); break;
                     case "Model_ExportCases": Code.Model_ExportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportCases, definitionRow, CodeXls); break;
                     case "Model_GridRowsCases": Code.Model_GridRowsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GridRowsCases, definitionRow, CodeXls); break;
+                    case "Model_GetByApiCases": Code.Model_GetByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApiCases, definitionRow, CodeXls); break;
                     case "Model_CreateCases": Code.Model_CreateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateCases, definitionRow, CodeXls); break;
                     case "Model_CreateByApiCases": Code.Model_CreateByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateByApiCases, definitionRow, CodeXls); break;
                     case "Model_UpdateCases": Code.Model_UpdateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateCases, definitionRow, CodeXls); break;
@@ -492,6 +493,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_TableName": Code.Model_Utilities_TableName = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TableName, definitionRow, CodeXls); break;
                     case "Model_Utilities_TableNameCases": Code.Model_Utilities_TableNameCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TableNameCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_TableDisplayNameCases": Code.Model_Utilities_TableDisplayNameCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TableDisplayNameCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_GetByApi": Code.Model_Utilities_GetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create": Code.Model_Utilities_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams": Code.Model_Utilities_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams_Sites": Code.Model_Utilities_CreateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams_Sites, definitionRow, CodeXls); break;
@@ -4643,6 +4645,7 @@ namespace Implem.DefinitionAccessor
         public string Model_OpenExportSelectorDialogCases;
         public string Model_ExportCases;
         public string Model_GridRowsCases;
+        public string Model_GetByApiCases;
         public string Model_CreateCases;
         public string Model_CreateByApiCases;
         public string Model_UpdateCases;
@@ -4716,6 +4719,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_TableName;
         public string Model_Utilities_TableNameCases;
         public string Model_Utilities_TableDisplayNameCases;
+        public string Model_Utilities_GetByApi;
         public string Model_Utilities_Create;
         public string Model_Utilities_CreateParams;
         public string Model_Utilities_CreateParams_Sites;
@@ -5138,6 +5142,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_OpenExportSelectorDialogCases = new CodeDefinition();
         public CodeDefinition Model_ExportCases = new CodeDefinition();
         public CodeDefinition Model_GridRowsCases = new CodeDefinition();
+        public CodeDefinition Model_GetByApiCases = new CodeDefinition();
         public CodeDefinition Model_CreateCases = new CodeDefinition();
         public CodeDefinition Model_CreateByApiCases = new CodeDefinition();
         public CodeDefinition Model_UpdateCases = new CodeDefinition();
@@ -5211,6 +5216,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_TableName = new CodeDefinition();
         public CodeDefinition Model_Utilities_TableNameCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_TableDisplayNameCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_GetByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams_Sites = new CodeDefinition();
