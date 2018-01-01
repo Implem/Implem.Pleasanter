@@ -570,6 +570,19 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public System.Web.Mvc.ContentResult CreateByApi()
+        {
+            SetSite();
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.CreateByApi(
+                    ss: Site.IssuesSiteSettings(ReferenceId));
+                case "Results": return ResultUtilities.CreateByApi(
+                    ss: Site.ResultsSiteSettings(ReferenceId));
+                default: return ApiResults.Get(ApiResponses.BadRequest());
+            }
+        }
+
         public string Templates()
         {
             SetSite();

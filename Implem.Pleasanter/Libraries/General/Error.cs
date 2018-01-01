@@ -52,6 +52,7 @@ namespace Implem.Pleasanter.Libraries.General
             TooManyCases,
             TooManyColumnCases,
             TooManyRowCases,
+            Unauthorized,
             UpdateConflicts,
             UsersLimit
         }
@@ -155,6 +156,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.TooManyColumnCases(data);
                 case Types.TooManyRowCases:
                     return Messages.TooManyRowCases(data);
+                case Types.Unauthorized:
+                    return Messages.Unauthorized(data);
                 case Types.UpdateConflicts:
                     return Messages.UpdateConflicts(data);
                 case Types.UsersLimit:

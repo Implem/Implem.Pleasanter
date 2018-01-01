@@ -408,6 +408,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.TooManyRowCases(data), "alert-error");
         }
 
+        public static Message Unauthorized(params string[] data)
+        {
+            return Get(Displays.Unauthorized(data), "alert-error");
+        }
+
         public static Message UpdateConflicts(params string[] data)
         {
             return Get(Displays.UpdateConflicts(data), "alert-error");
@@ -811,6 +816,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseTooManyRowCases(params string[] data)
         {
             return ResponseMessage(TooManyRowCases(data));
+        }
+
+        public static ResponseCollection ResponseUnauthorized(params string[] data)
+        {
+            return ResponseMessage(Unauthorized(data));
         }
 
         public static ResponseCollection ResponseUpdateConflicts(params string[] data)

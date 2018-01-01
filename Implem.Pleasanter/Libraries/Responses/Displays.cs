@@ -494,6 +494,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ToParent(params string[] data) { return Get("ToParent", data); }
         public static string Total(params string[] data) { return Get("Total", data); }
         public static string Tuesday(params string[] data) { return Get("Tuesday", data); }
+        public static string Unauthorized(params string[] data) { return Get("Unauthorized", data); }
         public static string UncheckAll(params string[] data) { return Get("UncheckAll", data); }
         public static string Unit(params string[] data) { return Get("Unit", data); }
         public static string UpdatableImport(params string[] data) { return Get("UpdatableImport", data); }
