@@ -3885,6 +3885,24 @@ namespace Implem.Pleasanter.Models
             return res;
         }
 
+        public static System.Web.Mvc.ContentResult GetByApi(SiteSettings ss, long issueId)
+        {
+            var issueModel = new IssueModel(ss, issueId, methodType: BaseModel.MethodTypes.Edit);
+            if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Get(ApiResponses.NotFound());
+            }
+            var invalid = IssueValidators.OnEditing(ss, issueModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return ApiResults.Error(invalid);
+            }
+            ss.SetColumnAccessControls(issueModel.Mine());
+            issueModel.StatusCode = 200;
+            return ApiResults.Get(issueModel.ToJson());
+        }
+
         public static string Create(SiteSettings ss)
         {
             if (Contract.ItemsLimit(ss.SiteId))

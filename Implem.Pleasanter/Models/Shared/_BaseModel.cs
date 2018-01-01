@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Models
             Edit
         }
 
+        public int? StatusCode;
         [NonSerialized] public Databases.AccessStatuses AccessStatus = Databases.AccessStatuses.Initialized;
         [NonSerialized] public MethodTypes MethodType = MethodTypes.NotSet;
         [NonSerialized] public Versions.VerTypes VerType = Versions.VerTypes.Latest;

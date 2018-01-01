@@ -17,10 +17,15 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static ContentResult Get(ApiResponse apiResponse)
         {
+            return Get(apiResponse.ToJson());
+        }
+
+        public static ContentResult Get(string apiResponse)
+        {
             return new ContentResult
             {
                 ContentType = "application/json",
-                Content = apiResponse.ToJson()
+                Content = apiResponse
             };
         }
 

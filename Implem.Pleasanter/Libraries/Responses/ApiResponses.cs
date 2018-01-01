@@ -22,5 +22,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return new ApiResponse(401, Displays.Unauthorized());
         }
+
+        public static ApiResponse NotFound()
+        {
+            return new ApiResponse(404, Displays.NotFound());
+        }
     }
 }

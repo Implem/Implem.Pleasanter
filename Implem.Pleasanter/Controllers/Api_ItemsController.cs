@@ -8,6 +8,15 @@ namespace Implem.Pleasanter.Controllers
     public class Api_ItemsController : Controller
     {
         [HttpPost]
+        public ContentResult Get(long id)
+        {
+            var log = new SysLogModel();
+            var result = new ItemModel(id).GetByApi();
+            log.Finish(result.Content.Length);
+            return result;
+        }
+
+        [HttpPost]
         public ContentResult Create(long id)
         {
             var log = new SysLogModel();
