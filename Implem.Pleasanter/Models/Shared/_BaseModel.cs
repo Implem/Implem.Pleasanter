@@ -37,52 +37,34 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedTimestamp = string.Empty;
         [NonSerialized] public string SavedComments = "[]";
 
-        public bool Ver_Updated
+        public bool Ver_Updated()
         {
-            get
-            {
-                return Ver != SavedVer;
-            }
+            return Ver != SavedVer;
         }
 
-        public bool Comments_Updated
+        public bool Comments_Updated()
         {
-            get
-            {
-                return Comments.ToJson() != SavedComments && Comments.ToJson() != null;
-            }
+            return Comments.ToJson() != SavedComments && Comments.ToJson() != null;
         }
 
-        public bool Creator_Updated
+        public bool Creator_Updated()
         {
-            get
-            {
-                return Creator.Id != SavedCreator;
-            }
+            return Creator.Id != SavedCreator;
         }
 
-        public bool Updator_Updated
+        public bool Updator_Updated()
         {
-            get
-            {
-                return Updator.Id != SavedUpdator;
-            }
+            return Updator.Id != SavedUpdator;
         }
 
-        public bool CreatedTime_Updated
+        public bool CreatedTime_Updated()
         {
-            get
-            {
-                return CreatedTime.Value != SavedCreatedTime && CreatedTime.Value != null;
-            }
+            return CreatedTime.Value != SavedCreatedTime && CreatedTime.Value != null;
         }
 
-        public bool UpdatedTime_Updated
+        public bool UpdatedTime_Updated()
         {
-            get
-            {
-                return UpdatedTime.Value != SavedUpdatedTime && UpdatedTime.Value != null;
-            }
+            return UpdatedTime.Value != SavedUpdatedTime && UpdatedTime.Value != null;
         }
     }
 
@@ -95,28 +77,19 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedTitle = string.Empty;
         [NonSerialized] public string SavedBody = string.Empty;
 
-        public bool SiteId_Updated
+        public bool SiteId_Updated()
         {
-            get
-            {
-                return SiteId != SavedSiteId;
-            }
+            return SiteId != SavedSiteId;
         }
 
-        public bool Title_Updated
+        public bool Title_Updated()
         {
-            get
-            {
-                return Title.Value != SavedTitle && Title.Value != null;
-            }
+            return Title.Value != SavedTitle && Title.Value != null;
         }
 
-        public bool Body_Updated
+        public bool Body_Updated()
         {
-            get
-            {
-                return Body != SavedBody && Body != null;
-            }
+            return Body != SavedBody && Body != null;
         }
     }
 }

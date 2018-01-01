@@ -38,52 +38,34 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public bool SavedInitialized = false;
         [NonSerialized] public int SavedTimeLag = 0;
 
-        public bool DemoId_Updated
+        public bool DemoId_Updated()
         {
-            get
-            {
-                return DemoId != SavedDemoId;
-            }
+            return DemoId != SavedDemoId;
         }
 
-        public bool TenantId_Updated
+        public bool TenantId_Updated()
         {
-            get
-            {
-                return TenantId != SavedTenantId;
-            }
+            return TenantId != SavedTenantId;
         }
 
-        public bool Title_Updated
+        public bool Title_Updated()
         {
-            get
-            {
-                return Title.Value != SavedTitle && Title.Value != null;
-            }
+            return Title.Value != SavedTitle && Title.Value != null;
         }
 
-        public bool Passphrase_Updated
+        public bool Passphrase_Updated()
         {
-            get
-            {
-                return Passphrase != SavedPassphrase && Passphrase != null;
-            }
+            return Passphrase != SavedPassphrase && Passphrase != null;
         }
 
-        public bool MailAddress_Updated
+        public bool MailAddress_Updated()
         {
-            get
-            {
-                return MailAddress != SavedMailAddress && MailAddress != null;
-            }
+            return MailAddress != SavedMailAddress && MailAddress != null;
         }
 
-        public bool Initialized_Updated
+        public bool Initialized_Updated()
         {
-            get
-            {
-                return Initialized != SavedInitialized;
-            }
+            return Initialized != SavedInitialized;
         }
 
         /// <summary>
@@ -421,18 +403,18 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                DemoId_Updated ||
-                Ver_Updated ||
-                TenantId_Updated ||
-                Title_Updated ||
-                Passphrase_Updated ||
-                MailAddress_Updated ||
-                Initialized_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                DemoId_Updated() ||
+                Ver_Updated() ||
+                TenantId_Updated() ||
+                Title_Updated() ||
+                Passphrase_Updated() ||
+                MailAddress_Updated() ||
+                Initialized_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
 
         /// <summary>

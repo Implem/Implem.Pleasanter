@@ -38,20 +38,14 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedSubset = string.Empty;
         [NonSerialized] public string SavedSiteTitle = string.Empty;
 
-        public bool DestinationId_Updated
+        public bool DestinationId_Updated()
         {
-            get
-            {
-                return DestinationId != SavedDestinationId;
-            }
+            return DestinationId != SavedDestinationId;
         }
 
-        public bool SourceId_Updated
+        public bool SourceId_Updated()
         {
-            get
-            {
-                return SourceId != SavedSourceId;
-            }
+            return SourceId != SavedSourceId;
         }
 
         public LinkModel(DataRow dataRow, string tableAlias = null)
@@ -186,14 +180,14 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                DestinationId_Updated ||
-                SourceId_Updated ||
-                Ver_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                DestinationId_Updated() ||
+                SourceId_Updated() ||
+                Ver_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
     }
 }

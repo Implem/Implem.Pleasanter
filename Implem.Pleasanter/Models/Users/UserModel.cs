@@ -125,220 +125,139 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedDemoMailAddress = string.Empty;
         [NonSerialized] public string SavedSessionGuid = string.Empty;
 
-        public bool TenantId_Updated
+        public bool TenantId_Updated()
         {
-            get
-            {
-                return TenantId != SavedTenantId;
-            }
+            return TenantId != SavedTenantId;
         }
 
-        public bool UserId_Updated
+        public bool UserId_Updated()
         {
-            get
-            {
-                return UserId != SavedUserId;
-            }
+            return UserId != SavedUserId;
         }
 
-        public bool LoginId_Updated
+        public bool LoginId_Updated()
         {
-            get
-            {
-                return LoginId != SavedLoginId && LoginId != null;
-            }
+            return LoginId != SavedLoginId && LoginId != null;
         }
 
-        public bool GlobalId_Updated
+        public bool GlobalId_Updated()
         {
-            get
-            {
-                return GlobalId != SavedGlobalId && GlobalId != null;
-            }
+            return GlobalId != SavedGlobalId && GlobalId != null;
         }
 
-        public bool Name_Updated
+        public bool Name_Updated()
         {
-            get
-            {
-                return Name != SavedName && Name != null;
-            }
+            return Name != SavedName && Name != null;
         }
 
-        public bool UserCode_Updated
+        public bool UserCode_Updated()
         {
-            get
-            {
-                return UserCode != SavedUserCode && UserCode != null;
-            }
+            return UserCode != SavedUserCode && UserCode != null;
         }
 
-        public bool Password_Updated
+        public bool Password_Updated()
         {
-            get
-            {
-                return Password != SavedPassword && Password != null;
-            }
+            return Password != SavedPassword && Password != null;
         }
 
-        public bool LastName_Updated
+        public bool LastName_Updated()
         {
-            get
-            {
-                return LastName != SavedLastName && LastName != null;
-            }
+            return LastName != SavedLastName && LastName != null;
         }
 
-        public bool FirstName_Updated
+        public bool FirstName_Updated()
         {
-            get
-            {
-                return FirstName != SavedFirstName && FirstName != null;
-            }
+            return FirstName != SavedFirstName && FirstName != null;
         }
 
-        public bool Birthday_Updated
+        public bool Birthday_Updated()
         {
-            get
-            {
-                return Birthday.Value != SavedBirthday && Birthday.Value != null;
-            }
+            return Birthday.Value != SavedBirthday && Birthday.Value != null;
         }
 
-        public bool Gender_Updated
+        public bool Gender_Updated()
         {
-            get
-            {
-                return Gender != SavedGender && Gender != null;
-            }
+            return Gender != SavedGender && Gender != null;
         }
 
-        public bool Language_Updated
+        public bool Language_Updated()
         {
-            get
-            {
-                return Language != SavedLanguage && Language != null;
-            }
+            return Language != SavedLanguage && Language != null;
         }
 
-        public bool TimeZone_Updated
+        public bool TimeZone_Updated()
         {
-            get
-            {
-                return TimeZone != SavedTimeZone && TimeZone != null;
-            }
+            return TimeZone != SavedTimeZone && TimeZone != null;
         }
 
-        public bool DeptId_Updated
+        public bool DeptId_Updated()
         {
-            get
-            {
-                return DeptId != SavedDeptId;
-            }
+            return DeptId != SavedDeptId;
         }
 
-        public bool FirstAndLastNameOrder_Updated
+        public bool FirstAndLastNameOrder_Updated()
         {
-            get
-            {
-                return FirstAndLastNameOrder.ToInt() != SavedFirstAndLastNameOrder;
-            }
+            return FirstAndLastNameOrder.ToInt() != SavedFirstAndLastNameOrder;
         }
 
-        public bool Body_Updated
+        public bool Body_Updated()
         {
-            get
-            {
-                return Body != SavedBody && Body != null;
-            }
+            return Body != SavedBody && Body != null;
         }
 
-        public bool LastLoginTime_Updated
+        public bool LastLoginTime_Updated()
         {
-            get
-            {
-                return LastLoginTime.Value != SavedLastLoginTime && LastLoginTime.Value != null;
-            }
+            return LastLoginTime.Value != SavedLastLoginTime && LastLoginTime.Value != null;
         }
 
-        public bool PasswordExpirationTime_Updated
+        public bool PasswordExpirationTime_Updated()
         {
-            get
-            {
-                return PasswordExpirationTime.Value != SavedPasswordExpirationTime && PasswordExpirationTime.Value != null;
-            }
+            return PasswordExpirationTime.Value != SavedPasswordExpirationTime && PasswordExpirationTime.Value != null;
         }
 
-        public bool PasswordChangeTime_Updated
+        public bool PasswordChangeTime_Updated()
         {
-            get
-            {
-                return PasswordChangeTime.Value != SavedPasswordChangeTime && PasswordChangeTime.Value != null;
-            }
+            return PasswordChangeTime.Value != SavedPasswordChangeTime && PasswordChangeTime.Value != null;
         }
 
-        public bool NumberOfLogins_Updated
+        public bool NumberOfLogins_Updated()
         {
-            get
-            {
-                return NumberOfLogins != SavedNumberOfLogins;
-            }
+            return NumberOfLogins != SavedNumberOfLogins;
         }
 
-        public bool NumberOfDenial_Updated
+        public bool NumberOfDenial_Updated()
         {
-            get
-            {
-                return NumberOfDenial != SavedNumberOfDenial;
-            }
+            return NumberOfDenial != SavedNumberOfDenial;
         }
 
-        public bool TenantManager_Updated
+        public bool TenantManager_Updated()
         {
-            get
-            {
-                return TenantManager != SavedTenantManager;
-            }
+            return TenantManager != SavedTenantManager;
         }
 
-        public bool ServiceManager_Updated
+        public bool ServiceManager_Updated()
         {
-            get
-            {
-                return ServiceManager != SavedServiceManager;
-            }
+            return ServiceManager != SavedServiceManager;
         }
 
-        public bool Disabled_Updated
+        public bool Disabled_Updated()
         {
-            get
-            {
-                return Disabled != SavedDisabled;
-            }
+            return Disabled != SavedDisabled;
         }
 
-        public bool Developer_Updated
+        public bool Developer_Updated()
         {
-            get
-            {
-                return Developer != SavedDeveloper;
-            }
+            return Developer != SavedDeveloper;
         }
 
-        public bool UserSettings_Updated
+        public bool UserSettings_Updated()
         {
-            get
-            {
-                return UserSettings.RecordingJson() != SavedUserSettings && UserSettings.RecordingJson() != null;
-            }
+            return UserSettings.RecordingJson() != SavedUserSettings && UserSettings.RecordingJson() != null;
         }
 
-        public bool ApiKey_Updated
+        public bool ApiKey_Updated()
         {
-            get
-            {
-                return ApiKey != SavedApiKey && ApiKey != null;
-            }
+            return ApiKey != SavedApiKey && ApiKey != null;
         }
 
         public UserSettings Session_UserSettings()
@@ -842,39 +761,39 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                TenantId_Updated ||
-                UserId_Updated ||
-                Ver_Updated ||
-                LoginId_Updated ||
-                GlobalId_Updated ||
-                Name_Updated ||
-                UserCode_Updated ||
-                Password_Updated ||
-                LastName_Updated ||
-                FirstName_Updated ||
-                Birthday_Updated ||
-                Gender_Updated ||
-                Language_Updated ||
-                TimeZone_Updated ||
-                DeptId_Updated ||
-                FirstAndLastNameOrder_Updated ||
-                Body_Updated ||
-                LastLoginTime_Updated ||
-                PasswordExpirationTime_Updated ||
-                PasswordChangeTime_Updated ||
-                NumberOfLogins_Updated ||
-                NumberOfDenial_Updated ||
-                TenantManager_Updated ||
-                ServiceManager_Updated ||
-                Disabled_Updated ||
-                Developer_Updated ||
-                UserSettings_Updated ||
-                ApiKey_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                TenantId_Updated() ||
+                UserId_Updated() ||
+                Ver_Updated() ||
+                LoginId_Updated() ||
+                GlobalId_Updated() ||
+                Name_Updated() ||
+                UserCode_Updated() ||
+                Password_Updated() ||
+                LastName_Updated() ||
+                FirstName_Updated() ||
+                Birthday_Updated() ||
+                Gender_Updated() ||
+                Language_Updated() ||
+                TimeZone_Updated() ||
+                DeptId_Updated() ||
+                FirstAndLastNameOrder_Updated() ||
+                Body_Updated() ||
+                LastLoginTime_Updated() ||
+                PasswordExpirationTime_Updated() ||
+                PasswordChangeTime_Updated() ||
+                NumberOfLogins_Updated() ||
+                NumberOfDenial_Updated() ||
+                TenantManager_Updated() ||
+                ServiceManager_Updated() ||
+                Disabled_Updated() ||
+                Developer_Updated() ||
+                UserSettings_Updated() ||
+                ApiKey_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
 
         public List<string> Mine()

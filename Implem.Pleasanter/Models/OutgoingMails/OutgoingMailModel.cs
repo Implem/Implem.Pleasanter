@@ -54,108 +54,69 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedDestinationSearchRange = string.Empty;
         [NonSerialized] public string SavedDestinationSearchText = string.Empty;
 
-        public bool ReferenceType_Updated
+        public bool ReferenceType_Updated()
         {
-            get
-            {
-                return ReferenceType != SavedReferenceType && ReferenceType != null;
-            }
+            return ReferenceType != SavedReferenceType && ReferenceType != null;
         }
 
-        public bool ReferenceId_Updated
+        public bool ReferenceId_Updated()
         {
-            get
-            {
-                return ReferenceId != SavedReferenceId;
-            }
+            return ReferenceId != SavedReferenceId;
         }
 
-        public bool ReferenceVer_Updated
+        public bool ReferenceVer_Updated()
         {
-            get
-            {
-                return ReferenceVer != SavedReferenceVer;
-            }
+            return ReferenceVer != SavedReferenceVer;
         }
 
-        public bool OutgoingMailId_Updated
+        public bool OutgoingMailId_Updated()
         {
-            get
-            {
-                return OutgoingMailId != SavedOutgoingMailId;
-            }
+            return OutgoingMailId != SavedOutgoingMailId;
         }
 
-        public bool Host_Updated
+        public bool Host_Updated()
         {
-            get
-            {
-                return Host != SavedHost && Host != null;
-            }
+            return Host != SavedHost && Host != null;
         }
 
-        public bool Port_Updated
+        public bool Port_Updated()
         {
-            get
-            {
-                return Port != SavedPort;
-            }
+            return Port != SavedPort;
         }
 
-        public bool From_Updated
+        public bool From_Updated()
         {
-            get
-            {
-                return From.ToString() != SavedFrom && From.ToString() != null;
-            }
+            return From.ToString() != SavedFrom && From.ToString() != null;
         }
 
-        public bool To_Updated
+        public bool To_Updated()
         {
-            get
-            {
-                return To != SavedTo && To != null;
-            }
+            return To != SavedTo && To != null;
         }
 
-        public bool Cc_Updated
+        public bool Cc_Updated()
         {
-            get
-            {
-                return Cc != SavedCc && Cc != null;
-            }
+            return Cc != SavedCc && Cc != null;
         }
 
-        public bool Bcc_Updated
+        public bool Bcc_Updated()
         {
-            get
-            {
-                return Bcc != SavedBcc && Bcc != null;
-            }
+            return Bcc != SavedBcc && Bcc != null;
         }
 
-        public bool Title_Updated
+        public bool Title_Updated()
         {
-            get
-            {
-                return Title.Value != SavedTitle && Title.Value != null;
-            }
+            return Title.Value != SavedTitle && Title.Value != null;
         }
 
-        public bool Body_Updated
+        public bool Body_Updated()
         {
-            get
-            {
-                return Body != SavedBody && Body != null;
-            }
+            return Body != SavedBody && Body != null;
         }
 
-        public bool SentTime_Updated
+        public bool SentTime_Updated()
         {
-            get
-            {
-                return SentTime.Value != SavedSentTime && SentTime.Value != null;
-            }
+            return SentTime.Value != SavedSentTime && SentTime.Value != null;
         }
 
         public OutgoingMailModel()
@@ -532,25 +493,25 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                ReferenceType_Updated ||
-                ReferenceId_Updated ||
-                ReferenceVer_Updated ||
-                OutgoingMailId_Updated ||
-                Ver_Updated ||
-                Host_Updated ||
-                Port_Updated ||
-                From_Updated ||
-                To_Updated ||
-                Cc_Updated ||
-                Bcc_Updated ||
-                Title_Updated ||
-                Body_Updated ||
-                SentTime_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                ReferenceType_Updated() ||
+                ReferenceId_Updated() ||
+                ReferenceVer_Updated() ||
+                OutgoingMailId_Updated() ||
+                Ver_Updated() ||
+                Host_Updated() ||
+                Port_Updated() ||
+                From_Updated() ||
+                To_Updated() ||
+                Cc_Updated() ||
+                Bcc_Updated() ||
+                Title_Updated() ||
+                Body_Updated() ||
+                SentTime_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
 
         /// <summary>

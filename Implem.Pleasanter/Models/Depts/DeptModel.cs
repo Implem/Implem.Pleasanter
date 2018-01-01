@@ -51,44 +51,29 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedDeptName = string.Empty;
         [NonSerialized] public string SavedBody = string.Empty;
 
-        public bool TenantId_Updated
+        public bool TenantId_Updated()
         {
-            get
-            {
-                return TenantId != SavedTenantId;
-            }
+            return TenantId != SavedTenantId;
         }
 
-        public bool DeptId_Updated
+        public bool DeptId_Updated()
         {
-            get
-            {
-                return DeptId != SavedDeptId;
-            }
+            return DeptId != SavedDeptId;
         }
 
-        public bool DeptCode_Updated
+        public bool DeptCode_Updated()
         {
-            get
-            {
-                return DeptCode != SavedDeptCode && DeptCode != null;
-            }
+            return DeptCode != SavedDeptCode && DeptCode != null;
         }
 
-        public bool DeptName_Updated
+        public bool DeptName_Updated()
         {
-            get
-            {
-                return DeptName != SavedDeptName && DeptName != null;
-            }
+            return DeptName != SavedDeptName && DeptName != null;
         }
 
-        public bool Body_Updated
+        public bool Body_Updated()
         {
-            get
-            {
-                return Body != SavedBody && Body != null;
-            }
+            return Body != SavedBody && Body != null;
         }
 
         public List<int> SwitchTargets;
@@ -443,17 +428,17 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                TenantId_Updated ||
-                DeptId_Updated ||
-                Ver_Updated ||
-                DeptCode_Updated ||
-                DeptName_Updated ||
-                Body_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                TenantId_Updated() ||
+                DeptId_Updated() ||
+                Ver_Updated() ||
+                DeptCode_Updated() ||
+                DeptName_Updated() ||
+                Body_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
 
         public List<string> Mine()

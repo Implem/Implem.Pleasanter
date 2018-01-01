@@ -105,276 +105,174 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public bool SavedInDebug = false;
         [NonSerialized] public string SavedAssemblyVersion = string.Empty;
 
-        public bool SysLogId_Updated
+        public bool SysLogId_Updated()
         {
-            get
-            {
-                return SysLogId != SavedSysLogId;
-            }
+            return SysLogId != SavedSysLogId;
         }
 
-        public bool SysLogType_Updated
+        public bool SysLogType_Updated()
         {
-            get
-            {
-                return SysLogType.ToInt() != SavedSysLogType;
-            }
+            return SysLogType.ToInt() != SavedSysLogType;
         }
 
-        public bool OnAzure_Updated
+        public bool OnAzure_Updated()
         {
-            get
-            {
-                return OnAzure != SavedOnAzure;
-            }
+            return OnAzure != SavedOnAzure;
         }
 
-        public bool MachineName_Updated
+        public bool MachineName_Updated()
         {
-            get
-            {
-                return MachineName != SavedMachineName && MachineName != null;
-            }
+            return MachineName != SavedMachineName && MachineName != null;
         }
 
-        public bool ServiceName_Updated
+        public bool ServiceName_Updated()
         {
-            get
-            {
-                return ServiceName != SavedServiceName && ServiceName != null;
-            }
+            return ServiceName != SavedServiceName && ServiceName != null;
         }
 
-        public bool TenantName_Updated
+        public bool TenantName_Updated()
         {
-            get
-            {
-                return TenantName != SavedTenantName && TenantName != null;
-            }
+            return TenantName != SavedTenantName && TenantName != null;
         }
 
-        public bool Application_Updated
+        public bool Application_Updated()
         {
-            get
-            {
-                return Application != SavedApplication && Application != null;
-            }
+            return Application != SavedApplication && Application != null;
         }
 
-        public bool Class_Updated
+        public bool Class_Updated()
         {
-            get
-            {
-                return Class != SavedClass && Class != null;
-            }
+            return Class != SavedClass && Class != null;
         }
 
-        public bool Method_Updated
+        public bool Method_Updated()
         {
-            get
-            {
-                return Method != SavedMethod && Method != null;
-            }
+            return Method != SavedMethod && Method != null;
         }
 
-        public bool RequestData_Updated
+        public bool RequestData_Updated()
         {
-            get
-            {
-                return RequestData != SavedRequestData && RequestData != null;
-            }
+            return RequestData != SavedRequestData && RequestData != null;
         }
 
-        public bool HttpMethod_Updated
+        public bool HttpMethod_Updated()
         {
-            get
-            {
-                return HttpMethod != SavedHttpMethod && HttpMethod != null;
-            }
+            return HttpMethod != SavedHttpMethod && HttpMethod != null;
         }
 
-        public bool RequestSize_Updated
+        public bool RequestSize_Updated()
         {
-            get
-            {
-                return RequestSize != SavedRequestSize;
-            }
+            return RequestSize != SavedRequestSize;
         }
 
-        public bool ResponseSize_Updated
+        public bool ResponseSize_Updated()
         {
-            get
-            {
-                return ResponseSize != SavedResponseSize;
-            }
+            return ResponseSize != SavedResponseSize;
         }
 
-        public bool Elapsed_Updated
+        public bool Elapsed_Updated()
         {
-            get
-            {
-                return Elapsed != SavedElapsed;
-            }
+            return Elapsed != SavedElapsed;
         }
 
-        public bool ApplicationAge_Updated
+        public bool ApplicationAge_Updated()
         {
-            get
-            {
-                return ApplicationAge != SavedApplicationAge;
-            }
+            return ApplicationAge != SavedApplicationAge;
         }
 
-        public bool ApplicationRequestInterval_Updated
+        public bool ApplicationRequestInterval_Updated()
         {
-            get
-            {
-                return ApplicationRequestInterval != SavedApplicationRequestInterval;
-            }
+            return ApplicationRequestInterval != SavedApplicationRequestInterval;
         }
 
-        public bool SessionAge_Updated
+        public bool SessionAge_Updated()
         {
-            get
-            {
-                return SessionAge != SavedSessionAge;
-            }
+            return SessionAge != SavedSessionAge;
         }
 
-        public bool SessionRequestInterval_Updated
+        public bool SessionRequestInterval_Updated()
         {
-            get
-            {
-                return SessionRequestInterval != SavedSessionRequestInterval;
-            }
+            return SessionRequestInterval != SavedSessionRequestInterval;
         }
 
-        public bool WorkingSet64_Updated
+        public bool WorkingSet64_Updated()
         {
-            get
-            {
-                return WorkingSet64 != SavedWorkingSet64;
-            }
+            return WorkingSet64 != SavedWorkingSet64;
         }
 
-        public bool VirtualMemorySize64_Updated
+        public bool VirtualMemorySize64_Updated()
         {
-            get
-            {
-                return VirtualMemorySize64 != SavedVirtualMemorySize64;
-            }
+            return VirtualMemorySize64 != SavedVirtualMemorySize64;
         }
 
-        public bool ProcessId_Updated
+        public bool ProcessId_Updated()
         {
-            get
-            {
-                return ProcessId != SavedProcessId;
-            }
+            return ProcessId != SavedProcessId;
         }
 
-        public bool ProcessName_Updated
+        public bool ProcessName_Updated()
         {
-            get
-            {
-                return ProcessName != SavedProcessName && ProcessName != null;
-            }
+            return ProcessName != SavedProcessName && ProcessName != null;
         }
 
-        public bool BasePriority_Updated
+        public bool BasePriority_Updated()
         {
-            get
-            {
-                return BasePriority != SavedBasePriority;
-            }
+            return BasePriority != SavedBasePriority;
         }
 
-        public bool Url_Updated
+        public bool Url_Updated()
         {
-            get
-            {
-                return Url != SavedUrl && Url != null;
-            }
+            return Url != SavedUrl && Url != null;
         }
 
-        public bool UrlReferer_Updated
+        public bool UrlReferer_Updated()
         {
-            get
-            {
-                return UrlReferer != SavedUrlReferer && UrlReferer != null;
-            }
+            return UrlReferer != SavedUrlReferer && UrlReferer != null;
         }
 
-        public bool UserHostName_Updated
+        public bool UserHostName_Updated()
         {
-            get
-            {
-                return UserHostName != SavedUserHostName && UserHostName != null;
-            }
+            return UserHostName != SavedUserHostName && UserHostName != null;
         }
 
-        public bool UserHostAddress_Updated
+        public bool UserHostAddress_Updated()
         {
-            get
-            {
-                return UserHostAddress != SavedUserHostAddress && UserHostAddress != null;
-            }
+            return UserHostAddress != SavedUserHostAddress && UserHostAddress != null;
         }
 
-        public bool UserLanguage_Updated
+        public bool UserLanguage_Updated()
         {
-            get
-            {
-                return UserLanguage != SavedUserLanguage && UserLanguage != null;
-            }
+            return UserLanguage != SavedUserLanguage && UserLanguage != null;
         }
 
-        public bool UserAgent_Updated
+        public bool UserAgent_Updated()
         {
-            get
-            {
-                return UserAgent != SavedUserAgent && UserAgent != null;
-            }
+            return UserAgent != SavedUserAgent && UserAgent != null;
         }
 
-        public bool SessionGuid_Updated
+        public bool SessionGuid_Updated()
         {
-            get
-            {
-                return SessionGuid != SavedSessionGuid && SessionGuid != null;
-            }
+            return SessionGuid != SavedSessionGuid && SessionGuid != null;
         }
 
-        public bool ErrMessage_Updated
+        public bool ErrMessage_Updated()
         {
-            get
-            {
-                return ErrMessage != SavedErrMessage && ErrMessage != null;
-            }
+            return ErrMessage != SavedErrMessage && ErrMessage != null;
         }
 
-        public bool ErrStackTrace_Updated
+        public bool ErrStackTrace_Updated()
         {
-            get
-            {
-                return ErrStackTrace != SavedErrStackTrace && ErrStackTrace != null;
-            }
+            return ErrStackTrace != SavedErrStackTrace && ErrStackTrace != null;
         }
 
-        public bool InDebug_Updated
+        public bool InDebug_Updated()
         {
-            get
-            {
-                return InDebug != SavedInDebug;
-            }
+            return InDebug != SavedInDebug;
         }
 
-        public bool AssemblyVersion_Updated
+        public bool AssemblyVersion_Updated()
         {
-            get
-            {
-                return AssemblyVersion != SavedAssemblyVersion && AssemblyVersion != null;
-            }
+            return AssemblyVersion != SavedAssemblyVersion && AssemblyVersion != null;
         }
 
         public SysLogModel(DataRow dataRow, string tableAlias = null)
@@ -617,46 +515,46 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                CreatedTime_Updated ||
-                SysLogId_Updated ||
-                Ver_Updated ||
-                SysLogType_Updated ||
-                OnAzure_Updated ||
-                MachineName_Updated ||
-                ServiceName_Updated ||
-                TenantName_Updated ||
-                Application_Updated ||
-                Class_Updated ||
-                Method_Updated ||
-                RequestData_Updated ||
-                HttpMethod_Updated ||
-                RequestSize_Updated ||
-                ResponseSize_Updated ||
-                Elapsed_Updated ||
-                ApplicationAge_Updated ||
-                ApplicationRequestInterval_Updated ||
-                SessionAge_Updated ||
-                SessionRequestInterval_Updated ||
-                WorkingSet64_Updated ||
-                VirtualMemorySize64_Updated ||
-                ProcessId_Updated ||
-                ProcessName_Updated ||
-                BasePriority_Updated ||
-                Url_Updated ||
-                UrlReferer_Updated ||
-                UserHostName_Updated ||
-                UserHostAddress_Updated ||
-                UserLanguage_Updated ||
-                UserAgent_Updated ||
-                SessionGuid_Updated ||
-                ErrMessage_Updated ||
-                ErrStackTrace_Updated ||
-                InDebug_Updated ||
-                AssemblyVersion_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                UpdatedTime_Updated;
+                CreatedTime_Updated() ||
+                SysLogId_Updated() ||
+                Ver_Updated() ||
+                SysLogType_Updated() ||
+                OnAzure_Updated() ||
+                MachineName_Updated() ||
+                ServiceName_Updated() ||
+                TenantName_Updated() ||
+                Application_Updated() ||
+                Class_Updated() ||
+                Method_Updated() ||
+                RequestData_Updated() ||
+                HttpMethod_Updated() ||
+                RequestSize_Updated() ||
+                ResponseSize_Updated() ||
+                Elapsed_Updated() ||
+                ApplicationAge_Updated() ||
+                ApplicationRequestInterval_Updated() ||
+                SessionAge_Updated() ||
+                SessionRequestInterval_Updated() ||
+                WorkingSet64_Updated() ||
+                VirtualMemorySize64_Updated() ||
+                ProcessId_Updated() ||
+                ProcessName_Updated() ||
+                BasePriority_Updated() ||
+                Url_Updated() ||
+                UrlReferer_Updated() ||
+                UserHostName_Updated() ||
+                UserHostAddress_Updated() ||
+                UserLanguage_Updated() ||
+                UserAgent_Updated() ||
+                SessionGuid_Updated() ||
+                ErrMessage_Updated() ||
+                ErrStackTrace_Updated() ||
+                InDebug_Updated() ||
+                AssemblyVersion_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                UpdatedTime_Updated();
         }
 
         /// <summary>

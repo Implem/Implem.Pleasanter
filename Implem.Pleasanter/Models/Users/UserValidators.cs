@@ -226,154 +226,154 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Users_LoginId":
-                        if (userModel.LoginId_Updated &&
+                        if (userModel.LoginId_Updated() &&
                             !ss.GetColumn("LoginId").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_GlobalId":
-                        if (userModel.GlobalId_Updated &&
+                        if (userModel.GlobalId_Updated() &&
                             !ss.GetColumn("GlobalId").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Name":
-                        if (userModel.Name_Updated &&
+                        if (userModel.Name_Updated() &&
                             !ss.GetColumn("Name").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_UserCode":
-                        if (userModel.UserCode_Updated &&
+                        if (userModel.UserCode_Updated() &&
                             !ss.GetColumn("UserCode").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Password":
-                        if (userModel.Password_Updated &&
+                        if (userModel.Password_Updated() &&
                             !ss.GetColumn("Password").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_LastName":
-                        if (userModel.LastName_Updated &&
+                        if (userModel.LastName_Updated() &&
                             !ss.GetColumn("LastName").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_FirstName":
-                        if (userModel.FirstName_Updated &&
+                        if (userModel.FirstName_Updated() &&
                             !ss.GetColumn("FirstName").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Birthday":
-                        if (userModel.Birthday_Updated &&
+                        if (userModel.Birthday_Updated() &&
                             !ss.GetColumn("Birthday").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Gender":
-                        if (userModel.Gender_Updated &&
+                        if (userModel.Gender_Updated() &&
                             !ss.GetColumn("Gender").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Language":
-                        if (userModel.Language_Updated &&
+                        if (userModel.Language_Updated() &&
                             !ss.GetColumn("Language").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_TimeZone":
-                        if (userModel.TimeZone_Updated &&
+                        if (userModel.TimeZone_Updated() &&
                             !ss.GetColumn("TimeZone").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_DeptId":
-                        if (userModel.DeptId_Updated &&
+                        if (userModel.DeptId_Updated() &&
                             !ss.GetColumn("DeptId").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_FirstAndLastNameOrder":
-                        if (userModel.FirstAndLastNameOrder_Updated &&
+                        if (userModel.FirstAndLastNameOrder_Updated() &&
                             !ss.GetColumn("FirstAndLastNameOrder").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Body":
-                        if (userModel.Body_Updated &&
+                        if (userModel.Body_Updated() &&
                             !ss.GetColumn("Body").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_LastLoginTime":
-                        if (userModel.LastLoginTime_Updated &&
+                        if (userModel.LastLoginTime_Updated() &&
                             !ss.GetColumn("LastLoginTime").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_PasswordExpirationTime":
-                        if (userModel.PasswordExpirationTime_Updated &&
+                        if (userModel.PasswordExpirationTime_Updated() &&
                             !ss.GetColumn("PasswordExpirationTime").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_PasswordChangeTime":
-                        if (userModel.PasswordChangeTime_Updated &&
+                        if (userModel.PasswordChangeTime_Updated() &&
                             !ss.GetColumn("PasswordChangeTime").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_NumberOfLogins":
-                        if (userModel.NumberOfLogins_Updated &&
+                        if (userModel.NumberOfLogins_Updated() &&
                             !ss.GetColumn("NumberOfLogins").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_NumberOfDenial":
-                        if (userModel.NumberOfDenial_Updated &&
+                        if (userModel.NumberOfDenial_Updated() &&
                             !ss.GetColumn("NumberOfDenial").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_TenantManager":
-                        if (userModel.TenantManager_Updated &&
+                        if (userModel.TenantManager_Updated() &&
                             !ss.GetColumn("TenantManager").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_Disabled":
-                        if (userModel.Disabled_Updated &&
+                        if (userModel.Disabled_Updated() &&
                             !ss.GetColumn("Disabled").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Users_ApiKey":
-                        if (userModel.ApiKey_Updated &&
+                        if (userModel.ApiKey_Updated() &&
                             !ss.GetColumn("ApiKey").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;

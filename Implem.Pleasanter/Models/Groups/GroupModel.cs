@@ -41,36 +41,24 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedGroupName = string.Empty;
         [NonSerialized] public string SavedBody = string.Empty;
 
-        public bool TenantId_Updated
+        public bool TenantId_Updated()
         {
-            get
-            {
-                return TenantId != SavedTenantId;
-            }
+            return TenantId != SavedTenantId;
         }
 
-        public bool GroupId_Updated
+        public bool GroupId_Updated()
         {
-            get
-            {
-                return GroupId != SavedGroupId;
-            }
+            return GroupId != SavedGroupId;
         }
 
-        public bool GroupName_Updated
+        public bool GroupName_Updated()
         {
-            get
-            {
-                return GroupName != SavedGroupName && GroupName != null;
-            }
+            return GroupName != SavedGroupName && GroupName != null;
         }
 
-        public bool Body_Updated
+        public bool Body_Updated()
         {
-            get
-            {
-                return Body != SavedBody && Body != null;
-            }
+            return Body != SavedBody && Body != null;
         }
 
         public List<int> SwitchTargets;
@@ -450,16 +438,16 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                TenantId_Updated ||
-                GroupId_Updated ||
-                Ver_Updated ||
-                GroupName_Updated ||
-                Body_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                TenantId_Updated() ||
+                GroupId_Updated() ||
+                Ver_Updated() ||
+                GroupName_Updated() ||
+                Body_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
 
         public List<string> Mine()

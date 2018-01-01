@@ -691,12 +691,30 @@ namespace Implem.Pleasanter.Models
             {
                 switch (column.Name)
                 {
-                    case "Title": body.Append(Title.ToNotice(SavedTitle, column, Title_Updated, update)); break;
-                    case "Body": body.Append(Body.ToNotice(SavedBody, column, Body_Updated, update)); break;
-                    case "Comments": body.Append(Comments.ToNotice(SavedComments, column, Comments_Updated, update)); break;
-                    case "Creator": body.Append(Creator.ToNotice(SavedCreator, column, Creator_Updated, update)); break;
-                    case "Updator": body.Append(Updator.ToNotice(SavedUpdator, column, Updator_Updated, update)); break;
-                    case "CreatedTime": body.Append(CreatedTime.ToNotice(SavedCreatedTime, column, CreatedTime_Updated, update)); break;
+                    case "Title":
+                        body.Append(Title.ToNotice(
+                            SavedTitle, column, Title_Updated(), update));
+                        break;
+                    case "Body":
+                        body.Append(Body.ToNotice(
+                            SavedBody, column, Body_Updated(), update));
+                        break;
+                    case "Comments":
+                        body.Append(Comments.ToNotice(
+                            SavedComments, column, Comments_Updated(), update));
+                        break;
+                    case "Creator":
+                        body.Append(Creator.ToNotice(
+                            SavedCreator, column, Creator_Updated(), update));
+                        break;
+                    case "Updator":
+                        body.Append(Updator.ToNotice(
+                            SavedUpdator, column, Updator_Updated(), update));
+                        break;
+                    case "CreatedTime":
+                        body.Append(CreatedTime.ToNotice(
+                            SavedCreatedTime, column, CreatedTime_Updated(), update));
+                        break;
                 }
             });
             return body.ToString();
@@ -793,15 +811,15 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                SiteId_Updated ||
-                UpdatedTime_Updated ||
-                Ver_Updated ||
-                Title_Updated ||
-                Body_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated;
+                SiteId_Updated() ||
+                UpdatedTime_Updated() ||
+                Ver_Updated() ||
+                Title_Updated() ||
+                Body_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated();
         }
 
         public List<string> Mine()

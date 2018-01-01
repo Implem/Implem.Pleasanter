@@ -1065,1155 +1065,1155 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Issues_Title":
-                        if (issueModel.Title_Updated &&
+                        if (issueModel.Title_Updated() &&
                             !ss.GetColumn("Title").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_Body":
-                        if (issueModel.Body_Updated &&
+                        if (issueModel.Body_Updated() &&
                             !ss.GetColumn("Body").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_StartTime":
-                        if (issueModel.StartTime_Updated &&
+                        if (issueModel.StartTime_Updated() &&
                             !ss.GetColumn("StartTime").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CompletionTime":
-                        if (issueModel.CompletionTime_Updated &&
+                        if (issueModel.CompletionTime_Updated() &&
                             !ss.GetColumn("CompletionTime").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_WorkValue":
-                        if (issueModel.WorkValue_Updated &&
+                        if (issueModel.WorkValue_Updated() &&
                             !ss.GetColumn("WorkValue").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ProgressRate":
-                        if (issueModel.ProgressRate_Updated &&
+                        if (issueModel.ProgressRate_Updated() &&
                             !ss.GetColumn("ProgressRate").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_Status":
-                        if (issueModel.Status_Updated &&
+                        if (issueModel.Status_Updated() &&
                             !ss.GetColumn("Status").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_Manager":
-                        if (issueModel.Manager_Updated &&
+                        if (issueModel.Manager_Updated() &&
                             !ss.GetColumn("Manager").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_Owner":
-                        if (issueModel.Owner_Updated &&
+                        if (issueModel.Owner_Updated() &&
                             !ss.GetColumn("Owner").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassA":
-                        if (issueModel.ClassA_Updated &&
+                        if (issueModel.ClassA_Updated() &&
                             !ss.GetColumn("ClassA").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassB":
-                        if (issueModel.ClassB_Updated &&
+                        if (issueModel.ClassB_Updated() &&
                             !ss.GetColumn("ClassB").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassC":
-                        if (issueModel.ClassC_Updated &&
+                        if (issueModel.ClassC_Updated() &&
                             !ss.GetColumn("ClassC").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassD":
-                        if (issueModel.ClassD_Updated &&
+                        if (issueModel.ClassD_Updated() &&
                             !ss.GetColumn("ClassD").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassE":
-                        if (issueModel.ClassE_Updated &&
+                        if (issueModel.ClassE_Updated() &&
                             !ss.GetColumn("ClassE").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassF":
-                        if (issueModel.ClassF_Updated &&
+                        if (issueModel.ClassF_Updated() &&
                             !ss.GetColumn("ClassF").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassG":
-                        if (issueModel.ClassG_Updated &&
+                        if (issueModel.ClassG_Updated() &&
                             !ss.GetColumn("ClassG").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassH":
-                        if (issueModel.ClassH_Updated &&
+                        if (issueModel.ClassH_Updated() &&
                             !ss.GetColumn("ClassH").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassI":
-                        if (issueModel.ClassI_Updated &&
+                        if (issueModel.ClassI_Updated() &&
                             !ss.GetColumn("ClassI").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassJ":
-                        if (issueModel.ClassJ_Updated &&
+                        if (issueModel.ClassJ_Updated() &&
                             !ss.GetColumn("ClassJ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassK":
-                        if (issueModel.ClassK_Updated &&
+                        if (issueModel.ClassK_Updated() &&
                             !ss.GetColumn("ClassK").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassL":
-                        if (issueModel.ClassL_Updated &&
+                        if (issueModel.ClassL_Updated() &&
                             !ss.GetColumn("ClassL").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassM":
-                        if (issueModel.ClassM_Updated &&
+                        if (issueModel.ClassM_Updated() &&
                             !ss.GetColumn("ClassM").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassN":
-                        if (issueModel.ClassN_Updated &&
+                        if (issueModel.ClassN_Updated() &&
                             !ss.GetColumn("ClassN").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassO":
-                        if (issueModel.ClassO_Updated &&
+                        if (issueModel.ClassO_Updated() &&
                             !ss.GetColumn("ClassO").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassP":
-                        if (issueModel.ClassP_Updated &&
+                        if (issueModel.ClassP_Updated() &&
                             !ss.GetColumn("ClassP").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassQ":
-                        if (issueModel.ClassQ_Updated &&
+                        if (issueModel.ClassQ_Updated() &&
                             !ss.GetColumn("ClassQ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassR":
-                        if (issueModel.ClassR_Updated &&
+                        if (issueModel.ClassR_Updated() &&
                             !ss.GetColumn("ClassR").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassS":
-                        if (issueModel.ClassS_Updated &&
+                        if (issueModel.ClassS_Updated() &&
                             !ss.GetColumn("ClassS").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassT":
-                        if (issueModel.ClassT_Updated &&
+                        if (issueModel.ClassT_Updated() &&
                             !ss.GetColumn("ClassT").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassU":
-                        if (issueModel.ClassU_Updated &&
+                        if (issueModel.ClassU_Updated() &&
                             !ss.GetColumn("ClassU").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassV":
-                        if (issueModel.ClassV_Updated &&
+                        if (issueModel.ClassV_Updated() &&
                             !ss.GetColumn("ClassV").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassW":
-                        if (issueModel.ClassW_Updated &&
+                        if (issueModel.ClassW_Updated() &&
                             !ss.GetColumn("ClassW").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassX":
-                        if (issueModel.ClassX_Updated &&
+                        if (issueModel.ClassX_Updated() &&
                             !ss.GetColumn("ClassX").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassY":
-                        if (issueModel.ClassY_Updated &&
+                        if (issueModel.ClassY_Updated() &&
                             !ss.GetColumn("ClassY").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_ClassZ":
-                        if (issueModel.ClassZ_Updated &&
+                        if (issueModel.ClassZ_Updated() &&
                             !ss.GetColumn("ClassZ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumA":
-                        if (issueModel.NumA_Updated &&
+                        if (issueModel.NumA_Updated() &&
                             !ss.GetColumn("NumA").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumB":
-                        if (issueModel.NumB_Updated &&
+                        if (issueModel.NumB_Updated() &&
                             !ss.GetColumn("NumB").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumC":
-                        if (issueModel.NumC_Updated &&
+                        if (issueModel.NumC_Updated() &&
                             !ss.GetColumn("NumC").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumD":
-                        if (issueModel.NumD_Updated &&
+                        if (issueModel.NumD_Updated() &&
                             !ss.GetColumn("NumD").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumE":
-                        if (issueModel.NumE_Updated &&
+                        if (issueModel.NumE_Updated() &&
                             !ss.GetColumn("NumE").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumF":
-                        if (issueModel.NumF_Updated &&
+                        if (issueModel.NumF_Updated() &&
                             !ss.GetColumn("NumF").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumG":
-                        if (issueModel.NumG_Updated &&
+                        if (issueModel.NumG_Updated() &&
                             !ss.GetColumn("NumG").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumH":
-                        if (issueModel.NumH_Updated &&
+                        if (issueModel.NumH_Updated() &&
                             !ss.GetColumn("NumH").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumI":
-                        if (issueModel.NumI_Updated &&
+                        if (issueModel.NumI_Updated() &&
                             !ss.GetColumn("NumI").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumJ":
-                        if (issueModel.NumJ_Updated &&
+                        if (issueModel.NumJ_Updated() &&
                             !ss.GetColumn("NumJ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumK":
-                        if (issueModel.NumK_Updated &&
+                        if (issueModel.NumK_Updated() &&
                             !ss.GetColumn("NumK").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumL":
-                        if (issueModel.NumL_Updated &&
+                        if (issueModel.NumL_Updated() &&
                             !ss.GetColumn("NumL").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumM":
-                        if (issueModel.NumM_Updated &&
+                        if (issueModel.NumM_Updated() &&
                             !ss.GetColumn("NumM").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumN":
-                        if (issueModel.NumN_Updated &&
+                        if (issueModel.NumN_Updated() &&
                             !ss.GetColumn("NumN").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumO":
-                        if (issueModel.NumO_Updated &&
+                        if (issueModel.NumO_Updated() &&
                             !ss.GetColumn("NumO").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumP":
-                        if (issueModel.NumP_Updated &&
+                        if (issueModel.NumP_Updated() &&
                             !ss.GetColumn("NumP").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumQ":
-                        if (issueModel.NumQ_Updated &&
+                        if (issueModel.NumQ_Updated() &&
                             !ss.GetColumn("NumQ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumR":
-                        if (issueModel.NumR_Updated &&
+                        if (issueModel.NumR_Updated() &&
                             !ss.GetColumn("NumR").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumS":
-                        if (issueModel.NumS_Updated &&
+                        if (issueModel.NumS_Updated() &&
                             !ss.GetColumn("NumS").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumT":
-                        if (issueModel.NumT_Updated &&
+                        if (issueModel.NumT_Updated() &&
                             !ss.GetColumn("NumT").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumU":
-                        if (issueModel.NumU_Updated &&
+                        if (issueModel.NumU_Updated() &&
                             !ss.GetColumn("NumU").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumV":
-                        if (issueModel.NumV_Updated &&
+                        if (issueModel.NumV_Updated() &&
                             !ss.GetColumn("NumV").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumW":
-                        if (issueModel.NumW_Updated &&
+                        if (issueModel.NumW_Updated() &&
                             !ss.GetColumn("NumW").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumX":
-                        if (issueModel.NumX_Updated &&
+                        if (issueModel.NumX_Updated() &&
                             !ss.GetColumn("NumX").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumY":
-                        if (issueModel.NumY_Updated &&
+                        if (issueModel.NumY_Updated() &&
                             !ss.GetColumn("NumY").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_NumZ":
-                        if (issueModel.NumZ_Updated &&
+                        if (issueModel.NumZ_Updated() &&
                             !ss.GetColumn("NumZ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateA":
-                        if (issueModel.DateA_Updated &&
+                        if (issueModel.DateA_Updated() &&
                             !ss.GetColumn("DateA").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateB":
-                        if (issueModel.DateB_Updated &&
+                        if (issueModel.DateB_Updated() &&
                             !ss.GetColumn("DateB").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateC":
-                        if (issueModel.DateC_Updated &&
+                        if (issueModel.DateC_Updated() &&
                             !ss.GetColumn("DateC").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateD":
-                        if (issueModel.DateD_Updated &&
+                        if (issueModel.DateD_Updated() &&
                             !ss.GetColumn("DateD").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateE":
-                        if (issueModel.DateE_Updated &&
+                        if (issueModel.DateE_Updated() &&
                             !ss.GetColumn("DateE").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateF":
-                        if (issueModel.DateF_Updated &&
+                        if (issueModel.DateF_Updated() &&
                             !ss.GetColumn("DateF").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateG":
-                        if (issueModel.DateG_Updated &&
+                        if (issueModel.DateG_Updated() &&
                             !ss.GetColumn("DateG").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateH":
-                        if (issueModel.DateH_Updated &&
+                        if (issueModel.DateH_Updated() &&
                             !ss.GetColumn("DateH").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateI":
-                        if (issueModel.DateI_Updated &&
+                        if (issueModel.DateI_Updated() &&
                             !ss.GetColumn("DateI").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateJ":
-                        if (issueModel.DateJ_Updated &&
+                        if (issueModel.DateJ_Updated() &&
                             !ss.GetColumn("DateJ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateK":
-                        if (issueModel.DateK_Updated &&
+                        if (issueModel.DateK_Updated() &&
                             !ss.GetColumn("DateK").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateL":
-                        if (issueModel.DateL_Updated &&
+                        if (issueModel.DateL_Updated() &&
                             !ss.GetColumn("DateL").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateM":
-                        if (issueModel.DateM_Updated &&
+                        if (issueModel.DateM_Updated() &&
                             !ss.GetColumn("DateM").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateN":
-                        if (issueModel.DateN_Updated &&
+                        if (issueModel.DateN_Updated() &&
                             !ss.GetColumn("DateN").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateO":
-                        if (issueModel.DateO_Updated &&
+                        if (issueModel.DateO_Updated() &&
                             !ss.GetColumn("DateO").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateP":
-                        if (issueModel.DateP_Updated &&
+                        if (issueModel.DateP_Updated() &&
                             !ss.GetColumn("DateP").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateQ":
-                        if (issueModel.DateQ_Updated &&
+                        if (issueModel.DateQ_Updated() &&
                             !ss.GetColumn("DateQ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateR":
-                        if (issueModel.DateR_Updated &&
+                        if (issueModel.DateR_Updated() &&
                             !ss.GetColumn("DateR").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateS":
-                        if (issueModel.DateS_Updated &&
+                        if (issueModel.DateS_Updated() &&
                             !ss.GetColumn("DateS").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateT":
-                        if (issueModel.DateT_Updated &&
+                        if (issueModel.DateT_Updated() &&
                             !ss.GetColumn("DateT").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateU":
-                        if (issueModel.DateU_Updated &&
+                        if (issueModel.DateU_Updated() &&
                             !ss.GetColumn("DateU").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateV":
-                        if (issueModel.DateV_Updated &&
+                        if (issueModel.DateV_Updated() &&
                             !ss.GetColumn("DateV").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateW":
-                        if (issueModel.DateW_Updated &&
+                        if (issueModel.DateW_Updated() &&
                             !ss.GetColumn("DateW").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateX":
-                        if (issueModel.DateX_Updated &&
+                        if (issueModel.DateX_Updated() &&
                             !ss.GetColumn("DateX").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateY":
-                        if (issueModel.DateY_Updated &&
+                        if (issueModel.DateY_Updated() &&
                             !ss.GetColumn("DateY").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DateZ":
-                        if (issueModel.DateZ_Updated &&
+                        if (issueModel.DateZ_Updated() &&
                             !ss.GetColumn("DateZ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionA":
-                        if (issueModel.DescriptionA_Updated &&
+                        if (issueModel.DescriptionA_Updated() &&
                             !ss.GetColumn("DescriptionA").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionB":
-                        if (issueModel.DescriptionB_Updated &&
+                        if (issueModel.DescriptionB_Updated() &&
                             !ss.GetColumn("DescriptionB").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionC":
-                        if (issueModel.DescriptionC_Updated &&
+                        if (issueModel.DescriptionC_Updated() &&
                             !ss.GetColumn("DescriptionC").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionD":
-                        if (issueModel.DescriptionD_Updated &&
+                        if (issueModel.DescriptionD_Updated() &&
                             !ss.GetColumn("DescriptionD").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionE":
-                        if (issueModel.DescriptionE_Updated &&
+                        if (issueModel.DescriptionE_Updated() &&
                             !ss.GetColumn("DescriptionE").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionF":
-                        if (issueModel.DescriptionF_Updated &&
+                        if (issueModel.DescriptionF_Updated() &&
                             !ss.GetColumn("DescriptionF").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionG":
-                        if (issueModel.DescriptionG_Updated &&
+                        if (issueModel.DescriptionG_Updated() &&
                             !ss.GetColumn("DescriptionG").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionH":
-                        if (issueModel.DescriptionH_Updated &&
+                        if (issueModel.DescriptionH_Updated() &&
                             !ss.GetColumn("DescriptionH").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionI":
-                        if (issueModel.DescriptionI_Updated &&
+                        if (issueModel.DescriptionI_Updated() &&
                             !ss.GetColumn("DescriptionI").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionJ":
-                        if (issueModel.DescriptionJ_Updated &&
+                        if (issueModel.DescriptionJ_Updated() &&
                             !ss.GetColumn("DescriptionJ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionK":
-                        if (issueModel.DescriptionK_Updated &&
+                        if (issueModel.DescriptionK_Updated() &&
                             !ss.GetColumn("DescriptionK").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionL":
-                        if (issueModel.DescriptionL_Updated &&
+                        if (issueModel.DescriptionL_Updated() &&
                             !ss.GetColumn("DescriptionL").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionM":
-                        if (issueModel.DescriptionM_Updated &&
+                        if (issueModel.DescriptionM_Updated() &&
                             !ss.GetColumn("DescriptionM").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionN":
-                        if (issueModel.DescriptionN_Updated &&
+                        if (issueModel.DescriptionN_Updated() &&
                             !ss.GetColumn("DescriptionN").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionO":
-                        if (issueModel.DescriptionO_Updated &&
+                        if (issueModel.DescriptionO_Updated() &&
                             !ss.GetColumn("DescriptionO").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionP":
-                        if (issueModel.DescriptionP_Updated &&
+                        if (issueModel.DescriptionP_Updated() &&
                             !ss.GetColumn("DescriptionP").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionQ":
-                        if (issueModel.DescriptionQ_Updated &&
+                        if (issueModel.DescriptionQ_Updated() &&
                             !ss.GetColumn("DescriptionQ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionR":
-                        if (issueModel.DescriptionR_Updated &&
+                        if (issueModel.DescriptionR_Updated() &&
                             !ss.GetColumn("DescriptionR").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionS":
-                        if (issueModel.DescriptionS_Updated &&
+                        if (issueModel.DescriptionS_Updated() &&
                             !ss.GetColumn("DescriptionS").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionT":
-                        if (issueModel.DescriptionT_Updated &&
+                        if (issueModel.DescriptionT_Updated() &&
                             !ss.GetColumn("DescriptionT").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionU":
-                        if (issueModel.DescriptionU_Updated &&
+                        if (issueModel.DescriptionU_Updated() &&
                             !ss.GetColumn("DescriptionU").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionV":
-                        if (issueModel.DescriptionV_Updated &&
+                        if (issueModel.DescriptionV_Updated() &&
                             !ss.GetColumn("DescriptionV").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionW":
-                        if (issueModel.DescriptionW_Updated &&
+                        if (issueModel.DescriptionW_Updated() &&
                             !ss.GetColumn("DescriptionW").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionX":
-                        if (issueModel.DescriptionX_Updated &&
+                        if (issueModel.DescriptionX_Updated() &&
                             !ss.GetColumn("DescriptionX").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionY":
-                        if (issueModel.DescriptionY_Updated &&
+                        if (issueModel.DescriptionY_Updated() &&
                             !ss.GetColumn("DescriptionY").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_DescriptionZ":
-                        if (issueModel.DescriptionZ_Updated &&
+                        if (issueModel.DescriptionZ_Updated() &&
                             !ss.GetColumn("DescriptionZ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckA":
-                        if (issueModel.CheckA_Updated &&
+                        if (issueModel.CheckA_Updated() &&
                             !ss.GetColumn("CheckA").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckB":
-                        if (issueModel.CheckB_Updated &&
+                        if (issueModel.CheckB_Updated() &&
                             !ss.GetColumn("CheckB").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckC":
-                        if (issueModel.CheckC_Updated &&
+                        if (issueModel.CheckC_Updated() &&
                             !ss.GetColumn("CheckC").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckD":
-                        if (issueModel.CheckD_Updated &&
+                        if (issueModel.CheckD_Updated() &&
                             !ss.GetColumn("CheckD").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckE":
-                        if (issueModel.CheckE_Updated &&
+                        if (issueModel.CheckE_Updated() &&
                             !ss.GetColumn("CheckE").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckF":
-                        if (issueModel.CheckF_Updated &&
+                        if (issueModel.CheckF_Updated() &&
                             !ss.GetColumn("CheckF").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckG":
-                        if (issueModel.CheckG_Updated &&
+                        if (issueModel.CheckG_Updated() &&
                             !ss.GetColumn("CheckG").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckH":
-                        if (issueModel.CheckH_Updated &&
+                        if (issueModel.CheckH_Updated() &&
                             !ss.GetColumn("CheckH").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckI":
-                        if (issueModel.CheckI_Updated &&
+                        if (issueModel.CheckI_Updated() &&
                             !ss.GetColumn("CheckI").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckJ":
-                        if (issueModel.CheckJ_Updated &&
+                        if (issueModel.CheckJ_Updated() &&
                             !ss.GetColumn("CheckJ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckK":
-                        if (issueModel.CheckK_Updated &&
+                        if (issueModel.CheckK_Updated() &&
                             !ss.GetColumn("CheckK").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckL":
-                        if (issueModel.CheckL_Updated &&
+                        if (issueModel.CheckL_Updated() &&
                             !ss.GetColumn("CheckL").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckM":
-                        if (issueModel.CheckM_Updated &&
+                        if (issueModel.CheckM_Updated() &&
                             !ss.GetColumn("CheckM").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckN":
-                        if (issueModel.CheckN_Updated &&
+                        if (issueModel.CheckN_Updated() &&
                             !ss.GetColumn("CheckN").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckO":
-                        if (issueModel.CheckO_Updated &&
+                        if (issueModel.CheckO_Updated() &&
                             !ss.GetColumn("CheckO").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckP":
-                        if (issueModel.CheckP_Updated &&
+                        if (issueModel.CheckP_Updated() &&
                             !ss.GetColumn("CheckP").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckQ":
-                        if (issueModel.CheckQ_Updated &&
+                        if (issueModel.CheckQ_Updated() &&
                             !ss.GetColumn("CheckQ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckR":
-                        if (issueModel.CheckR_Updated &&
+                        if (issueModel.CheckR_Updated() &&
                             !ss.GetColumn("CheckR").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckS":
-                        if (issueModel.CheckS_Updated &&
+                        if (issueModel.CheckS_Updated() &&
                             !ss.GetColumn("CheckS").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckT":
-                        if (issueModel.CheckT_Updated &&
+                        if (issueModel.CheckT_Updated() &&
                             !ss.GetColumn("CheckT").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckU":
-                        if (issueModel.CheckU_Updated &&
+                        if (issueModel.CheckU_Updated() &&
                             !ss.GetColumn("CheckU").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckV":
-                        if (issueModel.CheckV_Updated &&
+                        if (issueModel.CheckV_Updated() &&
                             !ss.GetColumn("CheckV").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckW":
-                        if (issueModel.CheckW_Updated &&
+                        if (issueModel.CheckW_Updated() &&
                             !ss.GetColumn("CheckW").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckX":
-                        if (issueModel.CheckX_Updated &&
+                        if (issueModel.CheckX_Updated() &&
                             !ss.GetColumn("CheckX").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckY":
-                        if (issueModel.CheckY_Updated &&
+                        if (issueModel.CheckY_Updated() &&
                             !ss.GetColumn("CheckY").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_CheckZ":
-                        if (issueModel.CheckZ_Updated &&
+                        if (issueModel.CheckZ_Updated() &&
                             !ss.GetColumn("CheckZ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsA":
-                        if (issueModel.AttachmentsA_Updated &&
+                        if (issueModel.AttachmentsA_Updated() &&
                             !ss.GetColumn("AttachmentsA").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsB":
-                        if (issueModel.AttachmentsB_Updated &&
+                        if (issueModel.AttachmentsB_Updated() &&
                             !ss.GetColumn("AttachmentsB").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsC":
-                        if (issueModel.AttachmentsC_Updated &&
+                        if (issueModel.AttachmentsC_Updated() &&
                             !ss.GetColumn("AttachmentsC").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsD":
-                        if (issueModel.AttachmentsD_Updated &&
+                        if (issueModel.AttachmentsD_Updated() &&
                             !ss.GetColumn("AttachmentsD").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsE":
-                        if (issueModel.AttachmentsE_Updated &&
+                        if (issueModel.AttachmentsE_Updated() &&
                             !ss.GetColumn("AttachmentsE").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsF":
-                        if (issueModel.AttachmentsF_Updated &&
+                        if (issueModel.AttachmentsF_Updated() &&
                             !ss.GetColumn("AttachmentsF").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsG":
-                        if (issueModel.AttachmentsG_Updated &&
+                        if (issueModel.AttachmentsG_Updated() &&
                             !ss.GetColumn("AttachmentsG").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsH":
-                        if (issueModel.AttachmentsH_Updated &&
+                        if (issueModel.AttachmentsH_Updated() &&
                             !ss.GetColumn("AttachmentsH").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsI":
-                        if (issueModel.AttachmentsI_Updated &&
+                        if (issueModel.AttachmentsI_Updated() &&
                             !ss.GetColumn("AttachmentsI").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsJ":
-                        if (issueModel.AttachmentsJ_Updated &&
+                        if (issueModel.AttachmentsJ_Updated() &&
                             !ss.GetColumn("AttachmentsJ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsK":
-                        if (issueModel.AttachmentsK_Updated &&
+                        if (issueModel.AttachmentsK_Updated() &&
                             !ss.GetColumn("AttachmentsK").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsL":
-                        if (issueModel.AttachmentsL_Updated &&
+                        if (issueModel.AttachmentsL_Updated() &&
                             !ss.GetColumn("AttachmentsL").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsM":
-                        if (issueModel.AttachmentsM_Updated &&
+                        if (issueModel.AttachmentsM_Updated() &&
                             !ss.GetColumn("AttachmentsM").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsN":
-                        if (issueModel.AttachmentsN_Updated &&
+                        if (issueModel.AttachmentsN_Updated() &&
                             !ss.GetColumn("AttachmentsN").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsO":
-                        if (issueModel.AttachmentsO_Updated &&
+                        if (issueModel.AttachmentsO_Updated() &&
                             !ss.GetColumn("AttachmentsO").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsP":
-                        if (issueModel.AttachmentsP_Updated &&
+                        if (issueModel.AttachmentsP_Updated() &&
                             !ss.GetColumn("AttachmentsP").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsQ":
-                        if (issueModel.AttachmentsQ_Updated &&
+                        if (issueModel.AttachmentsQ_Updated() &&
                             !ss.GetColumn("AttachmentsQ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsR":
-                        if (issueModel.AttachmentsR_Updated &&
+                        if (issueModel.AttachmentsR_Updated() &&
                             !ss.GetColumn("AttachmentsR").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsS":
-                        if (issueModel.AttachmentsS_Updated &&
+                        if (issueModel.AttachmentsS_Updated() &&
                             !ss.GetColumn("AttachmentsS").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsT":
-                        if (issueModel.AttachmentsT_Updated &&
+                        if (issueModel.AttachmentsT_Updated() &&
                             !ss.GetColumn("AttachmentsT").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsU":
-                        if (issueModel.AttachmentsU_Updated &&
+                        if (issueModel.AttachmentsU_Updated() &&
                             !ss.GetColumn("AttachmentsU").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsV":
-                        if (issueModel.AttachmentsV_Updated &&
+                        if (issueModel.AttachmentsV_Updated() &&
                             !ss.GetColumn("AttachmentsV").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsW":
-                        if (issueModel.AttachmentsW_Updated &&
+                        if (issueModel.AttachmentsW_Updated() &&
                             !ss.GetColumn("AttachmentsW").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsX":
-                        if (issueModel.AttachmentsX_Updated &&
+                        if (issueModel.AttachmentsX_Updated() &&
                             !ss.GetColumn("AttachmentsX").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsY":
-                        if (issueModel.AttachmentsY_Updated &&
+                        if (issueModel.AttachmentsY_Updated() &&
                             !ss.GetColumn("AttachmentsY").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Issues_AttachmentsZ":
-                        if (issueModel.AttachmentsZ_Updated &&
+                        if (issueModel.AttachmentsZ_Updated() &&
                             !ss.GetColumn("AttachmentsZ").CanUpdate)
                         {
                             return Error.Types.HasNotPermission;

@@ -34,44 +34,29 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedTenantId = 0;
         [NonSerialized] public int SavedUserId = 0;
 
-        public bool LoginId_Updated
+        public bool LoginId_Updated()
         {
-            get
-            {
-                return LoginId != SavedLoginId && LoginId != null;
-            }
+            return LoginId != SavedLoginId && LoginId != null;
         }
 
-        public bool Key_Updated
+        public bool Key_Updated()
         {
-            get
-            {
-                return Key != SavedKey && Key != null;
-            }
+            return Key != SavedKey && Key != null;
         }
 
-        public bool TenantNames_Updated
+        public bool TenantNames_Updated()
         {
-            get
-            {
-                return TenantNames != SavedTenantNames && TenantNames != null;
-            }
+            return TenantNames != SavedTenantNames && TenantNames != null;
         }
 
-        public bool TenantId_Updated
+        public bool TenantId_Updated()
         {
-            get
-            {
-                return TenantId != SavedTenantId;
-            }
+            return TenantId != SavedTenantId;
         }
 
-        public bool UserId_Updated
+        public bool UserId_Updated()
         {
-            get
-            {
-                return UserId != SavedUserId;
-            }
+            return UserId != SavedUserId;
         }
 
         public LoginKeyModel(DataRow dataRow, string tableAlias = null)
@@ -198,17 +183,17 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                LoginId_Updated ||
-                Key_Updated ||
-                Ver_Updated ||
-                TenantNames_Updated ||
-                TenantId_Updated ||
-                UserId_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                LoginId_Updated() ||
+                Key_Updated() ||
+                Ver_Updated() ||
+                TenantNames_Updated() ||
+                TenantId_Updated() ||
+                UserId_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
     }
 }

@@ -40,44 +40,29 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedName = string.Empty;
         [NonSerialized] public long SavedPermissionType = 31;
 
-        public bool ReferenceId_Updated
+        public bool ReferenceId_Updated()
         {
-            get
-            {
-                return ReferenceId != SavedReferenceId;
-            }
+            return ReferenceId != SavedReferenceId;
         }
 
-        public bool DeptId_Updated
+        public bool DeptId_Updated()
         {
-            get
-            {
-                return DeptId != SavedDeptId;
-            }
+            return DeptId != SavedDeptId;
         }
 
-        public bool GroupId_Updated
+        public bool GroupId_Updated()
         {
-            get
-            {
-                return GroupId != SavedGroupId;
-            }
+            return GroupId != SavedGroupId;
         }
 
-        public bool UserId_Updated
+        public bool UserId_Updated()
         {
-            get
-            {
-                return UserId != SavedUserId;
-            }
+            return UserId != SavedUserId;
         }
 
-        public bool PermissionType_Updated
+        public bool PermissionType_Updated()
         {
-            get
-            {
-                return PermissionType.ToLong() != SavedPermissionType;
-            }
+            return PermissionType.ToLong() != SavedPermissionType;
         }
 
         public PermissionModel(DataRow dataRow, string tableAlias = null)
@@ -222,17 +207,17 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                ReferenceId_Updated ||
-                DeptId_Updated ||
-                GroupId_Updated ||
-                UserId_Updated ||
-                Ver_Updated ||
-                PermissionType_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                ReferenceId_Updated() ||
+                DeptId_Updated() ||
+                GroupId_Updated() ||
+                UserId_Updated() ||
+                Ver_Updated() ||
+                PermissionType_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
 
         /// <summary>

@@ -38,28 +38,19 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedSubset = string.Empty;
         [NonSerialized] public long SavedInheritPermission = 0;
 
-        public bool Word_Updated
+        public bool Word_Updated()
         {
-            get
-            {
-                return Word != SavedWord && Word != null;
-            }
+            return Word != SavedWord && Word != null;
         }
 
-        public bool ReferenceId_Updated
+        public bool ReferenceId_Updated()
         {
-            get
-            {
-                return ReferenceId != SavedReferenceId;
-            }
+            return ReferenceId != SavedReferenceId;
         }
 
-        public bool Priority_Updated
+        public bool Priority_Updated()
         {
-            get
-            {
-                return Priority != SavedPriority;
-            }
+            return Priority != SavedPriority;
         }
 
         public SearchIndexModel(DataRow dataRow, string tableAlias = null)
@@ -194,15 +185,15 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                Word_Updated ||
-                ReferenceId_Updated ||
-                Ver_Updated ||
-                Priority_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                Word_Updated() ||
+                ReferenceId_Updated() ||
+                Ver_Updated() ||
+                Priority_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
     }
 }

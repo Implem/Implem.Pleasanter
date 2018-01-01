@@ -41,36 +41,24 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public long SavedMailAddressId = 0;
         [NonSerialized] public string SavedMailAddress = string.Empty;
 
-        public bool OwnerId_Updated
+        public bool OwnerId_Updated()
         {
-            get
-            {
-                return OwnerId != SavedOwnerId;
-            }
+            return OwnerId != SavedOwnerId;
         }
 
-        public bool OwnerType_Updated
+        public bool OwnerType_Updated()
         {
-            get
-            {
-                return OwnerType != SavedOwnerType && OwnerType != null;
-            }
+            return OwnerType != SavedOwnerType && OwnerType != null;
         }
 
-        public bool MailAddressId_Updated
+        public bool MailAddressId_Updated()
         {
-            get
-            {
-                return MailAddressId != SavedMailAddressId;
-            }
+            return MailAddressId != SavedMailAddressId;
         }
 
-        public bool MailAddress_Updated
+        public bool MailAddress_Updated()
         {
-            get
-            {
-                return MailAddress != SavedMailAddress && MailAddress != null;
-            }
+            return MailAddress != SavedMailAddress && MailAddress != null;
         }
 
         public MailAddressModel()
@@ -400,16 +388,16 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                OwnerId_Updated ||
-                OwnerType_Updated ||
-                MailAddressId_Updated ||
-                Ver_Updated ||
-                MailAddress_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                OwnerId_Updated() ||
+                OwnerType_Updated() ||
+                MailAddressId_Updated() ||
+                Ver_Updated() ||
+                MailAddress_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
 
         /// <summary>

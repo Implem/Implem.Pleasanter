@@ -38,52 +38,34 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedFullText = string.Empty;
         [NonSerialized] public DateTime SavedSearchIndexCreatedTime = 0.ToDateTime();
 
-        public bool ReferenceId_Updated
+        public bool ReferenceId_Updated()
         {
-            get
-            {
-                return ReferenceId != SavedReferenceId;
-            }
+            return ReferenceId != SavedReferenceId;
         }
 
-        public bool ReferenceType_Updated
+        public bool ReferenceType_Updated()
         {
-            get
-            {
-                return ReferenceType != SavedReferenceType && ReferenceType != null;
-            }
+            return ReferenceType != SavedReferenceType && ReferenceType != null;
         }
 
-        public bool SiteId_Updated
+        public bool SiteId_Updated()
         {
-            get
-            {
-                return SiteId != SavedSiteId;
-            }
+            return SiteId != SavedSiteId;
         }
 
-        public bool Title_Updated
+        public bool Title_Updated()
         {
-            get
-            {
-                return Title != SavedTitle && Title != null;
-            }
+            return Title != SavedTitle && Title != null;
         }
 
-        public bool FullText_Updated
+        public bool FullText_Updated()
         {
-            get
-            {
-                return FullText != SavedFullText && FullText != null;
-            }
+            return FullText != SavedFullText && FullText != null;
         }
 
-        public bool SearchIndexCreatedTime_Updated
+        public bool SearchIndexCreatedTime_Updated()
         {
-            get
-            {
-                return SearchIndexCreatedTime != SavedSearchIndexCreatedTime && SearchIndexCreatedTime != null;
-            }
+            return SearchIndexCreatedTime != SavedSearchIndexCreatedTime && SearchIndexCreatedTime != null;
         }
 
         public ItemModel(DataRow dataRow, string tableAlias = null)
@@ -1041,18 +1023,18 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                ReferenceId_Updated ||
-                Ver_Updated ||
-                ReferenceType_Updated ||
-                SiteId_Updated ||
-                Title_Updated ||
-                FullText_Updated ||
-                SearchIndexCreatedTime_Updated ||
-                Comments_Updated ||
-                Creator_Updated ||
-                Updator_Updated ||
-                CreatedTime_Updated ||
-                UpdatedTime_Updated;
+                ReferenceId_Updated() ||
+                Ver_Updated() ||
+                ReferenceType_Updated() ||
+                SiteId_Updated() ||
+                Title_Updated() ||
+                FullText_Updated() ||
+                SearchIndexCreatedTime_Updated() ||
+                Comments_Updated() ||
+                Creator_Updated() ||
+                Updator_Updated() ||
+                CreatedTime_Updated() ||
+                UpdatedTime_Updated();
         }
 
         /// <summary>
