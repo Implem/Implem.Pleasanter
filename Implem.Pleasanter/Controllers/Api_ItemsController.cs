@@ -3,11 +3,11 @@ using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
+    [AllowAnonymous]
     [CheckApiAuthentication]
     public class Api_ItemsController : Controller
     {
         [HttpPost]
-        [AllowAnonymous]
         public ContentResult Create(long id)
         {
             var log = new SysLogModel();
