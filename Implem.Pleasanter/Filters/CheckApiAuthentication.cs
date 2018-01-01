@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -11,6 +12,10 @@ namespace Implem.Pleasanter.Filters
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
+            if (!Parameters.Api.Enabled)
+            {
+                filterContext.Result = ApiResults.BadRequest();
+            }
             var api = Forms.String().Deserialize<Api>();
             if (api?.ApiKey.IsNullOrEmpty() == false)
             {

@@ -29,6 +29,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             };
         }
 
+        public static ContentResult BadRequest()
+        {
+            return Get(ApiResponses.BadRequest());
+        }
+
         public static ContentResult Unauthorized()
         {
             return Get(ApiResponses.Unauthorized());
