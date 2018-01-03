@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 return hb;
             }
-            var controller = Url.RouteData("controller").ToLower();
+            var controller = Routes.Controller();
             switch (controller)
             {
                 case "admins":
