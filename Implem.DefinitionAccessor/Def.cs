@@ -428,6 +428,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_MoveCases": Code.Model_MoveCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_MoveCases, definitionRow, CodeXls); break;
                     case "Model_BulkMoveCases": Code.Model_BulkMoveCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkMoveCases, definitionRow, CodeXls); break;
                     case "Model_DeleteCases": Code.Model_DeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteCases, definitionRow, CodeXls); break;
+                    case "Model_DeleteByApiCases": Code.Model_DeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_BulkDeleteCases": Code.Model_BulkDeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteCases, definitionRow, CodeXls); break;
                     case "Model_RestoreCases": Code.Model_RestoreCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RestoreCases, definitionRow, CodeXls); break;
                     case "Model_EditSeparateSettingsCases": Code.Model_EditSeparateSettingsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditSeparateSettingsCases, definitionRow, CodeXls); break;
@@ -528,6 +529,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_RedirectAfterDelete_Sites": Code.Model_Utilities_RedirectAfterDelete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_RedirectAfterDelete_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_RedirectAfterDelete_Wikis": Code.Model_Utilities_RedirectAfterDelete_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_RedirectAfterDelete_Wikis, definitionRow, CodeXls); break;
                     case "Model_Utilities_Restore": Code.Model_Utilities_Restore = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Restore, definitionRow, CodeXls); break;
+                    case "Model_Utilities_DeleteByApi": Code.Model_Utilities_DeleteByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DeleteByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_Histories": Code.Model_Utilities_Histories = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Histories, definitionRow, CodeXls); break;
                     case "Model_Utilities_HistoriesParams": Code.Model_Utilities_HistoriesParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_HistoriesParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_HistoriesParams_Sites": Code.Model_Utilities_HistoriesParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_HistoriesParams_Sites, definitionRow, CodeXls); break;
@@ -4654,6 +4656,7 @@ namespace Implem.DefinitionAccessor
         public string Model_MoveCases;
         public string Model_BulkMoveCases;
         public string Model_DeleteCases;
+        public string Model_DeleteByApiCases;
         public string Model_BulkDeleteCases;
         public string Model_RestoreCases;
         public string Model_EditSeparateSettingsCases;
@@ -4754,6 +4757,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_RedirectAfterDelete_Sites;
         public string Model_Utilities_RedirectAfterDelete_Wikis;
         public string Model_Utilities_Restore;
+        public string Model_Utilities_DeleteByApi;
         public string Model_Utilities_Histories;
         public string Model_Utilities_HistoriesParams;
         public string Model_Utilities_HistoriesParams_Sites;
@@ -5151,6 +5155,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_MoveCases = new CodeDefinition();
         public CodeDefinition Model_BulkMoveCases = new CodeDefinition();
         public CodeDefinition Model_DeleteCases = new CodeDefinition();
+        public CodeDefinition Model_DeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_BulkDeleteCases = new CodeDefinition();
         public CodeDefinition Model_RestoreCases = new CodeDefinition();
         public CodeDefinition Model_EditSeparateSettingsCases = new CodeDefinition();
@@ -5251,6 +5256,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_RedirectAfterDelete_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_RedirectAfterDelete_Wikis = new CodeDefinition();
         public CodeDefinition Model_Utilities_Restore = new CodeDefinition();
+        public CodeDefinition Model_Utilities_DeleteByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_Histories = new CodeDefinition();
         public CodeDefinition Model_Utilities_HistoriesParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_HistoriesParams_Sites = new CodeDefinition();

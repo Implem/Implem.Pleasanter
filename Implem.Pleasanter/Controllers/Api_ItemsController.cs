@@ -24,5 +24,14 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(result.Content.Length);
             return result;
         }
+
+        [HttpPost]
+        public ContentResult Delete(long id)
+        {
+            var log = new SysLogModel();
+            var result = new ItemModel(id).DeleteByApi();
+            log.Finish(result.Content.Length);
+            return result;
+        }
     }
 }
