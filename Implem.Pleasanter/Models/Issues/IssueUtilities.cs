@@ -4129,6 +4129,34 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static System.Web.Mvc.ContentResult DeleteByApi(SiteSettings ss, long issueId)
+        {
+            var issueModel = new IssueModel(ss, issueId, methodType: BaseModel.MethodTypes.Edit);
+            if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Get(ApiResponses.NotFound());
+            }
+            var invalid = IssueValidators.OnDeleting(ss, issueModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return ApiResults.Error(invalid);
+            }
+            issueModel.SiteId = ss.SiteId;
+            issueModel.SetTitle(ss);
+            var error = issueModel.Delete(ss);
+            if (error.Has())
+            {
+                return ApiResults.Error(error);
+            }
+            else
+            {
+                return ApiResults.Success(
+                    issueModel.IssueId,
+                    Displays.Deleted(issueModel.Title.DisplayValue));
+            }
+        }
+
         public static string Restore(SiteSettings ss, long issueId)
         {
             var issueModel = new IssueModel();

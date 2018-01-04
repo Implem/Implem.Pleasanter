@@ -745,6 +745,19 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public System.Web.Mvc.ContentResult DeleteByApi()
+        {
+            SetSite();
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.DeleteByApi(
+                    ss: Site.IssuesSiteSettings(ReferenceId), issueId: ReferenceId);
+                case "Results": return ResultUtilities.DeleteByApi(
+                    ss: Site.ResultsSiteSettings(ReferenceId), resultId: ReferenceId);
+                default: return ApiResults.Get(ApiResponses.BadRequest());
+            }
+        }
+
         public string BulkDelete()
         {
             SetSite();
