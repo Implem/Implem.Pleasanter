@@ -19,8 +19,10 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class MailAddressCollection : List<MailAddressModel>
     {
+        [NonSerialized]
         public Databases.AccessStatuses AccessStatus = Databases.AccessStatuses.Initialized;
 
         public MailAddressCollection(

@@ -19,8 +19,10 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class GroupMemberCollection : List<GroupMemberModel>
     {
+        [NonSerialized]
         public Databases.AccessStatuses AccessStatus = Databases.AccessStatuses.Initialized;
 
         public GroupMemberCollection(

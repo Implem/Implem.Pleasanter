@@ -19,8 +19,10 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
+    [Serializable]
     public class ExportSettingCollection : List<ExportSettingModel>
     {
+        [NonSerialized]
         public Databases.AccessStatuses AccessStatus = Databases.AccessStatuses.Initialized;
 
         public ExportSettingCollection(
