@@ -1,3 +1,4 @@
 ﻿{
-    "Enabled": false
+    "Enabled": false,
+    "PageSize": 200
 }

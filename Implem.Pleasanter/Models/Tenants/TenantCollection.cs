@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Models
     {
         [NonSerialized]
         public Databases.AccessStatuses AccessStatus = Databases.AccessStatuses.Initialized;
+        public int TotalCount;
 
         public TenantCollection(
             SqlColumnCollection column = null,
@@ -111,6 +112,7 @@ namespace Implem.Pleasanter.Models
             var dataSet = Rds.ExecuteDataSet(
                 transactional: false,
                 statements: statements.ToArray());
+            TotalCount = Rds.Count(dataSet);
             return dataSet.Tables["Main"].AsEnumerable();
         }
     }

@@ -3,5 +3,6 @@
     public class Api
     {
         public bool Enabled;
+        public int PageSize;
     }
 }
