@@ -455,8 +455,6 @@ namespace Implem.DefinitionAccessor
                     case "Collection": Code.Collection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection, definitionRow, CodeXls); break;
                     case "Collection_SiteSettings": Code.Collection_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettings, definitionRow, CodeXls); break;
                     case "Collection_SiteSettingsArgument": Code.Collection_SiteSettingsArgument = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettingsArgument, definitionRow, CodeXls); break;
-                    case "Collection_Aggregation": Code.Collection_Aggregation = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_Aggregation, definitionRow, CodeXls); break;
-                    case "Collection_ItemAggregation": Code.Collection_ItemAggregation = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_ItemAggregation, definitionRow, CodeXls); break;
                     case "Model_Utilities": Code.Model_Utilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities, definitionRow, CodeXls); break;
                     case "Model_Utilities_Index": Code.Model_Utilities_Index = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Index, definitionRow, CodeXls); break;
                     case "Model_Utilities_DropDownSearchDialog": Code.Model_Utilities_DropDownSearchDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DropDownSearchDialog, definitionRow, CodeXls); break;
@@ -4683,8 +4681,6 @@ namespace Implem.DefinitionAccessor
         public string Collection;
         public string Collection_SiteSettings;
         public string Collection_SiteSettingsArgument;
-        public string Collection_Aggregation;
-        public string Collection_ItemAggregation;
         public string Model_Utilities;
         public string Model_Utilities_Index;
         public string Model_Utilities_DropDownSearchDialog;
@@ -5182,8 +5178,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Collection = new CodeDefinition();
         public CodeDefinition Collection_SiteSettings = new CodeDefinition();
         public CodeDefinition Collection_SiteSettingsArgument = new CodeDefinition();
-        public CodeDefinition Collection_Aggregation = new CodeDefinition();
-        public CodeDefinition Collection_ItemAggregation = new CodeDefinition();
         public CodeDefinition Model_Utilities = new CodeDefinition();
         public CodeDefinition Model_Utilities_Index = new CodeDefinition();
         public CodeDefinition Model_Utilities_DropDownSearchDialog = new CodeDefinition();
