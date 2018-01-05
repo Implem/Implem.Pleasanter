@@ -3885,6 +3885,32 @@ namespace Implem.Pleasanter.Models
             return res;
         }
 
+        public static System.Web.Mvc.ContentResult GetByApi(SiteSettings ss)
+        {
+            var api = Forms.String().Deserialize<Api>();
+            if (api == null)
+            {
+                return ApiResults.Get(ApiResponses.BadRequest());
+            }
+            var view = api.View ?? new View();
+            var pageSize = Parameters.Api.PageSize;
+            var issueCollection = new IssueCollection(
+                ss: ss,
+                where: view.Where(ss: ss),
+                orderBy: view.OrderBy(ss: ss, pageSize: pageSize),
+                offset: api.Offset,
+                pageSize: pageSize,
+                countRecord: true);
+            return ApiResults.Get(new
+            {
+                StatusCode = 200,
+                Offset = api.Offset,
+                PageSize = pageSize,
+                TotalCount = issueCollection.TotalCount,
+                Collection = issueCollection
+            }.ToJson());
+        }
+
         public static System.Web.Mvc.ContentResult GetByApi(SiteSettings ss, long issueId)
         {
             var issueModel = new IssueModel(ss, issueId, methodType: BaseModel.MethodTypes.Edit);

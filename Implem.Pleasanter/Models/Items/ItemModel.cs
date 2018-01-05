@@ -541,10 +541,30 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (Site.ReferenceType)
             {
-                case "Issues": return IssueUtilities.GetByApi(
-                    ss: Site.IssuesSiteSettings(ReferenceId), issueId: ReferenceId);
-                case "Results": return ResultUtilities.GetByApi(
-                    ss: Site.ResultsSiteSettings(ReferenceId), resultId: ReferenceId);
+                case "Issues":
+                    if (SiteId == ReferenceId)
+                    {
+                        return IssueUtilities.GetByApi(
+                            ss: Site.IssuesSiteSettings(ReferenceId));
+                    }
+                    else
+                    {
+                        return IssueUtilities.GetByApi(
+                            ss: Site.IssuesSiteSettings(ReferenceId),
+                            issueId: ReferenceId);
+                    }
+                case "Results":
+                    if (SiteId == ReferenceId)
+                    {
+                        return ResultUtilities.GetByApi(
+                            ss: Site.ResultsSiteSettings(ReferenceId));
+                    }
+                    else
+                    {
+                        return ResultUtilities.GetByApi(
+                            ss: Site.ResultsSiteSettings(ReferenceId),
+                            resultId: ReferenceId);
+                    }
                 default: return ApiResults.Get(ApiResponses.BadRequest());
             }
         }

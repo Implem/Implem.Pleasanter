@@ -56,15 +56,8 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             column = column ?? SqlColumnCollection(ss, GridColumns(ss));
             var join = ss.Join(withColumn: true);
-            where = view.Where(ss, where);
-            var orderBy = view.OrderBy(ss);
-            if (pageSize > 0 && orderBy?.Any() != true)
-            {
-                orderBy = new SqlOrderByCollection().Add(
-                    tableName: ss.ReferenceType,
-                    columnBracket: "[UpdatedTime]",
-                    orderType: SqlOrderBy.Types.desc);
-            }
+            where = view.Where(ss: ss, where: where);
+            var orderBy = view.OrderBy(ss: ss, pageSize: pageSize);
             var statements = new List<SqlStatement>
             {
                 Rds.Select(

@@ -975,7 +975,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
-        public SqlOrderByCollection OrderBy(SiteSettings ss, SqlOrderByCollection orderBy = null)
+        public SqlOrderByCollection OrderBy(
+            SiteSettings ss, SqlOrderByCollection orderBy = null, int pageSize = 0)
         {
             orderBy = orderBy ?? new SqlOrderByCollection();
             if (ColumnSorterHash?.Any() == true)
@@ -983,7 +984,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ColumnSorterHash?.ForEach(data =>
                     orderBy.Add(ss.GetColumn(data.Key), data.Value));
             }
-            return orderBy;
+            return pageSize > 0 && orderBy?.Any() != true
+                ? new SqlOrderByCollection().Add(
+                    tableName: ss.ReferenceType,
+                    columnBracket: "[UpdatedTime]",
+                    orderType: SqlOrderBy.Types.desc)
+                : orderBy;
         }
 
         private void SetSearchWhere(SiteSettings ss, SqlWhereCollection where, string tableName)
