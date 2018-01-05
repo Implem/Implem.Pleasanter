@@ -845,8 +845,7 @@ namespace Implem.Pleasanter.Models
                     .UpdatedTime(SqlOrderBy.Types.desc)),
                 offset: offset,
                 pageSize: ss.GridPageSize.ToInt(),
-                countRecord: true,
-                aggregations: ss.Aggregations);
+                countRecord: true);
         }
 
         /// <summary>

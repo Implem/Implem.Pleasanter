@@ -22,7 +22,6 @@ namespace Implem.Pleasanter.Models
     public class DeptCollection : List<DeptModel>
     {
         public Databases.AccessStatuses AccessStatus = Databases.AccessStatuses.Initialized;
-        public Aggregations Aggregations = new Aggregations();
 
         public DeptCollection(
             SiteSettings ss, 
@@ -37,7 +36,6 @@ namespace Implem.Pleasanter.Models
             int offset = 0,
             int pageSize = 0,
             bool countRecord = false,
-            IEnumerable<Aggregation> aggregations = null,
             bool get = true)
         {
             if (get)
@@ -53,8 +51,7 @@ namespace Implem.Pleasanter.Models
                     top: top,
                     offset: offset,
                     pageSize: pageSize,
-                    countRecord: countRecord,
-                    aggregations: aggregations));
+                    countRecord: countRecord));
             }
         }
 
@@ -92,8 +89,7 @@ namespace Implem.Pleasanter.Models
             int offset = 0,
             int pageSize = 0,
             bool history = false,
-            bool countRecord = false,
-            IEnumerable<Aggregation> aggregations = null)
+            bool countRecord = false)
         {
             var statements = new List<SqlStatement>
             {
@@ -111,17 +107,9 @@ namespace Implem.Pleasanter.Models
                     pageSize: pageSize,
                     countRecord: countRecord)
             };
-            if (aggregations != null)
-            {
-                statements.AddRange(Rds.DeptsAggregations(
-                    aggregations: aggregations,
-                    join: join ??  Rds.DeptsJoinDefault(),
-                    where: where));
-            }
             var dataSet = Rds.ExecuteDataSet(
                 transactional: false,
                 statements: statements.ToArray());
-            Aggregations.Set(dataSet, aggregations);
             return dataSet.Tables["Main"].AsEnumerable();
         }
     }
