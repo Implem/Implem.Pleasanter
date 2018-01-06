@@ -52,33 +52,21 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission;
             }
             ss.SetColumnAccessControls(deptModel.Mine());
-            foreach(var controlId in Forms.Keys())
+            foreach (var column in ss.Columns.Where(o => !o.CanUpdate))
             {
-                switch (controlId)
+                switch (column.ColumnName)
                 {
-                    case "Depts_DeptCode":
-                        if (!ss.GetColumn("DeptCode").CanCreate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                    case "DeptCode":
+                        if (deptModel.DeptCode_Updated()) return Error.Types.HasNotPermission;
                         break;
-                    case "Depts_DeptName":
-                        if (!ss.GetColumn("DeptName").CanCreate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                    case "DeptName":
+                        if (deptModel.DeptName_Updated()) return Error.Types.HasNotPermission;
                         break;
-                    case "Depts_Body":
-                        if (!ss.GetColumn("Body").CanCreate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                    case "Body":
+                        if (deptModel.Body_Updated()) return Error.Types.HasNotPermission;
                         break;
                     case "Comments":
-                        if (!ss.GetColumn("Comments").CanCreate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                        if (!ss.GetColumn("Comments").CanUpdate) return Error.Types.HasNotPermission;
                         break;
                 }
             }

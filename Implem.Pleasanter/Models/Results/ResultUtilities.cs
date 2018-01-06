@@ -3865,7 +3865,7 @@ namespace Implem.Pleasanter.Models
 
         public static System.Web.Mvc.ContentResult CreateByApi(SiteSettings ss)
         {
-            var resultModel = Forms.String().Deserialize<ResultModel>();
+            var resultModel = new ResultModel(ss, 0, setByApi: true);
             if (resultModel == null)
             {
                 return ApiResults.Get(ApiResponses.BadRequest());
