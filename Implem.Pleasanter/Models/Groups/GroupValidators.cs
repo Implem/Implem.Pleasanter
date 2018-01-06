@@ -54,33 +54,21 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission;
             }
             ss.SetColumnAccessControls(groupModel.Mine());
-            foreach(var controlId in Forms.Keys())
+            foreach (var column in ss.Columns.Where(o => !o.CanUpdate))
             {
-                switch (controlId)
+                switch (column.ColumnName)
                 {
-                    case "Groups_TenantId":
-                        if (!ss.GetColumn("TenantId").CanCreate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                    case "TenantId":
+                        if (groupModel.TenantId_Updated()) return Error.Types.HasNotPermission;
                         break;
-                    case "Groups_GroupName":
-                        if (!ss.GetColumn("GroupName").CanCreate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                    case "GroupName":
+                        if (groupModel.GroupName_Updated()) return Error.Types.HasNotPermission;
                         break;
-                    case "Groups_Body":
-                        if (!ss.GetColumn("Body").CanCreate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                    case "Body":
+                        if (groupModel.Body_Updated()) return Error.Types.HasNotPermission;
                         break;
                     case "Comments":
-                        if (!ss.GetColumn("Comments").CanCreate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                        if (!ss.GetColumn("Comments").CanUpdate) return Error.Types.HasNotPermission;
                         break;
                 }
             }
