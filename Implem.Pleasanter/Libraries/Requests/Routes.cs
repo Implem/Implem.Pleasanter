@@ -25,11 +25,6 @@ namespace Implem.Pleasanter.Libraries.Requests
             return action.Contains(Action());
         }
 
-        public static string Method()
-        {
-            return HttpContext.Current.Request.HttpMethod.ToLower();
-        }
-
         public static long Id()
         {
             return Url.RouteData("id").ToLong();
