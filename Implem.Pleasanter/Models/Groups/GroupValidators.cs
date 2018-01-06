@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Linq;
 namespace Implem.Pleasanter.Models
 {
     public static class GroupValidators
@@ -93,36 +94,21 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission;
             }
             ss.SetColumnAccessControls(groupModel.Mine());
-            foreach(var controlId in Forms.Keys())
+            foreach (var column in ss.Columns.Where(o => !o.CanUpdate))
             {
-                switch (controlId)
+                switch (column.ColumnName)
                 {
-                    case "Groups_TenantId":
-                        if (groupModel.TenantId_Updated() &&
-                            !ss.GetColumn("TenantId").CanUpdate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                    case "TenantId":
+                        if (groupModel.TenantId_Updated()) return Error.Types.HasNotPermission;
                         break;
-                    case "Groups_GroupName":
-                        if (groupModel.GroupName_Updated() &&
-                            !ss.GetColumn("GroupName").CanUpdate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                    case "GroupName":
+                        if (groupModel.GroupName_Updated()) return Error.Types.HasNotPermission;
                         break;
-                    case "Groups_Body":
-                        if (groupModel.Body_Updated() &&
-                            !ss.GetColumn("Body").CanUpdate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                    case "Body":
+                        if (groupModel.Body_Updated()) return Error.Types.HasNotPermission;
                         break;
                     case "Comments":
-                        if (!ss.GetColumn("Comments").CanUpdate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                        if (!ss.GetColumn("Comments").CanUpdate) return Error.Types.HasNotPermission;
                         break;
                 }
             }

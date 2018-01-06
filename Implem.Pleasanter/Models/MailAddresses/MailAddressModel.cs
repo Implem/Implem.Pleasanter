@@ -67,6 +67,7 @@ namespace Implem.Pleasanter.Models
 
         public MailAddressModel(
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -79,6 +80,7 @@ namespace Implem.Pleasanter.Models
             long mailAddressId,
             bool clearSessions = false,
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -280,7 +282,7 @@ namespace Implem.Pleasanter.Models
                     case "MailAddresses_OwnerType": OwnerType = Forms.Data(controlId).ToString(); break;
                     case "MailAddresses_MailAddress": MailAddress = Forms.Data(controlId).ToString(); break;
                     case "MailAddresses_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))

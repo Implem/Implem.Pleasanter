@@ -2743,6 +2743,7 @@ namespace Implem.Pleasanter.Models
         public ResultModel(
             SiteSettings ss, 
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -2750,6 +2751,7 @@ namespace Implem.Pleasanter.Models
             Manager = SiteInfo.User(Sessions.UserId());
             Owner = SiteInfo.User(Sessions.UserId());
             if (setByForm) SetByForm(ss);
+            if (setByApi) SetByApi(ss);
             MethodType = methodType;
             OnConstructed();
         }
@@ -2759,6 +2761,7 @@ namespace Implem.Pleasanter.Models
             long resultId,
             bool clearSessions = false,
             bool setByForm = false,
+            bool setByApi = false,
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -2768,6 +2771,7 @@ namespace Implem.Pleasanter.Models
             Get(ss);
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm(ss);
+            if (setByApi) SetByApi(ss);
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed();
@@ -3418,7 +3422,7 @@ namespace Implem.Pleasanter.Models
                 {
                     case "Results_Title": Title = new Title(ResultId, Forms.Data(controlId)); break;
                     case "Results_Body": Body = Forms.Data(controlId).ToString(); break;
-                    case "Results_Status": Status = new Status(Forms.Data(controlId).ToInt()); break;
+                    case "Results_Status": Status = new Status(Forms.Int(controlId));; break;
                     case "Results_Manager": Manager = SiteInfo.User(Forms.Int(controlId)); break;
                     case "Results_Owner": Owner = SiteInfo.User(Forms.Int(controlId)); break;
                     case "Results_ClassA": ClassA = Forms.Data(controlId).ToString(); break;
@@ -3578,7 +3582,7 @@ namespace Implem.Pleasanter.Models
                     case "Results_AttachmentsY": AttachmentsY = new Attachments(Forms.List(controlId)); break;
                     case "Results_AttachmentsZ": AttachmentsZ = new Attachments(Forms.List(controlId)); break;
                     case "Results_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
@@ -3591,6 +3595,7 @@ namespace Implem.Pleasanter.Models
                 }
             });
             SetTitle(ss);
+            SetByFormula(ss);
             if (Routes.Action() == "deletecomment")
             {
                 DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
@@ -3603,6 +3608,154 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByApi(SiteSettings ss)
+        {
+            var data = Forms.String().Deserialize<ResultApiModel>();
+            if (data == null)
+            {
+                return;
+            }
+            if (data.Title != null) Title = new Title(data.ResultId.ToLong(), data.Title);
+            if (data.Body != null) Body = data.Body.ToString().ToString();
+            if (data.Status != null) Status = new Status(data.Status.ToInt());;
+            if (data.Manager != null) Manager = SiteInfo.User(data.Manager.ToInt());
+            if (data.Owner != null) Owner = SiteInfo.User(data.Owner.ToInt());
+            if (data.ClassA != null) ClassA = data.ClassA.ToString().ToString();
+            if (data.ClassB != null) ClassB = data.ClassB.ToString().ToString();
+            if (data.ClassC != null) ClassC = data.ClassC.ToString().ToString();
+            if (data.ClassD != null) ClassD = data.ClassD.ToString().ToString();
+            if (data.ClassE != null) ClassE = data.ClassE.ToString().ToString();
+            if (data.ClassF != null) ClassF = data.ClassF.ToString().ToString();
+            if (data.ClassG != null) ClassG = data.ClassG.ToString().ToString();
+            if (data.ClassH != null) ClassH = data.ClassH.ToString().ToString();
+            if (data.ClassI != null) ClassI = data.ClassI.ToString().ToString();
+            if (data.ClassJ != null) ClassJ = data.ClassJ.ToString().ToString();
+            if (data.ClassK != null) ClassK = data.ClassK.ToString().ToString();
+            if (data.ClassL != null) ClassL = data.ClassL.ToString().ToString();
+            if (data.ClassM != null) ClassM = data.ClassM.ToString().ToString();
+            if (data.ClassN != null) ClassN = data.ClassN.ToString().ToString();
+            if (data.ClassO != null) ClassO = data.ClassO.ToString().ToString();
+            if (data.ClassP != null) ClassP = data.ClassP.ToString().ToString();
+            if (data.ClassQ != null) ClassQ = data.ClassQ.ToString().ToString();
+            if (data.ClassR != null) ClassR = data.ClassR.ToString().ToString();
+            if (data.ClassS != null) ClassS = data.ClassS.ToString().ToString();
+            if (data.ClassT != null) ClassT = data.ClassT.ToString().ToString();
+            if (data.ClassU != null) ClassU = data.ClassU.ToString().ToString();
+            if (data.ClassV != null) ClassV = data.ClassV.ToString().ToString();
+            if (data.ClassW != null) ClassW = data.ClassW.ToString().ToString();
+            if (data.ClassX != null) ClassX = data.ClassX.ToString().ToString();
+            if (data.ClassY != null) ClassY = data.ClassY.ToString().ToString();
+            if (data.ClassZ != null) ClassZ = data.ClassZ.ToString().ToString();
+            if (data.NumA != null) NumA = ss.GetColumn("NumA").Round(data.NumA.ToDecimal());
+            if (data.NumB != null) NumB = ss.GetColumn("NumB").Round(data.NumB.ToDecimal());
+            if (data.NumC != null) NumC = ss.GetColumn("NumC").Round(data.NumC.ToDecimal());
+            if (data.NumD != null) NumD = ss.GetColumn("NumD").Round(data.NumD.ToDecimal());
+            if (data.NumE != null) NumE = ss.GetColumn("NumE").Round(data.NumE.ToDecimal());
+            if (data.NumF != null) NumF = ss.GetColumn("NumF").Round(data.NumF.ToDecimal());
+            if (data.NumG != null) NumG = ss.GetColumn("NumG").Round(data.NumG.ToDecimal());
+            if (data.NumH != null) NumH = ss.GetColumn("NumH").Round(data.NumH.ToDecimal());
+            if (data.NumI != null) NumI = ss.GetColumn("NumI").Round(data.NumI.ToDecimal());
+            if (data.NumJ != null) NumJ = ss.GetColumn("NumJ").Round(data.NumJ.ToDecimal());
+            if (data.NumK != null) NumK = ss.GetColumn("NumK").Round(data.NumK.ToDecimal());
+            if (data.NumL != null) NumL = ss.GetColumn("NumL").Round(data.NumL.ToDecimal());
+            if (data.NumM != null) NumM = ss.GetColumn("NumM").Round(data.NumM.ToDecimal());
+            if (data.NumN != null) NumN = ss.GetColumn("NumN").Round(data.NumN.ToDecimal());
+            if (data.NumO != null) NumO = ss.GetColumn("NumO").Round(data.NumO.ToDecimal());
+            if (data.NumP != null) NumP = ss.GetColumn("NumP").Round(data.NumP.ToDecimal());
+            if (data.NumQ != null) NumQ = ss.GetColumn("NumQ").Round(data.NumQ.ToDecimal());
+            if (data.NumR != null) NumR = ss.GetColumn("NumR").Round(data.NumR.ToDecimal());
+            if (data.NumS != null) NumS = ss.GetColumn("NumS").Round(data.NumS.ToDecimal());
+            if (data.NumT != null) NumT = ss.GetColumn("NumT").Round(data.NumT.ToDecimal());
+            if (data.NumU != null) NumU = ss.GetColumn("NumU").Round(data.NumU.ToDecimal());
+            if (data.NumV != null) NumV = ss.GetColumn("NumV").Round(data.NumV.ToDecimal());
+            if (data.NumW != null) NumW = ss.GetColumn("NumW").Round(data.NumW.ToDecimal());
+            if (data.NumX != null) NumX = ss.GetColumn("NumX").Round(data.NumX.ToDecimal());
+            if (data.NumY != null) NumY = ss.GetColumn("NumY").Round(data.NumY.ToDecimal());
+            if (data.NumZ != null) NumZ = ss.GetColumn("NumZ").Round(data.NumZ.ToDecimal());
+            if (data.DateA != null) DateA = data.DateA.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateB != null) DateB = data.DateB.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateC != null) DateC = data.DateC.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateD != null) DateD = data.DateD.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateE != null) DateE = data.DateE.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateF != null) DateF = data.DateF.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateG != null) DateG = data.DateG.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateH != null) DateH = data.DateH.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateI != null) DateI = data.DateI.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateJ != null) DateJ = data.DateJ.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateK != null) DateK = data.DateK.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateL != null) DateL = data.DateL.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateM != null) DateM = data.DateM.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateN != null) DateN = data.DateN.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateO != null) DateO = data.DateO.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateP != null) DateP = data.DateP.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateQ != null) DateQ = data.DateQ.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateR != null) DateR = data.DateR.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateS != null) DateS = data.DateS.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateT != null) DateT = data.DateT.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateU != null) DateU = data.DateU.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateV != null) DateV = data.DateV.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateW != null) DateW = data.DateW.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateX != null) DateX = data.DateX.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateY != null) DateY = data.DateY.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateZ != null) DateZ = data.DateZ.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DescriptionA != null) DescriptionA = data.DescriptionA.ToString().ToString();
+            if (data.DescriptionB != null) DescriptionB = data.DescriptionB.ToString().ToString();
+            if (data.DescriptionC != null) DescriptionC = data.DescriptionC.ToString().ToString();
+            if (data.DescriptionD != null) DescriptionD = data.DescriptionD.ToString().ToString();
+            if (data.DescriptionE != null) DescriptionE = data.DescriptionE.ToString().ToString();
+            if (data.DescriptionF != null) DescriptionF = data.DescriptionF.ToString().ToString();
+            if (data.DescriptionG != null) DescriptionG = data.DescriptionG.ToString().ToString();
+            if (data.DescriptionH != null) DescriptionH = data.DescriptionH.ToString().ToString();
+            if (data.DescriptionI != null) DescriptionI = data.DescriptionI.ToString().ToString();
+            if (data.DescriptionJ != null) DescriptionJ = data.DescriptionJ.ToString().ToString();
+            if (data.DescriptionK != null) DescriptionK = data.DescriptionK.ToString().ToString();
+            if (data.DescriptionL != null) DescriptionL = data.DescriptionL.ToString().ToString();
+            if (data.DescriptionM != null) DescriptionM = data.DescriptionM.ToString().ToString();
+            if (data.DescriptionN != null) DescriptionN = data.DescriptionN.ToString().ToString();
+            if (data.DescriptionO != null) DescriptionO = data.DescriptionO.ToString().ToString();
+            if (data.DescriptionP != null) DescriptionP = data.DescriptionP.ToString().ToString();
+            if (data.DescriptionQ != null) DescriptionQ = data.DescriptionQ.ToString().ToString();
+            if (data.DescriptionR != null) DescriptionR = data.DescriptionR.ToString().ToString();
+            if (data.DescriptionS != null) DescriptionS = data.DescriptionS.ToString().ToString();
+            if (data.DescriptionT != null) DescriptionT = data.DescriptionT.ToString().ToString();
+            if (data.DescriptionU != null) DescriptionU = data.DescriptionU.ToString().ToString();
+            if (data.DescriptionV != null) DescriptionV = data.DescriptionV.ToString().ToString();
+            if (data.DescriptionW != null) DescriptionW = data.DescriptionW.ToString().ToString();
+            if (data.DescriptionX != null) DescriptionX = data.DescriptionX.ToString().ToString();
+            if (data.DescriptionY != null) DescriptionY = data.DescriptionY.ToString().ToString();
+            if (data.DescriptionZ != null) DescriptionZ = data.DescriptionZ.ToString().ToString();
+            if (data.CheckA != null) CheckA = data.CheckA.ToBool().ToBool();
+            if (data.CheckB != null) CheckB = data.CheckB.ToBool().ToBool();
+            if (data.CheckC != null) CheckC = data.CheckC.ToBool().ToBool();
+            if (data.CheckD != null) CheckD = data.CheckD.ToBool().ToBool();
+            if (data.CheckE != null) CheckE = data.CheckE.ToBool().ToBool();
+            if (data.CheckF != null) CheckF = data.CheckF.ToBool().ToBool();
+            if (data.CheckG != null) CheckG = data.CheckG.ToBool().ToBool();
+            if (data.CheckH != null) CheckH = data.CheckH.ToBool().ToBool();
+            if (data.CheckI != null) CheckI = data.CheckI.ToBool().ToBool();
+            if (data.CheckJ != null) CheckJ = data.CheckJ.ToBool().ToBool();
+            if (data.CheckK != null) CheckK = data.CheckK.ToBool().ToBool();
+            if (data.CheckL != null) CheckL = data.CheckL.ToBool().ToBool();
+            if (data.CheckM != null) CheckM = data.CheckM.ToBool().ToBool();
+            if (data.CheckN != null) CheckN = data.CheckN.ToBool().ToBool();
+            if (data.CheckO != null) CheckO = data.CheckO.ToBool().ToBool();
+            if (data.CheckP != null) CheckP = data.CheckP.ToBool().ToBool();
+            if (data.CheckQ != null) CheckQ = data.CheckQ.ToBool().ToBool();
+            if (data.CheckR != null) CheckR = data.CheckR.ToBool().ToBool();
+            if (data.CheckS != null) CheckS = data.CheckS.ToBool().ToBool();
+            if (data.CheckT != null) CheckT = data.CheckT.ToBool().ToBool();
+            if (data.CheckU != null) CheckU = data.CheckU.ToBool().ToBool();
+            if (data.CheckV != null) CheckV = data.CheckV.ToBool().ToBool();
+            if (data.CheckW != null) CheckW = data.CheckW.ToBool().ToBool();
+            if (data.CheckX != null) CheckX = data.CheckX.ToBool().ToBool();
+            if (data.CheckY != null) CheckY = data.CheckY.ToBool().ToBool();
+            if (data.CheckZ != null) CheckZ = data.CheckZ.ToBool().ToBool();
+            if (data.Timestamp != null) Timestamp = data.Timestamp.ToString().ToString();
+            if (data.Comments != null) Comments.Prepend(data.Comments);
+            if (data.VerUp != null) VerUp = data.VerUp.ToBool();
+            SetTitle(ss);
             SetByFormula(ss);
         }
 

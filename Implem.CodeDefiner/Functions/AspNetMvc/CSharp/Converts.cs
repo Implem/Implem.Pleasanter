@@ -43,6 +43,14 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                 : code.ConvertType("#ByForm#", columnDefinition);
         }
 
+        internal static string ByApi(this string code, ColumnDefinition columnDefinition)
+        {
+            var placeholder = Placeholder(code, "#ByApi#");
+            return columnDefinition.ByApi != string.Empty
+                ? code.Replace(placeholder, columnDefinition.ByApi)
+                : code.ConvertType("#ByApi#", columnDefinition);
+        }
+
         internal static string ByDataRow(this string code, ColumnDefinition columnDefinition)
         {
             var placeholder = Placeholder(code, "#ByDataRow#");
@@ -79,6 +87,17 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                     return code.Replace(
                         placeholder,
                         CreateObjectByForm(columnDefinition, ", byForm: true"));
+                case "Title#ByApi#":
+                case "Body#ByApi#":
+                case "Status#ByApi#":
+                    return code.Replace(
+                        placeholder,
+                        CreateObjectByApi(columnDefinition));
+                case "Time#ByApi#":
+                case "CompletionTime#ByApi#":
+                    return code.Replace(
+                        placeholder,
+                        CreateObjectByApi(columnDefinition, ", byForm: true"));
                 case "Title#ByDataRow#":
                 case "Body#ByDataRow#":
                 case "Status#ByDataRow#":
@@ -103,6 +122,16 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
         {
             return "new {0}(Forms.Data(controlId){1}{2})".Params(
                 columnDefinition.TypeCs,
+                columnDefinition.TypeName.CastType(),
+                additionalArguments);
+        }
+
+        private static string CreateObjectByApi(
+            ColumnDefinition columnDefinition, string additionalArguments = "")
+        {
+            return "new {0}(data.{1}{2}{3})".Params(
+                columnDefinition.TypeCs,
+                columnDefinition.ColumnName,
                 columnDefinition.TypeName.CastType(),
                 additionalArguments);
         }

@@ -126,6 +126,7 @@ namespace Implem.Pleasanter.Models
 
         public BinaryModel(
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -138,6 +139,7 @@ namespace Implem.Pleasanter.Models
             long binaryId,
             bool clearSessions = false,
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -344,7 +346,7 @@ namespace Implem.Pleasanter.Models
                     case "Binaries_FileName": FileName = Forms.Data(controlId).ToString(); break;
                     case "Binaries_Extension": Extension = Forms.Data(controlId).ToString(); break;
                     case "Binaries_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))

@@ -72,6 +72,7 @@ namespace Implem.Pleasanter.Models
 
         public HealthModel(
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -84,6 +85,7 @@ namespace Implem.Pleasanter.Models
             long healthId,
             bool clearSessions = false,
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -287,7 +289,7 @@ namespace Implem.Pleasanter.Models
                     case "Healths_ErrorCount": ErrorCount = Forms.Data(controlId).ToInt(); break;
                     case "Healths_Elapsed": Elapsed = Forms.Data(controlId).ToDouble(); break;
                     case "Healths_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))

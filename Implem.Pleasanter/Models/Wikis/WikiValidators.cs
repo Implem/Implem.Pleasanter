@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Linq;
 namespace Implem.Pleasanter.Models
 {
     public static class WikiValidators
@@ -82,29 +83,18 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission;
             }
             ss.SetColumnAccessControls(wikiModel.Mine());
-            foreach(var controlId in Forms.Keys())
+            foreach (var column in ss.Columns.Where(o => !o.CanUpdate))
             {
-                switch (controlId)
+                switch (column.ColumnName)
                 {
-                    case "Wikis_Title":
-                        if (wikiModel.Title_Updated() &&
-                            !ss.GetColumn("Title").CanUpdate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                    case "Title":
+                        if (wikiModel.Title_Updated()) return Error.Types.HasNotPermission;
                         break;
-                    case "Wikis_Body":
-                        if (wikiModel.Body_Updated() &&
-                            !ss.GetColumn("Body").CanUpdate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                    case "Body":
+                        if (wikiModel.Body_Updated()) return Error.Types.HasNotPermission;
                         break;
                     case "Comments":
-                        if (!ss.GetColumn("Comments").CanUpdate)
-                        {
-                            return Error.Types.HasNotPermission;
-                        }
+                        if (!ss.GetColumn("Comments").CanUpdate) return Error.Types.HasNotPermission;
                         break;
                 }
             }

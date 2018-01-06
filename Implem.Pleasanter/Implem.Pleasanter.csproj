@@ -422,6 +422,7 @@
     <Compile Include="Models\Demos\DemoModel.cs" />
     <Compile Include="Models\Demos\DemoUtilities.cs" />
     <Compile Include="Models\Demos\DemoValidators.cs" />
+    <Compile Include="Models\Depts\DeptApiModel.cs" />
     <Compile Include="Models\Depts\DeptCollection.cs" />
     <Compile Include="Models\Depts\DeptModel.cs" />
     <Compile Include="Models\Depts\DeptUtilities.cs" />
@@ -434,6 +435,7 @@
     <Compile Include="Models\GroupMembers\GroupMemberModel.cs" />
     <Compile Include="Models\GroupMembers\GroupMemberUtilities.cs" />
     <Compile Include="Models\GroupMembers\GroupMemberValidators.cs" />
+    <Compile Include="Models\Groups\GroupApiModel.cs" />
     <Compile Include="Models\Groups\GroupCollection.cs" />
     <Compile Include="Models\Groups\GroupModel.cs" />
     <Compile Include="Models\Groups\GroupUtilities.cs" />
@@ -442,6 +444,7 @@
     <Compile Include="Models\Healths\HealthModel.cs" />
     <Compile Include="Models\Healths\HealthUtilities.cs" />
     <Compile Include="Models\Healths\HealthValidators.cs" />
+    <Compile Include="Models\Issues\IssueApiModel.cs" />
     <Compile Include="Models\Issues\IssueCollection.cs" />
     <Compile Include="Models\Issues\IssueModel.cs" />
     <Compile Include="Models\Issues\IssueUtilities.cs" />
@@ -478,6 +481,7 @@
     <Compile Include="Models\ReminderSchedules\ReminderScheduleModel.cs" />
     <Compile Include="Models\ReminderSchedules\ReminderScheduleUtilities.cs" />
     <Compile Include="Models\ReminderSchedules\ReminderScheduleValidators.cs" />
+    <Compile Include="Models\Results\ResultApiModel.cs" />
     <Compile Include="Models\Results\ResultCollection.cs" />
     <Compile Include="Models\Results\ResultModel.cs" />
     <Compile Include="Models\Results\ResultUtilities.cs" />
@@ -486,6 +490,7 @@
     <Compile Include="Models\SearchIndexes\SearchIndexUtilities.cs" />
     <Compile Include="Models\SearchIndexes\SearchIndexModel.cs" />
     <Compile Include="Models\SearchIndexes\SearchIndexValidators.cs" />
+    <Compile Include="Models\Sites\SiteApiModel.cs" />
     <Compile Include="Models\Sites\SiteCollection.cs" />
     <Compile Include="Models\Sites\SiteModel.cs" />
     <Compile Include="Models\Sites\SiteUtilities.cs" />
@@ -502,10 +507,12 @@
     <Compile Include="Models\Tenants\TenantModel.cs" />
     <Compile Include="Models\Tenants\TenantUtilities.cs" />
     <Compile Include="Models\Tenants\TenantValidators.cs" />
+    <Compile Include="Models\Users\UserApiModel.cs" />
     <Compile Include="Models\Users\UserCollection.cs" />
     <Compile Include="Models\Users\UserModel.cs" />
     <Compile Include="Models\Users\UserUtilities.cs" />
     <Compile Include="Models\Users\UserValidators.cs" />
+    <Compile Include="Models\Wikis\WikiApiModel.cs" />
     <Compile Include="Models\Wikis\WikiCollection.cs" />
     <Compile Include="Models\Wikis\WikiModel.cs" />
     <Compile Include="Models\Wikis\WikiUtilities.cs" />

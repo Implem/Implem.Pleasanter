@@ -244,6 +244,7 @@ namespace Implem.Pleasanter.Models
             long parentId,
             long inheritPermission,
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -258,6 +259,7 @@ namespace Implem.Pleasanter.Models
             long siteId,
             bool clearSessions = false,
             bool setByForm = false,
+            bool setByApi = false,
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -573,7 +575,7 @@ namespace Implem.Pleasanter.Models
                     case "Sites_ReferenceType": ReferenceType = Forms.Data(controlId).ToString(); break;
                     case "Sites_InheritPermission": InheritPermission = Forms.Data(controlId).ToLong(); break;
                     case "Sites_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
@@ -585,6 +587,7 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
+            SetSiteSettings();
             if (Routes.Action() == "deletecomment")
             {
                 DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
@@ -597,6 +600,22 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByApi()
+        {
+            var data = Forms.String().Deserialize<SiteApiModel>();
+            if (data == null)
+            {
+                return;
+            }
+            if (data.Title != null) Title = new Title(SiteId, data.Title);
+            if (data.Body != null) Body = data.Body.ToString().ToString();
+            if (data.ReferenceType != null) ReferenceType = data.ReferenceType.ToString().ToString();
+            if (data.InheritPermission != null) InheritPermission = data.InheritPermission.ToLong().ToLong();
+            if (data.Timestamp != null) Timestamp = data.Timestamp.ToString().ToString();
+            if (data.Comments != null) Comments.Prepend(data.Comments);
+            if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             SetSiteSettings();
         }
 
