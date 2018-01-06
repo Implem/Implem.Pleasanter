@@ -77,6 +77,7 @@ namespace Implem.Pleasanter.Models
 
         public DemoModel(
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -89,6 +90,7 @@ namespace Implem.Pleasanter.Models
             int demoId,
             bool clearSessions = false,
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -293,7 +295,7 @@ namespace Implem.Pleasanter.Models
                     case "Demos_Initialized": Initialized = Forms.Data(controlId).ToBool(); break;
                     case "Demos_TimeLag": TimeLag = Forms.Data(controlId).ToInt(); break;
                     case "Demos_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))

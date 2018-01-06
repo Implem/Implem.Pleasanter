@@ -26,6 +26,15 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public ContentResult Update(long id)
+        {
+            var log = new SysLogModel();
+            var result = new ItemModel(id).UpdateByApi();
+            log.Finish(result.Content.Length);
+            return result;
+        }
+
+        [HttpPost]
         public ContentResult Delete(long id)
         {
             var log = new SysLogModel();

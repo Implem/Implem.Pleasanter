@@ -114,11 +114,13 @@ namespace Implem.Pleasanter.Models
         public WikiModel(
             SiteSettings ss, 
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
             SiteId = ss.SiteId;
             if (setByForm) SetByForm(ss);
+            if (setByApi) SetByApi(ss);
             MethodType = methodType;
             OnConstructed();
         }
@@ -128,6 +130,7 @@ namespace Implem.Pleasanter.Models
             long wikiId,
             bool clearSessions = false,
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -136,6 +139,7 @@ namespace Implem.Pleasanter.Models
             Get(ss);
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm(ss);
+            if (setByApi) SetByApi(ss);
             MethodType = methodType;
             OnConstructed();
         }
@@ -511,7 +515,7 @@ namespace Implem.Pleasanter.Models
                     case "Wikis_Title": Title = new Title(WikiId, Forms.Data(controlId)); break;
                     case "Wikis_Body": Body = Forms.Data(controlId).ToString(); break;
                     case "Wikis_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
@@ -523,6 +527,7 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
+            SetByFormula(ss);
             if (Routes.Action() == "deletecomment")
             {
                 DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
@@ -535,6 +540,20 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByApi(SiteSettings ss)
+        {
+            var data = Forms.String().Deserialize<WikiApiModel>();
+            if (data == null)
+            {
+                return;
+            }
+            if (data.Title != null) Title = new Title(data.WikiId.ToLong(), data.Title);
+            if (data.Body != null) Body = data.Body.ToString().ToString();
+            if (data.Timestamp != null) Timestamp = data.Timestamp.ToString().ToString();
+            if (data.Comments != null) Comments.Prepend(data.Comments);
+            if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             SetByFormula(ss);
         }
 

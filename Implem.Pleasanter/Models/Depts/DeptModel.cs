@@ -85,10 +85,12 @@ namespace Implem.Pleasanter.Models
         public DeptModel(
             SiteSettings ss, 
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
             if (setByForm) SetByForm(ss);
+            if (setByApi) SetByApi(ss);
             MethodType = methodType;
             OnConstructed();
         }
@@ -98,6 +100,7 @@ namespace Implem.Pleasanter.Models
             int deptId,
             bool clearSessions = false,
             bool setByForm = false,
+            bool setByApi = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -106,6 +109,7 @@ namespace Implem.Pleasanter.Models
             Get(ss);
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm(ss);
+            if (setByApi) SetByApi(ss);
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed();
@@ -319,7 +323,7 @@ namespace Implem.Pleasanter.Models
                     case "Depts_DeptName": DeptName = Forms.Data(controlId).ToString(); break;
                     case "Depts_Body": Body = Forms.Data(controlId).ToString(); break;
                     case "Depts_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
@@ -343,6 +347,21 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByApi(SiteSettings ss)
+        {
+            var data = Forms.String().Deserialize<DeptApiModel>();
+            if (data == null)
+            {
+                return;
+            }
+            if (data.DeptCode != null) DeptCode = data.DeptCode.ToString().ToString();
+            if (data.DeptName != null) DeptName = data.DeptName.ToString().ToString();
+            if (data.Body != null) Body = data.Body.ToString().ToString();
+            if (data.Timestamp != null) Timestamp = data.Timestamp.ToString().ToString();
+            if (data.Comments != null) Comments.Prepend(data.Comments);
+            if (data.VerUp != null) VerUp = data.VerUp.ToBool();
         }
 
         private void SetBySession()

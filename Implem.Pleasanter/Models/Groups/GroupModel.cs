@@ -70,10 +70,12 @@ namespace Implem.Pleasanter.Models
         public GroupModel(
             SiteSettings ss, 
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
             if (setByForm) SetByForm(ss);
+            if (setByApi) SetByApi(ss);
             MethodType = methodType;
             OnConstructed();
         }
@@ -83,6 +85,7 @@ namespace Implem.Pleasanter.Models
             int groupId,
             bool clearSessions = false,
             bool setByForm = false,
+            bool setByApi = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -91,6 +94,7 @@ namespace Implem.Pleasanter.Models
             Get(ss);
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm(ss);
+            if (setByApi) SetByApi(ss);
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed();
@@ -333,7 +337,7 @@ namespace Implem.Pleasanter.Models
                     case "Groups_GroupName": GroupName = Forms.Data(controlId).ToString(); break;
                     case "Groups_Body": Body = Forms.Data(controlId).ToString(); break;
                     case "Groups_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
@@ -357,6 +361,21 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByApi(SiteSettings ss)
+        {
+            var data = Forms.String().Deserialize<GroupApiModel>();
+            if (data == null)
+            {
+                return;
+            }
+            if (data.TenantId != null) TenantId = data.TenantId.ToInt().ToInt();
+            if (data.GroupName != null) GroupName = data.GroupName.ToString().ToString();
+            if (data.Body != null) Body = data.Body.ToString().ToString();
+            if (data.Timestamp != null) Timestamp = data.Timestamp.ToString().ToString();
+            if (data.Comments != null) Comments.Prepend(data.Comments);
+            if (data.VerUp != null) VerUp = data.VerUp.ToBool();
         }
 
         private void SetBySession()

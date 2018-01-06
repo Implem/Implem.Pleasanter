@@ -293,10 +293,12 @@ namespace Implem.Pleasanter.Models
         public UserModel(
             SiteSettings ss, 
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
             if (setByForm) SetByForm(ss);
+            if (setByApi) SetByApi(ss);
             MethodType = methodType;
             OnConstructed();
         }
@@ -306,6 +308,7 @@ namespace Implem.Pleasanter.Models
             int userId,
             bool clearSessions = false,
             bool setByForm = false,
+            bool setByApi = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -314,6 +317,7 @@ namespace Implem.Pleasanter.Models
             Get(ss);
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm(ss);
+            if (setByApi) SetByApi(ss);
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed();
@@ -562,7 +566,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_DemoMailAddress": DemoMailAddress = Forms.Data(controlId).ToString(); break;
                     case "Users_SessionGuid": SessionGuid = Forms.Data(controlId).ToString(); break;
                     case "Users_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
@@ -586,6 +590,50 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByApi(SiteSettings ss)
+        {
+            var data = Forms.String().Deserialize<UserApiModel>();
+            if (data == null)
+            {
+                return;
+            }
+            if (data.LoginId != null) LoginId = data.LoginId.ToString().ToString();
+            if (data.GlobalId != null) GlobalId = data.GlobalId.ToString().ToString();
+            if (data.Name != null) Name = data.Name.ToString().ToString();
+            if (data.UserCode != null) UserCode = data.UserCode.ToString().ToString();
+            if (data.Password != null) Password = data.Password.ToString().ToString().Sha512Cng();
+            if (data.PasswordValidate != null) PasswordValidate = data.PasswordValidate.ToString().ToString().Sha512Cng();
+            if (data.PasswordDummy != null) PasswordDummy = data.PasswordDummy.ToString().ToString().Sha512Cng();
+            if (data.RememberMe != null) RememberMe = data.RememberMe.ToBool().ToBool();
+            if (data.LastName != null) LastName = data.LastName.ToString().ToString();
+            if (data.FirstName != null) FirstName = data.FirstName.ToString().ToString();
+            if (data.Birthday != null) Birthday = new Time(data.Birthday.ToDateTime(), byForm: true);
+            if (data.Gender != null) Gender = data.Gender.ToString().ToString();
+            if (data.Language != null) Language = data.Language.ToString().ToString();
+            if (data.TimeZone != null) TimeZone = data.TimeZone.ToString().ToString();
+            if (data.DeptId != null) DeptId = data.DeptId.ToInt().ToInt();
+            if (data.FirstAndLastNameOrder != null) FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)data.FirstAndLastNameOrder.ToInt().ToInt();
+            if (data.Body != null) Body = data.Body.ToString().ToString();
+            if (data.LastLoginTime != null) LastLoginTime = new Time(data.LastLoginTime.ToDateTime(), byForm: true);
+            if (data.PasswordExpirationTime != null) PasswordExpirationTime = new Time(data.PasswordExpirationTime.ToDateTime(), byForm: true);
+            if (data.PasswordChangeTime != null) PasswordChangeTime = new Time(data.PasswordChangeTime.ToDateTime(), byForm: true);
+            if (data.NumberOfLogins != null) NumberOfLogins = data.NumberOfLogins.ToInt().ToInt();
+            if (data.NumberOfDenial != null) NumberOfDenial = data.NumberOfDenial.ToInt().ToInt();
+            if (data.TenantManager != null) TenantManager = data.TenantManager.ToBool().ToBool();
+            if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
+            if (data.ApiKey != null) ApiKey = data.ApiKey.ToString().ToString();
+            if (data.OldPassword != null) OldPassword = data.OldPassword.ToString().ToString().Sha512Cng();
+            if (data.ChangedPassword != null) ChangedPassword = data.ChangedPassword.ToString().ToString().Sha512Cng();
+            if (data.ChangedPasswordValidator != null) ChangedPasswordValidator = data.ChangedPasswordValidator.ToString().ToString().Sha512Cng();
+            if (data.AfterResetPassword != null) AfterResetPassword = data.AfterResetPassword.ToString().ToString().Sha512Cng();
+            if (data.AfterResetPasswordValidator != null) AfterResetPasswordValidator = data.AfterResetPasswordValidator.ToString().ToString().Sha512Cng();
+            if (data.DemoMailAddress != null) DemoMailAddress = data.DemoMailAddress.ToString().ToString();
+            if (data.SessionGuid != null) SessionGuid = data.SessionGuid.ToString().ToString();
+            if (data.Timestamp != null) Timestamp = data.Timestamp.ToString().ToString();
+            if (data.Comments != null) Comments.Prepend(data.Comments);
+            if (data.VerUp != null) VerUp = data.VerUp.ToBool();
         }
 
         private void SetBySession()

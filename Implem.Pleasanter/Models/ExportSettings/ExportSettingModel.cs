@@ -108,6 +108,7 @@ namespace Implem.Pleasanter.Models
 
         public ExportSettingModel(
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -120,6 +121,7 @@ namespace Implem.Pleasanter.Models
             long exportSettingId,
             bool clearSessions = false,
             bool setByForm = false,
+            bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -325,7 +327,7 @@ namespace Implem.Pleasanter.Models
                     case "ExportSettings_Title": Title = new Title(ExportSettingId, Forms.Data(controlId)); break;
                     case "ExportSettings_AddHeader": AddHeader = Forms.Data(controlId).ToBool(); break;
                     case "ExportSettings_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))

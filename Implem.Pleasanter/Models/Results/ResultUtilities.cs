@@ -3946,6 +3946,34 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
+        public static System.Web.Mvc.ContentResult UpdateByApi(SiteSettings ss, long resultId)
+        {
+            var resultModel = new ResultModel(ss, resultId, setByApi: true);
+            if (resultModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Get(ApiResponses.NotFound());
+            }
+            var invalid = ResultValidators.OnUpdating(ss, resultModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return ApiResults.Error(invalid);
+            }
+            resultModel.SiteId = ss.SiteId;
+            resultModel.SetTitle(ss);
+            var error = resultModel.Update(ss);
+            if (error.Has())
+            {
+                return ApiResults.Error(error);
+            }
+            else
+            {
+                return ApiResults.Success(
+                    resultModel.ResultId,
+                    Displays.Updated(resultModel.Title.DisplayValue));
+            }
+        }
+
         public static string Copy(SiteSettings ss, long resultId)
         {
             if (Contract.ItemsLimit(ss.SiteId))

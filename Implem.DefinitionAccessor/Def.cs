@@ -369,6 +369,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_ToUniversal": Code.Model_ToUniversal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToUniversal, definitionRow, CodeXls); break;
                     case "Model_SetByForm_Files": Code.Model_SetByForm_Files = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_Files, definitionRow, CodeXls); break;
                     case "Model_SetByForm_Site": Code.Model_SetByForm_Site = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_Site, definitionRow, CodeXls); break;
+                    case "Model_SetByApi": Code.Model_SetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi, definitionRow, CodeXls); break;
+                    case "Model_SetByApi_ColumnCases": Code.Model_SetByApi_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_CreateIndexes": Code.Model_CreateIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateIndexes, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamIdentity": Code.Model_AddSqlParamIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamIdentity, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamPk": Code.Model_AddSqlParamPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamPk, definitionRow, CodeXls); break;
@@ -571,6 +573,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Validator_OnUpdatingCases": Code.Model_Validator_OnUpdatingCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnUpdatingCases, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods_Binaries": Code.Model_ValidatorMethods_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods_Binaries, definitionRow, CodeXls); break;
                     case "Model_Validator_ShowProfiles": Code.Model_Validator_ShowProfiles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfiles, definitionRow, CodeXls); break;
+                    case "Model_Api": Code.Model_Api = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Api, definitionRow, CodeXls); break;
+                    case "Model_ApiPropertyCases": Code.Model_ApiPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyCases, definitionRow, CodeXls); break;
+                    case "Model_ApiPropertyNullType": Code.Model_ApiPropertyNullType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyNullType, definitionRow, CodeXls); break;
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
                     case "Rds_IdColumnCases": Code.Rds_IdColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_IdColumnCases, definitionRow, CodeXls); break;
                     case "Rds_SqlStatement": Code.Rds_SqlStatement = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlStatement, definitionRow, CodeXls); break;
@@ -1730,6 +1735,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("NotSelect")) { newColumnDefinition.NotSelect = definitionRow["NotSelect"].ToBool(); newColumnDefinition.SavedNotSelect = newColumnDefinition.NotSelect; }
                 if (definitionRow.ContainsKey("NotUpdate")) { newColumnDefinition.NotUpdate = definitionRow["NotUpdate"].ToBool(); newColumnDefinition.SavedNotUpdate = newColumnDefinition.NotUpdate; }
                 if (definitionRow.ContainsKey("ByForm")) { newColumnDefinition.ByForm = definitionRow["ByForm"].ToString(); newColumnDefinition.SavedByForm = newColumnDefinition.ByForm; }
+                if (definitionRow.ContainsKey("ByApi")) { newColumnDefinition.ByApi = definitionRow["ByApi"].ToString(); newColumnDefinition.SavedByApi = newColumnDefinition.ByApi; }
                 if (definitionRow.ContainsKey("ByDataRow")) { newColumnDefinition.ByDataRow = definitionRow["ByDataRow"].ToString(); newColumnDefinition.SavedByDataRow = newColumnDefinition.ByDataRow; }
                 if (definitionRow.ContainsKey("BySession")) { newColumnDefinition.BySession = definitionRow["BySession"].ToString(); newColumnDefinition.SavedBySession = newColumnDefinition.BySession; }
                 if (definitionRow.ContainsKey("SelectColumns")) { newColumnDefinition.SelectColumns = definitionRow["SelectColumns"].ToString(); newColumnDefinition.SavedSelectColumns = newColumnDefinition.SelectColumns; }
@@ -1842,6 +1848,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("NotSelect")) { definition.NotSelect = definitionRow["NotSelect"].ToBool(); definition.SavedNotSelect = definition.NotSelect; }
             if (definitionRow.ContainsKey("NotUpdate")) { definition.NotUpdate = definitionRow["NotUpdate"].ToBool(); definition.SavedNotUpdate = definition.NotUpdate; }
             if (definitionRow.ContainsKey("ByForm")) { definition.ByForm = definitionRow["ByForm"].ToString(); definition.SavedByForm = definition.ByForm; }
+            if (definitionRow.ContainsKey("ByApi")) { definition.ByApi = definitionRow["ByApi"].ToString(); definition.SavedByApi = definition.ByApi; }
             if (definitionRow.ContainsKey("ByDataRow")) { definition.ByDataRow = definitionRow["ByDataRow"].ToString(); definition.SavedByDataRow = definition.ByDataRow; }
             if (definitionRow.ContainsKey("BySession")) { definition.BySession = definitionRow["BySession"].ToString(); definition.SavedBySession = definition.BySession; }
             if (definitionRow.ContainsKey("SelectColumns")) { definition.SelectColumns = definitionRow["SelectColumns"].ToString(); definition.SavedSelectColumns = definition.SelectColumns; }
@@ -3780,6 +3787,7 @@ namespace Implem.DefinitionAccessor
                         case "NotSelect": columnDefinition.NotSelect = optionValue.ToBool(); break;
                         case "NotUpdate": columnDefinition.NotUpdate = optionValue.ToBool(); break;
                         case "ByForm": columnDefinition.ByForm = optionValue.ToString(); break;
+                        case "ByApi": columnDefinition.ByApi = optionValue.ToString(); break;
                         case "ByDataRow": columnDefinition.ByDataRow = optionValue.ToString(); break;
                         case "BySession": columnDefinition.BySession = optionValue.ToString(); break;
                         case "SelectColumns": columnDefinition.SelectColumns = optionValue.ToString(); break;
@@ -4595,6 +4603,8 @@ namespace Implem.DefinitionAccessor
         public string Model_ToUniversal;
         public string Model_SetByForm_Files;
         public string Model_SetByForm_Site;
+        public string Model_SetByApi;
+        public string Model_SetByApi_ColumnCases;
         public string Model_CreateIndexes;
         public string Model_AddSqlParamIdentity;
         public string Model_AddSqlParamPk;
@@ -4797,6 +4807,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Validator_OnUpdatingCases;
         public string Model_ValidatorMethods_Binaries;
         public string Model_Validator_ShowProfiles;
+        public string Model_Api;
+        public string Model_ApiPropertyCases;
+        public string Model_ApiPropertyNullType;
         public string Rds;
         public string Rds_IdColumnCases;
         public string Rds_SqlStatement;
@@ -5092,6 +5105,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ToUniversal = new CodeDefinition();
         public CodeDefinition Model_SetByForm_Files = new CodeDefinition();
         public CodeDefinition Model_SetByForm_Site = new CodeDefinition();
+        public CodeDefinition Model_SetByApi = new CodeDefinition();
+        public CodeDefinition Model_SetByApi_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_CreateIndexes = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamIdentity = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamPk = new CodeDefinition();
@@ -5294,6 +5309,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Validator_OnUpdatingCases = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods_Binaries = new CodeDefinition();
         public CodeDefinition Model_Validator_ShowProfiles = new CodeDefinition();
+        public CodeDefinition Model_Api = new CodeDefinition();
+        public CodeDefinition Model_ApiPropertyCases = new CodeDefinition();
+        public CodeDefinition Model_ApiPropertyNullType = new CodeDefinition();
         public CodeDefinition Rds = new CodeDefinition();
         public CodeDefinition Rds_IdColumnCases = new CodeDefinition();
         public CodeDefinition Rds_SqlStatement = new CodeDefinition();
@@ -5514,6 +5532,7 @@ namespace Implem.DefinitionAccessor
         public bool NotSelect; public bool SavedNotSelect;
         public bool NotUpdate; public bool SavedNotUpdate;
         public string ByForm; public string SavedByForm;
+        public string ByApi; public string SavedByApi;
         public string ByDataRow; public string SavedByDataRow;
         public string BySession; public string SavedBySession;
         public string SelectColumns; public string SavedSelectColumns;
@@ -5627,6 +5646,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("NotSelect")) NotSelect = propertyCollection["NotSelect"].ToBool(); else NotSelect = false;
             if (propertyCollection.ContainsKey("NotUpdate")) NotUpdate = propertyCollection["NotUpdate"].ToBool(); else NotUpdate = false;
             if (propertyCollection.ContainsKey("ByForm")) ByForm = propertyCollection["ByForm"].ToString(); else ByForm = string.Empty;
+            if (propertyCollection.ContainsKey("ByApi")) ByApi = propertyCollection["ByApi"].ToString(); else ByApi = string.Empty;
             if (propertyCollection.ContainsKey("ByDataRow")) ByDataRow = propertyCollection["ByDataRow"].ToString(); else ByDataRow = string.Empty;
             if (propertyCollection.ContainsKey("BySession")) BySession = propertyCollection["BySession"].ToString(); else BySession = string.Empty;
             if (propertyCollection.ContainsKey("SelectColumns")) SelectColumns = propertyCollection["SelectColumns"].ToString(); else SelectColumns = string.Empty;
@@ -5740,6 +5760,7 @@ namespace Implem.DefinitionAccessor
                     case "NotSelect": return NotSelect;
                     case "NotUpdate": return NotUpdate;
                     case "ByForm": return ByForm;
+                    case "ByApi": return ByApi;
                     case "ByDataRow": return ByDataRow;
                     case "BySession": return BySession;
                     case "SelectColumns": return SelectColumns;
@@ -5853,6 +5874,7 @@ namespace Implem.DefinitionAccessor
             NotSelect = SavedNotSelect;
             NotUpdate = SavedNotUpdate;
             ByForm = SavedByForm;
+            ByApi = SavedByApi;
             ByDataRow = SavedByDataRow;
             BySession = SavedBySession;
             SelectColumns = SavedSelectColumns;

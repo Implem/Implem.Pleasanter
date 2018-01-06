@@ -177,6 +177,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                     case "ByForm":
                         code = code.ByForm(columnDefinition);
                         break;
+                    case "ByApi":
+                        code = code.ByApi(columnDefinition);
+                        break;
                     case "ByDataRow":
                         code = code.ByDataRow(columnDefinition);
                         break;
