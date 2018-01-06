@@ -3904,10 +3904,13 @@ namespace Implem.Pleasanter.Models
             return ApiResults.Get(new
             {
                 StatusCode = 200,
-                Offset = api.Offset,
-                PageSize = pageSize,
-                TotalCount = issueCollection.TotalCount,
-                Collection = issueCollection
+                Response = new
+                {
+                    Offset = api.Offset,
+                    PageSize = pageSize,
+                    TotalCount = issueCollection.TotalCount,
+                    Data = issueCollection.Select(o => o.GetByApi(ss))
+                }
             }.ToJson());
         }
 
@@ -3925,8 +3928,14 @@ namespace Implem.Pleasanter.Models
                 default: return ApiResults.Error(invalid);
             }
             ss.SetColumnAccessControls(issueModel.Mine());
-            issueModel.StatusCode = 200;
-            return ApiResults.Get(issueModel.ToJson());
+            return ApiResults.Get(new
+            {
+                StatusCode = 200,
+                Response = new
+                {
+                    Data = issueModel.GetByApi(ss).ToSingleList()
+                }
+            }.ToJson());
         }
 
         public static string Create(SiteSettings ss)

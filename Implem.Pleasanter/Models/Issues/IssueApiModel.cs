@@ -4,13 +4,17 @@ namespace Implem.Pleasanter.Models
     [Serializable]
     public class IssueApiModel
     {
+        public long? SiteId;
+        public DateTime? UpdatedTime;
         public long? IssueId;
+        public int? Ver;
         public string Title;
         public string Body;
         public DateTime? StartTime;
         public DateTime? CompletionTime;
         public decimal? WorkValue;
         public decimal? ProgressRate;
+        public decimal? RemainingWorkValue;
         public int? Status;
         public int? Manager;
         public int? Owner;
@@ -170,8 +174,10 @@ namespace Implem.Pleasanter.Models
         public string AttachmentsX;
         public string AttachmentsY;
         public string AttachmentsZ;
-        public string Timestamp;
         public string Comments;
+        public int? Creator;
+        public int? Updator;
+        public DateTime? CreatedTime;
         public bool? VerUp;
     }
 }
