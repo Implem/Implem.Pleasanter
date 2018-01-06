@@ -367,6 +367,51 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public UserApiModel GetByApi(SiteSettings ss)
+        {
+            var data = new UserApiModel();
+            ss.ReadableColumns().ForEach(column =>
+            {
+                switch (column.ColumnName)
+                {
+                    case "TenantId": data.TenantId = TenantId; break;
+                    case "UserId": data.UserId = UserId; break;
+                    case "Ver": data.Ver = Ver; break;
+                    case "LoginId": data.LoginId = LoginId; break;
+                    case "GlobalId": data.GlobalId = GlobalId; break;
+                    case "Name": data.Name = Name; break;
+                    case "UserCode": data.UserCode = UserCode; break;
+                    case "Password": data.Password = Password; break;
+                    case "LastName": data.LastName = LastName; break;
+                    case "FirstName": data.FirstName = FirstName; break;
+                    case "Birthday": data.Birthday = Birthday.Value; break;
+                    case "Gender": data.Gender = Gender; break;
+                    case "Language": data.Language = Language; break;
+                    case "TimeZone": data.TimeZone = TimeZone; break;
+                    case "DeptId": data.DeptId = DeptId; break;
+                    case "FirstAndLastNameOrder": data.FirstAndLastNameOrder = FirstAndLastNameOrder.ToInt(); break;
+                    case "Body": data.Body = Body; break;
+                    case "LastLoginTime": data.LastLoginTime = LastLoginTime.Value; break;
+                    case "PasswordExpirationTime": data.PasswordExpirationTime = PasswordExpirationTime.Value; break;
+                    case "PasswordChangeTime": data.PasswordChangeTime = PasswordChangeTime.Value; break;
+                    case "NumberOfLogins": data.NumberOfLogins = NumberOfLogins; break;
+                    case "NumberOfDenial": data.NumberOfDenial = NumberOfDenial; break;
+                    case "TenantManager": data.TenantManager = TenantManager; break;
+                    case "ServiceManager": data.ServiceManager = ServiceManager; break;
+                    case "Disabled": data.Disabled = Disabled; break;
+                    case "Developer": data.Developer = Developer; break;
+                    case "UserSettings": data.UserSettings = UserSettings.RecordingJson(); break;
+                    case "ApiKey": data.ApiKey = ApiKey; break;
+                    case "Comments": data.Comments = Comments.ToJson(); break;
+                    case "Creator": data.Creator = Creator.Id; break;
+                    case "Updator": data.Updator = Updator.Id; break;
+                    case "CreatedTime": data.CreatedTime = CreatedTime.Value; break;
+                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value; break;
+                }
+            });
+            return data;
+        }
+
         public Error.Types Create(
             SiteSettings ss, 
             RdsUser rdsUser = null,
@@ -604,9 +649,6 @@ namespace Implem.Pleasanter.Models
             if (data.Name != null) Name = data.Name.ToString().ToString();
             if (data.UserCode != null) UserCode = data.UserCode.ToString().ToString();
             if (data.Password != null) Password = data.Password.ToString().ToString().Sha512Cng();
-            if (data.PasswordValidate != null) PasswordValidate = data.PasswordValidate.ToString().ToString().Sha512Cng();
-            if (data.PasswordDummy != null) PasswordDummy = data.PasswordDummy.ToString().ToString().Sha512Cng();
-            if (data.RememberMe != null) RememberMe = data.RememberMe.ToBool().ToBool();
             if (data.LastName != null) LastName = data.LastName.ToString().ToString();
             if (data.FirstName != null) FirstName = data.FirstName.ToString().ToString();
             if (data.Birthday != null) Birthday = new Time(data.Birthday.ToDateTime(), byForm: true);
@@ -624,14 +666,6 @@ namespace Implem.Pleasanter.Models
             if (data.TenantManager != null) TenantManager = data.TenantManager.ToBool().ToBool();
             if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
             if (data.ApiKey != null) ApiKey = data.ApiKey.ToString().ToString();
-            if (data.OldPassword != null) OldPassword = data.OldPassword.ToString().ToString().Sha512Cng();
-            if (data.ChangedPassword != null) ChangedPassword = data.ChangedPassword.ToString().ToString().Sha512Cng();
-            if (data.ChangedPasswordValidator != null) ChangedPasswordValidator = data.ChangedPasswordValidator.ToString().ToString().Sha512Cng();
-            if (data.AfterResetPassword != null) AfterResetPassword = data.AfterResetPassword.ToString().ToString().Sha512Cng();
-            if (data.AfterResetPasswordValidator != null) AfterResetPasswordValidator = data.AfterResetPasswordValidator.ToString().ToString().Sha512Cng();
-            if (data.DemoMailAddress != null) DemoMailAddress = data.DemoMailAddress.ToString().ToString();
-            if (data.SessionGuid != null) SessionGuid = data.SessionGuid.ToString().ToString();
-            if (data.Timestamp != null) Timestamp = data.Timestamp.ToString().ToString();
             if (data.Comments != null) Comments.Prepend(data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
         }

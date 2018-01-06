@@ -613,7 +613,6 @@ namespace Implem.Pleasanter.Models
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.ReferenceType != null) ReferenceType = data.ReferenceType.ToString().ToString();
             if (data.InheritPermission != null) InheritPermission = data.InheritPermission.ToLong().ToLong();
-            if (data.Timestamp != null) Timestamp = data.Timestamp.ToString().ToString();
             if (data.Comments != null) Comments.Prepend(data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             SetSiteSettings();

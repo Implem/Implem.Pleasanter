@@ -4,7 +4,10 @@ namespace Implem.Pleasanter.Models
     [Serializable]
     public class ResultApiModel
     {
+        public long? SiteId;
+        public DateTime? UpdatedTime;
         public long? ResultId;
+        public int? Ver;
         public string Title;
         public string Body;
         public int? Status;
@@ -166,8 +169,10 @@ namespace Implem.Pleasanter.Models
         public string AttachmentsX;
         public string AttachmentsY;
         public string AttachmentsZ;
-        public string Timestamp;
         public string Comments;
+        public int? Creator;
+        public int? Updator;
+        public DateTime? CreatedTime;
         public bool? VerUp;
     }
 }

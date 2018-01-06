@@ -1761,6 +1761,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
+        public List<Column> ReadableColumns()
+        {
+            return Columns
+                .Where(o =>
+                    EditorColumns.Contains(o.ColumnName) ||
+                    GridColumns.Contains(o.ColumnName))
+                .Where(o => o.CanRead)
+                .ToList();
+        }
+
         public int GridNextOffset(int offset, int count, int totalCount)
         {
             return offset + count < totalCount

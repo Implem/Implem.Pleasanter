@@ -186,6 +186,28 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public WikiApiModel GetByApi(SiteSettings ss)
+        {
+            var data = new WikiApiModel();
+            ss.ReadableColumns().ForEach(column =>
+            {
+                switch (column.ColumnName)
+                {
+                    case "SiteId": data.SiteId = SiteId; break;
+                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value; break;
+                    case "WikiId": data.WikiId = WikiId; break;
+                    case "Ver": data.Ver = Ver; break;
+                    case "Title": data.Title = Title.Value; break;
+                    case "Body": data.Body = Body; break;
+                    case "Comments": data.Comments = Comments.ToJson(); break;
+                    case "Creator": data.Creator = Creator.Id; break;
+                    case "Updator": data.Updator = Updator.Id; break;
+                    case "CreatedTime": data.CreatedTime = CreatedTime.Value; break;
+                }
+            });
+            return data;
+        }
+
         public string FullText(
             SiteSettings ss, bool backgroundTask = false, bool onCreating = false)
         {
@@ -551,7 +573,6 @@ namespace Implem.Pleasanter.Models
             }
             if (data.Title != null) Title = new Title(data.WikiId.ToLong(), data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
-            if (data.Timestamp != null) Timestamp = data.Timestamp.ToString().ToString();
             if (data.Comments != null) Comments.Prepend(data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             SetByFormula(ss);

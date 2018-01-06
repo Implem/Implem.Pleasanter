@@ -157,6 +157,29 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public DeptApiModel GetByApi(SiteSettings ss)
+        {
+            var data = new DeptApiModel();
+            ss.ReadableColumns().ForEach(column =>
+            {
+                switch (column.ColumnName)
+                {
+                    case "TenantId": data.TenantId = TenantId; break;
+                    case "DeptId": data.DeptId = DeptId; break;
+                    case "Ver": data.Ver = Ver; break;
+                    case "DeptCode": data.DeptCode = DeptCode; break;
+                    case "DeptName": data.DeptName = DeptName; break;
+                    case "Body": data.Body = Body; break;
+                    case "Comments": data.Comments = Comments.ToJson(); break;
+                    case "Creator": data.Creator = Creator.Id; break;
+                    case "Updator": data.Updator = Updator.Id; break;
+                    case "CreatedTime": data.CreatedTime = CreatedTime.Value; break;
+                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value; break;
+                }
+            });
+            return data;
+        }
+
         public Error.Types Create(
             SiteSettings ss, 
             RdsUser rdsUser = null,
@@ -359,7 +382,6 @@ namespace Implem.Pleasanter.Models
             if (data.DeptCode != null) DeptCode = data.DeptCode.ToString().ToString();
             if (data.DeptName != null) DeptName = data.DeptName.ToString().ToString();
             if (data.Body != null) Body = data.Body.ToString().ToString();
-            if (data.Timestamp != null) Timestamp = data.Timestamp.ToString().ToString();
             if (data.Comments != null) Comments.Prepend(data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
         }

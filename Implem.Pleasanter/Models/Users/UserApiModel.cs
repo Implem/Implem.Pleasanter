@@ -4,15 +4,14 @@ namespace Implem.Pleasanter.Models
     [Serializable]
     public class UserApiModel
     {
+        public int? TenantId;
         public int? UserId;
+        public int? Ver;
         public string LoginId;
         public string GlobalId;
         public string Name;
         public string UserCode;
         public string Password;
-        public string PasswordValidate;
-        public string PasswordDummy;
-        public bool? RememberMe;
         public string LastName;
         public string FirstName;
         public DateTime? Birthday;
@@ -28,17 +27,16 @@ namespace Implem.Pleasanter.Models
         public int? NumberOfLogins;
         public int? NumberOfDenial;
         public bool? TenantManager;
+        public bool? ServiceManager;
         public bool? Disabled;
+        public bool? Developer;
+        public string UserSettings;
         public string ApiKey;
-        public string OldPassword;
-        public string ChangedPassword;
-        public string ChangedPasswordValidator;
-        public string AfterResetPassword;
-        public string AfterResetPasswordValidator;
-        public string DemoMailAddress;
-        public string SessionGuid;
-        public string Timestamp;
         public string Comments;
+        public int? Creator;
+        public int? Updator;
+        public DateTime? CreatedTime;
+        public DateTime? UpdatedTime;
         public bool? VerUp;
     }
 }
