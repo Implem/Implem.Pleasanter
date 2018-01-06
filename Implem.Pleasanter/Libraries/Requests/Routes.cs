@@ -20,11 +20,6 @@ namespace Implem.Pleasanter.Libraries.Requests
                 : StackTraces.Method();
         }
 
-        public static bool Action(params string[] action)
-        {
-            return action.Contains(Action());
-        }
-
         public static long Id()
         {
             return Url.RouteData("id").ToLong();

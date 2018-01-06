@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -147,14 +148,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static bool EditorActions()
         {
-            return Routes.Action(
+            return new List<string>
+            {
                 "new",
                 "create",
                 "edit",
                 "copy",
                 "move",
                 "separate",
-                "history");
+                "history"
+            }.Contains(Routes.Action());
         }
 
         private static HtmlBuilder ViewModeMenu(
