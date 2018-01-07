@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -152,6 +153,15 @@ namespace Implem.Pleasanter.Libraries.Server
             return
                 ContractHash.ContainsKey(tenantId) &&
                 ContractHash[tenantId]?.Script != false;
+        }
+
+        public static bool Api()
+        {
+            var tenantId = Sessions.TenantId();
+            return
+                Parameters.Api.Enabled &&
+                ContractHash.ContainsKey(tenantId) &&
+                ContractHash[tenantId]?.Api != false;
         }
     }
 }
