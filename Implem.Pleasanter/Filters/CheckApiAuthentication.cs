@@ -12,7 +12,7 @@ namespace Implem.Pleasanter.Filters
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            if (!Parameters.Api.Enabled)
+            if (!Contract.Api())
             {
                 filterContext.Result = ApiResults.BadRequest();
             }

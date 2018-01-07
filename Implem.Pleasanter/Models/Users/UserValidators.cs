@@ -362,7 +362,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnApiEditing(UserModel userModel)
         {
-            if (!DefinitionAccessor.Parameters.Api.Enabled)
+            if (!Contract.Api())
             {
                 return Error.Types.InvalidRequest;
             }
@@ -378,7 +378,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnApiCreating(UserModel userModel)
         {
-            if (!DefinitionAccessor.Parameters.Api.Enabled)
+            if (!Contract.Api())
             {
                 return Error.Types.InvalidRequest;
             }
@@ -394,7 +394,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnApiDeleting(UserModel userModel)
         {
-            if (!DefinitionAccessor.Parameters.Api.Enabled)
+            if (!Contract.Api())
             {
                 return Error.Types.InvalidRequest;
             }
