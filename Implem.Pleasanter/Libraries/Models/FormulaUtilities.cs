@@ -48,6 +48,7 @@ namespace Implem.Pleasanter.Libraries.Models
                             if (hasFormula) issueModel.UpdateFormulaColumns(ss, selected);
                             issueModel.UpdateRelatedRecords(
                                 ss: ss,
+                                extendedSqls: true,
                                 addUpdatedTimeParam: false,
                                 addUpdatorParam: false,
                                 updateItems: false);
@@ -71,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.Models
                             if (hasFormula) resultModel.UpdateFormulaColumns(ss, selected);
                             resultModel.UpdateRelatedRecords(
                                 ss: ss,
+                                extendedSqls: true,
                                 addUpdatedTimeParam: false,
                                 addUpdatorParam: false,
                                 updateItems: false);
@@ -94,6 +96,7 @@ namespace Implem.Pleasanter.Libraries.Models
                             if (hasFormula) wikiModel.UpdateFormulaColumns(ss, selected);
                             wikiModel.UpdateRelatedRecords(
                                 ss: ss,
+                                extendedSqls: true,
                                 addUpdatedTimeParam: false,
                                 addUpdatorParam: false,
                                 updateItems: false);

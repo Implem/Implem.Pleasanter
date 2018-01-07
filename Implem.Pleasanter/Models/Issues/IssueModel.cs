@@ -3377,7 +3377,6 @@ namespace Implem.Pleasanter.Models
                 .ToDictionary(o =>
                     o.ColumnName,
                     o => SiteInfo.User(PropertyValue(o.ColumnName).ToInt())));
-            if (extendedSqls) statements.OnCreatedExtendedSqls(SiteId, IssueId);
             var newId = Rds.ExecuteScalar_long(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -3391,17 +3390,22 @@ namespace Implem.Pleasanter.Models
                 Notice(ss, "Created");
             }
             if (get) Get(ss);
-            var fullText = FullText(ss, onCreating: true);
-            Rds.ExecuteNonQuery(
-                rdsUser: rdsUser,
-                statements: Rds.UpdateItems(
-                    param: Rds.ItemsParam()
-                        .Title(Title.DisplayValue)
-                        .FullText(fullText, _using: fullText != null)
-                        .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
-                    where: Rds.ItemsWhere().ReferenceId(IssueId)));
-            Libraries.Search.Indexes.Create(ss, this);
             if (ss.PermissionForCreating != null) ss.SetPermissions(IssueId);
+            var fullText = FullText(ss, onCreating: true);
+            statements = new List<SqlStatement>();
+            statements.Add(Rds.UpdateItems(
+                param: Rds.ItemsParam()
+                    .Title(Title.DisplayValue)
+                    .FullText(fullText, _using: fullText != null)
+                    .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
+                where: Rds.ItemsWhere().ReferenceId(IssueId)));
+            if (extendedSqls) statements.OnCreatedExtendedSqls(SiteId, IssueId);
+            Rds.ExecuteNonQuery(rdsUser: rdsUser, statements: statements.ToArray());
+            Libraries.Search.Indexes.Create(ss, this);
+            if (get && Rds.ExtendedSqls(SiteId, IssueId)?.Any(o => o.OnCreated) == true)
+            {
+                Get(ss);
+            }
             return Error.Types.None;
         }
 
@@ -3456,7 +3460,6 @@ namespace Implem.Pleasanter.Models
             {
                 statements.UpdatePermissions(ss, IssueId, permissions);
             }
-            if (extendedSqls) statements.OnUpdatedExtendedSqls(SiteId, IssueId);
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -3469,7 +3472,11 @@ namespace Implem.Pleasanter.Models
                 Notice(ss, "Updated");
             }
             if (get) Get(ss);
-            UpdateRelatedRecords(ss);
+            UpdateRelatedRecords(ss, extendedSqls);
+            if (get && Rds.ExtendedSqls(SiteId, IssueId)?.Any(o => o.OnUpdated) == true)
+            {
+                Get(ss);
+            }
             return Error.Types.None;
         }
 
@@ -3498,31 +3505,32 @@ namespace Implem.Pleasanter.Models
 
         public void UpdateRelatedRecords(
             SiteSettings ss, 
+            bool extendedSqls,
             RdsUser rdsUser = null,
             bool addUpdatedTimeParam = true,
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
             var fullText = FullText(ss);
+            var statements = new List<SqlStatement>();
+            statements.Add(Rds.UpdateItems(
+                where: Rds.ItemsWhere().ReferenceId(IssueId),
+                param: Rds.ItemsParam()
+                    .SiteId(SiteId)
+                    .Title(Title.DisplayValue)
+                    .FullText(fullText, _using: fullText != null)
+                    .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
+                addUpdatedTimeParam: addUpdatedTimeParam,
+                addUpdatorParam: addUpdatorParam,
+                _using: updateItems));
+            statements.Add(Rds.PhysicalDeleteLinks(
+                where: Rds.LinksWhere().SourceId(IssueId)));
+            statements.Add(InsertLinks(ss));
+            if (extendedSqls) statements.OnUpdatedExtendedSqls(SiteId, IssueId);
             Rds.ExecuteNonQuery(
                 rdsUser: rdsUser,
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateItems(
-                        where: Rds.ItemsWhere().ReferenceId(IssueId),
-                        param: Rds.ItemsParam()
-                            .SiteId(SiteId)
-                            .Title(Title.DisplayValue)
-                            .FullText(fullText, _using: fullText != null)
-                            .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
-                        addUpdatedTimeParam: addUpdatedTimeParam,
-                        addUpdatorParam: addUpdatorParam,
-                        _using: updateItems),
-                    Rds.PhysicalDeleteLinks(
-                        where: Rds.LinksWhere().SourceId(IssueId)),
-                    InsertLinks(ss)
-                });
+                statements: statements.ToArray());
             if (ss.Sources?.Any() == true)
             {
                 ItemUtilities.UpdateTitles(SiteId, IssueId);

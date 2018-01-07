@@ -276,7 +276,6 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             if (extendedSqls) statements.OnCreatingExtendedSqls(SiteId, WikiId);
             CreateStatements(statements, ss, tableType, param, paramAll);
-            if (extendedSqls) statements.OnCreatedExtendedSqls(SiteId, WikiId);
             var newId = Rds.ExecuteScalar_long(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -290,15 +289,20 @@ namespace Implem.Pleasanter.Models
             }
             if (get) Get(ss);
             var fullText = FullText(ss, onCreating: true);
-            Rds.ExecuteNonQuery(
-                rdsUser: rdsUser,
-                statements: Rds.UpdateItems(
-                    param: Rds.ItemsParam()
-                        .Title(Title.DisplayValue)
-                        .FullText(fullText, _using: fullText != null)
-                        .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
-                    where: Rds.ItemsWhere().ReferenceId(WikiId)));
+            statements = new List<SqlStatement>();
+            statements.Add(Rds.UpdateItems(
+                param: Rds.ItemsParam()
+                    .Title(Title.DisplayValue)
+                    .FullText(fullText, _using: fullText != null)
+                    .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
+                where: Rds.ItemsWhere().ReferenceId(WikiId)));
+            if (extendedSqls) statements.OnCreatedExtendedSqls(SiteId, WikiId);
+            Rds.ExecuteNonQuery(rdsUser: rdsUser, statements: statements.ToArray());
             Libraries.Search.Indexes.Create(ss, this);
+            if (get && Rds.ExtendedSqls(SiteId, WikiId)?.Any(o => o.OnCreated) == true)
+            {
+                Get(ss);
+            }
             return Error.Types.None;
         }
 
@@ -321,7 +325,6 @@ namespace Implem.Pleasanter.Models
                     tableType: tableType,
                     param: param ?? Rds.WikisParamDefault(
                         this, setDefault: true, paramAll: paramAll)),
-                    InsertLinks(ss, selectIdentity: true),
             });
             return statements;
         }
@@ -353,7 +356,6 @@ namespace Implem.Pleasanter.Models
             {
                 statements.UpdatePermissions(ss, WikiId, permissions);
             }
-            if (extendedSqls) statements.OnUpdatedExtendedSqls(SiteId, WikiId);
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -365,7 +367,11 @@ namespace Implem.Pleasanter.Models
                 Notice(ss, "Updated");
             }
             if (get) Get(ss);
-            UpdateRelatedRecords(ss);
+            UpdateRelatedRecords(ss, extendedSqls);
+            if (get && Rds.ExtendedSqls(SiteId, WikiId)?.Any(o => o.OnUpdated) == true)
+            {
+                Get(ss);
+            }
             SiteInfo.Reflesh();
             return Error.Types.None;
         }
@@ -395,52 +401,37 @@ namespace Implem.Pleasanter.Models
 
         public void UpdateRelatedRecords(
             SiteSettings ss, 
+            bool extendedSqls,
             RdsUser rdsUser = null,
             bool addUpdatedTimeParam = true,
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
             var fullText = FullText(ss);
+            var statements = new List<SqlStatement>();
+            statements.Add(Rds.UpdateItems(
+                where: Rds.ItemsWhere().ReferenceId(WikiId),
+                param: Rds.ItemsParam()
+                    .SiteId(SiteId)
+                    .Title(Title.DisplayValue)
+                    .FullText(fullText, _using: fullText != null)
+                    .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
+                addUpdatedTimeParam: addUpdatedTimeParam,
+                addUpdatorParam: addUpdatorParam,
+                _using: updateItems));
+            statements.Add(Rds.UpdateSites(
+                where: Rds.SitesWhere().SiteId(SiteId),
+                param: Rds.SitesParam().Title(Title.Value)));
+            if (extendedSqls) statements.OnUpdatedExtendedSqls(SiteId, WikiId);
             Rds.ExecuteNonQuery(
                 rdsUser: rdsUser,
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateItems(
-                        where: Rds.ItemsWhere().ReferenceId(WikiId),
-                        param: Rds.ItemsParam()
-                            .SiteId(SiteId)
-                            .Title(Title.DisplayValue)
-                            .FullText(fullText, _using: fullText != null)
-                            .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
-                        addUpdatedTimeParam: addUpdatedTimeParam,
-                        addUpdatorParam: addUpdatorParam,
-                        _using: updateItems),
-                    Rds.PhysicalDeleteLinks(
-                        where: Rds.LinksWhere().SourceId(WikiId)),
-                    InsertLinks(ss),
-                    Rds.UpdateSites(
-                        where: Rds.SitesWhere().SiteId(SiteId),
-                        param: Rds.SitesParam().Title(Title.Value))
-                });
+                statements: statements.ToArray());
             if (ss.Sources?.Any() == true)
             {
                 ItemUtilities.UpdateTitles(SiteId, WikiId);
             }
             Libraries.Search.Indexes.Create(ss, this);
-        }
-
-        private SqlInsert InsertLinks(SiteSettings ss, bool selectIdentity = false)
-        {
-            var link = new Dictionary<long, long>();
-            ss.Columns.Where(o => o.Link.ToBool()).ForEach(column =>
-            {
-                switch (column.Name)
-                {
-                    default: break;
-                }
-            });
-            return LinkUtilities.Insert(link, selectIdentity);
         }
 
         public Error.Types UpdateOrCreate(
