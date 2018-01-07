@@ -77,8 +77,6 @@ namespace Implem.DefinitionAccessor
                 .Deserialize<ParameterAccessor.Parts.BackgroundTask>();
             Parameters.BinaryStorage = Files.Read(ParametersPath("BinaryStorage"))
                 .Deserialize<ParameterAccessor.Parts.BinaryStorage>();
-            Parameters.ContractTypes = Files.Read(ParametersPath("ContractTypes"))
-                .Deserialize<List<ParameterAccessor.Parts.ContractType>>();
             Parameters.ExcludeColumns = Files.Read(ParametersPath("ExcludeColumns"))
                 .Deserialize<Dictionary<string, IEnumerable<string>>>();
             Parameters.ExtendedSqls = ExtendedSqls();
