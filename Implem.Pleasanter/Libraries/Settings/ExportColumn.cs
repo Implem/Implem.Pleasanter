@@ -72,18 +72,30 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void Update(string labelText, Types type, string format)
         {
-            if (labelText != Column?.LabelText)
+            LabelText = labelText;
+            Type = type;
+            Format = format;
+        }
+
+        public ExportColumn GetRecordingData()
+        {
+            var exportColumn = new ExportColumn();
+            exportColumn.SiteId = SiteId;
+            exportColumn.Id = Id;
+            exportColumn.ColumnName = ColumnName;
+            if (LabelText != Column?.LabelText)
             {
-                LabelText = labelText;
+                exportColumn.LabelText = LabelText;
             }
-            if (type != Types.Text)
+            if (Type != Types.Text)
             {
-                Type = type;
+                exportColumn.Type = Type;
             }
-            if (!format.IsNullOrEmpty() && format != Column?.EditorFormat)
+            if (!Format.IsNullOrEmpty() && Format != Column?.EditorFormat)
             {
-                Format = format;
+                exportColumn.Format = Format;
             }
+            return exportColumn;
         }
     }
 }

@@ -414,13 +414,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.Reminders.Add(notification.GetRecordingData());
             });
-            Exports?.ForEach(ExportSetting =>
+            Exports?.ForEach(exportSetting =>
             {
                 if (ss.Exports == null)
                 {
                     ss.Exports = new SettingList<Export>();
                 }
-                ss.Exports.Add(ExportSetting);
+                ss.Exports.Add(exportSetting.GetRecordingData());
             });
             Aggregations?.ForEach(aggregations =>
             {
