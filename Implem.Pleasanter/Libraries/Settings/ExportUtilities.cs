@@ -148,10 +148,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             ss.SetColumnAccessControls();
             ss.SetChoiceHash();
-            var issueHash = new IssueCollection(ss: ss, where: where, orderBy: orderBy)
-                .ToDictionary(o => o.IssueId, o => o);
-            issueHash.Values.ToList().SetLinks(ss);
             var keyColumn = keyColumns.Get(ss.SiteId);
+            var issueHash = new IssueCollection(
+                ss: ss,
+                column: IssuesColumn(ss, export, ss.GetColumn(keyColumn)),
+                where: where,
+                orderBy: orderBy)
+                    .ToDictionary(o => o.IssueId, o => o);
+            issueHash.Values.ToList().SetLinks(ss);
             if (keys == null)
             {
                 data.Add(ss.SiteId, issueHash.ToDictionary(
@@ -170,6 +174,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                     o => o.Key,
                     o => issueHash.Get(o.Value)?.PropertyValue(keyColumn).ToLong() ?? 0);
             }
+        }
+
+        private static SqlColumnCollection IssuesColumn(
+            SiteSettings ss, Export export, Column keyColumn)
+        {
+            return new SqlColumnCollection(export
+                .Columns
+                .Where(o => o.SiteId == ss.SiteId)
+                .SelectMany(o => o.Column.SqlColumnCollection(ss))
+                .GroupBy(o => o.ColumnBracket + o.As)
+                .Select(o => o.First())
+                .ToArray())
+                    .Issues_IssueId()
+                    .Add(ss, keyColumn, _using: keyColumn != null);
         }
 
         private static Dictionary<int, string> IssueData(
@@ -197,10 +215,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             ss.SetColumnAccessControls();
             ss.SetChoiceHash();
-            var resultHash = new ResultCollection(ss: ss, where: where, orderBy: orderBy)
-                .ToDictionary(o => o.ResultId, o => o);
-            resultHash.Values.ToList().SetLinks(ss);
             var keyColumn = keyColumns.Get(ss.SiteId);
+            var resultHash = new ResultCollection(
+                ss: ss,
+                column: ResultsColumn(ss, export, ss.GetColumn(keyColumn)),
+                where: where,
+                orderBy: orderBy)
+                    .ToDictionary(o => o.ResultId, o => o);
+            resultHash.Values.ToList().SetLinks(ss);
             if (keys == null)
             {
                 data.Add(ss.SiteId, resultHash.ToDictionary(
@@ -219,6 +241,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                     o => o.Key,
                     o => resultHash.Get(o.Value)?.PropertyValue(keyColumn).ToLong() ?? 0);
             }
+        }
+
+        private static SqlColumnCollection ResultsColumn(
+            SiteSettings ss, Export export, Column keyColumn)
+        {
+            return new SqlColumnCollection(export
+                .Columns
+                .Where(o => o.SiteId == ss.SiteId)
+                .SelectMany(o => o.Column.SqlColumnCollection(ss))
+                .GroupBy(o => o.ColumnBracket + o.As)
+                .Select(o => o.First())
+                .ToArray())
+                    .Results_ResultId()
+                    .Add(ss, keyColumn, _using: keyColumn != null);
         }
 
         private static Dictionary<int, string> ResultData(

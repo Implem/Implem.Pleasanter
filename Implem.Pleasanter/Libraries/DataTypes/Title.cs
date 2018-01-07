@@ -185,7 +185,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public virtual string ToExport(Column column, ExportColumn exportColumn = null)
         {
-            return Value;
+            switch (exportColumn.Type)
+            {
+                case ExportColumn.Types.Value:
+                    return Value;
+                default:
+                    return DisplayValue;
+            }
         }
 
         public string ToNotice(
