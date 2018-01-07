@@ -52,11 +52,11 @@ namespace Implem.Pleasanter.Models
                     var ss = siteModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? SiteSettingsUtilities.Get(siteModel, targetSiteId)
                         : null;
-                    var columns = ss.Links?
+                    var columns = ss?.Links?
                         .Where(o => o.SiteId == siteId)
                         .Select(o => o.ColumnName)
                         .ToList();
-                    if (ss.TitleColumns?.Any(o => columns?.Contains(o) == true) == true)
+                    if (ss?.TitleColumns?.Any(o => columns?.Contains(o) == true) == true)
                     {
                         UpdateTitles(ss, links.Select(o => o.Id));
                     }
