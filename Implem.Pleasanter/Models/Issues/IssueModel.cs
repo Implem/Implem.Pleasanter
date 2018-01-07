@@ -2897,7 +2897,7 @@ namespace Implem.Pleasanter.Models
         public IssueApiModel GetByApi(SiteSettings ss)
         {
             var data = new IssueApiModel();
-            ss.ReadableColumns().ForEach(column =>
+            ss.ReadableColumns(noJoined: true).ForEach(column =>
             {
                 switch (column.ColumnName)
                 {

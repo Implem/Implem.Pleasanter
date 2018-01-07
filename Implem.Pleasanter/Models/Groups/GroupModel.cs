@@ -145,7 +145,7 @@ namespace Implem.Pleasanter.Models
         public GroupApiModel GetByApi(SiteSettings ss)
         {
             var data = new GroupApiModel();
-            ss.ReadableColumns().ForEach(column =>
+            ss.ReadableColumns(noJoined: true).ForEach(column =>
             {
                 switch (column.ColumnName)
                 {

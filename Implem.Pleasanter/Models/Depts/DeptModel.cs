@@ -160,7 +160,7 @@ namespace Implem.Pleasanter.Models
         public DeptApiModel GetByApi(SiteSettings ss)
         {
             var data = new DeptApiModel();
-            ss.ReadableColumns().ForEach(column =>
+            ss.ReadableColumns(noJoined: true).ForEach(column =>
             {
                 switch (column.ColumnName)
                 {

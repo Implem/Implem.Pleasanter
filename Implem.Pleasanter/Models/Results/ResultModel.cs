@@ -2822,7 +2822,7 @@ namespace Implem.Pleasanter.Models
         public ResultApiModel GetByApi(SiteSettings ss)
         {
             var data = new ResultApiModel();
-            ss.ReadableColumns().ForEach(column =>
+            ss.ReadableColumns(noJoined: true).ForEach(column =>
             {
                 switch (column.ColumnName)
                 {
