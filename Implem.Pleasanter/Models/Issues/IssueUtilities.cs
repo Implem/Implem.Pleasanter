@@ -3985,6 +3985,10 @@ namespace Implem.Pleasanter.Models
 
         public static System.Web.Mvc.ContentResult CreateByApi(SiteSettings ss)
         {
+            if (Contract.ItemsLimit(ss.SiteId))
+            {
+                return ApiResults.Error(Error.Types.ItemsLimit);
+            }
             var issueModel = new IssueModel(ss, 0, setByApi: true);
             if (issueModel == null)
             {
