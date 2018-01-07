@@ -289,6 +289,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetDefaultColumns": Code.Model_GetDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_GetSitesDefaultColumns": Code.Model_GetSitesDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetSitesDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_GetItemsDefaultColumns": Code.Model_GetItemsDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetItemsDefaultColumns, definitionRow, CodeXls); break;
+                    case "Model_GetByApi": Code.Model_GetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi, definitionRow, CodeXls); break;
+                    case "Model_GetByApi_ColumnCases": Code.Model_GetByApi_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetSiteSettingsProperties": Code.Model_SetSiteSettingsProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettingsProperties, definitionRow, CodeXls); break;
                     case "Model_SetTenantId": Code.Model_SetTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantId, definitionRow, CodeXls); break;
                     case "Model_FullText": Code.Model_FullText = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullText, definitionRow, CodeXls); break;
@@ -4526,6 +4528,8 @@ namespace Implem.DefinitionAccessor
         public string Model_GetDefaultColumns;
         public string Model_GetSitesDefaultColumns;
         public string Model_GetItemsDefaultColumns;
+        public string Model_GetByApi;
+        public string Model_GetByApi_ColumnCases;
         public string Model_SetSiteSettingsProperties;
         public string Model_SetTenantId;
         public string Model_FullText;
@@ -5031,6 +5035,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_GetSitesDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_GetItemsDefaultColumns = new CodeDefinition();
+        public CodeDefinition Model_GetByApi = new CodeDefinition();
+        public CodeDefinition Model_GetByApi_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetSiteSettingsProperties = new CodeDefinition();
         public CodeDefinition Model_SetTenantId = new CodeDefinition();
         public CodeDefinition Model_FullText = new CodeDefinition();
