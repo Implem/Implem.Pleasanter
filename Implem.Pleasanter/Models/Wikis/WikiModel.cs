@@ -189,7 +189,7 @@ namespace Implem.Pleasanter.Models
         public WikiApiModel GetByApi(SiteSettings ss)
         {
             var data = new WikiApiModel();
-            ss.ReadableColumns().ForEach(column =>
+            ss.ReadableColumns(noJoined: true).ForEach(column =>
             {
                 switch (column.ColumnName)
                 {

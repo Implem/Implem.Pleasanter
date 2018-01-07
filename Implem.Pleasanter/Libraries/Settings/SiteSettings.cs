@@ -1761,12 +1761,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
-        public List<Column> ReadableColumns()
+        public List<Column> ReadableColumns(bool noJoined = false)
         {
             return Columns
                 .Where(o =>
                     EditorColumns.Contains(o.ColumnName) ||
                     GridColumns.Contains(o.ColumnName))
+                .Where(o => !noJoined || !o.Joined)
                 .Where(o => o.CanRead)
                 .ToList();
         }
