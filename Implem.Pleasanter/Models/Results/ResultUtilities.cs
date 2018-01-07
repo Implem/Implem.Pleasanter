@@ -3879,10 +3879,6 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.Error(Error.Types.ItemsLimit);
             }
             var resultModel = new ResultModel(ss, 0, setByApi: true);
-            if (resultModel == null)
-            {
-                return ApiResults.Get(ApiResponses.BadRequest());
-            }
             var invalid = ResultValidators.OnCreating(ss, resultModel);
             switch (invalid)
             {
