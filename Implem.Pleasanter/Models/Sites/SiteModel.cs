@@ -449,28 +449,27 @@ namespace Implem.Pleasanter.Models
             bool updateItems = true)
         {
             var fullText = FullText(SiteSettings);
+            var statements = new List<SqlStatement>();
+            statements.Add(Rds.UpdateItems(
+                where: Rds.ItemsWhere().ReferenceId(SiteId),
+                param: Rds.ItemsParam()
+                    .SiteId(SiteId)
+                    .Title(Title.DisplayValue)
+                    .FullText(fullText, _using: fullText != null)
+                    .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
+                addUpdatedTimeParam: addUpdatedTimeParam,
+                addUpdatorParam: addUpdatorParam,
+                _using: updateItems));
+            statements.Add(Rds.PhysicalDeleteLinks(
+                where: Rds.LinksWhere().SourceId(SiteId)));
+            statements.Add(LinkUtilities.Insert(SiteSettings.Links
+                .Select(o => o.SiteId)
+                .Distinct()
+                .ToDictionary(o => o, o => SiteId)));
             Rds.ExecuteNonQuery(
                 rdsUser: rdsUser,
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateItems(
-                        where: Rds.ItemsWhere().ReferenceId(SiteId),
-                        param: Rds.ItemsParam()
-                            .SiteId(SiteId)
-                            .Title(Title.DisplayValue)
-                            .FullText(fullText, _using: fullText != null)
-                            .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
-                        addUpdatedTimeParam: addUpdatedTimeParam,
-                        addUpdatorParam: addUpdatorParam,
-                        _using: updateItems),
-                    Rds.PhysicalDeleteLinks(
-                        where: Rds.LinksWhere().SourceId(SiteId)),
-                    LinkUtilities.Insert(SiteSettings.Links
-                        .Select(o => o.SiteId)
-                        .Distinct()
-                        .ToDictionary(o => o, o => SiteId))
-                });
+                statements: statements.ToArray());
             Libraries.Search.Indexes.Create(SiteSettings, this);
         }
 

@@ -317,6 +317,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_CreatePermissions": Code.Model_CreatePermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreatePermissions, definitionRow, CodeXls); break;
                     case "Model_OnCreatingExtendedSqls": Code.Model_OnCreatingExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreatingExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_OnCreatedExtendedSqls": Code.Model_OnCreatedExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreatedExtendedSqls, definitionRow, CodeXls); break;
+                    case "Model_GetAfterCreatedExtendedSqls": Code.Model_GetAfterCreatedExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetAfterCreatedExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_Insert": Code.Model_Insert = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Insert, definitionRow, CodeXls); break;
                     case "Model_InsertIdentity": Code.Model_InsertIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentity, definitionRow, CodeXls); break;
                     case "Model_InsertIdentitySet": Code.Model_InsertIdentitySet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentitySet, definitionRow, CodeXls); break;
@@ -345,6 +346,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateFormulaColumns_ColumnCases": Code.Model_UpdateFormulaColumns_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateFormulaColumns_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_UpdateOrCreate": Code.Model_UpdateOrCreate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateOrCreate, definitionRow, CodeXls); break;
                     case "Model_UpdateRelatedRecordsMethod": Code.Model_UpdateRelatedRecordsMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateRelatedRecordsMethod, definitionRow, CodeXls); break;
+                    case "Model_GetAfterUpdatedExtendedSqls": Code.Model_GetAfterUpdatedExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetAfterUpdatedExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_InsertLinksByUpdate": Code.Model_InsertLinksByUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksByUpdate, definitionRow, CodeXls); break;
                     case "Model_InsertLinksByUpdate_Site": Code.Model_InsertLinksByUpdate_Site = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksByUpdate_Site, definitionRow, CodeXls); break;
                     case "Model_UpdateSites_Wikis": Code.Model_UpdateSites_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateSites_Wikis, definitionRow, CodeXls); break;
@@ -458,6 +460,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SiteSettingsWithParameterNameLower": Code.Model_SiteSettingsWithParameterNameLower = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWithParameterNameLower, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsParameter": Code.Model_SiteSettingsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParameter, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsParameterOnly": Code.Model_SiteSettingsParameterOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParameterOnly, definitionRow, CodeXls); break;
+                    case "Model_ExtendedSqls": Code.Model_ExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExtendedSqls, definitionRow, CodeXls); break;
+                    case "Model_ExtendedSqlsParameter": Code.Model_ExtendedSqlsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExtendedSqlsParameter, definitionRow, CodeXls); break;
                     case "Collection": Code.Collection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection, definitionRow, CodeXls); break;
                     case "Collection_SiteSettings": Code.Collection_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettings, definitionRow, CodeXls); break;
                     case "Collection_SiteSettingsArgument": Code.Collection_SiteSettingsArgument = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettingsArgument, definitionRow, CodeXls); break;
@@ -4556,6 +4560,7 @@ namespace Implem.DefinitionAccessor
         public string Model_CreatePermissions;
         public string Model_OnCreatingExtendedSqls;
         public string Model_OnCreatedExtendedSqls;
+        public string Model_GetAfterCreatedExtendedSqls;
         public string Model_Insert;
         public string Model_InsertIdentity;
         public string Model_InsertIdentitySet;
@@ -4584,6 +4589,7 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateFormulaColumns_ColumnCases;
         public string Model_UpdateOrCreate;
         public string Model_UpdateRelatedRecordsMethod;
+        public string Model_GetAfterUpdatedExtendedSqls;
         public string Model_InsertLinksByUpdate;
         public string Model_InsertLinksByUpdate_Site;
         public string Model_UpdateSites_Wikis;
@@ -4697,6 +4703,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SiteSettingsWithParameterNameLower;
         public string Model_SiteSettingsParameter;
         public string Model_SiteSettingsParameterOnly;
+        public string Model_ExtendedSqls;
+        public string Model_ExtendedSqlsParameter;
         public string Collection;
         public string Collection_SiteSettings;
         public string Collection_SiteSettingsArgument;
@@ -5063,6 +5071,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_CreatePermissions = new CodeDefinition();
         public CodeDefinition Model_OnCreatingExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_OnCreatedExtendedSqls = new CodeDefinition();
+        public CodeDefinition Model_GetAfterCreatedExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_Insert = new CodeDefinition();
         public CodeDefinition Model_InsertIdentity = new CodeDefinition();
         public CodeDefinition Model_InsertIdentitySet = new CodeDefinition();
@@ -5091,6 +5100,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateFormulaColumns_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_UpdateOrCreate = new CodeDefinition();
         public CodeDefinition Model_UpdateRelatedRecordsMethod = new CodeDefinition();
+        public CodeDefinition Model_GetAfterUpdatedExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_InsertLinksByUpdate = new CodeDefinition();
         public CodeDefinition Model_InsertLinksByUpdate_Site = new CodeDefinition();
         public CodeDefinition Model_UpdateSites_Wikis = new CodeDefinition();
@@ -5204,6 +5214,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SiteSettingsWithParameterNameLower = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsParameter = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsParameterOnly = new CodeDefinition();
+        public CodeDefinition Model_ExtendedSqls = new CodeDefinition();
+        public CodeDefinition Model_ExtendedSqlsParameter = new CodeDefinition();
         public CodeDefinition Collection = new CodeDefinition();
         public CodeDefinition Collection_SiteSettings = new CodeDefinition();
         public CodeDefinition Collection_SiteSettingsArgument = new CodeDefinition();
