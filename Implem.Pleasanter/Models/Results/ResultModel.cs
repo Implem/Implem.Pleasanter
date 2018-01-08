@@ -3312,7 +3312,10 @@ namespace Implem.Pleasanter.Models
                     .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
                 where: Rds.ItemsWhere().ReferenceId(ResultId)));
             if (extendedSqls) statements.OnCreatedExtendedSqls(SiteId, ResultId);
-            Rds.ExecuteNonQuery(rdsUser: rdsUser, statements: statements.ToArray());
+            Rds.ExecuteNonQuery(
+                rdsUser: rdsUser,
+                transactional: true,
+                statements: statements.ToArray());
             Libraries.Search.Indexes.Create(ss, this);
             if (get && Rds.ExtendedSqls(SiteId, ResultId)?.Any(o => o.OnCreated) == true)
             {
