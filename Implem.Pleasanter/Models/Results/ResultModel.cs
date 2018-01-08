@@ -3282,7 +3282,7 @@ namespace Implem.Pleasanter.Models
             bool get = true)
         {
             var statements = new List<SqlStatement>();
-            if (extendedSqls) statements.OnCreatingExtendedSqls(SiteId, ResultId);
+            if (extendedSqls) statements.OnCreatingExtendedSqls(SiteId);
             CreateStatements(statements, ss, tableType, param, paramAll);
             statements.CreatePermissions(ss, ss.Columns
                 .Where(o => o.UserColumn)
