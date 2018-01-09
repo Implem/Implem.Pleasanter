@@ -1304,9 +1304,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public IEnumerable<Column> SelectColumns()
         {
             return Columns.Where(o =>
-                o.Required ||
-                EditorColumns.Contains(o.ColumnName) ||
-                EditorColumns.Contains(o.ColumnName));
+                o.Required || EditorColumns.Contains(o.ColumnName));
         }
 
         public Dictionary<string, ControlData> GridSelectableOptions(
