@@ -3,11 +3,11 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Api key"
+            "Body": "API key"
         },
         {
             "Language": "ja",
-            "Body": "Apiキー"
+            "Body": "APIキー"
         }
     ]
 }
