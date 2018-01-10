@@ -638,132 +638,132 @@ namespace Implem.Pleasanter.Models
 
         public bool DateA_Updated()
         {
-            return DateA != SavedDateA && DateA != null;
+            return DateA != SavedDateA;
         }
 
         public bool DateB_Updated()
         {
-            return DateB != SavedDateB && DateB != null;
+            return DateB != SavedDateB;
         }
 
         public bool DateC_Updated()
         {
-            return DateC != SavedDateC && DateC != null;
+            return DateC != SavedDateC;
         }
 
         public bool DateD_Updated()
         {
-            return DateD != SavedDateD && DateD != null;
+            return DateD != SavedDateD;
         }
 
         public bool DateE_Updated()
         {
-            return DateE != SavedDateE && DateE != null;
+            return DateE != SavedDateE;
         }
 
         public bool DateF_Updated()
         {
-            return DateF != SavedDateF && DateF != null;
+            return DateF != SavedDateF;
         }
 
         public bool DateG_Updated()
         {
-            return DateG != SavedDateG && DateG != null;
+            return DateG != SavedDateG;
         }
 
         public bool DateH_Updated()
         {
-            return DateH != SavedDateH && DateH != null;
+            return DateH != SavedDateH;
         }
 
         public bool DateI_Updated()
         {
-            return DateI != SavedDateI && DateI != null;
+            return DateI != SavedDateI;
         }
 
         public bool DateJ_Updated()
         {
-            return DateJ != SavedDateJ && DateJ != null;
+            return DateJ != SavedDateJ;
         }
 
         public bool DateK_Updated()
         {
-            return DateK != SavedDateK && DateK != null;
+            return DateK != SavedDateK;
         }
 
         public bool DateL_Updated()
         {
-            return DateL != SavedDateL && DateL != null;
+            return DateL != SavedDateL;
         }
 
         public bool DateM_Updated()
         {
-            return DateM != SavedDateM && DateM != null;
+            return DateM != SavedDateM;
         }
 
         public bool DateN_Updated()
         {
-            return DateN != SavedDateN && DateN != null;
+            return DateN != SavedDateN;
         }
 
         public bool DateO_Updated()
         {
-            return DateO != SavedDateO && DateO != null;
+            return DateO != SavedDateO;
         }
 
         public bool DateP_Updated()
         {
-            return DateP != SavedDateP && DateP != null;
+            return DateP != SavedDateP;
         }
 
         public bool DateQ_Updated()
         {
-            return DateQ != SavedDateQ && DateQ != null;
+            return DateQ != SavedDateQ;
         }
 
         public bool DateR_Updated()
         {
-            return DateR != SavedDateR && DateR != null;
+            return DateR != SavedDateR;
         }
 
         public bool DateS_Updated()
         {
-            return DateS != SavedDateS && DateS != null;
+            return DateS != SavedDateS;
         }
 
         public bool DateT_Updated()
         {
-            return DateT != SavedDateT && DateT != null;
+            return DateT != SavedDateT;
         }
 
         public bool DateU_Updated()
         {
-            return DateU != SavedDateU && DateU != null;
+            return DateU != SavedDateU;
         }
 
         public bool DateV_Updated()
         {
-            return DateV != SavedDateV && DateV != null;
+            return DateV != SavedDateV;
         }
 
         public bool DateW_Updated()
         {
-            return DateW != SavedDateW && DateW != null;
+            return DateW != SavedDateW;
         }
 
         public bool DateX_Updated()
         {
-            return DateX != SavedDateX && DateX != null;
+            return DateX != SavedDateX;
         }
 
         public bool DateY_Updated()
         {
-            return DateY != SavedDateY && DateY != null;
+            return DateY != SavedDateY;
         }
 
         public bool DateZ_Updated()
         {
-            return DateZ != SavedDateZ && DateZ != null;
+            return DateZ != SavedDateZ;
         }
 
         public bool DescriptionA_Updated()

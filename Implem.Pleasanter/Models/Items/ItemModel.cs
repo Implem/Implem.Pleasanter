@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Models
 
         public bool SearchIndexCreatedTime_Updated()
         {
-            return SearchIndexCreatedTime != SavedSearchIndexCreatedTime && SearchIndexCreatedTime != null;
+            return SearchIndexCreatedTime != SavedSearchIndexCreatedTime;
         }
 
         public ItemModel(DataRow dataRow, string tableAlias = null)

@@ -58,12 +58,12 @@ namespace Implem.Pleasanter.Models
 
         public bool CreatedTime_Updated()
         {
-            return CreatedTime.Value != SavedCreatedTime && CreatedTime.Value != null;
+            return CreatedTime.Value != SavedCreatedTime;
         }
 
         public bool UpdatedTime_Updated()
         {
-            return UpdatedTime.Value != SavedUpdatedTime && UpdatedTime.Value != null;
+            return UpdatedTime.Value != SavedUpdatedTime;
         }
     }
 

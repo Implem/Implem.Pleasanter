@@ -12,8 +12,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 {
     public class Time : IConvertable
     {
-        public DateTime Value;
-        public DateTime DisplayValue;
+        public DateTime Value = 0.ToDateTime();
+        public DateTime DisplayValue = 0.ToDateTime();
 
         public Time()
         {
