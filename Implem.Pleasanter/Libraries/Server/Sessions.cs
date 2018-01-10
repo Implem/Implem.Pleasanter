@@ -26,6 +26,12 @@ namespace Implem.Pleasanter.Libraries.Server
             HttpContext.Current.Session[name] = data;
         }
 
+        public static void Abandon()
+        {
+            HttpContext.Current.Session.Clear();
+            HttpContext.Current.Session.Abandon();
+        }
+
         public static void Clear(string name)
         {
             HttpContext.Current.Session[name] = null;
