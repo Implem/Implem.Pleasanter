@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -12,10 +11,6 @@ namespace Implem.Pleasanter.Filters
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            if (!Contract.Api())
-            {
-                filterContext.Result = ApiResults.BadRequest();
-            }
             var api = Forms.String().Deserialize<Api>();
             if (api?.ApiKey.IsNullOrEmpty() == false)
             {
@@ -31,7 +26,15 @@ namespace Implem.Pleasanter.Filters
                 else
                 {
                     Sessions.SetTenantId(userModel.TenantId);
-                    userModel.SetSession();
+                    if (!Contract.Api())
+                    {
+                        Sessions.Abandon();
+                        filterContext.Result = ApiResults.BadRequest();
+                    }
+                    else
+                    {
+                        userModel.SetSession();
+                    }
                 }
             }
             else if (!Sessions.LoggedIn())
