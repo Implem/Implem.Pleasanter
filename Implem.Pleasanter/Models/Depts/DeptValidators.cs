@@ -52,7 +52,9 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission;
             }
             ss.SetColumnAccessControls(deptModel.Mine());
-            foreach (var column in ss.Columns.Where(o => !o.CanCreate))
+            foreach (var column in ss.Columns
+                .Where(o => !o.CanCreate)
+                .Where(o => !ss.FormulaTarget(o.ColumnName)))
             {
                 switch (column.ColumnName)
                 {
@@ -80,7 +82,9 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission;
             }
             ss.SetColumnAccessControls(deptModel.Mine());
-            foreach (var column in ss.Columns.Where(o => !o.CanUpdate))
+            foreach (var column in ss.Columns
+                .Where(o => !o.CanUpdate)
+                .Where(o => !ss.FormulaTarget(o.ColumnName)))
             {
                 switch (column.ColumnName)
                 {

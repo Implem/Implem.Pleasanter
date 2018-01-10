@@ -1444,6 +1444,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
         }
 
+        public bool FormulaTarget(string columnName)
+        {
+            return Formulas?.Any(p => p.Target == columnName) == true;
+        }
+
         public Dictionary<string, ControlData> ViewSelectableOptions()
         {
             return Views != null
