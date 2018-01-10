@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Models
 
         public bool ScheduledTime_Updated()
         {
-            return ScheduledTime != SavedScheduledTime && ScheduledTime != null;
+            return ScheduledTime != SavedScheduledTime;
         }
 
         public ReminderScheduleModel(DataRow dataRow, string tableAlias = null)

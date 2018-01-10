@@ -116,7 +116,7 @@ namespace Implem.Pleasanter.Models
 
         public bool SentTime_Updated()
         {
-            return SentTime.Value != SavedSentTime && SentTime.Value != null;
+            return SentTime.Value != SavedSentTime;
         }
 
         public OutgoingMailModel()

@@ -63,7 +63,7 @@ namespace Implem.Pleasanter.Models
 
         public bool ContractDeadline_Updated()
         {
-            return ContractDeadline != SavedContractDeadline && ContractDeadline != null;
+            return ContractDeadline != SavedContractDeadline;
         }
 
         public TenantModel()

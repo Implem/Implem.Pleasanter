@@ -172,7 +172,7 @@ namespace Implem.Pleasanter.Models
 
         public bool Birthday_Updated()
         {
-            return Birthday.Value != SavedBirthday && Birthday.Value != null;
+            return Birthday.Value != SavedBirthday;
         }
 
         public bool Gender_Updated()
@@ -207,17 +207,17 @@ namespace Implem.Pleasanter.Models
 
         public bool LastLoginTime_Updated()
         {
-            return LastLoginTime.Value != SavedLastLoginTime && LastLoginTime.Value != null;
+            return LastLoginTime.Value != SavedLastLoginTime;
         }
 
         public bool PasswordExpirationTime_Updated()
         {
-            return PasswordExpirationTime.Value != SavedPasswordExpirationTime && PasswordExpirationTime.Value != null;
+            return PasswordExpirationTime.Value != SavedPasswordExpirationTime;
         }
 
         public bool PasswordChangeTime_Updated()
         {
-            return PasswordChangeTime.Value != SavedPasswordChangeTime && PasswordChangeTime.Value != null;
+            return PasswordChangeTime.Value != SavedPasswordChangeTime;
         }
 
         public bool NumberOfLogins_Updated()
