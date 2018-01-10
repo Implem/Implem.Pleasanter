@@ -732,10 +732,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static UsersResponseCollection DeptId(this UsersResponseCollection res, string value) { return res.Val("#Users_DeptId", value); }
         public static UsersResponseCollection DeptId_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DeptId", res.UserModel.DeptId.ToResponse()); }
         public static UsersResponseCollection DeptId_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DeptId", value); }
-        public static UsersResponseCollection FirstAndLastNameOrder(this UsersResponseCollection res) { return res.Val("#Users_FirstAndLastNameOrder", res.UserModel.FirstAndLastNameOrder.ToResponse()); }
-        public static UsersResponseCollection FirstAndLastNameOrder(this UsersResponseCollection res, string value) { return res.Val("#Users_FirstAndLastNameOrder", value); }
-        public static UsersResponseCollection FirstAndLastNameOrder_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_FirstAndLastNameOrder", res.UserModel.FirstAndLastNameOrder.ToResponse()); }
-        public static UsersResponseCollection FirstAndLastNameOrder_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_FirstAndLastNameOrder", value); }
         public static UsersResponseCollection Body(this UsersResponseCollection res) { return res.Val("#Users_Body", res.UserModel.Body.ToResponse()); }
         public static UsersResponseCollection Body(this UsersResponseCollection res, string value) { return res.Val("#Users_Body", value); }
         public static UsersResponseCollection Body_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_Body", res.UserModel.Body.ToResponse()); }

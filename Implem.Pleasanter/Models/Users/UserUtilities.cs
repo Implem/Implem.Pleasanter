@@ -735,15 +735,6 @@ namespace Implem.Pleasanter.Models
                             column.ColumnPermissionType(),
                             preview: preview);
                         break;
-                    case "FirstAndLastNameOrder":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.FirstAndLastNameOrder.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
                     case "Body":
                         hb.Field(
                             ss,
