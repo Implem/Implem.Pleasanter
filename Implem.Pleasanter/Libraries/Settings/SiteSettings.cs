@@ -358,7 +358,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.EnableGantt = EnableGantt;
             }
-            if (ShowGanttProgressRate==false)
+            if (ShowGanttProgressRate == false)
             {
                 ss.ShowGanttProgressRate = ShowGanttProgressRate;
             }
