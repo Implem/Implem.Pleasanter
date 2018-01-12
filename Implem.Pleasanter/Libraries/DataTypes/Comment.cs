@@ -79,5 +79,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Body = body;
             Updated = true;
         }
+
+        public Comment ToLocal()
+        {
+            return new Comment()
+            {
+                CommentId = CommentId,
+                CreatedTime = CreatedTime.ToLocal(),
+                UpdatedTime = UpdatedTime?.ToLocal(),
+                Creator = Creator,
+                Updator = Updator,
+                Body = Body
+            };
+        }
     }
 }

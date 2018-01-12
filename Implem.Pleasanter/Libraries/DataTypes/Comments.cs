@@ -66,6 +66,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
+        public Comments ToLocal()
+        {
+            var comments = new Comments();
+            ForEach(o => comments.Add(o.ToLocal()));
+            return comments;
+        }
+
         public string ToControl(SiteSettings ss, Column column)
         {
             return string.Empty;

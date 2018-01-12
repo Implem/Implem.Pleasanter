@@ -154,11 +154,11 @@ namespace Implem.Pleasanter.Models
                     case "Ver": data.Ver = Ver; break;
                     case "GroupName": data.GroupName = GroupName; break;
                     case "Body": data.Body = Body; break;
-                    case "Comments": data.Comments = Comments.ToJson(); break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
-                    case "CreatedTime": data.CreatedTime = CreatedTime.Value; break;
-                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value; break;
+                    case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(); break;
+                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(); break;
+                    case "Comments": data.Comments = Comments.ToLocal().ToJson(); break;
                 }
             });
             return data;
