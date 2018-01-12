@@ -384,16 +384,16 @@ namespace Implem.Pleasanter.Models
                     case "Password": data.Password = Password; break;
                     case "LastName": data.LastName = LastName; break;
                     case "FirstName": data.FirstName = FirstName; break;
-                    case "Birthday": data.Birthday = Birthday.Value; break;
+                    case "Birthday": data.Birthday = Birthday.Value.ToLocal(); break;
                     case "Gender": data.Gender = Gender; break;
                     case "Language": data.Language = Language; break;
                     case "TimeZone": data.TimeZone = TimeZone; break;
                     case "DeptId": data.DeptId = DeptId; break;
                     case "FirstAndLastNameOrder": data.FirstAndLastNameOrder = FirstAndLastNameOrder.ToInt(); break;
                     case "Body": data.Body = Body; break;
-                    case "LastLoginTime": data.LastLoginTime = LastLoginTime.Value; break;
-                    case "PasswordExpirationTime": data.PasswordExpirationTime = PasswordExpirationTime.Value; break;
-                    case "PasswordChangeTime": data.PasswordChangeTime = PasswordChangeTime.Value; break;
+                    case "LastLoginTime": data.LastLoginTime = LastLoginTime.Value.ToLocal(); break;
+                    case "PasswordExpirationTime": data.PasswordExpirationTime = PasswordExpirationTime.Value.ToLocal(); break;
+                    case "PasswordChangeTime": data.PasswordChangeTime = PasswordChangeTime.Value.ToLocal(); break;
                     case "NumberOfLogins": data.NumberOfLogins = NumberOfLogins; break;
                     case "NumberOfDenial": data.NumberOfDenial = NumberOfDenial; break;
                     case "TenantManager": data.TenantManager = TenantManager; break;
@@ -402,11 +402,11 @@ namespace Implem.Pleasanter.Models
                     case "Developer": data.Developer = Developer; break;
                     case "UserSettings": data.UserSettings = UserSettings.RecordingJson(); break;
                     case "ApiKey": data.ApiKey = ApiKey; break;
-                    case "Comments": data.Comments = Comments.ToJson(); break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
-                    case "CreatedTime": data.CreatedTime = CreatedTime.Value; break;
-                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value; break;
+                    case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(); break;
+                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(); break;
+                    case "Comments": data.Comments = Comments.ToLocal().ToJson(); break;
                 }
             });
             return data;
