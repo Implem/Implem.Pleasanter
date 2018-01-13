@@ -2678,7 +2678,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.Link != null)
                 .Select(o => (!o.Column.TableAlias.IsNullOrEmpty()
                     ? o.Column.TableAlias + "-"
-                    : string.Empty) + 
+                    : string.Empty) +
                         o.Link.ColumnName + "~" + o.Link.SiteId + ",Title")
                 .ToList();
         }
