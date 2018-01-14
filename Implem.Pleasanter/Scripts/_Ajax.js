@@ -56,3 +56,47 @@ $p.upload = function (requestUrl, methodType, data, $eventSender) {
         $p.loaded();
     });
 }
+
+$p.multiUpload = function (formData, status, uploadUrl) {
+    $p.clearMessage();
+    var uploader = $.ajax({
+        xhr: function () {
+            var uploadobj = $.ajaxSettings.xhr();
+            if (uploadobj.upload) {
+                uploadobj.upload.addEventListener('progress', function (event) {
+                    var percent = 0;
+                    var position = event.loaded || event.position;
+                    var total = event.total;
+                    if (event.lengthComputable) {
+                        percent = Math.ceil(position / total * 100);
+                    }
+                    status.setProgress(percent);
+                }, false);
+            }
+            return uploadobj;
+        },
+        url: uploadUrl,
+        type: 'POST',
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: formData,
+        success: function (data) {
+            status.setProgress(100);
+        }
+    })
+        .done(function (response, textStatus, jqXHR) {
+            $p.setByJson(JSON.parse(response), formData);
+            return true;
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus + '\n' +
+                $(jqXHR.responseText).text().trim().replace('\n', ''));
+            return false;
+        })
+        .always(function (jqXHR, textStatus) {
+            $p.clearData('ControlId', formData);
+            $p.loaded();
+        });
+    status.setAbort(uploader);
+}
