@@ -1,7 +1,11 @@
-﻿using Implem.Pleasanter.Interfaces;
-using System.Collections.Generic;
+﻿using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Collections.Generic;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     public class Attachments : List<Attachment>, IConvertable
@@ -10,22 +14,23 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public Attachments(List<string> data)
-        {
-
-        }
-
         public HtmlBuilder Td(HtmlBuilder hb, Column column)
         {
-            return hb;
+            return hb.Td(action: () => hb
+                .Ol(action: () => ForEach(item => hb
+                    .Li(action: () =>　hb
+                        .A(
+                            href: $"/binaries/{item.Guid}/download",
+                            action: () => hb
+                                .Text(text: item.Name))))));
         }
 
         public string ToControl(SiteSettings ss, Column column)
         {
-            return string.Empty;
+            return this.ToJson();
         }
 
-        public string ToExport(Column column, ExportColumn exportColumn = null)
+        public string ToExport(Column column, ExportColumn exportColumn)
         {
             return string.Empty;
         }
@@ -33,6 +38,25 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string ToResponse()
         {
             return string.Empty;
+        }
+
+        public string RecordingJson()
+        {
+            var attachments = new Attachments();
+            this
+                .Where(o => o.Deleted != true)
+                .ForEach(item => attachments.Add(new Attachment()
+                {
+                    Guid = item.Guid,
+                    Name = item.Name,
+                    Size = item.Size
+                }));
+            return attachments.ToJson();
+        }
+
+        public void SqlStatements(List<SqlStatement> statements, long referenceId)
+        {
+            ForEach(attachment => attachment.SqlStatement(statements, referenceId));
         }
     }
 }

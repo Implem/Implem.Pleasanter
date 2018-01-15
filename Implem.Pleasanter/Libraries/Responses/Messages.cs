@@ -193,6 +193,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.FailedReadFile(data), "alert-error");
         }
 
+        public static Message FileDragDrop(params string[] data)
+        {
+            return Get(Displays.FileDragDrop(data), "alert-success");
+        }
+
         public static Message FileNotFound(params string[] data)
         {
             return Get(Displays.FileNotFound(data), "alert-error");
@@ -321,6 +326,21 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message NotRequiredColumn(params string[] data)
         {
             return Get(Displays.NotRequiredColumn(data), "alert-error");
+        }
+
+        public static Message OverLimitQuantity(params string[] data)
+        {
+            return Get(Displays.OverLimitQuantity(data), "alert-error");
+        }
+
+        public static Message OverLimitSize(params string[] data)
+        {
+            return Get(Displays.OverLimitSize(data), "alert-error");
+        }
+
+        public static Message OverTotalLimitSize(params string[] data)
+        {
+            return Get(Displays.OverTotalLimitSize(data), "alert-error");
         }
 
         public static Message PasswordNotChanged(params string[] data)
@@ -603,6 +623,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(FailedReadFile(data));
         }
 
+        public static ResponseCollection ResponseFileDragDrop(params string[] data)
+        {
+            return ResponseMessage(FileDragDrop(data));
+        }
+
         public static ResponseCollection ResponseFileNotFound(params string[] data)
         {
             return ResponseMessage(FileNotFound(data));
@@ -731,6 +756,21 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseNotRequiredColumn(params string[] data)
         {
             return ResponseMessage(NotRequiredColumn(data));
+        }
+
+        public static ResponseCollection ResponseOverLimitQuantity(params string[] data)
+        {
+            return ResponseMessage(OverLimitQuantity(data));
+        }
+
+        public static ResponseCollection ResponseOverLimitSize(params string[] data)
+        {
+            return ResponseMessage(OverLimitSize(data));
+        }
+
+        public static ResponseCollection ResponseOverTotalLimitSize(params string[] data)
+        {
+            return ResponseMessage(OverTotalLimitSize(data));
         }
 
         public static ResponseCollection ResponsePasswordNotChanged(params string[] data)

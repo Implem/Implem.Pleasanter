@@ -733,6 +733,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.DateFilterMonth = column.DateFilterMonth;
                     }
+                    if (column.LimitQuantity != Parameters.BinaryStorage.LimitQuantity)
+                    {
+                        enabled = true;
+                        newColumn.LimitQuantity = column.LimitQuantity;
+                    }
+                    if (column.LimitSize != Parameters.BinaryStorage.LimitSize)
+                    {
+                        enabled = true;
+                        newColumn.LimitSize = column.LimitSize;
+                    }
+                    if (column.TotalLimitSize != Parameters.BinaryStorage.LimitTotalSize)
+                    {
+                        enabled = true;
+                        newColumn.TotalLimitSize = column.TotalLimitSize;
+                    }
                 }
                 if (enabled)
                 {
@@ -757,7 +772,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var excludeColumns = Parameters.ExcludeColumns.Get(referenceType);
             return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == referenceType)
-                .Where(o => o.ControlType != "Attachments")
+                .Where(o => Contract.Attachments() || o.ControlType != "Attachments")
                 .Where(o => excludeColumns?.Contains(o.ColumnName) != true)
                 .ToDictionary(o => o.ColumnName, o => o);
         }
@@ -957,6 +972,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.DateFilterHalf = column.DateFilterHalf ?? true;
                 column.DateFilterQuarter = column.DateFilterQuarter ?? true;
                 column.DateFilterMonth = column.DateFilterMonth ?? true;
+                column.LimitQuantity = column.LimitQuantity ?? Parameters.BinaryStorage.LimitQuantity;
+                column.LimitSize = column.LimitSize ?? Parameters.BinaryStorage.LimitSize;
+                column.TotalLimitSize = column.TotalLimitSize ?? Parameters.BinaryStorage.LimitTotalSize;
                 column.Size = columnDefinition.Size;
                 column.Required = columnDefinition.Required;
                 column.RecordedTime = columnDefinition.Default == "now";
@@ -1979,6 +1997,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DateFilterHalf": column.DateFilterHalf = value.ToBool(); break;
                 case "DateFilterQuarter": column.DateFilterQuarter = value.ToBool(); break;
                 case "DateFilterMonth": column.DateFilterMonth = value.ToBool(); break;
+                case "LimitQuantity": column.LimitQuantity = value.ToInt(); break;
+                case "LimitSize": column.LimitSize = value.ToInt(); break;
+                case "LimitTotalSize": column.TotalLimitSize = value.ToInt(); break;
                 case "TitleSeparator": TitleSeparator = value; break;
             }
         }

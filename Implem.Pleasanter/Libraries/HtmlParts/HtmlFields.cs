@@ -27,7 +27,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             DropDown,
             CheckBox,
             Slider,
-            Spinner
+            Spinner,
+            Attachments
         }
 
         public static HtmlBuilder Field(
@@ -187,6 +188,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 text: value,
                                 placeholder: column.LabelText,
                                 readOnly: column.EditorReadOnly == true,
+                                validateRequired: required,
+                                preview: preview);
+                        case ControlTypes.Attachments:
+                            return hb.FieldAttachments(
+                                fieldId: controlId + "Field",
+                                controlId: controlId,
+                                columnName: column.ColumnName,
+                                fieldCss: fieldCss,
+                                labelCss: labelCss,
+                                controlContainerCss: controlContainerCss,
+                                controlCss: controlCss,
+                                labelText: column.LabelText,
+                                value: value,
+                                placeholder: column.LabelText,
+                                readOnly: true,
                                 validateRequired: required,
                                 preview: preview);
                         default:
@@ -368,6 +384,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 step: column.Step.ToDecimal(),
                                 width: 50,
                                 unit: column.Unit);
+                        case ControlTypes.Attachments:
+                            return hb.FieldAttachments(
+                                fieldId: controlId + "Field",
+                                controlId: controlId,
+                                columnName: column.ColumnName,
+                                fieldCss: fieldCss,
+                                labelCss: labelCss,
+                                controlContainerCss: controlContainerCss,
+                                controlCss: controlCss,
+                                labelText: column.LabelText,
+                                value: value,
+                                placeholder: column.LabelText,
+                                readOnly: column.EditorReadOnly.ToBool(),
+                                validateRequired: required,
+                                preview: preview);
                         default:
                             return hb;
                     }
@@ -420,9 +451,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     case Types.CsBool:
                         return ControlTypes.CheckBox;
                     default:
-                        return column.FieldCss == "field-markdown"
-                            ? ControlTypes.MarkDown
-                            : ControlTypes.Text;
+                        switch (column.ControlType)
+                        {
+                            case "MarkDown": return ControlTypes.MarkDown;
+                            case "Attachments": return ControlTypes.Attachments;
+                            default: return ControlTypes.Text;
+                        }
                 }
             }
             switch (column.ControlType)
@@ -431,6 +465,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "Id": return ControlTypes.Text;
                 case "Slider": return ControlTypes.Slider;
                 case "Spinner": return ControlTypes.Spinner;
+                case "Attachments": return ControlTypes.Attachments;
             }
             switch (column.TypeName.CsTypeSummary())
             {
@@ -1170,6 +1205,46 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             listItemCollection: listItemCollection,
                             selectedValueCollection: selectedValueCollection),
                     actionOptions: actionOptions)
+                : hb;
+        }
+
+        public static HtmlBuilder FieldAttachments(
+            this HtmlBuilder hb,
+            string fieldId = null,
+            string controlId = null,
+            string columnName = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
+            string value = null,
+            string placeholder = null,
+            bool readOnly = false,
+            bool validateRequired = false,
+            Dictionary<string, string> attributes = null,
+            bool preview = false,
+            bool _using = true)
+        {
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    controlId: controlId,
+                    fieldCss: fieldCss,
+                    labelCss: labelCss,
+                    controlContainerCss: controlContainerCss,
+                    labelText: labelText,
+                    controlAction: () => hb
+                        .Attachments(
+                            controlId: controlId,
+                            columnName: columnName,
+                            controlCss: controlCss,
+                            value: value,
+                            placeholder: placeholder,
+                            readOnly: readOnly,
+                            validateRequired: validateRequired,
+                            attributes: attributes,
+                            preview: preview))
                 : hb;
         }
     }

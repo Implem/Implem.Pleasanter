@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Filters;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
+using System.Web;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
@@ -50,6 +51,42 @@ namespace Implem.Pleasanter.Controllers
                 : new ResponseCollection().ToJson();
             log.Finish(0);
             return json;
+        }
+
+        [HttpPost]
+        public string MultiUpload(string reference, long id, HttpPostedFileBase[] file)
+        {
+            var log = new SysLogModel();
+            var json = BinaryUtilities.MultiUpload(file, id);
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpGet]
+        public FileContentResult Download(string reference, string guid)
+        {
+            var log = new SysLogModel();
+            var file = BinaryUtilities.Donwload(guid);
+            log.Finish(file?.FileContents.Length ?? 0);
+            return file;
+        }
+
+        [HttpGet]
+        public FileContentResult DownloadTemp(string reference, string guid)
+        {
+            var log = new SysLogModel();
+            var file = BinaryUtilities.DownloadTemp(guid);
+            log.Finish(file?.FileContents.Length ?? 0);
+            return file;
+        }
+
+        [HttpPost]
+        public string DeleteTemp(string reference, long id)
+        {
+            var log = new SysLogModel();
+            var json = BinaryUtilities.DeleteTemp();
+            log.Finish(json.Length);
+            return json.ToString();
         }
     }
 }

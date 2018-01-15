@@ -2864,7 +2864,32 @@ namespace Implem.Pleasanter.Models
                                             labelText: Displays.DefaultInput(),
                                             text: column.DefaultInput);
                                         break;
-                                    case "Attachment":
+                                    case "Attachments":
+                                        hb
+                                            .FieldSpinner(
+                                                controlId: "LimitQuantity",
+                                                labelText: Displays.LimitQuantity(),
+                                                value: column.LimitQuantity,
+                                                min: Parameters.BinaryStorage.MinQuantity,
+                                                max: Parameters.BinaryStorage.MaxQuantity,
+                                                step: column.Step.ToInt(),
+                                                width: 50)
+                                            .FieldSpinner(
+                                                controlId: "LimitSize",
+                                                labelText: Displays.LimitSize(),
+                                                value: column.LimitSize,
+                                                min: Parameters.BinaryStorage.MinSize,
+                                                max: Parameters.BinaryStorage.MaxSize,
+                                                step: column.Step.ToInt(),
+                                                width: 50)
+                                            .FieldSpinner(
+                                                controlId: "LimitTotalSize",
+                                                labelText: Displays.LimitTotalSize(),
+                                                value: column.TotalLimitSize,
+                                                min: Parameters.BinaryStorage.TotalMinSize,
+                                                max: Parameters.BinaryStorage.TotalMaxSize,
+                                                step: column.Step.ToInt(),
+                                                width: 50);
                                         break;
                                     default:
                                         hb.FieldTextBox(

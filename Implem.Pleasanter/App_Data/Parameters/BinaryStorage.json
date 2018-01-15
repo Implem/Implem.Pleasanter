@@ -1,4 +1,14 @@
 ﻿{
     "Provider": "Rds",
-    "Path": null
+    "Path": null,
+    "Attachments": true,
+    "LimitQuantity": 10,
+    "MinQuantity": 1,
+    "MaxQuantity": 10,
+    "LimitSize": 20,
+    "MinSize": 1,
+    "MaxSize": 20,
+    "LimitTotalSize": 200,
+    "TotalMinSize": 1,
+    "TotalMaxSize": 200
 }

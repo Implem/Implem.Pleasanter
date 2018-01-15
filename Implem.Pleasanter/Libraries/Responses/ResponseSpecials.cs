@@ -1068,42 +1068,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static LinksResponseCollection Timestamp(this LinksResponseCollection res, string value) { return res.Val("#Links_Timestamp", value); }
         public static LinksResponseCollection Timestamp_FormData(this LinksResponseCollection res) { return res.ValAndFormData("#Links_Timestamp", res.LinkModel.Timestamp.ToResponse()); }
         public static LinksResponseCollection Timestamp_FormData(this LinksResponseCollection res, string value) { return res.ValAndFormData("#Links_Timestamp", value); }
-        public static BinariesResponseCollection ReferenceId(this BinariesResponseCollection res) { return res.Val("#Binaries_ReferenceId", res.BinaryModel.ReferenceId.ToResponse()); }
-        public static BinariesResponseCollection ReferenceId(this BinariesResponseCollection res, string value) { return res.Val("#Binaries_ReferenceId", value); }
-        public static BinariesResponseCollection ReferenceId_FormData(this BinariesResponseCollection res) { return res.ValAndFormData("#Binaries_ReferenceId", res.BinaryModel.ReferenceId.ToResponse()); }
-        public static BinariesResponseCollection ReferenceId_FormData(this BinariesResponseCollection res, string value) { return res.ValAndFormData("#Binaries_ReferenceId", value); }
-        public static BinariesResponseCollection BinaryId(this BinariesResponseCollection res) { return res.Val("#Binaries_BinaryId", res.BinaryModel.BinaryId.ToResponse()); }
-        public static BinariesResponseCollection BinaryId(this BinariesResponseCollection res, string value) { return res.Val("#Binaries_BinaryId", value); }
-        public static BinariesResponseCollection BinaryId_FormData(this BinariesResponseCollection res) { return res.ValAndFormData("#Binaries_BinaryId", res.BinaryModel.BinaryId.ToResponse()); }
-        public static BinariesResponseCollection BinaryId_FormData(this BinariesResponseCollection res, string value) { return res.ValAndFormData("#Binaries_BinaryId", value); }
         public static BinariesResponseCollection Ver(this BinariesResponseCollection res) { return res.Val("#Binaries_Ver", res.BinaryModel.Ver.ToResponse()); }
         public static BinariesResponseCollection Ver(this BinariesResponseCollection res, string value) { return res.Val("#Binaries_Ver", value); }
         public static BinariesResponseCollection Ver_FormData(this BinariesResponseCollection res) { return res.ValAndFormData("#Binaries_Ver", res.BinaryModel.Ver.ToResponse()); }
         public static BinariesResponseCollection Ver_FormData(this BinariesResponseCollection res, string value) { return res.ValAndFormData("#Binaries_Ver", value); }
-        public static BinariesResponseCollection BinaryType(this BinariesResponseCollection res) { return res.Val("#Binaries_BinaryType", res.BinaryModel.BinaryType.ToResponse()); }
-        public static BinariesResponseCollection BinaryType(this BinariesResponseCollection res, string value) { return res.Val("#Binaries_BinaryType", value); }
-        public static BinariesResponseCollection BinaryType_FormData(this BinariesResponseCollection res) { return res.ValAndFormData("#Binaries_BinaryType", res.BinaryModel.BinaryType.ToResponse()); }
-        public static BinariesResponseCollection BinaryType_FormData(this BinariesResponseCollection res, string value) { return res.ValAndFormData("#Binaries_BinaryType", value); }
-        public static BinariesResponseCollection Title(this BinariesResponseCollection res) { return res.Val("#Binaries_Title", res.BinaryModel.Title.ToResponse()); }
-        public static BinariesResponseCollection Title(this BinariesResponseCollection res, string value) { return res.Val("#Binaries_Title", value); }
-        public static BinariesResponseCollection Title_FormData(this BinariesResponseCollection res) { return res.ValAndFormData("#Binaries_Title", res.BinaryModel.Title.ToResponse()); }
-        public static BinariesResponseCollection Title_FormData(this BinariesResponseCollection res, string value) { return res.ValAndFormData("#Binaries_Title", value); }
-        public static BinariesResponseCollection Body(this BinariesResponseCollection res) { return res.Val("#Binaries_Body", res.BinaryModel.Body.ToResponse()); }
-        public static BinariesResponseCollection Body(this BinariesResponseCollection res, string value) { return res.Val("#Binaries_Body", value); }
-        public static BinariesResponseCollection Body_FormData(this BinariesResponseCollection res) { return res.ValAndFormData("#Binaries_Body", res.BinaryModel.Body.ToResponse()); }
-        public static BinariesResponseCollection Body_FormData(this BinariesResponseCollection res, string value) { return res.ValAndFormData("#Binaries_Body", value); }
-        public static BinariesResponseCollection FileName(this BinariesResponseCollection res) { return res.Val("#Binaries_FileName", res.BinaryModel.FileName.ToResponse()); }
-        public static BinariesResponseCollection FileName(this BinariesResponseCollection res, string value) { return res.Val("#Binaries_FileName", value); }
-        public static BinariesResponseCollection FileName_FormData(this BinariesResponseCollection res) { return res.ValAndFormData("#Binaries_FileName", res.BinaryModel.FileName.ToResponse()); }
-        public static BinariesResponseCollection FileName_FormData(this BinariesResponseCollection res, string value) { return res.ValAndFormData("#Binaries_FileName", value); }
-        public static BinariesResponseCollection Extension(this BinariesResponseCollection res) { return res.Val("#Binaries_Extension", res.BinaryModel.Extension.ToResponse()); }
-        public static BinariesResponseCollection Extension(this BinariesResponseCollection res, string value) { return res.Val("#Binaries_Extension", value); }
-        public static BinariesResponseCollection Extension_FormData(this BinariesResponseCollection res) { return res.ValAndFormData("#Binaries_Extension", res.BinaryModel.Extension.ToResponse()); }
-        public static BinariesResponseCollection Extension_FormData(this BinariesResponseCollection res, string value) { return res.ValAndFormData("#Binaries_Extension", value); }
-        public static BinariesResponseCollection Size(this BinariesResponseCollection res) { return res.Val("#Binaries_Size", res.BinaryModel.Size.ToResponse()); }
-        public static BinariesResponseCollection Size(this BinariesResponseCollection res, string value) { return res.Val("#Binaries_Size", value); }
-        public static BinariesResponseCollection Size_FormData(this BinariesResponseCollection res) { return res.ValAndFormData("#Binaries_Size", res.BinaryModel.Size.ToResponse()); }
-        public static BinariesResponseCollection Size_FormData(this BinariesResponseCollection res, string value) { return res.ValAndFormData("#Binaries_Size", value); }
         public static BinariesResponseCollection Comments(this BinariesResponseCollection res) { return res.Val("#Binaries_Comments", res.BinaryModel.Comments.ToResponse()); }
         public static BinariesResponseCollection Comments(this BinariesResponseCollection res, string value) { return res.Val("#Binaries_Comments", value); }
         public static BinariesResponseCollection Comments_FormData(this BinariesResponseCollection res) { return res.ValAndFormData("#Binaries_Comments", res.BinaryModel.Comments.ToResponse()); }

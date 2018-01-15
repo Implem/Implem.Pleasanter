@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
@@ -645,6 +646,117 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         }));
             }
             return hb;
+        }
+
+        public static HtmlBuilder Attachments(
+           this HtmlBuilder hb,
+            string controlId = null,
+            string columnName = null,
+            string controlCss = null,
+            string value = null,
+            string placeholder = null,
+            bool readOnly = false,
+            bool validateRequired = false,
+            Dictionary<string, string> attributes = null,
+            bool preview = false,
+            bool _using = true)
+        {
+            if (preview) controlId = Strings.NewGuid();
+            var attachments = value.Deserialize<Attachments>();
+            return _using
+                ? hb
+                    .Hidden(
+                        controlId: controlId,
+                        css: "control-attachments",
+                        value: value)
+                    .Div(
+                        id: columnName + ".upload",
+                        css: "control-attachments-upload",
+                        attributes: new HtmlAttributes()
+                            .DataName(columnName)
+                            .DataAction("binaries/multiupload"),
+                        action: () => hb
+                            .Text(text: Displays.FileDragDrop())
+                            .Input(
+                                id: columnName + ".input",
+                                attributes: new HtmlAttributes()
+                                    .Class("hidden")
+                                    .Type("file")
+                                    .Multiple(true)),
+                        _using: !readOnly)
+                    .Div(
+                        id: columnName + ".items",
+                        css: "control-attachments-items",
+                        action: () => attachments?
+                            .ForEach(item => hb
+                                .AttachmentItem(
+                                    controlId: controlId,
+                                    guid: item.Guid,
+                                    css: item.Added == true
+                                        ? string.Empty
+                                        : item.Deleted == true
+                                            ? "already-attachments preparation-delete "
+                                            : "already-attachments ",
+                                    fileName: item.Name,
+                                    displaySize: item.DisplaySize(),
+                                    added: item.Added,
+                                    deleted: item.Deleted,
+                                    readOnly: readOnly)))
+                    .Div(
+                        id: columnName + ".status",
+                        attributes: new HtmlAttributes()
+                            .Style("display: none; "),
+                        action: () => hb
+                            .Div(
+                                id: columnName + ".progress",
+                                css: "progress-bar",
+                                action: () => hb
+                                    .Div())
+                            .Div(
+                                id: columnName + ".abort",
+                                css: "abort",
+                                action: () => hb
+                                    .Text(text: Displays.Cancel())),
+                        _using: !readOnly)
+                : hb;
+        }
+
+        private static HtmlBuilder AttachmentItem(
+            this HtmlBuilder hb,
+            string controlId = null,
+            string guid = null,
+            string css = null,
+            string fileName = null,
+            string displaySize = null,
+            bool? added = null,
+            bool? deleted = null,
+            bool readOnly = false,
+            bool _using = true)
+        {
+            return _using
+                ? hb.Div(
+                    id: guid,
+                    css: Css.Class("control-attachments-item ", css),
+                    action: () => hb
+                        .A(
+                            attributes: new HtmlAttributes()
+                                .Class("file-name")
+                                .Href($"/binaries/{guid}" +
+                                    (added != true
+                                        ? "/download"
+                                        : "/downloadtemp")),
+                            action: () => hb
+                                .Text(text: fileName + "　(" + displaySize + ")"))
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Class(deleted == true
+                                    ? "ui-icon ui-icon-trash file-delete"
+                                    : "ui-icon ui-icon-circle-close file-delete")
+                                .DataAction("binaries/deletetemp")
+                                .DataId(guid)
+                                .OnClick($"$p.deleteAttachment($('#{controlId}'), $(this));"),
+                            _using: !readOnly))
+                 : hb;
         }
     }
 }

@@ -124,5 +124,88 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseFileUpdateCompleted().ToJson();
             }
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string MultiUpload(System.Web.HttpPostedFileBase[] files, long id)
+        {
+            var controlId = Forms.ControlId();
+            var ss = new ItemModel(id).GetSite(initSiteSettings: true).SiteSettings;
+            var column = ss.GetColumn(Forms.Data("ColumnName"));
+            var attachments = Forms.Data("AttachmentsData").Deserialize<Attachments>();
+            var invalid = BinaryValidators.OnUploading(column, attachments, files);
+            switch (invalid)
+            {
+                case Error.Types.OverLimitQuantity:
+                    return Messages.ResponseOverLimitQuantity(
+                        column.LimitQuantity.ToString()).ToJson();
+                case Error.Types.OverLimitSize:
+                    return Messages.OverLimitSize(
+                        column.LimitSize.ToString()).ToJson();
+                case Error.Types.OverTotalLimitSize:
+                    return Messages.OverTotalLimitSize(
+                        column.TotalLimitSize.ToString()).ToJson();
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            files.ForEach(file => attachments.Add(new Attachment()
+            {
+                Guid = file.WriteToTemp(),
+                Name = file.FileName,
+                Size = file.ContentLength,
+                Extention = file.Extension(),
+                ContentType = file.ContentType,
+                Added = true,
+                Deleted = false
+            }));
+            var hb = new HtmlBuilder();
+            return new ResponseCollection()
+                .ReplaceAll($"#{controlId}Field", new HtmlBuilder()
+                    .Field(
+                        ss: ss,
+                        column: column,
+                        value: attachments.ToJson(),
+                        columnPermissionType: column.ColumnPermissionType()))
+                .SetData("#" + controlId)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Web.Mvc.FileContentResult Donwload(string guid)
+        {
+            if (!Contract.Attachments())
+            {
+                return null;
+            }
+            return FileContentResults.Download(guid);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Web.Mvc.FileContentResult DownloadTemp(string guid)
+        {
+            if (!Contract.Attachments())
+            {
+                return null;
+            }
+            return FileContentResults.DownloadTemp(guid);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string DeleteTemp()
+        {
+            if (!Contract.Attachments())
+            {
+                return null;
+            }
+            File.DeleteTemp(Forms.Data("Guid"));
+            return "[]";
+        }
     }
 }
