@@ -28,10 +28,10 @@ namespace Implem.Libraries.Utilities
 
         public static string NewGuid()
         {
-            return "_{0}_".Params(Guid.NewGuid()
+            return Guid.NewGuid()
                 .ToString()
                 .Replace("-", string.Empty)
-                .ToUpper());
+                .ToUpper();
         }
 
         public static string Tab(int number)
