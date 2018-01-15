@@ -83,8 +83,8 @@ namespace Implem.Libraries.Utilities
         {
             return dataRow.Table.Columns.Contains(name)
                 ? dataRow[name] is DBNull 
-                    ? dataRow[name] as byte[]
-                    : null
+                    ? null
+                    : dataRow[name] as byte[]
                 : null;
         }
 
