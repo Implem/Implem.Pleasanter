@@ -3729,136 +3729,6 @@ namespace Implem.Pleasanter.Models
                                 "#Issues_CheckZ",
                                 issueModel.CheckZ.ToControl(ss, column));
                             break;
-                        case "AttachmentsA":
-                            res.Val(
-                                "#Issues_AttachmentsA",
-                                issueModel.AttachmentsA.ToControl(ss, column));
-                            break;
-                        case "AttachmentsB":
-                            res.Val(
-                                "#Issues_AttachmentsB",
-                                issueModel.AttachmentsB.ToControl(ss, column));
-                            break;
-                        case "AttachmentsC":
-                            res.Val(
-                                "#Issues_AttachmentsC",
-                                issueModel.AttachmentsC.ToControl(ss, column));
-                            break;
-                        case "AttachmentsD":
-                            res.Val(
-                                "#Issues_AttachmentsD",
-                                issueModel.AttachmentsD.ToControl(ss, column));
-                            break;
-                        case "AttachmentsE":
-                            res.Val(
-                                "#Issues_AttachmentsE",
-                                issueModel.AttachmentsE.ToControl(ss, column));
-                            break;
-                        case "AttachmentsF":
-                            res.Val(
-                                "#Issues_AttachmentsF",
-                                issueModel.AttachmentsF.ToControl(ss, column));
-                            break;
-                        case "AttachmentsG":
-                            res.Val(
-                                "#Issues_AttachmentsG",
-                                issueModel.AttachmentsG.ToControl(ss, column));
-                            break;
-                        case "AttachmentsH":
-                            res.Val(
-                                "#Issues_AttachmentsH",
-                                issueModel.AttachmentsH.ToControl(ss, column));
-                            break;
-                        case "AttachmentsI":
-                            res.Val(
-                                "#Issues_AttachmentsI",
-                                issueModel.AttachmentsI.ToControl(ss, column));
-                            break;
-                        case "AttachmentsJ":
-                            res.Val(
-                                "#Issues_AttachmentsJ",
-                                issueModel.AttachmentsJ.ToControl(ss, column));
-                            break;
-                        case "AttachmentsK":
-                            res.Val(
-                                "#Issues_AttachmentsK",
-                                issueModel.AttachmentsK.ToControl(ss, column));
-                            break;
-                        case "AttachmentsL":
-                            res.Val(
-                                "#Issues_AttachmentsL",
-                                issueModel.AttachmentsL.ToControl(ss, column));
-                            break;
-                        case "AttachmentsM":
-                            res.Val(
-                                "#Issues_AttachmentsM",
-                                issueModel.AttachmentsM.ToControl(ss, column));
-                            break;
-                        case "AttachmentsN":
-                            res.Val(
-                                "#Issues_AttachmentsN",
-                                issueModel.AttachmentsN.ToControl(ss, column));
-                            break;
-                        case "AttachmentsO":
-                            res.Val(
-                                "#Issues_AttachmentsO",
-                                issueModel.AttachmentsO.ToControl(ss, column));
-                            break;
-                        case "AttachmentsP":
-                            res.Val(
-                                "#Issues_AttachmentsP",
-                                issueModel.AttachmentsP.ToControl(ss, column));
-                            break;
-                        case "AttachmentsQ":
-                            res.Val(
-                                "#Issues_AttachmentsQ",
-                                issueModel.AttachmentsQ.ToControl(ss, column));
-                            break;
-                        case "AttachmentsR":
-                            res.Val(
-                                "#Issues_AttachmentsR",
-                                issueModel.AttachmentsR.ToControl(ss, column));
-                            break;
-                        case "AttachmentsS":
-                            res.Val(
-                                "#Issues_AttachmentsS",
-                                issueModel.AttachmentsS.ToControl(ss, column));
-                            break;
-                        case "AttachmentsT":
-                            res.Val(
-                                "#Issues_AttachmentsT",
-                                issueModel.AttachmentsT.ToControl(ss, column));
-                            break;
-                        case "AttachmentsU":
-                            res.Val(
-                                "#Issues_AttachmentsU",
-                                issueModel.AttachmentsU.ToControl(ss, column));
-                            break;
-                        case "AttachmentsV":
-                            res.Val(
-                                "#Issues_AttachmentsV",
-                                issueModel.AttachmentsV.ToControl(ss, column));
-                            break;
-                        case "AttachmentsW":
-                            res.Val(
-                                "#Issues_AttachmentsW",
-                                issueModel.AttachmentsW.ToControl(ss, column));
-                            break;
-                        case "AttachmentsX":
-                            res.Val(
-                                "#Issues_AttachmentsX",
-                                issueModel.AttachmentsX.ToControl(ss, column));
-                            break;
-                        case "AttachmentsY":
-                            res.Val(
-                                "#Issues_AttachmentsY",
-                                issueModel.AttachmentsY.ToControl(ss, column));
-                            break;
-                        case "AttachmentsZ":
-                            res.Val(
-                                "#Issues_AttachmentsZ",
-                                issueModel.AttachmentsZ.ToControl(ss, column));
-                            break;
                         case "Comments":
                             res.Val(
                                 "#Issues_Comments",
@@ -3878,6 +3748,266 @@ namespace Implem.Pleasanter.Models
                             res.Val(
                                 "#Issues_CreatedTime",
                                 issueModel.CreatedTime.ToControl(ss, column));
+                            break;
+                        case "AttachmentsA":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsAField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsA.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsB":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsBField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsB.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsC":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsCField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsC.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsD":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsDField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsD.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsE":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsEField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsE.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsF":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsFField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsF.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsG":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsGField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsG.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsH":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsHField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsH.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsI":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsIField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsI.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsJ":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsJField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsJ.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsK":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsKField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsK.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsL":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsLField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsL.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsM":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsMField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsM.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsN":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsNField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsN.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsO":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsOField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsO.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsP":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsPField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsP.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsQ":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsQField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsQ.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsR":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsRField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsR.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsS":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsSField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsS.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsT":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsTField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsT.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsU":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsUField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsU.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsV":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsVField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsV.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsW":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsWField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsW.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsX":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsXField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsX.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsY":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsYField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsY.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
+                            break;
+                        case "AttachmentsZ":
+                            res.ReplaceAll(
+                                "#Issues_AttachmentsZField",
+                                new HtmlBuilder()
+                                    .Field(
+                                        ss: ss,
+                                        column: column,
+                                        value: issueModel.AttachmentsZ.ToJson(),
+                                        columnPermissionType: column.ColumnPermissionType()));
                             break;
                         default: break;
                     }

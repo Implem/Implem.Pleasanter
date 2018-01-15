@@ -331,6 +331,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateExecute": Code.Model_UpdateExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateExecute, definitionRow, CodeXls); break;
                     case "Model_UpdateExecute_User": Code.Model_UpdateExecute_User = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateExecute_User, definitionRow, CodeXls); break;
                     case "Model_SiteTrue": Code.Model_SiteTrue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteTrue, definitionRow, CodeXls); break;
+                    case "Model_UpdateAttachments": Code.Model_UpdateAttachments = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateAttachments, definitionRow, CodeXls); break;
                     case "Model_UpdateRelatedRecords": Code.Model_UpdateRelatedRecords = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateRelatedRecords, definitionRow, CodeXls); break;
                     case "Model_OnUpdatedNotice": Code.Model_OnUpdatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatedNotice, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_Depts": Code.Model_OnUpdated_Depts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Depts, definitionRow, CodeXls); break;
@@ -462,6 +463,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SiteSettingsParameterOnly": Code.Model_SiteSettingsParameterOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParameterOnly, definitionRow, CodeXls); break;
                     case "Model_ExtendedSqls": Code.Model_ExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_ExtendedSqlsParameter": Code.Model_ExtendedSqlsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExtendedSqlsParameter, definitionRow, CodeXls); break;
+                    case "Model_ToLocal": Code.Model_ToLocal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToLocal, definitionRow, CodeXls); break;
                     case "Collection": Code.Collection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection, definitionRow, CodeXls); break;
                     case "Collection_SiteSettings": Code.Collection_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettings, definitionRow, CodeXls); break;
                     case "Collection_SiteSettingsArgument": Code.Collection_SiteSettingsArgument = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettingsArgument, definitionRow, CodeXls); break;
@@ -499,6 +501,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_SiteIdParam": Code.Model_Utilities_SiteIdParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteIdParam, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse": Code.Model_Utilities_FieldResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse_ColumnCases": Code.Model_Utilities_FieldResponse_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_FieldResponse_AttachmentsCases": Code.Model_Utilities_FieldResponse_AttachmentsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse_AttachmentsCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_TableName": Code.Model_Utilities_TableName = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TableName, definitionRow, CodeXls); break;
                     case "Model_Utilities_TableNameCases": Code.Model_Utilities_TableNameCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TableNameCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_TableDisplayNameCases": Code.Model_Utilities_TableDisplayNameCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TableDisplayNameCases, definitionRow, CodeXls); break;
@@ -1134,8 +1137,10 @@ namespace Implem.DefinitionAccessor
                     case "Links_Title": Column.Links_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Links_Title, definitionRow, ColumnXls); break;
                     case "Links_Subset": Column.Links_Subset = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Links_Subset, definitionRow, ColumnXls); break;
                     case "Links_SiteTitle": Column.Links_SiteTitle = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Links_SiteTitle, definitionRow, ColumnXls); break;
+                    case "Binaries_TenantId": Column.Binaries_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_TenantId, definitionRow, ColumnXls); break;
                     case "Binaries_ReferenceId": Column.Binaries_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_ReferenceId, definitionRow, ColumnXls); break;
                     case "Binaries_BinaryId": Column.Binaries_BinaryId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_BinaryId, definitionRow, ColumnXls); break;
+                    case "Binaries_Guid": Column.Binaries_Guid = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Guid, definitionRow, ColumnXls); break;
                     case "Binaries_BinaryType": Column.Binaries_BinaryType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_BinaryType, definitionRow, ColumnXls); break;
                     case "Binaries_Title": Column.Binaries_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Title, definitionRow, ColumnXls); break;
                     case "Binaries_Body": Column.Binaries_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Body, definitionRow, ColumnXls); break;
@@ -1145,6 +1150,7 @@ namespace Implem.DefinitionAccessor
                     case "Binaries_FileName": Column.Binaries_FileName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_FileName, definitionRow, ColumnXls); break;
                     case "Binaries_Extension": Column.Binaries_Extension = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Extension, definitionRow, ColumnXls); break;
                     case "Binaries_Size": Column.Binaries_Size = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Size, definitionRow, ColumnXls); break;
+                    case "Binaries_ContentType": Column.Binaries_ContentType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_ContentType, definitionRow, ColumnXls); break;
                     case "Binaries_BinarySettings": Column.Binaries_BinarySettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_BinarySettings, definitionRow, ColumnXls); break;
                     case "Issues_IssueId": Column.Issues_IssueId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Issues_IssueId, definitionRow, ColumnXls); break;
                     case "Issues_StartTime": Column.Issues_StartTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Issues_StartTime, definitionRow, ColumnXls); break;
@@ -2179,6 +2185,15 @@ namespace Implem.DefinitionAccessor
                     case "_dot_control_textbox": Css._dot_control_textbox = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_textbox, definitionRow, CssXls); break;
                     case "_dot_control_textbox_dot_with_unit": Css._dot_control_textbox_dot_with_unit = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_textbox_dot_with_unit, definitionRow, CssXls); break;
                     case "_dot_control_textarea": Css._dot_control_textarea = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_textarea, definitionRow, CssXls); break;
+                    case "_dot_control_attachments_upload": Css._dot_control_attachments_upload = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_attachments_upload, definitionRow, CssXls); break;
+                    case "_dot_control_attachments_items": Css._dot_control_attachments_items = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_attachments_items, definitionRow, CssXls); break;
+                    case "_dot_control_attachments_item": Css._dot_control_attachments_item = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_attachments_item, definitionRow, CssXls); break;
+                    case "_dot_progress_bar": Css._dot_progress_bar = definitionRow[1].ToString(); SetCssTable(CssTable._dot_progress_bar, definitionRow, CssXls); break;
+                    case "_dot_progress_bar_space___space_div": Css._dot_progress_bar_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._dot_progress_bar_space___space_div, definitionRow, CssXls); break;
+                    case "_dot_already_attachments": Css._dot_already_attachments = definitionRow[1].ToString(); SetCssTable(CssTable._dot_already_attachments, definitionRow, CssXls); break;
+                    case "_dot_preparation_delete": Css._dot_preparation_delete = definitionRow[1].ToString(); SetCssTable(CssTable._dot_preparation_delete, definitionRow, CssXls); break;
+                    case "_dot_preparation_delete_space___space_a": Css._dot_preparation_delete_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._dot_preparation_delete_space___space_a, definitionRow, CssXls); break;
+                    case "_dot_file_delete": Css._dot_file_delete = definitionRow[1].ToString(); SetCssTable(CssTable._dot_file_delete, definitionRow, CssXls); break;
                     case "_dot_field_control_space__dot_control_markup": Css._dot_field_control_space__dot_control_markup = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_control_space__dot_control_markup, definitionRow, CssXls); break;
                     case "_dot_md": Css._dot_md = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md, definitionRow, CssXls); break;
                     case "_dot_md_space_h1": Css._dot_md_space_h1 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_h1, definitionRow, CssXls); break;
@@ -4574,6 +4589,7 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateExecute;
         public string Model_UpdateExecute_User;
         public string Model_SiteTrue;
+        public string Model_UpdateAttachments;
         public string Model_UpdateRelatedRecords;
         public string Model_OnUpdatedNotice;
         public string Model_OnUpdated_Depts;
@@ -4705,6 +4721,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SiteSettingsParameterOnly;
         public string Model_ExtendedSqls;
         public string Model_ExtendedSqlsParameter;
+        public string Model_ToLocal;
         public string Collection;
         public string Collection_SiteSettings;
         public string Collection_SiteSettingsArgument;
@@ -4742,6 +4759,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_SiteIdParam;
         public string Model_Utilities_FieldResponse;
         public string Model_Utilities_FieldResponse_ColumnCases;
+        public string Model_Utilities_FieldResponse_AttachmentsCases;
         public string Model_Utilities_TableName;
         public string Model_Utilities_TableNameCases;
         public string Model_Utilities_TableDisplayNameCases;
@@ -5085,6 +5103,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateExecute = new CodeDefinition();
         public CodeDefinition Model_UpdateExecute_User = new CodeDefinition();
         public CodeDefinition Model_SiteTrue = new CodeDefinition();
+        public CodeDefinition Model_UpdateAttachments = new CodeDefinition();
         public CodeDefinition Model_UpdateRelatedRecords = new CodeDefinition();
         public CodeDefinition Model_OnUpdatedNotice = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_Depts = new CodeDefinition();
@@ -5216,6 +5235,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SiteSettingsParameterOnly = new CodeDefinition();
         public CodeDefinition Model_ExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_ExtendedSqlsParameter = new CodeDefinition();
+        public CodeDefinition Model_ToLocal = new CodeDefinition();
         public CodeDefinition Collection = new CodeDefinition();
         public CodeDefinition Collection_SiteSettings = new CodeDefinition();
         public CodeDefinition Collection_SiteSettingsArgument = new CodeDefinition();
@@ -5253,6 +5273,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_SiteIdParam = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_FieldResponse_AttachmentsCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_TableName = new CodeDefinition();
         public CodeDefinition Model_Utilities_TableNameCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_TableDisplayNameCases = new CodeDefinition();
@@ -6163,8 +6184,10 @@ namespace Implem.DefinitionAccessor
         public string Links_Title;
         public string Links_Subset;
         public string Links_SiteTitle;
+        public string Binaries_TenantId;
         public string Binaries_ReferenceId;
         public string Binaries_BinaryId;
+        public string Binaries_Guid;
         public string Binaries_BinaryType;
         public string Binaries_Title;
         public string Binaries_Body;
@@ -6174,6 +6197,7 @@ namespace Implem.DefinitionAccessor
         public string Binaries_FileName;
         public string Binaries_Extension;
         public string Binaries_Size;
+        public string Binaries_ContentType;
         public string Binaries_BinarySettings;
         public string Issues_IssueId;
         public string Issues_StartTime;
@@ -6921,8 +6945,10 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Links_Title = new ColumnDefinition();
         public ColumnDefinition Links_Subset = new ColumnDefinition();
         public ColumnDefinition Links_SiteTitle = new ColumnDefinition();
+        public ColumnDefinition Binaries_TenantId = new ColumnDefinition();
         public ColumnDefinition Binaries_ReferenceId = new ColumnDefinition();
         public ColumnDefinition Binaries_BinaryId = new ColumnDefinition();
+        public ColumnDefinition Binaries_Guid = new ColumnDefinition();
         public ColumnDefinition Binaries_BinaryType = new ColumnDefinition();
         public ColumnDefinition Binaries_Title = new ColumnDefinition();
         public ColumnDefinition Binaries_Body = new ColumnDefinition();
@@ -6932,6 +6958,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Binaries_FileName = new ColumnDefinition();
         public ColumnDefinition Binaries_Extension = new ColumnDefinition();
         public ColumnDefinition Binaries_Size = new ColumnDefinition();
+        public ColumnDefinition Binaries_ContentType = new ColumnDefinition();
         public ColumnDefinition Binaries_BinarySettings = new ColumnDefinition();
         public ColumnDefinition Issues_IssueId = new ColumnDefinition();
         public ColumnDefinition Issues_StartTime = new ColumnDefinition();
@@ -7967,6 +7994,15 @@ namespace Implem.DefinitionAccessor
         public string _dot_control_textbox;
         public string _dot_control_textbox_dot_with_unit;
         public string _dot_control_textarea;
+        public string _dot_control_attachments_upload;
+        public string _dot_control_attachments_items;
+        public string _dot_control_attachments_item;
+        public string _dot_progress_bar;
+        public string _dot_progress_bar_space___space_div;
+        public string _dot_already_attachments;
+        public string _dot_preparation_delete;
+        public string _dot_preparation_delete_space___space_a;
+        public string _dot_file_delete;
         public string _dot_field_control_space__dot_control_markup;
         public string _dot_md;
         public string _dot_md_space_h1;
@@ -8407,6 +8443,15 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_control_textbox = new CssDefinition();
         public CssDefinition _dot_control_textbox_dot_with_unit = new CssDefinition();
         public CssDefinition _dot_control_textarea = new CssDefinition();
+        public CssDefinition _dot_control_attachments_upload = new CssDefinition();
+        public CssDefinition _dot_control_attachments_items = new CssDefinition();
+        public CssDefinition _dot_control_attachments_item = new CssDefinition();
+        public CssDefinition _dot_progress_bar = new CssDefinition();
+        public CssDefinition _dot_progress_bar_space___space_div = new CssDefinition();
+        public CssDefinition _dot_already_attachments = new CssDefinition();
+        public CssDefinition _dot_preparation_delete = new CssDefinition();
+        public CssDefinition _dot_preparation_delete_space___space_a = new CssDefinition();
+        public CssDefinition _dot_file_delete = new CssDefinition();
         public CssDefinition _dot_field_control_space__dot_control_markup = new CssDefinition();
         public CssDefinition _dot_md = new CssDefinition();
         public CssDefinition _dot_md_space_h1 = new CssDefinition();

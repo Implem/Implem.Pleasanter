@@ -191,6 +191,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ExternalMailAddress(params string[] data) { return Get("ExternalMailAddress", data); }
         public static string FailedReadFile(params string[] data) { return Get("FailedReadFile", data); }
         public static string File(params string[] data) { return Get("File", data); }
+        public static string FileDragDrop(params string[] data) { return Get("FileDragDrop", data); }
         public static string FileNotFound(params string[] data) { return Get("FileNotFound", data); }
         public static string FileUpdateCompleted(params string[] data) { return Get("FileUpdateCompleted", data); }
         public static string Filters(params string[] data) { return Get("Filters", data); }
@@ -278,6 +279,9 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string LimitBeforeYear(params string[] data) { return Get("LimitBeforeYear", data); }
         public static string LimitBeforeYears(params string[] data) { return Get("LimitBeforeYears", data); }
         public static string LimitJust(params string[] data) { return Get("LimitJust", data); }
+        public static string LimitQuantity(params string[] data) { return Get("LimitQuantity", data); }
+        public static string LimitSize(params string[] data) { return Get("LimitSize", data); }
+        public static string LimitTotalSize(params string[] data) { return Get("LimitTotalSize", data); }
         public static string Line(params string[] data) { return Get("Line", data); }
         public static string LinkColumn(params string[] data) { return Get("LinkColumn", data); }
         public static string LinkCreated(params string[] data) { return Get("LinkCreated", data); }
@@ -371,6 +375,9 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string OutputHeader(params string[] data) { return Get("OutputHeader", data); }
         public static string Over(params string[] data) { return Get("Over", data); }
         public static string Overdue(params string[] data) { return Get("Overdue", data); }
+        public static string OverLimitQuantity(params string[] data) { return Get("OverLimitQuantity", data); }
+        public static string OverLimitSize(params string[] data) { return Get("OverLimitSize", data); }
+        public static string OverTotalLimitSize(params string[] data) { return Get("OverTotalLimitSize", data); }
         public static string Own(params string[] data) { return Get("Own", data); }
         public static string PasswordNotChanged(params string[] data) { return Get("PasswordNotChanged", data); }
         public static string PasswordResetCompleted(params string[] data) { return Get("PasswordResetCompleted", data); }
@@ -746,8 +753,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Links_Title(params string[] data) { return Get("Links_Title", data); }
         public static string Links_Subset(params string[] data) { return Get("Links_Subset", data); }
         public static string Links_SiteTitle(params string[] data) { return Get("Links_SiteTitle", data); }
+        public static string Binaries_TenantId(params string[] data) { return Get("Binaries_TenantId", data); }
         public static string Binaries_ReferenceId(params string[] data) { return Get("Binaries_ReferenceId", data); }
         public static string Binaries_BinaryId(params string[] data) { return Get("Binaries_BinaryId", data); }
+        public static string Binaries_Guid(params string[] data) { return Get("Binaries_Guid", data); }
         public static string Binaries_BinaryType(params string[] data) { return Get("Binaries_BinaryType", data); }
         public static string Binaries_Title(params string[] data) { return Get("Binaries_Title", data); }
         public static string Binaries_Body(params string[] data) { return Get("Binaries_Body", data); }
@@ -757,6 +766,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Binaries_FileName(params string[] data) { return Get("Binaries_FileName", data); }
         public static string Binaries_Extension(params string[] data) { return Get("Binaries_Extension", data); }
         public static string Binaries_Size(params string[] data) { return Get("Binaries_Size", data); }
+        public static string Binaries_ContentType(params string[] data) { return Get("Binaries_ContentType", data); }
         public static string Binaries_BinarySettings(params string[] data) { return Get("Binaries_BinarySettings", data); }
         public static string Issues_IssueId(params string[] data) { return Get("Issues_IssueId", data); }
         public static string Issues_StartTime(params string[] data) { return Get("Issues_StartTime", data); }

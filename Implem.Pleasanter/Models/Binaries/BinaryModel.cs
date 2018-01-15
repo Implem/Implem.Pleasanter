@@ -23,8 +23,10 @@ namespace Implem.Pleasanter.Models
     [Serializable]
     public class BinaryModel : BaseModel
     {
+        public int TenantId = 0;
         public long ReferenceId = 0;
         public long BinaryId = 0;
+        public string Guid = string.Empty;
         public string BinaryType = string.Empty;
         public Title Title = new Title();
         public string Body = string.Empty;
@@ -34,9 +36,12 @@ namespace Implem.Pleasanter.Models
         public string FileName = string.Empty;
         public string Extension = string.Empty;
         public int Size = 0;
+        public string ContentType = string.Empty;
         public BinarySettings BinarySettings = new BinarySettings();
+        [NonSerialized] public int SavedTenantId = 0;
         [NonSerialized] public long SavedReferenceId = 0;
         [NonSerialized] public long SavedBinaryId = 0;
+        [NonSerialized] public string SavedGuid = string.Empty;
         [NonSerialized] public string SavedBinaryType = string.Empty;
         [NonSerialized] public string SavedTitle = string.Empty;
         [NonSerialized] public string SavedBody = string.Empty;
@@ -46,7 +51,13 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedFileName = string.Empty;
         [NonSerialized] public string SavedExtension = string.Empty;
         [NonSerialized] public int SavedSize = 0;
+        [NonSerialized] public string SavedContentType = string.Empty;
         [NonSerialized] public string SavedBinarySettings = string.Empty;
+
+        public bool TenantId_Updated()
+        {
+            return TenantId != SavedTenantId;
+        }
 
         public bool ReferenceId_Updated()
         {
@@ -56,6 +67,11 @@ namespace Implem.Pleasanter.Models
         public bool BinaryId_Updated()
         {
             return BinaryId != SavedBinaryId;
+        }
+
+        public bool Guid_Updated()
+        {
+            return Guid != SavedGuid && Guid != null;
         }
 
         public bool BinaryType_Updated()
@@ -101,6 +117,11 @@ namespace Implem.Pleasanter.Models
         public bool Size_Updated()
         {
             return Size != SavedSize;
+        }
+
+        public bool ContentType_Updated()
+        {
+            return ContentType != SavedContentType && ContentType != null;
         }
 
         public bool BinarySettings_Updated()
@@ -339,12 +360,6 @@ namespace Implem.Pleasanter.Models
             {
                 switch (controlId)
                 {
-                    case "Binaries_ReferenceId": ReferenceId = Forms.Data(controlId).ToLong(); break;
-                    case "Binaries_BinaryType": BinaryType = Forms.Data(controlId).ToString(); break;
-                    case "Binaries_Title": Title = new Title(BinaryId, Forms.Data(controlId)); break;
-                    case "Binaries_Body": Body = Forms.Data(controlId).ToString(); break;
-                    case "Binaries_FileName": FileName = Forms.Data(controlId).ToString(); break;
-                    case "Binaries_Extension": Extension = Forms.Data(controlId).ToString(); break;
                     case "Binaries_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
@@ -367,9 +382,6 @@ namespace Implem.Pleasanter.Models
             {
                 switch (controlId)
                 {
-                    case "Binaries_Bin": Bin = Forms.File(controlId); break;
-                    case "Binaries_Thumbnail": Thumbnail = Forms.File(controlId); break;
-                    case "Binaries_Icon": Icon = Forms.File(controlId); break;
                     default: break;
                 }
             });
@@ -400,6 +412,13 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (column.Name)
                     {
+                        case "TenantId":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                TenantId = dataRow[column.ColumnName].ToInt();
+                                SavedTenantId = TenantId;
+                            }
+                            break;
                         case "ReferenceId":
                             if (dataRow[column.ColumnName] != DBNull.Value)
                             {
@@ -413,6 +432,10 @@ namespace Implem.Pleasanter.Models
                                 BinaryId = dataRow[column.ColumnName].ToLong();
                                 SavedBinaryId = BinaryId;
                             }
+                            break;
+                        case "Guid":
+                            Guid = dataRow[column.ColumnName].ToString();
+                            SavedGuid = Guid;
                             break;
                         case "Ver":
                             Ver = dataRow[column.ColumnName].ToInt();
@@ -454,6 +477,10 @@ namespace Implem.Pleasanter.Models
                             Size = dataRow[column.ColumnName].ToInt();
                             SavedSize = Size;
                             break;
+                        case "ContentType":
+                            ContentType = dataRow[column.ColumnName].ToString();
+                            SavedContentType = ContentType;
+                            break;
                         case "BinarySettings":
                             BinarySettings = dataRow[column.ColumnName].ToString().Deserialize<BinarySettings>() ?? new BinarySettings();
                             SavedBinarySettings = BinarySettings.ToJson();
@@ -487,8 +514,10 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
+                TenantId_Updated() ||
                 ReferenceId_Updated() ||
                 BinaryId_Updated() ||
+                Guid_Updated() ||
                 Ver_Updated() ||
                 BinaryType_Updated() ||
                 Title_Updated() ||
@@ -499,6 +528,7 @@ namespace Implem.Pleasanter.Models
                 FileName_Updated() ||
                 Extension_Updated() ||
                 Size_Updated() ||
+                ContentType_Updated() ||
                 BinarySettings_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||

@@ -1576,6 +1576,73 @@ pre{
     border-radius:5px;
 }
 
+.control-attachments-upload{
+    width:100%;
+    display:block;
+    float:left;
+    padding:25px;
+    text-align:center;
+    border:dotted 2px #d19405;
+    border-radius:3px;
+}
+
+.control-attachments-items{
+    width:100%;
+    display:block;
+    float:left;
+}
+
+.control-attachments-item{
+    width:100%;
+    display:block;
+    float:left;
+    margin:5px 0px 0px 0px;
+    padding:5px 10px;
+    text-align:left;
+    border:solid 1px #d19405;
+    border-radius:5px;
+}
+
+.progress-bar{
+    width:100%;
+    height:30px;
+    display:block;
+    float:left;
+    margin:5px 0px 0px 0px;
+    vertical-align:top;
+    border:solid 1px #d19405;
+    overflow:hidden;
+    border-radius:5px;
+}
+
+.progress-bar > div{
+    width:0;
+    height:100%;
+    line-height:22px;
+    color:white;
+    background-color:#fece2f;
+    border-radius:3px;
+}
+
+.already-attachments{
+    background-color:#fece2f;
+}
+
+.preparation-delete{
+    background-color:whitesmoke;
+    border:solid 1px silver;
+}
+
+.preparation-delete > a{
+    color:silver;
+}
+
+.file-delete{
+    display:block;
+    float:right;
+    margin:2px -5px 0px 0px;
+}
+
 .field-control .control-markup{
     width:100%;
     min-height:100px;

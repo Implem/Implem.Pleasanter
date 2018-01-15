@@ -99,6 +99,15 @@ namespace Implem.Pleasanter.Libraries.Server
                         ContractHash[tenantId]?.Items;
         }
 
+        public static bool Attachments()
+        {
+            var tenantId = Sessions.TenantId();
+            return
+                Parameters.BinaryStorage.Attachments &&
+                ContractHash.ContainsKey(tenantId) &&
+                ContractHash[tenantId]?.Attachments != 0;
+        }
+
         public static bool Import()
         {
             var tenantId = Sessions.TenantId();

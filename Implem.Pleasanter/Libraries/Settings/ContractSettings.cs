@@ -10,6 +10,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? Users;
         public long? Sites;
         public long? Items;
+        public long? Attachments;
         public bool? Import;
         public bool? Export;
         public bool? Notice;

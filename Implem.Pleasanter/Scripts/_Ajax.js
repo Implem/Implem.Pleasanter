@@ -57,7 +57,7 @@ $p.upload = function (requestUrl, methodType, data, $eventSender) {
     });
 }
 
-$p.multiUpload = function (formData, status, uploadUrl) {
+$p.multiUpload = function (formData, statusBar, uploadUrl) {
     $p.clearMessage();
     var uploader = $.ajax({
         xhr: function () {
@@ -70,7 +70,7 @@ $p.multiUpload = function (formData, status, uploadUrl) {
                     if (event.lengthComputable) {
                         percent = Math.ceil(position / total * 100);
                     }
-                    status.setProgress(percent);
+                    statusBar.setProgress(percent);
                 }, false);
             }
             return uploadobj;
@@ -82,7 +82,7 @@ $p.multiUpload = function (formData, status, uploadUrl) {
         cache: false,
         data: formData,
         success: function (data) {
-            status.setProgress(100);
+            statusBar.setProgress(100);
         }
     })
         .done(function (response, textStatus, jqXHR) {
@@ -97,6 +97,7 @@ $p.multiUpload = function (formData, status, uploadUrl) {
         .always(function (jqXHR, textStatus) {
             $p.clearData('ControlId', formData);
             $p.loaded();
+            statusBar.status.hide();
         });
-    status.setAbort(uploader);
+    statusBar.setAbort(uploader);
 }

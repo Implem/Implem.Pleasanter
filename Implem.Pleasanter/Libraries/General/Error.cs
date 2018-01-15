@@ -41,6 +41,9 @@ namespace Implem.Pleasanter.Libraries.General
             NoLinks,
             NotFound,
             NotRequiredColumn,
+            OverLimitQuantity,
+            OverLimitSize,
+            OverTotalLimitSize,
             PasswordNotChanged,
             PermissionNotSelfChange,
             RequireMailAddresses,
@@ -134,6 +137,12 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.NotFound(data);
                 case Types.NotRequiredColumn:
                     return Messages.NotRequiredColumn(data);
+                case Types.OverLimitQuantity:
+                    return Messages.OverLimitQuantity(data);
+                case Types.OverLimitSize:
+                    return Messages.OverLimitSize(data);
+                case Types.OverTotalLimitSize:
+                    return Messages.OverTotalLimitSize(data);
                 case Types.PasswordNotChanged:
                     return Messages.PasswordNotChanged(data);
                 case Types.PermissionNotSelfChange:

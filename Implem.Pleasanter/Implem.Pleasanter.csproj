@@ -277,10 +277,12 @@
     <Compile Include="Libraries\Requests\Api.cs" />
     <Compile Include="Libraries\Requests\Calendars.cs" />
     <Compile Include="Libraries\Requests\GridSelector.cs" />
+    <Compile Include="Libraries\DataSources\File.cs" />
     <Compile Include="Libraries\Responses\ApiResponse.cs" />
     <Compile Include="Libraries\Responses\ApiResponses.cs" />
     <Compile Include="Libraries\Responses\ApiResults.cs" />
     <Compile Include="Libraries\Responses\Displays.cs" />
+    <Compile Include="Libraries\Responses\FileContentResults.cs" />
     <Compile Include="Libraries\Security\Defenses.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
     <Compile Include="Libraries\Server\Contract.cs" />
@@ -1239,6 +1241,13 @@
     <Content Include="App_Data\Displays\ApiKeyCreated.json" />
     <Content Include="App_Data\Displays\ApiKeyDeleted.json" />
     <Content Include="App_Data\Displays\Unauthorized.json" />
+    <Content Include="App_Data\Displays\OverLimitQuantity.json" />
+    <Content Include="App_Data\Displays\OverLimitSize.json" />
+    <Content Include="App_Data\Displays\OverTotalLimitSize.json" />
+    <Content Include="App_Data\Displays\FileDragDrop.json" />
+    <Content Include="App_Data\Displays\LimitQuantity.json" />
+    <Content Include="App_Data\Displays\LimitSize.json" />
+    <Content Include="App_Data\Displays\LimitTotalSize.json" />
     <Content Include="Tools\Reminder.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

@@ -50,6 +50,19 @@ namespace Implem.Pleasanter
                     Action = "[A-Za-z][A-Za-z0-9_]*"
                 }
             );
+            routes.MapRoute(
+                name: "Binaries",
+                url: "binaries/{guid}/{action}",
+                defaults: new
+                {
+                    Controller = "Binaries"
+                },
+                constraints: new
+                {
+                    Guid = "[A-Z0-9]+",
+                    Action = "[A-Za-z][A-Za-z0-9_]*"
+                }
+            );
         }
     }
 }
