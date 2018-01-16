@@ -131,6 +131,11 @@ namespace Implem.Pleasanter.Libraries.Converts
             }
         }
 
+        public static void FullText(this Attachments self, List<string> fullText)
+        {
+            self?.ForEach(attachment => fullText.Add(attachment.Name));
+        }
+
         public static void OutgoingMailsFullText(
             List<string> fullText, string referenceType, long referenceId)
         {
