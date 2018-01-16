@@ -120,6 +120,15 @@ namespace Implem.Pleasanter.Libraries.Converts
             SearchIndexes(searchIndexHash, self.Value.ToString(), searchPriority);
         }
 
+        public static void SearchIndexes(
+            this Attachments self, Dictionary<string, int> searchIndexHash, int searchPriority)
+        {
+            SearchIndexes(
+                searchIndexHash,
+                self.Select(o => o.Name).Join(" "),
+                searchPriority);
+        }
+
         public static void OutgoingMailsSearchIndexes(
             Dictionary<string, int> searchIndexHash,
             string referenceType,
