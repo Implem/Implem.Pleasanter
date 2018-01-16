@@ -393,15 +393,14 @@ namespace Implem.Pleasanter.Models
                         joinType: SqlJoin.JoinTypes.Inner,
                         joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                 where: Rds.ItemsWhere()
-                    .Add(raw: FullTextWhere())
+                    .Add(raw: FullTextWhere(words))
                     .Add(
                         raw: Def.Sql.CanRead,
                         _using: !Permissions.HasPrivilege())
                     .Add(
                         raw: "[Items].[SiteId] in ({0})".Params(siteIdList?.Join()),
                         _using: siteIdList?.Any() == true),
-                param: Rds.ItemsParam()
-                    .Add(name: "SearchText", value: words.Join(" and ")),
+                param: FullTextParam(words),
                 orderBy: orderBy,
                 offset: offset,
                 pageSize: pageSize,
@@ -411,13 +410,33 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        /// <returns></returns>
-        private static string FullTextWhere()
+        private static string FullTextWhere(List<string> words)
         {
-            var raw = "contains([FullText], @SearchText_Param#CommandCount#)";
-            return Parameters.Search.SearchDocuments
-                ? $"(({raw}) or (exists(select * from [Binaries] where [Binaries].[ReferenceId]=[Items].[ReferenceId] and contains([Bin], @SearchText_Param#CommandCount#))))"
-                : raw;
+            var contains = new List<string>();
+            for (var count = 0; count < words.Count(); count++)
+            {
+                var item = $"(contains([FullText], @SearchText{count}_Param#CommandCount#))";
+                var binary = $"(exists(select * from [Binaries] where [Binaries].[ReferenceId]=[Items].[ReferenceId] and contains([Bin], @SearchText{count}_Param#CommandCount#)))";
+                contains.Add(Parameters.Search.SearchDocuments
+                    ? $"({item} or {binary})"
+                    : item);
+            }
+            return contains.Join(" and ");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Rds.ItemsParamCollection FullTextParam(List<string> words)
+        {
+            var param = Rds.ItemsParam();
+            words
+                .Select((o, i) => new { Word = o, Index = i })
+                .ForEach(data =>
+                    param.Add(
+                        name: "SearchText" + data.Index,
+                        value: data.Word));
+            return param;
         }
 
         /// <summary>
