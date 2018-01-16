@@ -382,8 +382,7 @@ namespace Implem.Pleasanter.Models
             string dataTableName = null,
             int offset = 0,
             int pageSize = 0,
-            bool countRecord = false,
-            string paramName = "@Words_Param")
+            bool countRecord = false)
         {
             return Rds.SelectItems(
                 dataTableName: dataTableName,
