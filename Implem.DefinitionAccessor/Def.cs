@@ -1137,9 +1137,9 @@ namespace Implem.DefinitionAccessor
                     case "Links_Title": Column.Links_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Links_Title, definitionRow, ColumnXls); break;
                     case "Links_Subset": Column.Links_Subset = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Links_Subset, definitionRow, ColumnXls); break;
                     case "Links_SiteTitle": Column.Links_SiteTitle = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Links_SiteTitle, definitionRow, ColumnXls); break;
+                    case "Binaries_BinaryId": Column.Binaries_BinaryId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_BinaryId, definitionRow, ColumnXls); break;
                     case "Binaries_TenantId": Column.Binaries_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_TenantId, definitionRow, ColumnXls); break;
                     case "Binaries_ReferenceId": Column.Binaries_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_ReferenceId, definitionRow, ColumnXls); break;
-                    case "Binaries_BinaryId": Column.Binaries_BinaryId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_BinaryId, definitionRow, ColumnXls); break;
                     case "Binaries_Guid": Column.Binaries_Guid = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Guid, definitionRow, ColumnXls); break;
                     case "Binaries_BinaryType": Column.Binaries_BinaryType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_BinaryType, definitionRow, ColumnXls); break;
                     case "Binaries_Title": Column.Binaries_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Title, definitionRow, ColumnXls); break;
@@ -6184,9 +6184,9 @@ namespace Implem.DefinitionAccessor
         public string Links_Title;
         public string Links_Subset;
         public string Links_SiteTitle;
+        public string Binaries_BinaryId;
         public string Binaries_TenantId;
         public string Binaries_ReferenceId;
-        public string Binaries_BinaryId;
         public string Binaries_Guid;
         public string Binaries_BinaryType;
         public string Binaries_Title;
@@ -6945,9 +6945,9 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Links_Title = new ColumnDefinition();
         public ColumnDefinition Links_Subset = new ColumnDefinition();
         public ColumnDefinition Links_SiteTitle = new ColumnDefinition();
+        public ColumnDefinition Binaries_BinaryId = new ColumnDefinition();
         public ColumnDefinition Binaries_TenantId = new ColumnDefinition();
         public ColumnDefinition Binaries_ReferenceId = new ColumnDefinition();
-        public ColumnDefinition Binaries_BinaryId = new ColumnDefinition();
         public ColumnDefinition Binaries_Guid = new ColumnDefinition();
         public ColumnDefinition Binaries_BinaryType = new ColumnDefinition();
         public ColumnDefinition Binaries_Title = new ColumnDefinition();

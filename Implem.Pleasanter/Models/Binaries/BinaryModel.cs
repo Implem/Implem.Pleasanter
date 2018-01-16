@@ -23,9 +23,9 @@ namespace Implem.Pleasanter.Models
     [Serializable]
     public class BinaryModel : BaseModel
     {
+        public long BinaryId = 0;
         public int TenantId = 0;
         public long ReferenceId = 0;
-        public long BinaryId = 0;
         public string Guid = string.Empty;
         public string BinaryType = string.Empty;
         public Title Title = new Title();
@@ -38,9 +38,9 @@ namespace Implem.Pleasanter.Models
         public int Size = 0;
         public string ContentType = string.Empty;
         public BinarySettings BinarySettings = new BinarySettings();
+        [NonSerialized] public long SavedBinaryId = 0;
         [NonSerialized] public int SavedTenantId = 0;
         [NonSerialized] public long SavedReferenceId = 0;
-        [NonSerialized] public long SavedBinaryId = 0;
         [NonSerialized] public string SavedGuid = string.Empty;
         [NonSerialized] public string SavedBinaryType = string.Empty;
         [NonSerialized] public string SavedTitle = string.Empty;
@@ -54,6 +54,11 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedContentType = string.Empty;
         [NonSerialized] public string SavedBinarySettings = string.Empty;
 
+        public bool BinaryId_Updated()
+        {
+            return BinaryId != SavedBinaryId;
+        }
+
         public bool TenantId_Updated()
         {
             return TenantId != SavedTenantId;
@@ -62,11 +67,6 @@ namespace Implem.Pleasanter.Models
         public bool ReferenceId_Updated()
         {
             return ReferenceId != SavedReferenceId;
-        }
-
-        public bool BinaryId_Updated()
-        {
-            return BinaryId != SavedBinaryId;
         }
 
         public bool Guid_Updated()
@@ -412,26 +412,20 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (column.Name)
                     {
-                        case "TenantId":
-                            if (dataRow[column.ColumnName] != DBNull.Value)
-                            {
-                                TenantId = dataRow[column.ColumnName].ToInt();
-                                SavedTenantId = TenantId;
-                            }
-                            break;
-                        case "ReferenceId":
-                            if (dataRow[column.ColumnName] != DBNull.Value)
-                            {
-                                ReferenceId = dataRow[column.ColumnName].ToLong();
-                                SavedReferenceId = ReferenceId;
-                            }
-                            break;
                         case "BinaryId":
                             if (dataRow[column.ColumnName] != DBNull.Value)
                             {
                                 BinaryId = dataRow[column.ColumnName].ToLong();
                                 SavedBinaryId = BinaryId;
                             }
+                            break;
+                        case "TenantId":
+                            TenantId = dataRow[column.ColumnName].ToInt();
+                            SavedTenantId = TenantId;
+                            break;
+                        case "ReferenceId":
+                            ReferenceId = dataRow[column.ColumnName].ToLong();
+                            SavedReferenceId = ReferenceId;
                             break;
                         case "Guid":
                             Guid = dataRow[column.ColumnName].ToString();
@@ -514,9 +508,9 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
+                BinaryId_Updated() ||
                 TenantId_Updated() ||
                 ReferenceId_Updated() ||
-                BinaryId_Updated() ||
                 Guid_Updated() ||
                 Ver_Updated() ||
                 BinaryType_Updated() ||

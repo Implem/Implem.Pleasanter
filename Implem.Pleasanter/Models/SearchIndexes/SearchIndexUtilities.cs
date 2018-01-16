@@ -394,7 +394,7 @@ namespace Implem.Pleasanter.Models
                         joinType: SqlJoin.JoinTypes.Inner,
                         joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                 where: Rds.ItemsWhere()
-                    .Add(raw: "contains(FullText, @SearchText_Param#CommandCount#)")
+                    .Add(raw: FullTextWhere())
                     .Add(
                         raw: Def.Sql.CanRead,
                         _using: !Permissions.HasPrivilege())
@@ -407,6 +407,18 @@ namespace Implem.Pleasanter.Models
                 offset: offset,
                 pageSize: pageSize,
                 countRecord: countRecord);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        /// <returns></returns>
+        private static string FullTextWhere()
+        {
+            var raw = "contains([FullText], @SearchText_Param#CommandCount#)";
+            return Parameters.Search.SearchDocuments
+                ? $"(({raw}) or (exists(select * from [Binaries] where [Binaries].[ReferenceId]=[Items].[ReferenceId] and contains([Bin], @SearchText_Param#CommandCount#))))"
+                : raw;
         }
 
         /// <summary>
