@@ -753,9 +753,9 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Links_Title(params string[] data) { return Get("Links_Title", data); }
         public static string Links_Subset(params string[] data) { return Get("Links_Subset", data); }
         public static string Links_SiteTitle(params string[] data) { return Get("Links_SiteTitle", data); }
+        public static string Binaries_BinaryId(params string[] data) { return Get("Binaries_BinaryId", data); }
         public static string Binaries_TenantId(params string[] data) { return Get("Binaries_TenantId", data); }
         public static string Binaries_ReferenceId(params string[] data) { return Get("Binaries_ReferenceId", data); }
-        public static string Binaries_BinaryId(params string[] data) { return Get("Binaries_BinaryId", data); }
         public static string Binaries_Guid(params string[] data) { return Get("Binaries_Guid", data); }
         public static string Binaries_BinaryType(params string[] data) { return Get("Binaries_BinaryType", data); }
         public static string Binaries_Title(params string[] data) { return Get("Binaries_Title", data); }
