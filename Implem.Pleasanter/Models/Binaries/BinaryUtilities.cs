@@ -141,10 +141,10 @@ namespace Implem.Pleasanter.Models
                     return Messages.ResponseOverLimitQuantity(
                         column.LimitQuantity.ToString()).ToJson();
                 case Error.Types.OverLimitSize:
-                    return Messages.OverLimitSize(
+                    return Messages.ResponseOverLimitSize(
                         column.LimitSize.ToString()).ToJson();
                 case Error.Types.OverTotalLimitSize:
-                    return Messages.OverTotalLimitSize(
+                    return Messages.ResponseOverTotalLimitSize(
                         column.TotalLimitSize.ToString()).ToJson();
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
