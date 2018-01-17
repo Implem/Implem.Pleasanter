@@ -47,11 +47,20 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.OverLimitSize;
             }
+            var newTotalFileSize = files.Sum(x => x.ContentLength);
             if (ValidFilesTotalSize(
-                attachments.Select(x => x.Size.ToInt()).Sum(),
-                files.Select(x => x.ContentLength).Sum(), column.TotalLimitSize))
+                attachments.Select(x => x.Size.ToLong()).Sum(),
+                newTotalFileSize,
+                column.TotalLimitSize))
             {
                 return Error.Types.OverTotalLimitSize;
+            }
+            if (ValidFilesTenantTotalSize(
+                BinaryUtilities.TenantBinSize(),
+                newTotalFileSize,
+                Contract.TenantAttachmentsSize()))
+            {
+                return Error.Types.OverTenantTotalLimitSize;
             }
             return Error.Types.None;
         }
@@ -80,9 +89,21 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool ValidFilesTotalSize(int totalFileSize, int newTotalFileSize, int? limitTotalSize)
+        private static bool ValidFilesTotalSize(
+            long totalFileSize, long newTotalFileSize, int? limitTotalSize)
         {
             if ((totalFileSize + newTotalFileSize) > limitTotalSize * 1024 * 1024) return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool ValidFilesTenantTotalSize(
+            long totalFileSize, long newTotalFileSize, int? limitTotalSize)
+        {
+            if (limitTotalSize != null &&
+                (totalFileSize + newTotalFileSize) > limitTotalSize * 1024 * 1024) return true;
             return false;
         }
     }

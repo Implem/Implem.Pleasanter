@@ -108,6 +108,11 @@ namespace Implem.Pleasanter.Libraries.Server
                 ContractHash[tenantId]?.Attachments != 0;
         }
 
+        public static int? TenantAttachmentsSize()
+        {
+            return ContractHash.Get(Sessions.TenantId())?.Attachments;
+        }
+
         public static bool Import()
         {
             var tenantId = Sessions.TenantId();

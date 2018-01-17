@@ -12,7 +12,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         private string[] unit = new string[] { " B", " KB", " MB", " GB" };
         public string Guid;
         public string Name;
-        public double? Size;
+        public long? Size;
         public string Extention;
         public string ContentType;
         public bool? Added;

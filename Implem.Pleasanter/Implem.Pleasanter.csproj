@@ -1248,6 +1248,7 @@
     <Content Include="App_Data\Displays\LimitQuantity.json" />
     <Content Include="App_Data\Displays\LimitSize.json" />
     <Content Include="App_Data\Displays\LimitTotalSize.json" />
+    <Content Include="App_Data\Displays\OverTenantTotalLimitSize.json" />
     <Content Include="Tools\Reminder.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
