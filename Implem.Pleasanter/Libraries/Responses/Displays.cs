@@ -377,6 +377,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Overdue(params string[] data) { return Get("Overdue", data); }
         public static string OverLimitQuantity(params string[] data) { return Get("OverLimitQuantity", data); }
         public static string OverLimitSize(params string[] data) { return Get("OverLimitSize", data); }
+        public static string OverTenantTotalLimitSize(params string[] data) { return Get("OverTenantTotalLimitSize", data); }
         public static string OverTotalLimitSize(params string[] data) { return Get("OverTotalLimitSize", data); }
         public static string Own(params string[] data) { return Get("Own", data); }
         public static string PasswordNotChanged(params string[] data) { return Get("PasswordNotChanged", data); }

@@ -146,6 +146,9 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.OverTotalLimitSize:
                     return Messages.ResponseOverTotalLimitSize(
                         column.TotalLimitSize.ToString()).ToJson();
+                case Error.Types.OverTenantTotalLimitSize:
+                    return Messages.ResponseOverTenantTotalLimitSize(
+                        Contract.TenantAttachmentsSize().ToString()).ToJson();
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
@@ -206,6 +209,16 @@ namespace Implem.Pleasanter.Models
             }
             File.DeleteTemp(Forms.Data("Guid"));
             return "[]";
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static long TenantBinSize()
+        {
+            return Rds.ExecuteScalar_long(statements: Rds.SelectBinaries(
+                column: Rds.BinariesColumn().Size(function: Sqls.Functions.Sum),
+                where: Rds.BinariesWhere().TenantId(Sessions.TenantId())));
         }
     }
 }
