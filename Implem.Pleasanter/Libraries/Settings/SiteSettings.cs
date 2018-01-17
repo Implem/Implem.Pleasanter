@@ -2691,10 +2691,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         private List<string> UseSearchTitleColumns(bool titleOnly = false)
         {
             return Columns
-                .Select(o => new
+                .Select(column => new
                 {
-                    Link = o.SiteSettings.Links.FirstOrDefault(p => p.ColumnName == o.Name),
-                    Column = o
+                    Link = column.SiteSettings?.Links
+                        .FirstOrDefault(p => p.ColumnName == column.Name),
+                    Column = column
                 })
                 .Where(o => o.Link != null)
                 .Select(o => (!o.Column.TableAlias.IsNullOrEmpty()
