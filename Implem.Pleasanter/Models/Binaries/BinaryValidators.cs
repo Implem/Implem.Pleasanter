@@ -39,23 +39,23 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.BadRequest;
             }
-            if (ValidFilesCount(attachments.Count(), files.Count(), column.LimitQuantity))
+            if (OverLimitQuantity(attachments.Count(), files.Count(), column.LimitQuantity))
             {
                 return Error.Types.OverLimitQuantity;
             }
-            if (ValidFileSize(files, column.LimitSize))
+            if (OverLimitSize(files, column.LimitSize))
             {
                 return Error.Types.OverLimitSize;
             }
             var newTotalFileSize = files.Sum(x => x.ContentLength);
-            if (ValidFilesTotalSize(
+            if (OverTotalLimitSize(
                 attachments.Select(x => x.Size.ToLong()).Sum(),
                 newTotalFileSize,
                 column.TotalLimitSize))
             {
                 return Error.Types.OverTotalLimitSize;
             }
-            if (ValidFilesTenantTotalSize(
+            if (OverTenantTotalLimitSize(
                 BinaryUtilities.TenantBinSize(),
                 newTotalFileSize,
                 Contract.TenantAttachmentsSize()))
@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool ValidFilesCount(long fileCount, long newFileCount, int? limitQuality)
+        private static bool OverLimitQuantity(long fileCount, long newFileCount, int? limitQuality)
         {
             if ((fileCount + newFileCount) > limitQuality) return true;
             return false;
@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool ValidFileSize(System.Web.HttpPostedFileBase[] files, int? limitSize)
+        private static bool OverLimitSize(System.Web.HttpPostedFileBase[] files, int? limitSize)
         {
             foreach (var item in files)
             {
@@ -89,7 +89,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool ValidFilesTotalSize(
+        private static bool OverTotalLimitSize(
             long totalFileSize, long newTotalFileSize, int? limitTotalSize)
         {
             if ((totalFileSize + newTotalFileSize) > limitTotalSize * 1024 * 1024) return true;
@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool ValidFilesTenantTotalSize(
+        private static bool OverTenantTotalLimitSize(
             long totalFileSize, long newTotalFileSize, int? limitTotalSize)
         {
             if (limitTotalSize != null &&
