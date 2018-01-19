@@ -12,7 +12,7 @@ namespace Implem.DefinitionAccessor
             string modelName,
             Func<ColumnDefinition, bool> peredicate = null)
         {
-            return Def.ColumnDefinitionCollection
+            return ColumnDefinitionCollection
                 .Where(o => o.ModelName == modelName)
                 .Where(peredicate.IsNullCaseToTrue())
                 .Any();
@@ -23,7 +23,7 @@ namespace Implem.DefinitionAccessor
             Func<ColumnDefinition,
             bool> peredicate = null)
         {
-            return Def.ColumnDefinitionCollection
+            return ColumnDefinitionCollection
                 .Where(o => o.TableName == tableName)
                 .Where(peredicate.IsNullCaseToTrue())
                 .Any();
