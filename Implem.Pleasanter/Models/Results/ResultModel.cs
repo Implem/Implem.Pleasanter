@@ -3564,32 +3564,162 @@ namespace Implem.Pleasanter.Models
             {
                 switch (column.Name)
                 {
-                    case "ClassA": if (ClassA.ToLong() != 0 && !link.ContainsKey(ClassA.ToLong())) link.Add(ClassA.ToLong(), ResultId); break;
-                    case "ClassB": if (ClassB.ToLong() != 0 && !link.ContainsKey(ClassB.ToLong())) link.Add(ClassB.ToLong(), ResultId); break;
-                    case "ClassC": if (ClassC.ToLong() != 0 && !link.ContainsKey(ClassC.ToLong())) link.Add(ClassC.ToLong(), ResultId); break;
-                    case "ClassD": if (ClassD.ToLong() != 0 && !link.ContainsKey(ClassD.ToLong())) link.Add(ClassD.ToLong(), ResultId); break;
-                    case "ClassE": if (ClassE.ToLong() != 0 && !link.ContainsKey(ClassE.ToLong())) link.Add(ClassE.ToLong(), ResultId); break;
-                    case "ClassF": if (ClassF.ToLong() != 0 && !link.ContainsKey(ClassF.ToLong())) link.Add(ClassF.ToLong(), ResultId); break;
-                    case "ClassG": if (ClassG.ToLong() != 0 && !link.ContainsKey(ClassG.ToLong())) link.Add(ClassG.ToLong(), ResultId); break;
-                    case "ClassH": if (ClassH.ToLong() != 0 && !link.ContainsKey(ClassH.ToLong())) link.Add(ClassH.ToLong(), ResultId); break;
-                    case "ClassI": if (ClassI.ToLong() != 0 && !link.ContainsKey(ClassI.ToLong())) link.Add(ClassI.ToLong(), ResultId); break;
-                    case "ClassJ": if (ClassJ.ToLong() != 0 && !link.ContainsKey(ClassJ.ToLong())) link.Add(ClassJ.ToLong(), ResultId); break;
-                    case "ClassK": if (ClassK.ToLong() != 0 && !link.ContainsKey(ClassK.ToLong())) link.Add(ClassK.ToLong(), ResultId); break;
-                    case "ClassL": if (ClassL.ToLong() != 0 && !link.ContainsKey(ClassL.ToLong())) link.Add(ClassL.ToLong(), ResultId); break;
-                    case "ClassM": if (ClassM.ToLong() != 0 && !link.ContainsKey(ClassM.ToLong())) link.Add(ClassM.ToLong(), ResultId); break;
-                    case "ClassN": if (ClassN.ToLong() != 0 && !link.ContainsKey(ClassN.ToLong())) link.Add(ClassN.ToLong(), ResultId); break;
-                    case "ClassO": if (ClassO.ToLong() != 0 && !link.ContainsKey(ClassO.ToLong())) link.Add(ClassO.ToLong(), ResultId); break;
-                    case "ClassP": if (ClassP.ToLong() != 0 && !link.ContainsKey(ClassP.ToLong())) link.Add(ClassP.ToLong(), ResultId); break;
-                    case "ClassQ": if (ClassQ.ToLong() != 0 && !link.ContainsKey(ClassQ.ToLong())) link.Add(ClassQ.ToLong(), ResultId); break;
-                    case "ClassR": if (ClassR.ToLong() != 0 && !link.ContainsKey(ClassR.ToLong())) link.Add(ClassR.ToLong(), ResultId); break;
-                    case "ClassS": if (ClassS.ToLong() != 0 && !link.ContainsKey(ClassS.ToLong())) link.Add(ClassS.ToLong(), ResultId); break;
-                    case "ClassT": if (ClassT.ToLong() != 0 && !link.ContainsKey(ClassT.ToLong())) link.Add(ClassT.ToLong(), ResultId); break;
-                    case "ClassU": if (ClassU.ToLong() != 0 && !link.ContainsKey(ClassU.ToLong())) link.Add(ClassU.ToLong(), ResultId); break;
-                    case "ClassV": if (ClassV.ToLong() != 0 && !link.ContainsKey(ClassV.ToLong())) link.Add(ClassV.ToLong(), ResultId); break;
-                    case "ClassW": if (ClassW.ToLong() != 0 && !link.ContainsKey(ClassW.ToLong())) link.Add(ClassW.ToLong(), ResultId); break;
-                    case "ClassX": if (ClassX.ToLong() != 0 && !link.ContainsKey(ClassX.ToLong())) link.Add(ClassX.ToLong(), ResultId); break;
-                    case "ClassY": if (ClassY.ToLong() != 0 && !link.ContainsKey(ClassY.ToLong())) link.Add(ClassY.ToLong(), ResultId); break;
-                    case "ClassZ": if (ClassZ.ToLong() != 0 && !link.ContainsKey(ClassZ.ToLong())) link.Add(ClassZ.ToLong(), ResultId); break;
+                    case "ClassA":
+                        if (ClassA.ToLong() != 0 && !link.ContainsKey(ClassA.ToLong()))
+                        {
+                            link.Add(ClassA.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassB":
+                        if (ClassB.ToLong() != 0 && !link.ContainsKey(ClassB.ToLong()))
+                        {
+                            link.Add(ClassB.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassC":
+                        if (ClassC.ToLong() != 0 && !link.ContainsKey(ClassC.ToLong()))
+                        {
+                            link.Add(ClassC.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassD":
+                        if (ClassD.ToLong() != 0 && !link.ContainsKey(ClassD.ToLong()))
+                        {
+                            link.Add(ClassD.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassE":
+                        if (ClassE.ToLong() != 0 && !link.ContainsKey(ClassE.ToLong()))
+                        {
+                            link.Add(ClassE.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassF":
+                        if (ClassF.ToLong() != 0 && !link.ContainsKey(ClassF.ToLong()))
+                        {
+                            link.Add(ClassF.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassG":
+                        if (ClassG.ToLong() != 0 && !link.ContainsKey(ClassG.ToLong()))
+                        {
+                            link.Add(ClassG.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassH":
+                        if (ClassH.ToLong() != 0 && !link.ContainsKey(ClassH.ToLong()))
+                        {
+                            link.Add(ClassH.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassI":
+                        if (ClassI.ToLong() != 0 && !link.ContainsKey(ClassI.ToLong()))
+                        {
+                            link.Add(ClassI.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassJ":
+                        if (ClassJ.ToLong() != 0 && !link.ContainsKey(ClassJ.ToLong()))
+                        {
+                            link.Add(ClassJ.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassK":
+                        if (ClassK.ToLong() != 0 && !link.ContainsKey(ClassK.ToLong()))
+                        {
+                            link.Add(ClassK.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassL":
+                        if (ClassL.ToLong() != 0 && !link.ContainsKey(ClassL.ToLong()))
+                        {
+                            link.Add(ClassL.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassM":
+                        if (ClassM.ToLong() != 0 && !link.ContainsKey(ClassM.ToLong()))
+                        {
+                            link.Add(ClassM.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassN":
+                        if (ClassN.ToLong() != 0 && !link.ContainsKey(ClassN.ToLong()))
+                        {
+                            link.Add(ClassN.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassO":
+                        if (ClassO.ToLong() != 0 && !link.ContainsKey(ClassO.ToLong()))
+                        {
+                            link.Add(ClassO.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassP":
+                        if (ClassP.ToLong() != 0 && !link.ContainsKey(ClassP.ToLong()))
+                        {
+                            link.Add(ClassP.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassQ":
+                        if (ClassQ.ToLong() != 0 && !link.ContainsKey(ClassQ.ToLong()))
+                        {
+                            link.Add(ClassQ.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassR":
+                        if (ClassR.ToLong() != 0 && !link.ContainsKey(ClassR.ToLong()))
+                        {
+                            link.Add(ClassR.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassS":
+                        if (ClassS.ToLong() != 0 && !link.ContainsKey(ClassS.ToLong()))
+                        {
+                            link.Add(ClassS.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassT":
+                        if (ClassT.ToLong() != 0 && !link.ContainsKey(ClassT.ToLong()))
+                        {
+                            link.Add(ClassT.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassU":
+                        if (ClassU.ToLong() != 0 && !link.ContainsKey(ClassU.ToLong()))
+                        {
+                            link.Add(ClassU.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassV":
+                        if (ClassV.ToLong() != 0 && !link.ContainsKey(ClassV.ToLong()))
+                        {
+                            link.Add(ClassV.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassW":
+                        if (ClassW.ToLong() != 0 && !link.ContainsKey(ClassW.ToLong()))
+                        {
+                            link.Add(ClassW.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassX":
+                        if (ClassX.ToLong() != 0 && !link.ContainsKey(ClassX.ToLong()))
+                        {
+                            link.Add(ClassX.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassY":
+                        if (ClassY.ToLong() != 0 && !link.ContainsKey(ClassY.ToLong()))
+                        {
+                            link.Add(ClassY.ToLong(), ResultId);
+                        }
+                        break;
+                    case "ClassZ":
+                        if (ClassZ.ToLong() != 0 && !link.ContainsKey(ClassZ.ToLong()))
+                        {
+                            link.Add(ClassZ.ToLong(), ResultId);
+                        }
+                        break;
                     default: break;
                 }
             });
