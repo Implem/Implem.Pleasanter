@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Libraries.Server
             var tenantId = Sessions.TenantId();
             return
                 ContractHash.ContainsKey(tenantId)
-                    ? ContractHash[tenantId]?.DisplayName
+                    ? ContractHash.Get(tenantId)?.DisplayName
                     : null;
         }
 
@@ -59,8 +59,8 @@ namespace Implem.Pleasanter.Libraries.Server
             var tenantId = Sessions.TenantId();
             return
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash[tenantId]?.Deadline.InRange() == true &&
-                ContractHash[tenantId]?.Deadline.ToDateTime() < DateTime.Now.ToLocal();
+                ContractHash.Get(tenantId)?.Deadline.InRange() == true &&
+                ContractHash.Get(tenantId)?.Deadline.ToDateTime() < DateTime.Now.ToLocal();
         }
 
         public static bool UsersLimit(int number = 1)
@@ -68,11 +68,11 @@ namespace Implem.Pleasanter.Libraries.Server
             var tenantId = Sessions.TenantId();
             return
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash[tenantId]?.Users > 0 &&
+                ContractHash.Get(tenantId)?.Users > 0 &&
                 Rds.ExecuteScalar_int(statements: Rds.SelectUsers(
                     column: Rds.UsersColumn().UsersCount(),
                     where: Rds.UsersWhere().TenantId(tenantId))) + number >
-                        ContractHash[tenantId]?.Users;
+                        ContractHash.Get(tenantId)?.Users;
         }
 
         public static bool SitesLimit(int number = 1)
@@ -80,11 +80,11 @@ namespace Implem.Pleasanter.Libraries.Server
             var tenantId = Sessions.TenantId();
             return
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash[tenantId]?.Sites > 0 &&
+                ContractHash.Get(tenantId)?.Sites > 0 &&
                 Rds.ExecuteScalar_int(statements: Rds.SelectSites(
                     column: Rds.SitesColumn().SitesCount(),
                     where: Rds.SitesWhere().TenantId(tenantId))) + number >
-                        ContractHash[tenantId]?.Sites;
+                        ContractHash.Get(tenantId)?.Sites;
         }
 
         public static bool ItemsLimit(long siteId, int number = 1)
@@ -92,11 +92,11 @@ namespace Implem.Pleasanter.Libraries.Server
             var tenantId = Sessions.TenantId();
             return
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash[tenantId]?.Sites > 0 &&
+                ContractHash.Get(tenantId)?.Sites > 0 &&
                 Rds.ExecuteScalar_int(statements: Rds.SelectItems(
                     column: Rds.ItemsColumn().ItemsCount(),
                     where: Rds.ItemsWhere().SiteId(siteId))) + number >
-                        ContractHash[tenantId]?.Items;
+                        ContractHash.Get(tenantId)?.Items;
         }
 
         public static bool Attachments()
@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Libraries.Server
             return
                 Parameters.BinaryStorage.Attachments &&
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash[tenantId]?.Attachments != 0;
+                ContractHash.Get(tenantId)?.Attachments != 0;
         }
 
         public static int? TenantAttachmentsSize()
@@ -118,7 +118,7 @@ namespace Implem.Pleasanter.Libraries.Server
             var tenantId = Sessions.TenantId();
             return
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash[tenantId]?.Import != false;
+                ContractHash.Get(tenantId)?.Import != false;
         }
 
         public static bool Export()
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Libraries.Server
             var tenantId = Sessions.TenantId();
             return
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash[tenantId]?.Export != false;
+                ContractHash.Get(tenantId)?.Export != false;
         }
 
         public static bool Notice()
@@ -134,7 +134,7 @@ namespace Implem.Pleasanter.Libraries.Server
             var tenantId = Sessions.TenantId();
             return
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash[tenantId]?.Notice != false;
+                ContractHash.Get(tenantId)?.Notice != false;
         }
 
         public static bool Remind()
@@ -142,7 +142,7 @@ namespace Implem.Pleasanter.Libraries.Server
             var tenantId = Sessions.TenantId();
             return
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash[tenantId]?.Remind != false;
+                ContractHash.Get(tenantId)?.Remind != false;
         }
 
         public static bool Mail()
@@ -150,7 +150,7 @@ namespace Implem.Pleasanter.Libraries.Server
             var tenantId = Sessions.TenantId();
             return
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash[tenantId]?.Mail != false;
+                ContractHash.Get(tenantId)?.Mail != false;
         }
 
         public static bool Style()
@@ -158,7 +158,7 @@ namespace Implem.Pleasanter.Libraries.Server
             var tenantId = Sessions.TenantId();
             return
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash[tenantId]?.Style != false;
+                ContractHash.Get(tenantId)?.Style != false;
         }
 
         public static bool Script()
@@ -166,7 +166,7 @@ namespace Implem.Pleasanter.Libraries.Server
             var tenantId = Sessions.TenantId();
             return
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash[tenantId]?.Script != false;
+                ContractHash.Get(tenantId)?.Script != false;
         }
 
         public static bool Api()
@@ -175,7 +175,7 @@ namespace Implem.Pleasanter.Libraries.Server
             return
                 Parameters.Api.Enabled &&
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash[tenantId]?.Api != false;
+                ContractHash.Get(tenantId)?.Api != false;
         }
     }
 }
