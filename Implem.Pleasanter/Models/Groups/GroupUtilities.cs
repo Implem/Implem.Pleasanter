@@ -827,30 +827,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static GroupCollection GroupCollection(
-            SiteSettings ss, View view, int offset = 0)
-        {
-            return new GroupCollection(
-                ss: ss,
-                column: GridSqlColumnCollection(ss),
-                where: view.Where(ss: ss, where: Rds.GroupsWhere()
-                    .TenantId(Sessions.TenantId())
-                    .GroupId_In(
-                        sub: Rds.SelectGroupMembers(
-                            distinct: true,
-                            column: Rds.GroupMembersColumn().GroupId(),
-                            where: Permissions.GroupMembersWhere()),
-                        _using: !Permissions.CanManageTenant())),
-                orderBy: view.OrderBy(ss, Rds.GroupsOrderBy()
-                    .UpdatedTime(SqlOrderBy.Types.desc)),
-                offset: offset,
-                pageSize: ss.GridPageSize.ToInt(),
-                countRecord: true);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static string GridRows()
         {
             return GridRows(
