@@ -105,6 +105,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 : Get("Items", "_action_");
         }
 
+        public static string Binaries(string guid, bool temp = false)
+        {
+            return Get("binaries", guid, !temp
+                ? "/download"
+                : "/downloadtemp");
+        }
+
         public static string BadRequest()
         {
             return Get("Errors", "BadRequest");
