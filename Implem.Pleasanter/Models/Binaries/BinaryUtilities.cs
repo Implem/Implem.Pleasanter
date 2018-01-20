@@ -146,9 +146,9 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.OverTotalLimitSize:
                     return Messages.ResponseOverTotalLimitSize(
                         column.TotalLimitSize.ToString()).ToJson();
-                case Error.Types.OverTenantTotalLimitSize:
-                    return Messages.ResponseOverTenantTotalLimitSize(
-                        Contract.TenantAttachmentsSize().ToString()).ToJson();
+                case Error.Types.OverTenantStorageSize:
+                    return Messages.ResponseOverTenantStorageSize(
+                        Contract.TenantStorageSize().ToString()).ToJson();
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
@@ -214,7 +214,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static long TenantBinSize()
+        public static long UsedTenantStorageSize()
         {
             return Rds.ExecuteScalar_long(statements: Rds.SelectBinaries(
                 column: Rds.BinariesColumn().Size(function: Sqls.Functions.Sum),

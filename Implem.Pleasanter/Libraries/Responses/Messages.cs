@@ -338,9 +338,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.OverLimitSize(data), "alert-error");
         }
 
-        public static Message OverTenantTotalLimitSize(params string[] data)
+        public static Message OverTenantStorageSize(params string[] data)
         {
-            return Get(Displays.OverTenantTotalLimitSize(data), "alert-error");
+            return Get(Displays.OverTenantStorageSize(data), "alert-error");
         }
 
         public static Message OverTotalLimitSize(params string[] data)
@@ -773,9 +773,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(OverLimitSize(data));
         }
 
-        public static ResponseCollection ResponseOverTenantTotalLimitSize(params string[] data)
+        public static ResponseCollection ResponseOverTenantStorageSize(params string[] data)
         {
-            return ResponseMessage(OverTenantTotalLimitSize(data));
+            return ResponseMessage(OverTenantStorageSize(data));
         }
 
         public static ResponseCollection ResponseOverTotalLimitSize(params string[] data)

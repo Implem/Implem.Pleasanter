@@ -55,12 +55,12 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.OverTotalLimitSize;
             }
-            if (OverTenantTotalLimitSize(
-                BinaryUtilities.TenantBinSize(),
+            if (OverTenantStorageSize(
+                BinaryUtilities.UsedTenantStorageSize(),
                 newTotalFileSize,
-                Contract.TenantAttachmentsSize()))
+                Contract.TenantStorageSize()))
             {
-                return Error.Types.OverTenantTotalLimitSize;
+                return Error.Types.OverTenantStorageSize;
             }
             return Error.Types.None;
         }
@@ -68,20 +68,20 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool OverLimitQuantity(long fileCount, long newFileCount, int? limitQuality)
+        private static bool OverLimitQuantity(long fileCount, long newFileCount, int? limit)
         {
-            if ((fileCount + newFileCount) > limitQuality) return true;
+            if ((fileCount + newFileCount) > limit) return true;
             return false;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool OverLimitSize(System.Web.HttpPostedFileBase[] files, int? limitSize)
+        private static bool OverLimitSize(System.Web.HttpPostedFileBase[] files, int? limit)
         {
             foreach (var item in files)
             {
-                if (item.ContentLength > limitSize * 1024 * 1024) return true;
+                if (item.ContentLength > (long)limit * 1024 * 1024) return true;
             }
             return false;
         }
@@ -90,20 +90,20 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static bool OverTotalLimitSize(
-            long totalFileSize, long newTotalFileSize, int? limitTotalSize)
+            long totalFileSize, long newTotalFileSize, int? limit)
         {
-            if ((totalFileSize + newTotalFileSize) > limitTotalSize * 1024 * 1024) return true;
+            if ((totalFileSize + newTotalFileSize) > (long)limit * 1024 * 1024) return true;
             return false;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool OverTenantTotalLimitSize(
-            long totalFileSize, long newTotalFileSize, int? limitTotalSize)
+        private static bool OverTenantStorageSize(
+            long totalFileSize, long newTotalFileSize, int? limit)
         {
-            if (limitTotalSize != null &&
-                (totalFileSize + newTotalFileSize) > limitTotalSize * 1024 * 1024) return true;
+            if (limit != null &&
+                (totalFileSize + newTotalFileSize) > (long)limit * 1024 * 1024 * 1024) return true;
             return false;
         }
     }

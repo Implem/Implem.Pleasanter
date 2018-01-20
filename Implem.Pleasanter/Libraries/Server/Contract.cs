@@ -105,12 +105,12 @@ namespace Implem.Pleasanter.Libraries.Server
             return
                 Parameters.BinaryStorage.Attachments &&
                 ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.Attachments != 0;
+                ContractHash.Get(tenantId)?.StorageSize != 0;
         }
 
-        public static int? TenantAttachmentsSize()
+        public static int? TenantStorageSize()
         {
-            return ContractHash.Get(Sessions.TenantId())?.Attachments;
+            return ContractHash.Get(Sessions.TenantId())?.StorageSize;
         }
 
         public static bool Import()
