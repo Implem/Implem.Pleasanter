@@ -741,10 +741,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .A(
                             attributes: new HtmlAttributes()
                                 .Class("file-name")
-                                .Href($"/binaries/{guid}" +
-                                    (added != true
-                                        ? "/download"
-                                        : "/downloadtemp")),
+                                .Href(Locations.Binaries(guid, added == true)),
                             action: () => hb
                                 .Text(text: fileName + "　(" + displaySize + ")"))
                         .Div(
