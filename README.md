@@ -12,7 +12,7 @@
 
 ## 使い方マニュアル
 プリザンターのインストール手順及び、操作方法を解説します。  
-https://github.com/Implem/Implem.Pleasanter/wiki/プリザンターの使い方マニュアル
+[プリザンターの使い方マニュアル](https://github.com/Implem/Implem.Pleasanter/wiki/プリザンターの使い方マニュアル)
 
 ## ダウンロード
 セットアップモジュールのダウンロードサイトです。  
