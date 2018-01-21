@@ -2730,29 +2730,24 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.DisplayName(),
                         text: column.LabelText,
                         validateRequired: true);
-                    if (column.ColumnName != "Comments")
+                    if (column.ColumnName != "Comments" &&
+                        column.TypeName != "bit" &&
+                        column.ControlType != "Attachments")
                     {
-                        switch (column.TypeName.CsTypeSummary())
-                        {
-                            case Types.CsBool:
-                                break;
-                            default:
-                                var optionCollection = FieldCssOptions(column);
-                                hb
-                                    .FieldDropDown(
-                                        controlId: "FieldCss",
-                                        labelText: Displays.Style(),
-                                        optionCollection: optionCollection,
-                                        selectedValue: column.FieldCss,
-                                        _using: optionCollection?.Any() == true)
-                                    .FieldCheckBox(
-                                        controlId: "ValidateRequired",
-                                        labelText: Displays.Required(),
-                                        _checked: column.ValidateRequired ?? false,
-                                        disabled: column.Required,
-                                        _using: !column.Id_Ver);
-                                break;
-                        }
+                        var optionCollection = FieldCssOptions(column);
+                        hb
+                            .FieldDropDown(
+                                controlId: "FieldCss",
+                                labelText: Displays.Style(),
+                                optionCollection: optionCollection,
+                                selectedValue: column.FieldCss,
+                                _using: optionCollection?.Any() == true)
+                            .FieldCheckBox(
+                                controlId: "ValidateRequired",
+                                labelText: Displays.Required(),
+                                _checked: column.ValidateRequired ?? false,
+                                disabled: column.Required,
+                                _using: !column.Id_Ver);
                     }
                     hb.FieldCheckBox(
                         controlId: "EditorReadOnly",
