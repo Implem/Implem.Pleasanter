@@ -119,7 +119,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToExport(Column column, ExportColumn exportColumn = null)
         {
-            return column.ChoicePart(Id.ToString(), exportColumn?.Type ?? ExportColumn.Types.Text);
+            return !Anonymous()
+                ? column.ChoicePart(Id.ToString(), exportColumn?.Type ?? ExportColumn.Types.Text)
+                : string.Empty;
         }
 
         public string ToNotice(
