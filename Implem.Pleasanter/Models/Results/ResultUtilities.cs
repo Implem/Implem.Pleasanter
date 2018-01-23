@@ -3491,132 +3491,132 @@ namespace Implem.Pleasanter.Models
                         case "CheckA":
                             res.Val(
                                 "#Results_CheckA",
-                                resultModel.CheckA.ToControl(ss, column));
+                                resultModel.CheckA);
                             break;
                         case "CheckB":
                             res.Val(
                                 "#Results_CheckB",
-                                resultModel.CheckB.ToControl(ss, column));
+                                resultModel.CheckB);
                             break;
                         case "CheckC":
                             res.Val(
                                 "#Results_CheckC",
-                                resultModel.CheckC.ToControl(ss, column));
+                                resultModel.CheckC);
                             break;
                         case "CheckD":
                             res.Val(
                                 "#Results_CheckD",
-                                resultModel.CheckD.ToControl(ss, column));
+                                resultModel.CheckD);
                             break;
                         case "CheckE":
                             res.Val(
                                 "#Results_CheckE",
-                                resultModel.CheckE.ToControl(ss, column));
+                                resultModel.CheckE);
                             break;
                         case "CheckF":
                             res.Val(
                                 "#Results_CheckF",
-                                resultModel.CheckF.ToControl(ss, column));
+                                resultModel.CheckF);
                             break;
                         case "CheckG":
                             res.Val(
                                 "#Results_CheckG",
-                                resultModel.CheckG.ToControl(ss, column));
+                                resultModel.CheckG);
                             break;
                         case "CheckH":
                             res.Val(
                                 "#Results_CheckH",
-                                resultModel.CheckH.ToControl(ss, column));
+                                resultModel.CheckH);
                             break;
                         case "CheckI":
                             res.Val(
                                 "#Results_CheckI",
-                                resultModel.CheckI.ToControl(ss, column));
+                                resultModel.CheckI);
                             break;
                         case "CheckJ":
                             res.Val(
                                 "#Results_CheckJ",
-                                resultModel.CheckJ.ToControl(ss, column));
+                                resultModel.CheckJ);
                             break;
                         case "CheckK":
                             res.Val(
                                 "#Results_CheckK",
-                                resultModel.CheckK.ToControl(ss, column));
+                                resultModel.CheckK);
                             break;
                         case "CheckL":
                             res.Val(
                                 "#Results_CheckL",
-                                resultModel.CheckL.ToControl(ss, column));
+                                resultModel.CheckL);
                             break;
                         case "CheckM":
                             res.Val(
                                 "#Results_CheckM",
-                                resultModel.CheckM.ToControl(ss, column));
+                                resultModel.CheckM);
                             break;
                         case "CheckN":
                             res.Val(
                                 "#Results_CheckN",
-                                resultModel.CheckN.ToControl(ss, column));
+                                resultModel.CheckN);
                             break;
                         case "CheckO":
                             res.Val(
                                 "#Results_CheckO",
-                                resultModel.CheckO.ToControl(ss, column));
+                                resultModel.CheckO);
                             break;
                         case "CheckP":
                             res.Val(
                                 "#Results_CheckP",
-                                resultModel.CheckP.ToControl(ss, column));
+                                resultModel.CheckP);
                             break;
                         case "CheckQ":
                             res.Val(
                                 "#Results_CheckQ",
-                                resultModel.CheckQ.ToControl(ss, column));
+                                resultModel.CheckQ);
                             break;
                         case "CheckR":
                             res.Val(
                                 "#Results_CheckR",
-                                resultModel.CheckR.ToControl(ss, column));
+                                resultModel.CheckR);
                             break;
                         case "CheckS":
                             res.Val(
                                 "#Results_CheckS",
-                                resultModel.CheckS.ToControl(ss, column));
+                                resultModel.CheckS);
                             break;
                         case "CheckT":
                             res.Val(
                                 "#Results_CheckT",
-                                resultModel.CheckT.ToControl(ss, column));
+                                resultModel.CheckT);
                             break;
                         case "CheckU":
                             res.Val(
                                 "#Results_CheckU",
-                                resultModel.CheckU.ToControl(ss, column));
+                                resultModel.CheckU);
                             break;
                         case "CheckV":
                             res.Val(
                                 "#Results_CheckV",
-                                resultModel.CheckV.ToControl(ss, column));
+                                resultModel.CheckV);
                             break;
                         case "CheckW":
                             res.Val(
                                 "#Results_CheckW",
-                                resultModel.CheckW.ToControl(ss, column));
+                                resultModel.CheckW);
                             break;
                         case "CheckX":
                             res.Val(
                                 "#Results_CheckX",
-                                resultModel.CheckX.ToControl(ss, column));
+                                resultModel.CheckX);
                             break;
                         case "CheckY":
                             res.Val(
                                 "#Results_CheckY",
-                                resultModel.CheckY.ToControl(ss, column));
+                                resultModel.CheckY);
                             break;
                         case "CheckZ":
                             res.Val(
                                 "#Results_CheckZ",
-                                resultModel.CheckZ.ToControl(ss, column));
+                                resultModel.CheckZ);
                             break;
                         case "Comments":
                             res.Val(
