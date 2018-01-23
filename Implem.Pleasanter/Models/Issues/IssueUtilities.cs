@@ -4128,7 +4128,7 @@ namespace Implem.Pleasanter.Models
             }
             issueModel.SiteId = ss.SiteId;
             issueModel.SetTitle(ss);
-            var error = issueModel.Create(ss);
+            var error = issueModel.Create(ss, notice: true);
             if (error.Has())
             {
                 return ApiResults.Error(error);
@@ -4215,7 +4215,7 @@ namespace Implem.Pleasanter.Models
             }
             issueModel.SiteId = ss.SiteId;
             issueModel.SetTitle(ss);
-            var error = issueModel.Update(ss);
+            var error = issueModel.Update(ss, notice: true);
             if (error.Has())
             {
                 return ApiResults.Error(error);
@@ -4337,7 +4337,7 @@ namespace Implem.Pleasanter.Models
             }
             issueModel.SiteId = ss.SiteId;
             issueModel.SetTitle(ss);
-            var error = issueModel.Delete(ss);
+            var error = issueModel.Delete(ss, notice: true);
             if (error.Has())
             {
                 return ApiResults.Error(error);
