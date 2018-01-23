@@ -4017,7 +4017,7 @@ namespace Implem.Pleasanter.Models
             }
             resultModel.SiteId = ss.SiteId;
             resultModel.SetTitle(ss);
-            var error = resultModel.Create(ss);
+            var error = resultModel.Create(ss, notice: true);
             if (error.Has())
             {
                 return ApiResults.Error(error);
@@ -4100,7 +4100,7 @@ namespace Implem.Pleasanter.Models
             }
             resultModel.SiteId = ss.SiteId;
             resultModel.SetTitle(ss);
-            var error = resultModel.Update(ss);
+            var error = resultModel.Update(ss, notice: true);
             if (error.Has())
             {
                 return ApiResults.Error(error);
@@ -4222,7 +4222,7 @@ namespace Implem.Pleasanter.Models
             }
             resultModel.SiteId = ss.SiteId;
             resultModel.SetTitle(ss);
-            var error = resultModel.Delete(ss);
+            var error = resultModel.Delete(ss, notice: true);
             if (error.Has())
             {
                 return ApiResults.Error(error);
