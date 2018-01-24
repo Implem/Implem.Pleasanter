@@ -1,21 +1,10 @@
-﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Server;
+﻿using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 namespace Implem.Pleasanter.Libraries.Converts
 {
     public static class ToControlExtensions
     {
-        public static string ToControl(this Enum self, SiteSettings ss, Column column)
-        {
-            switch (column.TypeName)
-            {
-                case "int": return self.ToInt().ToString();
-                case "bigint": return self.ToLong().ToString();
-                default: return self.ToInt().ToString();
-            }
-        }
-
         public static string ToControl(this bool self, SiteSettings ss, Column column)
         {
             return self.ToString();
