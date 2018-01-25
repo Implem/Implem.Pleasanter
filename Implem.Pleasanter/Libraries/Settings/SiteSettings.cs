@@ -1138,7 +1138,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var column = GetColumn(o.ColumnName);
                 if (column != null)
                 {
-                    column.CanCreate = 
+                    column.CanCreate =
                         o.Allowed(PermissionType, mine) &&
                         column.EditorReadOnly != true;
                 }
