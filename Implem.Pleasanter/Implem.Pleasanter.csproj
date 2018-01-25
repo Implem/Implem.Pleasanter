@@ -432,7 +432,7 @@
     <Compile Include="Models\ExportSettings\ExportSettingCollection.cs" />
     <Compile Include="Models\ExportSettings\ExportSettingModel.cs" />
     <Compile Include="Models\ExportSettings\ExportSettingUtilities.cs" />
-    <Compile Include="Models\ExportSettings\ExportSettingValidator.cs" />
+    <Compile Include="Models\ExportSettings\ExportSettingValidators.cs" />
     <Compile Include="Models\GroupMembers\GroupMemberCollection.cs" />
     <Compile Include="Models\GroupMembers\GroupMemberModel.cs" />
     <Compile Include="Models\GroupMembers\GroupMemberUtilities.cs" />
