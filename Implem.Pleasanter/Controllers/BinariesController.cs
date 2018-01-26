@@ -80,6 +80,28 @@ namespace Implem.Pleasanter.Controllers
             return file;
         }
 
+        [HttpGet]
+        public ActionResult Show(string reference, string guid)
+        {
+            var log = new SysLogModel();
+            var file = BinaryUtilities.Donwload(guid);
+            log.Finish(file?.FileContents.Length ?? 0);
+            return file != null
+                ? File(file.FileContents, file.ContentType)
+                : null;
+        }
+
+        [HttpGet]
+        public ActionResult ShowTemp(string reference, string guid)
+        {
+            var log = new SysLogModel();
+            var file = BinaryUtilities.DownloadTemp(guid);
+            log.Finish(file?.FileContents.Length ?? 0);
+            return file != null
+                ? File(file.FileContents, file.ContentType)
+                : null;
+        }
+
         [HttpPost]
         public string DeleteTemp(string reference, long id)
         {

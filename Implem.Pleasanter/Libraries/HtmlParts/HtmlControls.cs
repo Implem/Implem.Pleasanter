@@ -741,14 +741,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .A(
                             attributes: new HtmlAttributes()
                                 .Class("file-name")
-                                .Href(Locations.Binaries(guid, added == true)),
+                                .Href(Locations.ShowFile(guid, temp: added == true)),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-circle-zoomin show-file"))
+                        .A(
+                            attributes: new HtmlAttributes()
+                                .Class("file-name")
+                                .Href(Locations.DownloadFile(guid, temp: added == true)),
                             action: () => hb
                                 .Text(text: fileName + "　(" + displaySize + ")"))
                         .Div(
                             attributes: new HtmlAttributes()
                                 .Class(deleted == true
                                     ? "ui-icon ui-icon-trash file-delete"
-                                    : "ui-icon ui-icon-circle-close file-delete")
+                                    : "ui-icon ui-icon-circle-close delete-file")
                                 .DataAction("binaries/deletetemp")
                                 .DataId(guid)
                                 .OnClick($"$p.deleteAttachment($('#{controlId}'), $(this));"),
