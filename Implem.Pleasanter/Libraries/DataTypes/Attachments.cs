@@ -21,7 +21,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .Ol(action: () => ForEach(item => hb
                     .Li(action: () =>　hb
                         .A(
-                            href: Locations.Binaries(item.Guid),
+                            href: Locations.DownloadFile(item.Guid),
                             action: () => hb
                                 .Text(text: item.Name))))));
         }

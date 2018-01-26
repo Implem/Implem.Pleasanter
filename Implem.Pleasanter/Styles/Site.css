@@ -1637,7 +1637,18 @@ pre{
     color:silver;
 }
 
-.file-delete{
+.show-file{
+    display:block;
+    float:left;
+    margin:0px;
+}
+
+.file-name{
+    display:block;
+    float:left;
+}
+
+.delete-file{
     display:block;
     float:right;
     margin:2px -5px 0px 0px;
