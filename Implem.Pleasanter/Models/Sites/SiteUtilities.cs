@@ -1295,6 +1295,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var ss = new SiteSettings();
+            ss.ReferenceType = "Sites";
             ss.PermissionType = SiteTopPermission();
             var verType = Versions.VerTypes.Latest;
             var siteConditions = SiteInfo.TenantCaches[Sessions.TenantId()]

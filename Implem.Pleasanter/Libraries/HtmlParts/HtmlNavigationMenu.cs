@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static bool SiteIndex(SiteSettings ss)
         {
-            return (ss.SiteId == 0 || ss.ReferenceType == "Sites") && Routes.Action() == "index";
+            return ss.ReferenceType == "Sites" && Routes.Action() == "index";
         }
 
         private static HtmlBuilder ViewModeMenu(this HtmlBuilder hb, SiteSettings ss)
