@@ -37,7 +37,7 @@ $p.setTemplateData = function ($control) {
         ? selected[0].innerText
         : '');
     $('#TemplateId').val(show
-        ? selected[0].getAttribute('value')
+        ? selected[0].getAttribute('data-value')
         : '');
 }
 

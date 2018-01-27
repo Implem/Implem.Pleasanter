@@ -1,7 +1,7 @@
 ﻿$p.addBasket = function ($control, text, value) {
     var $li = $('<li/>');
     if (value !== undefined){
-        $li.attr('value', value);
+        $li.attr('data-value', value);
     }
     $li
         .addClass('ui-widget-content ui-selectee')

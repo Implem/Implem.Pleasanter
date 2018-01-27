@@ -629,7 +629,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ? "ui-widget-content ui-selected"
                                     : "ui-widget-content")
                             .Title(listItem.Value?.Title)
-                            .Value(listItem.Key, _using: listItem.Value?.Text != listItem.Key),
+                            .DataValue(listItem.Key, _using: listItem.Value?.Text != listItem.Key),
                         action: () =>
                         {
                             if (basket)

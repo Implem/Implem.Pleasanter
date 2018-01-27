@@ -110,8 +110,8 @@ $p.clearData = function (target, data, type) {
 
 $p.toJson = function ($control) {
     return JSON.stringify($control.map(function () {
-        return $(this).attr('value') === undefined
+        return $(this).attr('data-value') === undefined
             ? $(this).text()
-            : $(this).attr('value')
+            : $(this).attr('data-value')
     }).toArray());
 }
