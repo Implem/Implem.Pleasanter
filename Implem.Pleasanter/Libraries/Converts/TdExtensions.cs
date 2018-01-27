@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.Converts
                     : hb.Td(action: () => hb
                         .Text(text: column.ChoicesText.SplitReturn()._2nd()))
                 : hb.Td(action: () => hb
-                    .Span(css: "ui-icon ui-icon-circle-check", _using: value.ToBool()));
+                    .Span(css: "ui-icon ui-icon-circle-check", _using: value));
         }
 
         public static HtmlBuilder Td(this HtmlBuilder hb, Column column, Enum value)
