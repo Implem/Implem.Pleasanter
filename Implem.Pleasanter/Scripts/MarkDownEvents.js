@@ -12,9 +12,13 @@
             for (var i = 0 ; i < items.length ; i++) {
                 var item = items[i];
                 if (item.type.indexOf('image') !== -1) {
+                    var url = $('.main-form')
+                        .attr('action')
+                        .replace('_action_', 'binaries/uploadimage');
                     var data = new FormData();
-                    data.append('Images_Bin', item.getAsFile());
-                    requestFile('/images/create', 'post', data);
+                    data.append('ControlId', this.id);
+                    data.append('file', item.getAsFile());
+                    $p.multiUpload(url, data);
                 }
             }
         }

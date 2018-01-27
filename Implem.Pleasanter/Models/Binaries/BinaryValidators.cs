@@ -30,6 +30,26 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static Error.Types OnUploadingImage(System.Web.HttpPostedFileBase[] files)
+        {
+            if (!Contract.Attachments())
+            {
+                return Error.Types.BadRequest;
+            }
+            var newTotalFileSize = files.Sum(x => x.ContentLength);
+            if (OverTenantStorageSize(
+                BinaryUtilities.UsedTenantStorageSize(),
+                newTotalFileSize,
+                Contract.TenantStorageSize()))
+            {
+                return Error.Types.OverTenantStorageSize;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Error.Types OnUploading(
             Column column,
             Libraries.DataTypes.Attachments attachments,

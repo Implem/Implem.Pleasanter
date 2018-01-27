@@ -64,6 +64,9 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
                 $control.before(value);
             }
             break;
+        case 'InsertText':
+            $p.insertText($(target), value);
+            break;
         case 'Remove':
             $(target).remove();
             break;

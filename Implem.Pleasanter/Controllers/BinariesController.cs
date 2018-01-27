@@ -54,6 +54,15 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string UploadImage(string reference, long id, HttpPostedFileBase[] file)
+        {
+            var log = new SysLogModel();
+            var json = BinaryUtilities.UploadImage(file, id);
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPost]
         public string MultiUpload(string reference, long id, HttpPostedFileBase[] file)
         {
             var log = new SysLogModel();

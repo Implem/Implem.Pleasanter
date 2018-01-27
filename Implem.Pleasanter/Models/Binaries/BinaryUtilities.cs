@@ -128,6 +128,43 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string UploadImage(System.Web.HttpPostedFileBase[] files, long id)
+        {
+            var controlId = Forms.ControlId();
+            var ss = new ItemModel(id).GetSite(initSiteSettings: true).SiteSettings;
+            var invalid = BinaryValidators.OnUploadingImage(files);
+            switch (invalid)
+            {
+                case Error.Types.OverTenantStorageSize:
+                    return Messages.ResponseOverTenantStorageSize(
+                        Contract.TenantStorageSize().ToString()).ToJson();
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var guid = Strings.NewGuid();
+            var file = files[0];
+            Rds.ExecuteNonQuery(statements:
+                Rds.InsertBinaries(
+                    param: Rds.BinariesParam()
+                        .TenantId(Sessions.TenantId())
+                        .ReferenceId(id)
+                        .Guid(guid)
+                        .BinaryType("Image")
+                        .Title(file.FileName)
+                        .Bin(file.Byte())
+                        .FileName(file.FileName)
+                        .Extension(file.Extension())
+                        .Size(file.ContentLength)
+                        .ContentType(file.ContentType)));
+            var hb = new HtmlBuilder();
+            return new ResponseCollection()
+                .InsertText("#" + Forms.ControlId(), $"![image]({Locations.ShowFile(guid)})")
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string MultiUpload(System.Web.HttpPostedFileBase[] files, long id)
         {
             var controlId = Forms.ControlId();

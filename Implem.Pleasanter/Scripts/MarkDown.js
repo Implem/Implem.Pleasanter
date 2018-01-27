@@ -39,10 +39,6 @@ $p.markup = function (markdownValue, encoded) {
         ? '<div class="md">' + marked(text.substring(4)) + '</div>'
         : replaceUrl(markedUp(text));
 
-    function cutBrackets(str, start) {
-        return str.substring(start, str.length - 1);
-    }
-
     function markedUp(text) {
         var $html = $('<pre/>')
         text.split(/\r\n|\r|\n/).forEach(function (line) {
@@ -55,13 +51,16 @@ $p.markup = function (markdownValue, encoded) {
     }
 
     function replaceUrl(text) {
-        var regex_t = /(\[[^\]]+\]\(\b(https?|notes|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+)/gi;
+        var regex_i = /(!\[[^\]]+\]\(.+?\))/gi;
+        var regex_t = /(\[[^\]]+\]\(.+?\))/gi;
         var regex = /(\b(https?|notes|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
         return text
+            .replace(regex_i, function ($1) {
+                return '<a href="' + address($1) + '" target="_blank">' +
+                    '<img src="' + address($1) + '" alt="' + title($1) + '" /></a>';
+            })
             .replace(regex_t, function ($1) {
-                return '<a href="' + cutBrackets($1.match(regex)[0], 0) + '" target="_blank">' +
-                    cutBrackets($1.match(/\[[^\]]+\]/i)[0], 1) +
-                    '</a>';
+                return '<a href="' + address($1) + '" target="_blank">' + title($1) + '</a>';
             })
             .replace(regex, function ($1) {
                 return $1.slice(-1) != '"'
@@ -75,9 +74,7 @@ $p.markup = function (markdownValue, encoded) {
         var regex = /(\B\\\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
         return text
             .replace(regex_t, function ($1) {
-                return '<a href="file://' + cutBrackets($1.match(regex)[0], 0) + '">' +
-                    cutBrackets($1.match(/\[[^\]]+\]/i)[0], 1) +
-                    '</a>';
+                return '<a href="file://' + address($1) + '">' + title($1) + '</a>';
             })
             .replace(regex, function ($1) {
                 return $1.slice(-1) != '"'
@@ -89,4 +86,25 @@ $p.markup = function (markdownValue, encoded) {
     function getEncordedHtml(value) {
         return $('<div/>').text(value).html();
     }
+
+    function address($1) {
+        var m = $1.match(/\(.+?\)/gi)[0];
+        return m.substring(1, m.length - 1);
+    }
+
+    function title($1) {
+        var m = $1.match(/\[[^\]]+\]/i)[0];
+        return m.substring(1, m.length - 1);
+    }
+}
+
+$p.insertText = function ($control, value) {
+    var body = $control.get(0);
+    body.focus();
+    var start = body.value;
+    var caret = body.selectionStart;
+    var next = caret + value.length;
+    body.value = start.substr(0, caret) + value + start.substr(caret);
+    body.setSelectionRange(next, next);
+    $p.setData($control);
 }
