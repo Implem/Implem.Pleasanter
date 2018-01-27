@@ -19,6 +19,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return Path.GetExtension(file.FileName);
         }
 
+        public static byte[] Byte(this HttpPostedFileBase file)
+        {
+            using (var inputStream = file.InputStream)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    inputStream.CopyTo(memoryStream);
+                    return memoryStream.ToArray();
+                }
+            }
+        }
+
         public static string WriteToTemp(this HttpPostedFileBase file)
         {
             var guid = Strings.NewGuid();

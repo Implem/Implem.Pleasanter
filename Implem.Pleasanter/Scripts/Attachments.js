@@ -15,7 +15,7 @@
         $('[id="' + columnName + '.progress"]'),
         $('[id="' + columnName + '.abort"]'));
     $status.show();
-    $p.multiUpload(data, statusBar, url);
+    $p.multiUpload(url, data, statusBar);
 
     function createStatusbar(status, progressBar, abort) {
         this.progressBar = progressBar;

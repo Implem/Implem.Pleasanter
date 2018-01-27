@@ -57,7 +57,7 @@ $p.upload = function (requestUrl, methodType, data, $eventSender) {
     });
 }
 
-$p.multiUpload = function (formData, statusBar, uploadUrl) {
+$p.multiUpload = function (url, data, statusBar) {
     $p.clearMessage();
     var uploader = $.ajax({
         xhr: function () {
@@ -70,23 +70,27 @@ $p.multiUpload = function (formData, statusBar, uploadUrl) {
                     if (event.lengthComputable) {
                         percent = Math.ceil(position / total * 100);
                     }
-                    statusBar.setProgress(percent);
+                    if (statusBar !== undefined) {
+                        statusBar.setProgress(percent);
+                    }
                 }, false);
             }
             return uploadobj;
         },
-        url: uploadUrl,
+        url: url,
         type: 'POST',
         contentType: false,
         processData: false,
         cache: false,
-        data: formData,
+        data: data,
         success: function (data) {
-            statusBar.setProgress(100);
+            if (statusBar !== undefined) {
+                statusBar.setProgress(100);
+            }
         }
     })
         .done(function (response, textStatus, jqXHR) {
-            $p.setByJson(JSON.parse(response), formData);
+            $p.setByJson(JSON.parse(response), data);
             return true;
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
@@ -95,9 +99,13 @@ $p.multiUpload = function (formData, statusBar, uploadUrl) {
             return false;
         })
         .always(function (jqXHR, textStatus) {
-            $p.clearData('ControlId', formData);
+            $p.clearData('ControlId', data);
             $p.loaded();
-            statusBar.status.hide();
+            if (statusBar !== undefined) {
+                statusBar.status.hide();
+            }
         });
-    statusBar.setAbort(uploader);
+    if (statusBar !== undefined) {
+        statusBar.setAbort(uploader);
+    }
 }
