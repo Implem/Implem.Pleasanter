@@ -453,9 +453,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     default:
                         switch (column.ControlType)
                         {
-                            case "MarkDown": return ControlTypes.MarkDown;
-                            case "Attachments": return ControlTypes.Attachments;
-                            default: return ControlTypes.Text;
+                            case "MarkDown":
+                                return column.FieldCss == "field-markdown"
+                                    ? ControlTypes.MarkDown
+                                    : ControlTypes.Text;
+                            case "Attachments":
+                                return ControlTypes.Attachments;
+                            default:
+                                return ControlTypes.Text;
                         }
                 }
             }
