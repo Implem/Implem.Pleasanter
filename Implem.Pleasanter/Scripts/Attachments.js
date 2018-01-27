@@ -1,7 +1,7 @@
 ﻿$p.uploadAttachments = function ($upload, files) {
     var columnName = $upload.attr('data-name');
     var controlId = $upload.parent().find('.control-attachments').attr('id');
-    url = $('.main-form').attr('action').replace('_action_', $upload.attr('data-action'));
+    var url = $('.main-form').attr('action').replace('_action_', $upload.attr('data-action'));
     var data = new FormData();
     for (var i = 0; i < files.length; i++) {
         data.append('file', files[i]);
