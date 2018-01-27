@@ -110,7 +110,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public object ExecuteScalar()
         {
-            object command = null;
+            object value = null;
             SetCommand();
             SqlCommand.Connection.Open();
             Try(action: () =>
@@ -118,16 +118,16 @@ namespace Implem.Libraries.DataSources.SqlServer
                 switch (SqlContainer.RdsProvider)
                 {
                     case "Azure":
-                        command = SqlCommand.ExecuteScalarWithRetry();
+                        value = SqlCommand.ExecuteScalarWithRetry();
                         break;
                     default:
-                        command = SqlCommand.ExecuteScalar();
+                        value = SqlCommand.ExecuteScalar();
                         break;
                 }
             });
             SqlCommand.Connection.Close();
             Clear();
-            return command;
+            return value;
         }
 
         public DataTable ExecuteTable()
