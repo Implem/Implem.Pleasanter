@@ -444,7 +444,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static ControlTypes ControlType(Column column)
         {
-            if (column.EditorReadOnly.ToBool())
+            if (column.EditorReadOnly == true)
             {
                 switch (column.TypeName.CsTypeSummary())
                 {
