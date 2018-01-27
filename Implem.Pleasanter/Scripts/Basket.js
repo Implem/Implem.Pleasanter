@@ -1,11 +1,13 @@
 ﻿$p.addBasket = function ($control, text, value) {
-    $control.append($('<li/>')
-        .attr('value', value !== undefined
-            ? escape(value)
-            : escape(text))
+    var $li = $('<li/>');
+    if (value !== undefined){
+        $li.attr('value', value);
+    }
+    $li
         .addClass('ui-widget-content ui-selectee')
         .append($('<span/>').text(text))
         .append($('<span/>')
-            .addClass('ui-icon ui-icon-close delete')));
+            .addClass('ui-icon ui-icon-close delete'));
+    $control.append($li);
     $p.setData($control);
 }
