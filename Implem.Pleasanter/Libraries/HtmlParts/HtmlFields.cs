@@ -279,7 +279,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 text: value,
                                 placeholder: column.LabelText,
-                                readOnly: column.EditorReadOnly.ToBool(),
+                                readOnly: column.EditorReadOnly == true,
                                 validateRequired: required,
                                 preview: preview);
                         case ControlTypes.TextBox:
@@ -354,7 +354,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
                                 _checked: value.ToBool(),
-                                disabled: column.EditorReadOnly.ToBool());
+                                disabled: column.EditorReadOnly == true);
                         case ControlTypes.Slider:
                             return hb.FieldSlider(
                                 fieldId: controlId + "Field",
@@ -396,7 +396,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 value: value,
                                 placeholder: column.LabelText,
-                                readOnly: column.EditorReadOnly.ToBool(),
+                                readOnly: column.EditorReadOnly == true,
                                 validateRequired: required,
                                 preview: preview);
                         default:
