@@ -413,7 +413,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string Display(SiteSettings ss, decimal value, bool format = true)
         {
-            return Display(value, format: format) + (EditorReadOnly.ToBool() || !CanUpdate
+            return Display(value, format: format) + (EditorReadOnly == true || !CanUpdate
                 ? Unit
                 : string.Empty);
         }
