@@ -2726,13 +2726,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (methodType)
             {
                 case BaseModel.MethodTypes.New:
-                    return Styles?
-                        .Where(o => o.New == true)
-                        .Join("\n");
+                    return GetStyleBody(o => o.New == true);
                 default:
-                    return Styles?
-                        .Where(o => o.Edit == true)
-                        .Join("\n");
+                    return GetStyleBody(o => o.Edit == true);
             }
         }
 
@@ -2773,13 +2769,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (methodType)
             {
                 case BaseModel.MethodTypes.New:
-                    return Scripts?
-                        .Where(o => o.New == true)
-                        .Join("\n");
+                    return GetScriptBody(o => o.New == true);
                 default:
-                    return Scripts?
-                        .Where(o => o.Edit == true)
-                        .Join("\n");
+                    return GetScriptBody(o => o.Edit == true);
             }
         }
 
