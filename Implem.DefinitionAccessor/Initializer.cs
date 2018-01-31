@@ -80,6 +80,8 @@ namespace Implem.DefinitionAccessor
             Parameters.ExcludeColumns = Files.Read(ParametersPath("ExcludeColumns"))
                 .Deserialize<Dictionary<string, IEnumerable<string>>>();
             Parameters.ExtendedSqls = ExtendedSqls();
+            Parameters.ExtendedStyles = ExtendedStyles();
+            Parameters.ExtendedScripts = ExtendedScripts();
             Parameters.Formats = Files.Read(ParametersPath("Formats"))
                 .Deserialize<List<ParameterAccessor.Parts.Format>>();
             Parameters.General = Files.Read(ParametersPath("General"))
@@ -135,6 +137,52 @@ namespace Implem.DefinitionAccessor
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
             {
                 list = ExtendedSqls(dir.FullName, list);
+            }
+            return list;
+        }
+
+        private static List<string> ExtendedStyles(string path = null, List<string> list = null)
+        {
+            list = list ?? new List<string>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedStyles");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.css"))
+            {
+                var style = Files.Read(file.FullName);
+                if (style != null)
+                {
+                    list.Add(style);
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedStyles(dir.FullName, list);
+            }
+            return list;
+        }
+
+        private static List<string> ExtendedScripts(string path = null, List<string> list = null)
+        {
+            list = list ?? new List<string>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedScripts");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.js"))
+            {
+                var script = Files.Read(file.FullName);
+                if (script != null)
+                {
+                    list.Add(script);
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedScripts(dir.FullName, list);
             }
             return list;
         }

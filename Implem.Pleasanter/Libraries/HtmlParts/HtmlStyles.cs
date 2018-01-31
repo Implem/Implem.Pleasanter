@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -11,6 +12,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb, SiteSettings ss, string userStyle)
         {
             return hb
+                .Style(
+                    style: Parameters.ExtendedStyles?.Join("\n"),
+                    _using: Parameters.ExtendedStyles?.Any() == true)
                 .Style(
                     style: ss.GetStyleBody(o => o.All == true),
                     _using: Contract.Style() && ss?.Styles?.Any() == true)
