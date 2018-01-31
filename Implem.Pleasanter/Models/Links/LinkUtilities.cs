@@ -22,18 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class LinkUtilities
     {
-        public static string LinkSourceResponse(long siteId, long id)
-        {
-            var siteModel = new SiteModel(siteId);
-            var ss = SiteSettingsUtilities.Get(siteModel, id);
-            switch (ss.ReferenceType)
-            {
-                case "Issues": return IssueUtilities.EditorJson(ss, id);
-                case "Results": return ResultUtilities.EditorJson(ss, id);
-                default: return null;
-            }
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>

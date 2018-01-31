@@ -409,9 +409,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string ToDefault(this string self, SiteSettings ss, Column column)
         {
-            if (column.Linked(ss, Forms.Long("FromSiteId")))
+            if (column.Linked(ss, QueryStrings.Long("FromSiteId")))
             {
-                var id = Forms.Data("LinkId");
+                var id = QueryStrings.Data("LinkId");
                 if (column.UseSearch == true)
                 {
                     ss.SetChoiceHash(
