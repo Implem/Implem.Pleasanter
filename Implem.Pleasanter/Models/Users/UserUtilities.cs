@@ -105,8 +105,8 @@ namespace Implem.Pleasanter.Models
                 parentId: ss.ParentId,
                 referenceType: "Users",
                 script: Libraries.Scripts.JavaScripts.ViewMode(viewMode),
-                userScript: ss.GridScript,
-                userStyle: ss.GridStyle,
+                userScript: ss.ViewModeScripts(Routes.Action()),
+                userStyle: ss.ViewModeStyles(Routes.Action()),
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()

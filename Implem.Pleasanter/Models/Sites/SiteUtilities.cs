@@ -1947,6 +1947,18 @@ namespace Implem.Pleasanter.Models
                         .Class("dialog")
                         .Title(Displays.AdvancedSetting()),
                     _using: Contract.Export())
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("StyleDialog")
+                        .Class("dialog")
+                        .Title(Displays.Style()),
+                    _using: Contract.Style())
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("ScriptDialog")
+                        .Class("dialog")
+                        .Title(Displays.Script()),
+                    _using: Contract.Script())
                 .PermissionsDialog()
                 .PermissionForCreatingDialog()
                 .ColumnAccessControlDialog());
@@ -5516,24 +5528,291 @@ namespace Implem.Pleasanter.Models
         {
             if (!Contract.Style()) return hb;
             return hb.FieldSet(id: "StylesSettingsEditor", action: () => hb
-                .FieldTextBox(
-                    textType: HtmlTypes.TextTypes.MultiLine,
-                    controlId: "GridStyle",
-                    fieldCss: "field-wide",
-                    labelText: Displays.GridStyle(),
-                    text: ss.GridStyle.ToStr())
-                .FieldTextBox(
-                    textType: HtmlTypes.TextTypes.MultiLine,
-                    controlId: "NewStyle",
-                    fieldCss: "field-wide",
-                    labelText: Displays.NewStyle(),
-                    text: ss.NewStyle.ToStr())
-                .FieldTextBox(
-                    textType: HtmlTypes.TextTypes.MultiLine,
-                    controlId: "EditStyle",
-                    fieldCss: "field-wide",
-                    labelText: Displays.EditStyle(),
-                    text: ss.EditStyle.ToStr()));
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpStyles",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(),
+                        onClick: "$p.setAndSend('#EditStyle', $(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownStyles",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(),
+                        onClick: "$p.setAndSend('#EditStyle', $(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewStyle",
+                        text: Displays.New(),
+                        controlCss: "button-icon",
+                        onClick: "$p.openStyleDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
+                        controlId: "DeleteStyles",
+                        text: Displays.Delete(),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditStyle', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "delete",
+                        confirm: Displays.ConfirmDelete()))
+                .EditStyle(ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditStyle(this HtmlBuilder hb, SiteSettings ss)
+        {
+            var selected = Forms.Data("EditStyle").Deserialize<IEnumerable<int>>();
+            return hb.Table(
+                id: "EditStyle",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("StyleId")
+                    .DataFunc("openStyleDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditStyleHeader(ss: ss, selected: selected)
+                    .EditStyleBody(ss: ss, selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditStyleHeader(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.Styles?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Title()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.All()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.New()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Edit()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Index()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Calendar()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Crosstab()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Gantt()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.BurnDown()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.TimeSeries()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Kamban()))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditStyleBody(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => ss
+                .Styles?.ForEach(style => hb
+                    .Tr(
+                        css: "grid-row",
+                        attributes: new HtmlAttributes()
+                            .DataId(style.Id.ToString()),
+                        action: () => hb
+                            .Td(action: () => hb
+                                .CheckBox(
+                                    controlCss: "select",
+                                    _checked: selected?
+                                        .Contains(style.Id) == true))
+                            .Td(action: () => hb
+                                .Text(text: style.Id.ToString()))
+                            .Td(action: () => hb
+                                .Text(text: style.Title))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: style.All == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: style.New == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: style.Edit == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: style.Index == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: style.Calendar == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: style.Crosstab == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: style.Gantt == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: style.BurnDown == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: style.TimeSeries == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: style.Kamban == true)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder StyleDialog(
+            SiteSettings ss, string controlId, Style style)
+        {
+            var hb = new HtmlBuilder();
+            var conditions = ss.ViewSelectableOptions();
+            var outputDestinationCss = " output-destination-style" +
+                (style.All == true
+                    ? " hidden"
+                    : string.Empty);
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("StyleForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "StyleId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(),
+                        text: style.Id.ToString(),
+                        _using: controlId == "EditStyle")
+                    .FieldTextBox(
+                        controlId: "StyleTitle",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Title(),
+                        text: style.Title,
+                        validateRequired: true)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        controlId: "StyleBody",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Style(),
+                        text: style.Body)
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.OutputDestination(),
+                        action: () => hb
+                            .FieldCheckBox(
+                                fieldId: "StyleAllField",
+                                controlId: "StyleAll",
+                                controlCss: " always-send",
+                                labelText: Displays.All(),
+                                _checked: style.All == true)
+                            .FieldCheckBox(
+                                controlId: "StyleNew",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.New(),
+                                _checked: style.New == true)
+                            .FieldCheckBox(
+                                controlId: "StyleEdit",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Edit(),
+                                _checked: style.Edit == true)
+                            .FieldCheckBox(
+                                controlId: "StyleIndex",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Index(),
+                                _checked: style.Index == true)
+                            .FieldCheckBox(
+                                controlId: "StyleCalendar",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Calendar(),
+                                _checked: style.Calendar == true)
+                            .FieldCheckBox(
+                                controlId: "StyleCrosstab",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Crosstab(),
+                                _checked: style.Crosstab == true)
+                            .FieldCheckBox(
+                                controlId: "StyleGantt",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Gantt(),
+                                _checked: style.Gantt == true)
+                            .FieldCheckBox(
+                                controlId: "StyleBurnDown",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BurnDown(),
+                                _checked: style.BurnDown == true)
+                            .FieldCheckBox(
+                                controlId: "StyleTimeSeries",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.TimeSeries(),
+                                _checked: style.TimeSeries == true)
+                            .FieldCheckBox(
+                                controlId: "StyleKamban",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Kamban(),
+                                _checked: style.Kamban == true))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddStyle",
+                            text: Displays.Add(),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.setStyle($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewStyle")
+                        .Button(
+                            controlId: "UpdateStyle",
+                            text: Displays.Change(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.setStyle($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditStyle")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
         }
 
         /// <summary>
@@ -5543,24 +5822,291 @@ namespace Implem.Pleasanter.Models
         {
             if (!Contract.Script()) return hb;
             return hb.FieldSet(id: "ScriptsSettingsEditor", action: () => hb
-                .FieldTextBox(
-                    textType: HtmlTypes.TextTypes.MultiLine,
-                    controlId: "GridScript",
-                    fieldCss: "field-wide",
-                    labelText: Displays.GridScript(),
-                    text: ss.GridScript.ToStr())
-                .FieldTextBox(
-                    textType: HtmlTypes.TextTypes.MultiLine,
-                    controlId: "NewScript",
-                    fieldCss: "field-wide",
-                    labelText: Displays.NewScript(),
-                    text: ss.NewScript.ToStr())
-                .FieldTextBox(
-                    textType: HtmlTypes.TextTypes.MultiLine,
-                    controlId: "EditScript",
-                    fieldCss: "field-wide",
-                    labelText: Displays.EditScript(),
-                    text: ss.EditScript.ToStr()));
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpScripts",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(),
+                        onClick: "$p.setAndSend('#EditScript', $(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownScripts",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(),
+                        onClick: "$p.setAndSend('#EditScript', $(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewScript",
+                        text: Displays.New(),
+                        controlCss: "button-icon",
+                        onClick: "$p.openScriptDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
+                        controlId: "DeleteScripts",
+                        text: Displays.Delete(),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditScript', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "delete",
+                        confirm: Displays.ConfirmDelete()))
+                .EditScript(ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditScript(this HtmlBuilder hb, SiteSettings ss)
+        {
+            var selected = Forms.Data("EditScript").Deserialize<IEnumerable<int>>();
+            return hb.Table(
+                id: "EditScript",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("ScriptId")
+                    .DataFunc("openScriptDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditScriptHeader(ss: ss, selected: selected)
+                    .EditScriptBody(ss: ss, selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditScriptHeader(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.Scripts?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Title()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.All()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.New()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Edit()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Index()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Calendar()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Crosstab()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Gantt()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.BurnDown()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.TimeSeries()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Kamban()))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditScriptBody(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => ss
+                .Scripts?.ForEach(script => hb
+                    .Tr(
+                        css: "grid-row",
+                        attributes: new HtmlAttributes()
+                            .DataId(script.Id.ToString()),
+                        action: () => hb
+                            .Td(action: () => hb
+                                .CheckBox(
+                                    controlCss: "select",
+                                    _checked: selected?
+                                        .Contains(script.Id) == true))
+                            .Td(action: () => hb
+                                .Text(text: script.Id.ToString()))
+                            .Td(action: () => hb
+                                .Text(text: script.Title))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.All == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.New == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Edit == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Index == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Calendar == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Crosstab == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Gantt == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.BurnDown == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.TimeSeries == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Kamban == true)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ScriptDialog(
+            SiteSettings ss, string controlId, Script script)
+        {
+            var hb = new HtmlBuilder();
+            var conditions = ss.ViewSelectableOptions();
+            var outputDestinationCss = " output-destination-script" +
+                (script.All == true
+                    ? " hidden"
+                    : string.Empty);
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ScriptForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "ScriptId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(),
+                        text: script.Id.ToString(),
+                        _using: controlId == "EditScript")
+                    .FieldTextBox(
+                        controlId: "ScriptTitle",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Title(),
+                        text: script.Title,
+                        validateRequired: true)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        controlId: "ScriptBody",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Script(),
+                        text: script.Body)
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.OutputDestination(),
+                        action: () => hb
+                            .FieldCheckBox(
+                                fieldId: "ScriptAllField",
+                                controlId: "ScriptAll",
+                                controlCss: " always-send",
+                                labelText: Displays.All(),
+                                _checked: script.All == true)
+                            .FieldCheckBox(
+                                controlId: "ScriptNew",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.New(),
+                                _checked: script.New == true)
+                            .FieldCheckBox(
+                                controlId: "ScriptEdit",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Edit(),
+                                _checked: script.Edit == true)
+                            .FieldCheckBox(
+                                controlId: "ScriptIndex",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Index(),
+                                _checked: script.Index == true)
+                            .FieldCheckBox(
+                                controlId: "ScriptCalendar",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Calendar(),
+                                _checked: script.Calendar == true)
+                            .FieldCheckBox(
+                                controlId: "ScriptCrosstab",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Crosstab(),
+                                _checked: script.Crosstab == true)
+                            .FieldCheckBox(
+                                controlId: "ScriptGantt",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Gantt(),
+                                _checked: script.Gantt == true)
+                            .FieldCheckBox(
+                                controlId: "ScriptBurnDown",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BurnDown(),
+                                _checked: script.BurnDown == true)
+                            .FieldCheckBox(
+                                controlId: "ScriptTimeSeries",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.TimeSeries(),
+                                _checked: script.TimeSeries == true)
+                            .FieldCheckBox(
+                                controlId: "ScriptKamban",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Kamban(),
+                                _checked: script.Kamban == true))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddScript",
+                            text: Displays.Add(),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.setScript($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewScript")
+                        .Button(
+                            controlId: "UpdateScript",
+                            text: Displays.Change(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.setScript($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditScript")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
         }
 
         /// <summary>
