@@ -61,8 +61,8 @@ namespace Implem.Pleasanter.Models
                 parentId: ss.ParentId,
                 referenceType: "Results",
                 script: Libraries.Scripts.JavaScripts.ViewMode(viewMode),
-                userScript: ss.GridScript,
-                userStyle: ss.GridStyle,
+                userScript: ss.ViewModeScripts(Routes.Action()),
+                userStyle: ss.ViewModeStyles(Routes.Action()),
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -1180,12 +1180,8 @@ namespace Implem.Pleasanter.Models
                     ? Displays.New()
                     : resultModel.Title.DisplayValue,
                 useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
-                userScript: resultModel.MethodType == BaseModel.MethodTypes.New
-                    ? ss.NewScript
-                    : ss.EditScript,
-                userStyle: resultModel.MethodType == BaseModel.MethodTypes.New
-                    ? ss.NewStyle
-                    : ss.EditStyle,
+                userScript: ss.EditorScripts(resultModel.MethodType),
+                userStyle: ss.EditorStyles(resultModel.MethodType),
                 action: () => hb
                     .Editor(
                         ss: ss,

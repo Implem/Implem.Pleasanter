@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
             if (ss.Version < 1.009M) ss.Migrate1_009();
             if (ss.Version < 1.010M) ss.Migrate1_010();
             if (ss.Version < 1.011M) ss.Migrate1_011();
+            if (ss.Version < 1.012M) ss.Migrate1_012();
         }
 
         public static void Migrate()

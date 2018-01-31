@@ -262,6 +262,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Initializers\ParametersInitializer.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
+    <Compile Include="Libraries\Migrators\SiteSettings\Version1_012.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_011.cs" />
     <Compile Include="Libraries\Migrators\StatusesMigrator.cs" />
     <Compile Include="Libraries\Migrators\Statuses\Version00_043_052.cs" />
@@ -301,7 +302,9 @@
     <Compile Include="Libraries\Settings\NotificationUtilities.cs" />
     <Compile Include="Libraries\Settings\NumColumnExtensions.cs" />
     <Compile Include="Libraries\Converts\MatchExtensions.cs" />
+    <Compile Include="Libraries\Settings\Script.cs" />
     <Compile Include="Libraries\Settings\SettingList.cs" />
+    <Compile Include="Libraries\Settings\Style.cs" />
     <Compile Include="Libraries\Settings\UserSettings.cs" />
     <Compile Include="Libraries\ViewModes\BurnDown.cs" />
     <Compile Include="Libraries\ViewModes\BurnDownElement.cs" />
@@ -1249,6 +1252,8 @@
     <Content Include="App_Data\Displays\LimitSize.json" />
     <Content Include="App_Data\Displays\LimitTotalSize.json" />
     <Content Include="App_Data\Displays\OverTenantStorageSize.json" />
+    <Content Include="App_Data\Displays\Script.json" />
+    <Content Include="App_Data\Displays\OutputDestination.json" />
     <Content Include="Tools\Reminder.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

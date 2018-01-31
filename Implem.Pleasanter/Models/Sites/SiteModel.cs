@@ -1096,6 +1096,40 @@ namespace Implem.Pleasanter.Models
                 case "UpdateExportColumn":
                     UpdateExportColumns(res, controlId);
                     break;
+                case "MoveUpStyles":
+                case "MoveDownStyles":
+                    SetStylesOrder(res, controlId);
+                    break;
+                case "NewStyle":
+                case "EditStyle":
+                    OpenStyleDialog(res, controlId);
+                    break;
+                case "AddStyle":
+                    AddStyle(res, controlId);
+                    break;
+                case "UpdateStyle":
+                    UpdateStyle(res, controlId);
+                    break;
+                case "DeleteStyles":
+                    DeleteStyles(res);
+                    break;
+                case "MoveUpScripts":
+                case "MoveDownScripts":
+                    SetScriptsOrder(res, controlId);
+                    break;
+                case "NewScript":
+                case "EditScript":
+                    OpenScriptDialog(res, controlId);
+                    break;
+                case "AddScript":
+                    AddScript(res, controlId);
+                    break;
+                case "UpdateScript":
+                    UpdateScript(res, controlId);
+                    break;
+                case "DeleteScripts":
+                    DeleteScripts(res);
+                    break;
                 default:
                     Forms.All()
                         .Where(o => o.Key != controlId)
@@ -2772,6 +2806,250 @@ namespace Implem.Pleasanter.Models
                         .SetFormData("ExportColumns", selected.ToJson())
                         .CloseDialog("#ExportColumnsDialog");
                 }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetStylesOrder(ResponseCollection res, string controlId)
+        {
+            var selected = Forms.IntList("EditStyle");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets()).ToJson();
+            }
+            else
+            {
+                SiteSettings.Styles.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
+                res.Html("#EditStyle", new HtmlBuilder()
+                    .EditStyle(ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenStyleDialog(ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewStyle")
+            {
+                var style = new Style() { All = true };
+                OpenStyleDialog(res, style);
+            }
+            else
+            {
+                var style = SiteSettings.Styles?.Get(Forms.Int("StyleId"));
+                if (style == null)
+                {
+                    OpenDialogError(res, Messages.SelectOne());
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(this, SiteId);
+                    OpenStyleDialog(res, style);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenStyleDialog(ResponseCollection res, Style style)
+        {
+            res.Html("#StyleDialog", SiteUtilities.StyleDialog(
+                ss: SiteSettings, controlId: Forms.ControlId(), style: style));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddStyle(ResponseCollection res, string controlId)
+        {
+            SiteSettings.Styles.Add(new Style(
+                id: SiteSettings.Styles.Count() + 1,
+                title: Forms.Data("StyleTitle"),
+                all: Forms.Bool("StyleAll"),
+                _new: Forms.Bool("StyleNew"),
+                edit: Forms.Bool("StyleEdit"),
+                index: Forms.Bool("StyleIndex"),
+                calendar: Forms.Bool("StyleCalendar"),
+                crosstab: Forms.Bool("StyleCrosstab"),
+                gantt: Forms.Bool("StyleGantt"),
+                burnDown: Forms.Bool("StyleBurnDown"),
+                timeSeries: Forms.Bool("StyleTimeSeries"),
+                kamban: Forms.Bool("StyleKamban"),
+                body: Forms.Data("StyleBody")));
+            res
+                .ReplaceAll("#EditStyle", new HtmlBuilder()
+                    .EditStyle(ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateStyle(ResponseCollection res, string controlId)
+        {
+            SiteSettings.Styles?
+                .FirstOrDefault(o => o.Id == Forms.Int("StyleId"))?
+                .Update(
+                    title: Forms.Data("StyleTitle"),
+                    all: Forms.Bool("StyleAll"),
+                    _new: Forms.Bool("StyleNew"),
+                    edit: Forms.Bool("StyleEdit"),
+                    index: Forms.Bool("StyleIndex"),
+                    calendar: Forms.Bool("StyleCalendar"),
+                    crosstab: Forms.Bool("StyleCrosstab"),
+                    gantt: Forms.Bool("StyleGantt"),
+                    burnDown: Forms.Bool("StyleBurnDown"),
+                    timeSeries: Forms.Bool("StyleTimeSeries"),
+                    kamban: Forms.Bool("StyleKamban"),
+                    body: Forms.Data("StyleBody"));
+            res
+                .Html("#EditStyle", new HtmlBuilder()
+                    .EditStyle(ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteStyles(ResponseCollection res)
+        {
+            var selected = Forms.IntList("EditStyle");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets()).ToJson();
+            }
+            else
+            {
+                SiteSettings.Styles.Delete(selected);
+                res.ReplaceAll("#EditStyle", new HtmlBuilder()
+                    .EditStyle(ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetScriptsOrder(ResponseCollection res, string controlId)
+        {
+            var selected = Forms.IntList("EditScript");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets()).ToJson();
+            }
+            else
+            {
+                SiteSettings.Scripts.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
+                res.Html("#EditScript", new HtmlBuilder()
+                    .EditScript(ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenScriptDialog(ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewScript")
+            {
+                var script = new Script() { All = true };
+                OpenScriptDialog(res, script);
+            }
+            else
+            {
+                var script = SiteSettings.Scripts?.Get(Forms.Int("ScriptId"));
+                if (script == null)
+                {
+                    OpenDialogError(res, Messages.SelectOne());
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(this, SiteId);
+                    OpenScriptDialog(res, script);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenScriptDialog(ResponseCollection res, Script script)
+        {
+            res.Html("#ScriptDialog", SiteUtilities.ScriptDialog(
+                ss: SiteSettings, controlId: Forms.ControlId(), script: script));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddScript(ResponseCollection res, string controlId)
+        {
+            SiteSettings.Scripts.Add(new Script(
+                id: SiteSettings.Scripts.Count() + 1,
+                title: Forms.Data("ScriptTitle"),
+                all: Forms.Bool("ScriptAll"),
+                _new: Forms.Bool("ScriptNew"),
+                edit: Forms.Bool("ScriptEdit"),
+                index: Forms.Bool("ScriptIndex"),
+                calendar: Forms.Bool("ScriptCalendar"),
+                crosstab: Forms.Bool("ScriptCrosstab"),
+                gantt: Forms.Bool("ScriptGantt"),
+                burnDown: Forms.Bool("ScriptBurnDown"),
+                timeSeries: Forms.Bool("ScriptTimeSeries"),
+                kamban: Forms.Bool("ScriptKamban"),
+                body: Forms.Data("ScriptBody")));
+            res
+                .ReplaceAll("#EditScript", new HtmlBuilder()
+                    .EditScript(ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateScript(ResponseCollection res, string controlId)
+        {
+            SiteSettings.Scripts?
+                .FirstOrDefault(o => o.Id == Forms.Int("ScriptId"))?
+                .Update(
+                    title: Forms.Data("ScriptTitle"),
+                    all: Forms.Bool("ScriptAll"),
+                    _new: Forms.Bool("ScriptNew"),
+                    edit: Forms.Bool("ScriptEdit"),
+                    index: Forms.Bool("ScriptIndex"),
+                    calendar: Forms.Bool("ScriptCalendar"),
+                    crosstab: Forms.Bool("ScriptCrosstab"),
+                    gantt: Forms.Bool("ScriptGantt"),
+                    burnDown: Forms.Bool("ScriptBurnDown"),
+                    timeSeries: Forms.Bool("ScriptTimeSeries"),
+                    kamban: Forms.Bool("ScriptKamban"),
+                    body: Forms.Data("ScriptBody"));
+            res
+                .Html("#EditScript", new HtmlBuilder()
+                    .EditScript(ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteScripts(ResponseCollection res)
+        {
+            var selected = Forms.IntList("EditScript");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets()).ToJson();
+            }
+            else
+            {
+                SiteSettings.Scripts.Delete(selected);
+                res.ReplaceAll("#EditScript", new HtmlBuilder()
+                    .EditScript(ss: SiteSettings));
             }
         }
 

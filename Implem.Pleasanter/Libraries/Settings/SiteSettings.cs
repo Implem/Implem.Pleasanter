@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -83,6 +84,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Notification> Notifications;
         public SettingList<Reminder> Reminders;
         public SettingList<Export> Exports;
+        public SettingList<Style> Styles;
+        public SettingList<Script> Scripts;
         public bool? AllowEditingComments;
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
@@ -98,12 +101,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string MailCcDefault;
         public string MailBccDefault;
         public List<long> IntegratedSites;
-        public string GridStyle;
-        public string NewStyle;
-        public string EditStyle;
-        public string GridScript;
-        public string NewScript;
-        public string EditScript;
         public Dictionary<string, Permissions.Types> PermissionForCreating;
         public List<ColumnAccessControl> CreateColumnAccessControls;
         public List<ColumnAccessControl> ReadColumnAccessControls;
@@ -124,6 +121,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Aggregation> AggregationCollection;
         public List<Link> LinkCollection;
         public List<Summary> SummaryCollection;
+        // compatibility Version 1.011
+        public string NewStyle;
+        public string EditStyle;
+        public string GridStyle;
+        public string NewScript;
+        public string EditScript;
+        public string GridScript;
 
         public SiteSettings()
         {
@@ -184,6 +188,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Notifications == null) Notifications = new SettingList<Notification>();
             if (Reminders == null) Reminders = new SettingList<Reminder>();
             if (Exports == null) Exports = new SettingList<Export>();
+            if (Scripts == null) Scripts = new SettingList<Script>();
+            if (Styles == null) Styles = new SettingList<Style>();
             AllowEditingComments = AllowEditingComments ?? false;
             EnableCalendar = EnableCalendar ?? true;
             EnableCrosstab = EnableCrosstab ?? true;
@@ -292,6 +298,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return SiteId != 0 && SiteId == ReferenceId;
         }
 
+        public bool IsSiteEditor()
+        {
+            return IsSite() && Routes.Action() == "edit";
+        }
+
         public string RecordingJson()
         {
             var param = Parameters.General;
@@ -398,30 +409,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.Views.Add(view.GetRecordingData());
             });
-            Notifications?.ForEach(notification =>
-            {
-                if (ss.Notifications == null)
-                {
-                    ss.Notifications = new SettingList<Notification>();
-                }
-                ss.Notifications.Add(notification.GetRecordingData());
-            });
-            Reminders?.ForEach(notification =>
-            {
-                if (ss.Reminders == null)
-                {
-                    ss.Reminders = new SettingList<Reminder>();
-                }
-                ss.Reminders.Add(notification.GetRecordingData());
-            });
-            Exports?.ForEach(exportSetting =>
-            {
-                if (ss.Exports == null)
-                {
-                    ss.Exports = new SettingList<Export>();
-                }
-                ss.Exports.Add(exportSetting.GetRecordingData());
-            });
             Aggregations?.ForEach(aggregations =>
             {
                 if (ss.Aggregations == null)
@@ -454,6 +441,46 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.Formulas.Add(formulas.GetRecordingData());
             });
+            Notifications?.ForEach(notification =>
+            {
+                if (ss.Notifications == null)
+                {
+                    ss.Notifications = new SettingList<Notification>();
+                }
+                ss.Notifications.Add(notification.GetRecordingData());
+            });
+            Reminders?.ForEach(notification =>
+            {
+                if (ss.Reminders == null)
+                {
+                    ss.Reminders = new SettingList<Reminder>();
+                }
+                ss.Reminders.Add(notification.GetRecordingData());
+            });
+            Exports?.ForEach(exportSetting =>
+            {
+                if (ss.Exports == null)
+                {
+                    ss.Exports = new SettingList<Export>();
+                }
+                ss.Exports.Add(exportSetting.GetRecordingData());
+            });
+            Scripts?.ForEach(script =>
+            {
+                if (ss.Scripts == null)
+                {
+                    ss.Scripts = new SettingList<Script>();
+                }
+                ss.Scripts.Add(script.GetRecordingData());
+            });
+            Styles?.ForEach(style =>
+            {
+                if (ss.Styles == null)
+                {
+                    ss.Styles = new SettingList<Style>();
+                }
+                ss.Styles.Add(style.GetRecordingData());
+            });
             if (!AddressBook.IsNullOrEmpty())
             {
                 ss.AddressBook = AddressBook;
@@ -473,30 +500,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (IntegratedSites?.Any() == true)
             {
                 ss.IntegratedSites = IntegratedSites;
-            }
-            if (!GridStyle.IsNullOrEmpty())
-            {
-                ss.GridStyle = GridStyle;
-            }
-            if (!NewStyle.IsNullOrEmpty())
-            {
-                ss.NewStyle = NewStyle;
-            }
-            if (!EditStyle.IsNullOrEmpty())
-            {
-                ss.EditStyle = EditStyle;
-            }
-            if (!GridScript.IsNullOrEmpty())
-            {
-                ss.GridScript = GridScript;
-            }
-            if (!NewScript.IsNullOrEmpty())
-            {
-                ss.NewScript = NewScript;
-            }
-            if (!EditScript.IsNullOrEmpty())
-            {
-                ss.EditScript = EditScript;
             }
             PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
             {
@@ -1833,12 +1836,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "MailCcDefault": MailCcDefault = value; break;
                 case "MailBccDefault": MailBccDefault = value; break;
                 case "IntegratedSites": SetIntegratedSites(value); break;
-                case "GridStyle": GridStyle = value; break;
-                case "NewStyle": NewStyle = value; break;
-                case "EditStyle": EditStyle = value; break;
-                case "GridScript": GridScript = value; break;
-                case "NewScript": NewScript = value; break;
-                case "EditScript": EditScript = value; break;
                 case "CurrentPermissionForCreatingAll": SetPermissionForCreating(value); break;
                 case "CreateColumnAccessControlAll": SetCreateColumnAccessControl(value); break;
                 case "ReadColumnAccessControlAll": SetReadColumnAccessControl(value); break;
@@ -2722,6 +2719,100 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? string.Empty
                 : join.Value.Value + " ")
                     + column.LabelText;
+        }
+
+        public string EditorStyles(BaseModel.MethodTypes methodType)
+        {
+            switch (methodType)
+            {
+                case BaseModel.MethodTypes.New:
+                    return Styles?
+                        .Where(o => o.New == true)
+                        .Join("\n");
+                default:
+                    return Styles?
+                        .Where(o => o.Edit == true)
+                        .Join("\n");
+            }
+        }
+
+        public string ViewModeStyles(string action)
+        {
+            switch (action)
+            {
+                case "index":
+                    return GetStyleBody(o => o.Index == true);
+                case "calendar":
+                    return GetStyleBody(o => o.Calendar == true);
+                case "crosstab":
+                    return GetStyleBody(o => o.Crosstab == true);
+                case "gantt":
+                    return GetStyleBody(o => o.Gantt == true);
+                case "burndown":
+                    return GetStyleBody(o => o.BurnDown == true);
+                case "timeseries":
+                    return GetStyleBody(o => o.TimeSeries == true);
+                case "kamban":
+                    return GetStyleBody(o => o.Kamban == true);
+                default:
+                    return null;
+            }
+        }
+
+        public string GetStyleBody(Func<Style, bool> peredicate)
+        {
+            return !IsSiteEditor()
+                ? Styles?
+                    .Where(style => peredicate(style))
+                    .Select(o => o.Body).Join("\n")
+                : null;
+        }
+
+        public string EditorScripts(BaseModel.MethodTypes methodType)
+        {
+            switch (methodType)
+            {
+                case BaseModel.MethodTypes.New:
+                    return Scripts?
+                        .Where(o => o.New == true)
+                        .Join("\n");
+                default:
+                    return Scripts?
+                        .Where(o => o.Edit == true)
+                        .Join("\n");
+            }
+        }
+
+        public string ViewModeScripts(string action)
+        {
+            switch (action)
+            {
+                case "index":
+                    return GetScriptBody(o => o.Index == true);
+                case "calendar":
+                    return GetScriptBody(o => o.Calendar == true);
+                case "crosstab":
+                    return GetScriptBody(o => o.Crosstab == true);
+                case "gantt":
+                    return GetScriptBody(o => o.Gantt == true);
+                case "burndown":
+                    return GetScriptBody(o => o.BurnDown == true);
+                case "timeseries":
+                    return GetScriptBody(o => o.TimeSeries == true);
+                case "kamban":
+                    return GetScriptBody(o => o.Kamban == true);
+                default:
+                    return null;
+            }
+        }
+
+        public string GetScriptBody(Func<Script, bool> peredicate)
+        {
+            return !IsSiteEditor()
+                ? Scripts?
+                    .Where(script => peredicate(script))
+                    .Select(o => o.Body).Join("\n")
+                : null;
         }
     }
 }

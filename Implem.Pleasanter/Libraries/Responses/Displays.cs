@@ -372,6 +372,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string OutgoingMail(params string[] data) { return Get("OutgoingMail", data); }
         public static string OutOfCondition(params string[] data) { return Get("OutOfCondition", data); }
         public static string Output(params string[] data) { return Get("Output", data); }
+        public static string OutputDestination(params string[] data) { return Get("OutputDestination", data); }
         public static string OutputHeader(params string[] data) { return Get("OutputHeader", data); }
         public static string Over(params string[] data) { return Get("Over", data); }
         public static string Overdue(params string[] data) { return Get("Overdue", data); }
@@ -426,6 +427,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SamplesDisplayed(params string[] data) { return Get("SamplesDisplayed", data); }
         public static string Saturday(params string[] data) { return Get("Saturday", data); }
         public static string Save(params string[] data) { return Get("Save", data); }
+        public static string Script(params string[] data) { return Get("Script", data); }
         public static string Scripts(params string[] data) { return Get("Scripts", data); }
         public static string Search(params string[] data) { return Get("Search", data); }
         public static string SearchTypes(params string[] data) { return Get("SearchTypes", data); }

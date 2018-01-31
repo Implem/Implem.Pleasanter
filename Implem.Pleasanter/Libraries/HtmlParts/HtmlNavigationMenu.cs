@@ -142,11 +142,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             siteId: ss.SiteId,
                             referenceType: ss.ReferenceType,
                             action: action,
-                            ajax: EditorActions()));
+                            postBack: PostBack(ss)));
             });
         }
 
-        private static bool EditorActions()
+        private static bool PostBack(SiteSettings ss)
         {
             return new List<string>
             {
@@ -157,7 +157,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 "move",
                 "separate",
                 "history"
-            }.Contains(Routes.Action());
+            }.Contains(Routes.Action()) || ss.Scripts?.Any() == true || ss.Styles.Any() == true;
         }
 
         private static HtmlBuilder ViewModeMenu(
@@ -165,11 +165,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId,
             string referenceType,
             string action,
-            bool ajax)
+            bool postBack)
         {
             return hb.Li(action: () => hb
                 .A(
-                    attributes: ajax
+                    attributes: postBack
                         ? new HtmlAttributes().OnClick(
                             "location.href='" + Locations.ItemView(siteId, action) + "'")
                         : new HtmlAttributes()

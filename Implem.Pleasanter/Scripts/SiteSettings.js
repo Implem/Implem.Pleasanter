@@ -100,6 +100,26 @@ $p.setExportColumn = function ($control) {
     $p.send($control);
 }
 
+$p.openScriptDialog = function ($control) {
+    $p.data.ScriptForm = {};
+    $p.openSiteSettingsDialog($control, '#ScriptDialog');
+}
+
+$p.setScript = function ($control) {
+    $p.setData($('#EditScript'), $p.getData($control));
+    $p.send($control);
+}
+
+$p.openStyleDialog = function ($control) {
+    $p.data.StyleForm = {};
+    $p.openSiteSettingsDialog($control, '#StyleDialog');
+}
+
+$p.setStyle = function ($control) {
+    $p.setData($('#EditStyle'), $p.getData($control));
+    $p.send($control);
+}
+
 $p.setAggregationDetails = function ($control) {
     var data = $p.getData($control);
     data.AggregationType = $('#AggregationType').val();

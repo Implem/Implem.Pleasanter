@@ -58,4 +58,28 @@
             $dataViewSorter.text() + orderText,
             $dataViewSorter.val() + '&' + orderType);
     });
+    $(document).on('change', '#StyleAll', function () {
+        if ($('#StyleAll').prop('checked')) {
+            $('.output-destination-style')
+                .addClass('hidden')
+                .find('input')
+                .prop('checked', false);
+        } else {
+            $('.output-destination-style')
+                .removeClass('hidden')
+                .find('input');
+        }
+    });
+    $(document).on('change', '#ScriptAll', function () {
+        if ($('#ScriptAll').prop('checked')) {
+            $('.output-destination-script')
+                .addClass('hidden')
+                .find('input')
+                .prop('checked', false);
+        } else {
+            $('.output-destination-script')
+                .removeClass('hidden')
+                .find('input');
+        }
+    });
 });

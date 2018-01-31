@@ -155,12 +155,8 @@ namespace Implem.Pleasanter.Models
                     ? Displays.New()
                     : wikiModel.Title.DisplayValue,
                 useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
-                userScript: wikiModel.MethodType == BaseModel.MethodTypes.New
-                    ? ss.NewScript
-                    : ss.EditScript,
-                userStyle: wikiModel.MethodType == BaseModel.MethodTypes.New
-                    ? ss.NewStyle
-                    : ss.EditStyle,
+                userScript: ss.EditorScripts(wikiModel.MethodType),
+                userStyle: ss.EditorStyles(wikiModel.MethodType),
                 action: () => hb
                     .Editor(
                         ss: ss,

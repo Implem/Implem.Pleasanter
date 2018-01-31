@@ -46,10 +46,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useTitle: useTitle,
                     useSearch: useSearch,
                     useNavigationMenu: useNavigationMenu,
-                    userStyle: userStyle,
                     action: action)
                 .HiddenData()
+                .Styles(ss: ss, userStyle: userStyle)
                 .Scripts(
+                    ss: ss,
                     script: script,
                     userScript: userScript,
                     referenceType: referenceType);
@@ -70,7 +71,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useTitle = true,
             bool useSearch = true,
             bool useNavigationMenu = true,
-            string userStyle = null,
             Action action = null)
         {
             return hb.Div(id: "MainContainer", action: () => hb
@@ -95,8 +95,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     siteId: siteId,
                     parentId: parentId,
                     referenceType: referenceType,
-                    siteReferenceType: siteReferenceType)
-                .Styles(style: userStyle));
+                    siteReferenceType: siteReferenceType));
         }
 
         private static HtmlBuilder Content(
@@ -193,11 +192,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useTitle: false,
                     useNavigationMenu: true)
                 .HiddenData()
-                .Scripts(
-                    script: null,
-                    userScript: null,
-                    referenceType: null)
-                        .ToString();
+                .ToString();
         }
     }
 }

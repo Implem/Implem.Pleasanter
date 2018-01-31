@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
 using System.Web;
 using System.Web.Optimization;
@@ -12,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Scripts(
             this HtmlBuilder hb,
+            SiteSettings ss,
             string script,
             string userScript,
             string referenceType)
@@ -28,6 +30,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src: Locations.Get("Scripts/Plugins/marked.min.js"))
                     .Generals()
                     .Script(script: script, _using: !script.IsNullOrEmpty())
+                    .Script(
+                        script: ss.GetScriptBody(o => o.All == true),
+                        _using: Contract.Script() && ss?.Scripts?.Any() == true)
                     .Script(
                         script: userScript,
                         _using: Contract.Script() && !userScript.IsNullOrEmpty())
