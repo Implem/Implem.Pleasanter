@@ -708,6 +708,8 @@
     <Content Include="Views\Users\New.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\Parameters\ExtendedScripts\" />
+    <Folder Include="App_Data\Parameters\ExtendedStyles\" />
     <Folder Include="Views\AdminTasks\" />
     <Folder Include="Views\Mainte\" />
   </ItemGroup>

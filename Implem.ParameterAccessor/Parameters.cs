@@ -11,6 +11,8 @@ namespace Implem.DefinitionAccessor
         public static BinaryStorage BinaryStorage;
         public static Dictionary<string, IEnumerable<string>> ExcludeColumns;
         public static List<ExtendedSql> ExtendedSqls;
+        public static List<string> ExtendedStyles;
+        public static List<string> ExtendedScripts;
         public static List<Format> Formats;
         public static General General;
         public static Health Health;

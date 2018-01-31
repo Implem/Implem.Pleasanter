@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -29,6 +30,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src: Locations.Get("Scripts/Plugins/d3.min.js"))
                     .Script(src: Locations.Get("Scripts/Plugins/marked.min.js"))
                     .Generals()
+                    .Script(
+                        script: Parameters.ExtendedScripts?.Join("\n"),
+                        _using: Parameters.ExtendedScripts?.Any() == true)
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(
                         script: ss.GetScriptBody(o => o.All == true),
