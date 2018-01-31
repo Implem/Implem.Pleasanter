@@ -14,6 +14,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             return Data(key).ToInt();
         }
 
+        public static long Long(string key)
+        {
+            return Data(key).ToLong();
+        }
+
         public static string Data(string key)
         {
             return HttpContext.Current.Request.QueryString[key] != null

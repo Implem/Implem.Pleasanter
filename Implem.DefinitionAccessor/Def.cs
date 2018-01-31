@@ -575,8 +575,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_ItemTitle": Code.Model_Utilities_ItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ItemTitle, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetItemTitle_TableCases": Code.Model_Utilities_SetItemTitle_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetItemTitle_TableCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetItemTitle": Code.Model_Utilities_SetItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetItemTitle, definitionRow, CodeXls); break;
-                    case "Model_Utilities_LinkSourceResponse": Code.Model_Utilities_LinkSourceResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_LinkSourceResponse, definitionRow, CodeXls); break;
-                    case "Model_Utilities_LinkSourceResponse_TableCases": Code.Model_Utilities_LinkSourceResponse_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_LinkSourceResponse_TableCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetLinks": Code.Model_Utilities_SetLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetLinks, definitionRow, CodeXls); break;
                     case "Model_Validator": Code.Model_Validator = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods": Code.Model_ValidatorMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods, definitionRow, CodeXls); break;
@@ -4836,8 +4834,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_ItemTitle;
         public string Model_Utilities_SetItemTitle_TableCases;
         public string Model_Utilities_SetItemTitle;
-        public string Model_Utilities_LinkSourceResponse;
-        public string Model_Utilities_LinkSourceResponse_TableCases;
         public string Model_Utilities_SetLinks;
         public string Model_Validator;
         public string Model_ValidatorMethods;
@@ -5351,8 +5347,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_ItemTitle = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetItemTitle_TableCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetItemTitle = new CodeDefinition();
-        public CodeDefinition Model_Utilities_LinkSourceResponse = new CodeDefinition();
-        public CodeDefinition Model_Utilities_LinkSourceResponse_TableCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetLinks = new CodeDefinition();
         public CodeDefinition Model_Validator = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods = new CodeDefinition();

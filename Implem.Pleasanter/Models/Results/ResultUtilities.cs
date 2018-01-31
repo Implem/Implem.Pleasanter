@@ -1256,14 +1256,14 @@ namespace Implem.Pleasanter.Models
                         .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
                         .Hidden(
                             controlId: "FromSiteId",
-                            css: "control-hidden",
-                            value: Forms.Data("FromSiteId"),
-                            _using: Forms.Long("FromSiteId") > 0)
+                            css: "control-hidden always-send",
+                            value: QueryStrings.Data("FromSiteId"),
+                            _using: QueryStrings.Long("FromSiteId") > 0)
                         .Hidden(
                             controlId: "LinkId",
-                            css: "control-hidden",
-                            value: Forms.Data("LinkId"),
-                            _using: Forms.Long("LinkId") > 0)
+                            css: "control-hidden always-send",
+                            value: QueryStrings.Data("LinkId"),
+                            _using: QueryStrings.Long("LinkId") > 0)
                         .Hidden(
                             controlId: "MethodType",
                             value: resultModel.MethodType.ToString().ToLower())
@@ -3973,8 +3973,11 @@ namespace Implem.Pleasanter.Models
             }
             else if (Linked(ss, resultModel))
             {
-                return LinkUtilities.LinkSourceResponse(
-                    Forms.Long("FromSiteId"), Forms.Long("LinkId"));
+                Sessions.Set("Message", Messages.Created(resultModel.Title.DisplayValue).Html);
+                return new ResponseCollection()
+                    .SetMemory("formChanged", false)
+                    .Href(Locations.ItemEdit(Forms.Long("LinkId")))
+                    .ToJson();
             }
             else
             {

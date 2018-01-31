@@ -20,12 +20,10 @@
 }
 
 $p.new = function ($control) {
-    if (!$p.confirmReload()) return false;
-    if ($p.outsideDialog($control)) return false;
-    var data = {};
-    data.FromSiteId = $control.attr('data-from-site-id');
-    data.LinkId = $control.attr('data-id');
-    $p.ajax($('#BaseUrl').val() + $control.attr('data-to-site-id') + '/new', 'post', data);
+    location.href = $('#BaseUrl').val() +
+        $control.attr('data-to-site-id') + '/new' +
+        '?FromSiteId=' + $control.attr('data-from-site-id') +
+        '&LinkId=' + $control.attr('data-id');
 }
 
 $p.create = function ($control) {
