@@ -58,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Text(text: column.Section));
                 }
                 value = methodType == BaseModel.MethodTypes.New
-                    ? value.ToDefault(ss, column)
+                    ? value.ToLinkId(ss, column)
                     : value;
                 return hb.SwitchField(
                     column: column,
@@ -407,7 +407,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static string ToDefault(this string self, SiteSettings ss, Column column)
+        private static string ToLinkId(this string self, SiteSettings ss, Column column)
         {
             if (column.Linked(ss, QueryStrings.Long("FromSiteId")))
             {
@@ -419,25 +419,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         selectedValues: id.ToSingleList());
                 }
                 return id;
-            }
-            if (column.DefaultInput != string.Empty)
-            {
-                switch (column.TypeName.CsTypeSummary())
-                {
-                    case Types.CsBool:
-                        return column.DefaultInput.ToBool().ToOneOrZeroString();
-                    case Types.CsNumeric:
-                        return column.DefaultInput.ToLong().ToString();
-                    case Types.CsDateTime:
-                        return !self.ToDateTime().InRange()
-                            ? DateTime.Now
-                                .ToLocal()
-                                .AddDays(column.DefaultInput.ToInt())
-                                .ToString(Displays.Get(column.EditorFormat + "Format"))
-                            : self;
-                    default:
-                        return column.DefaultInput;
-                }
             }
             return self;
         }

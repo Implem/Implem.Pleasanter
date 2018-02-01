@@ -59,13 +59,28 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "DeptCode":
-                        if (deptModel.DeptCode_Updated()) return Error.Types.HasNotPermission;
+                        if (deptModel.DeptCode_Updated() &&
+                            (column.DefaultInput.IsNullOrEmpty() ||
+                            column.DefaultInput.ToString() != deptModel.DeptCode))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DeptName":
-                        if (deptModel.DeptName_Updated()) return Error.Types.HasNotPermission;
+                        if (deptModel.DeptName_Updated() &&
+                            (column.DefaultInput.IsNullOrEmpty() ||
+                            column.DefaultInput.ToString() != deptModel.DeptName))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "Body":
-                        if (deptModel.Body_Updated()) return Error.Types.HasNotPermission;
+                        if (deptModel.Body_Updated() &&
+                            (column.DefaultInput.IsNullOrEmpty() ||
+                            column.DefaultInput.ToString() != deptModel.Body))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "Comments":
                         if (!ss.GetColumn("Comments").CanUpdate) return Error.Types.HasNotPermission;
