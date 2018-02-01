@@ -214,7 +214,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
-                                text: column.HasChoices()
+                                text: column.HasChoices() && !value.IsNullOrEmpty()
                                     ? optionCollection.Get(value)?.Text ?? "? " + value
                                     : value);
                     }
