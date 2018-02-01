@@ -397,7 +397,9 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "new":
                     return self.CanCreate
                         ? ColumnPermissionTypes.Update
-                        : ColumnPermissionTypes.Deny;
+                        : self.CanRead
+                            ? ColumnPermissionTypes.Read
+                            : ColumnPermissionTypes.Deny;
                 default:
                     return self.CanRead && self.CanUpdate
                         ? ColumnPermissionTypes.Update
