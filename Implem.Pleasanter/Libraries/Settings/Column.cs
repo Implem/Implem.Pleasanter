@@ -470,6 +470,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : 0;
         }
 
+        public DateTime DefaultTime()
+        {
+            return DateTime.Now.ToLocal().AddDays(DefaultInput.ToInt());
+        }
+
         public SqlColumnCollection SqlColumnCollection(SiteSettings ss)
         {
             var sql = new SqlColumnCollection();

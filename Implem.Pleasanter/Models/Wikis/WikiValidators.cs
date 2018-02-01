@@ -56,10 +56,20 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "Title":
-                        if (wikiModel.Title_Updated()) return Error.Types.HasNotPermission;
+                        if (wikiModel.Title_Updated() &&
+                            (column.DefaultInput.IsNullOrEmpty() ||
+                            column.DefaultInput.ToString() != wikiModel.Title.Value))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "Body":
-                        if (wikiModel.Body_Updated()) return Error.Types.HasNotPermission;
+                        if (wikiModel.Body_Updated() &&
+                            (column.DefaultInput.IsNullOrEmpty() ||
+                            column.DefaultInput.ToString() != wikiModel.Body))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "Comments":
                         if (!ss.GetColumn("Comments").CanUpdate) return Error.Types.HasNotPermission;
