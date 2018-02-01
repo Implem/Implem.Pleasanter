@@ -30,6 +30,30 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static Error.Types OnUploadingSiteImage(SiteSettings ss, byte[] file)
+        {
+            if (!ss.CanManageSite())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            if (file == null)
+            {
+                return Error.Types.SelectFile;
+            }
+            try
+            {
+                System.Drawing.Image.FromStream(new System.IO.MemoryStream(file));
+            }
+            catch (System.Exception)
+            {
+                return Error.Types.IncorrectFileFormat;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Error.Types OnUploadingImage(System.Web.HttpPostedFileBase[] files)
         {
             if (!Contract.Attachments())

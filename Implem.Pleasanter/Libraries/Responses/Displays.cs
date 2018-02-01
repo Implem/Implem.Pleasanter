@@ -239,6 +239,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string InCompression(params string[] data) { return Get("InCompression", data); }
         public static string InCopying(params string[] data) { return Get("InCopying", data); }
         public static string IncorrectCurrentPassword(params string[] data) { return Get("IncorrectCurrentPassword", data); }
+        public static string IncorrectFileFormat(params string[] data) { return Get("IncorrectFileFormat", data); }
         public static string IncorrectSiteDeleting(params string[] data) { return Get("IncorrectSiteDeleting", data); }
         public static string Index(params string[] data) { return Get("Index", data); }
         public static string InformationSystem(params string[] data) { return Get("InformationSystem", data); }
@@ -435,6 +436,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Section(params string[] data) { return Get("Section", data); }
         public static string Select(params string[] data) { return Get("Select", data); }
         public static string SelectableMembers(params string[] data) { return Get("SelectableMembers", data); }
+        public static string SelectFile(params string[] data) { return Get("SelectFile", data); }
         public static string SelectOne(params string[] data) { return Get("SelectOne", data); }
         public static string SelectTargets(params string[] data) { return Get("SelectTargets", data); }
         public static string SelectTemplate(params string[] data) { return Get("SelectTemplate", data); }

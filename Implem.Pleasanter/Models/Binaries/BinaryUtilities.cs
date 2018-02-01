@@ -107,14 +107,14 @@ namespace Implem.Pleasanter.Models
         public static string UpdateSiteImage(SiteModel siteModel)
         {
             siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
-            var invalid = BinaryValidators.OnUpdating(siteModel.SiteSettings);
+            var file = Forms.File(Libraries.Images.ImageData.Types.SiteImage.ToString());
+            var invalid = BinaryValidators.OnUploadingSiteImage(siteModel.SiteSettings, file);
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = new BinaryModel(siteModel.SiteId).UpdateSiteImage(
-                Forms.File(Libraries.Images.ImageData.Types.SiteImage.ToString()));
+            var error = new BinaryModel(siteModel.SiteId).UpdateSiteImage(file);
             if (error.Has())
             {
                 return error.MessageJson();

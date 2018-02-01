@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Libraries.General
             HasNotPermission,
             ImportMax,
             IncorrectCurrentPassword,
+            IncorrectFileFormat,
             IncorrectSiteDeleting,
             InputMailAddress,
             InternalServerError,
@@ -50,6 +51,7 @@ namespace Implem.Pleasanter.Libraries.General
             RequireMailAddresses,
             RequireTo,
             Restricted,
+            SelectFile,
             SelectOne,
             SelectTargets,
             SitesLimit,
@@ -114,6 +116,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.ImportMax(data);
                 case Types.IncorrectCurrentPassword:
                     return Messages.IncorrectCurrentPassword(data);
+                case Types.IncorrectFileFormat:
+                    return Messages.IncorrectFileFormat(data);
                 case Types.IncorrectSiteDeleting:
                     return Messages.IncorrectSiteDeleting(data);
                 case Types.InputMailAddress:
@@ -156,6 +160,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.RequireTo(data);
                 case Types.Restricted:
                     return Messages.Restricted(data);
+                case Types.SelectFile:
+                    return Messages.SelectFile(data);
                 case Types.SelectOne:
                     return Messages.SelectOne(data);
                 case Types.SelectTargets:
