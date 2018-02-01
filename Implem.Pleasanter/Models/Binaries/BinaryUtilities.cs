@@ -143,6 +143,7 @@ namespace Implem.Pleasanter.Models
             }
             var guid = Strings.NewGuid();
             var file = files[0];
+            var size = file.ContentLength;
             Rds.ExecuteNonQuery(statements:
                 Rds.InsertBinaries(
                     param: Rds.BinariesParam()
@@ -154,7 +155,7 @@ namespace Implem.Pleasanter.Models
                         .Bin(file.Byte())
                         .FileName(file.FileName)
                         .Extension(file.Extension())
-                        .Size(file.ContentLength)
+                        .Size(size)
                         .ContentType(file.ContentType)));
             var hb = new HtmlBuilder();
             return new ResponseCollection()
