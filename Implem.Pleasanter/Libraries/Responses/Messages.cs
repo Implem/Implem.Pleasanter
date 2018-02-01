@@ -248,6 +248,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.IncorrectCurrentPassword(data), "alert-error");
         }
 
+        public static Message IncorrectFileFormat(params string[] data)
+        {
+            return Get(Displays.IncorrectFileFormat(data), "alert-error");
+        }
+
         public static Message IncorrectSiteDeleting(params string[] data)
         {
             return Get(Displays.IncorrectSiteDeleting(data), "alert-error");
@@ -381,6 +386,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Restricted(params string[] data)
         {
             return Get(Displays.Restricted(data), "alert-error");
+        }
+
+        public static Message SelectFile(params string[] data)
+        {
+            return Get(Displays.SelectFile(data), "alert-error");
         }
 
         public static Message SelectOne(params string[] data)
@@ -683,6 +693,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(IncorrectCurrentPassword(data));
         }
 
+        public static ResponseCollection ResponseIncorrectFileFormat(params string[] data)
+        {
+            return ResponseMessage(IncorrectFileFormat(data));
+        }
+
         public static ResponseCollection ResponseIncorrectSiteDeleting(params string[] data)
         {
             return ResponseMessage(IncorrectSiteDeleting(data));
@@ -816,6 +831,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseRestricted(params string[] data)
         {
             return ResponseMessage(Restricted(data));
+        }
+
+        public static ResponseCollection ResponseSelectFile(params string[] data)
+        {
+            return ResponseMessage(SelectFile(data));
         }
 
         public static ResponseCollection ResponseSelectOne(params string[] data)
