@@ -1258,6 +1258,7 @@
     <Content Include="App_Data\Displays\OutputDestination.json" />
     <Content Include="App_Data\Displays\IncorrectFileFormat.json" />
     <Content Include="App_Data\Displays\SelectFile.json" />
+    <Content Include="App_Data\Displays\FileDeleteCompleted.json" />
     <Content Include="Tools\Reminder.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

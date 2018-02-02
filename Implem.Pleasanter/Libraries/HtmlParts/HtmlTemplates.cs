@@ -143,26 +143,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (!text.IsNullOrEmpty())
             {
-                if (BinaryUtilities.ExistsSiteImage(ss, siteId, ImageData.SizeTypes.Icon))
-                {
-                    hb.Img(
-                        src: Locations.Get(
-                            "Items",
-                            siteId.ToString(),
-                            "Binaries",
-                            "SiteImageIcon",
-                            BinaryUtilities.SiteImagePrefix(
-                                ss, siteId, ImageData.SizeTypes.Icon)),
-                        css: "site-image-icon");
-                }
-                return hb.Header(id: "HeaderTitleContainer", action: () => hb
-                    .H(number: 1, id: "HeaderTitle", action: () => hb
-                        .Text(text: text)));
+                return hb
+                    .Div(id: "SiteImageIconContainer", action: () => hb
+                        .SiteImageIcon(ss: ss, siteId: siteId))
+                    .Header(id: "HeaderTitleContainer", action: () => hb
+                        .H(number: 1, id: "HeaderTitle", action: () => hb
+                            .Text(text: text)));
             }
             else
             {
                 return hb;
             }
+        }
+
+        public static HtmlBuilder SiteImageIcon(
+            this HtmlBuilder hb, SiteSettings ss, long siteId)
+        {
+            return BinaryUtilities.ExistsSiteImage(ss, siteId, ImageData.SizeTypes.Icon)
+                ? hb.Img(
+                    src: Locations.Get(
+                        "Items",
+                        siteId.ToString(),
+                        "Binaries",
+                        "SiteImageIcon",
+                        BinaryUtilities.SiteImagePrefix(ss, siteId, ImageData.SizeTypes.Icon)),
+                    css: "site-image-icon")
+                : hb;
         }
 
         private static HtmlBuilder HiddenData(this HtmlBuilder hb)

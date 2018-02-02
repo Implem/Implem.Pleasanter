@@ -54,6 +54,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static Error.Types OnDeletingSiteImage(SiteSettings ss)
+        {
+            if (!ss.CanManageSite())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Error.Types OnUploadingImage(System.Web.HttpPostedFileBase[] files)
         {
             if (!Contract.Attachments())

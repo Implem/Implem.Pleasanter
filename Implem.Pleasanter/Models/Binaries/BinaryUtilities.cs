@@ -121,7 +121,52 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return Messages.ResponseFileUpdateCompleted().ToJson();
+                return new ResponseCollection()
+                    .Html(
+                        "#SiteImageIconContainer",
+                        new HtmlBuilder().SiteImageIcon(
+                            ss: siteModel.SiteSettings,
+                            siteId: siteModel.SiteId))
+                    .Html(
+                        "#SiteImageSettingsEditor",
+                        new HtmlBuilder().SiteImageSettingsEditor(
+                            ss: siteModel.SiteSettings))
+                    .Message(Messages.FileUpdateCompleted())
+                    .ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string DeleteSiteImage(SiteModel siteModel)
+        {
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
+            var invalid = BinaryValidators.OnDeletingSiteImage(siteModel.SiteSettings);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = new BinaryModel(siteModel.SiteId).DeleteSiteImage();
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                return new ResponseCollection()
+                    .Html(
+                        "#SiteImageIconContainer",
+                        new HtmlBuilder().SiteImageIcon(
+                            ss: siteModel.SiteSettings,
+                            siteId: siteModel.SiteId))
+                    .Html(
+                        "#SiteImageSettingsEditor",
+                        new HtmlBuilder().SiteImageSettingsEditor(
+                            ss: siteModel.SiteSettings))
+                    .Message(Messages.FileDeleteCompleted())
+                    .ToJson();
             }
         }
 

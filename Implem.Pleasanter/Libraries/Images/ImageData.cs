@@ -65,6 +65,13 @@ namespace Implem.Pleasanter.Libraries.Images
             image.Write(Path(referenceId, type, sizeType), ImageFormat.Png);
         }
 
+        public void DeleteLocalFiles()
+        {
+            Files.DeleteFile(Path(ReferenceId, Type, SizeTypes.Regular));
+            Files.DeleteFile(Path(ReferenceId, Type, SizeTypes.Thumbnail));
+            Files.DeleteFile(Path(ReferenceId, Type, SizeTypes.Icon));
+        }
+
         private string Path(long referenceId, Types type, SizeTypes sizeType)
         {
             return System.IO.Path.Combine(

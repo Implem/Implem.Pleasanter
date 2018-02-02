@@ -603,6 +603,29 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public Error.Types DeleteSiteImage()
+        {
+            BinaryType = "SiteImage";
+            switch (Parameters.BinaryStorage.Provider)
+            {
+                case "Local":
+                    new Libraries.Images.ImageData(
+                        ReferenceId,
+                        Libraries.Images.ImageData.Types.SiteImage)
+                            .DeleteLocalFiles();
+                    break;
+                default:
+                    Rds.ExecuteNonQuery(statements:
+                        Rds.PhysicalDeleteBinaries(
+                            where: Rds.BinariesWhere().ReferenceId(ReferenceId)));
+                    break;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public BinaryModel(long referenceId)
         {
             ReferenceId = referenceId;

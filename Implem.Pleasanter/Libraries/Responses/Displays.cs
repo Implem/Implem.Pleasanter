@@ -191,6 +191,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ExternalMailAddress(params string[] data) { return Get("ExternalMailAddress", data); }
         public static string FailedReadFile(params string[] data) { return Get("FailedReadFile", data); }
         public static string File(params string[] data) { return Get("File", data); }
+        public static string FileDeleteCompleted(params string[] data) { return Get("FileDeleteCompleted", data); }
         public static string FileDragDrop(params string[] data) { return Get("FileDragDrop", data); }
         public static string FileNotFound(params string[] data) { return Get("FileNotFound", data); }
         public static string FileUpdateCompleted(params string[] data) { return Get("FileUpdateCompleted", data); }

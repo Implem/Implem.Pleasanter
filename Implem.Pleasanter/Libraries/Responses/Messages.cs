@@ -193,6 +193,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.FailedReadFile(data), "alert-error");
         }
 
+        public static Message FileDeleteCompleted(params string[] data)
+        {
+            return Get(Displays.FileDeleteCompleted(data), "alert-success");
+        }
+
         public static Message FileDragDrop(params string[] data)
         {
             return Get(Displays.FileDragDrop(data), "alert-success");
@@ -636,6 +641,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseFailedReadFile(params string[] data)
         {
             return ResponseMessage(FailedReadFile(data));
+        }
+
+        public static ResponseCollection ResponseFileDeleteCompleted(params string[] data)
+        {
+            return ResponseMessage(FileDeleteCompleted(data));
         }
 
         public static ResponseCollection ResponseFileDragDrop(params string[] data)
