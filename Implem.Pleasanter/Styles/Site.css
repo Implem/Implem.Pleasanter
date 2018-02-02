@@ -331,6 +331,14 @@ pre{
     margin:0px 10px 0px 0px;
 }
 
+#SiteImageIconContainer{
+    float:left;
+}
+
+#SiteImageIconContainer > *{
+    margin:0px 5px 0px 0px;
+}
+
 #HeaderTitleContainer{
     float:left;
     margin:0px 0px 10px 0px;

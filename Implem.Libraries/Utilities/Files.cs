@@ -150,6 +150,15 @@ namespace Implem.Libraries.Utilities
                 .ForEach(o => o.Delete(recursive: true));
         }
 
+        public static void DeleteFile(string path)
+        {
+            var file = new FileInfo(path);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+        }
+
         public static void CopyDirectory(
             string sourcePath,
             string destinationPath, 

@@ -53,6 +53,17 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        [HttpDelete]
+        public string DeleteSiteImage(string reference, long id)
+        {
+            var log = new SysLogModel();
+            var json = reference.ToLower() == "items"
+                ? BinaryUtilities.DeleteSiteImage(new SiteModel(id))
+                : new ResponseCollection().ToJson();
+            log.Finish(0);
+            return json;
+        }
+
         [HttpPost]
         public string UploadImage(string reference, long id, HttpPostedFileBase[] file)
         {

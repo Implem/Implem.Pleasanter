@@ -2090,7 +2090,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SiteImageSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        public static HtmlBuilder SiteImageSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(id: "SiteImageSettingsEditor", action: () => hb
                 .FieldSet(
@@ -2110,7 +2110,17 @@ namespace Implem.Pleasanter.Models
                             onClick: "$p.uploadSiteImage($(this));",
                             icon: "ui-icon-disk",
                             action: "binaries/updatesiteimage",
-                            method: "post")));
+                            method: "post")
+                        .Button(
+                            controlCss: "button-icon",
+                            text: Displays.Delete(),
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-trash",
+                            action: "binaries/deletesiteimage",
+                            method: "delete",
+                            confirm: "ConfirmDelete",
+                            _using: BinaryUtilities.ExistsSiteImage(
+                                ss, ss.SiteId, Libraries.Images.ImageData.SizeTypes.Thumbnail))));
         }
 
         /// <summary>
