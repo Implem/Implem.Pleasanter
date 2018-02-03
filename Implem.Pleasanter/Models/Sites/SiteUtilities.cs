@@ -2484,22 +2484,22 @@ namespace Implem.Pleasanter.Models
                                     controlId: "DateFilterFy",
                                     fieldCss: "field-auto-thin",
                                     labelText: Displays.UseFy(),
-                                    _checked: column.DateFilterFy.ToBool())
+                                    _checked: column.DateFilterFy == true)
                                 .FieldCheckBox(
                                     controlId: "DateFilterHalf",
                                     fieldCss: "field-auto-thin",
                                     labelText: Displays.UseHalf(),
-                                    _checked: column.DateFilterHalf.ToBool())
+                                    _checked: column.DateFilterHalf == true)
                                 .FieldCheckBox(
                                     controlId: "DateFilterQuarter",
                                     fieldCss: "field-auto-thin",
                                     labelText: Displays.UseQuarter(),
-                                    _checked: column.DateFilterQuarter.ToBool())
+                                    _checked: column.DateFilterQuarter == true)
                                 .FieldCheckBox(
                                     controlId: "DateFilterMonth",
                                     fieldCss: "field-auto-thin",
                                     labelText: Displays.UseMonth(),
-                                    _checked: column.DateFilterMonth.ToBool());
+                                    _checked: column.DateFilterMonth == true);
                             break;
                     }
                 });
@@ -2775,7 +2775,7 @@ namespace Implem.Pleasanter.Models
                     hb.FieldCheckBox(
                         controlId: "EditorReadOnly",
                         labelText: Displays.ReadOnly(),
-                        _checked: column.EditorReadOnly.ToBool(),
+                        _checked: column.EditorReadOnly == true,
                         _using: !column.Required);
                     if (column.TypeName == "datetime")
                     {
@@ -2792,7 +2792,7 @@ namespace Implem.Pleasanter.Models
                             hb.FieldCheckBox(
                                 controlId: "DefaultInput",
                                 labelText: Displays.DefaultInput(),
-                                _checked: column.DefaultInput.ToBool());
+                                _checked: column.DefaultInput == true);
                             break;
                         case Types.CsNumeric:
                             if (column.ControlType != "ChoicesText")
@@ -4036,7 +4036,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "ViewFilters_Incomplete",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Incomplete(),
-                        _checked: view.Incomplete.ToBool(),
+                        _checked: view.Incomplete == true,
                         labelPositionIsRight: true)
                     .FieldCheckBox(
                         controlId: "ViewFilters_Own",
