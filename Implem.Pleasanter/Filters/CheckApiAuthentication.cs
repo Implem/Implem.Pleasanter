@@ -26,14 +26,11 @@ namespace Implem.Pleasanter.Filters
                 else
                 {
                     Sessions.SetTenantId(userModel.TenantId);
+                    userModel.SetSession();
                     if (!Contract.Api())
                     {
                         Sessions.Abandon();
                         filterContext.Result = ApiResults.BadRequest();
-                    }
-                    else
-                    {
-                        userModel.SetSession();
                     }
                 }
             }
