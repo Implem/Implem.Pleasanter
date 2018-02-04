@@ -2792,7 +2792,7 @@ namespace Implem.Pleasanter.Models
                             hb.FieldCheckBox(
                                 controlId: "DefaultInput",
                                 labelText: Displays.DefaultInput(),
-                                _checked: column.DefaultInput == true);
+                                _checked: column.DefaultInput.ToBool());
                             break;
                         case Types.CsNumeric:
                             if (column.ControlType != "ChoicesText")
@@ -4042,25 +4042,25 @@ namespace Implem.Pleasanter.Models
                         controlId: "ViewFilters_Own",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Own(),
-                        _checked: view.Own.ToBool(),
+                        _checked: view.Own == true,
                         labelPositionIsRight: true)
                     .FieldCheckBox(
                         controlId: "ViewFilters_NearCompletionTime",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.NearCompletionTime(),
-                        _checked: view.NearCompletionTime.ToBool(),
+                        _checked: view.NearCompletionTime == true,
                         labelPositionIsRight: true)
                     .FieldCheckBox(
                         controlId: "ViewFilters_Delay",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Delay(),
-                        _checked: view.Delay.ToBool(),
+                        _checked: view.Delay == true,
                         labelPositionIsRight: true)
                     .FieldCheckBox(
                         controlId: "ViewFilters_Overdue",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Overdue(),
-                        _checked: view.Overdue.ToBool(),
+                        _checked: view.Overdue == true,
                         labelPositionIsRight: true)
                     .FieldTextBox(
                         controlId: "ViewFilters_Search",
@@ -4381,7 +4381,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "KambanAggregationView",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.AggregationView(),
-                        _checked: view.KambanAggregationView.ToBool(),
+                        _checked: view.KambanAggregationView == true,
                         labelPositionIsRight: true))
                 : hb;
         }
