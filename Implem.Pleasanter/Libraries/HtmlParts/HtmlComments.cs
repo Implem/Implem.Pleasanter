@@ -48,10 +48,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return _using
                 ? hb.Div(id: "CommentField", action: () =>
-                    hb.TextArea(
-                        id: "Comments",
-                        css: "control-textarea upload-image",
-                        placeholder: labelText))
+                    hb
+                        .TextArea(
+                            id: "Comments",
+                            css: "control-textarea upload-image",
+                            placeholder: labelText)
+                        .MarkDownCommands(
+                            controlId: "Comments", readOnly: false))
                 : hb;
         }
 

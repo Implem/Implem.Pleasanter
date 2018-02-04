@@ -21,6 +21,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string onChange = null,
             string format = null,
             bool timepicker = false,
+            string accept = null,
+            string dataId = null,
             bool validateRequired = false,
             bool validateNumber = false,
             decimal validateMinNumber = 0,
@@ -45,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Value(text)
                         .Placeholder(placeholder)
                         .OnChange(onChange)
+                        .DataId(dataId)
                         .DataValidateRequired(validateRequired)
                         .DataValidateNumber(validateNumber)
                         .DataValidateMinNumber(
@@ -66,6 +69,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Value(text)
                         .Placeholder(placeholder)
                         .OnChange(onChange)
+                        .DataId(dataId)
                         .DataFormat(format)
                         .DataTimepicker(timepicker)
                         .DataValidateRequired(validateRequired)
@@ -84,6 +88,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Class(Css.Class("control-textarea", controlCss))
                             .Placeholder(placeholder)
                             .OnChange(onChange)
+                            .DataId(dataId)
                             .DataValidateRequired(validateRequired)
                             .DataValidateNumber(validateNumber)
                             .DataValidateDate(validateDate)
@@ -103,6 +108,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Value(text)
                         .Placeholder(placeholder)
                         .OnChange(onChange)
+                        .DataId(dataId)
                         .DataValidateRequired(validateRequired)
                         .DataValidateNumber(validateNumber)
                         .DataValidateDate(validateDate)
@@ -118,6 +124,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Value(text)
                         .Placeholder(placeholder)
                         .OnChange(onChange)
+                        .Accept(accept)
+                        .DataId(dataId)
                         .DataValidateRequired(validateRequired)
                         .DataValidateNumber(validateNumber)
                         .DataValidateDate(validateDate)
@@ -166,6 +174,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Add(attributes),
                         action: () => hb
                             .Text(text: text))
+                    .MarkDownCommands(controlId: controlId, readOnly: readOnly)
+                : hb;
+        }
+
+        public static HtmlBuilder MarkDownCommands(
+            this HtmlBuilder hb, string controlId, bool readOnly)
+        {
+            return !readOnly && Contract.Attachments()
+                ? hb
+                    .Div(
+                        attributes: new HtmlAttributes()
+                            .Class("ui-icon ui-icon-image button-upload-image")
+                            .OnClick($"$p.selectImage('{controlId}');"),
+                        _using: !readOnly && Contract.Attachments())
+                    .TextBox(
+                        controlId: controlId + ".upload-image-file",
+                        controlCss: "hidden upload-image-file",
+                        textType: HtmlTypes.TextTypes.File,
+                        accept: "image/*",
+                        dataId: controlId,
+                        _using: !readOnly && Contract.Attachments())
                 : hb;
         }
 

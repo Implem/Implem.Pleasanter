@@ -1894,6 +1894,7 @@ pre{
 }
 
 .comment > .body{
+    width:100%;
     clear:both;
 }
 
@@ -2086,6 +2087,7 @@ pre{
 }
 
 .grid-title-body > .title + .body{
+    width:100%;
     margin:8px 0px 0px 10px;
 }
 
