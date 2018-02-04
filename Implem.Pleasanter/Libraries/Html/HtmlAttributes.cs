@@ -234,6 +234,16 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes Accept(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("accept");
+                Add(value);
+            }
+            return this;
+        }
+
         public HtmlAttributes OnClick(string value, bool _using = true)
         {
             if (!value.IsNullOrEmpty() && _using)

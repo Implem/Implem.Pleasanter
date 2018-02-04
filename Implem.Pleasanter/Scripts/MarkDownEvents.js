@@ -1,10 +1,6 @@
 ﻿$(function () {
     $(document).on('blur', '.control-markdown:not(.error)', function () {
-        var $viewer = $('[id="' + this.id + '.viewer"]');
-        $viewer.html($p.markup($(this).val()));
-        $p.resizeEditor($(this), $viewer);
-        $p.toggleEditor($viewer, false);
-        $p.formChanged = true;
+        $p.showMarkDownViewer($(this));
     });
     $(document).on('paste', '.upload-image', function (e) {
         if (e.originalEvent.clipboardData !== undefined) {
@@ -12,15 +8,14 @@
             for (var i = 0 ; i < items.length ; i++) {
                 var item = items[i];
                 if (item.type.indexOf('image') !== -1) {
-                    var url = $('.main-form')
-                        .attr('action')
-                        .replace('_action_', 'binaries/uploadimage');
-                    var data = new FormData();
-                    data.append('ControlId', this.id);
-                    data.append('file', item.getAsFile());
-                    $p.multiUpload(url, data);
+                    $p.uploadImage(this.id, item.getAsFile());
                 }
             }
+        }
+    });
+    $(document).on('change', '.upload-image-file', function () {
+        if (this.files.length === 1) {
+            $p.uploadImage($(this).attr('data-id'), this.files[0]);
         }
     });
 });

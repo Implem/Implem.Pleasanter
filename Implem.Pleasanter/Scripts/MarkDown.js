@@ -5,6 +5,16 @@
         : controlId.substring(0, controlId.indexOf('.'));
 }
 
+$p.showMarkDownViewer = function ($control) {
+    var $viewer = $('[id="' + $control.attr('id') + '.viewer"]');
+    if ($viewer.length === 1) {
+        $viewer.html($p.markup($control.val()));
+        $p.resizeEditor($control, $viewer);
+        $p.toggleEditor($viewer, false);
+        $p.formChanged = true;
+    }
+}
+
 $p.editMarkdown = function ($control) {
     $p.toggleEditor($control, true);
     $('[id=\'' + $p.generalId($control) + '\']').focus();
@@ -107,4 +117,21 @@ $p.insertText = function ($control, value) {
     body.value = start.substr(0, caret) + value + start.substr(caret);
     body.setSelectionRange(next, next);
     $p.setData($control);
+    if (!$control.is(':visible')) {
+        $p.showMarkDownViewer($control);
+    }
+}
+
+$p.selectImage = function (controlId) {
+    $('[id="' + controlId + '.upload-image-file"]').click();
+}
+
+$p.uploadImage = function (controlId, file) {
+    var url = $('.main-form')
+        .attr('action')
+        .replace('_action_', 'binaries/uploadimage');
+    var data = new FormData();
+    data.append('ControlId', controlId);
+    data.append('file', file);
+    $p.multiUpload(url, data);
 }
