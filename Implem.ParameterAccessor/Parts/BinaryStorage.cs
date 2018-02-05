@@ -14,5 +14,10 @@
         public int MaxSize;
         public int TotalMinSize;
         public int TotalMaxSize;
+
+        public bool IsLocal()
+        {
+            return Provider == "Local";
+        }
     }
 }

@@ -42,11 +42,29 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return strSize;
         }
 
+        public void WriteToLocal()
+        {
+            if (Added == true)
+            {
+                GetBin().Write(Path.Combine(
+                    Directories.BinaryStorage(),
+                    "Attachments",
+                    Guid));
+            }
+            else if (Deleted == true)
+            {
+                Files.DeleteFile(Path.Combine(
+                    Directories.BinaryStorage(),
+                    "Attachments",
+                    Guid));
+            }
+        }
+
         public void SqlStatement(List<SqlStatement> statements, long referenceId)
         {
             if (Added == true)
             {
-                var bin = Files.Bytes(Path.Combine(Directories.Temp(), Guid, Name));
+                var bin = GetBin();
                 if (bin != null)
                 {
                     statements.Add(Rds.InsertBinaries(
@@ -58,19 +76,24 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .Guid(Guid)
                             .Title(Name)
                             .BinaryType("Attachments")
-                            .Bin(bin)
+                            .Bin(bin, _using: !Parameters.BinaryStorage.IsLocal())
                             .FileName(Name)
                             .Extension(Extention)
                             .Size(Size)
                             .ContentType(ContentType)));
                 }
-                Directory.Delete(Path.Combine(Directories.Temp(), Guid), true);
+                Directory.Delete(Path.Combine(Directories.Temp(), Guid), recursive: true);
             }
-            if (Deleted == true)
+            else if (Deleted == true)
             {
                 statements.Add(Rds.DeleteBinaries(
                     where: Rds.BinariesWhere().Guid(Guid)));
             }
+        }
+
+        private byte[] GetBin()
+        {
+            return Files.Bytes(Path.Combine(Directories.Temp(), Guid, Name));
         }
     }
 }
