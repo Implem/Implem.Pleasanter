@@ -109,6 +109,39 @@ namespace Implem.Libraries.Utilities
             }
         }
 
+        public static void Write(
+            this byte[] bytes,
+            string filePath,
+            int reTryCount = 100)
+        {
+            var successful = false;
+            var errorCount = 0;
+            if (!new FileInfo(filePath).Directory.Exists)
+            {
+                Directory.CreateDirectory(new FileInfo(filePath).Directory.FullName);
+            }
+            while (!successful)
+            {
+                try
+                {
+                    using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                    {
+                        fs.Write(bytes, 0, bytes.Length);
+                        successful = true;
+                    }
+                }
+                catch
+                {
+                    errorCount++;
+                    System.Threading.Thread.Sleep(1);
+                    if (errorCount > reTryCount)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
         public static bool Exists(this string self) 
         { 
             return File.Exists(self); 

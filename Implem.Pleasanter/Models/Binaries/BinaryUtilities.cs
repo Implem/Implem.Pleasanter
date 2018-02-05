@@ -189,19 +189,24 @@ namespace Implem.Pleasanter.Models
             var guid = Strings.NewGuid();
             var file = files[0];
             var size = file.ContentLength;
+            var bin = file.Byte();
             Rds.ExecuteNonQuery(statements:
                 Rds.InsertBinaries(
                     param: Rds.BinariesParam()
                         .TenantId(Sessions.TenantId())
                         .ReferenceId(id)
                         .Guid(guid)
-                        .BinaryType("Image")
+                        .BinaryType("Images")
                         .Title(file.FileName)
-                        .Bin(file.Byte())
+                        .Bin(bin, _using: !Parameters.BinaryStorage.IsLocal())
                         .FileName(file.FileName)
                         .Extension(file.Extension())
                         .Size(size)
                         .ContentType(file.ContentType)));
+            if (Parameters.BinaryStorage.IsLocal())
+            {
+                bin.Write(System.IO.Path.Combine(Directories.BinaryStorage(), "Images", guid));
+            }
             var hb = new HtmlBuilder();
             return new ResponseCollection()
                 .InsertText("#" + Forms.ControlId(), $"![image]({Locations.ShowFile(guid)})")

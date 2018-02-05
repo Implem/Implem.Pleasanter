@@ -17,6 +17,8 @@ namespace Implem.Pleasanter.Libraries.Responses
             var dataRow = Rds.ExecuteTable(statements:
                 Rds.SelectBinaries(
                     column: Rds.BinariesColumn()
+                        .Guid()
+                        .BinaryType()
                         .Bin()
                         .FileName()
                         .ContentType(),
@@ -37,10 +39,24 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .FirstOrDefault();
             return dataRow != null
                 ? new ResponseFile(
-                    new MemoryStream(dataRow.Bytes("Bin"), false),
+                    new MemoryStream(Bytes(dataRow), false),
                     dataRow.String("FileName"),
                     dataRow.String("ContentType")).FileStream()
                 : null;
+        }
+
+        private static byte[] Bytes(DataRow dataRow)
+        {
+            switch (Parameters.BinaryStorage.Provider)
+            {
+                case "Local":
+                    return Files.Bytes(
+                        Path.Combine(Directories.BinaryStorage(),
+                        dataRow.String("BinaryType"),
+                        dataRow.String("Guid")));
+                default:
+                    return dataRow.Bytes("Bin");
+            }
         }
 
         public static FileContentResult DownloadTemp(string guid)

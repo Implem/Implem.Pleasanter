@@ -28,7 +28,7 @@
     "GridPageSizeMax": 200,
     "ImportMax": 0,
     "SolutionBackupPath": "",
-    "SolutionBackupExcludeDirectories": "\\Backups,\\Histories,\\SiteImage,\\Logs,\\Temp,\\packages,\\bin,\\obj,\\PublishProfiles,\\BuildProcessTemplates",
+    "SolutionBackupExcludeDirectories": "\\Backups,\\Histories,\\BinaryStorage,\\Logs,\\Temp,\\packages,\\bin,\\obj,\\PublishProfiles,\\BuildProcessTemplates",
     "SizeToUseTextArea": 1025,
     "ProjectModelRequire": "_Base",
     "CompletionCode": 900,

@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Html;
@@ -55,9 +56,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return attachments.ToJson();
         }
 
-        public void SqlStatements(List<SqlStatement> statements, long referenceId)
+        public void Write(List<SqlStatement> statements, long referenceId)
         {
-            ForEach(attachment => attachment.SqlStatement(statements, referenceId));
+            ForEach(attachment =>
+            {
+                if (Parameters.BinaryStorage.IsLocal())
+                {
+                    attachment.WriteToLocal();
+                }
+                attachment.SqlStatement(statements, referenceId);
+            });
         }
     }
 }
