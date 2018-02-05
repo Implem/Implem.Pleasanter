@@ -775,7 +775,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             var excludeColumns = Parameters.ExcludeColumns.Get(referenceType);
             return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == referenceType)
-                .Where(o => Contract.Attachments() || o.ControlType != "Attachments")
                 .Where(o => excludeColumns?.Contains(o.ColumnName) != true)
                 .ToDictionary(o => o.ColumnName, o => o);
         }
@@ -1278,6 +1277,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
                 .AllowedColumns(checkPermission, ReadColumnAccessControls)
+                .Where(o => Contract.Attachments() || o.ControlType != "Attachments")
                 .ToList();
         }
 
@@ -1295,6 +1295,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return EditorColumns
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
+                .Where(o => Contract.Attachments() || o.ControlType != "Attachments")
                 .ToList();
         }
 
@@ -1312,6 +1313,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
                 .AllowedColumns(checkPermission, ReadColumnAccessControls)
+                .Where(o => Contract.Attachments() || o.ControlType != "Attachments")
                 .ToList();
         }
 
@@ -1321,6 +1323,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
                 .AllowedColumns(checkPermission, ReadColumnAccessControls)
+                .Where(o => Contract.Attachments() || o.ControlType != "Attachments")
                 .ToList();
         }
 
