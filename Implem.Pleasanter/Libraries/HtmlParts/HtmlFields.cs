@@ -238,7 +238,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 optionCollection: optionCollection,
                                 selectedValue: value,
-                                insertBlank: !required && column.UseSearch != true,
+                                insertBlank: column.UseSearch != true,
                                 validateRequired: required,
                                 column: column);
                         case ControlTypes.Text:
