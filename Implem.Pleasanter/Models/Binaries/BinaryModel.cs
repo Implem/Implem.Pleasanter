@@ -547,8 +547,10 @@ namespace Implem.Pleasanter.Models
                         Rds.SelectBinaries(
                             column: Rds.BinariesColumn()
                                 .UpdatedTime(function: Sqls.Functions.Max),
-                            where: Rds.BinariesWhere().ReferenceId(ReferenceId)))
-                                .ToString("?yyyyMMddHHmmss");
+                            where: Rds.BinariesWhere()
+                                .ReferenceId(ReferenceId)
+                                .BinaryType("SiteImage")))
+                                    .ToString("?yyyyMMddHHmmss");
             }
         }
 
@@ -568,7 +570,9 @@ namespace Implem.Pleasanter.Models
                     return Rds.ExecuteScalar_bytes(statements:
                         Rds.SelectBinaries(
                             column: column,
-                            where: Rds.BinariesWhere().ReferenceId(ReferenceId)));
+                            where: Rds.BinariesWhere()
+                                .ReferenceId(ReferenceId)
+                                .BinaryType("SiteImage")));
             }
         }
 
@@ -593,7 +597,9 @@ namespace Implem.Pleasanter.Models
                     Rds.ExecuteNonQuery(transactional: true, statements:
                         Rds.UpdateOrInsertBinaries(
                             selectIdentity: true,
-                            where: Rds.BinariesWhere().ReferenceId(ReferenceId),
+                            where: Rds.BinariesWhere()
+                                .ReferenceId(ReferenceId)
+                                .BinaryType("SiteImage"),
                             param: Rds.BinariesParamDefault(this, setDefault: true)));
                     break;
             }
@@ -617,7 +623,9 @@ namespace Implem.Pleasanter.Models
                 default:
                     Rds.ExecuteNonQuery(statements:
                         Rds.PhysicalDeleteBinaries(
-                            where: Rds.BinariesWhere().ReferenceId(ReferenceId)));
+                            where: Rds.BinariesWhere()
+                                .ReferenceId(ReferenceId)
+                                .BinaryType("SiteImage")));
                     break;
             }
             return Error.Types.None;
