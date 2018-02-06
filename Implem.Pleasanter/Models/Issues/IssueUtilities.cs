@@ -4245,7 +4245,7 @@ namespace Implem.Pleasanter.Models
             {
                 issueModel.Title.Value += Displays.SuffixCopy();
             }
-            if (!Forms.Data("CopyWithComments").ToBool())
+            if (!Forms.Bool("CopyWithComments"))
             {
                 issueModel.Comments.Clear();
             }
