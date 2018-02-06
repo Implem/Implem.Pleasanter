@@ -46,7 +46,9 @@ namespace Implem.Pleasanter.Models
                     return Rds.ExecuteScalar_int(statements:
                         Rds.SelectBinaries(
                             column: Rds.BinariesColumn().BinariesCount(),
-                            where: Rds.BinariesWhere().ReferenceId(referenceId))) == 1;
+                            where: Rds.BinariesWhere()
+                                .ReferenceId(referenceId)
+                                .BinaryType("SiteImage"))) == 1;
             }
         }
 
