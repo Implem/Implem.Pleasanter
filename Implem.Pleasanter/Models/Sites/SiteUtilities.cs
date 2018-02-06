@@ -2795,7 +2795,19 @@ namespace Implem.Pleasanter.Models
                                 _checked: column.DefaultInput.ToBool());
                             break;
                         case Types.CsNumeric:
-                            if (column.ControlType != "ChoicesText")
+                            if (column.ControlType == "ChoicesText")
+                            {
+                                if (!column.UserColumn)
+                                {
+                                    hb.FieldTextBox(
+                                        controlId: "DefaultInput",
+                                        labelText: Displays.DefaultInput(),
+                                        text: column.DefaultInput,
+                                        validateNumber: true,
+                                        _using: !column.Id_Ver);
+                                }
+                            }
+                            else
                             {
                                 var maxDecimalPlaces = MaxDecimalPlaces(column);
                                 hb
