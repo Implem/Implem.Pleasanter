@@ -16,6 +16,7 @@
     $(document).on('change', '.upload-image-file', function () {
         if (this.files.length === 1) {
             $p.uploadImage($(this).attr('data-id'), this.files[0]);
+            this.value = '';
         }
     });
 });
