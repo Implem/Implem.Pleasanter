@@ -712,7 +712,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Class("hidden")
                                     .Type("file")
                                     .Multiple(true)),
-                        _using: !readOnly)
+                        _using: !readOnly && !preview)
                     .Div(
                         id: columnName + ".items",
                         css: "control-attachments-items",
