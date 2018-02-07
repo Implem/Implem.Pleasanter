@@ -41,7 +41,9 @@
         ValidateNumber: 'You can not enter a non-numeric.',
         ValidateNumber_ja: '数値以外入力不可です。',
         ValidateRequired: 'This information is required.',
-        ValidateRequired_ja: '入力必須項目です。'
+        ValidateRequired_ja: '入力必須項目です。',
+        ValidationError: 'There is an error in the entered content.',
+        ValidationError_ja: '入力された内容に誤りがあります。'
     };
     var localId = defaultId + '_' + $('#Language').val();
     if (displays[localId]) {
