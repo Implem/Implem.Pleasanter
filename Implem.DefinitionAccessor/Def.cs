@@ -1979,6 +1979,8 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Search": Css._sharp_Search = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Search, definitionRow, CssXls); break;
                     case "_sharp_Application": Css._sharp_Application = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Application, definitionRow, CssXls); break;
                     case "_sharp_Application_space___space__dot_site_image_icon": Css._sharp_Application_space___space__dot_site_image_icon = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Application_space___space__dot_site_image_icon, definitionRow, CssXls); break;
+                    case "_sharp_SiteImageIconContainer": Css._sharp_SiteImageIconContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SiteImageIconContainer, definitionRow, CssXls); break;
+                    case "_sharp_SiteImageIconContainer_space___space__asterisk_": Css._sharp_SiteImageIconContainer_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SiteImageIconContainer_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_sharp_HeaderTitleContainer": Css._sharp_HeaderTitleContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_HeaderTitleContainer, definitionRow, CssXls); break;
                     case "_sharp_HeaderTitle": Css._sharp_HeaderTitle = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_HeaderTitle, definitionRow, CssXls); break;
                     case "_sharp_Notes_space___space__asterisk_": Css._sharp_Notes_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Notes_space___space__asterisk_, definitionRow, CssXls); break;
@@ -7800,6 +7802,8 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Search;
         public string _sharp_Application;
         public string _sharp_Application_space___space__dot_site_image_icon;
+        public string _sharp_SiteImageIconContainer;
+        public string _sharp_SiteImageIconContainer_space___space__asterisk_;
         public string _sharp_HeaderTitleContainer;
         public string _sharp_HeaderTitle;
         public string _sharp_Notes_space___space__asterisk_;
@@ -8251,6 +8255,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Search = new CssDefinition();
         public CssDefinition _sharp_Application = new CssDefinition();
         public CssDefinition _sharp_Application_space___space__dot_site_image_icon = new CssDefinition();
+        public CssDefinition _sharp_SiteImageIconContainer = new CssDefinition();
+        public CssDefinition _sharp_SiteImageIconContainer_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _sharp_HeaderTitleContainer = new CssDefinition();
         public CssDefinition _sharp_HeaderTitle = new CssDefinition();
         public CssDefinition _sharp_Notes_space___space__asterisk_ = new CssDefinition();
