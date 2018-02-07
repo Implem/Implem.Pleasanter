@@ -10,6 +10,8 @@
     "HtmlPortalUrl": "https://pleasanter.net",
     "HtmlUsageGuideUrl": "https://github.com/Implem/Implem.Pleasanter/wiki/%E3%83%97%E3%83%AA%E3%82%B6%E3%83%B3%E3%82%BF%E3%83%BC%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB",
     "HtmlBlogUrl": "https://implem.co.jp/category/blog/",
+    "HtmlSupportUrl": "https://implem.co.jp/service/",
+    "HtmlContactUrl": "https://implem.co.jp/contact/",
     "SiteMenuHotSpan": 30,
     "SiteCreatedSimultaneously": 5,
     "LimitWarning1": 86400,

@@ -118,6 +118,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ConfirmSendMail(params string[] data) { return Get("ConfirmSendMail", data); }
         public static string ConfirmSeparate(params string[] data) { return Get("ConfirmSeparate", data); }
         public static string ConfirmSynchronize(params string[] data) { return Get("ConfirmSynchronize", data); }
+        public static string Contact(params string[] data) { return Get("Contact", data); }
         public static string ControlType(params string[] data) { return Get("ControlType", data); }
         public static string Copied(params string[] data) { return Get("Copied", data); }
         public static string Copy(params string[] data) { return Get("Copy", data); }

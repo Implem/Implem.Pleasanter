@@ -14,6 +14,8 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlPortalUrl;
         public string HtmlUsageGuideUrl;
         public string HtmlBlogUrl;
+        public string HtmlSupportUrl;
+        public string HtmlContactUrl;
         public int SiteMenuHotSpan;
         public int SiteCreatedSimultaneously;
         public int LimitWarning1;

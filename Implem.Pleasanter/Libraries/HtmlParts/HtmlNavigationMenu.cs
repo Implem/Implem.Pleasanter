@@ -284,11 +284,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Text(text: Displays.Blog())))
                 .Li(action: () => hb
                     .A(
-                        href: Parameters.General.HtmlCopyrightUrl,
+                        href: Parameters.General.HtmlSupportUrl,
                         target: "_blank",
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-contact")
                             .Text(text: Displays.Support())))
+                .Li(action: () => hb
+                    .A(
+                        href: Parameters.General.HtmlContactUrl,
+                        target: "_blank",
+                        action: () => hb
+                            .Span(css: "ui-icon ui-icon-contact")
+                            .Text(text: Displays.Contact())))
                 .Li(action: () => hb
                     .A(
                         href: Parameters.General.HtmlPortalUrl,
