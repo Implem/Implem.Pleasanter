@@ -245,7 +245,7 @@ namespace Implem.Pleasanter.Models
             files.ForEach(file => attachments.Add(new Attachment()
             {
                 Guid = file.WriteToTemp(),
-                Name = file.FileName,
+                Name = file.FileName.Split('\\').Last(),
                 Size = file.ContentLength,
                 Extention = file.Extension(),
                 ContentType = file.ContentType,
