@@ -118,8 +118,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         new OutgoingMailModel()
                         {
                             Title = new Title(Prefix + title),
-                            Body = "{0}\n{1}".Params(url, body) + (Addresses.FixedFrom(mailFrom)
-                                ? "\n\n{0}<{1}>".Params(mailFrom.DisplayName, mailFrom.Address)
+                            Body = "{0}\r\n{1}".Params(url, body) + (Addresses.FixedFrom(mailFrom)
+                                ? "\r\n\r\n{0}<{1}>".Params(mailFrom.DisplayName, mailFrom.Address)
                                 : string.Empty),
                             From = mailFrom,
                             To = Address

@@ -107,10 +107,10 @@ namespace Implem.Pleasanter.Libraries.Converts
             return update
                 ? updated
                     ? saved != string.Empty
-                        ? "{0}{3} : {2} => {1}\n".Params(column.LabelText, self, saved, suffix)
-                        : "{0}{2} : {1}\n".Params(column.LabelText, self, suffix)
+                        ? "{0}{3} : {2} => {1}\r\n".Params(column.LabelText, self, saved, suffix)
+                        : "{0}{2} : {1}\r\n".Params(column.LabelText, self, suffix)
                     : string.Empty
-                : "{0}{2}: {1}\n".Params(column.LabelText, self, suffix);
+                : "{0}{2}: {1}\r\n".Params(column.LabelText, self, suffix);
         }
     }
 }
