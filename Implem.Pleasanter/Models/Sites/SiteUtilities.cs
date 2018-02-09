@@ -1441,7 +1441,7 @@ namespace Implem.Pleasanter.Models
                          toParent
                             ? " to-parent"
                             : string.Empty))
-                    .Value(siteId.ToString())
+                    .DataValue(siteId.ToString())
                     .DataType(referenceType),
                 action: () => hb
                     .A(
