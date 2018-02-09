@@ -2,13 +2,13 @@
     $('.nav-sites.sortable').sortable({
         delay: 150,
         stop: function (event, ui) {
-            var siteId = ui.item.attr('value');
-            var $element = $p.hoverd($('.nav-site:not([value="' + siteId + '"])'));
+            var siteId = ui.item.attr('data-value');
+            var $element = $p.hoverd($('.nav-site:not([data-value="' + siteId + '"])'));
             if ($element) {
                 ui.item.hide();
                 var data = $p.getData($('.main-form'));
                 data.SiteId = siteId;
-                data.DestinationId = $element.attr('value');
+                data.DestinationId = $element.attr('data-value');
                 $p.send($('#MoveSiteMenu'));
             }
         },
