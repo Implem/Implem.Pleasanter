@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 req.Method = "POST";
                 req.ContentType = "application/x-www-form-urlencoded";
                 req.ContentLength = postDataBytes.Length;
-                req.Headers.Add(string.Format("X-ChatWorkToken: {0}", token));
+                req.Headers.Add($"X-ChatWorkToken: {token}");
                 using (var reqStream = req.GetRequestStream())
                 {
                     try
