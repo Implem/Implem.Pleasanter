@@ -1621,7 +1621,7 @@ namespace Implem.Pleasanter.Models
                                 .Title(Displays.Overdue()),
                             _using: condition.OverdueCount > 0,
                             action: () => hb
-                                .Text("({0})".Params(condition.OverdueCount))));
+                                .Text($"({condition.OverdueCount})")));
             }
             return hb;
         }
@@ -4201,10 +4201,8 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-wide",
                     controlCss: "control-basket cf",
                     listItemCollection: view.ColumnSorterHash?.ToDictionary(
-                        o => "{0}&{1}".Params(o.Key, o.Value),
-                        o => new ControlData("{0}({1})".Params(
-                            ss.LabelTitle(o.Key),
-                            Displays.Get("Order" + o.Value.ToString().ToUpperFirstChar())))),
+                        o => $"{o.Key}&{o.Value}",
+                        o => new ControlData($"{ss.LabelTitle(o.Key)}({DisplayOrder(o)})")),
                     labelAction: () => hb
                         .Text(text: Displays.Sorters()))
                 .FieldDropDown(
@@ -4226,6 +4224,14 @@ namespace Implem.Pleasanter.Models
                     controlCss: "button-icon",
                     text: Displays.Add(),
                     icon: "ui-icon-plus"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string DisplayOrder(KeyValuePair<string, SqlOrderBy.Types> o)
+        {
+            return Displays.Get("Order" + o.Value.ToString().ToUpperFirstChar());
         }
 
         /// <summary>
