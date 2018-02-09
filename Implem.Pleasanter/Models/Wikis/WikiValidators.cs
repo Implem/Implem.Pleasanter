@@ -51,7 +51,8 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(wikiModel.Mine());
             foreach (var column in ss.Columns
                 .Where(o => !o.CanCreate)
-                .Where(o => !ss.FormulaTarget(o.ColumnName)))
+                .Where(o => !ss.FormulaTarget(o.ColumnName))
+                .Where(o => !o.Linking))
             {
                 switch (column.ColumnName)
                 {
