@@ -3960,6 +3960,7 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.ItemsLimit.MessageJson();
             }
             var resultModel = new ResultModel(ss, 0, setByForm: true);
+            SetLinking(ss, resultModel);
             var invalid = ResultValidators.OnCreating(ss, resultModel);
             switch (invalid)
             {
@@ -3971,7 +3972,7 @@ namespace Implem.Pleasanter.Models
             {
                 return error.MessageJson();
             }
-            else if (Linked(ss, resultModel))
+            else if (ss.Columns.Any(o => o.Linking))
             {
                 Sessions.Set("Message", Messages.Created(resultModel.Title.DisplayValue).Html);
                 return new ResponseCollection()
@@ -3992,13 +3993,18 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static bool Linked(SiteSettings ss, ResultModel resultModel)
+        private static void SetLinking(SiteSettings ss, ResultModel resultModel)
         {
             var siteId = Forms.Long("FromSiteId");
-            return
-                siteId > 0 &&
-                resultModel.PropertyValue(ss.Links.FirstOrDefault(o =>
-                    o.SiteId == siteId)?.ColumnName) == Forms.Data("LinkId");
+            if (siteId > 0)
+            {
+                var column = ss.GetColumn(ss.Links
+                    .FirstOrDefault(o => o.SiteId == siteId).ColumnName);
+                if (resultModel.PropertyValue(column?.ColumnName) == Forms.Data("LinkId"))
+                {
+                    column.Linking = true;
+                }
+            }
         }
 
         public static System.Web.Mvc.ContentResult CreateByApi(SiteSettings ss)

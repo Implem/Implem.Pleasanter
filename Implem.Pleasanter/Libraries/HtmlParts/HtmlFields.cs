@@ -216,7 +216,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 text: column.HasChoices() && !value.IsNullOrEmpty()
                                     ? optionCollection.Get(value)?.Text ?? "? " + value
-                                    : value);
+                                    : value,
+                                dataValue: column.HasChoices()
+                                    ? value
+                                    : null);
                     }
                 case Permissions.ColumnPermissionTypes.Update:
                     switch (controlType)

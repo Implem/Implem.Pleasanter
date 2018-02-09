@@ -136,6 +136,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public long SiteId;
         [NonSerialized]
         public bool Joined;
+        [NonSerialized]
+        public bool Linking;
         // compatibility
         public bool? GridVisible;
         public bool? FilterVisible;

@@ -22,7 +22,9 @@ $p.setData = function ($control, data) {
             default:
                 switch ($control.prop('tagName')) {
                     case 'SPAN':
-                        data[controlId] = $control.text();
+                        data[controlId] = $control.attr('data-value') !== undefined
+                            ? $control.attr('data-value')
+                            : $control.text();
                         break;
                     case 'SELECT':
                         if ($control.attr('multiple')) {
