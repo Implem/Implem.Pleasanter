@@ -2032,6 +2032,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         labelText: Displays.Sites_Body(),
                         text: siteModel.Body,
+                        mobile: siteModel.SiteSettings.Mobile,
                         _using: siteModel.ReferenceType != "Wikis")
                     .Field(
                         controlId: "Sites_ReferenceType",
@@ -2282,7 +2283,8 @@ namespace Implem.Pleasanter.Models
                                 : " hidden"),
                             labelText: Displays.CustomDesign(),
                             placeholder: Displays.CustomDesign(),
-                            text: ss.GridDesignEditorText(column));
+                            text: ss.GridDesignEditorText(column),
+                            mobile: ss.Mobile);
                 });
             return hb
                 .Hidden(

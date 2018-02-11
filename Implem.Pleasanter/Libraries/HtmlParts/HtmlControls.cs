@@ -147,6 +147,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string text = null,
             string placeholder = null,
             bool readOnly = false,
+            bool mobile = false,
             bool validateRequired = false,
             Dictionary<string, string> attributes = null,
             bool preview = false,
@@ -174,12 +175,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Add(attributes),
                         action: () => hb
                             .Text(text: text))
-                    .MarkDownCommands(controlId: controlId, readOnly: readOnly)
+                    .MarkDownCommands(controlId: controlId, readOnly: readOnly, mobile: mobile)
                 : hb;
         }
 
         public static HtmlBuilder MarkDownCommands(
-            this HtmlBuilder hb, string controlId, bool readOnly)
+            this HtmlBuilder hb, string controlId, bool readOnly, bool mobile)
         {
             return !readOnly && Contract.Attachments()
                 ? hb
@@ -187,6 +188,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         attributes: new HtmlAttributes()
                             .Class("ui-icon ui-icon-image button-upload-image")
                             .OnClick($"$p.selectImage('{controlId}');"))
+                    .Div(
+                        attributes: new HtmlAttributes()
+                            .Class("ui-icon ui-icon-video")
+                            .OnClick($"$p.openVideo('{controlId}');"),
+                        _using: !mobile)
                     .TextBox(
                         controlId: controlId + ".upload-image-file",
                         controlCss: "hidden upload-image-file",

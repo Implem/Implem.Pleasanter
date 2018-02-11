@@ -73,6 +73,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlType: ControlType(column),
                     value: value,
                     optionCollection: EditChoices(ss, column, value),
+                    mobile: ss.Mobile,
                     preview: preview);
             }
             else
@@ -148,6 +149,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             ControlTypes controlType,
             string value,
             Dictionary<string, ControlData> optionCollection,
+            bool mobile,
             bool preview)
         {
             var required = column.Required || (column.ValidateRequired ?? false);
@@ -188,6 +190,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 text: value,
                                 placeholder: column.LabelText,
                                 readOnly: column.EditorReadOnly == true,
+                                mobile: mobile,
                                 validateRequired: required,
                                 preview: preview);
                         case ControlTypes.Attachments:
@@ -283,6 +286,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 text: value,
                                 placeholder: column.LabelText,
                                 readOnly: column.EditorReadOnly == true,
+                                mobile: mobile,
                                 validateRequired: required,
                                 preview: preview);
                         case ControlTypes.TextBox:
@@ -718,6 +722,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string text = null,
             string placeholder = null,
             bool readOnly = false,
+            bool mobile = false,
             bool validateRequired = false,
             Dictionary<string, string> attributes = null,
             bool preview = false,
@@ -739,6 +744,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             text: text,
                             placeholder: placeholder,
                             readOnly: readOnly,
+                            mobile: mobile,
                             validateRequired: validateRequired,
                             attributes: attributes,
                             preview: preview))

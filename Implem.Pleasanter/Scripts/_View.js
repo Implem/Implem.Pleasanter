@@ -32,6 +32,11 @@ $p.setMessage = function (target, value) {
     }
 }
 
+$p.setErrorMessage = function (error) {
+    $('#Message').html(
+        '<span class="alert-error">' + $p.display(error) + '</span>');
+}
+
 $p.clearMessage = function () {
     $('[class*="message"]').html('');
 }

@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public HtmlBuilder Html(
             HtmlBuilder hb,
             bool allowEditing,
+            bool mobile,
             Versions.VerTypes? verType = null,
             string controlId = null,
             Action action = null)
@@ -43,7 +44,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     {
                         hb.MarkDown(
                             controlId: controlId,
-                            text: Body);
+                            text: Body,
+                            mobile: mobile);
                     }
                     else
                     {

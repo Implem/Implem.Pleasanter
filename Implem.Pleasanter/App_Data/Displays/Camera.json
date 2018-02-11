@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Camera",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Camera"
+        },
+        {
+            "Language": "ja",
+            "Body": "カメラ"
+        }
+    ]
+}

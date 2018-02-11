@@ -90,7 +90,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .ForEach(comment => comment
                     .Html(
                         hb: hb,
-                        allowEditing: column.SiteSettings.AllowEditingComments == true)));
+                        allowEditing: column.SiteSettings.AllowEditingComments == true,
+                        mobile: column.SiteSettings.Mobile)));
         }
 
         public string GridText(Column column)

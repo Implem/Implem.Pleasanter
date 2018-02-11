@@ -546,6 +546,7 @@
     <Content Include="Scripts\BasketEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
+    <Content Include="Scripts\Video.js" />
     <Content Include="Scripts\Crosstab.js" />
     <Content Include="Scripts\Calendar.js" />
     <Content Include="Scripts\Confirm.js" />
@@ -1261,6 +1262,9 @@
     <Content Include="App_Data\Displays\FileDeleteCompleted.json" />
     <Content Include="App_Data\Displays\ValidationError.json" />
     <Content Include="App_Data\Displays\Contact.json" />
+    <Content Include="App_Data\Displays\Camera.json" />
+    <Content Include="App_Data\Displays\ToShoot.json" />
+    <Content Include="App_Data\Displays\CanNotConnectCamera.json" />
     <Content Include="Tools\Reminder.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

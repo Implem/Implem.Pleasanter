@@ -20,6 +20,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             return new HttpRequestWrapper(HttpContext.Current.Request).IsAjaxRequest();
         }
 
+        public static bool IsMobile()
+        {
+            return HttpContext.Current.Request.Browser.IsMobileDevice;
+        }
+
         public string ProcessedRequestData()
         {
             return HttpRequest?.Form.ToString().Split('&')

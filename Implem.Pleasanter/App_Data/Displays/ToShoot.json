@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ToShoot",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "To shoot"
+        },
+        {
+            "Language": "ja",
+            "Body": "撮影"
+        }
+    ]
+}

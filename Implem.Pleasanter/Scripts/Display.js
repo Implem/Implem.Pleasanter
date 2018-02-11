@@ -1,5 +1,7 @@
 ﻿$p.display = function (defaultId) {
     var displays = {
+        CanNotConnectCamera: 'Can not connect to the camera.',
+        CanNotConnectCamera_ja: 'カメラに接続できません。',
         CheckAll: 'Check all',
         CheckAll_ja: '全て選択',
         ConfirmCreateLink: 'Would you like to create a link ?',

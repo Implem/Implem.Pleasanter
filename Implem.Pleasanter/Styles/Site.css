@@ -998,6 +998,18 @@ pre{
     clear:both;
 }
 
+#Video{
+    width:640px;
+    height:480px;
+    display:block;
+    float:left;
+    margin:0px 16px;
+}
+
+#Canvas{
+    display:none;
+}
+
 #Footer{
     width:100%;
     height:30px;
