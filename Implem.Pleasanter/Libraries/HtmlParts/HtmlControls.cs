@@ -186,15 +186,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Div(
                         attributes: new HtmlAttributes()
                             .Class("ui-icon ui-icon-image button-upload-image")
-                            .OnClick($"$p.selectImage('{controlId}');"),
-                        _using: !readOnly && Contract.Attachments())
+                            .OnClick($"$p.selectImage('{controlId}');"))
                     .TextBox(
                         controlId: controlId + ".upload-image-file",
                         controlCss: "hidden upload-image-file",
                         textType: HtmlTypes.TextTypes.File,
                         accept: "image/*",
-                        dataId: controlId,
-                        _using: !readOnly && Contract.Attachments())
+                        dataId: controlId)
                 : hb;
         }
 
