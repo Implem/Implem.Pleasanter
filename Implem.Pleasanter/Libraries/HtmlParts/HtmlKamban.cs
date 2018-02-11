@@ -360,11 +360,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string ItemText(string aggregateType, Column value, KambanElement data)
         {
-            return value == null || aggregateType == "Count"
-                ? data.Title
-                : "{0} : {1}".Params(
-                    data.Title,
-                    value.Display(data.Value, unit: true));
+            return data.Title + (value == null || aggregateType == "Count"
+                ? string.Empty
+                : " : " + value.Display(data.Value, unit: true));
         }
 
         private static string ItemChanged(long id, long changedItemId)
