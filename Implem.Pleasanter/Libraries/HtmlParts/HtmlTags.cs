@@ -588,6 +588,38 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
+        public static HtmlBuilder Video(
+            this HtmlBuilder hb,
+            string id = null,
+            string css = null,
+            bool _using = true)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "video",
+                    attributes: new HtmlAttributes()
+                        .Id(id)
+                        .Class(css),
+                    closeLevel: 1)
+                : hb;
+        }
+
+        public static HtmlBuilder Canvas(
+            this HtmlBuilder hb,
+            string id = null,
+            string css = null,
+            bool _using = true)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "canvas",
+                    attributes: new HtmlAttributes()
+                        .Id(id)
+                        .Class(css),
+                    closeLevel: 1)
+                : hb;
+        }
+
         public static HtmlBuilder Style(
             this HtmlBuilder hb,
             string type = null,

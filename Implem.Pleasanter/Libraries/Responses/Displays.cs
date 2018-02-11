@@ -81,8 +81,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string BurnDown(params string[] data) { return Get("BurnDown", data); }
         public static string BusinessImprovement(params string[] data) { return Get("BusinessImprovement", data); }
         public static string Calendar(params string[] data) { return Get("Calendar", data); }
+        public static string Camera(params string[] data) { return Get("Camera", data); }
         public static string Cancel(params string[] data) { return Get("Cancel", data); }
         public static string CanNotChangeInheritance(params string[] data) { return Get("CanNotChangeInheritance", data); }
+        public static string CanNotConnectCamera(params string[] data) { return Get("CanNotConnectCamera", data); }
         public static string CanNotDisabled(params string[] data) { return Get("CanNotDisabled", data); }
         public static string CanNotInherit(params string[] data) { return Get("CanNotInherit", data); }
         public static string CanNotLink(params string[] data) { return Get("CanNotLink", data); }
@@ -506,6 +508,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string TooManyRowCases(params string[] data) { return Get("TooManyRowCases", data); }
         public static string Top(params string[] data) { return Get("Top", data); }
         public static string ToParent(params string[] data) { return Get("ToParent", data); }
+        public static string ToShoot(params string[] data) { return Get("ToShoot", data); }
         public static string Total(params string[] data) { return Get("Total", data); }
         public static string Tuesday(params string[] data) { return Get("Tuesday", data); }
         public static string Unauthorized(params string[] data) { return Get("Unauthorized", data); }

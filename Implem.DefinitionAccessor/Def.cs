@@ -2101,6 +2101,8 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_ApiEditorCommands": Css._sharp_ApiEditorCommands = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ApiEditorCommands, definitionRow, CssXls); break;
                     case "_sharp_ApiEditorCommands_space___space__asterisk_": Css._sharp_ApiEditorCommands_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ApiEditorCommands_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_sharp_BottomMargin": Css._sharp_BottomMargin = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BottomMargin, definitionRow, CssXls); break;
+                    case "_sharp_Video": Css._sharp_Video = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Video, definitionRow, CssXls); break;
+                    case "_sharp_Canvas": Css._sharp_Canvas = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Canvas, definitionRow, CssXls); break;
                     case "_sharp_Footer": Css._sharp_Footer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Footer, definitionRow, CssXls); break;
                     case "_sharp_Footer_space_a": Css._sharp_Footer_space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Footer_space_a, definitionRow, CssXls); break;
                     case "_sharp_Versions": Css._sharp_Versions = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Versions, definitionRow, CssXls); break;
@@ -7926,6 +7928,8 @@ namespace Implem.DefinitionAccessor
         public string _sharp_ApiEditorCommands;
         public string _sharp_ApiEditorCommands_space___space__asterisk_;
         public string _sharp_BottomMargin;
+        public string _sharp_Video;
+        public string _sharp_Canvas;
         public string _sharp_Footer;
         public string _sharp_Footer_space_a;
         public string _sharp_Versions;
@@ -8379,6 +8383,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_ApiEditorCommands = new CssDefinition();
         public CssDefinition _sharp_ApiEditorCommands_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _sharp_BottomMargin = new CssDefinition();
+        public CssDefinition _sharp_Video = new CssDefinition();
+        public CssDefinition _sharp_Canvas = new CssDefinition();
         public CssDefinition _sharp_Footer = new CssDefinition();
         public CssDefinition _sharp_Footer_space_a = new CssDefinition();
         public CssDefinition _sharp_Versions = new CssDefinition();

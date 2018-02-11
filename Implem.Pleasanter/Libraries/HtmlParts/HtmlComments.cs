@@ -18,6 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb
                 .TextArea(
                     labelText: column?.LabelText,
+                    mobile: column.SiteSettings.Mobile,
                     _using:
                         verType == Versions.VerTypes.Latest &&
                         column.SiteSettings.CanUpdate() &&
@@ -37,6 +38,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return comment.Html(
                 hb: hb,
                 allowEditing: ss.AllowEditingComments == true,
+                mobile: ss.Mobile,
                 verType: verType,
                 controlId: "Comment" + comment.CommentId,
                 action: () => hb
@@ -44,7 +46,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder TextArea(
-            this HtmlBuilder hb, string labelText, bool _using = true)
+            this HtmlBuilder hb,
+            string labelText,
+            bool mobile,
+            bool _using = true)
         {
             return _using
                 ? hb.Div(id: "CommentField", action: () =>
@@ -54,7 +59,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             css: "control-textarea upload-image",
                             placeholder: labelText)
                         .MarkDownCommands(
-                            controlId: "Comments", readOnly: false))
+                            controlId: "Comments",
+                            readOnly: false,
+                            mobile: mobile))
                 : hb;
         }
 

@@ -61,6 +61,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<long, SiteSettings> JoinedSsHash;
         [NonSerialized]
         public Dictionary<string, string> JoinOptionHash;
+        [NonSerialized]
+        public bool Mobile;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
@@ -198,6 +200,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             EnableBurnDown = EnableBurnDown ?? true;
             EnableTimeSeries = EnableTimeSeries ?? true;
             EnableKamban = EnableKamban ?? true;
+            Mobile = System.Web.HttpContext.Current.Request.Browser.IsMobileDevice;
         }
 
         public void SetLinkedSiteSettings()

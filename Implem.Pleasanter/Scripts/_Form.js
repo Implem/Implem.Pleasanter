@@ -56,9 +56,8 @@ $p.send = function ($control, formId, async) {
         $form.validate();
         if (!$form.valid()) {
             $p.setValidationError($form);
+            $p.setErrorMessage('ValidationError');
             $("html,body").animate({ scrollTop: $('.error:first').offset().top });
-            $('#Message').html(
-                '<span class="alert-error">' + $p.display('ValidationError') + '</span>');
             return false;
         }
     }

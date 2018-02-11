@@ -48,6 +48,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useNavigationMenu: useNavigationMenu,
                     action: action)
                 .HiddenData()
+                .VideoDialog(ss: ss)
                 .Styles(ss: ss, userStyle: userStyle)
                 .Scripts(
                     ss: ss,
@@ -168,6 +169,34 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         "SiteImageIcon",
                         BinaryUtilities.SiteImagePrefix(ss, siteId, ImageData.SizeTypes.Icon)),
                     css: "site-image-icon")
+                : hb;
+        }
+
+        private static HtmlBuilder VideoDialog(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return Contract.Attachments() && !ss.Mobile
+                ? hb
+                    .Div(
+                        attributes: new HtmlAttributes()
+                            .Id("VideoDialog")
+                            .Class("dialog")
+                            .Title(Displays.Camera()),
+                        action: () => hb
+                            .Div(action: () => hb
+                                .Video(id: "Video"))
+                            .Hidden(controlId: "VideoTarget")
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    text: Displays.ToShoot(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.toShoot($(this));",
+                                    icon: "ui-icon-video")
+                                .Button(
+                                    text: Displays.Cancel(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.closeDialog($(this));",
+                                    icon: "ui-icon-cancel")))
+                    .Canvas(id: "Canvas")
                 : hb;
         }
 
