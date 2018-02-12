@@ -147,6 +147,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string text = null,
             string placeholder = null,
             bool readOnly = false,
+            bool allowImage = true,
             bool mobile = false,
             bool validateRequired = false,
             Dictionary<string, string> attributes = null,
@@ -175,14 +176,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Add(attributes),
                         action: () => hb
                             .Text(text: text))
-                    .MarkDownCommands(controlId: controlId, readOnly: readOnly, mobile: mobile)
+                    .MarkDownCommands(
+                        controlId: controlId,
+                        readOnly: readOnly,
+                        allowImage: allowImage,
+                        mobile: mobile)
                 : hb;
         }
 
         public static HtmlBuilder MarkDownCommands(
-            this HtmlBuilder hb, string controlId, bool readOnly, bool mobile)
+            this HtmlBuilder hb, string controlId, bool readOnly, bool allowImage, bool mobile)
         {
-            return !readOnly && Contract.Attachments()
+            return !readOnly && allowImage && Contract.Images()
                 ? hb
                     .Div(
                         attributes: new HtmlAttributes()

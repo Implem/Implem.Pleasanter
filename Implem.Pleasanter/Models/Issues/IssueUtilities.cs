@@ -4178,7 +4178,11 @@ namespace Implem.Pleasanter.Models
                     ss.GetColumn("RemainingWorkValue")
                         .Display(ss, issueModel.RemainingWorkValue));
                 return ResponseByUpdate(res, ss, issueModel)
-                    .PrependComment(ss, issueModel.Comments, issueModel.VerType)
+                    .PrependComment(
+                        ss,
+                        ss.GetColumn("Comments"),
+                        issueModel.Comments,
+                        issueModel.VerType)
                     .ToJson();
             }
         }
@@ -4201,7 +4205,11 @@ namespace Implem.Pleasanter.Models
                     ss: ss, id: issueModel.IssueId))
                 .SetMemory("formChanged", false)
                 .Message(Messages.Updated(issueModel.Title.DisplayValue))
-                .Comment(ss, issueModel.Comments, issueModel.DeleteCommentId)
+                .Comment(
+                    ss,
+                    ss.GetColumn("Comments"),
+                    issueModel.Comments,
+                    issueModel.DeleteCommentId)
                 .ClearFormData();
         }
 

@@ -190,6 +190,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 text: value,
                                 placeholder: column.LabelText,
                                 readOnly: column.EditorReadOnly == true,
+                                allowImage: column.AllowImage == true,
                                 mobile: mobile,
                                 validateRequired: required,
                                 preview: preview);
@@ -286,6 +287,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 text: value,
                                 placeholder: column.LabelText,
                                 readOnly: column.EditorReadOnly == true,
+                                allowImage: column.AllowImage == true,
                                 mobile: mobile,
                                 validateRequired: required,
                                 preview: preview);
@@ -722,6 +724,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string text = null,
             string placeholder = null,
             bool readOnly = false,
+            bool allowImage = true,
             bool mobile = false,
             bool validateRequired = false,
             Dictionary<string, string> attributes = null,
@@ -744,6 +747,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             text: text,
                             placeholder: placeholder,
                             readOnly: readOnly,
+                            allowImage: allowImage,
                             mobile: mobile,
                             validateRequired: validateRequired,
                             attributes: attributes,

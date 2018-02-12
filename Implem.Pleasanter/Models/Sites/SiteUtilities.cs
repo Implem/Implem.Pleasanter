@@ -252,7 +252,11 @@ namespace Implem.Pleasanter.Models
                 var res = new SitesResponseCollection(siteModel);
                 res.ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(siteId));
                 return ResponseByUpdate(res, siteModel)
-                    .PrependComment(ss, siteModel.Comments, siteModel.VerType)
+                    .PrependComment(
+                        ss,
+                        ss.GetColumn("Comments"),
+                        siteModel.Comments,
+                        siteModel.VerType)
                     .ToJson();
             }
         }
@@ -272,7 +276,11 @@ namespace Implem.Pleasanter.Models
                     baseModel: siteModel, tableName: "Sites"))
                 .SetMemory("formChanged", false)
                 .Message(Messages.Updated(siteModel.Title.Value))
-                .Comment(ss, siteModel.Comments, siteModel.DeleteCommentId)
+                .Comment(
+                    ss,
+                    ss.GetColumn("Comments"),
+                    siteModel.Comments,
+                    siteModel.DeleteCommentId)
                 .ClearFormData();
         }
 
@@ -2282,6 +2290,7 @@ namespace Implem.Pleasanter.Models
                             labelText: Displays.CustomDesign(),
                             placeholder: Displays.CustomDesign(),
                             text: ss.GridDesignEditorText(column),
+                            allowImage: column.AllowImage == true,
                             mobile: ss.Mobile);
                 });
             return hb
@@ -2882,53 +2891,55 @@ namespace Implem.Pleasanter.Models
                                 width: column.Width);
                             break;
                         case Types.CsString:
-                            if (column.ColumnName != "Comments")
+                            switch (column.ControlType)
                             {
-                                switch (column.ControlType)
-                                {
-                                    case "MarkDown":
-                                        hb.FieldTextBox(
-                                            textType: HtmlTypes.TextTypes.MultiLine,
+                                case "Attachments":
+                                    hb
+                                        .FieldSpinner(
+                                            controlId: "LimitQuantity",
+                                            labelText: Displays.LimitQuantity(),
+                                            value: column.LimitQuantity,
+                                            min: Parameters.BinaryStorage.MinQuantity,
+                                            max: Parameters.BinaryStorage.MaxQuantity,
+                                            step: column.Step.ToInt(),
+                                            width: 50)
+                                        .FieldSpinner(
+                                            controlId: "LimitSize",
+                                            labelText: Displays.LimitSize(),
+                                            value: column.LimitSize,
+                                            min: Parameters.BinaryStorage.MinSize,
+                                            max: Parameters.BinaryStorage.MaxSize,
+                                            step: column.Step.ToInt(),
+                                            width: 50)
+                                        .FieldSpinner(
+                                            controlId: "LimitTotalSize",
+                                            labelText: Displays.LimitTotalSize(),
+                                            value: column.TotalLimitSize,
+                                            min: Parameters.BinaryStorage.TotalMinSize,
+                                            max: Parameters.BinaryStorage.TotalMaxSize,
+                                            step: column.Step.ToInt(),
+                                            width: 50);
+                                    break;
+                                default:
+                                    hb
+                                        .FieldCheckBox(
+                                            controlId: "AllowImage",
+                                            labelText: Displays.AllowImage(),
+                                            _checked: column.AllowImage == true,
+                                            _using:
+                                                Contract.Images() &&
+                                                (column.ControlType == "MarkDown" ||
+                                                column.ColumnName == "Comments"))
+                                        .FieldTextBox(
+                                            textType: column.ControlType == "MarkDown"
+                                                ? HtmlTypes.TextTypes.MultiLine
+                                                : HtmlTypes.TextTypes.Normal,
                                             controlId: "DefaultInput",
                                             fieldCss: "field-wide",
                                             labelText: Displays.DefaultInput(),
-                                            text: column.DefaultInput);
-                                        break;
-                                    case "Attachments":
-                                        hb
-                                            .FieldSpinner(
-                                                controlId: "LimitQuantity",
-                                                labelText: Displays.LimitQuantity(),
-                                                value: column.LimitQuantity,
-                                                min: Parameters.BinaryStorage.MinQuantity,
-                                                max: Parameters.BinaryStorage.MaxQuantity,
-                                                step: column.Step.ToInt(),
-                                                width: 50)
-                                            .FieldSpinner(
-                                                controlId: "LimitSize",
-                                                labelText: Displays.LimitSize(),
-                                                value: column.LimitSize,
-                                                min: Parameters.BinaryStorage.MinSize,
-                                                max: Parameters.BinaryStorage.MaxSize,
-                                                step: column.Step.ToInt(),
-                                                width: 50)
-                                            .FieldSpinner(
-                                                controlId: "LimitTotalSize",
-                                                labelText: Displays.LimitTotalSize(),
-                                                value: column.TotalLimitSize,
-                                                min: Parameters.BinaryStorage.TotalMinSize,
-                                                max: Parameters.BinaryStorage.TotalMaxSize,
-                                                step: column.Step.ToInt(),
-                                                width: 50);
-                                        break;
-                                    default:
-                                        hb.FieldTextBox(
-                                            controlId: "DefaultInput",
-                                            fieldCss: "field-wide",
-                                            labelText: Displays.DefaultInput(),
-                                            text: column.DefaultInput);
-                                        break;
-                                }
+                                            text: column.DefaultInput,
+                                            _using: column.ColumnName != "Comments");
+                                    break;
                             }
                             break;
                     }

@@ -54,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string All(params string[] data) { return Get("All", data); }
         public static string AllowEditingComments(params string[] data) { return Get("AllowEditingComments", data); }
         public static string AllowedUsers(params string[] data) { return Get("AllowedUsers", data); }
+        public static string AllowImage(params string[] data) { return Get("AllowImage", data); }
         public static string AlreadyAdded(params string[] data) { return Get("AlreadyAdded", data); }
         public static string AlreadyLinked(params string[] data) { return Get("AlreadyLinked", data); }
         public static string And(params string[] data) { return Get("And", data); }

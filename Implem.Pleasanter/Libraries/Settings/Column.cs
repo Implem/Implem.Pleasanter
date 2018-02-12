@@ -40,6 +40,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? Max;
         public decimal? Step;
         public bool? EditorReadOnly;
+        public bool? AllowImage;
         public string FieldCss;
         public string Unit;
         public bool? Link;
