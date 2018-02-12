@@ -826,13 +826,11 @@ namespace Implem.Pleasanter.Models
                 default: return SiteMenuError(id, siteModel, invalid);
             }
             MoveSiteMenu(sourceSiteModel.SiteId, destinationSiteModel.SiteId);
-            var res = new ResponseCollection().Remove(
-                ".nav-site[value=\"" + sourceSiteModel.SiteId + "\"]");
             return toParent
-                ? res.ToJson()
-                : res
+                ? "[]"
+                : new ResponseCollection()
                     .ReplaceAll(
-                        "[value=\"" + destinationSiteModel.SiteId + "\"]",
+                        "[data-value=\"" + destinationSiteModel.SiteId + "\"]",
                         siteModel.ReplaceSiteMenu(
                             sourceSiteModel.SiteId, destinationSiteModel.SiteId))
                     .ToJson();
