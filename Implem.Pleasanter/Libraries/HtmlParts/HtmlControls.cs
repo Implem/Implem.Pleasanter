@@ -170,7 +170,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .TextArea(
                         attributes: new HtmlAttributes()
                             .Id(controlId)
-                            .Class(Css.Class("control-markdown upload-image", controlCss))
+                            .Class(Css.Class(
+                                "control-markdown" + (Contract.Images() && !readOnly && allowImage
+                                    ? " upload-image"
+                                    : string.Empty),
+                                controlCss))
                             .Placeholder(placeholder)
                             .DataValidateRequired(validateRequired, _using: !readOnly)
                             .Add(attributes),
@@ -187,7 +191,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder MarkDownCommands(
             this HtmlBuilder hb, string controlId, bool readOnly, bool allowImage, bool mobile)
         {
-            return !readOnly && allowImage && Contract.Images()
+            return Contract.Images() && !readOnly && allowImage
                 ? hb
                     .Div(
                         attributes: new HtmlAttributes()
