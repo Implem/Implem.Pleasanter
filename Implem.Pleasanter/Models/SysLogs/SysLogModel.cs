@@ -638,7 +638,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetProperties()
         {
-            SysLogType = SysLogModel.SysLogTypes.Info;
+            SysLogType = SysLogTypes.Info;
             OnAzure = Environments.RdsProvider == "Azure";
             MachineName = Environments.MachineName;
             ServiceName = Environments.ServiceName;
