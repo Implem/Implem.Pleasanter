@@ -108,6 +108,13 @@ namespace Implem.Pleasanter.Libraries.Server
                 ContractHash.Get(tenantId)?.StorageSize != 0;
         }
 
+        public static bool Images()
+        {
+            return
+                Parameters.BinaryStorage.Images &&
+                Attachments();
+        }
+
         public static int? TenantStorageSize()
         {
             return ContractHash.Get(Sessions.TenantId())?.StorageSize;

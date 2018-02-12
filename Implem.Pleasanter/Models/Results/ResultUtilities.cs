@@ -4063,7 +4063,11 @@ namespace Implem.Pleasanter.Models
             {
                 var res = new ResultsResponseCollection(resultModel);
                 return ResponseByUpdate(res, ss, resultModel)
-                    .PrependComment(ss, resultModel.Comments, resultModel.VerType)
+                    .PrependComment(
+                        ss,
+                        ss.GetColumn("Comments"),
+                        resultModel.Comments,
+                        resultModel.VerType)
                     .ToJson();
             }
         }
@@ -4086,7 +4090,11 @@ namespace Implem.Pleasanter.Models
                     ss: ss, id: resultModel.ResultId))
                 .SetMemory("formChanged", false)
                 .Message(Messages.Updated(resultModel.Title.DisplayValue))
-                .Comment(ss, resultModel.Comments, resultModel.DeleteCommentId)
+                .Comment(
+                    ss,
+                    ss.GetColumn("Comments"),
+                    resultModel.Comments,
+                    resultModel.DeleteCommentId)
                 .ClearFormData();
         }
 

@@ -675,6 +675,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.EditorReadOnly = column.EditorReadOnly;
                     }
+                    if (column.AllowImage != true)
+                    {
+                        enabled = true;
+                        newColumn.AllowImage = column.AllowImage;
+                    }
                     if (column.FieldCss != columnDefinition.FieldCss)
                     {
                         enabled = true;
@@ -966,6 +971,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.Max = column.Max ?? DefaultMax(columnDefinition);
                 column.Step = column.Step ?? DefaultStep(columnDefinition);
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
+                column.AllowImage = column.AllowImage ?? true;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
                 column.CheckFilterControlType = column.CheckFilterControlType ?? ColumnUtilities.CheckFilterControlTypes.OnOnly;
@@ -1984,6 +1990,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Min": column.Min = value.ToDecimal(); break;
                 case "Step": column.Step = value.ToDecimal(); break;
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
+                case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "FieldCss": column.FieldCss = value; break;
                 case "ChoicesText": column.ChoicesText = value; SetLinks(column); break;
                 case "UseSearch": column.UseSearch = value.ToBool(); break;

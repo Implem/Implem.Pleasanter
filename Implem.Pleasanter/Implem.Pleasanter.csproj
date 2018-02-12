@@ -1277,6 +1277,7 @@
     <Content Include="Views\Items\Calendar.cshtml" />
     <Content Include="Views\Errors\BadRequest.cshtml" />
     <Content Include="Views\Items\Crosstab.cshtml" />
+    <Content Include="App_Data\Displays\AllowImage.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

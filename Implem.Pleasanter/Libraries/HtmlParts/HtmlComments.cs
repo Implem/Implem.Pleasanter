@@ -18,6 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb
                 .TextArea(
                     labelText: column?.LabelText,
+                    allowImage: column.AllowImage == true,
                     mobile: column.SiteSettings.Mobile,
                     _using:
                         verType == Versions.VerTypes.Latest &&
@@ -26,18 +27,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         columnPermissionType == Permissions.ColumnPermissionTypes.Update)
                 .Div(id: "CommentList", action: () => comments
                     .ForEach(comment => hb
-                        .Comment(column.SiteSettings, comment, verType)));
+                        .Comment(
+                            ss: column.SiteSettings,
+                            column: column,
+                            comment: comment,
+                            verType: verType)));
         }
 
         public static HtmlBuilder Comment(
             this HtmlBuilder hb,
             SiteSettings ss,
+            Column column,
             Comment comment,
             Versions.VerTypes verType)
         {
             return comment.Html(
                 hb: hb,
                 allowEditing: ss.AllowEditingComments == true,
+                allowImage: column.AllowImage == true,
                 mobile: ss.Mobile,
                 verType: verType,
                 controlId: "Comment" + comment.CommentId,
@@ -48,6 +55,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder TextArea(
             this HtmlBuilder hb,
             string labelText,
+            bool allowImage,
             bool mobile,
             bool _using = true)
         {
@@ -61,6 +69,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .MarkDownCommands(
                             controlId: "Comments",
                             readOnly: false,
+                            allowImage: allowImage,
                             mobile: mobile))
                 : hb;
         }

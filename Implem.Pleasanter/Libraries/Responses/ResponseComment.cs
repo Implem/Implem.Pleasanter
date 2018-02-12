@@ -12,6 +12,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection PrependComment(
             this ResponseCollection res,
             SiteSettings ss,
+            Column column,
             Comments comments,
             Versions.VerTypes verType)
         {
@@ -22,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                     .Prepend("#CommentList", new HtmlBuilder()
                         .Comment(
                             ss: ss,
+                            column: column,
                             comment: comments[0],
                             verType: verType))
                 : res;
@@ -30,6 +32,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection Comment(
             this ResponseCollection res,
             SiteSettings ss,
+            Column column,
             Comments comments,
             int deleteCommentId)
         {
@@ -40,6 +43,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                         Selector(comment.CommentId),
                         new HtmlBuilder().Comment(
                             ss: ss,
+                            column: column,
                             comment: comment,
                             verType: Versions.VerTypes.Latest)));
             if (deleteCommentId != 0)

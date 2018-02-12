@@ -5,6 +5,7 @@
         public string Provider;
         public string Path;
         public bool Attachments;
+        public bool Images;
         public int LimitQuantity;
         public int LimitSize;
         public int LimitTotalSize;

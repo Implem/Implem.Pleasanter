@@ -462,7 +462,11 @@ namespace Implem.Pleasanter.Models
                 var res = new WikisResponseCollection(wikiModel);
                 res.ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(ss.SiteId));
                 return ResponseByUpdate(res, ss, wikiModel)
-                    .PrependComment(ss, wikiModel.Comments, wikiModel.VerType)
+                    .PrependComment(
+                        ss,
+                        ss.GetColumn("Comments"),
+                        wikiModel.Comments,
+                        wikiModel.VerType)
                     .ToJson();
             }
         }
@@ -485,7 +489,11 @@ namespace Implem.Pleasanter.Models
                     ss: ss, id: wikiModel.WikiId))
                 .SetMemory("formChanged", false)
                 .Message(Messages.Updated(wikiModel.Title.DisplayValue))
-                .Comment(ss, wikiModel.Comments, wikiModel.DeleteCommentId)
+                .Comment(
+                    ss,
+                    ss.GetColumn("Comments"),
+                    wikiModel.Comments,
+                    wikiModel.DeleteCommentId)
                 .ClearFormData();
         }
 

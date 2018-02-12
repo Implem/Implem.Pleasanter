@@ -2,6 +2,7 @@
     "Provider": "Rds",
     "Path": null,
     "Attachments": true,
+    "Images": true,
     "LimitQuantity": 30,
     "MinQuantity": 1,
     "MaxQuantity": 100,
