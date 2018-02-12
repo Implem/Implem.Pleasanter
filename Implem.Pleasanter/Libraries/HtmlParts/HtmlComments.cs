@@ -64,7 +64,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     hb
                         .TextArea(
                             id: "Comments",
-                            css: "control-textarea upload-image",
+                            css: "control-textarea" + (Contract.Images() && allowImage
+                                ? " upload-image"
+                                : string.Empty),
                             placeholder: labelText)
                         .MarkDownCommands(
                             controlId: "Comments",
