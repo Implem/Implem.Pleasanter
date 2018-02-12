@@ -200,7 +200,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             EnableBurnDown = EnableBurnDown ?? true;
             EnableTimeSeries = EnableTimeSeries ?? true;
             EnableKamban = EnableKamban ?? true;
-            Mobile = System.Web.HttpContext.Current.Request.Browser.IsMobileDevice;
+            var request = new Request();
+            Mobile = request.IsMobile();
         }
 
         public void SetLinkedSiteSettings()
