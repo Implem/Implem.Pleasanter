@@ -643,7 +643,7 @@ namespace Implem.Pleasanter.Models
             MachineName = Environments.MachineName;
             ServiceName = Environments.ServiceName;
             Application = Environments.Application;
-            var request = new Request(System.Web.HttpContext.Current);
+            var request = new Request();
             if (request.HttpRequest != null)
             {
                 RequestData = request.ProcessedRequestData();

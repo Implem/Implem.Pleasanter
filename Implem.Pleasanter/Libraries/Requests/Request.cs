@@ -8,10 +8,10 @@ namespace Implem.Pleasanter.Libraries.Requests
     {
         public HttpRequest HttpRequest;
 
-        public Request(HttpContext httpContext)
+        public Request()
         {
-            HttpRequest = httpContext != null && httpContext.User != null
-                ? httpContext.Request
+            HttpRequest = HttpContext.Current != null && HttpContext.Current.User != null
+                ? HttpContext.Current.Request
                 : null;
         }
 
@@ -20,9 +20,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             return new HttpRequestWrapper(HttpContext.Current.Request).IsAjaxRequest();
         }
 
-        public static bool IsMobile()
+        public bool IsMobile()
         {
-            return HttpContext.Current.Request.Browser.IsMobileDevice;
+            return HttpRequest?.Browser.IsMobileDevice ?? false;
         }
 
         public string ProcessedRequestData()
