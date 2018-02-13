@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Models
         private static void UpdateIssueTitles(SiteSettings ss, IEnumerable<long> idList)
         {
             var issues = GetIssues(ss, idList);
-            var links = ss.GetUseSearchLinks(titleOnly: true);
+            var links = ss.GetUseSearchLinks();
             links?.ForEach(link =>
                 ss.SetChoiceHash(
                     columnName: link.ColumnName,
@@ -135,7 +135,7 @@ namespace Implem.Pleasanter.Models
         private static void UpdateResultTitles(SiteSettings ss, IEnumerable<long> idList)
         {
             var results = GetResults(ss, idList);
-            var links = ss.GetUseSearchLinks(titleOnly: true);
+            var links = ss.GetUseSearchLinks();
             links?.ForEach(link =>
                 ss.SetChoiceHash(
                     columnName: link.ColumnName,
@@ -193,7 +193,7 @@ namespace Implem.Pleasanter.Models
         private static void UpdateWikiTitles(SiteSettings ss, IEnumerable<long> idList)
         {
             var wikis = GetWikis(ss, idList);
-            var links = ss.GetUseSearchLinks(titleOnly: true);
+            var links = ss.GetUseSearchLinks();
             links?.ForEach(link =>
                 ss.SetChoiceHash(
                     columnName: link.ColumnName,

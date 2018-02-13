@@ -375,11 +375,11 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetDefault_CompletionTimeColumnCases": Code.Model_SetDefault_CompletionTimeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_CompletionTimeColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetByForm": Code.Model_SetByForm = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm, definitionRow, CodeXls); break;
                     case "Model_SetByForm_ColumnCases": Code.Model_SetByForm_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_ColumnCases, definitionRow, CodeXls); break;
-                    case "Model_SetByForm_SetTitleDisplayValue": Code.Model_SetByForm_SetTitleDisplayValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_SetTitleDisplayValue, definitionRow, CodeXls); break;
                     case "Model_SetByForm_SetByFormula": Code.Model_SetByForm_SetByFormula = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_SetByFormula, definitionRow, CodeXls); break;
                     case "Model_ToUniversal": Code.Model_ToUniversal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToUniversal, definitionRow, CodeXls); break;
                     case "Model_SetByForm_Files": Code.Model_SetByForm_Files = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_Files, definitionRow, CodeXls); break;
                     case "Model_SetByForm_Site": Code.Model_SetByForm_Site = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_Site, definitionRow, CodeXls); break;
+                    case "Model_SetLinking": Code.Model_SetLinking = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetLinking, definitionRow, CodeXls); break;
                     case "Model_SetByApi": Code.Model_SetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi, definitionRow, CodeXls); break;
                     case "Model_SetByApi_ColumnCases": Code.Model_SetByApi_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_CreateIndexes": Code.Model_CreateIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateIndexes, definitionRow, CodeXls); break;
@@ -391,7 +391,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetByFormula_Data": Code.Model_SetByFormula_Data = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByFormula_Data, definitionRow, CodeXls); break;
                     case "Model_SetByFormula_ColumnCases": Code.Model_SetByFormula_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByFormula_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetBySession": Code.Model_SetBySession = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetBySession, definitionRow, CodeXls); break;
-                    case "Model_SetLinks": Code.Model_SetLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetLinks, definitionRow, CodeXls); break;
+                    case "Model_SetChoiceHash": Code.Model_SetChoiceHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetChoiceHash, definitionRow, CodeXls); break;
+                    case "Model_SetChoiceHashMethod": Code.Model_SetChoiceHashMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetChoiceHashMethod, definitionRow, CodeXls); break;
                     case "Model_SetPk": Code.Model_SetPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetPk, definitionRow, CodeXls); break;
                     case "Model_Set": Code.Model_Set = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Set, definitionRow, CodeXls); break;
                     case "Model_PushState": Code.Model_PushState = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState, definitionRow, CodeXls); break;
@@ -516,8 +517,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_CreateParams": Code.Model_Utilities_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams_Sites": Code.Model_Utilities_CreateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_ReturnLinkSourceResponse": Code.Model_Utilities_ReturnLinkSourceResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ReturnLinkSourceResponse, definitionRow, CodeXls); break;
-                    case "Model_Utilities_SetLinking": Code.Model_Utilities_SetLinking = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetLinking, definitionRow, CodeXls); break;
-                    case "Model_Utilities_SetLinkingMethod": Code.Model_Utilities_SetLinkingMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetLinkingMethod, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse": Code.Model_Utilities_CreatedResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse_Items": Code.Model_Utilities_CreatedResponse_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse_Sites": Code.Model_Utilities_CreatedResponse_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Sites, definitionRow, CodeXls); break;
@@ -4645,11 +4644,11 @@ namespace Implem.DefinitionAccessor
         public string Model_SetDefault_CompletionTimeColumnCases;
         public string Model_SetByForm;
         public string Model_SetByForm_ColumnCases;
-        public string Model_SetByForm_SetTitleDisplayValue;
         public string Model_SetByForm_SetByFormula;
         public string Model_ToUniversal;
         public string Model_SetByForm_Files;
         public string Model_SetByForm_Site;
+        public string Model_SetLinking;
         public string Model_SetByApi;
         public string Model_SetByApi_ColumnCases;
         public string Model_CreateIndexes;
@@ -4661,7 +4660,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SetByFormula_Data;
         public string Model_SetByFormula_ColumnCases;
         public string Model_SetBySession;
-        public string Model_SetLinks;
+        public string Model_SetChoiceHash;
+        public string Model_SetChoiceHashMethod;
         public string Model_SetPk;
         public string Model_Set;
         public string Model_PushState;
@@ -4786,8 +4786,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_CreateParams;
         public string Model_Utilities_CreateParams_Sites;
         public string Model_Utilities_ReturnLinkSourceResponse;
-        public string Model_Utilities_SetLinking;
-        public string Model_Utilities_SetLinkingMethod;
         public string Model_Utilities_CreatedResponse;
         public string Model_Utilities_CreatedResponse_Items;
         public string Model_Utilities_CreatedResponse_Sites;
@@ -5165,11 +5163,11 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetDefault_CompletionTimeColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetByForm = new CodeDefinition();
         public CodeDefinition Model_SetByForm_ColumnCases = new CodeDefinition();
-        public CodeDefinition Model_SetByForm_SetTitleDisplayValue = new CodeDefinition();
         public CodeDefinition Model_SetByForm_SetByFormula = new CodeDefinition();
         public CodeDefinition Model_ToUniversal = new CodeDefinition();
         public CodeDefinition Model_SetByForm_Files = new CodeDefinition();
         public CodeDefinition Model_SetByForm_Site = new CodeDefinition();
+        public CodeDefinition Model_SetLinking = new CodeDefinition();
         public CodeDefinition Model_SetByApi = new CodeDefinition();
         public CodeDefinition Model_SetByApi_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_CreateIndexes = new CodeDefinition();
@@ -5181,7 +5179,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetByFormula_Data = new CodeDefinition();
         public CodeDefinition Model_SetByFormula_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetBySession = new CodeDefinition();
-        public CodeDefinition Model_SetLinks = new CodeDefinition();
+        public CodeDefinition Model_SetChoiceHash = new CodeDefinition();
+        public CodeDefinition Model_SetChoiceHashMethod = new CodeDefinition();
         public CodeDefinition Model_SetPk = new CodeDefinition();
         public CodeDefinition Model_Set = new CodeDefinition();
         public CodeDefinition Model_PushState = new CodeDefinition();
@@ -5306,8 +5305,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_CreateParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_ReturnLinkSourceResponse = new CodeDefinition();
-        public CodeDefinition Model_Utilities_SetLinking = new CodeDefinition();
-        public CodeDefinition Model_Utilities_SetLinkingMethod = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse_Sites = new CodeDefinition();
