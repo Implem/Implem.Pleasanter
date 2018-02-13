@@ -4449,8 +4449,18 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            SetTitle(ss);
+            var fromSiteId = Forms.Long("FromSiteId");
+            if (fromSiteId > 0)
+            {
+                var column = ss.GetColumn(ss.Links
+                    .FirstOrDefault(o => o.SiteId == fromSiteId).ColumnName);
+                if (PropertyValue(column?.ColumnName) == Forms.Data("LinkId"))
+                {
+                    column.Linking = true;
+                }
+            }
             SetByFormula(ss);
+            SetChoiceHash(ss);
             if (Routes.Action() == "deletecomment")
             {
                 DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
@@ -4609,8 +4619,8 @@ namespace Implem.Pleasanter.Models
             if (data.CheckZ != null) CheckZ = data.CheckZ.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            SetTitle(ss);
             SetByFormula(ss);
+            SetChoiceHash(ss);
         }
 
         private void SynchronizeSummary(
@@ -5711,15 +5721,24 @@ namespace Implem.Pleasanter.Models
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
-            var links = ss.GetUseSearchLinks(titleOnly: true, onlyUnSet: true);
-            links?.ForEach(link =>
-                ss.SetChoiceHash(
-                    columnName: link.ColumnName,
-                    selectedValues: PropertyValue(link.ColumnName).ToSingleList()));
-            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            SetChoiceHash(ss);
+        }
+
+        private void SetChoiceHash(SiteSettings ss)
+        {
+            ss.GetUseSearchLinks().ForEach(link =>
             {
-                SetTitle(ss);
-            }
+                var value = PropertyValue(link.ColumnName);
+                if (!value.IsNullOrEmpty() &&
+                    ss.GetColumn(link.ColumnName)?
+                        .ChoiceHash.Any(o => o.Value.Value == value) != true)
+                {
+                    ss.SetChoiceHash(
+                        columnName: link.ColumnName,
+                        selectedValues: value.ToSingleList());
+                }
+            });
+            SetTitle(ss);
         }
 
         private void Set(SiteSettings ss, DataRow dataRow, string tableAlias = null)

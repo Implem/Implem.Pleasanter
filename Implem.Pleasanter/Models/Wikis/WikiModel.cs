@@ -544,6 +544,7 @@ namespace Implem.Pleasanter.Models
                 }
             });
             SetByFormula(ss);
+            SetChoiceHash(ss);
             if (Routes.Action() == "deletecomment")
             {
                 DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
@@ -570,6 +571,7 @@ namespace Implem.Pleasanter.Models
             if (data.Comments != null) Comments.Prepend(data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             SetByFormula(ss);
+            SetChoiceHash(ss);
         }
 
         public void UpdateFormulaColumns(SiteSettings ss, IEnumerable<int> selected = null)
@@ -766,15 +768,24 @@ namespace Implem.Pleasanter.Models
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
-            var links = ss.GetUseSearchLinks(titleOnly: true, onlyUnSet: true);
-            links?.ForEach(link =>
-                ss.SetChoiceHash(
-                    columnName: link.ColumnName,
-                    selectedValues: PropertyValue(link.ColumnName).ToSingleList()));
-            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            SetChoiceHash(ss);
+        }
+
+        private void SetChoiceHash(SiteSettings ss)
+        {
+            ss.GetUseSearchLinks().ForEach(link =>
             {
-                SetTitle(ss);
-            }
+                var value = PropertyValue(link.ColumnName);
+                if (!value.IsNullOrEmpty() &&
+                    ss.GetColumn(link.ColumnName)?
+                        .ChoiceHash.Any(o => o.Value.Value == value) != true)
+                {
+                    ss.SetChoiceHash(
+                        columnName: link.ColumnName,
+                        selectedValues: value.ToSingleList());
+                }
+            });
+            SetTitle(ss);
         }
 
         private void Set(SiteSettings ss, DataRow dataRow, string tableAlias = null)

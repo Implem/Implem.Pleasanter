@@ -2082,11 +2082,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public List<Link> GetUseSearchLinks(bool titleOnly = false, bool onlyUnSet = false)
+        public List<Link> GetUseSearchLinks()
         {
             return Links?
                 .Where(o => GetColumn(o.ColumnName)?.UseSearch == true)
-                .Where(o => !onlyUnSet || GetColumn(o.ColumnName)?.ChoiceHash?.Any() != true)
                 .ToList();
         }
 

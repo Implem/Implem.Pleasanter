@@ -3960,7 +3960,6 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.ItemsLimit.MessageJson();
             }
             var resultModel = new ResultModel(ss, 0, setByForm: true);
-            SetLinking(ss, resultModel);
             var invalid = ResultValidators.OnCreating(ss, resultModel);
             switch (invalid)
             {
@@ -3990,20 +3989,6 @@ namespace Implem.Pleasanter.Models
                     GetSwitchTargets(
                         ss, resultModel.ResultId, resultModel.SiteId).Join())
                             .ToJson();
-            }
-        }
-
-        private static void SetLinking(SiteSettings ss, ResultModel resultModel)
-        {
-            var siteId = Forms.Long("FromSiteId");
-            if (siteId > 0)
-            {
-                var column = ss.GetColumn(ss.Links
-                    .FirstOrDefault(o => o.SiteId == siteId).ColumnName);
-                if (resultModel.PropertyValue(column?.ColumnName) == Forms.Data("LinkId"))
-                {
-                    column.Linking = true;
-                }
             }
         }
 
