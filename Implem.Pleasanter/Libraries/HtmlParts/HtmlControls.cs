@@ -171,7 +171,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         attributes: new HtmlAttributes()
                             .Id(controlId)
                             .Class(Css.Class(
-                                "control-markdown" + (Contract.Images() && !readOnly && allowImage
+                                "control-markdown" + (CanUploadImage(readOnly, allowImage, preview)
                                     ? " upload-image"
                                     : string.Empty),
                                 controlCss))
@@ -184,14 +184,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlId: controlId,
                         readOnly: readOnly,
                         allowImage: allowImage,
-                        mobile: mobile)
+                        mobile: mobile,
+                        preview: preview)
                 : hb;
         }
 
         public static HtmlBuilder MarkDownCommands(
-            this HtmlBuilder hb, string controlId, bool readOnly, bool allowImage, bool mobile)
+            this HtmlBuilder hb,
+            string controlId,
+            bool readOnly,
+            bool allowImage,
+            bool mobile,
+            bool preview)
         {
-            return Contract.Images() && !readOnly && allowImage
+            return CanUploadImage(readOnly, allowImage, preview)
                 ? hb
                     .Div(
                         attributes: new HtmlAttributes()
@@ -209,6 +215,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         accept: "image/*",
                         dataId: controlId)
                 : hb;
+        }
+
+        private static bool CanUploadImage(bool readOnly, bool allowImage, bool preview)
+        {
+            return Contract.Images() && !readOnly && allowImage && !preview;
         }
 
         public static HtmlBuilder MarkUp(

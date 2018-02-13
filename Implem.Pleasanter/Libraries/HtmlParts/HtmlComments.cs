@@ -72,7 +72,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlId: "Comments",
                             readOnly: false,
                             allowImage: allowImage,
-                            mobile: mobile))
+                            mobile: mobile,
+                            preview: false))
                 : hb;
         }
 
