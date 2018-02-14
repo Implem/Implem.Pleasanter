@@ -51,7 +51,7 @@ https://pleasanter.azurewebsites.net
 |.NET Framework 4.5|導入済|導入済|◯|-|
 |IIS|◯|◯|◯|-|
 |ASP.NET 4.5|◯|◯|◯|-|
-|SQL Server 2014/2016|◯|◯|◯|-|
+|SQL Server 2014/2016/2017|◯|◯|◯|-|
 |Web Deploy v3.5|◯|◯|◯|-|
 |Microsoft Azure Web App|-|-|-|◯|
 |Microsoft Azure SQL Database|-|-|-|◯|
