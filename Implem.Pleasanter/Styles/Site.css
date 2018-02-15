@@ -2659,10 +2659,15 @@ h3.title-header{
     margin:0px 5px 0px 0px;
 }
 
-textarea:focus{
-    background-color:#ffffcc;
-}
-    
 input:focus{
     background-color:#ffffcc;
 }
+
+select:focus:not(.has-css){
+    background-color:#ffffcc;
+}
+
+textarea:focus{
+    background-color:#ffffcc;
+}
+

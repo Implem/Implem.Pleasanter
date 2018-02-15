@@ -261,7 +261,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.Select(
                     attributes: new HtmlAttributes()
                         .Id(controlId)
-                        .Class(Css.Class("control-dropdown", controlCss))
+                        .Class(Css.Class(
+                            "control-dropdown" + (optionCollection.Any(o =>
+                                !o.Value.Css.IsNullOrEmpty() ||
+                                !o.Value.Style.IsNullOrEmpty())
+                                    ? " has-css"
+                                    : string.Empty),
+                            controlCss))
                         .Multiple(multiple)
                         .Disabled(disabled)
                         .OnChange(onChange)
