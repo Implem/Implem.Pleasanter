@@ -475,7 +475,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public DateTime DefaultTime()
         {
-            return DateTime.Now.ToLocal().AddDays(DefaultInput.ToInt());
+            return DateTime.Now.AddDays(DefaultInput.ToInt());
         }
 
         public SqlColumnCollection SqlColumnCollection(SiteSettings ss)
