@@ -2389,6 +2389,9 @@ namespace Implem.DefinitionAccessor
                     case "_dot_menu_sort_space___space_li": Css._dot_menu_sort_space___space_li = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_colon_hover": Css._dot_menu_sort_space___space_li_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_colon_hover, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space___space__asterisk_, definitionRow, CssXls); break;
+                    case "input_colon_focus": Css.input_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.input_colon_focus, definitionRow, CssXls); break;
+                    case "select_colon_focus": Css.select_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.select_colon_focus, definitionRow, CssXls); break;
+                    case "textarea_colon_focus": Css.textarea_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.textarea_colon_focus, definitionRow, CssXls); break;
                     default: break;
                 }
             });
@@ -8214,6 +8217,9 @@ namespace Implem.DefinitionAccessor
         public string _dot_menu_sort_space___space_li;
         public string _dot_menu_sort_space___space_li_colon_hover;
         public string _dot_menu_sort_space___space_li_space___space__asterisk_;
+        public string input_colon_focus;
+        public string select_colon_focus;
+        public string textarea_colon_focus;
     }
 
     public class CssTable
@@ -8669,6 +8675,9 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_menu_sort_space___space_li = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_colon_hover = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_space___space__asterisk_ = new CssDefinition();
+        public CssDefinition input_colon_focus = new CssDefinition();
+        public CssDefinition select_colon_focus = new CssDefinition();
+        public CssDefinition textarea_colon_focus = new CssDefinition();
     }
 
     public class DemoDefinition
