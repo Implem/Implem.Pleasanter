@@ -5210,7 +5210,7 @@ namespace Implem.Pleasanter.Models
             switch (column.ColumnName)
             {
                 case "CompletionTime":
-                    recordingData = recordingData.ToDateTime().AddDays(1).ToString();
+                    recordingData = recordingData.ToDateTime().ToUniversal().AddDays(1).ToString();
                     break;
             }
             return recordingData;
