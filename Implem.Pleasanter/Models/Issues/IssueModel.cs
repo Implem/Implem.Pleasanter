@@ -4363,7 +4363,7 @@ namespace Implem.Pleasanter.Models
                             DateZ = column.DefaultTime();
                             break;
                         case "CompletionTime":
-                            CompletionTime = new CompletionTime(column.DefaultTime(), Status, byForm: true);
+                            CompletionTime = new CompletionTime(column.DefaultTime(), Status);
                             break;
                     }
                 });
