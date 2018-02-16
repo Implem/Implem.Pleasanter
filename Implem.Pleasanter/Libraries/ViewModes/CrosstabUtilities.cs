@@ -129,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }
             if (diff != 0)
             {
-                columnBracket = "dateadd(hour,{0},{1})".Params(diff, columnBracket);
+                columnBracket = $"dateadd(hour,{diff},{columnBracket})";
             }
             return columnBracket;
         }
