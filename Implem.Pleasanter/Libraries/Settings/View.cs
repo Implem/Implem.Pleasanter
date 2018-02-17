@@ -666,7 +666,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where.Add(
                     tableName: tableName,
                     columnBrackets: new string[] { "[Status]" },
-                    _operator: "<{0}".Params(Parameters.General.CompletionCode));
+                    _operator: "<" + Parameters.General.CompletionCode);
             }
             if (Own == true)
             {
