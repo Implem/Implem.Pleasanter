@@ -1,4 +1,18 @@
-﻿$p.paging = function (selector) {
+﻿$p.saveScroll = function () {
+    $p.scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+    $p.scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+}
+
+$p.loadScroll = function () {
+    window.scroll($p.scrollX, $p.scrollY);
+}
+
+$p.clearScroll = function () {
+    $p.scrollX = 0;
+    $p.scrollY = 0;
+}
+
+$p.paging = function (selector) {
     var $control = $(selector);
     var $offset = $(selector + 'Offset');
     if ($control.length) {

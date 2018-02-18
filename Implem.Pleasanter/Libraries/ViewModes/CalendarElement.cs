@@ -1,19 +1,32 @@
-﻿using System;
+﻿using Implem.Libraries.Utilities;
+using System;
 namespace Implem.Pleasanter.Libraries.ViewModes
 {
+    [Serializable]
     public class CalendarElement
     {
         public long Id;
         public string Title;
-        public DateTime Date;
-        public DateTime Time;
+        public string Time;
+        public DateTime From;
+        public DateTime? To;
+        [NonSerialized]
+        public DateTime UpdatedTime;
 
-        public CalendarElement(long id, string title, DateTime time)
+        public CalendarElement(
+            long id,
+            string title,
+            string time,
+            DateTime from,
+            DateTime to,
+            DateTime updatedTime)
         {
             Id = id;
             Title = title;
-            Date = time.Date;
             Time = time;
+            From = from;
+            if (to.InRange()) To = to;
+            UpdatedTime = updatedTime;
         }
     }
 }

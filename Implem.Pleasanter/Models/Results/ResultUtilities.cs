@@ -5032,7 +5032,8 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var gridData = GetGridData(ss, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
-            var columnName = view.GetCalendarColumn(ss);
+            var fromColumn = ss.GetColumn(view.GetCalendarFromColumn(ss));
+            var toColumn = ss.GetColumn(view.GetCalendarToColumn(ss));
             var month = view.CalendarMonth != null
                 ? view.CalendarMonth.ToDateTime()
                 : DateTime.Now;
@@ -5041,7 +5042,8 @@ namespace Implem.Pleasanter.Models
             var dataRows = CalendarDataRows(
                 ss,
                 view,
-                columnName,
+                fromColumn,
+                toColumn,
                 Calendars.BeginDate(month),
                 Calendars.EndDate(month));
             var inRange = dataRows.Count() <= Parameters.General.CalendarLimit;
@@ -5059,7 +5061,8 @@ namespace Implem.Pleasanter.Models
                 viewModeBody: () => hb
                     .Calendar(
                         ss: ss,
-                        columnName: columnName,
+                        fromColumn: fromColumn,
+                        toColumn: toColumn,
                         month: month,
                         begin: begin,
                         dataRows: dataRows,
@@ -5069,7 +5072,7 @@ namespace Implem.Pleasanter.Models
 
         public static string UpdateByCalendar(SiteSettings ss)
         {
-            var resultModel = new ResultModel(ss, Forms.Long("CalendarId"), setByForm: true);
+            var resultModel = new ResultModel(ss, Forms.Long("Id"), setByForm: true);
             var invalid = ResultValidators.OnUpdating(ss, resultModel);
             switch (invalid)
             {
@@ -5082,10 +5085,13 @@ namespace Implem.Pleasanter.Models
             }
             resultModel.VerUp = Versions.MustVerUp(resultModel);
             resultModel.Update(ss, notice: true);
-            return CalendarJson(ss);
+            return CalendarJson(
+                ss: ss,
+                update: true,
+                message: Messages.Updated(resultModel.Title.DisplayValue));
         }
 
-        public static string CalendarJson(SiteSettings ss)
+        public static string CalendarJson(SiteSettings ss, bool update = false, Message message = null)
         {
             if (!ss.EnableViewMode("Calendar"))
             {
@@ -5094,7 +5100,8 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var gridData = GetGridData(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("Calendar");
-            var columnName = view.GetCalendarColumn(ss);
+            var fromColumn = ss.GetColumn(view.GetCalendarFromColumn(ss));
+            var toColumn = ss.GetColumn(view.GetCalendarToColumn(ss));
             var month = view.CalendarMonth != null
                 ? view.CalendarMonth.ToDateTime()
                 : DateTime.Now;
@@ -5103,7 +5110,8 @@ namespace Implem.Pleasanter.Models
             var dataRows = CalendarDataRows(
                 ss,
                 view,
-                columnName,
+                fromColumn,
+                toColumn,
                 Calendars.BeginDate(month),
                 Calendars.EndDate(month));
             return dataRows.Count() <= Parameters.General.CalendarLimit
@@ -5112,7 +5120,8 @@ namespace Implem.Pleasanter.Models
                         !bodyOnly ? "#ViewModeContainer" : "#CalendarBody",
                         new HtmlBuilder().Calendar(
                             ss: ss,
-                            columnName: columnName,
+                            fromColumn: fromColumn,
+                            toColumn: toColumn,
                             month: month,
                             begin: begin,
                             dataRows: dataRows,
@@ -5125,13 +5134,16 @@ namespace Implem.Pleasanter.Models
                         aggregations: gridData.Aggregations))
                     .ClearFormData()
                     .Invoke("setCalendar")
+                    .LoadScroll(_using: update)
+                    .Message(message)
                     .ToJson()
                 : new ResponseCollection()
                     .Html(
                         !bodyOnly ? "#ViewModeContainer" : "#CalendarBody",
                         new HtmlBuilder().Calendar(
                             ss: ss,
-                            columnName: columnName,
+                            fromColumn: fromColumn,
+                            toColumn: toColumn,
                             month: month,
                             begin: begin,
                             dataRows: dataRows,
@@ -5148,101 +5160,33 @@ namespace Implem.Pleasanter.Models
         }
 
         private static EnumerableRowCollection<DataRow> CalendarDataRows(
-            SiteSettings ss, View view, string columnName, DateTime begin, DateTime end)
+            SiteSettings ss,
+            View view,
+            Column fromColumn,
+            Column toColumn,
+            DateTime begin,
+            DateTime end)
         {
             var where = Rds.ResultsWhere();
-            switch (columnName)
+            if (toColumn == null)
             {
-                case "UpdatedTime": 
-                    where.UpdatedTime_Between(begin, end);
-                    break;
-                case "DateA": 
-                    where.DateA_Between(begin, end);
-                    break;
-                case "DateB": 
-                    where.DateB_Between(begin, end);
-                    break;
-                case "DateC": 
-                    where.DateC_Between(begin, end);
-                    break;
-                case "DateD": 
-                    where.DateD_Between(begin, end);
-                    break;
-                case "DateE": 
-                    where.DateE_Between(begin, end);
-                    break;
-                case "DateF": 
-                    where.DateF_Between(begin, end);
-                    break;
-                case "DateG": 
-                    where.DateG_Between(begin, end);
-                    break;
-                case "DateH": 
-                    where.DateH_Between(begin, end);
-                    break;
-                case "DateI": 
-                    where.DateI_Between(begin, end);
-                    break;
-                case "DateJ": 
-                    where.DateJ_Between(begin, end);
-                    break;
-                case "DateK": 
-                    where.DateK_Between(begin, end);
-                    break;
-                case "DateL": 
-                    where.DateL_Between(begin, end);
-                    break;
-                case "DateM": 
-                    where.DateM_Between(begin, end);
-                    break;
-                case "DateN": 
-                    where.DateN_Between(begin, end);
-                    break;
-                case "DateO": 
-                    where.DateO_Between(begin, end);
-                    break;
-                case "DateP": 
-                    where.DateP_Between(begin, end);
-                    break;
-                case "DateQ": 
-                    where.DateQ_Between(begin, end);
-                    break;
-                case "DateR": 
-                    where.DateR_Between(begin, end);
-                    break;
-                case "DateS": 
-                    where.DateS_Between(begin, end);
-                    break;
-                case "DateT": 
-                    where.DateT_Between(begin, end);
-                    break;
-                case "DateU": 
-                    where.DateU_Between(begin, end);
-                    break;
-                case "DateV": 
-                    where.DateV_Between(begin, end);
-                    break;
-                case "DateW": 
-                    where.DateW_Between(begin, end);
-                    break;
-                case "DateX": 
-                    where.DateX_Between(begin, end);
-                    break;
-                case "DateY": 
-                    where.DateY_Between(begin, end);
-                    break;
-                case "DateZ": 
-                    where.DateZ_Between(begin, end);
-                    break;
-                case "CreatedTime": 
-                    where.CreatedTime_Between(begin, end);
-                    break;
+                where.Add(
+                    raw: $"[Results].[{fromColumn.ColumnName}] between '{begin}' and '{end}'");
+            }
+            else
+            {
+                where.Or(or: Rds.ResultsWhere()
+                    .Add(raw: $"[Results].[{fromColumn.ColumnName}] between '{begin}' and '{end}'")
+                    .Add(raw: $"[Results].[{toColumn.ColumnName}] between '{begin}' and '{end}'")
+                    .Add(raw: $"[Results].[{fromColumn.ColumnName}]<='{begin}' and [Results].[{toColumn.ColumnName}]>='{end}'"));
             }
             return Rds.ExecuteTable(statements:
                 Rds.SelectResults(
                     column: Rds.ResultsTitleColumn(ss)
-                        .ResultId()
-                        .ResultsColumn(columnName, _as: "Date")
+                        .ResultId(_as: "Id")
+                        .ResultsColumn(fromColumn.ColumnName, _as: "From")
+                        .ResultsColumn(toColumn?.ColumnName, _as: "To")
+                        .UpdatedTime()
                         .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType)),
                     join: ss.Join(),
                     where: view.Where(ss: ss, where: where)))
@@ -5252,7 +5196,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Calendar(
             this HtmlBuilder hb,
             SiteSettings ss,
-            string columnName,
+            Column fromColumn,
+            Column toColumn,
             DateTime month,
             DateTime begin,
             EnumerableRowCollection<DataRow> dataRows,
@@ -5262,14 +5207,16 @@ namespace Implem.Pleasanter.Models
             return !bodyOnly
                 ? hb.Calendar(
                     ss: ss,
-                    columnName: columnName,
+                    fromColumn: fromColumn,
+                    toColumn: toColumn,
                     month: month,
                     begin: begin,
                     dataRows: dataRows,
                     inRange: inRange)
                 : hb.CalendarBody(
                     ss: ss,
-                    column: ss.GetColumn(columnName),
+                    fromColumn: fromColumn,
+                    toColumn: toColumn,
                     month: month,
                     begin: begin,
                     dataRows: dataRows,
