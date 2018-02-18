@@ -10,12 +10,18 @@ $p.setCalendar = function () {
     var hash = {};
     $('#Calendar .container > div > div:not(.day)').remove();
     data.forEach(function (element) {
-        var current = new Date(element.From);
+        var begin = new Date($('#Calendar .container:first').attr('data-id'));
+        var end = new Date($('#Calendar .container:last').attr('data-id'));
+        var current = new Date(element.From) > begin
+            ? new Date(element.From)
+            : begin;
         rank = Rank(hash, $p.shortDateString(current));
         addItem(hash, element, current);
         if (element.To !== undefined) {
             current.setDate(current.getDate() + 1);
-            var to = new Date(element.To);
+            var to = new Date(element.To) < end
+                ? new Date(element.To)
+                : end;
             while (to >= current) {
                 if (current.getDay() === 1) {
                     rank = Rank(hash, $p.shortDateString(current));
