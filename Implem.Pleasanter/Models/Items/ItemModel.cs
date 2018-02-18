@@ -332,6 +332,38 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string ImageLib()
+        {
+            SetSite();
+            ViewModes.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.ImageLib(
+                    ss: Site.IssuesSiteSettings(
+                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                case "Results": return ResultUtilities.ImageLib(
+                    ss: Site.ResultsSiteSettings(
+                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
+            }
+        }
+
+        public string ImageLibJson()
+        {
+            SetSite();
+            ViewModes.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.ImageLibJson(
+                    ss: Site.IssuesSiteSettings(
+                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                case "Results": return ResultUtilities.ImageLibJson(
+                    ss: Site.ResultsSiteSettings(
+                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
         public string New()
         {
             SetSite(siteOnly: true, initSiteSettings: true);

@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? BurnDown;
         public bool? TimeSeries;
         public bool? Kamban;
+        public bool? ImageLib;
         public string Body;
 
         public Style()
@@ -34,6 +35,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool burnDown,
             bool timeSeries,
             bool kamban,
+            bool imageLib,
             string body)
         {
             Id = id;
@@ -48,6 +50,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             BurnDown = burnDown;
             TimeSeries = timeSeries;
             Kamban = kamban;
+            ImageLib = imageLib;
             Body = body;
         }
 
@@ -63,6 +66,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool burnDown,
             bool timeSeries,
             bool kamban,
+            bool imageLib,
             string body)
         {
             Title = title;
@@ -76,6 +80,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             BurnDown = burnDown;
             TimeSeries = timeSeries;
             Kamban = kamban;
+            ImageLib = imageLib;
             Body = body;
         }
 
@@ -99,6 +104,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (BurnDown == true) style.BurnDown = true;
                 if (TimeSeries == true) style.TimeSeries = true;
                 if (Kamban == true) style.Kamban = true;
+                if (ImageLib == true) style.ImageLib = true;
             }
             style.Body = Body;
             return style;

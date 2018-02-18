@@ -259,6 +259,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlCalendar.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlCrosstab.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlExport.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlImageLib.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Initializers\ParametersInitializer.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
@@ -547,6 +548,7 @@
     <Content Include="Scripts\BasketEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
+    <Content Include="Scripts\ImageLib.js" />
     <Content Include="Scripts\Video.js" />
     <Content Include="Scripts\Crosstab.js" />
     <Content Include="Scripts\Calendar.js" />
@@ -1279,9 +1281,11 @@
     <Content Include="Views\Errors\BadRequest.cshtml" />
     <Content Include="Views\Items\Crosstab.cshtml" />
     <Content Include="App_Data\Displays\AllowImage.json" />
+    <Content Include="App_Data\Displays\ImageLib.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
+    <Content Include="Views\Items\ImageLib.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
