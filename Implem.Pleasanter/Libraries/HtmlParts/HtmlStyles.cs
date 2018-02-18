@@ -9,14 +9,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlStyles
     {
         public static HtmlBuilder Styles(
-            this HtmlBuilder hb, SiteSettings ss, string userStyle)
+            this HtmlBuilder hb, SiteSettings ss = null, string userStyle = null)
         {
             return hb
                 .Style(
                     style: Parameters.ExtendedStyles?.Join("\n"),
                     _using: Parameters.ExtendedStyles?.Any() == true)
                 .Style(
-                    style: ss.GetStyleBody(o => o.All == true),
+                    style: ss?.GetStyleBody(o => o.All == true),
                     _using: Contract.Style() && ss?.Styles?.Any() == true)
                 .Style(
                     style: userStyle,

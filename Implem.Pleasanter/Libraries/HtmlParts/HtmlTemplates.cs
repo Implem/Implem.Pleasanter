@@ -50,11 +50,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .HiddenData()
                 .VideoDialog(ss: ss)
                 .Styles(ss: ss, userStyle: userStyle)
-                .Scripts(
-                    ss: ss,
-                    script: script,
-                    userScript: userScript,
-                    referenceType: referenceType);
+                .Scripts(ss: ss, script: script, userScript: userScript);
         }
 
         public static HtmlBuilder MainContainer(
@@ -227,6 +223,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useTitle: false,
                     useNavigationMenu: true)
                 .HiddenData()
+                .Styles()
+                .Scripts()
                 .ToString();
         }
     }
