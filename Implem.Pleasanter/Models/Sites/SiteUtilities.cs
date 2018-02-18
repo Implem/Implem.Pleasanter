@@ -1239,6 +1239,16 @@ namespace Implem.Pleasanter.Models
                                     _using: Def.ViewModeDefinitionCollection
                                         .Where(o => o.Name == "Kamban")
                                         .Any(o => o.ReferenceType == siteModel.ReferenceType))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ImageLibSettingsEditor",
+                                            text: Displays.ImageLib()),
+                                    _using: 
+                                        Contract.Images() &&
+                                        Def.ViewModeDefinitionCollection
+                                            .Where(o => o.Name == "ImageLib")
+                                            .Any(o => o.ReferenceType == siteModel.ReferenceType))
                                 .Li(action: () => hb
                                     .A(
                                         href: "#SearchSettingsEditor",
@@ -2083,6 +2093,7 @@ namespace Implem.Pleasanter.Models
                             .BurnDownSettingsEditor(siteModel.SiteSettings)
                             .TimeSeriesSettingsEditor(siteModel.SiteSettings)
                             .KambanSettingsEditor(siteModel.SiteSettings)
+                            .ImageLibSettingsEditor(siteModel.SiteSettings)
                             .SearchSettingsEditor(siteModel.SiteSettings)
                             .MailSettingsEditor(siteModel.SiteSettings)
                             .SiteIntegrationEditor(siteModel.SiteSettings)
@@ -5488,6 +5499,24 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder ImageLibSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            if (!Contract.Images()) return hb;
+            return Def.ViewModeDefinitionCollection
+                .Where(o => o.Name == "ImageLib")
+                .Any(o => o.ReferenceType == ss.ReferenceType)
+                    ? hb.FieldSet(id: "ImageLibSettingsEditor", action: () => hb
+                        .FieldCheckBox(
+                            controlId: "EnableImageLib",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Enabled(),
+                            _checked: ss.EnableImageLib == true))
+                    : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder SearchSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(id: "SearchSettingsEditor", action: () => hb
@@ -5662,7 +5691,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.TimeSeries()))
                     .Th(action: () => hb
-                        .Text(text: Displays.Kamban()))));
+                        .Text(text: Displays.Kamban()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.ImageLib()))));
         }
 
         /// <summary>
@@ -5726,7 +5757,11 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: style.Kamban == true)))));
+                                    _using: style.Kamban == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: style.ImageLib == true)))));
         }
 
         /// <summary>
@@ -5829,7 +5864,13 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: outputDestinationCss,
                                 controlCss: " always-send",
                                 labelText: Displays.Kamban(),
-                                _checked: style.Kamban == true))
+                                _checked: style.Kamban == true)
+                            .FieldCheckBox(
+                                controlId: "StyleImageLib",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.ImageLib(),
+                                _checked: style.ImageLib == true))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -5956,7 +5997,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.TimeSeries()))
                     .Th(action: () => hb
-                        .Text(text: Displays.Kamban()))));
+                        .Text(text: Displays.Kamban()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.ImageLib()))));
         }
 
         /// <summary>
@@ -6020,7 +6063,11 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: script.Kamban == true)))));
+                                    _using: script.Kamban == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.ImageLib == true)))));
         }
 
         /// <summary>
@@ -6123,7 +6170,13 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: outputDestinationCss,
                                 controlCss: " always-send",
                                 labelText: Displays.Kamban(),
-                                _checked: script.Kamban == true))
+                                _checked: script.Kamban == true)
+                            .FieldCheckBox(
+                                controlId: "ScriptImageLib",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.ImageLib(),
+                                _checked: script.ImageLib == true))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

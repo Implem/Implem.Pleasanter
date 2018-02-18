@@ -96,6 +96,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EnableBurnDown;
         public bool? EnableTimeSeries;
         public bool? EnableKamban;
+        public bool? EnableImageLib;
         public string TitleSeparator = ")";
         public SearchTypes? SearchType;
         public string AddressBook;
@@ -200,6 +201,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             EnableBurnDown = EnableBurnDown ?? true;
             EnableTimeSeries = EnableTimeSeries ?? true;
             EnableKamban = EnableKamban ?? true;
+            EnableImageLib = EnableImageLib ?? true;
             var request = new Request();
             Mobile = request.IsMobile();
         }
@@ -388,6 +390,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (EnableKamban == false)
             {
                 ss.EnableKamban = EnableKamban;
+            }
+            if (EnableImageLib == false)
+            {
+                ss.EnableImageLib = EnableImageLib;
             }
             if (TitleSeparator != ")")
             {
@@ -1853,6 +1859,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "EnableBurnDown": EnableBurnDown = value.ToBool(); break;
                 case "EnableTimeSeries": EnableTimeSeries = value.ToBool(); break;
                 case "EnableKamban": EnableKamban = value.ToBool(); break;
+                case "EnableImageLib": EnableImageLib = value.ToBool(); break;
                 case "SearchType": SearchType = (SearchTypes)value.ToInt(); break;
                 case "AddressBook": AddressBook = value; break;
                 case "MailToDefault": MailToDefault = value; break;
@@ -2534,6 +2541,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "BurnDown": return canRead && EnableBurnDown == true;
                 case "TimeSeries": return canRead && EnableTimeSeries == true;
                 case "Kamban": return canRead && EnableKamban == true;
+                case "ImageLib": return Contract.Images() && canRead && EnableImageLib == true;
                 default: return false;
             }
         }
@@ -2773,6 +2781,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     return GetStyleBody(o => o.TimeSeries == true);
                 case "kamban":
                     return GetStyleBody(o => o.Kamban == true);
+                case "imagelib":
+                    return GetStyleBody(o => o.ImageLib == true);
                 default:
                     return null;
             }
@@ -2816,6 +2826,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     return GetScriptBody(o => o.TimeSeries == true);
                 case "kamban":
                     return GetScriptBody(o => o.Kamban == true);
+                case "imagelib":
+                    return GetScriptBody(o => o.ImageLib == true);
                 default:
                     return null;
             }

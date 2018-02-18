@@ -2880,6 +2880,7 @@ namespace Implem.Pleasanter.Models
                 burnDown: Forms.Bool("StyleBurnDown"),
                 timeSeries: Forms.Bool("StyleTimeSeries"),
                 kamban: Forms.Bool("StyleKamban"),
+                imageLib: Forms.Bool("StyleImageLib"),
                 body: Forms.Data("StyleBody")));
             res
                 .ReplaceAll("#EditStyle", new HtmlBuilder()
@@ -2906,6 +2907,7 @@ namespace Implem.Pleasanter.Models
                     burnDown: Forms.Bool("StyleBurnDown"),
                     timeSeries: Forms.Bool("StyleTimeSeries"),
                     kamban: Forms.Bool("StyleKamban"),
+                    imageLib: Forms.Bool("StyleImageLib"),
                     body: Forms.Data("StyleBody"));
             res
                 .Html("#EditStyle", new HtmlBuilder()
@@ -3002,6 +3004,7 @@ namespace Implem.Pleasanter.Models
                 burnDown: Forms.Bool("ScriptBurnDown"),
                 timeSeries: Forms.Bool("ScriptTimeSeries"),
                 kamban: Forms.Bool("ScriptKamban"),
+                imageLib: Forms.Bool("ScriptImageLib"),
                 body: Forms.Data("ScriptBody")));
             res
                 .ReplaceAll("#EditScript", new HtmlBuilder()
@@ -3028,6 +3031,7 @@ namespace Implem.Pleasanter.Models
                     burnDown: Forms.Bool("ScriptBurnDown"),
                     timeSeries: Forms.Bool("ScriptTimeSeries"),
                     kamban: Forms.Bool("ScriptKamban"),
+                    imageLib: Forms.Bool("ScriptImageLib"),
                     body: Forms.Data("ScriptBody"));
             res
                 .Html("#EditScript", new HtmlBuilder()

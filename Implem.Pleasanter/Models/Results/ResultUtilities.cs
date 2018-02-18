@@ -5803,6 +5803,84 @@ namespace Implem.Pleasanter.Models
             return KambanJson(ss);
         }
 
+        public static string ImageLib(SiteSettings ss)
+        {
+            if (!ss.EnableViewMode("ImageLib"))
+            {
+                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+            }
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(ss, view);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            return hb.ViewModeTemplate(
+                ss: ss,
+                gridData: gridData,
+                view: view,
+                viewMode: viewMode,
+                viewModeBody: () => hb
+                    .ImageLib(
+                        ss: ss,
+                        view: view,
+                        bodyOnly: false));
+        }
+
+        public static string ImageLibJson(SiteSettings ss)
+        {
+            if (!ss.EnableViewMode("ImageLib"))
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(ss, view);
+            var bodyOnly = Forms.ControlId().StartsWith("ImageLib");
+            return new ResponseCollection()
+                .Html(
+                    !bodyOnly ? "#ViewModeContainer" : "#ImageLibBody",
+                    new HtmlBuilder().ImageLib(
+                        ss: ss,
+                        view: view,
+                        bodyOnly: bodyOnly))
+                .View(ss: ss, view: view)
+                .ReplaceAll(
+                    "#Aggregations", new HtmlBuilder().Aggregations(
+                    ss: ss,
+                    aggregations: gridData.Aggregations))
+                .ClearFormData()
+                .Invoke("setImageLib")
+                .ToJson();
+        }
+
+        private static HtmlBuilder ImageLib(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            View view,
+            bool bodyOnly)
+        {
+            return !bodyOnly
+                ? hb.ImageLib(dataRows: ImageLibDataRows(ss, view))
+                : hb.ImageLibBody(ImageLibDataRows(ss, view));
+        }
+
+        private static EnumerableRowCollection<DataRow> ImageLibDataRows(
+            SiteSettings ss, View view)
+        {
+            return Rds.ExecuteTable(statements:
+                Rds.SelectResults(
+                    column: Rds.ResultsColumn()
+                        .ResultId(_as: "Id")
+                        .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType))
+                        .Add(tableName: "Binaries", columnBracket: "[Guid]"),
+                    join: Rds.ResultsJoinDefault()
+                        .Add(
+                            tableName: "Binaries",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Binaries].[ReferenceId]=[Results].[ResultId]"),
+                    where: view.Where(ss),
+                    orderBy: view.OrderBy(ss)))
+                        .AsEnumerable();
+        }
+
         public static void SetLinks(this List<ResultModel> results, SiteSettings ss)
         {
             var links = ss.GetUseSearchLinks();

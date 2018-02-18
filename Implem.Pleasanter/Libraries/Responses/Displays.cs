@@ -237,6 +237,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Hyphen(params string[] data) { return Get("Hyphen", data); }
         public static string Icon(params string[] data) { return Get("Icon", data); }
         public static string Id(params string[] data) { return Get("Id", data); }
+        public static string ImageLib(params string[] data) { return Get("ImageLib", data); }
         public static string Import(params string[] data) { return Get("Import", data); }
         public static string Imported(params string[] data) { return Get("Imported", data); }
         public static string ImportMax(params string[] data) { return Get("ImportMax", data); }

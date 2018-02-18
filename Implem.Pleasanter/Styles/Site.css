@@ -831,6 +831,20 @@ pre{
     right:0px;
 }
 
+#ImageLib .item{
+    width:250px;
+    height:250px;
+    float:left;
+    margin:10px 10px 0px 0px;
+    padding:10px;
+    border:solid 1px silver;
+    overflow:hidden;
+}
+
+#ImageLib .item .image{
+    margin:5px 0px 0px 0px;
+}
+
 #RecordHeader{
     width:100%;
     float:left;

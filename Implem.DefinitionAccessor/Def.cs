@@ -427,6 +427,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_TimeSeriesJsonCases": Code.Model_TimeSeriesJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TimeSeriesJsonCases, definitionRow, CodeXls); break;
                     case "Model_KambanCases": Code.Model_KambanCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_KambanCases, definitionRow, CodeXls); break;
                     case "Model_KambanJsonCases": Code.Model_KambanJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_KambanJsonCases, definitionRow, CodeXls); break;
+                    case "Model_ImageLibCases": Code.Model_ImageLibCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImageLibCases, definitionRow, CodeXls); break;
+                    case "Model_ImageLibJsonCases": Code.Model_ImageLibJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImageLibJsonCases, definitionRow, CodeXls); break;
                     case "Model_NewCases": Code.Model_NewCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NewCases, definitionRow, CodeXls); break;
                     case "Model_EditorCases": Code.Model_EditorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorCases, definitionRow, CodeXls); break;
                     case "Model_ImportCases": Code.Model_ImportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImportCases, definitionRow, CodeXls); break;
@@ -573,6 +575,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_TimeSeries": Code.Model_Utilities_TimeSeries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TimeSeries, definitionRow, CodeXls); break;
                     case "Model_Utilities_Kamban": Code.Model_Utilities_Kamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Kamban, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateByKamban": Code.Model_Utilities_UpdateByKamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByKamban, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ImageLib": Code.Model_Utilities_ImageLib = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImageLib, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetNoticeParam": Code.Model_Utilities_SetNoticeParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetNoticeParam, definitionRow, CodeXls); break;
                     case "Model_Utilities_SearchIndexes": Code.Model_Utilities_SearchIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes, definitionRow, CodeXls); break;
                     case "Model_Utilities_SearchIndexes_TableCases": Code.Model_Utilities_SearchIndexes_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes_TableCases, definitionRow, CodeXls); break;
@@ -2071,6 +2074,8 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_KambanBody_space__dot_kamban_item_colon_hover": Css._sharp_KambanBody_space__dot_kamban_item_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_KambanBody_space__dot_kamban_item_colon_hover, definitionRow, CssXls); break;
                     case "_sharp_KambanBody_space__dot_kamban_item_dot_changed": Css._sharp_KambanBody_space__dot_kamban_item_dot_changed = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_KambanBody_space__dot_kamban_item_dot_changed, definitionRow, CssXls); break;
                     case "_sharp_KambanBody_space__dot_kamban_item_space__dot_ui_icon": Css._sharp_KambanBody_space__dot_kamban_item_space__dot_ui_icon = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_KambanBody_space__dot_kamban_item_space__dot_ui_icon, definitionRow, CssXls); break;
+                    case "_sharp_ImageLib_space__dot_item": Css._sharp_ImageLib_space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ImageLib_space__dot_item, definitionRow, CssXls); break;
+                    case "_sharp_ImageLib_space__dot_item_space__dot_image": Css._sharp_ImageLib_space__dot_item_space__dot_image = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ImageLib_space__dot_item_space__dot_image, definitionRow, CssXls); break;
                     case "_sharp_RecordHeader": Css._sharp_RecordHeader = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_RecordHeader, definitionRow, CssXls); break;
                     case "_sharp_RecordInfo": Css._sharp_RecordInfo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_RecordInfo, definitionRow, CssXls); break;
                     case "_sharp_RecordInfo_space_div": Css._sharp_RecordInfo_space_div = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_RecordInfo_space_div, definitionRow, CssXls); break;
@@ -3632,11 +3637,13 @@ namespace Implem.DefinitionAccessor
                     case "Issues_BurnDown": ViewMode.Issues_BurnDown = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_BurnDown, definitionRow, ViewModeXls); break;
                     case "Issues_TimeSeries": ViewMode.Issues_TimeSeries = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_TimeSeries, definitionRow, ViewModeXls); break;
                     case "Issues_Kamban": ViewMode.Issues_Kamban = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Kamban, definitionRow, ViewModeXls); break;
+                    case "Issues_ImageLib": ViewMode.Issues_ImageLib = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_ImageLib, definitionRow, ViewModeXls); break;
                     case "Results_Index": ViewMode.Results_Index = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Index, definitionRow, ViewModeXls); break;
                     case "Results_Calendar": ViewMode.Results_Calendar = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Calendar, definitionRow, ViewModeXls); break;
                     case "Results_Crosstab": ViewMode.Results_Crosstab = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Crosstab, definitionRow, ViewModeXls); break;
                     case "Results_TimeSeries": ViewMode.Results_TimeSeries = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_TimeSeries, definitionRow, ViewModeXls); break;
                     case "Results_Kamban": ViewMode.Results_Kamban = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Kamban, definitionRow, ViewModeXls); break;
+                    case "Results_ImageLib": ViewMode.Results_ImageLib = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_ImageLib, definitionRow, ViewModeXls); break;
                     default: break;
                 }
             });
@@ -4707,6 +4714,8 @@ namespace Implem.DefinitionAccessor
         public string Model_TimeSeriesJsonCases;
         public string Model_KambanCases;
         public string Model_KambanJsonCases;
+        public string Model_ImageLibCases;
+        public string Model_ImageLibJsonCases;
         public string Model_NewCases;
         public string Model_EditorCases;
         public string Model_ImportCases;
@@ -4853,6 +4862,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_TimeSeries;
         public string Model_Utilities_Kamban;
         public string Model_Utilities_UpdateByKamban;
+        public string Model_Utilities_ImageLib;
         public string Model_Utilities_SetNoticeParam;
         public string Model_Utilities_SearchIndexes;
         public string Model_Utilities_SearchIndexes_TableCases;
@@ -5225,6 +5235,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_TimeSeriesJsonCases = new CodeDefinition();
         public CodeDefinition Model_KambanCases = new CodeDefinition();
         public CodeDefinition Model_KambanJsonCases = new CodeDefinition();
+        public CodeDefinition Model_ImageLibCases = new CodeDefinition();
+        public CodeDefinition Model_ImageLibJsonCases = new CodeDefinition();
         public CodeDefinition Model_NewCases = new CodeDefinition();
         public CodeDefinition Model_EditorCases = new CodeDefinition();
         public CodeDefinition Model_ImportCases = new CodeDefinition();
@@ -5371,6 +5383,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_TimeSeries = new CodeDefinition();
         public CodeDefinition Model_Utilities_Kamban = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateByKamban = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ImageLib = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetNoticeParam = new CodeDefinition();
         public CodeDefinition Model_Utilities_SearchIndexes = new CodeDefinition();
         public CodeDefinition Model_Utilities_SearchIndexes_TableCases = new CodeDefinition();
@@ -7906,6 +7919,8 @@ namespace Implem.DefinitionAccessor
         public string _sharp_KambanBody_space__dot_kamban_item_colon_hover;
         public string _sharp_KambanBody_space__dot_kamban_item_dot_changed;
         public string _sharp_KambanBody_space__dot_kamban_item_space__dot_ui_icon;
+        public string _sharp_ImageLib_space__dot_item;
+        public string _sharp_ImageLib_space__dot_item_space__dot_image;
         public string _sharp_RecordHeader;
         public string _sharp_RecordInfo;
         public string _sharp_RecordInfo_space_div;
@@ -8373,6 +8388,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_KambanBody_space__dot_kamban_item_colon_hover = new CssDefinition();
         public CssDefinition _sharp_KambanBody_space__dot_kamban_item_dot_changed = new CssDefinition();
         public CssDefinition _sharp_KambanBody_space__dot_kamban_item_space__dot_ui_icon = new CssDefinition();
+        public CssDefinition _sharp_ImageLib_space__dot_item = new CssDefinition();
+        public CssDefinition _sharp_ImageLib_space__dot_item_space__dot_image = new CssDefinition();
         public CssDefinition _sharp_RecordHeader = new CssDefinition();
         public CssDefinition _sharp_RecordInfo = new CssDefinition();
         public CssDefinition _sharp_RecordInfo_space_div = new CssDefinition();
@@ -10823,11 +10840,13 @@ namespace Implem.DefinitionAccessor
         public string Issues_BurnDown;
         public string Issues_TimeSeries;
         public string Issues_Kamban;
+        public string Issues_ImageLib;
         public string Results_Index;
         public string Results_Calendar;
         public string Results_Crosstab;
         public string Results_TimeSeries;
         public string Results_Kamban;
+        public string Results_ImageLib;
     }
 
     public class ViewModeTable
@@ -10839,10 +10858,12 @@ namespace Implem.DefinitionAccessor
         public ViewModeDefinition Issues_BurnDown = new ViewModeDefinition();
         public ViewModeDefinition Issues_TimeSeries = new ViewModeDefinition();
         public ViewModeDefinition Issues_Kamban = new ViewModeDefinition();
+        public ViewModeDefinition Issues_ImageLib = new ViewModeDefinition();
         public ViewModeDefinition Results_Index = new ViewModeDefinition();
         public ViewModeDefinition Results_Calendar = new ViewModeDefinition();
         public ViewModeDefinition Results_Crosstab = new ViewModeDefinition();
         public ViewModeDefinition Results_TimeSeries = new ViewModeDefinition();
         public ViewModeDefinition Results_Kamban = new ViewModeDefinition();
+        public ViewModeDefinition Results_ImageLib = new ViewModeDefinition();
     }
 }
