@@ -14,10 +14,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Scripts(
             this HtmlBuilder hb,
-            SiteSettings ss,
-            string script,
-            string userScript,
-            string referenceType)
+            SiteSettings ss = null,
+            string script = null,
+            string userScript = null)
         {
             return !Request.IsAjax()
                 ? hb
@@ -35,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _using: Parameters.ExtendedScripts?.Any() == true)
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(
-                        script: ss.GetScriptBody(o => o.All == true),
+                        script: ss?.GetScriptBody(o => o.All == true),
                         _using: Contract.Script() && ss?.Scripts?.Any() == true)
                     .Script(
                         script: userScript,
