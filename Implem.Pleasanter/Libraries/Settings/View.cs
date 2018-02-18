@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, string> ColumnFilterHash;
         public string Search;
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
-        public string CalendarColumn;
+        public string CalendarFromTo;
         public DateTime? CalendarMonth;
         public string CrosstabGroupByX;
         public string CrosstabGroupByY;
@@ -52,6 +52,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? KambanAggregationView;
         // compatibility Version 1.008
         public string KambanGroupBy;
+        // compatibility Version 1.012
+        public string CalendarColumn;
 
         public View()
         {
@@ -73,13 +75,23 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
-        public string GetCalendarColumn(SiteSettings ss)
+        public string GetCalendarFromTo(SiteSettings ss)
         {
-            if (CalendarColumn.IsNullOrEmpty())
+            if (CalendarFromTo.IsNullOrEmpty())
             {
-                CalendarColumn = Definition(ss, "Calendar")?.Option1;
+                CalendarFromTo = Definition(ss, "Calendar")?.Option1;
             }
-            return CalendarColumn;
+            return CalendarFromTo;
+        }
+
+        public string GetCalendarFromColumn(SiteSettings ss)
+        {
+            return GetCalendarFromTo(ss).Split_1st('-');
+        }
+
+        public string GetCalendarToColumn(SiteSettings ss)
+        {
+            return GetCalendarFromTo(ss).Split_2nd('-');
         }
 
         public string GetCrosstabGroupByX(SiteSettings ss)
@@ -297,8 +309,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     case "ViewSorters":
                         SetSorters(ss);
                         break;
-                    case "CalendarColumn":
-                        CalendarColumn = String(controlId);
+                    case "CalendarFromTo":
+                        CalendarFromTo = String(controlId);
                         break;
                     case "CalendarMonth":
                         CalendarMonth = Time(controlId);
@@ -570,9 +582,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.Search = Search;
             }
-            if (!CalendarColumn.IsNullOrEmpty())
+            if (!CalendarFromTo.IsNullOrEmpty())
             {
-                view.CalendarColumn = CalendarColumn;
+                view.CalendarFromTo = CalendarFromTo;
             }
             if (!CrosstabGroupByX.IsNullOrEmpty())
             {

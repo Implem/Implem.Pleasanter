@@ -567,7 +567,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_NotNull": Code.Model_Utilities_NotNull = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_NotNull, definitionRow, CodeXls); break;
                     case "Model_Utilities_TitleDisplay": Code.Model_Utilities_TitleDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TitleDisplay, definitionRow, CodeXls); break;
                     case "Model_Utilities_Calendar": Code.Model_Utilities_Calendar = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Calendar, definitionRow, CodeXls); break;
-                    case "Model_Utilities_CalendarColumnCases": Code.Model_Utilities_CalendarColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CalendarColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_Crosstab": Code.Model_Utilities_Crosstab = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Crosstab, definitionRow, CodeXls); break;
                     case "Model_Utilities_Gantt": Code.Model_Utilities_Gantt = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Gantt, definitionRow, CodeXls); break;
                     case "Model_Utilities_BurnDown": Code.Model_Utilities_BurnDown = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BurnDown, definitionRow, CodeXls); break;
@@ -2007,9 +2006,18 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_CalendarBody_space__dot_sunday": Css._sharp_CalendarBody_space__dot_sunday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_sunday, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space_td": Css._sharp_CalendarBody_space_td = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_td, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space_td_space___space_div": Css._sharp_CalendarBody_space_td_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_td_space___space_div, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space_td_dot_drop_hover": Css._sharp_CalendarBody_space_td_dot_drop_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_td_dot_drop_hover, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space_td_dot_drop_hover_space__dot_day": Css._sharp_CalendarBody_space_td_dot_drop_hover_space__dot_day = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_td_dot_drop_hover_space__dot_day, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_other_month": Css._sharp_CalendarBody_space__dot_other_month = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_other_month, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_today": Css._sharp_CalendarBody_space__dot_today = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_today, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_item": Css._sharp_CalendarBody_space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_item_dot_hover": Css._sharp_CalendarBody_space__dot_item_dot_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item_dot_hover, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_item_space__dot_connection": Css._sharp_CalendarBody_space__dot_item_space__dot_connection = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item_space__dot_connection, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_item_space__dot_connection_dot_hover": Css._sharp_CalendarBody_space__dot_item_space__dot_connection_dot_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item_space__dot_connection_dot_hover, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_item_space__dot_title": Css._sharp_CalendarBody_space__dot_item_space__dot_title = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item_space__dot_title, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_item_space__dot_title_dot_sub": Css._sharp_CalendarBody_space__dot_item_space__dot_title_dot_sub = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item_space__dot_title_dot_sub, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_dragging": Css._sharp_CalendarBody_space__dot_dragging = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_dragging, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_dummy": Css._sharp_CalendarBody_space__dot_dummy = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_dummy, definitionRow, CssXls); break;
                     case "_sharp_Crosstab_space__dot_crosstab_row": Css._sharp_Crosstab_space__dot_crosstab_row = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Crosstab_space__dot_crosstab_row, definitionRow, CssXls); break;
                     case "_sharp_Crosstab_space__dot_saturday": Css._sharp_Crosstab_space__dot_saturday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Crosstab_space__dot_saturday, definitionRow, CssXls); break;
                     case "_sharp_Crosstab_space__dot_sunday": Css._sharp_Crosstab_space__dot_sunday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Crosstab_space__dot_sunday, definitionRow, CssXls); break;
@@ -2390,7 +2398,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_menu_sort_space___space_li_colon_hover": Css._dot_menu_sort_space___space_li_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_colon_hover, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space___space__asterisk_, definitionRow, CssXls); break;
                     case "input_colon_focus": Css.input_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.input_colon_focus, definitionRow, CssXls); break;
-                    case "select_colon_focus": Css.select_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.select_colon_focus, definitionRow, CssXls); break;
+                    case "select_colon_focus_colon_not__dot_has_css_": Css.select_colon_focus_colon_not__dot_has_css_ = definitionRow[1].ToString(); SetCssTable(CssTable.select_colon_focus_colon_not__dot_has_css_, definitionRow, CssXls); break;
                     case "textarea_colon_focus": Css.textarea_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.textarea_colon_focus, definitionRow, CssXls); break;
                     default: break;
                 }
@@ -4839,7 +4847,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_NotNull;
         public string Model_Utilities_TitleDisplay;
         public string Model_Utilities_Calendar;
-        public string Model_Utilities_CalendarColumnCases;
         public string Model_Utilities_Crosstab;
         public string Model_Utilities_Gantt;
         public string Model_Utilities_BurnDown;
@@ -5358,7 +5365,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_NotNull = new CodeDefinition();
         public CodeDefinition Model_Utilities_TitleDisplay = new CodeDefinition();
         public CodeDefinition Model_Utilities_Calendar = new CodeDefinition();
-        public CodeDefinition Model_Utilities_CalendarColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_Crosstab = new CodeDefinition();
         public CodeDefinition Model_Utilities_Gantt = new CodeDefinition();
         public CodeDefinition Model_Utilities_BurnDown = new CodeDefinition();
@@ -7835,9 +7841,18 @@ namespace Implem.DefinitionAccessor
         public string _sharp_CalendarBody_space__dot_sunday;
         public string _sharp_CalendarBody_space_td;
         public string _sharp_CalendarBody_space_td_space___space_div;
+        public string _sharp_CalendarBody_space_td_dot_drop_hover;
+        public string _sharp_CalendarBody_space_td_dot_drop_hover_space__dot_day;
         public string _sharp_CalendarBody_space__dot_other_month;
         public string _sharp_CalendarBody_space__dot_today;
         public string _sharp_CalendarBody_space__dot_item;
+        public string _sharp_CalendarBody_space__dot_item_dot_hover;
+        public string _sharp_CalendarBody_space__dot_item_space__dot_connection;
+        public string _sharp_CalendarBody_space__dot_item_space__dot_connection_dot_hover;
+        public string _sharp_CalendarBody_space__dot_item_space__dot_title;
+        public string _sharp_CalendarBody_space__dot_item_space__dot_title_dot_sub;
+        public string _sharp_CalendarBody_space__dot_dragging;
+        public string _sharp_CalendarBody_space__dot_dummy;
         public string _sharp_Crosstab_space__dot_crosstab_row;
         public string _sharp_Crosstab_space__dot_saturday;
         public string _sharp_Crosstab_space__dot_sunday;
@@ -8218,7 +8233,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_menu_sort_space___space_li_colon_hover;
         public string _dot_menu_sort_space___space_li_space___space__asterisk_;
         public string input_colon_focus;
-        public string select_colon_focus;
+        public string select_colon_focus_colon_not__dot_has_css_;
         public string textarea_colon_focus;
     }
 
@@ -8293,9 +8308,18 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_CalendarBody_space__dot_sunday = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space_td = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space_td_space___space_div = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space_td_dot_drop_hover = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space_td_dot_drop_hover_space__dot_day = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_other_month = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_today = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_item = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_item_dot_hover = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_item_space__dot_connection = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_item_space__dot_connection_dot_hover = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_item_space__dot_title = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_item_space__dot_title_dot_sub = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_dragging = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_dummy = new CssDefinition();
         public CssDefinition _sharp_Crosstab_space__dot_crosstab_row = new CssDefinition();
         public CssDefinition _sharp_Crosstab_space__dot_saturday = new CssDefinition();
         public CssDefinition _sharp_Crosstab_space__dot_sunday = new CssDefinition();
@@ -8676,7 +8700,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_menu_sort_space___space_li_colon_hover = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_space___space__asterisk_ = new CssDefinition();
         public CssDefinition input_colon_focus = new CssDefinition();
-        public CssDefinition select_colon_focus = new CssDefinition();
+        public CssDefinition select_colon_focus_colon_not__dot_has_css_ = new CssDefinition();
         public CssDefinition textarea_colon_focus = new CssDefinition();
     }
 

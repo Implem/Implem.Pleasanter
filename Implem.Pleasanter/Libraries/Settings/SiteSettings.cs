@@ -1618,12 +1618,22 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> CalendarColumnOptions()
         {
-            return Columns
+            var hash = new Dictionary<string, string>();
+            var startTime = GetColumn("StartTime");
+            var completionTime = GetColumn("CompletionTime");
+            if (startTime != null && completionTime != null)
+            {
+                hash.Add(
+                    $"{startTime.ColumnName}-{completionTime.ColumnName}",
+                    $"{startTime.GridLabelText} - {completionTime.GridLabelText}");
+            }
+            hash.AddRange(Columns
                 .Where(o => o.TypeName == "datetime")
                 .Where(o => !o.Joined)
                 .Where(o => o.CanRead)
                 .OrderBy(o => o.No)
-                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText));
+            return hash;
         }
 
         public Dictionary<string, string> CrosstabGroupByXOptions()

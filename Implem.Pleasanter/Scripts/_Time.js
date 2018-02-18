@@ -14,5 +14,18 @@ $p.dateDiff = function (type, date1, date2) {
 
 $p.shortDate = function (date) {
     if (date === undefined) date = new Date();
-    return new Date(date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate());
+    return new Date($p.shortDateString(date));
+}
+
+$p.shortDateString = function (date) {
+    if (date === undefined) date = new Date();
+    return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+}
+
+$p.dateTimeString = function (date) {
+    if (date === undefined) date = new Date();
+    return $p.shortDateString(date) +
+        (date.getHours() + date.getMinutes() !== 0
+            ? ' ' + date.getHours() + ':' + date.getMinutes()
+            : '');
 }

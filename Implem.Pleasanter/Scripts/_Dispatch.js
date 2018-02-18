@@ -113,6 +113,9 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
         case 'WindowScrollTop':
             $(window).scrollTop(value);
             break;
+        case 'LoadScroll':
+            $p.loadScroll();
+            break;
         case 'FocusMainForm':
             $p.focusMainForm();
             break;

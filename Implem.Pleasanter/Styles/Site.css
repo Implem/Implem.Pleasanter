@@ -500,12 +500,21 @@ pre{
 }
 
 #CalendarBody td{
+    padding:0px;
     border:solid 1px silver;
 }
 
 #CalendarBody td > div{
     min-height:50px;
-    padding:2px;
+    padding:5px;
+}
+
+#CalendarBody td.drop-hover{
+    background-color:gray;
+}
+
+#CalendarBody td.drop-hover .day{
+    color:white;
 }
 
 #CalendarBody .other-month{
@@ -514,14 +523,59 @@ pre{
 
 #CalendarBody .today{
     border:solid 2px blue;
+    z-index:20;
 }
 
 #CalendarBody .item{
-    height:18px;
-    margin:0px 0px 2px 0px;
+    height:25px;
+    margin:5px 0px 0px 0px;
     background-color:lightgoldenrodyellow;
     border:solid 1px silver;
+    border-radius:3px;
+}
+
+#CalendarBody .item.hover{
+    background-color:yellow;
+}
+
+#CalendarBody .item .connection{
+    width:14px;
+    height:25px;
+    background-color:lightgoldenrodyellow;
+    border-top:solid 1px silver;
+    border-bottom:solid 1px silver;
+    position:relative;
+    top:-1px;
+    left:-14px;
+}
+
+#CalendarBody .item .connection.hover{
+    background-color:yellow;
+}
+
+#CalendarBody .item .title{
+    padding:5px 0px;
+    position:absolute;
     overflow:hidden;
+    white-space:nowrap;
+    z-index:30;
+}
+
+#CalendarBody .item .title.sub{
+    display:none;
+}
+
+#CalendarBody .dragging{
+    height:25px;
+    padding:5px;
+    background-color:lightgoldenrodyellow;
+    border-radius:3px;
+    z-index:50;
+}
+
+#CalendarBody .dummy{
+    height:25px;
+    margin:5px 0px 0px 0px;
 }
 
 #Crosstab .crosstab-row{

@@ -4257,11 +4257,11 @@ namespace Implem.Pleasanter.Models
             return _using
                 ? hb.FieldSet(id: "ViewCalendarTab", action: () => hb
                     .FieldDropDown(
-                        controlId: "CalendarColumn",
+                        controlId: "CalendarFromTo",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Column(),
                         optionCollection: ss.CalendarColumnOptions(),
-                        selectedValue: view.GetCalendarColumn(ss)))
+                        selectedValue: view.GetCalendarFromTo(ss)))
                 : hb;
         }
 
