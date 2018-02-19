@@ -62,6 +62,9 @@ namespace Implem.ParameterAccessor.Parts
         public int KambanMinColumns;
         public int KambanMaxColumns;
         public int KambanColumns;
+        public int ImageLibPageSize;
+        public int ImageLibPageSizeMin;
+        public int ImageLibPageSizeMax;
         public int ImageSizeRegular;
         public int ImageSizeThumbnail;
         public int ImageSizeIcon;
