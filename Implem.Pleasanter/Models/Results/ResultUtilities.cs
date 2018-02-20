@@ -5855,30 +5855,34 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             View view,
-            bool bodyOnly)
+            bool bodyOnly,
+            int offset = 0)
         {
             return !bodyOnly
-                ? hb.ImageLib(dataRows: ImageLibDataRows(ss, view))
-                : hb.ImageLibBody(ImageLibDataRows(ss, view));
+                ? hb.ImageLib(ss: ss, imageLibData: new ImageLibData(
+                    ss, view, offset: offset, pageSize: ss.ImageLibPageSize.ToInt()))
+                : hb.ImageLibBody(imageLibData: new ImageLibData(
+                    ss, view, offset: offset, pageSize: ss.ImageLibPageSize.ToInt()));
         }
 
-        private static EnumerableRowCollection<DataRow> ImageLibDataRows(
-            SiteSettings ss, View view)
+        public static string ImageLibNext(SiteSettings ss, int offset)
         {
-            return Rds.ExecuteTable(statements:
-                Rds.SelectResults(
-                    column: Rds.ResultsColumn()
-                        .ResultId(_as: "Id")
-                        .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType))
-                        .Add(tableName: "Binaries", columnBracket: "[Guid]"),
-                    join: Rds.ResultsJoinDefault()
-                        .Add(
-                            tableName: "Binaries",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Binaries].[ReferenceId]=[Results].[ResultId]"),
-                    where: view.Where(ss),
-                    orderBy: view.OrderBy(ss)))
-                        .AsEnumerable();
+            var view = Views.GetBySession(ss);
+            var imageLibData = new ImageLibData(
+                ss, view, offset: offset, pageSize: ss.ImageLibPageSize.ToInt());
+            var hb = new HtmlBuilder();
+            new ImageLibData(ss, view, offset, Parameters.General.ImageLibPageSize)
+                .DataRows
+                .ForEach(dataRow => hb
+                    .ImageLibItem(dataRow));
+            return (new ResponseCollection())
+                .Append("#ImageLib", hb)
+                .Val("#ImageLibOffset", ss.ImageLibNextOffset(
+                    offset,
+                    imageLibData.DataRows.Count(),
+                    imageLibData.TotalCount))
+                .Paging("#ImageLib")
+                .ToJson();
         }
 
         public static void SetLinks(this List<ResultModel> results, SiteSettings ss)

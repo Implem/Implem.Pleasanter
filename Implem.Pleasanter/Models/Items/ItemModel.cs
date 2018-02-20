@@ -568,6 +568,21 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string ImageLibNext()
+        {
+            SetSite();
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.ImageLibNext(
+                    ss: Site.IssuesSiteSettings(ReferenceId, setSiteIntegration: true),
+                    offset: Forms.Int("ImageLibOffset"));
+                case "Results": return ResultUtilities.ImageLibNext(
+                    ss: Site.ResultsSiteSettings(ReferenceId, setSiteIntegration: true),
+                    offset: Forms.Int("ImageLibOffset"));
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
         public System.Web.Mvc.ContentResult GetByApi()
         {
             SetSite();

@@ -1,30 +1,45 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Settings;
 using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlImageLib
     {
-        public static HtmlBuilder ImageLib(this HtmlBuilder hb,
-            EnumerableRowCollection<DataRow> dataRows)
+        public static HtmlBuilder ImageLib(
+            this HtmlBuilder hb, SiteSettings ss, ImageLibData imageLibData)
         {
-            return hb.Div(id: "ImageLib", css: "both", action: () =>
-                hb.ImageLibBody(dataRows: dataRows));
+            return hb.Div(
+                attributes: new HtmlAttributes()
+                    .Id("ImageLib")
+                    .Class("both")
+                    .DataAction("ImageLibNext")
+                    .DataMethod("post"),
+                action: () =>
+                    hb
+                        .Hidden(
+                            controlId: "ImageLibOffset",
+                            value: ss.ImageLibNextOffset(
+                                0,
+                                imageLibData.DataRows.Count(),
+                                imageLibData.TotalCount)
+                                    .ToString())
+                        .ImageLibBody(imageLibData: imageLibData));
         }
 
-        public static HtmlBuilder ImageLibBody(this HtmlBuilder hb,
-            EnumerableRowCollection<DataRow> dataRows)
+        public static HtmlBuilder ImageLibBody(this HtmlBuilder hb, ImageLibData imageLibData)
         {
             return hb.Div(
                 attributes: new HtmlAttributes().Id("ImageLibBody"),
-                action: () => dataRows
+                action: () => imageLibData.DataRows
                     .ForEach(dataRow => hb
                         .ImageLibItem(dataRow)));
         }
 
-        private static HtmlBuilder ImageLibItem(this HtmlBuilder hb, DataRow dataRow)
+        public static HtmlBuilder ImageLibItem(this HtmlBuilder hb, DataRow dataRow)
         {
             var href = Locations.ShowFile(dataRow.String("Guid"));
             return hb.Div(

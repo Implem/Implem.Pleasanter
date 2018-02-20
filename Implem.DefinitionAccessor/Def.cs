@@ -435,6 +435,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_OpenExportSelectorDialogCases": Code.Model_OpenExportSelectorDialogCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OpenExportSelectorDialogCases, definitionRow, CodeXls); break;
                     case "Model_ExportCases": Code.Model_ExportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportCases, definitionRow, CodeXls); break;
                     case "Model_GridRowsCases": Code.Model_GridRowsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GridRowsCases, definitionRow, CodeXls); break;
+                    case "Model_ImageLibNextCases": Code.Model_ImageLibNextCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImageLibNextCases, definitionRow, CodeXls); break;
                     case "Model_GetByApiCases": Code.Model_GetByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApiCases, definitionRow, CodeXls); break;
                     case "Model_CreateCases": Code.Model_CreateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateCases, definitionRow, CodeXls); break;
                     case "Model_CreateByApiCases": Code.Model_CreateByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateByApiCases, definitionRow, CodeXls); break;
@@ -2074,6 +2075,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_KambanBody_space__dot_kamban_item_colon_hover": Css._sharp_KambanBody_space__dot_kamban_item_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_KambanBody_space__dot_kamban_item_colon_hover, definitionRow, CssXls); break;
                     case "_sharp_KambanBody_space__dot_kamban_item_dot_changed": Css._sharp_KambanBody_space__dot_kamban_item_dot_changed = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_KambanBody_space__dot_kamban_item_dot_changed, definitionRow, CssXls); break;
                     case "_sharp_KambanBody_space__dot_kamban_item_space__dot_ui_icon": Css._sharp_KambanBody_space__dot_kamban_item_space__dot_ui_icon = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_KambanBody_space__dot_kamban_item_space__dot_ui_icon, definitionRow, CssXls); break;
+                    case "_sharp_ImageLib": Css._sharp_ImageLib = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ImageLib, definitionRow, CssXls); break;
                     case "_sharp_ImageLib_space__dot_item": Css._sharp_ImageLib_space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ImageLib_space__dot_item, definitionRow, CssXls); break;
                     case "_sharp_ImageLib_space__dot_item_space__dot_image": Css._sharp_ImageLib_space__dot_item_space__dot_image = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ImageLib_space__dot_item_space__dot_image, definitionRow, CssXls); break;
                     case "_sharp_RecordHeader": Css._sharp_RecordHeader = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_RecordHeader, definitionRow, CssXls); break;
@@ -4722,6 +4724,7 @@ namespace Implem.DefinitionAccessor
         public string Model_OpenExportSelectorDialogCases;
         public string Model_ExportCases;
         public string Model_GridRowsCases;
+        public string Model_ImageLibNextCases;
         public string Model_GetByApiCases;
         public string Model_CreateCases;
         public string Model_CreateByApiCases;
@@ -5243,6 +5246,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_OpenExportSelectorDialogCases = new CodeDefinition();
         public CodeDefinition Model_ExportCases = new CodeDefinition();
         public CodeDefinition Model_GridRowsCases = new CodeDefinition();
+        public CodeDefinition Model_ImageLibNextCases = new CodeDefinition();
         public CodeDefinition Model_GetByApiCases = new CodeDefinition();
         public CodeDefinition Model_CreateCases = new CodeDefinition();
         public CodeDefinition Model_CreateByApiCases = new CodeDefinition();
@@ -7919,6 +7923,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_KambanBody_space__dot_kamban_item_colon_hover;
         public string _sharp_KambanBody_space__dot_kamban_item_dot_changed;
         public string _sharp_KambanBody_space__dot_kamban_item_space__dot_ui_icon;
+        public string _sharp_ImageLib;
         public string _sharp_ImageLib_space__dot_item;
         public string _sharp_ImageLib_space__dot_item_space__dot_image;
         public string _sharp_RecordHeader;
@@ -8388,6 +8393,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_KambanBody_space__dot_kamban_item_colon_hover = new CssDefinition();
         public CssDefinition _sharp_KambanBody_space__dot_kamban_item_dot_changed = new CssDefinition();
         public CssDefinition _sharp_KambanBody_space__dot_kamban_item_space__dot_ui_icon = new CssDefinition();
+        public CssDefinition _sharp_ImageLib = new CssDefinition();
         public CssDefinition _sharp_ImageLib_space__dot_item = new CssDefinition();
         public CssDefinition _sharp_ImageLib_space__dot_item_space__dot_image = new CssDefinition();
         public CssDefinition _sharp_RecordHeader = new CssDefinition();
