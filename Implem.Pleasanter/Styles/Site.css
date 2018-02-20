@@ -831,6 +831,10 @@ pre{
     right:0px;
 }
 
+#ImageLib{
+    float:left;
+}
+
 #ImageLib .item{
     width:250px;
     height:250px;

@@ -57,6 +57,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/Group.js",
                 "~/Scripts/HistoryEvents.js",
                 "~/Scripts/ImageLib.js",
+                "~/Scripts/ImageLibEvents.js",
                 "~/Scripts/Import.js",
                 "~/Scripts/Item.js",
                 "~/Scripts/JqueryUi.js",

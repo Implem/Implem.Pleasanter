@@ -13,6 +13,7 @@
                 case "burndown": return "$p.drawBurnDown();";
                 case "timeseries": return "$p.drawTimeSeries();";
                 case "kamban": return "$p.setKamban();";
+                case "imagelib": return "$p.setImageLib();";
             }
             return string.Empty;
         }

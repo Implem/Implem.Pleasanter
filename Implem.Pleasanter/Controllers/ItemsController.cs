@@ -292,6 +292,15 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string ImageLibNext(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).ImageLibNext();
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPost]
         public string Create(long id)
         {
             var log = new SysLogModel();

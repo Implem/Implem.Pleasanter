@@ -97,6 +97,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EnableTimeSeries;
         public bool? EnableKamban;
         public bool? EnableImageLib;
+        public int? ImageLibPageSize;
         public string TitleSeparator = ")";
         public SearchTypes? SearchType;
         public string AddressBook;
@@ -202,6 +203,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             EnableTimeSeries = EnableTimeSeries ?? true;
             EnableKamban = EnableKamban ?? true;
             EnableImageLib = EnableImageLib ?? true;
+            ImageLibPageSize = ImageLibPageSize ?? Parameters.General.ImageLibPageSize;
             var request = new Request();
             Mobile = request.IsMobile();
         }
@@ -394,6 +396,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (EnableImageLib == false)
             {
                 ss.EnableImageLib = EnableImageLib;
+            }
+            if (ImageLibPageSize != Parameters.General.ImageLibPageSize)
+            {
+                ss.ImageLibPageSize = ImageLibPageSize;
             }
             if (TitleSeparator != ")")
             {
@@ -1834,6 +1840,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : -1;
         }
 
+        public int ImageLibNextOffset(int offset, int count, int totalCount)
+        {
+            return offset + count < totalCount
+                ? offset + ImageLibPageSize.ToInt()
+                : -1;
+        }
+
         public bool ShowComments(Permissions.ColumnPermissionTypes columnPermissionType)
         {
             return
@@ -1860,6 +1873,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "EnableTimeSeries": EnableTimeSeries = value.ToBool(); break;
                 case "EnableKamban": EnableKamban = value.ToBool(); break;
                 case "EnableImageLib": EnableImageLib = value.ToBool(); break;
+                case "ImageLibPageSize": ImageLibPageSize = value.ToInt(); break;
                 case "SearchType": SearchType = (SearchTypes)value.ToInt(); break;
                 case "AddressBook": AddressBook = value; break;
                 case "MailToDefault": MailToDefault = value; break;

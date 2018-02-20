@@ -277,6 +277,7 @@
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_006.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_005.cs" />
     <Compile Include="Libraries\Models\GridData.cs" />
+    <Compile Include="Libraries\Models\ImageLibData.cs" />
     <Compile Include="Libraries\Requests\Api.cs" />
     <Compile Include="Libraries\Requests\Calendars.cs" />
     <Compile Include="Libraries\Requests\GridSelector.cs" />
@@ -548,6 +549,7 @@
     <Content Include="Scripts\BasketEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
+    <Content Include="Scripts\ImageLibEvents.js" />
     <Content Include="Scripts\ImageLib.js" />
     <Content Include="Scripts\Video.js" />
     <Content Include="Scripts\Crosstab.js" />
@@ -993,7 +995,7 @@
     <Content Include="App_Data\Displays\ExportFormat.json" />
     <Content Include="App_Data\Displays\Format.json" />
     <Content Include="App_Data\Displays\GridFormat.json" />
-    <Content Include="App_Data\Displays\GridPageSize.json" />
+    <Content Include="App_Data\Displays\NumberPerPage.json" />
     <Content Include="App_Data\Displays\DisplayName.json" />
     <Content Include="App_Data\Displays\NearCompletionTimeAfterDays.json" />
     <Content Include="App_Data\Displays\NearCompletionTimeBeforeDays.json" />

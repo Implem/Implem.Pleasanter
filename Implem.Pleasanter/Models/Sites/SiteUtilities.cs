@@ -2151,7 +2151,7 @@ namespace Implem.Pleasanter.Models
                 .FieldSpinner(
                     controlId: "GridPageSize",
                     fieldCss: "field-auto-thin",
-                    labelText: Displays.GridPageSize(),
+                    labelText: Displays.NumberPerPage(),
                     value: ss.GridPageSize.ToDecimal(),
                     min: Parameters.General.GridPageSizeMin,
                     max: Parameters.General.GridPageSizeMax,
@@ -5510,7 +5510,16 @@ namespace Implem.Pleasanter.Models
                             controlId: "EnableImageLib",
                             fieldCss: "field-auto-thin",
                             labelText: Displays.Enabled(),
-                            _checked: ss.EnableImageLib == true))
+                            _checked: ss.EnableImageLib == true)
+                        .FieldSpinner(
+                            controlId: "ImageLibPageSize",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.NumberPerPage(),
+                            value: ss.ImageLibPageSize.ToDecimal(),
+                            min: Parameters.General.ImageLibPageSizeMin,
+                            max: Parameters.General.ImageLibPageSizeMax,
+                            step: 1,
+                            width: 25))
                     : hb;
         }
 

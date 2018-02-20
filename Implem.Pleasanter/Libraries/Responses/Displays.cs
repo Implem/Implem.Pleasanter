@@ -215,7 +215,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string GoBack(params string[] data) { return Get("GoBack", data); }
         public static string Grid(params string[] data) { return Get("Grid", data); }
         public static string GridFormat(params string[] data) { return Get("GridFormat", data); }
-        public static string GridPageSize(params string[] data) { return Get("GridPageSize", data); }
         public static string GridScript(params string[] data) { return Get("GridScript", data); }
         public static string GridStyle(params string[] data) { return Get("GridStyle", data); }
         public static string GroupAdmin(params string[] data) { return Get("GroupAdmin", data); }
@@ -361,6 +360,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string NotRequiredColumn(params string[] data) { return Get("NotRequiredColumn", data); }
         public static string NotSet(params string[] data) { return Get("NotSet", data); }
         public static string NoWrap(params string[] data) { return Get("NoWrap", data); }
+        public static string NumberPerPage(params string[] data) { return Get("NumberPerPage", data); }
         public static string NumberWeekly(params string[] data) { return Get("NumberWeekly", data); }
         public static string NumericColumn(params string[] data) { return Get("NumericColumn", data); }
         public static string Off(params string[] data) { return Get("Off", data); }
