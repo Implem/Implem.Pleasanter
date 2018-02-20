@@ -175,16 +175,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 time: (from.EditorFormat == "Ymdhm"
                     ? dataRow.DateTime("From").ToLocal().ToString("t") + " "
                     : null),
-                from: dataRow.DateTime("From").ToDateTime().ToLocal(),
-                to: to?.ColumnName == "CompletionTime"
-                    ? dataRow.DateTime("To").ToDateTime().ToLocal().AddDays(-1)
-                    : dataRow.DateTime("To").ToDateTime().ToLocal(),
+                from: ConvertIfCompletionTime(from, dataRow.DateTime("from")),
+                to: ConvertIfCompletionTime(to, dataRow.DateTime("to")),
                 updatedTime: dataRow.DateTime("UpdatedTime")
             ))
                 .OrderBy(o => o.From)
                 .ThenBy(o => o.To)
                 .ThenBy(o => o.UpdatedTime)
                 .ToJson();
+        }
+
+        private static DateTime ConvertIfCompletionTime(Column column, DateTime dateTime)
+        {
+            return column?.ColumnName == "CompletionTime"
+                ? dateTime.ToLocal().AddDays(-1)
+                : dateTime.ToLocal();
         }
 
         private static string DayOfWeekCss(int x)
