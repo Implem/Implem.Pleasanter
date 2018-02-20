@@ -5,8 +5,8 @@
     $(document).on('paste', '.upload-image', function (e) {
         if (e.originalEvent.clipboardData !== undefined) {
             var items = e.originalEvent.clipboardData.items;
-            for (var i = 0 ; i < items.length ; i++) {
-                var item = items[i];
+            if (items.length > 0) {
+                var item = items[0];
                 if (item.type.indexOf('image') !== -1) {
                     $p.uploadImage(this.id, item.getAsFile());
                 }
