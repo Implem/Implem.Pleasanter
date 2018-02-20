@@ -176,11 +176,8 @@ namespace Implem.Pleasanter.Controllers
                 {
                     Authentications.SignOut();
                 }
-                else
-                {
-                    log.Finish();
-                    return base.Redirect(Locations.Top());
-                }
+                log.Finish();
+                return base.Redirect(Locations.Top());
             }
             var html = UserUtilities.HtmlLogin(
                 returnUrl,
