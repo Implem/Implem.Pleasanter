@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.Models
                             tableName: "Binaries",
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: $"[Binaries].[ReferenceId]=[{ss.ReferenceType}].{idColumnBracket}"),
-                    where: view.Where(ss: ss),
+                    where: view.Where(ss: ss).Binaries_BinaryType("Images"),
                     orderBy: view.OrderBy(ss: ss, pageSize: pageSize),
                     offset: offset,
                     pageSize: pageSize,
