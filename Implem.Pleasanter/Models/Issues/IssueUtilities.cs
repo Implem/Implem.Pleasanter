@@ -6312,8 +6312,8 @@ namespace Implem.Pleasanter.Models
                     {
                         Id = o.Long("IssueId"),
                         Title = o.String("ItemTitle"),
-                        GroupX = o.String(groupByX.ColumnName),
-                        GroupY = o.String(groupByY.ColumnName),
+                        GroupX = groupByX.ConvertIfUserColumn(o),
+                        GroupY = groupByY.ConvertIfUserColumn(o),
                         Value = o.Decimal(value)
                     });
         }
