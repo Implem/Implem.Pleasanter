@@ -535,7 +535,8 @@ pre{
 }
 
 #CalendarBody .item.hover{
-    background-color:yellow;
+    background-color:white;
+    border:solid 1px orange;
 }
 
 #CalendarBody .item .connection{
@@ -550,7 +551,9 @@ pre{
 }
 
 #CalendarBody .item .connection.hover{
-    background-color:yellow;
+    background-color:white;
+    border-top:solid 1px orange;
+    border-bottom:solid 1px orange;
 }
 
 #CalendarBody .item .title{
