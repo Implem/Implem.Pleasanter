@@ -582,6 +582,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             return SiteSettings?.Links?.Any(o => o.ColumnName == Name) == true;
         }
 
+        public string ConvertIfUserColumn(DataRow dataRow)
+        {
+            var value = dataRow.String(ColumnName);
+            return UserColumn && value.IsNullOrEmpty()
+                ? DataTypes.User.UserTypes.Anonymous.ToInt().ToString()
+                : value;
+        }
+
         private void SelectColumns(
             SqlColumnCollection sql,
             string tableName,
