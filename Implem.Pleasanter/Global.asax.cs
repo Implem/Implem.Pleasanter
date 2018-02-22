@@ -131,9 +131,7 @@ namespace Implem.Pleasanter
 
         private void SetAnonymouseSession()
         {
-            var userModel = new UserModel(
-                SiteSettingsUtilities.UsersSiteSettings(),
-                HttpContext.Current.User?.Identity.Name.ToInt() ?? 0);
+            var userModel = new UserModel();
             Session["Language"] = userModel.Language;
             Session["RdsUser"] = userModel.RdsUser();
             Session["Developer"] = userModel.Developer;
