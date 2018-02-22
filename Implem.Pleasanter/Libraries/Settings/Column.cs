@@ -202,7 +202,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (line)
             {
                 case "[[Depts]]":
-                    SiteInfo.TenantCaches[tenantId].DeptHash
+                    SiteInfo.TenantCaches.Get(tenantId)?
+                        .DeptHash
                         .Where(o => o.Value.TenantId == tenantId)
                         .Where(o => searchIndexes?.Any() != true ||
                             searchIndexes.All(p =>
@@ -213,7 +214,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             SiteInfo.Dept(o.Key).Name));
                     break;
                 case "[[Users]]":
-                    SiteInfo.SiteUsers(tenantId, siteId)
+                    SiteInfo.SiteUsers(tenantId, siteId)?
                         .Where(o => !SiteInfo.User(o).Disabled)
                         .ToDictionary(o => o.ToString(), o => SiteInfo.UserName(o))
                         .Where(o => searchIndexes?.Any() != true ||
@@ -223,7 +224,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ForEach(o => AddToChoiceHash(o.Key, o.Value));
                     break;
                 case "[[Users*]]":
-                    SiteInfo.TenantCaches[tenantId].UserHash
+                    SiteInfo.TenantCaches.Get(tenantId)?
+                        .UserHash
                         .Where(o => o.Value.TenantId == tenantId)
                         .ToDictionary(o => o.Key.ToString(), o => o.Value.Name)
                         .Where(o => searchIndexes?.Any() != true ||
