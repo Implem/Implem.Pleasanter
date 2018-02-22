@@ -3,10 +3,11 @@
         $p.showMarkDownViewer($(this));
     });
     $(document).on('paste', '.upload-image', function (e) {
-        if (e.originalEvent.clipboardData !== undefined) {
+        if (e.originalEvent.clipboardData !== undefined &&
+            e.originalEvent.clipboardData.types.indexOf('text/plain') === -1) {
             var items = e.originalEvent.clipboardData.items;
-            if (items.length > 0) {
-                var item = items[0];
+            for (var i = 0 ; i < items.length ; i++) {
+                var item = items[i];
                 if (item.type.indexOf('image') !== -1) {
                     $p.uploadImage(this.id, item.getAsFile());
                 }
