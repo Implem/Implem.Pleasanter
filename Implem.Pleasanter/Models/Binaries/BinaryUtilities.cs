@@ -322,8 +322,10 @@ namespace Implem.Pleasanter.Models
                 ? Rds.UpdateBinaries(
                     param: Rds.BinariesParam().ReferenceId(referenceId),
                     where: Rds.BinariesWhere()
+                        .TenantId(Sessions.TenantId())
                         .ReferenceId(ss.SiteId)
-                        .Guid(guids))
+                        .Guid(guids, multiParamOperator: " or ")
+                        .Creator(Sessions.UserId()))
                 : null;
         }
     }
