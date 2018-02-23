@@ -901,20 +901,21 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateMailAddresses()
         {
-            var statements = new List<SqlStatement>
-            {
-                Rds.DeleteMailAddresses(
-                    where: Rds.MailAddressesWhere()
-                        .OwnerId(UserId)
-                        .OwnerType("Users"))
-            };
+            var statements = new List<SqlStatement>();
             Session_MailAddresses()?.ForEach(mailAddress =>
                 statements.Add(Rds.InsertMailAddresses(
                     param: Rds.MailAddressesParam()
                         .OwnerId(UserId)
                         .OwnerType("Users")
                         .MailAddress(mailAddress))));
-            Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
+            if (statements.Any())
+            {
+                statements.Insert(0, Rds.PhysicalDeleteMailAddresses(
+                    where: Rds.MailAddressesWhere()
+                        .OwnerId(UserId)
+                        .OwnerType("Users")));
+                Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
+            }
         }
 
         /// <summary>
