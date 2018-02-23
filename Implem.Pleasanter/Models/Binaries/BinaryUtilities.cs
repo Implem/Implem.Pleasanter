@@ -310,5 +310,21 @@ namespace Implem.Pleasanter.Models
                 column: Rds.BinariesColumn().Size(function: Sqls.Functions.Sum),
                 where: Rds.BinariesWhere().TenantId(Sessions.TenantId())));
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static SqlStatement UpdateReferenceId(
+            SiteSettings ss, long referenceId, string values)
+        {
+            var guids = values?.RegexValues("[0-9a-z]{32}").ToList();
+            return guids?.Any() == true
+                ? Rds.UpdateBinaries(
+                    param: Rds.BinariesParam().ReferenceId(referenceId),
+                    where: Rds.BinariesWhere()
+                        .ReferenceId(ss.SiteId)
+                        .Guid(guids))
+                : null;
+        }
     }
 }
