@@ -296,6 +296,7 @@ namespace Implem.Pleasanter.Models
                     .FullText(fullText, _using: fullText != null)
                     .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
                 where: Rds.ItemsWhere().ReferenceId(WikiId)));
+            statements.Add(BinaryUtilities.UpdateReferenceId(ss, WikiId, fullText));
             if (extendedSqls) statements.OnCreatedExtendedSqls(SiteId, WikiId);
             Rds.ExecuteNonQuery(
                 rdsUser: rdsUser,

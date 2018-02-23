@@ -3365,6 +3365,7 @@ namespace Implem.Pleasanter.Models
                     .FullText(fullText, _using: fullText != null)
                     .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
                 where: Rds.ItemsWhere().ReferenceId(ResultId)));
+            statements.Add(BinaryUtilities.UpdateReferenceId(ss, ResultId, fullText));
             if (extendedSqls) statements.OnCreatedExtendedSqls(SiteId, ResultId);
             Rds.ExecuteNonQuery(
                 rdsUser: rdsUser,
