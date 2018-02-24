@@ -1,4 +1,10 @@
 ﻿$p.ajax = function (requestUrl, methodType, data, $eventSender, async) {
+    var _confirm = $eventSender.attr('data-confirm');
+    if (_confirm !== undefined) {
+        if (!confirm($p.display(_confirm))) {
+            return false;
+        }
+    }
     $p.loading($eventSender);
     var ret = 0;
     async = async !== undefined ? async : true;

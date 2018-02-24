@@ -61,12 +61,6 @@ $p.send = function ($control, formId, async) {
             return false;
         }
     }
-    var _confirm = $control.attr('data-confirm');
-    if (_confirm !== undefined) {
-        if (!confirm($p.display(_confirm))) {
-            return false;
-        }
-    }
     var action = $control.attr('data-action');
     var method = $control.attr('data-method');
     if (method !== undefined) {
