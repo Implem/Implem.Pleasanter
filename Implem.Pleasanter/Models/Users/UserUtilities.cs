@@ -123,11 +123,7 @@ namespace Implem.Pleasanter.Models
                             .MainCommands(
                                 ss: ss,
                                 siteId: ss.SiteId,
-                                verType: Versions.VerTypes.Latest,
-                                bulkMoveButton: true,
-                                bulkDeleteButton: true,
-                                importButton: true,
-                                exportButton: true)
+                                verType: Versions.VerTypes.Latest)
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Users")
                             .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
@@ -144,15 +140,16 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var gridData = GetGridData(ss, view);
             return new ResponseCollection()
-                .Html("#ViewModeContainer", new HtmlBuilder().Grid(
+                .ViewMode(
                     ss: ss,
+                    view: view,
                     gridData: gridData,
-                    view: view))
-                .View(ss: ss, view: view)
-                .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
-                    ss: ss,
-                    aggregations: gridData.Aggregations))
-                .Paging("#Grid")
+                    invoke: "setGantt",
+                    body: new HtmlBuilder()
+                        .Grid(
+                            ss: ss,
+                            gridData: gridData,
+                            view: view))
                 .ToJson();
         }
 

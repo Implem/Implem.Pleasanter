@@ -19,12 +19,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool updateButton = false,
             bool copyButton = false,
             bool moveButton = false,
-            bool bulkMoveButton = false,
             bool mailButton = false,
             bool deleteButton = false,
-            bool bulkDeleteButton = false,
-            bool importButton = false,
-            bool exportButton = false,
             Action extensions = null)
         {
             return hb.Div(id: "MainCommandsContainer", action: () => hb
@@ -82,16 +78,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 method: "get",
                                 _using: moveButton && ss.CanUpdate())
                             .Button(
-                                text: Displays.BulkMove(),
-                                controlCss: "button-icon open-dialog",
-                                accessKey: "o",
-                                onClick: "$p.moveTargets($(this));",
-                                icon: "ui-icon-transferthick-e-w",
-                                selector: "#MoveDialog",
-                                action: "MoveTargets",
-                                method: "get",
-                                _using: bulkMoveButton && ss.CanUpdate())
-                            .Button(
                                 controlId: "EditOutgoingMail",
                                 text: Displays.Mail(),
                                 controlCss: "button-icon",
@@ -117,35 +103,49 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 accessKey: "r",
                                 onClick: "$p.openDeleteSiteDialog($(this));",
                                 icon: "ui-icon-trash",
-                                _using: deleteButton && ss.CanDelete() && ss.IsSite())
-                            .Button(
-                                text: Displays.BulkDelete(),
-                                controlCss: "button-icon",
-                                accessKey: "r",
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-trash",
-                                action: "BulkDelete",
-                                method: "delete",
-                                confirm: "ConfirmDelete",
-                                _using: bulkDeleteButton && ss.CanDelete())
-                            .Button(
-                                controlId: "EditImportSettings",
-                                text: Displays.Import(),
-                                controlCss: "button-icon",
-                                accessKey: "w",
-                                onClick: "$p.openImportSettingsDialog($(this));",
-                                icon: "ui-icon-arrowreturnthick-1-e",
-                                selector: "#ImportSettingsDialog",
-                                _using: importButton && ss.CanImport())
-                            .Button(
-                                text: Displays.Export(),
-                                controlCss: "button-icon",
-                                accessKey: "x",
-                                onClick: "$p.openExportSelectorDialog($(this));",
-                                icon: "ui-icon-arrowreturnthick-1-w",
-                                action: "OpenExportSelectorDialog",
-                                method: "post",
-                                _using: exportButton && ss.CanExport());
+                                _using: deleteButton && ss.CanDelete() && ss.IsSite());
+                        if (Routes.Controller() == "items" && Routes.Action() == "index")
+                        {
+                            hb
+                                .Button(
+                                    text: Displays.BulkMove(),
+                                    controlCss: "button-icon open-dialog",
+                                    accessKey: "o",
+                                    onClick: "$p.moveTargets($(this));",
+                                    icon: "ui-icon-transferthick-e-w",
+                                    selector: "#MoveDialog",
+                                    action: "MoveTargets",
+                                    method: "get",
+                                    _using: ss.CanUpdate())
+                                .Button(
+                                    text: Displays.BulkDelete(),
+                                    controlCss: "button-icon",
+                                    accessKey: "r",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-trash",
+                                    action: "BulkDelete",
+                                    method: "delete",
+                                    confirm: "ConfirmDelete",
+                                    _using: ss.CanDelete())
+                                .Button(
+                                    controlId: "EditImportSettings",
+                                    text: Displays.Import(),
+                                    controlCss: "button-icon",
+                                    accessKey: "w",
+                                    onClick: "$p.openImportSettingsDialog($(this));",
+                                    icon: "ui-icon-arrowreturnthick-1-e",
+                                    selector: "#ImportSettingsDialog",
+                                    _using: ss.CanImport())
+                                .Button(
+                                    text: Displays.Export(),
+                                    controlCss: "button-icon",
+                                    accessKey: "x",
+                                    onClick: "$p.openExportSelectorDialog($(this));",
+                                    icon: "ui-icon-arrowreturnthick-1-w",
+                                    action: "OpenExportSelectorDialog",
+                                    method: "post",
+                                    _using: ss.CanExport());
+                        }
                     }
                     extensions?.Invoke();
                 }));

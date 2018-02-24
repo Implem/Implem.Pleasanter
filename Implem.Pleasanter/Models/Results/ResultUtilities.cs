@@ -79,11 +79,7 @@ namespace Implem.Pleasanter.Models
                             .MainCommands(
                                 ss: ss,
                                 siteId: ss.SiteId,
-                                verType: Versions.VerTypes.Latest,
-                                bulkMoveButton: true,
-                                bulkDeleteButton: true,
-                                importButton: true,
-                                exportButton: true)
+                                verType: Versions.VerTypes.Latest)
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Results")
                             .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
@@ -102,15 +98,16 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(ss);
             var gridData = GetGridData(ss, view);
             return new ResponseCollection()
-                .Html("#ViewModeContainer", new HtmlBuilder().Grid(
+                .ViewMode(
                     ss: ss,
+                    view: view,
                     gridData: gridData,
-                    view: view))
-                .View(ss: ss, view: view)
-                .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
-                    ss: ss,
-                    aggregations: gridData.Aggregations))
-                .Paging("#Grid")
+                    invoke: "setGantt",
+                    body: new HtmlBuilder()
+                        .Grid(
+                            ss: ss,
+                            gridData: gridData,
+                            view: view))
                 .ToJson();
         }
 
@@ -5116,46 +5113,45 @@ namespace Implem.Pleasanter.Models
                 Calendars.EndDate(month));
             return dataRows.Count() <= Parameters.General.CalendarLimit
                 ? new ResponseCollection()
-                    .Html(
-                        !bodyOnly ? "#ViewModeContainer" : "#CalendarBody",
-                        new HtmlBuilder().Calendar(
-                            ss: ss,
-                            fromColumn: fromColumn,
-                            toColumn: toColumn,
-                            month: month,
-                            begin: begin,
-                            dataRows: dataRows,
-                            bodyOnly: bodyOnly,
-                            inRange: true))
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
+                    .ViewMode(
                         ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Invoke("setCalendar")
-                    .LoadScroll(_using: update)
-                    .Message(message)
+                        view: view,
+                        gridData: gridData,
+                        invoke: "setCalendar",
+                        message: message,
+                        loadScroll: update,
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#CalendarBody",
+                        body: new HtmlBuilder()
+                            .Calendar(
+                                ss: ss,
+                                fromColumn: fromColumn,
+                                toColumn: toColumn,
+                                month: month,
+                                begin: begin,
+                                dataRows: dataRows,
+                                bodyOnly: bodyOnly,
+                                inRange: true))
                     .ToJson()
                 : new ResponseCollection()
-                    .Html(
-                        !bodyOnly ? "#ViewModeContainer" : "#CalendarBody",
-                        new HtmlBuilder().Calendar(
-                            ss: ss,
-                            fromColumn: fromColumn,
-                            toColumn: toColumn,
-                            month: month,
-                            begin: begin,
-                            dataRows: dataRows,
-                            bodyOnly: bodyOnly,
-                            inRange: false))
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
+                    .ViewMode(
                         ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Message(Messages.TooManyCases(Parameters.General.CalendarLimit.ToString()))
+                        view: view,
+                        gridData: gridData,
+                        message: Messages.TooManyCases(
+                            Parameters.General.CalendarLimit.ToString()),
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#CalendarBody",
+                        body: new HtmlBuilder()
+                            .Calendar(
+                                ss: ss,
+                                fromColumn: fromColumn,
+                                toColumn: toColumn,
+                                month: month,
+                                begin: begin,
+                                dataRows: dataRows,
+                                bodyOnly: bodyOnly,
+                                inRange: false))
                     .ToJson();
         }
 
@@ -5315,9 +5311,14 @@ namespace Implem.Pleasanter.Models
             var bodyOnly = Forms.ControlId().StartsWith("Crosstab");
             return inRangeX && inRangeY
                 ? new ResponseCollection()
-                    .Html(
-                        !bodyOnly ? "#ViewModeContainer" : "#CrosstabBody",
-                        !bodyOnly
+                    .ViewMode(
+                        ss: ss,
+                        view: view,
+                        gridData: gridData,
+                        invoke: "setCrosstab",
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#CrosstabBody",
+                        body: !bodyOnly
                             ? new HtmlBuilder().Crosstab(
                                 ss: ss,
                                 view: view,
@@ -5340,18 +5341,20 @@ namespace Implem.Pleasanter.Models
                                 timePeriod: timePeriod,
                                 month: month,
                                 dataRows: dataRows))
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
-                        ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Invoke("setCrosstab")
                     .ToJson()
                 : new ResponseCollection()
-                    .Html(
-                        !bodyOnly ? "#ViewModeContainer" : "#CrosstabBody",
-                        !bodyOnly
+                    .ViewMode(
+                        ss: ss,
+                        view: view,
+                        gridData: gridData,
+                        message: !inRangeX
+                            ? Messages.TooManyColumnCases(
+                                Parameters.General.CrosstabXLimit.ToString())
+                            : Messages.TooManyRowCases(
+                                Parameters.General.CrosstabYLimit.ToString()),
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#CrosstabBody",
+                        body: !bodyOnly
                             ? new HtmlBuilder().Crosstab(
                                 ss: ss,
                                 view: view,
@@ -5365,17 +5368,6 @@ namespace Implem.Pleasanter.Models
                                 dataRows: dataRows,
                                 inRange: false)
                             : new HtmlBuilder())
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
-                        ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Message(!inRangeX
-                        ? Messages.TooManyColumnCases(
-                            Parameters.General.CrosstabXLimit.ToString())
-                        : Messages.TooManyRowCases(
-                            Parameters.General.CrosstabYLimit.ToString()))
                     .ToJson();
         }
 
@@ -5526,36 +5518,35 @@ namespace Implem.Pleasanter.Models
             var bodyOnly = Forms.ControlId().StartsWith("TimeSeries");
             return gridData.Aggregations.TotalCount <= Parameters.General.TimeSeriesLimit
                 ? new ResponseCollection()
-                    .Html(
-                        !bodyOnly ? "#ViewModeContainer" : "#TimeSeriesBody",
-                        new HtmlBuilder().TimeSeries(
-                            ss: ss,
-                            view: view,
-                            bodyOnly: bodyOnly,
-                            inRange: true))
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
+                    .ViewMode(
                         ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Invoke("drawTimeSeries")
+                        view: view,
+                        gridData: gridData,
+                        invoke: "drawTimeSeries",
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#TimeSeriesBody",
+                        body: new HtmlBuilder()
+                            .TimeSeries(
+                                ss: ss,
+                                view: view,
+                                bodyOnly: bodyOnly,
+                                inRange: true))
                     .ToJson()
                 : new ResponseCollection()
-                    .Html(
-                        !bodyOnly ? "#ViewModeContainer" : "#TimeSeriesBody",
-                        new HtmlBuilder().TimeSeries(
-                            ss: ss,
-                            view: view,
-                            bodyOnly: bodyOnly,
-                            inRange: false))
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
+                    .ViewMode(
                         ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Message(Messages.TooManyCases(Parameters.General.TimeSeriesLimit.ToString()))
+                        view: view,
+                        gridData: gridData,
+                        message: Messages.TooManyCases(
+                            Parameters.General.TimeSeriesLimit.ToString()),
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#TimeSeriesBody",
+                        body: new HtmlBuilder()
+                            .TimeSeries(
+                                ss: ss,
+                                view: view,
+                                bodyOnly: bodyOnly,
+                                inRange: false))
                     .ToJson();
         }
 
@@ -5663,36 +5654,35 @@ namespace Implem.Pleasanter.Models
             var bodyOnly = Forms.ControlId().StartsWith("Kamban");
             return gridData.Aggregations.TotalCount <= Parameters.General.KambanLimit
                 ? new ResponseCollection()
-                    .Html(
-                        !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
-                        new HtmlBuilder().Kamban(
-                            ss: ss,
-                            view: view,
-                            bodyOnly: bodyOnly,
-                            changedItemId: Forms.Long("KambanId")))
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
+                    .ViewMode(
                         ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Invoke("setKamban")
+                        view: view,
+                        gridData: gridData,
+                        invoke: "setKamban",
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#KambanBody",
+                        body: new HtmlBuilder()
+                            .Kamban(
+                                ss: ss,
+                                view: view,
+                                bodyOnly: bodyOnly,
+                                changedItemId: Forms.Long("KambanId")))
                     .ToJson()
                 : new ResponseCollection()
-                    .Html(
-                        !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
-                        new HtmlBuilder().Kamban(
-                            ss: ss,
-                            view: view,
-                            bodyOnly: bodyOnly,
-                            inRange: false))
-                    .View(ss: ss, view: view)
-                    .ReplaceAll(
-                        "#Aggregations", new HtmlBuilder().Aggregations(
+                    .ViewMode(
                         ss: ss,
-                        aggregations: gridData.Aggregations))
-                    .ClearFormData()
-                    .Message(Messages.TooManyCases(Parameters.General.KambanLimit.ToString()))
+                        view: view,
+                        gridData: gridData,
+                        message: Messages.TooManyCases(
+                            Parameters.General.KambanLimit.ToString()),
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#KambanBody",
+                        body: new HtmlBuilder()
+                            .Kamban(
+                                ss: ss,
+                                view: view,
+                                bodyOnly: bodyOnly,
+                                inRange: false))
                     .ToJson();
         }
 
@@ -5835,19 +5825,18 @@ namespace Implem.Pleasanter.Models
             var gridData = GetGridData(ss, view);
             var bodyOnly = Forms.ControlId().StartsWith("ImageLib");
             return new ResponseCollection()
-                .Html(
-                    !bodyOnly ? "#ViewModeContainer" : "#ImageLibBody",
-                    new HtmlBuilder().ImageLib(
-                        ss: ss,
-                        view: view,
-                        bodyOnly: bodyOnly))
-                .View(ss: ss, view: view)
-                .ReplaceAll(
-                    "#Aggregations", new HtmlBuilder().Aggregations(
+                .ViewMode(
                     ss: ss,
-                    aggregations: gridData.Aggregations))
-                .ClearFormData()
-                .Invoke("setImageLib")
+                    view: view,
+                    gridData: gridData,
+                    invoke: "setImageLib",
+                    bodyOnly: bodyOnly,
+                    bodySelector: "#ImageLibBody",
+                    body: new HtmlBuilder()
+                        .ImageLib(
+                            ss: ss,
+                            view: view,
+                            bodyOnly: bodyOnly))
                 .ToJson();
         }
 
