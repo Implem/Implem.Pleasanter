@@ -157,7 +157,9 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public ResponseCollection Invoke(string methodName, bool _using = true)
         {
-            return _using ? Add("Invoke", methodName) : this;
+            return !methodName.IsNullOrEmpty() && _using
+                ? Add("Invoke", methodName)
+                : this;
         }
 
         public ResponseCollection WindowScrollTop(int value = 0, bool _using = true)
