@@ -1,11 +1,11 @@
-﻿$p.ajax = function (requestUrl, methodType, data, $eventSender, async) {
-    var _confirm = $eventSender.attr('data-confirm');
+﻿$p.ajax = function (requestUrl, methodType, data, $control, async) {
+    var _confirm = $control.attr('data-confirm');
     if (_confirm !== undefined) {
         if (!confirm($p.display(_confirm))) {
             return false;
         }
     }
-    $p.loading($eventSender);
+    $p.loading($control);
     var ret = 0;
     async = async !== undefined ? async : true;
     $p.clearMessage();
@@ -18,7 +18,7 @@
         dataType: 'json'
     })
     .done(function (json, textStatus, jqXHR) {
-        $p.setByJson(json, data, $eventSender);
+        $p.setByJson(json, data, $control);
         ret = json.filter(function (i) {
             return i.Method === 'Status' && i.Value === 'alert-error';
         }).length !== 0
@@ -37,8 +37,8 @@
     return ret;
 }
 
-$p.upload = function (requestUrl, methodType, data, $eventSender) {
-    $p.loading($eventSender);
+$p.upload = function (requestUrl, methodType, data, $control) {
+    $p.loading($control);
     $p.clearMessage();
     return $.ajax({
         url: requestUrl,
@@ -49,7 +49,7 @@ $p.upload = function (requestUrl, methodType, data, $eventSender) {
         data: data
     })
     .done(function (response, textStatus, jqXHR) {
-        $p.setByJson(JSON.parse(response), data, $eventSender);
+        $p.setByJson(JSON.parse(response), data, $control);
         return true;
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
