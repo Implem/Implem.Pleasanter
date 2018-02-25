@@ -218,6 +218,30 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string DeleteImage(string guid)
+        {
+            var binaryModel = new BinaryModel()
+                .Get(where: Rds.BinariesWhere()
+                    .TenantId(Sessions.TenantId())
+                    .Guid(guid));
+            var ss = new ItemModel(binaryModel.ReferenceId)
+                .GetSite(initSiteSettings: true).SiteSettings;
+            var invalid = BinaryValidators.OnDeletingImage(ss, binaryModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            binaryModel.Delete();
+            return new ResponseCollection()
+                .Message(Messages.DeletedImage())
+                .Remove($"#ImageLib .item[data-id=\"{guid}\"]")
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string MultiUpload(System.Web.HttpPostedFileBase[] files, long id)
         {
             var controlId = Forms.ControlId();

@@ -6378,7 +6378,7 @@ namespace Implem.Pleasanter.Models
             return !bodyOnly
                 ? hb.ImageLib(ss: ss, imageLibData: new ImageLibData(
                     ss, view, offset: offset, pageSize: ss.ImageLibPageSize.ToInt()))
-                : hb.ImageLibBody(imageLibData: new ImageLibData(
+                : hb.ImageLibBody(ss: ss, imageLibData: new ImageLibData(
                     ss, view, offset: offset, pageSize: ss.ImageLibPageSize.ToInt()));
         }
 
@@ -6391,7 +6391,9 @@ namespace Implem.Pleasanter.Models
             new ImageLibData(ss, view, offset, Parameters.General.ImageLibPageSize)
                 .DataRows
                 .ForEach(dataRow => hb
-                    .ImageLibItem(dataRow));
+                    .ImageLibItem(
+                        ss: ss,
+                        dataRow: dataRow));
             return (new ResponseCollection())
                 .Append("#ImageLib", hb)
                 .Val("#ImageLibOffset", ss.ImageLibNextOffset(

@@ -162,6 +162,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Delete(params string[] data) { return Get("Delete", data); }
         public static string DeleteConflicts(params string[] data) { return Get("DeleteConflicts", data); }
         public static string Deleted(params string[] data) { return Get("Deleted", data); }
+        public static string DeletedImage(params string[] data) { return Get("DeletedImage", data); }
         public static string DeletePermission(params string[] data) { return Get("DeletePermission", data); }
         public static string DeleteSite(params string[] data) { return Get("DeleteSite", data); }
         public static string DemoMailBody(params string[] data) { return Get("DemoMailBody", data); }
