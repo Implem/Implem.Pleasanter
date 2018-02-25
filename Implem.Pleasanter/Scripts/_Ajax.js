@@ -1,8 +1,10 @@
 ﻿$p.ajax = function (requestUrl, methodType, data, $control, async) {
-    var _confirm = $control.attr('data-confirm');
-    if (_confirm !== undefined) {
-        if (!confirm($p.display(_confirm))) {
-            return false;
+    if ($control) {
+        var _confirm = $control.attr('data-confirm');
+        if (_confirm !== undefined) {
+            if (!confirm($p.display(_confirm))) {
+                return false;
+            }
         }
     }
     $p.loading($control);
