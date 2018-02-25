@@ -210,6 +210,7 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VersionsController.cs" />
     <Compile Include="Filters\CheckApiAuthentication.cs" />
+    <Compile Include="Filters\CheckParameterSyntaxError.cs" />
     <Compile Include="Filters\CheckUserAttributes.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
     <Compile Include="Filters\CheckContractAttribute.cs" />
@@ -1286,10 +1287,12 @@
     <Content Include="App_Data\Displays\AllowImage.json" />
     <Content Include="App_Data\Displays\ImageLib.json" />
     <Content Include="App_Data\Displays\DeletedImage.json" />
+    <Content Include="App_Data\Displays\ParameterSyntaxError.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
     <Content Include="Views\Items\ImageLib.cshtml" />
+    <Content Include="Views\Errors\ParameterSyntaxError.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

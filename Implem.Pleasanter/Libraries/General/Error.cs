@@ -46,6 +46,7 @@ namespace Implem.Pleasanter.Libraries.General
             OverLimitSize,
             OverTenantStorageSize,
             OverTotalLimitSize,
+            ParameterSyntaxError,
             PasswordNotChanged,
             PermissionNotSelfChange,
             RequireMailAddresses,
@@ -150,6 +151,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.OverTenantStorageSize(data);
                 case Types.OverTotalLimitSize:
                     return Messages.OverTotalLimitSize(data);
+                case Types.ParameterSyntaxError:
+                    return Messages.ParameterSyntaxError(data);
                 case Types.PasswordNotChanged:
                     return Messages.PasswordNotChanged(data);
                 case Types.PermissionNotSelfChange:

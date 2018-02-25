@@ -64,6 +64,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string siteReferenceType,
             string title,
             Error.Types errorType = General.Error.Types.None,
+            string[] messageData = null,
             bool useBreadcrumb = true,
             bool useTitle = true,
             bool useSearch = true,
@@ -81,6 +82,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Content(
                     ss: ss,
                     errorType: errorType,
+                    messageData: messageData,
                     siteId: siteId,
                     title: title,
                     useBreadcrumb: useBreadcrumb,
@@ -99,6 +101,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             SiteSettings ss,
             Error.Types errorType,
+            string[] messageData,
             long siteId = 0,
             string title = null,
             bool useBreadcrumb = true,
@@ -126,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     hb
                         .P(id: "Message", css: "message", action: () => hb
-                            .Raw(text: errorType.Message().Html))
+                            .Raw(text: errorType.Message(messageData).Html))
                         .MainCommands(
                             siteId: siteId,
                             ss: ss,
@@ -205,7 +208,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        public static string Error(Error.Types errorType)
+        public static string Error(Error.Types errorType, string[] messageData = null)
         {
             var hb = new HtmlBuilder();
             return hb
@@ -213,6 +216,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: new SiteSettings(),
                     verType: Versions.VerTypes.Latest,
                     methodType: BaseModel.MethodTypes.NotSet,
+                    messageData: messageData,
                     siteId: 0,
                     parentId: 0,
                     referenceType: null,

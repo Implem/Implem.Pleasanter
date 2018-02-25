@@ -1,4 +1,6 @@
-﻿using Implem.Pleasanter.Filters;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Filters;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using System.Web.Mvc;
@@ -50,6 +52,27 @@ namespace Implem.Pleasanter.Controllers
             else
             {
                 return Content(Error.Types.NotFound.MessageJson());
+            }
+        }
+
+        [AllowAnonymous]
+        public ActionResult ParameterSyntaxError()
+        {
+            var messageData = new string[]
+            {
+                Parameters.SyntaxErrors?.Join(",")
+            };
+            if (!Request.IsAjaxRequest())
+            {
+                ViewBag.HtmlBody = HtmlTemplates.Error(
+                    Error.Types.ParameterSyntaxError,
+                    messageData);
+                return View();
+            }
+            else
+            {
+                return Content(Error.Types.ParameterSyntaxError
+                    .MessageJson(messageData));
             }
         }
 
