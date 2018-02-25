@@ -389,6 +389,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string OverTenantStorageSize(params string[] data) { return Get("OverTenantStorageSize", data); }
         public static string OverTotalLimitSize(params string[] data) { return Get("OverTotalLimitSize", data); }
         public static string Own(params string[] data) { return Get("Own", data); }
+        public static string ParameterSyntaxError(params string[] data) { return Get("ParameterSyntaxError", data); }
         public static string PasswordNotChanged(params string[] data) { return Get("PasswordNotChanged", data); }
         public static string PasswordResetCompleted(params string[] data) { return Get("PasswordResetCompleted", data); }
         public static string Pattern(params string[] data) { return Get("Pattern", data); }

@@ -9,6 +9,7 @@ namespace Implem.Pleasanter
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new HandleErrorExAttribute());
+            filters.Add(new CheckParameterSyntaxError());
             filters.Add(new RequestLimitAttribute());
             filters.Add(new AuthorizeAttribute());
             filters.Add(new CheckUserAttributes());

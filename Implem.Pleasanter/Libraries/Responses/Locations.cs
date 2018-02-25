@@ -129,6 +129,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get("Errors", "BadRequest");
         }
 
+        public static string ParameterSyntaxError()
+        {
+            return Get("Errors", "ParameterSyntaxError");
+        }
+
         public static string ApplicationError()
         {
             return Get("Errors");

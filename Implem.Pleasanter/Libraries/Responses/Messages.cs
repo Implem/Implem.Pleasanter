@@ -363,6 +363,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.OverTotalLimitSize(data), "alert-error");
         }
 
+        public static Message ParameterSyntaxError(params string[] data)
+        {
+            return Get(Displays.ParameterSyntaxError(data), "alert-error");
+        }
+
         public static Message PasswordNotChanged(params string[] data)
         {
             return Get(Displays.PasswordNotChanged(data), "alert-error");
@@ -816,6 +821,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseOverTotalLimitSize(params string[] data)
         {
             return ResponseMessage(OverTotalLimitSize(data));
+        }
+
+        public static ResponseCollection ResponseParameterSyntaxError(params string[] data)
+        {
+            return ResponseMessage(ParameterSyntaxError(data));
         }
 
         public static ResponseCollection ResponsePasswordNotChanged(params string[] data)

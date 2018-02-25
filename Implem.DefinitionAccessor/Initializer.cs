@@ -67,47 +67,39 @@ namespace Implem.DefinitionAccessor
 
         public static void SetParameters()
         {
-            Parameters.Api = Files.Read(ParametersPath("Api"))
-                .Deserialize<ParameterAccessor.Parts.Api>();
-            Parameters.Asset = Files.Read(ParametersPath("Asset"))
-                .Deserialize<ParameterAccessor.Parts.Asset>();
-            Parameters.Authentication = Files.Read(ParametersPath("Authentication"))
-                .Deserialize<ParameterAccessor.Parts.Authentication>();
-            Parameters.BackgroundTask = Files.Read(ParametersPath("BackgroundTask"))
-                .Deserialize<ParameterAccessor.Parts.BackgroundTask>();
-            Parameters.BinaryStorage = Files.Read(ParametersPath("BinaryStorage"))
-                .Deserialize<ParameterAccessor.Parts.BinaryStorage>();
-            Parameters.ExcludeColumns = Files.Read(ParametersPath("ExcludeColumns"))
-                .Deserialize<Dictionary<string, IEnumerable<string>>>();
+            Parameters.Api = Read<ParameterAccessor.Parts.Api>();
+            Parameters.Asset = Read<ParameterAccessor.Parts.Asset>();
+            Parameters.Authentication = Read<ParameterAccessor.Parts.Authentication>();
+            Parameters.BackgroundTask = Read<ParameterAccessor.Parts.BackgroundTask>();
+            Parameters.BinaryStorage = Read<ParameterAccessor.Parts.BinaryStorage>();
+            Parameters.ExcludeColumns = Read<ParameterAccessor.Parts.ExcludeColumns>();
             Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.ExtendedStyles = ExtendedStyles();
             Parameters.ExtendedScripts = ExtendedScripts();
-            Parameters.Formats = Files.Read(ParametersPath("Formats"))
-                .Deserialize<List<ParameterAccessor.Parts.Format>>();
-            Parameters.General = Files.Read(ParametersPath("General"))
-                .Deserialize<ParameterAccessor.Parts.General>();
-            Parameters.Health = Files.Read(ParametersPath("Health"))
-                .Deserialize<ParameterAccessor.Parts.Health>();
-            Parameters.Mail = Files.Read(ParametersPath("Mail"))
-                .Deserialize<ParameterAccessor.Parts.Mail>();
-            Parameters.Notification = Files.Read(ParametersPath("Notification"))
-                .Deserialize<ParameterAccessor.Parts.Notification>();
-            Parameters.Path = Files.Read(ParametersPath("Path"))
-                .Deserialize<ParameterAccessor.Parts.Path>();
-            Parameters.Permissions = Files.Read(ParametersPath("Permissions"))
-                .Deserialize<ParameterAccessor.Parts.Permissions>();
-            Parameters.Rds = Files.Read(ParametersPath("Rds"))
-                .Deserialize<ParameterAccessor.Parts.Rds>();
-            Parameters.Reminder = Files.Read(ParametersPath("Reminder"))
-                .Deserialize<ParameterAccessor.Parts.Reminder>();
-            Parameters.Search = Files.Read(ParametersPath("Search"))
-                .Deserialize<ParameterAccessor.Parts.Search>();
-            Parameters.Security = Files.Read(ParametersPath("Security"))
-                .Deserialize<ParameterAccessor.Parts.Security>();
-            Parameters.Service = Files.Read(ParametersPath("Service"))
-                .Deserialize<ParameterAccessor.Parts.Service>();
-            Parameters.SysLog = Files.Read(ParametersPath("SysLog"))
-                .Deserialize<ParameterAccessor.Parts.SysLog>();
+            Parameters.Formats = Read<ParameterAccessor.Parts.Formats>();
+            Parameters.General = Read<ParameterAccessor.Parts.General>();
+            Parameters.Health = Read<ParameterAccessor.Parts.Health>();
+            Parameters.Mail = Read<ParameterAccessor.Parts.Mail>();
+            Parameters.Notification = Read<ParameterAccessor.Parts.Notification>();
+            Parameters.Path = Read<ParameterAccessor.Parts.Path>();
+            Parameters.Permissions = Read< ParameterAccessor.Parts.Permissions>();
+            Parameters.Rds = Read<ParameterAccessor.Parts.Rds>();
+            Parameters.Reminder = Read<ParameterAccessor.Parts.Reminder>();
+            Parameters.Search = Read<ParameterAccessor.Parts.Search>();
+            Parameters.Security = Read<ParameterAccessor.Parts.Security>();
+            Parameters.Service = Read<ParameterAccessor.Parts.Service>();
+            Parameters.SysLog = Read<ParameterAccessor.Parts.SysLog>();
+        }
+
+        private static T Read<T>()
+        {
+            var name = typeof(T).Name;
+            var data = Files.Read(ParametersPath(name)).Deserialize<T>();
+            if (data == null)
+            {
+                Parameters.SyntaxErrors.Add(name + ".json");
+            }
+            return data;
         }
 
         private static List<ParameterAccessor.Parts.ExtendedSql> ExtendedSqls(
@@ -132,6 +124,10 @@ namespace Implem.DefinitionAccessor
                         extendedSql.CommandText = Files.Read(sqlPath);
                     }
                     list.Add(extendedSql);
+                }
+                else
+                {
+                    Parameters.SyntaxErrors.Add(file.Name);
                 }
             }
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
