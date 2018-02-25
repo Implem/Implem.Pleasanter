@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
@@ -13,7 +14,7 @@ namespace Implem.Pleasanter.Controllers
     public class BinariesController : Controller
     {
         [HttpGet]
-        [OutputCache(Duration = 86400)]
+        [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
         public ActionResult SiteImageThumbnail(string reference, long id)
         {
             if (reference.ToLower() == "items")
@@ -28,7 +29,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
-        [OutputCache(Duration = 86400)]
+        [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
         public ActionResult SiteImageIcon(string reference, long id)
         {
             if (reference.ToLower() == "items")
@@ -92,6 +93,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
+        [OutputCache(Duration = int.MaxValue, VaryByParam = "*")]
         public FileContentResult Download(string reference, string guid)
         {
             var log = new SysLogModel();
@@ -101,6 +103,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
+        [OutputCache(Duration = int.MaxValue, VaryByParam = "*")]
         public FileContentResult DownloadTemp(string reference, string guid)
         {
             var log = new SysLogModel();
@@ -110,6 +113,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
+        [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
         public ActionResult Show(string reference, string guid)
         {
             var log = new SysLogModel();
@@ -121,6 +125,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
+        [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
         public ActionResult ShowTemp(string reference, string guid)
         {
             var log = new SysLogModel();
