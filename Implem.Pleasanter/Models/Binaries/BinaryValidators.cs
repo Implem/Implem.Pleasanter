@@ -86,6 +86,22 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static Error.Types OnDeletingImage(SiteSettings ss, BinaryModel binaryModel)
+        {
+            if (!ss.CanUpdate())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            if (binaryModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Error.Types.NotFound;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Error.Types OnUploading(
             Column column,
             Libraries.DataTypes.Attachments attachments,

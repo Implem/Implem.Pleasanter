@@ -2078,6 +2078,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_ImageLib": Css._sharp_ImageLib = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ImageLib, definitionRow, CssXls); break;
                     case "_sharp_ImageLib_space__dot_item": Css._sharp_ImageLib_space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ImageLib_space__dot_item, definitionRow, CssXls); break;
                     case "_sharp_ImageLib_space__dot_item_space__dot_image": Css._sharp_ImageLib_space__dot_item_space__dot_image = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ImageLib_space__dot_item_space__dot_image, definitionRow, CssXls); break;
+                    case "_sharp_ImageLib_space__dot_item_space__dot_delete_image": Css._sharp_ImageLib_space__dot_item_space__dot_delete_image = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ImageLib_space__dot_item_space__dot_delete_image, definitionRow, CssXls); break;
                     case "_sharp_RecordHeader": Css._sharp_RecordHeader = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_RecordHeader, definitionRow, CssXls); break;
                     case "_sharp_RecordInfo": Css._sharp_RecordInfo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_RecordInfo, definitionRow, CssXls); break;
                     case "_sharp_RecordInfo_space_div": Css._sharp_RecordInfo_space_div = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_RecordInfo_space_div, definitionRow, CssXls); break;
@@ -7926,6 +7927,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_ImageLib;
         public string _sharp_ImageLib_space__dot_item;
         public string _sharp_ImageLib_space__dot_item_space__dot_image;
+        public string _sharp_ImageLib_space__dot_item_space__dot_delete_image;
         public string _sharp_RecordHeader;
         public string _sharp_RecordInfo;
         public string _sharp_RecordInfo_space_div;
@@ -8396,6 +8398,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_ImageLib = new CssDefinition();
         public CssDefinition _sharp_ImageLib_space__dot_item = new CssDefinition();
         public CssDefinition _sharp_ImageLib_space__dot_item_space__dot_image = new CssDefinition();
+        public CssDefinition _sharp_ImageLib_space__dot_item_space__dot_delete_image = new CssDefinition();
         public CssDefinition _sharp_RecordHeader = new CssDefinition();
         public CssDefinition _sharp_RecordInfo = new CssDefinition();
         public CssDefinition _sharp_RecordInfo_space_div = new CssDefinition();

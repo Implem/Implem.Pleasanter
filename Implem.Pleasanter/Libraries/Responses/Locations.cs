@@ -105,6 +105,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                 : Get("Items", "_action_");
         }
 
+        public static string DeleteImage(string guid)
+        {
+            return Get("binaries", guid, "deleteimage");
+        }
+
         public static string DownloadFile(string guid, bool temp = false)
         {
             return Get("binaries", guid, !temp

@@ -845,11 +845,20 @@ pre{
     margin:10px 10px 0px 0px;
     padding:10px;
     border:solid 1px silver;
+    position:relative;
     overflow:hidden;
 }
 
 #ImageLib .item .image{
+    float:left;
     margin:5px 0px 0px 0px;
+}
+
+#ImageLib .item .delete-image{
+    float:left;
+    position:absolute;
+    right:5px;
+    bottom:5px;
 }
 
 #RecordHeader{

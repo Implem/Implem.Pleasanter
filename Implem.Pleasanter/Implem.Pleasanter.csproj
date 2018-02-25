@@ -1285,6 +1285,7 @@
     <Content Include="Views\Items\Crosstab.cshtml" />
     <Content Include="App_Data\Displays\AllowImage.json" />
     <Content Include="App_Data\Displays\ImageLib.json" />
+    <Content Include="App_Data\Displays\DeletedImage.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
