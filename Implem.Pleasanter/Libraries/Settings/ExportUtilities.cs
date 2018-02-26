@@ -46,6 +46,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static ResponseFile Csv(SiteSettings ss, Export export)
         {
             ss.SetExports();
+            ss.JoinedSsHash.Values.ForEach(currentSs => currentSs.SetChoiceHash(all: true));
             var data = new Dictionary<long, Dictionary<long, Dictionary<int, string>>>();
             Dictionary<long, long> keys = null;
             var keyColumns = KeyColumns(export, ss.SiteId);
@@ -147,7 +148,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<long, string> keyColumns)
         {
             ss.SetColumnAccessControls();
-            ss.SetChoiceHash();
             var keyColumn = keyColumns.Get(ss.SiteId);
             var issueHash = new IssueCollection(
                 ss: ss,
@@ -155,7 +155,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where: where,
                 orderBy: orderBy)
                     .ToDictionary(o => o.IssueId, o => o);
-            issueHash.Values.ToList().SetLinks(ss);
             if (keys == null)
             {
                 data.Add(ss.SiteId, issueHash.ToDictionary(
@@ -214,7 +213,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<long, string> keyColumns)
         {
             ss.SetColumnAccessControls();
-            ss.SetChoiceHash();
             var keyColumn = keyColumns.Get(ss.SiteId);
             var resultHash = new ResultCollection(
                 ss: ss,
@@ -222,7 +220,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where: where,
                 orderBy: orderBy)
                     .ToDictionary(o => o.ResultId, o => o);
-            resultHash.Values.ToList().SetLinks(ss);
             if (keys == null)
             {
                 data.Add(ss.SiteId, resultHash.ToDictionary(
