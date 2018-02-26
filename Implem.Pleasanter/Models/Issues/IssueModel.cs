@@ -5080,6 +5080,7 @@ namespace Implem.Pleasanter.Models
                     switch (filter.Key)
                     {
                         case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
+                        case "Title": match = Title.Value.Matched(column, filter.Value); break;
                         case "StartTime": match = StartTime.Matched(column, filter.Value); break;
                         case "CompletionTime": match = CompletionTime.Value.Matched(column, filter.Value); break;
                         case "WorkValue": match = WorkValue.Value.Matched(column, filter.Value); break;

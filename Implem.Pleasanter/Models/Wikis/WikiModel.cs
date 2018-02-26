@@ -640,6 +640,7 @@ namespace Implem.Pleasanter.Models
                     switch (filter.Key)
                     {
                         case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
+                        case "Title": match = Title.Value.Matched(column, filter.Value); break;
                         case "CreatedTime": match = CreatedTime.Value.Matched(column, filter.Value); break;
                     }
                     if (!match) return false;

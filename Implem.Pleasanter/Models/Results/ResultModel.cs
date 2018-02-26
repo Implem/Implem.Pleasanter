@@ -4949,6 +4949,7 @@ namespace Implem.Pleasanter.Models
                     switch (filter.Key)
                     {
                         case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
+                        case "Title": match = Title.Value.Matched(column, filter.Value); break;
                         case "Status": match = Status.Value.Matched(column, filter.Value); break;
                         case "Manager": match = Manager.Id.Matched(column, filter.Value); break;
                         case "Owner": match = Owner.Id.Matched(column, filter.Value); break;
