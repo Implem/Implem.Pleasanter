@@ -9,6 +9,7 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlTemplates
@@ -47,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useSearch: useSearch,
                     useNavigationMenu: useNavigationMenu,
                     action: action)
-                .HiddenData()
+                .HiddenData(ss: ss)
                 .VideoDialog(ss: ss)
                 .Styles(ss: ss, userStyle: userStyle)
                 .Scripts(ss: ss, script: script, userScript: userScript);
@@ -199,12 +200,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static HtmlBuilder HiddenData(this HtmlBuilder hb)
+        private static HtmlBuilder HiddenData(this HtmlBuilder hb, SiteSettings ss = null)
         {
             return !Request.IsAjax()
                 ? hb
                     .Hidden(controlId: "ApplicationPath", value: Locations.Get())
                     .Hidden(controlId: "Language", value: Sessions.Language())
+                    .Hidden(
+                        controlId: "SiteIntegration",
+                        value: "1",
+                        _using: ss?.IntegratedSites?.Any() == true)
                 : hb;
         }
 
