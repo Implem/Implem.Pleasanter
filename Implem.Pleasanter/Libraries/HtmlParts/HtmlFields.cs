@@ -189,7 +189,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 text: value,
                                 placeholder: column.LabelText,
-                                readOnly: column.EditorReadOnly == true,
+                                readOnly: true,
                                 allowImage: column.AllowImage == true,
                                 mobile: mobile,
                                 validateRequired: required,
