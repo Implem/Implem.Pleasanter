@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                             ss: ss,
                             column: column,
                             comment: comments[0],
-                            verType: verType))
+                            readOnly: false))
                 : res;
         }
 
@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                             ss: ss,
                             column: column,
                             comment: comment,
-                            verType: Versions.VerTypes.Latest)));
+                            readOnly: false)));
             if (deleteCommentId != 0)
             {
                 res

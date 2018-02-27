@@ -15,23 +15,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Versions.VerTypes verType,
             Permissions.ColumnPermissionTypes columnPermissionType)
         {
+            var readOnly= verType != Versions.VerTypes.Latest ||
+                !column.SiteSettings.CanUpdate() ||
+                column?.EditorReadOnly == true ||
+                columnPermissionType != Permissions.ColumnPermissionTypes.Update;
             return hb
                 .TextArea(
                     labelText: column?.LabelText,
                     allowImage: column.AllowImage == true,
                     mobile: column.SiteSettings.Mobile,
-                    _using:
-                        verType == Versions.VerTypes.Latest &&
-                        column.SiteSettings.CanUpdate() &&
-                        column?.EditorReadOnly != true &&
-                        columnPermissionType == Permissions.ColumnPermissionTypes.Update)
+                    _using: !readOnly)
                 .Div(id: "CommentList", action: () => comments
                     .ForEach(comment => hb
                         .Comment(
                             ss: column.SiteSettings,
                             column: column,
                             comment: comment,
-                            verType: verType)));
+                            readOnly: readOnly)));
         }
 
         public static HtmlBuilder Comment(
@@ -39,17 +39,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             Column column,
             Comment comment,
-            Versions.VerTypes verType)
+            bool readOnly)
         {
             return comment.Html(
                 hb: hb,
                 allowEditing: ss.AllowEditingComments == true,
                 allowImage: column.AllowImage == true,
                 mobile: ss.Mobile,
-                verType: verType,
+                readOnly: readOnly,
                 controlId: "Comment" + comment.CommentId,
                 action: () => hb
-                    .DeleteComment(comment: comment, verType: verType));
+                    .DeleteComment(comment: comment, readOnly: readOnly));
         }
 
         private static HtmlBuilder TextArea(
@@ -78,9 +78,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder EditComment(
-            this HtmlBuilder hb, Comment comment, Versions.VerTypes verType)
+            this HtmlBuilder hb, Comment comment, bool readOnly)
         {
-            return verType == Versions.VerTypes.Latest && comment.Creator == Sessions.UserId()
+            return !readOnly && comment.Creator == Sessions.UserId()
                 ? hb.P(
                     attributes: new HtmlAttributes()
                         .Id("EditComment," + comment.CommentId)
@@ -92,9 +92,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder DeleteComment(
-            this HtmlBuilder hb, Comment comment, Versions.VerTypes verType)
+            this HtmlBuilder hb, Comment comment, bool readOnly)
         {
-            return verType == Versions.VerTypes.Latest
+            return !readOnly
                 ? hb.P(
                     attributes: new HtmlAttributes()
                         .Id("DeleteComment," + comment.CommentId)

@@ -1,7 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
-using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using System;
@@ -25,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool allowEditing,
             bool allowImage,
             bool mobile,
-            Versions.VerTypes? verType = null,
+            bool readOnly = false,
             string controlId = null,
             Action action = null)
         {
@@ -41,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         .P(css: "time", action: () => hb
                             .Text(text: CreatedTimeDisplayValue()))
                         .HtmlUser(Updator ?? Creator);
-                    if (CanEdit(allowEditing, verType))
+                    if (CanEdit(allowEditing, readOnly))
                     {
                         hb.MarkDown(
                             controlId: controlId,
@@ -68,12 +67,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         + " [" + Displays.CommentUpdated() + "]";
         }
 
-        private bool CanEdit(bool allowEditing, Versions.VerTypes? verType)
+        private bool CanEdit(bool allowEditing, bool readOnly)
         {
             return
-                allowEditing &&
-                verType == Versions.VerTypes.Latest &&
-                Creator == Sessions.UserId();
+                allowEditing && !readOnly && Creator == Sessions.UserId();
         }
 
         public void Update(string body)
