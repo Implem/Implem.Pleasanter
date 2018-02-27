@@ -350,7 +350,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public static bool CanSendMail(this SiteSettings ss, bool site = false)
         {
             if (!Contract.Mail()) return false;
-            switch (ss.ReferenceType.ToLower())
+            switch (Routes.Controller())
             {
                 case "depts":
                     return CanManageTenant();

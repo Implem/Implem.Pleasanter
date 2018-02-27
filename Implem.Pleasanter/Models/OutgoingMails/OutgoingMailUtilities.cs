@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder OutgoingMailsForm(
             this HtmlBuilder hb, string referenceType, long referenceId, int referenceVer)
         {
+            var ss = SiteSettingsUtilities.GetByReference(Routes.Controller(), referenceId);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("OutgoingMailsForm")
@@ -41,14 +42,15 @@ namespace Implem.Pleasanter.Models
                         orderBy: Rds.OutgoingMailsOrderBy()
                             .OutgoingMailId(SqlOrderBy.Types.desc))
                                 .ForEach(outgoingMailModel => hb
-                                    .OutgoingMailListItem(outgoingMailModel)));
+                                    .OutgoingMailListItem(
+                                        ss: ss, outgoingMailModel: outgoingMailModel)));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         public static HtmlBuilder OutgoingMailListItem(
-            this HtmlBuilder hb, OutgoingMailModel outgoingMailModel)
+            this HtmlBuilder hb, SiteSettings ss, OutgoingMailModel outgoingMailModel)
         {
             return hb.Div(
                 css: "item",
@@ -83,15 +85,18 @@ namespace Implem.Pleasanter.Models
                             labelText: Displays.OutgoingMails_Body(),
                             text: outgoingMailModel.Body,
                             fieldCss: "field-wide")
-                        .Div(css: "command-right", action: () => hb
-                            .Button(
-                                text: Displays.Reply(),
-                                controlCss: "button-icon",
-                                onClick: "$p.openOutgoingMailReplyDialog($(this));",
-                                dataId: outgoingMailModel.OutgoingMailId.ToString(),
-                                icon: "ui-icon-mail-closed",
-                                action: "Reply",
-                                method: "put"))));
+                        .Div(
+                            css: "command-right",
+                            action: () => hb
+                                .Button(
+                                    text: Displays.Reply(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openOutgoingMailReplyDialog($(this));",
+                                    dataId: outgoingMailModel.OutgoingMailId.ToString(),
+                                    icon: "ui-icon-mail-closed",
+                                    action: "Reply",
+                                    method: "put"),
+                            _using: ss.CanSendMail())));
         }
 
         /// <summary>
@@ -542,12 +547,11 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.Restricted.MessageJson();
             }
+            var ss = SiteSettingsUtilities.GetByReference(reference, id);
             var outgoingMailModel = new OutgoingMailModel(reference, id);
             var invalidMailAddress = string.Empty;
             var invalid = OutgoingMailValidators.OnSending(
-                SiteSettingsUtilities.GetByReference(reference, id),
-                outgoingMailModel,
-                out invalidMailAddress);
+                ss, outgoingMailModel, out invalidMailAddress);
             switch (invalid)
             {
                 case Error.Types.None:
@@ -569,7 +573,8 @@ namespace Implem.Pleasanter.Models
                     .Val("#OutgoingMails_Body", string.Empty)
                     .Prepend(
                         "#OutgoingMailsForm",
-                        new HtmlBuilder().OutgoingMailListItem(outgoingMailModel))
+                        new HtmlBuilder().OutgoingMailListItem(
+                            ss: ss, outgoingMailModel: outgoingMailModel))
                     .Message(Messages.MailTransmissionCompletion())
                     .ToJson();
         }
