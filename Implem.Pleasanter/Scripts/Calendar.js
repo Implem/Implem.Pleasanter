@@ -54,7 +54,7 @@ $p.setCalendar = function () {
         });
         $('#Calendar .container').droppable({
             hoverClass: 'drop-hover',
-            tolerance: 'pointer',
+            tolerance: 'intersect',
             drop: function (e, ui) {
                 var $control = $(ui.draggable);
                 var from = new Date($control.attr('data-from'));
