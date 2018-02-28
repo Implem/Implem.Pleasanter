@@ -10,7 +10,7 @@
     });
     $('#KambanBody .kamban-container').droppable({
         hoverClass: 'hover',
-        tolerance: 'pointer',
+        tolerance: 'intersect',
         drop: function (e, ui) {
             var data = $p.getData($('.main-form'));
             var tableNamePrefix = $('#TableName').val() + '_';
