@@ -509,16 +509,12 @@ pre{
     padding:5px;
 }
 
-#CalendarBody td.drop-hover{
-    background-color:gray;
-}
-
-#CalendarBody td.drop-hover .day{
-    color:white;
+#CalendarBody td.hover{
+    background-color:whitesmoke;
 }
 
 #CalendarBody .other-month{
-    background-color:whitesmoke;
+    background-color:gainsboro;
 }
 
 #CalendarBody .today{

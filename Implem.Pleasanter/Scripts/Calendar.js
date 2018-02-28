@@ -53,7 +53,7 @@ $p.setCalendar = function () {
             }
         });
         $('#Calendar .container').droppable({
-            hoverClass: 'drop-hover',
+            hoverClass: 'hover',
             tolerance: 'intersect',
             drop: function (e, ui) {
                 var $control = $(ui.draggable);
