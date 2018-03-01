@@ -5084,11 +5084,13 @@ namespace Implem.Pleasanter.Models
             resultModel.Update(ss, notice: true);
             return CalendarJson(
                 ss: ss,
+                changedItemId: resultModel.ResultId,
                 update: true,
                 message: Messages.Updated(resultModel.Title.DisplayValue));
         }
 
-        public static string CalendarJson(SiteSettings ss, bool update = false, Message message = null)
+        public static string CalendarJson(
+            SiteSettings ss, long changedItemId = 0, bool update = false, Message message = null)
         {
             if (!ss.EnableViewMode("Calendar"))
             {
@@ -5131,7 +5133,8 @@ namespace Implem.Pleasanter.Models
                                 begin: begin,
                                 dataRows: dataRows,
                                 bodyOnly: bodyOnly,
-                                inRange: true))
+                                inRange: true,
+                                changedItemId: changedItemId))
                     .ToJson()
                 : new ResponseCollection()
                     .ViewMode(
@@ -5151,7 +5154,8 @@ namespace Implem.Pleasanter.Models
                                 begin: begin,
                                 dataRows: dataRows,
                                 bodyOnly: bodyOnly,
-                                inRange: false))
+                                inRange: false,
+                                changedItemId: changedItemId))
                     .ToJson();
         }
 
@@ -5198,7 +5202,8 @@ namespace Implem.Pleasanter.Models
             DateTime begin,
             EnumerableRowCollection<DataRow> dataRows,
             bool bodyOnly,
-            bool inRange)
+            bool inRange,
+            long changedItemId = 0)
         {
             return !bodyOnly
                 ? hb.Calendar(
@@ -5208,7 +5213,8 @@ namespace Implem.Pleasanter.Models
                     month: month,
                     begin: begin,
                     dataRows: dataRows,
-                    inRange: inRange)
+                    inRange: inRange,
+                    changedItemId: changedItemId)
                 : hb.CalendarBody(
                     ss: ss,
                     fromColumn: fromColumn,
@@ -5216,7 +5222,8 @@ namespace Implem.Pleasanter.Models
                     month: month,
                     begin: begin,
                     dataRows: dataRows,
-                    inRange: inRange);
+                    inRange: inRange,
+                    changedItemId: changedItemId);
         }
 
         public static string Crosstab(SiteSettings ss)
