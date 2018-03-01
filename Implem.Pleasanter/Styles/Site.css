@@ -535,6 +535,12 @@ pre{
     border:solid 1px orange;
 }
 
+#CalendarBody .item.changed{
+    font-weight:bold;
+    background-color:yellow;
+    border:solid 1px orange;
+}
+
 #CalendarBody .item .connection{
     width:14px;
     height:25px;
@@ -548,6 +554,13 @@ pre{
 
 #CalendarBody .item .connection.hover{
     background-color:white;
+    border-top:solid 1px orange;
+    border-bottom:solid 1px orange;
+}
+
+#CalendarBody .item .connection.changed{
+    font-weight:bold;
+    background-color:yellow;
     border-top:solid 1px orange;
     border-bottom:solid 1px orange;
 }

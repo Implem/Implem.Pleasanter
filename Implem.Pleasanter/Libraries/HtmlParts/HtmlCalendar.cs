@@ -1,6 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
@@ -22,7 +21,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             DateTime month,
             DateTime begin,
             IEnumerable<DataRow> dataRows,
-            bool inRange)
+            bool inRange,
+            long changedItemId)
         {
             return hb.Div(id: "Calendar", css: "both", action: () => hb
                 .FieldDropDown(
@@ -73,7 +73,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             month: month,
                             begin: begin,
                             dataRows: dataRows,
-                            inRange: inRange)));
+                            inRange: inRange,
+                            changedItemId: changedItemId)));
         }
 
         private static Dictionary<string, ControlData> CalendarMonth()
@@ -97,7 +98,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             DateTime month,
             DateTime begin,
             IEnumerable<DataRow> dataRows,
-            bool inRange)
+            bool inRange,
+            long changedItemId)
         {
             hb
                 .Hidden(
@@ -113,7 +115,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb
                     .Hidden(
                         controlId: "CalendarJson",
-                        value: Json(ss, fromColumn, toColumn, dataRows))
+                        value: Json(ss, fromColumn, toColumn, dataRows, changedItemId))
                     .CalendarBodyTable(month, begin)
                 : hb;
         }
@@ -166,7 +168,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             Column from,
             Column to,
-            IEnumerable<DataRow> dataRows)
+            IEnumerable<DataRow> dataRows,
+            long changedItemId)
         {
             return dataRows.Select(dataRow => new CalendarElement
             (
@@ -177,6 +180,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     : null),
                 from: ConvertIfCompletionTime(from, dataRow.DateTime("from")),
                 to: ConvertIfCompletionTime(to, dataRow.DateTime("to")),
+                changedItemId: changedItemId,
                 updatedTime: dataRow.DateTime("UpdatedTime")
             ))
                 .OrderBy(o => o.From)

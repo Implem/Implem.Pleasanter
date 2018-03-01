@@ -91,13 +91,17 @@ $p.setCalendar = function () {
         }
         var item = $('<div />')
             .addClass('item')
+            .addClass(element.Changed === true ? 'changed' : '')
             .attr('data-id', element.Id)
             .attr('data-from', element.From)
             .attr('data-to', element.To);
         if (sub) {
             item.append($('<div />')
                 .attr('data-id', element.Id)
-                .addClass('connection'))
+                .addClass('connection')
+                .addClass(element.Changed === true
+                    ? 'changed'
+                    : ''));
         }
         item.append($('<div />')
             .addClass('title')
@@ -125,7 +129,7 @@ $p.setCalendar = function () {
             .addClass(sub ? 'sub' : '')
             .attr('title', element.Title + ' -- ' +
                 $p.dateTimeString(new Date(element.From)) +
-                    (element.To != undefined && element.To !== element.From
+                    (element.To !== undefined && element.To !== element.From
                         ? ' - ' + $p.dateTimeString(new Date(element.To))
                         : ''))
             .append($('<span />').addClass('ui-icon ui-icon-pencil'))
