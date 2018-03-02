@@ -2015,8 +2015,10 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_CalendarBody_space__dot_today": Css._sharp_CalendarBody_space__dot_today = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_today, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_item": Css._sharp_CalendarBody_space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_item_dot_hover": Css._sharp_CalendarBody_space__dot_item_dot_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item_dot_hover, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_item_dot_changed": Css._sharp_CalendarBody_space__dot_item_dot_changed = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item_dot_changed, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_item_space__dot_connection": Css._sharp_CalendarBody_space__dot_item_space__dot_connection = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item_space__dot_connection, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_item_space__dot_connection_dot_hover": Css._sharp_CalendarBody_space__dot_item_space__dot_connection_dot_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item_space__dot_connection_dot_hover, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space__dot_item_space__dot_connection_dot_changed": Css._sharp_CalendarBody_space__dot_item_space__dot_connection_dot_changed = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item_space__dot_connection_dot_changed, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_item_space__dot_title": Css._sharp_CalendarBody_space__dot_item_space__dot_title = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item_space__dot_title, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_item_space__dot_title_dot_sub": Css._sharp_CalendarBody_space__dot_item_space__dot_title_dot_sub = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_item_space__dot_title_dot_sub, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_dragging": Css._sharp_CalendarBody_space__dot_dragging = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_dragging, definitionRow, CssXls); break;
@@ -7863,8 +7865,10 @@ namespace Implem.DefinitionAccessor
         public string _sharp_CalendarBody_space__dot_today;
         public string _sharp_CalendarBody_space__dot_item;
         public string _sharp_CalendarBody_space__dot_item_dot_hover;
+        public string _sharp_CalendarBody_space__dot_item_dot_changed;
         public string _sharp_CalendarBody_space__dot_item_space__dot_connection;
         public string _sharp_CalendarBody_space__dot_item_space__dot_connection_dot_hover;
+        public string _sharp_CalendarBody_space__dot_item_space__dot_connection_dot_changed;
         public string _sharp_CalendarBody_space__dot_item_space__dot_title;
         public string _sharp_CalendarBody_space__dot_item_space__dot_title_dot_sub;
         public string _sharp_CalendarBody_space__dot_dragging;
@@ -8333,8 +8337,10 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_CalendarBody_space__dot_today = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_item = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_item_dot_hover = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_item_dot_changed = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_item_space__dot_connection = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_item_space__dot_connection_dot_hover = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space__dot_item_space__dot_connection_dot_changed = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_item_space__dot_title = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_item_space__dot_title_dot_sub = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_dragging = new CssDefinition();
