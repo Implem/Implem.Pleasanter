@@ -291,7 +291,7 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.SitesLimit.MessageJson();
             }
             siteModel.Title.Value += Displays.SuffixCopy();
-            if (!Forms.Data("CopyWithComments").ToBool())
+            if (!Forms.Bool("CopyWithComments"))
             {
                 siteModel.Comments.Clear();
             }
