@@ -35,5 +35,10 @@ namespace Implem.Libraries.Utilities
         {
             return new List<T>() { self };
         }
+
+        public static T[] ToSingleArray<T>(this T self)
+        {
+            return new T[] { self };
+        }
     }
 }
