@@ -102,7 +102,7 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     view: view,
                     gridData: gridData,
-                    invoke: "setGantt",
+                    invoke: "setGrid",
                     body: new HtmlBuilder()
                         .Grid(
                             ss: ss,

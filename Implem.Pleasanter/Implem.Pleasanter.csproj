@@ -551,6 +551,7 @@
     <Content Include="Scripts\BasketEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
+    <Content Include="Scripts\Grid.js" />
     <Content Include="Scripts\ImageLibEvents.js" />
     <Content Include="Scripts\ImageLib.js" />
     <Content Include="Scripts\Video.js" />
