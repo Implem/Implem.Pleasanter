@@ -1363,7 +1363,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return enabled
                 ? ColumnUtilities.SelectableOptions(
                     ss: currentSs,
-                    columns: GridColumns)
+                    columns: GridColumns,
+                    labelType: "Grid")
                 : ColumnUtilities.SelectableSourceOptions(
                     ss: currentSs,
                     columns: currentSs.ColumnDefinitionHash.GridDefinitions()
@@ -1371,7 +1372,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => join.IsNullOrEmpty()
                             ? o.ColumnName
                             : join + "," + o.ColumnName)
-                        .Where(o => !GridColumns.Contains(o)));
+                        .Where(o => !GridColumns.Contains(o)),
+                    labelType: "Grid");
         }
 
         public Dictionary<string, ControlData> FilterSelectableOptions(

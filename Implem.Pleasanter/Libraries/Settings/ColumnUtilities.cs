@@ -120,7 +120,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static Dictionary<string, ControlData> SelectableOptions(
-            SiteSettings ss, IEnumerable<string> columns)
+            SiteSettings ss, IEnumerable<string> columns, string labelType = null)
         {
             return columns
                 .Distinct()
@@ -128,26 +128,38 @@ namespace Implem.Pleasanter.Libraries.Settings
                     columnName => columnName,
                     columnName => SelectableOptionsControlData(
                         ss: ss.GetJoinedSs(columnName),
-                        columnName: columnName));
+                        columnName: columnName,
+                        labelType: labelType));
         }
 
         public static Dictionary<string, ControlData> SelectableSourceOptions(
-            SiteSettings ss, IEnumerable<string> columns)
+            SiteSettings ss, IEnumerable<string> columns, string labelType = null)
         {
             return columns.ToDictionary(
                 columnName => columnName,
                 columnName => SelectableOptionsControlData(
                     ss: ss,
-                    columnName: columnName));
+                    columnName: columnName,
+                    labelType: labelType));
         }
 
-        private static ControlData SelectableOptionsControlData(SiteSettings ss, string columnName)
+        private static ControlData SelectableOptionsControlData(
+            SiteSettings ss, string columnName, string labelType)
         {
             var column = ss.GetColumn(columnName.Split(',').Last());
+            var labelText = column.LabelText;
+            var labelTextDefault = column.LabelTextDefault;
+            switch (labelType)
+            {
+                case "Grid":
+                    labelTextDefault += $" ({labelText})";
+                    labelText = column.GridLabelText;
+                    break;
+            }
             return column != null
                 ? new ControlData(
-                    text: "[" + ss.Title + "] " + Displays.Get(column.LabelText),
-                    title: column.LabelTextDefault)
+                    text: "[" + ss.Title + "] " + Displays.Get(labelText),
+                    title: labelTextDefault)
                 : new ControlData(string.Empty);
         }
 
