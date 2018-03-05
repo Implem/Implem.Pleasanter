@@ -1,8 +1,4 @@
-﻿$p.setGantt = function () {
-    $p.paging('#Gantt');
-}
-
-$p.moveGantt = function (type) {
+﻿$p.moveGantt = function (type) {
     var $control = $('#GanttStartDate');
     var value = $('#Gantt' + type).val();
     $control.val(value);
