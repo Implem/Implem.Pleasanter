@@ -650,14 +650,13 @@ namespace Implem.Pleasanter.Models
             {
                 return error.MessageJson();
             }
-            else
-            {
-                return EditorResponse(
-                    ss,
-                    deptModel,
-                    Messages.Created(deptModel.Title.Value),
-                    GetSwitchTargets(ss, deptModel.DeptId).Join()).ToJson();
-            }
+            Sessions.Set("Message", Messages.Created(deptModel.Title.DisplayValue).Html);
+            return new ResponseCollection()
+                .SetMemory("formChanged", false)
+                .Href(Locations.ItemEdit(ss.Columns.Any(o => o.Linking)
+                    ? Forms.Long("LinkId")
+                    : deptModel.DeptId))
+                .ToJson();
         }
 
         public static string Update(SiteSettings ss, int deptId)

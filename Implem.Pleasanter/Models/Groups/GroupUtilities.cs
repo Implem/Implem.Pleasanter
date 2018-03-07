@@ -658,14 +658,13 @@ namespace Implem.Pleasanter.Models
             {
                 return error.MessageJson();
             }
-            else
-            {
-                return EditorResponse(
-                    ss,
-                    groupModel,
-                    Messages.Created(groupModel.Title.Value),
-                    GetSwitchTargets(ss, groupModel.GroupId).Join()).ToJson();
-            }
+            Sessions.Set("Message", Messages.Created(groupModel.Title.DisplayValue).Html);
+            return new ResponseCollection()
+                .SetMemory("formChanged", false)
+                .Href(Locations.ItemEdit(ss.Columns.Any(o => o.Linking)
+                    ? Forms.Long("LinkId")
+                    : groupModel.GroupId))
+                .ToJson();
         }
 
         public static string Update(SiteSettings ss, int groupId)

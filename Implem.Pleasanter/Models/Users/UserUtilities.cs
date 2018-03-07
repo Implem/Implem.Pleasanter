@@ -981,14 +981,13 @@ namespace Implem.Pleasanter.Models
             {
                 return error.MessageJson();
             }
-            else
-            {
-                return EditorResponse(
-                    ss,
-                    userModel,
-                    Messages.Created(userModel.Title.Value),
-                    GetSwitchTargets(ss, userModel.UserId).Join()).ToJson();
-            }
+            Sessions.Set("Message", Messages.Created(userModel.Title.DisplayValue).Html);
+            return new ResponseCollection()
+                .SetMemory("formChanged", false)
+                .Href(Locations.ItemEdit(ss.Columns.Any(o => o.Linking)
+                    ? Forms.Long("LinkId")
+                    : userModel.UserId))
+                .ToJson();
         }
 
         public static string Update(SiteSettings ss, int userId)

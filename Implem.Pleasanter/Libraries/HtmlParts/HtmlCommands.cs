@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             text: Displays.Create(),
                             controlCss: "button-icon validate",
                             accessKey: "s",
-                            onClick: "$p.create($(this));",
+                            onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "Create",
                             method: "post");
