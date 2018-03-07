@@ -189,12 +189,14 @@ namespace Implem.Pleasanter.Models
             Sessions.Set("Message", Messages.Created(siteModel.Title.DisplayValue).Html);
             return new ResponseCollection()
                 .SetMemory("formChanged", false)
-                .Href(Locations.ItemEdit(siteModel.ReferenceType == "Wikis"
-                    ? Rds.ExecuteScalar_long(statements:
-                        Rds.SelectWikis(
-                            column: Rds.WikisColumn().WikiId(),
-                            where: Rds.WikisWhere().SiteId(siteModel.SiteId)))
-                    : siteModel.SiteId))
+                .Href(Locations.Edit(
+                    controller: Routes.Controller(),
+                    id: siteModel.ReferenceType == "Wikis"
+                        ? Rds.ExecuteScalar_long(statements:
+                            Rds.SelectWikis(
+                                column: Rds.WikisColumn().WikiId(),
+                                where: Rds.WikisWhere().SiteId(siteModel.SiteId)))
+                        : siteModel.SiteId))
                 .ToJson();
         }
 
