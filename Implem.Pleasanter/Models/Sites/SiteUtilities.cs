@@ -186,33 +186,16 @@ namespace Implem.Pleasanter.Models
             {
                 return error.MessageJson();
             }
-            else
-            {
-                switch (siteModel.ReferenceType)
-                {
-                    case "Wikis":
-                        ss = siteModel.WikisSiteSettings(siteModel.SiteId);
-                        var wikiModel = new WikiModel(ss, methodType: BaseModel.MethodTypes.Edit)
-                            .Get(
-                                ss: ss,
-                                where: Rds.WikisWhere().SiteId(siteModel.SiteId));
-                        return new ResponseCollection()
-                            .ReplaceAll(
-                                "#MainContainer",
-                                WikiUtilities.Editor(ss, wikiModel))
-                            .Val("#BackUrl", Locations.ItemIndex(siteModel.ParentId))
-                            .SetMemory("formChanged", false)
-                            .Invoke("setSwitchTargets")
-                            .Message(Messages.Created(siteModel.Title.ToString()))
-                            .ToJson();
-                    default:
-                        return ss.CanManageSite()
-                            ? EditorResponse(
-                                siteModel, Messages.Created(siteModel.Title.ToString())).ToJson()
-                            : new ResponseCollection().Href(
-                                Locations.ItemIndex(siteModel.SiteId)).ToJson();
-                }
-            }
+            Sessions.Set("Message", Messages.Created(siteModel.Title.DisplayValue).Html);
+            return new ResponseCollection()
+                .SetMemory("formChanged", false)
+                .Href(Locations.ItemEdit(siteModel.ReferenceType == "Wikis"
+                    ? Rds.ExecuteScalar_long(statements:
+                        Rds.SelectWikis(
+                            column: Rds.WikisColumn().WikiId(),
+                            where: Rds.WikisWhere().SiteId(siteModel.SiteId)))
+                    : siteModel.SiteId))
+                .ToJson();
         }
 
         public static string Update(SiteModel siteModel, long siteId)

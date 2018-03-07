@@ -3968,25 +3968,13 @@ namespace Implem.Pleasanter.Models
             {
                 return error.MessageJson();
             }
-            else if (ss.Columns.Any(o => o.Linking))
-            {
-                Sessions.Set("Message", Messages.Created(resultModel.Title.DisplayValue).Html);
-                return new ResponseCollection()
-                    .SetMemory("formChanged", false)
-                    .Href(Locations.ItemEdit(Forms.Long("LinkId")))
-                    .ToJson();
-            }
-            else
-            {
-                ss = SiteSettingsUtilities.Get(ss.SiteId, resultModel.ResultId);
-                return EditorResponse(
-                    ss,
-                    resultModel,
-                    Messages.Created(resultModel.Title.DisplayValue),
-                    GetSwitchTargets(
-                        ss, resultModel.ResultId, resultModel.SiteId).Join())
-                            .ToJson();
-            }
+            Sessions.Set("Message", Messages.Created(resultModel.Title.DisplayValue).Html);
+            return new ResponseCollection()
+                .SetMemory("formChanged", false)
+                .Href(Locations.ItemEdit(ss.Columns.Any(o => o.Linking)
+                    ? Forms.Long("LinkId")
+                    : resultModel.ResultId))
+                .ToJson();
         }
 
         public static System.Web.Mvc.ContentResult CreateByApi(SiteSettings ss)

@@ -26,12 +26,6 @@ $p.new = function ($control) {
         '&LinkId=' + $control.attr('data-id');
 }
 
-$p.create = function ($control) {
-    $p.syncSend($control);
-    history.replaceState(null, null, $('#BaseUrl').val() + $('#Id').val());
-    $('body,html').animate({ scrollTop: 0 }, 500);
-}
-
 $p.copy = function ($control) {
     var error = $p.syncSend($control);
     if (error === 0) {
