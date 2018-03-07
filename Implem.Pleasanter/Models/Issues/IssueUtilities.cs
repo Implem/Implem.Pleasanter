@@ -4082,9 +4082,11 @@ namespace Implem.Pleasanter.Models
             Sessions.Set("Message", Messages.Created(issueModel.Title.DisplayValue).Html);
             return new ResponseCollection()
                 .SetMemory("formChanged", false)
-                .Href(Locations.ItemEdit(ss.Columns.Any(o => o.Linking)
-                    ? Forms.Long("LinkId")
-                    : issueModel.IssueId))
+                .Href(Locations.Edit(
+                    controller: Routes.Controller(),
+                    id: ss.Columns.Any(o => o.Linking)
+                        ? Forms.Long("LinkId")
+                        : issueModel.IssueId))
                 .ToJson();
         }
 

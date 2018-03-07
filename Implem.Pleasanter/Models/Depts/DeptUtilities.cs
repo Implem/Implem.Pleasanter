@@ -653,9 +653,11 @@ namespace Implem.Pleasanter.Models
             Sessions.Set("Message", Messages.Created(deptModel.Title.DisplayValue).Html);
             return new ResponseCollection()
                 .SetMemory("formChanged", false)
-                .Href(Locations.ItemEdit(ss.Columns.Any(o => o.Linking)
-                    ? Forms.Long("LinkId")
-                    : deptModel.DeptId))
+                .Href(Locations.Edit(
+                    controller: Routes.Controller(),
+                    id: ss.Columns.Any(o => o.Linking)
+                        ? Forms.Long("LinkId")
+                        : deptModel.DeptId))
                 .ToJson();
         }
 
