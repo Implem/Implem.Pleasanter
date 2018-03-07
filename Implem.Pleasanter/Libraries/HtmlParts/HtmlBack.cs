@@ -42,7 +42,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         case "new":
                         case "edit":
                             return Strings.CoalesceEmpty(
-                                referer, Locations.Get(controller));
+                                referer?.EndsWith("/new") == false
+                                    ? referer
+                                    : null,
+                                Locations.Get(controller));
                         case "editapi":
                             return referer != null
                                 ? referer
