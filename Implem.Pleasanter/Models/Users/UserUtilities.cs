@@ -981,7 +981,7 @@ namespace Implem.Pleasanter.Models
             {
                 return error.MessageJson();
             }
-            Sessions.Set("Message", Messages.Created(userModel.Title.DisplayValue).Html);
+            Sessions.Set("Message", Messages.Created(userModel.Title.Value).Html);
             return new ResponseCollection()
                 .SetMemory("formChanged", false)
                 .Href(Locations.Edit(

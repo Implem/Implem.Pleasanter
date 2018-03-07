@@ -650,7 +650,7 @@ namespace Implem.Pleasanter.Models
             {
                 return error.MessageJson();
             }
-            Sessions.Set("Message", Messages.Created(deptModel.Title.DisplayValue).Html);
+            Sessions.Set("Message", Messages.Created(deptModel.Title.Value).Html);
             return new ResponseCollection()
                 .SetMemory("formChanged", false)
                 .Href(Locations.Edit(
