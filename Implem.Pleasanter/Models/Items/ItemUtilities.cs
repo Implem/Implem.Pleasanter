@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Models
     {
         public static void UpdateTitles(long siteId, long id)
         {
-            UpdateTitles(siteId, new List<long> { id });
+            UpdateTitles(siteId, id.ToSingleList());
         }
 
         public static void UpdateTitles(long siteId, IEnumerable<long> idList)
