@@ -17,8 +17,8 @@ namespace Implem.CodeDefiner
             ValidateArgs(argList);
             var argHash = new TextData(argList.Skip(1).Join(string.Empty), '/', 1);
             var action = args[0];
-            var path = Arg(argHash, 'p', null);
-            var target = Arg(argHash, 't', string.Empty);
+            var path = argHash.Get("p");
+            var target = argHash.Get("t");
             Initializer.Initialize(
                 path,
                 assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString(),
@@ -66,13 +66,6 @@ namespace Implem.CodeDefiner
                 DisplayAccessor.Displays.Get("CodeDefinerCompleted"),
                 Consoles.Types.Success);
             WaitConsole(args);
-        }
-
-        private static string Arg(TextData argHash, char key, string _default)
-        {
-            return argHash.ContainsKey(key.ToString())
-                ? argHash[key.ToString()]
-                : _default;
         }
 
         private static void DeleteTemporaryFiles()
