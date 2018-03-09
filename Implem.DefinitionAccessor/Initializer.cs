@@ -20,8 +20,9 @@ namespace Implem.DefinitionAccessor
             bool setRandomPassword = false)
         {
             Environments.CodeDefiner = codeDefiner;
-            Environments.CurrentDirectoryPath = GetCurrentDirectoryPath(
-                new FileInfo(path).Directory);
+            Environments.CurrentDirectoryPath = path != null
+                ? path
+                : GetSourcePath();
             SetRdsPassword(setSaPassword, setRandomPassword);
             SetParameters();
             Environments.ServiceName = Parameters.Service.Name;
@@ -192,18 +193,14 @@ namespace Implem.DefinitionAccessor
                 name + ".json");
         }
 
-        private static string GetCurrentDirectoryPath(DirectoryInfo currentDirectory)
+        private static string GetSourcePath()
         {
-            foreach (var sub in currentDirectory.GetDirectories())
-            {
-                var path = Path.Combine(
-                    sub.FullName, "App_Data", "Parameters", "Service.json");
-                if (Files.Exists(path))
-                {
-                    return new FileInfo(path).Directory.Parent.Parent.FullName;
-                }
-            }
-            return GetCurrentDirectoryPath(currentDirectory.Parent);
+            var parts = new DirectoryInfo(
+                Assembly.GetEntryAssembly().Location).FullName.Split('\\');
+            return new DirectoryInfo(Path.Combine(
+                parts.Take(Array.IndexOf(parts, "Implem.CodeDefiner")).Join("\\"),
+                "Implem.Pleasanter"))
+                    .FullName;
         }
 
         public static void SetDefinitions()
