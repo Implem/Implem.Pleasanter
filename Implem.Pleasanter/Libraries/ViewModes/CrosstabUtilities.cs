@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.CrosstabXLimit.ToString()).Html);
+                    Messages.TooManyCases(Parameters.General.CrosstabXLimit.ToString()));
             }
             return inRange;
         }
@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.CrosstabYLimit.ToString()).Html);
+                    Messages.TooManyCases(Parameters.General.CrosstabYLimit.ToString()));
             }
             return inRange;
         }

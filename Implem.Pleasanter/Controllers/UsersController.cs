@@ -182,7 +182,7 @@ namespace Implem.Pleasanter.Controllers
             var html = UserUtilities.HtmlLogin(
                 returnUrl,
                 Request.QueryString["expired"] == "1" && !Request.IsAjaxRequest()
-                    ? Messages.Expired().Html
+                    ? Messages.Expired().Text
                     : string.Empty);
             ViewBag.HtmlBody = html;
             log.Finish(html.Length);

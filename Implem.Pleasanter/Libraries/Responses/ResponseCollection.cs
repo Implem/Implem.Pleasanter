@@ -41,8 +41,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             if (message != null && _using)
             {
-                Add("Message", target, message.Html);
-                Add("Status", string.Empty, message.Status);
+                Add("Message", target, message.ToJson());
             }
             return this;
         }

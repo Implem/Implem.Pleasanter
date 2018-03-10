@@ -4079,7 +4079,7 @@ namespace Implem.Pleasanter.Models
             {
                 return error.MessageJson();
             }
-            Sessions.Set("Message", Messages.Created(issueModel.Title.DisplayValue).Html);
+            Sessions.Set("Message", Messages.Created(issueModel.Title.DisplayValue));
             return new ResponseCollection()
                 .SetMemory("formChanged", false)
                 .Href(Locations.Edit(
@@ -4297,7 +4297,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Sessions.Set("Message", Messages.Deleted(issueModel.Title.Value).Html);
+                Sessions.Set("Message", Messages.Deleted(issueModel.Title.Value));
                 var res = new IssuesResponseCollection(issueModel);
                 res
                     .SetMemory("formChanged", false)
@@ -5263,7 +5263,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.CalendarLimit.ToString()).Html);
+                    Messages.TooManyCases(Parameters.General.CalendarLimit.ToString()));
             }
             return hb.ViewModeTemplate(
                 ss: ss,
@@ -5474,14 +5474,14 @@ namespace Implem.Pleasanter.Models
                 Sessions.Set(
                     "Message",
                     Messages.TooManyColumnCases(
-                        Parameters.General.CrosstabXLimit.ToString()).Html);
+                        Parameters.General.CrosstabXLimit.ToString()));
             }
             else if (!inRangeY)
             {
                 Sessions.Set(
                     "Message",
                     Messages.TooManyColumnCases(
-                        Parameters.General.CrosstabYLimit.ToString()).Html);
+                        Parameters.General.CrosstabYLimit.ToString()));
             }
             return hb.ViewModeTemplate(
                 ss: ss,
@@ -5717,7 +5717,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.GanttLimit.ToString()).Html);
+                    Messages.TooManyCases(Parameters.General.GanttLimit.ToString()));
             }
             return hb.ViewModeTemplate(
                 ss: ss,
@@ -5885,7 +5885,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.BurnDownLimit.ToString()).Html);
+                    Messages.TooManyCases(Parameters.General.BurnDownLimit.ToString()));
             }
             return hb.ViewModeTemplate(
                 ss: ss,
@@ -6017,7 +6017,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.TimeSeriesLimit.ToString()).Html);
+                    Messages.TooManyCases(Parameters.General.TimeSeriesLimit.ToString()));
             }
             return hb.ViewModeTemplate(
                 ss: ss,
@@ -6153,7 +6153,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.KambanLimit.ToString()).Html);
+                    Messages.TooManyCases(Parameters.General.KambanLimit.ToString()));
             }
             return hb.ViewModeTemplate(
                 ss: ss,

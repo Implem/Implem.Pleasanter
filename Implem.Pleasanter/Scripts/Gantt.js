@@ -35,7 +35,7 @@ $p.drawGantt = function () {
     var months = [];
     var currentMonth;
     var days = [];
-    for (var s = 0; s < $p.dateDiff('d', maxDate, minDate) ; s++) {
+    for (var s = 0; s < $p.dateDiff('d', maxDate, minDate); s++) {
         var d = $p.dateAdd('d', s, minDate);
         days.push(d);
         if (currentMonth !== d.getMonth()) {
