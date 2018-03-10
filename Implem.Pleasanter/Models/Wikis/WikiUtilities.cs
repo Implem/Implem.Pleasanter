@@ -513,7 +513,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Sessions.Set("Message", Messages.Deleted(wikiModel.Title.Value).Html);
+                Sessions.Set("Message", Messages.Deleted(wikiModel.Title.Value));
                 var res = new WikisResponseCollection(wikiModel);
                 res
                     .SetMemory("formChanged", false)

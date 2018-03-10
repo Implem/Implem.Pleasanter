@@ -4,13 +4,10 @@ namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class Messages
     {
-        private static Message Get(string text, string status)
+        private static Message Get(string text, string css)
         {
             var hb = new HtmlBuilder();
-            return new Message(
-                hb.Span(css: status, action: () => hb
-                    .Text(text: text)).ToString(),
-                status);
+            return new Message(text, css);
         }
 
         private static ResponseCollection ResponseMessage(Message message)

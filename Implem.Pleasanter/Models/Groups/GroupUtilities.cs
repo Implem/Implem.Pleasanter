@@ -658,7 +658,7 @@ namespace Implem.Pleasanter.Models
             {
                 return error.MessageJson();
             }
-            Sessions.Set("Message", Messages.Created(groupModel.Title.Value).Html);
+            Sessions.Set("Message", Messages.Created(groupModel.Title.Value));
             return new ResponseCollection()
                 .SetMemory("formChanged", false)
                 .Href(Locations.Edit(
@@ -741,7 +741,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Sessions.Set("Message", Messages.Deleted(groupModel.Title.Value).Html);
+                Sessions.Set("Message", Messages.Deleted(groupModel.Title.Value));
                 var res = new GroupsResponseCollection(groupModel);
                 res
                     .SetMemory("formChanged", false)

@@ -25,11 +25,13 @@ $p.setMessage = function (target, value) {
     var $control = target !== undefined
         ? $(target)
         : $('.message-dialog:visible');
-    if ($control.length === 0) {
-        $('#Message').html(value);
-    } else {
-        $control.html(value);
-    }
+    var message = JSON.parse(value);
+    ($control.length === 0
+        ? $('#Message')
+        : $control)
+            .append($('<span/>')
+                .addClass(message.Css)
+                .text(message.Text));
 }
 
 $p.setErrorMessage = function (error) {

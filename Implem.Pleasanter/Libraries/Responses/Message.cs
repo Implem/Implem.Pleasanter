@@ -1,14 +1,16 @@
-﻿namespace Implem.Pleasanter.Libraries.Responses
+﻿using System;
+namespace Implem.Pleasanter.Libraries.Responses
 {
+    [Serializable]
     public class Message
     {
-        public string Html;
-        public string Status;
+        public string Text;
+        public string Css;
 
-        public Message(string html, string status)
+        public Message(string text, string css)
         {
-            Html = html;
-            Status = status;
+            Text = text;
+            Css = css;
         }
     }
 }

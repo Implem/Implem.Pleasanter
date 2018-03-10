@@ -3968,7 +3968,7 @@ namespace Implem.Pleasanter.Models
             {
                 return error.MessageJson();
             }
-            Sessions.Set("Message", Messages.Created(resultModel.Title.DisplayValue).Html);
+            Sessions.Set("Message", Messages.Created(resultModel.Title.DisplayValue));
             return new ResponseCollection()
                 .SetMemory("formChanged", false)
                 .Href(Locations.Edit(
@@ -4182,7 +4182,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Sessions.Set("Message", Messages.Deleted(resultModel.Title.Value).Html);
+                Sessions.Set("Message", Messages.Deleted(resultModel.Title.Value));
                 var res = new ResultsResponseCollection(resultModel);
                 res
                     .SetMemory("formChanged", false)
@@ -5038,7 +5038,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.CalendarLimit.ToString()).Html);
+                    Messages.TooManyCases(Parameters.General.CalendarLimit.ToString()));
             }
             return hb.ViewModeTemplate(
                 ss: ss,
@@ -5249,14 +5249,14 @@ namespace Implem.Pleasanter.Models
                 Sessions.Set(
                     "Message",
                     Messages.TooManyColumnCases(
-                        Parameters.General.CrosstabXLimit.ToString()).Html);
+                        Parameters.General.CrosstabXLimit.ToString()));
             }
             else if (!inRangeY)
             {
                 Sessions.Set(
                     "Message",
                     Messages.TooManyColumnCases(
-                        Parameters.General.CrosstabYLimit.ToString()).Html);
+                        Parameters.General.CrosstabYLimit.ToString()));
             }
             return hb.ViewModeTemplate(
                 ss: ss,
@@ -5489,7 +5489,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.TimeSeriesLimit.ToString()).Html);
+                    Messages.TooManyCases(Parameters.General.TimeSeriesLimit.ToString()));
             }
             return hb.ViewModeTemplate(
                 ss: ss,
@@ -5625,7 +5625,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.KambanLimit.ToString()).Html);
+                    Messages.TooManyCases(Parameters.General.KambanLimit.ToString()));
             }
             return hb.ViewModeTemplate(
                 ss: ss,

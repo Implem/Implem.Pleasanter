@@ -124,13 +124,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     }
                     action?.Invoke();
                     hb.P(id: "Message", css: "message", action: () => hb
-                        .Raw(text: Sessions.Message()));
+                        .SessionMessage());
                 }
                 else
                 {
+                    var message = errorType.Message(messageData);
                     hb
                         .P(id: "Message", css: "message", action: () => hb
-                            .Raw(text: errorType.Message(messageData).Html))
+                            .Span(css: message.Css, action: () => hb
+                                .Text(message.Text)))
                         .MainCommands(
                             siteId: siteId,
                             ss: ss,
