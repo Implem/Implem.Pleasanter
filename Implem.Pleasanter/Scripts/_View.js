@@ -20,25 +20,3 @@
             }
     }
 }
-
-$p.setMessage = function (target, value) {
-    var $control = target !== undefined
-        ? $(target)
-        : $('.message-dialog:visible');
-    var message = JSON.parse(value);
-    ($control.length === 0
-        ? $('#Message')
-        : $control)
-            .append($('<span/>')
-                .addClass(message.Css)
-                .text(message.Text));
-}
-
-$p.setErrorMessage = function (error) {
-    $('#Message').html(
-        '<span class="alert-error">' + $p.display(error) + '</span>');
-}
-
-$p.clearMessage = function () {
-    $('[class*="message"]').html('');
-}

@@ -2258,8 +2258,17 @@ pre{
     z-index:2;
 }
 
-.message > span{
+.message .body{
     border-radius:20px;
+}
+
+.message .close{
+    background-color:white;
+    position:absolute;
+    top:12px;
+    right:8px;
+    cursor:pointer;
+    border-radius:10px;
 }
 
 .message-dialog{
