@@ -2,7 +2,6 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
@@ -189,19 +188,11 @@ namespace Implem.Pleasanter.Libraries.Server
             return HttpContext.Current.Session?["SessionGuid"].ToString();
         }
 
-        public static HtmlBuilder SessionMessage(this HtmlBuilder hb)
+        public static Message Message()
         {
             var message = HttpContext.Current.Session["Message"] as Message;
-            if (message != null)
-            {
-                Clear("Message");
-                return hb.Span(css: message.Css, action: () => hb
-                    .Text(message.Text));
-            }
-            else
-            {
-                return hb;
-            }
+            if (message != null) Clear("Message");
+            return message;
         }
 
         public static object PageSession(this BaseModel baseModel, string name)

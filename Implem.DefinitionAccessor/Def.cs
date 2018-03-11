@@ -2303,7 +2303,8 @@ namespace Implem.DefinitionAccessor
                     case "_dot_limit_warning2": Css._dot_limit_warning2 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_limit_warning2, definitionRow, CssXls); break;
                     case "_dot_limit_warning3": Css._dot_limit_warning3 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_limit_warning3, definitionRow, CssXls); break;
                     case "_dot_message": Css._dot_message = definitionRow[1].ToString(); SetCssTable(CssTable._dot_message, definitionRow, CssXls); break;
-                    case "_dot_message_space___space_span": Css._dot_message_space___space_span = definitionRow[1].ToString(); SetCssTable(CssTable._dot_message_space___space_span, definitionRow, CssXls); break;
+                    case "_dot_message_space__dot_body": Css._dot_message_space__dot_body = definitionRow[1].ToString(); SetCssTable(CssTable._dot_message_space__dot_body, definitionRow, CssXls); break;
+                    case "_dot_message_space__dot_close": Css._dot_message_space__dot_close = definitionRow[1].ToString(); SetCssTable(CssTable._dot_message_space__dot_close, definitionRow, CssXls); break;
                     case "_dot_message_dialog": Css._dot_message_dialog = definitionRow[1].ToString(); SetCssTable(CssTable._dot_message_dialog, definitionRow, CssXls); break;
                     case "_dot_message_form_bottom": Css._dot_message_form_bottom = definitionRow[1].ToString(); SetCssTable(CssTable._dot_message_form_bottom, definitionRow, CssXls); break;
                     case "_dot_alert_error": Css._dot_alert_error = definitionRow[1].ToString(); SetCssTable(CssTable._dot_alert_error, definitionRow, CssXls); break;
@@ -8149,7 +8150,8 @@ namespace Implem.DefinitionAccessor
         public string _dot_limit_warning2;
         public string _dot_limit_warning3;
         public string _dot_message;
-        public string _dot_message_space___space_span;
+        public string _dot_message_space__dot_body;
+        public string _dot_message_space__dot_close;
         public string _dot_message_dialog;
         public string _dot_message_form_bottom;
         public string _dot_alert_error;
@@ -8621,7 +8623,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_limit_warning2 = new CssDefinition();
         public CssDefinition _dot_limit_warning3 = new CssDefinition();
         public CssDefinition _dot_message = new CssDefinition();
-        public CssDefinition _dot_message_space___space_span = new CssDefinition();
+        public CssDefinition _dot_message_space__dot_body = new CssDefinition();
+        public CssDefinition _dot_message_space__dot_close = new CssDefinition();
         public CssDefinition _dot_message_dialog = new CssDefinition();
         public CssDefinition _dot_message_form_bottom = new CssDefinition();
         public CssDefinition _dot_alert_error = new CssDefinition();

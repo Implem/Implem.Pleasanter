@@ -123,22 +123,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.Title(ss: ss, siteId: siteId, text: title);
                     }
                     action?.Invoke();
-                    hb.P(id: "Message", css: "message", action: () => hb
-                        .SessionMessage());
+                    hb.Message(message: Sessions.Message());
                 }
                 else
                 {
                     var message = errorType.Message(messageData);
                     hb
-                        .P(id: "Message", css: "message", action: () => hb
-                            .Span(css: message.Css, action: () => hb
-                                .Text(message.Text)))
+                        .Message(message: message)
                         .MainCommands(
                             siteId: siteId,
                             ss: ss,
                             verType: Versions.VerTypes.Latest);
                 }
             });
+        }
+
+        private static HtmlBuilder Message(this HtmlBuilder hb, Message message)
+        {
+            return hb
+                .P(id: "Message", css: "message")
+                .Hidden(
+                    controlId: "MessageData",
+                    value: message?.ToJson(),
+                    _using: message != null);
         }
 
         private static HtmlBuilder Title(
