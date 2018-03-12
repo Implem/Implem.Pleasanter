@@ -3,23 +3,28 @@
         ? $(target)
         : $('.message-dialog:visible');
     var message = JSON.parse(value);
-    ($control.length === 0
-        ? $('#Message')
-        : $control)
-            .append($('<div/>')
-                .append($('<span/>')
-                    .addClass('body')
-                    .addClass(message.Css)
-                    .text(message.Text))
-                .append($('<span/>')
-                    .addClass('ui-icon ui-icon-close close')));
+    var $body = $('<div/>')
+        .append($('<span/>')
+            .addClass('body')
+            .addClass(message.Css)
+            .text(message.Text));
+    if ($control.length === 0) {
+        if ($('#Message').hasClass('message')) {
+            $body.append($('<span/>')
+                .addClass('ui-icon ui-icon-close close'));
+        }
+        $('#Message').append($body);
+    } else {
+        $control.append($body);
+    }
 }
 
-$p.setErrorMessage = function (error) {
+$p.setErrorMessage = function (error, target) {
     var data = {};
     data.Css = 'alert-error';
     data.Text = $p.display(error);
-    $p.setMessage('#Message', JSON.stringify(data));
+    $p.clearMessage();
+    $p.setMessage(target, JSON.stringify(data));
 }
 
 $p.clearMessage = function () {
