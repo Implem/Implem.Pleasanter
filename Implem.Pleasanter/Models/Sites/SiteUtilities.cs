@@ -5012,6 +5012,11 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.SendCompletedInPast(),
                         _checked: reminder.SendCompletedInPast == true)
+                    .FieldCheckBox(
+                        controlId: "NotSendIfNotApplicable",
+                        controlCss: " always-send",
+                        labelText: Displays.NotSendIfNotApplicable(),
+                        _checked: reminder.NotSendIfNotApplicable == true)
                     .FieldDropDown(
                         controlId: "ReminderCondition",
                         controlCss: " always-send",

@@ -359,6 +359,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string NoTitle(params string[] data) { return Get("NoTitle", data); }
         public static string NotOutput(params string[] data) { return Get("NotOutput", data); }
         public static string NotRequiredColumn(params string[] data) { return Get("NotRequiredColumn", data); }
+        public static string NotSendIfNotApplicable(params string[] data) { return Get("NotSendIfNotApplicable", data); }
         public static string NotSet(params string[] data) { return Get("NotSet", data); }
         public static string NoWrap(params string[] data) { return Get("NoWrap", data); }
         public static string NumberPerPage(params string[] data) { return Get("NumberPerPage", data); }
