@@ -2263,6 +2263,7 @@ namespace Implem.Pleasanter.Models
                             type: (Times.RepeatTypes)Forms.Int("ReminderType"),
                             range: Forms.Int("ReminderRange"),
                             sendCompletedInPast: Forms.Bool("ReminderSendCompletedInPast"),
+                            notSendIfNotApplicable: Forms.Bool("NotSendIfNotApplicable"),
                             condition: Forms.Int("ReminderCondition")));
                         SetRemindersResponseCollection(res);
                         break;
@@ -2312,6 +2313,7 @@ namespace Implem.Pleasanter.Models
                                 type: (Times.RepeatTypes)Forms.Int("ReminderType"),
                                 range: Forms.Int("ReminderRange"),
                                 sendCompletedInPast: Forms.Bool("ReminderSendCompletedInPast"),
+                                notSendIfNotApplicable: Forms.Bool("NotSendIfNotApplicable"),
                                 condition: Forms.Int("ReminderCondition"));
                             SetRemindersResponseCollection(res);
                             break;

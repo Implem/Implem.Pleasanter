@@ -5,7 +5,6 @@ using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
-using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
@@ -31,6 +30,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Times.RepeatTypes Type;
         public int Range;
         public bool? SendCompletedInPast;
+        public bool? NotSendIfNotApplicable;
         public int Condition;
 
         public Reminder()
@@ -53,6 +53,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Times.RepeatTypes type,
             int range,
             bool sendCompletedInPast,
+            bool notSendIfNotApplicable,
             int condition)
         {
             Id = id;
@@ -66,6 +67,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Type = type;
             Range = range;
             SendCompletedInPast = sendCompletedInPast;
+            NotSendIfNotApplicable = notSendIfNotApplicable;
             Condition = condition;
         }
 
@@ -80,6 +82,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Times.RepeatTypes type,
             int range,
             bool sendCompletedInPast,
+            bool notSendIfNotApplicable,
             int condition)
         {
             Subject = subject;
@@ -92,6 +95,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Type = type;
             Range = range;
             SendCompletedInPast = sendCompletedInPast;
+            NotSendIfNotApplicable = notSendIfNotApplicable;
             Condition = condition;
         }
 
@@ -111,23 +115,27 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void Remind(SiteSettings ss, bool test = false)
         {
             ss.SetChoiceHash(withLink: true, all: true);
-            new OutgoingMailModel()
+            var dataSet = GetDataSet(ss);
+            if (Rds.Count(dataSet) > 0 || NotSendIfNotApplicable != true)
             {
-                Title = GetSubject(test),
-                Body = GetBody(ss),
-                From = new MailAddress(From),
-                To = To
-            }.Send(additionalStatements: !test
-                ? new List <SqlStatement>
+                new OutgoingMailModel()
                 {
+                    Title = GetSubject(test),
+                    Body = GetBody(ss, dataSet),
+                    From = new MailAddress(From),
+                    To = To
+                }.Send();
+            }
+            if (!test)
+            {
+                Rds.ExecuteNonQuery(statements:
                     Rds.UpdateReminderSchedules(
                         param: Rds.ReminderSchedulesParam()
                             .ScheduledTime(StartDateTime.Next(Type)),
                         where: Rds.ReminderSchedulesWhere()
                             .SiteId(ss.SiteId)
-                            .Id(Id))
-                }
-                : null);
+                            .Id(Id)));
+            }
         }
 
         private Title GetSubject(bool test)
@@ -138,7 +146,47 @@ namespace Implem.Pleasanter.Libraries.Settings
                     + Subject);
         }
 
-        private string GetBody(SiteSettings ss)
+        private string GetBody(SiteSettings ss, DataSet dataSet)
+        {
+            var sb = new StringBuilder();
+            var timeGroups = dataSet.Tables["Main"]
+                .AsEnumerable()
+                .GroupBy(dataRow => dataRow.DateTime(Column).Date)
+                .ToList();
+            timeGroups.ForEach(timeGroup =>
+            {
+                var date = timeGroup.First().DateTime(Column).ToLocal().Date;
+                switch (Column)
+                {
+                    case "CompletionTime":
+                        date = date.AddDays(-1);
+                        break;
+                }
+                sb.Append("{0} ({1})\n".Params(
+                    date.ToString(Displays.Get("YmdaFormat"), Sessions.CultureInfo()),
+                    Relative(date)));
+                timeGroup
+                    .OrderBy(dataRow => dataRow.Int("Status"))
+                    .ForEach(dataRow =>
+                        sb.Append(
+                            "\t",
+                            ReplacedLine(ss, dataRow),
+                            "\n\t",
+                            Locations.ItemEditAbsoluteUri(
+                                dataRow.Long(Rds.IdColumn(ss.ReferenceType))),
+                            "\n"));
+                sb.Append("\n");
+            });
+            if (!timeGroups.Any())
+            {
+                sb.Append(Displays.NoTargetRecord(), "\r\n");
+            }
+            return Body.Contains(BodyPlaceholder)
+                ? Body.Replace(BodyPlaceholder, sb.ToString())
+                : Body + "\n" + sb.ToString();
+        }
+
+        private DataSet GetDataSet(SiteSettings ss)
         {
             var orderByColumn = ss.GetColumn(Column);
             var column = new SqlColumnCollection()
@@ -180,42 +228,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     orderBy: new SqlOrderByCollection().Add(ss, ss.GetColumn(Column)),
                     pageSize: Parameters.Reminder.Limit,
                     countRecord: true));
-            var sb = new StringBuilder();
-            var timeGroups = dataSet.Tables["Main"]
-                .AsEnumerable()
-                .GroupBy(dataRow => dataRow.DateTime(Column).Date)
-                .ToList();
-            timeGroups.ForEach(timeGroup =>
-            {
-                var date = timeGroup.First().DateTime(Column).ToLocal().Date;
-                switch (Column)
-                {
-                    case "CompletionTime":
-                        date = date.AddDays(-1);
-                        break;
-                }
-                sb.Append("{0} ({1})\n".Params(
-                    date.ToString(Displays.Get("YmdaFormat"), Sessions.CultureInfo()),
-                    Relative(date)));
-                timeGroup
-                    .OrderBy(dataRow => dataRow.Int("Status"))
-                    .ForEach(dataRow =>
-                        sb.Append(
-                            "\t",
-                            ReplacedLine(ss, dataRow),
-                            "\n\t",
-                            Locations.ItemEditAbsoluteUri(
-                                dataRow.Long(Rds.IdColumn(ss.ReferenceType))),
-                            "\n"));
-                sb.Append("\n");
-            });
-            if (!timeGroups.Any())
-            {
-                sb.Append(Displays.NoTargetRecord(), "\r\n");
-            }
-            return Body.Contains(BodyPlaceholder)
-                ? Body.Replace(BodyPlaceholder, sb.ToString())
-                : Body + "\n" + sb.ToString();
+            return dataSet;
         }
 
         private string Relative(DateTime time)
@@ -251,6 +264,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (SendCompletedInPast == true)
             {
                 reminder.SendCompletedInPast = SendCompletedInPast;
+            }
+            if (NotSendIfNotApplicable == true)
+            {
+                reminder.NotSendIfNotApplicable = NotSendIfNotApplicable;
             }
             reminder.Condition = Condition;
             return reminder;
