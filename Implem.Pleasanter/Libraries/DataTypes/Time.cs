@@ -27,9 +27,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public Time(DateTime value, bool byForm = false)
         {
-            Value = byForm
-                ? value.ToUniversal()
-                : value;
+            Value = value.InRange()
+                ? byForm
+                    ? value.ToUniversal()
+                    : value
+                : 0.ToDateTime();
             DisplayValue = value;
         }
 
