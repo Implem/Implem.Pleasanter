@@ -598,6 +598,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public SysLogModel(string errorMessage)
+        {
+            Class = Routes.Controller();
+            Method = Routes.Action();
+            ErrMessage = errorMessage;
+            WriteSysLog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public SysLogModel(System.Web.Mvc.ExceptionContext filterContext)
         {
             Class = Routes.Controller();
