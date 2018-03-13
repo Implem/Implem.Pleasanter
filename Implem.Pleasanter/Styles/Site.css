@@ -1621,6 +1621,12 @@ pre{
     overflow:hidden;
 }
 
+.field-label .required:after{
+    margin-left:3px;
+    color:red;
+    content:'*';
+}
+
 .field-control .unit{
     display:block;
     float:left;
