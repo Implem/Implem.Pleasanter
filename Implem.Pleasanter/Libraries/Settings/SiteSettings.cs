@@ -576,6 +576,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.GridLabelText = column.GridLabelText;
                     }
+                    if (column.Description?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.Description = column.Description;
+                    }
                     if (column.ChoicesText != columnDefinition.ChoicesText)
                     {
                         enabled = true;
@@ -2025,6 +2030,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "FieldCss": column.FieldCss = value; break;
+                case "Description": column.Description = value; break;
                 case "ChoicesText": column.ChoicesText = value; SetLinks(column); break;
                 case "UseSearch": column.UseSearch = value.ToBool(); break;
                 case "DefaultInput": column.DefaultInput = value; break;

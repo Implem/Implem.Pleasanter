@@ -21,14 +21,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 columnPermissionType != Permissions.ColumnPermissionTypes.Update;
             return hb
                 .TextArea(
+                    title: column?.Description,
                     labelText: column?.LabelText,
-                    allowImage: column.AllowImage == true,
-                    mobile: column.SiteSettings.Mobile,
+                    allowImage: column?.AllowImage == true,
+                    mobile: column?.SiteSettings.Mobile == true,
                     _using: !readOnly)
                 .Div(id: "CommentList", action: () => comments
                     .ForEach(comment => hb
                         .Comment(
-                            ss: column.SiteSettings,
+                            ss: column?.SiteSettings,
                             column: column,
                             comment: comment,
                             readOnly: readOnly)));
@@ -54,6 +55,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder TextArea(
             this HtmlBuilder hb,
+            string title,
             string labelText,
             bool allowImage,
             bool mobile,
@@ -63,11 +65,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.Div(id: "CommentField", action: () =>
                     hb
                         .TextArea(
-                            id: "Comments",
-                            css: "control-textarea" + (Contract.Images() && allowImage
-                                ? " upload-image"
-                                : string.Empty),
-                            placeholder: labelText)
+                            attributes: new HtmlAttributes()
+                                .Id("Comments")
+                                .Class("control-textarea" + (Contract.Images() && allowImage
+                                    ? " upload-image"
+                                    : string.Empty))
+                                .Title(title)
+                                .Placeholder(labelText))
                         .MarkDownCommands(
                             controlId: "Comments",
                             readOnly: false,

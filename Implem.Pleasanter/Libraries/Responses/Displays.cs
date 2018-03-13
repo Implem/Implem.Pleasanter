@@ -168,6 +168,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string DemoMailBody(params string[] data) { return Get("DemoMailBody", data); }
         public static string DemoMailTitle(params string[] data) { return Get("DemoMailTitle", data); }
         public static string DeptAdmin(params string[] data) { return Get("DeptAdmin", data); }
+        public static string Description(params string[] data) { return Get("Description", data); }
         public static string Destination(params string[] data) { return Get("Destination", data); }
         public static string Difference(params string[] data) { return Get("Difference", data); }
         public static string Disabled(params string[] data) { return Get("Disabled", data); }
