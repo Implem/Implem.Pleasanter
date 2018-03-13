@@ -1292,6 +1292,7 @@
     <Content Include="App_Data\Displays\DeletedImage.json" />
     <Content Include="App_Data\Displays\ParameterSyntaxError.json" />
     <Content Include="App_Data\Displays\NotSendIfNotApplicable.json" />
+    <Content Include="App_Data\Displays\Description.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

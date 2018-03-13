@@ -18,6 +18,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ColumnName;
         public string LabelText;
         public string GridLabelText;
+        public string Description;
         public string ChoicesText;
         public bool? UseSearch;
         public string DefaultInput;

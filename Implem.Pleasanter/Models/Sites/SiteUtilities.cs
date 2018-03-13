@@ -2939,6 +2939,11 @@ namespace Implem.Pleasanter.Models
                             }
                             break;
                     }
+                    hb.FieldTextBox(
+                        controlId: "Description",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Description(),
+                        text: column.Description);
                     switch (column.ControlType)
                     {
                         case "ChoicesText":
