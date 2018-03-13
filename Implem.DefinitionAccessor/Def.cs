@@ -2200,6 +2200,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_field_vertical_space___space__dot_field_label": Css._dot_field_vertical_space___space__dot_field_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_vertical_space___space__dot_field_label, definitionRow, CssXls); break;
                     case "_dot_field_vertical_space___space__dot_field_control": Css._dot_field_vertical_space___space__dot_field_control = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_vertical_space___space__dot_field_control, definitionRow, CssXls); break;
                     case "_dot_field_label": Css._dot_field_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_label, definitionRow, CssXls); break;
+                    case "_dot_field_label_space__dot_required_colon_after": Css._dot_field_label_space__dot_required_colon_after = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_label_space__dot_required_colon_after, definitionRow, CssXls); break;
                     case "_dot_field_control_space__dot_unit": Css._dot_field_control_space__dot_unit = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_control_space__dot_unit, definitionRow, CssXls); break;
                     case "_dot_field_section": Css._dot_field_section = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_section, definitionRow, CssXls); break;
                     case "_dot_container_left": Css._dot_container_left = definitionRow[1].ToString(); SetCssTable(CssTable._dot_container_left, definitionRow, CssXls); break;
@@ -2461,6 +2462,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("text-decoration")) { newCssDefinition.text_decoration = definitionRow["text-decoration"].ToString(); newCssDefinition.Savedtext_decoration = newCssDefinition.text_decoration; }
                 if (definitionRow.ContainsKey("list-style-type")) { newCssDefinition.list_style_type = definitionRow["list-style-type"].ToString(); newCssDefinition.Savedlist_style_type = newCssDefinition.list_style_type; }
                 if (definitionRow.ContainsKey("visibility")) { newCssDefinition.visibility = definitionRow["visibility"].ToString(); newCssDefinition.Savedvisibility = newCssDefinition.visibility; }
+                if (definitionRow.ContainsKey("content")) { newCssDefinition.content = definitionRow["content"].ToString(); newCssDefinition.Savedcontent = newCssDefinition.content; }
                 if (definitionRow.ContainsKey("border-radius")) { newCssDefinition.border_radius = definitionRow["border-radius"].ToString(); newCssDefinition.Savedborder_radius = newCssDefinition.border_radius; }
                 if (definitionRow.ContainsKey("z-index")) { newCssDefinition.z_index = definitionRow["z-index"].ToString(); newCssDefinition.Savedz_index = newCssDefinition.z_index; }
                 if (definitionRow.ContainsKey("fill")) { newCssDefinition.fill = definitionRow["fill"].ToString(); newCssDefinition.Savedfill = newCssDefinition.fill; }
@@ -2522,6 +2524,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("text-decoration")) { definition.text_decoration = definitionRow["text-decoration"].ToString(); definition.Savedtext_decoration = definition.text_decoration; }
             if (definitionRow.ContainsKey("list-style-type")) { definition.list_style_type = definitionRow["list-style-type"].ToString(); definition.Savedlist_style_type = definition.list_style_type; }
             if (definitionRow.ContainsKey("visibility")) { definition.visibility = definitionRow["visibility"].ToString(); definition.Savedvisibility = definition.visibility; }
+            if (definitionRow.ContainsKey("content")) { definition.content = definitionRow["content"].ToString(); definition.Savedcontent = definition.content; }
             if (definitionRow.ContainsKey("border-radius")) { definition.border_radius = definitionRow["border-radius"].ToString(); definition.Savedborder_radius = definition.border_radius; }
             if (definitionRow.ContainsKey("z-index")) { definition.z_index = definitionRow["z-index"].ToString(); definition.Savedz_index = definition.z_index; }
             if (definitionRow.ContainsKey("fill")) { definition.fill = definitionRow["fill"].ToString(); definition.Savedfill = definition.fill; }
@@ -3951,6 +3954,7 @@ namespace Implem.DefinitionAccessor
                         case "text-decoration": cssDefinition.text_decoration = optionValue.ToString(); break;
                         case "list-style-type": cssDefinition.list_style_type = optionValue.ToString(); break;
                         case "visibility": cssDefinition.visibility = optionValue.ToString(); break;
+                        case "content": cssDefinition.content = optionValue.ToString(); break;
                         case "border-radius": cssDefinition.border_radius = optionValue.ToString(); break;
                         case "z-index": cssDefinition.z_index = optionValue.ToString(); break;
                         case "fill": cssDefinition.fill = optionValue.ToString(); break;
@@ -7587,6 +7591,7 @@ namespace Implem.DefinitionAccessor
         public string text_decoration; public string Savedtext_decoration;
         public string list_style_type; public string Savedlist_style_type;
         public string visibility; public string Savedvisibility;
+        public string content; public string Savedcontent;
         public string border_radius; public string Savedborder_radius;
         public string z_index; public string Savedz_index;
         public string fill; public string Savedfill;
@@ -7649,6 +7654,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("text_decoration")) text_decoration = propertyCollection["text_decoration"].ToString(); else text_decoration = string.Empty;
             if (propertyCollection.ContainsKey("list_style_type")) list_style_type = propertyCollection["list_style_type"].ToString(); else list_style_type = string.Empty;
             if (propertyCollection.ContainsKey("visibility")) visibility = propertyCollection["visibility"].ToString(); else visibility = string.Empty;
+            if (propertyCollection.ContainsKey("content")) content = propertyCollection["content"].ToString(); else content = string.Empty;
             if (propertyCollection.ContainsKey("border_radius")) border_radius = propertyCollection["border_radius"].ToString(); else border_radius = string.Empty;
             if (propertyCollection.ContainsKey("z_index")) z_index = propertyCollection["z_index"].ToString(); else z_index = string.Empty;
             if (propertyCollection.ContainsKey("fill")) fill = propertyCollection["fill"].ToString(); else fill = string.Empty;
@@ -7711,6 +7717,7 @@ namespace Implem.DefinitionAccessor
                     case "text_decoration": return text_decoration;
                     case "list_style_type": return list_style_type;
                     case "visibility": return visibility;
+                    case "content": return content;
                     case "border_radius": return border_radius;
                     case "z_index": return z_index;
                     case "fill": return fill;
@@ -7773,6 +7780,7 @@ namespace Implem.DefinitionAccessor
             text_decoration = Savedtext_decoration;
             list_style_type = Savedlist_style_type;
             visibility = Savedvisibility;
+            content = Savedcontent;
             border_radius = Savedborder_radius;
             z_index = Savedz_index;
             fill = Savedfill;
@@ -8047,6 +8055,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_field_vertical_space___space__dot_field_label;
         public string _dot_field_vertical_space___space__dot_field_control;
         public string _dot_field_label;
+        public string _dot_field_label_space__dot_required_colon_after;
         public string _dot_field_control_space__dot_unit;
         public string _dot_field_section;
         public string _dot_container_left;
@@ -8520,6 +8529,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_field_vertical_space___space__dot_field_label = new CssDefinition();
         public CssDefinition _dot_field_vertical_space___space__dot_field_control = new CssDefinition();
         public CssDefinition _dot_field_label = new CssDefinition();
+        public CssDefinition _dot_field_label_space__dot_required_colon_after = new CssDefinition();
         public CssDefinition _dot_field_control_space__dot_unit = new CssDefinition();
         public CssDefinition _dot_field_section = new CssDefinition();
         public CssDefinition _dot_container_left = new CssDefinition();

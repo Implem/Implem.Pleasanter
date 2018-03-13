@@ -1,20 +1,21 @@
-﻿namespace Implem.Pleasanter.Libraries.Styles
+﻿using Implem.Libraries.Utilities;
+namespace Implem.Pleasanter.Libraries.Styles
 {
     public static class Css
     {
         public static string Class(string _default, string additional)
         {
-            if (additional == string.Empty || additional == null)
+            if (additional.IsNullOrEmpty())
             {
-                return _default.Trim();
+                return _default?.Trim();
             }
-            else if (_default.EndsWith(" "))
+            else if (_default?.EndsWith(" ") == true)
             {
                 return (_default + additional).Trim();
             }
             else if (additional.Substring(0, 1) == " ")
             {
-                return _default.Trim() + additional;
+                return (_default?.Trim() + additional).Trim();
             }
             else
             {
