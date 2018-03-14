@@ -151,19 +151,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Title(
             this HtmlBuilder hb, SiteSettings ss, long siteId, string text)
         {
-            if (!text.IsNullOrEmpty())
-            {
-                return hb
+            return !text.IsNullOrEmpty()
+                ? hb
                     .Div(id: "SiteImageIconContainer", action: () => hb
                         .SiteImageIcon(ss: ss, siteId: siteId))
                     .Header(id: "HeaderTitleContainer", action: () => hb
                         .H(number: 1, id: "HeaderTitle", action: () => hb
-                            .Text(text: text)));
-            }
-            else
-            {
-                return hb;
-            }
+                            .Text(text: text)))
+                : hb;
         }
 
         public static HtmlBuilder SiteImageIcon(
