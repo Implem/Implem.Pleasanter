@@ -1,5 +1,4 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
-using Implem.Pleasanter.Libraries.HtmlParts;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class Messages
