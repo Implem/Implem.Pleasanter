@@ -10,6 +10,8 @@
         ConfirmDelete_ja: '本当に削除してもよろしいですか？',
         ConfirmReload: 'Are you sure you want to reload this page?',
         ConfirmReload_ja: 'このページを離れようとしています。',
+        ConfirmReset: 'Are you sure you want to reset ?',
+        ConfirmReset_ja: '本当にリセットしてもよろしいですか？',
         ConfirmSendMail: 'Are you sure you want to send an email ?',
         ConfirmSendMail_ja: 'メールを送信してもよろしいですか？',
         ConfirmSeparate: 'Are you sure you want to separate ?',

@@ -2995,6 +2995,15 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
+                        controlId: "ResetEditorColumn",
+                        text: Displays.Reset(),
+                        controlCss: "button-icon validate",
+                        onClick: "$p.resetEditorColumn($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "post",
+                        confirm: "ConfirmReset")
+                    .Button(
                         text: Displays.Cancel(),
                         controlCss: "button-icon",
                         onClick: "$p.closeDialog($(this));",
