@@ -940,6 +940,9 @@ namespace Implem.Pleasanter.Models
                 case "SetEditorColumn":
                     SetEditorColumn(res);
                     break;
+                case "ResetEditorColumn":
+                    ResetEditorColumn(res);
+                    break;
                 case "MoveUpTitleColumns":
                 case "MoveDownTitleColumns":
                 case "ToDisableTitleColumns":
@@ -1487,6 +1490,20 @@ namespace Implem.Pleasanter.Models
                         selectedValueTextCollection: columnName.ToSingleList()))
                     .CloseDialog();
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ResetEditorColumn(ResponseCollection res)
+        {
+            var ss = new SiteSettings(ReferenceType);
+            res.Html(
+                "#EditorColumnDialog",
+                SiteUtilities.EditorColumnDialog(
+                    ss: SiteSettings,
+                    column: ss.GetColumn(Forms.Data("EditorColumnName")),
+                    titleColumns: ss.TitleColumns));
         }
 
         /// <summary>

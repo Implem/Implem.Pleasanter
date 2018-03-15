@@ -40,6 +40,14 @@ $p.openEditorColumnDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#EditorColumnDialog');
 }
 
+$p.resetEditorColumn = function ($control) {
+    $p.syncSend($control);
+    var data = $p.getData($control);
+    $('#EditorColumnForm [class^="control-"]').each(function (index, control) {
+        $p.setData($(control), data);
+    });
+}
+
 $p.openSummaryDialog = function ($control) {
     $p.data.SummaryForm = {};
     $p.openSiteSettingsDialog($control, '#SummaryDialog');
