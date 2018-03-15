@@ -4854,6 +4854,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.SendCompletedInPast()))
                     .Th(action: () => hb
+                        .Text(text: Displays.NotSendIfNotApplicable()))
+                    .Th(action: () => hb
                         .Text(text: Displays.Condition()))));
         }
 
@@ -4902,6 +4904,10 @@ namespace Implem.Pleasanter.Models
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: reminder.SendCompletedInPast == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: reminder.NotSendIfNotApplicable == true))
                             .Td(action: () => hb
                                 .Text(text: condition?.Name)));
                 }));
