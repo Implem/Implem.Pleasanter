@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Links(this HtmlBuilder hb, SiteSettings ss, long id)
         {
             var targets = Targets(id);
-            var dataSet = DataSet(targets);
+            var dataSet = DataSet(ss, targets);
             return Contains(ss, dataSet)
                 ? hb.FieldSet(
                     css: " enclosed",
@@ -48,22 +48,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }).AsEnumerable();
         }
 
-        private static DataSet DataSet(EnumerableRowCollection<DataRow> targets)
+        private static DataSet DataSet(SiteSettings ss, EnumerableRowCollection<DataRow> targets)
         {
-            return Rds.ExecuteDataSet(statements: new SqlStatement[]
-            {
-                SelectIssues(targets, "Destination"), SelectIssues(targets, "Source"),
-                SelectResults(targets, "Destination"), SelectResults(targets, "Source")
-            });
+            var statements = new List<SqlStatement>();
+            ss.Sources.ForEach(currentSs =>
+                statements.Add(SelectIssues(currentSs, targets, "Source")));
+            ss.Destinations.ForEach(currentSs =>
+                statements.Add(SelectIssues(currentSs, targets, "Destination")));
+            ss.Sources.ForEach(currentSs =>
+                statements.Add(SelectResults(currentSs, targets, "Source")));
+            ss.Destinations.ForEach(currentSs =>
+                statements.Add(SelectResults(currentSs, targets, "Destination")));
+            return statements.Any()
+                ? Rds.ExecuteDataSet(statements: statements.ToArray())
+                : null;
         }
 
         private static SqlStatement SelectIssues(
-            EnumerableRowCollection<DataRow> targets, string direction)
+            SiteSettings ss, EnumerableRowCollection<DataRow> targets, string direction)
         {
             return Rds.SelectIssues(
-                dataTableName: "Issues" + "_" + direction,
-                column: Rds
-                    .IssuesDefaultColumns()
+                dataTableName: "Issues" + "_" + direction + ss.SiteId,
+                column: IssuesLinkColumns(ss)
                     .Add(
                         "(select [title] from [items] where [ReferenceId]=[IssueId])",
                         _as: "ItemTitle")
@@ -74,19 +80,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         joinType: SqlJoin.JoinTypes.Inner,
                         joinExpression: "[Sites].[SiteId]=[Issues].[SiteId]"),
                 where: Rds.IssuesWhere()
+                    .SiteId(ss.SiteId)
                     .IssueId_In(targets
                         .Where(o => o["Direction"].ToString() == direction)
                         .Select(o => o["Id"].ToLong()))
                     .CanRead("[Issues].[IssueId]"));
         }
 
+        public static Rds.IssuesColumnCollection IssuesLinkColumns(SiteSettings ss)
+        {
+            var column = Rds.IssuesColumn()
+                .SiteId()
+                .IssueId();
+            ss.LinkColumns.ForEach(columnName => column.IssuesColumn(columnName));
+            return column;
+        }
+
         private static SqlStatement SelectResults(
-            EnumerableRowCollection<DataRow> targets, string direction)
+            SiteSettings ss, EnumerableRowCollection<DataRow> targets, string direction)
         {
             return Rds.SelectResults(
-                dataTableName: "Results" + "_" + direction,
-                column: Rds
-                    .ResultsDefaultColumns()
+                dataTableName: "Results" + "_" + direction + ss.SiteId,
+                column: ResultsLinkColumns(ss)
                     .Add(
                         "(select [title] from [items] where [ReferenceId]=[ResultId])",
                         _as: "ItemTitle")
@@ -97,10 +112,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         joinType: SqlJoin.JoinTypes.Inner,
                         joinExpression: "[Sites].[SiteId]=[Results].[SiteId]"),
                 where: Rds.ResultsWhere()
+                    .SiteId(ss.SiteId)
                     .ResultId_In(targets
                         .Where(o => o["Direction"].ToString() == direction)
                         .Select(o => o["Id"].ToLong()))
                     .CanRead("[Results].[ResultId]"));
+        }
+
+        public static Rds.ResultsColumnCollection ResultsLinkColumns(SiteSettings ss)
+        {
+            var column = Rds.ResultsColumn()
+                .SiteId()
+                .ResultId();
+            ss.LinkColumns.ForEach(columnName => column.ResultsColumn(columnName));
+            return column;
         }
 
         private static bool Contains(SiteSettings ss, DataSet dataSet)
@@ -115,7 +140,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             foreach (var ss in ssList)
             {
-                if (dataSet.Tables[ss.ReferenceType + "_" + direction]?
+                if (dataSet?.Tables[ss.ReferenceType + "_" + direction + ss.SiteId]?
                     .AsEnumerable()
                     .Where(o => o["SiteId"].ToLong() == ss.SiteId).Any() == true)
                 {
@@ -153,7 +178,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             ssList.ForEach(ss => hb.Table(css: "grid", action: () =>
             {
-                var dataRows = dataSet.Tables[ss.ReferenceType + "_" + direction]?
+                var dataRows = dataSet.Tables[ss.ReferenceType + "_" + direction + ss.SiteId]?
                     .AsEnumerable()
                     .Where(o => o["SiteId"].ToLong() == ss.SiteId);
                 var siteMenu = SiteInfo.TenantCaches[Sessions.TenantId()].SiteMenu;
