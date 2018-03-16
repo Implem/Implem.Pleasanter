@@ -74,6 +74,7 @@ namespace Implem.DefinitionAccessor
             Parameters.BackgroundTask = Read<ParameterAccessor.Parts.BackgroundTask>();
             Parameters.BinaryStorage = Read<ParameterAccessor.Parts.BinaryStorage>();
             Parameters.ExcludeColumns = Read<ParameterAccessor.Parts.ExcludeColumns>();
+            Parameters.ExtendedColumnsSet = ExtendedColumnsSet();
             Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.ExtendedStyles = ExtendedStyles();
             Parameters.ExtendedScripts = ExtendedScripts();
@@ -101,6 +102,39 @@ namespace Implem.DefinitionAccessor
                 Parameters.SyntaxErrors.Add(name + ".json");
             }
             return data;
+        }
+
+        private static List<ParameterAccessor.Parts.ExtendedColumns> ExtendedColumnsSet(
+            string path = null, List<ParameterAccessor.Parts.ExtendedColumns> list = null)
+        {
+            list = list ?? new List<ParameterAccessor.Parts.ExtendedColumns>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedColumns");
+            var dir = new DirectoryInfo(path);
+            if (dir.Exists)
+            {
+                foreach (var file in dir.GetFiles("*.json"))
+                {
+                    var extendedColumns = Files.Read(file.FullName)
+                        .Deserialize<ParameterAccessor.Parts.ExtendedColumns>();
+                    if (extendedColumns != null)
+                    {
+                        list.Add(extendedColumns);
+                    }
+                    else
+                    {
+                        Parameters.SyntaxErrors.Add(file.Name);
+                    }
+                }
+                foreach (var sub in dir.GetDirectories())
+                {
+                    list = ExtendedColumnsSet(sub.FullName, list);
+                }
+            }
+            return list;
         }
 
         private static List<ParameterAccessor.Parts.ExtendedSql> ExtendedSqls(
@@ -213,6 +247,45 @@ namespace Implem.DefinitionAccessor
             Def.SetDemoDefinition();
             Def.SetSqlDefinition();
             SetDisplayAccessor();
+            if (Parameters.Enterprise)
+            {
+                SetExtendedColumnDefinitions();
+            }
+        }
+
+        private static void SetExtendedColumnDefinitions()
+        {
+            Parameters.ExtendedColumnsSet.ForEach(extendedColumns =>
+            {
+                var data = new Dictionary<string, int>
+                {
+                    { "Class", extendedColumns.Class },
+                    { "Num", extendedColumns.Num },
+                    { "Date", extendedColumns.Date },
+                    { "Description", extendedColumns.Description },
+                    { "Check", extendedColumns.Check },
+                    { "Attachments", extendedColumns.Attachments }
+                };
+                data.ForEach(part =>
+                {
+                    for (var i = 1; i <= part.Value; i++)
+                    {
+                        var id = string.Format("{0:D3}", i);
+                        var columnName = part.Key + id;
+                        var def = Def.ColumnDefinitionCollection
+                            .Where(o => o.TableName == extendedColumns.ReferenceType)
+                            .FirstOrDefault(o => o.ColumnName == part.Key + "A")
+                            .Copy();
+                        def.Id = $"{extendedColumns.TableName}_{columnName}";
+                        def.TableName = extendedColumns.TableName;
+                        def.Label = extendedColumns.Label ?? def.Label;
+                        def.ColumnName = columnName;
+                        def.ColumnLabel = def.ColumnLabel
+                            .Substring(0, def.ColumnLabel.Length -1) + id;
+                        Def.ColumnDefinitionCollection.Add(def);
+                    }
+                });
+            });
         }
 
         public static XlsIo DefinitionFile(string fileName)
