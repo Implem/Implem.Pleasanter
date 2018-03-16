@@ -968,7 +968,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     (columnDefinition.Unique && columnDefinition.TypeName == "bigint") ||
                     columnDefinition.ColumnName == "Ver";
                 column.ColumnName = column.ColumnName ?? columnDefinition.ColumnName;
-                column.LabelText = column.LabelText ?? Displays.Get(columnDefinition.Id);
+                column.LabelText = column.LabelText ?? columnDefinition.ColumnLabel;
                 column.GridLabelText = column.GridLabelText ?? column.LabelText;
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
                 column.UseSearch = column.UseSearch ?? columnDefinition.UseSearch;
