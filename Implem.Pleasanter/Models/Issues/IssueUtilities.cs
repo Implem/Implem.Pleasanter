@@ -2901,14 +2901,14 @@ namespace Implem.Pleasanter.Models
             if (!preview)
             {
                 hb.VerUpCheckBox(issueModel);
-                    hb
-                        .Div(id: "LinkCreations", css: "links", action: () => hb
-                            .LinkCreations(
-                                ss: ss,
-                                linkId: issueModel.IssueId,
-                                methodType: issueModel.MethodType))
-                        .Div(id: "Links", css: "links", action: () => hb
-                            .Links(ss: ss, id: issueModel.IssueId));
+                hb
+                    .Div(id: "LinkCreations", css: "links", action: () => hb
+                        .LinkCreations(
+                            ss: ss,
+                            linkId: issueModel.IssueId,
+                            methodType: issueModel.MethodType))
+                    .Div(id: "Links", css: "links", action: () => hb
+                        .Links(ss: ss, id: issueModel.IssueId));
             }
             return hb;
         }
