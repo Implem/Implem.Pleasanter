@@ -1291,9 +1291,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return Columns
                 .Where(o => o.ColumnName == name || o.LabelText == name)
-                .Where(o => o.Computable)
+                .Where(o => o.TypeName == "decimal")
                 .Where(o => !o.NotUpdate)
-                .Where(o => o.TypeName != "datetime")
                 .Where(o => !o.Joined)
                 .FirstOrDefault();
         }
@@ -1491,11 +1490,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> FormulaTargetSelectableOptions()
         {
             return Columns
-                .Where(o => o.Computable)
+                .Where(o => o.TypeName == "decimal")
                 .Where(o => !o.NotUpdate)
-                .Where(o => o.TypeName != "datetime")
                 .Where(o => !o.Joined)
-                .OrderBy(o => o.Id)
+                .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
         }
 
