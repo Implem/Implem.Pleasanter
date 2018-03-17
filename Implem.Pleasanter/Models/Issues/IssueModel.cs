@@ -4842,6 +4842,7 @@ namespace Implem.Pleasanter.Models
                     switch (formulaSet.Target)
                     {
                         case "WorkValue": param.WorkValue(WorkValue.Value); break;
+                        case "ProgressRate": param.ProgressRate(ProgressRate.Value); break;
                         case "NumA": param.NumA(NumA); break;
                         case "NumB": param.NumB(NumB); break;
                         case "NumC": param.NumC(NumC); break;
@@ -4900,6 +4901,7 @@ namespace Implem.Pleasanter.Models
                 var data = new Dictionary<string, decimal>
                 {
                     { "WorkValue", WorkValue.Value },
+                    { "ProgressRate", ProgressRate.Value },
                     { "RemainingWorkValue", RemainingWorkValue },
                     { "NumA", NumA },
                     { "NumB", NumB },
@@ -4932,6 +4934,10 @@ namespace Implem.Pleasanter.Models
                 {
                     case "WorkValue":
                         WorkValue.Value = formula?.GetResult(
+                            data, ss.GetColumn(columnName)) ?? 0;
+                        break;
+                    case "ProgressRate":
+                        ProgressRate.Value = formula?.GetResult(
                             data, ss.GetColumn(columnName)) ?? 0;
                         break;
                     case "NumA":
