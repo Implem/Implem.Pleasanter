@@ -349,13 +349,25 @@ namespace Implem.Pleasanter.Models
             SiteInfo.TenantCaches[Sessions.TenantId()]
                 .SiteMenu.Breadcrumb(SiteId).FullText(fullText);
             SiteId.FullText(fullText);
-            UpdatedTime.FullText(fullText);
-            Title.FullText(fullText);
-            Body.FullText(fullText);
-            Comments.FullText(fullText);
+            ss.EditorColumns.ForEach(columnName =>
+            {
+                switch (columnName)
+                {
+                    case "Title":
+                        Title.FullText(fullText);
+                        break;
+                    case "Body":
+                        Body.FullText(fullText);
+                        break;
+                    case "Comments":
+                        Comments.FullText(fullText);
+                        break;
+                }
+            });
             Creator.FullText(fullText);
             Updator.FullText(fullText);
             CreatedTime.FullText(fullText);
+            UpdatedTime.FullText(fullText);
             if (!onCreating)
             {
                 FullTextExtensions.OutgoingMailsFullText(fullText, "Sites", SiteId);

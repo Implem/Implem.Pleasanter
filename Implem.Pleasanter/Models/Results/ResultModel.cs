@@ -3489,147 +3489,427 @@ namespace Implem.Pleasanter.Models
             SiteInfo.TenantCaches[Sessions.TenantId()]
                 .SiteMenu.Breadcrumb(SiteId).FullText(fullText);
             SiteId.FullText(fullText);
-            UpdatedTime.FullText(fullText);
-            ResultId.FullText(fullText);
-            Title.FullText(fullText);
-            Body.FullText(fullText);
-            Status.FullText(ss.GetColumn("Status"), fullText);
-            Manager.FullText(fullText);
-            Owner.FullText(fullText);
-            ClassA.FullText(ss.GetColumn("ClassA"), fullText);
-            ClassB.FullText(ss.GetColumn("ClassB"), fullText);
-            ClassC.FullText(ss.GetColumn("ClassC"), fullText);
-            ClassD.FullText(ss.GetColumn("ClassD"), fullText);
-            ClassE.FullText(ss.GetColumn("ClassE"), fullText);
-            ClassF.FullText(ss.GetColumn("ClassF"), fullText);
-            ClassG.FullText(ss.GetColumn("ClassG"), fullText);
-            ClassH.FullText(ss.GetColumn("ClassH"), fullText);
-            ClassI.FullText(ss.GetColumn("ClassI"), fullText);
-            ClassJ.FullText(ss.GetColumn("ClassJ"), fullText);
-            ClassK.FullText(ss.GetColumn("ClassK"), fullText);
-            ClassL.FullText(ss.GetColumn("ClassL"), fullText);
-            ClassM.FullText(ss.GetColumn("ClassM"), fullText);
-            ClassN.FullText(ss.GetColumn("ClassN"), fullText);
-            ClassO.FullText(ss.GetColumn("ClassO"), fullText);
-            ClassP.FullText(ss.GetColumn("ClassP"), fullText);
-            ClassQ.FullText(ss.GetColumn("ClassQ"), fullText);
-            ClassR.FullText(ss.GetColumn("ClassR"), fullText);
-            ClassS.FullText(ss.GetColumn("ClassS"), fullText);
-            ClassT.FullText(ss.GetColumn("ClassT"), fullText);
-            ClassU.FullText(ss.GetColumn("ClassU"), fullText);
-            ClassV.FullText(ss.GetColumn("ClassV"), fullText);
-            ClassW.FullText(ss.GetColumn("ClassW"), fullText);
-            ClassX.FullText(ss.GetColumn("ClassX"), fullText);
-            ClassY.FullText(ss.GetColumn("ClassY"), fullText);
-            ClassZ.FullText(ss.GetColumn("ClassZ"), fullText);
-            NumA.FullText(fullText);
-            NumB.FullText(fullText);
-            NumC.FullText(fullText);
-            NumD.FullText(fullText);
-            NumE.FullText(fullText);
-            NumF.FullText(fullText);
-            NumG.FullText(fullText);
-            NumH.FullText(fullText);
-            NumI.FullText(fullText);
-            NumJ.FullText(fullText);
-            NumK.FullText(fullText);
-            NumL.FullText(fullText);
-            NumM.FullText(fullText);
-            NumN.FullText(fullText);
-            NumO.FullText(fullText);
-            NumP.FullText(fullText);
-            NumQ.FullText(fullText);
-            NumR.FullText(fullText);
-            NumS.FullText(fullText);
-            NumT.FullText(fullText);
-            NumU.FullText(fullText);
-            NumV.FullText(fullText);
-            NumW.FullText(fullText);
-            NumX.FullText(fullText);
-            NumY.FullText(fullText);
-            NumZ.FullText(fullText);
-            DateA.FullText(fullText);
-            DateB.FullText(fullText);
-            DateC.FullText(fullText);
-            DateD.FullText(fullText);
-            DateE.FullText(fullText);
-            DateF.FullText(fullText);
-            DateG.FullText(fullText);
-            DateH.FullText(fullText);
-            DateI.FullText(fullText);
-            DateJ.FullText(fullText);
-            DateK.FullText(fullText);
-            DateL.FullText(fullText);
-            DateM.FullText(fullText);
-            DateN.FullText(fullText);
-            DateO.FullText(fullText);
-            DateP.FullText(fullText);
-            DateQ.FullText(fullText);
-            DateR.FullText(fullText);
-            DateS.FullText(fullText);
-            DateT.FullText(fullText);
-            DateU.FullText(fullText);
-            DateV.FullText(fullText);
-            DateW.FullText(fullText);
-            DateX.FullText(fullText);
-            DateY.FullText(fullText);
-            DateZ.FullText(fullText);
-            DescriptionA.FullText(fullText);
-            DescriptionB.FullText(fullText);
-            DescriptionC.FullText(fullText);
-            DescriptionD.FullText(fullText);
-            DescriptionE.FullText(fullText);
-            DescriptionF.FullText(fullText);
-            DescriptionG.FullText(fullText);
-            DescriptionH.FullText(fullText);
-            DescriptionI.FullText(fullText);
-            DescriptionJ.FullText(fullText);
-            DescriptionK.FullText(fullText);
-            DescriptionL.FullText(fullText);
-            DescriptionM.FullText(fullText);
-            DescriptionN.FullText(fullText);
-            DescriptionO.FullText(fullText);
-            DescriptionP.FullText(fullText);
-            DescriptionQ.FullText(fullText);
-            DescriptionR.FullText(fullText);
-            DescriptionS.FullText(fullText);
-            DescriptionT.FullText(fullText);
-            DescriptionU.FullText(fullText);
-            DescriptionV.FullText(fullText);
-            DescriptionW.FullText(fullText);
-            DescriptionX.FullText(fullText);
-            DescriptionY.FullText(fullText);
-            DescriptionZ.FullText(fullText);
-            AttachmentsA.FullText(fullText);
-            AttachmentsB.FullText(fullText);
-            AttachmentsC.FullText(fullText);
-            AttachmentsD.FullText(fullText);
-            AttachmentsE.FullText(fullText);
-            AttachmentsF.FullText(fullText);
-            AttachmentsG.FullText(fullText);
-            AttachmentsH.FullText(fullText);
-            AttachmentsI.FullText(fullText);
-            AttachmentsJ.FullText(fullText);
-            AttachmentsK.FullText(fullText);
-            AttachmentsL.FullText(fullText);
-            AttachmentsM.FullText(fullText);
-            AttachmentsN.FullText(fullText);
-            AttachmentsO.FullText(fullText);
-            AttachmentsP.FullText(fullText);
-            AttachmentsQ.FullText(fullText);
-            AttachmentsR.FullText(fullText);
-            AttachmentsS.FullText(fullText);
-            AttachmentsT.FullText(fullText);
-            AttachmentsU.FullText(fullText);
-            AttachmentsV.FullText(fullText);
-            AttachmentsW.FullText(fullText);
-            AttachmentsX.FullText(fullText);
-            AttachmentsY.FullText(fullText);
-            AttachmentsZ.FullText(fullText);
-            Comments.FullText(fullText);
+            ss.EditorColumns.ForEach(columnName =>
+            {
+                switch (columnName)
+                {
+                    case "ResultId":
+                        ResultId.FullText(fullText);
+                        break;
+                    case "Title":
+                        Title.FullText(fullText);
+                        break;
+                    case "Body":
+                        Body.FullText(fullText);
+                        break;
+                    case "Status":
+                        Status.FullText(ss.GetColumn("Status"), fullText);
+                        break;
+                    case "Manager":
+                        Manager.FullText(fullText);
+                        break;
+                    case "Owner":
+                        Owner.FullText(fullText);
+                        break;
+                    case "ClassA":
+                        ClassA.FullText(ss.GetColumn("ClassA"), fullText);
+                        break;
+                    case "ClassB":
+                        ClassB.FullText(ss.GetColumn("ClassB"), fullText);
+                        break;
+                    case "ClassC":
+                        ClassC.FullText(ss.GetColumn("ClassC"), fullText);
+                        break;
+                    case "ClassD":
+                        ClassD.FullText(ss.GetColumn("ClassD"), fullText);
+                        break;
+                    case "ClassE":
+                        ClassE.FullText(ss.GetColumn("ClassE"), fullText);
+                        break;
+                    case "ClassF":
+                        ClassF.FullText(ss.GetColumn("ClassF"), fullText);
+                        break;
+                    case "ClassG":
+                        ClassG.FullText(ss.GetColumn("ClassG"), fullText);
+                        break;
+                    case "ClassH":
+                        ClassH.FullText(ss.GetColumn("ClassH"), fullText);
+                        break;
+                    case "ClassI":
+                        ClassI.FullText(ss.GetColumn("ClassI"), fullText);
+                        break;
+                    case "ClassJ":
+                        ClassJ.FullText(ss.GetColumn("ClassJ"), fullText);
+                        break;
+                    case "ClassK":
+                        ClassK.FullText(ss.GetColumn("ClassK"), fullText);
+                        break;
+                    case "ClassL":
+                        ClassL.FullText(ss.GetColumn("ClassL"), fullText);
+                        break;
+                    case "ClassM":
+                        ClassM.FullText(ss.GetColumn("ClassM"), fullText);
+                        break;
+                    case "ClassN":
+                        ClassN.FullText(ss.GetColumn("ClassN"), fullText);
+                        break;
+                    case "ClassO":
+                        ClassO.FullText(ss.GetColumn("ClassO"), fullText);
+                        break;
+                    case "ClassP":
+                        ClassP.FullText(ss.GetColumn("ClassP"), fullText);
+                        break;
+                    case "ClassQ":
+                        ClassQ.FullText(ss.GetColumn("ClassQ"), fullText);
+                        break;
+                    case "ClassR":
+                        ClassR.FullText(ss.GetColumn("ClassR"), fullText);
+                        break;
+                    case "ClassS":
+                        ClassS.FullText(ss.GetColumn("ClassS"), fullText);
+                        break;
+                    case "ClassT":
+                        ClassT.FullText(ss.GetColumn("ClassT"), fullText);
+                        break;
+                    case "ClassU":
+                        ClassU.FullText(ss.GetColumn("ClassU"), fullText);
+                        break;
+                    case "ClassV":
+                        ClassV.FullText(ss.GetColumn("ClassV"), fullText);
+                        break;
+                    case "ClassW":
+                        ClassW.FullText(ss.GetColumn("ClassW"), fullText);
+                        break;
+                    case "ClassX":
+                        ClassX.FullText(ss.GetColumn("ClassX"), fullText);
+                        break;
+                    case "ClassY":
+                        ClassY.FullText(ss.GetColumn("ClassY"), fullText);
+                        break;
+                    case "ClassZ":
+                        ClassZ.FullText(ss.GetColumn("ClassZ"), fullText);
+                        break;
+                    case "NumA":
+                        NumA.FullText(fullText);
+                        break;
+                    case "NumB":
+                        NumB.FullText(fullText);
+                        break;
+                    case "NumC":
+                        NumC.FullText(fullText);
+                        break;
+                    case "NumD":
+                        NumD.FullText(fullText);
+                        break;
+                    case "NumE":
+                        NumE.FullText(fullText);
+                        break;
+                    case "NumF":
+                        NumF.FullText(fullText);
+                        break;
+                    case "NumG":
+                        NumG.FullText(fullText);
+                        break;
+                    case "NumH":
+                        NumH.FullText(fullText);
+                        break;
+                    case "NumI":
+                        NumI.FullText(fullText);
+                        break;
+                    case "NumJ":
+                        NumJ.FullText(fullText);
+                        break;
+                    case "NumK":
+                        NumK.FullText(fullText);
+                        break;
+                    case "NumL":
+                        NumL.FullText(fullText);
+                        break;
+                    case "NumM":
+                        NumM.FullText(fullText);
+                        break;
+                    case "NumN":
+                        NumN.FullText(fullText);
+                        break;
+                    case "NumO":
+                        NumO.FullText(fullText);
+                        break;
+                    case "NumP":
+                        NumP.FullText(fullText);
+                        break;
+                    case "NumQ":
+                        NumQ.FullText(fullText);
+                        break;
+                    case "NumR":
+                        NumR.FullText(fullText);
+                        break;
+                    case "NumS":
+                        NumS.FullText(fullText);
+                        break;
+                    case "NumT":
+                        NumT.FullText(fullText);
+                        break;
+                    case "NumU":
+                        NumU.FullText(fullText);
+                        break;
+                    case "NumV":
+                        NumV.FullText(fullText);
+                        break;
+                    case "NumW":
+                        NumW.FullText(fullText);
+                        break;
+                    case "NumX":
+                        NumX.FullText(fullText);
+                        break;
+                    case "NumY":
+                        NumY.FullText(fullText);
+                        break;
+                    case "NumZ":
+                        NumZ.FullText(fullText);
+                        break;
+                    case "DateA":
+                        DateA.FullText(fullText);
+                        break;
+                    case "DateB":
+                        DateB.FullText(fullText);
+                        break;
+                    case "DateC":
+                        DateC.FullText(fullText);
+                        break;
+                    case "DateD":
+                        DateD.FullText(fullText);
+                        break;
+                    case "DateE":
+                        DateE.FullText(fullText);
+                        break;
+                    case "DateF":
+                        DateF.FullText(fullText);
+                        break;
+                    case "DateG":
+                        DateG.FullText(fullText);
+                        break;
+                    case "DateH":
+                        DateH.FullText(fullText);
+                        break;
+                    case "DateI":
+                        DateI.FullText(fullText);
+                        break;
+                    case "DateJ":
+                        DateJ.FullText(fullText);
+                        break;
+                    case "DateK":
+                        DateK.FullText(fullText);
+                        break;
+                    case "DateL":
+                        DateL.FullText(fullText);
+                        break;
+                    case "DateM":
+                        DateM.FullText(fullText);
+                        break;
+                    case "DateN":
+                        DateN.FullText(fullText);
+                        break;
+                    case "DateO":
+                        DateO.FullText(fullText);
+                        break;
+                    case "DateP":
+                        DateP.FullText(fullText);
+                        break;
+                    case "DateQ":
+                        DateQ.FullText(fullText);
+                        break;
+                    case "DateR":
+                        DateR.FullText(fullText);
+                        break;
+                    case "DateS":
+                        DateS.FullText(fullText);
+                        break;
+                    case "DateT":
+                        DateT.FullText(fullText);
+                        break;
+                    case "DateU":
+                        DateU.FullText(fullText);
+                        break;
+                    case "DateV":
+                        DateV.FullText(fullText);
+                        break;
+                    case "DateW":
+                        DateW.FullText(fullText);
+                        break;
+                    case "DateX":
+                        DateX.FullText(fullText);
+                        break;
+                    case "DateY":
+                        DateY.FullText(fullText);
+                        break;
+                    case "DateZ":
+                        DateZ.FullText(fullText);
+                        break;
+                    case "DescriptionA":
+                        DescriptionA.FullText(fullText);
+                        break;
+                    case "DescriptionB":
+                        DescriptionB.FullText(fullText);
+                        break;
+                    case "DescriptionC":
+                        DescriptionC.FullText(fullText);
+                        break;
+                    case "DescriptionD":
+                        DescriptionD.FullText(fullText);
+                        break;
+                    case "DescriptionE":
+                        DescriptionE.FullText(fullText);
+                        break;
+                    case "DescriptionF":
+                        DescriptionF.FullText(fullText);
+                        break;
+                    case "DescriptionG":
+                        DescriptionG.FullText(fullText);
+                        break;
+                    case "DescriptionH":
+                        DescriptionH.FullText(fullText);
+                        break;
+                    case "DescriptionI":
+                        DescriptionI.FullText(fullText);
+                        break;
+                    case "DescriptionJ":
+                        DescriptionJ.FullText(fullText);
+                        break;
+                    case "DescriptionK":
+                        DescriptionK.FullText(fullText);
+                        break;
+                    case "DescriptionL":
+                        DescriptionL.FullText(fullText);
+                        break;
+                    case "DescriptionM":
+                        DescriptionM.FullText(fullText);
+                        break;
+                    case "DescriptionN":
+                        DescriptionN.FullText(fullText);
+                        break;
+                    case "DescriptionO":
+                        DescriptionO.FullText(fullText);
+                        break;
+                    case "DescriptionP":
+                        DescriptionP.FullText(fullText);
+                        break;
+                    case "DescriptionQ":
+                        DescriptionQ.FullText(fullText);
+                        break;
+                    case "DescriptionR":
+                        DescriptionR.FullText(fullText);
+                        break;
+                    case "DescriptionS":
+                        DescriptionS.FullText(fullText);
+                        break;
+                    case "DescriptionT":
+                        DescriptionT.FullText(fullText);
+                        break;
+                    case "DescriptionU":
+                        DescriptionU.FullText(fullText);
+                        break;
+                    case "DescriptionV":
+                        DescriptionV.FullText(fullText);
+                        break;
+                    case "DescriptionW":
+                        DescriptionW.FullText(fullText);
+                        break;
+                    case "DescriptionX":
+                        DescriptionX.FullText(fullText);
+                        break;
+                    case "DescriptionY":
+                        DescriptionY.FullText(fullText);
+                        break;
+                    case "DescriptionZ":
+                        DescriptionZ.FullText(fullText);
+                        break;
+                    case "AttachmentsA":
+                        AttachmentsA.FullText(fullText);
+                        break;
+                    case "AttachmentsB":
+                        AttachmentsB.FullText(fullText);
+                        break;
+                    case "AttachmentsC":
+                        AttachmentsC.FullText(fullText);
+                        break;
+                    case "AttachmentsD":
+                        AttachmentsD.FullText(fullText);
+                        break;
+                    case "AttachmentsE":
+                        AttachmentsE.FullText(fullText);
+                        break;
+                    case "AttachmentsF":
+                        AttachmentsF.FullText(fullText);
+                        break;
+                    case "AttachmentsG":
+                        AttachmentsG.FullText(fullText);
+                        break;
+                    case "AttachmentsH":
+                        AttachmentsH.FullText(fullText);
+                        break;
+                    case "AttachmentsI":
+                        AttachmentsI.FullText(fullText);
+                        break;
+                    case "AttachmentsJ":
+                        AttachmentsJ.FullText(fullText);
+                        break;
+                    case "AttachmentsK":
+                        AttachmentsK.FullText(fullText);
+                        break;
+                    case "AttachmentsL":
+                        AttachmentsL.FullText(fullText);
+                        break;
+                    case "AttachmentsM":
+                        AttachmentsM.FullText(fullText);
+                        break;
+                    case "AttachmentsN":
+                        AttachmentsN.FullText(fullText);
+                        break;
+                    case "AttachmentsO":
+                        AttachmentsO.FullText(fullText);
+                        break;
+                    case "AttachmentsP":
+                        AttachmentsP.FullText(fullText);
+                        break;
+                    case "AttachmentsQ":
+                        AttachmentsQ.FullText(fullText);
+                        break;
+                    case "AttachmentsR":
+                        AttachmentsR.FullText(fullText);
+                        break;
+                    case "AttachmentsS":
+                        AttachmentsS.FullText(fullText);
+                        break;
+                    case "AttachmentsT":
+                        AttachmentsT.FullText(fullText);
+                        break;
+                    case "AttachmentsU":
+                        AttachmentsU.FullText(fullText);
+                        break;
+                    case "AttachmentsV":
+                        AttachmentsV.FullText(fullText);
+                        break;
+                    case "AttachmentsW":
+                        AttachmentsW.FullText(fullText);
+                        break;
+                    case "AttachmentsX":
+                        AttachmentsX.FullText(fullText);
+                        break;
+                    case "AttachmentsY":
+                        AttachmentsY.FullText(fullText);
+                        break;
+                    case "AttachmentsZ":
+                        AttachmentsZ.FullText(fullText);
+                        break;
+                    case "Comments":
+                        Comments.FullText(fullText);
+                        break;
+                }
+            });
             Creator.FullText(fullText);
             Updator.FullText(fullText);
             CreatedTime.FullText(fullText);
+            UpdatedTime.FullText(fullText);
             if (!onCreating)
             {
                 FullTextExtensions.OutgoingMailsFullText(fullText, "Results", ResultId);
