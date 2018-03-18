@@ -41,24 +41,36 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public long SavedMailAddressId = 0;
         [NonSerialized] public string SavedMailAddress = string.Empty;
 
-        public bool OwnerId_Updated()
+        public bool OwnerId_Updated(Column column = null)
         {
-            return OwnerId != SavedOwnerId;
+            return OwnerId != SavedOwnerId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != OwnerId);
         }
 
-        public bool OwnerType_Updated()
+        public bool OwnerType_Updated(Column column = null)
         {
-            return OwnerType != SavedOwnerType && OwnerType != null;
+            return OwnerType != SavedOwnerType && OwnerType != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != OwnerType);
         }
 
-        public bool MailAddressId_Updated()
+        public bool MailAddressId_Updated(Column column = null)
         {
-            return MailAddressId != SavedMailAddressId;
+            return MailAddressId != SavedMailAddressId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != MailAddressId);
         }
 
-        public bool MailAddress_Updated()
+        public bool MailAddress_Updated(Column column = null)
         {
-            return MailAddress != SavedMailAddress && MailAddress != null;
+            return MailAddress != SavedMailAddress && MailAddress != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != MailAddress);
         }
 
         public MailAddressModel()
@@ -397,9 +409,7 @@ namespace Implem.Pleasanter.Models
                 MailAddress_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
 
         /// <summary>

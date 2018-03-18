@@ -60,25 +60,19 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "DeptCode":
-                        if (deptModel.DeptCode_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != deptModel.DeptCode))
+                        if (deptModel.DeptCode_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DeptName":
-                        if (deptModel.DeptName_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != deptModel.DeptName))
+                        if (deptModel.DeptName_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Body":
-                        if (deptModel.Body_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != deptModel.Body))
+                        if (deptModel.Body_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }

@@ -62,25 +62,19 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "TenantId":
-                        if (groupModel.TenantId_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToInt() != groupModel.TenantId))
+                        if (groupModel.TenantId_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "GroupName":
-                        if (groupModel.GroupName_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != groupModel.GroupName))
+                        if (groupModel.GroupName_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Body":
-                        if (groupModel.Body_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != groupModel.Body))
+                        if (groupModel.Body_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }

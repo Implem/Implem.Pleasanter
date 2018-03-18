@@ -34,29 +34,44 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedTenantId = 0;
         [NonSerialized] public int SavedUserId = 0;
 
-        public bool LoginId_Updated()
+        public bool LoginId_Updated(Column column = null)
         {
-            return LoginId != SavedLoginId && LoginId != null;
+            return LoginId != SavedLoginId && LoginId != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != LoginId);
         }
 
-        public bool Key_Updated()
+        public bool Key_Updated(Column column = null)
         {
-            return Key != SavedKey && Key != null;
+            return Key != SavedKey && Key != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Key);
         }
 
-        public bool TenantNames_Updated()
+        public bool TenantNames_Updated(Column column = null)
         {
-            return TenantNames != SavedTenantNames && TenantNames != null;
+            return TenantNames != SavedTenantNames && TenantNames != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != TenantNames);
         }
 
-        public bool TenantId_Updated()
+        public bool TenantId_Updated(Column column = null)
         {
-            return TenantId != SavedTenantId;
+            return TenantId != SavedTenantId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != TenantId);
         }
 
-        public bool UserId_Updated()
+        public bool UserId_Updated(Column column = null)
         {
-            return UserId != SavedUserId;
+            return UserId != SavedUserId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != UserId);
         }
 
         public LoginKeyModel(DataRow dataRow, string tableAlias = null)
@@ -191,9 +206,7 @@ namespace Implem.Pleasanter.Models
                 UserId_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
     }
 }

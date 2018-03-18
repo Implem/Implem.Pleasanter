@@ -32,24 +32,36 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedUserId = 0;
         [NonSerialized] public bool SavedAdmin = false;
 
-        public bool GroupId_Updated()
+        public bool GroupId_Updated(Column column = null)
         {
-            return GroupId != SavedGroupId;
+            return GroupId != SavedGroupId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != GroupId);
         }
 
-        public bool DeptId_Updated()
+        public bool DeptId_Updated(Column column = null)
         {
-            return DeptId != SavedDeptId;
+            return DeptId != SavedDeptId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != DeptId);
         }
 
-        public bool UserId_Updated()
+        public bool UserId_Updated(Column column = null)
         {
-            return UserId != SavedUserId;
+            return UserId != SavedUserId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != UserId);
         }
 
-        public bool Admin_Updated()
+        public bool Admin_Updated(Column column = null)
         {
-            return Admin != SavedAdmin;
+            return Admin != SavedAdmin &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != Admin);
         }
 
         public GroupMemberModel(DataRow dataRow, string tableAlias = null)
@@ -182,9 +194,7 @@ namespace Implem.Pleasanter.Models
                 Admin_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
     }
 }

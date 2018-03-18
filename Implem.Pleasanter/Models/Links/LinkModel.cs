@@ -38,14 +38,20 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedSubset = string.Empty;
         [NonSerialized] public string SavedSiteTitle = string.Empty;
 
-        public bool DestinationId_Updated()
+        public bool DestinationId_Updated(Column column = null)
         {
-            return DestinationId != SavedDestinationId;
+            return DestinationId != SavedDestinationId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != DestinationId);
         }
 
-        public bool SourceId_Updated()
+        public bool SourceId_Updated(Column column = null)
         {
-            return SourceId != SavedSourceId;
+            return SourceId != SavedSourceId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != SourceId);
         }
 
         public LinkModel(DataRow dataRow, string tableAlias = null)
@@ -185,9 +191,7 @@ namespace Implem.Pleasanter.Models
                 Ver_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
     }
 }

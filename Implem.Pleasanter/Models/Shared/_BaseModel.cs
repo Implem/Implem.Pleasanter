@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.Settings;
 using System;
 namespace Implem.Pleasanter.Models
 {
@@ -36,34 +37,36 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedTimestamp = string.Empty;
         [NonSerialized] public string SavedComments = "[]";
 
-        public bool Ver_Updated()
+        public bool Ver_Updated(Column column = null)
         {
-            return Ver != SavedVer;
+            return Ver != SavedVer &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != Ver);
         }
 
-        public bool Comments_Updated()
+        public bool Comments_Updated(Column column = null)
         {
-            return Comments.ToJson() != SavedComments && Comments.ToJson() != null;
+            return Comments.ToJson() != SavedComments && Comments.ToJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Comments.ToJson());
         }
 
-        public bool Creator_Updated()
+        public bool Creator_Updated(Column column = null)
         {
-            return Creator.Id != SavedCreator;
+            return Creator.Id != SavedCreator &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != Creator.Id);
         }
 
-        public bool Updator_Updated()
+        public bool Updator_Updated(Column column = null)
         {
-            return Updator.Id != SavedUpdator;
-        }
-
-        public bool CreatedTime_Updated()
-        {
-            return CreatedTime.Value != SavedCreatedTime;
-        }
-
-        public bool UpdatedTime_Updated()
-        {
-            return UpdatedTime.Value != SavedUpdatedTime;
+            return Updator.Id != SavedUpdator &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != Updator.Id);
         }
     }
 
@@ -76,19 +79,28 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedTitle = string.Empty;
         [NonSerialized] public string SavedBody = string.Empty;
 
-        public bool SiteId_Updated()
+        public bool SiteId_Updated(Column column = null)
         {
-            return SiteId != SavedSiteId;
+            return SiteId != SavedSiteId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != SiteId);
         }
 
-        public bool Title_Updated()
+        public bool Title_Updated(Column column = null)
         {
-            return Title.Value != SavedTitle && Title.Value != null;
+            return Title.Value != SavedTitle && Title.Value != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Title.Value);
         }
 
-        public bool Body_Updated()
+        public bool Body_Updated(Column column = null)
         {
-            return Body != SavedBody && Body != null;
+            return Body != SavedBody && Body != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Body);
         }
     }
 }

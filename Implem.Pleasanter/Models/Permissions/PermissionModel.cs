@@ -40,29 +40,44 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedName = string.Empty;
         [NonSerialized] public long SavedPermissionType = 31;
 
-        public bool ReferenceId_Updated()
+        public bool ReferenceId_Updated(Column column = null)
         {
-            return ReferenceId != SavedReferenceId;
+            return ReferenceId != SavedReferenceId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != ReferenceId);
         }
 
-        public bool DeptId_Updated()
+        public bool DeptId_Updated(Column column = null)
         {
-            return DeptId != SavedDeptId;
+            return DeptId != SavedDeptId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != DeptId);
         }
 
-        public bool GroupId_Updated()
+        public bool GroupId_Updated(Column column = null)
         {
-            return GroupId != SavedGroupId;
+            return GroupId != SavedGroupId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != GroupId);
         }
 
-        public bool UserId_Updated()
+        public bool UserId_Updated(Column column = null)
         {
-            return UserId != SavedUserId;
+            return UserId != SavedUserId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != UserId);
         }
 
-        public bool PermissionType_Updated()
+        public bool PermissionType_Updated(Column column = null)
         {
-            return PermissionType.ToLong() != SavedPermissionType;
+            return PermissionType.ToLong() != SavedPermissionType &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != PermissionType.ToLong());
         }
 
         public PermissionModel(DataRow dataRow, string tableAlias = null)
@@ -215,9 +230,7 @@ namespace Implem.Pleasanter.Models
                 PermissionType_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
 
         /// <summary>

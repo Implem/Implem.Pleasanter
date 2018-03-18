@@ -72,177 +72,133 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "LoginId":
-                        if (userModel.LoginId_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != userModel.LoginId))
+                        if (userModel.LoginId_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "GlobalId":
-                        if (userModel.GlobalId_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != userModel.GlobalId))
+                        if (userModel.GlobalId_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Name":
-                        if (userModel.Name_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != userModel.Name))
+                        if (userModel.Name_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "UserCode":
-                        if (userModel.UserCode_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != userModel.UserCode))
+                        if (userModel.UserCode_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Password":
-                        if (userModel.Password_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != userModel.Password))
+                        if (userModel.Password_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "LastName":
-                        if (userModel.LastName_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != userModel.LastName))
+                        if (userModel.LastName_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "FirstName":
-                        if (userModel.FirstName_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != userModel.FirstName))
+                        if (userModel.FirstName_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Gender":
-                        if (userModel.Gender_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != userModel.Gender))
+                        if (userModel.Gender_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Language":
-                        if (userModel.Language_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != userModel.Language))
+                        if (userModel.Language_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "TimeZone":
-                        if (userModel.TimeZone_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != userModel.TimeZone))
+                        if (userModel.TimeZone_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DeptId":
-                        if (userModel.DeptId_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToInt() != userModel.DeptId))
+                        if (userModel.DeptId_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "FirstAndLastNameOrder":
-                        if (userModel.FirstAndLastNameOrder_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToInt() != userModel.FirstAndLastNameOrder.ToInt()))
+                        if (userModel.FirstAndLastNameOrder_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Body":
-                        if (userModel.Body_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != userModel.Body))
+                        if (userModel.Body_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumberOfLogins":
-                        if (userModel.NumberOfLogins_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToInt() != userModel.NumberOfLogins))
+                        if (userModel.NumberOfLogins_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumberOfDenial":
-                        if (userModel.NumberOfDenial_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToInt() != userModel.NumberOfDenial))
+                        if (userModel.NumberOfDenial_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "TenantManager":
-                        if (userModel.TenantManager_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != userModel.TenantManager))
+                        if (userModel.TenantManager_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Disabled":
-                        if (userModel.Disabled_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != userModel.Disabled))
+                        if (userModel.Disabled_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ApiKey":
-                        if (userModel.ApiKey_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != userModel.ApiKey))
+                        if (userModel.ApiKey_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Birthday":
-                        if (userModel.Birthday_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != userModel.Birthday.Value.Date))
+                        if (userModel.Birthday_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "LastLoginTime":
-                        if (userModel.LastLoginTime_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != userModel.LastLoginTime.Value.Date))
+                        if (userModel.LastLoginTime_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "PasswordExpirationTime":
-                        if (userModel.PasswordExpirationTime_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != userModel.PasswordExpirationTime.Value.Date))
+                        if (userModel.PasswordExpirationTime_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "PasswordChangeTime":
-                        if (userModel.PasswordChangeTime_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != userModel.PasswordChangeTime.Value.Date))
+                        if (userModel.PasswordChangeTime_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }

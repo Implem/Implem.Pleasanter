@@ -38,34 +38,52 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public bool SavedInitialized = false;
         [NonSerialized] public int SavedTimeLag = 0;
 
-        public bool DemoId_Updated()
+        public bool DemoId_Updated(Column column = null)
         {
-            return DemoId != SavedDemoId;
+            return DemoId != SavedDemoId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != DemoId);
         }
 
-        public bool TenantId_Updated()
+        public bool TenantId_Updated(Column column = null)
         {
-            return TenantId != SavedTenantId;
+            return TenantId != SavedTenantId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != TenantId);
         }
 
-        public bool Title_Updated()
+        public bool Title_Updated(Column column = null)
         {
-            return Title.Value != SavedTitle && Title.Value != null;
+            return Title.Value != SavedTitle && Title.Value != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Title.Value);
         }
 
-        public bool Passphrase_Updated()
+        public bool Passphrase_Updated(Column column = null)
         {
-            return Passphrase != SavedPassphrase && Passphrase != null;
+            return Passphrase != SavedPassphrase && Passphrase != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Passphrase);
         }
 
-        public bool MailAddress_Updated()
+        public bool MailAddress_Updated(Column column = null)
         {
-            return MailAddress != SavedMailAddress && MailAddress != null;
+            return MailAddress != SavedMailAddress && MailAddress != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != MailAddress);
         }
 
-        public bool Initialized_Updated()
+        public bool Initialized_Updated(Column column = null)
         {
-            return Initialized != SavedInitialized;
+            return Initialized != SavedInitialized &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != Initialized);
         }
 
         /// <summary>
@@ -414,9 +432,7 @@ namespace Implem.Pleasanter.Models
                 Initialized_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
 
         /// <summary>

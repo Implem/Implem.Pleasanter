@@ -57,1321 +57,991 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "Title":
-                        if (issueModel.Title_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.Title.Value))
+                        if (issueModel.Title_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Body":
-                        if (issueModel.Body_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.Body))
+                        if (issueModel.Body_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "WorkValue":
-                        if (issueModel.WorkValue_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.WorkValue.Value))
+                        if (issueModel.WorkValue_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ProgressRate":
-                        if (issueModel.ProgressRate_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.ProgressRate.Value))
+                        if (issueModel.ProgressRate_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Status":
-                        if (issueModel.Status_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToInt() != issueModel.Status.Value))
+                        if (issueModel.Status_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Manager":
-                        if (issueModel.Manager_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToInt() != issueModel.Manager.Id))
+                        if (issueModel.Manager_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Owner":
-                        if (issueModel.Owner_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToInt() != issueModel.Owner.Id))
+                        if (issueModel.Owner_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassA":
-                        if (issueModel.ClassA_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassA))
+                        if (issueModel.ClassA_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassB":
-                        if (issueModel.ClassB_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassB))
+                        if (issueModel.ClassB_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassC":
-                        if (issueModel.ClassC_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassC))
+                        if (issueModel.ClassC_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassD":
-                        if (issueModel.ClassD_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassD))
+                        if (issueModel.ClassD_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassE":
-                        if (issueModel.ClassE_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassE))
+                        if (issueModel.ClassE_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassF":
-                        if (issueModel.ClassF_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassF))
+                        if (issueModel.ClassF_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassG":
-                        if (issueModel.ClassG_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassG))
+                        if (issueModel.ClassG_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassH":
-                        if (issueModel.ClassH_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassH))
+                        if (issueModel.ClassH_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassI":
-                        if (issueModel.ClassI_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassI))
+                        if (issueModel.ClassI_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassJ":
-                        if (issueModel.ClassJ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassJ))
+                        if (issueModel.ClassJ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassK":
-                        if (issueModel.ClassK_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassK))
+                        if (issueModel.ClassK_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassL":
-                        if (issueModel.ClassL_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassL))
+                        if (issueModel.ClassL_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassM":
-                        if (issueModel.ClassM_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassM))
+                        if (issueModel.ClassM_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassN":
-                        if (issueModel.ClassN_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassN))
+                        if (issueModel.ClassN_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassO":
-                        if (issueModel.ClassO_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassO))
+                        if (issueModel.ClassO_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassP":
-                        if (issueModel.ClassP_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassP))
+                        if (issueModel.ClassP_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassQ":
-                        if (issueModel.ClassQ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassQ))
+                        if (issueModel.ClassQ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassR":
-                        if (issueModel.ClassR_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassR))
+                        if (issueModel.ClassR_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassS":
-                        if (issueModel.ClassS_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassS))
+                        if (issueModel.ClassS_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassT":
-                        if (issueModel.ClassT_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassT))
+                        if (issueModel.ClassT_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassU":
-                        if (issueModel.ClassU_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassU))
+                        if (issueModel.ClassU_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassV":
-                        if (issueModel.ClassV_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassV))
+                        if (issueModel.ClassV_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassW":
-                        if (issueModel.ClassW_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassW))
+                        if (issueModel.ClassW_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassX":
-                        if (issueModel.ClassX_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassX))
+                        if (issueModel.ClassX_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassY":
-                        if (issueModel.ClassY_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassY))
+                        if (issueModel.ClassY_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassZ":
-                        if (issueModel.ClassZ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.ClassZ))
+                        if (issueModel.ClassZ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumA":
-                        if (issueModel.NumA_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumA))
+                        if (issueModel.NumA_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumB":
-                        if (issueModel.NumB_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumB))
+                        if (issueModel.NumB_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumC":
-                        if (issueModel.NumC_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumC))
+                        if (issueModel.NumC_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumD":
-                        if (issueModel.NumD_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumD))
+                        if (issueModel.NumD_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumE":
-                        if (issueModel.NumE_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumE))
+                        if (issueModel.NumE_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumF":
-                        if (issueModel.NumF_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumF))
+                        if (issueModel.NumF_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumG":
-                        if (issueModel.NumG_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumG))
+                        if (issueModel.NumG_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumH":
-                        if (issueModel.NumH_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumH))
+                        if (issueModel.NumH_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumI":
-                        if (issueModel.NumI_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumI))
+                        if (issueModel.NumI_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumJ":
-                        if (issueModel.NumJ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumJ))
+                        if (issueModel.NumJ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumK":
-                        if (issueModel.NumK_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumK))
+                        if (issueModel.NumK_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumL":
-                        if (issueModel.NumL_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumL))
+                        if (issueModel.NumL_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumM":
-                        if (issueModel.NumM_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumM))
+                        if (issueModel.NumM_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumN":
-                        if (issueModel.NumN_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumN))
+                        if (issueModel.NumN_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumO":
-                        if (issueModel.NumO_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumO))
+                        if (issueModel.NumO_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumP":
-                        if (issueModel.NumP_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumP))
+                        if (issueModel.NumP_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumQ":
-                        if (issueModel.NumQ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumQ))
+                        if (issueModel.NumQ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumR":
-                        if (issueModel.NumR_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumR))
+                        if (issueModel.NumR_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumS":
-                        if (issueModel.NumS_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumS))
+                        if (issueModel.NumS_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumT":
-                        if (issueModel.NumT_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumT))
+                        if (issueModel.NumT_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumU":
-                        if (issueModel.NumU_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumU))
+                        if (issueModel.NumU_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumV":
-                        if (issueModel.NumV_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumV))
+                        if (issueModel.NumV_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumW":
-                        if (issueModel.NumW_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumW))
+                        if (issueModel.NumW_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumX":
-                        if (issueModel.NumX_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumX))
+                        if (issueModel.NumX_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumY":
-                        if (issueModel.NumY_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumY))
+                        if (issueModel.NumY_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumZ":
-                        if (issueModel.NumZ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToDecimal() != issueModel.NumZ))
+                        if (issueModel.NumZ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionA":
-                        if (issueModel.DescriptionA_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionA))
+                        if (issueModel.DescriptionA_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionB":
-                        if (issueModel.DescriptionB_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionB))
+                        if (issueModel.DescriptionB_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionC":
-                        if (issueModel.DescriptionC_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionC))
+                        if (issueModel.DescriptionC_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionD":
-                        if (issueModel.DescriptionD_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionD))
+                        if (issueModel.DescriptionD_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionE":
-                        if (issueModel.DescriptionE_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionE))
+                        if (issueModel.DescriptionE_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionF":
-                        if (issueModel.DescriptionF_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionF))
+                        if (issueModel.DescriptionF_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionG":
-                        if (issueModel.DescriptionG_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionG))
+                        if (issueModel.DescriptionG_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionH":
-                        if (issueModel.DescriptionH_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionH))
+                        if (issueModel.DescriptionH_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionI":
-                        if (issueModel.DescriptionI_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionI))
+                        if (issueModel.DescriptionI_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionJ":
-                        if (issueModel.DescriptionJ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionJ))
+                        if (issueModel.DescriptionJ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionK":
-                        if (issueModel.DescriptionK_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionK))
+                        if (issueModel.DescriptionK_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionL":
-                        if (issueModel.DescriptionL_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionL))
+                        if (issueModel.DescriptionL_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionM":
-                        if (issueModel.DescriptionM_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionM))
+                        if (issueModel.DescriptionM_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionN":
-                        if (issueModel.DescriptionN_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionN))
+                        if (issueModel.DescriptionN_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionO":
-                        if (issueModel.DescriptionO_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionO))
+                        if (issueModel.DescriptionO_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionP":
-                        if (issueModel.DescriptionP_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionP))
+                        if (issueModel.DescriptionP_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionQ":
-                        if (issueModel.DescriptionQ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionQ))
+                        if (issueModel.DescriptionQ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionR":
-                        if (issueModel.DescriptionR_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionR))
+                        if (issueModel.DescriptionR_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionS":
-                        if (issueModel.DescriptionS_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionS))
+                        if (issueModel.DescriptionS_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionT":
-                        if (issueModel.DescriptionT_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionT))
+                        if (issueModel.DescriptionT_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionU":
-                        if (issueModel.DescriptionU_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionU))
+                        if (issueModel.DescriptionU_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionV":
-                        if (issueModel.DescriptionV_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionV))
+                        if (issueModel.DescriptionV_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionW":
-                        if (issueModel.DescriptionW_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionW))
+                        if (issueModel.DescriptionW_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionX":
-                        if (issueModel.DescriptionX_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionX))
+                        if (issueModel.DescriptionX_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionY":
-                        if (issueModel.DescriptionY_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionY))
+                        if (issueModel.DescriptionY_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionZ":
-                        if (issueModel.DescriptionZ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.DescriptionZ))
+                        if (issueModel.DescriptionZ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckA":
-                        if (issueModel.CheckA_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckA))
+                        if (issueModel.CheckA_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckB":
-                        if (issueModel.CheckB_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckB))
+                        if (issueModel.CheckB_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckC":
-                        if (issueModel.CheckC_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckC))
+                        if (issueModel.CheckC_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckD":
-                        if (issueModel.CheckD_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckD))
+                        if (issueModel.CheckD_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckE":
-                        if (issueModel.CheckE_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckE))
+                        if (issueModel.CheckE_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckF":
-                        if (issueModel.CheckF_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckF))
+                        if (issueModel.CheckF_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckG":
-                        if (issueModel.CheckG_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckG))
+                        if (issueModel.CheckG_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckH":
-                        if (issueModel.CheckH_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckH))
+                        if (issueModel.CheckH_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckI":
-                        if (issueModel.CheckI_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckI))
+                        if (issueModel.CheckI_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckJ":
-                        if (issueModel.CheckJ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckJ))
+                        if (issueModel.CheckJ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckK":
-                        if (issueModel.CheckK_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckK))
+                        if (issueModel.CheckK_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckL":
-                        if (issueModel.CheckL_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckL))
+                        if (issueModel.CheckL_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckM":
-                        if (issueModel.CheckM_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckM))
+                        if (issueModel.CheckM_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckN":
-                        if (issueModel.CheckN_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckN))
+                        if (issueModel.CheckN_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckO":
-                        if (issueModel.CheckO_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckO))
+                        if (issueModel.CheckO_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckP":
-                        if (issueModel.CheckP_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckP))
+                        if (issueModel.CheckP_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckQ":
-                        if (issueModel.CheckQ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckQ))
+                        if (issueModel.CheckQ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckR":
-                        if (issueModel.CheckR_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckR))
+                        if (issueModel.CheckR_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckS":
-                        if (issueModel.CheckS_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckS))
+                        if (issueModel.CheckS_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckT":
-                        if (issueModel.CheckT_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckT))
+                        if (issueModel.CheckT_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckU":
-                        if (issueModel.CheckU_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckU))
+                        if (issueModel.CheckU_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckV":
-                        if (issueModel.CheckV_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckV))
+                        if (issueModel.CheckV_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckW":
-                        if (issueModel.CheckW_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckW))
+                        if (issueModel.CheckW_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckX":
-                        if (issueModel.CheckX_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckX))
+                        if (issueModel.CheckX_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckY":
-                        if (issueModel.CheckY_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckY))
+                        if (issueModel.CheckY_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckZ":
-                        if (issueModel.CheckZ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToBool() != issueModel.CheckZ))
+                        if (issueModel.CheckZ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsA":
-                        if (issueModel.AttachmentsA_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsA.RecordingJson()))
+                        if (issueModel.AttachmentsA_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsB":
-                        if (issueModel.AttachmentsB_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsB.RecordingJson()))
+                        if (issueModel.AttachmentsB_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsC":
-                        if (issueModel.AttachmentsC_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsC.RecordingJson()))
+                        if (issueModel.AttachmentsC_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsD":
-                        if (issueModel.AttachmentsD_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsD.RecordingJson()))
+                        if (issueModel.AttachmentsD_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsE":
-                        if (issueModel.AttachmentsE_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsE.RecordingJson()))
+                        if (issueModel.AttachmentsE_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsF":
-                        if (issueModel.AttachmentsF_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsF.RecordingJson()))
+                        if (issueModel.AttachmentsF_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsG":
-                        if (issueModel.AttachmentsG_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsG.RecordingJson()))
+                        if (issueModel.AttachmentsG_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsH":
-                        if (issueModel.AttachmentsH_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsH.RecordingJson()))
+                        if (issueModel.AttachmentsH_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsI":
-                        if (issueModel.AttachmentsI_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsI.RecordingJson()))
+                        if (issueModel.AttachmentsI_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsJ":
-                        if (issueModel.AttachmentsJ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsJ.RecordingJson()))
+                        if (issueModel.AttachmentsJ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsK":
-                        if (issueModel.AttachmentsK_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsK.RecordingJson()))
+                        if (issueModel.AttachmentsK_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsL":
-                        if (issueModel.AttachmentsL_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsL.RecordingJson()))
+                        if (issueModel.AttachmentsL_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsM":
-                        if (issueModel.AttachmentsM_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsM.RecordingJson()))
+                        if (issueModel.AttachmentsM_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsN":
-                        if (issueModel.AttachmentsN_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsN.RecordingJson()))
+                        if (issueModel.AttachmentsN_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsO":
-                        if (issueModel.AttachmentsO_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsO.RecordingJson()))
+                        if (issueModel.AttachmentsO_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsP":
-                        if (issueModel.AttachmentsP_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsP.RecordingJson()))
+                        if (issueModel.AttachmentsP_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsQ":
-                        if (issueModel.AttachmentsQ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsQ.RecordingJson()))
+                        if (issueModel.AttachmentsQ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsR":
-                        if (issueModel.AttachmentsR_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsR.RecordingJson()))
+                        if (issueModel.AttachmentsR_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsS":
-                        if (issueModel.AttachmentsS_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsS.RecordingJson()))
+                        if (issueModel.AttachmentsS_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsT":
-                        if (issueModel.AttachmentsT_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsT.RecordingJson()))
+                        if (issueModel.AttachmentsT_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsU":
-                        if (issueModel.AttachmentsU_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsU.RecordingJson()))
+                        if (issueModel.AttachmentsU_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsV":
-                        if (issueModel.AttachmentsV_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsV.RecordingJson()))
+                        if (issueModel.AttachmentsV_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsW":
-                        if (issueModel.AttachmentsW_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsW.RecordingJson()))
+                        if (issueModel.AttachmentsW_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsX":
-                        if (issueModel.AttachmentsX_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsX.RecordingJson()))
+                        if (issueModel.AttachmentsX_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsY":
-                        if (issueModel.AttachmentsY_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsY.RecordingJson()))
+                        if (issueModel.AttachmentsY_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsZ":
-                        if (issueModel.AttachmentsZ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultInput.ToString() != issueModel.AttachmentsZ.RecordingJson()))
+                        if (issueModel.AttachmentsZ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "StartTime":
-                        if (issueModel.StartTime_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.StartTime.Date))
+                        if (issueModel.StartTime_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CompletionTime":
-                        if (issueModel.CompletionTime_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.CompletionTime.Value.Date))
+                        if (issueModel.CompletionTime_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateA":
-                        if (issueModel.DateA_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateA.Date))
+                        if (issueModel.DateA_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateB":
-                        if (issueModel.DateB_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateB.Date))
+                        if (issueModel.DateB_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateC":
-                        if (issueModel.DateC_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateC.Date))
+                        if (issueModel.DateC_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateD":
-                        if (issueModel.DateD_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateD.Date))
+                        if (issueModel.DateD_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateE":
-                        if (issueModel.DateE_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateE.Date))
+                        if (issueModel.DateE_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateF":
-                        if (issueModel.DateF_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateF.Date))
+                        if (issueModel.DateF_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateG":
-                        if (issueModel.DateG_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateG.Date))
+                        if (issueModel.DateG_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateH":
-                        if (issueModel.DateH_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateH.Date))
+                        if (issueModel.DateH_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateI":
-                        if (issueModel.DateI_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateI.Date))
+                        if (issueModel.DateI_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateJ":
-                        if (issueModel.DateJ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateJ.Date))
+                        if (issueModel.DateJ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateK":
-                        if (issueModel.DateK_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateK.Date))
+                        if (issueModel.DateK_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateL":
-                        if (issueModel.DateL_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateL.Date))
+                        if (issueModel.DateL_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateM":
-                        if (issueModel.DateM_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateM.Date))
+                        if (issueModel.DateM_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateN":
-                        if (issueModel.DateN_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateN.Date))
+                        if (issueModel.DateN_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateO":
-                        if (issueModel.DateO_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateO.Date))
+                        if (issueModel.DateO_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateP":
-                        if (issueModel.DateP_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateP.Date))
+                        if (issueModel.DateP_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateQ":
-                        if (issueModel.DateQ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateQ.Date))
+                        if (issueModel.DateQ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateR":
-                        if (issueModel.DateR_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateR.Date))
+                        if (issueModel.DateR_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateS":
-                        if (issueModel.DateS_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateS.Date))
+                        if (issueModel.DateS_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateT":
-                        if (issueModel.DateT_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateT.Date))
+                        if (issueModel.DateT_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateU":
-                        if (issueModel.DateU_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateU.Date))
+                        if (issueModel.DateU_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateV":
-                        if (issueModel.DateV_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateV.Date))
+                        if (issueModel.DateV_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateW":
-                        if (issueModel.DateW_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateW.Date))
+                        if (issueModel.DateW_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateX":
-                        if (issueModel.DateX_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateX.Date))
+                        if (issueModel.DateX_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateY":
-                        if (issueModel.DateY_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateY.Date))
+                        if (issueModel.DateY_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateZ":
-                        if (issueModel.DateZ_Updated() &&
-                            (column.DefaultInput.IsNullOrEmpty() ||
-                            column.DefaultTime().Date != issueModel.DateZ.Date))
+                        if (issueModel.DateZ_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }

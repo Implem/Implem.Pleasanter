@@ -30,19 +30,28 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedId = 0;
         [NonSerialized] public DateTime SavedScheduledTime = 0.ToDateTime();
 
-        public bool SiteId_Updated()
+        public bool SiteId_Updated(Column column = null)
         {
-            return SiteId != SavedSiteId;
+            return SiteId != SavedSiteId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != SiteId);
         }
 
-        public bool Id_Updated()
+        public bool Id_Updated(Column column = null)
         {
-            return Id != SavedId;
+            return Id != SavedId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != Id);
         }
 
-        public bool ScheduledTime_Updated()
+        public bool ScheduledTime_Updated(Column column = null)
         {
-            return ScheduledTime != SavedScheduledTime;
+            return ScheduledTime != SavedScheduledTime &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != ScheduledTime.Date);
         }
 
         public ReminderScheduleModel(DataRow dataRow, string tableAlias = null)
@@ -167,9 +176,7 @@ namespace Implem.Pleasanter.Models
                 ScheduledTime_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
     }
 }

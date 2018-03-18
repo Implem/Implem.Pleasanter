@@ -38,19 +38,28 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedSubset = string.Empty;
         [NonSerialized] public long SavedInheritPermission = 0;
 
-        public bool Word_Updated()
+        public bool Word_Updated(Column column = null)
         {
-            return Word != SavedWord && Word != null;
+            return Word != SavedWord && Word != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Word);
         }
 
-        public bool ReferenceId_Updated()
+        public bool ReferenceId_Updated(Column column = null)
         {
-            return ReferenceId != SavedReferenceId;
+            return ReferenceId != SavedReferenceId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != ReferenceId);
         }
 
-        public bool Priority_Updated()
+        public bool Priority_Updated(Column column = null)
         {
-            return Priority != SavedPriority;
+            return Priority != SavedPriority &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != Priority);
         }
 
         public SearchIndexModel(DataRow dataRow, string tableAlias = null)
@@ -191,9 +200,7 @@ namespace Implem.Pleasanter.Models
                 Priority_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
     }
 }

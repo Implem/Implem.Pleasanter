@@ -36,34 +36,52 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedContractSettings = string.Empty;
         [NonSerialized] public DateTime SavedContractDeadline = 0.ToDateTime();
 
-        public bool TenantId_Updated()
+        public bool TenantId_Updated(Column column = null)
         {
-            return TenantId != SavedTenantId;
+            return TenantId != SavedTenantId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != TenantId);
         }
 
-        public bool TenantName_Updated()
+        public bool TenantName_Updated(Column column = null)
         {
-            return TenantName != SavedTenantName && TenantName != null;
+            return TenantName != SavedTenantName && TenantName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != TenantName);
         }
 
-        public bool Title_Updated()
+        public bool Title_Updated(Column column = null)
         {
-            return Title.Value != SavedTitle && Title.Value != null;
+            return Title.Value != SavedTitle && Title.Value != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Title.Value);
         }
 
-        public bool Body_Updated()
+        public bool Body_Updated(Column column = null)
         {
-            return Body != SavedBody && Body != null;
+            return Body != SavedBody && Body != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Body);
         }
 
-        public bool ContractSettings_Updated()
+        public bool ContractSettings_Updated(Column column = null)
         {
-            return ContractSettings?.RecordingJson() != SavedContractSettings && ContractSettings?.RecordingJson() != null;
+            return ContractSettings?.RecordingJson() != SavedContractSettings && ContractSettings?.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ContractSettings?.RecordingJson());
         }
 
-        public bool ContractDeadline_Updated()
+        public bool ContractDeadline_Updated(Column column = null)
         {
-            return ContractDeadline != SavedContractDeadline;
+            return ContractDeadline != SavedContractDeadline &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != ContractDeadline.Date);
         }
 
         public TenantModel()
@@ -407,9 +425,7 @@ namespace Implem.Pleasanter.Models
                 ContractDeadline_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
 
         /// <summary>
