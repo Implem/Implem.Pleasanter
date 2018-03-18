@@ -4262,6 +4262,7 @@ namespace Implem.Pleasanter.Models
                     .TBody(action: () =>
                         new ResultCollection(
                             ss: ss,
+                            column: HistoryColumn(columns),
                             where: Rds.ResultsWhere().ResultId(resultModel.ResultId),
                             orderBy: Rds.ResultsOrderBy().Ver(SqlOrderBy.Types.desc),
                             tableType: Sqls.TableTypes.NormalAndHistory)
@@ -4282,6 +4283,15 @@ namespace Implem.Pleasanter.Models
                                                     resultModel: resultModelHistory))))));
             return new ResultsResponseCollection(resultModel)
                 .Html("#FieldSetHistories", hb).ToJson();
+        }
+
+        private static SqlColumnCollection HistoryColumn(List<Column> columns)
+        {
+            var sqlColumn = new Rds.ResultsColumnCollection()
+                .ResultId()
+                .Ver();
+            columns.ForEach(column => sqlColumn.ResultsColumn(column.ColumnName));
+            return sqlColumn;
         }
 
         public static string History(SiteSettings ss, long resultId)

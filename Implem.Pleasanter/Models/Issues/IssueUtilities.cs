@@ -4377,6 +4377,7 @@ namespace Implem.Pleasanter.Models
                     .TBody(action: () =>
                         new IssueCollection(
                             ss: ss,
+                            column: HistoryColumn(columns),
                             where: Rds.IssuesWhere().IssueId(issueModel.IssueId),
                             orderBy: Rds.IssuesOrderBy().Ver(SqlOrderBy.Types.desc),
                             tableType: Sqls.TableTypes.NormalAndHistory)
@@ -4397,6 +4398,15 @@ namespace Implem.Pleasanter.Models
                                                     issueModel: issueModelHistory))))));
             return new IssuesResponseCollection(issueModel)
                 .Html("#FieldSetHistories", hb).ToJson();
+        }
+
+        private static SqlColumnCollection HistoryColumn(List<Column> columns)
+        {
+            var sqlColumn = new Rds.IssuesColumnCollection()
+                .IssueId()
+                .Ver();
+            columns.ForEach(column => sqlColumn.IssuesColumn(column.ColumnName));
+            return sqlColumn;
         }
 
         public static string History(SiteSettings ss, long issueId)

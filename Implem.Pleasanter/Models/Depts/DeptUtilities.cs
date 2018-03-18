@@ -784,6 +784,7 @@ namespace Implem.Pleasanter.Models
                     .TBody(action: () =>
                         new DeptCollection(
                             ss: ss,
+                            column: HistoryColumn(columns),
                             where: Rds.DeptsWhere().DeptId(deptModel.DeptId),
                             orderBy: Rds.DeptsOrderBy().Ver(SqlOrderBy.Types.desc),
                             tableType: Sqls.TableTypes.NormalAndHistory)
@@ -804,6 +805,15 @@ namespace Implem.Pleasanter.Models
                                                     deptModel: deptModelHistory))))));
             return new DeptsResponseCollection(deptModel)
                 .Html("#FieldSetHistories", hb).ToJson();
+        }
+
+        private static SqlColumnCollection HistoryColumn(List<Column> columns)
+        {
+            var sqlColumn = new Rds.DeptsColumnCollection()
+                .DeptId()
+                .Ver();
+            columns.ForEach(column => sqlColumn.DeptsColumn(column.ColumnName));
+            return sqlColumn;
         }
 
         public static string History(SiteSettings ss, int deptId)
