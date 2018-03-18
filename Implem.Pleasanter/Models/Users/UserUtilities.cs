@@ -1120,6 +1120,7 @@ namespace Implem.Pleasanter.Models
                     .TBody(action: () =>
                         new UserCollection(
                             ss: ss,
+                            column: HistoryColumn(columns),
                             where: Rds.UsersWhere().UserId(userModel.UserId),
                             orderBy: Rds.UsersOrderBy().Ver(SqlOrderBy.Types.desc),
                             tableType: Sqls.TableTypes.NormalAndHistory)
@@ -1140,6 +1141,15 @@ namespace Implem.Pleasanter.Models
                                                     userModel: userModelHistory))))));
             return new UsersResponseCollection(userModel)
                 .Html("#FieldSetHistories", hb).ToJson();
+        }
+
+        private static SqlColumnCollection HistoryColumn(List<Column> columns)
+        {
+            var sqlColumn = new Rds.UsersColumnCollection()
+                .UserId()
+                .Ver();
+            columns.ForEach(column => sqlColumn.UsersColumn(column.ColumnName));
+            return sqlColumn;
         }
 
         public static string History(SiteSettings ss, int userId)

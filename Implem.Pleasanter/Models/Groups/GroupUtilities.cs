@@ -792,6 +792,7 @@ namespace Implem.Pleasanter.Models
                     .TBody(action: () =>
                         new GroupCollection(
                             ss: ss,
+                            column: HistoryColumn(columns),
                             where: Rds.GroupsWhere().GroupId(groupModel.GroupId),
                             orderBy: Rds.GroupsOrderBy().Ver(SqlOrderBy.Types.desc),
                             tableType: Sqls.TableTypes.NormalAndHistory)
@@ -812,6 +813,15 @@ namespace Implem.Pleasanter.Models
                                                     groupModel: groupModelHistory))))));
             return new GroupsResponseCollection(groupModel)
                 .Html("#FieldSetHistories", hb).ToJson();
+        }
+
+        private static SqlColumnCollection HistoryColumn(List<Column> columns)
+        {
+            var sqlColumn = new Rds.GroupsColumnCollection()
+                .GroupId()
+                .Ver();
+            columns.ForEach(column => sqlColumn.GroupsColumn(column.ColumnName));
+            return sqlColumn;
         }
 
         public static string History(SiteSettings ss, int groupId)

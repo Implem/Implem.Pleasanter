@@ -570,6 +570,7 @@ namespace Implem.Pleasanter.Models
                     .TBody(action: () =>
                         new WikiCollection(
                             ss: ss,
+                            column: HistoryColumn(columns),
                             where: Rds.WikisWhere().WikiId(wikiModel.WikiId),
                             orderBy: Rds.WikisOrderBy().Ver(SqlOrderBy.Types.desc),
                             tableType: Sqls.TableTypes.NormalAndHistory)
@@ -590,6 +591,15 @@ namespace Implem.Pleasanter.Models
                                                     wikiModel: wikiModelHistory))))));
             return new WikisResponseCollection(wikiModel)
                 .Html("#FieldSetHistories", hb).ToJson();
+        }
+
+        private static SqlColumnCollection HistoryColumn(List<Column> columns)
+        {
+            var sqlColumn = new Rds.WikisColumnCollection()
+                .WikiId()
+                .Ver();
+            columns.ForEach(column => sqlColumn.WikisColumn(column.ColumnName));
+            return sqlColumn;
         }
 
         public static string History(SiteSettings ss, long wikiId)

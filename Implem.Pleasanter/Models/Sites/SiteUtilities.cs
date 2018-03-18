@@ -351,6 +351,7 @@ namespace Implem.Pleasanter.Models
                             checkRow: false))
                     .TBody(action: () =>
                         new SiteCollection(
+                            column: HistoryColumn(columns),
                             where: Rds.SitesWhere().SiteId(siteModel.SiteId),
                             orderBy: Rds.SitesOrderBy().Ver(SqlOrderBy.Types.desc),
                             tableType: Sqls.TableTypes.NormalAndHistory)
@@ -371,6 +372,15 @@ namespace Implem.Pleasanter.Models
                                                     siteModel: siteModelHistory))))));
             return new SitesResponseCollection(siteModel)
                 .Html("#FieldSetHistories", hb).ToJson();
+        }
+
+        private static SqlColumnCollection HistoryColumn(List<Column> columns)
+        {
+            var sqlColumn = new Rds.SitesColumnCollection()
+                .SiteId()
+                .Ver();
+            columns.ForEach(column => sqlColumn.SitesColumn(column.ColumnName));
+            return sqlColumn;
         }
 
         public static string History(SiteModel siteModel)

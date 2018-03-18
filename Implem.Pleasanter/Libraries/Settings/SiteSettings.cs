@@ -1343,7 +1343,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public IEnumerable<Column> GetHistoryColumns(bool checkPermission = false)
+        public List<Column> GetHistoryColumns(bool checkPermission = false)
         {
             return HistoryColumns
                 .Select(o => GetColumn(o))
