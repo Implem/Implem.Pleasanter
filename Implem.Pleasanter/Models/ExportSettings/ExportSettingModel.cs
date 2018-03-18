@@ -36,34 +36,52 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public bool SavedAddHeader = true;
         [NonSerialized] public string SavedExportColumns = string.Empty;
 
-        public bool ReferenceType_Updated()
+        public bool ReferenceType_Updated(Column column = null)
         {
-            return ReferenceType != SavedReferenceType && ReferenceType != null;
+            return ReferenceType != SavedReferenceType && ReferenceType != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ReferenceType);
         }
 
-        public bool ReferenceId_Updated()
+        public bool ReferenceId_Updated(Column column = null)
         {
-            return ReferenceId != SavedReferenceId;
+            return ReferenceId != SavedReferenceId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != ReferenceId);
         }
 
-        public bool Title_Updated()
+        public bool Title_Updated(Column column = null)
         {
-            return Title.Value != SavedTitle && Title.Value != null;
+            return Title.Value != SavedTitle && Title.Value != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Title.Value);
         }
 
-        public bool ExportSettingId_Updated()
+        public bool ExportSettingId_Updated(Column column = null)
         {
-            return ExportSettingId != SavedExportSettingId;
+            return ExportSettingId != SavedExportSettingId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != ExportSettingId);
         }
 
-        public bool AddHeader_Updated()
+        public bool AddHeader_Updated(Column column = null)
         {
-            return AddHeader != SavedAddHeader;
+            return AddHeader != SavedAddHeader &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != AddHeader);
         }
 
-        public bool ExportColumns_Updated()
+        public bool ExportColumns_Updated(Column column = null)
         {
-            return ExportColumns.ToJson() != SavedExportColumns && ExportColumns.ToJson() != null;
+            return ExportColumns.ToJson() != SavedExportColumns && ExportColumns.ToJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ExportColumns.ToJson());
         }
 
         public Title Session_Title()
@@ -458,9 +476,7 @@ namespace Implem.Pleasanter.Models
                 ExportColumns_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
     }
 }

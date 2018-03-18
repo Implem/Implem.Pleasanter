@@ -371,819 +371,1308 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedAttachmentsY = "[]";
         [NonSerialized] public string SavedAttachmentsZ = "[]";
 
-        public bool StartTime_Updated()
+        public bool WorkValue_Updated(Column column = null)
         {
-            return StartTime != SavedStartTime;
+            return WorkValue.Value != SavedWorkValue &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != WorkValue.Value);
         }
 
-        public bool CompletionTime_Updated()
+        public bool ProgressRate_Updated(Column column = null)
         {
-            return CompletionTime.Value != SavedCompletionTime;
+            return ProgressRate.Value != SavedProgressRate &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != ProgressRate.Value);
         }
 
-        public bool WorkValue_Updated()
+        public bool Status_Updated(Column column = null)
         {
-            return WorkValue.Value != SavedWorkValue;
+            return Status.Value != SavedStatus &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != Status.Value);
         }
 
-        public bool ProgressRate_Updated()
+        public bool Manager_Updated(Column column = null)
         {
-            return ProgressRate.Value != SavedProgressRate;
+            return Manager.Id != SavedManager &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != Manager.Id);
         }
 
-        public bool Status_Updated()
+        public bool Owner_Updated(Column column = null)
         {
-            return Status.Value != SavedStatus;
+            return Owner.Id != SavedOwner &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != Owner.Id);
         }
 
-        public bool Manager_Updated()
+        public bool ClassA_Updated(Column column = null)
         {
-            return Manager.Id != SavedManager;
+            return ClassA != SavedClassA && ClassA != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassA);
         }
 
-        public bool Owner_Updated()
+        public bool ClassB_Updated(Column column = null)
         {
-            return Owner.Id != SavedOwner;
+            return ClassB != SavedClassB && ClassB != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassB);
         }
 
-        public bool ClassA_Updated()
+        public bool ClassC_Updated(Column column = null)
         {
-            return ClassA != SavedClassA && ClassA != null;
+            return ClassC != SavedClassC && ClassC != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassC);
         }
 
-        public bool ClassB_Updated()
+        public bool ClassD_Updated(Column column = null)
         {
-            return ClassB != SavedClassB && ClassB != null;
+            return ClassD != SavedClassD && ClassD != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassD);
         }
 
-        public bool ClassC_Updated()
+        public bool ClassE_Updated(Column column = null)
         {
-            return ClassC != SavedClassC && ClassC != null;
+            return ClassE != SavedClassE && ClassE != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassE);
         }
 
-        public bool ClassD_Updated()
+        public bool ClassF_Updated(Column column = null)
         {
-            return ClassD != SavedClassD && ClassD != null;
+            return ClassF != SavedClassF && ClassF != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassF);
         }
 
-        public bool ClassE_Updated()
+        public bool ClassG_Updated(Column column = null)
         {
-            return ClassE != SavedClassE && ClassE != null;
+            return ClassG != SavedClassG && ClassG != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassG);
         }
 
-        public bool ClassF_Updated()
+        public bool ClassH_Updated(Column column = null)
         {
-            return ClassF != SavedClassF && ClassF != null;
+            return ClassH != SavedClassH && ClassH != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassH);
         }
 
-        public bool ClassG_Updated()
+        public bool ClassI_Updated(Column column = null)
         {
-            return ClassG != SavedClassG && ClassG != null;
+            return ClassI != SavedClassI && ClassI != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassI);
         }
 
-        public bool ClassH_Updated()
+        public bool ClassJ_Updated(Column column = null)
         {
-            return ClassH != SavedClassH && ClassH != null;
+            return ClassJ != SavedClassJ && ClassJ != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassJ);
         }
 
-        public bool ClassI_Updated()
+        public bool ClassK_Updated(Column column = null)
         {
-            return ClassI != SavedClassI && ClassI != null;
+            return ClassK != SavedClassK && ClassK != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassK);
         }
 
-        public bool ClassJ_Updated()
+        public bool ClassL_Updated(Column column = null)
         {
-            return ClassJ != SavedClassJ && ClassJ != null;
+            return ClassL != SavedClassL && ClassL != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassL);
         }
 
-        public bool ClassK_Updated()
+        public bool ClassM_Updated(Column column = null)
         {
-            return ClassK != SavedClassK && ClassK != null;
+            return ClassM != SavedClassM && ClassM != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassM);
         }
 
-        public bool ClassL_Updated()
+        public bool ClassN_Updated(Column column = null)
         {
-            return ClassL != SavedClassL && ClassL != null;
+            return ClassN != SavedClassN && ClassN != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassN);
         }
 
-        public bool ClassM_Updated()
+        public bool ClassO_Updated(Column column = null)
         {
-            return ClassM != SavedClassM && ClassM != null;
+            return ClassO != SavedClassO && ClassO != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassO);
         }
 
-        public bool ClassN_Updated()
+        public bool ClassP_Updated(Column column = null)
         {
-            return ClassN != SavedClassN && ClassN != null;
+            return ClassP != SavedClassP && ClassP != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassP);
         }
 
-        public bool ClassO_Updated()
+        public bool ClassQ_Updated(Column column = null)
         {
-            return ClassO != SavedClassO && ClassO != null;
+            return ClassQ != SavedClassQ && ClassQ != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassQ);
         }
 
-        public bool ClassP_Updated()
+        public bool ClassR_Updated(Column column = null)
         {
-            return ClassP != SavedClassP && ClassP != null;
+            return ClassR != SavedClassR && ClassR != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassR);
         }
 
-        public bool ClassQ_Updated()
+        public bool ClassS_Updated(Column column = null)
         {
-            return ClassQ != SavedClassQ && ClassQ != null;
+            return ClassS != SavedClassS && ClassS != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassS);
         }
 
-        public bool ClassR_Updated()
+        public bool ClassT_Updated(Column column = null)
         {
-            return ClassR != SavedClassR && ClassR != null;
+            return ClassT != SavedClassT && ClassT != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassT);
         }
 
-        public bool ClassS_Updated()
+        public bool ClassU_Updated(Column column = null)
         {
-            return ClassS != SavedClassS && ClassS != null;
+            return ClassU != SavedClassU && ClassU != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassU);
         }
 
-        public bool ClassT_Updated()
+        public bool ClassV_Updated(Column column = null)
         {
-            return ClassT != SavedClassT && ClassT != null;
+            return ClassV != SavedClassV && ClassV != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassV);
         }
 
-        public bool ClassU_Updated()
+        public bool ClassW_Updated(Column column = null)
         {
-            return ClassU != SavedClassU && ClassU != null;
+            return ClassW != SavedClassW && ClassW != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassW);
         }
 
-        public bool ClassV_Updated()
+        public bool ClassX_Updated(Column column = null)
         {
-            return ClassV != SavedClassV && ClassV != null;
+            return ClassX != SavedClassX && ClassX != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassX);
         }
 
-        public bool ClassW_Updated()
+        public bool ClassY_Updated(Column column = null)
         {
-            return ClassW != SavedClassW && ClassW != null;
+            return ClassY != SavedClassY && ClassY != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassY);
         }
 
-        public bool ClassX_Updated()
+        public bool ClassZ_Updated(Column column = null)
         {
-            return ClassX != SavedClassX && ClassX != null;
+            return ClassZ != SavedClassZ && ClassZ != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ClassZ);
         }
 
-        public bool ClassY_Updated()
+        public bool NumA_Updated(Column column = null)
         {
-            return ClassY != SavedClassY && ClassY != null;
+            return NumA != SavedNumA &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumA);
         }
 
-        public bool ClassZ_Updated()
+        public bool NumB_Updated(Column column = null)
         {
-            return ClassZ != SavedClassZ && ClassZ != null;
+            return NumB != SavedNumB &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumB);
         }
 
-        public bool NumA_Updated()
+        public bool NumC_Updated(Column column = null)
         {
-            return NumA != SavedNumA;
+            return NumC != SavedNumC &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumC);
         }
 
-        public bool NumB_Updated()
+        public bool NumD_Updated(Column column = null)
         {
-            return NumB != SavedNumB;
+            return NumD != SavedNumD &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumD);
         }
 
-        public bool NumC_Updated()
+        public bool NumE_Updated(Column column = null)
         {
-            return NumC != SavedNumC;
+            return NumE != SavedNumE &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumE);
         }
 
-        public bool NumD_Updated()
+        public bool NumF_Updated(Column column = null)
         {
-            return NumD != SavedNumD;
+            return NumF != SavedNumF &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumF);
         }
 
-        public bool NumE_Updated()
+        public bool NumG_Updated(Column column = null)
         {
-            return NumE != SavedNumE;
+            return NumG != SavedNumG &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumG);
         }
 
-        public bool NumF_Updated()
+        public bool NumH_Updated(Column column = null)
         {
-            return NumF != SavedNumF;
+            return NumH != SavedNumH &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumH);
         }
 
-        public bool NumG_Updated()
+        public bool NumI_Updated(Column column = null)
         {
-            return NumG != SavedNumG;
+            return NumI != SavedNumI &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumI);
         }
 
-        public bool NumH_Updated()
+        public bool NumJ_Updated(Column column = null)
         {
-            return NumH != SavedNumH;
+            return NumJ != SavedNumJ &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumJ);
         }
 
-        public bool NumI_Updated()
+        public bool NumK_Updated(Column column = null)
         {
-            return NumI != SavedNumI;
+            return NumK != SavedNumK &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumK);
         }
 
-        public bool NumJ_Updated()
+        public bool NumL_Updated(Column column = null)
         {
-            return NumJ != SavedNumJ;
+            return NumL != SavedNumL &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumL);
         }
 
-        public bool NumK_Updated()
+        public bool NumM_Updated(Column column = null)
         {
-            return NumK != SavedNumK;
+            return NumM != SavedNumM &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumM);
         }
 
-        public bool NumL_Updated()
+        public bool NumN_Updated(Column column = null)
         {
-            return NumL != SavedNumL;
+            return NumN != SavedNumN &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumN);
         }
 
-        public bool NumM_Updated()
+        public bool NumO_Updated(Column column = null)
         {
-            return NumM != SavedNumM;
+            return NumO != SavedNumO &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumO);
         }
 
-        public bool NumN_Updated()
+        public bool NumP_Updated(Column column = null)
         {
-            return NumN != SavedNumN;
+            return NumP != SavedNumP &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumP);
         }
 
-        public bool NumO_Updated()
+        public bool NumQ_Updated(Column column = null)
         {
-            return NumO != SavedNumO;
+            return NumQ != SavedNumQ &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumQ);
         }
 
-        public bool NumP_Updated()
+        public bool NumR_Updated(Column column = null)
         {
-            return NumP != SavedNumP;
+            return NumR != SavedNumR &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumR);
         }
 
-        public bool NumQ_Updated()
+        public bool NumS_Updated(Column column = null)
         {
-            return NumQ != SavedNumQ;
+            return NumS != SavedNumS &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumS);
         }
 
-        public bool NumR_Updated()
+        public bool NumT_Updated(Column column = null)
         {
-            return NumR != SavedNumR;
+            return NumT != SavedNumT &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumT);
         }
 
-        public bool NumS_Updated()
+        public bool NumU_Updated(Column column = null)
         {
-            return NumS != SavedNumS;
+            return NumU != SavedNumU &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumU);
         }
 
-        public bool NumT_Updated()
+        public bool NumV_Updated(Column column = null)
         {
-            return NumT != SavedNumT;
+            return NumV != SavedNumV &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumV);
         }
 
-        public bool NumU_Updated()
+        public bool NumW_Updated(Column column = null)
         {
-            return NumU != SavedNumU;
+            return NumW != SavedNumW &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumW);
         }
 
-        public bool NumV_Updated()
+        public bool NumX_Updated(Column column = null)
         {
-            return NumV != SavedNumV;
+            return NumX != SavedNumX &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumX);
         }
 
-        public bool NumW_Updated()
+        public bool NumY_Updated(Column column = null)
         {
-            return NumW != SavedNumW;
+            return NumY != SavedNumY &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumY);
         }
 
-        public bool NumX_Updated()
+        public bool NumZ_Updated(Column column = null)
         {
-            return NumX != SavedNumX;
+            return NumZ != SavedNumZ &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDecimal() != NumZ);
         }
 
-        public bool NumY_Updated()
+        public bool DescriptionA_Updated(Column column = null)
         {
-            return NumY != SavedNumY;
+            return DescriptionA != SavedDescriptionA && DescriptionA != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionA);
         }
 
-        public bool NumZ_Updated()
+        public bool DescriptionB_Updated(Column column = null)
         {
-            return NumZ != SavedNumZ;
+            return DescriptionB != SavedDescriptionB && DescriptionB != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionB);
         }
 
-        public bool DateA_Updated()
+        public bool DescriptionC_Updated(Column column = null)
         {
-            return DateA != SavedDateA;
+            return DescriptionC != SavedDescriptionC && DescriptionC != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionC);
         }
 
-        public bool DateB_Updated()
+        public bool DescriptionD_Updated(Column column = null)
         {
-            return DateB != SavedDateB;
+            return DescriptionD != SavedDescriptionD && DescriptionD != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionD);
         }
 
-        public bool DateC_Updated()
+        public bool DescriptionE_Updated(Column column = null)
         {
-            return DateC != SavedDateC;
+            return DescriptionE != SavedDescriptionE && DescriptionE != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionE);
         }
 
-        public bool DateD_Updated()
+        public bool DescriptionF_Updated(Column column = null)
         {
-            return DateD != SavedDateD;
+            return DescriptionF != SavedDescriptionF && DescriptionF != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionF);
         }
 
-        public bool DateE_Updated()
+        public bool DescriptionG_Updated(Column column = null)
         {
-            return DateE != SavedDateE;
+            return DescriptionG != SavedDescriptionG && DescriptionG != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionG);
         }
 
-        public bool DateF_Updated()
+        public bool DescriptionH_Updated(Column column = null)
         {
-            return DateF != SavedDateF;
+            return DescriptionH != SavedDescriptionH && DescriptionH != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionH);
         }
 
-        public bool DateG_Updated()
+        public bool DescriptionI_Updated(Column column = null)
         {
-            return DateG != SavedDateG;
+            return DescriptionI != SavedDescriptionI && DescriptionI != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionI);
         }
 
-        public bool DateH_Updated()
+        public bool DescriptionJ_Updated(Column column = null)
         {
-            return DateH != SavedDateH;
+            return DescriptionJ != SavedDescriptionJ && DescriptionJ != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionJ);
         }
 
-        public bool DateI_Updated()
+        public bool DescriptionK_Updated(Column column = null)
         {
-            return DateI != SavedDateI;
+            return DescriptionK != SavedDescriptionK && DescriptionK != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionK);
         }
 
-        public bool DateJ_Updated()
+        public bool DescriptionL_Updated(Column column = null)
         {
-            return DateJ != SavedDateJ;
+            return DescriptionL != SavedDescriptionL && DescriptionL != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionL);
         }
 
-        public bool DateK_Updated()
+        public bool DescriptionM_Updated(Column column = null)
         {
-            return DateK != SavedDateK;
+            return DescriptionM != SavedDescriptionM && DescriptionM != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionM);
         }
 
-        public bool DateL_Updated()
+        public bool DescriptionN_Updated(Column column = null)
         {
-            return DateL != SavedDateL;
+            return DescriptionN != SavedDescriptionN && DescriptionN != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionN);
         }
 
-        public bool DateM_Updated()
+        public bool DescriptionO_Updated(Column column = null)
         {
-            return DateM != SavedDateM;
+            return DescriptionO != SavedDescriptionO && DescriptionO != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionO);
         }
 
-        public bool DateN_Updated()
+        public bool DescriptionP_Updated(Column column = null)
         {
-            return DateN != SavedDateN;
+            return DescriptionP != SavedDescriptionP && DescriptionP != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionP);
         }
 
-        public bool DateO_Updated()
+        public bool DescriptionQ_Updated(Column column = null)
         {
-            return DateO != SavedDateO;
+            return DescriptionQ != SavedDescriptionQ && DescriptionQ != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionQ);
         }
 
-        public bool DateP_Updated()
+        public bool DescriptionR_Updated(Column column = null)
         {
-            return DateP != SavedDateP;
+            return DescriptionR != SavedDescriptionR && DescriptionR != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionR);
         }
 
-        public bool DateQ_Updated()
+        public bool DescriptionS_Updated(Column column = null)
         {
-            return DateQ != SavedDateQ;
+            return DescriptionS != SavedDescriptionS && DescriptionS != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionS);
         }
 
-        public bool DateR_Updated()
+        public bool DescriptionT_Updated(Column column = null)
         {
-            return DateR != SavedDateR;
+            return DescriptionT != SavedDescriptionT && DescriptionT != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionT);
         }
 
-        public bool DateS_Updated()
+        public bool DescriptionU_Updated(Column column = null)
         {
-            return DateS != SavedDateS;
+            return DescriptionU != SavedDescriptionU && DescriptionU != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionU);
         }
 
-        public bool DateT_Updated()
+        public bool DescriptionV_Updated(Column column = null)
         {
-            return DateT != SavedDateT;
+            return DescriptionV != SavedDescriptionV && DescriptionV != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionV);
         }
 
-        public bool DateU_Updated()
+        public bool DescriptionW_Updated(Column column = null)
         {
-            return DateU != SavedDateU;
+            return DescriptionW != SavedDescriptionW && DescriptionW != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionW);
         }
 
-        public bool DateV_Updated()
+        public bool DescriptionX_Updated(Column column = null)
         {
-            return DateV != SavedDateV;
+            return DescriptionX != SavedDescriptionX && DescriptionX != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionX);
         }
 
-        public bool DateW_Updated()
+        public bool DescriptionY_Updated(Column column = null)
         {
-            return DateW != SavedDateW;
+            return DescriptionY != SavedDescriptionY && DescriptionY != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionY);
         }
 
-        public bool DateX_Updated()
+        public bool DescriptionZ_Updated(Column column = null)
         {
-            return DateX != SavedDateX;
+            return DescriptionZ != SavedDescriptionZ && DescriptionZ != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DescriptionZ);
         }
 
-        public bool DateY_Updated()
+        public bool CheckA_Updated(Column column = null)
         {
-            return DateY != SavedDateY;
+            return CheckA != SavedCheckA &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckA);
         }
 
-        public bool DateZ_Updated()
+        public bool CheckB_Updated(Column column = null)
         {
-            return DateZ != SavedDateZ;
+            return CheckB != SavedCheckB &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckB);
         }
 
-        public bool DescriptionA_Updated()
+        public bool CheckC_Updated(Column column = null)
         {
-            return DescriptionA != SavedDescriptionA && DescriptionA != null;
+            return CheckC != SavedCheckC &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckC);
         }
 
-        public bool DescriptionB_Updated()
+        public bool CheckD_Updated(Column column = null)
         {
-            return DescriptionB != SavedDescriptionB && DescriptionB != null;
+            return CheckD != SavedCheckD &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckD);
         }
 
-        public bool DescriptionC_Updated()
+        public bool CheckE_Updated(Column column = null)
         {
-            return DescriptionC != SavedDescriptionC && DescriptionC != null;
+            return CheckE != SavedCheckE &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckE);
         }
 
-        public bool DescriptionD_Updated()
+        public bool CheckF_Updated(Column column = null)
         {
-            return DescriptionD != SavedDescriptionD && DescriptionD != null;
+            return CheckF != SavedCheckF &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckF);
         }
 
-        public bool DescriptionE_Updated()
+        public bool CheckG_Updated(Column column = null)
         {
-            return DescriptionE != SavedDescriptionE && DescriptionE != null;
+            return CheckG != SavedCheckG &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckG);
         }
 
-        public bool DescriptionF_Updated()
+        public bool CheckH_Updated(Column column = null)
         {
-            return DescriptionF != SavedDescriptionF && DescriptionF != null;
+            return CheckH != SavedCheckH &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckH);
         }
 
-        public bool DescriptionG_Updated()
+        public bool CheckI_Updated(Column column = null)
         {
-            return DescriptionG != SavedDescriptionG && DescriptionG != null;
+            return CheckI != SavedCheckI &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckI);
         }
 
-        public bool DescriptionH_Updated()
+        public bool CheckJ_Updated(Column column = null)
         {
-            return DescriptionH != SavedDescriptionH && DescriptionH != null;
+            return CheckJ != SavedCheckJ &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckJ);
         }
 
-        public bool DescriptionI_Updated()
+        public bool CheckK_Updated(Column column = null)
         {
-            return DescriptionI != SavedDescriptionI && DescriptionI != null;
+            return CheckK != SavedCheckK &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckK);
         }
 
-        public bool DescriptionJ_Updated()
+        public bool CheckL_Updated(Column column = null)
         {
-            return DescriptionJ != SavedDescriptionJ && DescriptionJ != null;
+            return CheckL != SavedCheckL &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckL);
         }
 
-        public bool DescriptionK_Updated()
+        public bool CheckM_Updated(Column column = null)
         {
-            return DescriptionK != SavedDescriptionK && DescriptionK != null;
+            return CheckM != SavedCheckM &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckM);
         }
 
-        public bool DescriptionL_Updated()
+        public bool CheckN_Updated(Column column = null)
         {
-            return DescriptionL != SavedDescriptionL && DescriptionL != null;
+            return CheckN != SavedCheckN &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckN);
         }
 
-        public bool DescriptionM_Updated()
+        public bool CheckO_Updated(Column column = null)
         {
-            return DescriptionM != SavedDescriptionM && DescriptionM != null;
+            return CheckO != SavedCheckO &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckO);
         }
 
-        public bool DescriptionN_Updated()
+        public bool CheckP_Updated(Column column = null)
         {
-            return DescriptionN != SavedDescriptionN && DescriptionN != null;
+            return CheckP != SavedCheckP &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckP);
         }
 
-        public bool DescriptionO_Updated()
+        public bool CheckQ_Updated(Column column = null)
         {
-            return DescriptionO != SavedDescriptionO && DescriptionO != null;
+            return CheckQ != SavedCheckQ &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckQ);
         }
 
-        public bool DescriptionP_Updated()
+        public bool CheckR_Updated(Column column = null)
         {
-            return DescriptionP != SavedDescriptionP && DescriptionP != null;
+            return CheckR != SavedCheckR &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckR);
         }
 
-        public bool DescriptionQ_Updated()
+        public bool CheckS_Updated(Column column = null)
         {
-            return DescriptionQ != SavedDescriptionQ && DescriptionQ != null;
+            return CheckS != SavedCheckS &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckS);
         }
 
-        public bool DescriptionR_Updated()
+        public bool CheckT_Updated(Column column = null)
         {
-            return DescriptionR != SavedDescriptionR && DescriptionR != null;
+            return CheckT != SavedCheckT &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckT);
         }
 
-        public bool DescriptionS_Updated()
+        public bool CheckU_Updated(Column column = null)
         {
-            return DescriptionS != SavedDescriptionS && DescriptionS != null;
+            return CheckU != SavedCheckU &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckU);
         }
 
-        public bool DescriptionT_Updated()
+        public bool CheckV_Updated(Column column = null)
         {
-            return DescriptionT != SavedDescriptionT && DescriptionT != null;
+            return CheckV != SavedCheckV &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckV);
         }
 
-        public bool DescriptionU_Updated()
+        public bool CheckW_Updated(Column column = null)
         {
-            return DescriptionU != SavedDescriptionU && DescriptionU != null;
+            return CheckW != SavedCheckW &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckW);
         }
 
-        public bool DescriptionV_Updated()
+        public bool CheckX_Updated(Column column = null)
         {
-            return DescriptionV != SavedDescriptionV && DescriptionV != null;
+            return CheckX != SavedCheckX &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckX);
         }
 
-        public bool DescriptionW_Updated()
+        public bool CheckY_Updated(Column column = null)
         {
-            return DescriptionW != SavedDescriptionW && DescriptionW != null;
+            return CheckY != SavedCheckY &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckY);
         }
 
-        public bool DescriptionX_Updated()
+        public bool CheckZ_Updated(Column column = null)
         {
-            return DescriptionX != SavedDescriptionX && DescriptionX != null;
+            return CheckZ != SavedCheckZ &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != CheckZ);
         }
 
-        public bool DescriptionY_Updated()
+        public bool AttachmentsA_Updated(Column column = null)
         {
-            return DescriptionY != SavedDescriptionY && DescriptionY != null;
+            return AttachmentsA.RecordingJson() != SavedAttachmentsA && AttachmentsA.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsA.RecordingJson());
         }
 
-        public bool DescriptionZ_Updated()
+        public bool AttachmentsB_Updated(Column column = null)
         {
-            return DescriptionZ != SavedDescriptionZ && DescriptionZ != null;
+            return AttachmentsB.RecordingJson() != SavedAttachmentsB && AttachmentsB.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsB.RecordingJson());
         }
 
-        public bool CheckA_Updated()
+        public bool AttachmentsC_Updated(Column column = null)
         {
-            return CheckA != SavedCheckA;
+            return AttachmentsC.RecordingJson() != SavedAttachmentsC && AttachmentsC.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsC.RecordingJson());
         }
 
-        public bool CheckB_Updated()
+        public bool AttachmentsD_Updated(Column column = null)
         {
-            return CheckB != SavedCheckB;
+            return AttachmentsD.RecordingJson() != SavedAttachmentsD && AttachmentsD.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsD.RecordingJson());
         }
 
-        public bool CheckC_Updated()
+        public bool AttachmentsE_Updated(Column column = null)
         {
-            return CheckC != SavedCheckC;
+            return AttachmentsE.RecordingJson() != SavedAttachmentsE && AttachmentsE.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsE.RecordingJson());
         }
 
-        public bool CheckD_Updated()
+        public bool AttachmentsF_Updated(Column column = null)
         {
-            return CheckD != SavedCheckD;
+            return AttachmentsF.RecordingJson() != SavedAttachmentsF && AttachmentsF.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsF.RecordingJson());
         }
 
-        public bool CheckE_Updated()
+        public bool AttachmentsG_Updated(Column column = null)
         {
-            return CheckE != SavedCheckE;
+            return AttachmentsG.RecordingJson() != SavedAttachmentsG && AttachmentsG.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsG.RecordingJson());
         }
 
-        public bool CheckF_Updated()
+        public bool AttachmentsH_Updated(Column column = null)
         {
-            return CheckF != SavedCheckF;
+            return AttachmentsH.RecordingJson() != SavedAttachmentsH && AttachmentsH.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsH.RecordingJson());
         }
 
-        public bool CheckG_Updated()
+        public bool AttachmentsI_Updated(Column column = null)
         {
-            return CheckG != SavedCheckG;
+            return AttachmentsI.RecordingJson() != SavedAttachmentsI && AttachmentsI.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsI.RecordingJson());
         }
 
-        public bool CheckH_Updated()
+        public bool AttachmentsJ_Updated(Column column = null)
         {
-            return CheckH != SavedCheckH;
+            return AttachmentsJ.RecordingJson() != SavedAttachmentsJ && AttachmentsJ.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsJ.RecordingJson());
         }
 
-        public bool CheckI_Updated()
+        public bool AttachmentsK_Updated(Column column = null)
         {
-            return CheckI != SavedCheckI;
+            return AttachmentsK.RecordingJson() != SavedAttachmentsK && AttachmentsK.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsK.RecordingJson());
         }
 
-        public bool CheckJ_Updated()
+        public bool AttachmentsL_Updated(Column column = null)
         {
-            return CheckJ != SavedCheckJ;
+            return AttachmentsL.RecordingJson() != SavedAttachmentsL && AttachmentsL.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsL.RecordingJson());
         }
 
-        public bool CheckK_Updated()
+        public bool AttachmentsM_Updated(Column column = null)
         {
-            return CheckK != SavedCheckK;
+            return AttachmentsM.RecordingJson() != SavedAttachmentsM && AttachmentsM.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsM.RecordingJson());
         }
 
-        public bool CheckL_Updated()
+        public bool AttachmentsN_Updated(Column column = null)
         {
-            return CheckL != SavedCheckL;
+            return AttachmentsN.RecordingJson() != SavedAttachmentsN && AttachmentsN.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsN.RecordingJson());
         }
 
-        public bool CheckM_Updated()
+        public bool AttachmentsO_Updated(Column column = null)
         {
-            return CheckM != SavedCheckM;
+            return AttachmentsO.RecordingJson() != SavedAttachmentsO && AttachmentsO.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsO.RecordingJson());
         }
 
-        public bool CheckN_Updated()
+        public bool AttachmentsP_Updated(Column column = null)
         {
-            return CheckN != SavedCheckN;
+            return AttachmentsP.RecordingJson() != SavedAttachmentsP && AttachmentsP.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsP.RecordingJson());
         }
 
-        public bool CheckO_Updated()
+        public bool AttachmentsQ_Updated(Column column = null)
         {
-            return CheckO != SavedCheckO;
+            return AttachmentsQ.RecordingJson() != SavedAttachmentsQ && AttachmentsQ.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsQ.RecordingJson());
         }
 
-        public bool CheckP_Updated()
+        public bool AttachmentsR_Updated(Column column = null)
         {
-            return CheckP != SavedCheckP;
+            return AttachmentsR.RecordingJson() != SavedAttachmentsR && AttachmentsR.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsR.RecordingJson());
         }
 
-        public bool CheckQ_Updated()
+        public bool AttachmentsS_Updated(Column column = null)
         {
-            return CheckQ != SavedCheckQ;
+            return AttachmentsS.RecordingJson() != SavedAttachmentsS && AttachmentsS.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsS.RecordingJson());
         }
 
-        public bool CheckR_Updated()
+        public bool AttachmentsT_Updated(Column column = null)
         {
-            return CheckR != SavedCheckR;
+            return AttachmentsT.RecordingJson() != SavedAttachmentsT && AttachmentsT.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsT.RecordingJson());
         }
 
-        public bool CheckS_Updated()
+        public bool AttachmentsU_Updated(Column column = null)
         {
-            return CheckS != SavedCheckS;
+            return AttachmentsU.RecordingJson() != SavedAttachmentsU && AttachmentsU.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsU.RecordingJson());
         }
 
-        public bool CheckT_Updated()
+        public bool AttachmentsV_Updated(Column column = null)
         {
-            return CheckT != SavedCheckT;
+            return AttachmentsV.RecordingJson() != SavedAttachmentsV && AttachmentsV.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsV.RecordingJson());
         }
 
-        public bool CheckU_Updated()
+        public bool AttachmentsW_Updated(Column column = null)
         {
-            return CheckU != SavedCheckU;
+            return AttachmentsW.RecordingJson() != SavedAttachmentsW && AttachmentsW.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsW.RecordingJson());
         }
 
-        public bool CheckV_Updated()
+        public bool AttachmentsX_Updated(Column column = null)
         {
-            return CheckV != SavedCheckV;
+            return AttachmentsX.RecordingJson() != SavedAttachmentsX && AttachmentsX.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsX.RecordingJson());
         }
 
-        public bool CheckW_Updated()
+        public bool AttachmentsY_Updated(Column column = null)
         {
-            return CheckW != SavedCheckW;
+            return AttachmentsY.RecordingJson() != SavedAttachmentsY && AttachmentsY.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsY.RecordingJson());
         }
 
-        public bool CheckX_Updated()
+        public bool AttachmentsZ_Updated(Column column = null)
         {
-            return CheckX != SavedCheckX;
+            return AttachmentsZ.RecordingJson() != SavedAttachmentsZ && AttachmentsZ.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AttachmentsZ.RecordingJson());
         }
 
-        public bool CheckY_Updated()
+        public bool StartTime_Updated(Column column = null)
         {
-            return CheckY != SavedCheckY;
+            return StartTime != SavedStartTime &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != StartTime.Date);
         }
 
-        public bool CheckZ_Updated()
+        public bool CompletionTime_Updated(Column column = null)
         {
-            return CheckZ != SavedCheckZ;
+            return CompletionTime.Value != SavedCompletionTime &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != CompletionTime.Value.Date);
         }
 
-        public bool AttachmentsA_Updated()
+        public bool DateA_Updated(Column column = null)
         {
-            return AttachmentsA.RecordingJson() != SavedAttachmentsA && AttachmentsA.RecordingJson() != null;
+            return DateA != SavedDateA &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateA.Date);
         }
 
-        public bool AttachmentsB_Updated()
+        public bool DateB_Updated(Column column = null)
         {
-            return AttachmentsB.RecordingJson() != SavedAttachmentsB && AttachmentsB.RecordingJson() != null;
+            return DateB != SavedDateB &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateB.Date);
         }
 
-        public bool AttachmentsC_Updated()
+        public bool DateC_Updated(Column column = null)
         {
-            return AttachmentsC.RecordingJson() != SavedAttachmentsC && AttachmentsC.RecordingJson() != null;
+            return DateC != SavedDateC &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateC.Date);
         }
 
-        public bool AttachmentsD_Updated()
+        public bool DateD_Updated(Column column = null)
         {
-            return AttachmentsD.RecordingJson() != SavedAttachmentsD && AttachmentsD.RecordingJson() != null;
+            return DateD != SavedDateD &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateD.Date);
         }
 
-        public bool AttachmentsE_Updated()
+        public bool DateE_Updated(Column column = null)
         {
-            return AttachmentsE.RecordingJson() != SavedAttachmentsE && AttachmentsE.RecordingJson() != null;
+            return DateE != SavedDateE &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateE.Date);
         }
 
-        public bool AttachmentsF_Updated()
+        public bool DateF_Updated(Column column = null)
         {
-            return AttachmentsF.RecordingJson() != SavedAttachmentsF && AttachmentsF.RecordingJson() != null;
+            return DateF != SavedDateF &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateF.Date);
         }
 
-        public bool AttachmentsG_Updated()
+        public bool DateG_Updated(Column column = null)
         {
-            return AttachmentsG.RecordingJson() != SavedAttachmentsG && AttachmentsG.RecordingJson() != null;
+            return DateG != SavedDateG &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateG.Date);
         }
 
-        public bool AttachmentsH_Updated()
+        public bool DateH_Updated(Column column = null)
         {
-            return AttachmentsH.RecordingJson() != SavedAttachmentsH && AttachmentsH.RecordingJson() != null;
+            return DateH != SavedDateH &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateH.Date);
         }
 
-        public bool AttachmentsI_Updated()
+        public bool DateI_Updated(Column column = null)
         {
-            return AttachmentsI.RecordingJson() != SavedAttachmentsI && AttachmentsI.RecordingJson() != null;
+            return DateI != SavedDateI &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateI.Date);
         }
 
-        public bool AttachmentsJ_Updated()
+        public bool DateJ_Updated(Column column = null)
         {
-            return AttachmentsJ.RecordingJson() != SavedAttachmentsJ && AttachmentsJ.RecordingJson() != null;
+            return DateJ != SavedDateJ &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateJ.Date);
         }
 
-        public bool AttachmentsK_Updated()
+        public bool DateK_Updated(Column column = null)
         {
-            return AttachmentsK.RecordingJson() != SavedAttachmentsK && AttachmentsK.RecordingJson() != null;
+            return DateK != SavedDateK &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateK.Date);
         }
 
-        public bool AttachmentsL_Updated()
+        public bool DateL_Updated(Column column = null)
         {
-            return AttachmentsL.RecordingJson() != SavedAttachmentsL && AttachmentsL.RecordingJson() != null;
+            return DateL != SavedDateL &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateL.Date);
         }
 
-        public bool AttachmentsM_Updated()
+        public bool DateM_Updated(Column column = null)
         {
-            return AttachmentsM.RecordingJson() != SavedAttachmentsM && AttachmentsM.RecordingJson() != null;
+            return DateM != SavedDateM &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateM.Date);
         }
 
-        public bool AttachmentsN_Updated()
+        public bool DateN_Updated(Column column = null)
         {
-            return AttachmentsN.RecordingJson() != SavedAttachmentsN && AttachmentsN.RecordingJson() != null;
+            return DateN != SavedDateN &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateN.Date);
         }
 
-        public bool AttachmentsO_Updated()
+        public bool DateO_Updated(Column column = null)
         {
-            return AttachmentsO.RecordingJson() != SavedAttachmentsO && AttachmentsO.RecordingJson() != null;
+            return DateO != SavedDateO &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateO.Date);
         }
 
-        public bool AttachmentsP_Updated()
+        public bool DateP_Updated(Column column = null)
         {
-            return AttachmentsP.RecordingJson() != SavedAttachmentsP && AttachmentsP.RecordingJson() != null;
+            return DateP != SavedDateP &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateP.Date);
         }
 
-        public bool AttachmentsQ_Updated()
+        public bool DateQ_Updated(Column column = null)
         {
-            return AttachmentsQ.RecordingJson() != SavedAttachmentsQ && AttachmentsQ.RecordingJson() != null;
+            return DateQ != SavedDateQ &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateQ.Date);
         }
 
-        public bool AttachmentsR_Updated()
+        public bool DateR_Updated(Column column = null)
         {
-            return AttachmentsR.RecordingJson() != SavedAttachmentsR && AttachmentsR.RecordingJson() != null;
+            return DateR != SavedDateR &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateR.Date);
         }
 
-        public bool AttachmentsS_Updated()
+        public bool DateS_Updated(Column column = null)
         {
-            return AttachmentsS.RecordingJson() != SavedAttachmentsS && AttachmentsS.RecordingJson() != null;
+            return DateS != SavedDateS &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateS.Date);
         }
 
-        public bool AttachmentsT_Updated()
+        public bool DateT_Updated(Column column = null)
         {
-            return AttachmentsT.RecordingJson() != SavedAttachmentsT && AttachmentsT.RecordingJson() != null;
+            return DateT != SavedDateT &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateT.Date);
         }
 
-        public bool AttachmentsU_Updated()
+        public bool DateU_Updated(Column column = null)
         {
-            return AttachmentsU.RecordingJson() != SavedAttachmentsU && AttachmentsU.RecordingJson() != null;
+            return DateU != SavedDateU &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateU.Date);
         }
 
-        public bool AttachmentsV_Updated()
+        public bool DateV_Updated(Column column = null)
         {
-            return AttachmentsV.RecordingJson() != SavedAttachmentsV && AttachmentsV.RecordingJson() != null;
+            return DateV != SavedDateV &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateV.Date);
         }
 
-        public bool AttachmentsW_Updated()
+        public bool DateW_Updated(Column column = null)
         {
-            return AttachmentsW.RecordingJson() != SavedAttachmentsW && AttachmentsW.RecordingJson() != null;
+            return DateW != SavedDateW &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateW.Date);
         }
 
-        public bool AttachmentsX_Updated()
+        public bool DateX_Updated(Column column = null)
         {
-            return AttachmentsX.RecordingJson() != SavedAttachmentsX && AttachmentsX.RecordingJson() != null;
+            return DateX != SavedDateX &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateX.Date);
         }
 
-        public bool AttachmentsY_Updated()
+        public bool DateY_Updated(Column column = null)
         {
-            return AttachmentsY.RecordingJson() != SavedAttachmentsY && AttachmentsY.RecordingJson() != null;
+            return DateY != SavedDateY &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateY.Date);
         }
 
-        public bool AttachmentsZ_Updated()
+        public bool DateZ_Updated(Column column = null)
         {
-            return AttachmentsZ.RecordingJson() != SavedAttachmentsZ && AttachmentsZ.RecordingJson() != null;
+            return DateZ != SavedDateZ &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != DateZ.Date);
         }
 
         public string PropertyValue(string name)
@@ -5885,10 +6374,6 @@ namespace Implem.Pleasanter.Models
                         body.Append(Updator.ToNotice(
                             SavedUpdator, column, Updator_Updated(), update));
                         break;
-                    case "CreatedTime":
-                        body.Append(CreatedTime.ToNotice(
-                            SavedCreatedTime, column, CreatedTime_Updated(), update));
-                        break;
                 }
             });
             return body.ToString();
@@ -6651,7 +7136,6 @@ namespace Implem.Pleasanter.Models
         {
             return
                 SiteId_Updated() ||
-                UpdatedTime_Updated() ||
                 Ver_Updated() ||
                 Title_Updated() ||
                 Body_Updated() ||
@@ -6820,8 +7304,7 @@ namespace Implem.Pleasanter.Models
                 AttachmentsZ_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated();
+                Updator_Updated();
         }
 
         public List<string> Mine()

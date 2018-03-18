@@ -36,34 +36,52 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedErrorCount = 0;
         [NonSerialized] public double SavedElapsed = 0;
 
-        public bool HealthId_Updated()
+        public bool HealthId_Updated(Column column = null)
         {
-            return HealthId != SavedHealthId;
+            return HealthId != SavedHealthId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != HealthId);
         }
 
-        public bool TenantCount_Updated()
+        public bool TenantCount_Updated(Column column = null)
         {
-            return TenantCount != SavedTenantCount;
+            return TenantCount != SavedTenantCount &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != TenantCount);
         }
 
-        public bool UserCount_Updated()
+        public bool UserCount_Updated(Column column = null)
         {
-            return UserCount != SavedUserCount;
+            return UserCount != SavedUserCount &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != UserCount);
         }
 
-        public bool ItemCount_Updated()
+        public bool ItemCount_Updated(Column column = null)
         {
-            return ItemCount != SavedItemCount;
+            return ItemCount != SavedItemCount &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != ItemCount);
         }
 
-        public bool ErrorCount_Updated()
+        public bool ErrorCount_Updated(Column column = null)
         {
-            return ErrorCount != SavedErrorCount;
+            return ErrorCount != SavedErrorCount &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != ErrorCount);
         }
 
-        public bool Elapsed_Updated()
+        public bool Elapsed_Updated(Column column = null)
         {
-            return Elapsed != SavedElapsed;
+            return Elapsed != SavedElapsed &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDouble() != Elapsed);
         }
 
         public HealthModel()
@@ -408,9 +426,7 @@ namespace Implem.Pleasanter.Models
                 Elapsed_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
 
         /// <summary>

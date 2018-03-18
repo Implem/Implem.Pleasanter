@@ -41,24 +41,36 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedGroupName = string.Empty;
         [NonSerialized] public string SavedBody = string.Empty;
 
-        public bool TenantId_Updated()
+        public bool TenantId_Updated(Column column = null)
         {
-            return TenantId != SavedTenantId;
+            return TenantId != SavedTenantId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != TenantId);
         }
 
-        public bool GroupId_Updated()
+        public bool GroupId_Updated(Column column = null)
         {
-            return GroupId != SavedGroupId;
+            return GroupId != SavedGroupId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != GroupId);
         }
 
-        public bool GroupName_Updated()
+        public bool GroupName_Updated(Column column = null)
         {
-            return GroupName != SavedGroupName && GroupName != null;
+            return GroupName != SavedGroupName && GroupName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != GroupName);
         }
 
-        public bool Body_Updated()
+        public bool Body_Updated(Column column = null)
         {
-            return Body != SavedBody && Body != null;
+            return Body != SavedBody && Body != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Body);
         }
 
         public List<int> SwitchTargets;
@@ -485,9 +497,7 @@ namespace Implem.Pleasanter.Models
                 Body_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
 
         public List<string> Mine()

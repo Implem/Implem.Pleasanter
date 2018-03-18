@@ -749,10 +749,6 @@ namespace Implem.Pleasanter.Models
                         body.Append(Updator.ToNotice(
                             SavedUpdator, column, Updator_Updated(), update));
                         break;
-                    case "CreatedTime":
-                        body.Append(CreatedTime.ToNotice(
-                            SavedCreatedTime, column, CreatedTime_Updated(), update));
-                        break;
                 }
             });
             return body.ToString();
@@ -859,14 +855,12 @@ namespace Implem.Pleasanter.Models
         {
             return
                 SiteId_Updated() ||
-                UpdatedTime_Updated() ||
                 Ver_Updated() ||
                 Title_Updated() ||
                 Body_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated();
+                Updator_Updated();
         }
 
         public List<string> Mine()

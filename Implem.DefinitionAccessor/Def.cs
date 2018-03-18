@@ -259,6 +259,8 @@ namespace Implem.DefinitionAccessor
                     case "Base_SavedProperty": Code.Base_SavedProperty = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_SavedProperty, definitionRow, CodeXls); break;
                     case "Base_SavedProperty_Attachments": Code.Base_SavedProperty_Attachments = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_SavedProperty_Attachments, definitionRow, CodeXls); break;
                     case "Base_PropertyUpdated": Code.Base_PropertyUpdated = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_PropertyUpdated, definitionRow, CodeXls); break;
+                    case "Base_PropertyUpdated_DateTime": Code.Base_PropertyUpdated_DateTime = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_PropertyUpdated_DateTime, definitionRow, CodeXls); break;
+                    case "Base_PropertyUpdated_Bin": Code.Base_PropertyUpdated_Bin = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_PropertyUpdated_Bin, definitionRow, CodeXls); break;
                     case "Base_PropertyUpdated_NotNull": Code.Base_PropertyUpdated_NotNull = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_PropertyUpdated_NotNull, definitionRow, CodeXls); break;
                     case "Model": Code.Model = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model, definitionRow, CodeXls); break;
                     case "Model_InheritBase": Code.Model_InheritBase = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InheritBase, definitionRow, CodeXls); break;
@@ -4553,6 +4555,8 @@ namespace Implem.DefinitionAccessor
         public string Base_SavedProperty;
         public string Base_SavedProperty_Attachments;
         public string Base_PropertyUpdated;
+        public string Base_PropertyUpdated_DateTime;
+        public string Base_PropertyUpdated_Bin;
         public string Base_PropertyUpdated_NotNull;
         public string Model;
         public string Model_InheritBase;
@@ -5073,6 +5077,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Base_SavedProperty = new CodeDefinition();
         public CodeDefinition Base_SavedProperty_Attachments = new CodeDefinition();
         public CodeDefinition Base_PropertyUpdated = new CodeDefinition();
+        public CodeDefinition Base_PropertyUpdated_DateTime = new CodeDefinition();
+        public CodeDefinition Base_PropertyUpdated_Bin = new CodeDefinition();
         public CodeDefinition Base_PropertyUpdated_NotNull = new CodeDefinition();
         public CodeDefinition Model = new CodeDefinition();
         public CodeDefinition Model_InheritBase = new CodeDefinition();

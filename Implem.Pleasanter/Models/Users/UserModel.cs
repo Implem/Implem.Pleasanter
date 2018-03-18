@@ -125,139 +125,220 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedDemoMailAddress = string.Empty;
         [NonSerialized] public string SavedSessionGuid = string.Empty;
 
-        public bool TenantId_Updated()
+        public bool TenantId_Updated(Column column = null)
         {
-            return TenantId != SavedTenantId;
+            return TenantId != SavedTenantId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != TenantId);
         }
 
-        public bool UserId_Updated()
+        public bool UserId_Updated(Column column = null)
         {
-            return UserId != SavedUserId;
+            return UserId != SavedUserId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != UserId);
         }
 
-        public bool LoginId_Updated()
+        public bool LoginId_Updated(Column column = null)
         {
-            return LoginId != SavedLoginId && LoginId != null;
+            return LoginId != SavedLoginId && LoginId != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != LoginId);
         }
 
-        public bool GlobalId_Updated()
+        public bool GlobalId_Updated(Column column = null)
         {
-            return GlobalId != SavedGlobalId && GlobalId != null;
+            return GlobalId != SavedGlobalId && GlobalId != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != GlobalId);
         }
 
-        public bool Name_Updated()
+        public bool Name_Updated(Column column = null)
         {
-            return Name != SavedName && Name != null;
+            return Name != SavedName && Name != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Name);
         }
 
-        public bool UserCode_Updated()
+        public bool UserCode_Updated(Column column = null)
         {
-            return UserCode != SavedUserCode && UserCode != null;
+            return UserCode != SavedUserCode && UserCode != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != UserCode);
         }
 
-        public bool Password_Updated()
+        public bool Password_Updated(Column column = null)
         {
-            return Password != SavedPassword && Password != null;
+            return Password != SavedPassword && Password != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Password);
         }
 
-        public bool LastName_Updated()
+        public bool LastName_Updated(Column column = null)
         {
-            return LastName != SavedLastName && LastName != null;
+            return LastName != SavedLastName && LastName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != LastName);
         }
 
-        public bool FirstName_Updated()
+        public bool FirstName_Updated(Column column = null)
         {
-            return FirstName != SavedFirstName && FirstName != null;
+            return FirstName != SavedFirstName && FirstName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != FirstName);
         }
 
-        public bool Birthday_Updated()
+        public bool Gender_Updated(Column column = null)
         {
-            return Birthday.Value != SavedBirthday;
+            return Gender != SavedGender && Gender != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Gender);
         }
 
-        public bool Gender_Updated()
+        public bool Language_Updated(Column column = null)
         {
-            return Gender != SavedGender && Gender != null;
+            return Language != SavedLanguage && Language != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Language);
         }
 
-        public bool Language_Updated()
+        public bool TimeZone_Updated(Column column = null)
         {
-            return Language != SavedLanguage && Language != null;
+            return TimeZone != SavedTimeZone && TimeZone != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != TimeZone);
         }
 
-        public bool TimeZone_Updated()
+        public bool DeptId_Updated(Column column = null)
         {
-            return TimeZone != SavedTimeZone && TimeZone != null;
+            return DeptId != SavedDeptId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != DeptId);
         }
 
-        public bool DeptId_Updated()
+        public bool FirstAndLastNameOrder_Updated(Column column = null)
         {
-            return DeptId != SavedDeptId;
+            return FirstAndLastNameOrder.ToInt() != SavedFirstAndLastNameOrder &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != FirstAndLastNameOrder.ToInt());
         }
 
-        public bool FirstAndLastNameOrder_Updated()
+        public bool Body_Updated(Column column = null)
         {
-            return FirstAndLastNameOrder.ToInt() != SavedFirstAndLastNameOrder;
+            return Body != SavedBody && Body != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Body);
         }
 
-        public bool Body_Updated()
+        public bool NumberOfLogins_Updated(Column column = null)
         {
-            return Body != SavedBody && Body != null;
+            return NumberOfLogins != SavedNumberOfLogins &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != NumberOfLogins);
         }
 
-        public bool LastLoginTime_Updated()
+        public bool NumberOfDenial_Updated(Column column = null)
         {
-            return LastLoginTime.Value != SavedLastLoginTime;
+            return NumberOfDenial != SavedNumberOfDenial &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != NumberOfDenial);
         }
 
-        public bool PasswordExpirationTime_Updated()
+        public bool TenantManager_Updated(Column column = null)
         {
-            return PasswordExpirationTime.Value != SavedPasswordExpirationTime;
+            return TenantManager != SavedTenantManager &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != TenantManager);
         }
 
-        public bool PasswordChangeTime_Updated()
+        public bool ServiceManager_Updated(Column column = null)
         {
-            return PasswordChangeTime.Value != SavedPasswordChangeTime;
+            return ServiceManager != SavedServiceManager &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != ServiceManager);
         }
 
-        public bool NumberOfLogins_Updated()
+        public bool Disabled_Updated(Column column = null)
         {
-            return NumberOfLogins != SavedNumberOfLogins;
+            return Disabled != SavedDisabled &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != Disabled);
         }
 
-        public bool NumberOfDenial_Updated()
+        public bool Developer_Updated(Column column = null)
         {
-            return NumberOfDenial != SavedNumberOfDenial;
+            return Developer != SavedDeveloper &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != Developer);
         }
 
-        public bool TenantManager_Updated()
+        public bool UserSettings_Updated(Column column = null)
         {
-            return TenantManager != SavedTenantManager;
+            return UserSettings.RecordingJson() != SavedUserSettings && UserSettings.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != UserSettings.RecordingJson());
         }
 
-        public bool ServiceManager_Updated()
+        public bool ApiKey_Updated(Column column = null)
         {
-            return ServiceManager != SavedServiceManager;
+            return ApiKey != SavedApiKey && ApiKey != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ApiKey);
         }
 
-        public bool Disabled_Updated()
+        public bool Birthday_Updated(Column column = null)
         {
-            return Disabled != SavedDisabled;
+            return Birthday.Value != SavedBirthday &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != Birthday.Value.Date);
         }
 
-        public bool Developer_Updated()
+        public bool LastLoginTime_Updated(Column column = null)
         {
-            return Developer != SavedDeveloper;
+            return LastLoginTime.Value != SavedLastLoginTime &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != LastLoginTime.Value.Date);
         }
 
-        public bool UserSettings_Updated()
+        public bool PasswordExpirationTime_Updated(Column column = null)
         {
-            return UserSettings.RecordingJson() != SavedUserSettings && UserSettings.RecordingJson() != null;
+            return PasswordExpirationTime.Value != SavedPasswordExpirationTime &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != PasswordExpirationTime.Value.Date);
         }
 
-        public bool ApiKey_Updated()
+        public bool PasswordChangeTime_Updated(Column column = null)
         {
-            return ApiKey != SavedApiKey && ApiKey != null;
+            return PasswordChangeTime.Value != SavedPasswordChangeTime &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != PasswordChangeTime.Value.Date);
         }
 
         public UserSettings Session_UserSettings()
@@ -873,9 +954,7 @@ namespace Implem.Pleasanter.Models
                 ApiKey_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
 
         public List<string> Mine()

@@ -30,19 +30,28 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedStatusId = 0;
         [NonSerialized] public string SavedValue = string.Empty;
 
-        public bool TenantId_Updated()
+        public bool TenantId_Updated(Column column = null)
         {
-            return TenantId != SavedTenantId;
+            return TenantId != SavedTenantId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != TenantId);
         }
 
-        public bool StatusId_Updated()
+        public bool StatusId_Updated(Column column = null)
         {
-            return StatusId != SavedStatusId;
+            return StatusId != SavedStatusId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != StatusId);
         }
 
-        public bool Value_Updated()
+        public bool Value_Updated(Column column = null)
         {
-            return Value != SavedValue && Value != null;
+            return Value != SavedValue && Value != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Value);
         }
 
         public StatusModel(DataRow dataRow, string tableAlias = null)
@@ -167,9 +176,7 @@ namespace Implem.Pleasanter.Models
                 Value_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
     }
 }

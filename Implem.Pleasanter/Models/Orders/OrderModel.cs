@@ -32,24 +32,36 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedOwnerId = 0;
         [NonSerialized] public string SavedData = "new List<long>()";
 
-        public bool ReferenceId_Updated()
+        public bool ReferenceId_Updated(Column column = null)
         {
-            return ReferenceId != SavedReferenceId;
+            return ReferenceId != SavedReferenceId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != ReferenceId);
         }
 
-        public bool ReferenceType_Updated()
+        public bool ReferenceType_Updated(Column column = null)
         {
-            return ReferenceType != SavedReferenceType && ReferenceType != null;
+            return ReferenceType != SavedReferenceType && ReferenceType != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ReferenceType);
         }
 
-        public bool OwnerId_Updated()
+        public bool OwnerId_Updated(Column column = null)
         {
-            return OwnerId != SavedOwnerId;
+            return OwnerId != SavedOwnerId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != OwnerId);
         }
 
-        public bool Data_Updated()
+        public bool Data_Updated(Column column = null)
         {
-            return Data.ToJson() != SavedData && Data.ToJson() != null;
+            return Data.ToJson() != SavedData && Data.ToJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Data.ToJson());
         }
 
         public OrderModel(DataRow dataRow, string tableAlias = null)
@@ -182,9 +194,7 @@ namespace Implem.Pleasanter.Models
                 Data_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
 
         /// <summary>

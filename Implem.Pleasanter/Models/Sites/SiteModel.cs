@@ -53,29 +53,44 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public List<string> SavedTitleColumns = null;
         [NonSerialized] public Export SavedExport = null;
 
-        public bool TenantId_Updated()
+        public bool TenantId_Updated(Column column = null)
         {
-            return TenantId != SavedTenantId;
+            return TenantId != SavedTenantId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != TenantId);
         }
 
-        public bool ReferenceType_Updated()
+        public bool ReferenceType_Updated(Column column = null)
         {
-            return ReferenceType != SavedReferenceType && ReferenceType != null;
+            return ReferenceType != SavedReferenceType && ReferenceType != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ReferenceType);
         }
 
-        public bool ParentId_Updated()
+        public bool ParentId_Updated(Column column = null)
         {
-            return ParentId != SavedParentId;
+            return ParentId != SavedParentId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != ParentId);
         }
 
-        public bool InheritPermission_Updated()
+        public bool InheritPermission_Updated(Column column = null)
         {
-            return InheritPermission != SavedInheritPermission;
+            return InheritPermission != SavedInheritPermission &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != InheritPermission);
         }
 
-        public bool SiteSettings_Updated()
+        public bool SiteSettings_Updated(Column column = null)
         {
-            return SiteSettings.RecordingJson() != SavedSiteSettings && SiteSettings.RecordingJson() != null;
+            return SiteSettings.RecordingJson() != SavedSiteSettings && SiteSettings.RecordingJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != SiteSettings.RecordingJson());
         }
 
         public SiteSettings Session_SiteSettings()
@@ -739,7 +754,6 @@ namespace Implem.Pleasanter.Models
         {
             return
                 TenantId_Updated() ||
-                UpdatedTime_Updated() ||
                 Ver_Updated() ||
                 Title_Updated() ||
                 Body_Updated() ||
@@ -749,8 +763,7 @@ namespace Implem.Pleasanter.Models
                 SiteSettings_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated();
+                Updator_Updated();
         }
 
         public List<string> Mine()

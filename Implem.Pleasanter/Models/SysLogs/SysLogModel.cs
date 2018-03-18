@@ -105,174 +105,276 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public bool SavedInDebug = false;
         [NonSerialized] public string SavedAssemblyVersion = string.Empty;
 
-        public bool SysLogId_Updated()
+        public bool SysLogId_Updated(Column column = null)
         {
-            return SysLogId != SavedSysLogId;
+            return SysLogId != SavedSysLogId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != SysLogId);
         }
 
-        public bool SysLogType_Updated()
+        public bool SysLogType_Updated(Column column = null)
         {
-            return SysLogType.ToInt() != SavedSysLogType;
+            return SysLogType.ToInt() != SavedSysLogType &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != SysLogType.ToInt());
         }
 
-        public bool OnAzure_Updated()
+        public bool OnAzure_Updated(Column column = null)
         {
-            return OnAzure != SavedOnAzure;
+            return OnAzure != SavedOnAzure &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != OnAzure);
         }
 
-        public bool MachineName_Updated()
+        public bool MachineName_Updated(Column column = null)
         {
-            return MachineName != SavedMachineName && MachineName != null;
+            return MachineName != SavedMachineName && MachineName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != MachineName);
         }
 
-        public bool ServiceName_Updated()
+        public bool ServiceName_Updated(Column column = null)
         {
-            return ServiceName != SavedServiceName && ServiceName != null;
+            return ServiceName != SavedServiceName && ServiceName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ServiceName);
         }
 
-        public bool TenantName_Updated()
+        public bool TenantName_Updated(Column column = null)
         {
-            return TenantName != SavedTenantName && TenantName != null;
+            return TenantName != SavedTenantName && TenantName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != TenantName);
         }
 
-        public bool Application_Updated()
+        public bool Application_Updated(Column column = null)
         {
-            return Application != SavedApplication && Application != null;
+            return Application != SavedApplication && Application != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Application);
         }
 
-        public bool Class_Updated()
+        public bool Class_Updated(Column column = null)
         {
-            return Class != SavedClass && Class != null;
+            return Class != SavedClass && Class != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Class);
         }
 
-        public bool Method_Updated()
+        public bool Method_Updated(Column column = null)
         {
-            return Method != SavedMethod && Method != null;
+            return Method != SavedMethod && Method != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Method);
         }
 
-        public bool RequestData_Updated()
+        public bool RequestData_Updated(Column column = null)
         {
-            return RequestData != SavedRequestData && RequestData != null;
+            return RequestData != SavedRequestData && RequestData != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != RequestData);
         }
 
-        public bool HttpMethod_Updated()
+        public bool HttpMethod_Updated(Column column = null)
         {
-            return HttpMethod != SavedHttpMethod && HttpMethod != null;
+            return HttpMethod != SavedHttpMethod && HttpMethod != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != HttpMethod);
         }
 
-        public bool RequestSize_Updated()
+        public bool RequestSize_Updated(Column column = null)
         {
-            return RequestSize != SavedRequestSize;
+            return RequestSize != SavedRequestSize &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != RequestSize);
         }
 
-        public bool ResponseSize_Updated()
+        public bool ResponseSize_Updated(Column column = null)
         {
-            return ResponseSize != SavedResponseSize;
+            return ResponseSize != SavedResponseSize &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != ResponseSize);
         }
 
-        public bool Elapsed_Updated()
+        public bool Elapsed_Updated(Column column = null)
         {
-            return Elapsed != SavedElapsed;
+            return Elapsed != SavedElapsed &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDouble() != Elapsed);
         }
 
-        public bool ApplicationAge_Updated()
+        public bool ApplicationAge_Updated(Column column = null)
         {
-            return ApplicationAge != SavedApplicationAge;
+            return ApplicationAge != SavedApplicationAge &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDouble() != ApplicationAge);
         }
 
-        public bool ApplicationRequestInterval_Updated()
+        public bool ApplicationRequestInterval_Updated(Column column = null)
         {
-            return ApplicationRequestInterval != SavedApplicationRequestInterval;
+            return ApplicationRequestInterval != SavedApplicationRequestInterval &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDouble() != ApplicationRequestInterval);
         }
 
-        public bool SessionAge_Updated()
+        public bool SessionAge_Updated(Column column = null)
         {
-            return SessionAge != SavedSessionAge;
+            return SessionAge != SavedSessionAge &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDouble() != SessionAge);
         }
 
-        public bool SessionRequestInterval_Updated()
+        public bool SessionRequestInterval_Updated(Column column = null)
         {
-            return SessionRequestInterval != SavedSessionRequestInterval;
+            return SessionRequestInterval != SavedSessionRequestInterval &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToDouble() != SessionRequestInterval);
         }
 
-        public bool WorkingSet64_Updated()
+        public bool WorkingSet64_Updated(Column column = null)
         {
-            return WorkingSet64 != SavedWorkingSet64;
+            return WorkingSet64 != SavedWorkingSet64 &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != WorkingSet64);
         }
 
-        public bool VirtualMemorySize64_Updated()
+        public bool VirtualMemorySize64_Updated(Column column = null)
         {
-            return VirtualMemorySize64 != SavedVirtualMemorySize64;
+            return VirtualMemorySize64 != SavedVirtualMemorySize64 &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != VirtualMemorySize64);
         }
 
-        public bool ProcessId_Updated()
+        public bool ProcessId_Updated(Column column = null)
         {
-            return ProcessId != SavedProcessId;
+            return ProcessId != SavedProcessId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != ProcessId);
         }
 
-        public bool ProcessName_Updated()
+        public bool ProcessName_Updated(Column column = null)
         {
-            return ProcessName != SavedProcessName && ProcessName != null;
+            return ProcessName != SavedProcessName && ProcessName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ProcessName);
         }
 
-        public bool BasePriority_Updated()
+        public bool BasePriority_Updated(Column column = null)
         {
-            return BasePriority != SavedBasePriority;
+            return BasePriority != SavedBasePriority &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != BasePriority);
         }
 
-        public bool Url_Updated()
+        public bool Url_Updated(Column column = null)
         {
-            return Url != SavedUrl && Url != null;
+            return Url != SavedUrl && Url != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Url);
         }
 
-        public bool UrlReferer_Updated()
+        public bool UrlReferer_Updated(Column column = null)
         {
-            return UrlReferer != SavedUrlReferer && UrlReferer != null;
+            return UrlReferer != SavedUrlReferer && UrlReferer != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != UrlReferer);
         }
 
-        public bool UserHostName_Updated()
+        public bool UserHostName_Updated(Column column = null)
         {
-            return UserHostName != SavedUserHostName && UserHostName != null;
+            return UserHostName != SavedUserHostName && UserHostName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != UserHostName);
         }
 
-        public bool UserHostAddress_Updated()
+        public bool UserHostAddress_Updated(Column column = null)
         {
-            return UserHostAddress != SavedUserHostAddress && UserHostAddress != null;
+            return UserHostAddress != SavedUserHostAddress && UserHostAddress != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != UserHostAddress);
         }
 
-        public bool UserLanguage_Updated()
+        public bool UserLanguage_Updated(Column column = null)
         {
-            return UserLanguage != SavedUserLanguage && UserLanguage != null;
+            return UserLanguage != SavedUserLanguage && UserLanguage != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != UserLanguage);
         }
 
-        public bool UserAgent_Updated()
+        public bool UserAgent_Updated(Column column = null)
         {
-            return UserAgent != SavedUserAgent && UserAgent != null;
+            return UserAgent != SavedUserAgent && UserAgent != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != UserAgent);
         }
 
-        public bool SessionGuid_Updated()
+        public bool SessionGuid_Updated(Column column = null)
         {
-            return SessionGuid != SavedSessionGuid && SessionGuid != null;
+            return SessionGuid != SavedSessionGuid && SessionGuid != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != SessionGuid);
         }
 
-        public bool ErrMessage_Updated()
+        public bool ErrMessage_Updated(Column column = null)
         {
-            return ErrMessage != SavedErrMessage && ErrMessage != null;
+            return ErrMessage != SavedErrMessage && ErrMessage != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ErrMessage);
         }
 
-        public bool ErrStackTrace_Updated()
+        public bool ErrStackTrace_Updated(Column column = null)
         {
-            return ErrStackTrace != SavedErrStackTrace && ErrStackTrace != null;
+            return ErrStackTrace != SavedErrStackTrace && ErrStackTrace != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ErrStackTrace);
         }
 
-        public bool InDebug_Updated()
+        public bool InDebug_Updated(Column column = null)
         {
-            return InDebug != SavedInDebug;
+            return InDebug != SavedInDebug &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToBool() != InDebug);
         }
 
-        public bool AssemblyVersion_Updated()
+        public bool AssemblyVersion_Updated(Column column = null)
         {
-            return AssemblyVersion != SavedAssemblyVersion && AssemblyVersion != null;
+            return AssemblyVersion != SavedAssemblyVersion && AssemblyVersion != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != AssemblyVersion);
         }
 
         public SysLogModel(DataRow dataRow, string tableAlias = null)
@@ -515,7 +617,6 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return
-                CreatedTime_Updated() ||
                 SysLogId_Updated() ||
                 Ver_Updated() ||
                 SysLogType_Updated() ||
@@ -553,8 +654,7 @@ namespace Implem.Pleasanter.Models
                 AssemblyVersion_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
 
         /// <summary>

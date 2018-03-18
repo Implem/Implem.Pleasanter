@@ -51,29 +51,44 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedDeptName = string.Empty;
         [NonSerialized] public string SavedBody = string.Empty;
 
-        public bool TenantId_Updated()
+        public bool TenantId_Updated(Column column = null)
         {
-            return TenantId != SavedTenantId;
+            return TenantId != SavedTenantId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != TenantId);
         }
 
-        public bool DeptId_Updated()
+        public bool DeptId_Updated(Column column = null)
         {
-            return DeptId != SavedDeptId;
+            return DeptId != SavedDeptId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != DeptId);
         }
 
-        public bool DeptCode_Updated()
+        public bool DeptCode_Updated(Column column = null)
         {
-            return DeptCode != SavedDeptCode && DeptCode != null;
+            return DeptCode != SavedDeptCode && DeptCode != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DeptCode);
         }
 
-        public bool DeptName_Updated()
+        public bool DeptName_Updated(Column column = null)
         {
-            return DeptName != SavedDeptName && DeptName != null;
+            return DeptName != SavedDeptName && DeptName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != DeptName);
         }
 
-        public bool Body_Updated()
+        public bool Body_Updated(Column column = null)
         {
-            return Body != SavedBody && Body != null;
+            return Body != SavedBody && Body != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Body);
         }
 
         public List<int> SwitchTargets;
@@ -477,9 +492,7 @@ namespace Implem.Pleasanter.Models
                 Body_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
 
         public List<string> Mine()

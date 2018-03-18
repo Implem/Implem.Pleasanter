@@ -54,79 +54,115 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedContentType = string.Empty;
         [NonSerialized] public string SavedBinarySettings = string.Empty;
 
-        public bool BinaryId_Updated()
+        public bool BinaryId_Updated(Column column = null)
         {
-            return BinaryId != SavedBinaryId;
+            return BinaryId != SavedBinaryId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != BinaryId);
         }
 
-        public bool TenantId_Updated()
+        public bool TenantId_Updated(Column column = null)
         {
-            return TenantId != SavedTenantId;
+            return TenantId != SavedTenantId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != TenantId);
         }
 
-        public bool ReferenceId_Updated()
+        public bool ReferenceId_Updated(Column column = null)
         {
-            return ReferenceId != SavedReferenceId;
+            return ReferenceId != SavedReferenceId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != ReferenceId);
         }
 
-        public bool Guid_Updated()
+        public bool Guid_Updated(Column column = null)
         {
-            return Guid != SavedGuid && Guid != null;
+            return Guid != SavedGuid && Guid != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Guid);
         }
 
-        public bool BinaryType_Updated()
+        public bool BinaryType_Updated(Column column = null)
         {
-            return BinaryType != SavedBinaryType && BinaryType != null;
+            return BinaryType != SavedBinaryType && BinaryType != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != BinaryType);
         }
 
-        public bool Title_Updated()
+        public bool Title_Updated(Column column = null)
         {
-            return Title.Value != SavedTitle && Title.Value != null;
+            return Title.Value != SavedTitle && Title.Value != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Title.Value);
         }
 
-        public bool Body_Updated()
+        public bool Body_Updated(Column column = null)
         {
-            return Body != SavedBody && Body != null;
+            return Body != SavedBody && Body != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Body);
         }
 
-        public bool Bin_Updated()
+        public bool FileName_Updated(Column column = null)
+        {
+            return FileName != SavedFileName && FileName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != FileName);
+        }
+
+        public bool Extension_Updated(Column column = null)
+        {
+            return Extension != SavedExtension && Extension != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Extension);
+        }
+
+        public bool Size_Updated(Column column = null)
+        {
+            return Size != SavedSize &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != Size);
+        }
+
+        public bool ContentType_Updated(Column column = null)
+        {
+            return ContentType != SavedContentType && ContentType != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ContentType);
+        }
+
+        public bool BinarySettings_Updated(Column column = null)
+        {
+            return BinarySettings.ToJson() != SavedBinarySettings && BinarySettings.ToJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != BinarySettings.ToJson());
+        }
+
+        public bool Bin_Updated(Column column = null)
         {
             return Bin != SavedBin && Bin != null;
         }
 
-        public bool Thumbnail_Updated()
+        public bool Thumbnail_Updated(Column column = null)
         {
             return Thumbnail != SavedThumbnail && Thumbnail != null;
         }
 
-        public bool Icon_Updated()
+        public bool Icon_Updated(Column column = null)
         {
             return Icon != SavedIcon && Icon != null;
-        }
-
-        public bool FileName_Updated()
-        {
-            return FileName != SavedFileName && FileName != null;
-        }
-
-        public bool Extension_Updated()
-        {
-            return Extension != SavedExtension && Extension != null;
-        }
-
-        public bool Size_Updated()
-        {
-            return Size != SavedSize;
-        }
-
-        public bool ContentType_Updated()
-        {
-            return ContentType != SavedContentType && ContentType != null;
-        }
-
-        public bool BinarySettings_Updated()
-        {
-            return BinarySettings.ToJson() != SavedBinarySettings && BinarySettings.ToJson() != null;
         }
 
         public BinarySettings Session_BinarySettings()
@@ -516,9 +552,6 @@ namespace Implem.Pleasanter.Models
                 BinaryType_Updated() ||
                 Title_Updated() ||
                 Body_Updated() ||
-                Bin_Updated() ||
-                Thumbnail_Updated() ||
-                Icon_Updated() ||
                 FileName_Updated() ||
                 Extension_Updated() ||
                 Size_Updated() ||
@@ -526,9 +559,7 @@ namespace Implem.Pleasanter.Models
                 BinarySettings_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
 
         /// <summary>

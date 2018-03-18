@@ -54,69 +54,108 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedDestinationSearchRange = string.Empty;
         [NonSerialized] public string SavedDestinationSearchText = string.Empty;
 
-        public bool ReferenceType_Updated()
+        public bool ReferenceType_Updated(Column column = null)
         {
-            return ReferenceType != SavedReferenceType && ReferenceType != null;
+            return ReferenceType != SavedReferenceType && ReferenceType != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ReferenceType);
         }
 
-        public bool ReferenceId_Updated()
+        public bool ReferenceId_Updated(Column column = null)
         {
-            return ReferenceId != SavedReferenceId;
+            return ReferenceId != SavedReferenceId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != ReferenceId);
         }
 
-        public bool ReferenceVer_Updated()
+        public bool ReferenceVer_Updated(Column column = null)
         {
-            return ReferenceVer != SavedReferenceVer;
+            return ReferenceVer != SavedReferenceVer &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != ReferenceVer);
         }
 
-        public bool OutgoingMailId_Updated()
+        public bool OutgoingMailId_Updated(Column column = null)
         {
-            return OutgoingMailId != SavedOutgoingMailId;
+            return OutgoingMailId != SavedOutgoingMailId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != OutgoingMailId);
         }
 
-        public bool Host_Updated()
+        public bool Host_Updated(Column column = null)
         {
-            return Host != SavedHost && Host != null;
+            return Host != SavedHost && Host != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Host);
         }
 
-        public bool Port_Updated()
+        public bool Port_Updated(Column column = null)
         {
-            return Port != SavedPort;
+            return Port != SavedPort &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToInt() != Port);
         }
 
-        public bool From_Updated()
+        public bool From_Updated(Column column = null)
         {
-            return From.ToString() != SavedFrom && From.ToString() != null;
+            return From.ToString() != SavedFrom && From.ToString() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != From.ToString());
         }
 
-        public bool To_Updated()
+        public bool To_Updated(Column column = null)
         {
-            return To != SavedTo && To != null;
+            return To != SavedTo && To != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != To);
         }
 
-        public bool Cc_Updated()
+        public bool Cc_Updated(Column column = null)
         {
-            return Cc != SavedCc && Cc != null;
+            return Cc != SavedCc && Cc != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Cc);
         }
 
-        public bool Bcc_Updated()
+        public bool Bcc_Updated(Column column = null)
         {
-            return Bcc != SavedBcc && Bcc != null;
+            return Bcc != SavedBcc && Bcc != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Bcc);
         }
 
-        public bool Title_Updated()
+        public bool Title_Updated(Column column = null)
         {
-            return Title.Value != SavedTitle && Title.Value != null;
+            return Title.Value != SavedTitle && Title.Value != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Title.Value);
         }
 
-        public bool Body_Updated()
+        public bool Body_Updated(Column column = null)
         {
-            return Body != SavedBody && Body != null;
+            return Body != SavedBody && Body != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Body);
         }
 
-        public bool SentTime_Updated()
+        public bool SentTime_Updated(Column column = null)
         {
-            return SentTime.Value != SavedSentTime;
+            return SentTime.Value != SavedSentTime &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != SentTime.Value.Date);
         }
 
         public OutgoingMailModel()
@@ -511,9 +550,7 @@ namespace Implem.Pleasanter.Models
                 SentTime_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
 
         /// <summary>

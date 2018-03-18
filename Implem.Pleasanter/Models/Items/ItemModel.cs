@@ -38,34 +38,52 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedFullText = string.Empty;
         [NonSerialized] public DateTime SavedSearchIndexCreatedTime = 0.ToDateTime();
 
-        public bool ReferenceId_Updated()
+        public bool ReferenceId_Updated(Column column = null)
         {
-            return ReferenceId != SavedReferenceId;
+            return ReferenceId != SavedReferenceId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != ReferenceId);
         }
 
-        public bool ReferenceType_Updated()
+        public bool ReferenceType_Updated(Column column = null)
         {
-            return ReferenceType != SavedReferenceType && ReferenceType != null;
+            return ReferenceType != SavedReferenceType && ReferenceType != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != ReferenceType);
         }
 
-        public bool SiteId_Updated()
+        public bool SiteId_Updated(Column column = null)
         {
-            return SiteId != SavedSiteId;
+            return SiteId != SavedSiteId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToLong() != SiteId);
         }
 
-        public bool Title_Updated()
+        public bool Title_Updated(Column column = null)
         {
-            return Title != SavedTitle && Title != null;
+            return Title != SavedTitle && Title != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != Title);
         }
 
-        public bool FullText_Updated()
+        public bool FullText_Updated(Column column = null)
         {
-            return FullText != SavedFullText && FullText != null;
+            return FullText != SavedFullText && FullText != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != FullText);
         }
 
-        public bool SearchIndexCreatedTime_Updated()
+        public bool SearchIndexCreatedTime_Updated(Column column = null)
         {
-            return SearchIndexCreatedTime != SavedSearchIndexCreatedTime;
+            return SearchIndexCreatedTime != SavedSearchIndexCreatedTime &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != SearchIndexCreatedTime.Date);
         }
 
         public ItemModel(DataRow dataRow, string tableAlias = null)
@@ -1125,9 +1143,7 @@ namespace Implem.Pleasanter.Models
                 SearchIndexCreatedTime_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
-                Updator_Updated() ||
-                CreatedTime_Updated() ||
-                UpdatedTime_Updated();
+                Updator_Updated();
         }
 
         /// <summary>
