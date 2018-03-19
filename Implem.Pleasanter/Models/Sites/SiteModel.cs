@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedReferenceType = "Sites";
         [NonSerialized] public long SavedParentId = 0;
         [NonSerialized] public long SavedInheritPermission = 0;
-        [NonSerialized] public string SavedSiteSettings = string.Empty;
+        [NonSerialized] public string SavedSiteSettings = "[]";
         [NonSerialized] public SiteCollection SavedAncestors = null;
         [NonSerialized] public int SavedSiteMenu = 0;
         [NonSerialized] public List<string> SavedMonitorChangesColumns = null;
@@ -91,6 +91,31 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.DefaultInput.ToString() != SiteSettings.RecordingJson());
+        }
+
+        public bool TenantId_InitialValue()
+        {
+            return TenantId == 0;
+        }
+
+        public bool ReferenceType_InitialValue()
+        {
+            return ReferenceType == "Sites";
+        }
+
+        public bool ParentId_InitialValue()
+        {
+            return ParentId == 0;
+        }
+
+        public bool InheritPermission_InitialValue()
+        {
+            return InheritPermission == 0;
+        }
+
+        public bool SiteSettings_InitialValue()
+        {
+            return SiteSettings.RecordingJson() == "[]";
         }
 
         public SiteSettings Session_SiteSettings()
@@ -452,12 +477,17 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
+            var where = Rds.SitesWhereDefault(this)
+                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            if (VerUp)
+            {
+                statements.Add(VerUpStatements(where));
+                Ver++;
+            }
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateSites(
-                    verUp: VerUp,
-                    where: Rds.SitesWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    where: where,
                     param: param ?? Rds.SitesParamDefault(this, paramAll: paramAll),
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
@@ -467,6 +497,43 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
+        }
+
+        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        {
+            var column = new Rds.SitesColumnCollection();
+            var param = new Rds.SitesParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
+            column.ParentId(function: Sqls.Functions.SingleColumn); param.ParentId();
+            column.InheritPermission(function: Sqls.Functions.SingleColumn); param.InheritPermission();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            if (!Body_InitialValue())
+            {
+                column.Body(function: Sqls.Functions.SingleColumn);
+                param.Body();
+            }
+            if (!SiteSettings_InitialValue())
+            {
+                column.SiteSettings(function: Sqls.Functions.SingleColumn);
+                param.SiteSettings();
+            }
+            if (!Comments_InitialValue())
+            {
+                column.Comments(function: Sqls.Functions.SingleColumn);
+                param.Comments();
+            }
+            return Rds.InsertSites(
+                tableType: Sqls.TableTypes.History,
+                param: param,
+                select: Rds.SelectSites(column: column, where: where),
+                addUpdatorParam: false);
         }
 
         public void UpdateRelatedRecords(

@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public long SavedReferenceId = 0;
         [NonSerialized] public string SavedReferenceType = string.Empty;
         [NonSerialized] public int SavedOwnerId = 0;
-        [NonSerialized] public string SavedData = "new List<long>()";
+        [NonSerialized] public string SavedData = "[]";
 
         public bool ReferenceId_Updated(Column column = null)
         {
@@ -62,6 +62,26 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.DefaultInput.ToString() != Data.ToJson());
+        }
+
+        public bool ReferenceId_InitialValue()
+        {
+            return ReferenceId == 0;
+        }
+
+        public bool ReferenceType_InitialValue()
+        {
+            return ReferenceType == string.Empty;
+        }
+
+        public bool OwnerId_InitialValue()
+        {
+            return OwnerId == 0;
+        }
+
+        public bool Data_InitialValue()
+        {
+            return Data.ToJson() == "[]";
         }
 
         public OrderModel(DataRow dataRow, string tableAlias = null)

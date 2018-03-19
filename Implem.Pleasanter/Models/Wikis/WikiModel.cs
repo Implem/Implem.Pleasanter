@@ -401,12 +401,17 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
+            var where = Rds.WikisWhereDefault(this)
+                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            if (VerUp)
+            {
+                statements.Add(VerUpStatements(where));
+                Ver++;
+            }
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateWikis(
-                    verUp: VerUp,
-                    where: Rds.WikisWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    where: where,
                     param: param ?? Rds.WikisParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             });
@@ -415,6 +420,35 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
+        }
+
+        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        {
+            var column = new Rds.WikisColumnCollection();
+            var param = new Rds.WikisParamCollection();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            column.WikiId(function: Sqls.Functions.SingleColumn); param.WikiId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            if (!Body_InitialValue())
+            {
+                column.Body(function: Sqls.Functions.SingleColumn);
+                param.Body();
+            }
+            if (!Comments_InitialValue())
+            {
+                column.Comments(function: Sqls.Functions.SingleColumn);
+                param.Comments();
+            }
+            return Rds.InsertWikis(
+                tableType: Sqls.TableTypes.History,
+                param: param,
+                select: Rds.SelectWikis(column: column, where: where),
+                addUpdatorParam: false);
         }
 
         public void UpdateRelatedRecords(

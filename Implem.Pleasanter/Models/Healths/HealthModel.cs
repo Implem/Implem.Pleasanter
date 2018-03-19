@@ -84,6 +84,36 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDouble() != Elapsed);
         }
 
+        public bool HealthId_InitialValue()
+        {
+            return HealthId == 0;
+        }
+
+        public bool TenantCount_InitialValue()
+        {
+            return TenantCount == 0;
+        }
+
+        public bool UserCount_InitialValue()
+        {
+            return UserCount == 0;
+        }
+
+        public bool ItemCount_InitialValue()
+        {
+            return ItemCount == 0;
+        }
+
+        public bool ErrorCount_InitialValue()
+        {
+            return ErrorCount == 0;
+        }
+
+        public bool Elapsed_InitialValue()
+        {
+            return Elapsed == 0;
+        }
+
         public HealthModel()
         {
         }
@@ -218,12 +248,17 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
+            var where = Rds.HealthsWhereDefault(this)
+                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            if (VerUp)
+            {
+                statements.Add(VerUpStatements(where));
+                Ver++;
+            }
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateHealths(
-                    verUp: VerUp,
-                    where: Rds.HealthsWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    where: where,
                     param: param ?? Rds.HealthsParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             });
@@ -232,6 +267,33 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
+        }
+
+        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        {
+            var column = new Rds.HealthsColumnCollection();
+            var param = new Rds.HealthsParamCollection();
+            column.HealthId(function: Sqls.Functions.SingleColumn); param.HealthId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.TenantCount(function: Sqls.Functions.SingleColumn); param.TenantCount();
+            column.UserCount(function: Sqls.Functions.SingleColumn); param.UserCount();
+            column.ItemCount(function: Sqls.Functions.SingleColumn); param.ItemCount();
+            column.ErrorCount(function: Sqls.Functions.SingleColumn); param.ErrorCount();
+            column.Elapsed(function: Sqls.Functions.SingleColumn); param.Elapsed();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            if (!Comments_InitialValue())
+            {
+                column.Comments(function: Sqls.Functions.SingleColumn);
+                param.Comments();
+            }
+            return Rds.InsertHealths(
+                tableType: Sqls.TableTypes.History,
+                param: param,
+                select: Rds.SelectHealths(column: column, where: where),
+                addUpdatorParam: false);
         }
 
         public Error.Types UpdateOrCreate(

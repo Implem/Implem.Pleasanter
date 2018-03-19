@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedExtension = string.Empty;
         [NonSerialized] public int SavedSize = 0;
         [NonSerialized] public string SavedContentType = string.Empty;
-        [NonSerialized] public string SavedBinarySettings = string.Empty;
+        [NonSerialized] public string SavedBinarySettings = "[]";
 
         public bool BinaryId_Updated(Column column = null)
         {
@@ -163,6 +163,81 @@ namespace Implem.Pleasanter.Models
         public bool Icon_Updated(Column column = null)
         {
             return Icon != SavedIcon && Icon != null;
+        }
+
+        public bool BinaryId_InitialValue()
+        {
+            return BinaryId == 0;
+        }
+
+        public bool TenantId_InitialValue()
+        {
+            return TenantId == 0;
+        }
+
+        public bool ReferenceId_InitialValue()
+        {
+            return ReferenceId == 0;
+        }
+
+        public bool Guid_InitialValue()
+        {
+            return Guid == string.Empty;
+        }
+
+        public bool BinaryType_InitialValue()
+        {
+            return BinaryType == string.Empty;
+        }
+
+        public bool Title_InitialValue()
+        {
+            return Title.Value == string.Empty;
+        }
+
+        public bool Body_InitialValue()
+        {
+            return Body == string.Empty;
+        }
+
+        public bool Bin_InitialValue()
+        {
+            return Bin == null;
+        }
+
+        public bool Thumbnail_InitialValue()
+        {
+            return Thumbnail == null;
+        }
+
+        public bool Icon_InitialValue()
+        {
+            return Icon == null;
+        }
+
+        public bool FileName_InitialValue()
+        {
+            return FileName == string.Empty;
+        }
+
+        public bool Extension_InitialValue()
+        {
+            return Extension == string.Empty;
+        }
+
+        public bool Size_InitialValue()
+        {
+            return Size == 0;
+        }
+
+        public bool ContentType_InitialValue()
+        {
+            return ContentType == string.Empty;
+        }
+
+        public bool BinarySettings_InitialValue()
+        {
+            return BinarySettings.ToJson() == "[]";
         }
 
         public BinarySettings Session_BinarySettings()
@@ -313,12 +388,17 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
+            var where = Rds.BinariesWhereDefault(this)
+                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            if (VerUp)
+            {
+                statements.Add(VerUpStatements(where));
+                Ver++;
+            }
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateBinaries(
-                    verUp: VerUp,
-                    where: Rds.BinariesWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    where: where,
                     param: param ?? Rds.BinariesParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             });
@@ -327,6 +407,90 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
+        }
+
+        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        {
+            var column = new Rds.BinariesColumnCollection();
+            var param = new Rds.BinariesParamCollection();
+            column.BinaryId(function: Sqls.Functions.SingleColumn); param.BinaryId();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            if (!Guid_InitialValue())
+            {
+                column.Guid(function: Sqls.Functions.SingleColumn);
+                param.Guid();
+            }
+            if (!BinaryType_InitialValue())
+            {
+                column.BinaryType(function: Sqls.Functions.SingleColumn);
+                param.BinaryType();
+            }
+            if (!Title_InitialValue())
+            {
+                column.Title(function: Sqls.Functions.SingleColumn);
+                param.Title();
+            }
+            if (!Body_InitialValue())
+            {
+                column.Body(function: Sqls.Functions.SingleColumn);
+                param.Body();
+            }
+            if (!Bin_InitialValue())
+            {
+                column.Bin(function: Sqls.Functions.SingleColumn);
+                param.Bin();
+            }
+            if (!Thumbnail_InitialValue())
+            {
+                column.Thumbnail(function: Sqls.Functions.SingleColumn);
+                param.Thumbnail();
+            }
+            if (!Icon_InitialValue())
+            {
+                column.Icon(function: Sqls.Functions.SingleColumn);
+                param.Icon();
+            }
+            if (!FileName_InitialValue())
+            {
+                column.FileName(function: Sqls.Functions.SingleColumn);
+                param.FileName();
+            }
+            if (!Extension_InitialValue())
+            {
+                column.Extension(function: Sqls.Functions.SingleColumn);
+                param.Extension();
+            }
+            if (!Size_InitialValue())
+            {
+                column.Size(function: Sqls.Functions.SingleColumn);
+                param.Size();
+            }
+            if (!ContentType_InitialValue())
+            {
+                column.ContentType(function: Sqls.Functions.SingleColumn);
+                param.ContentType();
+            }
+            if (!BinarySettings_InitialValue())
+            {
+                column.BinarySettings(function: Sqls.Functions.SingleColumn);
+                param.BinarySettings();
+            }
+            if (!Comments_InitialValue())
+            {
+                column.Comments(function: Sqls.Functions.SingleColumn);
+                param.Comments();
+            }
+            return Rds.InsertBinaries(
+                tableType: Sqls.TableTypes.History,
+                param: param,
+                select: Rds.SelectBinaries(column: column, where: where),
+                addUpdatorParam: false);
         }
 
         public Error.Types UpdateOrCreate(

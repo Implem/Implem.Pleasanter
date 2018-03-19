@@ -62,6 +62,21 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != Priority);
         }
 
+        public bool Word_InitialValue()
+        {
+            return Word == string.Empty;
+        }
+
+        public bool ReferenceId_InitialValue()
+        {
+            return ReferenceId == 0;
+        }
+
+        public bool Priority_InitialValue()
+        {
+            return Priority == 0;
+        }
+
         public SearchIndexModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();

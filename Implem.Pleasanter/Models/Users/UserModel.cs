@@ -114,7 +114,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public bool SavedServiceManager = false;
         [NonSerialized] public bool SavedDisabled = false;
         [NonSerialized] public bool SavedDeveloper = false;
-        [NonSerialized] public string SavedUserSettings = string.Empty;
+        [NonSerialized] public string SavedUserSettings = "[]";
         [NonSerialized] public string SavedApiKey = string.Empty;
         [NonSerialized] public string SavedOldPassword = string.Empty;
         [NonSerialized] public string SavedChangedPassword = string.Empty;
@@ -339,6 +339,141 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.DefaultTime().Date != PasswordChangeTime.Value.Date);
+        }
+
+        public bool TenantId_InitialValue()
+        {
+            return TenantId == 0;
+        }
+
+        public bool UserId_InitialValue()
+        {
+            return UserId == 0;
+        }
+
+        public bool LoginId_InitialValue()
+        {
+            return LoginId == string.Empty;
+        }
+
+        public bool GlobalId_InitialValue()
+        {
+            return GlobalId == string.Empty;
+        }
+
+        public bool Name_InitialValue()
+        {
+            return Name == string.Empty;
+        }
+
+        public bool UserCode_InitialValue()
+        {
+            return UserCode == string.Empty;
+        }
+
+        public bool Password_InitialValue()
+        {
+            return Password == string.Empty;
+        }
+
+        public bool LastName_InitialValue()
+        {
+            return LastName == string.Empty;
+        }
+
+        public bool FirstName_InitialValue()
+        {
+            return FirstName == string.Empty;
+        }
+
+        public bool Birthday_InitialValue()
+        {
+            return Birthday.Value == 0.ToDateTime();
+        }
+
+        public bool Gender_InitialValue()
+        {
+            return Gender == string.Empty;
+        }
+
+        public bool Language_InitialValue()
+        {
+            return Language == "ja";
+        }
+
+        public bool TimeZone_InitialValue()
+        {
+            return TimeZone == "Tokyo Standard Time";
+        }
+
+        public bool DeptId_InitialValue()
+        {
+            return DeptId == 0;
+        }
+
+        public bool FirstAndLastNameOrder_InitialValue()
+        {
+            return FirstAndLastNameOrder.ToInt() == 0;
+        }
+
+        public bool Body_InitialValue()
+        {
+            return Body == string.Empty;
+        }
+
+        public bool LastLoginTime_InitialValue()
+        {
+            return LastLoginTime.Value == 0.ToDateTime();
+        }
+
+        public bool PasswordExpirationTime_InitialValue()
+        {
+            return PasswordExpirationTime.Value == 0.ToDateTime();
+        }
+
+        public bool PasswordChangeTime_InitialValue()
+        {
+            return PasswordChangeTime.Value == 0.ToDateTime();
+        }
+
+        public bool NumberOfLogins_InitialValue()
+        {
+            return NumberOfLogins == 0;
+        }
+
+        public bool NumberOfDenial_InitialValue()
+        {
+            return NumberOfDenial == 0;
+        }
+
+        public bool TenantManager_InitialValue()
+        {
+            return TenantManager == false;
+        }
+
+        public bool ServiceManager_InitialValue()
+        {
+            return ServiceManager == false;
+        }
+
+        public bool Disabled_InitialValue()
+        {
+            return Disabled == false;
+        }
+
+        public bool Developer_InitialValue()
+        {
+            return Developer == false;
+        }
+
+        public bool UserSettings_InitialValue()
+        {
+            return UserSettings.RecordingJson() == "[]";
+        }
+
+        public bool ApiKey_InitialValue()
+        {
+            return ApiKey == string.Empty;
         }
 
         public UserSettings Session_UserSettings()
@@ -590,12 +725,17 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
+            var where = Rds.UsersWhereDefault(this)
+                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            if (VerUp)
+            {
+                statements.Add(VerUpStatements(where));
+                Ver++;
+            }
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateUsers(
-                    verUp: VerUp,
-                    where: Rds.UsersWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    where: where,
                     param: param ?? Rds.UsersParamDefault(this, paramAll: paramAll),
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
@@ -605,6 +745,122 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
+        }
+
+        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        {
+            var column = new Rds.UsersColumnCollection();
+            var param = new Rds.UsersParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
+            column.Language(function: Sqls.Functions.SingleColumn); param.Language();
+            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
+            column.FirstAndLastNameOrder(function: Sqls.Functions.SingleColumn); param.FirstAndLastNameOrder();
+            column.TenantManager(function: Sqls.Functions.SingleColumn); param.TenantManager();
+            column.ServiceManager(function: Sqls.Functions.SingleColumn); param.ServiceManager();
+            column.Disabled(function: Sqls.Functions.SingleColumn); param.Disabled();
+            column.Developer(function: Sqls.Functions.SingleColumn); param.Developer();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            if (!GlobalId_InitialValue())
+            {
+                column.GlobalId(function: Sqls.Functions.SingleColumn);
+                param.GlobalId();
+            }
+            if (!Name_InitialValue())
+            {
+                column.Name(function: Sqls.Functions.SingleColumn);
+                param.Name();
+            }
+            if (!UserCode_InitialValue())
+            {
+                column.UserCode(function: Sqls.Functions.SingleColumn);
+                param.UserCode();
+            }
+            if (!Password_InitialValue())
+            {
+                column.Password(function: Sqls.Functions.SingleColumn);
+                param.Password();
+            }
+            if (!LastName_InitialValue())
+            {
+                column.LastName(function: Sqls.Functions.SingleColumn);
+                param.LastName();
+            }
+            if (!FirstName_InitialValue())
+            {
+                column.FirstName(function: Sqls.Functions.SingleColumn);
+                param.FirstName();
+            }
+            if (!Birthday_InitialValue())
+            {
+                column.Birthday(function: Sqls.Functions.SingleColumn);
+                param.Birthday();
+            }
+            if (!Gender_InitialValue())
+            {
+                column.Gender(function: Sqls.Functions.SingleColumn);
+                param.Gender();
+            }
+            if (!TimeZone_InitialValue())
+            {
+                column.TimeZone(function: Sqls.Functions.SingleColumn);
+                param.TimeZone();
+            }
+            if (!Body_InitialValue())
+            {
+                column.Body(function: Sqls.Functions.SingleColumn);
+                param.Body();
+            }
+            if (!LastLoginTime_InitialValue())
+            {
+                column.LastLoginTime(function: Sqls.Functions.SingleColumn);
+                param.LastLoginTime();
+            }
+            if (!PasswordExpirationTime_InitialValue())
+            {
+                column.PasswordExpirationTime(function: Sqls.Functions.SingleColumn);
+                param.PasswordExpirationTime();
+            }
+            if (!PasswordChangeTime_InitialValue())
+            {
+                column.PasswordChangeTime(function: Sqls.Functions.SingleColumn);
+                param.PasswordChangeTime();
+            }
+            if (!NumberOfLogins_InitialValue())
+            {
+                column.NumberOfLogins(function: Sqls.Functions.SingleColumn);
+                param.NumberOfLogins();
+            }
+            if (!NumberOfDenial_InitialValue())
+            {
+                column.NumberOfDenial(function: Sqls.Functions.SingleColumn);
+                param.NumberOfDenial();
+            }
+            if (!UserSettings_InitialValue())
+            {
+                column.UserSettings(function: Sqls.Functions.SingleColumn);
+                param.UserSettings();
+            }
+            if (!ApiKey_InitialValue())
+            {
+                column.ApiKey(function: Sqls.Functions.SingleColumn);
+                param.ApiKey();
+            }
+            if (!Comments_InitialValue())
+            {
+                column.Comments(function: Sqls.Functions.SingleColumn);
+                param.Comments();
+            }
+            return Rds.InsertUsers(
+                tableType: Sqls.TableTypes.History,
+                param: param,
+                select: Rds.SelectUsers(column: column, where: where),
+                addUpdatorParam: false);
         }
 
         public Error.Types Delete(SiteSettings ss, bool notice = false)

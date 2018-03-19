@@ -73,6 +73,26 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Body);
         }
 
+        public bool TenantId_InitialValue()
+        {
+            return TenantId == 0;
+        }
+
+        public bool GroupId_InitialValue()
+        {
+            return GroupId == 0;
+        }
+
+        public bool GroupName_InitialValue()
+        {
+            return GroupName == string.Empty;
+        }
+
+        public bool Body_InitialValue()
+        {
+            return Body == string.Empty;
+        }
+
         public List<int> SwitchTargets;
 
         public GroupModel()
@@ -276,12 +296,17 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
+            var where = Rds.GroupsWhereDefault(this)
+                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            if (VerUp)
+            {
+                statements.Add(VerUpStatements(where));
+                Ver++;
+            }
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateGroups(
-                    verUp: VerUp,
-                    where: Rds.GroupsWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    where: where,
                     param: param ?? Rds.GroupsParamDefault(this, paramAll: paramAll),
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
@@ -291,6 +316,35 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
+        }
+
+        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        {
+            var column = new Rds.GroupsColumnCollection();
+            var param = new Rds.GroupsParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.GroupId(function: Sqls.Functions.SingleColumn); param.GroupId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.GroupName(function: Sqls.Functions.SingleColumn); param.GroupName();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            if (!Body_InitialValue())
+            {
+                column.Body(function: Sqls.Functions.SingleColumn);
+                param.Body();
+            }
+            if (!Comments_InitialValue())
+            {
+                column.Comments(function: Sqls.Functions.SingleColumn);
+                param.Comments();
+            }
+            return Rds.InsertGroups(
+                tableType: Sqls.TableTypes.History,
+                param: param,
+                select: Rds.SelectGroups(column: column, where: where),
+                addUpdatorParam: false);
         }
 
         public Error.Types UpdateOrCreate(

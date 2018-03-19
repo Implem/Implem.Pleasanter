@@ -49,7 +49,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 valueCollection.Add("@_U");
                 valueCollection.Add("@_U");
             }
-            SqlParamCollection
+            SqlParamCollection?
                 .Where(o => o.Using)
                 .ForEach(sqlParam =>
                 {
@@ -103,11 +103,14 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
             else
             {
-                Select.SqlColumnCollection.InsertRange(0, new List<SqlColumn>
+                if (AddUpdatorParam)
                 {
-                    new SqlColumn("@_U as [Creator]"),
-                    new SqlColumn("@_U as [Updator]")
-                });
+                    Select.SqlColumnCollection.InsertRange(0, new List<SqlColumn>
+                    {
+                        new SqlColumn("@_U as [Creator]"),
+                        new SqlColumn("@_U as [Updator]")
+                    });
+                }
                 return Select.GetCommandText(
                     sqlContainer: sqlContainer,
                     sqlCommand: sqlCommand,

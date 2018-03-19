@@ -84,6 +84,36 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != ContractDeadline.Date);
         }
 
+        public bool TenantId_InitialValue()
+        {
+            return TenantId == 0;
+        }
+
+        public bool TenantName_InitialValue()
+        {
+            return TenantName == string.Empty;
+        }
+
+        public bool Title_InitialValue()
+        {
+            return Title.Value == string.Empty;
+        }
+
+        public bool Body_InitialValue()
+        {
+            return Body == string.Empty;
+        }
+
+        public bool ContractSettings_InitialValue()
+        {
+            return ContractSettings?.RecordingJson() == string.Empty;
+        }
+
+        public bool ContractDeadline_InitialValue()
+        {
+            return ContractDeadline == 0.ToDateTime();
+        }
+
         public TenantModel()
         {
         }
@@ -218,12 +248,17 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
+            var where = Rds.TenantsWhereDefault(this)
+                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            if (VerUp)
+            {
+                statements.Add(VerUpStatements(where));
+                Ver++;
+            }
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateTenants(
-                    verUp: VerUp,
-                    where: Rds.TenantsWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    where: where,
                     param: param ?? Rds.TenantsParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             });
@@ -232,6 +267,49 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
+        }
+
+        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        {
+            var column = new Rds.TenantsColumnCollection();
+            var param = new Rds.TenantsParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.TenantName(function: Sqls.Functions.SingleColumn); param.TenantName();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            if (!Title_InitialValue())
+            {
+                column.Title(function: Sqls.Functions.SingleColumn);
+                param.Title();
+            }
+            if (!Body_InitialValue())
+            {
+                column.Body(function: Sqls.Functions.SingleColumn);
+                param.Body();
+            }
+            if (!ContractSettings_InitialValue())
+            {
+                column.ContractSettings(function: Sqls.Functions.SingleColumn);
+                param.ContractSettings();
+            }
+            if (!ContractDeadline_InitialValue())
+            {
+                column.ContractDeadline(function: Sqls.Functions.SingleColumn);
+                param.ContractDeadline();
+            }
+            if (!Comments_InitialValue())
+            {
+                column.Comments(function: Sqls.Functions.SingleColumn);
+                param.Comments();
+            }
+            return Rds.InsertTenants(
+                tableType: Sqls.TableTypes.History,
+                param: param,
+                select: Rds.SelectTenants(column: column, where: where),
+                addUpdatorParam: false);
         }
 
         public Error.Types UpdateOrCreate(

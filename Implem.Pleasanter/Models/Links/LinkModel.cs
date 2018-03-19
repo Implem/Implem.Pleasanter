@@ -54,6 +54,16 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != SourceId);
         }
 
+        public bool DestinationId_InitialValue()
+        {
+            return DestinationId == 0;
+        }
+
+        public bool SourceId_InitialValue()
+        {
+            return SourceId == 0;
+        }
+
         public LinkModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
