@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedTitle = string.Empty;
         [NonSerialized] public long SavedExportSettingId = 0;
         [NonSerialized] public bool SavedAddHeader = true;
-        [NonSerialized] public string SavedExportColumns = string.Empty;
+        [NonSerialized] public string SavedExportColumns = "[]";
 
         public bool ReferenceType_Updated(Column column = null)
         {
@@ -82,6 +82,36 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.DefaultInput.ToString() != ExportColumns.ToJson());
+        }
+
+        public bool ReferenceType_InitialValue()
+        {
+            return ReferenceType == "Sites";
+        }
+
+        public bool ReferenceId_InitialValue()
+        {
+            return ReferenceId == 0;
+        }
+
+        public bool Title_InitialValue()
+        {
+            return Title.Value == string.Empty;
+        }
+
+        public bool ExportSettingId_InitialValue()
+        {
+            return ExportSettingId == 0;
+        }
+
+        public bool AddHeader_InitialValue()
+        {
+            return AddHeader == false;
+        }
+
+        public bool ExportColumns_InitialValue()
+        {
+            return ExportColumns.ToJson() == "[]";
         }
 
         public Title Session_Title()
@@ -257,12 +287,17 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
+            var where = Rds.ExportSettingsWhereDefault(this)
+                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            if (VerUp)
+            {
+                statements.Add(VerUpStatements(where));
+                Ver++;
+            }
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateExportSettings(
-                    verUp: VerUp,
-                    where: Rds.ExportSettingsWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    where: where,
                     param: param ?? Rds.ExportSettingsParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             });
@@ -271,6 +306,33 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
+        }
+
+        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        {
+            var column = new Rds.ExportSettingsColumnCollection();
+            var param = new Rds.ExportSettingsParamCollection();
+            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.ExportSettingId(function: Sqls.Functions.SingleColumn); param.ExportSettingId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.AddHeader(function: Sqls.Functions.SingleColumn); param.AddHeader();
+            column.ExportColumns(function: Sqls.Functions.SingleColumn); param.ExportColumns();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            if (!Comments_InitialValue())
+            {
+                column.Comments(function: Sqls.Functions.SingleColumn);
+                param.Comments();
+            }
+            return Rds.InsertExportSettings(
+                tableType: Sqls.TableTypes.History,
+                param: param,
+                select: Rds.SelectExportSettings(column: column, where: where),
+                addUpdatorParam: false);
         }
 
         public Error.Types UpdateOrCreate(

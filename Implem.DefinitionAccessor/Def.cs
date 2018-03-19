@@ -262,6 +262,7 @@ namespace Implem.DefinitionAccessor
                     case "Base_PropertyUpdated_DateTime": Code.Base_PropertyUpdated_DateTime = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_PropertyUpdated_DateTime, definitionRow, CodeXls); break;
                     case "Base_PropertyUpdated_Bin": Code.Base_PropertyUpdated_Bin = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_PropertyUpdated_Bin, definitionRow, CodeXls); break;
                     case "Base_PropertyUpdated_NotNull": Code.Base_PropertyUpdated_NotNull = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_PropertyUpdated_NotNull, definitionRow, CodeXls); break;
+                    case "Base_PropertyInitialValue": Code.Base_PropertyInitialValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_PropertyInitialValue, definitionRow, CodeXls); break;
                     case "Model": Code.Model = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model, definitionRow, CodeXls); break;
                     case "Model_InheritBase": Code.Model_InheritBase = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InheritBase, definitionRow, CodeXls); break;
                     case "Model_InheritBaseItem": Code.Model_InheritBaseItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InheritBaseItem, definitionRow, CodeXls); break;
@@ -349,6 +350,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateFormulaColumns": Code.Model_UpdateFormulaColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateFormulaColumns, definitionRow, CodeXls); break;
                     case "Model_UpdateFormulaColumns_ColumnCases": Code.Model_UpdateFormulaColumns_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateFormulaColumns_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_UpdateOrCreate": Code.Model_UpdateOrCreate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateOrCreate, definitionRow, CodeXls); break;
+                    case "Model_SelectPreviousRequiredColumns": Code.Model_SelectPreviousRequiredColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SelectPreviousRequiredColumns, definitionRow, CodeXls); break;
+                    case "Model_SelectPreviousColums": Code.Model_SelectPreviousColums = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SelectPreviousColums, definitionRow, CodeXls); break;
                     case "Model_UpdateRelatedRecordsMethod": Code.Model_UpdateRelatedRecordsMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateRelatedRecordsMethod, definitionRow, CodeXls); break;
                     case "Model_GetAfterUpdatedExtendedSqls": Code.Model_GetAfterUpdatedExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetAfterUpdatedExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_InsertLinksByUpdate": Code.Model_InsertLinksByUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksByUpdate, definitionRow, CodeXls); break;
@@ -827,6 +830,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("NotWhereSpecial")) { newCodeDefinition.NotWhereSpecial = definitionRow["NotWhereSpecial"].ToBool(); newCodeDefinition.SavedNotWhereSpecial = newCodeDefinition.NotWhereSpecial; }
                 if (definitionRow.ContainsKey("NoSpace")) { newCodeDefinition.NoSpace = definitionRow["NoSpace"].ToBool(); newCodeDefinition.SavedNoSpace = newCodeDefinition.NoSpace; }
                 if (definitionRow.ContainsKey("NotBase")) { newCodeDefinition.NotBase = definitionRow["NotBase"].ToBool(); newCodeDefinition.SavedNotBase = newCodeDefinition.NotBase; }
+                if (definitionRow.ContainsKey("Null")) { newCodeDefinition.Null = definitionRow["Null"].ToBool(); newCodeDefinition.SavedNull = newCodeDefinition.Null; }
                 if (definitionRow.ContainsKey("NotNull")) { newCodeDefinition.NotNull = definitionRow["NotNull"].ToBool(); newCodeDefinition.SavedNotNull = newCodeDefinition.NotNull; }
                 if (definitionRow.ContainsKey("Validators")) { newCodeDefinition.Validators = definitionRow["Validators"].ToBool(); newCodeDefinition.SavedValidators = newCodeDefinition.Validators; }
                 if (definitionRow.ContainsKey("DisplayType")) { newCodeDefinition.DisplayType = definitionRow["DisplayType"].ToString(); newCodeDefinition.SavedDisplayType = newCodeDefinition.DisplayType; }
@@ -907,6 +911,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("NotWhereSpecial")) { definition.NotWhereSpecial = definitionRow["NotWhereSpecial"].ToBool(); definition.SavedNotWhereSpecial = definition.NotWhereSpecial; }
             if (definitionRow.ContainsKey("NoSpace")) { definition.NoSpace = definitionRow["NoSpace"].ToBool(); definition.SavedNoSpace = definition.NoSpace; }
             if (definitionRow.ContainsKey("NotBase")) { definition.NotBase = definitionRow["NotBase"].ToBool(); definition.SavedNotBase = definition.NotBase; }
+            if (definitionRow.ContainsKey("Null")) { definition.Null = definitionRow["Null"].ToBool(); definition.SavedNull = definition.Null; }
             if (definitionRow.ContainsKey("NotNull")) { definition.NotNull = definitionRow["NotNull"].ToBool(); definition.SavedNotNull = definition.NotNull; }
             if (definitionRow.ContainsKey("Validators")) { definition.Validators = definitionRow["Validators"].ToBool(); definition.SavedValidators = definition.Validators; }
             if (definitionRow.ContainsKey("DisplayType")) { definition.DisplayType = definitionRow["DisplayType"].ToString(); definition.SavedDisplayType = definition.DisplayType; }
@@ -3769,6 +3774,7 @@ namespace Implem.DefinitionAccessor
                         case "NotWhereSpecial": codeDefinition.NotWhereSpecial = optionValue.ToBool(); break;
                         case "NoSpace": codeDefinition.NoSpace = optionValue.ToBool(); break;
                         case "NotBase": codeDefinition.NotBase = optionValue.ToBool(); break;
+                        case "Null": codeDefinition.Null = optionValue.ToBool(); break;
                         case "NotNull": codeDefinition.NotNull = optionValue.ToBool(); break;
                         case "Validators": codeDefinition.Validators = optionValue.ToBool(); break;
                         case "DisplayType": codeDefinition.DisplayType = optionValue.ToString(); break;
@@ -4277,6 +4283,7 @@ namespace Implem.DefinitionAccessor
         public bool NotWhereSpecial; public bool SavedNotWhereSpecial;
         public bool NoSpace; public bool SavedNoSpace;
         public bool NotBase; public bool SavedNotBase;
+        public bool Null; public bool SavedNull;
         public bool NotNull; public bool SavedNotNull;
         public bool Validators; public bool SavedValidators;
         public string DisplayType; public string SavedDisplayType;
@@ -4358,6 +4365,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("NotWhereSpecial")) NotWhereSpecial = propertyCollection["NotWhereSpecial"].ToBool(); else NotWhereSpecial = false;
             if (propertyCollection.ContainsKey("NoSpace")) NoSpace = propertyCollection["NoSpace"].ToBool(); else NoSpace = false;
             if (propertyCollection.ContainsKey("NotBase")) NotBase = propertyCollection["NotBase"].ToBool(); else NotBase = false;
+            if (propertyCollection.ContainsKey("Null")) Null = propertyCollection["Null"].ToBool(); else Null = false;
             if (propertyCollection.ContainsKey("NotNull")) NotNull = propertyCollection["NotNull"].ToBool(); else NotNull = false;
             if (propertyCollection.ContainsKey("Validators")) Validators = propertyCollection["Validators"].ToBool(); else Validators = false;
             if (propertyCollection.ContainsKey("DisplayType")) DisplayType = propertyCollection["DisplayType"].ToString(); else DisplayType = string.Empty;
@@ -4439,6 +4447,7 @@ namespace Implem.DefinitionAccessor
                     case "NotWhereSpecial": return NotWhereSpecial;
                     case "NoSpace": return NoSpace;
                     case "NotBase": return NotBase;
+                    case "Null": return Null;
                     case "NotNull": return NotNull;
                     case "Validators": return Validators;
                     case "DisplayType": return DisplayType;
@@ -4520,6 +4529,7 @@ namespace Implem.DefinitionAccessor
             NotWhereSpecial = SavedNotWhereSpecial;
             NoSpace = SavedNoSpace;
             NotBase = SavedNotBase;
+            Null = SavedNull;
             NotNull = SavedNotNull;
             Validators = SavedValidators;
             DisplayType = SavedDisplayType;
@@ -4558,6 +4568,7 @@ namespace Implem.DefinitionAccessor
         public string Base_PropertyUpdated_DateTime;
         public string Base_PropertyUpdated_Bin;
         public string Base_PropertyUpdated_NotNull;
+        public string Base_PropertyInitialValue;
         public string Model;
         public string Model_InheritBase;
         public string Model_InheritBaseItem;
@@ -4645,6 +4656,8 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateFormulaColumns;
         public string Model_UpdateFormulaColumns_ColumnCases;
         public string Model_UpdateOrCreate;
+        public string Model_SelectPreviousRequiredColumns;
+        public string Model_SelectPreviousColums;
         public string Model_UpdateRelatedRecordsMethod;
         public string Model_GetAfterUpdatedExtendedSqls;
         public string Model_InsertLinksByUpdate;
@@ -5080,6 +5093,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Base_PropertyUpdated_DateTime = new CodeDefinition();
         public CodeDefinition Base_PropertyUpdated_Bin = new CodeDefinition();
         public CodeDefinition Base_PropertyUpdated_NotNull = new CodeDefinition();
+        public CodeDefinition Base_PropertyInitialValue = new CodeDefinition();
         public CodeDefinition Model = new CodeDefinition();
         public CodeDefinition Model_InheritBase = new CodeDefinition();
         public CodeDefinition Model_InheritBaseItem = new CodeDefinition();
@@ -5167,6 +5181,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateFormulaColumns = new CodeDefinition();
         public CodeDefinition Model_UpdateFormulaColumns_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_UpdateOrCreate = new CodeDefinition();
+        public CodeDefinition Model_SelectPreviousRequiredColumns = new CodeDefinition();
+        public CodeDefinition Model_SelectPreviousColums = new CodeDefinition();
         public CodeDefinition Model_UpdateRelatedRecordsMethod = new CodeDefinition();
         public CodeDefinition Model_GetAfterUpdatedExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_InsertLinksByUpdate = new CodeDefinition();

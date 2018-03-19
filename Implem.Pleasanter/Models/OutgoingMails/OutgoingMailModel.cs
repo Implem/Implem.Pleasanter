@@ -158,6 +158,71 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != SentTime.Value.Date);
         }
 
+        public bool ReferenceType_InitialValue()
+        {
+            return ReferenceType == string.Empty;
+        }
+
+        public bool ReferenceId_InitialValue()
+        {
+            return ReferenceId == 0;
+        }
+
+        public bool ReferenceVer_InitialValue()
+        {
+            return ReferenceVer == 0;
+        }
+
+        public bool OutgoingMailId_InitialValue()
+        {
+            return OutgoingMailId == 0;
+        }
+
+        public bool Host_InitialValue()
+        {
+            return Host == string.Empty;
+        }
+
+        public bool Port_InitialValue()
+        {
+            return Port == 0;
+        }
+
+        public bool From_InitialValue()
+        {
+            return From.ToString() == "null";
+        }
+
+        public bool To_InitialValue()
+        {
+            return To == string.Empty;
+        }
+
+        public bool Cc_InitialValue()
+        {
+            return Cc == string.Empty;
+        }
+
+        public bool Bcc_InitialValue()
+        {
+            return Bcc == string.Empty;
+        }
+
+        public bool Title_InitialValue()
+        {
+            return Title.Value == string.Empty;
+        }
+
+        public bool Body_InitialValue()
+        {
+            return Body == string.Empty;
+        }
+
+        public bool SentTime_InitialValue()
+        {
+            return SentTime.Value == 0.ToDateTime();
+        }
+
         public OutgoingMailModel()
         {
         }
@@ -295,12 +360,17 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
+            var where = Rds.OutgoingMailsWhereDefault(this)
+                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            if (VerUp)
+            {
+                statements.Add(VerUpStatements(where));
+                Ver++;
+            }
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateOutgoingMails(
-                    verUp: VerUp,
-                    where: Rds.OutgoingMailsWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    where: where,
                     param: param ?? Rds.OutgoingMailsParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             });
@@ -309,6 +379,76 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
+        }
+
+        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        {
+            var column = new Rds.OutgoingMailsColumnCollection();
+            var param = new Rds.OutgoingMailsParamCollection();
+            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.ReferenceVer(function: Sqls.Functions.SingleColumn); param.ReferenceVer();
+            column.OutgoingMailId(function: Sqls.Functions.SingleColumn); param.OutgoingMailId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            if (!Host_InitialValue())
+            {
+                column.Host(function: Sqls.Functions.SingleColumn);
+                param.Host();
+            }
+            if (!Port_InitialValue())
+            {
+                column.Port(function: Sqls.Functions.SingleColumn);
+                param.Port();
+            }
+            if (!From_InitialValue())
+            {
+                column.From(function: Sqls.Functions.SingleColumn);
+                param.From();
+            }
+            if (!To_InitialValue())
+            {
+                column.To(function: Sqls.Functions.SingleColumn);
+                param.To();
+            }
+            if (!Cc_InitialValue())
+            {
+                column.Cc(function: Sqls.Functions.SingleColumn);
+                param.Cc();
+            }
+            if (!Bcc_InitialValue())
+            {
+                column.Bcc(function: Sqls.Functions.SingleColumn);
+                param.Bcc();
+            }
+            if (!Title_InitialValue())
+            {
+                column.Title(function: Sqls.Functions.SingleColumn);
+                param.Title();
+            }
+            if (!Body_InitialValue())
+            {
+                column.Body(function: Sqls.Functions.SingleColumn);
+                param.Body();
+            }
+            if (!SentTime_InitialValue())
+            {
+                column.SentTime(function: Sqls.Functions.SingleColumn);
+                param.SentTime();
+            }
+            if (!Comments_InitialValue())
+            {
+                column.Comments(function: Sqls.Functions.SingleColumn);
+                param.Comments();
+            }
+            return Rds.InsertOutgoingMails(
+                tableType: Sqls.TableTypes.History,
+                param: param,
+                select: Rds.SelectOutgoingMails(column: column, where: where),
+                addUpdatorParam: false);
         }
 
         public Error.Types UpdateOrCreate(

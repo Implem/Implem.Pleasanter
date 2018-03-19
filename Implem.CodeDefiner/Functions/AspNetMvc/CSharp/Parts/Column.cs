@@ -124,6 +124,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.GenericUi && !Def.ExistsTable(columnDefinition.TableName, o => o.GenericUi)) return true;
             if (codeDefinition.UpdateMonitor && !Def.ExistsTable(columnDefinition.TableName, o => o.UpdateMonitor)) return true;
             if (codeDefinition.ControlType != string.Empty && codeDefinition.ControlType != columnDefinition.ControlType) return true;
+            if (codeDefinition.Null && !columnDefinition.Nullable) return true;
             if (codeDefinition.NotNull && columnDefinition.Nullable) return true;
             if (codeDefinition.Like && !columnDefinition.Like) return true;
             if (codeDefinition.NotBase)
@@ -220,6 +221,11 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                         code = code.Replace(
                             "#DefaultData#", columnDefinition.DefaultData());
                         break;
+                    case "InitialValue":
+                        code = code.Replace(
+                            "#InitialValue#",
+                            columnDefinition.InitialValue());
+                        break;
                     case "RecordingDefaultData":
                         code = code.Replace(
                             "#RecordingDefaultData#",
@@ -268,6 +274,31 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             return code;
         }
 
+        private static string InitialValue(this ColumnDefinition columnDefinition)
+        {
+            switch ((columnDefinition.TypeName).CsTypeSummary())
+            {
+                case Types.CsString:
+                    switch (columnDefinition.RecordingData)
+                    {
+                        case ".ToJson()":
+                        case ".RecordingJson()":
+                            return "\"[]\"";
+                        default:
+                            return DefaultData(columnDefinition, "string.Empty", bracket: true);
+                    }
+                case Types.CsNumeric:
+                    return "0";
+                case Types.CsDateTime:
+                    return "0.ToDateTime()";
+                case Types.CsBool:
+                    return "false";
+                case Types.CsBytes:
+                    return "null";
+                default:
+                    return string.Empty;
+            }
+        }
   
         private static string DefaultData(
             this ColumnDefinition columnDefinition, bool recordingData = false)
@@ -278,7 +309,14 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                 columnDefinition.TypeName).CsTypeSummary())
             {
                 case Types.CsString:
-                    return DefaultData(columnDefinition, "string.Empty", bracket: true);
+                    switch (columnDefinition.RecordingData)
+                    {
+                        case ".ToJson()":
+                        case ".RecordingJson()":
+                            return "\"[]\"";
+                        default:
+                            return DefaultData(columnDefinition, "string.Empty", bracket: true);
+                    }
                 case Types.CsNumeric:
                     return DefaultData(columnDefinition, "0");
                 case Types.CsDateTime:

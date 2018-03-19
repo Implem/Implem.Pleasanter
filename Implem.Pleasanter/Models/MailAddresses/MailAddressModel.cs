@@ -73,6 +73,26 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != MailAddress);
         }
 
+        public bool OwnerId_InitialValue()
+        {
+            return OwnerId == 0;
+        }
+
+        public bool OwnerType_InitialValue()
+        {
+            return OwnerType == string.Empty;
+        }
+
+        public bool MailAddressId_InitialValue()
+        {
+            return MailAddressId == 0;
+        }
+
+        public bool MailAddress_InitialValue()
+        {
+            return MailAddress == string.Empty;
+        }
+
         public MailAddressModel()
         {
         }
@@ -207,12 +227,17 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
+            var where = Rds.MailAddressesWhereDefault(this)
+                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            if (VerUp)
+            {
+                statements.Add(VerUpStatements(where));
+                Ver++;
+            }
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateMailAddresses(
-                    verUp: VerUp,
-                    where: Rds.MailAddressesWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    where: where,
                     param: param ?? Rds.MailAddressesParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             });
@@ -221,6 +246,31 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
+        }
+
+        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        {
+            var column = new Rds.MailAddressesColumnCollection();
+            var param = new Rds.MailAddressesParamCollection();
+            column.OwnerId(function: Sqls.Functions.SingleColumn); param.OwnerId();
+            column.OwnerType(function: Sqls.Functions.SingleColumn); param.OwnerType();
+            column.MailAddressId(function: Sqls.Functions.SingleColumn); param.MailAddressId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.MailAddress(function: Sqls.Functions.SingleColumn); param.MailAddress();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            if (!Comments_InitialValue())
+            {
+                column.Comments(function: Sqls.Functions.SingleColumn);
+                param.Comments();
+            }
+            return Rds.InsertMailAddresses(
+                tableType: Sqls.TableTypes.History,
+                param: param,
+                select: Rds.SelectMailAddresses(column: column, where: where),
+                addUpdatorParam: false);
         }
 
         public Error.Types UpdateOrCreate(

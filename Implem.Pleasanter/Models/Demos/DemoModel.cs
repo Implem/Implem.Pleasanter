@@ -86,6 +86,36 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != Initialized);
         }
 
+        public bool DemoId_InitialValue()
+        {
+            return DemoId == 0;
+        }
+
+        public bool TenantId_InitialValue()
+        {
+            return TenantId == 0;
+        }
+
+        public bool Title_InitialValue()
+        {
+            return Title.Value == string.Empty;
+        }
+
+        public bool Passphrase_InitialValue()
+        {
+            return Passphrase == string.Empty;
+        }
+
+        public bool MailAddress_InitialValue()
+        {
+            return MailAddress == string.Empty;
+        }
+
+        public bool Initialized_InitialValue()
+        {
+            return Initialized == false;
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -223,12 +253,17 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
+            var where = Rds.DemosWhereDefault(this)
+                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            if (VerUp)
+            {
+                statements.Add(VerUpStatements(where));
+                Ver++;
+            }
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateDemos(
-                    verUp: VerUp,
-                    where: Rds.DemosWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    where: where,
                     param: param ?? Rds.DemosParamDefault(this, paramAll: paramAll),
                     countRecord: true)
             });
@@ -237,6 +272,37 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
+        }
+
+        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        {
+            var column = new Rds.DemosColumnCollection();
+            var param = new Rds.DemosParamCollection();
+            column.DemoId(function: Sqls.Functions.SingleColumn); param.DemoId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.Passphrase(function: Sqls.Functions.SingleColumn); param.Passphrase();
+            column.MailAddress(function: Sqls.Functions.SingleColumn); param.MailAddress();
+            column.Initialized(function: Sqls.Functions.SingleColumn); param.Initialized();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            if (!Title_InitialValue())
+            {
+                column.Title(function: Sqls.Functions.SingleColumn);
+                param.Title();
+            }
+            if (!Comments_InitialValue())
+            {
+                column.Comments(function: Sqls.Functions.SingleColumn);
+                param.Comments();
+            }
+            return Rds.InsertDemos(
+                tableType: Sqls.TableTypes.History,
+                param: param,
+                select: Rds.SelectDemos(column: column, where: where),
+                addUpdatorParam: false);
         }
 
         public Error.Types UpdateOrCreate(

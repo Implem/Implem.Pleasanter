@@ -91,6 +91,31 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Body);
         }
 
+        public bool TenantId_InitialValue()
+        {
+            return TenantId == 0;
+        }
+
+        public bool DeptId_InitialValue()
+        {
+            return DeptId == 0;
+        }
+
+        public bool DeptCode_InitialValue()
+        {
+            return DeptCode == string.Empty;
+        }
+
+        public bool DeptName_InitialValue()
+        {
+            return DeptName == string.Empty;
+        }
+
+        public bool Body_InitialValue()
+        {
+            return Body == string.Empty;
+        }
+
         public List<int> SwitchTargets;
 
         public DeptModel()
@@ -264,12 +289,17 @@ namespace Implem.Pleasanter.Models
             bool paramAll = false,
             List<SqlStatement> additionalStatements = null)
         {
+            var where = Rds.DeptsWhereDefault(this)
+                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            if (VerUp)
+            {
+                statements.Add(VerUpStatements(where));
+                Ver++;
+            }
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateDepts(
-                    verUp: VerUp,
-                    where: Rds.DeptsWhereDefault(this)
-                        .UpdatedTime(timestamp, _using: timestamp.InRange()),
+                    where: where,
                     param: param ?? Rds.DeptsParamDefault(this, paramAll: paramAll),
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
@@ -279,6 +309,36 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
+        }
+
+        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        {
+            var column = new Rds.DeptsColumnCollection();
+            var param = new Rds.DeptsParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.DeptCode(function: Sqls.Functions.SingleColumn); param.DeptCode();
+            column.DeptName(function: Sqls.Functions.SingleColumn); param.DeptName();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            if (!Body_InitialValue())
+            {
+                column.Body(function: Sqls.Functions.SingleColumn);
+                param.Body();
+            }
+            if (!Comments_InitialValue())
+            {
+                column.Comments(function: Sqls.Functions.SingleColumn);
+                param.Comments();
+            }
+            return Rds.InsertDepts(
+                tableType: Sqls.TableTypes.History,
+                param: param,
+                select: Rds.SelectDepts(column: column, where: where),
+                addUpdatorParam: false);
         }
 
         public Error.Types UpdateOrCreate(

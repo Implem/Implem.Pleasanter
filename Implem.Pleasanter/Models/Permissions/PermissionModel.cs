@@ -80,6 +80,31 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != PermissionType.ToLong());
         }
 
+        public bool ReferenceId_InitialValue()
+        {
+            return ReferenceId == 0;
+        }
+
+        public bool DeptId_InitialValue()
+        {
+            return DeptId == 0;
+        }
+
+        public bool GroupId_InitialValue()
+        {
+            return GroupId == 0;
+        }
+
+        public bool UserId_InitialValue()
+        {
+            return UserId == 0;
+        }
+
+        public bool PermissionType_InitialValue()
+        {
+            return PermissionType.ToLong() == 0;
+        }
+
         public PermissionModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();

@@ -90,12 +90,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                             sqlParam.ColumnBracket + "=@" + sqlParam.VariableName + commandCount);
                     }
                 });
-            if (SaveHistoryCommandText != string.Empty)
-            {
-                Build_CopyToHistoryStatement(commandText, SaveHistoryCommandText, commandCount);
-                columnNameCollection.Add("{0}.[Ver]={0}.[Ver]+1"
-                    .Params(tableBracket));
-            }
             commandText.Append("update ", tableBracket,
                 " set ", columnNameCollection.Join(), " ");
         }

@@ -54,6 +54,21 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Value);
         }
 
+        public bool TenantId_InitialValue()
+        {
+            return TenantId == 0;
+        }
+
+        public bool StatusId_InitialValue()
+        {
+            return StatusId == 0;
+        }
+
+        public bool Value_InitialValue()
+        {
+            return Value == string.Empty;
+        }
+
         public StatusModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
