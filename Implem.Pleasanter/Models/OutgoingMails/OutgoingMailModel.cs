@@ -364,7 +364,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(VerUpStatements(where));
+                statements.Add(CopyToStatement(where, Sqls.TableTypes.History));
                 Ver++;
             }
             statements.AddRange(new List<SqlStatement>
@@ -381,7 +381,7 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
         {
             var column = new Rds.OutgoingMailsColumnCollection();
             var param = new Rds.OutgoingMailsParamCollection();
@@ -445,7 +445,7 @@ namespace Implem.Pleasanter.Models
                 param.Comments();
             }
             return Rds.InsertOutgoingMails(
-                tableType: Sqls.TableTypes.History,
+                tableType: tableType,
                 param: param,
                 select: Rds.SelectOutgoingMails(column: column, where: where),
                 addUpdatorParam: false);
@@ -476,10 +476,11 @@ namespace Implem.Pleasanter.Models
         public Error.Types Delete()
         {
             var statements = new List<SqlStatement>();
+            var where = Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteOutgoingMails(
-                    where: Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId))
+                CopyToStatement(where, Sqls.TableTypes.Deleted),
+                Rds.PhysicalDeleteOutgoingMails(where: where)
             });
             Rds.ExecuteNonQuery(
                 transactional: true,

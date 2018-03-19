@@ -5167,7 +5167,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(VerUpStatements(where));
+                statements.Add(CopyToStatement(where, Sqls.TableTypes.History));
                 Ver++;
             }
             statements.AddRange(new List<SqlStatement>
@@ -5210,7 +5210,7 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
         {
             var column = new Rds.IssuesColumnCollection();
             var param = new Rds.IssuesParamCollection();
@@ -6040,7 +6040,7 @@ namespace Implem.Pleasanter.Models
                 param.Comments();
             }
             return Rds.InsertIssues(
-                tableType: Sqls.TableTypes.History,
+                tableType: tableType,
                 param: param,
                 select: Rds.SelectIssues(column: column, where: where),
                 addUpdatorParam: false);
@@ -6308,22 +6308,23 @@ namespace Implem.Pleasanter.Models
                 CheckNotificationConditions(ss, before: true);
             }
             var statements = new List<SqlStatement>();
+            var where = Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId);
             statements.OnDeletingExtendedSqls(SiteId, IssueId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteItems(
+                Rds.PhysicalDeleteItems(
                     where: Rds.ItemsWhere().ReferenceId(IssueId)),
-                Rds.DeleteBinaries(
-                    where: Rds.BinariesWhere()
-                        .TenantId(Sessions.TenantId())
-                        .ReferenceId(IssueId)),
                 Rds.PhysicalDeleteLinks(
                     where: Rds.LinksWhere()
                         .Or(or: Rds.LinksWhere()
                             .DestinationId(IssueId)
                             .SourceId(IssueId))),
-                Rds.DeleteIssues(
-                    where: Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId))
+                Rds.DeleteBinaries(
+                    where: Rds.BinariesWhere()
+                        .TenantId(Sessions.TenantId())
+                        .ReferenceId(IssueId)),
+                CopyToStatement(where, Sqls.TableTypes.Deleted),
+                Rds.PhysicalDeleteIssues(where: where)
             });
             statements.OnDeletedExtendedSqls(SiteId, IssueId);
             Rds.ExecuteNonQuery(
