@@ -300,7 +300,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(VerUpStatements(where));
+                statements.Add(CopyToStatement(where, Sqls.TableTypes.History));
                 Ver++;
             }
             statements.AddRange(new List<SqlStatement>
@@ -318,7 +318,7 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
         {
             var column = new Rds.GroupsColumnCollection();
             var param = new Rds.GroupsParamCollection();
@@ -341,7 +341,7 @@ namespace Implem.Pleasanter.Models
                 param.Comments();
             }
             return Rds.InsertGroups(
-                tableType: Sqls.TableTypes.History,
+                tableType: tableType,
                 param: param,
                 select: Rds.SelectGroups(column: column, where: where),
                 addUpdatorParam: false);
@@ -374,10 +374,11 @@ namespace Implem.Pleasanter.Models
         public Error.Types Delete(SiteSettings ss, bool notice = false)
         {
             var statements = new List<SqlStatement>();
+            var where = Rds.GroupsWhere().GroupId(GroupId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteGroups(
-                    where: Rds.GroupsWhere().GroupId(GroupId)),
+                CopyToStatement(where, Sqls.TableTypes.Deleted),
+                Rds.PhysicalDeleteGroups(where: where),
                 Rds.PhysicalDeleteGroupMembers(
                     where: Rds.GroupMembersWhere()
                         .GroupId(GroupId)),

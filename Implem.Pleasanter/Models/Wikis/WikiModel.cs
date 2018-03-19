@@ -405,7 +405,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(VerUpStatements(where));
+                statements.Add(CopyToStatement(where, Sqls.TableTypes.History));
                 Ver++;
             }
             statements.AddRange(new List<SqlStatement>
@@ -422,7 +422,7 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
         {
             var column = new Rds.WikisColumnCollection();
             var param = new Rds.WikisParamCollection();
@@ -445,7 +445,7 @@ namespace Implem.Pleasanter.Models
                 param.Comments();
             }
             return Rds.InsertWikis(
-                tableType: Sqls.TableTypes.History,
+                tableType: tableType,
                 param: param,
                 select: Rds.SelectWikis(column: column, where: where),
                 addUpdatorParam: false);

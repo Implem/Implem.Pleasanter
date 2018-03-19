@@ -729,7 +729,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(VerUpStatements(where));
+                statements.Add(CopyToStatement(where, Sqls.TableTypes.History));
                 Ver++;
             }
             statements.AddRange(new List<SqlStatement>
@@ -747,7 +747,7 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
         {
             var column = new Rds.UsersColumnCollection();
             var param = new Rds.UsersParamCollection();
@@ -857,7 +857,7 @@ namespace Implem.Pleasanter.Models
                 param.Comments();
             }
             return Rds.InsertUsers(
-                tableType: Sqls.TableTypes.History,
+                tableType: tableType,
                 param: param,
                 select: Rds.SelectUsers(column: column, where: where),
                 addUpdatorParam: false);
@@ -866,10 +866,11 @@ namespace Implem.Pleasanter.Models
         public Error.Types Delete(SiteSettings ss, bool notice = false)
         {
             var statements = new List<SqlStatement>();
+            var where = Rds.UsersWhere().UserId(UserId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteUsers(
-                    where: Rds.UsersWhere().UserId(UserId)),
+                CopyToStatement(where, Sqls.TableTypes.Deleted),
+                Rds.PhysicalDeleteUsers(where: where),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
             });
             Rds.ExecuteNonQuery(

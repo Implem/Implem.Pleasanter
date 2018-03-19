@@ -252,7 +252,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(VerUpStatements(where));
+                statements.Add(CopyToStatement(where, Sqls.TableTypes.History));
                 Ver++;
             }
             statements.AddRange(new List<SqlStatement>
@@ -269,7 +269,7 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
         {
             var column = new Rds.HealthsColumnCollection();
             var param = new Rds.HealthsParamCollection();
@@ -290,7 +290,7 @@ namespace Implem.Pleasanter.Models
                 param.Comments();
             }
             return Rds.InsertHealths(
-                tableType: Sqls.TableTypes.History,
+                tableType: tableType,
                 param: param,
                 select: Rds.SelectHealths(column: column, where: where),
                 addUpdatorParam: false);
@@ -321,10 +321,11 @@ namespace Implem.Pleasanter.Models
         public Error.Types Delete()
         {
             var statements = new List<SqlStatement>();
+            var where = Rds.HealthsWhere().HealthId(HealthId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteHealths(
-                    where: Rds.HealthsWhere().HealthId(HealthId))
+                CopyToStatement(where, Sqls.TableTypes.Deleted),
+                Rds.PhysicalDeleteHealths(where: where)
             });
             Rds.ExecuteNonQuery(
                 transactional: true,

@@ -252,7 +252,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(VerUpStatements(where));
+                statements.Add(CopyToStatement(where, Sqls.TableTypes.History));
                 Ver++;
             }
             statements.AddRange(new List<SqlStatement>
@@ -269,7 +269,7 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
         {
             var column = new Rds.TenantsColumnCollection();
             var param = new Rds.TenantsParamCollection();
@@ -306,7 +306,7 @@ namespace Implem.Pleasanter.Models
                 param.Comments();
             }
             return Rds.InsertTenants(
-                tableType: Sqls.TableTypes.History,
+                tableType: tableType,
                 param: param,
                 select: Rds.SelectTenants(column: column, where: where),
                 addUpdatorParam: false);
@@ -337,10 +337,11 @@ namespace Implem.Pleasanter.Models
         public Error.Types Delete()
         {
             var statements = new List<SqlStatement>();
+            var where = Rds.TenantsWhere().TenantId(TenantId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteTenants(
-                    where: Rds.TenantsWhere().TenantId(TenantId))
+                CopyToStatement(where, Sqls.TableTypes.Deleted),
+                Rds.PhysicalDeleteTenants(where: where)
             });
             Rds.ExecuteNonQuery(
                 transactional: true,

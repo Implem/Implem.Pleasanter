@@ -392,7 +392,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(VerUpStatements(where));
+                statements.Add(CopyToStatement(where, Sqls.TableTypes.History));
                 Ver++;
             }
             statements.AddRange(new List<SqlStatement>
@@ -409,7 +409,7 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
         {
             var column = new Rds.BinariesColumnCollection();
             var param = new Rds.BinariesParamCollection();
@@ -487,7 +487,7 @@ namespace Implem.Pleasanter.Models
                 param.Comments();
             }
             return Rds.InsertBinaries(
-                tableType: Sqls.TableTypes.History,
+                tableType: tableType,
                 param: param,
                 select: Rds.SelectBinaries(column: column, where: where),
                 addUpdatorParam: false);
@@ -518,10 +518,11 @@ namespace Implem.Pleasanter.Models
         public Error.Types Delete()
         {
             var statements = new List<SqlStatement>();
+            var where = Rds.BinariesWhere().BinaryId(BinaryId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteBinaries(
-                    where: Rds.BinariesWhere().BinaryId(BinaryId))
+                CopyToStatement(where, Sqls.TableTypes.Deleted),
+                Rds.PhysicalDeleteBinaries(where: where)
             });
             Rds.ExecuteNonQuery(
                 transactional: true,

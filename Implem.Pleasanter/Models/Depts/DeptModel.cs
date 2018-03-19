@@ -293,7 +293,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(VerUpStatements(where));
+                statements.Add(CopyToStatement(where, Sqls.TableTypes.History));
                 Ver++;
             }
             statements.AddRange(new List<SqlStatement>
@@ -311,7 +311,7 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        private SqlStatement VerUpStatements(SqlWhereCollection where)
+        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
         {
             var column = new Rds.DeptsColumnCollection();
             var param = new Rds.DeptsParamCollection();
@@ -335,7 +335,7 @@ namespace Implem.Pleasanter.Models
                 param.Comments();
             }
             return Rds.InsertDepts(
-                tableType: Sqls.TableTypes.History,
+                tableType: tableType,
                 param: param,
                 select: Rds.SelectDepts(column: column, where: where),
                 addUpdatorParam: false);
@@ -368,10 +368,11 @@ namespace Implem.Pleasanter.Models
         public Error.Types Delete(SiteSettings ss, bool notice = false)
         {
             var statements = new List<SqlStatement>();
+            var where = Rds.DeptsWhere().DeptId(DeptId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteDepts(
-                    where: Rds.DeptsWhere().DeptId(DeptId)),
+                CopyToStatement(where, Sqls.TableTypes.Deleted),
+                Rds.PhysicalDeleteDepts(where: where),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
             });
             Rds.ExecuteNonQuery(
