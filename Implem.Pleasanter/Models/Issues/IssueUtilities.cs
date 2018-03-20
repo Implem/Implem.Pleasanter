@@ -4235,7 +4235,7 @@ namespace Implem.Pleasanter.Models
             {
                 issueModel.Comments.Clear();
             }
-            var error = issueModel.Create(ss, forceSynchronizeSourceSummary: true, paramAll: true);
+            var error = issueModel.Create(ss, forceSynchronizeSourceSummary: true, otherInitValue: true);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -4469,7 +4469,7 @@ namespace Implem.Pleasanter.Models
                 for (var index = 2; index <= number; index++)
                 {
                     issueModel.IssueId = 0;
-                    issueModel.Create(ss, paramAll: true);
+                    issueModel.Create(ss, otherInitValue: true);
                     idHash.Add(index, issueModel.IssueId);
                     timestampHash.Add(index, issueModel.Timestamp);
                 }
@@ -4498,7 +4498,7 @@ namespace Implem.Pleasanter.Models
                         issueModel.Comments = comments.Deserialize<Comments>();
                     }
                     issueModel.Comments.Prepend(addComment);
-                    issueModel.Update(ss, forceSynchronizeSourceSummary: true, paramAll: true);
+                    issueModel.Update(ss, forceSynchronizeSourceSummary: true, otherInitValue: true);
                 }
                 return EditorResponse(ss, issueModel, Messages.Separated()).ToJson();
             }

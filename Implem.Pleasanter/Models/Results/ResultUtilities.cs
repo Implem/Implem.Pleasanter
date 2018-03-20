@@ -4120,7 +4120,7 @@ namespace Implem.Pleasanter.Models
             {
                 resultModel.Comments.Clear();
             }
-            var error = resultModel.Create(ss, forceSynchronizeSourceSummary: true, paramAll: true);
+            var error = resultModel.Create(ss, forceSynchronizeSourceSummary: true, otherInitValue: true);
             if (error.Has())
             {
                 return error.MessageJson();

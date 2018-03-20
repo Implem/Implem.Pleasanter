@@ -280,7 +280,7 @@ namespace Implem.Pleasanter.Models
             {
                 siteModel.Comments.Clear();
             }
-            var error = siteModel.Create(paramAll: true);
+            var error = siteModel.Create(otherInitValue: true);
             return error.Has()
                 ? error.MessageJson()
                 : EditorResponse(siteModel, Messages.Copied()).ToJson();
@@ -741,7 +741,7 @@ namespace Implem.Pleasanter.Models
                     Title = new Title(Forms.Data("SiteTitle")),
                     Body = templateDefinition.Body,
                     SiteSettings = templateSs
-                }.Create(paramAll: true);
+                }.Create(otherInitValue: true);
             }
             return SiteMenuResponse(siteModel);
         }

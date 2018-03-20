@@ -4884,12 +4884,12 @@ namespace Implem.Pleasanter.Models
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
-            bool paramAll = false,
+            bool otherInitValue = false,
             bool get = true)
         {
             var statements = new List<SqlStatement>();
             if (extendedSqls) statements.OnCreatingExtendedSqls(SiteId);
-            CreateStatements(statements, ss, tableType, param, paramAll);
+            CreateStatements(statements, ss, tableType, param, otherInitValue);
             statements.CreatePermissions(ss, ss.Columns
                 .Where(o => o.UserColumn)
                 .ToDictionary(o =>
@@ -4936,7 +4936,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss, 
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
-            bool paramAll = false)
+            bool otherInitValue = false)
         {
             statements.AddRange(new List<SqlStatement>
             {
@@ -4949,7 +4949,7 @@ namespace Implem.Pleasanter.Models
                 Rds.InsertResults(
                     tableType: tableType,
                     param: param ?? Rds.ResultsParamDefault(
-                        this, setDefault: true, paramAll: paramAll)),
+                        this, setDefault: true, otherInitValue: otherInitValue)),
                     InsertLinks(ss, selectIdentity: true),
             });
             if (AttachmentsA_Updated()) AttachmentsA.Write(statements, ResultId);
@@ -4992,7 +4992,7 @@ namespace Implem.Pleasanter.Models
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
-            bool paramAll = false,
+            bool otherInitValue = false,
             bool get = true)
         {
             if (Contract.Notice() && notice)
@@ -5003,7 +5003,7 @@ namespace Implem.Pleasanter.Models
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             if (extendedSqls) statements.OnUpdatingExtendedSqls(SiteId, ResultId, timestamp);
-            UpdateStatements(statements, timestamp, param, paramAll, additionalStatements);
+            UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
             if (permissionChanged)
             {
                 statements.UpdatePermissions(ss, ResultId, permissions);
@@ -5032,7 +5032,7 @@ namespace Implem.Pleasanter.Models
             List<SqlStatement> statements,
             DateTime timestamp,
             SqlParamCollection param,
-            bool paramAll = false,
+            bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null)
         {
             var where = Rds.ResultsWhereDefault(this)
@@ -5046,7 +5046,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateResults(
                     where: where,
-                    param: param ?? Rds.ResultsParamDefault(this, paramAll: paramAll),
+                    param: param ?? Rds.ResultsParamDefault(this, otherInitValue: otherInitValue),
                     countRecord: true)
             });
             if (AttachmentsA_Updated()) AttachmentsA.Write(statements, ResultId);

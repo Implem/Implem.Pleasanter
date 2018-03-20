@@ -225,11 +225,11 @@ namespace Implem.Pleasanter.Models
             RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
-            bool paramAll = false,
+            bool otherInitValue = false,
             bool get = true)
         {
             var statements = new List<SqlStatement>();
-            CreateStatements(statements, ss, tableType, param, paramAll);
+            CreateStatements(statements, ss, tableType, param, otherInitValue);
             var newId = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -244,7 +244,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss, 
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
-            bool paramAll = false)
+            bool otherInitValue = false)
         {
             statements.AddRange(new List<SqlStatement>
             {
@@ -252,7 +252,7 @@ namespace Implem.Pleasanter.Models
                     tableType: tableType,
                         selectIdentity: true,
                     param: param ?? Rds.DeptsParamDefault(
-                        this, setDefault: true, paramAll: paramAll)),
+                        this, setDefault: true, otherInitValue: otherInitValue)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
             });
             return statements;
@@ -265,13 +265,13 @@ namespace Implem.Pleasanter.Models
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
-            bool paramAll = false,
+            bool otherInitValue = false,
             bool get = true)
         {
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            UpdateStatements(statements, timestamp, param, paramAll, additionalStatements);
+            UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
             var count = Rds.ExecuteScalar_int(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -286,7 +286,7 @@ namespace Implem.Pleasanter.Models
             List<SqlStatement> statements,
             DateTime timestamp,
             SqlParamCollection param,
-            bool paramAll = false,
+            bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null)
         {
             var where = Rds.DeptsWhereDefault(this)
@@ -300,7 +300,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateDepts(
                     where: where,
-                    param: param ?? Rds.DeptsParamDefault(this, paramAll: paramAll),
+                    param: param ?? Rds.DeptsParamDefault(this, otherInitValue: otherInitValue),
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
             });
