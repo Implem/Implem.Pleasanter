@@ -32,7 +32,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Span(action: () => hb
                                     .Text(text: Displays.Version()))
                                 .Span(action: () => hb
-                                    .Text(text: Environments.AssemblyVersion)))
+                                    .Text(text: Environments.AssemblyVersion +
+                                        (Parameters.Enterprise
+                                            ? " EE"
+                                            : string.Empty))))
                             .Div(
                                 action: () => hb
                                     .Span(action: () => hb
