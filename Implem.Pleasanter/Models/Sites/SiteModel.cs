@@ -436,13 +436,13 @@ namespace Implem.Pleasanter.Models
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
-            bool paramAll = false,
+            bool otherInitValue = false,
             bool get = true)
         {
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            UpdateStatements(statements, timestamp, param, paramAll, additionalStatements);
+            UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
             if (permissionChanged)
             {
                 statements.UpdatePermissions(ss, SiteId, permissions, site: true);
@@ -474,7 +474,7 @@ namespace Implem.Pleasanter.Models
             List<SqlStatement> statements,
             DateTime timestamp,
             SqlParamCollection param,
-            bool paramAll = false,
+            bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null)
         {
             var where = Rds.SitesWhereDefault(this)
@@ -488,7 +488,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateSites(
                     where: where,
-                    param: param ?? Rds.SitesParamDefault(this, paramAll: paramAll),
+                    param: param ?? Rds.SitesParamDefault(this, otherInitValue: otherInitValue),
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
             });
@@ -857,9 +857,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types Create(bool paramAll = false)
+        public Error.Types Create(bool otherInitValue = false)
         {
-            if (!paramAll) SiteSettings = new SiteSettings(ReferenceType);
+            if (!otherInitValue) SiteSettings = new SiteSettings(ReferenceType);
             var newId = Rds.ExecuteScalar_long(
                 transactional: true,
                 statements: new SqlStatement[]

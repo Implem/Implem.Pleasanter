@@ -284,12 +284,12 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool extendedSqls = true,
             bool notice = false,
-            bool paramAll = false,
+            bool otherInitValue = false,
             bool get = true)
         {
             var statements = new List<SqlStatement>();
             if (extendedSqls) statements.OnCreatingExtendedSqls(SiteId);
-            CreateStatements(statements, ss, tableType, param, paramAll);
+            CreateStatements(statements, ss, tableType, param, otherInitValue);
             var newId = Rds.ExecuteScalar_long(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -329,7 +329,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss, 
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
-            bool paramAll = false)
+            bool otherInitValue = false)
         {
             statements.AddRange(new List<SqlStatement>
             {
@@ -342,7 +342,7 @@ namespace Implem.Pleasanter.Models
                 Rds.InsertWikis(
                     tableType: tableType,
                     param: param ?? Rds.WikisParamDefault(
-                        this, setDefault: true, paramAll: paramAll)),
+                        this, setDefault: true, otherInitValue: otherInitValue)),
             });
             return statements;
         }
@@ -358,7 +358,7 @@ namespace Implem.Pleasanter.Models
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
-            bool paramAll = false,
+            bool otherInitValue = false,
             bool get = true)
         {
             if (Contract.Notice() && notice)
@@ -369,7 +369,7 @@ namespace Implem.Pleasanter.Models
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             if (extendedSqls) statements.OnUpdatingExtendedSqls(SiteId, WikiId, timestamp);
-            UpdateStatements(statements, timestamp, param, paramAll, additionalStatements);
+            UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
             if (permissionChanged)
             {
                 statements.UpdatePermissions(ss, WikiId, permissions);
@@ -398,7 +398,7 @@ namespace Implem.Pleasanter.Models
             List<SqlStatement> statements,
             DateTime timestamp,
             SqlParamCollection param,
-            bool paramAll = false,
+            bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null)
         {
             var where = Rds.WikisWhereDefault(this)
@@ -412,7 +412,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateWikis(
                     where: where,
-                    param: param ?? Rds.WikisParamDefault(this, paramAll: paramAll),
+                    param: param ?? Rds.WikisParamDefault(this, otherInitValue: otherInitValue),
                     countRecord: true)
             });
             if (additionalStatements?.Any() == true)
