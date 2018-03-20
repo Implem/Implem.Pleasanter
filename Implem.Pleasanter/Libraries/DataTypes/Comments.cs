@@ -92,7 +92,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         hb: hb,
                         allowEditing: column.SiteSettings.AllowEditingComments == true,
                         allowImage: column.AllowImage == true,
-                        mobile: column.SiteSettings.Mobile)));
+                        mobile: column.SiteSettings.Mobile,
+                        readOnly: true)));
         }
 
         public string GridText(Column column)
