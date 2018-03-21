@@ -68,7 +68,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 if (bin != null)
                 {
                     statements.Add(Rds.InsertBinaries(
-                        selectIdentity: true,
                         param: Rds.BinariesParam()
                             .TenantId(Sessions.TenantId())
                             .ReferenceId(referenceId, _using: referenceId != 0)
