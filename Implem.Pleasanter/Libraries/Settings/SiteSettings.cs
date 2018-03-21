@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public enum SearchTypes : int
         {
             FullText = 10,
+            PartialMatch = 15,
             MatchInFrontOfTitle = 20,
             BroadMatchOfTitle = 30,
         }

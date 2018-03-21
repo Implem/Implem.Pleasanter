@@ -5560,6 +5560,10 @@ namespace Implem.Pleasanter.Models
                             Displays.FullText()
                         },
                         {
+                            SiteSettings.SearchTypes.PartialMatch.ToInt().ToString(),
+                            Displays.PartialMatch()
+                        },
+                        {
                             SiteSettings.SearchTypes.MatchInFrontOfTitle.ToInt().ToString(),
                             Displays.MatchInFrontOfTitle()
                         },

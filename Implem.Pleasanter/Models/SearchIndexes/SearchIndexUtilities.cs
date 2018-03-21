@@ -254,10 +254,21 @@ namespace Implem.Pleasanter.Models
         {
             switch (searchType)
             {
+                case SiteSettings.SearchTypes.PartialMatch:
+                    return Select(
+                        searchText,
+                        siteIdList,
+                        Rds.Items_FullText_WhereLike(forward: false));
                 case SiteSettings.SearchTypes.MatchInFrontOfTitle:
-                    return Select(searchText, siteIdList, forward: true);
+                    return Select(
+                        searchText,
+                        siteIdList,
+                        Rds.Items_Title_WhereLike(forward: true));
                 case SiteSettings.SearchTypes.BroadMatchOfTitle:
-                    return Select(searchText, siteIdList, forward: false);
+                    return Select(
+                        searchText,
+                        siteIdList,
+                        Rds.Items_Title_WhereLike(forward: false));
                 default:
                     switch (Parameters.Search.Provider)
                     {
@@ -285,15 +296,13 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static SqlSelect Select(
-            string searchText, IEnumerable<long> siteIdList, bool forward)
+            string searchText, IEnumerable<long> siteIdList, string like)
         {
             return Rds.SelectItems(
                 column: Rds.ItemsColumn().ReferenceId(),
                 where: Rds.ItemsWhere()
                     .SiteId_In(siteIdList)
-                    .SqlWhereLike(
-                        searchText,
-                        Rds.Items_Title_WhereLike(forward: forward)));
+                    .SqlWhereLike(searchText, like));
         }
 
         /// <summary>
