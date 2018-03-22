@@ -1962,6 +1962,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_LoginCommands": Css._sharp_LoginCommands = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_LoginCommands, definitionRow, CssXls); break;
                     case "_sharp_Demo": Css._sharp_Demo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Demo, definitionRow, CssXls); break;
                     case "_sharp_DemoFields": Css._sharp_DemoFields = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DemoFields, definitionRow, CssXls); break;
+                    case "_sharp_SearchPermissionElements": Css._sharp_SearchPermissionElements = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchPermissionElements, definitionRow, CssXls); break;
                     case "_sharp_Breadcrumb": Css._sharp_Breadcrumb = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Breadcrumb, definitionRow, CssXls); break;
                     case "_sharp_Breadcrumb_space__dot_item": Css._sharp_Breadcrumb_space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Breadcrumb_space__dot_item, definitionRow, CssXls); break;
                     case "_sharp_Breadcrumb_space__dot_separator": Css._sharp_Breadcrumb_space__dot_separator = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Breadcrumb_space__dot_separator, definitionRow, CssXls); break;
@@ -7822,6 +7823,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_LoginCommands;
         public string _sharp_Demo;
         public string _sharp_DemoFields;
+        public string _sharp_SearchPermissionElements;
         public string _sharp_Breadcrumb;
         public string _sharp_Breadcrumb_space__dot_item;
         public string _sharp_Breadcrumb_space__dot_separator;
@@ -8296,6 +8298,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_LoginCommands = new CssDefinition();
         public CssDefinition _sharp_Demo = new CssDefinition();
         public CssDefinition _sharp_DemoFields = new CssDefinition();
+        public CssDefinition _sharp_SearchPermissionElements = new CssDefinition();
         public CssDefinition _sharp_Breadcrumb = new CssDefinition();
         public CssDefinition _sharp_Breadcrumb_space__dot_item = new CssDefinition();
         public CssDefinition _sharp_Breadcrumb_space__dot_separator = new CssDefinition();

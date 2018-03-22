@@ -194,13 +194,17 @@ namespace Implem.Pleasanter.Models
                             icon: "ui-icon-circle-triangle-w",
                             action: "SetPermissions",
                             method: "post")
-                        .Span(css: "ui-icon ui-icon-search")
                         .TextBox(
                             controlId: "SearchPermissionElements",
                             controlCss: " auto-postback w100",
                             placeholder: Displays.Search(),
                             action: "SearchPermissionElements",
-                            method: "post")));
+                            method: "post")
+                        .Button(
+                            text: Displays.Search(),
+                            controlCss: "button-icon",
+                            onClick: "$p.send($('#SearchPermissionElements'));",
+                            icon: "ui-icon-search")));
         }
 
         /// <summary>
