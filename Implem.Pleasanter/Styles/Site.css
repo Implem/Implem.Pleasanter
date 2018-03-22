@@ -203,6 +203,10 @@ pre{
     padding:20px 10px 10px 10px;
 }
 
+#SearchPermissionElements{
+    margin-left:15px;
+}
+
 #Breadcrumb{
     float:left;
     margin:0px 0px 10px 0px;
