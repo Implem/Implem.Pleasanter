@@ -154,5 +154,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 return string.Empty;
             }
         }
+
+        public bool InitialValue()
+        {
+            return this?.Any() != true;
+        }
     }
 }

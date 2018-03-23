@@ -64,26 +64,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Data.ToJson());
         }
 
-        public bool ReferenceId_InitialValue()
-        {
-            return ReferenceId == 0;
-        }
-
-        public bool ReferenceType_InitialValue()
-        {
-            return ReferenceType == string.Empty;
-        }
-
-        public bool OwnerId_InitialValue()
-        {
-            return OwnerId == 0;
-        }
-
-        public bool Data_InitialValue()
-        {
-            return Data.ToJson() == "[]";
-        }
-
         public OrderModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();

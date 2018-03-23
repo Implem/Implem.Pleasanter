@@ -127,5 +127,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return Columns.ToDictionary(o => o.Key, o => ss.GetColumn(o.Key));
         }
+
+        public bool InitialValue()
+        {
+            return ToJson() == "[]";
+        }
     }
 }

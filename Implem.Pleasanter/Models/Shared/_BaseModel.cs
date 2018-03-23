@@ -68,36 +68,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.DefaultInput.ToInt() != Updator.Id);
         }
-
-        public bool Ver_InitialValue()
-        {
-            return Ver == 0;
-        }
-
-        public bool Comments_InitialValue()
-        {
-            return Comments.ToJson() == "[]";
-        }
-
-        public bool Creator_InitialValue()
-        {
-            return Creator.Id == 0;
-        }
-
-        public bool Updator_InitialValue()
-        {
-            return Updator.Id == 0;
-        }
-
-        public bool CreatedTime_InitialValue()
-        {
-            return CreatedTime.Value == 0.ToDateTime();
-        }
-
-        public bool UpdatedTime_InitialValue()
-        {
-            return UpdatedTime.Value == 0.ToDateTime();
-        }
     }
 
     public class BaseItemModel : BaseModel
@@ -131,21 +101,6 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.DefaultInput.ToString() != Body);
-        }
-
-        public bool SiteId_InitialValue()
-        {
-            return SiteId == 0;
-        }
-
-        public bool Title_InitialValue()
-        {
-            return Title.Value == string.Empty;
-        }
-
-        public bool Body_InitialValue()
-        {
-            return Body == string.Empty;
         }
     }
 }

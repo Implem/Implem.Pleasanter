@@ -84,36 +84,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDouble() != Elapsed);
         }
 
-        public bool HealthId_InitialValue()
-        {
-            return HealthId == 0;
-        }
-
-        public bool TenantCount_InitialValue()
-        {
-            return TenantCount == 0;
-        }
-
-        public bool UserCount_InitialValue()
-        {
-            return UserCount == 0;
-        }
-
-        public bool ItemCount_InitialValue()
-        {
-            return ItemCount == 0;
-        }
-
-        public bool ErrorCount_InitialValue()
-        {
-            return ErrorCount == 0;
-        }
-
-        public bool Elapsed_InitialValue()
-        {
-            return Elapsed == 0;
-        }
-
         public HealthModel()
         {
         }
@@ -284,7 +254,7 @@ namespace Implem.Pleasanter.Models
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Comments_InitialValue())
+            if (!Comments.InitialValue())
             {
                 column.Comments(function: Sqls.Functions.SingleColumn);
                 param.Comments();

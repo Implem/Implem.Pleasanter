@@ -54,21 +54,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != ScheduledTime.Date);
         }
 
-        public bool SiteId_InitialValue()
-        {
-            return SiteId == 0;
-        }
-
-        public bool Id_InitialValue()
-        {
-            return Id == 0;
-        }
-
-        public bool ScheduledTime_InitialValue()
-        {
-            return ScheduledTime == 0.ToDateTime();
-        }
-
         public ReminderScheduleModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();

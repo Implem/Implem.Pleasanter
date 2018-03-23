@@ -86,36 +86,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != SearchIndexCreatedTime.Date);
         }
 
-        public bool ReferenceId_InitialValue()
-        {
-            return ReferenceId == 0;
-        }
-
-        public bool ReferenceType_InitialValue()
-        {
-            return ReferenceType == string.Empty;
-        }
-
-        public bool SiteId_InitialValue()
-        {
-            return SiteId == 0;
-        }
-
-        public bool Title_InitialValue()
-        {
-            return Title == string.Empty;
-        }
-
-        public bool FullText_InitialValue()
-        {
-            return FullText == string.Empty;
-        }
-
-        public bool SearchIndexCreatedTime_InitialValue()
-        {
-            return SearchIndexCreatedTime == 0.ToDateTime();
-        }
-
         public ItemModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();

@@ -73,26 +73,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Body);
         }
 
-        public bool TenantId_InitialValue()
-        {
-            return TenantId == 0;
-        }
-
-        public bool GroupId_InitialValue()
-        {
-            return GroupId == 0;
-        }
-
-        public bool GroupName_InitialValue()
-        {
-            return GroupName == string.Empty;
-        }
-
-        public bool Body_InitialValue()
-        {
-            return Body == string.Empty;
-        }
-
         public List<int> SwitchTargets;
 
         public GroupModel()
@@ -330,12 +310,12 @@ namespace Implem.Pleasanter.Models
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Body_InitialValue())
+            if (!Body.InitialValue())
             {
                 column.Body(function: Sqls.Functions.SingleColumn);
                 param.Body();
             }
-            if (!Comments_InitialValue())
+            if (!Comments.InitialValue())
             {
                 column.Comments(function: Sqls.Functions.SingleColumn);
                 param.Comments();

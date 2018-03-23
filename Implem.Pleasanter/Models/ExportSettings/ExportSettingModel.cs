@@ -84,36 +84,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ExportColumns.ToJson());
         }
 
-        public bool ReferenceType_InitialValue()
-        {
-            return ReferenceType == "Sites";
-        }
-
-        public bool ReferenceId_InitialValue()
-        {
-            return ReferenceId == 0;
-        }
-
-        public bool Title_InitialValue()
-        {
-            return Title.Value == string.Empty;
-        }
-
-        public bool ExportSettingId_InitialValue()
-        {
-            return ExportSettingId == 0;
-        }
-
-        public bool AddHeader_InitialValue()
-        {
-            return AddHeader == false;
-        }
-
-        public bool ExportColumns_InitialValue()
-        {
-            return ExportColumns.ToJson() == "[]";
-        }
-
         public Title Session_Title()
         {
             return this.PageSession("Title") != null
@@ -323,7 +293,7 @@ namespace Implem.Pleasanter.Models
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Comments_InitialValue())
+            if (!Comments.InitialValue())
             {
                 column.Comments(function: Sqls.Functions.SingleColumn);
                 param.Comments();

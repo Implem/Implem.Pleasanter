@@ -158,71 +158,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != SentTime.Value.Date);
         }
 
-        public bool ReferenceType_InitialValue()
-        {
-            return ReferenceType == string.Empty;
-        }
-
-        public bool ReferenceId_InitialValue()
-        {
-            return ReferenceId == 0;
-        }
-
-        public bool ReferenceVer_InitialValue()
-        {
-            return ReferenceVer == 0;
-        }
-
-        public bool OutgoingMailId_InitialValue()
-        {
-            return OutgoingMailId == 0;
-        }
-
-        public bool Host_InitialValue()
-        {
-            return Host == string.Empty;
-        }
-
-        public bool Port_InitialValue()
-        {
-            return Port == 0;
-        }
-
-        public bool From_InitialValue()
-        {
-            return From.ToString() == "null";
-        }
-
-        public bool To_InitialValue()
-        {
-            return To == string.Empty;
-        }
-
-        public bool Cc_InitialValue()
-        {
-            return Cc == string.Empty;
-        }
-
-        public bool Bcc_InitialValue()
-        {
-            return Bcc == string.Empty;
-        }
-
-        public bool Title_InitialValue()
-        {
-            return Title.Value == string.Empty;
-        }
-
-        public bool Body_InitialValue()
-        {
-            return Body == string.Empty;
-        }
-
-        public bool SentTime_InitialValue()
-        {
-            return SentTime.Value == 0.ToDateTime();
-        }
-
         public OutgoingMailModel()
         {
         }
@@ -394,52 +329,52 @@ namespace Implem.Pleasanter.Models
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Host_InitialValue())
+            if (!Host.InitialValue())
             {
                 column.Host(function: Sqls.Functions.SingleColumn);
                 param.Host();
             }
-            if (!Port_InitialValue())
+            if (!Port.InitialValue())
             {
                 column.Port(function: Sqls.Functions.SingleColumn);
                 param.Port();
             }
-            if (!From_InitialValue())
+            if (!From.InitialValue())
             {
                 column.From(function: Sqls.Functions.SingleColumn);
                 param.From();
             }
-            if (!To_InitialValue())
+            if (!To.InitialValue())
             {
                 column.To(function: Sqls.Functions.SingleColumn);
                 param.To();
             }
-            if (!Cc_InitialValue())
+            if (!Cc.InitialValue())
             {
                 column.Cc(function: Sqls.Functions.SingleColumn);
                 param.Cc();
             }
-            if (!Bcc_InitialValue())
+            if (!Bcc.InitialValue())
             {
                 column.Bcc(function: Sqls.Functions.SingleColumn);
                 param.Bcc();
             }
-            if (!Title_InitialValue())
+            if (!Title.InitialValue())
             {
                 column.Title(function: Sqls.Functions.SingleColumn);
                 param.Title();
             }
-            if (!Body_InitialValue())
+            if (!Body.InitialValue())
             {
                 column.Body(function: Sqls.Functions.SingleColumn);
                 param.Body();
             }
-            if (!SentTime_InitialValue())
+            if (!SentTime.InitialValue())
             {
                 column.SentTime(function: Sqls.Functions.SingleColumn);
                 param.SentTime();
             }
-            if (!Comments_InitialValue())
+            if (!Comments.InitialValue())
             {
                 column.Comments(function: Sqls.Functions.SingleColumn);
                 param.Comments();

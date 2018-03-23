@@ -8,5 +8,6 @@ namespace Implem.Pleasanter.Interfaces
         string ToResponse();
         HtmlBuilder Td(HtmlBuilder hb, Column column);
         string ToExport(Column column, ExportColumn exportColumn = null);
+        bool InitialValue();
     }
 }
