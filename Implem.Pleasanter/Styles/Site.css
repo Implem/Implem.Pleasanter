@@ -1781,6 +1781,7 @@ pre{
 .field-control .control-markup{
     width:100%;
     min-height:100px;
+    float:left;
     padding:4px 25px 4px 6px;
     background:whitesmoke;
     border:solid 1px silver;
@@ -1788,39 +1789,69 @@ pre{
 }
 
 .md{
+    float:left;
     line-height:1.2em;
     font-family:Terminal;
     word-wrap:break-word;
     word-break:break-all;
 }
 
+.md > *{
+    float:left;
+}
+
 .md h1{
-    margin:0px 0px 10px 0px;
+    margin:10px 0px 10px 0px;
     font-weight:bold;
+}
+
+.md h1:not(:first-child){
+    margin:20px 0px 10px 0px;
 }
 
 .md h2{
-    margin:0px 0px 8px 0px;
+    margin:5px 0px 8px 0px;
     font-weight:bold;
+}
+
+.md h2:not(:first-child){
+    margin:20px 0px 8px 0px;
 }
 
 .md h3{
-    margin:0px 0px 6px 0px;
+    margin:3px 0px 6px 0px;
     font-weight:bold;
+}
+
+.md h3:not(:first-child){
+    margin:10px 0px 6px 0px;
 }
 
 .md h4{
-    margin:0px 0px 4px 0px;
+    margin:3px 0px 4px 0px;
     font-weight:bold;
+}
+
+.md h4:not(:first-child){
+    margin:10px 0px 4px 0px;
 }
 
 .md h5{
-    margin:0px 0px 2px 0px;
+    margin:3px 0px 2px 0px;
     font-weight:bold;
 }
 
+.md h5:not(:first-child){
+    margin:10px 0px 2px 0px;
+}
+
 .md h6{
+    margin:3px 0px 2px 0px;
     font-weight:bold;
+}
+
+.md h6:not(:first-child){
+    margin:10px 0px 2px 0px;
 }
 
 .md hr{
