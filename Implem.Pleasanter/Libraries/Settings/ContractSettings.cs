@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Implem.Libraries.Utilities;
+using System;
 using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -38,6 +39,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string RecordingJson()
         {
             return null;
+        }
+
+        public bool InitialValue()
+        {
+            return this.ToJson() == "[]";
         }
     }
 }

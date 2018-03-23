@@ -67,5 +67,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 attachment.SqlStatement(statements, referenceId);
             });
         }
+
+        public bool InitialValue()
+        {
+            return this?.Any() != true;
+        }
     }
 }

@@ -341,141 +341,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != PasswordChangeTime.Value.Date);
         }
 
-        public bool TenantId_InitialValue()
-        {
-            return TenantId == 0;
-        }
-
-        public bool UserId_InitialValue()
-        {
-            return UserId == 0;
-        }
-
-        public bool LoginId_InitialValue()
-        {
-            return LoginId == string.Empty;
-        }
-
-        public bool GlobalId_InitialValue()
-        {
-            return GlobalId == string.Empty;
-        }
-
-        public bool Name_InitialValue()
-        {
-            return Name == string.Empty;
-        }
-
-        public bool UserCode_InitialValue()
-        {
-            return UserCode == string.Empty;
-        }
-
-        public bool Password_InitialValue()
-        {
-            return Password == string.Empty;
-        }
-
-        public bool LastName_InitialValue()
-        {
-            return LastName == string.Empty;
-        }
-
-        public bool FirstName_InitialValue()
-        {
-            return FirstName == string.Empty;
-        }
-
-        public bool Birthday_InitialValue()
-        {
-            return Birthday.Value == 0.ToDateTime();
-        }
-
-        public bool Gender_InitialValue()
-        {
-            return Gender == string.Empty;
-        }
-
-        public bool Language_InitialValue()
-        {
-            return Language == "ja";
-        }
-
-        public bool TimeZone_InitialValue()
-        {
-            return TimeZone == "Tokyo Standard Time";
-        }
-
-        public bool DeptId_InitialValue()
-        {
-            return DeptId == 0;
-        }
-
-        public bool FirstAndLastNameOrder_InitialValue()
-        {
-            return FirstAndLastNameOrder.ToInt() == 0;
-        }
-
-        public bool Body_InitialValue()
-        {
-            return Body == string.Empty;
-        }
-
-        public bool LastLoginTime_InitialValue()
-        {
-            return LastLoginTime.Value == 0.ToDateTime();
-        }
-
-        public bool PasswordExpirationTime_InitialValue()
-        {
-            return PasswordExpirationTime.Value == 0.ToDateTime();
-        }
-
-        public bool PasswordChangeTime_InitialValue()
-        {
-            return PasswordChangeTime.Value == 0.ToDateTime();
-        }
-
-        public bool NumberOfLogins_InitialValue()
-        {
-            return NumberOfLogins == 0;
-        }
-
-        public bool NumberOfDenial_InitialValue()
-        {
-            return NumberOfDenial == 0;
-        }
-
-        public bool TenantManager_InitialValue()
-        {
-            return TenantManager == false;
-        }
-
-        public bool ServiceManager_InitialValue()
-        {
-            return ServiceManager == false;
-        }
-
-        public bool Disabled_InitialValue()
-        {
-            return Disabled == false;
-        }
-
-        public bool Developer_InitialValue()
-        {
-            return Developer == false;
-        }
-
-        public bool UserSettings_InitialValue()
-        {
-            return UserSettings.RecordingJson() == "[]";
-        }
-
-        public bool ApiKey_InitialValue()
-        {
-            return ApiKey == string.Empty;
-        }
-
         public UserSettings Session_UserSettings()
         {
             return this.PageSession("UserSettings") != null
@@ -766,92 +631,92 @@ namespace Implem.Pleasanter.Models
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!GlobalId_InitialValue())
+            if (!GlobalId.InitialValue())
             {
                 column.GlobalId(function: Sqls.Functions.SingleColumn);
                 param.GlobalId();
             }
-            if (!Name_InitialValue())
+            if (!Name.InitialValue())
             {
                 column.Name(function: Sqls.Functions.SingleColumn);
                 param.Name();
             }
-            if (!UserCode_InitialValue())
+            if (!UserCode.InitialValue())
             {
                 column.UserCode(function: Sqls.Functions.SingleColumn);
                 param.UserCode();
             }
-            if (!Password_InitialValue())
+            if (!Password.InitialValue())
             {
                 column.Password(function: Sqls.Functions.SingleColumn);
                 param.Password();
             }
-            if (!LastName_InitialValue())
+            if (!LastName.InitialValue())
             {
                 column.LastName(function: Sqls.Functions.SingleColumn);
                 param.LastName();
             }
-            if (!FirstName_InitialValue())
+            if (!FirstName.InitialValue())
             {
                 column.FirstName(function: Sqls.Functions.SingleColumn);
                 param.FirstName();
             }
-            if (!Birthday_InitialValue())
+            if (!Birthday.InitialValue())
             {
                 column.Birthday(function: Sqls.Functions.SingleColumn);
                 param.Birthday();
             }
-            if (!Gender_InitialValue())
+            if (!Gender.InitialValue())
             {
                 column.Gender(function: Sqls.Functions.SingleColumn);
                 param.Gender();
             }
-            if (!TimeZone_InitialValue())
+            if (!TimeZone.InitialValue())
             {
                 column.TimeZone(function: Sqls.Functions.SingleColumn);
                 param.TimeZone();
             }
-            if (!Body_InitialValue())
+            if (!Body.InitialValue())
             {
                 column.Body(function: Sqls.Functions.SingleColumn);
                 param.Body();
             }
-            if (!LastLoginTime_InitialValue())
+            if (!LastLoginTime.InitialValue())
             {
                 column.LastLoginTime(function: Sqls.Functions.SingleColumn);
                 param.LastLoginTime();
             }
-            if (!PasswordExpirationTime_InitialValue())
+            if (!PasswordExpirationTime.InitialValue())
             {
                 column.PasswordExpirationTime(function: Sqls.Functions.SingleColumn);
                 param.PasswordExpirationTime();
             }
-            if (!PasswordChangeTime_InitialValue())
+            if (!PasswordChangeTime.InitialValue())
             {
                 column.PasswordChangeTime(function: Sqls.Functions.SingleColumn);
                 param.PasswordChangeTime();
             }
-            if (!NumberOfLogins_InitialValue())
+            if (!NumberOfLogins.InitialValue())
             {
                 column.NumberOfLogins(function: Sqls.Functions.SingleColumn);
                 param.NumberOfLogins();
             }
-            if (!NumberOfDenial_InitialValue())
+            if (!NumberOfDenial.InitialValue())
             {
                 column.NumberOfDenial(function: Sqls.Functions.SingleColumn);
                 param.NumberOfDenial();
             }
-            if (!UserSettings_InitialValue())
+            if (!UserSettings.InitialValue())
             {
                 column.UserSettings(function: Sqls.Functions.SingleColumn);
                 param.UserSettings();
             }
-            if (!ApiKey_InitialValue())
+            if (!ApiKey.InitialValue())
             {
                 column.ApiKey(function: Sqls.Functions.SingleColumn);
                 param.ApiKey();
             }
-            if (!Comments_InitialValue())
+            if (!Comments.InitialValue())
             {
                 column.Comments(function: Sqls.Functions.SingleColumn);
                 param.Comments();
@@ -1624,6 +1489,14 @@ namespace Implem.Pleasanter.Models
         {
             ApiKey = string.Empty;
             return Update(ss);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public bool InitialValue()
+        {
+            return UserId == 0;
         }
     }
 }

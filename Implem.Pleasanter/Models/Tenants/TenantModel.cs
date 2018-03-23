@@ -84,36 +84,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != ContractDeadline.Date);
         }
 
-        public bool TenantId_InitialValue()
-        {
-            return TenantId == 0;
-        }
-
-        public bool TenantName_InitialValue()
-        {
-            return TenantName == string.Empty;
-        }
-
-        public bool Title_InitialValue()
-        {
-            return Title.Value == string.Empty;
-        }
-
-        public bool Body_InitialValue()
-        {
-            return Body == string.Empty;
-        }
-
-        public bool ContractSettings_InitialValue()
-        {
-            return ContractSettings?.RecordingJson() == string.Empty;
-        }
-
-        public bool ContractDeadline_InitialValue()
-        {
-            return ContractDeadline == 0.ToDateTime();
-        }
-
         public TenantModel()
         {
         }
@@ -280,27 +250,27 @@ namespace Implem.Pleasanter.Models
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Title_InitialValue())
+            if (!Title.InitialValue())
             {
                 column.Title(function: Sqls.Functions.SingleColumn);
                 param.Title();
             }
-            if (!Body_InitialValue())
+            if (!Body.InitialValue())
             {
                 column.Body(function: Sqls.Functions.SingleColumn);
                 param.Body();
             }
-            if (!ContractSettings_InitialValue())
+            if (!ContractSettings.InitialValue())
             {
                 column.ContractSettings(function: Sqls.Functions.SingleColumn);
                 param.ContractSettings();
             }
-            if (!ContractDeadline_InitialValue())
+            if (!ContractDeadline.InitialValue())
             {
                 column.ContractDeadline(function: Sqls.Functions.SingleColumn);
                 param.ContractDeadline();
             }
-            if (!Comments_InitialValue())
+            if (!Comments.InitialValue())
             {
                 column.Comments(function: Sqls.Functions.SingleColumn);
                 param.Comments();

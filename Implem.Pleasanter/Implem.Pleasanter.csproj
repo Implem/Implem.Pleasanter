@@ -222,6 +222,7 @@
     <Compile Include="Interfaces\IConvertable.cs" />
     <Compile Include="Interfaces\ISettingListItem.cs" />
     <Compile Include="Libraries\Converts\FormatExtension.cs" />
+    <Compile Include="Libraries\Converts\InitialValueExtensions.cs" />
     <Compile Include="Libraries\Converts\GridTextExtensions.cs" />
     <Compile Include="Libraries\Converts\FullTextExtensions.cs" />
     <Compile Include="Libraries\Converts\ToNoticeExtensions.cs" />

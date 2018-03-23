@@ -86,36 +86,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != Initialized);
         }
 
-        public bool DemoId_InitialValue()
-        {
-            return DemoId == 0;
-        }
-
-        public bool TenantId_InitialValue()
-        {
-            return TenantId == 0;
-        }
-
-        public bool Title_InitialValue()
-        {
-            return Title.Value == string.Empty;
-        }
-
-        public bool Passphrase_InitialValue()
-        {
-            return Passphrase == string.Empty;
-        }
-
-        public bool MailAddress_InitialValue()
-        {
-            return MailAddress == string.Empty;
-        }
-
-        public bool Initialized_InitialValue()
-        {
-            return Initialized == false;
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -288,12 +258,12 @@ namespace Implem.Pleasanter.Models
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Title_InitialValue())
+            if (!Title.InitialValue())
             {
                 column.Title(function: Sqls.Functions.SingleColumn);
                 param.Title();
             }
-            if (!Comments_InitialValue())
+            if (!Comments.InitialValue())
             {
                 column.Comments(function: Sqls.Functions.SingleColumn);
                 param.Comments();

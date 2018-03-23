@@ -73,26 +73,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != MailAddress);
         }
 
-        public bool OwnerId_InitialValue()
-        {
-            return OwnerId == 0;
-        }
-
-        public bool OwnerType_InitialValue()
-        {
-            return OwnerType == string.Empty;
-        }
-
-        public bool MailAddressId_InitialValue()
-        {
-            return MailAddressId == 0;
-        }
-
-        public bool MailAddress_InitialValue()
-        {
-            return MailAddress == string.Empty;
-        }
-
         public MailAddressModel()
         {
         }
@@ -261,7 +241,7 @@ namespace Implem.Pleasanter.Models
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Comments_InitialValue())
+            if (!Comments.InitialValue())
             {
                 column.Comments(function: Sqls.Functions.SingleColumn);
                 param.Comments();

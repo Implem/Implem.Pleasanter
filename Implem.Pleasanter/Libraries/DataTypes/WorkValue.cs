@@ -93,5 +93,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 updated,
                 update);
         }
+
+        public bool InitialValue()
+        {
+            return Value == 0;
+        }
     }
 }

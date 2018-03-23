@@ -141,5 +141,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return Id == UserTypes.Anonymous.ToInt();
         }
+
+        public bool InitialValue()
+        {
+            return Id == 0;
+        }
     }
 }

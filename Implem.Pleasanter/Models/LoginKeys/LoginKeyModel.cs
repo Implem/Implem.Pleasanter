@@ -74,31 +74,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != UserId);
         }
 
-        public bool LoginId_InitialValue()
-        {
-            return LoginId == string.Empty;
-        }
-
-        public bool Key_InitialValue()
-        {
-            return Key == string.Empty;
-        }
-
-        public bool TenantNames_InitialValue()
-        {
-            return TenantNames == string.Empty;
-        }
-
-        public bool TenantId_InitialValue()
-        {
-            return TenantId == 0;
-        }
-
-        public bool UserId_InitialValue()
-        {
-            return UserId == 0;
-        }
-
         public LoginKeyModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();

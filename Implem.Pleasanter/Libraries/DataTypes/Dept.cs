@@ -51,5 +51,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return Name;
         }
+
+        public bool InitialValue()
+        {
+            return Id == 0;
+        }
     }
 }

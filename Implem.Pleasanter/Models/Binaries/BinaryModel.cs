@@ -165,81 +165,6 @@ namespace Implem.Pleasanter.Models
             return Icon != SavedIcon && Icon != null;
         }
 
-        public bool BinaryId_InitialValue()
-        {
-            return BinaryId == 0;
-        }
-
-        public bool TenantId_InitialValue()
-        {
-            return TenantId == 0;
-        }
-
-        public bool ReferenceId_InitialValue()
-        {
-            return ReferenceId == 0;
-        }
-
-        public bool Guid_InitialValue()
-        {
-            return Guid == string.Empty;
-        }
-
-        public bool BinaryType_InitialValue()
-        {
-            return BinaryType == string.Empty;
-        }
-
-        public bool Title_InitialValue()
-        {
-            return Title.Value == string.Empty;
-        }
-
-        public bool Body_InitialValue()
-        {
-            return Body == string.Empty;
-        }
-
-        public bool Bin_InitialValue()
-        {
-            return Bin == null;
-        }
-
-        public bool Thumbnail_InitialValue()
-        {
-            return Thumbnail == null;
-        }
-
-        public bool Icon_InitialValue()
-        {
-            return Icon == null;
-        }
-
-        public bool FileName_InitialValue()
-        {
-            return FileName == string.Empty;
-        }
-
-        public bool Extension_InitialValue()
-        {
-            return Extension == string.Empty;
-        }
-
-        public bool Size_InitialValue()
-        {
-            return Size == 0;
-        }
-
-        public bool ContentType_InitialValue()
-        {
-            return ContentType == string.Empty;
-        }
-
-        public bool BinarySettings_InitialValue()
-        {
-            return BinarySettings.ToJson() == "[]";
-        }
-
         public BinarySettings Session_BinarySettings()
         {
             return this.PageSession("BinarySettings") != null
@@ -421,67 +346,67 @@ namespace Implem.Pleasanter.Models
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Guid_InitialValue())
+            if (!Guid.InitialValue())
             {
                 column.Guid(function: Sqls.Functions.SingleColumn);
                 param.Guid();
             }
-            if (!BinaryType_InitialValue())
+            if (!BinaryType.InitialValue())
             {
                 column.BinaryType(function: Sqls.Functions.SingleColumn);
                 param.BinaryType();
             }
-            if (!Title_InitialValue())
+            if (!Title.InitialValue())
             {
                 column.Title(function: Sqls.Functions.SingleColumn);
                 param.Title();
             }
-            if (!Body_InitialValue())
+            if (!Body.InitialValue())
             {
                 column.Body(function: Sqls.Functions.SingleColumn);
                 param.Body();
             }
-            if (!Bin_InitialValue())
+            if (!Bin.InitialValue())
             {
                 column.Bin(function: Sqls.Functions.SingleColumn);
                 param.Bin();
             }
-            if (!Thumbnail_InitialValue())
+            if (!Thumbnail.InitialValue())
             {
                 column.Thumbnail(function: Sqls.Functions.SingleColumn);
                 param.Thumbnail();
             }
-            if (!Icon_InitialValue())
+            if (!Icon.InitialValue())
             {
                 column.Icon(function: Sqls.Functions.SingleColumn);
                 param.Icon();
             }
-            if (!FileName_InitialValue())
+            if (!FileName.InitialValue())
             {
                 column.FileName(function: Sqls.Functions.SingleColumn);
                 param.FileName();
             }
-            if (!Extension_InitialValue())
+            if (!Extension.InitialValue())
             {
                 column.Extension(function: Sqls.Functions.SingleColumn);
                 param.Extension();
             }
-            if (!Size_InitialValue())
+            if (!Size.InitialValue())
             {
                 column.Size(function: Sqls.Functions.SingleColumn);
                 param.Size();
             }
-            if (!ContentType_InitialValue())
+            if (!ContentType.InitialValue())
             {
                 column.ContentType(function: Sqls.Functions.SingleColumn);
                 param.ContentType();
             }
-            if (!BinarySettings_InitialValue())
+            if (!BinarySettings.InitialValue())
             {
                 column.BinarySettings(function: Sqls.Functions.SingleColumn);
                 param.BinarySettings();
             }
-            if (!Comments_InitialValue())
+            if (!Comments.InitialValue())
             {
                 column.Comments(function: Sqls.Functions.SingleColumn);
                 param.Comments();

@@ -93,31 +93,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != SiteSettings.RecordingJson());
         }
 
-        public bool TenantId_InitialValue()
-        {
-            return TenantId == 0;
-        }
-
-        public bool ReferenceType_InitialValue()
-        {
-            return ReferenceType == "Sites";
-        }
-
-        public bool ParentId_InitialValue()
-        {
-            return ParentId == 0;
-        }
-
-        public bool InheritPermission_InitialValue()
-        {
-            return InheritPermission == 0;
-        }
-
-        public bool SiteSettings_InitialValue()
-        {
-            return SiteSettings.RecordingJson() == "[]";
-        }
-
         public SiteSettings Session_SiteSettings()
         {
             return this.PageSession("SiteSettings") != null
@@ -514,17 +489,17 @@ namespace Implem.Pleasanter.Models
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            if (!Body_InitialValue())
+            if (!Body.InitialValue())
             {
                 column.Body(function: Sqls.Functions.SingleColumn);
                 param.Body();
             }
-            if (!SiteSettings_InitialValue())
+            if (!SiteSettings.InitialValue())
             {
                 column.SiteSettings(function: Sqls.Functions.SingleColumn);
                 param.SiteSettings();
             }
-            if (!Comments_InitialValue())
+            if (!Comments.InitialValue())
             {
                 column.Comments(function: Sqls.Functions.SingleColumn);
                 param.Comments();

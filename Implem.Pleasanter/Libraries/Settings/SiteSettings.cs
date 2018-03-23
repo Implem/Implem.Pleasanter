@@ -2862,5 +2862,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Select(o => o.Body).Join("\n")
                 : null;
         }
+
+        public bool InitialValue()
+        {
+            return RecordingJson() == "[]";
+        }
     }
 }

@@ -21,5 +21,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             return us.ToJson();
         }
+
+        public bool InitialValue()
+        {
+            return RecordingJson() == "[]";
+        }
     }
 }

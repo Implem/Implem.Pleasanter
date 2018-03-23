@@ -64,26 +64,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != Admin);
         }
 
-        public bool GroupId_InitialValue()
-        {
-            return GroupId == 0;
-        }
-
-        public bool DeptId_InitialValue()
-        {
-            return DeptId == 0;
-        }
-
-        public bool UserId_InitialValue()
-        {
-            return UserId == 0;
-        }
-
-        public bool Admin_InitialValue()
-        {
-            return Admin == false;
-        }
-
         public GroupMemberModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
