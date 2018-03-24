@@ -525,11 +525,11 @@ namespace Implem.Pleasanter.Models
             statements.OnDeletingExtendedSqls(SiteId, WikiId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteItems(
+                Rds.PhysicalDeleteItems(
                     where: Rds.ItemsWhere().ReferenceId(WikiId)),
                 Rds.DeleteWikis(
                     where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId)),
-                Rds.DeleteItems(
+                Rds.PhysicalDeleteItems(
                     where: Rds.ItemsWhere().ReferenceId(SiteId)),
                 Rds.DeleteSites(
                     where: Rds.SitesWhere().SiteId(SiteId))

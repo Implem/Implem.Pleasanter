@@ -580,7 +580,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.DeleteItems(
+                    Rds.PhysicalDeleteItems(
                         where: Rds.ItemsWhere().SiteId_In(siteMenu.Select(o => o.SiteId))),
                     Rds.DeleteIssues(
                         where: Rds.IssuesWhere().SiteId_In(siteMenu
