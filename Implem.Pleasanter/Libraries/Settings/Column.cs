@@ -589,7 +589,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var value = dataRow.String(ColumnName);
             return UserColumn && value.IsNullOrEmpty()
-                ? DataTypes.User.UserTypes.Anonymous.ToInt().ToString()
+                ? User.UserTypes.Anonymous.ToInt().ToString()
                 : value;
         }
 
