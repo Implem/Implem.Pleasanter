@@ -211,7 +211,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public decimal SavedWorkValue = 0;
         [NonSerialized] public decimal SavedProgressRate = 0;
         [NonSerialized] public decimal SavedRemainingWorkValue = 0;
-        [NonSerialized] public int SavedStatus = 100;
+        [NonSerialized] public int SavedStatus = 0;
         [NonSerialized] public int SavedManager = 0;
         [NonSerialized] public int SavedOwner = 0;
         [NonSerialized] public string SavedClassA = string.Empty;
