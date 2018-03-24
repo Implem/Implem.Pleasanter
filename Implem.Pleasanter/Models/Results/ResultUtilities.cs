@@ -5702,14 +5702,20 @@ namespace Implem.Pleasanter.Models
             bool inRange = true)
         {
             var groupByX = ss.GetColumn(view.GetKambanGroupByX(ss));
-            var groupByY = ss.GetColumn(view.GetKambanGroupByY(ss));
-            var aggregateType = view.GetKambanAggregationType(ss);
-            var value = view.GetKambanValue(ss);
-            var aggregationView = view.KambanAggregationView ?? false;
             if (groupByX == null)
             {
                 return hb;
             }
+            var groupByY = ss.GetColumn(view.GetKambanGroupByY(ss));
+            var aggregateType = view.GetKambanAggregationType(ss);
+            var value = ss.GetColumn(view.GetKambanValue(ss));
+            var aggregationView = view.KambanAggregationView ?? false;
+            var data = KambanData(
+                ss: ss,
+                view: view,
+                groupByX: groupByX,
+                groupByY: groupByY,
+                value: value);
             return !bodyOnly
                 ? hb.Kamban(
                     ss: ss,
@@ -5720,13 +5726,7 @@ namespace Implem.Pleasanter.Models
                     value: value,
                     columns: view.KambanColumns,
                     aggregationView: aggregationView,
-                    data: KambanElements(
-                        ss,
-                        view,
-                        groupByX,
-                        groupByY,
-                        value,
-                        KambanColumns(ss, groupByX, groupByY, value)),
+                    data: data,
                     inRange: inRange)
                 : hb.KambanBody(
                     ss: ss,
@@ -5734,52 +5734,39 @@ namespace Implem.Pleasanter.Models
                     groupByX: groupByX,
                     groupByY: groupByY,
                     aggregateType: aggregateType,
-                    value: ss.GetColumn(value),
+                    value: value,
                     columns: view.KambanColumns,
                     aggregationView: aggregationView,
-                    data: KambanElements(
-                        ss,
-                        view,
-                        groupByX,
-                        groupByY,
-                        value,
-                        KambanColumns(ss, groupByX, groupByY, value)),
+                    data: data,
                     changedItemId: changedItemId,
                     inRange: inRange);
         }
 
-        private static SqlColumnCollection KambanColumns(
-            SiteSettings ss, Column groupByX, Column groupByY, string value)
-        {
-            return Rds.ResultsColumn()
-                .ResultId()
-                .ResultsColumn(groupByX.ColumnName)
-                .ResultsColumn(groupByY.ColumnName)
-                .ResultsColumn(value)
-                .ItemTitle(tableName: "Results", idColumn: "ResultId");
-        }
-
-        private static IEnumerable<Libraries.ViewModes.KambanElement> KambanElements(
+        private static IEnumerable<Libraries.ViewModes.KambanElement> KambanData(
             SiteSettings ss,
             View view,
             Column groupByX,
             Column groupByY,
-            string value,
-            SqlColumnCollection column)
+            Column value)
         {
-            return new GridData(
-                ss: ss,
-                view: view,
-                column: column)
-                    .DataRows
-                    .Select(o => new Libraries.ViewModes.KambanElement()
-                    {
-                        Id = o.Long("ResultId"),
-                        Title = o.String("ItemTitle"),
-                        GroupX = groupByX.ConvertIfUserColumn(o),
-                        GroupY = groupByY.ConvertIfUserColumn(o),
-                        Value = o.Decimal(value)
-                    });
+            return Rds.ExecuteTable(statements:
+                Rds.SelectResults(
+                    column: Rds.ResultsColumn()
+                        .ResultId()
+                        .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType))
+                        .Add(ss: ss, column: groupByX)
+                        .Add(ss: ss, column: groupByY)
+                        .Add(ss: ss, column: value),
+                    where: view.Where(ss: ss)))
+                        .AsEnumerable()
+                        .Select(o => new Libraries.ViewModes.KambanElement()
+                        {
+                            Id = o.Long("ResultId"),
+                            Title = o.String("ItemTitle"),
+                            GroupX = groupByX.ConvertIfUserColumn(o),
+                            GroupY = groupByY.ConvertIfUserColumn(o),
+                            Value = o.Decimal(value.ColumnName)
+                        });
         }
 
         public static string UpdateByKamban(SiteSettings ss)

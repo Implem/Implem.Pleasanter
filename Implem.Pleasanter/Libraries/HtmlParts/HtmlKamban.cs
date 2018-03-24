@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column groupByX,
             Column groupByY,
             string aggregateType,
-            string value,
+            Column value,
             int? columns,
             bool aggregationView,
             IEnumerable<KambanElement> data,
@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: " auto-postback",
                         labelText: Displays.AggregationTarget(),
                         optionCollection: ss.KambanValueOptions(),
-                        selectedValue: value,
+                        selectedValue: value.ColumnName,
                         method: "post")
                     .FieldDropDown(
                         controlId: "KambanColumns",
@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         groupByX: groupByX,
                         groupByY: groupByY,
                         aggregateType: aggregateType,
-                        value: ss.GetColumn(value),
+                        value: value,
                         columns: columns,
                         aggregationView: aggregationView,
                         data: data,
