@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Value = byForm
                 ? value.ToUniversal().AddDays(1)
                 : value;
-            DisplayValue = Value.ToLocal();
+            DisplayValue = value.ToLocal();
             Status = status;
         }
 
