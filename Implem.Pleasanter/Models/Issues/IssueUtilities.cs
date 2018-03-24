@@ -4644,7 +4644,7 @@ namespace Implem.Pleasanter.Models
                 where: where);
             var statements = new List<SqlStatement>();
             statements.OnBulkDeletingExtendedSqls(ss.SiteId);
-            statements.Add(Rds.DeleteItems(
+            statements.Add(Rds.PhysicalDeleteItems(
                 where: Rds.ItemsWhere()
                     .ReferenceId_In(sub: sub)));
             statements.Add(Rds.PhysicalDeleteLinks(
