@@ -1795,14 +1795,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => o.LabelText);
         }
 
-        public Dictionary<string, string> KambanGroupByOptions()
+        public Dictionary<string, string> KambanGroupByOptions(bool addNothing = false)
         {
-            return Columns
+            var hash = new Dictionary<string, string>();
+            if (addNothing)
+            {
+                hash.Add("Nothing", Displays.NoClassification());
+            }
+            hash.AddRange(Columns
                 .Where(o => o.HasChoices())
                 .Where(o => !o.Joined)
                 .Where(o => o.CanRead)
                 .OrderBy(o => o.No)
-                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText));
+            return hash;
         }
 
         public Dictionary<string, string> KambanAggregationTypeOptions()

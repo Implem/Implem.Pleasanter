@@ -41,9 +41,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.GroupByY(),
-                        optionCollection: ss.KambanGroupByOptions(),
-                        selectedValue: groupByY.ColumnName,
-                        insertBlank: true,
+                        optionCollection: ss.KambanGroupByOptions(addNothing: true),
+                        selectedValue: groupByY?.ColumnName,
                         method: "post")
                     .FieldDropDown(
                         controlId: "KambanAggregateType",
