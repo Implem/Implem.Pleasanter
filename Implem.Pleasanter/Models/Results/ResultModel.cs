@@ -201,7 +201,7 @@ namespace Implem.Pleasanter.Models
         }
 
         [NonSerialized] public long SavedResultId = 0;
-        [NonSerialized] public int SavedStatus = 100;
+        [NonSerialized] public int SavedStatus = 0;
         [NonSerialized] public int SavedManager = 0;
         [NonSerialized] public int SavedOwner = 0;
         [NonSerialized] public string SavedClassA = string.Empty;
