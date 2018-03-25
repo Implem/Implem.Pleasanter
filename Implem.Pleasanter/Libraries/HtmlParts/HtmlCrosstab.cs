@@ -161,29 +161,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (!inRange) return hb;
             if (groupByY != null)
             {
-                hb.CrosstabBody(
+                hb.Table(
                     ss: ss,
-                    view: view,
-                    groupByX: groupByX,
-                    groupByY: groupByY,
+                    choicesX: CrosstabUtilities.ChoicesX(groupByX, timePeriod, month),
+                    choicesY: CrosstabUtilities.ChoicesY(groupByY),
                     aggregateType: aggregateType,
                     value: value,
-                    timePeriod: timePeriod,
-                    month: month,
-                    dataRows: dataRows);
+                    daily: Daily(groupByX, timePeriod),
+                    data: CrosstabUtilities.Elements(groupByX, groupByY, dataRows));
             }
             else
             {
-                hb.CrosstabColumnsBody(
+                var columnList = CrosstabUtilities.GetColumns(ss, columns);
+                hb.Table(
                     ss: ss,
-                    view: view,
-                    groupByX: groupByX,
-                    columns: columns,
+                    choicesX: CrosstabUtilities.ChoicesX(groupByX, timePeriod, month),
+                    choicesY: CrosstabUtilities.ChoicesY(columnList),
                     aggregateType: aggregateType,
                     value: value,
-                    timePeriod: timePeriod,
-                    month: month,
-                    dataRows: dataRows);
+                    daily: Daily(groupByX, timePeriod),
+                    data: CrosstabUtilities.ColumnsElements(groupByX, dataRows, columnList));
             }
             return hb
                 .Hidden(controlId: "CrosstabXType", value: groupByX?.TypeName)
@@ -192,134 +189,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Hidden(controlId: "CrosstabThisMonth", value: Times.ThisMonth());
         }
 
-        private static HtmlBuilder CrosstabBody(
-            this HtmlBuilder hb,
-            SiteSettings ss,
-            View view,
-            Column groupByX,
-            Column groupByY,
-            string aggregateType,
-            Column value,
-            string timePeriod,
-            DateTime month,
-            EnumerableRowCollection<DataRow> dataRows)
-        {
-            var data = dataRows.Select(o => new CrosstabElement(
-                o.String(groupByX.ColumnName),
-                o.String(groupByY.ColumnName),
-                o.Decimal("Value")));
-            var choicesX = groupByX?.TypeName == "datetime"
-                ? CorrectedChoices(groupByX, timePeriod, month)
-                : groupByX.ChoiceHash?.ToDictionary(
-                    o => o.Key,
-                    o => new ControlData(o.Value.Text));
-            var choicesY = groupByY?.ChoiceHash?.ToDictionary(
-                    o => o.Key,
-                    o => new ControlData(o.Value.Text));
-            return hb.Table(
-                ss: ss,
-                choicesX: choicesX,
-                choicesY: choicesY,
-                aggregateType: aggregateType,
-                value: value,
-                daily: Daily(groupByX, timePeriod),
-                columns: null,
-                data: data);
-        }
-
-        private static HtmlBuilder CrosstabColumnsBody(
-            this HtmlBuilder hb,
-            SiteSettings ss,
-            View view,
-            Column groupByX,
-            List<Column> columns,
-            string aggregateType,
-            Column value,
-            string timePeriod,
-            DateTime month,
-            EnumerableRowCollection<DataRow> dataRows)
-        {
-            var columnList = CrosstabUtilities.GetColumns(ss, columns);
-            var data = new List<CrosstabElement>();
-            dataRows.ForEach(o =>
-                columnList.ForEach(column =>
-                    data.Add(new CrosstabElement(
-                        o.String(groupByX.ColumnName),
-                        column.ColumnName,
-                        o.Decimal(column.ColumnName)))));
-            var choicesX = groupByX?.TypeName == "datetime"
-                ? CorrectedChoices(groupByX, timePeriod, month)
-                : groupByX.ChoiceHash?.ToDictionary(
-                    o => o.Key,
-                    o => new ControlData(o.Value.Text));
-            var choicesY = columnList.ToDictionary(
-                o => o.ColumnName,
-                o => new ControlData(o?.LabelText));
-            return hb.Table(
-                ss: ss,
-                choicesX: choicesX,
-                choicesY: choicesY,
-                aggregateType: aggregateType,
-                value: value,
-                daily: Daily(groupByX, timePeriod),
-                columns: columnList,
-                data: data);
-        }
-
         private static bool Daily(Column xColumn, string timePeriod)
         {
             return xColumn?.TypeName == "datetime" && timePeriod == "Daily";
-        }
-
-        private static Dictionary<string, ControlData> CorrectedChoices(
-            Column groupBy, string timePeriod, DateTime date)
-        {
-            switch (timePeriod)
-            {
-                case "Monthly": return Monthly(date);
-                case "Weekly": return Weekly(date);
-                case "Daily": return Daily(date);
-                default: return null;
-            }
-        }
-
-        private static Dictionary<string, ControlData> Monthly(DateTime date)
-        {
-            var hash = new Dictionary<string, ControlData>();
-            for (var i = -11; i <= 0; i++)
-            {
-                var day = date.AddMonths(i);
-                hash.Add(day.ToString("yyyy/MM"), new ControlData(day.ToString("yyyy/MM")));
-            }
-            return hash;
-        }
-
-        private static Dictionary<string, ControlData> Weekly(DateTime date)
-        {
-            var hash = new Dictionary<string, ControlData>();
-            var end = CrosstabUtilities.WeeklyEndDate(date);
-            for (var i = -77; i <= 0; i += 7)
-            {
-                var day = end.AddDays(i);
-                var append = (int)(new DateTime(day.Year, 1, 1).DayOfWeek) > 1
-                    ? 8 - (int)(new DateTime(day.Year, 1, 1).DayOfWeek)
-                    : 0;
-                var key = day.Year * 100 + ((day.DayOfYear + append) / 7) + 1;
-                hash.Add(key.ToString(), new ControlData(day.ToString("MM/dd")));
-            }
-            return hash;
-        }
-
-        private static Dictionary<string, ControlData> Daily(DateTime date)
-        {
-            var hash = new Dictionary<string, ControlData>();
-            var month = date.Month;
-            while (month == date.Month)
-            {
-                hash.Add(date.ToString("yyyy/MM/dd"), new ControlData(date.ToString("dd")));
-                date = date.AddDays(1);
-            }
-            return hash;
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
@@ -351,8 +223,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string aggregateType,
             Column value,
             bool daily,
-            IEnumerable<Column> columns,
-            IEnumerable<CrosstabElement> data)
+            IEnumerable<CrosstabElement> data,
+            IEnumerable<Column> columns = null)
         {
             var max = data.Any() && columns == null
                 ? data.Select(o => o.Value).Max()
@@ -367,15 +239,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             {
                                 hb.Th();
                             }
-                            choicesX.ForEach(choice => hb
+                            choicesX.ForEach(choiceX => hb
                                 .Th(action: () => hb
                                     .HeaderText(
                                         ss: ss,
                                         aggregateType: aggregateType,
                                         value: value,
                                         showValue: columns?.Any() != true,
-                                        data: data.Where(o => o.GroupByX == choice.Key),
-                                        choice: choice)));
+                                        data: data.Where(o => o.GroupByX == choiceX.Key),
+                                        choice: choiceX)));
                         }))
                     .TBody(action: () =>
                     {
@@ -408,9 +280,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         value: column,
                                         x: choiceX.Key,
                                         max: max,
-                                        data: data.FirstOrDefault(o =>
-                                            o.GroupByX == choiceX.Key &&
-                                            o.GroupByY == choiceY.Key)?.Value ?? 0));
+                                        data: CrosstabUtilities
+                                            .CellValue(data, choiceX, choiceY)));
                             });
                         });
                     }));
@@ -428,9 +299,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             decimal data)
         {
             return hb.Td(css: DayOfWeekCss(daily, x), action: () => hb
-                .Text(text: value?.Display(
-                    data, unit: aggregateType != "Count", format: aggregateType != "Count") ??
-                        data.ToString())
+                .Text(text: CrosstabUtilities.CellText(value, aggregateType, data))
                 .Svg(css: "svg-crosstab", action: () => hb
                     .Rect(
                         x: 0,
@@ -465,9 +334,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var num = data.Summary(aggregateType);
             return hb.Text(text: "{0}{1}".Params(
-                choice.Value.Text != string.Empty
-                    ? choice.Value.Text
-                    : Displays.NotSet(),
+                choice.Value.DisplayValue(),
                 showValue && num != null
                     ? " : " + (aggregateType != "Count"
                         ? value.Display(

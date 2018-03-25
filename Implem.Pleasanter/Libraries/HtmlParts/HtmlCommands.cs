@@ -104,47 +104,62 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 onClick: "$p.openDeleteSiteDialog($(this));",
                                 icon: "ui-icon-trash",
                                 _using: deleteButton && ss.CanDelete() && ss.IsSite());
-                        if (Routes.Controller() == "items" && Routes.Action() == "index")
+                        if (Routes.Controller() == "items")
                         {
-                            hb
-                                .Button(
-                                    text: Displays.BulkMove(),
-                                    controlCss: "button-icon open-dialog",
-                                    accessKey: "o",
-                                    onClick: "$p.moveTargets($(this));",
-                                    icon: "ui-icon-transferthick-e-w",
-                                    selector: "#MoveDialog",
-                                    action: "MoveTargets",
-                                    method: "get",
-                                    _using: ss.CanUpdate())
-                                .Button(
-                                    text: Displays.BulkDelete(),
-                                    controlCss: "button-icon",
-                                    accessKey: "r",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-trash",
-                                    action: "BulkDelete",
-                                    method: "delete",
-                                    confirm: "ConfirmDelete",
-                                    _using: ss.CanDelete())
-                                .Button(
-                                    controlId: "EditImportSettings",
-                                    text: Displays.Import(),
-                                    controlCss: "button-icon",
-                                    accessKey: "w",
-                                    onClick: "$p.openImportSettingsDialog($(this));",
-                                    icon: "ui-icon-arrowreturnthick-1-e",
-                                    selector: "#ImportSettingsDialog",
-                                    _using: ss.CanImport())
-                                .Button(
-                                    text: Displays.Export(),
-                                    controlCss: "button-icon",
-                                    accessKey: "x",
-                                    onClick: "$p.openExportSelectorDialog($(this));",
-                                    icon: "ui-icon-arrowreturnthick-1-w",
-                                    action: "OpenExportSelectorDialog",
-                                    method: "post",
-                                    _using: ss.CanExport());
+                            switch (Routes.Action())
+                            {
+                                case "index":
+                                    hb
+                                        .Button(
+                                            text: Displays.BulkMove(),
+                                            controlCss: "button-icon open-dialog",
+                                            accessKey: "o",
+                                            onClick: "$p.moveTargets($(this));",
+                                            icon: "ui-icon-transferthick-e-w",
+                                            selector: "#MoveDialog",
+                                            action: "MoveTargets",
+                                            method: "get",
+                                            _using: ss.CanUpdate())
+                                        .Button(
+                                            text: Displays.BulkDelete(),
+                                            controlCss: "button-icon",
+                                            accessKey: "r",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-trash",
+                                            action: "BulkDelete",
+                                            method: "delete",
+                                            confirm: "ConfirmDelete",
+                                            _using: ss.CanDelete())
+                                        .Button(
+                                            controlId: "EditImportSettings",
+                                            text: Displays.Import(),
+                                            controlCss: "button-icon",
+                                            accessKey: "w",
+                                            onClick: "$p.openImportSettingsDialog($(this));",
+                                            icon: "ui-icon-arrowreturnthick-1-e",
+                                            selector: "#ImportSettingsDialog",
+                                            _using: ss.CanImport())
+                                        .Button(
+                                            text: Displays.Export(),
+                                            controlCss: "button-icon",
+                                            accessKey: "x",
+                                            onClick: "$p.openExportSelectorDialog($(this));",
+                                            icon: "ui-icon-arrowreturnthick-1-w",
+                                            action: "OpenExportSelectorDialog",
+                                            method: "post",
+                                            _using: ss.CanExport());
+                                    break;
+                                case "crosstab":
+                                    hb.Button(
+                                        text: Displays.Export(),
+                                        controlCss: "button-icon",
+                                        accessKey: "x",
+                                        onClick: "$p.exportCrosstab();",
+                                        icon: "ui-icon-arrowreturnthick-1-w",
+                                        _using: ss.CanExport());
+                                    break;
+                            }
+                            
                         }
                     }
                     extensions?.Invoke();

@@ -1,4 +1,5 @@
-﻿namespace Implem.Pleasanter.Libraries.Responses
+﻿using Implem.Libraries.Utilities;
+namespace Implem.Pleasanter.Libraries.Responses
 {
     public class ControlData
     {
@@ -14,6 +15,13 @@
             Title = title;
             Css = css;
             Style = style;
+        }
+
+        public string DisplayValue()
+        {
+            return !Text.IsNullOrEmpty()
+                ? Text
+                : Displays.NotSet();
         }
     }
 }

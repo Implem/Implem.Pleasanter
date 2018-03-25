@@ -121,7 +121,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return new ResponseFile(csv.ToString(), FileName(ss, export.Name));
         }
 
-        private static string FileName(SiteSettings ss, string name)
+        public static string FileName(SiteSettings ss, string name)
         {
             return Files.ValidFileName("_".JoinParam(
                 ss.Title, name, DateTime.Now.ToLocal(Displays.YmdhmsFormat())) + ".csv");

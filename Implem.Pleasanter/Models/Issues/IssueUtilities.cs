@@ -5244,6 +5244,47 @@ namespace Implem.Pleasanter.Models
             return ExportUtilities.Csv(ss, ss.GetExport(QueryStrings.Int("id")));
         }
 
+        public static ResponseFile ExportCrosstab(SiteSettings ss, SiteModel siteModel)
+        {
+            if (!Contract.Export()) return null;
+            var invalid = IssueValidators.OnExporting(ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return null;
+            }
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(ss, view);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var groupByX = ss.GetColumn(view.GetCrosstabGroupByX(ss));
+            var groupByY = ss.GetColumn(view.GetCrosstabGroupByY(ss));
+            var columns = CrosstabColumns(ss, view);
+            var aggregateType = view.GetCrosstabAggregateType(ss);
+            var value = ss.GetColumn(view.GetCrosstabValue(ss));
+            if (value == null)
+            {
+                value = ss.GetColumn("IssueId");
+                aggregateType = "Count";
+            }
+            var timePeriod = view.GetCrosstabTimePeriod(ss);
+            var month = view.GetCrosstabMonth(ss);
+            var dataRows = CrosstabDataRows(
+                ss, view, groupByX, groupByY, columns, value, aggregateType, timePeriod, month);
+            return new ResponseFile(
+                Libraries.ViewModes.CrosstabUtilities.Csv(
+                    ss: ss,
+                    view: view,
+                    groupByX: groupByX,
+                    groupByY: groupByY,
+                    columns: columns,
+                    aggregateType: aggregateType,
+                    value: value,
+                    timePeriod: timePeriod,
+                    month: month,
+                    dataRows: dataRows),
+                ExportUtilities.FileName(ss, Displays.Crosstab()));
+        }
+
         public static string Calendar(SiteSettings ss)
         {
             if (!ss.EnableViewMode("Calendar"))
