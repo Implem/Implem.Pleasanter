@@ -2159,7 +2159,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var columns = dataRows.Columns();
             Columns
-                .Where(o => columns.Contains(o.ColumnName))
+                .Where(o => columns.Contains("Linked__" + o.ColumnName))
                 .Where(o => o.Linked())
                 .ForEach(column =>
                 {
