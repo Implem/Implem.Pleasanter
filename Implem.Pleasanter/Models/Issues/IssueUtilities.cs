@@ -4652,6 +4652,10 @@ namespace Implem.Pleasanter.Models
                     .Or(or: Rds.LinksWhere()
                         .DestinationId_In(sub: sub)
                         .SourceId_In(sub: sub))));
+            statements.Add(Rds.DeleteBinaries(
+                where: Rds.BinariesWhere()
+                    .TenantId(Sessions.TenantId())
+                    .ReferenceId_In(sub: sub)));
             statements.Add(Rds.DeleteIssues(
                 where: where, 
                 countRecord: true));
