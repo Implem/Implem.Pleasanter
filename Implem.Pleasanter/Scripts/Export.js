@@ -13,3 +13,7 @@ $p.export = function () {
         $('#ExportId').val();
     $p.closeDialog($('#ExportSelectorDialog'));
 }
+
+$p.exportCrosstab = function () {
+    location.href = $('.main-form').attr('action').replace('_action_', 'exportcrosstab');
+}

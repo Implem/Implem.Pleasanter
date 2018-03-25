@@ -244,6 +244,23 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult ExportCrosstab(long id)
+        {
+            var log = new SysLogModel();
+            var responseFile = new ItemModel(id).ExportCrosstab();
+            if (responseFile != null)
+            {
+                log.Finish(responseFile.Length);
+                return responseFile.ToFile();
+            }
+            else
+            {
+                log.Finish(0);
+                return null;
+            }
+        }
+
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Search()
         {

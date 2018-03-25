@@ -468,6 +468,21 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public ResponseFile ExportCrosstab()
+        {
+            SetSite();
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.ExportCrosstab(
+                    Site.IssuesSiteSettings(ReferenceId, setSiteIntegration: true),
+                    siteModel: Site);
+                case "Results": return ResultUtilities.ExportCrosstab(
+                    Site.ResultsSiteSettings(ReferenceId, setSiteIntegration: true),
+                    siteModel: Site);
+                default: return null;
+            }
+        }
+
         public string SearchDropDown()
         {
             SetSite();
