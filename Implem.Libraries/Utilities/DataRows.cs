@@ -69,6 +69,10 @@ namespace Implem.Libraries.Utilities
                         return dataRow.Field<int>(name).ToString();
                     case "Int64":
                         return dataRow.Field<long>(name).ToString();
+                    case "Decimal":
+                        return dataRow.Field<decimal>(name).ToString();
+                    case "DateTime":
+                        return dataRow.Field<DateTime>(name).ToString();
                     default:
                         return dataRow.Field<string>(name);
                 }
