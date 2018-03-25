@@ -2157,37 +2157,22 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetChoiceHash(EnumerableRowCollection<DataRow> dataRows)
         {
-            dataRows?
-                .Columns()
-                .Where(o => Links.Any(p => p.ColumnName == o))
-                .Select(o => GetColumn(o))
-                .Where(o => o != null)
-                .ToList()
+            var columns = dataRows.Columns();
+            Columns
+                .Where(o => columns.Contains(o.ColumnName))
+                .Where(o => o.Linked())
                 .ForEach(column =>
                 {
-                    if (JoinedSsHash?.ContainsKey(
-                        Links.First(o => o.ColumnName == column.ColumnName).SiteId) == true)
-                    {
-                        column.ChoiceHash = new Dictionary<string, Choice>();
-                        dataRows
-                            .GroupBy(o => o.Long(column.ColumnName))
-                            .Select(o => o.First())
-                            .ForEach(dataRow =>
-                                column.ChoiceHash.Add(
+                    column.ChoiceHash = new Dictionary<string, Choice>();
+                    dataRows
+                        .GroupBy(o => o.Long(column.ColumnName))
+                        .Select(o => o.First())
+                        .ForEach(dataRow =>
+                            column.ChoiceHash.Add(
+                                dataRow.String(column.ColumnName),
+                                new Choice(
                                     dataRow.String(column.ColumnName),
-                                    new Choice(
-                                        dataRow.String(column.ColumnName),
-                                        dataRow.String("Linked__" + column.ColumnName))));
-                    }
-                    else if (column.UseSearch == true)
-                    {
-                        SetChoiceHash(
-                            columnName: column.ColumnName,
-                            selectedValues: dataRows
-                                .Select(o => o.String(column.ColumnName))
-                                .Distinct()
-                                .ToList());
-                    }
+                                    dataRow.String("Linked__" + column.ColumnName))));
                 });
         }
 
