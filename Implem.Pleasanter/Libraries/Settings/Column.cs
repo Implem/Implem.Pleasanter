@@ -382,6 +382,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return new Comments().Prepend(value).ToJson();
             }
+            else if (TypeName == "datetime")
+            {
+                return value?.ToDateTime().ToUniversal().ToString() ?? string.Empty;
+            }
             else if (HasChoices())
             {
                 if (ChoiceValueHash == null)
