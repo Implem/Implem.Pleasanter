@@ -5650,7 +5650,7 @@ namespace Implem.Pleasanter.Models
                             .ResultId(_as: "Id")
                             .Ver()
                             .UpdatedTime()
-                            .Add(ss: ss,column: groupBy)
+                            .Add(ss: ss, column: groupBy)
                             .Add(ss: ss, column: value),
                         join: ss.Join(),
                         where: view.Where(ss: ss)))
