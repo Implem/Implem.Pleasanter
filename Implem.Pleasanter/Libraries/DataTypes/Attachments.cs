@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return hb.Td(action: () => hb
                 .Ol(action: () => ForEach(item => hb
-                    .Li(action: () =>　hb
+                    .Li(action: () => hb
                         .A(
                             href: Locations.DownloadFile(item.Guid),
                             action: () => hb
