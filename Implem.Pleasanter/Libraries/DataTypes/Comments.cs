@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string ToNotice(string saved, Column column, bool updated, bool update)
         {
             var body = string.Empty;
-            if (Routes.Action()== "deletecomment")
+            if (Routes.Action() == "deletecomment")
             {
                 body = Displays.CommentDeleted() + "\n";
             }
