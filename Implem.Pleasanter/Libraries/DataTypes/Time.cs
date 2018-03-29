@@ -57,8 +57,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public override string ToString()
         {
-            return Value.InRange() 
-                ? Value.ToString() 
+            return Value.InRange()
+                ? Value.ToString()
                 : string.Empty;
         }
 
