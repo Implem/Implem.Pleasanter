@@ -93,5 +93,5 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Span(css: "separator", action: () => hb
                     .Text(text: ">")));
         }
-   }
+    }
 }
