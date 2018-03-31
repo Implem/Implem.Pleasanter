@@ -159,7 +159,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         _using: ss.CanExport());
                                     break;
                             }
-                            
                         }
                     }
                     extensions?.Invoke();
