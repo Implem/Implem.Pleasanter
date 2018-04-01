@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Versions.VerTypes verType,
             Permissions.ColumnPermissionTypes columnPermissionType)
         {
-            var readOnly= verType != Versions.VerTypes.Latest ||
+            var readOnly = verType != Versions.VerTypes.Latest ||
                 !column.SiteSettings.CanUpdate() ||
                 column?.EditorReadOnly == true ||
                 columnPermissionType != Permissions.ColumnPermissionTypes.Update;
