@@ -27,13 +27,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 selectedValueCollection: null,
                                 commandOptionPositionIsTop: true,
                                 commandOptionAction: () => hb
-                                    .FieldTextBox(
-                                        controlId: "DropDownSearchText",
-                                        fieldCss: "field-auto-thin",
-                                        controlCss: " auto-postback always-send",
-                                        labelText: Displays.Search(),
-                                        action: "SearchDropDown",
-                                        method: "post"))
+                                    .Div(css: "command-left", action: () => hb
+                                        .TextBox(
+                                            controlId: "DropDownSearchText",
+                                            controlCss: " auto-postback always-send w200",
+                                            action: "SearchDropDown",
+                                            method: "post")
+                                        .Button(
+                                            text: Displays.Search(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.send($('#DropDownSearchText'));",
+                                            icon: "ui-icon-search")))
                             .Hidden(
                                 controlId: "DropDownSearchTarget",
                                 css: "always-send")
