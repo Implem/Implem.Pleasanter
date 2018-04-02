@@ -1,16 +1,5 @@
 ﻿$p.setPermissionEvents = function () {
-    var control = document.getElementById('SourcePermissionsWrapper');
-    var height = control.offsetHeight;
-    $(control).scroll(function () {
-        var scrollHeight = control.scrollHeight;
-        var scrollTop = control.scrollTop;
-        var scrollPosition = height + scrollTop;
-        var $offset = $('#SourcePermissionsOffset');
-        if ((scrollHeight - scrollPosition) / scrollHeight <= 0 && $offset.val() !== '-1') {
-            $p.send($('#SourcePermissions'));
-            $offset.val('-1');
-        }
-    });
+    $p.setPaging('SourcePermissions');
 }
 
 $p.setPermissions = function ($control) {

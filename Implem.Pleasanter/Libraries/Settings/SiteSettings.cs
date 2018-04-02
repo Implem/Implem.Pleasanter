@@ -2297,7 +2297,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .CanRead("[Items].[ReferenceId]"),
                     groupBy: Rds.ItemsGroupBy().SiteId(),
                     having: Rds.ItemsHaving().ItemsCount(
-                        Parameters.General.DropDownSearchLimit, _operator: ">")))
+                        Parameters.General.DropDownSearcPageSize, _operator: ">")))
                             .AsEnumerable()
                             .ForEach(dataRow =>
                                 Links
@@ -2311,6 +2311,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string columnName,
             string searchText = null,
             IEnumerable<string> selectedValues = null,
+            int offset = 0,
             bool noLimit = false)
         {
             var hash = new Dictionary<string, IEnumerable<string>>();
@@ -2325,7 +2326,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         column: Rds.SitesColumn().ReferenceType(),
                         where: Rds.SitesWhere().SiteId(link.SiteId))) == "Wikis")
                     {
-                        WikisLinkHash(searchText, selectedValues, link, hash);
+                        WikisLinkHash(
+                            searchText: searchText,
+                            selectedValues: selectedValues,
+                            link: link,
+                            hash: hash,
+                            offset: offset);
                     }
                     else
                     {
@@ -2334,20 +2340,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                             selectedValues: selectedValues?.Select(o => o.ToLong()),
                             link: link,
                             hash: hash,
+                            offset: offset,
                             noLimit: noLimit);
                     }
                 });
             return hash;
         }
 
-        private static void WikisLinkHash(
+        private void WikisLinkHash(
             string searchText,
             IEnumerable<string> selectedValues,
             Link link,
-            Dictionary<string, IEnumerable<string>> hash)
+            Dictionary<string, IEnumerable<string>> hash,
+            int offset)
         {
             var searchIndexes = searchText.SearchIndexes();
-            hash.Add("[[" + link.SiteId + "]]", Rds.ExecuteScalar_string(statements:
+            var dataRows = Rds.ExecuteScalar_string(statements:
                 Rds.SelectWikis(
                     column: Rds.WikisColumn().Body(),
                     join: new SqlJoinCollection(
@@ -2369,9 +2377,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .Where(o =>
                                 searchIndexes?.Any() != true ||
                                 searchIndexes.All(p => o.Value.Any(q => q.Contains(p))))
-                            .Select(o => o.Key)
-                            .Take(Parameters.General.DropDownSearchLimit)
-                            .ToList());
+                            .AsEnumerable();
+            GetColumn(link.ColumnName).TotalCount = dataRows.Count();
+            hash.Add("[[" + link.SiteId + "]]",dataRows
+                .Select(o => o.Key)
+                .Skip(offset)
+                .Take(Parameters.General.DropDownSearcPageSize)
+                .ToList());
         }
 
         private void LinkHash(
@@ -2379,17 +2391,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             IEnumerable<long> selectedValues,
             Link link,
             Dictionary<string, IEnumerable<string>> hash,
+            int offset,
             bool noLimit)
         {
             var select = SearchIndexUtilities.Select(
                 searchType: Destinations?.Get(link.SiteId)?.SearchType,
                 searchText: searchText,
                 siteIdList: link.SiteId.ToSingleList());
-            var dataRows = Rds.ExecuteTable(statements:
+            var dataSet = Rds.ExecuteDataSet(statements:
                 Rds.SelectItems(
-                    top: !noLimit
-                        ? Parameters.General.DropDownSearchLimit
-                        : 0,
+                    dataTableName: "Main",
                     column: Rds.ItemsColumn()
                         .ReferenceId()
                         .ReferenceType()
@@ -2411,8 +2422,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                             _using: selectedValues?.Any() == true)
                         .ReferenceType("Sites", _operator: "<>")
                         .SiteId(link.SiteId)
-                        .CanRead("[Items].[ReferenceId]")))
-                            .AsEnumerable();
+                        .CanRead("[Items].[ReferenceId]"),
+                    orderBy: Rds.ItemsOrderBy().ReferenceId(),
+                    offset: !noLimit
+                        ? offset
+                        : 0,
+                    pageSize: !noLimit
+                        ? Parameters.General.DropDownSearcPageSize
+                        : 0,
+                    countRecord: true));
+            var dataRows = dataSet.Tables["Main"].AsEnumerable();
+            GetColumn(link.ColumnName).TotalCount = Rds.Count(dataSet);
             if (dataRows.Any())
             {
                 hash.Add("[[" + link.SiteId + "]]", LinkValue(link.SiteId, dataRows));

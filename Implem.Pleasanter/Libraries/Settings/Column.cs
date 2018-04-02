@@ -117,6 +117,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public bool? FloatClear;
         [NonSerialized]
+        public int TotalCount;
+        [NonSerialized]
         public Dictionary<string, Choice> ChoiceHash;
         [NonSerialized]
         public Dictionary<string, string> ChoiceValueHash;
@@ -187,7 +189,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         data.Line));
             if (searchIndexes?.Any() == true)
             {
-                ChoiceHash = ChoiceHash.Take(Parameters.General.DropDownSearchLimit)
+                ChoiceHash = ChoiceHash.Take(Parameters.General.DropDownSearcPageSize)
                     .ToDictionary(o => o.Key, o => o.Value);
             }
         }
