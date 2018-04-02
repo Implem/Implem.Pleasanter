@@ -289,6 +289,7 @@
     <Compile Include="Libraries\Responses\ApiResults.cs" />
     <Compile Include="Libraries\Responses\Displays.cs" />
     <Compile Include="Libraries\Responses\FileContentResults.cs" />
+    <Compile Include="Libraries\Responses\Paging.cs" />
     <Compile Include="Libraries\Responses\ResponseViewModes.cs" />
     <Compile Include="Libraries\Security\Defenses.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
@@ -567,7 +568,7 @@
     <Content Include="Scripts\Group.js" />
     <Content Include="Scripts\CalendarEvents.js" />
     <Content Include="Scripts\Loading.js" />
-    <Content Include="Scripts\Permissions.js" />
+    <Content Include="Scripts\Permission.js" />
     <Content Include="Scripts\Plugins\jquery-ui\i18n\datepicker-ja.js" />
     <Content Include="Scripts\Plugins\jquery.datetimepicker.full.min.js" />
     <Content Include="Scripts\Scroll.js" />

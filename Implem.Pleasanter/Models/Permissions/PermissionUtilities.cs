@@ -27,6 +27,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Permission(long referenceId)
         {
+            var controlId = Forms.ControlId();
+            var selector = "#" + controlId;
             var itemModel = new ItemModel(referenceId);
             var siteModel = new SiteModel(itemModel.SiteId, setByForm: true);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, referenceId);
@@ -36,14 +38,55 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var selector = "#" + Forms.ControlId();
-            return new ResponseCollection()
-                .Html(selector, new HtmlBuilder().Permission(
-                    siteModel: itemModel.GetSite(),
-                    referenceId: referenceId,
-                    site: itemModel.ReferenceType == "Sites"))
-                .RemoveAttr(selector, "data-action")
-                .ToJson();
+            var hb = new HtmlBuilder();
+            var permissions = SourceCollection(
+                ss: siteModel.SiteSettings,
+                searchText: Forms.Data("SearchPermissionElements"),
+                currentPermissions: CurrentPermissions(referenceId));
+            var offset = Forms.Int("SourcePermissionsOffset");
+            switch (controlId)
+            {
+                case "SourcePermissions":
+                    return new ResponseCollection()
+                        .Append(selector, hb.SelectableItems(
+                            listItemCollection: permissions
+                                .Page(offset)
+                                .ListItemCollection(siteModel.SiteSettings)))
+                        .Val("#SourcePermissionsOffset", Paging.NextOffset(
+                            offset, permissions.Count(), Parameters.Permissions.PageSize)
+                                .ToString())
+                        .ToJson();
+                default:
+                    return new ResponseCollection()
+                        .Html(selector, hb.Permission(
+                            siteModel: siteModel,
+                            referenceId: referenceId,
+                            site: itemModel.ReferenceType == "Sites"))
+                        .Val("#SourcePermissionsOffset", Parameters.Permissions.PageSize)
+                        .RemoveAttr(selector, "data-action")
+                        .Invoke("setPermissionEvents")
+                        .ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static List<Permission> Page(this List<Permission> permissions, int offset)
+        {
+            return permissions
+                .Skip(offset)
+                .Take(Parameters.Permissions.PageSize)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Dictionary<string, ControlData> ListItemCollection(
+            this List<Permission> permissions, SiteSettings ss)
+        {
+            return permissions.ToDictionary(o => o.Key(), o => o.ControlData(ss));
         }
 
         /// <summary>
@@ -125,12 +168,24 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder PermissionEditor(
             this HtmlBuilder hb, SiteSettings ss, long referenceId, bool _using)
         {
+            var currentPermissions = CurrentCollection(referenceId);
+            var sourcePermissions = SourceCollection(
+                ss: ss,
+                searchText: Forms.Data("SearchPermissionElements"),
+                currentPermissions: currentPermissions);
+            var offset = Forms.Int("PermissionSourceOffset");
             return _using
                 ? hb
-                    .CurrentPermissions(permissions:
-                        CurrentCollection(ss, referenceId))
-                    .SourcePermissions(permissions:
-                        SourceCollection(ss, referenceId, Forms.Data("SearchPermissionElements")))
+                    .CurrentPermissions(
+                        ss: ss,
+                        permissions: currentPermissions)
+                    .SourcePermissions(
+                        ss: ss,
+                        permissions: sourcePermissions
+                            .Page(offset)
+                            .ListItemCollection(ss),
+                        offset: offset,
+                        totalCount: sourcePermissions.Count())
                 : hb;
         }
 
@@ -138,7 +193,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder CurrentPermissions(
-            this HtmlBuilder hb, IEnumerable<Permission> permissions)
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<Permission> permissions)
         {
             return hb.FieldSelectable(
                 controlId: "CurrentPermissions",
@@ -147,7 +202,7 @@ namespace Implem.Pleasanter.Models
                 controlCss: " send-all",
                 labelText: Displays.Permissions(),
                 listItemCollection: permissions.ToDictionary(
-                    o => o.Key(), o => o.ControlData()),
+                    o => o.Key(), o => o.ControlData(ss)),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-left", action: () => hb
@@ -173,45 +228,55 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder SourcePermissions(
-            this HtmlBuilder hb, IEnumerable<Permission> permissions)
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            Dictionary<string, ControlData> permissions,
+            int offset = 0,
+            int totalCount = 0)
         {
-            return hb.FieldSelectable(
-                controlId: "SourcePermissions",
-                fieldCss: "field-vertical",
-                controlContainerCss: "container-selectable",
-                controlWrapperCss: " h300",
-                labelText: Displays.OptionList(),
-                listItemCollection: permissions.ToDictionary(
-                    o => o.Key(), o => o.ControlData(withType: false)),
-                commandOptionPositionIsTop: true,
-                commandOptionAction: () => hb
-                    .Div(css: "command-left", action: () => hb
-                        .Button(
-                            controlId: "AddPermissions",
-                            controlCss: "button-icon post",
-                            text: Displays.AddPermission(),
-                            onClick: "$p.setPermissions($(this));",
-                            icon: "ui-icon-circle-triangle-w",
-                            action: "SetPermissions",
-                            method: "post")
-                        .TextBox(
-                            controlId: "SearchPermissionElements",
-                            controlCss: " auto-postback w100",
-                            placeholder: Displays.Search(),
-                            action: "SearchPermissionElements",
-                            method: "post")
-                        .Button(
-                            text: Displays.Search(),
-                            controlCss: "button-icon",
-                            onClick: "$p.send($('#SearchPermissionElements'));",
-                            icon: "ui-icon-search")));
+            return hb
+                .FieldSelectable(
+                    controlId: "SourcePermissions",
+                    fieldCss: "field-vertical",
+                    controlContainerCss: "container-selectable",
+                    controlWrapperCss: " h300",
+                    labelText: Displays.OptionList(),
+                    listItemCollection: permissions,
+                    commandOptionPositionIsTop: true,
+                    action: "Permissions",
+                    method: "post",
+                    commandOptionAction: () => hb
+                        .Div(css: "command-left", action: () => hb
+                            .Button(
+                                controlId: "AddPermissions",
+                                controlCss: "button-icon post",
+                                text: Displays.AddPermission(),
+                                onClick: "$p.setPermissions($(this));",
+                                icon: "ui-icon-circle-triangle-w",
+                                action: "SetPermissions",
+                                method: "post")
+                            .TextBox(
+                                controlId: "SearchPermissionElements",
+                                controlCss: " auto-postback w100",
+                                placeholder: Displays.Search(),
+                                action: "SearchPermissionElements",
+                                method: "post")
+                            .Button(
+                                text: Displays.Search(),
+                                controlCss: "button-icon",
+                                onClick: "$p.send($('#SearchPermissionElements'));",
+                                icon: "ui-icon-search")))
+                .Hidden(
+                    controlId: "SourcePermissionsOffset",
+                    css: "always-send",
+                    value: Paging.NextOffset(offset, totalCount, Parameters.Permissions.PageSize)
+                        .ToString());
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static List<Permission> CurrentCollection(
-            SiteSettings ss, long referenceId)
+        private static List<Permission> CurrentCollection(long referenceId)
         {
             return Rds.ExecuteTable(statements: Rds.SelectPermissions(
                 column: Rds.PermissionsColumn()
@@ -219,34 +284,32 @@ namespace Implem.Pleasanter.Models
                     .GroupId()
                     .UserId()
                     .PermissionType(),
-                where: Rds.PermissionsWhere().ReferenceId(referenceId)))
-                    .AsEnumerable()
-                    .Select(dataRow => new Permission(ss, dataRow))
-                    .ToList();
+                where: Rds.PermissionsWhere().ReferenceId(referenceId),
+                orderBy: Rds.PermissionsOrderBy()
+                    .UserId()
+                    .GroupId()
+                    .DeptId()))
+                        .AsEnumerable()
+                        .Select(dataRow => new Permission(dataRow))
+                        .ToList();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static List<Permission> SourceCollection(
-            SiteSettings ss, long referenceId, string searchText)
-        {
-            return !searchText.IsNullOrEmpty()
-                ? GetSourceCollection(ss, referenceId, searchText)
-                : new List<Permission>();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static List<Permission> GetSourceCollection(
-            SiteSettings ss, long referenceId, string searchText)
+            SiteSettings ss,
+            string searchText,
+            List<Permission> currentPermissions,
+            int offset = 0)
         {
             var sourceCollection = new List<Permission>();
-            Rds.ExecuteTable(
-                transactional: false,
-                statements: Rds.SelectDepts(
-                    column: Rds.DeptsColumn().DeptId(),
+            Rds.ExecuteTable(statements: new SqlStatement[]
+            {
+                Rds.SelectDepts(
+                    column: Rds.DeptsColumn()
+                        .DeptId(_as: "Id")
+                        .Add(columnBracket: "'Dept' as [Name]"),
                     where: Rds.DeptsWhere()
                         .TenantId(Sessions.TenantId())
                         .DeptId(_operator: ">0")
@@ -254,15 +317,11 @@ namespace Implem.Pleasanter.Models
                             searchText,
                             Rds.Depts_DeptCode_WhereLike(),
                             Rds.Depts_DeptName_WhereLike(),
-                            Rds.Depts_Body_WhereLike())))
-                                .AsEnumerable()
-                                .ForEach(dataRow =>
-                                    sourceCollection.Add(
-                                        new Permission(ss, dataRow, source: true)));
-            Rds.ExecuteTable(
-                transactional: false,
-                statements: Rds.SelectGroups(
-                    column: Rds.GroupsColumn().GroupId(),
+                            Rds.Depts_Body_WhereLike())),
+                Rds.SelectGroups(
+                    column: Rds.GroupsColumn()
+                        .GroupId(_as: "Id")
+                        .Add(columnBracket: "'Group' as [Name]"),
                     where: Rds.GroupsWhere()
                         .TenantId(Sessions.TenantId())
                         .GroupId(_operator: ">0")
@@ -270,15 +329,12 @@ namespace Implem.Pleasanter.Models
                             searchText,
                             Rds.Groups_GroupId_WhereLike(),
                             Rds.Groups_GroupName_WhereLike(),
-                            Rds.Groups_Body_WhereLike())))
-                                .AsEnumerable()
-                                .ForEach(dataRow =>
-                                    sourceCollection.Add(
-                                        new Permission(ss, dataRow, source: true)));
-            Rds.ExecuteTable(
-                transactional: false,
-                statements: Rds.SelectUsers(
-                    column: Rds.UsersColumn().UserId(),
+                            Rds.Groups_Body_WhereLike()),
+                    unionType: Sqls.UnionTypes.UnionAll),
+                Rds.SelectUsers(
+                    column: Rds.UsersColumn()
+                        .UserId(_as: "Id")
+                        .Add(columnBracket: "'User' as [Name]"),
                     join: Rds.UsersJoin()
                         .Add(new SqlJoin(
                             tableBracket: "[Depts]",
@@ -291,30 +347,39 @@ namespace Implem.Pleasanter.Models
                             searchText,
                             Rds.Users_LoginId_WhereLike(),
                             Rds.Users_Name_WhereLike(),
-                            Rds.Users_UserCode_WhereLike(),                            
+                            Rds.Users_UserCode_WhereLike(),
                             Rds.Users_Body_WhereLike(),
                             Rds.Depts_DeptCode_WhereLike(),
                             Rds.Depts_DeptName_WhereLike(),
                             Rds.Depts_Body_WhereLike())
-                        .Users_Disabled(0)))
-                                .AsEnumerable()
-                                .ForEach(dataRow =>
-                                    sourceCollection.Add(
-                                        new Permission(ss, dataRow, source: true)));
-            return sourceCollection;
+                        .Users_Disabled(0),
+                    unionType: Sqls.UnionTypes.UnionAll)
+            })
+                .AsEnumerable()
+                .ForEach(dataRow =>
+                    sourceCollection.Add(
+                        new Permission(
+                            ss: ss,
+                            name: dataRow.String("Name"),
+                            id: dataRow.Int("Id"),
+                            source: true)));
+            return sourceCollection
+                .Where(o => !currentPermissions.Any(p => p.NameAndId() == o.NameAndId()))
+                .ToList();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static string PermissionListItem(
+            SiteSettings ss,
             IEnumerable<Permission> permissions,
             IEnumerable<string> selectedValueTextCollection = null,
             bool withType = true)
         {
             return new HtmlBuilder().SelectableItems(
                 listItemCollection: permissions.ToDictionary(
-                    o => o.Key(), o => o.ControlData(withType: withType)),
+                    o => o.Key(), o => o.ControlData(ss, withType: withType)),
                 selectedValueTextCollection: permissions
                     .Where(o => selectedValueTextCollection?.Any(p =>
                         Same(p, o.Key())) == true)
@@ -464,49 +529,18 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var currentPermissions = Forms.Exists("CurrentPermissionsAll")
-                    ? siteModel.SiteSettings.GetPermissions(Forms.List("CurrentPermissionsAll"))
-                    : CurrentCollection(siteModel.SiteSettings, referenceId);
-                var sourcePermissions = SourceCollection(
-                    siteModel.SiteSettings, referenceId, Forms.Data("SearchPermissionElements"));
-                sourcePermissions.RemoveAll(o => currentPermissions.Any(p =>
-                    p.NameAndId() == o.NameAndId()));
+                    ? Permissions.Get(Forms.List("CurrentPermissionsAll"))
+                    : CurrentCollection(referenceId);
                 switch (Forms.ControlId())
                 {
                     case "InheritPermission":
-                        var inheritPermission = Forms.Long("InheritPermission");
-                        var hb = new HtmlBuilder();
-                        if (siteModel.SiteId == inheritPermission)
-                        {
-                            var inheritSite = siteModel.InheritSite();
-                            hb.PermissionEditor(
-                                ss: siteModel.SiteSettings,
-                                referenceId: siteModel.InheritPermission,
-                                _using:
-                                    itemModel.ReferenceType != "Sites" ||
-                                    siteModel.SiteId == inheritPermission);
-                        }
-                        res
-                            .Html("#PermissionEditor", hb)
-                            .SetData("#InheritPermission")
-                            .SetData("#CurrentPermissions")
-                            .ToJson();
+                        res.InheritPermission(itemModel, siteModel);
                         break;
                     case "AddPermissions":
-                        currentPermissions.AddRange(
-                            siteModel.SiteSettings.GetPermissions(selectedSourcePermissions));
-                        currentPermissions
-                            .Where(o => selectedSourcePermissions.Any(p => Same(p, o.Key())))
-                            .ForEach(o => o.Type = Permissions.General());
-                        sourcePermissions.RemoveAll(o =>
-                            selectedSourcePermissions.Any(p => Same(p, o.Key())));
-                        res
-                            .Html("#CurrentPermissions", PermissionListItem(
-                                currentPermissions,
-                                selectedSourcePermissions))
-                            .Html("#SourcePermissions", PermissionListItem(
-                                sourcePermissions, withType: false))
-                            .SetData("#CurrentPermissions")
-                            .SetData("#SourcePermissions");
+                        res.AddPermissions(
+                            siteModel: siteModel,
+                            selectedSourcePermissions: selectedSourcePermissions,
+                            currentPermissions: currentPermissions);
                         break;
                     case "PermissionPattern":
                         res.ReplaceAll(
@@ -519,30 +553,137 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "ChangePermissions":
                         res.ChangePermissions(
-                            "#CurrentPermissions",
-                            currentPermissions,
-                            selectedCurrentPermissions,
-                            GetPermissionTypeByForm());
+                            ss: siteModel.SiteSettings,
+                            selector: "#CurrentPermissions",
+                            currentPermissions: currentPermissions,
+                            selectedCurrentPermissions: selectedCurrentPermissions,
+                            permissionType: GetPermissionTypeByForm());
                         break;
                     case "DeletePermissions":
-                        sourcePermissions.AddRange(
-                            currentPermissions.Where(o =>
-                                selectedCurrentPermissions.Any(p => Same(p, o.Key()))));
-                        currentPermissions.RemoveAll(o =>
-                            selectedCurrentPermissions.Any(p => Same(p, o.Key())));
-                        res
-                            .Html("#CurrentPermissions", PermissionListItem(
-                                currentPermissions))
-                            .Html("#SourcePermissions", PermissionListItem(
-                                sourcePermissions, selectedCurrentPermissions, withType: false))
-                            .SetData("#CurrentPermissions")
-                            .SetData("#SourcePermissions");
+                        res.DeletePermissions(
+                            siteModel: siteModel,
+                            selectedCurrentPermissions: selectedCurrentPermissions,
+                            currentPermissions: currentPermissions);
                         break;
                 }
             }
             return res
                 .SetMemory("formChanged", true)
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InheritPermission(
+            this ResponseCollection res,
+            ItemModel itemModel,
+            SiteModel siteModel)
+        {
+            var inheritPermission = Forms.Long("InheritPermission");
+            var hb = new HtmlBuilder();
+            if (siteModel.SiteId == inheritPermission)
+            {
+                var inheritSite = siteModel.InheritSite();
+                hb.PermissionEditor(
+                    ss: siteModel.SiteSettings,
+                    referenceId: siteModel.InheritPermission,
+                    _using:
+                        itemModel.ReferenceType != "Sites" ||
+                        siteModel.SiteId == inheritPermission);
+            }
+            res
+                .Html("#PermissionEditor", hb)
+                .SetData("#InheritPermission")
+                .SetData("#CurrentPermissions")
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void AddPermissions(
+            this ResponseCollection res,
+            SiteModel siteModel,
+            List<string> selectedSourcePermissions,
+            List<Permission> currentPermissions)
+        {
+            currentPermissions.AddRange(
+                Permissions.Get(selectedSourcePermissions));
+            currentPermissions
+                .Where(o => selectedSourcePermissions.Any(p => Same(p, o.Key())))
+                .ForEach(o => o.Type = Permissions.General());
+            var sourcePermissions = SourceCollection(
+                ss: siteModel.SiteSettings,
+                searchText: Forms.Data("SearchPermissionElements"),
+                currentPermissions: currentPermissions);
+            res
+                .ScrollTop("#SourcePermissionsWrapper")
+                .Html("#CurrentPermissions", PermissionListItem(
+                    ss: siteModel.SiteSettings,
+                    permissions: currentPermissions,
+                    selectedValueTextCollection: selectedSourcePermissions))
+                .Html("#SourcePermissions", PermissionListItem(
+                    ss: siteModel.SiteSettings,
+                    permissions: sourcePermissions.Page(0),
+                    withType: false))
+                .Val("#SourcePermissionsOffset", Parameters.Permissions.PageSize)
+                .SetData("#CurrentPermissions")
+                .SetData("#SourcePermissions");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void ChangePermissions(
+            this ResponseCollection res,
+            SiteSettings ss,
+            string selector,
+            IEnumerable<Permission> currentPermissions,
+            IEnumerable<string> selectedCurrentPermissions,
+            Permissions.Types permissionType)
+        {
+            selectedCurrentPermissions.ForEach(o =>
+                currentPermissions
+                    .Where(p => Same(p.Key(), o))
+                    .First()
+                    .Type = permissionType);
+            res
+                .CloseDialog()
+                .Html(selector, PermissionListItem(
+                    ss: ss,
+                    permissions: currentPermissions,
+                    selectedValueTextCollection: selectedCurrentPermissions))
+                .SetData(selector);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void DeletePermissions(
+            this ResponseCollection res,
+            SiteModel siteModel,
+            List<string> selectedCurrentPermissions,
+            List<Permission> currentPermissions)
+        {
+            currentPermissions.RemoveAll(o =>
+                selectedCurrentPermissions.Any(p => Same(p, o.Key())));
+            var sourcePermissions = SourceCollection(
+                ss: siteModel.SiteSettings,
+                searchText: Forms.Data("SearchPermissionElements"),
+                currentPermissions: currentPermissions);
+            res
+                .Html("#CurrentPermissions", PermissionListItem(
+                    ss: siteModel.SiteSettings,
+                    permissions: currentPermissions))
+                .Html("#SourcePermissions", PermissionListItem(
+                    ss: siteModel.SiteSettings,
+                    permissions: sourcePermissions.Page(0),
+                    selectedValueTextCollection: selectedCurrentPermissions,
+                    withType: false))
+                .Val("#SourcePermissionsOffset", Parameters.Permissions.PageSize)
+                .SetData("#CurrentPermissions")
+                .SetData("#SourcePermissions");
         }
 
         /// <summary>
@@ -560,20 +701,31 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var res = new ResponseCollection();
+            var currentPermissions = CurrentPermissions(referenceId);
             var sourcePermissions = SourceCollection(
-                siteModel.SiteSettings, referenceId, Forms.Data("SearchPermissionElements"));
-            var currentPermissions = Forms.Data("CurrentPermissionsAll")
-                .Deserialize<List<string>>()?
-                .Where(o => o != string.Empty) ??
-                    CurrentCollection(siteModel.SiteSettings, referenceId).Select(o => o.Key());
-            sourcePermissions.RemoveAll(o => currentPermissions.Any(p => Same(p, o.Key())));
-            res.Html("#SourcePermissions", PermissionListItem(
-                sourcePermissions,
-                Forms.Data("SourcePermissions")
-                    .Deserialize<List<string>>()?
-                    .Where(o => o != string.Empty),
-                withType: false));
-            return res.ToJson();
+                ss: siteModel.SiteSettings,
+                searchText: Forms.Data("SearchPermissionElements"),
+                currentPermissions: currentPermissions);
+            return res
+                .Html("#SourcePermissions", PermissionListItem(
+                    ss: siteModel.SiteSettings,
+                    permissions: sourcePermissions.Page(0),
+                    selectedValueTextCollection: Forms.Data("SourcePermissions")
+                        .Deserialize<List<string>>()?
+                        .Where(o => o != string.Empty),
+                    withType: false))
+                .Val("#SourcePermissionsOffset", Parameters.Permissions.PageSize)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static List<Permission> CurrentPermissions(long referenceId)
+        {
+            return Forms.Exists("CurrentPermissionsAll")
+                ? Permissions.Get(Forms.List("CurrentPermissionsAll"))
+                : CurrentCollection(referenceId).ToList();
         }
 
         /// <summary>
@@ -754,17 +906,19 @@ namespace Implem.Pleasanter.Models
                     .Div(
                         id: "PermissionForCreating",
                         action: () => hb
-                            .CurrentPermissionForCreating(permissions:
-                                permissions.Where(o => !o.Source))
-                            .SourcePermissionForCreating(permissions:
-                                permissions.Where(o => o.Source))));
+                            .CurrentPermissionForCreating(
+                                ss: ss,
+                                permissions: permissions.Where(o => !o.Source))
+                            .SourcePermissionForCreating(
+                                ss: ss,
+                                permissions: permissions.Where(o => o.Source))));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static HtmlBuilder CurrentPermissionForCreating(
-            this HtmlBuilder hb, IEnumerable<Permission> permissions)
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<Permission> permissions)
         {
             return hb.FieldSelectable(
                 controlId: "CurrentPermissionForCreating",
@@ -773,7 +927,7 @@ namespace Implem.Pleasanter.Models
                 controlCss: " send-all",
                 labelText: Displays.CurrentSettings(),
                 listItemCollection: permissions.ToDictionary(
-                    o => o.Key(), o => o.ControlData()),
+                    o => o.Key(), o => o.ControlData(ss)),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-left", action: () => hb
@@ -799,7 +953,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder SourcePermissionForCreating(
-            this HtmlBuilder hb, IEnumerable<Permission> permissions)
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<Permission> permissions)
         {
             return hb.FieldSelectable(
                 controlId: "SourcePermissionForCreating",
@@ -808,7 +962,7 @@ namespace Implem.Pleasanter.Models
                 controlWrapperCss: " h300",
                 labelText: Displays.OptionList(),
                 listItemCollection: permissions.ToDictionary(
-                    o => o.Key(), o => o.ControlData(withType: false)),
+                    o => o.Key(), o => o.ControlData(ss, withType: false)),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-left", action: () => hb
@@ -844,29 +998,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void ChangePermissions(
-            this ResponseCollection res,
-            string selector,
-            IEnumerable<Permission> currentPermissions,
-            IEnumerable<string> selectedCurrentPermissions,
-            Permissions.Types permissionType)
-        {
-            selectedCurrentPermissions.ForEach(o =>
-                currentPermissions
-                    .Where(p => Same(p.Key(), o))
-                    .First()
-                    .Type = permissionType);
-            res
-                .CloseDialog()
-                .Html(selector, PermissionListItem(
-                    currentPermissions,
-                    selectedCurrentPermissions))
-                .SetData(selector);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static string SetPermissionForCreating(long referenceId)
         {
             var itemModel = new ItemModel(referenceId);
@@ -891,8 +1022,7 @@ namespace Implem.Pleasanter.Models
             {
                 var permissionForCreating = PermissionForCreating(siteModel.SiteSettings);
                 var currentPermissionForCreating = Forms.Exists("CurrentPermissionForCreatingAll")
-                    ? siteModel.SiteSettings.GetPermissions(
-                        Forms.List("CurrentPermissionForCreatingAll"))
+                    ? Permissions.Get(Forms.List("CurrentPermissionForCreatingAll"))
                     : permissionForCreating.Where(o => !o.Source).ToList();
                 var sourcePermissionForCreating = permissionForCreating
                     .Where(o => !currentPermissionForCreating.Any(p =>
@@ -902,18 +1032,20 @@ namespace Implem.Pleasanter.Models
                 {
                     case "AddPermissionForCreating":
                         currentPermissionForCreating.AddRange(
-                            siteModel.SiteSettings.GetPermissions(
-                                selectedSourcePermissionForCreating,
+                            Permissions.Get(selectedSourcePermissionForCreating,
                                 Permissions.General()));
                         sourcePermissionForCreating.RemoveAll(o =>
                             selectedSourcePermissionForCreating.Any(p =>
                                 Same(p, o.Key())));
                         res
                             .Html("#CurrentPermissionForCreating", PermissionListItem(
-                                currentPermissionForCreating,
-                                selectedSourcePermissionForCreating))
+                                ss: siteModel.SiteSettings,
+                                permissions: currentPermissionForCreating,
+                                selectedValueTextCollection: selectedSourcePermissionForCreating))
                             .Html("#SourcePermissionForCreating", PermissionListItem(
-                                sourcePermissionForCreating, withType: false))
+                                ss: siteModel.SiteSettings,
+                                permissions: sourcePermissionForCreating,
+                                withType: false))
                             .SetData("#CurrentPermissionForCreating")
                             .SetData("#SourcePermissionForCreating");
                         break;
@@ -928,10 +1060,11 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "ChangePermissionForCreating":
                         res.ChangePermissions(
-                            "#CurrentPermissionForCreating",
-                            currentPermissionForCreating,
-                            selectedCurrentPermissionForCreating,
-                            GetPermissionTypeByForm());
+                            ss: siteModel.SiteSettings,
+                            selector: "#CurrentPermissionForCreating",
+                            currentPermissions: currentPermissionForCreating,
+                            selectedCurrentPermissions: selectedCurrentPermissionForCreating,
+                            permissionType: GetPermissionTypeByForm());
                         break;
                     case "DeletePermissionForCreating":
                         sourcePermissionForCreating.AddRange(
@@ -943,10 +1076,12 @@ namespace Implem.Pleasanter.Models
                                 Same(p, o.Key())));
                         res
                             .Html("#CurrentPermissionForCreating", PermissionListItem(
-                                currentPermissionForCreating))
+                                ss: siteModel.SiteSettings,
+                                permissions: currentPermissionForCreating))
                             .Html("#SourcePermissionForCreating", PermissionListItem(
-                                sourcePermissionForCreating,
-                                selectedCurrentPermissionForCreating,
+                                ss: siteModel.SiteSettings,
+                                permissions: sourcePermissionForCreating,
+                                selectedValueTextCollection: selectedCurrentPermissionForCreating,
                                 withType: false))
                             .SetData("#CurrentPermissionForCreating")
                             .SetData("#SourcePermissionForCreating");

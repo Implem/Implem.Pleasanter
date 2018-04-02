@@ -2575,8 +2575,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Permission GetPermissionForCreating(string key)
         {
             return PermissionForCreating?.ContainsKey(key) == true
-                ? new Permission(this, key, 0, PermissionForCreating[key])
-                : new Permission(this, key, 0, Permissions.Types.NotSet, source: true);
+                ? new Permission(key, 0, PermissionForCreating[key])
+                : new Permission(key, 0, Permissions.Types.NotSet, source: true);
         }
 
         public void SetSiteIntegration()
@@ -2660,7 +2660,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void SetPermissionForCreating(string value)
         {
-            PermissionForCreating = GetPermissions(value.Deserialize<List<string>>())
+            PermissionForCreating = Permissions.Get(value.Deserialize<List<string>>())
                 .ToDictionary(o => o.Name, o => o.Type);
         }
 
@@ -2686,27 +2686,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o.Deserialize<ColumnAccessControl>())
                 .Where(o => !o.IsDefault(this, "Update"))
                 .ToList();
-        }
-
-        public List<Permission> GetPermissions(
-            List<string> formData, Permissions.Types? type = null)
-        {
-            var data = new List<Permission>();
-            formData?.ForEach(line =>
-            {
-                var part = line.Split(',');
-                if (part.Count() == 3)
-                {
-                    data.Add(new Permission(
-                        this,
-                        part[0],
-                        part[1].ToInt(),
-                        type != null
-                            ? (Permissions.Types)type
-                            : (Permissions.Types)part[2].ToLong()));
-                }
-            });
-            return data;
         }
 
         public SqlJoinCollection Join(bool withColumn = false, List<string> columns = null)

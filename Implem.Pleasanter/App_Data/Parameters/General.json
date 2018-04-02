@@ -25,6 +25,7 @@
     "NearCompletionTimeAfterDays": 7,
     "NearCompletionTimeAfterDaysMin": 0,
     "NearCompletionTimeAfterDaysMax": 30,
+    "PermissionsPageSize": 100,
     "GridPageSize": 20,
     "GridPageSizeMin": 10,
     "GridPageSizeMax": 200,
