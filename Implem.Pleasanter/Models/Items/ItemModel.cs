@@ -480,13 +480,43 @@ namespace Implem.Pleasanter.Models
             SetSite();
             var controlId = Forms.Data("DropDownSearchTarget");
             var searchText = Forms.Data("DropDownSearchText");
+            switch (Forms.ControlId())
+            {
+                case "DropDownSearchResults":
+                    return AppendSearchDropDown(controlId, searchText);
+                default:
+                    return SearchDropDown(controlId, searchText);
+            }
+        }
+
+        private string AppendSearchDropDown(string controlId, string searchText)
+        {
+            var offset = Forms.Int("DropDownSearchResultsOffset");
+            var column = SearchDropDownColumn(controlId, searchText, offset);
+            var nextOffset = Paging.NextOffset(
+                offset, column.TotalCount, Parameters.General.DropDownSearcPageSize);
+            return new ResponseCollection()
+                .Append("#DropDownSearchResults", new HtmlBuilder()
+                    .SelectableItems(
+                        listItemCollection: column?.EditChoices(addNotSet: nextOffset == -1)))
+                .Val("#DropDownSearchResultsOffset", nextOffset)
+                .ToJson();
+        }
+
+        private string SearchDropDown(string controlId, string searchText)
+        {
             var column = SearchDropDownColumn(controlId, searchText);
+            var nextOffset = Paging.NextOffset(
+                0, column.TotalCount, Parameters.General.DropDownSearcPageSize);
             return new ResponseCollection()
                 .ReplaceAll(
                     "#DropDownSearchResults",
                     new HtmlBuilder().Selectable(
                         controlId: "DropDownSearchResults",
-                        listItemCollection: column?.EditChoices(addNotSet: true)))
+                        listItemCollection: column?.EditChoices(addNotSet: nextOffset == -1),
+                        action: "SearchDropDown",
+                        method: "post"))
+                .Val("#DropDownSearchResultsOffset", nextOffset)
                 .ClearFormData("DropDownSearchResults")
                 .ToJson();
         }
@@ -516,7 +546,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private Column SearchDropDownColumn(string controlId, string searchText)
+        private Column SearchDropDownColumn(string controlId, string searchText, int offset = 0)
         {
             var ss = SiteSettingsUtilities.Get(Site, ReferenceId, setSiteIntegration: true);
             var column = ss.GetColumn(controlId.Substring(
@@ -527,7 +557,10 @@ namespace Implem.Pleasanter.Models
             {
                 column?.SetChoiceHash(
                     siteId: column.SiteId,
-                    linkHash: column.SiteSettings.LinkHash(column.Name, searchText),
+                    linkHash: column.SiteSettings.LinkHash(
+                        columnName: column.Name,
+                        searchText: searchText,
+                        offset: offset),
                     searchIndexes: searchText.SearchIndexes());    
             }
             else

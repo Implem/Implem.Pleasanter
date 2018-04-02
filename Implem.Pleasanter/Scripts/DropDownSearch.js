@@ -31,6 +31,7 @@ $p.openDropDownSearchDialog = function ($control) {
             $('#' + $target.val()).prop("disabled", false);
         }
     });
+    $p.setPaging('DropDownSearchResults');
     $control.prop("disabled", true);
     $text.focus();
 }

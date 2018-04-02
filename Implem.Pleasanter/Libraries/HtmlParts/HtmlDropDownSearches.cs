@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -41,6 +42,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 css: "always-send")
                             .Hidden(
                                 controlId: "DropDownSearchMultiple",
+                                css: "always-send")
+                            .Hidden(
+                                controlId: "DropDownSearchResultsOffset",
+                                value: "0",
                                 css: "always-send")
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
