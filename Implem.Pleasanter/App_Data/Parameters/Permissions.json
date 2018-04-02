@@ -6,5 +6,6 @@
         "ReadWrite": 31,
         "Leader": 255,
         "Manager": 511
-    }
+    },
+    "PageSize": 100
 }

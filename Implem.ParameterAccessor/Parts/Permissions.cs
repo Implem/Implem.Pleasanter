@@ -6,5 +6,6 @@ namespace Implem.ParameterAccessor.Parts
         public long General;
         public long Manager;
         public Dictionary<string, long> Pattern;
+        public int PageSize;
     }
 }

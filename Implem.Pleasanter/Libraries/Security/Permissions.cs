@@ -49,6 +49,25 @@ namespace Implem.Pleasanter.Libraries.Security
             }
         }
 
+        public static List<Permission> Get(List<string> formData, Types? type = null)
+        {
+            var data = new List<Permission>();
+            formData?.ForEach(line =>
+            {
+                var part = line.Split(',');
+                if (part.Count() == 3)
+                {
+                    data.Add(new Permission(
+                        part[0],
+                        part[1].ToInt(),
+                        type != null
+                            ? (Types)type
+                            : (Types)part[2].ToLong()));
+                }
+            });
+            return data;
+        }
+
         public static Types General()
         {
             return (Types)Parameters.Permissions.General;

@@ -10,25 +10,28 @@ namespace Implem.Pleasanter.Libraries.Security
 {
     public class Permission
     {
-        SiteSettings SiteSettings;
         public string Name;
         public int Id;
         public Permissions.Types Type;
         public bool Source;
 
-        public Permission(
-            SiteSettings ss, string name, int id, Permissions.Types type, bool source = false)
+        public Permission(string name, int id, Permissions.Types type, bool source = false)
         {
-            SiteSettings = ss;
             Name = name;
             Id = id;
             Type = type;
             Source = source;
         }
 
-        public Permission(SiteSettings ss, DataRow dataRow, bool source = false)
+        public Permission(SiteSettings ss, string name, int id, bool source = false)
         {
-            SiteSettings = ss;
+            Name = name;
+            Id = id;
+            Source = source;
+        }
+
+        public Permission(DataRow dataRow, bool source = false)
+        {
             if (dataRow.Int("DeptId") != 0)
             {
                 Name = "Dept";
@@ -61,7 +64,7 @@ namespace Implem.Pleasanter.Libraries.Security
             return Name + "," + Id + "," + Type.ToInt().ToString();
         }
 
-        public ControlData ControlData(bool withType = true)
+        public ControlData ControlData(SiteSettings ss, bool withType = true)
         {
             switch (Name)
             {
@@ -90,7 +93,7 @@ namespace Implem.Pleasanter.Libraries.Security
                             : null,
                         withType);
                 default:
-                    var column = SiteSettings?.GetColumn(Name);
+                    var column = ss?.GetColumn(Name);
                     return DisplayText(Displays.Column(), column?.LabelText, withType);
             }
         }

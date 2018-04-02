@@ -166,6 +166,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("WindowScrollTop", null, value) : this;
         }
 
+        public ResponseCollection ScrollTop(string target, int value = 0, bool _using = true)
+        {
+            return _using ? Add("ScrollTop", target, value) : this;
+        }
+
         public ResponseCollection LoadScroll(bool _using = true)
         {
             return _using ? Add("LoadScroll", null, null) : this;

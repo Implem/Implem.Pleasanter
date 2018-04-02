@@ -78,7 +78,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/NavigationEvents.js",
                 "~/Scripts/OutgoingMail.js",
                 "~/Scripts/OutgoingMailEvents.js",
-                "~/Scripts/Permissions.js",
+                "~/Scripts/Permission.js",
                 "~/Scripts/Position.js",
                 "~/Scripts/PositionEvents.js",
                 "~/Scripts/Scroll.js",

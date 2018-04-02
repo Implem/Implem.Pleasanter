@@ -614,6 +614,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return _using
                 ? hb.Div(
+                    id: controlId + "Wrapper",
                     css: Css.Class("wrapper", controlWrapperCss),
                     action: () => hb
                         .Selectable(
