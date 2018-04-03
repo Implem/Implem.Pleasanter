@@ -22,8 +22,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldCss: "field-vertical w600",
                                 controlContainerCss: "container-selectable",
                                 controlWrapperCss: " h300",
-                                listItemCollection: null,
-                                selectedValueCollection: null,
                                 commandOptionPositionIsTop: true,
                                 commandOptionAction: () => hb
                                     .Div(css: "command-left", action: () => hb
