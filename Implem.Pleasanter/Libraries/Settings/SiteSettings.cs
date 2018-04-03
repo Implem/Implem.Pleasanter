@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EnableKamban;
         public bool? EnableImageLib;
         public int? ImageLibPageSize;
-        public string TitleSeparator = ")";
+        public string TitleSeparator;
         public SearchTypes? SearchType;
         public string AddressBook;
         public string MailToDefault;
@@ -205,6 +205,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             EnableKamban = EnableKamban ?? true;
             EnableImageLib = EnableImageLib ?? true;
             ImageLibPageSize = ImageLibPageSize ?? Parameters.General.ImageLibPageSize;
+            TitleSeparator = TitleSeparator ?? ")";
             var request = new Request();
             Mobile = request.IsMobile();
         }
