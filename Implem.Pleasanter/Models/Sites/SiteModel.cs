@@ -2021,7 +2021,7 @@ namespace Implem.Pleasanter.Models
             res
                 .ViewResponses(SiteSettings, new List<int>
                 {
-                    SiteSettings.ViewLatestId
+                    SiteSettings.ViewLatestId.ToInt()
                 })
                 .CloseDialog();
         }
