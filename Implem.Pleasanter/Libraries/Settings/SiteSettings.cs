@@ -82,7 +82,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Link> Links;
         public SettingList<Summary> Summaries;
         public SettingList<FormulaSet> Formulas;
-        public int ViewLatestId;
+        public int? ViewLatestId;
         public List<View> Views;
         public SettingList<Notification> Notifications;
         public SettingList<Reminder> Reminders;
@@ -190,6 +190,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Links == null) Links = new List<Link>();
             if (Summaries == null) Summaries = new SettingList<Summary>();
             if (Formulas == null) Formulas = new SettingList<FormulaSet>();
+            ViewLatestId = ViewLatestId ?? 0;
             if (Notifications == null) Notifications = new SettingList<Notification>();
             if (Reminders == null) Reminders = new SettingList<Reminder>();
             if (Exports == null) Exports = new SettingList<Export>();
@@ -320,8 +321,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 SiteId = SiteId,
                 Version = Version,
-                ReferenceType = ReferenceType,
-                ViewLatestId = ViewLatestId
+                ReferenceType = ReferenceType
             };
             if (NearCompletionTimeAfterDays != param.NearCompletionTimeAfterDays)
             {
@@ -419,14 +419,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.HistoryColumns = HistoryColumns;
             }
-            Views?.ForEach(view =>
-            {
-                if (ss.Views == null)
-                {
-                    ss.Views = new List<View>();
-                }
-                ss.Views.Add(view.GetRecordingData());
-            });
             Aggregations?.ForEach(aggregations =>
             {
                 if (ss.Aggregations == null)
@@ -458,6 +450,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Formulas = new SettingList<FormulaSet>();
                 }
                 ss.Formulas.Add(formulas.GetRecordingData());
+            });
+            if (ViewLatestId != 0)
+            {
+                ss.ViewLatestId = ViewLatestId;
+            }
+            Views?.ForEach(view =>
+            {
+                if (ss.Views == null)
+                {
+                    ss.Views = new List<View>();
+                }
+                ss.Views.Add(view.GetRecordingData());
             });
             Notifications?.ForEach(notification =>
             {
@@ -2523,7 +2527,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void AddView(View view)
         {
             ViewLatestId++;
-            view.Id = ViewLatestId;
+            view.Id = ViewLatestId.ToInt();
             if (Views == null) Views = new List<View>();
             Views.Add(view);
         }
