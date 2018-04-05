@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder GridHeader(
             this HtmlBuilder hb,
-            IEnumerable<Column> columns, 
+            IEnumerable<Column> columns,
             View view = null,
             bool sort = true,
             bool checkAll = false,
@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Tr(
                 css: "ui-widget-header",
-                action: () => 
+                action: () =>
                 {
                     if (checkRow)
                     {
