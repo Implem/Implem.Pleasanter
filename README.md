@@ -1,6 +1,6 @@
 # Implem.Pleasanter
-## 概要
-ファイルサーバ、電子メール、エクセルで行われている業務をWeb化するための情報共有ツールです。動作が軽く、汎用性が高いため、日常的なコミュニケーションやマネジメントの支援ツールとして利用できます。エクセルなどの汎用ツールではやりにくかった、多人数による頻繁な更新、バージョン管理、横断的なキーワード検索、自動的な更新通知といった機能を備えています。商用、非商用を問わず 無料で使えるオープンソース・ソフトウェアです。  
+## プリザンターとは
+画面操作だけでデータベース型の業務アプリケーションが作成できるオープンソース・ソフトウェア。
 
 ## 資料
 * [紹介資料](https://pleasanter.org/downloads/pleasanterp.pdf)
@@ -15,7 +15,7 @@
 * [営業支援](https://implem.co.jp/2017/08/22/1822/)
 * [画像の管理](https://implem.co.jp/2018/02/12/2773/)
 
-## 使い方マニュアル
+## 機能概要・使い方マニュアル
 プリザンターのインストール手順及び、操作方法を解説します。  
 [使い方マニュアル](https://github.com/Implem/Implem.Pleasanter/wiki/プリザンターの使い方マニュアル)
 
@@ -59,9 +59,6 @@ https://pleasanter.azurewebsites.net
 |Web Deploy v3.5|◯|◯|◯|-|
 |Microsoft Azure Web App|-|-|-|◯|
 |Microsoft Azure SQL Database|-|-|-|◯|
-
-## 機能一覧
-[プリザンターの使い方マニュアル](https://github.com/Implem/Implem.Pleasanter/wiki/プリザンターの使い方マニュアル)
 
 ## 開発元
 [株式会社インプリム](https://implem.co.jp)
