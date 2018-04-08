@@ -2200,6 +2200,14 @@ pre{
     overflow:hidden;
 }
 
+.grid-row .comment.one-third{
+    max-height:306px;
+}
+
+.grid-row .comment.half{
+    max-height:151px;
+}
+
 .grid-row:hover{
     background-color:whitesmoke;
     cursor:pointer;
