@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Styles;
 using System;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
@@ -26,13 +27,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool mobile,
             bool readOnly = false,
             string controlId = null,
+            string css = null,
             Action action = null)
         {
             return hb.Div(
                 id: !controlId.IsNullOrEmpty()
                     ? controlId + ".wrapper"
                     : null,
-                css: "comment",
+                css: Css.Class("comment", css),
                 action: () =>
                 {
                     action?.Invoke();

@@ -85,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public HtmlBuilder Td(HtmlBuilder hb, Column column)
         {
+            var css = GridCss();
             return hb.Td(action: () => this?
                 .Take(DisplayCount())
                 .ForEach(comment => comment
@@ -93,6 +94,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         allowEditing: column.SiteSettings.AllowEditingComments == true,
                         allowImage: column.AllowImage == true,
                         mobile: column.SiteSettings.Mobile,
+                        css: css,
                         readOnly: true)));
         }
 
@@ -113,6 +115,19 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 case "histories": return 1;
                 default: return 3;
             }
+        }
+
+        private string GridCss()
+        {
+            if (DisplayCount() == 3)
+            {
+                switch (this.Count())
+                {
+                    case 1: return " one-third";
+                    case 2: return " half";
+                }
+            }
+            return null;
         }
 
         public string ToExport(Column column, ExportColumn exportColumn = null)
