@@ -163,17 +163,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 case "histories":
                     hb.Text(text: DisplayValue);
                     break;
-                case "index":
-                    hb.A(
-                        href: Locations.ItemEdit(Id) +
-                            (column.Joined || column.SiteSettings?.IntegratedSites?.Any() == true
-                                ? "?back=1"
-                                : string.Empty),
-                        text: DisplayValue);
-                    break;
                 default:
                     hb.A(
-                        href: Locations.ItemEdit(Id),
+                        href: Locations.ItemEdit(Id) +
+                            (column.Joined ||
+                            column.SiteSettings.Linked ||
+                            column.SiteSettings?.IntegratedSites?.Any() == true
+                                ? "?back=1"
+                                : string.Empty),
                         text: DisplayValue);
                     break;
             }

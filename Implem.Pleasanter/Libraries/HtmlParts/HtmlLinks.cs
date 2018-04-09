@@ -176,79 +176,82 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string direction,
             string caption)
         {
-            ssList.ForEach(ss => hb.Table(css: "grid", action: () =>
-            {
-                var dataRows = dataSet.Tables[ss.ReferenceType + "_" + direction + ss.SiteId]?
-                    .AsEnumerable()
-                    .Where(o => o["SiteId"].ToLong() == ss.SiteId);
-                var siteMenu = SiteInfo.TenantCaches[Sessions.TenantId()].SiteMenu;
-                if (dataRows != null && dataRows.Any())
+            ssList.ForEach(ss => hb.Table(
+                css: "grid",
+                attributes: new HtmlAttributes().DataValue("back"),
+                action: () =>
                 {
-                    ss.SetColumnAccessControls();
-                    var columns = ss.GetLinkColumns(checkPermission: true);
-                    switch (ss.ReferenceType)
+                    var dataRows = dataSet.Tables[ss.ReferenceType + "_" + direction + ss.SiteId]?
+                        .AsEnumerable()
+                        .Where(o => o["SiteId"].ToLong() == ss.SiteId);
+                    var siteMenu = SiteInfo.TenantCaches[Sessions.TenantId()].SiteMenu;
+                    if (dataRows != null && dataRows.Any())
                     {
-                        case "Issues":
-                            var issueCollection = new IssueCollection(ss, dataRows);
-                            issueCollection.SetLinks(ss);
-                            hb
-                                .Caption(caption: "{0} : {1} - {2} {3}".Params(
-                                    caption,
-                                    siteMenu.Breadcrumb(ss.SiteId)
-                                        .Select(o => o.Title)
-                                        .Join(" > "),
-                                    Displays.Quantity(),
-                                    dataRows.Count()))
-                                .THead(action: () => hb
-                                    .GridHeader(columns: columns, sort: false, checkRow: false))
-                                .TBody(action: () => issueCollection
-                                    .ForEach(issueModel =>
-                                    {
-                                        ss.SetColumnAccessControls(issueModel.Mine());
-                                        hb.Tr(
-                                            attributes: new HtmlAttributes()
-                                                .Class("grid-row")
-                                                .DataId(issueModel.IssueId.ToString()),
-                                            action: () => columns
-                                                .ForEach(column => hb
-                                                    .TdValue(
-                                                        ss: ss,
-                                                        column: column,
-                                                        issueModel: issueModel)));
-                                    }));
-                            break;
-                        case "Results":
-                            var resultCollection = new ResultCollection(ss, dataRows);
-                            resultCollection.SetLinks(ss);
-                            hb
-                                .Caption(caption: "{0} : {1} - {2} {3}".Params(
-                                    caption,
-                                    siteMenu.Breadcrumb(ss.SiteId)
-                                        .Select(o => o.Title)
-                                        .Join(" > "),
-                                    Displays.Quantity(),
-                                    dataRows.Count()))
-                                .THead(action: () => hb
-                                    .GridHeader(columns: columns, sort: false, checkRow: false))
-                                .TBody(action: () => resultCollection
-                                    .ForEach(resultModel =>
-                                    {
-                                        ss.SetColumnAccessControls(resultModel.Mine());
-                                        hb.Tr(
-                                            attributes: new HtmlAttributes()
-                                                .Class("grid-row")
-                                                .DataId(resultModel.ResultId.ToString()),
-                                            action: () => columns
-                                                .ForEach(column => hb
-                                                    .TdValue(
-                                                        ss: ss,
-                                                        column: column,
-                                                        resultModel: resultModel)));
-                                    }));
-                            break;
+                        ss.SetColumnAccessControls();
+                        var columns = ss.GetLinkColumns(checkPermission: true);
+                        switch (ss.ReferenceType)
+                        {
+                            case "Issues":
+                                var issueCollection = new IssueCollection(ss, dataRows);
+                                issueCollection.SetLinks(ss);
+                                hb
+                                    .Caption(caption: "{0} : {1} - {2} {3}".Params(
+                                        caption,
+                                        siteMenu.Breadcrumb(ss.SiteId)
+                                            .Select(o => o.Title)
+                                            .Join(" > "),
+                                        Displays.Quantity(),
+                                        dataRows.Count()))
+                                    .THead(action: () => hb
+                                        .GridHeader(columns: columns, sort: false, checkRow: false))
+                                    .TBody(action: () => issueCollection
+                                        .ForEach(issueModel =>
+                                        {
+                                            ss.SetColumnAccessControls(issueModel.Mine());
+                                            hb.Tr(
+                                                attributes: new HtmlAttributes()
+                                                    .Class("grid-row")
+                                                    .DataId(issueModel.IssueId.ToString()),
+                                                action: () => columns
+                                                    .ForEach(column => hb
+                                                        .TdValue(
+                                                            ss: ss,
+                                                            column: column,
+                                                            issueModel: issueModel)));
+                                        }));
+                                break;
+                            case "Results":
+                                var resultCollection = new ResultCollection(ss, dataRows);
+                                resultCollection.SetLinks(ss);
+                                hb
+                                    .Caption(caption: "{0} : {1} - {2} {3}".Params(
+                                        caption,
+                                        siteMenu.Breadcrumb(ss.SiteId)
+                                            .Select(o => o.Title)
+                                            .Join(" > "),
+                                        Displays.Quantity(),
+                                        dataRows.Count()))
+                                    .THead(action: () => hb
+                                        .GridHeader(columns: columns, sort: false, checkRow: false))
+                                    .TBody(action: () => resultCollection
+                                        .ForEach(resultModel =>
+                                        {
+                                            ss.SetColumnAccessControls(resultModel.Mine());
+                                            hb.Tr(
+                                                attributes: new HtmlAttributes()
+                                                    .Class("grid-row")
+                                                    .DataId(resultModel.ResultId.ToString()),
+                                                action: () => columns
+                                                    .ForEach(column => hb
+                                                        .TdValue(
+                                                            ss: ss,
+                                                            column: column,
+                                                            resultModel: resultModel)));
+                                        }));
+                                break;
+                        }
                     }
-                }
-            }));
+                }));
             return hb;
         }
     }

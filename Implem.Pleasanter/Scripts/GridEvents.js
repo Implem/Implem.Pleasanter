@@ -42,7 +42,7 @@
             }
             else {
                 location.href = $('#BaseUrl').val() + dataId +
-                    ($('#SiteIntegration').val() === '1'
+                    ($grid.attr('data-value') === 'back'
                         ? '?back=1'
                         : '');
             }

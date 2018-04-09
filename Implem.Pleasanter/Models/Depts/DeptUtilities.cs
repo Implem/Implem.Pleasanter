@@ -177,6 +177,7 @@ namespace Implem.Pleasanter.Models
                     attributes: new HtmlAttributes()
                         .Id("Grid")
                         .Class("grid")
+                        .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
                         .DataAction("GridRows")
                         .DataMethod("post"),
                     action: () => hb

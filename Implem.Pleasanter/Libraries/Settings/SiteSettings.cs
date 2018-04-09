@@ -63,6 +63,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<string, string> JoinOptionHash;
         [NonSerialized]
+        public bool Linked;
+        [NonSerialized]
         public bool Mobile;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
@@ -284,6 +286,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss.ParentId = dataRow.Long("ParentId");
                 ss.InheritPermission = dataRow.Long("InheritPermission");
                 ss.SetChoiceHash();
+                ss.Linked = true;
                 ssList.Add(ss);
             });
             return ssList;
