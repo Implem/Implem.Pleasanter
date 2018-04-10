@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder VerUpCheckBox(this HtmlBuilder hb, BaseModel baseModel)
         {
             var mustVerUp = Versions.MustVerUp(baseModel);
-            return 
+            return
                 baseModel.VerType == Versions.VerTypes.Latest &&
                 baseModel.MethodType != BaseModel.MethodTypes.New
                     ? hb.FieldCheckBox(
