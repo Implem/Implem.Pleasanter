@@ -60,5 +60,11 @@ https://pleasanter.azurewebsites.net
 |Microsoft Azure Web App|-|-|-|◯|
 |Microsoft Azure SQL Database|-|-|-|◯|
 
+## 推奨スペック
+* CPU: 2コア以上
+* メモリ: 4GB以上
+* システムディスク: 60GB以上
+* データディスク: 10GB以上（バックアップ等の領域を検討する場合は別途ご準備ください）
+
 ## 開発元
 [株式会社インプリム](https://implem.co.jp)
