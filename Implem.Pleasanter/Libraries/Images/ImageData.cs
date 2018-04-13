@@ -126,8 +126,8 @@ namespace Implem.Pleasanter.Libraries.Images
             switch (sizeType)
             {
                 case SizeTypes.Regular: return Parameters.General.ImageSizeRegular;
-                case SizeTypes.Thumbnail:return Parameters.General.ImageSizeThumbnail;
-                case SizeTypes.Icon:return Parameters.General.ImageSizeIcon;
+                case SizeTypes.Thumbnail: return Parameters.General.ImageSizeThumbnail;
+                case SizeTypes.Icon: return Parameters.General.ImageSizeIcon;
                 default: return Parameters.General.ImageSizeRegular;
             }
         }
