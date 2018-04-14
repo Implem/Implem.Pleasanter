@@ -492,15 +492,20 @@ namespace Implem.Pleasanter.Models
             this SqlWhereCollection self, string searchText)
         {
             return self
-                .SqlWhereLike(searchText,
-                    Rds.Users_LoginId_WhereLike(),
-                    Rds.Users_Name_WhereLike(),
-                    Rds.Users_UserCode_WhereLike(),
-                    Rds.Users_Body_WhereLike(),
-                    Rds.Depts_DeptCode_WhereLike(),
-                    Rds.Depts_DeptName_WhereLike(),
-                    Rds.Depts_Body_WhereLike(),
-                    Rds.MailAddresses_MailAddress_WhereLike("MailAddresses"))
+                .SqlWhereLike(
+                    name: "SearchText",
+                    searchText: searchText,
+                    clauseCollection: new List<string>()
+                    {
+                        Rds.Users_LoginId_WhereLike(),
+                        Rds.Users_Name_WhereLike(),
+                        Rds.Users_UserCode_WhereLike(),
+                        Rds.Users_Body_WhereLike(),
+                        Rds.Depts_DeptCode_WhereLike(),
+                        Rds.Depts_DeptName_WhereLike(),
+                        Rds.Depts_Body_WhereLike(),
+                        Rds.MailAddresses_MailAddress_WhereLike("MailAddresses")
+                    })
                 .Users_Disabled(0);
         }
 

@@ -952,10 +952,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 if (!value.IsNullOrEmpty())
                 {
+                    var name = Strings.NewGuid();
                     where.SqlWhereLike(
-                        value,
-                        "([{0}].[{1}] like '%' + @SearchText#ParamCount#_#CommandCount# + '%')"
-                            .Params(column.TableName(), column.Name));
+                        name: name,
+                        searchText: value,
+                        clauseCollection: "([{0}].[{1}] like '%' + @{2}#ParamCount#_#CommandCount# + '%')"
+                            .Params(column.TableName(), column.Name, name)
+                            .ToSingleList());
                 }
             }
         }
