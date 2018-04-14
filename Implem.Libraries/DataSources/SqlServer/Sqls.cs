@@ -90,15 +90,16 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public static SqlWhereCollection SqlWhereLike(
             this SqlWhereCollection self,
+            string name,
             string searchText,
-            params string[] clauseCollection)
+            List<string> clauseCollection)
         {
             var searchTextCollection = SearchTextCollection(searchText);
             return self.Add(
                 tableName: null,
-                name: "SearchText",
+                name: name,
                 value: searchTextCollection,
-                raw: "(@SearchText#ParamCount#_#CommandCount# = '' or (" +
+                raw: $"(@{name}#ParamCount#_#CommandCount# = '' or (" +
                     clauseCollection.Join(" or ") + "))",
                 _using: searchTextCollection.Any());
         }

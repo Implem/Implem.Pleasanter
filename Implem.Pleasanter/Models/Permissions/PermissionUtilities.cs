@@ -314,10 +314,14 @@ namespace Implem.Pleasanter.Models
                         .TenantId(Sessions.TenantId())
                         .DeptId(_operator: ">0")
                         .SqlWhereLike(
-                            searchText,
-                            Rds.Depts_DeptCode_WhereLike(),
-                            Rds.Depts_DeptName_WhereLike(),
-                            Rds.Depts_Body_WhereLike())),
+                            name: "SearchText",
+                            searchText: searchText,
+                            clauseCollection: new List<string>()
+                            {
+                                Rds.Depts_DeptCode_WhereLike(),
+                                Rds.Depts_DeptName_WhereLike(),
+                                Rds.Depts_Body_WhereLike()
+                            })),
                 Rds.SelectGroups(
                     column: Rds.GroupsColumn()
                         .GroupId(_as: "Id")
@@ -326,10 +330,14 @@ namespace Implem.Pleasanter.Models
                         .TenantId(Sessions.TenantId())
                         .GroupId(_operator: ">0")
                         .SqlWhereLike(
-                            searchText,
-                            Rds.Groups_GroupId_WhereLike(),
-                            Rds.Groups_GroupName_WhereLike(),
-                            Rds.Groups_Body_WhereLike()),
+                            name: "SearchText",
+                            searchText: searchText,
+                            clauseCollection: new List<string>()
+                            {
+                                Rds.Groups_GroupId_WhereLike(),
+                                Rds.Groups_GroupName_WhereLike(),
+                                Rds.Groups_Body_WhereLike()
+                            }),
                     unionType: Sqls.UnionTypes.UnionAll),
                 Rds.SelectUsers(
                     column: Rds.UsersColumn()
@@ -344,14 +352,18 @@ namespace Implem.Pleasanter.Models
                         .TenantId(Sessions.TenantId())
                         .UserId(_operator: ">0")
                         .SqlWhereLike(
-                            searchText,
-                            Rds.Users_LoginId_WhereLike(),
-                            Rds.Users_Name_WhereLike(),
-                            Rds.Users_UserCode_WhereLike(),
-                            Rds.Users_Body_WhereLike(),
-                            Rds.Depts_DeptCode_WhereLike(),
-                            Rds.Depts_DeptName_WhereLike(),
-                            Rds.Depts_Body_WhereLike())
+                            name: "SearchText",
+                            searchText: searchText,
+                            clauseCollection: new List<string>()
+                            {
+                                Rds.Users_LoginId_WhereLike(),
+                                Rds.Users_Name_WhereLike(),
+                                Rds.Users_UserCode_WhereLike(),
+                                Rds.Users_Body_WhereLike(),
+                                Rds.Depts_DeptCode_WhereLike(),
+                                Rds.Depts_DeptName_WhereLike(),
+                                Rds.Depts_Body_WhereLike()
+                            })
                         .Users_Disabled(0),
                     unionType: Sqls.UnionTypes.UnionAll)
             })

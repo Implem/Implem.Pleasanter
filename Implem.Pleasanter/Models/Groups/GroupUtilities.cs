@@ -995,9 +995,13 @@ namespace Implem.Pleasanter.Models
                                     .Select(o => o.Split_2nd().ToInt()),
                                 negative: true)
                             .SqlWhereLike(
-                                searchText,
-                                Rds.Depts_DeptCode_WhereLike(),
-                                Rds.Depts_DeptName_WhereLike())),
+                                name: "SearchText",
+                                searchText: searchText,
+                                clauseCollection: new List<string>()
+                                {
+                                    Rds.Depts_DeptCode_WhereLike(),
+                                    Rds.Depts_DeptName_WhereLike()
+                                })),
                     Rds.SelectUsers(
                         unionType: Sqls.UnionTypes.Union,
                         column: Rds.UsersColumn()
@@ -1019,14 +1023,18 @@ namespace Implem.Pleasanter.Models
                                     .Select(o => o.Split_2nd().ToInt()),
                                 negative: true)
                             .SqlWhereLike(
-                                searchText,
-                                Rds.Users_LoginId_WhereLike(),
-                                Rds.Users_Name_WhereLike(),
-                                Rds.Users_UserCode_WhereLike(),
-                                Rds.Users_Body_WhereLike(),
-                                Rds.Depts_DeptCode_WhereLike(),
-                                Rds.Depts_DeptName_WhereLike(),
-                                Rds.Depts_Body_WhereLike())
+                                name: "SearchText",
+                                searchText: searchText,
+                                clauseCollection: new List<string>()
+                                {
+                                    Rds.Users_LoginId_WhereLike(),
+                                    Rds.Users_Name_WhereLike(),
+                                    Rds.Users_UserCode_WhereLike(),
+                                    Rds.Users_Body_WhereLike(),
+                                    Rds.Depts_DeptCode_WhereLike(),
+                                    Rds.Depts_DeptName_WhereLike(),
+                                    Rds.Depts_Body_WhereLike()
+                                })
                             .Users_Disabled(0))
                 })
                     .AsEnumerable()

@@ -302,7 +302,10 @@ namespace Implem.Pleasanter.Models
                 column: Rds.ItemsColumn().ReferenceId(),
                 where: Rds.ItemsWhere()
                     .SiteId_In(siteIdList)
-                    .SqlWhereLike(searchText, like));
+                    .SqlWhereLike(
+                        name: "SearchText",
+                        searchText: searchText,
+                        clauseCollection: like.ToSingleList()));
         }
 
         /// <summary>
