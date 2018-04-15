@@ -1798,6 +1798,7 @@ pre{
 
 .md > *{
     float:left;
+    clear:both;
 }
 
 .md h1{
