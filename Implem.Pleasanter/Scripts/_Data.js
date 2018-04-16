@@ -6,6 +6,33 @@
     return $p.data[formId];
 }
 
+$p.set = function ($control, val) {
+    var controlId = $control.attr('id');
+    if ($control.length === 1) {
+        switch ($control.prop('type')) {
+            case 'checkbox':
+                $control.prop('checked', val);
+                break;
+            case 'textarea':
+                $control.val(val);
+                $p.showMarkDownViewer($control);
+                break;
+            default:
+                switch ($control.prop('tagName')) {
+                    case 'SELECT':
+                        $control.val(val);
+                        $control.change();
+                        break;
+                    default:
+                        $control.val(val);
+                        break;
+                }
+                break;
+        }
+        $p.setData($control);
+    }
+}
+
 $p.setData = function ($control, data) {
     var controlId = $control.attr('id');
     if (!$control.hasClass('not-send')) {
