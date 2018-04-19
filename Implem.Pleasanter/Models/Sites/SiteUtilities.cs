@@ -994,7 +994,7 @@ namespace Implem.Pleasanter.Models
             {
                 sourceSiteModel.SiteSettings.EditorColumns.Add(column.ColumnName);
             }
-            Rds.ExecuteNonQuery(transactional:true, statements: new SqlStatement[]
+            Rds.ExecuteNonQuery(transactional: true, statements: new SqlStatement[]
             {
                 Rds.UpdateSites(
                     param: Rds.SitesParam()
