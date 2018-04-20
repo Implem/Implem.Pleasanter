@@ -1239,7 +1239,7 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#ImageLibSettingsEditor",
                                             text: Displays.ImageLib()),
-                                    _using: 
+                                    _using:
                                         Contract.Images() &&
                                         Def.ViewModeDefinitionCollection
                                             .Where(o => o.Name == "ImageLib")
