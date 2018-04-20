@@ -24,7 +24,7 @@
 http://pleasanter.org
 
 ## デモサイト
-下記のサイトでe-mailアドレスを登録すると30日間試用することが出来ます。  
+下記のサイトでe-mailアドレスを登録すると30日間試用することが出来ます。  
 https://pleasanter.azurewebsites.net
 
 ## 動作イメージ
