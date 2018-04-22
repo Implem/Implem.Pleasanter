@@ -1,6 +1,6 @@
 # Implem.Pleasanter
 ## プリザンターとは
-画面操作だけでデータベース型の業務アプリケーションが作成できるオープンソース・ソフトウェア。
+ノンプログラミングでWebデータベース型の業務アプリケーションが作成できるオープンソース・ソフトウェア。
 
 ## 資料
 * [紹介資料](https://pleasanter.org/downloads/pleasanterp.pdf)
@@ -24,7 +24,7 @@
 http://pleasanter.org
 
 ## デモサイト
-下記のサイトでe-mailアドレスを登録するとプリザンターを試行することが出来ます。  
+下記のサイトでe-mailアドレスを登録すると30日間試用することが出来ます。  
 https://pleasanter.azurewebsites.net
 
 ## 動作イメージ
