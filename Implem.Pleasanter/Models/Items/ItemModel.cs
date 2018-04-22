@@ -137,11 +137,15 @@ namespace Implem.Pleasanter.Models
             {
                 return HtmlTemplates.Error(Error.Types.NotFound);
             }
-            SetSite(initSiteSettings: true, setSiteIntegration: true);
+            SetSite(
+                initSiteSettings: true,
+                setLinkedSiteSettings: true,
+                setSiteIntegration: true);
             ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
-                case "Sites": return SiteUtilities.SiteMenu(Site);
+                case "Sites": return SiteUtilities.SiteMenu(
+                    siteModel: Site);
                 case "Issues": return IssueUtilities.Index(ss: Site.SiteSettings);
                 case "Results": return ResultUtilities.Index(ss: Site.SiteSettings);
                 default: return HtmlTemplates.Error(Error.Types.NotFound);
@@ -154,7 +158,10 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseNotFound().ToJson();
             }
-            SetSite(initSiteSettings: true, setSiteIntegration: true);
+            SetSite(
+                initSiteSettings: true,
+                setLinkedSiteSettings: true,
+                setSiteIntegration: true);
             ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
@@ -172,10 +179,14 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.Calendar(
                     ss: Site.IssuesSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 case "Results": return ResultUtilities.Calendar(
                     ss: Site.ResultsSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
@@ -188,10 +199,14 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.CalendarJson(
                     ss: Site.IssuesSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 case "Results": return ResultUtilities.CalendarJson(
                     ss: Site.ResultsSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -203,9 +218,13 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.Crosstab(
-                    ss: Site.IssuesSiteSettings(ReferenceId, setSiteIntegration: true));
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true));
                 case "Results": return ResultUtilities.Crosstab(
-                    ss: Site.ResultsSiteSettings(ReferenceId, setSiteIntegration: true));
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true));
                 default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
@@ -217,9 +236,13 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.CrosstabJson(
-                    ss: Site.IssuesSiteSettings(ReferenceId, setSiteIntegration: true));
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true));
                 case "Results": return ResultUtilities.CrosstabJson(
-                    ss: Site.ResultsSiteSettings(ReferenceId, setSiteIntegration: true));
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true));
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -232,7 +255,9 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.Gantt(
                     ss: Site.IssuesSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
@@ -245,7 +270,9 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.GanttJson(
                     ss: Site.IssuesSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -289,9 +316,13 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.TimeSeries(
-                    ss: Site.IssuesSiteSettings(ReferenceId, setSiteIntegration: true));
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true));
                 case "Results": return ResultUtilities.TimeSeries(
-                    ss: Site.ResultsSiteSettings(ReferenceId, setSiteIntegration: true));
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true));
                 default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
@@ -303,9 +334,13 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.TimeSeriesJson(
-                    ss: Site.IssuesSiteSettings(ReferenceId, setSiteIntegration: true));
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true));
                 case "Results": return ResultUtilities.TimeSeriesJson(
-                    ss: Site.ResultsSiteSettings(ReferenceId, setSiteIntegration: true));
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true));
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -318,10 +353,14 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.Kamban(
                     ss: Site.IssuesSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 case "Results": return ResultUtilities.Kamban(
                     ss: Site.ResultsSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
@@ -334,10 +373,14 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.KambanJson(
                     ss: Site.IssuesSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 case "Results": return ResultUtilities.KambanJson(
                     ss: Site.ResultsSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -350,10 +393,14 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.ImageLib(
                     ss: Site.IssuesSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 case "Results": return ResultUtilities.ImageLib(
                     ss: Site.ResultsSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 default: return HtmlTemplates.Error(Error.Types.NotFound);
             }
         }
@@ -366,10 +413,14 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.ImageLibJson(
                     ss: Site.IssuesSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 case "Results": return ResultUtilities.ImageLibJson(
                     ss: Site.ResultsSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -402,7 +453,9 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return SiteUtilities.Editor(ReferenceId, clearSessions: true);
+                case "Sites": return SiteUtilities.Editor(
+                    siteId: ReferenceId,
+                    clearSessions: true);
                 case "Issues": return IssueUtilities.Editor(
                     ss: Site.IssuesSiteSettings(ReferenceId),
                     issueId: ReferenceId,
@@ -451,10 +504,14 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.Export(
-                    Site.IssuesSiteSettings(ReferenceId, setSiteIntegration: true),
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true),
                     siteModel: Site);
                 case "Results": return ResultUtilities.Export(
-                    Site.ResultsSiteSettings(ReferenceId, setSiteIntegration: true),
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true),
                     siteModel: Site);
                 default: return null;
             }
@@ -466,10 +523,14 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.ExportCrosstab(
-                    Site.IssuesSiteSettings(ReferenceId, setSiteIntegration: true),
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true),
                     siteModel: Site);
                 case "Results": return ResultUtilities.ExportCrosstab(
-                    Site.ResultsSiteSettings(ReferenceId, setSiteIntegration: true),
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true),
                     siteModel: Site);
                 default: return null;
             }
@@ -513,7 +574,6 @@ namespace Implem.Pleasanter.Models
                     "#DropDownSearchResults",
                     new HtmlBuilder().Selectable(
                         controlId: "DropDownSearchResults",
-                        controlCss: " single",
                         listItemCollection: column?.EditChoices(addNotSet: nextOffset == -1),
                         action: "SearchDropDown",
                         method: "post"))
@@ -618,10 +678,16 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.GridRows(
-                    ss: Site.IssuesSiteSettings(ReferenceId, setSiteIntegration: true),
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setLinkedSiteSettings: false,
+                        setSiteIntegration: true),
                     offset: DataViewGrid.Offset());
                 case "Results": return ResultUtilities.GridRows(
-                    ss: Site.ResultsSiteSettings(ReferenceId, setSiteIntegration: true),
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setLinkedSiteSettings: false,
+                        setSiteIntegration: true),
                     offset: DataViewGrid.Offset());
                 default: return Messages.ResponseNotFound().ToJson();
             }
@@ -633,10 +699,14 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.ImageLibNext(
-                    ss: Site.IssuesSiteSettings(ReferenceId, setSiteIntegration: true),
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true),
                     offset: Forms.Int("ImageLibOffset"));
                 case "Results": return ResultUtilities.ImageLibNext(
-                    ss: Site.ResultsSiteSettings(ReferenceId, setSiteIntegration: true),
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true),
                     offset: Forms.Int("ImageLibOffset"));
                 default: return Messages.ResponseNotFound().ToJson();
             }
@@ -709,7 +779,8 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (Site.ReferenceType)
             {
-                case "Sites": return SiteUtilities.Templates(siteModel: Site);
+                case "Sites": return SiteUtilities.Templates(
+                    siteModel: Site);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -719,7 +790,8 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (Site.ReferenceType)
             {
-                case "Sites": return SiteUtilities.CreateByTemplate(siteModel: Site);
+                case "Sites": return SiteUtilities.CreateByTemplate(
+                    siteModel: Site);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -729,7 +801,8 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (Site.ReferenceType)
             {
-                case "Sites": return SiteUtilities.SiteMenuJson(siteModel: Site);
+                case "Sites": return SiteUtilities.SiteMenuJson(
+                    siteModel: Site);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -739,13 +812,18 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return SiteUtilities.Update(siteModel: Site, siteId: ReferenceId);
-                case "Issues": return IssueUtilities
-                    .Update(Site.IssuesSiteSettings(ReferenceId), ReferenceId);
-                case "Results": return ResultUtilities
-                    .Update(Site.ResultsSiteSettings(ReferenceId), ReferenceId);
-                case "Wikis": return WikiUtilities
-                    .Update(Site.WikisSiteSettings(ReferenceId), ReferenceId);
+                case "Sites": return SiteUtilities.Update(
+                    siteModel: Site,
+                    siteId: ReferenceId);
+                case "Issues": return IssueUtilities.Update(
+                    ss: Site.IssuesSiteSettings(ReferenceId),
+                    issueId: ReferenceId);
+                case "Results": return ResultUtilities.Update(
+                    ss: Site.ResultsSiteSettings(ReferenceId),
+                    resultId: ReferenceId);
+                case "Wikis": return WikiUtilities.Update(
+                    ss: Site.WikisSiteSettings(ReferenceId),
+                    wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -756,9 +834,11 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.UpdateByApi(
-                    ss: Site.IssuesSiteSettings(ReferenceId), issueId: ReferenceId);
+                    ss: Site.IssuesSiteSettings(ReferenceId),
+                    issueId: ReferenceId);
                 case "Results": return ResultUtilities.UpdateByApi(
-                    ss: Site.ResultsSiteSettings(ReferenceId), resultId: ReferenceId);
+                    ss: Site.ResultsSiteSettings(ReferenceId),
+                    resultId: ReferenceId);
                 default: return ApiResults.Get(ApiResponses.BadRequest());
             }
         }
@@ -768,13 +848,18 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return SiteUtilities.Update(siteModel: Site, siteId: ReferenceId);
-                case "Issues": return IssueUtilities
-                    .Update(Site.IssuesSiteSettings(ReferenceId), ReferenceId);
-                case "Results": return ResultUtilities
-                    .Update(Site.ResultsSiteSettings(ReferenceId), ReferenceId);
-                case "Wikis": return WikiUtilities
-                    .Update(Site.WikisSiteSettings(ReferenceId), ReferenceId);
+                case "Sites": return SiteUtilities.Update(
+                    siteModel: Site,
+                    siteId: ReferenceId);
+                case "Issues": return IssueUtilities.Update(
+                    ss: Site.IssuesSiteSettings(ReferenceId),
+                    issueId: ReferenceId);
+                case "Results": return ResultUtilities.Update(
+                    ss: Site.ResultsSiteSettings(ReferenceId),
+                    resultId: ReferenceId);
+                case "Wikis": return WikiUtilities.Update(
+                    ss: Site.WikisSiteSettings(ReferenceId),
+                    wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -784,7 +869,8 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return SiteUtilities.Copy(Site);
+                case "Sites": return SiteUtilities.Copy(
+                    siteModel: Site);
                 case "Issues": return IssueUtilities.Copy(
                     ss: Site.IssuesSiteSettings(ReferenceId),
                     issueId: ReferenceId);
@@ -855,10 +941,14 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (Site.ReferenceType)
             {
-                case "Issues": return IssueUtilities.BulkMove(Site.IssuesSiteSettings(
-                    ReferenceId, setSiteIntegration: true));
-                case "Results": return ResultUtilities.BulkMove(Site.ResultsSiteSettings(
-                    ReferenceId, setSiteIntegration: true));
+                case "Issues": return IssueUtilities.BulkMove(
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true));
+                case "Results": return ResultUtilities.BulkMove(
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true));
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -890,9 +980,11 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.DeleteByApi(
-                    ss: Site.IssuesSiteSettings(ReferenceId), issueId: ReferenceId);
+                    ss: Site.IssuesSiteSettings(ReferenceId),
+                    issueId: ReferenceId);
                 case "Results": return ResultUtilities.DeleteByApi(
-                    ss: Site.ResultsSiteSettings(ReferenceId), resultId: ReferenceId);
+                    ss: Site.ResultsSiteSettings(ReferenceId),
+                    resultId: ReferenceId);
                 default: return ApiResults.Get(ApiResponses.BadRequest());
             }
         }
@@ -902,10 +994,14 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (Site.ReferenceType)
             {
-                case "Issues": return IssueUtilities.BulkDelete(Site.IssuesSiteSettings(
-                    ReferenceId, setSiteIntegration: true));
-                case "Results": return ResultUtilities.BulkDelete(Site.ResultsSiteSettings(
-                    ReferenceId, setSiteIntegration: true));
+                case "Issues": return IssueUtilities.BulkDelete(
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true));
+                case "Results": return ResultUtilities.BulkDelete(
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true));
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -917,7 +1013,8 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return SiteUtilities.Restore(siteId: ReferenceId);
+                case "Sites": return SiteUtilities.Restore(
+                    siteId: ReferenceId);
                 case "Issues": return IssueUtilities.Restore(
                     ss: SiteSettingsUtilities.IssuesSiteSettings(Site, ReferenceId),
                     issueId: ReferenceId);
@@ -960,13 +1057,17 @@ namespace Implem.Pleasanter.Models
             SetSite(initSiteSettings: true);
             switch (ReferenceType)
             {
-                case "Sites": return SiteUtilities.Histories(siteModel: Site);
+                case "Sites": return SiteUtilities.Histories(
+                    siteModel: Site);
                 case "Issues": return IssueUtilities.Histories(
-                    ss: Site.SiteSettings, issueId: ReferenceId);
+                    ss: Site.SiteSettings,
+                    issueId: ReferenceId);
                 case "Results": return ResultUtilities.Histories(
-                    ss: Site.SiteSettings, resultId: ReferenceId);
+                    ss: Site.SiteSettings,
+                    resultId: ReferenceId);
                 case "Wikis": return WikiUtilities.Histories(
-                    ss: Site.SiteSettings, wikiId: ReferenceId);
+                    ss: Site.SiteSettings,
+                    wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -976,13 +1077,17 @@ namespace Implem.Pleasanter.Models
             SetSite(initSiteSettings: true);
             switch (ReferenceType)
             {
-                case "Sites": return SiteUtilities.History(siteModel: Site);
+                case "Sites": return SiteUtilities.History(
+                    siteModel: Site);
                 case "Issues": return IssueUtilities.History(
-                    ss: Site.SiteSettings, issueId: ReferenceId);
+                    ss: Site.SiteSettings,
+                    issueId: ReferenceId);
                 case "Results": return ResultUtilities.History(
-                    ss: Site.SiteSettings, resultId: ReferenceId);
+                    ss: Site.SiteSettings,
+                    resultId: ReferenceId);
                 case "Wikis": return WikiUtilities.History(
-                    ss: Site.SiteSettings, wikiId: ReferenceId);
+                    ss: Site.SiteSettings,
+                    wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -992,7 +1097,8 @@ namespace Implem.Pleasanter.Models
             SetSite(initSiteSettings: true);
             switch (ReferenceType)
             {
-                case "Sites": return SiteUtilities.EditorJson(Site);
+                case "Sites": return SiteUtilities.EditorJson(
+                    siteModel: Site);
                 case "Issues": return IssueUtilities.EditorJson(
                     Site.SiteSettings, ReferenceId);
                 case "Results": return ResultUtilities.EditorJson(
@@ -1009,11 +1115,15 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.UpdateByCalendar(
-                    Site.IssuesSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 case "Results": return ResultUtilities.UpdateByCalendar(
-                    Site.ResultsSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -1024,11 +1134,15 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.UpdateByKamban(
-                    Site.IssuesSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 case "Results": return ResultUtilities.UpdateByKamban(
-                    Site.ResultsSiteSettings(
-                        ReferenceId, setAllChoices: true, setSiteIntegration: true));
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        setAllChoices: true));
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -1054,14 +1168,20 @@ namespace Implem.Pleasanter.Models
         private void SetSite(
             bool siteOnly = false,
             bool initSiteSettings = false,
+            bool setLinkedSiteSettings = true,
             bool setSiteIntegration = false)
         {
-            Site = GetSite(siteOnly, initSiteSettings, setSiteIntegration);
+            Site = GetSite(
+                siteOnly: siteOnly,
+                initSiteSettings: initSiteSettings,
+                setLinkedSiteSettings: setLinkedSiteSettings,
+                setSiteIntegration: setSiteIntegration);
         }
 
         public SiteModel GetSite(
             bool siteOnly = false,
             bool initSiteSettings = false,
+            bool setLinkedSiteSettings = true,
             bool setSiteIntegration = false)
         {
             SiteModel siteModel;
@@ -1086,7 +1206,10 @@ namespace Implem.Pleasanter.Models
             if (initSiteSettings)
             {
                 siteModel.SiteSettings = SiteSettingsUtilities.Get(
-                    siteModel, ReferenceId, setSiteIntegration: setSiteIntegration);
+                    siteModel: siteModel,
+                    referenceId: ReferenceId,
+                    setLinkedSiteSettings: setLinkedSiteSettings,
+                    setSiteIntegration: setSiteIntegration);
             }
             return siteModel;
         }

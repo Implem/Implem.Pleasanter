@@ -59,19 +59,36 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings Get(
             SiteModel siteModel,
             long referenceId,
-            bool setAllChoices = false,
-            bool setSiteIntegration = false)
+            bool setLinkedSiteSettings = true,
+            bool setSiteIntegration = false,
+            bool setAllChoices = false)
         {
             switch (siteModel.ReferenceType)
             {
                 case "Sites": return SitesSiteSettings(
-                    siteModel, referenceId, setAllChoices, setSiteIntegration);
+                    siteModel: siteModel,
+                    referenceId: referenceId,
+                    setLinkedSiteSettings: setLinkedSiteSettings,
+                    setSiteIntegration: setSiteIntegration,
+                    setAllChoices: setAllChoices);
                 case "Issues": return IssuesSiteSettings(
-                    siteModel, referenceId, setAllChoices, setSiteIntegration);
+                    siteModel: siteModel,
+                    referenceId: referenceId,
+                    setLinkedSiteSettings: setLinkedSiteSettings,
+                    setSiteIntegration: setSiteIntegration,
+                    setAllChoices: setAllChoices);
                 case "Results": return ResultsSiteSettings(
-                    siteModel, referenceId, setAllChoices, setSiteIntegration);
+                    siteModel: siteModel,
+                    referenceId: referenceId,
+                    setLinkedSiteSettings: setLinkedSiteSettings,
+                    setSiteIntegration: setSiteIntegration,
+                    setAllChoices: setAllChoices);
                 case "Wikis": return WikisSiteSettings(
-                    siteModel, referenceId, setAllChoices, setSiteIntegration);
+                    siteModel: siteModel,
+                    referenceId: referenceId,
+                    setLinkedSiteSettings: setLinkedSiteSettings,
+                    setSiteIntegration: setSiteIntegration,
+                    setAllChoices: setAllChoices);
                 default: return new SiteSettings() { SiteId = siteModel.SiteId };
             }
         }
@@ -264,8 +281,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings SitesSiteSettings(
             this SiteModel siteModel,
             long referenceId,
-            bool setAllChoices = false,
-            bool setSiteIntegration = false)
+            bool setLinkedSiteSettings = true,
+            bool setSiteIntegration = false,
+            bool setAllChoices = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -276,7 +294,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
-            ss.SetLinkedSiteSettings();
+            if (setLinkedSiteSettings) ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
             ss.SetJoinedSsHash();
             return ss;
@@ -294,8 +312,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings IssuesSiteSettings(
             this SiteModel siteModel,
             long referenceId,
-            bool setAllChoices = false,
-            bool setSiteIntegration = false)
+            bool setLinkedSiteSettings = true,
+            bool setSiteIntegration = false,
+            bool setAllChoices = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -306,7 +325,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
-            ss.SetLinkedSiteSettings();
+            if (setLinkedSiteSettings) ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
             ss.SetJoinedSsHash();
             if (setSiteIntegration) ss.SetSiteIntegration();
@@ -327,8 +346,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings ResultsSiteSettings(
             this SiteModel siteModel,
             long referenceId,
-            bool setAllChoices = false,
-            bool setSiteIntegration = false)
+            bool setLinkedSiteSettings = true,
+            bool setSiteIntegration = false,
+            bool setAllChoices = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -339,7 +359,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
-            ss.SetLinkedSiteSettings();
+            if (setLinkedSiteSettings) ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
             ss.SetJoinedSsHash();
             if (setSiteIntegration) ss.SetSiteIntegration();
@@ -360,8 +380,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings WikisSiteSettings(
             this SiteModel siteModel,
             long referenceId,
-            bool setAllChoices = false,
-            bool setSiteIntegration = false)
+            bool setLinkedSiteSettings = true,
+            bool setSiteIntegration = false,
+            bool setAllChoices = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -372,7 +393,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
-            ss.SetLinkedSiteSettings();
+            if (setLinkedSiteSettings) ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
             ss.SetJoinedSsHash();
             ss.SetChoiceHash(all: setAllChoices);
