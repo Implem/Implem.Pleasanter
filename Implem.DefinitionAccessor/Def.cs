@@ -437,6 +437,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ImportCases": Code.Model_ImportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImportCases, definitionRow, CodeXls); break;
                     case "Model_OpenExportSelectorDialogCases": Code.Model_OpenExportSelectorDialogCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OpenExportSelectorDialogCases, definitionRow, CodeXls); break;
                     case "Model_ExportCases": Code.Model_ExportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportCases, definitionRow, CodeXls); break;
+                    case "Model_ExportCrosstabCases": Code.Model_ExportCrosstabCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportCrosstabCases, definitionRow, CodeXls); break;
                     case "Model_GridRowsCases": Code.Model_GridRowsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GridRowsCases, definitionRow, CodeXls); break;
                     case "Model_ImageLibNextCases": Code.Model_ImageLibNextCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImageLibNextCases, definitionRow, CodeXls); break;
                     case "Model_GetByApiCases": Code.Model_GetByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApiCases, definitionRow, CodeXls); break;
@@ -568,6 +569,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_ImportValidatorHeaders": Code.Model_Utilities_ImportValidatorHeaders = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorHeaders, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorCases": Code.Model_Utilities_ImportValidatorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_Export": Code.Model_Utilities_Export = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Export, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ExportCrosstab": Code.Model_Utilities_ExportCrosstab = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ExportCrosstab, definitionRow, CodeXls); break;
                     case "Model_Utilities_NotNull": Code.Model_Utilities_NotNull = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_NotNull, definitionRow, CodeXls); break;
                     case "Model_Utilities_TitleDisplay": Code.Model_Utilities_TitleDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TitleDisplay, definitionRow, CodeXls); break;
                     case "Model_Utilities_Calendar": Code.Model_Utilities_Calendar = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Calendar, definitionRow, CodeXls); break;
@@ -2295,6 +2297,8 @@ namespace Implem.DefinitionAccessor
                     case "_dot_grid_space___space_tbody_space___space_tr_space___space_th": Css._dot_grid_space___space_tbody_space___space_tr_space___space_th = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_space___space_tbody_space___space_tr_space___space_th, definitionRow, CssXls); break;
                     case "_dot_grid_row": Css._dot_grid_row = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row, definitionRow, CssXls); break;
                     case "_dot_grid_row_space__dot_comment": Css._dot_grid_row_space__dot_comment = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_space__dot_comment, definitionRow, CssXls); break;
+                    case "_dot_grid_row_space__dot_comment_dot_one_third": Css._dot_grid_row_space__dot_comment_dot_one_third = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_space__dot_comment_dot_one_third, definitionRow, CssXls); break;
+                    case "_dot_grid_row_space__dot_comment_dot_half": Css._dot_grid_row_space__dot_comment_dot_half = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_space__dot_comment_dot_half, definitionRow, CssXls); break;
                     case "_dot_grid_row_colon_hover": Css._dot_grid_row_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_colon_hover, definitionRow, CssXls); break;
                     case "_dot_grid_row_colon_hover_space__dot_comment": Css._dot_grid_row_colon_hover_space__dot_comment = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_colon_hover_space__dot_comment, definitionRow, CssXls); break;
                     case "_dot_grid_row_colon_hover_space__dot_grid_title_body": Css._dot_grid_row_colon_hover_space__dot_grid_title_body = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_colon_hover_space__dot_grid_title_body, definitionRow, CssXls); break;
@@ -4745,6 +4749,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ImportCases;
         public string Model_OpenExportSelectorDialogCases;
         public string Model_ExportCases;
+        public string Model_ExportCrosstabCases;
         public string Model_GridRowsCases;
         public string Model_ImageLibNextCases;
         public string Model_GetByApiCases;
@@ -4876,6 +4881,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_ImportValidatorHeaders;
         public string Model_Utilities_ImportValidatorCases;
         public string Model_Utilities_Export;
+        public string Model_Utilities_ExportCrosstab;
         public string Model_Utilities_NotNull;
         public string Model_Utilities_TitleDisplay;
         public string Model_Utilities_Calendar;
@@ -5264,6 +5270,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ImportCases = new CodeDefinition();
         public CodeDefinition Model_OpenExportSelectorDialogCases = new CodeDefinition();
         public CodeDefinition Model_ExportCases = new CodeDefinition();
+        public CodeDefinition Model_ExportCrosstabCases = new CodeDefinition();
         public CodeDefinition Model_GridRowsCases = new CodeDefinition();
         public CodeDefinition Model_ImageLibNextCases = new CodeDefinition();
         public CodeDefinition Model_GetByApiCases = new CodeDefinition();
@@ -5395,6 +5402,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_ImportValidatorHeaders = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_Export = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ExportCrosstab = new CodeDefinition();
         public CodeDefinition Model_Utilities_NotNull = new CodeDefinition();
         public CodeDefinition Model_Utilities_TitleDisplay = new CodeDefinition();
         public CodeDefinition Model_Utilities_Calendar = new CodeDefinition();
@@ -8161,6 +8169,8 @@ namespace Implem.DefinitionAccessor
         public string _dot_grid_space___space_tbody_space___space_tr_space___space_th;
         public string _dot_grid_row;
         public string _dot_grid_row_space__dot_comment;
+        public string _dot_grid_row_space__dot_comment_dot_one_third;
+        public string _dot_grid_row_space__dot_comment_dot_half;
         public string _dot_grid_row_colon_hover;
         public string _dot_grid_row_colon_hover_space__dot_comment;
         public string _dot_grid_row_colon_hover_space__dot_grid_title_body;
@@ -8643,6 +8653,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_grid_space___space_tbody_space___space_tr_space___space_th = new CssDefinition();
         public CssDefinition _dot_grid_row = new CssDefinition();
         public CssDefinition _dot_grid_row_space__dot_comment = new CssDefinition();
+        public CssDefinition _dot_grid_row_space__dot_comment_dot_one_third = new CssDefinition();
+        public CssDefinition _dot_grid_row_space__dot_comment_dot_half = new CssDefinition();
         public CssDefinition _dot_grid_row_colon_hover = new CssDefinition();
         public CssDefinition _dot_grid_row_colon_hover_space__dot_comment = new CssDefinition();
         public CssDefinition _dot_grid_row_colon_hover_space__dot_grid_title_body = new CssDefinition();
