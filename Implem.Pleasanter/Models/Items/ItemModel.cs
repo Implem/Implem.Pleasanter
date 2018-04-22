@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.Models
             }
             SetSite(
                 initSiteSettings: true,
-                setLinkedSiteSettings: true,
+                setLinkedSiteSettings: false,
                 setSiteIntegration: true);
             ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
@@ -160,7 +160,7 @@ namespace Implem.Pleasanter.Models
             }
             SetSite(
                 initSiteSettings: true,
-                setLinkedSiteSettings: true,
+                setLinkedSiteSettings: false,
                 setSiteIntegration: true);
             ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
