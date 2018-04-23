@@ -2241,7 +2241,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void SetChoiceHash(
             string columnName,
             string searchText,
-            Dictionary<string, IEnumerable<string>> linkHash)
+            Dictionary<string, List<string>> linkHash)
         {
             Columns?
                 .Where(o => o.HasChoices())
@@ -2251,7 +2251,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         InheritPermission, linkHash, searchText.SearchIndexes()));
         }
 
-        private Dictionary<string, IEnumerable<string>> LinkHash(bool all)
+        private Dictionary<string, List<string>> LinkHash(bool all)
         {
             var siteIdList = Links.Select(o => o.SiteId);
             SetUseSearch(siteIdList);
@@ -2313,14 +2313,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         column.UseSearch = true));
         }
 
-        public Dictionary<string, IEnumerable<string>> LinkHash(
+        public Dictionary<string, List<string>> LinkHash(
             string columnName,
             string searchText = null,
             IEnumerable<string> selectedValues = null,
             int offset = 0,
             bool noLimit = false)
         {
-            var hash = new Dictionary<string, IEnumerable<string>>();
+            var hash = new Dictionary<string, List<string>>();
             Links?
                 .Where(o => o.ColumnName == columnName)
                 .Where(o => GetColumn(o.ColumnName)?.UseSearch == true)
@@ -2357,7 +2357,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string searchText,
             IEnumerable<string> selectedValues,
             Link link,
-            Dictionary<string, IEnumerable<string>> hash,
+            Dictionary<string, List<string>> hash,
             int offset)
         {
             var searchIndexes = searchText.SearchIndexes();
@@ -2396,7 +2396,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string searchText,
             IEnumerable<long> selectedValues,
             Link link,
-            Dictionary<string, IEnumerable<string>> hash,
+            Dictionary<string, List<string>> hash,
             int offset,
             bool noLimit)
         {
@@ -2445,7 +2445,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private static IEnumerable<string> LinkValue(
+        private static List<string> LinkValue(
             long siteId, EnumerableRowCollection<DataRow> dataRows)
         {
             return dataRows.Any(o =>
@@ -2459,9 +2459,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .Where(o => o.Trim() != string.Empty)
                                 .GroupBy(o => o.Split_1st())
                                 .Select(o => o.First())
+                                .ToList()
                     : dataRows
                         .Where(p => p["SiteId"].ToLong() == siteId)
-                        .Select(p => p["ReferenceId"].ToString() + "," + p["Title"].ToString());
+                        .Select(p => p["ReferenceId"].ToString() + "," + p["Title"].ToString())
+                        .ToList();
         }
 
         public Error.Types AddSummary(
