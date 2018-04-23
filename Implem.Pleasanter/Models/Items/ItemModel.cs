@@ -139,7 +139,6 @@ namespace Implem.Pleasanter.Models
             }
             SetSite(
                 initSiteSettings: true,
-                setLinkedSiteSettings: false,
                 setSiteIntegration: true);
             ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
@@ -160,7 +159,6 @@ namespace Implem.Pleasanter.Models
             }
             SetSite(
                 initSiteSettings: true,
-                setLinkedSiteSettings: false,
                 setSiteIntegration: true);
             ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
@@ -680,13 +678,11 @@ namespace Implem.Pleasanter.Models
                 case "Issues": return IssueUtilities.GridRows(
                     ss: Site.IssuesSiteSettings(
                         referenceId: ReferenceId,
-                        setLinkedSiteSettings: false,
                         setSiteIntegration: true),
                     offset: DataViewGrid.Offset());
                 case "Results": return ResultUtilities.GridRows(
                     ss: Site.ResultsSiteSettings(
                         referenceId: ReferenceId,
-                        setLinkedSiteSettings: false,
                         setSiteIntegration: true),
                     offset: DataViewGrid.Offset());
                 default: return Messages.ResponseNotFound().ToJson();
@@ -1168,20 +1164,17 @@ namespace Implem.Pleasanter.Models
         private void SetSite(
             bool siteOnly = false,
             bool initSiteSettings = false,
-            bool setLinkedSiteSettings = true,
             bool setSiteIntegration = false)
         {
             Site = GetSite(
                 siteOnly: siteOnly,
                 initSiteSettings: initSiteSettings,
-                setLinkedSiteSettings: setLinkedSiteSettings,
                 setSiteIntegration: setSiteIntegration);
         }
 
         public SiteModel GetSite(
             bool siteOnly = false,
             bool initSiteSettings = false,
-            bool setLinkedSiteSettings = true,
             bool setSiteIntegration = false)
         {
             SiteModel siteModel;
@@ -1208,7 +1201,6 @@ namespace Implem.Pleasanter.Models
                 siteModel.SiteSettings = SiteSettingsUtilities.Get(
                     siteModel: siteModel,
                     referenceId: ReferenceId,
-                    setLinkedSiteSettings: setLinkedSiteSettings,
                     setSiteIntegration: setSiteIntegration);
             }
             return siteModel;

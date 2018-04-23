@@ -285,7 +285,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss.ReferenceType = dataRow.String("ReferenceType");
                 ss.ParentId = dataRow.Long("ParentId");
                 ss.InheritPermission = dataRow.Long("InheritPermission");
-                ss.SetChoiceHash();
                 ss.Linked = true;
                 ssList.Add(ss);
             });
@@ -2214,12 +2213,27 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetChoiceHash(bool withLink = true, bool all = false)
         {
+            var siteIdList = LinkedSiteIdList();
+            var searchSiteIdList = SearchSiteIdList(siteIdList);
+            var linkHash = withLink
+                ? LinkHash(
+                    siteIdList: siteIdList,
+                    searchSiteIdList: searchSiteIdList,
+                    all: all)
+                : null;
+            SetUseSearch(searchSiteIdList);
             SetChoiceHash(
                 columnName: null,
                 searchText: null,
-                linkHash: withLink
-                    ? LinkHash(all: all)
-                    : null);
+                linkHash: linkHash);
+            Destinations?.ForEach(ss => ss.SetChoiceHash(
+                columnName: null,
+                searchText: null,
+                linkHash: linkHash));
+            Sources?.ForEach(ss => ss.SetChoiceHash(
+                columnName: null,
+                searchText: null,
+                linkHash: linkHash));
         }
 
         public void SetChoiceHash(
@@ -2238,7 +2252,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     noLimit: noLimit));
         }
 
-        private void SetChoiceHash(
+        public void SetChoiceHash(
             string columnName,
             string searchText,
             Dictionary<string, List<string>> linkHash)
@@ -2251,12 +2265,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         InheritPermission, linkHash, searchText.SearchIndexes()));
         }
 
-        private Dictionary<string, List<string>> LinkHash(bool all)
+        private Dictionary<string, List<string>> LinkHash(
+            List<long> siteIdList,
+            List<long> searchSiteIdList,
+            bool all)
         {
-            var siteIdList = Links.Select(o => o.SiteId);
-            SetUseSearch(siteIdList);
             var targetSites = Links?
-                .Where(o => all || GetColumn(o.ColumnName)?.UseSearch != true)
+                .Where(o => all || !searchSiteIdList.Contains(o.SiteId))
                 .Select(o => o.SiteId)
                 .Distinct()
                 .ToList();
@@ -2290,9 +2305,30 @@ namespace Implem.Pleasanter.Libraries.Settings
                         siteId, dataRows.Where(dataRow => dataRow.Long("SiteId") == siteId)));
         }
 
-        private void SetUseSearch(IEnumerable<long> siteIdList)
+        private List<long> LinkedSiteIdList()
         {
-            Rds.ExecuteTable(statements:
+            var siteIdList = Links.Select(o => o.SiteId).ToList();
+            siteIdList.AddRange(Destinations?
+                .SelectMany(o => o.Links.Select(p => p.SiteId)) ?? new List<long>());
+            siteIdList.AddRange(Sources?
+                .SelectMany(o => o.Links.Select(p => p.SiteId)) ?? new List<long>());
+            return siteIdList.Distinct().ToList();
+        }
+
+        private void SetUseSearch(List<long> searchSiteIdList)
+        {
+            searchSiteIdList
+                .ForEach(siteId =>
+                    Links
+                        .Where(o => o.SiteId == siteId)
+                        .Select(o => GetColumn(o.ColumnName))
+                        .ForEach(column =>
+                            column.UseSearch = true));
+        }
+
+        private static List<long> SearchSiteIdList(IEnumerable<long> siteIdList)
+        {
+            return Rds.ExecuteTable(statements:
                 Rds.SelectItems(
                     column: Rds.ItemsColumn().SiteId(),
                     join: new SqlJoinCollection(
@@ -2305,12 +2341,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     having: Rds.ItemsHaving().ItemsCount(
                         Parameters.General.DropDownSearcPageSize, _operator: ">")))
                             .AsEnumerable()
-                            .ForEach(dataRow =>
-                                Links
-                                    .Where(o => o.SiteId == dataRow.Long("SiteId"))
-                                    .Select(o => GetColumn(o.ColumnName))
-                                    .ForEach(column =>
-                                        column.UseSearch = true));
+                            .Select(dataRow => dataRow.Long("SiteId"))
+                            .ToList();
         }
 
         public Dictionary<string, List<string>> LinkHash(
