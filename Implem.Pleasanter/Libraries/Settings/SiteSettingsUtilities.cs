@@ -59,7 +59,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings Get(
             SiteModel siteModel,
             long referenceId,
-            bool setLinkedSiteSettings = true,
             bool setSiteIntegration = false,
             bool setAllChoices = false)
         {
@@ -68,25 +67,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Sites": return SitesSiteSettings(
                     siteModel: siteModel,
                     referenceId: referenceId,
-                    setLinkedSiteSettings: setLinkedSiteSettings,
                     setSiteIntegration: setSiteIntegration,
                     setAllChoices: setAllChoices);
                 case "Issues": return IssuesSiteSettings(
                     siteModel: siteModel,
                     referenceId: referenceId,
-                    setLinkedSiteSettings: setLinkedSiteSettings,
                     setSiteIntegration: setSiteIntegration,
                     setAllChoices: setAllChoices);
                 case "Results": return ResultsSiteSettings(
                     siteModel: siteModel,
                     referenceId: referenceId,
-                    setLinkedSiteSettings: setLinkedSiteSettings,
                     setSiteIntegration: setSiteIntegration,
                     setAllChoices: setAllChoices);
                 case "Wikis": return WikisSiteSettings(
                     siteModel: siteModel,
                     referenceId: referenceId,
-                    setLinkedSiteSettings: setLinkedSiteSettings,
                     setSiteIntegration: setSiteIntegration,
                     setAllChoices: setAllChoices);
                 default: return new SiteSettings() { SiteId = siteModel.SiteId };
@@ -281,7 +276,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings SitesSiteSettings(
             this SiteModel siteModel,
             long referenceId,
-            bool setLinkedSiteSettings = true,
             bool setSiteIntegration = false,
             bool setAllChoices = false)
         {
@@ -294,7 +288,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
-            if (setLinkedSiteSettings) ss.SetLinkedSiteSettings();
+            ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
             ss.SetJoinedSsHash();
             return ss;
@@ -312,7 +306,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings IssuesSiteSettings(
             this SiteModel siteModel,
             long referenceId,
-            bool setLinkedSiteSettings = true,
             bool setSiteIntegration = false,
             bool setAllChoices = false)
         {
@@ -325,7 +318,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
-            if (setLinkedSiteSettings) ss.SetLinkedSiteSettings();
+            ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
             ss.SetJoinedSsHash();
             if (setSiteIntegration) ss.SetSiteIntegration();
@@ -346,7 +339,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings ResultsSiteSettings(
             this SiteModel siteModel,
             long referenceId,
-            bool setLinkedSiteSettings = true,
             bool setSiteIntegration = false,
             bool setAllChoices = false)
         {
@@ -359,7 +351,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
-            if (setLinkedSiteSettings) ss.SetLinkedSiteSettings();
+            ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
             ss.SetJoinedSsHash();
             if (setSiteIntegration) ss.SetSiteIntegration();
@@ -380,7 +372,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings WikisSiteSettings(
             this SiteModel siteModel,
             long referenceId,
-            bool setLinkedSiteSettings = true,
             bool setSiteIntegration = false,
             bool setAllChoices = false)
         {
@@ -393,7 +384,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
-            if (setLinkedSiteSettings) ss.SetLinkedSiteSettings();
+            ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
             ss.SetJoinedSsHash();
             ss.SetChoiceHash(all: setAllChoices);
