@@ -171,7 +171,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetChoiceHash(
             long siteId,
-            Dictionary<string, IEnumerable<string>> linkHash = null,
+            Dictionary<string, List<string>> linkHash = null,
             IEnumerable<string> searchIndexes = null)
         {
             var tenantId = Sessions.TenantId();
@@ -197,7 +197,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void SetChoiceHash(
             int tenantId,
             long siteId,
-            Dictionary<string, IEnumerable<string>> linkHash,
+            Dictionary<string, List<string>> linkHash,
             IEnumerable<string> searchIndexes,
             int index,
             string line)
