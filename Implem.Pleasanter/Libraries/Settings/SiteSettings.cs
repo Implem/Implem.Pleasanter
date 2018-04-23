@@ -2300,9 +2300,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             tableBracket: "[Sites]",
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
-                    where: Rds.ItemsWhere()
-                        .SiteId_In(siteIdList)
-                        .CanRead("[Items].[ReferenceId]"),
+                    where: Rds.ItemsWhere().SiteId_In(siteIdList),
                     groupBy: Rds.ItemsGroupBy().SiteId(),
                     having: Rds.ItemsHaving().ItemsCount(
                         Parameters.General.DropDownSearcPageSize, _operator: ">")))
