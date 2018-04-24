@@ -2344,7 +2344,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     where: Rds.ItemsWhere().SiteId_In(siteIdList),
                     groupBy: Rds.ItemsGroupBy().SiteId(),
                     having: Rds.ItemsHaving().ItemsCount(
-                        Parameters.General.DropDownSearcPageSize, _operator: ">")))
+                        Parameters.General.DropDownSearchPageSize, _operator: ">")))
                             .AsEnumerable()
                             .Select(dataRow => dataRow.Long("SiteId"))
                             .ToList();
@@ -2425,7 +2425,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             hash.Add("[[" + link.SiteId + "]]",dataRows
                 .Select(o => o.Key)
                 .Skip(offset)
-                .Take(Parameters.General.DropDownSearcPageSize)
+                .Take(Parameters.General.DropDownSearchPageSize)
                 .ToList());
         }
 
@@ -2471,7 +2471,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ? offset
                         : 0,
                     pageSize: !noLimit
-                        ? Parameters.General.DropDownSearcPageSize
+                        ? Parameters.General.DropDownSearchPageSize
                         : 0,
                     countRecord: true));
             var dataRows = dataSet.Tables["Main"].AsEnumerable();
