@@ -2166,6 +2166,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var columns = dataRows.Columns();
             Columns
+                .Where(o => !Aggregations.Any(p => p.GroupBy == o.ColumnName))
                 .Where(o => columns.Contains("Linked__" + o.ColumnName))
                 .Where(o => o.Linked())
                 .ForEach(column =>
@@ -2271,9 +2272,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool all)
         {
             var targetSites = Links?
-                .Where(o => all || !searchSiteIdList.Contains(o.SiteId))
+                .Where(o =>
+                    all ||
+                    !searchSiteIdList.Contains(o.SiteId) ||
+                    Aggregations.Any(p => p.GroupBy == o.ColumnName))
                 .Select(o => o.SiteId)
-                .Distinct()
                 .ToList();
             var dataRows = Rds.ExecuteTable(
                 statements: Rds.SelectItems(
@@ -2291,9 +2294,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ReferenceType("Sites", _operator: "<>")
                         .SiteId_In(siteIdList)
                         .CanRead("[Items].[ReferenceId]")
-                        .Or(Rds.ItemsWhere()
-                            .ReferenceType("Wikis")
-                            .SiteId_In(targetSites, _using: targetSites.Any())),
+                        .Or(
+                            or: Rds.ItemsWhere()
+                                .ReferenceType("Wikis")
+                                .SiteId_In(targetSites),
+                            _using: searchSiteIdList.Any()),
                     orderBy: Rds.ItemsOrderBy()
                         .Title())).AsEnumerable();
             return dataRows
@@ -2326,7 +2331,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             column.UseSearch = true));
         }
 
-        private static List<long> SearchSiteIdList(IEnumerable<long> siteIdList)
+        private static List<long> SearchSiteIdList(List<long> siteIdList)
         {
             return Rds.ExecuteTable(statements:
                 Rds.SelectItems(
