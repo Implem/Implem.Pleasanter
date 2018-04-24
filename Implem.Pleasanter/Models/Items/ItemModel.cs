@@ -553,7 +553,7 @@ namespace Implem.Pleasanter.Models
             var offset = Forms.Int("DropDownSearchResultsOffset");
             var column = SearchDropDownColumn(controlId, searchText, offset);
             var nextOffset = Paging.NextOffset(
-                offset, column.TotalCount, Parameters.General.DropDownSearcPageSize);
+                offset, column.TotalCount, Parameters.General.DropDownSearchPageSize);
             return new ResponseCollection()
                 .Append("#DropDownSearchResults", new HtmlBuilder()
                     .SelectableItems(
@@ -566,7 +566,7 @@ namespace Implem.Pleasanter.Models
         {
             var column = SearchDropDownColumn(controlId, searchText);
             var nextOffset = Paging.NextOffset(
-                0, column.TotalCount, Parameters.General.DropDownSearcPageSize);
+                0, column.TotalCount, Parameters.General.DropDownSearchPageSize);
             return new ResponseCollection()
                 .ReplaceAll(
                     "#DropDownSearchResults",

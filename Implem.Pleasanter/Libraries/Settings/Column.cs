@@ -189,7 +189,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         data.Line));
             if (searchIndexes?.Any() == true)
             {
-                ChoiceHash = ChoiceHash.Take(Parameters.General.DropDownSearcPageSize)
+                ChoiceHash = ChoiceHash.Take(Parameters.General.DropDownSearchPageSize)
                     .ToDictionary(o => o.Key, o => o.Value);
             }
         }
