@@ -2271,13 +2271,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<long> searchSiteIdList,
             bool all)
         {
-            var targetSites = Links?
-                .Where(o =>
-                    all ||
-                    !searchSiteIdList.Contains(o.SiteId) ||
-                    Aggregations.Any(p => p.GroupBy == o.ColumnName))
-                .Select(o => o.SiteId)
-                .ToList();
             var dataRows = Rds.ExecuteTable(
                 statements: Rds.SelectItems(
                     column: Rds.ItemsColumn()
@@ -2297,7 +2290,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Or(
                             or: Rds.ItemsWhere()
                                 .ReferenceType("Wikis")
-                                .SiteId_In(targetSites),
+                                .SiteId_In(
+                                    LinkHashTargetSiteIdList(
+                                        siteIdList: siteIdList,
+                                        searchSiteIdList: searchSiteIdList,
+                                        all: all)),
                             _using: searchSiteIdList.Any()),
                     orderBy: Rds.ItemsOrderBy()
                         .Title())).AsEnumerable();
@@ -2307,7 +2304,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(
                     siteId => "[[" + siteId + "]]",
                     siteId => LinkValue(
-                        siteId, dataRows.Where(dataRow => dataRow.Long("SiteId") == siteId)));
+                        siteId: siteId,
+                        dataRows: dataRows.Where(dataRow => dataRow.Long("SiteId") == siteId)));
+        }
+
+        private List<long> LinkHashTargetSiteIdList(
+            List<long> siteIdList,
+            List<long> searchSiteIdList,
+            bool all)
+        {
+            return siteIdList
+                .Where(siteId =>
+                    all ||
+                    !searchSiteIdList.Contains(siteId) ||
+                    Links.Any(p =>
+                        p.SiteId == siteId &&
+                        Aggregations.Any(q => q.GroupBy == p.ColumnName)))
+                .ToList();
         }
 
         private List<long> LinkedSiteIdList()
