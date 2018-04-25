@@ -299,6 +299,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             var tenantId = Sessions.TenantId();
             var hash = new Dictionary<string, ControlData>();
             if (!HasChoices()) return hash;
+            if (addNotSet && !Required)
+            {
+                hash.Add("\t", new ControlData(Displays.NotSet()));
+            }
             if (insertBlank && CanEmpty())
             {
                 hash.Add(
@@ -318,10 +322,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                             text: choice.Text,
                             css: choice.CssClass,
                             style: choice.Style)));
-            if (addNotSet && !Required)
-            {
-                hash.Add("\t", new ControlData(Displays.NotSet()));
-            }
             return hash;
         }
 
