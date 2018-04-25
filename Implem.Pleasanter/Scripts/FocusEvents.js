@@ -1,7 +1,8 @@
 ﻿$(function () {
-    if ($('.focus').length !== 0) {
+    var $control = $('.control-textbox.focus');
+    if ($control.length !== 0) {
         setTimeout(function () {
-            $('.focus').focus();
+            $control.focus();
         }, 0);
     }
 });
