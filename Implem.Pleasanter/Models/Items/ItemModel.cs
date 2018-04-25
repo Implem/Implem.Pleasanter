@@ -634,6 +634,9 @@ namespace Implem.Pleasanter.Models
         private static string SelectSearchDropDownResponse(
             string controlId, Column column, List<string> selected, bool editor, bool multiple)
         {
+            column.SiteSettings.SetChoiceHash(
+                columnName: column.ColumnName,
+                selectedValues: selected);
             var optionCollection = column?.EditChoices(addNotSet: true)?
                 .Where(o => selected.Contains(o.Key))
                 .ToDictionary(o => o.Key, o => o.Value);
