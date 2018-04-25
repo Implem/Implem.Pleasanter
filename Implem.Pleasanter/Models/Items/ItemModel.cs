@@ -572,7 +572,7 @@ namespace Implem.Pleasanter.Models
                     "#DropDownSearchResults",
                     new HtmlBuilder().Selectable(
                         controlId: "DropDownSearchResults",
-                        listItemCollection: column?.EditChoices(addNotSet: nextOffset == -1),
+                        listItemCollection: column?.EditChoices(addNotSet: true),
                         action: "SearchDropDown",
                         method: "post"))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
