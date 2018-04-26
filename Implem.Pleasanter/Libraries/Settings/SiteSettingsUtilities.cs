@@ -51,12 +51,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static SiteSettings Get(
-            long siteId, long referenceId, bool setAllChoices = false)
-        {
-            return Get(new SiteModel(siteId), referenceId, setAllChoices);
-        }
-
-        public static SiteSettings Get(
             SiteModel siteModel,
             long referenceId,
             bool setSiteIntegration = false,
