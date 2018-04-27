@@ -67,4 +67,5 @@ https://pleasanter.azurewebsites.net
 * データディスク: 10GB以上（バックアップ等の領域を検討する場合は別途ご準備ください）
 
 ## 開発元
+お気軽にお問い合わせください。
 [株式会社インプリム](https://implem.co.jp)
