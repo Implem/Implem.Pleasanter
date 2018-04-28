@@ -31,6 +31,24 @@ namespace Implem.Libraries.Utilities
             return self.ToDictionary(o => o.Key, o => o.Value);
         }
 
+        public static TResult MinOrDefault<T, TResult>(
+            this IEnumerable<T> self, Func<T, TResult> func)
+        {
+            var list = self.ToList();
+            return list.Any()
+                ? list.Min(func)
+                : default(TResult);
+        }
+
+        public static TResult MaxOrDefault<T, TResult>(
+            this IEnumerable<T> self, Func<T, TResult> func)
+        {
+            var list = self.ToList();
+            return list.Any()
+                ? list.Max(func)
+                : default(TResult);
+        }
+
         public static List<T> ToSingleList<T>(this T self)
         {
             return new List<T>() { self };
