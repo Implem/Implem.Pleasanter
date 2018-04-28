@@ -2116,9 +2116,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Notifications.Add(new Notification(
-                    SiteSettings.Notifications?.Any() == true
-                        ? SiteSettings.Notifications.Select(o => o.Id).Max() + 1
-                        : 1,
+                    SiteSettings.Notifications.MaxOrDefault(o => o.Id) + 1,
                     (Notification.Types)Forms.Int("NotificationType"),
                     Forms.Data("NotificationPrefix"),
                     Forms.Data("NotificationAddress"),
@@ -2333,9 +2331,7 @@ namespace Implem.Pleasanter.Models
                 {
                     case Error.Types.None:
                         SiteSettings.Reminders.Add(new Reminder(
-                            id: SiteSettings.Reminders?.Any() == true
-                                ? SiteSettings.Reminders.Select(o => o.Id).Max() + 1
-                                : 1,
+                            id: SiteSettings.Reminders.MaxOrDefault(o => o.Id) + 1,
                             subject: Forms.Data("ReminderSubject"),
                             body: Forms.Data("ReminderBody"),
                             line: SiteSettings.LabelTextToColumnName(
@@ -2564,9 +2560,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.SetExports();
                 var export = Session_Export();
-                export.Id = SiteSettings.Exports.Any()
-                    ? SiteSettings.Exports.Max(o => o.Id) + 1
-                    : 1;
+                export.Id = SiteSettings.Exports.MaxOrDefault(o => o.Id) + 1;
                 export.Name = Forms.Data("ExportName");
                 export.Header = Forms.Bool("ExportHeader");
                 export.Join = Forms.Data("ExportJoin").Deserialize<Join>();
@@ -2954,7 +2948,7 @@ namespace Implem.Pleasanter.Models
         private void AddStyle(ResponseCollection res, string controlId)
         {
             SiteSettings.Styles.Add(new Style(
-                id: SiteSettings.Styles.Count() + 1,
+                id: SiteSettings.Styles.MaxOrDefault(o => o.Id) + 1,
                 title: Forms.Data("StyleTitle"),
                 all: Forms.Bool("StyleAll"),
                 _new: Forms.Bool("StyleNew"),
@@ -3078,7 +3072,7 @@ namespace Implem.Pleasanter.Models
         private void AddScript(ResponseCollection res, string controlId)
         {
             SiteSettings.Scripts.Add(new Script(
-                id: SiteSettings.Scripts.Count() + 1,
+                id: SiteSettings.Scripts.MaxOrDefault(o => o.Id) + 1,
                 title: Forms.Data("ScriptTitle"),
                 all: Forms.Bool("ScriptAll"),
                 _new: Forms.Bool("ScriptNew"),
