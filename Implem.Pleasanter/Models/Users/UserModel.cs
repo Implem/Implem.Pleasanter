@@ -348,7 +348,7 @@ namespace Implem.Pleasanter.Models
                 : UserSettings;
         }
 
-        public void  Session_UserSettings(object value)
+        public void Session_UserSettings(object value)
         {
             this.PageSession("UserSettings", value);
         }
@@ -360,7 +360,7 @@ namespace Implem.Pleasanter.Models
                 : MailAddresses;
         }
 
-        public void  Session_MailAddresses(object value)
+        public void Session_MailAddresses(object value)
         {
             this.PageSession("MailAddresses", value);
         }

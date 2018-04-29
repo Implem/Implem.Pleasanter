@@ -172,7 +172,7 @@ namespace Implem.Pleasanter.Models
                 : BinarySettings;
         }
 
-        public void  Session_BinarySettings(object value)
+        public void Session_BinarySettings(object value)
         {
             this.PageSession("BinarySettings", value);
         }
