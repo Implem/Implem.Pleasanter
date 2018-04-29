@@ -100,7 +100,7 @@ namespace Implem.Pleasanter.Models
                 : SiteSettings;
         }
 
-        public void  Session_SiteSettings(object value)
+        public void Session_SiteSettings(object value)
         {
             this.PageSession("SiteSettings", value);
         }
@@ -112,7 +112,7 @@ namespace Implem.Pleasanter.Models
                 : MonitorChangesColumns;
         }
 
-        public void  Session_MonitorChangesColumns(object value)
+        public void Session_MonitorChangesColumns(object value)
         {
             this.PageSession("MonitorChangesColumns", value);
         }
@@ -124,7 +124,7 @@ namespace Implem.Pleasanter.Models
                 : TitleColumns;
         }
 
-        public void  Session_TitleColumns(object value)
+        public void Session_TitleColumns(object value)
         {
             this.PageSession("TitleColumns", value);
         }
@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.Models
                 : Export;
         }
 
-        public void  Session_Export(object value)
+        public void Session_Export(object value)
         {
             this.PageSession("Export", value);
         }

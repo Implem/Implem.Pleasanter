@@ -91,7 +91,7 @@ namespace Implem.Pleasanter.Models
                 : Title;
         }
 
-        public void  Session_Title(object value)
+        public void Session_Title(object value)
         {
             this.PageSession("Title", value);
         }
@@ -103,7 +103,7 @@ namespace Implem.Pleasanter.Models
                 : AddHeader;
         }
 
-        public void  Session_AddHeader(object value)
+        public void Session_AddHeader(object value)
         {
             this.PageSession("AddHeader", value);
         }
@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Models
                 : ExportColumns;
         }
 
-        public void  Session_ExportColumns(object value)
+        public void Session_ExportColumns(object value)
         {
             this.PageSession("ExportColumns", value);
         }
