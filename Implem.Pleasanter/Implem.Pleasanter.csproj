@@ -207,6 +207,7 @@
     <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\OutgoingMailsController.cs" />
+    <Compile Include="Controllers\ResourcesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VersionsController.cs" />
     <Compile Include="Filters\CheckApiAuthentication.cs" />

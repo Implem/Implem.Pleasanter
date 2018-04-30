@@ -1,4 +1,6 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using System.Web.Mvc;
 namespace Implem.Pleasanter.Libraries.Styles
 {
     public static class Css
@@ -21,6 +23,15 @@ namespace Implem.Pleasanter.Libraries.Styles
             {
                 return additional;
             }
+        }
+
+        public static ContentResult Get()
+        {
+            return new ContentResult
+            {
+                ContentType = "text/css",
+                Content = Parameters.ExtendedStyles.Join("\n")
+            };
         }
     }
 }

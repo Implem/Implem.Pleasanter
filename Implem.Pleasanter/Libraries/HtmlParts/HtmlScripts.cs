@@ -30,7 +30,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src: Locations.Get("Scripts/Plugins/marked.min.js"))
                     .Generals()
                     .Script(
-                        script: Parameters.ExtendedScripts?.Join("\n"),
+                        src: Locations.Get("Resources/Scripts?v=" +
+                            Parameters.ExtendedScripts.Join().Sha512Cng()),
                         _using: Parameters.ExtendedScripts?.Any() == true)
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(
