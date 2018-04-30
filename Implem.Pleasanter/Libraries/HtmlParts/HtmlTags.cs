@@ -620,8 +620,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
+        public static HtmlBuilder Link(
+            this HtmlBuilder hb,
+            string href = null,
+            string rel = null,
+            bool _using = true)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "link",
+                    id: null,
+                    css: null,
+                    attributes: new HtmlAttributes()
+                        .Href(href)
+                        .Rel(rel),
+                    action: null)
+                : hb;
+        }
+
         public static HtmlBuilder Style(
             this HtmlBuilder hb,
+            string id = null,
+            string src = null,
             string type = null,
             string style = null,
             bool _using = true)
@@ -631,7 +651,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "style",
                     id: null,
                     css: null,
-                    attributes: new HtmlAttributes().Type(type),
+                    attributes: new HtmlAttributes()
+                        .Src(src)
+                        .Type(type),
                     action: () => hb
                         .Raw(text: style))
                 : hb;

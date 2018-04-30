@@ -1,4 +1,7 @@
-﻿namespace Implem.Pleasanter.Libraries.Scripts
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using System.Web.Mvc;
+namespace Implem.Pleasanter.Libraries.Scripts
 {
     public static class JavaScripts
     {
@@ -16,6 +19,15 @@
                 case "imagelib": return "$p.setImageLib();";
             }
             return string.Empty;
+        }
+
+        public static ContentResult Get()
+        {
+            return new ContentResult
+            {
+                ContentType = "text/javascript",
+                Content = Parameters.ExtendedScripts.Join("\n")
+            };
         }
     }
 }

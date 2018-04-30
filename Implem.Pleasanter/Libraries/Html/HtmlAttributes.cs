@@ -194,6 +194,16 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes Rel(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("rel");
+                Add(value);
+            }
+            return this;
+        }
+
         public HtmlAttributes Target(string value, bool _using = true)
         {
             if (!value.IsNullOrEmpty() && _using)
