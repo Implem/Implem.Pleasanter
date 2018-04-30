@@ -11,8 +11,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static string Get()
         {
-            var hb = new HtmlBuilder();
-            return hb
+            return new HtmlBuilder()
                 .Link(
                     rel: "stylesheet",
                     href: Locations.Get("Resources/Styles?v=" +
