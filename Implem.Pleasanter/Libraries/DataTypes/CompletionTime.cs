@@ -25,10 +25,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public CompletionTime(DataRow dataRow, ColumnNameInfo column)
+        public CompletionTime(SiteSettings ss, DataRow dataRow, ColumnNameInfo column = null)
         {
+            column = column ?? new ColumnNameInfo("CompletionTime");
             Value = dataRow.DateTime(Rds.DataColumnName(column, "CompletionTime"));
-            DisplayValue = Value.ToLocal().AddDays(-1);
+            DisplayValue = Value
+                .ToLocal()
+                .AddDifferenceOfDates(ss.GetColumn("CompletionTime")?.EditorFormat, minus: true);
             Status = new Status(dataRow, column);
             UpdatedTime = dataRow.DateTime(Rds.DataColumnName(column, "UpdatedTime"));
             VerType = dataRow.Bool(Rds.DataColumnName(column, "IsHistory"))
@@ -37,13 +40,26 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         }
 
         public CompletionTime(
-            DateTime value, Status status, bool byForm = false) : base(value, byForm)
+            SiteSettings ss,
+            DateTime value,
+            Status status,
+            bool byForm = false) : base(value, byForm)
         {
             Value = byForm
-                ? value.ToUniversal().AddDays(1)
+                ? value
+                    .ToUniversal()
+                    .AddDifferenceOfDates(ss.GetColumn("CompletionTime")?.EditorFormat)
                 : value;
             DisplayValue = value.ToLocal();
             Status = status;
+        }
+
+        public CompletionTime(SiteSettings ss, DateTime value)
+        {
+            Value = value;
+            DisplayValue = Value
+                .ToLocal()
+                .AddDifferenceOfDates(ss.GetColumn("CompletionTime")?.EditorFormat, minus: true);
         }
 
         [OnDeserialized]
@@ -179,7 +195,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public override string ToNotice(DateTime saved, Column column, bool updated, bool update)
         {
             return column.DisplayControl(DisplayValue).ToNoticeLine(
-                column.DisplayControl(saved.ToLocal().AddDays(-1)),
+                column.DisplayControl(saved
+                    .ToLocal()
+                    .AddDifferenceOfDates(column.EditorFormat, minus: true)),
                 column,
                 updated,
                 update);

@@ -226,6 +226,7 @@
     <Compile Include="Libraries\Converts\InitialValueExtensions.cs" />
     <Compile Include="Libraries\Converts\GridTextExtensions.cs" />
     <Compile Include="Libraries\Converts\FullTextExtensions.cs" />
+    <Compile Include="Libraries\Converts\TimeExtensions.cs" />
     <Compile Include="Libraries\Converts\ToNoticeExtensions.cs" />
     <Compile Include="Libraries\Converts\SearchIndexExtensions.cs" />
     <Compile Include="Libraries\Converts\TdExtensions.cs" />

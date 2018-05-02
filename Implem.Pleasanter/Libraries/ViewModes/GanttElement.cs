@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -34,6 +35,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             DateTime createdTime,
             DateTime updatedTime,
             Column statusColumn,
+            Column completionTimeColumn,
             Column workValueColumn,
             Column progressRateColumn,
             bool showProgressRate,
@@ -69,7 +71,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 ? startTime.ToLocal(Displays.YmdFormat())
                 : createdTime.ToLocal(Displays.YmdFormat());
             CompletionTime = completionTime.ToLocal(Displays.YmdFormat());
-            DisplayCompletionTime = completionTime.AddDays(-1).ToLocal(Displays.YmdFormat());
+            DisplayCompletionTime = completionTime
+                .AddDifferenceOfDates(completionTimeColumn.EditorFormat, minus: true)
+                .ToLocal(Displays.YmdFormat());
             ProgressRate = progressRate;
             Completed = status >= Parameters.General.CompletionCode;
             GroupSummary = summary;

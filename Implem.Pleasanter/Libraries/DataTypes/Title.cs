@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 ? dataRow.String(itemTitlePath)
                 : ss.GetTitleColumns()
                     .Select(o => GetDisplayValue(
-                        o, dataRow, Rds.DataColumnName(column, o.ColumnName)))
+                        ss, o, dataRow, Rds.DataColumnName(column, o.ColumnName)))
                     .Where(o => !o.IsNullOrEmpty())
                     .Join(ss.TitleSeparator);
             DisplayValue = displayValue != string.Empty
@@ -58,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Id = id;
             Value = data.Get("Title");
             var displayValue = ss.GetTitleColumns()
-                .Select(o => GetDisplayValue(o, data))
+                .Select(column => GetDisplayValue(ss, column, data))
                 .Where(o => !o.IsNullOrEmpty())
                 .Join(ss.TitleSeparator);
             DisplayValue = displayValue != string.Empty
@@ -66,7 +66,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : Displays.NoTitle();
         }
 
-        private string GetDisplayValue(Column column, DataRow dataRow, string path)
+        private string GetDisplayValue(
+            SiteSettings ss, Column column, DataRow dataRow, string path)
         {
             switch (column.TypeName.CsTypeSummary())
             {
@@ -80,8 +81,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     switch (path)
                     {
                         case "CompletionTime":
-                            return column.DisplayControl(
-                                dataRow.DateTime(path).ToLocal().AddDays(-1));
+                            return column.DisplayControl(new CompletionTime(
+                                ss, dataRow, new ColumnNameInfo(path)).DisplayValue);
                         default:
                             return column.DisplayControl(
                                 dataRow.DateTime(path).ToLocal());
@@ -95,7 +96,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
-        private string GetDisplayValue(Column column, Dictionary<string, string> data)
+        private string GetDisplayValue(
+            SiteSettings ss, Column column, Dictionary<string, string> data)
         {
             switch (column.TypeName.CsTypeSummary())
             {
@@ -109,8 +111,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     switch (column.ColumnName)
                     {
                         case "CompletionTime":
-                            return column.DisplayControl(
-                                data.Get(column.ColumnName).ToDateTime().ToLocal().AddDays(-1));
+                            return column.DisplayControl(new CompletionTime(
+                                ss, data.Get(column.ColumnName).ToDateTime()).DisplayValue);
                         default:
                             return column.DisplayControl(
                                 data.Get(column.ColumnName).ToDateTime().ToLocal());

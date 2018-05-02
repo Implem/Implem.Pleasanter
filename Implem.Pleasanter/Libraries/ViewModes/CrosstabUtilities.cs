@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -120,19 +121,24 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         private static string ColumnBracket(Column column)
         {
             var columnBracket = "[{0}].[{1}]".Params(column.TableName(), column.Name);
-            var now = DateTime.Now;
-            var diff = (now.ToLocal() - now).Hours;
-            switch (column.Name)
-            {
-                case "CompletionTime":
-                    diff -= 24;
-                    break;
-            }
+            var diff = Diff(column);
             if (diff != 0)
             {
                 columnBracket = $"dateadd(hour,{diff},{columnBracket})";
             }
             return columnBracket;
+        }
+
+        private static int Diff(Column column)
+        {
+            var now = DateTime.Now.ToLocal();
+            switch (column.Name)
+            {
+                case "CompletionTime":
+                    now = now.AddDifferenceOfDates(column.EditorFormat, minus: true);
+                    break;
+            }
+            return (now - now).Hours;
         }
 
         public static List<Column> GetColumns(SiteSettings ss, List<Column> columns)

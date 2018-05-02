@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
@@ -191,9 +192,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static DateTime ConvertIfCompletionTime(Column column, DateTime dateTime)
         {
-            return column?.ColumnName == "CompletionTime"
-                ? dateTime.ToLocal().AddDays(-1)
-                : dateTime.ToLocal();
+            switch (column?.ColumnName)
+            {
+                case "CompletionTime":
+                    return dateTime
+                        .ToLocal()
+                        .AddDifferenceOfDates(column.EditorFormat, minus: true);
+                default:
+                    return dateTime.ToLocal();
+            }
         }
 
         private static string DayOfWeekCss(int x)

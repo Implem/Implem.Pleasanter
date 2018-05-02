@@ -5212,7 +5212,10 @@ namespace Implem.Pleasanter.Models
             switch (column.ColumnName)
             {
                 case "CompletionTime":
-                    recordingData = recordingData.ToDateTime().AddDays(1).ToString();
+                    recordingData = recordingData
+                        .ToDateTime()
+                        .AddDifferenceOfDates(column.EditorFormat)
+                        .ToString();
                     break;
             }
             return recordingData;
@@ -5921,7 +5924,7 @@ namespace Implem.Pleasanter.Models
                             function: Sqls.Functions.SingleColumn),
                     join: ss.Join(),
                     where: view.Where(
-                        ss: ss, where: Libraries.ViewModes.GanttUtilities.Where(view))))
+                        ss: ss, where: Libraries.ViewModes.GanttUtilities.Where(ss, view))))
                             .AsEnumerable();
         }
 
