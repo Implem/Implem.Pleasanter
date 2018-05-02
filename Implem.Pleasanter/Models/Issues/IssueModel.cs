@@ -5983,7 +5983,7 @@ namespace Implem.Pleasanter.Models
                             DateZ = column.DefaultTime();
                             break;
                         case "CompletionTime":
-                            CompletionTime = new CompletionTime(column.DefaultTime(), Status);
+                            CompletionTime = new CompletionTime(ss, column.DefaultTime(), Status);
                             break;
                     }
                 });
@@ -5998,7 +5998,7 @@ namespace Implem.Pleasanter.Models
                     case "Issues_Title": Title = new Title(IssueId, Forms.Data(controlId)); break;
                     case "Issues_Body": Body = Forms.Data(controlId).ToString(); break;
                     case "Issues_StartTime": StartTime = Forms.DateTime(controlId).ToUniversal(); ProgressRate.StartTime = StartTime; break;
-                    case "Issues_CompletionTime": CompletionTime = new CompletionTime(Forms.Data(controlId).ToDateTime(), Status, byForm: true); ProgressRate.CompletionTime = CompletionTime.Value; break;
+                    case "Issues_CompletionTime": CompletionTime = new CompletionTime(ss, Forms.Data(controlId).ToDateTime(), Status, byForm: true); ProgressRate.CompletionTime = CompletionTime.Value; break;
                     case "Issues_WorkValue": WorkValue = new WorkValue(ss.GetColumn("WorkValue").Round(Forms.Decimal(controlId)), ProgressRate.Value); break;
                     case "Issues_ProgressRate": ProgressRate = new ProgressRate(CreatedTime, StartTime, CompletionTime, ss.GetColumn("ProgressRate").Round(Forms.Decimal(controlId))); WorkValue.ProgressRate = ProgressRate.Value; break;
                     case "Issues_Status": Status = new Status(Forms.Int(controlId)); CompletionTime.Status = Status; break;
@@ -6209,7 +6209,7 @@ namespace Implem.Pleasanter.Models
             if (data.Title != null) Title = new Title(data.IssueId.ToLong(), data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.StartTime != null) StartTime = data.StartTime.ToDateTime().ToUniversal(); ProgressRate.StartTime = StartTime;
-            if (data.CompletionTime != null) CompletionTime = new CompletionTime(data.CompletionTime.ToDateTime(), Status, byForm: true); ProgressRate.CompletionTime = CompletionTime.Value;
+            if (data.CompletionTime != null) CompletionTime = new CompletionTime(ss, data.CompletionTime.ToDateTime(), Status, byForm: true); ProgressRate.CompletionTime = CompletionTime.Value;
             if (data.WorkValue != null) WorkValue = new WorkValue(ss.GetColumn("WorkValue").Round(data.WorkValue.ToDecimal()), ProgressRate.Value);
             if (data.ProgressRate != null) ProgressRate = new ProgressRate(CreatedTime, StartTime, CompletionTime, ss.GetColumn("ProgressRate").Round(data.ProgressRate.ToDecimal())); WorkValue.ProgressRate = ProgressRate.Value;
             if (data.Status != null) Status = new Status(data.Status.ToInt()); CompletionTime.Status = Status;
@@ -7589,7 +7589,7 @@ namespace Implem.Pleasanter.Models
                             SavedStartTime = StartTime;
                             break;
                         case "CompletionTime":
-                            CompletionTime = new CompletionTime(dataRow, column);
+                            CompletionTime = new CompletionTime(ss, dataRow, column);
                             SavedCompletionTime = CompletionTime.Value;
                             break;
                         case "WorkValue":

@@ -159,7 +159,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 switch (Column)
                 {
                     case "CompletionTime":
-                        date = date.AddDays(-1);
+                        date = date.AddDifferenceOfDates(
+                            ss.GetColumn("CompletionTime")?.EditorFormat, minus: true);
                         break;
                 }
                 sb.Append("{0} ({1})\n".Params(
