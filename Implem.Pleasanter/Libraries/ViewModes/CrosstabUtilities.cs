@@ -135,10 +135,15 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             switch (column.Name)
             {
                 case "CompletionTime":
-                    now = now.AddDifferenceOfDates(column.EditorFormat, minus: true);
-                    break;
+                    return Diff(now.AddDifferenceOfDates(column.EditorFormat, minus: true));
+                default:
+                    return Diff(now);
             }
-            return (now - now).Hours;
+        }
+
+        private static int Diff(DateTime from)
+        {
+            return (from - DateTime.Now).TotalHours.ToInt();
         }
 
         public static List<Column> GetColumns(SiteSettings ss, List<Column> columns)
