@@ -2,6 +2,14 @@
 ## プリザンターとは
 ノンプログラミングでWebデータベース型の業務アプリケーションが作成できるオープンソース・ソフトウェア。
 
+## ダウンロード
+セットアップモジュールのダウンロードサイトです。  
+http://pleasanter.org
+
+## デモサイト
+下記のサイトでe-mailアドレスを登録すると30日間試用することが出来ます。  
+https://pleasanter.azurewebsites.net
+
 ## 資料
 * [紹介資料](https://pleasanter.org/downloads/pleasanterp.pdf)
 * [パンフレット](https://pleasanter.org/downloads/pleasanter.pdf)
@@ -18,14 +26,6 @@
 ## 機能概要・使い方マニュアル
 プリザンターのインストール手順及び、操作方法を解説します。  
 [使い方マニュアル](https://github.com/Implem/Implem.Pleasanter/wiki/プリザンターの使い方マニュアル)
-
-## ダウンロード
-セットアップモジュールのダウンロードサイトです。  
-http://pleasanter.org
-
-## デモサイト
-下記のサイトでe-mailアドレスを登録すると30日間試用することが出来ます。  
-https://pleasanter.azurewebsites.net
 
 ## 動作イメージ
 * レコード操作
