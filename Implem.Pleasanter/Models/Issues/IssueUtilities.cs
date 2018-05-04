@@ -4420,7 +4420,7 @@ namespace Implem.Pleasanter.Models
                     .IssueId(issueModel.IssueId)
                     .Ver(Forms.Int("Ver")),
                 tableType: Sqls.TableTypes.NormalAndHistory);
-            issueModel.VerType =  Forms.Bool("Latest")
+            issueModel.VerType = Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(ss, issueModel).ToJson();

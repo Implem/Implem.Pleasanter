@@ -835,7 +835,7 @@ namespace Implem.Pleasanter.Models
                     .GroupId(groupModel.GroupId)
                     .Ver(Forms.Int("Ver")),
                 tableType: Sqls.TableTypes.NormalAndHistory);
-            groupModel.VerType =  Forms.Bool("Latest")
+            groupModel.VerType = Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(ss, groupModel).ToJson();
