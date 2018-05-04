@@ -249,7 +249,7 @@ namespace Implem.Pleasanter.Models
             return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
                     .A(
-                        href: "#FieldSetGeneral", 
+                        href: "#FieldSetGeneral",
                         text: Displays.General()))
                 .Li(_using: wikiModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
