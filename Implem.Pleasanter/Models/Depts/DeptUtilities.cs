@@ -827,7 +827,7 @@ namespace Implem.Pleasanter.Models
                     .DeptId(deptModel.DeptId)
                     .Ver(Forms.Int("Ver")),
                 tableType: Sqls.TableTypes.NormalAndHistory);
-            deptModel.VerType =  Forms.Bool("Latest")
+            deptModel.VerType = Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(ss, deptModel).ToJson();

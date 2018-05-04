@@ -4305,7 +4305,7 @@ namespace Implem.Pleasanter.Models
                     .ResultId(resultModel.ResultId)
                     .Ver(Forms.Int("Ver")),
                 tableType: Sqls.TableTypes.NormalAndHistory);
-            resultModel.VerType =  Forms.Bool("Latest")
+            resultModel.VerType = Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(ss, resultModel).ToJson();

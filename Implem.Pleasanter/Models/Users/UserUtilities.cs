@@ -1163,7 +1163,7 @@ namespace Implem.Pleasanter.Models
                     .UserId(userModel.UserId)
                     .Ver(Forms.Int("Ver")),
                 tableType: Sqls.TableTypes.NormalAndHistory);
-            userModel.VerType =  Forms.Bool("Latest")
+            userModel.VerType = Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(ss, userModel).ToJson();

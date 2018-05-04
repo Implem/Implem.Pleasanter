@@ -612,7 +612,7 @@ namespace Implem.Pleasanter.Models
                     .WikiId(wikiModel.WikiId)
                     .Ver(Forms.Int("Ver")),
                 tableType: Sqls.TableTypes.NormalAndHistory);
-            wikiModel.VerType =  Forms.Bool("Latest")
+            wikiModel.VerType = Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(ss, wikiModel).ToJson();
