@@ -2,9 +2,9 @@
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
@@ -342,13 +342,13 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
-        public static string EditorJson(SiteSettings ss, long wikiId)
+        public static string EditorJson(SiteSettings ss,long wikiId)
         {
             return EditorResponse(ss, new WikiModel(ss, wikiId)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
-            SiteSettings ss, 
+            SiteSettings ss,
             WikiModel wikiModel,
             Message message = null,
             string switchTargets = null)
@@ -433,7 +433,7 @@ namespace Implem.Pleasanter.Models
             return res;
         }
 
-        public static string Update(SiteSettings ss, long wikiId)
+        public static string Update(SiteSettings ss,long wikiId)
         {
             var wikiModel = new WikiModel(ss, wikiId, setByForm: true);
             var invalid = WikiValidators.OnUpdating(ss, wikiModel);
@@ -473,7 +473,7 @@ namespace Implem.Pleasanter.Models
 
         private static ResponseCollection ResponseByUpdate(
             WikisResponseCollection res,
-            SiteSettings ss, 
+            SiteSettings ss,
             WikiModel wikiModel)
         {
             return res
@@ -528,7 +528,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(SiteSettings ss, long wikiId)
+        public static string Restore(SiteSettings ss,long wikiId)
         {
             var wikiModel = new WikiModel();
             var invalid = WikiValidators.OnRestoring();
@@ -602,7 +602,7 @@ namespace Implem.Pleasanter.Models
             return sqlColumn;
         }
 
-        public static string History(SiteSettings ss, long wikiId)
+        public static string History(SiteSettings ss,long wikiId)
         {
             var wikiModel = new WikiModel(ss, wikiId);
             ss.SetColumnAccessControls(wikiModel.Mine());

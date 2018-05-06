@@ -2,9 +2,9 @@
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
@@ -908,13 +908,13 @@ namespace Implem.Pleasanter.Models
                 .ResetPasswordDialog(userId: userModel.UserId, ss: ss);
         }
 
-        public static string EditorJson(SiteSettings ss, int userId)
+        public static string EditorJson(SiteSettings ss,int userId)
         {
             return EditorResponse(ss, new UserModel(ss, userId)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
-            SiteSettings ss, 
+            SiteSettings ss,
             UserModel userModel,
             Message message = null,
             string switchTargets = null)
@@ -993,7 +993,7 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        public static string Update(SiteSettings ss, int userId)
+        public static string Update(SiteSettings ss,int userId)
         {
             var userModel = new UserModel(ss, userId, setByForm: true);
             var invalid = UserValidators.OnUpdating(ss, userModel);
@@ -1033,7 +1033,7 @@ namespace Implem.Pleasanter.Models
 
         private static ResponseCollection ResponseByUpdate(
             UsersResponseCollection res,
-            SiteSettings ss, 
+            SiteSettings ss,
             UserModel userModel)
         {
             return res
@@ -1079,7 +1079,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(SiteSettings ss, int userId)
+        public static string Restore(SiteSettings ss,int userId)
         {
             var userModel = new UserModel();
             var invalid = UserValidators.OnRestoring();
@@ -1153,7 +1153,7 @@ namespace Implem.Pleasanter.Models
             return sqlColumn;
         }
 
-        public static string History(SiteSettings ss, int userId)
+        public static string History(SiteSettings ss,int userId)
         {
             var userModel = new UserModel(ss, userId);
             ss.SetColumnAccessControls(userModel.Mine());

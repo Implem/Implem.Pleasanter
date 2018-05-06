@@ -222,17 +222,17 @@
     </Compile>
     <Compile Include="Interfaces\IConvertable.cs" />
     <Compile Include="Interfaces\ISettingListItem.cs" />
-    <Compile Include="Libraries\Converts\FormatExtension.cs" />
-    <Compile Include="Libraries\Converts\InitialValueExtensions.cs" />
-    <Compile Include="Libraries\Converts\GridTextExtensions.cs" />
-    <Compile Include="Libraries\Converts\FullTextExtensions.cs" />
-    <Compile Include="Libraries\Converts\TimeExtensions.cs" />
-    <Compile Include="Libraries\Converts\ToNoticeExtensions.cs" />
-    <Compile Include="Libraries\Converts\SearchIndexExtensions.cs" />
-    <Compile Include="Libraries\Converts\TdExtensions.cs" />
-    <Compile Include="Libraries\Converts\ToControlExtensions.cs" />
-    <Compile Include="Libraries\Converts\ToExportExtensions.cs" />
-    <Compile Include="Libraries\Converts\ToResponseExtensions.cs" />
+    <Compile Include="Libraries\Extensions\FormatExtension.cs" />
+    <Compile Include="Libraries\Extensions\InitialValueExtensions.cs" />
+    <Compile Include="Libraries\Extensions\GridTextExtensions.cs" />
+    <Compile Include="Libraries\Extensions\FullTextExtensions.cs" />
+    <Compile Include="Libraries\Extensions\TimeExtensions.cs" />
+    <Compile Include="Libraries\Extensions\ToNoticeExtensions.cs" />
+    <Compile Include="Libraries\Extensions\SearchIndexExtensions.cs" />
+    <Compile Include="Libraries\Extensions\TdExtensions.cs" />
+    <Compile Include="Libraries\Extensions\ToControlExtensions.cs" />
+    <Compile Include="Libraries\Extensions\ToExportExtensions.cs" />
+    <Compile Include="Libraries\Extensions\ToResponseExtensions.cs" />
     <Compile Include="Libraries\DataSources\ChatWork.cs" />
     <Compile Include="Libraries\DataSources\Extension.cs" />
     <Compile Include="Libraries\DataSources\Ldap.cs" />
@@ -310,7 +310,7 @@
     <Compile Include="Libraries\Settings\Join.cs" />
     <Compile Include="Libraries\Settings\NotificationUtilities.cs" />
     <Compile Include="Libraries\Settings\NumColumnExtensions.cs" />
-    <Compile Include="Libraries\Converts\MatchExtensions.cs" />
+    <Compile Include="Libraries\Extensions\MatchExtensions.cs" />
     <Compile Include="Libraries\Settings\Script.cs" />
     <Compile Include="Libraries\Settings\SettingList.cs" />
     <Compile Include="Libraries\Settings\Style.cs" />

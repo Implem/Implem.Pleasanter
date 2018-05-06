@@ -3,7 +3,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace Implem.Pleasanter.Libraries.Converts
+namespace Implem.Pleasanter.Libraries.Extensions
 {
     public static class ViewUtilities
     {

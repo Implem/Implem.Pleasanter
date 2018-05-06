@@ -2,9 +2,9 @@
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
@@ -2947,13 +2947,13 @@ namespace Implem.Pleasanter.Models
                     : hb;
         }
 
-        public static string EditorJson(SiteSettings ss, long issueId)
+        public static string EditorJson(SiteSettings ss,long issueId)
         {
             return EditorResponse(ss, new IssueModel(ss, issueId)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
-            SiteSettings ss, 
+            SiteSettings ss,
             IssueModel issueModel,
             Message message = null,
             string switchTargets = null)
@@ -4119,7 +4119,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Update(SiteSettings ss, long issueId)
+        public static string Update(SiteSettings ss,long issueId)
         {
             var issueModel = new IssueModel(ss, issueId, setByForm: true);
             var invalid = IssueValidators.OnUpdating(ss, issueModel);
@@ -4162,7 +4162,7 @@ namespace Implem.Pleasanter.Models
 
         private static ResponseCollection ResponseByUpdate(
             IssuesResponseCollection res,
-            SiteSettings ss, 
+            SiteSettings ss,
             IssueModel issueModel)
         {
             return res
@@ -4253,7 +4253,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Move(SiteSettings ss, long issueId)
+        public static string Move(SiteSettings ss,long issueId)
         {
             var siteId = Forms.Long("MoveTargets");
             if (Contract.ItemsLimit(siteId))
@@ -4336,7 +4336,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(SiteSettings ss, long issueId)
+        public static string Restore(SiteSettings ss,long issueId)
         {
             var issueModel = new IssueModel();
             var invalid = IssueValidators.OnRestoring();
@@ -4410,7 +4410,7 @@ namespace Implem.Pleasanter.Models
             return sqlColumn;
         }
 
-        public static string History(SiteSettings ss, long issueId)
+        public static string History(SiteSettings ss,long issueId)
         {
             var issueModel = new IssueModel(ss, issueId);
             ss.SetColumnAccessControls(issueModel.Mine());
