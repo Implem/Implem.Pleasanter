@@ -62,9 +62,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != Priority);
         }
 
-        public SearchIndexModel(
-            DataRow dataRow,
-            string tableAlias = null)
+        public SearchIndexModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

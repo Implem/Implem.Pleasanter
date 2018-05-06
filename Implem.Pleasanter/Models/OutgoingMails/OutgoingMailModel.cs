@@ -189,9 +189,7 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public OutgoingMailModel(
-            DataRow dataRow,
-            string tableAlias = null)
+        public OutgoingMailModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

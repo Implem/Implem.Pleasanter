@@ -404,10 +404,7 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public UserModel(
-            SiteSettings ss,
-            DataRow dataRow,
-            string tableAlias = null)
+        public UserModel(SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
             Set(ss, dataRow, tableAlias);
@@ -882,7 +879,7 @@ namespace Implem.Pleasanter.Models
             if (!Forms.HasData("Users_MailAddresses")) MailAddresses = Session_MailAddresses();
         }
 
-        private void Set(SiteSettings ss,DataTable dataTable)
+        private void Set(SiteSettings ss, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
@@ -892,7 +889,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void Set(SiteSettings ss,DataRow dataRow, string tableAlias = null)
+        private void Set(SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)

@@ -208,9 +208,7 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public BinaryModel(
-            DataRow dataRow,
-            string tableAlias = null)
+        public BinaryModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

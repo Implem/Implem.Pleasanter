@@ -74,9 +74,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != UserId);
         }
 
-        public LoginKeyModel(
-            DataRow dataRow,
-            string tableAlias = null)
+        public LoginKeyModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

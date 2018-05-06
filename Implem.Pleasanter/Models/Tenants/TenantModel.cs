@@ -115,9 +115,7 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public TenantModel(
-            DataRow dataRow,
-            string tableAlias = null)
+        public TenantModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

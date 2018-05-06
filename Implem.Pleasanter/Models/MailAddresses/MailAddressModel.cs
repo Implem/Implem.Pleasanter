@@ -104,9 +104,7 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public MailAddressModel(
-            DataRow dataRow,
-            string tableAlias = null)
+        public MailAddressModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);
