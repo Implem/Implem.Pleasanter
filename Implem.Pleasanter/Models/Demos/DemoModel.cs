@@ -120,7 +120,9 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public DemoModel(DataRow dataRow, string tableAlias = null)
+        public DemoModel(
+            DataRow dataRow,
+            string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

@@ -64,7 +64,9 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Data.ToJson());
         }
 
-        public OrderModel(DataRow dataRow, string tableAlias = null)
+        public OrderModel(
+            DataRow dataRow,
+            string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

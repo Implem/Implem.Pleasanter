@@ -64,7 +64,9 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != Admin);
         }
 
-        public GroupMemberModel(DataRow dataRow, string tableAlias = null)
+        public GroupMemberModel(
+            DataRow dataRow,
+            string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

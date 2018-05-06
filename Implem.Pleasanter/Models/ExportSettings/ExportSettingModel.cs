@@ -151,7 +151,9 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public ExportSettingModel(DataRow dataRow, string tableAlias = null)
+        public ExportSettingModel(
+            DataRow dataRow,
+            string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

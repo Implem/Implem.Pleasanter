@@ -86,7 +86,9 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != SearchIndexCreatedTime.Date);
         }
 
-        public ItemModel(DataRow dataRow, string tableAlias = null)
+        public ItemModel(
+            DataRow dataRow,
+            string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

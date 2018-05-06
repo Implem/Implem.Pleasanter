@@ -98,7 +98,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public DeptModel(
-            SiteSettings ss, 
+            SiteSettings ss,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -111,7 +111,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public DeptModel(
-            SiteSettings ss, 
+            SiteSettings ss,
             int deptId,
             bool clearSessions = false,
             bool setByForm = false,
@@ -130,7 +130,10 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public DeptModel(SiteSettings ss, DataRow dataRow, string tableAlias = null)
+        public DeptModel(
+            SiteSettings ss,
+            DataRow dataRow,
+            string tableAlias = null)
         {
             OnConstructing();
             Set(ss, dataRow, tableAlias);
@@ -150,7 +153,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public DeptModel Get(
-            SiteSettings ss, 
+            SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -196,7 +199,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types Create(
-            SiteSettings ss, 
+            SiteSettings ss,
             RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
@@ -216,7 +219,7 @@ namespace Implem.Pleasanter.Models
 
         public List<SqlStatement> CreateStatements(
             List<SqlStatement> statements,
-            SiteSettings ss, 
+            SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool otherInitValue = false)
@@ -317,7 +320,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types UpdateOrCreate(
-            SiteSettings ss, 
+            SiteSettings ss,
             RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
@@ -361,7 +364,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public Error.Types Restore(SiteSettings ss, int deptId)
+        public Error.Types Restore(SiteSettings ss,int deptId)
         {
             DeptId = deptId;
             Rds.ExecuteNonQuery(
@@ -377,7 +380,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types PhysicalDelete(
-            SiteSettings ss, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
                 transactional: true,
@@ -441,7 +444,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private void Set(SiteSettings ss, DataTable dataTable)
+        private void Set(SiteSettings ss,DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
@@ -451,7 +454,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void Set(SiteSettings ss, DataRow dataRow, string tableAlias = null)
+        private void Set(SiteSettings ss,DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
