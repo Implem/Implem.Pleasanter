@@ -2,9 +2,9 @@
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
@@ -597,13 +597,13 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
-        public static string EditorJson(SiteSettings ss, int groupId)
+        public static string EditorJson(SiteSettings ss,int groupId)
         {
             return EditorResponse(ss, new GroupModel(ss, groupId)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
-            SiteSettings ss, 
+            SiteSettings ss,
             GroupModel groupModel,
             Message message = null,
             string switchTargets = null)
@@ -670,7 +670,7 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        public static string Update(SiteSettings ss, int groupId)
+        public static string Update(SiteSettings ss,int groupId)
         {
             var groupModel = new GroupModel(ss, groupId, setByForm: true);
             var invalid = GroupValidators.OnUpdating(ss, groupModel);
@@ -705,7 +705,7 @@ namespace Implem.Pleasanter.Models
 
         private static ResponseCollection ResponseByUpdate(
             GroupsResponseCollection res,
-            SiteSettings ss, 
+            SiteSettings ss,
             GroupModel groupModel)
         {
             return res
@@ -751,7 +751,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(SiteSettings ss, int groupId)
+        public static string Restore(SiteSettings ss,int groupId)
         {
             var groupModel = new GroupModel();
             var invalid = GroupValidators.OnRestoring();
@@ -825,7 +825,7 @@ namespace Implem.Pleasanter.Models
             return sqlColumn;
         }
 
-        public static string History(SiteSettings ss, int groupId)
+        public static string History(SiteSettings ss,int groupId)
         {
             var groupModel = new GroupModel(ss, groupId);
             ss.SetColumnAccessControls(groupModel.Mine());

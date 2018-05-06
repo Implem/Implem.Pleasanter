@@ -2,7 +2,7 @@
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using System;
-namespace Implem.Pleasanter.Libraries.Converts
+namespace Implem.Pleasanter.Libraries.Extensions
 {
     public static class FormatExtension
     {

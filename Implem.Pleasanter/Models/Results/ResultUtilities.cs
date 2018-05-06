@@ -2,9 +2,9 @@
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
@@ -2856,13 +2856,13 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
-        public static string EditorJson(SiteSettings ss, long resultId)
+        public static string EditorJson(SiteSettings ss,long resultId)
         {
             return EditorResponse(ss, new ResultModel(ss, resultId)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
-            SiteSettings ss, 
+            SiteSettings ss,
             ResultModel resultModel,
             Message message = null,
             string switchTargets = null)
@@ -4008,7 +4008,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Update(SiteSettings ss, long resultId)
+        public static string Update(SiteSettings ss,long resultId)
         {
             var resultModel = new ResultModel(ss, resultId, setByForm: true);
             var invalid = ResultValidators.OnUpdating(ss, resultModel);
@@ -4047,7 +4047,7 @@ namespace Implem.Pleasanter.Models
 
         private static ResponseCollection ResponseByUpdate(
             ResultsResponseCollection res,
-            SiteSettings ss, 
+            SiteSettings ss,
             ResultModel resultModel)
         {
             return res
@@ -4138,7 +4138,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Move(SiteSettings ss, long resultId)
+        public static string Move(SiteSettings ss,long resultId)
         {
             var siteId = Forms.Long("MoveTargets");
             if (Contract.ItemsLimit(siteId))
@@ -4221,7 +4221,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(SiteSettings ss, long resultId)
+        public static string Restore(SiteSettings ss,long resultId)
         {
             var resultModel = new ResultModel();
             var invalid = ResultValidators.OnRestoring();
@@ -4295,7 +4295,7 @@ namespace Implem.Pleasanter.Models
             return sqlColumn;
         }
 
-        public static string History(SiteSettings ss, long resultId)
+        public static string History(SiteSettings ss,long resultId)
         {
             var resultModel = new ResultModel(ss, resultId);
             ss.SetColumnAccessControls(resultModel.Mine());

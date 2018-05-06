@@ -2,7 +2,6 @@
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
@@ -27,7 +26,7 @@ namespace Implem.Pleasanter.Models
         public int TotalCount;
 
         public ResultCollection(
-            SiteSettings ss, 
+            SiteSettings ss,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -59,12 +58,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public ResultCollection(SiteSettings ss, EnumerableRowCollection<DataRow> dataRows)
+        public ResultCollection(SiteSettings ss,EnumerableRowCollection<DataRow> dataRows)
         {
             Set(ss, dataRows);
         }
 
-        private ResultCollection Set(SiteSettings ss, EnumerableRowCollection<DataRow> dataRows)
+        private ResultCollection Set(SiteSettings ss,EnumerableRowCollection<DataRow> dataRows)
         {
             if (dataRows.Any())
             {
