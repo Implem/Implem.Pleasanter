@@ -112,10 +112,7 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public GroupModel(
-            SiteSettings ss,
-            DataRow dataRow,
-            string tableAlias = null)
+        public GroupModel(SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
             Set(ss, dataRow, tableAlias);
@@ -453,7 +450,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private void Set(SiteSettings ss,DataTable dataTable)
+        private void Set(SiteSettings ss, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
@@ -463,7 +460,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void Set(SiteSettings ss,DataRow dataRow, string tableAlias = null)
+        private void Set(SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)

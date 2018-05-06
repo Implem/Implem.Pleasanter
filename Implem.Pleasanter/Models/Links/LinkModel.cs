@@ -54,9 +54,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != SourceId);
         }
 
-        public LinkModel(
-            DataRow dataRow,
-            string tableAlias = null)
+        public LinkModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

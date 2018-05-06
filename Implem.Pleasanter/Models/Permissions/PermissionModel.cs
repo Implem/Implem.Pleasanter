@@ -80,9 +80,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != PermissionType.ToLong());
         }
 
-        public PermissionModel(
-            DataRow dataRow,
-            string tableAlias = null)
+        public PermissionModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

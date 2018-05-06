@@ -115,9 +115,7 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public HealthModel(
-            DataRow dataRow,
-            string tableAlias = null)
+        public HealthModel(DataRow dataRow, string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);
