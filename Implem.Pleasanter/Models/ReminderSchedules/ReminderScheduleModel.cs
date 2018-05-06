@@ -54,7 +54,9 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != ScheduledTime.Date);
         }
 
-        public ReminderScheduleModel(DataRow dataRow, string tableAlias = null)
+        public ReminderScheduleModel(
+            DataRow dataRow,
+            string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

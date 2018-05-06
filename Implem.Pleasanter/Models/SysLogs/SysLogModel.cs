@@ -377,7 +377,9 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AssemblyVersion);
         }
 
-        public SysLogModel(DataRow dataRow, string tableAlias = null)
+        public SysLogModel(
+            DataRow dataRow,
+            string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

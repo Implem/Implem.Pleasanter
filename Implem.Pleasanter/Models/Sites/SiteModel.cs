@@ -288,7 +288,9 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public SiteModel(DataRow dataRow, string tableAlias = null)
+        public SiteModel(
+            DataRow dataRow,
+            string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);

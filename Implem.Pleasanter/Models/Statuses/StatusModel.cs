@@ -54,7 +54,9 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Value);
         }
 
-        public StatusModel(DataRow dataRow, string tableAlias = null)
+        public StatusModel(
+            DataRow dataRow,
+            string tableAlias = null)
         {
             OnConstructing();
             Set(dataRow, tableAlias);
