@@ -1,6 +1,5 @@
 using Implem.Pleasanter.Filters;
-using Implem.Pleasanter.Libraries.Scripts;
-using Implem.Pleasanter.Libraries.Styles;
+using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 using System.Web.UI;

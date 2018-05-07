@@ -1,10 +1,10 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Libraries.Styles;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts

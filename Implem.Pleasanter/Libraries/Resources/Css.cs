@@ -1,7 +1,8 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using System.Linq;
 using System.Web.Mvc;
-namespace Implem.Pleasanter.Libraries.Styles
+namespace Implem.Pleasanter.Libraries.Resources
 {
     public static class Css
     {

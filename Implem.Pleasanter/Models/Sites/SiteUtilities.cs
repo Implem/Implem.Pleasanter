@@ -10,6 +10,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -1445,7 +1446,7 @@ namespace Implem.Pleasanter.Models
                 ss, siteId, Libraries.Images.ImageData.SizeTypes.Thumbnail);
             return hb.Li(
                 attributes: new HtmlAttributes()
-                    .Class(Libraries.Styles.Css.Class("nav-site " + referenceType.ToLower() +
+                    .Class(Css.Class("nav-site " + referenceType.ToLower() +
                         (hasImage
                             ? " has-image"
                             : string.Empty),

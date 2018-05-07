@@ -10,6 +10,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -60,7 +61,7 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Issues",
-                script: Libraries.Scripts.JavaScripts.ViewMode(viewMode),
+                script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(Routes.Action()),
                 userStyle: ss.ViewModeStyles(Routes.Action()),
                 action: () => hb
