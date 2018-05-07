@@ -286,6 +286,8 @@
     <Compile Include="Libraries\Requests\Calendars.cs" />
     <Compile Include="Libraries\Requests\GridSelector.cs" />
     <Compile Include="Libraries\DataSources\File.cs" />
+    <Compile Include="Libraries\Resources\JavaScripts.cs" />
+    <Compile Include="Libraries\Resources\Css.cs" />
     <Compile Include="Libraries\Responses\ApiResponse.cs" />
     <Compile Include="Libraries\Responses\ApiResponses.cs" />
     <Compile Include="Libraries\Responses\ApiResults.cs" />
@@ -402,7 +404,6 @@
     <Compile Include="Libraries\Responses\ResponseFile.cs" />
     <Compile Include="Libraries\Responses\ResponseImage.cs" />
     <Compile Include="Libraries\Responses\ResponseSpecials.cs" />
-    <Compile Include="Libraries\Scripts\JavaScripts.cs" />
     <Compile Include="Libraries\Search\Indexes.cs" />
     <Compile Include="Libraries\Search\WordBreaker.cs" />
     <Compile Include="Libraries\Security\Authentications.cs" />
@@ -425,7 +426,6 @@
     <Compile Include="Libraries\Settings\SiteSettings.cs" />
     <Compile Include="Libraries\Settings\SiteSettingsUtilities.cs" />
     <Compile Include="Libraries\Settings\Summary.cs" />
-    <Compile Include="Libraries\Styles\Css.cs" />
     <Compile Include="Libraries\General\Error.cs" />
     <Compile Include="Libraries\Web\Mime.cs" />
     <Compile Include="Models\Binaries\BinaryUtilities.cs" />
