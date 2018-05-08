@@ -590,7 +590,7 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
-        public static string EditorJson(SiteSettings ss,int deptId)
+        public static string EditorJson(SiteSettings ss, int deptId)
         {
             return EditorResponse(ss, new DeptModel(ss, deptId)).ToJson();
         }
@@ -663,7 +663,7 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        public static string Update(SiteSettings ss,int deptId)
+        public static string Update(SiteSettings ss, int deptId)
         {
             var deptModel = new DeptModel(ss, deptId, setByForm: true);
             var invalid = DeptValidators.OnUpdating(ss, deptModel);
@@ -744,7 +744,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(SiteSettings ss,int deptId)
+        public static string Restore(SiteSettings ss, int deptId)
         {
             var deptModel = new DeptModel();
             var invalid = DeptValidators.OnRestoring();
@@ -818,7 +818,7 @@ namespace Implem.Pleasanter.Models
             return sqlColumn;
         }
 
-        public static string History(SiteSettings ss,int deptId)
+        public static string History(SiteSettings ss, int deptId)
         {
             var deptModel = new DeptModel(ss, deptId);
             ss.SetColumnAccessControls(deptModel.Mine());

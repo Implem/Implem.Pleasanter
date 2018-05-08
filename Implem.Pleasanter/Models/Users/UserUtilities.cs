@@ -909,7 +909,7 @@ namespace Implem.Pleasanter.Models
                 .ResetPasswordDialog(userId: userModel.UserId, ss: ss);
         }
 
-        public static string EditorJson(SiteSettings ss,int userId)
+        public static string EditorJson(SiteSettings ss, int userId)
         {
             return EditorResponse(ss, new UserModel(ss, userId)).ToJson();
         }
@@ -994,7 +994,7 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        public static string Update(SiteSettings ss,int userId)
+        public static string Update(SiteSettings ss, int userId)
         {
             var userModel = new UserModel(ss, userId, setByForm: true);
             var invalid = UserValidators.OnUpdating(ss, userModel);
@@ -1080,7 +1080,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(SiteSettings ss,int userId)
+        public static string Restore(SiteSettings ss, int userId)
         {
             var userModel = new UserModel();
             var invalid = UserValidators.OnRestoring();
@@ -1154,7 +1154,7 @@ namespace Implem.Pleasanter.Models
             return sqlColumn;
         }
 
-        public static string History(SiteSettings ss,int userId)
+        public static string History(SiteSettings ss, int userId)
         {
             var userModel = new UserModel(ss, userId);
             ss.SetColumnAccessControls(userModel.Mine());
