@@ -2073,7 +2073,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!value.IsNullOrEmpty())
             {
                 value = LabelTextToColumnName(value);
-                return value != "[" + currentColumn.ColumnName + "]"
+                return value != $"[{currentColumn.ColumnName}]"
                     ? value
                     : null;
             }
@@ -2086,8 +2086,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string LabelTextToColumnName(string text)
         {
             IncludedColumns(text, labelText: true).ForEach(column =>
-                text = text.Replace(
-                    "[" + column.LabelText + "]", "[" + column.ColumnName + "]"));
+                text = text.Replace($"[{column.LabelText}]", $"[{column.ColumnName}]"));
             return text;
         }
 
