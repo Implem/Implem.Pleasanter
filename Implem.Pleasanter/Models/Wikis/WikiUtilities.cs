@@ -343,7 +343,7 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
-        public static string EditorJson(SiteSettings ss,long wikiId)
+        public static string EditorJson(SiteSettings ss, long wikiId)
         {
             return EditorResponse(ss, new WikiModel(ss, wikiId)).ToJson();
         }
@@ -434,7 +434,7 @@ namespace Implem.Pleasanter.Models
             return res;
         }
 
-        public static string Update(SiteSettings ss,long wikiId)
+        public static string Update(SiteSettings ss, long wikiId)
         {
             var wikiModel = new WikiModel(ss, wikiId, setByForm: true);
             var invalid = WikiValidators.OnUpdating(ss, wikiModel);
@@ -529,7 +529,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(SiteSettings ss,long wikiId)
+        public static string Restore(SiteSettings ss, long wikiId)
         {
             var wikiModel = new WikiModel();
             var invalid = WikiValidators.OnRestoring();
@@ -603,7 +603,7 @@ namespace Implem.Pleasanter.Models
             return sqlColumn;
         }
 
-        public static string History(SiteSettings ss,long wikiId)
+        public static string History(SiteSettings ss, long wikiId)
         {
             var wikiModel = new WikiModel(ss, wikiId);
             ss.SetColumnAccessControls(wikiModel.Mine());

@@ -598,7 +598,7 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
-        public static string EditorJson(SiteSettings ss,int groupId)
+        public static string EditorJson(SiteSettings ss, int groupId)
         {
             return EditorResponse(ss, new GroupModel(ss, groupId)).ToJson();
         }
@@ -671,7 +671,7 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        public static string Update(SiteSettings ss,int groupId)
+        public static string Update(SiteSettings ss, int groupId)
         {
             var groupModel = new GroupModel(ss, groupId, setByForm: true);
             var invalid = GroupValidators.OnUpdating(ss, groupModel);
@@ -752,7 +752,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(SiteSettings ss,int groupId)
+        public static string Restore(SiteSettings ss, int groupId)
         {
             var groupModel = new GroupModel();
             var invalid = GroupValidators.OnRestoring();
@@ -826,7 +826,7 @@ namespace Implem.Pleasanter.Models
             return sqlColumn;
         }
 
-        public static string History(SiteSettings ss,int groupId)
+        public static string History(SiteSettings ss, int groupId)
         {
             var groupModel = new GroupModel(ss, groupId);
             ss.SetColumnAccessControls(groupModel.Mine());

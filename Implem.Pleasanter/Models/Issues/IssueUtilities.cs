@@ -2948,7 +2948,7 @@ namespace Implem.Pleasanter.Models
                     : hb;
         }
 
-        public static string EditorJson(SiteSettings ss,long issueId)
+        public static string EditorJson(SiteSettings ss, long issueId)
         {
             return EditorResponse(ss, new IssueModel(ss, issueId)).ToJson();
         }
@@ -4120,7 +4120,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Update(SiteSettings ss,long issueId)
+        public static string Update(SiteSettings ss, long issueId)
         {
             var issueModel = new IssueModel(ss, issueId, setByForm: true);
             var invalid = IssueValidators.OnUpdating(ss, issueModel);
@@ -4254,7 +4254,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Move(SiteSettings ss,long issueId)
+        public static string Move(SiteSettings ss, long issueId)
         {
             var siteId = Forms.Long("MoveTargets");
             if (Contract.ItemsLimit(siteId))
@@ -4337,7 +4337,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(SiteSettings ss,long issueId)
+        public static string Restore(SiteSettings ss, long issueId)
         {
             var issueModel = new IssueModel();
             var invalid = IssueValidators.OnRestoring();
@@ -4411,7 +4411,7 @@ namespace Implem.Pleasanter.Models
             return sqlColumn;
         }
 
-        public static string History(SiteSettings ss,long issueId)
+        public static string History(SiteSettings ss, long issueId)
         {
             var issueModel = new IssueModel(ss, issueId);
             ss.SetColumnAccessControls(issueModel.Mine());
