@@ -2099,14 +2099,14 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string LabelTextBracket(Column column)
         {
-            return "[" + column.LabelText + "]";
+            return $"[{column.LabelText}]";
         }
 
         public string ColumnNameToLabelText(string text)
         {
             IncludedColumns(text).ForEach(column =>
                 text = text.Replace(
-                    "[" + column.ColumnName + "]", "[" + column.LabelText + "]"));
+                    $"[{column.ColumnName}]", $"[{column.LabelText}]"));
             return text;
         }
 
