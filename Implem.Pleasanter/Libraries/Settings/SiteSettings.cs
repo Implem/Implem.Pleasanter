@@ -2490,7 +2490,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             GetColumn(link.ColumnName).TotalCount = Rds.Count(dataSet);
             if (dataRows.Any())
             {
-                hash.Add("[[" + link.SiteId + "]]", LinkValue(link.SiteId, dataRows));
+                hash.Add($"[[{link.SiteId}]]", LinkValue(link.SiteId, dataRows));
             }
         }
 
