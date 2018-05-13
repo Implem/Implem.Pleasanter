@@ -210,6 +210,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb
                     .Hidden(controlId: "ApplicationPath", value: Locations.Get())
                     .Hidden(controlId: "Language", value: Sessions.Language())
+                    .Hidden(controlId: "DeptId", value: Sessions.DeptId().ToString())
+                    .Hidden(controlId: "UserId", value: Sessions.UserId().ToString())
                 : hb;
         }
 
