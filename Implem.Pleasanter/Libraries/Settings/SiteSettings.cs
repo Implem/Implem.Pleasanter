@@ -2510,8 +2510,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .Select(o => o.First())
                                 .ToList()
                     : dataRows
-                        .Where(p => p["SiteId"].ToLong() == siteId)
-                        .Select(p => p["ReferenceId"].ToString() + "," + p["Title"].ToString())
+                        .Where(dataRow => dataRow.Long("SiteId") == siteId)
+                        .Select(dataRow =>
+                            dataRow.String("ReferenceId") + "," + dataRow.String("Title"))
                         .ToList();
         }
 
