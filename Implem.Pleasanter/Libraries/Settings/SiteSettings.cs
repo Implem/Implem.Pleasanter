@@ -2301,7 +2301,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(dataRow => dataRow.Long("SiteId"))
                 .Distinct()
                 .ToDictionary(
-                    siteId => "[[" + siteId + "]]",
+                    siteId => $"[[{siteId}]]",
                     siteId => LinkValue(
                         siteId: siteId,
                         dataRows: dataRows.Where(dataRow => dataRow.Long("SiteId") == siteId)));
