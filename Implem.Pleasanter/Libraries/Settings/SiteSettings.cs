@@ -2434,7 +2434,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 searchIndexes.All(p => o.Value.Any(q => q.Contains(p))))
                             .AsEnumerable();
             GetColumn(link.ColumnName).TotalCount = dataRows.Count();
-            hash.Add("[[" + link.SiteId + "]]", dataRows
+            hash.Add($"[[{link.SiteId}]]", dataRows
                 .Select(o => o.Key)
                 .Skip(offset)
                 .Take(Parameters.General.DropDownSearchPageSize)
