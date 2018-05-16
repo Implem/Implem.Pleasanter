@@ -2685,7 +2685,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     column.ChoicesText = AllowedIntegratedSites
                         .Select(o => siteMenu.Get(o))
                         .Where(o => o != null)
-                        .Select(o => "{0},{1}".Params(o.SiteId, o.Title))
+                        .Select(o => $"{o.SiteId},{o.Title}")
                     .Join("\n");
                 }
             }
