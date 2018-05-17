@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return false;
                 }
                 SearchResult result = null;
-                searcher.Filter = "({0}={1})".Params(ldap.LdapSearchProperty, loginId);
+                searcher.Filter = $"({ldap.LdapSearchProperty}={loginId})";
                 try
                 {
                     result = searcher.FindOne();
