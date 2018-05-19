@@ -1,13 +1,16 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Settings;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlRecordSwitchers
     {
-        public static HtmlBuilder RecordSwitchers(this HtmlBuilder hb, bool switcher = true)
+        public static HtmlBuilder RecordSwitchers(
+            this HtmlBuilder hb, SiteSettings ss, bool switcher = true)
         {
             return hb
-                .Switcher(switcher: switcher)
+                .Switcher(ajax: !ss.Scripts.Any(o => o.Edit == true), switcher: switcher)
                 .Button(
                     controlId: "Reload",
                     text: Displays.Reload(),
@@ -18,8 +21,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     method: "post");
         }
 
-        private static HtmlBuilder Switcher(this HtmlBuilder hb, bool switcher)
+        private static HtmlBuilder Switcher(this HtmlBuilder hb, bool ajax, bool switcher)
         {
+            var onClick = $"$p.get($(this), {ajax.ToString().ToLower()});";
             return switcher
                 ? hb
                     .Button(
@@ -27,7 +31,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         text: Displays.Previous(),
                         controlCss: "button-icon confirm-reload",
                         accessKey: "b",
-                        onClick: "$p.get($(this));",
+                        onClick: onClick,
                         icon: "ui-icon-seek-prev",
                         action: "Edit",
                         method: "post")
@@ -37,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         text: Displays.Next(),
                         controlCss: "button-icon confirm-reload",
                         accessKey: "n",
-                        onClick: "$p.get($(this));",
+                        onClick: onClick,
                         icon: "ui-icon-seek-next",
                         action: "Edit",
                         method: "post")
