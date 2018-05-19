@@ -1,20 +1,24 @@
-﻿$p.get = function ($control) {
+﻿$p.get = function ($control, ajax) {
     if (!$p.confirmReload()) return false;
     if ($p.outsideDialog($control)) return false;
     switch ($control.attr('id')) {
-        case 'Reload': move(0); break;
-        case 'Previous': move(-1); break;
-        case 'Next': move(1); break;
+        case 'Reload': move(0, ajax); break;
+        case 'Previous': move(-1, ajax); break;
+        case 'Next': move(1, ajax); break;
     }
 
-    function move(additional) {
+    function move(additional, ajax) {
         var array = $p.switchTargets();
         var index = $p.currentIndex(array);
         var target = index + additional;
-        if (index != -1 && target >= 0 && target < array.length) {
+        if (index !== -1 && target >= 0 && target < array.length) {
             var url = $('#BaseUrl').val() + array[target];
-            $p.ajax(url, 'post', null, null, false);
-            if (additional !== 0) history.pushState(null, null, url);
+            if (ajax) {
+                $p.ajax(url, 'post', null, null, false);
+                if (additional !== 0) history.pushState(null, null, url);
+            } else {
+                location.href = url;
+            }
         }
     }
 }
