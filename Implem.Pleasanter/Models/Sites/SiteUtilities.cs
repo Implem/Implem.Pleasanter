@@ -989,7 +989,7 @@ namespace Implem.Pleasanter.Models
             var labelText = Forms.Data("LinkColumnLabelText");
             column.LabelText = labelText;
             column.GridLabelText = labelText;
-            column.ChoicesText = "[[" + destinationSiteModel.SiteId + "]]";
+            column.ChoicesText = $"[[{destinationSiteModel.SiteId}]]";
             sourceSiteModel.SiteSettings.SetLinks(column);
             if (!sourceSiteModel.SiteSettings.EditorColumns.Contains(column.ColumnName))
             {
