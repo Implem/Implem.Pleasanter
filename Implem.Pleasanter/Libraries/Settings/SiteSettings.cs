@@ -2800,7 +2800,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => (!o.Column.TableAlias.IsNullOrEmpty()
                     ? o.Column.TableAlias + "-"
                     : string.Empty) +
-                        o.Link.ColumnName + "~" + o.Link.SiteId + ",Title")
+                        o.Link.ColumnName + $"~{o.Link.SiteId},Title")
                 .ToList();
         }
 
