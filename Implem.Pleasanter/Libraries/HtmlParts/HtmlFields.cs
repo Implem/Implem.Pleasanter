@@ -998,6 +998,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldId: fieldId,
                     controlId: controlId,
                     fieldCss: fieldCss,
+                    fieldDescription: fieldDescription,
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: string.Empty,
