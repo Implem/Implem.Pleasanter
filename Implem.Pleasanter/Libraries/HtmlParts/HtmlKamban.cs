@@ -251,7 +251,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataX(HttpUtility.HtmlEncode(choiceX))
                         .DataY(HttpUtility.HtmlEncode(choiceY)),
                     action: () => hb
-                        .Div(action: () => 
+                        .Div(action: () =>
                             data
                                 .Where(o => o.GroupX == choiceX)
                                 .Where(o => choiceY == null || o.GroupY == choiceY)
