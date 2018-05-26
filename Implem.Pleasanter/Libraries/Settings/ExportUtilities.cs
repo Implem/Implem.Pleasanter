@@ -152,6 +152,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var issueHash = new IssueCollection(
                 ss: ss,
                 column: IssuesColumn(ss, export, ss.GetColumn(keyColumn)),
+                join: ss.Join(withColumn: true),
                 where: where,
                 orderBy: orderBy)
                     .ToDictionary(o => o.IssueId, o => o);
@@ -217,6 +218,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var resultHash = new ResultCollection(
                 ss: ss,
                 column: ResultsColumn(ss, export, ss.GetColumn(keyColumn)),
+                join: ss.Join(withColumn: true),
                 where: where,
                 orderBy: orderBy)
                     .ToDictionary(o => o.ResultId, o => o);
