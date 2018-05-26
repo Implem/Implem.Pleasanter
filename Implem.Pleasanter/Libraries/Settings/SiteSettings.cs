@@ -1418,7 +1418,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     hash.AddRange(ss.ColumnDefinitionHash.Values
                         .Where(o => o.FilterColumn > 0)
-                        .Where(o => o.FilterEnabled)
                         .OrderBy(o => o.FilterColumn)
                         .Select(o => ss.GetColumn(o.ColumnName))
                         .ToDictionary(
