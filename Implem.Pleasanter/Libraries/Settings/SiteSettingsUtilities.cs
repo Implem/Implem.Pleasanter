@@ -10,11 +10,19 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class SiteSettingsUtilities
     {
-        public static SiteSettings Get(long siteId, long referenceId = 0)
+        public static SiteSettings Get(
+            long siteId,
+            long referenceId = 0,
+            bool setSiteIntegration = false,
+            bool setAllChoices = false)
         {
-            return Get(new SiteModel(siteId), referenceId != 0
-                ? referenceId
-                : siteId);
+            return Get(
+                new SiteModel(siteId),
+                referenceId != 0
+                    ? referenceId
+                    : siteId,
+                setSiteIntegration: setSiteIntegration,
+                setAllChoices: setAllChoices);
         }
 
         public static SiteSettings Get(DataRow dataRow)
@@ -285,6 +293,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinkedSiteSettings();
             ss.SetPermissions(referenceId);
             ss.SetJoinedSsHash();
+            if (setSiteIntegration) ss.SetSiteIntegration();
             return ss;
         }
 
