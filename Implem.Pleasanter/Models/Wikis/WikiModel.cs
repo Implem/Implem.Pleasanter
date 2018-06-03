@@ -379,6 +379,20 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             if (count == 0) return Error.Types.UpdateConflicts;
+            if (Title_Updated())
+            {
+                Rds.ExecuteNonQuery(statements: new SqlStatement[]
+                {
+                    Rds.UpdateSites(
+                        where: Rds.SitesWhere()
+                            .TenantId(Sessions.TenantId())
+                            .SiteId(SiteId),
+                        param: Rds.SitesParam().Title(Title.Value),
+                        addUpdatedTimeParam: false,
+                        addUpdatorParam: false),
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
+                });
+            }
             if (Contract.Notice() && notice)
             {
                 CheckNotificationConditions(ss);

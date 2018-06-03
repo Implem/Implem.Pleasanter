@@ -335,6 +335,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SiteTrue": Code.Model_SiteTrue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteTrue, definitionRow, CodeXls); break;
                     case "Model_UpdateAttachments": Code.Model_UpdateAttachments = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateAttachments, definitionRow, CodeXls); break;
                     case "Model_UpdateRelatedRecords": Code.Model_UpdateRelatedRecords = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateRelatedRecords, definitionRow, CodeXls); break;
+                    case "Model_UpdateWikiTitle": Code.Model_UpdateWikiTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateWikiTitle, definitionRow, CodeXls); break;
                     case "Model_OnUpdatedNotice": Code.Model_OnUpdatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatedNotice, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_Depts": Code.Model_OnUpdated_Depts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Depts, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_Groups": Code.Model_OnUpdated_Groups = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Groups, definitionRow, CodeXls); break;
@@ -4647,6 +4648,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SiteTrue;
         public string Model_UpdateAttachments;
         public string Model_UpdateRelatedRecords;
+        public string Model_UpdateWikiTitle;
         public string Model_OnUpdatedNotice;
         public string Model_OnUpdated_Depts;
         public string Model_OnUpdated_Groups;
@@ -5169,6 +5171,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SiteTrue = new CodeDefinition();
         public CodeDefinition Model_UpdateAttachments = new CodeDefinition();
         public CodeDefinition Model_UpdateRelatedRecords = new CodeDefinition();
+        public CodeDefinition Model_UpdateWikiTitle = new CodeDefinition();
         public CodeDefinition Model_OnUpdatedNotice = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_Depts = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_Groups = new CodeDefinition();
