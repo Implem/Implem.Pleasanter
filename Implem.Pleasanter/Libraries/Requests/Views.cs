@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Server;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.Requests
@@ -7,24 +8,32 @@ namespace Implem.Pleasanter.Libraries.Requests
     {
         public static View GetBySession(SiteSettings ss)
         {
+            var view = !Request.IsAjax()
+                ? QueryStrings.Data("View")?.Deserialize<View>()
+                : null;
             var key = "View" + (ss.SiteId == 0
                 ? Pages.Key()
                 : ss.SiteId.ToString());
-            if (Forms.ControlId() == "ViewSelector")
+            if (view != null)
             {
-                var view = ss.Views?.Get(Forms.Int("ViewSelector")) ?? new View(ss);
+                HttpContext.Current.Session[key] = view;
+                return view;
+            }
+            else if (Forms.ControlId() == "ViewSelector")
+            {
+                view = ss.Views?.Get(Forms.Int("ViewSelector")) ?? new View(ss);
                 HttpContext.Current.Session[key] = view;
                 return view;
             }
             else if (HttpContext.Current.Session[key] != null)
             {
-                var view = (HttpContext.Current.Session[key] as View);
+                view = (HttpContext.Current.Session[key] as View);
                 view.SetByForm(ss);
                 return view;
             }
             else
             {
-                var view = ss.Views?.Get(ss.GridView) ?? new View(ss);
+                view = ss.Views?.Get(ss.GridView) ?? new View(ss);
                 HttpContext.Current.Session[key] = view;
                 return view;
             }
