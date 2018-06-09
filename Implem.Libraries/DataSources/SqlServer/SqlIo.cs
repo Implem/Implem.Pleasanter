@@ -55,6 +55,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             {
                 SqlContainer.SqlStatementCollection[0].BuildCommandText(
                     SqlContainer, SqlCommand, CommandText);
+                SelectIdentity();
             }
             else
             {
@@ -66,7 +67,16 @@ namespace Implem.Libraries.DataSources.SqlServer
                             SqlCommand,
                             CommandText,
                             data.Count));
+                SelectIdentity();
                 SetTransaction();
+            }
+        }
+
+        private void SelectIdentity()
+        {
+            if (SqlContainer.SelectIdentity)
+            {
+                CommandText.Append(Sqls.SelectIdentity);
             }
         }
 

@@ -263,6 +263,7 @@ namespace Implem.Pleasanter.Models
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             BinaryId = (response.Identity ?? BinaryId).ToLong();
             if (get) Get();
@@ -283,7 +284,6 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.BinariesParamDefault(
                         this, setDefault: true, otherInitValue: otherInitValue))
             });
-            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -429,12 +429,12 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateOrInsertBinaries(
                     where: where ?? Rds.BinariesWhereDefault(this),
-                    param: param ?? Rds.BinariesParamDefault(this, setDefault: true)),
-                Rds.SelectIdentity()
+                    param: param ?? Rds.BinariesParamDefault(this, setDefault: true))
             };
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             BinaryId = (response.Identity ?? BinaryId).ToLong();
             Get();

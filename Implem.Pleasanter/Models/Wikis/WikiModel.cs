@@ -293,6 +293,7 @@ namespace Implem.Pleasanter.Models
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             WikiId = (response.Identity ?? WikiId).ToLong();
             if (Contract.Notice() && notice)
@@ -344,7 +345,6 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.WikisParamDefault(
                         this, setDefault: true, otherInitValue: otherInitValue)),
             });
-            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -518,12 +518,12 @@ namespace Implem.Pleasanter.Models
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertWikis(
                     where: where ?? Rds.WikisWhereDefault(this),
-                    param: param ?? Rds.WikisParamDefault(this, setDefault: true)),
-                Rds.SelectIdentity()
+                    param: param ?? Rds.WikisParamDefault(this, setDefault: true))
             };
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             WikiId = (response.Identity ?? WikiId).ToLong();
             Get(ss);

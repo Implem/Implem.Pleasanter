@@ -227,15 +227,10 @@ namespace Implem.Pleasanter.Models
         {
             Rds.ExecuteNonQuery(
                 transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateOrInsertOrders(
-                        setIdentity: true,
-                        where: where ?? Rds.OrdersWhereDefault(this),
-                        param: param ?? Rds.OrdersParamDefault(this, setDefault: true),
-                        tableType: tableType),
-                    Rds.SelectIdentity()
-                });
+                statements: Rds.UpdateOrInsertOrders(
+                    where: where ?? Rds.OrdersWhereDefault(this),
+                    param: param ?? Rds.OrdersParamDefault(this, setDefault: true),
+                    tableType: tableType));
             return new ResponseCollection().ToJson();
         }
     }

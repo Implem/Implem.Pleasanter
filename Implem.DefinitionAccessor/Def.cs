@@ -143,52 +143,58 @@ namespace Implem.DefinitionAccessor
         public static SqlIo SqlIoBySa(
             RdsUser rdsUser = null,
             bool transactional = false,
+            bool selectIdentity = false,
             bool writeSqlToDebugLog = true,
             params SqlStatement[] statements)
         {
             return new SqlIo(CommandContainer(
-                Parameters.Rds.SaConnectionString,
-                rdsUser,
-                transactional,
-                writeSqlToDebugLog,
-                statements));
+                connectionString: Parameters.Rds.SaConnectionString,
+                rdsUser: rdsUser,
+                transactional: transactional,
+                selectIdentity: selectIdentity,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements));
         }
 
         public static SqlIo SqlIoByAdmin(
             RdsUser rdsUser = null,
             bool transactional = false,
+            bool selectIdentity = false,
             bool writeSqlToDebugLog = true,
             params SqlStatement[] statements)
         {
             return new SqlIo(CommandContainer(
-                Parameters.Rds.OwnerConnectionString,
-                rdsUser,
-                transactional,
-                writeSqlToDebugLog,
-                statements));
+                connectionString: Parameters.Rds.OwnerConnectionString,
+                rdsUser: rdsUser,
+                transactional: transactional,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements));
         }
 
         public static SqlIo SqlIoByUser(
             string connectionString = null,
             RdsUser rdsUser = null,
             bool transactional = false,
+            bool selectIdentity = false,
             bool writeSqlToDebugLog = true,
             params SqlStatement[] statements)
         {
             return new SqlIo(CommandContainer(
-                !connectionString.IsNullOrEmpty()
+                connectionString: !connectionString.IsNullOrEmpty()
                     ? connectionString
                     : Parameters.Rds.UserConnectionString,
-                rdsUser,
-                transactional,
-                writeSqlToDebugLog,
-                statements));
+                rdsUser: rdsUser,
+                transactional: transactional,
+                selectIdentity: selectIdentity,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements));
         }
 
         private static SqlContainer CommandContainer(
             string connectionString,
             RdsUser rdsUser = null,
             bool transactional = false,
+            bool selectIdentity = false,
             bool writeSqlToDebugLog = true,
             params SqlStatement[] statements)
         {
@@ -201,6 +207,7 @@ namespace Implem.DefinitionAccessor
                 SqlStatementCollection = SqlStatementCollection(statements),
                 CommandTimeOut = Parameters.Rds.SqlCommandTimeOut,
                 Transactional = transactional,
+                SelectIdentity = selectIdentity,
                 WriteSqlToDebugLog = writeSqlToDebugLog
             };
         }
@@ -3306,6 +3313,7 @@ namespace Implem.DefinitionAccessor
                     case "MoveTarget": Sql.MoveTarget = definitionRow[1].ToString(); SetSqlTable(SqlTable.MoveTarget, definitionRow, SqlXls); break;
                     case "StartTimeColumn": Sql.StartTimeColumn = definitionRow[1].ToString(); SetSqlTable(SqlTable.StartTimeColumn, definitionRow, SqlXls); break;
                     case "CompletionTimeColumn": Sql.CompletionTimeColumn = definitionRow[1].ToString(); SetSqlTable(SqlTable.CompletionTimeColumn, definitionRow, SqlXls); break;
+                    case "SelectIdentity": Sql.SelectIdentity = definitionRow[1].ToString(); SetSqlTable(SqlTable.SelectIdentity, definitionRow, SqlXls); break;
                     case "TruncateTemplate": Sql.TruncateTemplate = definitionRow[1].ToString(); SetSqlTable(SqlTable.TruncateTemplate, definitionRow, SqlXls); break;
                     case "CreateDatabase": Sql.CreateDatabase = definitionRow[1].ToString(); SetSqlTable(SqlTable.CreateDatabase, definitionRow, SqlXls); break;
                     case "SpWho": Sql.SpWho = definitionRow[1].ToString(); SetSqlTable(SqlTable.SpWho, definitionRow, SqlXls); break;
@@ -10245,6 +10253,7 @@ namespace Implem.DefinitionAccessor
         public string MoveTarget;
         public string StartTimeColumn;
         public string CompletionTimeColumn;
+        public string SelectIdentity;
         public string TruncateTemplate;
         public string CreateDatabase;
         public string SpWho;
@@ -10280,6 +10289,7 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition MoveTarget = new SqlDefinition();
         public SqlDefinition StartTimeColumn = new SqlDefinition();
         public SqlDefinition CompletionTimeColumn = new SqlDefinition();
+        public SqlDefinition SelectIdentity = new SqlDefinition();
         public SqlDefinition TruncateTemplate = new SqlDefinition();
         public SqlDefinition CreateDatabase = new SqlDefinition();
         public SqlDefinition SpWho = new SqlDefinition();

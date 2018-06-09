@@ -207,6 +207,7 @@ namespace Implem.Pleasanter.Models
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             ExportSettingId = (response.Identity ?? ExportSettingId).ToLong();
             if (get) Get();
@@ -227,7 +228,6 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.ExportSettingsParamDefault(
                         this, setDefault: true, otherInitValue: otherInitValue))
             });
-            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -316,12 +316,12 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateOrInsertExportSettings(
                     where: where ?? Rds.ExportSettingsWhereDefault(this),
-                    param: param ?? Rds.ExportSettingsParamDefault(this, setDefault: true)),
-                Rds.SelectIdentity()
+                    param: param ?? Rds.ExportSettingsParamDefault(this, setDefault: true))
             };
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             ExportSettingId = (response.Identity ?? ExportSettingId).ToLong();
             Get();
