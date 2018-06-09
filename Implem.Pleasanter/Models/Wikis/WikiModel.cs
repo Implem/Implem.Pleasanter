@@ -290,11 +290,11 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             if (extendedSqls) statements.OnCreatingExtendedSqls(SiteId);
             CreateStatements(statements, ss, tableType, param, otherInitValue);
-            var newId = Rds.ExecuteScalar_long(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            WikiId = newId != 0 ? newId : WikiId;
+            WikiId = (response.Identity ?? WikiId).ToLong();
             if (Contract.Notice() && notice)
             {
                 SetTitle(ss);
@@ -334,7 +334,7 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertItems(
-                    selectIdentity: true,
+                    setIdentity: true,
                     param: Rds.ItemsParam()
                         .ReferenceType("Wikis")
                         .SiteId(SiteId)
@@ -344,6 +344,7 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.WikisParamDefault(
                         this, setDefault: true, otherInitValue: otherInitValue)),
             });
+            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -374,11 +375,11 @@ namespace Implem.Pleasanter.Models
             {
                 statements.UpdatePermissions(ss, WikiId, permissions);
             }
-            var count = Rds.ExecuteScalar_int(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            if (count == 0) return Error.Types.UpdateConflicts;
+            if (response.Count == 0) return Error.Types.UpdateConflicts;
             if (Title_Updated())
             {
                 Rds.ExecuteNonQuery(statements: new SqlStatement[]
@@ -510,21 +511,21 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.InsertItems(
-                    selectIdentity: true,
+                    setIdentity: true,
                     param: Rds.ItemsParam()
                         .ReferenceType("Wikis")
                         .SiteId(SiteId)
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertWikis(
-                    selectIdentity: true,
                     where: where ?? Rds.WikisWhereDefault(this),
-                    param: param ?? Rds.WikisParamDefault(this, setDefault: true))
+                    param: param ?? Rds.WikisParamDefault(this, setDefault: true)),
+                Rds.SelectIdentity()
             };
-            var newId = Rds.ExecuteScalar_long(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            WikiId = newId != 0 ? newId : WikiId;
+            WikiId = (response.Identity ?? WikiId).ToLong();
             Get(ss);
             Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;

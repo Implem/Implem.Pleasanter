@@ -434,11 +434,11 @@ namespace Implem.Pleasanter.Models
                     where: Rds.ReminderSchedulesWhere()
                         .SiteId(SiteId)
                         .Id(reminder.Id))));
-            var count = Rds.ExecuteScalar_int(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            if (count == 0) return Error.Types.UpdateConflicts;
+            if (response.Count == 0) return Error.Types.UpdateConflicts;
             if (get) Get();
             UpdateRelatedRecords();
             SiteInfo.Reflesh();
@@ -465,7 +465,7 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     param: param ?? Rds.SitesParamDefault(this, otherInitValue: otherInitValue),
                     countRecord: true),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated),
             });
             if (additionalStatements?.Any() == true)
             {
@@ -551,22 +551,22 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.InsertItems(
-                    selectIdentity: true,
+                    setIdentity: true,
                     param: Rds.ItemsParam()
                         .ReferenceType("Sites")
                         .SiteId(SiteId)
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertSites(
-                    selectIdentity: true,
                     where: where ?? Rds.SitesWhereDefault(this),
                     param: param ?? Rds.SitesParamDefault(this, setDefault: true)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated),
+                Rds.SelectIdentity()
             };
-            var newId = Rds.ExecuteScalar_long(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            SiteId = newId != 0 ? newId : SiteId;
+            SiteId = (response.Identity ?? SiteId).ToLong();
             Get();
             Libraries.Search.Indexes.Create(SiteSettings, this);
             return Error.Types.None;
@@ -614,7 +614,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(SiteId)),
                     Rds.RestoreSites(
                         where: Rds.SitesWhere().SiteId(SiteId)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated),
                 });
             Libraries.Search.Indexes.Create(SiteSettings, this);
             return Error.Types.None;
@@ -835,12 +835,12 @@ namespace Implem.Pleasanter.Models
         public Error.Types Create(bool otherInitValue = false)
         {
             if (!otherInitValue) SiteSettings = new SiteSettings(ReferenceType);
-            var newId = Rds.ExecuteScalar_long(
+            var response = Rds.ExecuteScalar_response(
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.InsertItems(
-                        selectIdentity: true,
+                        setIdentity: true,
                         param: Rds.ItemsParam().ReferenceType("Sites")),
                     Rds.InsertSites(
                         param: Rds.SitesParam()
@@ -865,9 +865,10 @@ namespace Implem.Pleasanter.Models
                             .UserId(Sessions.UserId())
                             .PermissionType(Permissions.Manager()),
                         _using: InheritPermission == 0),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
+                    StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated),
+                    Rds.SelectIdentity()
                 });
-            SiteId = newId != 0 ? newId : SiteId;
+            SiteId = response.Identity ?? SiteId;
             Get();
             SiteSettings = SiteSettingsUtilities.Get(this, SiteId);
             switch (ReferenceType)

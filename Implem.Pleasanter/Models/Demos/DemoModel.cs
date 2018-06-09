@@ -170,11 +170,11 @@ namespace Implem.Pleasanter.Models
         {
             var statements = new List<SqlStatement>();
             CreateStatements(statements, tableType, param, otherInitValue);
-            var newId = Rds.ExecuteScalar_int(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            DemoId = newId != 0 ? newId : DemoId;
+            DemoId = (response.Identity ?? DemoId).ToInt();
             if (get) Get();
             return Error.Types.None;
         }
@@ -189,10 +189,11 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.InsertDemos(
                     tableType: tableType,
-                        selectIdentity: true,
+                    setIdentity: true,
                     param: param ?? Rds.DemosParamDefault(
                         this, setDefault: true, otherInitValue: otherInitValue))
             });
+            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -207,11 +208,11 @@ namespace Implem.Pleasanter.Models
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
-            var count = Rds.ExecuteScalar_int(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            if (count == 0) return Error.Types.UpdateConflicts;
+            if (response.Count == 0) return Error.Types.UpdateConflicts;
             if (get) Get();
             return Error.Types.None;
         }
@@ -284,15 +285,15 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertDemos(
-                    selectIdentity: true,
                     where: where ?? Rds.DemosWhereDefault(this),
-                    param: param ?? Rds.DemosParamDefault(this, setDefault: true))
+                    param: param ?? Rds.DemosParamDefault(this, setDefault: true)),
+                Rds.SelectIdentity()
             };
-            var newId = Rds.ExecuteScalar_int(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            DemoId = newId != 0 ? newId : DemoId;
+            DemoId = (response.Identity ?? DemoId).ToInt();
             Get();
             return Error.Types.None;
         }
@@ -306,7 +307,7 @@ namespace Implem.Pleasanter.Models
                 CopyToStatement(where, Sqls.TableTypes.Deleted),
                 Rds.PhysicalDeleteDemos(where: where)
             });
-            Rds.ExecuteNonQuery(
+            var response = Rds.ExecuteScalar_response(
                 transactional: true,
                 statements: statements.ToArray());
             return Error.Types.None;

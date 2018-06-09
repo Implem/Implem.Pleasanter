@@ -4373,7 +4373,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             GridSelector selector)
         {
-            return Rds.ExecuteScalar_int(
+            return Rds.ExecuteScalar_response(
                 transactional: true,
                 statements: new SqlStatement[]
                 {
@@ -4395,7 +4395,7 @@ namespace Implem.Pleasanter.Models
                                     where: Rds.ResultsWhere().SiteId(siteId)))
                             .SiteId(siteId, _operator: "<>"),
                         param: Rds.ItemsParam().SiteId(siteId))
-                });
+                }).Count.ToInt();
         }
 
         public static string BulkDelete(SiteSettings ss)
@@ -4464,9 +4464,10 @@ namespace Implem.Pleasanter.Models
                 where: where, 
                 countRecord: true));
             statements.OnBulkDeletedExtendedSqls(ss.SiteId);
-            return Rds.ExecuteScalar_int(
+            return Rds.ExecuteScalar_response(
                 transactional: true,
-                statements: statements.ToArray());
+                statements: statements.ToArray())
+                    .Count.ToInt();
         }
 
         public static string Import(SiteModel siteModel)

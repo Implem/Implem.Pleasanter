@@ -285,7 +285,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SwitchTargetsParameter": Code.Model_SwitchTargetsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchTargetsParameter, definitionRow, CodeXls); break;
                     case "Model_IdentityParameters": Code.Model_IdentityParameters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IdentityParameters, definitionRow, CodeXls); break;
                     case "Model_SetSiteSettingsNew": Code.Model_SetSiteSettingsNew = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettingsNew, definitionRow, CodeXls); break;
-                    case "Model_SetIdentity": Code.Model_SetIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetIdentity, definitionRow, CodeXls); break;
+                    case "Model_SetId": Code.Model_SetId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetId, definitionRow, CodeXls); break;
                     case "Model_ClearSessions": Code.Model_ClearSessions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ClearSessions, definitionRow, CodeXls); break;
                     case "Model_Get": Code.Model_Get = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Get, definitionRow, CodeXls); break;
                     case "Model_GetDefaultColumns": Code.Model_GetDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetDefaultColumns, definitionRow, CodeXls); break;
@@ -313,7 +313,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertItems": Code.Model_InsertItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItems, definitionRow, CodeXls); break;
                     case "Model_InsertItemsAfter": Code.Model_InsertItemsAfter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItemsAfter, definitionRow, CodeXls); break;
                     case "Model_ReloadPermissions": Code.Model_ReloadPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ReloadPermissions, definitionRow, CodeXls); break;
-                    case "Model_SelectIdentity": Code.Model_SelectIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SelectIdentity, definitionRow, CodeXls); break;
+                    case "Model_SetIdentity": Code.Model_SetIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetIdentity, definitionRow, CodeXls); break;
                     case "Model_InsertGroupMember": Code.Model_InsertGroupMember = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertGroupMember, definitionRow, CodeXls); break;
                     case "Model_InsertLinksByCreate": Code.Model_InsertLinksByCreate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksByCreate, definitionRow, CodeXls); break;
                     case "Model_CreatePermissions": Code.Model_CreatePermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreatePermissions, definitionRow, CodeXls); break;
@@ -4598,7 +4598,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SwitchTargetsParameter;
         public string Model_IdentityParameters;
         public string Model_SetSiteSettingsNew;
-        public string Model_SetIdentity;
+        public string Model_SetId;
         public string Model_ClearSessions;
         public string Model_Get;
         public string Model_GetDefaultColumns;
@@ -4626,7 +4626,7 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertItems;
         public string Model_InsertItemsAfter;
         public string Model_ReloadPermissions;
-        public string Model_SelectIdentity;
+        public string Model_SetIdentity;
         public string Model_InsertGroupMember;
         public string Model_InsertLinksByCreate;
         public string Model_CreatePermissions;
@@ -5121,7 +5121,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SwitchTargetsParameter = new CodeDefinition();
         public CodeDefinition Model_IdentityParameters = new CodeDefinition();
         public CodeDefinition Model_SetSiteSettingsNew = new CodeDefinition();
-        public CodeDefinition Model_SetIdentity = new CodeDefinition();
+        public CodeDefinition Model_SetId = new CodeDefinition();
         public CodeDefinition Model_ClearSessions = new CodeDefinition();
         public CodeDefinition Model_Get = new CodeDefinition();
         public CodeDefinition Model_GetDefaultColumns = new CodeDefinition();
@@ -5149,7 +5149,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertItems = new CodeDefinition();
         public CodeDefinition Model_InsertItemsAfter = new CodeDefinition();
         public CodeDefinition Model_ReloadPermissions = new CodeDefinition();
-        public CodeDefinition Model_SelectIdentity = new CodeDefinition();
+        public CodeDefinition Model_SetIdentity = new CodeDefinition();
         public CodeDefinition Model_InsertGroupMember = new CodeDefinition();
         public CodeDefinition Model_InsertLinksByCreate = new CodeDefinition();
         public CodeDefinition Model_CreatePermissions = new CodeDefinition();

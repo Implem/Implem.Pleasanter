@@ -22,7 +22,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             if (!Using) return;
             Build_If(commandText);
             Build_InsertStatement(sqlContainer, sqlCommand, commandText, commandCount);
-            Build_SelectIdentity(commandText, SelectIdentity, commandCount);
+            Build_SetIdentity(commandText, SetIdentity, commandCount);
             AddParams_Param(sqlCommand, commandCount);
             AddTermination(commandText);
             Build_EndIf(commandText);

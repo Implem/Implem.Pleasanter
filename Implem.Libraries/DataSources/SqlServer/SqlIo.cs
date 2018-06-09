@@ -47,7 +47,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private void SetCommandText()
         {
-            if (SqlContainer.SqlStatementCollection.Any(o => o.SelectIdentity))
+            if (SqlContainer.SqlStatementCollection.Any(o => o.SetIdentity))
             {
                 CommandText.Append("declare @_I bigint;\n");
             }
@@ -229,11 +229,6 @@ namespace Implem.Libraries.DataSources.SqlServer
             return ExecuteScalar().ToBool();
         }
 
-        public string ExecuteScalar_string()
-        {
-            return ExecuteScalar().ToStr();
-        }
-
         public int ExecuteScalar_int()
         {
             return ExecuteScalar().ToInt();
@@ -254,9 +249,24 @@ namespace Implem.Libraries.DataSources.SqlServer
             return ExecuteScalar().ToDateTime();
         }
 
+        public string ExecuteScalar_string()
+        {
+            return ExecuteScalar().ToStr();
+        }
+
         public byte[] ExecuteScalar_bytes()
         {
             return (byte[])ExecuteScalar();
+        }
+
+        public SqlResponse ExecuteScalar_response()
+        {
+            var response = ExecuteScalar().ToStr().Deserialize<SqlResponse>() ?? new SqlResponse();
+            if (!response.ErrorMessage.IsNullOrEmpty())
+            {
+                throw new Exception(response.ErrorMessage);
+            }
+            return response;
         }
 
         public DataTable ExecuteTable(string commandText)

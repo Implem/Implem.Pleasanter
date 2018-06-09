@@ -204,11 +204,11 @@ namespace Implem.Pleasanter.Models
         {
             var statements = new List<SqlStatement>();
             CreateStatements(statements, tableType, param, otherInitValue);
-            var newId = Rds.ExecuteScalar_long(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            ExportSettingId = newId != 0 ? newId : ExportSettingId;
+            ExportSettingId = (response.Identity ?? ExportSettingId).ToLong();
             if (get) Get();
             return Error.Types.None;
         }
@@ -223,10 +223,11 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.InsertExportSettings(
                     tableType: tableType,
-                        selectIdentity: true,
+                    setIdentity: true,
                     param: param ?? Rds.ExportSettingsParamDefault(
                         this, setDefault: true, otherInitValue: otherInitValue))
             });
+            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -241,11 +242,11 @@ namespace Implem.Pleasanter.Models
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
-            var count = Rds.ExecuteScalar_int(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            if (count == 0) return Error.Types.UpdateConflicts;
+            if (response.Count == 0) return Error.Types.UpdateConflicts;
             if (get) Get();
             return Error.Types.None;
         }
@@ -314,15 +315,15 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertExportSettings(
-                    selectIdentity: true,
                     where: where ?? Rds.ExportSettingsWhereDefault(this),
-                    param: param ?? Rds.ExportSettingsParamDefault(this, setDefault: true))
+                    param: param ?? Rds.ExportSettingsParamDefault(this, setDefault: true)),
+                Rds.SelectIdentity()
             };
-            var newId = Rds.ExecuteScalar_long(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            ExportSettingId = newId != 0 ? newId : ExportSettingId;
+            ExportSettingId = (response.Identity ?? ExportSettingId).ToLong();
             Get();
             return Error.Types.None;
         }
@@ -336,7 +337,7 @@ namespace Implem.Pleasanter.Models
                 CopyToStatement(where, Sqls.TableTypes.Deleted),
                 Rds.PhysicalDeleteExportSettings(where: where)
             });
-            Rds.ExecuteNonQuery(
+            var response = Rds.ExecuteScalar_response(
                 transactional: true,
                 statements: statements.ToArray());
             return Error.Types.None;

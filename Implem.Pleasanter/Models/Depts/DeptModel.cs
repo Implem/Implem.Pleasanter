@@ -205,11 +205,11 @@ namespace Implem.Pleasanter.Models
         {
             var statements = new List<SqlStatement>();
             CreateStatements(statements, ss, tableType, param, otherInitValue);
-            var newId = Rds.ExecuteScalar_int(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            DeptId = newId != 0 ? newId : DeptId;
+            DeptId = (response.Identity ?? DeptId).ToInt();
             if (get) Get(ss);
             return Error.Types.None;
         }
@@ -225,11 +225,12 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.InsertDepts(
                     tableType: tableType,
-                        selectIdentity: true,
+                    setIdentity: true,
                     param: param ?? Rds.DeptsParamDefault(
                         this, setDefault: true, otherInitValue: otherInitValue)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated),
             });
+            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -247,11 +248,11 @@ namespace Implem.Pleasanter.Models
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
-            var count = Rds.ExecuteScalar_int(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            if (count == 0) return Error.Types.UpdateConflicts;
+            if (response.Count == 0) return Error.Types.UpdateConflicts;
             if (get) Get(ss);
             SiteInfo.Reflesh();
             return Error.Types.None;
@@ -277,7 +278,7 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     param: param ?? Rds.DeptsParamDefault(this, otherInitValue: otherInitValue),
                     countRecord: true),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated),
             });
             if (additionalStatements?.Any() == true)
             {
@@ -326,16 +327,16 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertDepts(
-                    selectIdentity: true,
                     where: where ?? Rds.DeptsWhereDefault(this),
                     param: param ?? Rds.DeptsParamDefault(this, setDefault: true)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated),
+                Rds.SelectIdentity()
             };
-            var newId = Rds.ExecuteScalar_int(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            DeptId = newId != 0 ? newId : DeptId;
+            DeptId = (response.Identity ?? DeptId).ToInt();
             Get(ss);
             return Error.Types.None;
         }
@@ -348,9 +349,9 @@ namespace Implem.Pleasanter.Models
             {
                 CopyToStatement(where, Sqls.TableTypes.Deleted),
                 Rds.PhysicalDeleteDepts(where: where),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated),
             });
-            Rds.ExecuteNonQuery(
+            var response = Rds.ExecuteScalar_response(
                 transactional: true,
                 statements: statements.ToArray());
             var deptHash = SiteInfo.TenantCaches[Sessions.TenantId()].DeptHash;
@@ -371,7 +372,7 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.RestoreDepts(
                         where: Rds.DeptsWhere().DeptId(DeptId)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.DeptsUpdated),
                 });
             return Error.Types.None;
         }
