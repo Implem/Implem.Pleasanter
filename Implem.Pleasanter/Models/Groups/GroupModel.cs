@@ -186,11 +186,11 @@ namespace Implem.Pleasanter.Models
         {
             var statements = new List<SqlStatement>();
             CreateStatements(statements, ss, tableType, param, otherInitValue);
-            var newId = Rds.ExecuteScalar_int(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            GroupId = newId != 0 ? newId : GroupId;
+            GroupId = (response.Identity ?? GroupId).ToInt();
             if (get) Get(ss);
             return Error.Types.None;
         }
@@ -206,7 +206,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.InsertGroups(
                     tableType: tableType,
-                        selectIdentity: true,
+                    setIdentity: true,
                     param: param ?? Rds.GroupsParamDefault(
                         this, setDefault: true, otherInitValue: otherInitValue)),
                     Rds.InsertGroupMembers(
@@ -215,8 +215,9 @@ namespace Implem.Pleasanter.Models
                             .GroupId(raw: Def.Sql.Identity)
                             .UserId(Sessions.UserId())
                             .Admin(true)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated),
             });
+            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -234,11 +235,11 @@ namespace Implem.Pleasanter.Models
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
-            var count = Rds.ExecuteScalar_int(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            if (count == 0) return Error.Types.UpdateConflicts;
+            if (response.Count == 0) return Error.Types.UpdateConflicts;
             if (get) Get(ss);
             statements = new List<SqlStatement>
             {
@@ -289,7 +290,7 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     param: param ?? Rds.GroupsParamDefault(this, otherInitValue: otherInitValue),
                     countRecord: true),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated),
             });
             if (additionalStatements?.Any() == true)
             {
@@ -337,16 +338,16 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertGroups(
-                    selectIdentity: true,
                     where: where ?? Rds.GroupsWhereDefault(this),
                     param: param ?? Rds.GroupsParamDefault(this, setDefault: true)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated),
+                Rds.SelectIdentity()
             };
-            var newId = Rds.ExecuteScalar_int(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            GroupId = newId != 0 ? newId : GroupId;
+            GroupId = (response.Identity ?? GroupId).ToInt();
             Get(ss);
             return Error.Types.None;
         }
@@ -362,9 +363,9 @@ namespace Implem.Pleasanter.Models
                 Rds.PhysicalDeleteGroupMembers(
                     where: Rds.GroupMembersWhere()
                         .GroupId(GroupId)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated),
             });
-            Rds.ExecuteNonQuery(
+            var response = Rds.ExecuteScalar_response(
                 transactional: true,
                 statements: statements.ToArray());
             return Error.Types.None;
@@ -380,7 +381,7 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.RestoreGroups(
                         where: Rds.GroupsWhere().GroupId(GroupId)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated),
                 });
             return Error.Types.None;
         }

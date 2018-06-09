@@ -4208,11 +4208,11 @@ namespace Implem.Pleasanter.Models
                 .ToDictionary(o =>
                     o.ColumnName,
                     o => SiteInfo.User(PropertyValue(o.ColumnName).ToInt())));
-            var newId = Rds.ExecuteScalar_long(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            IssueId = newId != 0 ? newId : IssueId;
+            IssueId = (response.Identity ?? IssueId).ToLong();
             if (synchronizeSummary) SynchronizeSummary(ss, forceSynchronizeSourceSummary);
             if (Contract.Notice() && notice)
             {
@@ -4254,7 +4254,7 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertItems(
-                    selectIdentity: true,
+                    setIdentity: true,
                     param: Rds.ItemsParam()
                         .ReferenceType("Issues")
                         .SiteId(SiteId)
@@ -4263,7 +4263,7 @@ namespace Implem.Pleasanter.Models
                     tableType: tableType,
                     param: param ?? Rds.IssuesParamDefault(
                         this, setDefault: true, otherInitValue: otherInitValue)),
-                    InsertLinks(ss, selectIdentity: true),
+                InsertLinks(ss, setIdentity: true),
             });
             if (AttachmentsA_Updated()) AttachmentsA.Write(statements, IssueId);
             if (AttachmentsB_Updated()) AttachmentsB.Write(statements, IssueId);
@@ -4291,6 +4291,7 @@ namespace Implem.Pleasanter.Models
             if (AttachmentsX_Updated()) AttachmentsX.Write(statements, IssueId);
             if (AttachmentsY_Updated()) AttachmentsY.Write(statements, IssueId);
             if (AttachmentsZ_Updated()) AttachmentsZ.Write(statements, IssueId);
+            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -4321,11 +4322,11 @@ namespace Implem.Pleasanter.Models
             {
                 statements.UpdatePermissions(ss, IssueId, permissions);
             }
-            var count = Rds.ExecuteScalar_int(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            if (count == 0) return Error.Types.UpdateConflicts;
+            if (response.Count == 0) return Error.Types.UpdateConflicts;
             if (synchronizeSummary) SynchronizeSummary(ss, forceSynchronizeSourceSummary);
             if (Contract.Notice() && notice)
             {
@@ -5266,7 +5267,7 @@ namespace Implem.Pleasanter.Models
             Libraries.Search.Indexes.Create(ss, this);
         }
 
-        private SqlInsert InsertLinks(SiteSettings ss, bool selectIdentity = false)
+        private SqlInsert InsertLinks(SiteSettings ss, bool setIdentity = false)
         {
             var link = new Dictionary<long, long>();
             ss.Columns.Where(o => o.Link.ToBool()).ForEach(column =>
@@ -5432,7 +5433,7 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
-            return LinkUtilities.Insert(link, selectIdentity);
+            return LinkUtilities.Insert(link, setIdentity);
         }
 
         public Error.Types UpdateOrCreate(
@@ -5445,21 +5446,21 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.InsertItems(
-                    selectIdentity: true,
+                    setIdentity: true,
                     param: Rds.ItemsParam()
                         .ReferenceType("Issues")
                         .SiteId(SiteId)
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertIssues(
-                    selectIdentity: true,
                     where: where ?? Rds.IssuesWhereDefault(this),
-                    param: param ?? Rds.IssuesParamDefault(this, setDefault: true))
+                    param: param ?? Rds.IssuesParamDefault(this, setDefault: true)),
+                Rds.SelectIdentity()
             };
-            var newId = Rds.ExecuteScalar_long(
+            var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
-            IssueId = newId != 0 ? newId : IssueId;
+            IssueId = (response.Identity ?? IssueId).ToLong();
             Get(ss);
             Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;
@@ -5512,7 +5513,7 @@ namespace Implem.Pleasanter.Models
                 Rds.PhysicalDeleteIssues(where: where)
             });
             statements.OnDeletedExtendedSqls(SiteId, IssueId);
-            Rds.ExecuteNonQuery(
+            var response = Rds.ExecuteScalar_response(
                 transactional: true,
                 statements: statements.ToArray());
             SynchronizeSummary(ss);

@@ -148,15 +148,20 @@ namespace Implem.Pleasanter.Models
             Def.DemoDefinitionCollection
                 .Where(o => o.Type == "Depts")
                 .ForEach(demoDefinition =>
-                    idHash.Add(demoDefinition.Id, Rds.ExecuteScalar_long(statements:
-                        Rds.InsertDepts(
-                            selectIdentity: true,
-                            param: Rds.DeptsParam()
-                                .TenantId(demoModel.TenantId)
-                                .DeptCode(demoDefinition.ClassA)
-                                .DeptName(demoDefinition.Title)
-                                .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel))))));
+                    idHash.Add(
+                        demoDefinition.Id,
+                        Rds.ExecuteScalar_response(statements: new SqlStatement[]
+                        {
+                            Rds.InsertDepts(
+                                setIdentity: true,
+                                param: Rds.DeptsParam()
+                                    .TenantId(demoModel.TenantId)
+                                    .DeptCode(demoDefinition.ClassA)
+                                    .DeptName(demoDefinition.Title)
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel))),
+                            Rds.SelectIdentity()
+                        }).Identity.ToLong()));
         }
 
         /// <summary>
@@ -170,26 +175,29 @@ namespace Implem.Pleasanter.Models
                 .ForEach(demoDefinition =>
                 {
                     var loginId = LoginId(demoModel, demoDefinition.Id);
-                    idHash.Add(demoDefinition.Id, Rds.ExecuteScalar_long(statements: new SqlStatement[]
-                    {
-                        Rds.InsertUsers(
-                            selectIdentity: true,
-                            param: Rds.UsersParam()
-                                .TenantId(demoModel.TenantId)
-                                .LoginId(loginId)
-                                .Password(password)
-                                .Name(demoDefinition.Title)
-                                .DeptId(idHash.Get(demoDefinition.ParentId).ToInt())
-                                .Birthday(demoDefinition.ClassC.ToDateTime())
-                                .Gender(demoDefinition.ClassB)
-                                .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel))),
-                        Rds.InsertMailAddresses(
-                            param: Rds.MailAddressesParam()
-                                .OwnerId(raw: Def.Sql.Identity)
-                                .OwnerType("Users")
-                                .MailAddress(loginId + "@example.com"))
-                    }));
+                    idHash.Add(
+                        demoDefinition.Id,
+                        Rds.ExecuteScalar_response(statements: new SqlStatement[]
+                        {
+                            Rds.InsertUsers(
+                                setIdentity: true,
+                                param: Rds.UsersParam()
+                                    .TenantId(demoModel.TenantId)
+                                    .LoginId(loginId)
+                                    .Password(password)
+                                    .Name(demoDefinition.Title)
+                                    .DeptId(idHash.Get(demoDefinition.ParentId).ToInt())
+                                    .Birthday(demoDefinition.ClassC.ToDateTime())
+                                    .Gender(demoDefinition.ClassB)
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel))),
+                            Rds.InsertMailAddresses(
+                                param: Rds.MailAddressesParam()
+                                    .OwnerId(raw: Def.Sql.Identity)
+                                    .OwnerType("Users")
+                                    .MailAddress(loginId + "@example.com")),
+                            Rds.SelectIdentity()
+                        }).Identity.ToLong());
                 });
         }
 
@@ -225,12 +233,13 @@ namespace Implem.Pleasanter.Models
             Def.DemoDefinitionCollection
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.Id == topId || o.ParentId == topId)
-                .ForEach(demoDefinition =>
-                    idHash.Add(demoDefinition.Id, Rds.ExecuteScalar_long(statements:
+                .ForEach(demoDefinition => idHash.Add(
+                    demoDefinition.Id,
+                    Rds.ExecuteScalar_response(statements:
                         new SqlStatement[]
                         {
                             Rds.InsertItems(
-                                selectIdentity: true,
+                                setIdentity: true,
                                 param: Rds.ItemsParam()
                                     .ReferenceType("Sites")
                                     .Creator(idHash.Get(demoDefinition.Creator))
@@ -239,7 +248,6 @@ namespace Implem.Pleasanter.Models
                                     .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
                                 addUpdatorParam: false),
                             Rds.InsertSites(
-                                selectIdentity: true,
                                 param: Rds.SitesParam()
                                     .TenantId(demoModel.TenantId)
                                     .SiteId(raw: Def.Sql.Identity)
@@ -254,8 +262,9 @@ namespace Implem.Pleasanter.Models
                                     .Updator(idHash.Get(demoDefinition.Updator))
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
                                     .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
-                                addUpdatorParam: false)
-                        })));
+                                addUpdatorParam: false),
+                            Rds.SelectIdentity()
+                        }).Identity.ToLong()));
         }
 
         /// <summary>
@@ -283,10 +292,10 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Type == "Issues")
                 .ForEach(demoDefinition =>
                 {
-                    var issueId = Rds.ExecuteScalar_long(statements: new SqlStatement[]
+                    var issueId = Rds.ExecuteScalar_response(statements: new SqlStatement[]
                     {
                         Rds.InsertItems(
-                            selectIdentity: true,
+                            setIdentity: true,
                             param: Rds.ItemsParam()
                                 .ReferenceType("Issues")
                                 .Creator(idHash.Get(demoDefinition.Creator))
@@ -295,7 +304,6 @@ namespace Implem.Pleasanter.Models
                                 .UpdatedTime(demoDefinition.CreatedTime.DemoTime(demoModel)),
                             addUpdatorParam: false),
                         Rds.InsertIssues(
-                            selectIdentity: true,
                             param: Rds.IssuesParam()
                                 .SiteId(idHash.Get(demoDefinition.ParentId))
                                 .IssueId(raw: Def.Sql.Identity)
@@ -444,8 +452,9 @@ namespace Implem.Pleasanter.Models
                                 .Updator(idHash.Get(demoDefinition.Updator))
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
                                 .UpdatedTime(demoDefinition.CreatedTime.DemoTime(demoModel)),
-                            addUpdatorParam: false)
-                    });
+                            addUpdatorParam: false),
+                        Rds.SelectIdentity()
+                    }).Identity.ToLong();
                     idHash.Add(demoDefinition.Id, issueId);
                     var siteModel = new SiteModel().Get(
                         where: Rds.SitesWhere().SiteId(idHash.Get(demoDefinition.ParentId)));
@@ -540,10 +549,10 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Type == "Results")
                 .ForEach(demoDefinition =>
                 {
-                    var resultId = Rds.ExecuteScalar_long(statements: new SqlStatement[]
+                    var resultId = Rds.ExecuteScalar_response(statements: new SqlStatement[]
                     {
                         Rds.InsertItems(
-                            selectIdentity: true,
+                            setIdentity: true,
                             param: Rds.ItemsParam()
                                 .ReferenceType("Results")
                                 .Creator(idHash.Get(demoDefinition.Creator))
@@ -552,7 +561,6 @@ namespace Implem.Pleasanter.Models
                                 .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
                             addUpdatorParam: false),
                         Rds.InsertResults(
-                            selectIdentity: true,
                             param: Rds.ResultsParam()
                                 .SiteId(idHash.Get(demoDefinition.ParentId))
                                 .ResultId(raw: Def.Sql.Identity)
@@ -696,8 +704,9 @@ namespace Implem.Pleasanter.Models
                                 .Updator(idHash.Get(demoDefinition.Updator))
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
                                 .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
-                            addUpdatorParam: false)
-                    });
+                            addUpdatorParam: false),
+                        Rds.SelectIdentity()
+                    }).Identity.ToLong();
                     idHash.Add(demoDefinition.Id, resultId);
                     var siteModel = new SiteModel().Get(
                         where: Rds.SitesWhere().SiteId(idHash.Get(demoDefinition.ParentId)));

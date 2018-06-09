@@ -506,9 +506,9 @@ namespace Implem.Pleasanter.Models
             CreateStatements(statements, ss, tableType, param, otherInitValue);
             try
             {
-                var newId = Rds.ExecuteScalar_int(
+                var response = Rds.ExecuteScalar_response(
                     transactional: true, statements: statements.ToArray());
-                UserId = newId != 0 ? newId : UserId;
+                UserId = response.Identity.ToInt();
             }
             catch (System.Data.SqlClient.SqlException e)
             {
@@ -536,11 +536,12 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.InsertUsers(
                     tableType: tableType,
-                        selectIdentity: true,
+                    setIdentity: true,
                     param: param ?? Rds.UsersParamDefault(
                         this, setDefault: true, otherInitValue: otherInitValue)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated),
             });
+            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -560,11 +561,11 @@ namespace Implem.Pleasanter.Models
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
             try
             {
-                var count = Rds.ExecuteScalar_int(
+                var response = Rds.ExecuteScalar_response(
                     rdsUser: rdsUser,
                     transactional: true,
                     statements: statements.ToArray());
-                if (count == 0) return Error.Types.UpdateConflicts;
+                if (response.Count == 0) return Error.Types.UpdateConflicts;
             }
             catch (System.Data.SqlClient.SqlException e)
             {
@@ -603,7 +604,7 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     param: param ?? Rds.UsersParamDefault(this, otherInitValue: otherInitValue),
                     countRecord: true),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated),
             });
             if (additionalStatements?.Any() == true)
             {
@@ -736,9 +737,9 @@ namespace Implem.Pleasanter.Models
             {
                 CopyToStatement(where, Sqls.TableTypes.Deleted),
                 Rds.PhysicalDeleteUsers(where: where),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated),
             });
-            Rds.ExecuteNonQuery(
+            var response = Rds.ExecuteScalar_response(
                 transactional: true,
                 statements: statements.ToArray());
             var userHash = SiteInfo.TenantCaches[Sessions.TenantId()].UserHash;
@@ -759,7 +760,7 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.RestoreUsers(
                         where: Rds.UsersWhere().UserId(UserId)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated)
+                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated),
                 });
             return Error.Types.None;
         }

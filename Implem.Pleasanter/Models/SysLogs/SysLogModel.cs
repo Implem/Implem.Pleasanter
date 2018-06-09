@@ -738,9 +738,13 @@ namespace Implem.Pleasanter.Models
         {
             StartTime = DateTime.Now;
             SetProperties();
-            SysLogId = Rds.ExecuteScalar_long(statements: Rds.InsertSysLogs(
-                selectIdentity: true,
-                param: Rds.SysLogsParamDefault(this)));
+            SysLogId = Rds.ExecuteScalar_response(statements: new SqlStatement[]
+            {
+                Rds.InsertSysLogs(
+                    setIdentity: true,
+                    param: Rds.SysLogsParamDefault(this)),
+                Rds.SelectIdentity()
+            }).Identity.ToLong();
         }
 
         /// <summary>

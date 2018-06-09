@@ -21,7 +21,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             Build_If(commandText);
             Build_UpdateOrInsertStatement(
                 sqlContainer, sqlCommand, commandText, commandCount);
-            Build_SelectIdentity(commandText, SelectIdentity, commandCount);
+            Build_SetIdentity(commandText, SetIdentity, commandCount);
             AddParams_Where(sqlCommand, commandCount);
             AddParams_Param(sqlCommand, commandCount);
             AddTermination(commandText);

@@ -230,10 +230,11 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.UpdateOrInsertOrders(
-                        selectIdentity: true,
+                        setIdentity: true,
                         where: where ?? Rds.OrdersWhereDefault(this),
                         param: param ?? Rds.OrdersParamDefault(this, setDefault: true),
-                        tableType: tableType)
+                        tableType: tableType),
+                    Rds.SelectIdentity()
                 });
             return new ResponseCollection().ToJson();
         }
