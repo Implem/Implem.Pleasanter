@@ -157,6 +157,7 @@ namespace Implem.Pleasanter.Models
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             MailAddressId = (response.Identity ?? MailAddressId).ToLong();
             if (get) Get();
@@ -177,7 +178,6 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.MailAddressesParamDefault(
                         this, setDefault: true, otherInitValue: otherInitValue))
             });
-            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -264,12 +264,12 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateOrInsertMailAddresses(
                     where: where ?? Rds.MailAddressesWhereDefault(this),
-                    param: param ?? Rds.MailAddressesParamDefault(this, setDefault: true)),
-                Rds.SelectIdentity()
+                    param: param ?? Rds.MailAddressesParamDefault(this, setDefault: true))
             };
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             MailAddressId = (response.Identity ?? MailAddressId).ToLong();
             Get();

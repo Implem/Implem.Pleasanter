@@ -507,7 +507,10 @@ namespace Implem.Pleasanter.Models
             try
             {
                 var response = Rds.ExecuteScalar_response(
-                    transactional: true, statements: statements.ToArray());
+                    rdsUser: rdsUser,
+                    transactional: true,
+                    selectIdentity: true,
+                    statements: statements.ToArray());
                 UserId = response.Identity.ToInt();
             }
             catch (System.Data.SqlClient.SqlException e)
@@ -541,7 +544,6 @@ namespace Implem.Pleasanter.Models
                         this, setDefault: true, otherInitValue: otherInitValue)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated),
             });
-            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 

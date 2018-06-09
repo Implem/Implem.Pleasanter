@@ -173,6 +173,7 @@ namespace Implem.Pleasanter.Models
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             DemoId = (response.Identity ?? DemoId).ToInt();
             if (get) Get();
@@ -193,7 +194,6 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.DemosParamDefault(
                         this, setDefault: true, otherInitValue: otherInitValue))
             });
-            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -286,12 +286,12 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateOrInsertDemos(
                     where: where ?? Rds.DemosWhereDefault(this),
-                    param: param ?? Rds.DemosParamDefault(this, setDefault: true)),
-                Rds.SelectIdentity()
+                    param: param ?? Rds.DemosParamDefault(this, setDefault: true))
             };
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             DemoId = (response.Identity ?? DemoId).ToInt();
             Get();

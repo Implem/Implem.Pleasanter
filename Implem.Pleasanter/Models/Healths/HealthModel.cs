@@ -168,6 +168,7 @@ namespace Implem.Pleasanter.Models
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             HealthId = (response.Identity ?? HealthId).ToLong();
             if (get) Get();
@@ -188,7 +189,6 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.HealthsParamDefault(
                         this, setDefault: true, otherInitValue: otherInitValue))
             });
-            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -277,12 +277,12 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateOrInsertHealths(
                     where: where ?? Rds.HealthsWhereDefault(this),
-                    param: param ?? Rds.HealthsParamDefault(this, setDefault: true)),
-                Rds.SelectIdentity()
+                    param: param ?? Rds.HealthsParamDefault(this, setDefault: true))
             };
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             HealthId = (response.Identity ?? HealthId).ToLong();
             Get();

@@ -189,6 +189,7 @@ namespace Implem.Pleasanter.Models
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             GroupId = (response.Identity ?? GroupId).ToInt();
             if (get) Get(ss);
@@ -217,7 +218,6 @@ namespace Implem.Pleasanter.Models
                             .Admin(true)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated),
             });
-            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -341,11 +341,11 @@ namespace Implem.Pleasanter.Models
                     where: where ?? Rds.GroupsWhereDefault(this),
                     param: param ?? Rds.GroupsParamDefault(this, setDefault: true)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated),
-                Rds.SelectIdentity()
             };
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             GroupId = (response.Identity ?? GroupId).ToInt();
             Get(ss);

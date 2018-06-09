@@ -8,6 +8,7 @@ namespace Implem.Libraries.DataSources.SqlServer
     public static class Sqls
     {
         public static string LogsPath;
+        public static string SelectIdentity;
         public static string BeginTransaction;
         public static string CommitTransaction;
 

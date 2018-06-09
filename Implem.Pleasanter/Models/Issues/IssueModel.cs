@@ -4211,6 +4211,7 @@ namespace Implem.Pleasanter.Models
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             IssueId = (response.Identity ?? IssueId).ToLong();
             if (synchronizeSummary) SynchronizeSummary(ss, forceSynchronizeSourceSummary);
@@ -4291,7 +4292,6 @@ namespace Implem.Pleasanter.Models
             if (AttachmentsX_Updated()) AttachmentsX.Write(statements, IssueId);
             if (AttachmentsY_Updated()) AttachmentsY.Write(statements, IssueId);
             if (AttachmentsZ_Updated()) AttachmentsZ.Write(statements, IssueId);
-            statements.Add(Rds.SelectIdentity());
             return statements;
         }
 
@@ -5453,12 +5453,12 @@ namespace Implem.Pleasanter.Models
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertIssues(
                     where: where ?? Rds.IssuesWhereDefault(this),
-                    param: param ?? Rds.IssuesParamDefault(this, setDefault: true)),
-                Rds.SelectIdentity()
+                    param: param ?? Rds.IssuesParamDefault(this, setDefault: true))
             };
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             IssueId = (response.Identity ?? IssueId).ToLong();
             Get(ss);

@@ -560,11 +560,11 @@ namespace Implem.Pleasanter.Models
                     where: where ?? Rds.SitesWhereDefault(this),
                     param: param ?? Rds.SitesParamDefault(this, setDefault: true)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated),
-                Rds.SelectIdentity()
             };
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             SiteId = (response.Identity ?? SiteId).ToLong();
             Get();
@@ -837,6 +837,7 @@ namespace Implem.Pleasanter.Models
             if (!otherInitValue) SiteSettings = new SiteSettings(ReferenceType);
             var response = Rds.ExecuteScalar_response(
                 transactional: true,
+                selectIdentity: true,
                 statements: new SqlStatement[]
                 {
                     Rds.InsertItems(
@@ -866,7 +867,6 @@ namespace Implem.Pleasanter.Models
                             .PermissionType(Permissions.Manager()),
                         _using: InheritPermission == 0),
                     StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated),
-                    Rds.SelectIdentity()
                 });
             SiteId = response.Identity ?? SiteId;
             Get();
