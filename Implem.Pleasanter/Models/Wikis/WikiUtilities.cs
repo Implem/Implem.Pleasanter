@@ -452,23 +452,24 @@ namespace Implem.Pleasanter.Models
                 notice: true,
                 permissions: Forms.List("CurrentPermissionsAll"),
                 permissionChanged: Forms.Exists("CurrentPermissionsAll"));
-            if (error.Has())
+            switch (error)
             {
-                return error == Error.Types.UpdateConflicts
-                    ? Messages.ResponseUpdateConflicts(wikiModel.Updator.Name).ToJson()
-                    : new ResponseCollection().Message(error.Message()).ToJson();
-            }
-            else
-            {
-                var res = new WikisResponseCollection(wikiModel);
-                res.ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(ss.SiteId));
-                return ResponseByUpdate(res, ss, wikiModel)
-                    .PrependComment(
-                        ss,
-                        ss.GetColumn("Comments"),
-                        wikiModel.Comments,
-                        wikiModel.VerType)
-                    .ToJson();
+                case Error.Types.None:
+                    var res = new WikisResponseCollection(wikiModel);
+                    res.ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(ss.SiteId));
+                    return ResponseByUpdate(res, ss, wikiModel)
+                        .PrependComment(
+                            ss,
+                            ss.GetColumn("Comments"),
+                            wikiModel.Comments,
+                            wikiModel.VerType)
+                        .ToJson();
+                case Error.Types.UpdateConflicts:
+                    return Messages.ResponseUpdateConflicts(
+                        wikiModel.Updator.Name)
+                            .ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -508,14 +509,11 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = wikiModel.Delete(ss, notice: true);
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
-            }
-            else
-            {
-                Sessions.Set("Message", Messages.Deleted(wikiModel.Title.Value));
-                var res = new WikisResponseCollection(wikiModel);
+                case Error.Types.None:
+                    Sessions.Set("Message", Messages.Deleted(wikiModel.Title.Value));
+                    var res = new WikisResponseCollection(wikiModel);
                 res
                     .SetMemory("formChanged", false)
                     .Href(Locations.ItemIndex(Rds.ExecuteScalar_long(statements:
@@ -525,7 +523,9 @@ namespace Implem.Pleasanter.Models
                             where: Rds.SitesWhere()
                                 .TenantId(Sessions.TenantId())
                                 .SiteId(wikiModel.SiteId)))));
-                return res.ToJson();
+                    return res.ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -539,14 +539,13 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = wikiModel.Restore(ss, wikiId);
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
-            }
-            else
-            {
-                var res = new WikisResponseCollection(wikiModel);
-                return res.ToJson();
+                case Error.Types.None:
+                    var res = new WikisResponseCollection(wikiModel);
+                    return res.ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 

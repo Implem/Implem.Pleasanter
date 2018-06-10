@@ -52,7 +52,11 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount = null)
         {
             if (!Using) return;
-            commandText.Append(CommandText);
+            if (!CommandText.IsNullOrEmpty())
+            {
+                commandText.Append(CommandText
+                    .Replace("#CommandCount#", commandCount.ToString()));
+            }
             AddParams_Param(sqlCommand, commandCount);
         }
 

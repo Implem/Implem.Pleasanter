@@ -4,6 +4,7 @@
     {
         public long? Identity;
         public int? Count;
+        public string Event;
         public string ErrorMessage;
         public int? ErrorNumber;
         public int? ErrorSeverity;

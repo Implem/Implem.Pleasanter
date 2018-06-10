@@ -979,19 +979,21 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = userModel.Create(ss);
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
+                case Error.Types.None:
+                    Sessions.Set("Message", Messages.Created(userModel.Title.Value));
+                    return new ResponseCollection()
+                        .SetMemory("formChanged", false)
+                        .Href(Locations.Edit(
+                            controller: Routes.Controller(),
+                            id: ss.Columns.Any(o => o.Linking)
+                                ? Forms.Long("LinkId")
+                                : userModel.UserId))
+                        .ToJson();
+                default:
+                    return error.MessageJson();
             }
-            Sessions.Set("Message", Messages.Created(userModel.Title.Value));
-            return new ResponseCollection()
-                .SetMemory("formChanged", false)
-                .Href(Locations.Edit(
-                    controller: Routes.Controller(),
-                    id: ss.Columns.Any(o => o.Linking)
-                        ? Forms.Long("LinkId")
-                        : userModel.UserId))
-                .ToJson();
         }
 
         public static string Update(SiteSettings ss, int userId)
@@ -1013,22 +1015,23 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseDeleteConflicts().ToJson();
             }
             var error = userModel.Update(ss);
-            if (error.Has())
+            switch (error)
             {
-                return error == Error.Types.UpdateConflicts
-                    ? Messages.ResponseUpdateConflicts(userModel.Updator.Name).ToJson()
-                    : new ResponseCollection().Message(error.Message()).ToJson();
-            }
-            else
-            {
-                var res = new UsersResponseCollection(userModel);
-                return ResponseByUpdate(res, ss, userModel)
-                    .PrependComment(
-                        ss,
-                        ss.GetColumn("Comments"),
-                        userModel.Comments,
-                        userModel.VerType)
-                    .ToJson();
+                case Error.Types.None:
+                    var res = new UsersResponseCollection(userModel);
+                    return ResponseByUpdate(res, ss, userModel)
+                        .PrependComment(
+                            ss,
+                            ss.GetColumn("Comments"),
+                            userModel.Comments,
+                            userModel.VerType)
+                        .ToJson();
+                case Error.Types.UpdateConflicts:
+                    return Messages.ResponseUpdateConflicts(
+                        userModel.Updator.Name)
+                            .ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -1065,18 +1068,17 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = userModel.Delete(ss);
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
-            }
-            else
-            {
-                Sessions.Set("Message", Messages.Deleted(userModel.Title.Value));
-                var res = new UsersResponseCollection(userModel);
+                case Error.Types.None:
+                    Sessions.Set("Message", Messages.Deleted(userModel.Title.Value));
+                    var res = new UsersResponseCollection(userModel);
                 res
                     .SetMemory("formChanged", false)
                     .Href(Locations.Index("Users"));
-                return res.ToJson();
+                    return res.ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -1090,14 +1092,13 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = userModel.Restore(ss, userId);
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
-            }
-            else
-            {
-                var res = new UsersResponseCollection(userModel);
-                return res.ToJson();
+                case Error.Types.None:
+                    var res = new UsersResponseCollection(userModel);
+                    return res.ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 

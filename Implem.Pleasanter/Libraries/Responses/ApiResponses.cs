@@ -1,4 +1,6 @@
-﻿using Implem.Pleasanter.Libraries.General;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.General;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class ApiResponses
@@ -8,9 +10,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return new ApiResponse(id, 200, message);
         }
 
-        public static ApiResponse Error(Error.Types type)
+        public static ApiResponse Error(Error.Types type, params string[] data)
         {
-            return new ApiResponse(500, Displays.Get(type.ToString()));
+            return new ApiResponse(500, data?.Any() == true
+                ? Displays.Get(type.ToString()).Params(data)
+                : Displays.Get(type.ToString()));
         }
 
         public static ApiResponse BadRequest()
