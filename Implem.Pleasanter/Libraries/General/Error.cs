@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.General
             CantSetAtTopOfSite,
             DefinitionNotFound,
             DeleteConflicts,
+            Duplicated,
             Expired,
             ExternalMailAddress,
             FailedReadFile,
@@ -103,6 +104,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.DefinitionNotFound(data);
                 case Types.DeleteConflicts:
                     return Messages.DeleteConflicts(data);
+                case Types.Duplicated:
+                    return Messages.Duplicated(data);
                 case Types.Expired:
                     return Messages.Expired(data);
                 case Types.ExternalMailAddress:

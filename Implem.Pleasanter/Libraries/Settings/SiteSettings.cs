@@ -66,6 +66,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool Linked;
         [NonSerialized]
         public bool Mobile;
+        [NonSerialized]
+        public string DuplicatedColumn;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
@@ -695,6 +697,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.Step = column.Step;
                     }
+                    if (column.NoDuplication == true)
+                    {
+                        enabled = true;
+                        newColumn.NoDuplication = column.NoDuplication;
+                    }
                     if (column.EditorReadOnly != columnDefinition.EditorReadOnly)
                     {
                         enabled = true;
@@ -995,6 +1002,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.Min = column.Min ?? columnDefinition.Min;
                 column.Max = column.Max ?? DefaultMax(columnDefinition);
                 column.Step = column.Step ?? DefaultStep(columnDefinition);
+                column.NoDuplication = column.NoDuplication ?? false;
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
                 column.AllowImage = column.AllowImage ?? true;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
@@ -2038,6 +2046,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Max": column.Max = value.ToDecimal(); break;
                 case "Min": column.Min = value.ToDecimal(); break;
                 case "Step": column.Step = value.ToDecimal(); break;
+                case "NoDuplication": column.NoDuplication = value.ToBool(); break;
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "FieldCss": column.FieldCss = value; break;

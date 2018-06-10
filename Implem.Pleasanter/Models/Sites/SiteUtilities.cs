@@ -183,22 +183,24 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = siteModel.Create();
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
+                case Error.Types.None:
+                    Sessions.Set("Message", Messages.Created(siteModel.Title.Value));
+                    return new ResponseCollection()
+                        .SetMemory("formChanged", false)
+                        .Href(Locations.Edit(
+                            controller: Routes.Controller(),
+                            id: siteModel.ReferenceType == "Wikis"
+                                ? Rds.ExecuteScalar_long(statements:
+                                    Rds.SelectWikis(
+                                        column: Rds.WikisColumn().WikiId(),
+                                        where: Rds.WikisWhere().SiteId(siteModel.SiteId)))
+                                : siteModel.SiteId))
+                        .ToJson();
+                default:
+                    return error.MessageJson();
             }
-            Sessions.Set("Message", Messages.Created(siteModel.Title.Value));
-            return new ResponseCollection()
-                .SetMemory("formChanged", false)
-                .Href(Locations.Edit(
-                    controller: Routes.Controller(),
-                    id: siteModel.ReferenceType == "Wikis"
-                        ? Rds.ExecuteScalar_long(statements:
-                            Rds.SelectWikis(
-                                column: Rds.WikisColumn().WikiId(),
-                                where: Rds.WikisWhere().SiteId(siteModel.SiteId)))
-                        : siteModel.SiteId))
-                .ToJson();
         }
 
         public static string Update(SiteModel siteModel, long siteId)
@@ -227,23 +229,24 @@ namespace Implem.Pleasanter.Models
                 permissionChanged:
                     Forms.Exists("InheritPermission") ||
                     Forms.Exists("CurrentPermissionsAll"));
-            if (error.Has())
+            switch (error)
             {
-                return error == Error.Types.UpdateConflicts
-                    ? Messages.ResponseUpdateConflicts(siteModel.Updator.Name).ToJson()
-                    : new ResponseCollection().Message(error.Message()).ToJson();
-            }
-            else
-            {
-                var res = new SitesResponseCollection(siteModel);
-                res.ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(siteId));
-                return ResponseByUpdate(res, siteModel)
-                    .PrependComment(
-                        ss,
-                        ss.GetColumn("Comments"),
-                        siteModel.Comments,
-                        siteModel.VerType)
-                    .ToJson();
+                case Error.Types.None:
+                    var res = new SitesResponseCollection(siteModel);
+                    res.ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(siteId));
+                    return ResponseByUpdate(res, siteModel)
+                        .PrependComment(
+                            ss,
+                            ss.GetColumn("Comments"),
+                            siteModel.Comments,
+                            siteModel.VerType)
+                        .ToJson();
+                case Error.Types.UpdateConflicts:
+                    return Messages.ResponseUpdateConflicts(
+                        siteModel.Updator.Name)
+                            .ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -297,18 +300,17 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = siteModel.Delete();
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
-            }
-            else
-            {
-                Sessions.Set("Message", Messages.Deleted(siteModel.Title.Value));
-                var res = new SitesResponseCollection(siteModel);
+                case Error.Types.None:
+                    Sessions.Set("Message", Messages.Deleted(siteModel.Title.Value));
+                    var res = new SitesResponseCollection(siteModel);
                 res
                     .SetMemory("formChanged", false)
                     .Href(Locations.ItemIndex(siteModel.ParentId));
-                return res.ToJson();
+                    return res.ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -322,14 +324,13 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = siteModel.Restore(siteId);
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
-            }
-            else
-            {
-                var res = new SitesResponseCollection(siteModel);
-                return res.ToJson();
+                case Error.Types.None:
+                    var res = new SitesResponseCollection(siteModel);
+                    return res.ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -2759,6 +2760,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditorColumnDialog(
             this HtmlBuilder hb, SiteSettings ss, Column column, IEnumerable<string> titleColumns)
         {
+            var type = column.TypeName.CsTypeSummary();
             hb.FieldSet(
                 css: " enclosed",
                 legendText: column.LabelTextDefault,
@@ -2788,6 +2790,18 @@ namespace Implem.Pleasanter.Models
                                 disabled: column.Required,
                                 _using: !column.Id_Ver);
                     }
+                    switch (type)
+                    {
+                        case Types.CsNumeric:
+                        case Types.CsDateTime:
+                        case Types.CsString:
+                            hb.FieldCheckBox(
+                                controlId: "NoDuplication",
+                                labelText: Displays.NoDuplication(),
+                                _checked: column.NoDuplication == true,
+                                _using: !column.Id_Ver && column.ColumnName != "Comments");
+                            break;
+                    }
                     hb.FieldCheckBox(
                         controlId: "EditorReadOnly",
                         labelText: Displays.ReadOnly(),
@@ -2802,7 +2816,7 @@ namespace Implem.Pleasanter.Models
                                 optionCollection: DateTimeOptions(editorFormat: true),
                                 selectedValue: column.EditorFormat);
                     }
-                    switch (column.TypeName.CsTypeSummary())
+                    switch (type)
                     {
                         case Types.CsBool:
                             hb.FieldCheckBox(

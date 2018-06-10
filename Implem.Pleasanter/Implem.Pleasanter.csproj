@@ -1299,6 +1299,8 @@
     <Content Include="App_Data\Displays\Description.json" />
     <Content Include="App_Data\Displays\ConfirmReset.json" />
     <Content Include="App_Data\Displays\PartialMatch.json" />
+    <Content Include="App_Data\Displays\NoDuplication.json" />
+    <Content Include="App_Data\Displays\Duplicated.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

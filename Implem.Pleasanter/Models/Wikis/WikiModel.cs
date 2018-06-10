@@ -289,7 +289,7 @@ namespace Implem.Pleasanter.Models
         {
             var statements = new List<SqlStatement>();
             if (extendedSqls) statements.OnCreatingExtendedSqls(SiteId);
-            CreateStatements(statements, ss, tableType, param, otherInitValue);
+            CreateStatements(ss, statements, tableType, param, otherInitValue);
             var response = Rds.ExecuteScalar_response(
                 rdsUser: rdsUser,
                 transactional: true,
@@ -326,8 +326,8 @@ namespace Implem.Pleasanter.Models
         }
 
         public List<SqlStatement> CreateStatements(
-            List<SqlStatement> statements,
             SiteSettings ss,
+            List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool otherInitValue = false)

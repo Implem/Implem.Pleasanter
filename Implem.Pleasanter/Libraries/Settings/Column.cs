@@ -40,6 +40,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? Min;
         public decimal? Max;
         public decimal? Step;
+        public bool? NoDuplication;
         public bool? EditorReadOnly;
         public bool? AllowImage;
         public string FieldCss;
@@ -571,6 +572,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return "[{2}].[SiteId]={4} and try_cast([{0}].[{1}] as bigint)=[{2}].[{3}]"
                 .Params(left, name, alias, Rds.IdColumn(tableName), siteId);
+        }
+
+        public SqlStatement IfDuplicatedStatement(
+            SqlParamCollection param, long siteId, long referenceId)
+        {
+            return new SqlStatement(
+                Def.Sql.IfDuplicated.Params(
+                    SiteSettings.ReferenceType,
+                    siteId,
+                    Rds.IdColumn(SiteSettings.ReferenceType),
+                    referenceId,
+                    ColumnName),
+                param);
         }
 
         public string TableName()

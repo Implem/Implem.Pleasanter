@@ -648,19 +648,21 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = deptModel.Create(ss);
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
+                case Error.Types.None:
+                    Sessions.Set("Message", Messages.Created(deptModel.Title.Value));
+                    return new ResponseCollection()
+                        .SetMemory("formChanged", false)
+                        .Href(Locations.Edit(
+                            controller: Routes.Controller(),
+                            id: ss.Columns.Any(o => o.Linking)
+                                ? Forms.Long("LinkId")
+                                : deptModel.DeptId))
+                        .ToJson();
+                default:
+                    return error.MessageJson();
             }
-            Sessions.Set("Message", Messages.Created(deptModel.Title.Value));
-            return new ResponseCollection()
-                .SetMemory("formChanged", false)
-                .Href(Locations.Edit(
-                    controller: Routes.Controller(),
-                    id: ss.Columns.Any(o => o.Linking)
-                        ? Forms.Long("LinkId")
-                        : deptModel.DeptId))
-                .ToJson();
         }
 
         public static string Update(SiteSettings ss, int deptId)
@@ -677,22 +679,23 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseDeleteConflicts().ToJson();
             }
             var error = deptModel.Update(ss);
-            if (error.Has())
+            switch (error)
             {
-                return error == Error.Types.UpdateConflicts
-                    ? Messages.ResponseUpdateConflicts(deptModel.Updator.Name).ToJson()
-                    : new ResponseCollection().Message(error.Message()).ToJson();
-            }
-            else
-            {
-                var res = new DeptsResponseCollection(deptModel);
-                return ResponseByUpdate(res, ss, deptModel)
-                    .PrependComment(
-                        ss,
-                        ss.GetColumn("Comments"),
-                        deptModel.Comments,
-                        deptModel.VerType)
-                    .ToJson();
+                case Error.Types.None:
+                    var res = new DeptsResponseCollection(deptModel);
+                    return ResponseByUpdate(res, ss, deptModel)
+                        .PrependComment(
+                            ss,
+                            ss.GetColumn("Comments"),
+                            deptModel.Comments,
+                            deptModel.VerType)
+                        .ToJson();
+                case Error.Types.UpdateConflicts:
+                    return Messages.ResponseUpdateConflicts(
+                        deptModel.Updator.Name)
+                            .ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -729,18 +732,17 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = deptModel.Delete(ss);
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
-            }
-            else
-            {
-                Sessions.Set("Message", Messages.Deleted(deptModel.Title.Value));
-                var res = new DeptsResponseCollection(deptModel);
+                case Error.Types.None:
+                    Sessions.Set("Message", Messages.Deleted(deptModel.Title.Value));
+                    var res = new DeptsResponseCollection(deptModel);
                 res
                     .SetMemory("formChanged", false)
                     .Href(Locations.Index("Depts"));
-                return res.ToJson();
+                    return res.ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -754,14 +756,13 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = deptModel.Restore(ss, deptId);
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
-            }
-            else
-            {
-                var res = new DeptsResponseCollection(deptModel);
-                return res.ToJson();
+                case Error.Types.None:
+                    var res = new DeptsResponseCollection(deptModel);
+                    return res.ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 

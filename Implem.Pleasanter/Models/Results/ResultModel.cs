@@ -4093,8 +4093,9 @@ namespace Implem.Pleasanter.Models
             bool get = true)
         {
             var statements = new List<SqlStatement>();
+            IfDuplicatedStatements(ss, statements);
             if (extendedSqls) statements.OnCreatingExtendedSqls(SiteId);
-            CreateStatements(statements, ss, tableType, param, otherInitValue);
+            CreateStatements(ss, statements, tableType, param, otherInitValue);
             statements.CreatePermissions(ss, ss.Columns
                 .Where(o => o.UserColumn)
                 .ToDictionary(o =>
@@ -4105,6 +4106,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
+            if (response.Event == "Duplicated") return Duplicated(ss, response);
             ResultId = (response.Identity ?? ResultId).ToLong();
             if (synchronizeSummary) SynchronizeSummary(ss, forceSynchronizeSourceSummary);
             if (Contract.Notice() && notice)
@@ -4138,8 +4140,8 @@ namespace Implem.Pleasanter.Models
         }
 
         public List<SqlStatement> CreateStatements(
-            List<SqlStatement> statements,
             SiteSettings ss,
+            List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool otherInitValue = false)
@@ -4208,6 +4210,7 @@ namespace Implem.Pleasanter.Models
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
+            IfDuplicatedStatements(ss, statements);
             if (extendedSqls) statements.OnUpdatingExtendedSqls(SiteId, ResultId, timestamp);
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
             if (permissionChanged)
@@ -4218,6 +4221,7 @@ namespace Implem.Pleasanter.Models
                 rdsUser: rdsUser,
                 transactional: true,
                 statements: statements.ToArray());
+            if (response.Event == "Duplicated") return Duplicated(ss, response);
             if (response.Count == 0) return Error.Types.UpdateConflicts;
             if (synchronizeSummary) SynchronizeSummary(ss, forceSynchronizeSourceSummary);
             if (Contract.Notice() && notice)
@@ -5437,6 +5441,570 @@ namespace Implem.Pleasanter.Models
                     param: Rds.ResultsParam().SiteId(SiteId).ResultId(ResultId)));
             Libraries.Search.Indexes.Create(ss, this);
             return Error.Types.None;
+        }
+
+        private void IfDuplicatedStatements(SiteSettings ss, List<SqlStatement> statements)
+        {
+            var param = new Rds.ResultsParamCollection();
+            ss.Columns
+                .Where(column => column.NoDuplication == true)
+                .ForEach(column =>
+                {
+                    switch (column.ColumnName)
+                    {
+                        case "Title":
+                            if (Title.Value != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.Title(Title.Value.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "Body":
+                            if (Body != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.Body(Body), SiteId, ResultId));
+                            break;
+                        case "Status":
+                            if (Status.Value != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.Status(Status.Value), SiteId, ResultId));
+                            break;
+                        case "Manager":
+                            if (Manager.Id != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.Manager(Manager.Id), SiteId, ResultId));
+                            break;
+                        case "Owner":
+                            if (Owner.Id != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.Owner(Owner.Id), SiteId, ResultId));
+                            break;
+                        case "ClassA":
+                            if (ClassA != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassA(ClassA.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassB":
+                            if (ClassB != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassB(ClassB.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassC":
+                            if (ClassC != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassC(ClassC.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassD":
+                            if (ClassD != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassD(ClassD.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassE":
+                            if (ClassE != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassE(ClassE.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassF":
+                            if (ClassF != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassF(ClassF.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassG":
+                            if (ClassG != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassG(ClassG.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassH":
+                            if (ClassH != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassH(ClassH.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassI":
+                            if (ClassI != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassI(ClassI.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassJ":
+                            if (ClassJ != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassJ(ClassJ.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassK":
+                            if (ClassK != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassK(ClassK.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassL":
+                            if (ClassL != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassL(ClassL.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassM":
+                            if (ClassM != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassM(ClassM.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassN":
+                            if (ClassN != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassN(ClassN.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassO":
+                            if (ClassO != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassO(ClassO.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassP":
+                            if (ClassP != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassP(ClassP.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassQ":
+                            if (ClassQ != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassQ(ClassQ.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassR":
+                            if (ClassR != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassR(ClassR.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassS":
+                            if (ClassS != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassS(ClassS.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassT":
+                            if (ClassT != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassT(ClassT.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassU":
+                            if (ClassU != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassU(ClassU.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassV":
+                            if (ClassV != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassV(ClassV.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassW":
+                            if (ClassW != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassW(ClassW.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassX":
+                            if (ClassX != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassX(ClassX.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassY":
+                            if (ClassY != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassY(ClassY.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "ClassZ":
+                            if (ClassZ != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.ClassZ(ClassZ.MaxLength(1024)), SiteId, ResultId));
+                            break;
+                        case "NumA":
+                            if (NumA != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumA(NumA), SiteId, ResultId));
+                            break;
+                        case "NumB":
+                            if (NumB != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumB(NumB), SiteId, ResultId));
+                            break;
+                        case "NumC":
+                            if (NumC != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumC(NumC), SiteId, ResultId));
+                            break;
+                        case "NumD":
+                            if (NumD != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumD(NumD), SiteId, ResultId));
+                            break;
+                        case "NumE":
+                            if (NumE != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumE(NumE), SiteId, ResultId));
+                            break;
+                        case "NumF":
+                            if (NumF != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumF(NumF), SiteId, ResultId));
+                            break;
+                        case "NumG":
+                            if (NumG != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumG(NumG), SiteId, ResultId));
+                            break;
+                        case "NumH":
+                            if (NumH != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumH(NumH), SiteId, ResultId));
+                            break;
+                        case "NumI":
+                            if (NumI != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumI(NumI), SiteId, ResultId));
+                            break;
+                        case "NumJ":
+                            if (NumJ != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumJ(NumJ), SiteId, ResultId));
+                            break;
+                        case "NumK":
+                            if (NumK != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumK(NumK), SiteId, ResultId));
+                            break;
+                        case "NumL":
+                            if (NumL != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumL(NumL), SiteId, ResultId));
+                            break;
+                        case "NumM":
+                            if (NumM != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumM(NumM), SiteId, ResultId));
+                            break;
+                        case "NumN":
+                            if (NumN != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumN(NumN), SiteId, ResultId));
+                            break;
+                        case "NumO":
+                            if (NumO != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumO(NumO), SiteId, ResultId));
+                            break;
+                        case "NumP":
+                            if (NumP != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumP(NumP), SiteId, ResultId));
+                            break;
+                        case "NumQ":
+                            if (NumQ != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumQ(NumQ), SiteId, ResultId));
+                            break;
+                        case "NumR":
+                            if (NumR != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumR(NumR), SiteId, ResultId));
+                            break;
+                        case "NumS":
+                            if (NumS != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumS(NumS), SiteId, ResultId));
+                            break;
+                        case "NumT":
+                            if (NumT != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumT(NumT), SiteId, ResultId));
+                            break;
+                        case "NumU":
+                            if (NumU != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumU(NumU), SiteId, ResultId));
+                            break;
+                        case "NumV":
+                            if (NumV != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumV(NumV), SiteId, ResultId));
+                            break;
+                        case "NumW":
+                            if (NumW != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumW(NumW), SiteId, ResultId));
+                            break;
+                        case "NumX":
+                            if (NumX != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumX(NumX), SiteId, ResultId));
+                            break;
+                        case "NumY":
+                            if (NumY != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumY(NumY), SiteId, ResultId));
+                            break;
+                        case "NumZ":
+                            if (NumZ != 0)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.NumZ(NumZ), SiteId, ResultId));
+                            break;
+                        case "DateA":
+                            if (DateA != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateA(DateA), SiteId, ResultId));
+                            break;
+                        case "DateB":
+                            if (DateB != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateB(DateB), SiteId, ResultId));
+                            break;
+                        case "DateC":
+                            if (DateC != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateC(DateC), SiteId, ResultId));
+                            break;
+                        case "DateD":
+                            if (DateD != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateD(DateD), SiteId, ResultId));
+                            break;
+                        case "DateE":
+                            if (DateE != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateE(DateE), SiteId, ResultId));
+                            break;
+                        case "DateF":
+                            if (DateF != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateF(DateF), SiteId, ResultId));
+                            break;
+                        case "DateG":
+                            if (DateG != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateG(DateG), SiteId, ResultId));
+                            break;
+                        case "DateH":
+                            if (DateH != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateH(DateH), SiteId, ResultId));
+                            break;
+                        case "DateI":
+                            if (DateI != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateI(DateI), SiteId, ResultId));
+                            break;
+                        case "DateJ":
+                            if (DateJ != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateJ(DateJ), SiteId, ResultId));
+                            break;
+                        case "DateK":
+                            if (DateK != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateK(DateK), SiteId, ResultId));
+                            break;
+                        case "DateL":
+                            if (DateL != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateL(DateL), SiteId, ResultId));
+                            break;
+                        case "DateM":
+                            if (DateM != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateM(DateM), SiteId, ResultId));
+                            break;
+                        case "DateN":
+                            if (DateN != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateN(DateN), SiteId, ResultId));
+                            break;
+                        case "DateO":
+                            if (DateO != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateO(DateO), SiteId, ResultId));
+                            break;
+                        case "DateP":
+                            if (DateP != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateP(DateP), SiteId, ResultId));
+                            break;
+                        case "DateQ":
+                            if (DateQ != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateQ(DateQ), SiteId, ResultId));
+                            break;
+                        case "DateR":
+                            if (DateR != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateR(DateR), SiteId, ResultId));
+                            break;
+                        case "DateS":
+                            if (DateS != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateS(DateS), SiteId, ResultId));
+                            break;
+                        case "DateT":
+                            if (DateT != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateT(DateT), SiteId, ResultId));
+                            break;
+                        case "DateU":
+                            if (DateU != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateU(DateU), SiteId, ResultId));
+                            break;
+                        case "DateV":
+                            if (DateV != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateV(DateV), SiteId, ResultId));
+                            break;
+                        case "DateW":
+                            if (DateW != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateW(DateW), SiteId, ResultId));
+                            break;
+                        case "DateX":
+                            if (DateX != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateX(DateX), SiteId, ResultId));
+                            break;
+                        case "DateY":
+                            if (DateY != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateY(DateY), SiteId, ResultId));
+                            break;
+                        case "DateZ":
+                            if (DateZ != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DateZ(DateZ), SiteId, ResultId));
+                            break;
+                        case "DescriptionA":
+                            if (DescriptionA != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionA(DescriptionA), SiteId, ResultId));
+                            break;
+                        case "DescriptionB":
+                            if (DescriptionB != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionB(DescriptionB), SiteId, ResultId));
+                            break;
+                        case "DescriptionC":
+                            if (DescriptionC != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionC(DescriptionC), SiteId, ResultId));
+                            break;
+                        case "DescriptionD":
+                            if (DescriptionD != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionD(DescriptionD), SiteId, ResultId));
+                            break;
+                        case "DescriptionE":
+                            if (DescriptionE != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionE(DescriptionE), SiteId, ResultId));
+                            break;
+                        case "DescriptionF":
+                            if (DescriptionF != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionF(DescriptionF), SiteId, ResultId));
+                            break;
+                        case "DescriptionG":
+                            if (DescriptionG != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionG(DescriptionG), SiteId, ResultId));
+                            break;
+                        case "DescriptionH":
+                            if (DescriptionH != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionH(DescriptionH), SiteId, ResultId));
+                            break;
+                        case "DescriptionI":
+                            if (DescriptionI != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionI(DescriptionI), SiteId, ResultId));
+                            break;
+                        case "DescriptionJ":
+                            if (DescriptionJ != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionJ(DescriptionJ), SiteId, ResultId));
+                            break;
+                        case "DescriptionK":
+                            if (DescriptionK != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionK(DescriptionK), SiteId, ResultId));
+                            break;
+                        case "DescriptionL":
+                            if (DescriptionL != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionL(DescriptionL), SiteId, ResultId));
+                            break;
+                        case "DescriptionM":
+                            if (DescriptionM != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionM(DescriptionM), SiteId, ResultId));
+                            break;
+                        case "DescriptionN":
+                            if (DescriptionN != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionN(DescriptionN), SiteId, ResultId));
+                            break;
+                        case "DescriptionO":
+                            if (DescriptionO != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionO(DescriptionO), SiteId, ResultId));
+                            break;
+                        case "DescriptionP":
+                            if (DescriptionP != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionP(DescriptionP), SiteId, ResultId));
+                            break;
+                        case "DescriptionQ":
+                            if (DescriptionQ != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionQ(DescriptionQ), SiteId, ResultId));
+                            break;
+                        case "DescriptionR":
+                            if (DescriptionR != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionR(DescriptionR), SiteId, ResultId));
+                            break;
+                        case "DescriptionS":
+                            if (DescriptionS != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionS(DescriptionS), SiteId, ResultId));
+                            break;
+                        case "DescriptionT":
+                            if (DescriptionT != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionT(DescriptionT), SiteId, ResultId));
+                            break;
+                        case "DescriptionU":
+                            if (DescriptionU != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionU(DescriptionU), SiteId, ResultId));
+                            break;
+                        case "DescriptionV":
+                            if (DescriptionV != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionV(DescriptionV), SiteId, ResultId));
+                            break;
+                        case "DescriptionW":
+                            if (DescriptionW != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionW(DescriptionW), SiteId, ResultId));
+                            break;
+                        case "DescriptionX":
+                            if (DescriptionX != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionX(DescriptionX), SiteId, ResultId));
+                            break;
+                        case "DescriptionY":
+                            if (DescriptionY != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionY(DescriptionY), SiteId, ResultId));
+                            break;
+                        case "DescriptionZ":
+                            if (DescriptionZ != string.Empty)
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param.DescriptionZ(DescriptionZ), SiteId, ResultId));
+                            break;
+                    }
+                });
+        }
+
+        private Error.Types Duplicated(SiteSettings ss, SqlResponse response)
+        {
+            ss.DuplicatedColumn = response.Data;
+            return Error.Types.Duplicated;
         }
 
         public void SetDefault(SiteSettings ss)

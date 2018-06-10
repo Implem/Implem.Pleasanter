@@ -179,6 +179,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.DeletedImage(data), "alert-success");
         }
 
+        public static Message Duplicated(params string[] data)
+        {
+            return Get(Displays.Duplicated(data), "alert-error");
+        }
+
         public static Message Expired(params string[] data)
         {
             return Get(Displays.Expired(data), "alert-error");
@@ -637,6 +642,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseDeletedImage(params string[] data)
         {
             return ResponseMessage(DeletedImage(data));
+        }
+
+        public static ResponseCollection ResponseDuplicated(params string[] data)
+        {
+            return ResponseMessage(Duplicated(data));
         }
 
         public static ResponseCollection ResponseExpired(params string[] data)

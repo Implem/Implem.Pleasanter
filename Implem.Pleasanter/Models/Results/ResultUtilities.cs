@@ -3966,19 +3966,25 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = resultModel.Create(ss, notice: true);
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
+                case Error.Types.None:
+                    Sessions.Set("Message", Messages.Created(resultModel.Title.DisplayValue));
+                    return new ResponseCollection()
+                        .SetMemory("formChanged", false)
+                        .Href(Locations.Edit(
+                            controller: Routes.Controller(),
+                            id: ss.Columns.Any(o => o.Linking)
+                                ? Forms.Long("LinkId")
+                                : resultModel.ResultId))
+                        .ToJson();
+                case Error.Types.Duplicated:
+                    return Messages.ResponseDuplicated(
+                        ss.GetColumn(ss.DuplicatedColumn)?.LabelText)
+                            .ToJson();
+                default:
+                    return error.MessageJson();
             }
-            Sessions.Set("Message", Messages.Created(resultModel.Title.DisplayValue));
-            return new ResponseCollection()
-                .SetMemory("formChanged", false)
-                .Href(Locations.Edit(
-                    controller: Routes.Controller(),
-                    id: ss.Columns.Any(o => o.Linking)
-                        ? Forms.Long("LinkId")
-                        : resultModel.ResultId))
-                .ToJson();
         }
 
         public static System.Web.Mvc.ContentResult CreateByApi(SiteSettings ss)
@@ -3997,15 +4003,18 @@ namespace Implem.Pleasanter.Models
             resultModel.SiteId = ss.SiteId;
             resultModel.SetTitle(ss);
             var error = resultModel.Create(ss, notice: true);
-            if (error.Has())
+            switch (error)
             {
-                return ApiResults.Error(error);
-            }
-            else
-            {
-                return ApiResults.Success(
-                    resultModel.ResultId,
-                    Displays.Created(resultModel.Title.DisplayValue));
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        resultModel.ResultId,
+                        Displays.Created(resultModel.Title.DisplayValue));
+                case Error.Types.Duplicated:
+                    return ApiResults.Error(
+                        error,
+                        ss.GetColumn(ss.DuplicatedColumn)?.LabelText);
+                default:
+                    return ApiResults.Error(error);
             }
         }
 
@@ -4027,22 +4036,27 @@ namespace Implem.Pleasanter.Models
                 notice: true,
                 permissions: Forms.List("CurrentPermissionsAll"),
                 permissionChanged: Forms.Exists("CurrentPermissionsAll"));
-            if (error.Has())
+            switch (error)
             {
-                return error == Error.Types.UpdateConflicts
-                    ? Messages.ResponseUpdateConflicts(resultModel.Updator.Name).ToJson()
-                    : new ResponseCollection().Message(error.Message()).ToJson();
-            }
-            else
-            {
-                var res = new ResultsResponseCollection(resultModel);
-                return ResponseByUpdate(res, ss, resultModel)
-                    .PrependComment(
-                        ss,
-                        ss.GetColumn("Comments"),
-                        resultModel.Comments,
-                        resultModel.VerType)
-                    .ToJson();
+                case Error.Types.None:
+                    var res = new ResultsResponseCollection(resultModel);
+                    return ResponseByUpdate(res, ss, resultModel)
+                        .PrependComment(
+                            ss,
+                            ss.GetColumn("Comments"),
+                            resultModel.Comments,
+                            resultModel.VerType)
+                        .ToJson();
+                case Error.Types.Duplicated:
+                    return Messages.ResponseDuplicated(
+                        ss.GetColumn(ss.DuplicatedColumn)?.LabelText)
+                            .ToJson();
+                case Error.Types.UpdateConflicts:
+                    return Messages.ResponseUpdateConflicts(
+                        resultModel.Updator.Name)
+                            .ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -4088,15 +4102,18 @@ namespace Implem.Pleasanter.Models
             resultModel.SiteId = ss.SiteId;
             resultModel.SetTitle(ss);
             var error = resultModel.Update(ss, notice: true);
-            if (error.Has())
+            switch (error)
             {
-                return ApiResults.Error(error);
-            }
-            else
-            {
-                return ApiResults.Success(
-                    resultModel.ResultId,
-                    Displays.Updated(resultModel.Title.DisplayValue));
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        resultModel.ResultId,
+                        Displays.Updated(resultModel.Title.DisplayValue));
+                case Error.Types.Duplicated:
+                    return ApiResults.Error(
+                        error,
+                        ss.GetColumn(ss.DuplicatedColumn)?.LabelText);
+                default:
+                    return ApiResults.Error(error);
             }
         }
 
@@ -4122,20 +4139,24 @@ namespace Implem.Pleasanter.Models
             {
                 resultModel.Comments.Clear();
             }
-            var error = resultModel.Create(ss, forceSynchronizeSourceSummary: true, otherInitValue: true);
-            if (error.Has())
+            var error = resultModel.Create(
+                ss, forceSynchronizeSourceSummary: true, otherInitValue: true);
+            switch (error)
             {
-                return error.MessageJson();
-            }
-            else
-            {
-            return EditorResponse(
-                ss,
-                resultModel,
-                Messages.Copied(),
-                GetSwitchTargets(
-                    ss, resultModel.ResultId, resultModel.SiteId).Join())
-                        .ToJson();
+                case Error.Types.None:
+                    return EditorResponse(
+                        ss,
+                        resultModel,
+                        Messages.Copied(),
+                        GetSwitchTargets(
+                            ss, resultModel.ResultId, resultModel.SiteId).Join())
+                                .ToJson();
+                case Error.Types.Duplicated:
+                    return Messages.ResponseDuplicated(
+                        ss.GetColumn(ss.DuplicatedColumn)?.LabelText)
+                            .ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -4154,17 +4175,16 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = resultModel.Move(ss, siteId);
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
-            }
-            else
-            {
-                ss = SiteSettingsUtilities.Get(siteId, resultModel.ResultId);
-                return EditorResponse(ss, resultModel)
-                    .Message(Messages.Moved(resultModel.Title.Value))
-                    .Val("#BackUrl", Locations.ItemIndex(siteId))
-                    .ToJson();
+                case Error.Types.None:
+                    ss = SiteSettingsUtilities.Get(siteId, resultModel.ResultId);
+                    return EditorResponse(ss, resultModel)
+                        .Message(Messages.Moved(resultModel.Title.Value))
+                        .Val("#BackUrl", Locations.ItemIndex(siteId))
+                        .ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -4178,19 +4198,18 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = resultModel.Delete(ss, notice: true);
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
-            }
-            else
-            {
-                Sessions.Set("Message", Messages.Deleted(resultModel.Title.Value));
-                var res = new ResultsResponseCollection(resultModel);
+                case Error.Types.None:
+                    Sessions.Set("Message", Messages.Deleted(resultModel.Title.Value));
+                    var res = new ResultsResponseCollection(resultModel);
                 res
                     .SetMemory("formChanged", false)
                     .Href(Locations.Get(
                         "Items", ss.SiteId.ToString(), ViewModes.GetBySession(ss.SiteId)));
-                return res.ToJson();
+                    return res.ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -4210,15 +4229,14 @@ namespace Implem.Pleasanter.Models
             resultModel.SiteId = ss.SiteId;
             resultModel.SetTitle(ss);
             var error = resultModel.Delete(ss, notice: true);
-            if (error.Has())
+            switch (error)
             {
-                return ApiResults.Error(error);
-            }
-            else
-            {
-                return ApiResults.Success(
-                    resultModel.ResultId,
-                    Displays.Deleted(resultModel.Title.DisplayValue));
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        resultModel.ResultId,
+                        Displays.Deleted(resultModel.Title.DisplayValue));
+                default:
+                    return ApiResults.Error(error);
             }
         }
 
@@ -4232,14 +4250,13 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson();
             }
             var error = resultModel.Restore(ss, resultId);
-            if (error.Has())
+            switch (error)
             {
-                return error.MessageJson();
-            }
-            else
-            {
-                var res = new ResultsResponseCollection(resultModel);
-                return res.ToJson();
+                case Error.Types.None:
+                    var res = new ResultsResponseCollection(resultModel);
+                    return res.ToJson();
+                default:
+                    return error.MessageJson();
             }
         }
 
@@ -4512,9 +4529,9 @@ namespace Implem.Pleasanter.Models
                     }
                     if (column != null) columnHash.Add(data.Index, column);
                 });
-                var error = Imports.ColumnValidate(ss, columnHash.Values
+                var invalid = Imports.ColumnValidate(ss, columnHash.Values
                     .Select(o => o.ColumnName));
-                if (error != null) return error;
+                if (invalid != null) return invalid;
                 Rds.ExecuteNonQuery(
                     transactional: true,
                     statements: new List<SqlStatement>()
@@ -4955,7 +4972,7 @@ namespace Implem.Pleasanter.Models
                 });
                 var insertCount = 0;
                 var updateCount = 0;
-                resultHash.Values.ForEach(resultModel =>
+                foreach (var resultModel in resultHash.Values)
                 {
                     resultModel.SetTitle(ss);
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
@@ -4963,16 +4980,40 @@ namespace Implem.Pleasanter.Models
                         resultModel.VerUp = Versions.MustVerUp(resultModel);
                         if (resultModel.Updated())
                         {
-                            resultModel.Update(ss: ss, extendedSqls: false, get: false);
+                            var error = resultModel.Update(
+                                ss: ss, extendedSqls: false, get: false);
+                            switch (error)
+                            {
+                                case Error.Types.None:
+                                    break;
+                                case Error.Types.Duplicated:
+                                    return Messages.ResponseDuplicated(
+                                        ss.GetColumn(ss.DuplicatedColumn)?.LabelText)
+                                            .ToJson();
+                                default:
+                                    return error.MessageJson();
+                            }
                             updateCount++;
                         }
                     }
                     else
                     {
-                        resultModel.Create(ss: ss, extendedSqls: false, get: false);
+                        var error = resultModel.Create(
+                            ss: ss, extendedSqls: false, get: false);
+                        switch (error)
+                        {
+                            case Error.Types.None:
+                                break;
+                            case Error.Types.Duplicated:
+                                return Messages.ResponseDuplicated(
+                                    ss.GetColumn(ss.DuplicatedColumn)?.LabelText)
+                                        .ToJson();
+                            default:
+                                return error.MessageJson();
+                        }
                         insertCount++;
                     }
-                });
+                }
                 Rds.ExecuteNonQuery(
                     transactional: true,
                     statements: new List<SqlStatement>()

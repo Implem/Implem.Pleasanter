@@ -175,6 +175,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Disabled(params string[] data) { return Get("Disabled", data); }
         public static string SendCompletedInPast(params string[] data) { return Get("SendCompletedInPast", data); }
         public static string DisplayName(params string[] data) { return Get("DisplayName", data); }
+        public static string Duplicated(params string[] data) { return Get("Duplicated", data); }
         public static string EarnedValue(params string[] data) { return Get("EarnedValue", data); }
         public static string Edit(params string[] data) { return Get("Edit", data); }
         public static string Editor(params string[] data) { return Get("Editor", data); }
@@ -351,6 +352,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Next(params string[] data) { return Get("Next", data); }
         public static string NoClassification(params string[] data) { return Get("NoClassification", data); }
         public static string NoData(params string[] data) { return Get("NoData", data); }
+        public static string NoDuplication(params string[] data) { return Get("NoDuplication", data); }
         public static string NoLinks(params string[] data) { return Get("NoLinks", data); }
         public static string Normal(params string[] data) { return Get("Normal", data); }
         public static string NoTargetRecord(params string[] data) { return Get("NoTargetRecord", data); }

@@ -380,6 +380,10 @@ namespace Implem.DefinitionAccessor
                     case "Model_Restore": Code.Model_Restore = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore, definitionRow, CodeXls); break;
                     case "Model_Restore_Item": Code.Model_Restore_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore_Item, definitionRow, CodeXls); break;
                     case "Model_PhysicalDelete": Code.Model_PhysicalDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PhysicalDelete, definitionRow, CodeXls); break;
+                    case "Model_IfDuplicated": Code.Model_IfDuplicated = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IfDuplicated, definitionRow, CodeXls); break;
+                    case "Model_IfDuplicatedReturn": Code.Model_IfDuplicatedReturn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IfDuplicatedReturn, definitionRow, CodeXls); break;
+                    case "Model_IfDuplicatedStatements": Code.Model_IfDuplicatedStatements = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IfDuplicatedStatements, definitionRow, CodeXls); break;
+                    case "Model_IfDuplicatedStatements_ColumnCases": Code.Model_IfDuplicatedStatements_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IfDuplicatedStatements_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetDefault": Code.Model_SetDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault, definitionRow, CodeXls); break;
                     case "Model_SetDefault_ColumnCases": Code.Model_SetDefault_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetDefault_DateTimeColumnCases": Code.Model_SetDefault_DateTimeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_DateTimeColumnCases, definitionRow, CodeXls); break;
@@ -596,6 +600,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_SetItemTitle_TableCases": Code.Model_Utilities_SetItemTitle_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetItemTitle_TableCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetItemTitle": Code.Model_Utilities_SetItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetItemTitle, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetLinks": Code.Model_Utilities_SetLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetLinks, definitionRow, CodeXls); break;
+                    case "Model_Utilities_DuplicatedMessage": Code.Model_Utilities_DuplicatedMessage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DuplicatedMessage, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ApiDuplicatedMessage": Code.Model_Utilities_ApiDuplicatedMessage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ApiDuplicatedMessage, definitionRow, CodeXls); break;
                     case "Model_Validator": Code.Model_Validator = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods": Code.Model_ValidatorMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods, definitionRow, CodeXls); break;
                     case "Model_Validator_OnMoving": Code.Model_Validator_OnMoving = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnMoving, definitionRow, CodeXls); break;
@@ -3313,6 +3319,7 @@ namespace Implem.DefinitionAccessor
                     case "MoveTarget": Sql.MoveTarget = definitionRow[1].ToString(); SetSqlTable(SqlTable.MoveTarget, definitionRow, SqlXls); break;
                     case "StartTimeColumn": Sql.StartTimeColumn = definitionRow[1].ToString(); SetSqlTable(SqlTable.StartTimeColumn, definitionRow, SqlXls); break;
                     case "CompletionTimeColumn": Sql.CompletionTimeColumn = definitionRow[1].ToString(); SetSqlTable(SqlTable.CompletionTimeColumn, definitionRow, SqlXls); break;
+                    case "IfDuplicated": Sql.IfDuplicated = definitionRow[1].ToString(); SetSqlTable(SqlTable.IfDuplicated, definitionRow, SqlXls); break;
                     case "SelectIdentity": Sql.SelectIdentity = definitionRow[1].ToString(); SetSqlTable(SqlTable.SelectIdentity, definitionRow, SqlXls); break;
                     case "TruncateTemplate": Sql.TruncateTemplate = definitionRow[1].ToString(); SetSqlTable(SqlTable.TruncateTemplate, definitionRow, SqlXls); break;
                     case "CreateDatabase": Sql.CreateDatabase = definitionRow[1].ToString(); SetSqlTable(SqlTable.CreateDatabase, definitionRow, SqlXls); break;
@@ -4694,6 +4701,10 @@ namespace Implem.DefinitionAccessor
         public string Model_Restore;
         public string Model_Restore_Item;
         public string Model_PhysicalDelete;
+        public string Model_IfDuplicated;
+        public string Model_IfDuplicatedReturn;
+        public string Model_IfDuplicatedStatements;
+        public string Model_IfDuplicatedStatements_ColumnCases;
         public string Model_SetDefault;
         public string Model_SetDefault_ColumnCases;
         public string Model_SetDefault_DateTimeColumnCases;
@@ -4910,6 +4921,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_SetItemTitle_TableCases;
         public string Model_Utilities_SetItemTitle;
         public string Model_Utilities_SetLinks;
+        public string Model_Utilities_DuplicatedMessage;
+        public string Model_Utilities_ApiDuplicatedMessage;
         public string Model_Validator;
         public string Model_ValidatorMethods;
         public string Model_Validator_OnMoving;
@@ -5217,6 +5230,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Restore = new CodeDefinition();
         public CodeDefinition Model_Restore_Item = new CodeDefinition();
         public CodeDefinition Model_PhysicalDelete = new CodeDefinition();
+        public CodeDefinition Model_IfDuplicated = new CodeDefinition();
+        public CodeDefinition Model_IfDuplicatedReturn = new CodeDefinition();
+        public CodeDefinition Model_IfDuplicatedStatements = new CodeDefinition();
+        public CodeDefinition Model_IfDuplicatedStatements_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetDefault = new CodeDefinition();
         public CodeDefinition Model_SetDefault_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetDefault_DateTimeColumnCases = new CodeDefinition();
@@ -5433,6 +5450,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_SetItemTitle_TableCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetItemTitle = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetLinks = new CodeDefinition();
+        public CodeDefinition Model_Utilities_DuplicatedMessage = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ApiDuplicatedMessage = new CodeDefinition();
         public CodeDefinition Model_Validator = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods = new CodeDefinition();
         public CodeDefinition Model_Validator_OnMoving = new CodeDefinition();
@@ -10253,6 +10272,7 @@ namespace Implem.DefinitionAccessor
         public string MoveTarget;
         public string StartTimeColumn;
         public string CompletionTimeColumn;
+        public string IfDuplicated;
         public string SelectIdentity;
         public string TruncateTemplate;
         public string CreateDatabase;
@@ -10289,6 +10309,7 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition MoveTarget = new SqlDefinition();
         public SqlDefinition StartTimeColumn = new SqlDefinition();
         public SqlDefinition CompletionTimeColumn = new SqlDefinition();
+        public SqlDefinition IfDuplicated = new SqlDefinition();
         public SqlDefinition SelectIdentity = new SqlDefinition();
         public SqlDefinition TruncateTemplate = new SqlDefinition();
         public SqlDefinition CreateDatabase = new SqlDefinition();

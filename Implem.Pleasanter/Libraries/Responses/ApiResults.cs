@@ -10,9 +10,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(ApiResponses.Success(id, message));
         }
 
-        public static ContentResult Error(Error.Types type)
+        public static ContentResult Error(Error.Types type, params string[] data)
         {
-            return Get(ApiResponses.Error(type));
+            return Get(ApiResponses.Error(type, data));
         }
 
         public static ContentResult Get(ApiResponse apiResponse)

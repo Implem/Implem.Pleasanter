@@ -503,7 +503,7 @@ namespace Implem.Pleasanter.Models
         {
             PasswordExpirationPeriod();
             var statements = new List<SqlStatement>();
-            CreateStatements(statements, ss, tableType, param, otherInitValue);
+            CreateStatements(ss, statements, tableType, param, otherInitValue);
             try
             {
                 var response = Rds.ExecuteScalar_response(
@@ -529,8 +529,8 @@ namespace Implem.Pleasanter.Models
         }
 
         public List<SqlStatement> CreateStatements(
-            List<SqlStatement> statements,
             SiteSettings ss,
+            List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool otherInitValue = false)
