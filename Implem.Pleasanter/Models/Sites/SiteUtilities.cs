@@ -2799,7 +2799,11 @@ namespace Implem.Pleasanter.Models
                                 controlId: "NoDuplication",
                                 labelText: Displays.NoDuplication(),
                                 _checked: column.NoDuplication == true,
-                                _using: !column.Id_Ver && column.ColumnName != "Comments");
+                                _using:
+                                    !column.Id_Ver &&
+                                    !column.NotUpdate &&
+                                    column.ControlType != "Attachments" &&
+                                    column.ColumnName != "Comments");
                             break;
                     }
                     hb.FieldCheckBox(
