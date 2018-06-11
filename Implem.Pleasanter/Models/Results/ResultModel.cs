@@ -5354,11 +5354,13 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public Error.Types Move(SiteSettings ss, long siteId)
+        public Error.Types Move(SiteSettings ss, SiteSettings targetSs)
         {
-            SiteId = siteId;
-            var fullText = FullText(ss);
-            Rds.ExecuteNonQuery(statements: new SqlStatement[]
+            SiteId = targetSs.SiteId;
+            var statements = new List<SqlStatement>();
+            var fullText = FullText(targetSs);
+            IfDuplicatedStatements(targetSs, statements);
+            statements.AddRange(new List<SqlStatement>
             {
                 Rds.UpdateItems(
                     where: Rds.ItemsWhere().ReferenceId(ResultId),
@@ -5369,9 +5371,13 @@ namespace Implem.Pleasanter.Models
                     where: Rds.ResultsWhere().ResultId(ResultId),
                     param: Rds.ResultsParam().SiteId(SiteId))
             });
+            var response = Rds.ExecuteScalar_response(
+                transactional: true,
+                statements: statements.ToArray());
+            if (response.Event == "Duplicated") return Duplicated(targetSs, response);
             SynchronizeSummary(ss);
-            Get(ss);
-            Libraries.Search.Indexes.Create(ss, this);
+            Get(targetSs);
+            Libraries.Search.Indexes.Create(targetSs, this);
             return Error.Types.None;
         }
 
