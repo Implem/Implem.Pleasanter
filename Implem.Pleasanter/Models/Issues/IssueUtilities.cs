@@ -4289,15 +4289,18 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = issueModel.Move(ss, siteId);
+            var targetSs = SiteSettingsUtilities.Get(siteId);
+            var error = issueModel.Move(ss, targetSs);
             switch (error)
             {
                 case Error.Types.None:
-                    ss = SiteSettingsUtilities.Get(siteId, issueModel.IssueId);
-                    return EditorResponse(ss, issueModel)
-                        .Message(Messages.Moved(issueModel.Title.Value))
-                        .Val("#BackUrl", Locations.ItemIndex(siteId))
+                    return new ResponseCollection()
+                        .Href(Locations.ItemEdit(issueModel.IssueId))
                         .ToJson();
+                case Error.Types.Duplicated:
+                    return Messages.ResponseDuplicated(
+                        targetSs.GetColumn(targetSs.DuplicatedColumn)?.LabelText)
+                            .ToJson();
                 default:
                     return error.MessageJson();
             }
