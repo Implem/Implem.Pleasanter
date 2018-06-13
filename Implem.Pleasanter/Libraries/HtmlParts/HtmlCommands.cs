@@ -104,7 +104,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 onClick: "$p.openDeleteSiteDialog($(this));",
                                 icon: "ui-icon-trash",
                                 _using: deleteButton && ss.CanDelete() && ss.IsSite());
-                        if (Routes.Controller() == "items")
+                        if (Routes.Controller() == "items" && ss.ReferenceType != "Sites")
                         {
                             switch (Routes.Action())
                             {
