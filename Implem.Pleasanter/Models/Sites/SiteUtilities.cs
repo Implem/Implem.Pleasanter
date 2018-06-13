@@ -1331,12 +1331,7 @@ namespace Implem.Pleasanter.Models
                                 .SiteMenu(siteModel: null, siteConditions: siteConditions)
                                 .SiteMenuData()
                                 .LinkDialog())
-                        .SiteTitleDialog(ss: ss)
-                        .MainCommands(
-                            ss: ss,
-                            siteId: 0,
-                            verType: verType,
-                            backButton: false);
+                        .SiteTitleDialog(ss: ss);
                 }).ToString();
         }
 
