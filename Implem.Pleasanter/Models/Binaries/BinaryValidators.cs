@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Models
     {
         public static Error.Types OnGetting(SiteSettings ss)
         {
-            if (!ss.CanRead())
+            if (!ss.HasPermission())
             {
                 return Error.Types.HasNotPermission;
             }
