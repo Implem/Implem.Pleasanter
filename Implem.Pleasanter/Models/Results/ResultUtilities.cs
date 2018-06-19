@@ -4139,6 +4139,9 @@ namespace Implem.Pleasanter.Models
             {
                 resultModel.Comments.Clear();
             }
+            ss.Columns
+                .Where(column => column.CopyByDefault == true)
+                .ForEach(column => resultModel.SetDefault(ss, column));
             var error = resultModel.Create(
                 ss, forceSynchronizeSourceSummary: true, otherInitValue: true);
             switch (error)

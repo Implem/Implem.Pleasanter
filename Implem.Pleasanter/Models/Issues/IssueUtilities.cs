@@ -4254,6 +4254,9 @@ namespace Implem.Pleasanter.Models
             {
                 issueModel.Comments.Clear();
             }
+            ss.Columns
+                .Where(column => column.CopyByDefault == true)
+                .ForEach(column => issueModel.SetDefault(ss, column));
             var error = issueModel.Create(
                 ss, forceSynchronizeSourceSummary: true, otherInitValue: true);
             switch (error)

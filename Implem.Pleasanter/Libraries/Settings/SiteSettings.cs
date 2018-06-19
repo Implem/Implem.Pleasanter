@@ -702,6 +702,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.NoDuplication = column.NoDuplication;
                     }
+                    if (column.CopyByDefault == true)
+                    {
+                        enabled = true;
+                        newColumn.CopyByDefault = column.CopyByDefault;
+                    }
                     if (column.EditorReadOnly != columnDefinition.EditorReadOnly)
                     {
                         enabled = true;
@@ -1003,6 +1008,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.Max = column.Max ?? DefaultMax(columnDefinition);
                 column.Step = column.Step ?? DefaultStep(columnDefinition);
                 column.NoDuplication = column.NoDuplication ?? false;
+                column.CopyByDefault = column.CopyByDefault ?? false;
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
                 column.AllowImage = column.AllowImage ?? true;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
@@ -2047,6 +2053,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Min": column.Min = value.ToDecimal(); break;
                 case "Step": column.Step = value.ToDecimal(); break;
                 case "NoDuplication": column.NoDuplication = value.ToBool(); break;
+                case "CopyByDefault": column.CopyByDefault = value.ToBool(); break;
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "FieldCss": column.FieldCss = value; break;
