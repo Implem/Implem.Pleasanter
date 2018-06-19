@@ -126,6 +126,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ControlType(params string[] data) { return Get("ControlType", data); }
         public static string Copied(params string[] data) { return Get("Copied", data); }
         public static string Copy(params string[] data) { return Get("Copy", data); }
+        public static string CopyByDefault(params string[] data) { return Get("CopyByDefault", data); }
         public static string CopySettings(params string[] data) { return Get("CopySettings", data); }
         public static string CopyWithComments(params string[] data) { return Get("CopyWithComments", data); }
         public static string CorporatePlanning(params string[] data) { return Get("CorporatePlanning", data); }

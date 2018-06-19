@@ -6153,435 +6153,437 @@ namespace Implem.Pleasanter.Models
         {
             ss.Columns
                 .Where(o => !o.DefaultInput.IsNullOrEmpty())
-                .ForEach(column =>
-                {
-                    switch (column.ColumnName)
-                    {
-                        case "IssueId":
-                            IssueId = column.DefaultInput.ToLong();
-                            break;
-                        case "Title":
-                            Title.Value = column.DefaultInput.ToString();
-                            break;
-                        case "Body":
-                            Body = column.DefaultInput.ToString();
-                            break;
-                        case "WorkValue":
-                            WorkValue.Value = column.DefaultInput.ToDecimal();
-                            break;
-                        case "ProgressRate":
-                            ProgressRate.Value = column.DefaultInput.ToDecimal();
-                            break;
-                        case "Status":
-                            Status.Value = column.DefaultInput.ToInt();
-                            break;
-                        case "Manager":
-                            Manager.Id = column.DefaultInput.ToInt();
-                            break;
-                        case "Owner":
-                            Owner.Id = column.DefaultInput.ToInt();
-                            break;
-                        case "ClassA":
-                            ClassA = column.DefaultInput.ToString();
-                            break;
-                        case "ClassB":
-                            ClassB = column.DefaultInput.ToString();
-                            break;
-                        case "ClassC":
-                            ClassC = column.DefaultInput.ToString();
-                            break;
-                        case "ClassD":
-                            ClassD = column.DefaultInput.ToString();
-                            break;
-                        case "ClassE":
-                            ClassE = column.DefaultInput.ToString();
-                            break;
-                        case "ClassF":
-                            ClassF = column.DefaultInput.ToString();
-                            break;
-                        case "ClassG":
-                            ClassG = column.DefaultInput.ToString();
-                            break;
-                        case "ClassH":
-                            ClassH = column.DefaultInput.ToString();
-                            break;
-                        case "ClassI":
-                            ClassI = column.DefaultInput.ToString();
-                            break;
-                        case "ClassJ":
-                            ClassJ = column.DefaultInput.ToString();
-                            break;
-                        case "ClassK":
-                            ClassK = column.DefaultInput.ToString();
-                            break;
-                        case "ClassL":
-                            ClassL = column.DefaultInput.ToString();
-                            break;
-                        case "ClassM":
-                            ClassM = column.DefaultInput.ToString();
-                            break;
-                        case "ClassN":
-                            ClassN = column.DefaultInput.ToString();
-                            break;
-                        case "ClassO":
-                            ClassO = column.DefaultInput.ToString();
-                            break;
-                        case "ClassP":
-                            ClassP = column.DefaultInput.ToString();
-                            break;
-                        case "ClassQ":
-                            ClassQ = column.DefaultInput.ToString();
-                            break;
-                        case "ClassR":
-                            ClassR = column.DefaultInput.ToString();
-                            break;
-                        case "ClassS":
-                            ClassS = column.DefaultInput.ToString();
-                            break;
-                        case "ClassT":
-                            ClassT = column.DefaultInput.ToString();
-                            break;
-                        case "ClassU":
-                            ClassU = column.DefaultInput.ToString();
-                            break;
-                        case "ClassV":
-                            ClassV = column.DefaultInput.ToString();
-                            break;
-                        case "ClassW":
-                            ClassW = column.DefaultInput.ToString();
-                            break;
-                        case "ClassX":
-                            ClassX = column.DefaultInput.ToString();
-                            break;
-                        case "ClassY":
-                            ClassY = column.DefaultInput.ToString();
-                            break;
-                        case "ClassZ":
-                            ClassZ = column.DefaultInput.ToString();
-                            break;
-                        case "NumA":
-                            NumA = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumB":
-                            NumB = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumC":
-                            NumC = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumD":
-                            NumD = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumE":
-                            NumE = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumF":
-                            NumF = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumG":
-                            NumG = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumH":
-                            NumH = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumI":
-                            NumI = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumJ":
-                            NumJ = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumK":
-                            NumK = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumL":
-                            NumL = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumM":
-                            NumM = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumN":
-                            NumN = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumO":
-                            NumO = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumP":
-                            NumP = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumQ":
-                            NumQ = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumR":
-                            NumR = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumS":
-                            NumS = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumT":
-                            NumT = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumU":
-                            NumU = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumV":
-                            NumV = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumW":
-                            NumW = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumX":
-                            NumX = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumY":
-                            NumY = column.DefaultInput.ToDecimal();
-                            break;
-                        case "NumZ":
-                            NumZ = column.DefaultInput.ToDecimal();
-                            break;
-                        case "DescriptionA":
-                            DescriptionA = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionB":
-                            DescriptionB = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionC":
-                            DescriptionC = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionD":
-                            DescriptionD = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionE":
-                            DescriptionE = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionF":
-                            DescriptionF = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionG":
-                            DescriptionG = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionH":
-                            DescriptionH = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionI":
-                            DescriptionI = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionJ":
-                            DescriptionJ = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionK":
-                            DescriptionK = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionL":
-                            DescriptionL = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionM":
-                            DescriptionM = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionN":
-                            DescriptionN = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionO":
-                            DescriptionO = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionP":
-                            DescriptionP = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionQ":
-                            DescriptionQ = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionR":
-                            DescriptionR = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionS":
-                            DescriptionS = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionT":
-                            DescriptionT = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionU":
-                            DescriptionU = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionV":
-                            DescriptionV = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionW":
-                            DescriptionW = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionX":
-                            DescriptionX = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionY":
-                            DescriptionY = column.DefaultInput.ToString();
-                            break;
-                        case "DescriptionZ":
-                            DescriptionZ = column.DefaultInput.ToString();
-                            break;
-                        case "CheckA":
-                            CheckA = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckB":
-                            CheckB = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckC":
-                            CheckC = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckD":
-                            CheckD = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckE":
-                            CheckE = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckF":
-                            CheckF = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckG":
-                            CheckG = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckH":
-                            CheckH = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckI":
-                            CheckI = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckJ":
-                            CheckJ = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckK":
-                            CheckK = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckL":
-                            CheckL = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckM":
-                            CheckM = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckN":
-                            CheckN = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckO":
-                            CheckO = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckP":
-                            CheckP = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckQ":
-                            CheckQ = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckR":
-                            CheckR = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckS":
-                            CheckS = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckT":
-                            CheckT = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckU":
-                            CheckU = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckV":
-                            CheckV = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckW":
-                            CheckW = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckX":
-                            CheckX = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckY":
-                            CheckY = column.DefaultInput.ToBool();
-                            break;
-                        case "CheckZ":
-                            CheckZ = column.DefaultInput.ToBool();
-                            break;
-                        case "Timestamp":
-                            Timestamp = column.DefaultInput.ToString();
-                            break;
-                        case "StartTime":
-                            StartTime = column.DefaultTime();
-                            break;
-                        case "DateA":
-                            DateA = column.DefaultTime();
-                            break;
-                        case "DateB":
-                            DateB = column.DefaultTime();
-                            break;
-                        case "DateC":
-                            DateC = column.DefaultTime();
-                            break;
-                        case "DateD":
-                            DateD = column.DefaultTime();
-                            break;
-                        case "DateE":
-                            DateE = column.DefaultTime();
-                            break;
-                        case "DateF":
-                            DateF = column.DefaultTime();
-                            break;
-                        case "DateG":
-                            DateG = column.DefaultTime();
-                            break;
-                        case "DateH":
-                            DateH = column.DefaultTime();
-                            break;
-                        case "DateI":
-                            DateI = column.DefaultTime();
-                            break;
-                        case "DateJ":
-                            DateJ = column.DefaultTime();
-                            break;
-                        case "DateK":
-                            DateK = column.DefaultTime();
-                            break;
-                        case "DateL":
-                            DateL = column.DefaultTime();
-                            break;
-                        case "DateM":
-                            DateM = column.DefaultTime();
-                            break;
-                        case "DateN":
-                            DateN = column.DefaultTime();
-                            break;
-                        case "DateO":
-                            DateO = column.DefaultTime();
-                            break;
-                        case "DateP":
-                            DateP = column.DefaultTime();
-                            break;
-                        case "DateQ":
-                            DateQ = column.DefaultTime();
-                            break;
-                        case "DateR":
-                            DateR = column.DefaultTime();
-                            break;
-                        case "DateS":
-                            DateS = column.DefaultTime();
-                            break;
-                        case "DateT":
-                            DateT = column.DefaultTime();
-                            break;
-                        case "DateU":
-                            DateU = column.DefaultTime();
-                            break;
-                        case "DateV":
-                            DateV = column.DefaultTime();
-                            break;
-                        case "DateW":
-                            DateW = column.DefaultTime();
-                            break;
-                        case "DateX":
-                            DateX = column.DefaultTime();
-                            break;
-                        case "DateY":
-                            DateY = column.DefaultTime();
-                            break;
-                        case "DateZ":
-                            DateZ = column.DefaultTime();
-                            break;
-                        case "CompletionTime":
-                            CompletionTime = new CompletionTime(ss, column.DefaultTime(), Status);
-                            break;
-                    }
-                });
+                .ForEach(column => SetDefault(ss, column));
+        }
+
+        public void SetDefault(SiteSettings ss, Column column)
+        {
+            switch (column.ColumnName)
+            {
+                case "IssueId":
+                    IssueId = column.DefaultInput.ToLong();
+                    break;
+                case "Title":
+                    Title.Value = column.DefaultInput.ToString();
+                    break;
+                case "Body":
+                    Body = column.DefaultInput.ToString();
+                    break;
+                case "WorkValue":
+                    WorkValue.Value = column.DefaultInput.ToDecimal();
+                    break;
+                case "ProgressRate":
+                    ProgressRate.Value = column.DefaultInput.ToDecimal();
+                    break;
+                case "Status":
+                    Status.Value = column.DefaultInput.ToInt();
+                    break;
+                case "Manager":
+                    Manager.Id = column.DefaultInput.ToInt();
+                    break;
+                case "Owner":
+                    Owner.Id = column.DefaultInput.ToInt();
+                    break;
+                case "ClassA":
+                    ClassA = column.DefaultInput.ToString();
+                    break;
+                case "ClassB":
+                    ClassB = column.DefaultInput.ToString();
+                    break;
+                case "ClassC":
+                    ClassC = column.DefaultInput.ToString();
+                    break;
+                case "ClassD":
+                    ClassD = column.DefaultInput.ToString();
+                    break;
+                case "ClassE":
+                    ClassE = column.DefaultInput.ToString();
+                    break;
+                case "ClassF":
+                    ClassF = column.DefaultInput.ToString();
+                    break;
+                case "ClassG":
+                    ClassG = column.DefaultInput.ToString();
+                    break;
+                case "ClassH":
+                    ClassH = column.DefaultInput.ToString();
+                    break;
+                case "ClassI":
+                    ClassI = column.DefaultInput.ToString();
+                    break;
+                case "ClassJ":
+                    ClassJ = column.DefaultInput.ToString();
+                    break;
+                case "ClassK":
+                    ClassK = column.DefaultInput.ToString();
+                    break;
+                case "ClassL":
+                    ClassL = column.DefaultInput.ToString();
+                    break;
+                case "ClassM":
+                    ClassM = column.DefaultInput.ToString();
+                    break;
+                case "ClassN":
+                    ClassN = column.DefaultInput.ToString();
+                    break;
+                case "ClassO":
+                    ClassO = column.DefaultInput.ToString();
+                    break;
+                case "ClassP":
+                    ClassP = column.DefaultInput.ToString();
+                    break;
+                case "ClassQ":
+                    ClassQ = column.DefaultInput.ToString();
+                    break;
+                case "ClassR":
+                    ClassR = column.DefaultInput.ToString();
+                    break;
+                case "ClassS":
+                    ClassS = column.DefaultInput.ToString();
+                    break;
+                case "ClassT":
+                    ClassT = column.DefaultInput.ToString();
+                    break;
+                case "ClassU":
+                    ClassU = column.DefaultInput.ToString();
+                    break;
+                case "ClassV":
+                    ClassV = column.DefaultInput.ToString();
+                    break;
+                case "ClassW":
+                    ClassW = column.DefaultInput.ToString();
+                    break;
+                case "ClassX":
+                    ClassX = column.DefaultInput.ToString();
+                    break;
+                case "ClassY":
+                    ClassY = column.DefaultInput.ToString();
+                    break;
+                case "ClassZ":
+                    ClassZ = column.DefaultInput.ToString();
+                    break;
+                case "NumA":
+                    NumA = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumB":
+                    NumB = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumC":
+                    NumC = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumD":
+                    NumD = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumE":
+                    NumE = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumF":
+                    NumF = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumG":
+                    NumG = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumH":
+                    NumH = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumI":
+                    NumI = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumJ":
+                    NumJ = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumK":
+                    NumK = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumL":
+                    NumL = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumM":
+                    NumM = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumN":
+                    NumN = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumO":
+                    NumO = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumP":
+                    NumP = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumQ":
+                    NumQ = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumR":
+                    NumR = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumS":
+                    NumS = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumT":
+                    NumT = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumU":
+                    NumU = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumV":
+                    NumV = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumW":
+                    NumW = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumX":
+                    NumX = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumY":
+                    NumY = column.DefaultInput.ToDecimal();
+                    break;
+                case "NumZ":
+                    NumZ = column.DefaultInput.ToDecimal();
+                    break;
+                case "DescriptionA":
+                    DescriptionA = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionB":
+                    DescriptionB = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionC":
+                    DescriptionC = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionD":
+                    DescriptionD = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionE":
+                    DescriptionE = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionF":
+                    DescriptionF = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionG":
+                    DescriptionG = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionH":
+                    DescriptionH = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionI":
+                    DescriptionI = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionJ":
+                    DescriptionJ = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionK":
+                    DescriptionK = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionL":
+                    DescriptionL = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionM":
+                    DescriptionM = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionN":
+                    DescriptionN = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionO":
+                    DescriptionO = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionP":
+                    DescriptionP = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionQ":
+                    DescriptionQ = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionR":
+                    DescriptionR = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionS":
+                    DescriptionS = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionT":
+                    DescriptionT = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionU":
+                    DescriptionU = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionV":
+                    DescriptionV = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionW":
+                    DescriptionW = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionX":
+                    DescriptionX = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionY":
+                    DescriptionY = column.DefaultInput.ToString();
+                    break;
+                case "DescriptionZ":
+                    DescriptionZ = column.DefaultInput.ToString();
+                    break;
+                case "CheckA":
+                    CheckA = column.DefaultInput.ToBool();
+                    break;
+                case "CheckB":
+                    CheckB = column.DefaultInput.ToBool();
+                    break;
+                case "CheckC":
+                    CheckC = column.DefaultInput.ToBool();
+                    break;
+                case "CheckD":
+                    CheckD = column.DefaultInput.ToBool();
+                    break;
+                case "CheckE":
+                    CheckE = column.DefaultInput.ToBool();
+                    break;
+                case "CheckF":
+                    CheckF = column.DefaultInput.ToBool();
+                    break;
+                case "CheckG":
+                    CheckG = column.DefaultInput.ToBool();
+                    break;
+                case "CheckH":
+                    CheckH = column.DefaultInput.ToBool();
+                    break;
+                case "CheckI":
+                    CheckI = column.DefaultInput.ToBool();
+                    break;
+                case "CheckJ":
+                    CheckJ = column.DefaultInput.ToBool();
+                    break;
+                case "CheckK":
+                    CheckK = column.DefaultInput.ToBool();
+                    break;
+                case "CheckL":
+                    CheckL = column.DefaultInput.ToBool();
+                    break;
+                case "CheckM":
+                    CheckM = column.DefaultInput.ToBool();
+                    break;
+                case "CheckN":
+                    CheckN = column.DefaultInput.ToBool();
+                    break;
+                case "CheckO":
+                    CheckO = column.DefaultInput.ToBool();
+                    break;
+                case "CheckP":
+                    CheckP = column.DefaultInput.ToBool();
+                    break;
+                case "CheckQ":
+                    CheckQ = column.DefaultInput.ToBool();
+                    break;
+                case "CheckR":
+                    CheckR = column.DefaultInput.ToBool();
+                    break;
+                case "CheckS":
+                    CheckS = column.DefaultInput.ToBool();
+                    break;
+                case "CheckT":
+                    CheckT = column.DefaultInput.ToBool();
+                    break;
+                case "CheckU":
+                    CheckU = column.DefaultInput.ToBool();
+                    break;
+                case "CheckV":
+                    CheckV = column.DefaultInput.ToBool();
+                    break;
+                case "CheckW":
+                    CheckW = column.DefaultInput.ToBool();
+                    break;
+                case "CheckX":
+                    CheckX = column.DefaultInput.ToBool();
+                    break;
+                case "CheckY":
+                    CheckY = column.DefaultInput.ToBool();
+                    break;
+                case "CheckZ":
+                    CheckZ = column.DefaultInput.ToBool();
+                    break;
+                case "Timestamp":
+                    Timestamp = column.DefaultInput.ToString();
+                    break;
+                case "StartTime":
+                    StartTime = column.DefaultTime();
+                    break;
+                case "DateA":
+                    DateA = column.DefaultTime();
+                    break;
+                case "DateB":
+                    DateB = column.DefaultTime();
+                    break;
+                case "DateC":
+                    DateC = column.DefaultTime();
+                    break;
+                case "DateD":
+                    DateD = column.DefaultTime();
+                    break;
+                case "DateE":
+                    DateE = column.DefaultTime();
+                    break;
+                case "DateF":
+                    DateF = column.DefaultTime();
+                    break;
+                case "DateG":
+                    DateG = column.DefaultTime();
+                    break;
+                case "DateH":
+                    DateH = column.DefaultTime();
+                    break;
+                case "DateI":
+                    DateI = column.DefaultTime();
+                    break;
+                case "DateJ":
+                    DateJ = column.DefaultTime();
+                    break;
+                case "DateK":
+                    DateK = column.DefaultTime();
+                    break;
+                case "DateL":
+                    DateL = column.DefaultTime();
+                    break;
+                case "DateM":
+                    DateM = column.DefaultTime();
+                    break;
+                case "DateN":
+                    DateN = column.DefaultTime();
+                    break;
+                case "DateO":
+                    DateO = column.DefaultTime();
+                    break;
+                case "DateP":
+                    DateP = column.DefaultTime();
+                    break;
+                case "DateQ":
+                    DateQ = column.DefaultTime();
+                    break;
+                case "DateR":
+                    DateR = column.DefaultTime();
+                    break;
+                case "DateS":
+                    DateS = column.DefaultTime();
+                    break;
+                case "DateT":
+                    DateT = column.DefaultTime();
+                    break;
+                case "DateU":
+                    DateU = column.DefaultTime();
+                    break;
+                case "DateV":
+                    DateV = column.DefaultTime();
+                    break;
+                case "DateW":
+                    DateW = column.DefaultTime();
+                    break;
+                case "DateX":
+                    DateX = column.DefaultTime();
+                    break;
+                case "DateY":
+                    DateY = column.DefaultTime();
+                    break;
+                case "DateZ":
+                    DateZ = column.DefaultTime();
+                    break;
+                case "CompletionTime":
+                    CompletionTime = new CompletionTime(ss, column.DefaultTime(), Status);
+                    break;
+            }
         }
 
         public void SetByForm(SiteSettings ss)

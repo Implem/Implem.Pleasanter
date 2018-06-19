@@ -41,6 +41,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? Max;
         public decimal? Step;
         public bool? NoDuplication;
+        public bool? CopyByDefault;
         public bool? EditorReadOnly;
         public bool? AllowImage;
         public string FieldCss;

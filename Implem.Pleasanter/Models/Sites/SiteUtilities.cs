@@ -2806,11 +2806,18 @@ namespace Implem.Pleasanter.Models
                                     column.ColumnName != "Comments");
                             break;
                     }
-                    hb.FieldCheckBox(
-                        controlId: "EditorReadOnly",
-                        labelText: Displays.ReadOnly(),
-                        _checked: column.EditorReadOnly == true,
-                        _using: !column.Required);
+                    if (!column.Required)
+                    {
+                        hb
+                            .FieldCheckBox(
+                                controlId: "CopyByDefault",
+                                labelText: Displays.CopyByDefault(),
+                                _checked: column.CopyByDefault == true)
+                            .FieldCheckBox(
+                                controlId: "EditorReadOnly",
+                                labelText: Displays.ReadOnly(),
+                                _checked: column.EditorReadOnly == true);
+                    }
                     if (column.TypeName == "datetime")
                     {
                         hb
