@@ -2838,15 +2838,11 @@ namespace Implem.Pleasanter.Models
                         case Types.CsNumeric:
                             if (column.ControlType == "ChoicesText")
                             {
-                                if (!column.UserColumn)
-                                {
-                                    hb.FieldTextBox(
-                                        controlId: "DefaultInput",
-                                        labelText: Displays.DefaultInput(),
-                                        text: column.DefaultInput,
-                                        validateNumber: true,
-                                        _using: !column.Id_Ver);
-                                }
+                                hb.FieldTextBox(
+                                    controlId: "DefaultInput",
+                                    labelText: Displays.DefaultInput(),
+                                    text: column.DefaultInput,
+                                    _using: !column.Id_Ver);
                             }
                             else
                             {

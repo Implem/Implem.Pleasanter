@@ -3225,8 +3225,6 @@ namespace Implem.Pleasanter.Models
         {
             OnConstructing();
             SiteId = ss.SiteId;
-            Manager = SiteInfo.User(Sessions.UserId());
-            Owner = SiteInfo.User(Sessions.UserId());
             if (ResultId == 0) SetDefault(ss);
             if (setByForm) SetByForm(ss);
             if (setByApi) SetByApi(ss);
@@ -6025,337 +6023,337 @@ namespace Implem.Pleasanter.Models
             switch (column.ColumnName)
             {
                 case "ResultId":
-                    ResultId = column.DefaultInput.ToLong();
+                    ResultId = column.GetDefaultInput().ToLong();
                     break;
                 case "Title":
-                    Title.Value = column.DefaultInput.ToString();
+                    Title.Value = column.GetDefaultInput().ToString();
                     break;
                 case "Body":
-                    Body = column.DefaultInput.ToString();
+                    Body = column.GetDefaultInput().ToString();
                     break;
                 case "Status":
-                    Status.Value = column.DefaultInput.ToInt();
+                    Status.Value = column.GetDefaultInput().ToInt();
                     break;
                 case "Manager":
-                    Manager.Id = column.DefaultInput.ToInt();
+                    Manager.Id = column.GetDefaultInput().ToInt();
                     break;
                 case "Owner":
-                    Owner.Id = column.DefaultInput.ToInt();
+                    Owner.Id = column.GetDefaultInput().ToInt();
                     break;
                 case "ClassA":
-                    ClassA = column.DefaultInput.ToString();
+                    ClassA = column.GetDefaultInput().ToString();
                     break;
                 case "ClassB":
-                    ClassB = column.DefaultInput.ToString();
+                    ClassB = column.GetDefaultInput().ToString();
                     break;
                 case "ClassC":
-                    ClassC = column.DefaultInput.ToString();
+                    ClassC = column.GetDefaultInput().ToString();
                     break;
                 case "ClassD":
-                    ClassD = column.DefaultInput.ToString();
+                    ClassD = column.GetDefaultInput().ToString();
                     break;
                 case "ClassE":
-                    ClassE = column.DefaultInput.ToString();
+                    ClassE = column.GetDefaultInput().ToString();
                     break;
                 case "ClassF":
-                    ClassF = column.DefaultInput.ToString();
+                    ClassF = column.GetDefaultInput().ToString();
                     break;
                 case "ClassG":
-                    ClassG = column.DefaultInput.ToString();
+                    ClassG = column.GetDefaultInput().ToString();
                     break;
                 case "ClassH":
-                    ClassH = column.DefaultInput.ToString();
+                    ClassH = column.GetDefaultInput().ToString();
                     break;
                 case "ClassI":
-                    ClassI = column.DefaultInput.ToString();
+                    ClassI = column.GetDefaultInput().ToString();
                     break;
                 case "ClassJ":
-                    ClassJ = column.DefaultInput.ToString();
+                    ClassJ = column.GetDefaultInput().ToString();
                     break;
                 case "ClassK":
-                    ClassK = column.DefaultInput.ToString();
+                    ClassK = column.GetDefaultInput().ToString();
                     break;
                 case "ClassL":
-                    ClassL = column.DefaultInput.ToString();
+                    ClassL = column.GetDefaultInput().ToString();
                     break;
                 case "ClassM":
-                    ClassM = column.DefaultInput.ToString();
+                    ClassM = column.GetDefaultInput().ToString();
                     break;
                 case "ClassN":
-                    ClassN = column.DefaultInput.ToString();
+                    ClassN = column.GetDefaultInput().ToString();
                     break;
                 case "ClassO":
-                    ClassO = column.DefaultInput.ToString();
+                    ClassO = column.GetDefaultInput().ToString();
                     break;
                 case "ClassP":
-                    ClassP = column.DefaultInput.ToString();
+                    ClassP = column.GetDefaultInput().ToString();
                     break;
                 case "ClassQ":
-                    ClassQ = column.DefaultInput.ToString();
+                    ClassQ = column.GetDefaultInput().ToString();
                     break;
                 case "ClassR":
-                    ClassR = column.DefaultInput.ToString();
+                    ClassR = column.GetDefaultInput().ToString();
                     break;
                 case "ClassS":
-                    ClassS = column.DefaultInput.ToString();
+                    ClassS = column.GetDefaultInput().ToString();
                     break;
                 case "ClassT":
-                    ClassT = column.DefaultInput.ToString();
+                    ClassT = column.GetDefaultInput().ToString();
                     break;
                 case "ClassU":
-                    ClassU = column.DefaultInput.ToString();
+                    ClassU = column.GetDefaultInput().ToString();
                     break;
                 case "ClassV":
-                    ClassV = column.DefaultInput.ToString();
+                    ClassV = column.GetDefaultInput().ToString();
                     break;
                 case "ClassW":
-                    ClassW = column.DefaultInput.ToString();
+                    ClassW = column.GetDefaultInput().ToString();
                     break;
                 case "ClassX":
-                    ClassX = column.DefaultInput.ToString();
+                    ClassX = column.GetDefaultInput().ToString();
                     break;
                 case "ClassY":
-                    ClassY = column.DefaultInput.ToString();
+                    ClassY = column.GetDefaultInput().ToString();
                     break;
                 case "ClassZ":
-                    ClassZ = column.DefaultInput.ToString();
+                    ClassZ = column.GetDefaultInput().ToString();
                     break;
                 case "NumA":
-                    NumA = column.DefaultInput.ToDecimal();
+                    NumA = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumB":
-                    NumB = column.DefaultInput.ToDecimal();
+                    NumB = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumC":
-                    NumC = column.DefaultInput.ToDecimal();
+                    NumC = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumD":
-                    NumD = column.DefaultInput.ToDecimal();
+                    NumD = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumE":
-                    NumE = column.DefaultInput.ToDecimal();
+                    NumE = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumF":
-                    NumF = column.DefaultInput.ToDecimal();
+                    NumF = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumG":
-                    NumG = column.DefaultInput.ToDecimal();
+                    NumG = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumH":
-                    NumH = column.DefaultInput.ToDecimal();
+                    NumH = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumI":
-                    NumI = column.DefaultInput.ToDecimal();
+                    NumI = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumJ":
-                    NumJ = column.DefaultInput.ToDecimal();
+                    NumJ = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumK":
-                    NumK = column.DefaultInput.ToDecimal();
+                    NumK = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumL":
-                    NumL = column.DefaultInput.ToDecimal();
+                    NumL = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumM":
-                    NumM = column.DefaultInput.ToDecimal();
+                    NumM = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumN":
-                    NumN = column.DefaultInput.ToDecimal();
+                    NumN = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumO":
-                    NumO = column.DefaultInput.ToDecimal();
+                    NumO = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumP":
-                    NumP = column.DefaultInput.ToDecimal();
+                    NumP = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumQ":
-                    NumQ = column.DefaultInput.ToDecimal();
+                    NumQ = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumR":
-                    NumR = column.DefaultInput.ToDecimal();
+                    NumR = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumS":
-                    NumS = column.DefaultInput.ToDecimal();
+                    NumS = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumT":
-                    NumT = column.DefaultInput.ToDecimal();
+                    NumT = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumU":
-                    NumU = column.DefaultInput.ToDecimal();
+                    NumU = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumV":
-                    NumV = column.DefaultInput.ToDecimal();
+                    NumV = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumW":
-                    NumW = column.DefaultInput.ToDecimal();
+                    NumW = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumX":
-                    NumX = column.DefaultInput.ToDecimal();
+                    NumX = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumY":
-                    NumY = column.DefaultInput.ToDecimal();
+                    NumY = column.GetDefaultInput().ToDecimal();
                     break;
                 case "NumZ":
-                    NumZ = column.DefaultInput.ToDecimal();
+                    NumZ = column.GetDefaultInput().ToDecimal();
                     break;
                 case "DescriptionA":
-                    DescriptionA = column.DefaultInput.ToString();
+                    DescriptionA = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionB":
-                    DescriptionB = column.DefaultInput.ToString();
+                    DescriptionB = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionC":
-                    DescriptionC = column.DefaultInput.ToString();
+                    DescriptionC = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionD":
-                    DescriptionD = column.DefaultInput.ToString();
+                    DescriptionD = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionE":
-                    DescriptionE = column.DefaultInput.ToString();
+                    DescriptionE = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionF":
-                    DescriptionF = column.DefaultInput.ToString();
+                    DescriptionF = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionG":
-                    DescriptionG = column.DefaultInput.ToString();
+                    DescriptionG = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionH":
-                    DescriptionH = column.DefaultInput.ToString();
+                    DescriptionH = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionI":
-                    DescriptionI = column.DefaultInput.ToString();
+                    DescriptionI = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionJ":
-                    DescriptionJ = column.DefaultInput.ToString();
+                    DescriptionJ = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionK":
-                    DescriptionK = column.DefaultInput.ToString();
+                    DescriptionK = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionL":
-                    DescriptionL = column.DefaultInput.ToString();
+                    DescriptionL = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionM":
-                    DescriptionM = column.DefaultInput.ToString();
+                    DescriptionM = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionN":
-                    DescriptionN = column.DefaultInput.ToString();
+                    DescriptionN = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionO":
-                    DescriptionO = column.DefaultInput.ToString();
+                    DescriptionO = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionP":
-                    DescriptionP = column.DefaultInput.ToString();
+                    DescriptionP = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionQ":
-                    DescriptionQ = column.DefaultInput.ToString();
+                    DescriptionQ = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionR":
-                    DescriptionR = column.DefaultInput.ToString();
+                    DescriptionR = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionS":
-                    DescriptionS = column.DefaultInput.ToString();
+                    DescriptionS = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionT":
-                    DescriptionT = column.DefaultInput.ToString();
+                    DescriptionT = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionU":
-                    DescriptionU = column.DefaultInput.ToString();
+                    DescriptionU = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionV":
-                    DescriptionV = column.DefaultInput.ToString();
+                    DescriptionV = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionW":
-                    DescriptionW = column.DefaultInput.ToString();
+                    DescriptionW = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionX":
-                    DescriptionX = column.DefaultInput.ToString();
+                    DescriptionX = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionY":
-                    DescriptionY = column.DefaultInput.ToString();
+                    DescriptionY = column.GetDefaultInput().ToString();
                     break;
                 case "DescriptionZ":
-                    DescriptionZ = column.DefaultInput.ToString();
+                    DescriptionZ = column.GetDefaultInput().ToString();
                     break;
                 case "CheckA":
-                    CheckA = column.DefaultInput.ToBool();
+                    CheckA = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckB":
-                    CheckB = column.DefaultInput.ToBool();
+                    CheckB = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckC":
-                    CheckC = column.DefaultInput.ToBool();
+                    CheckC = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckD":
-                    CheckD = column.DefaultInput.ToBool();
+                    CheckD = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckE":
-                    CheckE = column.DefaultInput.ToBool();
+                    CheckE = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckF":
-                    CheckF = column.DefaultInput.ToBool();
+                    CheckF = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckG":
-                    CheckG = column.DefaultInput.ToBool();
+                    CheckG = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckH":
-                    CheckH = column.DefaultInput.ToBool();
+                    CheckH = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckI":
-                    CheckI = column.DefaultInput.ToBool();
+                    CheckI = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckJ":
-                    CheckJ = column.DefaultInput.ToBool();
+                    CheckJ = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckK":
-                    CheckK = column.DefaultInput.ToBool();
+                    CheckK = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckL":
-                    CheckL = column.DefaultInput.ToBool();
+                    CheckL = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckM":
-                    CheckM = column.DefaultInput.ToBool();
+                    CheckM = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckN":
-                    CheckN = column.DefaultInput.ToBool();
+                    CheckN = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckO":
-                    CheckO = column.DefaultInput.ToBool();
+                    CheckO = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckP":
-                    CheckP = column.DefaultInput.ToBool();
+                    CheckP = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckQ":
-                    CheckQ = column.DefaultInput.ToBool();
+                    CheckQ = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckR":
-                    CheckR = column.DefaultInput.ToBool();
+                    CheckR = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckS":
-                    CheckS = column.DefaultInput.ToBool();
+                    CheckS = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckT":
-                    CheckT = column.DefaultInput.ToBool();
+                    CheckT = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckU":
-                    CheckU = column.DefaultInput.ToBool();
+                    CheckU = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckV":
-                    CheckV = column.DefaultInput.ToBool();
+                    CheckV = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckW":
-                    CheckW = column.DefaultInput.ToBool();
+                    CheckW = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckX":
-                    CheckX = column.DefaultInput.ToBool();
+                    CheckX = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckY":
-                    CheckY = column.DefaultInput.ToBool();
+                    CheckY = column.GetDefaultInput().ToBool();
                     break;
                 case "CheckZ":
-                    CheckZ = column.DefaultInput.ToBool();
+                    CheckZ = column.GetDefaultInput().ToBool();
                     break;
                 case "Timestamp":
-                    Timestamp = column.DefaultInput.ToString();
+                    Timestamp = column.GetDefaultInput().ToString();
                     break;
                 case "DateA":
                     DateA = column.DefaultTime();

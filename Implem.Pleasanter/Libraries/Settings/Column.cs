@@ -489,6 +489,24 @@ namespace Implem.Pleasanter.Libraries.Settings
             return DateTime.Now.AddDays(DefaultInput.ToInt());
         }
 
+        public string GetDefaultInput()
+        {
+            switch (DefaultInput)
+            {
+                case "[[Self]]":
+                    switch (ChoicesText.SplitReturn().FirstOrDefault())
+                    {
+                        case "[[Depts]]":
+                            return Sessions.DeptId().ToString();
+                        case "[[Users]]":
+                        case "[[Users*]]":
+                            return Sessions.UserId().ToString();
+                    }
+                    break;
+            }
+            return DefaultInput;
+        }
+
         public SqlColumnCollection SqlColumnCollection(SiteSettings ss)
         {
             var sql = new SqlColumnCollection();
