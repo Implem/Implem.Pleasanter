@@ -1442,8 +1442,7 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("UserForm")
                             .Class("main-form")
-                            .Action(Locations.Get("users", "_action_?ReturnUrl="
-                                + Url.Encode(returnUrl)))
+                            .Action(Locations.Raw("users", "_action_?ReturnUrl=" + returnUrl))
                             .DataEnter("#Login"),
                         action: () => hb
                             .FieldSet(id: "LoginFieldSet", action: () => hb

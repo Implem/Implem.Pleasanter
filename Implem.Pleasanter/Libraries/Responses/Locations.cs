@@ -141,11 +141,15 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static string Get(params string[] parts)
         {
+            return Raw(parts).ToLower();
+        }
+
+        public static string Raw(params string[] parts)
+        {
             return Url.ApplicationPath() + parts
                 .Select(o => Trim(o))
                 .Where(o => o != string.Empty)
-                .Join("/")
-                .ToLower();
+                .Join("/");
         }
 
         private static string Trim(string data)
