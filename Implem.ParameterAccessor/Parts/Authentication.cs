@@ -4,9 +4,10 @@ namespace Implem.ParameterAccessor.Parts
     public class Authentication
     {
         public string Provider;
-        public int PasswordExpirationPeriod;
         public string ServiceId;
         public string ExtensionUrl;
+        public int PasswordExpirationPeriod;
+        public bool RejectUnregisteredUser;
         public List<Ldap> LdapParameters;
     }
 }
