@@ -1231,6 +1231,18 @@ namespace Implem.Pleasanter.Models
                                 where: Rds.UsersWhere().LoginId(LoginId));
                         }
                         break;
+                    case "LDAP+Local":
+                        ret = Ldap.Authenticate(LoginId, Forms.Data("Users_Password"));
+                        if (ret)
+                        {
+                            Get(SiteSettingsUtilities.UsersSiteSettings(),
+                                where: Rds.UsersWhere().LoginId(LoginId));
+                        }
+                        else
+                        {
+                            ret = GetByCredentials(LoginId, Password, Forms.Int("SelectedTenantId"));
+                        }
+                        break;
                     case "Extension":
                         var user = Extension.Authenticate(LoginId, Password);
                         ret = user != null;
