@@ -560,6 +560,7 @@
     <Content Include="Scripts\ImageLib.js" />
     <Content Include="Scripts\MessageEvents.js" />
     <Content Include="Scripts\Message.js" />
+    <Content Include="Scripts\Plugins\hogan-3.0.2.min.js" />
     <Content Include="Scripts\Video.js" />
     <Content Include="Scripts\Crosstab.js" />
     <Content Include="Scripts\Calendar.js" />
