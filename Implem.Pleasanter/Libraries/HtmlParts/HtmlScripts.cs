@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src: Locations.Get("Scripts/Plugins/jquery.multiselect.filter.min.js"))
                     .Script(src: Locations.Get("Scripts/Plugins/jquery.validate.min.js"))
                     .Script(src: Locations.Get("Scripts/Plugins/d3.min.js"))
+                    .Script(src: Locations.Get("Scripts/Plugins/hogan-3.0.2.min.js"))
                     .Script(src: Locations.Get("Scripts/Plugins/marked.min.js"))
                     .Generals()
                     .Script(
