@@ -3,6 +3,7 @@
     "ServiceId": null,
     "ExtensionUrl": null,
     "PasswordExpirationPeriod": 0,
+    "RejectUnregisteredUser": false,
     "LdapParameters": [
         {
             "LdapSearchRoot": null,

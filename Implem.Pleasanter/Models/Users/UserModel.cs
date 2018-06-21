@@ -1219,32 +1219,43 @@ namespace Implem.Pleasanter.Models
         public bool Authenticate()
         {
             var ret = false;
-            switch (Parameters.Authentication.Provider)
+            if (!RejectUnregisteredUser())
             {
-                case "LDAP":
-                    ret = Ldap.Authenticate(LoginId, Forms.Data("Users_Password"));
-                    if (ret)
-                    {
-                        Get(SiteSettingsUtilities.UsersSiteSettings(),
-                            where: Rds.UsersWhere().LoginId(LoginId));
-                    }
-                    break;
-                case "Extension":
-                    var user = Extension.Authenticate(LoginId, Password);
-                    ret = user != null;
-                    if (ret)
-                    {
-                        Get(SiteSettingsUtilities.UsersSiteSettings(),
-                            where: Rds.UsersWhere()
-                                .TenantId(user.TenantId)
-                                .UserId(user.Id));
-                    }
-                    break;
-                default:
-                    ret = GetByCredentials(LoginId, Password, Forms.Int("SelectedTenantId"));
-                    break;
+                switch (Parameters.Authentication.Provider)
+                {
+                    case "LDAP":
+                        ret = Ldap.Authenticate(LoginId, Forms.Data("Users_Password"));
+                        if (ret)
+                        {
+                            Get(SiteSettingsUtilities.UsersSiteSettings(),
+                                where: Rds.UsersWhere().LoginId(LoginId));
+                        }
+                        break;
+                    case "Extension":
+                        var user = Extension.Authenticate(LoginId, Password);
+                        ret = user != null;
+                        if (ret)
+                        {
+                            Get(SiteSettingsUtilities.UsersSiteSettings(),
+                                where: Rds.UsersWhere()
+                                    .TenantId(user.TenantId)
+                                    .UserId(user.Id));
+                        }
+                        break;
+                    default:
+                        ret = GetByCredentials(LoginId, Password, Forms.Int("SelectedTenantId"));
+                        break;
+                }
             }
             return ret;
+        }
+
+        private bool RejectUnregisteredUser()
+        {
+            return Parameters.Authentication.RejectUnregisteredUser &&
+                Rds.ExecuteScalar_int(statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn().UsersCount(),
+                    where: Rds.UsersWhere().LoginId(LoginId))) != 1;
         }
 
         /// <summary>
