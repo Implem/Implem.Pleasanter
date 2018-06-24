@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.Models
             SiteSettings ss,
             View view,
             SqlColumnCollection column = null,
+            SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             int top = 0,
@@ -32,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 ss: ss,
                 view: view,
                 column: column,
+                join: join,
                 where: where,
                 tableType: tableType,
                 top: top,
@@ -45,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.Models
             SiteSettings ss,
             View view,
             SqlColumnCollection column = null,
+            SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             int top = 0,
@@ -55,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.Models
             IEnumerable<Aggregation> aggregations = null)
         {
             column = column ?? SqlColumnCollection(ss, GridColumns(ss));
-            var join = ss.Join(withColumn: true);
+            join = join ?? ss.Join(withColumn: true);
             where = view.Where(ss: ss, where: where);
             var orderBy = view.OrderBy(ss: ss, pageSize: pageSize);
             var statements = new List<SqlStatement>
