@@ -788,6 +788,630 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static UsersResponseCollection DemoMailAddress(this UsersResponseCollection res, string value) { return res.Val("#Users_DemoMailAddress", value); }
         public static UsersResponseCollection DemoMailAddress_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DemoMailAddress", res.UserModel.DemoMailAddress.ToResponse()); }
         public static UsersResponseCollection DemoMailAddress_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DemoMailAddress", value); }
+        public static UsersResponseCollection ClassA(this UsersResponseCollection res) { return res.Val("#Users_ClassA", res.UserModel.ClassA.ToResponse()); }
+        public static UsersResponseCollection ClassA(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassA", value); }
+        public static UsersResponseCollection ClassA_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassA", res.UserModel.ClassA.ToResponse()); }
+        public static UsersResponseCollection ClassA_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassA", value); }
+        public static UsersResponseCollection ClassB(this UsersResponseCollection res) { return res.Val("#Users_ClassB", res.UserModel.ClassB.ToResponse()); }
+        public static UsersResponseCollection ClassB(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassB", value); }
+        public static UsersResponseCollection ClassB_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassB", res.UserModel.ClassB.ToResponse()); }
+        public static UsersResponseCollection ClassB_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassB", value); }
+        public static UsersResponseCollection ClassC(this UsersResponseCollection res) { return res.Val("#Users_ClassC", res.UserModel.ClassC.ToResponse()); }
+        public static UsersResponseCollection ClassC(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassC", value); }
+        public static UsersResponseCollection ClassC_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassC", res.UserModel.ClassC.ToResponse()); }
+        public static UsersResponseCollection ClassC_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassC", value); }
+        public static UsersResponseCollection ClassD(this UsersResponseCollection res) { return res.Val("#Users_ClassD", res.UserModel.ClassD.ToResponse()); }
+        public static UsersResponseCollection ClassD(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassD", value); }
+        public static UsersResponseCollection ClassD_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassD", res.UserModel.ClassD.ToResponse()); }
+        public static UsersResponseCollection ClassD_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassD", value); }
+        public static UsersResponseCollection ClassE(this UsersResponseCollection res) { return res.Val("#Users_ClassE", res.UserModel.ClassE.ToResponse()); }
+        public static UsersResponseCollection ClassE(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassE", value); }
+        public static UsersResponseCollection ClassE_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassE", res.UserModel.ClassE.ToResponse()); }
+        public static UsersResponseCollection ClassE_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassE", value); }
+        public static UsersResponseCollection ClassF(this UsersResponseCollection res) { return res.Val("#Users_ClassF", res.UserModel.ClassF.ToResponse()); }
+        public static UsersResponseCollection ClassF(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassF", value); }
+        public static UsersResponseCollection ClassF_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassF", res.UserModel.ClassF.ToResponse()); }
+        public static UsersResponseCollection ClassF_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassF", value); }
+        public static UsersResponseCollection ClassG(this UsersResponseCollection res) { return res.Val("#Users_ClassG", res.UserModel.ClassG.ToResponse()); }
+        public static UsersResponseCollection ClassG(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassG", value); }
+        public static UsersResponseCollection ClassG_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassG", res.UserModel.ClassG.ToResponse()); }
+        public static UsersResponseCollection ClassG_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassG", value); }
+        public static UsersResponseCollection ClassH(this UsersResponseCollection res) { return res.Val("#Users_ClassH", res.UserModel.ClassH.ToResponse()); }
+        public static UsersResponseCollection ClassH(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassH", value); }
+        public static UsersResponseCollection ClassH_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassH", res.UserModel.ClassH.ToResponse()); }
+        public static UsersResponseCollection ClassH_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassH", value); }
+        public static UsersResponseCollection ClassI(this UsersResponseCollection res) { return res.Val("#Users_ClassI", res.UserModel.ClassI.ToResponse()); }
+        public static UsersResponseCollection ClassI(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassI", value); }
+        public static UsersResponseCollection ClassI_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassI", res.UserModel.ClassI.ToResponse()); }
+        public static UsersResponseCollection ClassI_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassI", value); }
+        public static UsersResponseCollection ClassJ(this UsersResponseCollection res) { return res.Val("#Users_ClassJ", res.UserModel.ClassJ.ToResponse()); }
+        public static UsersResponseCollection ClassJ(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassJ", value); }
+        public static UsersResponseCollection ClassJ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassJ", res.UserModel.ClassJ.ToResponse()); }
+        public static UsersResponseCollection ClassJ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassJ", value); }
+        public static UsersResponseCollection ClassK(this UsersResponseCollection res) { return res.Val("#Users_ClassK", res.UserModel.ClassK.ToResponse()); }
+        public static UsersResponseCollection ClassK(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassK", value); }
+        public static UsersResponseCollection ClassK_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassK", res.UserModel.ClassK.ToResponse()); }
+        public static UsersResponseCollection ClassK_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassK", value); }
+        public static UsersResponseCollection ClassL(this UsersResponseCollection res) { return res.Val("#Users_ClassL", res.UserModel.ClassL.ToResponse()); }
+        public static UsersResponseCollection ClassL(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassL", value); }
+        public static UsersResponseCollection ClassL_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassL", res.UserModel.ClassL.ToResponse()); }
+        public static UsersResponseCollection ClassL_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassL", value); }
+        public static UsersResponseCollection ClassM(this UsersResponseCollection res) { return res.Val("#Users_ClassM", res.UserModel.ClassM.ToResponse()); }
+        public static UsersResponseCollection ClassM(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassM", value); }
+        public static UsersResponseCollection ClassM_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassM", res.UserModel.ClassM.ToResponse()); }
+        public static UsersResponseCollection ClassM_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassM", value); }
+        public static UsersResponseCollection ClassN(this UsersResponseCollection res) { return res.Val("#Users_ClassN", res.UserModel.ClassN.ToResponse()); }
+        public static UsersResponseCollection ClassN(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassN", value); }
+        public static UsersResponseCollection ClassN_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassN", res.UserModel.ClassN.ToResponse()); }
+        public static UsersResponseCollection ClassN_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassN", value); }
+        public static UsersResponseCollection ClassO(this UsersResponseCollection res) { return res.Val("#Users_ClassO", res.UserModel.ClassO.ToResponse()); }
+        public static UsersResponseCollection ClassO(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassO", value); }
+        public static UsersResponseCollection ClassO_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassO", res.UserModel.ClassO.ToResponse()); }
+        public static UsersResponseCollection ClassO_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassO", value); }
+        public static UsersResponseCollection ClassP(this UsersResponseCollection res) { return res.Val("#Users_ClassP", res.UserModel.ClassP.ToResponse()); }
+        public static UsersResponseCollection ClassP(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassP", value); }
+        public static UsersResponseCollection ClassP_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassP", res.UserModel.ClassP.ToResponse()); }
+        public static UsersResponseCollection ClassP_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassP", value); }
+        public static UsersResponseCollection ClassQ(this UsersResponseCollection res) { return res.Val("#Users_ClassQ", res.UserModel.ClassQ.ToResponse()); }
+        public static UsersResponseCollection ClassQ(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassQ", value); }
+        public static UsersResponseCollection ClassQ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassQ", res.UserModel.ClassQ.ToResponse()); }
+        public static UsersResponseCollection ClassQ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassQ", value); }
+        public static UsersResponseCollection ClassR(this UsersResponseCollection res) { return res.Val("#Users_ClassR", res.UserModel.ClassR.ToResponse()); }
+        public static UsersResponseCollection ClassR(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassR", value); }
+        public static UsersResponseCollection ClassR_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassR", res.UserModel.ClassR.ToResponse()); }
+        public static UsersResponseCollection ClassR_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassR", value); }
+        public static UsersResponseCollection ClassS(this UsersResponseCollection res) { return res.Val("#Users_ClassS", res.UserModel.ClassS.ToResponse()); }
+        public static UsersResponseCollection ClassS(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassS", value); }
+        public static UsersResponseCollection ClassS_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassS", res.UserModel.ClassS.ToResponse()); }
+        public static UsersResponseCollection ClassS_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassS", value); }
+        public static UsersResponseCollection ClassT(this UsersResponseCollection res) { return res.Val("#Users_ClassT", res.UserModel.ClassT.ToResponse()); }
+        public static UsersResponseCollection ClassT(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassT", value); }
+        public static UsersResponseCollection ClassT_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassT", res.UserModel.ClassT.ToResponse()); }
+        public static UsersResponseCollection ClassT_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassT", value); }
+        public static UsersResponseCollection ClassU(this UsersResponseCollection res) { return res.Val("#Users_ClassU", res.UserModel.ClassU.ToResponse()); }
+        public static UsersResponseCollection ClassU(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassU", value); }
+        public static UsersResponseCollection ClassU_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassU", res.UserModel.ClassU.ToResponse()); }
+        public static UsersResponseCollection ClassU_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassU", value); }
+        public static UsersResponseCollection ClassV(this UsersResponseCollection res) { return res.Val("#Users_ClassV", res.UserModel.ClassV.ToResponse()); }
+        public static UsersResponseCollection ClassV(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassV", value); }
+        public static UsersResponseCollection ClassV_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassV", res.UserModel.ClassV.ToResponse()); }
+        public static UsersResponseCollection ClassV_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassV", value); }
+        public static UsersResponseCollection ClassW(this UsersResponseCollection res) { return res.Val("#Users_ClassW", res.UserModel.ClassW.ToResponse()); }
+        public static UsersResponseCollection ClassW(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassW", value); }
+        public static UsersResponseCollection ClassW_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassW", res.UserModel.ClassW.ToResponse()); }
+        public static UsersResponseCollection ClassW_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassW", value); }
+        public static UsersResponseCollection ClassX(this UsersResponseCollection res) { return res.Val("#Users_ClassX", res.UserModel.ClassX.ToResponse()); }
+        public static UsersResponseCollection ClassX(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassX", value); }
+        public static UsersResponseCollection ClassX_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassX", res.UserModel.ClassX.ToResponse()); }
+        public static UsersResponseCollection ClassX_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassX", value); }
+        public static UsersResponseCollection ClassY(this UsersResponseCollection res) { return res.Val("#Users_ClassY", res.UserModel.ClassY.ToResponse()); }
+        public static UsersResponseCollection ClassY(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassY", value); }
+        public static UsersResponseCollection ClassY_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassY", res.UserModel.ClassY.ToResponse()); }
+        public static UsersResponseCollection ClassY_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassY", value); }
+        public static UsersResponseCollection ClassZ(this UsersResponseCollection res) { return res.Val("#Users_ClassZ", res.UserModel.ClassZ.ToResponse()); }
+        public static UsersResponseCollection ClassZ(this UsersResponseCollection res, string value) { return res.Val("#Users_ClassZ", value); }
+        public static UsersResponseCollection ClassZ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_ClassZ", res.UserModel.ClassZ.ToResponse()); }
+        public static UsersResponseCollection ClassZ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_ClassZ", value); }
+        public static UsersResponseCollection NumA(this UsersResponseCollection res) { return res.Val("#Users_NumA", res.UserModel.NumA.ToResponse()); }
+        public static UsersResponseCollection NumA(this UsersResponseCollection res, string value) { return res.Val("#Users_NumA", value); }
+        public static UsersResponseCollection NumA_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumA", res.UserModel.NumA.ToResponse()); }
+        public static UsersResponseCollection NumA_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumA", value); }
+        public static UsersResponseCollection NumB(this UsersResponseCollection res) { return res.Val("#Users_NumB", res.UserModel.NumB.ToResponse()); }
+        public static UsersResponseCollection NumB(this UsersResponseCollection res, string value) { return res.Val("#Users_NumB", value); }
+        public static UsersResponseCollection NumB_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumB", res.UserModel.NumB.ToResponse()); }
+        public static UsersResponseCollection NumB_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumB", value); }
+        public static UsersResponseCollection NumC(this UsersResponseCollection res) { return res.Val("#Users_NumC", res.UserModel.NumC.ToResponse()); }
+        public static UsersResponseCollection NumC(this UsersResponseCollection res, string value) { return res.Val("#Users_NumC", value); }
+        public static UsersResponseCollection NumC_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumC", res.UserModel.NumC.ToResponse()); }
+        public static UsersResponseCollection NumC_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumC", value); }
+        public static UsersResponseCollection NumD(this UsersResponseCollection res) { return res.Val("#Users_NumD", res.UserModel.NumD.ToResponse()); }
+        public static UsersResponseCollection NumD(this UsersResponseCollection res, string value) { return res.Val("#Users_NumD", value); }
+        public static UsersResponseCollection NumD_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumD", res.UserModel.NumD.ToResponse()); }
+        public static UsersResponseCollection NumD_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumD", value); }
+        public static UsersResponseCollection NumE(this UsersResponseCollection res) { return res.Val("#Users_NumE", res.UserModel.NumE.ToResponse()); }
+        public static UsersResponseCollection NumE(this UsersResponseCollection res, string value) { return res.Val("#Users_NumE", value); }
+        public static UsersResponseCollection NumE_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumE", res.UserModel.NumE.ToResponse()); }
+        public static UsersResponseCollection NumE_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumE", value); }
+        public static UsersResponseCollection NumF(this UsersResponseCollection res) { return res.Val("#Users_NumF", res.UserModel.NumF.ToResponse()); }
+        public static UsersResponseCollection NumF(this UsersResponseCollection res, string value) { return res.Val("#Users_NumF", value); }
+        public static UsersResponseCollection NumF_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumF", res.UserModel.NumF.ToResponse()); }
+        public static UsersResponseCollection NumF_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumF", value); }
+        public static UsersResponseCollection NumG(this UsersResponseCollection res) { return res.Val("#Users_NumG", res.UserModel.NumG.ToResponse()); }
+        public static UsersResponseCollection NumG(this UsersResponseCollection res, string value) { return res.Val("#Users_NumG", value); }
+        public static UsersResponseCollection NumG_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumG", res.UserModel.NumG.ToResponse()); }
+        public static UsersResponseCollection NumG_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumG", value); }
+        public static UsersResponseCollection NumH(this UsersResponseCollection res) { return res.Val("#Users_NumH", res.UserModel.NumH.ToResponse()); }
+        public static UsersResponseCollection NumH(this UsersResponseCollection res, string value) { return res.Val("#Users_NumH", value); }
+        public static UsersResponseCollection NumH_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumH", res.UserModel.NumH.ToResponse()); }
+        public static UsersResponseCollection NumH_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumH", value); }
+        public static UsersResponseCollection NumI(this UsersResponseCollection res) { return res.Val("#Users_NumI", res.UserModel.NumI.ToResponse()); }
+        public static UsersResponseCollection NumI(this UsersResponseCollection res, string value) { return res.Val("#Users_NumI", value); }
+        public static UsersResponseCollection NumI_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumI", res.UserModel.NumI.ToResponse()); }
+        public static UsersResponseCollection NumI_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumI", value); }
+        public static UsersResponseCollection NumJ(this UsersResponseCollection res) { return res.Val("#Users_NumJ", res.UserModel.NumJ.ToResponse()); }
+        public static UsersResponseCollection NumJ(this UsersResponseCollection res, string value) { return res.Val("#Users_NumJ", value); }
+        public static UsersResponseCollection NumJ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumJ", res.UserModel.NumJ.ToResponse()); }
+        public static UsersResponseCollection NumJ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumJ", value); }
+        public static UsersResponseCollection NumK(this UsersResponseCollection res) { return res.Val("#Users_NumK", res.UserModel.NumK.ToResponse()); }
+        public static UsersResponseCollection NumK(this UsersResponseCollection res, string value) { return res.Val("#Users_NumK", value); }
+        public static UsersResponseCollection NumK_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumK", res.UserModel.NumK.ToResponse()); }
+        public static UsersResponseCollection NumK_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumK", value); }
+        public static UsersResponseCollection NumL(this UsersResponseCollection res) { return res.Val("#Users_NumL", res.UserModel.NumL.ToResponse()); }
+        public static UsersResponseCollection NumL(this UsersResponseCollection res, string value) { return res.Val("#Users_NumL", value); }
+        public static UsersResponseCollection NumL_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumL", res.UserModel.NumL.ToResponse()); }
+        public static UsersResponseCollection NumL_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumL", value); }
+        public static UsersResponseCollection NumM(this UsersResponseCollection res) { return res.Val("#Users_NumM", res.UserModel.NumM.ToResponse()); }
+        public static UsersResponseCollection NumM(this UsersResponseCollection res, string value) { return res.Val("#Users_NumM", value); }
+        public static UsersResponseCollection NumM_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumM", res.UserModel.NumM.ToResponse()); }
+        public static UsersResponseCollection NumM_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumM", value); }
+        public static UsersResponseCollection NumN(this UsersResponseCollection res) { return res.Val("#Users_NumN", res.UserModel.NumN.ToResponse()); }
+        public static UsersResponseCollection NumN(this UsersResponseCollection res, string value) { return res.Val("#Users_NumN", value); }
+        public static UsersResponseCollection NumN_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumN", res.UserModel.NumN.ToResponse()); }
+        public static UsersResponseCollection NumN_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumN", value); }
+        public static UsersResponseCollection NumO(this UsersResponseCollection res) { return res.Val("#Users_NumO", res.UserModel.NumO.ToResponse()); }
+        public static UsersResponseCollection NumO(this UsersResponseCollection res, string value) { return res.Val("#Users_NumO", value); }
+        public static UsersResponseCollection NumO_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumO", res.UserModel.NumO.ToResponse()); }
+        public static UsersResponseCollection NumO_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumO", value); }
+        public static UsersResponseCollection NumP(this UsersResponseCollection res) { return res.Val("#Users_NumP", res.UserModel.NumP.ToResponse()); }
+        public static UsersResponseCollection NumP(this UsersResponseCollection res, string value) { return res.Val("#Users_NumP", value); }
+        public static UsersResponseCollection NumP_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumP", res.UserModel.NumP.ToResponse()); }
+        public static UsersResponseCollection NumP_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumP", value); }
+        public static UsersResponseCollection NumQ(this UsersResponseCollection res) { return res.Val("#Users_NumQ", res.UserModel.NumQ.ToResponse()); }
+        public static UsersResponseCollection NumQ(this UsersResponseCollection res, string value) { return res.Val("#Users_NumQ", value); }
+        public static UsersResponseCollection NumQ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumQ", res.UserModel.NumQ.ToResponse()); }
+        public static UsersResponseCollection NumQ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumQ", value); }
+        public static UsersResponseCollection NumR(this UsersResponseCollection res) { return res.Val("#Users_NumR", res.UserModel.NumR.ToResponse()); }
+        public static UsersResponseCollection NumR(this UsersResponseCollection res, string value) { return res.Val("#Users_NumR", value); }
+        public static UsersResponseCollection NumR_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumR", res.UserModel.NumR.ToResponse()); }
+        public static UsersResponseCollection NumR_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumR", value); }
+        public static UsersResponseCollection NumS(this UsersResponseCollection res) { return res.Val("#Users_NumS", res.UserModel.NumS.ToResponse()); }
+        public static UsersResponseCollection NumS(this UsersResponseCollection res, string value) { return res.Val("#Users_NumS", value); }
+        public static UsersResponseCollection NumS_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumS", res.UserModel.NumS.ToResponse()); }
+        public static UsersResponseCollection NumS_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumS", value); }
+        public static UsersResponseCollection NumT(this UsersResponseCollection res) { return res.Val("#Users_NumT", res.UserModel.NumT.ToResponse()); }
+        public static UsersResponseCollection NumT(this UsersResponseCollection res, string value) { return res.Val("#Users_NumT", value); }
+        public static UsersResponseCollection NumT_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumT", res.UserModel.NumT.ToResponse()); }
+        public static UsersResponseCollection NumT_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumT", value); }
+        public static UsersResponseCollection NumU(this UsersResponseCollection res) { return res.Val("#Users_NumU", res.UserModel.NumU.ToResponse()); }
+        public static UsersResponseCollection NumU(this UsersResponseCollection res, string value) { return res.Val("#Users_NumU", value); }
+        public static UsersResponseCollection NumU_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumU", res.UserModel.NumU.ToResponse()); }
+        public static UsersResponseCollection NumU_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumU", value); }
+        public static UsersResponseCollection NumV(this UsersResponseCollection res) { return res.Val("#Users_NumV", res.UserModel.NumV.ToResponse()); }
+        public static UsersResponseCollection NumV(this UsersResponseCollection res, string value) { return res.Val("#Users_NumV", value); }
+        public static UsersResponseCollection NumV_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumV", res.UserModel.NumV.ToResponse()); }
+        public static UsersResponseCollection NumV_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumV", value); }
+        public static UsersResponseCollection NumW(this UsersResponseCollection res) { return res.Val("#Users_NumW", res.UserModel.NumW.ToResponse()); }
+        public static UsersResponseCollection NumW(this UsersResponseCollection res, string value) { return res.Val("#Users_NumW", value); }
+        public static UsersResponseCollection NumW_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumW", res.UserModel.NumW.ToResponse()); }
+        public static UsersResponseCollection NumW_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumW", value); }
+        public static UsersResponseCollection NumX(this UsersResponseCollection res) { return res.Val("#Users_NumX", res.UserModel.NumX.ToResponse()); }
+        public static UsersResponseCollection NumX(this UsersResponseCollection res, string value) { return res.Val("#Users_NumX", value); }
+        public static UsersResponseCollection NumX_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumX", res.UserModel.NumX.ToResponse()); }
+        public static UsersResponseCollection NumX_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumX", value); }
+        public static UsersResponseCollection NumY(this UsersResponseCollection res) { return res.Val("#Users_NumY", res.UserModel.NumY.ToResponse()); }
+        public static UsersResponseCollection NumY(this UsersResponseCollection res, string value) { return res.Val("#Users_NumY", value); }
+        public static UsersResponseCollection NumY_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumY", res.UserModel.NumY.ToResponse()); }
+        public static UsersResponseCollection NumY_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumY", value); }
+        public static UsersResponseCollection NumZ(this UsersResponseCollection res) { return res.Val("#Users_NumZ", res.UserModel.NumZ.ToResponse()); }
+        public static UsersResponseCollection NumZ(this UsersResponseCollection res, string value) { return res.Val("#Users_NumZ", value); }
+        public static UsersResponseCollection NumZ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_NumZ", res.UserModel.NumZ.ToResponse()); }
+        public static UsersResponseCollection NumZ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_NumZ", value); }
+        public static UsersResponseCollection DateA(this UsersResponseCollection res) { return res.Val("#Users_DateA", res.UserModel.DateA.ToResponse()); }
+        public static UsersResponseCollection DateA(this UsersResponseCollection res, string value) { return res.Val("#Users_DateA", value); }
+        public static UsersResponseCollection DateA_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateA", res.UserModel.DateA.ToResponse()); }
+        public static UsersResponseCollection DateA_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateA", value); }
+        public static UsersResponseCollection DateB(this UsersResponseCollection res) { return res.Val("#Users_DateB", res.UserModel.DateB.ToResponse()); }
+        public static UsersResponseCollection DateB(this UsersResponseCollection res, string value) { return res.Val("#Users_DateB", value); }
+        public static UsersResponseCollection DateB_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateB", res.UserModel.DateB.ToResponse()); }
+        public static UsersResponseCollection DateB_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateB", value); }
+        public static UsersResponseCollection DateC(this UsersResponseCollection res) { return res.Val("#Users_DateC", res.UserModel.DateC.ToResponse()); }
+        public static UsersResponseCollection DateC(this UsersResponseCollection res, string value) { return res.Val("#Users_DateC", value); }
+        public static UsersResponseCollection DateC_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateC", res.UserModel.DateC.ToResponse()); }
+        public static UsersResponseCollection DateC_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateC", value); }
+        public static UsersResponseCollection DateD(this UsersResponseCollection res) { return res.Val("#Users_DateD", res.UserModel.DateD.ToResponse()); }
+        public static UsersResponseCollection DateD(this UsersResponseCollection res, string value) { return res.Val("#Users_DateD", value); }
+        public static UsersResponseCollection DateD_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateD", res.UserModel.DateD.ToResponse()); }
+        public static UsersResponseCollection DateD_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateD", value); }
+        public static UsersResponseCollection DateE(this UsersResponseCollection res) { return res.Val("#Users_DateE", res.UserModel.DateE.ToResponse()); }
+        public static UsersResponseCollection DateE(this UsersResponseCollection res, string value) { return res.Val("#Users_DateE", value); }
+        public static UsersResponseCollection DateE_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateE", res.UserModel.DateE.ToResponse()); }
+        public static UsersResponseCollection DateE_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateE", value); }
+        public static UsersResponseCollection DateF(this UsersResponseCollection res) { return res.Val("#Users_DateF", res.UserModel.DateF.ToResponse()); }
+        public static UsersResponseCollection DateF(this UsersResponseCollection res, string value) { return res.Val("#Users_DateF", value); }
+        public static UsersResponseCollection DateF_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateF", res.UserModel.DateF.ToResponse()); }
+        public static UsersResponseCollection DateF_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateF", value); }
+        public static UsersResponseCollection DateG(this UsersResponseCollection res) { return res.Val("#Users_DateG", res.UserModel.DateG.ToResponse()); }
+        public static UsersResponseCollection DateG(this UsersResponseCollection res, string value) { return res.Val("#Users_DateG", value); }
+        public static UsersResponseCollection DateG_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateG", res.UserModel.DateG.ToResponse()); }
+        public static UsersResponseCollection DateG_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateG", value); }
+        public static UsersResponseCollection DateH(this UsersResponseCollection res) { return res.Val("#Users_DateH", res.UserModel.DateH.ToResponse()); }
+        public static UsersResponseCollection DateH(this UsersResponseCollection res, string value) { return res.Val("#Users_DateH", value); }
+        public static UsersResponseCollection DateH_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateH", res.UserModel.DateH.ToResponse()); }
+        public static UsersResponseCollection DateH_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateH", value); }
+        public static UsersResponseCollection DateI(this UsersResponseCollection res) { return res.Val("#Users_DateI", res.UserModel.DateI.ToResponse()); }
+        public static UsersResponseCollection DateI(this UsersResponseCollection res, string value) { return res.Val("#Users_DateI", value); }
+        public static UsersResponseCollection DateI_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateI", res.UserModel.DateI.ToResponse()); }
+        public static UsersResponseCollection DateI_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateI", value); }
+        public static UsersResponseCollection DateJ(this UsersResponseCollection res) { return res.Val("#Users_DateJ", res.UserModel.DateJ.ToResponse()); }
+        public static UsersResponseCollection DateJ(this UsersResponseCollection res, string value) { return res.Val("#Users_DateJ", value); }
+        public static UsersResponseCollection DateJ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateJ", res.UserModel.DateJ.ToResponse()); }
+        public static UsersResponseCollection DateJ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateJ", value); }
+        public static UsersResponseCollection DateK(this UsersResponseCollection res) { return res.Val("#Users_DateK", res.UserModel.DateK.ToResponse()); }
+        public static UsersResponseCollection DateK(this UsersResponseCollection res, string value) { return res.Val("#Users_DateK", value); }
+        public static UsersResponseCollection DateK_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateK", res.UserModel.DateK.ToResponse()); }
+        public static UsersResponseCollection DateK_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateK", value); }
+        public static UsersResponseCollection DateL(this UsersResponseCollection res) { return res.Val("#Users_DateL", res.UserModel.DateL.ToResponse()); }
+        public static UsersResponseCollection DateL(this UsersResponseCollection res, string value) { return res.Val("#Users_DateL", value); }
+        public static UsersResponseCollection DateL_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateL", res.UserModel.DateL.ToResponse()); }
+        public static UsersResponseCollection DateL_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateL", value); }
+        public static UsersResponseCollection DateM(this UsersResponseCollection res) { return res.Val("#Users_DateM", res.UserModel.DateM.ToResponse()); }
+        public static UsersResponseCollection DateM(this UsersResponseCollection res, string value) { return res.Val("#Users_DateM", value); }
+        public static UsersResponseCollection DateM_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateM", res.UserModel.DateM.ToResponse()); }
+        public static UsersResponseCollection DateM_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateM", value); }
+        public static UsersResponseCollection DateN(this UsersResponseCollection res) { return res.Val("#Users_DateN", res.UserModel.DateN.ToResponse()); }
+        public static UsersResponseCollection DateN(this UsersResponseCollection res, string value) { return res.Val("#Users_DateN", value); }
+        public static UsersResponseCollection DateN_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateN", res.UserModel.DateN.ToResponse()); }
+        public static UsersResponseCollection DateN_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateN", value); }
+        public static UsersResponseCollection DateO(this UsersResponseCollection res) { return res.Val("#Users_DateO", res.UserModel.DateO.ToResponse()); }
+        public static UsersResponseCollection DateO(this UsersResponseCollection res, string value) { return res.Val("#Users_DateO", value); }
+        public static UsersResponseCollection DateO_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateO", res.UserModel.DateO.ToResponse()); }
+        public static UsersResponseCollection DateO_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateO", value); }
+        public static UsersResponseCollection DateP(this UsersResponseCollection res) { return res.Val("#Users_DateP", res.UserModel.DateP.ToResponse()); }
+        public static UsersResponseCollection DateP(this UsersResponseCollection res, string value) { return res.Val("#Users_DateP", value); }
+        public static UsersResponseCollection DateP_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateP", res.UserModel.DateP.ToResponse()); }
+        public static UsersResponseCollection DateP_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateP", value); }
+        public static UsersResponseCollection DateQ(this UsersResponseCollection res) { return res.Val("#Users_DateQ", res.UserModel.DateQ.ToResponse()); }
+        public static UsersResponseCollection DateQ(this UsersResponseCollection res, string value) { return res.Val("#Users_DateQ", value); }
+        public static UsersResponseCollection DateQ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateQ", res.UserModel.DateQ.ToResponse()); }
+        public static UsersResponseCollection DateQ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateQ", value); }
+        public static UsersResponseCollection DateR(this UsersResponseCollection res) { return res.Val("#Users_DateR", res.UserModel.DateR.ToResponse()); }
+        public static UsersResponseCollection DateR(this UsersResponseCollection res, string value) { return res.Val("#Users_DateR", value); }
+        public static UsersResponseCollection DateR_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateR", res.UserModel.DateR.ToResponse()); }
+        public static UsersResponseCollection DateR_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateR", value); }
+        public static UsersResponseCollection DateS(this UsersResponseCollection res) { return res.Val("#Users_DateS", res.UserModel.DateS.ToResponse()); }
+        public static UsersResponseCollection DateS(this UsersResponseCollection res, string value) { return res.Val("#Users_DateS", value); }
+        public static UsersResponseCollection DateS_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateS", res.UserModel.DateS.ToResponse()); }
+        public static UsersResponseCollection DateS_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateS", value); }
+        public static UsersResponseCollection DateT(this UsersResponseCollection res) { return res.Val("#Users_DateT", res.UserModel.DateT.ToResponse()); }
+        public static UsersResponseCollection DateT(this UsersResponseCollection res, string value) { return res.Val("#Users_DateT", value); }
+        public static UsersResponseCollection DateT_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateT", res.UserModel.DateT.ToResponse()); }
+        public static UsersResponseCollection DateT_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateT", value); }
+        public static UsersResponseCollection DateU(this UsersResponseCollection res) { return res.Val("#Users_DateU", res.UserModel.DateU.ToResponse()); }
+        public static UsersResponseCollection DateU(this UsersResponseCollection res, string value) { return res.Val("#Users_DateU", value); }
+        public static UsersResponseCollection DateU_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateU", res.UserModel.DateU.ToResponse()); }
+        public static UsersResponseCollection DateU_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateU", value); }
+        public static UsersResponseCollection DateV(this UsersResponseCollection res) { return res.Val("#Users_DateV", res.UserModel.DateV.ToResponse()); }
+        public static UsersResponseCollection DateV(this UsersResponseCollection res, string value) { return res.Val("#Users_DateV", value); }
+        public static UsersResponseCollection DateV_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateV", res.UserModel.DateV.ToResponse()); }
+        public static UsersResponseCollection DateV_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateV", value); }
+        public static UsersResponseCollection DateW(this UsersResponseCollection res) { return res.Val("#Users_DateW", res.UserModel.DateW.ToResponse()); }
+        public static UsersResponseCollection DateW(this UsersResponseCollection res, string value) { return res.Val("#Users_DateW", value); }
+        public static UsersResponseCollection DateW_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateW", res.UserModel.DateW.ToResponse()); }
+        public static UsersResponseCollection DateW_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateW", value); }
+        public static UsersResponseCollection DateX(this UsersResponseCollection res) { return res.Val("#Users_DateX", res.UserModel.DateX.ToResponse()); }
+        public static UsersResponseCollection DateX(this UsersResponseCollection res, string value) { return res.Val("#Users_DateX", value); }
+        public static UsersResponseCollection DateX_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateX", res.UserModel.DateX.ToResponse()); }
+        public static UsersResponseCollection DateX_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateX", value); }
+        public static UsersResponseCollection DateY(this UsersResponseCollection res) { return res.Val("#Users_DateY", res.UserModel.DateY.ToResponse()); }
+        public static UsersResponseCollection DateY(this UsersResponseCollection res, string value) { return res.Val("#Users_DateY", value); }
+        public static UsersResponseCollection DateY_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateY", res.UserModel.DateY.ToResponse()); }
+        public static UsersResponseCollection DateY_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateY", value); }
+        public static UsersResponseCollection DateZ(this UsersResponseCollection res) { return res.Val("#Users_DateZ", res.UserModel.DateZ.ToResponse()); }
+        public static UsersResponseCollection DateZ(this UsersResponseCollection res, string value) { return res.Val("#Users_DateZ", value); }
+        public static UsersResponseCollection DateZ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DateZ", res.UserModel.DateZ.ToResponse()); }
+        public static UsersResponseCollection DateZ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DateZ", value); }
+        public static UsersResponseCollection DescriptionA(this UsersResponseCollection res) { return res.Val("#Users_DescriptionA", res.UserModel.DescriptionA.ToResponse()); }
+        public static UsersResponseCollection DescriptionA(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionA", value); }
+        public static UsersResponseCollection DescriptionA_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionA", res.UserModel.DescriptionA.ToResponse()); }
+        public static UsersResponseCollection DescriptionA_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionA", value); }
+        public static UsersResponseCollection DescriptionB(this UsersResponseCollection res) { return res.Val("#Users_DescriptionB", res.UserModel.DescriptionB.ToResponse()); }
+        public static UsersResponseCollection DescriptionB(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionB", value); }
+        public static UsersResponseCollection DescriptionB_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionB", res.UserModel.DescriptionB.ToResponse()); }
+        public static UsersResponseCollection DescriptionB_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionB", value); }
+        public static UsersResponseCollection DescriptionC(this UsersResponseCollection res) { return res.Val("#Users_DescriptionC", res.UserModel.DescriptionC.ToResponse()); }
+        public static UsersResponseCollection DescriptionC(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionC", value); }
+        public static UsersResponseCollection DescriptionC_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionC", res.UserModel.DescriptionC.ToResponse()); }
+        public static UsersResponseCollection DescriptionC_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionC", value); }
+        public static UsersResponseCollection DescriptionD(this UsersResponseCollection res) { return res.Val("#Users_DescriptionD", res.UserModel.DescriptionD.ToResponse()); }
+        public static UsersResponseCollection DescriptionD(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionD", value); }
+        public static UsersResponseCollection DescriptionD_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionD", res.UserModel.DescriptionD.ToResponse()); }
+        public static UsersResponseCollection DescriptionD_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionD", value); }
+        public static UsersResponseCollection DescriptionE(this UsersResponseCollection res) { return res.Val("#Users_DescriptionE", res.UserModel.DescriptionE.ToResponse()); }
+        public static UsersResponseCollection DescriptionE(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionE", value); }
+        public static UsersResponseCollection DescriptionE_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionE", res.UserModel.DescriptionE.ToResponse()); }
+        public static UsersResponseCollection DescriptionE_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionE", value); }
+        public static UsersResponseCollection DescriptionF(this UsersResponseCollection res) { return res.Val("#Users_DescriptionF", res.UserModel.DescriptionF.ToResponse()); }
+        public static UsersResponseCollection DescriptionF(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionF", value); }
+        public static UsersResponseCollection DescriptionF_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionF", res.UserModel.DescriptionF.ToResponse()); }
+        public static UsersResponseCollection DescriptionF_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionF", value); }
+        public static UsersResponseCollection DescriptionG(this UsersResponseCollection res) { return res.Val("#Users_DescriptionG", res.UserModel.DescriptionG.ToResponse()); }
+        public static UsersResponseCollection DescriptionG(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionG", value); }
+        public static UsersResponseCollection DescriptionG_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionG", res.UserModel.DescriptionG.ToResponse()); }
+        public static UsersResponseCollection DescriptionG_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionG", value); }
+        public static UsersResponseCollection DescriptionH(this UsersResponseCollection res) { return res.Val("#Users_DescriptionH", res.UserModel.DescriptionH.ToResponse()); }
+        public static UsersResponseCollection DescriptionH(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionH", value); }
+        public static UsersResponseCollection DescriptionH_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionH", res.UserModel.DescriptionH.ToResponse()); }
+        public static UsersResponseCollection DescriptionH_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionH", value); }
+        public static UsersResponseCollection DescriptionI(this UsersResponseCollection res) { return res.Val("#Users_DescriptionI", res.UserModel.DescriptionI.ToResponse()); }
+        public static UsersResponseCollection DescriptionI(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionI", value); }
+        public static UsersResponseCollection DescriptionI_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionI", res.UserModel.DescriptionI.ToResponse()); }
+        public static UsersResponseCollection DescriptionI_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionI", value); }
+        public static UsersResponseCollection DescriptionJ(this UsersResponseCollection res) { return res.Val("#Users_DescriptionJ", res.UserModel.DescriptionJ.ToResponse()); }
+        public static UsersResponseCollection DescriptionJ(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionJ", value); }
+        public static UsersResponseCollection DescriptionJ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionJ", res.UserModel.DescriptionJ.ToResponse()); }
+        public static UsersResponseCollection DescriptionJ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionJ", value); }
+        public static UsersResponseCollection DescriptionK(this UsersResponseCollection res) { return res.Val("#Users_DescriptionK", res.UserModel.DescriptionK.ToResponse()); }
+        public static UsersResponseCollection DescriptionK(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionK", value); }
+        public static UsersResponseCollection DescriptionK_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionK", res.UserModel.DescriptionK.ToResponse()); }
+        public static UsersResponseCollection DescriptionK_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionK", value); }
+        public static UsersResponseCollection DescriptionL(this UsersResponseCollection res) { return res.Val("#Users_DescriptionL", res.UserModel.DescriptionL.ToResponse()); }
+        public static UsersResponseCollection DescriptionL(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionL", value); }
+        public static UsersResponseCollection DescriptionL_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionL", res.UserModel.DescriptionL.ToResponse()); }
+        public static UsersResponseCollection DescriptionL_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionL", value); }
+        public static UsersResponseCollection DescriptionM(this UsersResponseCollection res) { return res.Val("#Users_DescriptionM", res.UserModel.DescriptionM.ToResponse()); }
+        public static UsersResponseCollection DescriptionM(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionM", value); }
+        public static UsersResponseCollection DescriptionM_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionM", res.UserModel.DescriptionM.ToResponse()); }
+        public static UsersResponseCollection DescriptionM_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionM", value); }
+        public static UsersResponseCollection DescriptionN(this UsersResponseCollection res) { return res.Val("#Users_DescriptionN", res.UserModel.DescriptionN.ToResponse()); }
+        public static UsersResponseCollection DescriptionN(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionN", value); }
+        public static UsersResponseCollection DescriptionN_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionN", res.UserModel.DescriptionN.ToResponse()); }
+        public static UsersResponseCollection DescriptionN_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionN", value); }
+        public static UsersResponseCollection DescriptionO(this UsersResponseCollection res) { return res.Val("#Users_DescriptionO", res.UserModel.DescriptionO.ToResponse()); }
+        public static UsersResponseCollection DescriptionO(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionO", value); }
+        public static UsersResponseCollection DescriptionO_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionO", res.UserModel.DescriptionO.ToResponse()); }
+        public static UsersResponseCollection DescriptionO_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionO", value); }
+        public static UsersResponseCollection DescriptionP(this UsersResponseCollection res) { return res.Val("#Users_DescriptionP", res.UserModel.DescriptionP.ToResponse()); }
+        public static UsersResponseCollection DescriptionP(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionP", value); }
+        public static UsersResponseCollection DescriptionP_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionP", res.UserModel.DescriptionP.ToResponse()); }
+        public static UsersResponseCollection DescriptionP_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionP", value); }
+        public static UsersResponseCollection DescriptionQ(this UsersResponseCollection res) { return res.Val("#Users_DescriptionQ", res.UserModel.DescriptionQ.ToResponse()); }
+        public static UsersResponseCollection DescriptionQ(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionQ", value); }
+        public static UsersResponseCollection DescriptionQ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionQ", res.UserModel.DescriptionQ.ToResponse()); }
+        public static UsersResponseCollection DescriptionQ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionQ", value); }
+        public static UsersResponseCollection DescriptionR(this UsersResponseCollection res) { return res.Val("#Users_DescriptionR", res.UserModel.DescriptionR.ToResponse()); }
+        public static UsersResponseCollection DescriptionR(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionR", value); }
+        public static UsersResponseCollection DescriptionR_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionR", res.UserModel.DescriptionR.ToResponse()); }
+        public static UsersResponseCollection DescriptionR_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionR", value); }
+        public static UsersResponseCollection DescriptionS(this UsersResponseCollection res) { return res.Val("#Users_DescriptionS", res.UserModel.DescriptionS.ToResponse()); }
+        public static UsersResponseCollection DescriptionS(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionS", value); }
+        public static UsersResponseCollection DescriptionS_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionS", res.UserModel.DescriptionS.ToResponse()); }
+        public static UsersResponseCollection DescriptionS_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionS", value); }
+        public static UsersResponseCollection DescriptionT(this UsersResponseCollection res) { return res.Val("#Users_DescriptionT", res.UserModel.DescriptionT.ToResponse()); }
+        public static UsersResponseCollection DescriptionT(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionT", value); }
+        public static UsersResponseCollection DescriptionT_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionT", res.UserModel.DescriptionT.ToResponse()); }
+        public static UsersResponseCollection DescriptionT_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionT", value); }
+        public static UsersResponseCollection DescriptionU(this UsersResponseCollection res) { return res.Val("#Users_DescriptionU", res.UserModel.DescriptionU.ToResponse()); }
+        public static UsersResponseCollection DescriptionU(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionU", value); }
+        public static UsersResponseCollection DescriptionU_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionU", res.UserModel.DescriptionU.ToResponse()); }
+        public static UsersResponseCollection DescriptionU_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionU", value); }
+        public static UsersResponseCollection DescriptionV(this UsersResponseCollection res) { return res.Val("#Users_DescriptionV", res.UserModel.DescriptionV.ToResponse()); }
+        public static UsersResponseCollection DescriptionV(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionV", value); }
+        public static UsersResponseCollection DescriptionV_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionV", res.UserModel.DescriptionV.ToResponse()); }
+        public static UsersResponseCollection DescriptionV_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionV", value); }
+        public static UsersResponseCollection DescriptionW(this UsersResponseCollection res) { return res.Val("#Users_DescriptionW", res.UserModel.DescriptionW.ToResponse()); }
+        public static UsersResponseCollection DescriptionW(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionW", value); }
+        public static UsersResponseCollection DescriptionW_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionW", res.UserModel.DescriptionW.ToResponse()); }
+        public static UsersResponseCollection DescriptionW_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionW", value); }
+        public static UsersResponseCollection DescriptionX(this UsersResponseCollection res) { return res.Val("#Users_DescriptionX", res.UserModel.DescriptionX.ToResponse()); }
+        public static UsersResponseCollection DescriptionX(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionX", value); }
+        public static UsersResponseCollection DescriptionX_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionX", res.UserModel.DescriptionX.ToResponse()); }
+        public static UsersResponseCollection DescriptionX_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionX", value); }
+        public static UsersResponseCollection DescriptionY(this UsersResponseCollection res) { return res.Val("#Users_DescriptionY", res.UserModel.DescriptionY.ToResponse()); }
+        public static UsersResponseCollection DescriptionY(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionY", value); }
+        public static UsersResponseCollection DescriptionY_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionY", res.UserModel.DescriptionY.ToResponse()); }
+        public static UsersResponseCollection DescriptionY_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionY", value); }
+        public static UsersResponseCollection DescriptionZ(this UsersResponseCollection res) { return res.Val("#Users_DescriptionZ", res.UserModel.DescriptionZ.ToResponse()); }
+        public static UsersResponseCollection DescriptionZ(this UsersResponseCollection res, string value) { return res.Val("#Users_DescriptionZ", value); }
+        public static UsersResponseCollection DescriptionZ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_DescriptionZ", res.UserModel.DescriptionZ.ToResponse()); }
+        public static UsersResponseCollection DescriptionZ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_DescriptionZ", value); }
+        public static UsersResponseCollection CheckA(this UsersResponseCollection res) { return res.Val("#Users_CheckA", res.UserModel.CheckA.ToResponse()); }
+        public static UsersResponseCollection CheckA(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckA", value); }
+        public static UsersResponseCollection CheckA_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckA", res.UserModel.CheckA.ToResponse()); }
+        public static UsersResponseCollection CheckA_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckA", value); }
+        public static UsersResponseCollection CheckB(this UsersResponseCollection res) { return res.Val("#Users_CheckB", res.UserModel.CheckB.ToResponse()); }
+        public static UsersResponseCollection CheckB(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckB", value); }
+        public static UsersResponseCollection CheckB_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckB", res.UserModel.CheckB.ToResponse()); }
+        public static UsersResponseCollection CheckB_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckB", value); }
+        public static UsersResponseCollection CheckC(this UsersResponseCollection res) { return res.Val("#Users_CheckC", res.UserModel.CheckC.ToResponse()); }
+        public static UsersResponseCollection CheckC(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckC", value); }
+        public static UsersResponseCollection CheckC_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckC", res.UserModel.CheckC.ToResponse()); }
+        public static UsersResponseCollection CheckC_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckC", value); }
+        public static UsersResponseCollection CheckD(this UsersResponseCollection res) { return res.Val("#Users_CheckD", res.UserModel.CheckD.ToResponse()); }
+        public static UsersResponseCollection CheckD(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckD", value); }
+        public static UsersResponseCollection CheckD_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckD", res.UserModel.CheckD.ToResponse()); }
+        public static UsersResponseCollection CheckD_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckD", value); }
+        public static UsersResponseCollection CheckE(this UsersResponseCollection res) { return res.Val("#Users_CheckE", res.UserModel.CheckE.ToResponse()); }
+        public static UsersResponseCollection CheckE(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckE", value); }
+        public static UsersResponseCollection CheckE_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckE", res.UserModel.CheckE.ToResponse()); }
+        public static UsersResponseCollection CheckE_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckE", value); }
+        public static UsersResponseCollection CheckF(this UsersResponseCollection res) { return res.Val("#Users_CheckF", res.UserModel.CheckF.ToResponse()); }
+        public static UsersResponseCollection CheckF(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckF", value); }
+        public static UsersResponseCollection CheckF_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckF", res.UserModel.CheckF.ToResponse()); }
+        public static UsersResponseCollection CheckF_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckF", value); }
+        public static UsersResponseCollection CheckG(this UsersResponseCollection res) { return res.Val("#Users_CheckG", res.UserModel.CheckG.ToResponse()); }
+        public static UsersResponseCollection CheckG(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckG", value); }
+        public static UsersResponseCollection CheckG_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckG", res.UserModel.CheckG.ToResponse()); }
+        public static UsersResponseCollection CheckG_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckG", value); }
+        public static UsersResponseCollection CheckH(this UsersResponseCollection res) { return res.Val("#Users_CheckH", res.UserModel.CheckH.ToResponse()); }
+        public static UsersResponseCollection CheckH(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckH", value); }
+        public static UsersResponseCollection CheckH_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckH", res.UserModel.CheckH.ToResponse()); }
+        public static UsersResponseCollection CheckH_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckH", value); }
+        public static UsersResponseCollection CheckI(this UsersResponseCollection res) { return res.Val("#Users_CheckI", res.UserModel.CheckI.ToResponse()); }
+        public static UsersResponseCollection CheckI(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckI", value); }
+        public static UsersResponseCollection CheckI_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckI", res.UserModel.CheckI.ToResponse()); }
+        public static UsersResponseCollection CheckI_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckI", value); }
+        public static UsersResponseCollection CheckJ(this UsersResponseCollection res) { return res.Val("#Users_CheckJ", res.UserModel.CheckJ.ToResponse()); }
+        public static UsersResponseCollection CheckJ(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckJ", value); }
+        public static UsersResponseCollection CheckJ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckJ", res.UserModel.CheckJ.ToResponse()); }
+        public static UsersResponseCollection CheckJ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckJ", value); }
+        public static UsersResponseCollection CheckK(this UsersResponseCollection res) { return res.Val("#Users_CheckK", res.UserModel.CheckK.ToResponse()); }
+        public static UsersResponseCollection CheckK(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckK", value); }
+        public static UsersResponseCollection CheckK_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckK", res.UserModel.CheckK.ToResponse()); }
+        public static UsersResponseCollection CheckK_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckK", value); }
+        public static UsersResponseCollection CheckL(this UsersResponseCollection res) { return res.Val("#Users_CheckL", res.UserModel.CheckL.ToResponse()); }
+        public static UsersResponseCollection CheckL(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckL", value); }
+        public static UsersResponseCollection CheckL_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckL", res.UserModel.CheckL.ToResponse()); }
+        public static UsersResponseCollection CheckL_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckL", value); }
+        public static UsersResponseCollection CheckM(this UsersResponseCollection res) { return res.Val("#Users_CheckM", res.UserModel.CheckM.ToResponse()); }
+        public static UsersResponseCollection CheckM(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckM", value); }
+        public static UsersResponseCollection CheckM_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckM", res.UserModel.CheckM.ToResponse()); }
+        public static UsersResponseCollection CheckM_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckM", value); }
+        public static UsersResponseCollection CheckN(this UsersResponseCollection res) { return res.Val("#Users_CheckN", res.UserModel.CheckN.ToResponse()); }
+        public static UsersResponseCollection CheckN(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckN", value); }
+        public static UsersResponseCollection CheckN_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckN", res.UserModel.CheckN.ToResponse()); }
+        public static UsersResponseCollection CheckN_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckN", value); }
+        public static UsersResponseCollection CheckO(this UsersResponseCollection res) { return res.Val("#Users_CheckO", res.UserModel.CheckO.ToResponse()); }
+        public static UsersResponseCollection CheckO(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckO", value); }
+        public static UsersResponseCollection CheckO_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckO", res.UserModel.CheckO.ToResponse()); }
+        public static UsersResponseCollection CheckO_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckO", value); }
+        public static UsersResponseCollection CheckP(this UsersResponseCollection res) { return res.Val("#Users_CheckP", res.UserModel.CheckP.ToResponse()); }
+        public static UsersResponseCollection CheckP(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckP", value); }
+        public static UsersResponseCollection CheckP_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckP", res.UserModel.CheckP.ToResponse()); }
+        public static UsersResponseCollection CheckP_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckP", value); }
+        public static UsersResponseCollection CheckQ(this UsersResponseCollection res) { return res.Val("#Users_CheckQ", res.UserModel.CheckQ.ToResponse()); }
+        public static UsersResponseCollection CheckQ(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckQ", value); }
+        public static UsersResponseCollection CheckQ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckQ", res.UserModel.CheckQ.ToResponse()); }
+        public static UsersResponseCollection CheckQ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckQ", value); }
+        public static UsersResponseCollection CheckR(this UsersResponseCollection res) { return res.Val("#Users_CheckR", res.UserModel.CheckR.ToResponse()); }
+        public static UsersResponseCollection CheckR(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckR", value); }
+        public static UsersResponseCollection CheckR_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckR", res.UserModel.CheckR.ToResponse()); }
+        public static UsersResponseCollection CheckR_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckR", value); }
+        public static UsersResponseCollection CheckS(this UsersResponseCollection res) { return res.Val("#Users_CheckS", res.UserModel.CheckS.ToResponse()); }
+        public static UsersResponseCollection CheckS(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckS", value); }
+        public static UsersResponseCollection CheckS_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckS", res.UserModel.CheckS.ToResponse()); }
+        public static UsersResponseCollection CheckS_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckS", value); }
+        public static UsersResponseCollection CheckT(this UsersResponseCollection res) { return res.Val("#Users_CheckT", res.UserModel.CheckT.ToResponse()); }
+        public static UsersResponseCollection CheckT(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckT", value); }
+        public static UsersResponseCollection CheckT_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckT", res.UserModel.CheckT.ToResponse()); }
+        public static UsersResponseCollection CheckT_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckT", value); }
+        public static UsersResponseCollection CheckU(this UsersResponseCollection res) { return res.Val("#Users_CheckU", res.UserModel.CheckU.ToResponse()); }
+        public static UsersResponseCollection CheckU(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckU", value); }
+        public static UsersResponseCollection CheckU_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckU", res.UserModel.CheckU.ToResponse()); }
+        public static UsersResponseCollection CheckU_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckU", value); }
+        public static UsersResponseCollection CheckV(this UsersResponseCollection res) { return res.Val("#Users_CheckV", res.UserModel.CheckV.ToResponse()); }
+        public static UsersResponseCollection CheckV(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckV", value); }
+        public static UsersResponseCollection CheckV_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckV", res.UserModel.CheckV.ToResponse()); }
+        public static UsersResponseCollection CheckV_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckV", value); }
+        public static UsersResponseCollection CheckW(this UsersResponseCollection res) { return res.Val("#Users_CheckW", res.UserModel.CheckW.ToResponse()); }
+        public static UsersResponseCollection CheckW(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckW", value); }
+        public static UsersResponseCollection CheckW_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckW", res.UserModel.CheckW.ToResponse()); }
+        public static UsersResponseCollection CheckW_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckW", value); }
+        public static UsersResponseCollection CheckX(this UsersResponseCollection res) { return res.Val("#Users_CheckX", res.UserModel.CheckX.ToResponse()); }
+        public static UsersResponseCollection CheckX(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckX", value); }
+        public static UsersResponseCollection CheckX_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckX", res.UserModel.CheckX.ToResponse()); }
+        public static UsersResponseCollection CheckX_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckX", value); }
+        public static UsersResponseCollection CheckY(this UsersResponseCollection res) { return res.Val("#Users_CheckY", res.UserModel.CheckY.ToResponse()); }
+        public static UsersResponseCollection CheckY(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckY", value); }
+        public static UsersResponseCollection CheckY_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckY", res.UserModel.CheckY.ToResponse()); }
+        public static UsersResponseCollection CheckY_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckY", value); }
+        public static UsersResponseCollection CheckZ(this UsersResponseCollection res) { return res.Val("#Users_CheckZ", res.UserModel.CheckZ.ToResponse()); }
+        public static UsersResponseCollection CheckZ(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckZ", value); }
+        public static UsersResponseCollection CheckZ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckZ", res.UserModel.CheckZ.ToResponse()); }
+        public static UsersResponseCollection CheckZ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckZ", value); }
+        public static UsersResponseCollection AttachmentsA(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsA", res.UserModel.AttachmentsA.ToResponse()); }
+        public static UsersResponseCollection AttachmentsA(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsA", value); }
+        public static UsersResponseCollection AttachmentsA_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsA", res.UserModel.AttachmentsA.ToResponse()); }
+        public static UsersResponseCollection AttachmentsA_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsA", value); }
+        public static UsersResponseCollection AttachmentsB(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsB", res.UserModel.AttachmentsB.ToResponse()); }
+        public static UsersResponseCollection AttachmentsB(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsB", value); }
+        public static UsersResponseCollection AttachmentsB_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsB", res.UserModel.AttachmentsB.ToResponse()); }
+        public static UsersResponseCollection AttachmentsB_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsB", value); }
+        public static UsersResponseCollection AttachmentsC(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsC", res.UserModel.AttachmentsC.ToResponse()); }
+        public static UsersResponseCollection AttachmentsC(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsC", value); }
+        public static UsersResponseCollection AttachmentsC_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsC", res.UserModel.AttachmentsC.ToResponse()); }
+        public static UsersResponseCollection AttachmentsC_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsC", value); }
+        public static UsersResponseCollection AttachmentsD(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsD", res.UserModel.AttachmentsD.ToResponse()); }
+        public static UsersResponseCollection AttachmentsD(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsD", value); }
+        public static UsersResponseCollection AttachmentsD_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsD", res.UserModel.AttachmentsD.ToResponse()); }
+        public static UsersResponseCollection AttachmentsD_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsD", value); }
+        public static UsersResponseCollection AttachmentsE(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsE", res.UserModel.AttachmentsE.ToResponse()); }
+        public static UsersResponseCollection AttachmentsE(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsE", value); }
+        public static UsersResponseCollection AttachmentsE_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsE", res.UserModel.AttachmentsE.ToResponse()); }
+        public static UsersResponseCollection AttachmentsE_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsE", value); }
+        public static UsersResponseCollection AttachmentsF(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsF", res.UserModel.AttachmentsF.ToResponse()); }
+        public static UsersResponseCollection AttachmentsF(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsF", value); }
+        public static UsersResponseCollection AttachmentsF_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsF", res.UserModel.AttachmentsF.ToResponse()); }
+        public static UsersResponseCollection AttachmentsF_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsF", value); }
+        public static UsersResponseCollection AttachmentsG(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsG", res.UserModel.AttachmentsG.ToResponse()); }
+        public static UsersResponseCollection AttachmentsG(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsG", value); }
+        public static UsersResponseCollection AttachmentsG_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsG", res.UserModel.AttachmentsG.ToResponse()); }
+        public static UsersResponseCollection AttachmentsG_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsG", value); }
+        public static UsersResponseCollection AttachmentsH(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsH", res.UserModel.AttachmentsH.ToResponse()); }
+        public static UsersResponseCollection AttachmentsH(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsH", value); }
+        public static UsersResponseCollection AttachmentsH_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsH", res.UserModel.AttachmentsH.ToResponse()); }
+        public static UsersResponseCollection AttachmentsH_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsH", value); }
+        public static UsersResponseCollection AttachmentsI(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsI", res.UserModel.AttachmentsI.ToResponse()); }
+        public static UsersResponseCollection AttachmentsI(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsI", value); }
+        public static UsersResponseCollection AttachmentsI_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsI", res.UserModel.AttachmentsI.ToResponse()); }
+        public static UsersResponseCollection AttachmentsI_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsI", value); }
+        public static UsersResponseCollection AttachmentsJ(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsJ", res.UserModel.AttachmentsJ.ToResponse()); }
+        public static UsersResponseCollection AttachmentsJ(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsJ", value); }
+        public static UsersResponseCollection AttachmentsJ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsJ", res.UserModel.AttachmentsJ.ToResponse()); }
+        public static UsersResponseCollection AttachmentsJ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsJ", value); }
+        public static UsersResponseCollection AttachmentsK(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsK", res.UserModel.AttachmentsK.ToResponse()); }
+        public static UsersResponseCollection AttachmentsK(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsK", value); }
+        public static UsersResponseCollection AttachmentsK_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsK", res.UserModel.AttachmentsK.ToResponse()); }
+        public static UsersResponseCollection AttachmentsK_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsK", value); }
+        public static UsersResponseCollection AttachmentsL(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsL", res.UserModel.AttachmentsL.ToResponse()); }
+        public static UsersResponseCollection AttachmentsL(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsL", value); }
+        public static UsersResponseCollection AttachmentsL_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsL", res.UserModel.AttachmentsL.ToResponse()); }
+        public static UsersResponseCollection AttachmentsL_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsL", value); }
+        public static UsersResponseCollection AttachmentsM(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsM", res.UserModel.AttachmentsM.ToResponse()); }
+        public static UsersResponseCollection AttachmentsM(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsM", value); }
+        public static UsersResponseCollection AttachmentsM_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsM", res.UserModel.AttachmentsM.ToResponse()); }
+        public static UsersResponseCollection AttachmentsM_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsM", value); }
+        public static UsersResponseCollection AttachmentsN(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsN", res.UserModel.AttachmentsN.ToResponse()); }
+        public static UsersResponseCollection AttachmentsN(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsN", value); }
+        public static UsersResponseCollection AttachmentsN_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsN", res.UserModel.AttachmentsN.ToResponse()); }
+        public static UsersResponseCollection AttachmentsN_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsN", value); }
+        public static UsersResponseCollection AttachmentsO(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsO", res.UserModel.AttachmentsO.ToResponse()); }
+        public static UsersResponseCollection AttachmentsO(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsO", value); }
+        public static UsersResponseCollection AttachmentsO_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsO", res.UserModel.AttachmentsO.ToResponse()); }
+        public static UsersResponseCollection AttachmentsO_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsO", value); }
+        public static UsersResponseCollection AttachmentsP(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsP", res.UserModel.AttachmentsP.ToResponse()); }
+        public static UsersResponseCollection AttachmentsP(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsP", value); }
+        public static UsersResponseCollection AttachmentsP_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsP", res.UserModel.AttachmentsP.ToResponse()); }
+        public static UsersResponseCollection AttachmentsP_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsP", value); }
+        public static UsersResponseCollection AttachmentsQ(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsQ", res.UserModel.AttachmentsQ.ToResponse()); }
+        public static UsersResponseCollection AttachmentsQ(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsQ", value); }
+        public static UsersResponseCollection AttachmentsQ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsQ", res.UserModel.AttachmentsQ.ToResponse()); }
+        public static UsersResponseCollection AttachmentsQ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsQ", value); }
+        public static UsersResponseCollection AttachmentsR(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsR", res.UserModel.AttachmentsR.ToResponse()); }
+        public static UsersResponseCollection AttachmentsR(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsR", value); }
+        public static UsersResponseCollection AttachmentsR_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsR", res.UserModel.AttachmentsR.ToResponse()); }
+        public static UsersResponseCollection AttachmentsR_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsR", value); }
+        public static UsersResponseCollection AttachmentsS(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsS", res.UserModel.AttachmentsS.ToResponse()); }
+        public static UsersResponseCollection AttachmentsS(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsS", value); }
+        public static UsersResponseCollection AttachmentsS_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsS", res.UserModel.AttachmentsS.ToResponse()); }
+        public static UsersResponseCollection AttachmentsS_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsS", value); }
+        public static UsersResponseCollection AttachmentsT(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsT", res.UserModel.AttachmentsT.ToResponse()); }
+        public static UsersResponseCollection AttachmentsT(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsT", value); }
+        public static UsersResponseCollection AttachmentsT_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsT", res.UserModel.AttachmentsT.ToResponse()); }
+        public static UsersResponseCollection AttachmentsT_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsT", value); }
+        public static UsersResponseCollection AttachmentsU(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsU", res.UserModel.AttachmentsU.ToResponse()); }
+        public static UsersResponseCollection AttachmentsU(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsU", value); }
+        public static UsersResponseCollection AttachmentsU_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsU", res.UserModel.AttachmentsU.ToResponse()); }
+        public static UsersResponseCollection AttachmentsU_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsU", value); }
+        public static UsersResponseCollection AttachmentsV(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsV", res.UserModel.AttachmentsV.ToResponse()); }
+        public static UsersResponseCollection AttachmentsV(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsV", value); }
+        public static UsersResponseCollection AttachmentsV_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsV", res.UserModel.AttachmentsV.ToResponse()); }
+        public static UsersResponseCollection AttachmentsV_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsV", value); }
+        public static UsersResponseCollection AttachmentsW(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsW", res.UserModel.AttachmentsW.ToResponse()); }
+        public static UsersResponseCollection AttachmentsW(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsW", value); }
+        public static UsersResponseCollection AttachmentsW_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsW", res.UserModel.AttachmentsW.ToResponse()); }
+        public static UsersResponseCollection AttachmentsW_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsW", value); }
+        public static UsersResponseCollection AttachmentsX(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsX", res.UserModel.AttachmentsX.ToResponse()); }
+        public static UsersResponseCollection AttachmentsX(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsX", value); }
+        public static UsersResponseCollection AttachmentsX_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsX", res.UserModel.AttachmentsX.ToResponse()); }
+        public static UsersResponseCollection AttachmentsX_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsX", value); }
+        public static UsersResponseCollection AttachmentsY(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsY", res.UserModel.AttachmentsY.ToResponse()); }
+        public static UsersResponseCollection AttachmentsY(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsY", value); }
+        public static UsersResponseCollection AttachmentsY_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsY", res.UserModel.AttachmentsY.ToResponse()); }
+        public static UsersResponseCollection AttachmentsY_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsY", value); }
+        public static UsersResponseCollection AttachmentsZ(this UsersResponseCollection res) { return res.Val("#Users_AttachmentsZ", res.UserModel.AttachmentsZ.ToResponse()); }
+        public static UsersResponseCollection AttachmentsZ(this UsersResponseCollection res, string value) { return res.Val("#Users_AttachmentsZ", value); }
+        public static UsersResponseCollection AttachmentsZ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_AttachmentsZ", res.UserModel.AttachmentsZ.ToResponse()); }
+        public static UsersResponseCollection AttachmentsZ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_AttachmentsZ", value); }
         public static UsersResponseCollection Comments(this UsersResponseCollection res) { return res.Val("#Users_Comments", res.UserModel.Comments.ToResponse()); }
         public static UsersResponseCollection Comments(this UsersResponseCollection res, string value) { return res.Val("#Users_Comments", value); }
         public static UsersResponseCollection Comments_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_Comments", res.UserModel.Comments.ToResponse()); }

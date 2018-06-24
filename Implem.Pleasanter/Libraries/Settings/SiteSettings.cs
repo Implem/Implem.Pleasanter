@@ -1043,6 +1043,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.LabelTextDefault = Displays.Get(columnDefinition.Id);
                 column.TypeName = columnDefinition.TypeName;
                 column.TypeCs = columnDefinition.TypeCs;
+                column.JoinTableName = columnDefinition.JoinTableName;
                 column.UserColumn = columnDefinition.UserColumn;
                 column.Hash = columnDefinition.Hash;
                 column.StringFormat = columnDefinition.StringFormat;

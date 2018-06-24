@@ -99,6 +99,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string TypeCs;
         [NonSerialized]
+        public string JoinTableName;
+        [NonSerialized]
         public bool UserColumn;
         [NonSerialized]
         public bool Hash;
@@ -510,13 +512,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SqlColumnCollection SqlColumnCollection(SiteSettings ss)
         {
             var sql = new SqlColumnCollection();
+            var tableName = Strings.CoalesceEmpty(JoinTableName, SiteSettings.ReferenceType);
             SelectColumns(
                 sql: sql,
-                tableName: SiteSettings.ReferenceType,
+                tableName: tableName,
                 columnName: Name,
                 path: Joined
                     ? TableAlias
-                    : SiteSettings.ReferenceType,
+                    : tableName,
                 _as: Joined
                     ? ColumnName
                     : null);
@@ -608,7 +611,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string TableName()
         {
-            return TableAlias ?? SiteSettings.ReferenceType;
+            return Strings.CoalesceEmpty(TableAlias, JoinTableName, SiteSettings.ReferenceType);
         }
 
         public string ParamName()
@@ -762,6 +765,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "TimeZone":
                             sql.Users_TimeZone(tableName: path, _as: _as);
                             break;
+                        case "DeptCode":
+                            sql.Users_DeptCode(tableName: path, _as: _as);
+                            break;
                         case "DeptId":
                             sql.Users_DeptId(tableName: path, _as: _as);
                             break;
@@ -806,6 +812,474 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "ApiKey":
                             sql.Users_ApiKey(tableName: path, _as: _as);
+                            break;
+                        case "ClassA":
+                            sql.Users_ClassA(tableName: path, _as: _as);
+                            break;
+                        case "ClassB":
+                            sql.Users_ClassB(tableName: path, _as: _as);
+                            break;
+                        case "ClassC":
+                            sql.Users_ClassC(tableName: path, _as: _as);
+                            break;
+                        case "ClassD":
+                            sql.Users_ClassD(tableName: path, _as: _as);
+                            break;
+                        case "ClassE":
+                            sql.Users_ClassE(tableName: path, _as: _as);
+                            break;
+                        case "ClassF":
+                            sql.Users_ClassF(tableName: path, _as: _as);
+                            break;
+                        case "ClassG":
+                            sql.Users_ClassG(tableName: path, _as: _as);
+                            break;
+                        case "ClassH":
+                            sql.Users_ClassH(tableName: path, _as: _as);
+                            break;
+                        case "ClassI":
+                            sql.Users_ClassI(tableName: path, _as: _as);
+                            break;
+                        case "ClassJ":
+                            sql.Users_ClassJ(tableName: path, _as: _as);
+                            break;
+                        case "ClassK":
+                            sql.Users_ClassK(tableName: path, _as: _as);
+                            break;
+                        case "ClassL":
+                            sql.Users_ClassL(tableName: path, _as: _as);
+                            break;
+                        case "ClassM":
+                            sql.Users_ClassM(tableName: path, _as: _as);
+                            break;
+                        case "ClassN":
+                            sql.Users_ClassN(tableName: path, _as: _as);
+                            break;
+                        case "ClassO":
+                            sql.Users_ClassO(tableName: path, _as: _as);
+                            break;
+                        case "ClassP":
+                            sql.Users_ClassP(tableName: path, _as: _as);
+                            break;
+                        case "ClassQ":
+                            sql.Users_ClassQ(tableName: path, _as: _as);
+                            break;
+                        case "ClassR":
+                            sql.Users_ClassR(tableName: path, _as: _as);
+                            break;
+                        case "ClassS":
+                            sql.Users_ClassS(tableName: path, _as: _as);
+                            break;
+                        case "ClassT":
+                            sql.Users_ClassT(tableName: path, _as: _as);
+                            break;
+                        case "ClassU":
+                            sql.Users_ClassU(tableName: path, _as: _as);
+                            break;
+                        case "ClassV":
+                            sql.Users_ClassV(tableName: path, _as: _as);
+                            break;
+                        case "ClassW":
+                            sql.Users_ClassW(tableName: path, _as: _as);
+                            break;
+                        case "ClassX":
+                            sql.Users_ClassX(tableName: path, _as: _as);
+                            break;
+                        case "ClassY":
+                            sql.Users_ClassY(tableName: path, _as: _as);
+                            break;
+                        case "ClassZ":
+                            sql.Users_ClassZ(tableName: path, _as: _as);
+                            break;
+                        case "NumA":
+                            sql.Users_NumA(tableName: path, _as: _as);
+                            break;
+                        case "NumB":
+                            sql.Users_NumB(tableName: path, _as: _as);
+                            break;
+                        case "NumC":
+                            sql.Users_NumC(tableName: path, _as: _as);
+                            break;
+                        case "NumD":
+                            sql.Users_NumD(tableName: path, _as: _as);
+                            break;
+                        case "NumE":
+                            sql.Users_NumE(tableName: path, _as: _as);
+                            break;
+                        case "NumF":
+                            sql.Users_NumF(tableName: path, _as: _as);
+                            break;
+                        case "NumG":
+                            sql.Users_NumG(tableName: path, _as: _as);
+                            break;
+                        case "NumH":
+                            sql.Users_NumH(tableName: path, _as: _as);
+                            break;
+                        case "NumI":
+                            sql.Users_NumI(tableName: path, _as: _as);
+                            break;
+                        case "NumJ":
+                            sql.Users_NumJ(tableName: path, _as: _as);
+                            break;
+                        case "NumK":
+                            sql.Users_NumK(tableName: path, _as: _as);
+                            break;
+                        case "NumL":
+                            sql.Users_NumL(tableName: path, _as: _as);
+                            break;
+                        case "NumM":
+                            sql.Users_NumM(tableName: path, _as: _as);
+                            break;
+                        case "NumN":
+                            sql.Users_NumN(tableName: path, _as: _as);
+                            break;
+                        case "NumO":
+                            sql.Users_NumO(tableName: path, _as: _as);
+                            break;
+                        case "NumP":
+                            sql.Users_NumP(tableName: path, _as: _as);
+                            break;
+                        case "NumQ":
+                            sql.Users_NumQ(tableName: path, _as: _as);
+                            break;
+                        case "NumR":
+                            sql.Users_NumR(tableName: path, _as: _as);
+                            break;
+                        case "NumS":
+                            sql.Users_NumS(tableName: path, _as: _as);
+                            break;
+                        case "NumT":
+                            sql.Users_NumT(tableName: path, _as: _as);
+                            break;
+                        case "NumU":
+                            sql.Users_NumU(tableName: path, _as: _as);
+                            break;
+                        case "NumV":
+                            sql.Users_NumV(tableName: path, _as: _as);
+                            break;
+                        case "NumW":
+                            sql.Users_NumW(tableName: path, _as: _as);
+                            break;
+                        case "NumX":
+                            sql.Users_NumX(tableName: path, _as: _as);
+                            break;
+                        case "NumY":
+                            sql.Users_NumY(tableName: path, _as: _as);
+                            break;
+                        case "NumZ":
+                            sql.Users_NumZ(tableName: path, _as: _as);
+                            break;
+                        case "DateA":
+                            sql.Users_DateA(tableName: path, _as: _as);
+                            break;
+                        case "DateB":
+                            sql.Users_DateB(tableName: path, _as: _as);
+                            break;
+                        case "DateC":
+                            sql.Users_DateC(tableName: path, _as: _as);
+                            break;
+                        case "DateD":
+                            sql.Users_DateD(tableName: path, _as: _as);
+                            break;
+                        case "DateE":
+                            sql.Users_DateE(tableName: path, _as: _as);
+                            break;
+                        case "DateF":
+                            sql.Users_DateF(tableName: path, _as: _as);
+                            break;
+                        case "DateG":
+                            sql.Users_DateG(tableName: path, _as: _as);
+                            break;
+                        case "DateH":
+                            sql.Users_DateH(tableName: path, _as: _as);
+                            break;
+                        case "DateI":
+                            sql.Users_DateI(tableName: path, _as: _as);
+                            break;
+                        case "DateJ":
+                            sql.Users_DateJ(tableName: path, _as: _as);
+                            break;
+                        case "DateK":
+                            sql.Users_DateK(tableName: path, _as: _as);
+                            break;
+                        case "DateL":
+                            sql.Users_DateL(tableName: path, _as: _as);
+                            break;
+                        case "DateM":
+                            sql.Users_DateM(tableName: path, _as: _as);
+                            break;
+                        case "DateN":
+                            sql.Users_DateN(tableName: path, _as: _as);
+                            break;
+                        case "DateO":
+                            sql.Users_DateO(tableName: path, _as: _as);
+                            break;
+                        case "DateP":
+                            sql.Users_DateP(tableName: path, _as: _as);
+                            break;
+                        case "DateQ":
+                            sql.Users_DateQ(tableName: path, _as: _as);
+                            break;
+                        case "DateR":
+                            sql.Users_DateR(tableName: path, _as: _as);
+                            break;
+                        case "DateS":
+                            sql.Users_DateS(tableName: path, _as: _as);
+                            break;
+                        case "DateT":
+                            sql.Users_DateT(tableName: path, _as: _as);
+                            break;
+                        case "DateU":
+                            sql.Users_DateU(tableName: path, _as: _as);
+                            break;
+                        case "DateV":
+                            sql.Users_DateV(tableName: path, _as: _as);
+                            break;
+                        case "DateW":
+                            sql.Users_DateW(tableName: path, _as: _as);
+                            break;
+                        case "DateX":
+                            sql.Users_DateX(tableName: path, _as: _as);
+                            break;
+                        case "DateY":
+                            sql.Users_DateY(tableName: path, _as: _as);
+                            break;
+                        case "DateZ":
+                            sql.Users_DateZ(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionA":
+                            sql.Users_DescriptionA(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionB":
+                            sql.Users_DescriptionB(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionC":
+                            sql.Users_DescriptionC(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionD":
+                            sql.Users_DescriptionD(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionE":
+                            sql.Users_DescriptionE(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionF":
+                            sql.Users_DescriptionF(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionG":
+                            sql.Users_DescriptionG(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionH":
+                            sql.Users_DescriptionH(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionI":
+                            sql.Users_DescriptionI(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionJ":
+                            sql.Users_DescriptionJ(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionK":
+                            sql.Users_DescriptionK(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionL":
+                            sql.Users_DescriptionL(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionM":
+                            sql.Users_DescriptionM(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionN":
+                            sql.Users_DescriptionN(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionO":
+                            sql.Users_DescriptionO(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionP":
+                            sql.Users_DescriptionP(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionQ":
+                            sql.Users_DescriptionQ(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionR":
+                            sql.Users_DescriptionR(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionS":
+                            sql.Users_DescriptionS(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionT":
+                            sql.Users_DescriptionT(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionU":
+                            sql.Users_DescriptionU(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionV":
+                            sql.Users_DescriptionV(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionW":
+                            sql.Users_DescriptionW(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionX":
+                            sql.Users_DescriptionX(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionY":
+                            sql.Users_DescriptionY(tableName: path, _as: _as);
+                            break;
+                        case "DescriptionZ":
+                            sql.Users_DescriptionZ(tableName: path, _as: _as);
+                            break;
+                        case "CheckA":
+                            sql.Users_CheckA(tableName: path, _as: _as);
+                            break;
+                        case "CheckB":
+                            sql.Users_CheckB(tableName: path, _as: _as);
+                            break;
+                        case "CheckC":
+                            sql.Users_CheckC(tableName: path, _as: _as);
+                            break;
+                        case "CheckD":
+                            sql.Users_CheckD(tableName: path, _as: _as);
+                            break;
+                        case "CheckE":
+                            sql.Users_CheckE(tableName: path, _as: _as);
+                            break;
+                        case "CheckF":
+                            sql.Users_CheckF(tableName: path, _as: _as);
+                            break;
+                        case "CheckG":
+                            sql.Users_CheckG(tableName: path, _as: _as);
+                            break;
+                        case "CheckH":
+                            sql.Users_CheckH(tableName: path, _as: _as);
+                            break;
+                        case "CheckI":
+                            sql.Users_CheckI(tableName: path, _as: _as);
+                            break;
+                        case "CheckJ":
+                            sql.Users_CheckJ(tableName: path, _as: _as);
+                            break;
+                        case "CheckK":
+                            sql.Users_CheckK(tableName: path, _as: _as);
+                            break;
+                        case "CheckL":
+                            sql.Users_CheckL(tableName: path, _as: _as);
+                            break;
+                        case "CheckM":
+                            sql.Users_CheckM(tableName: path, _as: _as);
+                            break;
+                        case "CheckN":
+                            sql.Users_CheckN(tableName: path, _as: _as);
+                            break;
+                        case "CheckO":
+                            sql.Users_CheckO(tableName: path, _as: _as);
+                            break;
+                        case "CheckP":
+                            sql.Users_CheckP(tableName: path, _as: _as);
+                            break;
+                        case "CheckQ":
+                            sql.Users_CheckQ(tableName: path, _as: _as);
+                            break;
+                        case "CheckR":
+                            sql.Users_CheckR(tableName: path, _as: _as);
+                            break;
+                        case "CheckS":
+                            sql.Users_CheckS(tableName: path, _as: _as);
+                            break;
+                        case "CheckT":
+                            sql.Users_CheckT(tableName: path, _as: _as);
+                            break;
+                        case "CheckU":
+                            sql.Users_CheckU(tableName: path, _as: _as);
+                            break;
+                        case "CheckV":
+                            sql.Users_CheckV(tableName: path, _as: _as);
+                            break;
+                        case "CheckW":
+                            sql.Users_CheckW(tableName: path, _as: _as);
+                            break;
+                        case "CheckX":
+                            sql.Users_CheckX(tableName: path, _as: _as);
+                            break;
+                        case "CheckY":
+                            sql.Users_CheckY(tableName: path, _as: _as);
+                            break;
+                        case "CheckZ":
+                            sql.Users_CheckZ(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsA":
+                            sql.Users_AttachmentsA(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsB":
+                            sql.Users_AttachmentsB(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsC":
+                            sql.Users_AttachmentsC(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsD":
+                            sql.Users_AttachmentsD(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsE":
+                            sql.Users_AttachmentsE(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsF":
+                            sql.Users_AttachmentsF(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsG":
+                            sql.Users_AttachmentsG(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsH":
+                            sql.Users_AttachmentsH(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsI":
+                            sql.Users_AttachmentsI(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsJ":
+                            sql.Users_AttachmentsJ(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsK":
+                            sql.Users_AttachmentsK(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsL":
+                            sql.Users_AttachmentsL(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsM":
+                            sql.Users_AttachmentsM(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsN":
+                            sql.Users_AttachmentsN(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsO":
+                            sql.Users_AttachmentsO(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsP":
+                            sql.Users_AttachmentsP(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsQ":
+                            sql.Users_AttachmentsQ(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsR":
+                            sql.Users_AttachmentsR(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsS":
+                            sql.Users_AttachmentsS(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsT":
+                            sql.Users_AttachmentsT(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsU":
+                            sql.Users_AttachmentsU(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsV":
+                            sql.Users_AttachmentsV(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsW":
+                            sql.Users_AttachmentsW(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsX":
+                            sql.Users_AttachmentsX(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsY":
+                            sql.Users_AttachmentsY(tableName: path, _as: _as);
+                            break;
+                        case "AttachmentsZ":
+                            sql.Users_AttachmentsZ(tableName: path, _as: _as);
                             break;
                         case "Comments":
                             sql.Users_Comments(tableName: path, _as: _as);
