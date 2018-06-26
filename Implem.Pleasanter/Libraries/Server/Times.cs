@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static DateTime ToLocal(this DateTime value)
         {
+            if (value.ToOADate() == 0) return value;
             var timeZoneInfo = Sessions.TimeZoneInfo();
             return timeZoneInfo != null && timeZoneInfo.Id != TimeZoneInfo.Local.Id
                 ? TimeZoneInfo.ConvertTime(value, timeZoneInfo)
@@ -42,6 +43,7 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static DateTime ToUniversal(this DateTime value)
         {
+            if (value.ToOADate() == 0) return value;
             var timeZoneInfo = Sessions.TimeZoneInfo();
             return timeZoneInfo != null && timeZoneInfo.Id != TimeZoneInfo.Local.Id
                 ? TimeZoneInfo.ConvertTime(value, timeZoneInfo, TimeZoneInfo.Local)
