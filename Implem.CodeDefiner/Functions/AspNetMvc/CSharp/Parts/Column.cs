@@ -113,7 +113,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.PkHistory && columnDefinition.PkHistory == 0) return true;
             if (codeDefinition.GridColumn && columnDefinition.GridColumn == 0) return true;
             if (codeDefinition.FilterColumn && columnDefinition.FilterColumn == 0) return true;
-            if (codeDefinition.EditorColumn && !columnDefinition.EditorColumn) return true;
+            if (codeDefinition.EditorColumn && columnDefinition.EditorColumn == 0) return true;
             if (codeDefinition.TitleColumn && columnDefinition.TitleColumn == 0) return true;
             if (codeDefinition.UserColumn && !columnDefinition.UserColumn) return true;
             if (codeDefinition.NotUserColumn && columnDefinition.UserColumn) return true;
@@ -202,7 +202,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                             "#ColumnName#", columnDefinition.ColumnName.PublicVariableName());
                         break;
                     case "ColumnCaption":
-                        code = code.Replace("#ColumnCaption#", columnDefinition.ColumnLabel);
+                        code = code.Replace("#ColumnCaption#", columnDefinition.LabelText);
                         break;
                     case "Type":
                         code = code.Replace("#Type#", Strings.CoalesceEmpty(

@@ -12,6 +12,7 @@ namespace Implem.DefinitionAccessor
         public static BackgroundTask BackgroundTask;
         public static BinaryStorage BinaryStorage;
         public static ExcludeColumns ExcludeColumns;
+        public static Dictionary<string, Dictionary<string, Dictionary<string, string>>> CustomDefinitions;
         public static List<ExtendedColumns> ExtendedColumnsSet;
         public static List<ExtendedSql> ExtendedSqls;
         public static List<string> ExtendedStyles;

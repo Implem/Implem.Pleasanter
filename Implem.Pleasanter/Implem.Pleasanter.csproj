@@ -33,6 +33,7 @@
     <OldToolsVersion>12.0</OldToolsVersion>
     <TargetFrameworkProfile />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1303,6 +1304,7 @@
     <Content Include="App_Data\Displays\NoDuplication.json" />
     <Content Include="App_Data\Displays\Duplicated.json" />
     <Content Include="App_Data\Displays\CopyByDefault.json" />
+    <Content Include="App_Data\Parameters\CustomDefinitions\Column.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

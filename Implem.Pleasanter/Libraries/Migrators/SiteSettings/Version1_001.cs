@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
                     Def.ColumnDefinitionCollection
                         .Where(p => p.TableName == ss.ReferenceType)
                         .Where(p => p.ColumnName == o.Key)
-                        .Where(p => p.EditorColumn)
+                        .Where(p => p.EditorColumn > 0)
                         .Where(p => p.EditorEnabled)
                         .Where(p => !p.NotEditorSettings)
                         .Any()))

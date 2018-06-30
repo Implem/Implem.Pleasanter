@@ -877,7 +877,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private bool EditorColumn(ColumnDefinition columnDefinition)
         {
             return
-                columnDefinition?.EditorColumn == true &&
+                columnDefinition?.EditorColumn > 0 &&
                 columnDefinition?.NotEditorSettings != true;
         }
 
@@ -988,7 +988,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     (columnDefinition.Unique && columnDefinition.TypeName == "bigint") ||
                     columnDefinition.ColumnName == "Ver";
                 column.ColumnName = column.ColumnName ?? columnDefinition.ColumnName;
-                column.LabelText = column.LabelText ?? columnDefinition.ColumnLabel;
+                column.LabelText = column.LabelText ?? columnDefinition.LabelText;
                 column.GridLabelText = column.GridLabelText ?? column.LabelText;
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
                 column.UseSearch = column.UseSearch ?? columnDefinition.UseSearch;
@@ -1034,7 +1034,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.EditSelf = !columnDefinition.NotEditSelf;
                 column.GridColumn = columnDefinition.GridColumn > 0;
                 column.FilterColumn = columnDefinition.FilterColumn > 0;
-                column.EditorColumn = columnDefinition.EditorColumn;
+                column.EditorColumn = columnDefinition.EditorColumn > 0;
                 column.NotEditorSettings = columnDefinition.NotEditorSettings;
                 column.TitleColumn = columnDefinition.TitleColumn > 0;
                 column.LinkColumn = columnDefinition.LinkColumn > 0;
@@ -1471,7 +1471,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnDefinitionHash.EditorDefinitions()
                         .Where(o => !EditorColumns.Contains(o.ColumnName))
-                        .OrderBy(o => o.History)
+                        .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName));
         }
 
@@ -1483,7 +1483,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnDefinitionHash.TitleDefinitions()
                         .Where(o => !titleColumns.Contains(o.ColumnName))
-                        .OrderBy(o => o.History)
+                        .OrderBy(o => o.TitleColumn)
                         .Select(o => o.ColumnName));
         }
 
@@ -1494,7 +1494,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnDefinitionHash.LinkDefinitions()
                         .Where(o => !LinkColumns.Contains(o.ColumnName))
-                        .OrderBy(o => o.History)
+                        .OrderBy(o => o.LinkColumn)
                         .Select(o => o.ColumnName));
         }
 
@@ -1505,7 +1505,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnDefinitionHash.HistoryDefinitions()
                         .Where(o => !HistoryColumns.Contains(o.ColumnName))
-                        .OrderBy(o => o.History)
+                        .OrderBy(o => o.HistoryColumn)
                         .Select(o => o.ColumnName));
         }
 
@@ -1539,7 +1539,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnDefinitionHash.MonitorChangesDefinitions()
                         .Where(o => !monitorChangesColumns.Contains(o.ColumnName))
-                        .OrderBy(o => o.History)
+                        .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName));
         }
 
@@ -2625,7 +2625,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<ExportColumn> ExportColumns(string searchText)
         {
             return ColumnDefinitionHash.ExportDefinitions()
-                .OrderBy(o => o.History)
+                .OrderBy(o => o.EditorColumn)
                 .Select((o, i) => new ExportColumn(this, o.ColumnName))
                 .Where(o =>
                     searchText.IsNullOrEmpty() ||

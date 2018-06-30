@@ -772,81 +772,391 @@ namespace Implem.DefinitionAccessor
             CodeXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
             {
                 var newCodeDefinition = new CodeDefinition();
-                if (definitionRow.ContainsKey("Id")) { newCodeDefinition.Id = definitionRow["Id"].ToString(); newCodeDefinition.SavedId = newCodeDefinition.Id; }
-                if (definitionRow.ContainsKey("Body")) { newCodeDefinition.Body = definitionRow["Body"].ToString(); newCodeDefinition.SavedBody = newCodeDefinition.Body; }
-                if (definitionRow.ContainsKey("OutputPath")) { newCodeDefinition.OutputPath = definitionRow["OutputPath"].ToString(); newCodeDefinition.SavedOutputPath = newCodeDefinition.OutputPath; }
-                if (definitionRow.ContainsKey("MergeToExisting")) { newCodeDefinition.MergeToExisting = definitionRow["MergeToExisting"].ToBool(); newCodeDefinition.SavedMergeToExisting = newCodeDefinition.MergeToExisting; }
-                if (definitionRow.ContainsKey("Source")) { newCodeDefinition.Source = definitionRow["Source"].ToString(); newCodeDefinition.SavedSource = newCodeDefinition.Source; }
-                if (definitionRow.ContainsKey("RepeatType")) { newCodeDefinition.RepeatType = definitionRow["RepeatType"].ToString(); newCodeDefinition.SavedRepeatType = newCodeDefinition.RepeatType; }
-                if (definitionRow.ContainsKey("Indent")) { newCodeDefinition.Indent = definitionRow["Indent"].ToInt(); newCodeDefinition.SavedIndent = newCodeDefinition.Indent; }
-                if (definitionRow.ContainsKey("Separator")) { newCodeDefinition.Separator = definitionRow["Separator"].ToString(); newCodeDefinition.SavedSeparator = newCodeDefinition.Separator; }
-                if (definitionRow.ContainsKey("Order")) { newCodeDefinition.Order = definitionRow["Order"].ToString(); newCodeDefinition.SavedOrder = newCodeDefinition.Order; }
-                if (definitionRow.ContainsKey("Pk")) { newCodeDefinition.Pk = definitionRow["Pk"].ToBool(); newCodeDefinition.SavedPk = newCodeDefinition.Pk; }
-                if (definitionRow.ContainsKey("NotPk")) { newCodeDefinition.NotPk = definitionRow["NotPk"].ToBool(); newCodeDefinition.SavedNotPk = newCodeDefinition.NotPk; }
-                if (definitionRow.ContainsKey("Identity")) { newCodeDefinition.Identity = definitionRow["Identity"].ToBool(); newCodeDefinition.SavedIdentity = newCodeDefinition.Identity; }
-                if (definitionRow.ContainsKey("NotIdentity")) { newCodeDefinition.NotIdentity = definitionRow["NotIdentity"].ToBool(); newCodeDefinition.SavedNotIdentity = newCodeDefinition.NotIdentity; }
-                if (definitionRow.ContainsKey("IdentityOrPk")) { newCodeDefinition.IdentityOrPk = definitionRow["IdentityOrPk"].ToBool(); newCodeDefinition.SavedIdentityOrPk = newCodeDefinition.IdentityOrPk; }
-                if (definitionRow.ContainsKey("Unique")) { newCodeDefinition.Unique = definitionRow["Unique"].ToBool(); newCodeDefinition.SavedUnique = newCodeDefinition.Unique; }
-                if (definitionRow.ContainsKey("NotUnique")) { newCodeDefinition.NotUnique = definitionRow["NotUnique"].ToBool(); newCodeDefinition.SavedNotUnique = newCodeDefinition.NotUnique; }
-                if (definitionRow.ContainsKey("NotDefault")) { newCodeDefinition.NotDefault = definitionRow["NotDefault"].ToBool(); newCodeDefinition.SavedNotDefault = newCodeDefinition.NotDefault; }
-                if (definitionRow.ContainsKey("Like")) { newCodeDefinition.Like = definitionRow["Like"].ToBool(); newCodeDefinition.SavedLike = newCodeDefinition.Like; }
-                if (definitionRow.ContainsKey("HasIdentity")) { newCodeDefinition.HasIdentity = definitionRow["HasIdentity"].ToBool(); newCodeDefinition.SavedHasIdentity = newCodeDefinition.HasIdentity; }
-                if (definitionRow.ContainsKey("HasNotIdentity")) { newCodeDefinition.HasNotIdentity = definitionRow["HasNotIdentity"].ToBool(); newCodeDefinition.SavedHasNotIdentity = newCodeDefinition.HasNotIdentity; }
-                if (definitionRow.ContainsKey("HasTableNameId")) { newCodeDefinition.HasTableNameId = definitionRow["HasTableNameId"].ToBool(); newCodeDefinition.SavedHasTableNameId = newCodeDefinition.HasTableNameId; }
-                if (definitionRow.ContainsKey("HasNotTableNameId")) { newCodeDefinition.HasNotTableNameId = definitionRow["HasNotTableNameId"].ToBool(); newCodeDefinition.SavedHasNotTableNameId = newCodeDefinition.HasNotTableNameId; }
-                if (definitionRow.ContainsKey("ItemId")) { newCodeDefinition.ItemId = definitionRow["ItemId"].ToBool(); newCodeDefinition.SavedItemId = newCodeDefinition.ItemId; }
-                if (definitionRow.ContainsKey("NotItemId")) { newCodeDefinition.NotItemId = definitionRow["NotItemId"].ToBool(); newCodeDefinition.SavedNotItemId = newCodeDefinition.NotItemId; }
-                if (definitionRow.ContainsKey("Calc")) { newCodeDefinition.Calc = definitionRow["Calc"].ToBool(); newCodeDefinition.SavedCalc = newCodeDefinition.Calc; }
-                if (definitionRow.ContainsKey("NotCalc")) { newCodeDefinition.NotCalc = definitionRow["NotCalc"].ToBool(); newCodeDefinition.SavedNotCalc = newCodeDefinition.NotCalc; }
-                if (definitionRow.ContainsKey("SearchIndex")) { newCodeDefinition.SearchIndex = definitionRow["SearchIndex"].ToBool(); newCodeDefinition.SavedSearchIndex = newCodeDefinition.SearchIndex; }
-                if (definitionRow.ContainsKey("NotByForm")) { newCodeDefinition.NotByForm = definitionRow["NotByForm"].ToBool(); newCodeDefinition.SavedNotByForm = newCodeDefinition.NotByForm; }
-                if (definitionRow.ContainsKey("Form")) { newCodeDefinition.Form = definitionRow["Form"].ToBool(); newCodeDefinition.SavedForm = newCodeDefinition.Form; }
-                if (definitionRow.ContainsKey("Select")) { newCodeDefinition.Select = definitionRow["Select"].ToBool(); newCodeDefinition.SavedSelect = newCodeDefinition.Select; }
-                if (definitionRow.ContainsKey("Update")) { newCodeDefinition.Update = definitionRow["Update"].ToBool(); newCodeDefinition.SavedUpdate = newCodeDefinition.Update; }
-                if (definitionRow.ContainsKey("SelectColumns")) { newCodeDefinition.SelectColumns = definitionRow["SelectColumns"].ToBool(); newCodeDefinition.SavedSelectColumns = newCodeDefinition.SelectColumns; }
-                if (definitionRow.ContainsKey("NotSelectColumn")) { newCodeDefinition.NotSelectColumn = definitionRow["NotSelectColumn"].ToBool(); newCodeDefinition.SavedNotSelectColumn = newCodeDefinition.NotSelectColumn; }
-                if (definitionRow.ContainsKey("ComputeColumn")) { newCodeDefinition.ComputeColumn = definitionRow["ComputeColumn"].ToBool(); newCodeDefinition.SavedComputeColumn = newCodeDefinition.ComputeColumn; }
-                if (definitionRow.ContainsKey("NotComputeColumn")) { newCodeDefinition.NotComputeColumn = definitionRow["NotComputeColumn"].ToBool(); newCodeDefinition.SavedNotComputeColumn = newCodeDefinition.NotComputeColumn; }
-                if (definitionRow.ContainsKey("Aggregatable")) { newCodeDefinition.Aggregatable = definitionRow["Aggregatable"].ToBool(); newCodeDefinition.SavedAggregatable = newCodeDefinition.Aggregatable; }
-                if (definitionRow.ContainsKey("Computable")) { newCodeDefinition.Computable = definitionRow["Computable"].ToBool(); newCodeDefinition.SavedComputable = newCodeDefinition.Computable; }
-                if (definitionRow.ContainsKey("Join")) { newCodeDefinition.Join = definitionRow["Join"].ToBool(); newCodeDefinition.SavedJoin = newCodeDefinition.Join; }
-                if (definitionRow.ContainsKey("NotJoin")) { newCodeDefinition.NotJoin = definitionRow["NotJoin"].ToBool(); newCodeDefinition.SavedNotJoin = newCodeDefinition.NotJoin; }
-                if (definitionRow.ContainsKey("JoinExpression")) { newCodeDefinition.JoinExpression = definitionRow["JoinExpression"].ToBool(); newCodeDefinition.SavedJoinExpression = newCodeDefinition.JoinExpression; }
-                if (definitionRow.ContainsKey("NotTypeCs")) { newCodeDefinition.NotTypeCs = definitionRow["NotTypeCs"].ToBool(); newCodeDefinition.SavedNotTypeCs = newCodeDefinition.NotTypeCs; }
-                if (definitionRow.ContainsKey("ItemOnly")) { newCodeDefinition.ItemOnly = definitionRow["ItemOnly"].ToBool(); newCodeDefinition.SavedItemOnly = newCodeDefinition.ItemOnly; }
-                if (definitionRow.ContainsKey("NotItem")) { newCodeDefinition.NotItem = definitionRow["NotItem"].ToBool(); newCodeDefinition.SavedNotItem = newCodeDefinition.NotItem; }
-                if (definitionRow.ContainsKey("GenericUi")) { newCodeDefinition.GenericUi = definitionRow["GenericUi"].ToBool(); newCodeDefinition.SavedGenericUi = newCodeDefinition.GenericUi; }
-                if (definitionRow.ContainsKey("UpdateMonitor")) { newCodeDefinition.UpdateMonitor = definitionRow["UpdateMonitor"].ToBool(); newCodeDefinition.SavedUpdateMonitor = newCodeDefinition.UpdateMonitor; }
-                if (definitionRow.ContainsKey("Session")) { newCodeDefinition.Session = definitionRow["Session"].ToBool(); newCodeDefinition.SavedSession = newCodeDefinition.Session; }
-                if (definitionRow.ContainsKey("GridColumn")) { newCodeDefinition.GridColumn = definitionRow["GridColumn"].ToBool(); newCodeDefinition.SavedGridColumn = newCodeDefinition.GridColumn; }
-                if (definitionRow.ContainsKey("FilterColumn")) { newCodeDefinition.FilterColumn = definitionRow["FilterColumn"].ToBool(); newCodeDefinition.SavedFilterColumn = newCodeDefinition.FilterColumn; }
-                if (definitionRow.ContainsKey("EditorColumn")) { newCodeDefinition.EditorColumn = definitionRow["EditorColumn"].ToBool(); newCodeDefinition.SavedEditorColumn = newCodeDefinition.EditorColumn; }
-                if (definitionRow.ContainsKey("TitleColumn")) { newCodeDefinition.TitleColumn = definitionRow["TitleColumn"].ToBool(); newCodeDefinition.SavedTitleColumn = newCodeDefinition.TitleColumn; }
-                if (definitionRow.ContainsKey("UserColumn")) { newCodeDefinition.UserColumn = definitionRow["UserColumn"].ToBool(); newCodeDefinition.SavedUserColumn = newCodeDefinition.UserColumn; }
-                if (definitionRow.ContainsKey("NotUserColumn")) { newCodeDefinition.NotUserColumn = definitionRow["NotUserColumn"].ToBool(); newCodeDefinition.SavedNotUserColumn = newCodeDefinition.NotUserColumn; }
-                if (definitionRow.ContainsKey("EnumColumn")) { newCodeDefinition.EnumColumn = definitionRow["EnumColumn"].ToBool(); newCodeDefinition.SavedEnumColumn = newCodeDefinition.EnumColumn; }
-                if (definitionRow.ContainsKey("Include")) { newCodeDefinition.Include = definitionRow["Include"].ToString(); newCodeDefinition.SavedInclude = newCodeDefinition.Include; }
-                if (definitionRow.ContainsKey("Exclude")) { newCodeDefinition.Exclude = definitionRow["Exclude"].ToString(); newCodeDefinition.SavedExclude = newCodeDefinition.Exclude; }
-                if (definitionRow.ContainsKey("IncludeTypeName")) { newCodeDefinition.IncludeTypeName = definitionRow["IncludeTypeName"].ToString(); newCodeDefinition.SavedIncludeTypeName = newCodeDefinition.IncludeTypeName; }
-                if (definitionRow.ContainsKey("ExcludeTypeName")) { newCodeDefinition.ExcludeTypeName = definitionRow["ExcludeTypeName"].ToString(); newCodeDefinition.SavedExcludeTypeName = newCodeDefinition.ExcludeTypeName; }
-                if (definitionRow.ContainsKey("IncludeTypeCs")) { newCodeDefinition.IncludeTypeCs = definitionRow["IncludeTypeCs"].ToString(); newCodeDefinition.SavedIncludeTypeCs = newCodeDefinition.IncludeTypeCs; }
-                if (definitionRow.ContainsKey("ExcludeTypeCs")) { newCodeDefinition.ExcludeTypeCs = definitionRow["ExcludeTypeCs"].ToString(); newCodeDefinition.SavedExcludeTypeCs = newCodeDefinition.ExcludeTypeCs; }
-                if (definitionRow.ContainsKey("IncludeDefaultCs")) { newCodeDefinition.IncludeDefaultCs = definitionRow["IncludeDefaultCs"].ToString(); newCodeDefinition.SavedIncludeDefaultCs = newCodeDefinition.IncludeDefaultCs; }
-                if (definitionRow.ContainsKey("ExcludeDefaultCs")) { newCodeDefinition.ExcludeDefaultCs = definitionRow["ExcludeDefaultCs"].ToString(); newCodeDefinition.SavedExcludeDefaultCs = newCodeDefinition.ExcludeDefaultCs; }
-                if (definitionRow.ContainsKey("History")) { newCodeDefinition.History = definitionRow["History"].ToBool(); newCodeDefinition.SavedHistory = newCodeDefinition.History; }
-                if (definitionRow.ContainsKey("PkHistory")) { newCodeDefinition.PkHistory = definitionRow["PkHistory"].ToBool(); newCodeDefinition.SavedPkHistory = newCodeDefinition.PkHistory; }
-                if (definitionRow.ContainsKey("ControlType")) { newCodeDefinition.ControlType = definitionRow["ControlType"].ToString(); newCodeDefinition.SavedControlType = newCodeDefinition.ControlType; }
-                if (definitionRow.ContainsKey("ReplaceOld")) { newCodeDefinition.ReplaceOld = definitionRow["ReplaceOld"].ToString(); newCodeDefinition.SavedReplaceOld = newCodeDefinition.ReplaceOld; }
-                if (definitionRow.ContainsKey("ReplaceNew")) { newCodeDefinition.ReplaceNew = definitionRow["ReplaceNew"].ToString(); newCodeDefinition.SavedReplaceNew = newCodeDefinition.ReplaceNew; }
-                if (definitionRow.ContainsKey("NotWhereSpecial")) { newCodeDefinition.NotWhereSpecial = definitionRow["NotWhereSpecial"].ToBool(); newCodeDefinition.SavedNotWhereSpecial = newCodeDefinition.NotWhereSpecial; }
-                if (definitionRow.ContainsKey("NoSpace")) { newCodeDefinition.NoSpace = definitionRow["NoSpace"].ToBool(); newCodeDefinition.SavedNoSpace = newCodeDefinition.NoSpace; }
-                if (definitionRow.ContainsKey("NotBase")) { newCodeDefinition.NotBase = definitionRow["NotBase"].ToBool(); newCodeDefinition.SavedNotBase = newCodeDefinition.NotBase; }
-                if (definitionRow.ContainsKey("Null")) { newCodeDefinition.Null = definitionRow["Null"].ToBool(); newCodeDefinition.SavedNull = newCodeDefinition.Null; }
-                if (definitionRow.ContainsKey("NotNull")) { newCodeDefinition.NotNull = definitionRow["NotNull"].ToBool(); newCodeDefinition.SavedNotNull = newCodeDefinition.NotNull; }
-                if (definitionRow.ContainsKey("Validators")) { newCodeDefinition.Validators = definitionRow["Validators"].ToBool(); newCodeDefinition.SavedValidators = newCodeDefinition.Validators; }
-                if (definitionRow.ContainsKey("DisplayType")) { newCodeDefinition.DisplayType = definitionRow["DisplayType"].ToString(); newCodeDefinition.SavedDisplayType = newCodeDefinition.DisplayType; }
-                if (definitionRow.ContainsKey("DisplayLanguages")) { newCodeDefinition.DisplayLanguages = definitionRow["DisplayLanguages"].ToBool(); newCodeDefinition.SavedDisplayLanguages = newCodeDefinition.DisplayLanguages; }
-                if (definitionRow.ContainsKey("ClientScript")) { newCodeDefinition.ClientScript = definitionRow["ClientScript"].ToBool(); newCodeDefinition.SavedClientScript = newCodeDefinition.ClientScript; }
+                var customDefinitionRow = Parameters.CustomDefinitions
+                    .Get("Code")
+                    .Get(definitionRow["Id"]);
+                definitionRow.Keys.ForEach(key =>
+                {
+                    switch (key)
+                    {
+                        case "Id":
+                            newCodeDefinition.Id = customDefinitionRow.Get("Id")?.ToString() ??
+                                definitionRow["Id"].ToString();
+                            newCodeDefinition.SavedId = newCodeDefinition.Id;
+                            break;
+                        case "Body":
+                            newCodeDefinition.Body = customDefinitionRow.Get("Body")?.ToString() ??
+                                definitionRow["Body"].ToString();
+                            newCodeDefinition.SavedBody = newCodeDefinition.Body;
+                            break;
+                        case "OutputPath":
+                            newCodeDefinition.OutputPath = customDefinitionRow.Get("OutputPath")?.ToString() ??
+                                definitionRow["OutputPath"].ToString();
+                            newCodeDefinition.SavedOutputPath = newCodeDefinition.OutputPath;
+                            break;
+                        case "MergeToExisting":
+                            newCodeDefinition.MergeToExisting = customDefinitionRow.Get("MergeToExisting")?.ToBool() ??
+                                definitionRow["MergeToExisting"].ToBool();
+                            newCodeDefinition.SavedMergeToExisting = newCodeDefinition.MergeToExisting;
+                            break;
+                        case "Source":
+                            newCodeDefinition.Source = customDefinitionRow.Get("Source")?.ToString() ??
+                                definitionRow["Source"].ToString();
+                            newCodeDefinition.SavedSource = newCodeDefinition.Source;
+                            break;
+                        case "RepeatType":
+                            newCodeDefinition.RepeatType = customDefinitionRow.Get("RepeatType")?.ToString() ??
+                                definitionRow["RepeatType"].ToString();
+                            newCodeDefinition.SavedRepeatType = newCodeDefinition.RepeatType;
+                            break;
+                        case "Indent":
+                            newCodeDefinition.Indent = customDefinitionRow.Get("Indent")?.ToInt() ??
+                                definitionRow["Indent"].ToInt();
+                            newCodeDefinition.SavedIndent = newCodeDefinition.Indent;
+                            break;
+                        case "Separator":
+                            newCodeDefinition.Separator = customDefinitionRow.Get("Separator")?.ToString() ??
+                                definitionRow["Separator"].ToString();
+                            newCodeDefinition.SavedSeparator = newCodeDefinition.Separator;
+                            break;
+                        case "Order":
+                            newCodeDefinition.Order = customDefinitionRow.Get("Order")?.ToString() ??
+                                definitionRow["Order"].ToString();
+                            newCodeDefinition.SavedOrder = newCodeDefinition.Order;
+                            break;
+                        case "Pk":
+                            newCodeDefinition.Pk = customDefinitionRow.Get("Pk")?.ToBool() ??
+                                definitionRow["Pk"].ToBool();
+                            newCodeDefinition.SavedPk = newCodeDefinition.Pk;
+                            break;
+                        case "NotPk":
+                            newCodeDefinition.NotPk = customDefinitionRow.Get("NotPk")?.ToBool() ??
+                                definitionRow["NotPk"].ToBool();
+                            newCodeDefinition.SavedNotPk = newCodeDefinition.NotPk;
+                            break;
+                        case "Identity":
+                            newCodeDefinition.Identity = customDefinitionRow.Get("Identity")?.ToBool() ??
+                                definitionRow["Identity"].ToBool();
+                            newCodeDefinition.SavedIdentity = newCodeDefinition.Identity;
+                            break;
+                        case "NotIdentity":
+                            newCodeDefinition.NotIdentity = customDefinitionRow.Get("NotIdentity")?.ToBool() ??
+                                definitionRow["NotIdentity"].ToBool();
+                            newCodeDefinition.SavedNotIdentity = newCodeDefinition.NotIdentity;
+                            break;
+                        case "IdentityOrPk":
+                            newCodeDefinition.IdentityOrPk = customDefinitionRow.Get("IdentityOrPk")?.ToBool() ??
+                                definitionRow["IdentityOrPk"].ToBool();
+                            newCodeDefinition.SavedIdentityOrPk = newCodeDefinition.IdentityOrPk;
+                            break;
+                        case "Unique":
+                            newCodeDefinition.Unique = customDefinitionRow.Get("Unique")?.ToBool() ??
+                                definitionRow["Unique"].ToBool();
+                            newCodeDefinition.SavedUnique = newCodeDefinition.Unique;
+                            break;
+                        case "NotUnique":
+                            newCodeDefinition.NotUnique = customDefinitionRow.Get("NotUnique")?.ToBool() ??
+                                definitionRow["NotUnique"].ToBool();
+                            newCodeDefinition.SavedNotUnique = newCodeDefinition.NotUnique;
+                            break;
+                        case "NotDefault":
+                            newCodeDefinition.NotDefault = customDefinitionRow.Get("NotDefault")?.ToBool() ??
+                                definitionRow["NotDefault"].ToBool();
+                            newCodeDefinition.SavedNotDefault = newCodeDefinition.NotDefault;
+                            break;
+                        case "Like":
+                            newCodeDefinition.Like = customDefinitionRow.Get("Like")?.ToBool() ??
+                                definitionRow["Like"].ToBool();
+                            newCodeDefinition.SavedLike = newCodeDefinition.Like;
+                            break;
+                        case "HasIdentity":
+                            newCodeDefinition.HasIdentity = customDefinitionRow.Get("HasIdentity")?.ToBool() ??
+                                definitionRow["HasIdentity"].ToBool();
+                            newCodeDefinition.SavedHasIdentity = newCodeDefinition.HasIdentity;
+                            break;
+                        case "HasNotIdentity":
+                            newCodeDefinition.HasNotIdentity = customDefinitionRow.Get("HasNotIdentity")?.ToBool() ??
+                                definitionRow["HasNotIdentity"].ToBool();
+                            newCodeDefinition.SavedHasNotIdentity = newCodeDefinition.HasNotIdentity;
+                            break;
+                        case "HasTableNameId":
+                            newCodeDefinition.HasTableNameId = customDefinitionRow.Get("HasTableNameId")?.ToBool() ??
+                                definitionRow["HasTableNameId"].ToBool();
+                            newCodeDefinition.SavedHasTableNameId = newCodeDefinition.HasTableNameId;
+                            break;
+                        case "HasNotTableNameId":
+                            newCodeDefinition.HasNotTableNameId = customDefinitionRow.Get("HasNotTableNameId")?.ToBool() ??
+                                definitionRow["HasNotTableNameId"].ToBool();
+                            newCodeDefinition.SavedHasNotTableNameId = newCodeDefinition.HasNotTableNameId;
+                            break;
+                        case "ItemId":
+                            newCodeDefinition.ItemId = customDefinitionRow.Get("ItemId")?.ToBool() ??
+                                definitionRow["ItemId"].ToBool();
+                            newCodeDefinition.SavedItemId = newCodeDefinition.ItemId;
+                            break;
+                        case "NotItemId":
+                            newCodeDefinition.NotItemId = customDefinitionRow.Get("NotItemId")?.ToBool() ??
+                                definitionRow["NotItemId"].ToBool();
+                            newCodeDefinition.SavedNotItemId = newCodeDefinition.NotItemId;
+                            break;
+                        case "Calc":
+                            newCodeDefinition.Calc = customDefinitionRow.Get("Calc")?.ToBool() ??
+                                definitionRow["Calc"].ToBool();
+                            newCodeDefinition.SavedCalc = newCodeDefinition.Calc;
+                            break;
+                        case "NotCalc":
+                            newCodeDefinition.NotCalc = customDefinitionRow.Get("NotCalc")?.ToBool() ??
+                                definitionRow["NotCalc"].ToBool();
+                            newCodeDefinition.SavedNotCalc = newCodeDefinition.NotCalc;
+                            break;
+                        case "SearchIndex":
+                            newCodeDefinition.SearchIndex = customDefinitionRow.Get("SearchIndex")?.ToBool() ??
+                                definitionRow["SearchIndex"].ToBool();
+                            newCodeDefinition.SavedSearchIndex = newCodeDefinition.SearchIndex;
+                            break;
+                        case "NotByForm":
+                            newCodeDefinition.NotByForm = customDefinitionRow.Get("NotByForm")?.ToBool() ??
+                                definitionRow["NotByForm"].ToBool();
+                            newCodeDefinition.SavedNotByForm = newCodeDefinition.NotByForm;
+                            break;
+                        case "Form":
+                            newCodeDefinition.Form = customDefinitionRow.Get("Form")?.ToBool() ??
+                                definitionRow["Form"].ToBool();
+                            newCodeDefinition.SavedForm = newCodeDefinition.Form;
+                            break;
+                        case "Select":
+                            newCodeDefinition.Select = customDefinitionRow.Get("Select")?.ToBool() ??
+                                definitionRow["Select"].ToBool();
+                            newCodeDefinition.SavedSelect = newCodeDefinition.Select;
+                            break;
+                        case "Update":
+                            newCodeDefinition.Update = customDefinitionRow.Get("Update")?.ToBool() ??
+                                definitionRow["Update"].ToBool();
+                            newCodeDefinition.SavedUpdate = newCodeDefinition.Update;
+                            break;
+                        case "SelectColumns":
+                            newCodeDefinition.SelectColumns = customDefinitionRow.Get("SelectColumns")?.ToBool() ??
+                                definitionRow["SelectColumns"].ToBool();
+                            newCodeDefinition.SavedSelectColumns = newCodeDefinition.SelectColumns;
+                            break;
+                        case "NotSelectColumn":
+                            newCodeDefinition.NotSelectColumn = customDefinitionRow.Get("NotSelectColumn")?.ToBool() ??
+                                definitionRow["NotSelectColumn"].ToBool();
+                            newCodeDefinition.SavedNotSelectColumn = newCodeDefinition.NotSelectColumn;
+                            break;
+                        case "ComputeColumn":
+                            newCodeDefinition.ComputeColumn = customDefinitionRow.Get("ComputeColumn")?.ToBool() ??
+                                definitionRow["ComputeColumn"].ToBool();
+                            newCodeDefinition.SavedComputeColumn = newCodeDefinition.ComputeColumn;
+                            break;
+                        case "NotComputeColumn":
+                            newCodeDefinition.NotComputeColumn = customDefinitionRow.Get("NotComputeColumn")?.ToBool() ??
+                                definitionRow["NotComputeColumn"].ToBool();
+                            newCodeDefinition.SavedNotComputeColumn = newCodeDefinition.NotComputeColumn;
+                            break;
+                        case "Aggregatable":
+                            newCodeDefinition.Aggregatable = customDefinitionRow.Get("Aggregatable")?.ToBool() ??
+                                definitionRow["Aggregatable"].ToBool();
+                            newCodeDefinition.SavedAggregatable = newCodeDefinition.Aggregatable;
+                            break;
+                        case "Computable":
+                            newCodeDefinition.Computable = customDefinitionRow.Get("Computable")?.ToBool() ??
+                                definitionRow["Computable"].ToBool();
+                            newCodeDefinition.SavedComputable = newCodeDefinition.Computable;
+                            break;
+                        case "Join":
+                            newCodeDefinition.Join = customDefinitionRow.Get("Join")?.ToBool() ??
+                                definitionRow["Join"].ToBool();
+                            newCodeDefinition.SavedJoin = newCodeDefinition.Join;
+                            break;
+                        case "NotJoin":
+                            newCodeDefinition.NotJoin = customDefinitionRow.Get("NotJoin")?.ToBool() ??
+                                definitionRow["NotJoin"].ToBool();
+                            newCodeDefinition.SavedNotJoin = newCodeDefinition.NotJoin;
+                            break;
+                        case "JoinExpression":
+                            newCodeDefinition.JoinExpression = customDefinitionRow.Get("JoinExpression")?.ToBool() ??
+                                definitionRow["JoinExpression"].ToBool();
+                            newCodeDefinition.SavedJoinExpression = newCodeDefinition.JoinExpression;
+                            break;
+                        case "NotTypeCs":
+                            newCodeDefinition.NotTypeCs = customDefinitionRow.Get("NotTypeCs")?.ToBool() ??
+                                definitionRow["NotTypeCs"].ToBool();
+                            newCodeDefinition.SavedNotTypeCs = newCodeDefinition.NotTypeCs;
+                            break;
+                        case "ItemOnly":
+                            newCodeDefinition.ItemOnly = customDefinitionRow.Get("ItemOnly")?.ToBool() ??
+                                definitionRow["ItemOnly"].ToBool();
+                            newCodeDefinition.SavedItemOnly = newCodeDefinition.ItemOnly;
+                            break;
+                        case "NotItem":
+                            newCodeDefinition.NotItem = customDefinitionRow.Get("NotItem")?.ToBool() ??
+                                definitionRow["NotItem"].ToBool();
+                            newCodeDefinition.SavedNotItem = newCodeDefinition.NotItem;
+                            break;
+                        case "GenericUi":
+                            newCodeDefinition.GenericUi = customDefinitionRow.Get("GenericUi")?.ToBool() ??
+                                definitionRow["GenericUi"].ToBool();
+                            newCodeDefinition.SavedGenericUi = newCodeDefinition.GenericUi;
+                            break;
+                        case "UpdateMonitor":
+                            newCodeDefinition.UpdateMonitor = customDefinitionRow.Get("UpdateMonitor")?.ToBool() ??
+                                definitionRow["UpdateMonitor"].ToBool();
+                            newCodeDefinition.SavedUpdateMonitor = newCodeDefinition.UpdateMonitor;
+                            break;
+                        case "Session":
+                            newCodeDefinition.Session = customDefinitionRow.Get("Session")?.ToBool() ??
+                                definitionRow["Session"].ToBool();
+                            newCodeDefinition.SavedSession = newCodeDefinition.Session;
+                            break;
+                        case "GridColumn":
+                            newCodeDefinition.GridColumn = customDefinitionRow.Get("GridColumn")?.ToBool() ??
+                                definitionRow["GridColumn"].ToBool();
+                            newCodeDefinition.SavedGridColumn = newCodeDefinition.GridColumn;
+                            break;
+                        case "FilterColumn":
+                            newCodeDefinition.FilterColumn = customDefinitionRow.Get("FilterColumn")?.ToBool() ??
+                                definitionRow["FilterColumn"].ToBool();
+                            newCodeDefinition.SavedFilterColumn = newCodeDefinition.FilterColumn;
+                            break;
+                        case "EditorColumn":
+                            newCodeDefinition.EditorColumn = customDefinitionRow.Get("EditorColumn")?.ToBool() ??
+                                definitionRow["EditorColumn"].ToBool();
+                            newCodeDefinition.SavedEditorColumn = newCodeDefinition.EditorColumn;
+                            break;
+                        case "TitleColumn":
+                            newCodeDefinition.TitleColumn = customDefinitionRow.Get("TitleColumn")?.ToBool() ??
+                                definitionRow["TitleColumn"].ToBool();
+                            newCodeDefinition.SavedTitleColumn = newCodeDefinition.TitleColumn;
+                            break;
+                        case "UserColumn":
+                            newCodeDefinition.UserColumn = customDefinitionRow.Get("UserColumn")?.ToBool() ??
+                                definitionRow["UserColumn"].ToBool();
+                            newCodeDefinition.SavedUserColumn = newCodeDefinition.UserColumn;
+                            break;
+                        case "NotUserColumn":
+                            newCodeDefinition.NotUserColumn = customDefinitionRow.Get("NotUserColumn")?.ToBool() ??
+                                definitionRow["NotUserColumn"].ToBool();
+                            newCodeDefinition.SavedNotUserColumn = newCodeDefinition.NotUserColumn;
+                            break;
+                        case "EnumColumn":
+                            newCodeDefinition.EnumColumn = customDefinitionRow.Get("EnumColumn")?.ToBool() ??
+                                definitionRow["EnumColumn"].ToBool();
+                            newCodeDefinition.SavedEnumColumn = newCodeDefinition.EnumColumn;
+                            break;
+                        case "Include":
+                            newCodeDefinition.Include = customDefinitionRow.Get("Include")?.ToString() ??
+                                definitionRow["Include"].ToString();
+                            newCodeDefinition.SavedInclude = newCodeDefinition.Include;
+                            break;
+                        case "Exclude":
+                            newCodeDefinition.Exclude = customDefinitionRow.Get("Exclude")?.ToString() ??
+                                definitionRow["Exclude"].ToString();
+                            newCodeDefinition.SavedExclude = newCodeDefinition.Exclude;
+                            break;
+                        case "IncludeTypeName":
+                            newCodeDefinition.IncludeTypeName = customDefinitionRow.Get("IncludeTypeName")?.ToString() ??
+                                definitionRow["IncludeTypeName"].ToString();
+                            newCodeDefinition.SavedIncludeTypeName = newCodeDefinition.IncludeTypeName;
+                            break;
+                        case "ExcludeTypeName":
+                            newCodeDefinition.ExcludeTypeName = customDefinitionRow.Get("ExcludeTypeName")?.ToString() ??
+                                definitionRow["ExcludeTypeName"].ToString();
+                            newCodeDefinition.SavedExcludeTypeName = newCodeDefinition.ExcludeTypeName;
+                            break;
+                        case "IncludeTypeCs":
+                            newCodeDefinition.IncludeTypeCs = customDefinitionRow.Get("IncludeTypeCs")?.ToString() ??
+                                definitionRow["IncludeTypeCs"].ToString();
+                            newCodeDefinition.SavedIncludeTypeCs = newCodeDefinition.IncludeTypeCs;
+                            break;
+                        case "ExcludeTypeCs":
+                            newCodeDefinition.ExcludeTypeCs = customDefinitionRow.Get("ExcludeTypeCs")?.ToString() ??
+                                definitionRow["ExcludeTypeCs"].ToString();
+                            newCodeDefinition.SavedExcludeTypeCs = newCodeDefinition.ExcludeTypeCs;
+                            break;
+                        case "IncludeDefaultCs":
+                            newCodeDefinition.IncludeDefaultCs = customDefinitionRow.Get("IncludeDefaultCs")?.ToString() ??
+                                definitionRow["IncludeDefaultCs"].ToString();
+                            newCodeDefinition.SavedIncludeDefaultCs = newCodeDefinition.IncludeDefaultCs;
+                            break;
+                        case "ExcludeDefaultCs":
+                            newCodeDefinition.ExcludeDefaultCs = customDefinitionRow.Get("ExcludeDefaultCs")?.ToString() ??
+                                definitionRow["ExcludeDefaultCs"].ToString();
+                            newCodeDefinition.SavedExcludeDefaultCs = newCodeDefinition.ExcludeDefaultCs;
+                            break;
+                        case "History":
+                            newCodeDefinition.History = customDefinitionRow.Get("History")?.ToBool() ??
+                                definitionRow["History"].ToBool();
+                            newCodeDefinition.SavedHistory = newCodeDefinition.History;
+                            break;
+                        case "PkHistory":
+                            newCodeDefinition.PkHistory = customDefinitionRow.Get("PkHistory")?.ToBool() ??
+                                definitionRow["PkHistory"].ToBool();
+                            newCodeDefinition.SavedPkHistory = newCodeDefinition.PkHistory;
+                            break;
+                        case "ControlType":
+                            newCodeDefinition.ControlType = customDefinitionRow.Get("ControlType")?.ToString() ??
+                                definitionRow["ControlType"].ToString();
+                            newCodeDefinition.SavedControlType = newCodeDefinition.ControlType;
+                            break;
+                        case "ReplaceOld":
+                            newCodeDefinition.ReplaceOld = customDefinitionRow.Get("ReplaceOld")?.ToString() ??
+                                definitionRow["ReplaceOld"].ToString();
+                            newCodeDefinition.SavedReplaceOld = newCodeDefinition.ReplaceOld;
+                            break;
+                        case "ReplaceNew":
+                            newCodeDefinition.ReplaceNew = customDefinitionRow.Get("ReplaceNew")?.ToString() ??
+                                definitionRow["ReplaceNew"].ToString();
+                            newCodeDefinition.SavedReplaceNew = newCodeDefinition.ReplaceNew;
+                            break;
+                        case "NotWhereSpecial":
+                            newCodeDefinition.NotWhereSpecial = customDefinitionRow.Get("NotWhereSpecial")?.ToBool() ??
+                                definitionRow["NotWhereSpecial"].ToBool();
+                            newCodeDefinition.SavedNotWhereSpecial = newCodeDefinition.NotWhereSpecial;
+                            break;
+                        case "NoSpace":
+                            newCodeDefinition.NoSpace = customDefinitionRow.Get("NoSpace")?.ToBool() ??
+                                definitionRow["NoSpace"].ToBool();
+                            newCodeDefinition.SavedNoSpace = newCodeDefinition.NoSpace;
+                            break;
+                        case "NotBase":
+                            newCodeDefinition.NotBase = customDefinitionRow.Get("NotBase")?.ToBool() ??
+                                definitionRow["NotBase"].ToBool();
+                            newCodeDefinition.SavedNotBase = newCodeDefinition.NotBase;
+                            break;
+                        case "Null":
+                            newCodeDefinition.Null = customDefinitionRow.Get("Null")?.ToBool() ??
+                                definitionRow["Null"].ToBool();
+                            newCodeDefinition.SavedNull = newCodeDefinition.Null;
+                            break;
+                        case "NotNull":
+                            newCodeDefinition.NotNull = customDefinitionRow.Get("NotNull")?.ToBool() ??
+                                definitionRow["NotNull"].ToBool();
+                            newCodeDefinition.SavedNotNull = newCodeDefinition.NotNull;
+                            break;
+                        case "Validators":
+                            newCodeDefinition.Validators = customDefinitionRow.Get("Validators")?.ToBool() ??
+                                definitionRow["Validators"].ToBool();
+                            newCodeDefinition.SavedValidators = newCodeDefinition.Validators;
+                            break;
+                        case "DisplayType":
+                            newCodeDefinition.DisplayType = customDefinitionRow.Get("DisplayType")?.ToString() ??
+                                definitionRow["DisplayType"].ToString();
+                            newCodeDefinition.SavedDisplayType = newCodeDefinition.DisplayType;
+                            break;
+                        case "DisplayLanguages":
+                            newCodeDefinition.DisplayLanguages = customDefinitionRow.Get("DisplayLanguages")?.ToBool() ??
+                                definitionRow["DisplayLanguages"].ToBool();
+                            newCodeDefinition.SavedDisplayLanguages = newCodeDefinition.DisplayLanguages;
+                            break;
+                        case "ClientScript":
+                            newCodeDefinition.ClientScript = customDefinitionRow.Get("ClientScript")?.ToBool() ??
+                                definitionRow["ClientScript"].ToBool();
+                            newCodeDefinition.SavedClientScript = newCodeDefinition.ClientScript;
+                            break;
+                        default: break;
+                    }
+                });
                 CodeDefinitionCollection.Add(newCodeDefinition);
             });
         }
@@ -1215,32 +1525,6 @@ namespace Implem.DefinitionAccessor
                     case "Users_CheckX": Column.Users_CheckX = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_CheckX, definitionRow, ColumnXls); break;
                     case "Users_CheckY": Column.Users_CheckY = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_CheckY, definitionRow, ColumnXls); break;
                     case "Users_CheckZ": Column.Users_CheckZ = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_CheckZ, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsA": Column.Users_AttachmentsA = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsA, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsB": Column.Users_AttachmentsB = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsB, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsC": Column.Users_AttachmentsC = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsC, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsD": Column.Users_AttachmentsD = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsD, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsE": Column.Users_AttachmentsE = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsE, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsF": Column.Users_AttachmentsF = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsF, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsG": Column.Users_AttachmentsG = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsG, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsH": Column.Users_AttachmentsH = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsH, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsI": Column.Users_AttachmentsI = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsI, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsJ": Column.Users_AttachmentsJ = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsJ, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsK": Column.Users_AttachmentsK = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsK, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsL": Column.Users_AttachmentsL = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsL, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsM": Column.Users_AttachmentsM = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsM, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsN": Column.Users_AttachmentsN = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsN, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsO": Column.Users_AttachmentsO = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsO, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsP": Column.Users_AttachmentsP = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsP, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsQ": Column.Users_AttachmentsQ = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsQ, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsR": Column.Users_AttachmentsR = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsR, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsS": Column.Users_AttachmentsS = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsS, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsT": Column.Users_AttachmentsT = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsT, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsU": Column.Users_AttachmentsU = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsU, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsV": Column.Users_AttachmentsV = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsV, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsW": Column.Users_AttachmentsW = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsW, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsX": Column.Users_AttachmentsX = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsX, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsY": Column.Users_AttachmentsY = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsY, definitionRow, ColumnXls); break;
-                    case "Users_AttachmentsZ": Column.Users_AttachmentsZ = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AttachmentsZ, definitionRow, ColumnXls); break;
                     case "LoginKeys_LoginId": Column.LoginKeys_LoginId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.LoginKeys_LoginId, definitionRow, ColumnXls); break;
                     case "LoginKeys_Key": Column.LoginKeys_Key = definitionRow[1].ToString(); SetColumnTable(ColumnTable.LoginKeys_Key, definitionRow, ColumnXls); break;
                     case "LoginKeys_TenantNames": Column.LoginKeys_TenantNames = definitionRow[1].ToString(); SetColumnTable(ColumnTable.LoginKeys_TenantNames, definitionRow, ColumnXls); break;
@@ -1871,113 +2155,551 @@ namespace Implem.DefinitionAccessor
             ColumnXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
             {
                 var newColumnDefinition = new ColumnDefinition();
-                if (definitionRow.ContainsKey("Id")) { newColumnDefinition.Id = definitionRow["Id"].ToString(); newColumnDefinition.SavedId = newColumnDefinition.Id; }
-                if (definitionRow.ContainsKey("ModelName")) { newColumnDefinition.ModelName = definitionRow["ModelName"].ToString(); newColumnDefinition.SavedModelName = newColumnDefinition.ModelName; }
-                if (definitionRow.ContainsKey("TableName")) { newColumnDefinition.TableName = definitionRow["TableName"].ToString(); newColumnDefinition.SavedTableName = newColumnDefinition.TableName; }
-                if (definitionRow.ContainsKey("Base")) { newColumnDefinition.Base = definitionRow["Base"].ToBool(); newColumnDefinition.SavedBase = newColumnDefinition.Base; }
-                if (definitionRow.ContainsKey("EachModel")) { newColumnDefinition.EachModel = definitionRow["EachModel"].ToBool(); newColumnDefinition.SavedEachModel = newColumnDefinition.EachModel; }
-                if (definitionRow.ContainsKey("Label")) { newColumnDefinition.Label = definitionRow["Label"].ToString(); newColumnDefinition.SavedLabel = newColumnDefinition.Label; }
-                if (definitionRow.ContainsKey("ColumnName")) { newColumnDefinition.ColumnName = definitionRow["ColumnName"].ToString(); newColumnDefinition.SavedColumnName = newColumnDefinition.ColumnName; }
-                if (definitionRow.ContainsKey("ColumnLabel")) { newColumnDefinition.ColumnLabel = definitionRow["ColumnLabel"].ToString(); newColumnDefinition.SavedColumnLabel = newColumnDefinition.ColumnLabel; }
-                if (definitionRow.ContainsKey("No")) { newColumnDefinition.No = definitionRow["No"].ToInt(); newColumnDefinition.SavedNo = newColumnDefinition.No; }
-                if (definitionRow.ContainsKey("History")) { newColumnDefinition.History = definitionRow["History"].ToInt(); newColumnDefinition.SavedHistory = newColumnDefinition.History; }
-                if (definitionRow.ContainsKey("Import")) { newColumnDefinition.Import = definitionRow["Import"].ToInt(); newColumnDefinition.SavedImport = newColumnDefinition.Import; }
-                if (definitionRow.ContainsKey("Export")) { newColumnDefinition.Export = definitionRow["Export"].ToInt(); newColumnDefinition.SavedExport = newColumnDefinition.Export; }
-                if (definitionRow.ContainsKey("GridColumn")) { newColumnDefinition.GridColumn = definitionRow["GridColumn"].ToInt(); newColumnDefinition.SavedGridColumn = newColumnDefinition.GridColumn; }
-                if (definitionRow.ContainsKey("GridEnabled")) { newColumnDefinition.GridEnabled = definitionRow["GridEnabled"].ToBool(); newColumnDefinition.SavedGridEnabled = newColumnDefinition.GridEnabled; }
-                if (definitionRow.ContainsKey("FilterColumn")) { newColumnDefinition.FilterColumn = definitionRow["FilterColumn"].ToInt(); newColumnDefinition.SavedFilterColumn = newColumnDefinition.FilterColumn; }
-                if (definitionRow.ContainsKey("FilterEnabled")) { newColumnDefinition.FilterEnabled = definitionRow["FilterEnabled"].ToBool(); newColumnDefinition.SavedFilterEnabled = newColumnDefinition.FilterEnabled; }
-                if (definitionRow.ContainsKey("EditorColumn")) { newColumnDefinition.EditorColumn = definitionRow["EditorColumn"].ToBool(); newColumnDefinition.SavedEditorColumn = newColumnDefinition.EditorColumn; }
-                if (definitionRow.ContainsKey("EditorEnabled")) { newColumnDefinition.EditorEnabled = definitionRow["EditorEnabled"].ToBool(); newColumnDefinition.SavedEditorEnabled = newColumnDefinition.EditorEnabled; }
-                if (definitionRow.ContainsKey("TitleColumn")) { newColumnDefinition.TitleColumn = definitionRow["TitleColumn"].ToInt(); newColumnDefinition.SavedTitleColumn = newColumnDefinition.TitleColumn; }
-                if (definitionRow.ContainsKey("LinkColumn")) { newColumnDefinition.LinkColumn = definitionRow["LinkColumn"].ToInt(); newColumnDefinition.SavedLinkColumn = newColumnDefinition.LinkColumn; }
-                if (definitionRow.ContainsKey("LinkEnabled")) { newColumnDefinition.LinkEnabled = definitionRow["LinkEnabled"].ToBool(); newColumnDefinition.SavedLinkEnabled = newColumnDefinition.LinkEnabled; }
-                if (definitionRow.ContainsKey("HistoryColumn")) { newColumnDefinition.HistoryColumn = definitionRow["HistoryColumn"].ToInt(); newColumnDefinition.SavedHistoryColumn = newColumnDefinition.HistoryColumn; }
-                if (definitionRow.ContainsKey("HistoryEnabled")) { newColumnDefinition.HistoryEnabled = definitionRow["HistoryEnabled"].ToBool(); newColumnDefinition.SavedHistoryEnabled = newColumnDefinition.HistoryEnabled; }
-                if (definitionRow.ContainsKey("ExportColumn")) { newColumnDefinition.ExportColumn = definitionRow["ExportColumn"].ToBool(); newColumnDefinition.SavedExportColumn = newColumnDefinition.ExportColumn; }
-                if (definitionRow.ContainsKey("TypeName")) { newColumnDefinition.TypeName = definitionRow["TypeName"].ToString(); newColumnDefinition.SavedTypeName = newColumnDefinition.TypeName; }
-                if (definitionRow.ContainsKey("TypeCs")) { newColumnDefinition.TypeCs = definitionRow["TypeCs"].ToString(); newColumnDefinition.SavedTypeCs = newColumnDefinition.TypeCs; }
-                if (definitionRow.ContainsKey("RecordingData")) { newColumnDefinition.RecordingData = definitionRow["RecordingData"].ToString(); newColumnDefinition.SavedRecordingData = newColumnDefinition.RecordingData; }
-                if (definitionRow.ContainsKey("MaxLength")) { newColumnDefinition.MaxLength = definitionRow["MaxLength"].ToInt(); newColumnDefinition.SavedMaxLength = newColumnDefinition.MaxLength; }
-                if (definitionRow.ContainsKey("Size")) { newColumnDefinition.Size = definitionRow["Size"].ToString(); newColumnDefinition.SavedSize = newColumnDefinition.Size; }
-                if (definitionRow.ContainsKey("Pk")) { newColumnDefinition.Pk = definitionRow["Pk"].ToInt(); newColumnDefinition.SavedPk = newColumnDefinition.Pk; }
-                if (definitionRow.ContainsKey("PkOrderBy")) { newColumnDefinition.PkOrderBy = definitionRow["PkOrderBy"].ToString(); newColumnDefinition.SavedPkOrderBy = newColumnDefinition.PkOrderBy; }
-                if (definitionRow.ContainsKey("PkHistory")) { newColumnDefinition.PkHistory = definitionRow["PkHistory"].ToInt(); newColumnDefinition.SavedPkHistory = newColumnDefinition.PkHistory; }
-                if (definitionRow.ContainsKey("PkHistoryOrderBy")) { newColumnDefinition.PkHistoryOrderBy = definitionRow["PkHistoryOrderBy"].ToString(); newColumnDefinition.SavedPkHistoryOrderBy = newColumnDefinition.PkHistoryOrderBy; }
-                if (definitionRow.ContainsKey("Ix1")) { newColumnDefinition.Ix1 = definitionRow["Ix1"].ToInt(); newColumnDefinition.SavedIx1 = newColumnDefinition.Ix1; }
-                if (definitionRow.ContainsKey("Ix1OrderBy")) { newColumnDefinition.Ix1OrderBy = definitionRow["Ix1OrderBy"].ToString(); newColumnDefinition.SavedIx1OrderBy = newColumnDefinition.Ix1OrderBy; }
-                if (definitionRow.ContainsKey("Ix2")) { newColumnDefinition.Ix2 = definitionRow["Ix2"].ToInt(); newColumnDefinition.SavedIx2 = newColumnDefinition.Ix2; }
-                if (definitionRow.ContainsKey("Ix2OrderBy")) { newColumnDefinition.Ix2OrderBy = definitionRow["Ix2OrderBy"].ToString(); newColumnDefinition.SavedIx2OrderBy = newColumnDefinition.Ix2OrderBy; }
-                if (definitionRow.ContainsKey("Ix3")) { newColumnDefinition.Ix3 = definitionRow["Ix3"].ToInt(); newColumnDefinition.SavedIx3 = newColumnDefinition.Ix3; }
-                if (definitionRow.ContainsKey("Ix3OrderBy")) { newColumnDefinition.Ix3OrderBy = definitionRow["Ix3OrderBy"].ToString(); newColumnDefinition.SavedIx3OrderBy = newColumnDefinition.Ix3OrderBy; }
-                if (definitionRow.ContainsKey("Nullable")) { newColumnDefinition.Nullable = definitionRow["Nullable"].ToBool(); newColumnDefinition.SavedNullable = newColumnDefinition.Nullable; }
-                if (definitionRow.ContainsKey("Default")) { newColumnDefinition.Default = definitionRow["Default"].ToString(); newColumnDefinition.SavedDefault = newColumnDefinition.Default; }
-                if (definitionRow.ContainsKey("DefaultCs")) { newColumnDefinition.DefaultCs = definitionRow["DefaultCs"].ToString(); newColumnDefinition.SavedDefaultCs = newColumnDefinition.DefaultCs; }
-                if (definitionRow.ContainsKey("Identity")) { newColumnDefinition.Identity = definitionRow["Identity"].ToBool(); newColumnDefinition.SavedIdentity = newColumnDefinition.Identity; }
-                if (definitionRow.ContainsKey("Unique")) { newColumnDefinition.Unique = definitionRow["Unique"].ToBool(); newColumnDefinition.SavedUnique = newColumnDefinition.Unique; }
-                if (definitionRow.ContainsKey("Seed")) { newColumnDefinition.Seed = definitionRow["Seed"].ToInt(); newColumnDefinition.SavedSeed = newColumnDefinition.Seed; }
-                if (definitionRow.ContainsKey("JoinTableName")) { newColumnDefinition.JoinTableName = definitionRow["JoinTableName"].ToString(); newColumnDefinition.SavedJoinTableName = newColumnDefinition.JoinTableName; }
-                if (definitionRow.ContainsKey("JoinType")) { newColumnDefinition.JoinType = definitionRow["JoinType"].ToString(); newColumnDefinition.SavedJoinType = newColumnDefinition.JoinType; }
-                if (definitionRow.ContainsKey("JoinExpression")) { newColumnDefinition.JoinExpression = definitionRow["JoinExpression"].ToString(); newColumnDefinition.SavedJoinExpression = newColumnDefinition.JoinExpression; }
-                if (definitionRow.ContainsKey("Like")) { newColumnDefinition.Like = definitionRow["Like"].ToBool(); newColumnDefinition.SavedLike = newColumnDefinition.Like; }
-                if (definitionRow.ContainsKey("WhereSpecial")) { newColumnDefinition.WhereSpecial = definitionRow["WhereSpecial"].ToBool(); newColumnDefinition.SavedWhereSpecial = newColumnDefinition.WhereSpecial; }
-                if (definitionRow.ContainsKey("Required")) { newColumnDefinition.Required = definitionRow["Required"].ToBool(); newColumnDefinition.SavedRequired = newColumnDefinition.Required; }
-                if (definitionRow.ContainsKey("ReadAccessControl")) { newColumnDefinition.ReadAccessControl = definitionRow["ReadAccessControl"].ToString(); newColumnDefinition.SavedReadAccessControl = newColumnDefinition.ReadAccessControl; }
-                if (definitionRow.ContainsKey("CreateAccessControl")) { newColumnDefinition.CreateAccessControl = definitionRow["CreateAccessControl"].ToString(); newColumnDefinition.SavedCreateAccessControl = newColumnDefinition.CreateAccessControl; }
-                if (definitionRow.ContainsKey("UpdateAccessControl")) { newColumnDefinition.UpdateAccessControl = definitionRow["UpdateAccessControl"].ToString(); newColumnDefinition.SavedUpdateAccessControl = newColumnDefinition.UpdateAccessControl; }
-                if (definitionRow.ContainsKey("NotEditSelf")) { newColumnDefinition.NotEditSelf = definitionRow["NotEditSelf"].ToBool(); newColumnDefinition.SavedNotEditSelf = newColumnDefinition.NotEditSelf; }
-                if (definitionRow.ContainsKey("SearchIndexPriority")) { newColumnDefinition.SearchIndexPriority = definitionRow["SearchIndexPriority"].ToInt(); newColumnDefinition.SavedSearchIndexPriority = newColumnDefinition.SearchIndexPriority; }
-                if (definitionRow.ContainsKey("NotForm")) { newColumnDefinition.NotForm = definitionRow["NotForm"].ToBool(); newColumnDefinition.SavedNotForm = newColumnDefinition.NotForm; }
-                if (definitionRow.ContainsKey("NotSelect")) { newColumnDefinition.NotSelect = definitionRow["NotSelect"].ToBool(); newColumnDefinition.SavedNotSelect = newColumnDefinition.NotSelect; }
-                if (definitionRow.ContainsKey("NotUpdate")) { newColumnDefinition.NotUpdate = definitionRow["NotUpdate"].ToBool(); newColumnDefinition.SavedNotUpdate = newColumnDefinition.NotUpdate; }
-                if (definitionRow.ContainsKey("ByForm")) { newColumnDefinition.ByForm = definitionRow["ByForm"].ToString(); newColumnDefinition.SavedByForm = newColumnDefinition.ByForm; }
-                if (definitionRow.ContainsKey("ByApi")) { newColumnDefinition.ByApi = definitionRow["ByApi"].ToString(); newColumnDefinition.SavedByApi = newColumnDefinition.ByApi; }
-                if (definitionRow.ContainsKey("ByDataRow")) { newColumnDefinition.ByDataRow = definitionRow["ByDataRow"].ToString(); newColumnDefinition.SavedByDataRow = newColumnDefinition.ByDataRow; }
-                if (definitionRow.ContainsKey("BySession")) { newColumnDefinition.BySession = definitionRow["BySession"].ToString(); newColumnDefinition.SavedBySession = newColumnDefinition.BySession; }
-                if (definitionRow.ContainsKey("SelectColumns")) { newColumnDefinition.SelectColumns = definitionRow["SelectColumns"].ToString(); newColumnDefinition.SavedSelectColumns = newColumnDefinition.SelectColumns; }
-                if (definitionRow.ContainsKey("ComputeColumn")) { newColumnDefinition.ComputeColumn = definitionRow["ComputeColumn"].ToString(); newColumnDefinition.SavedComputeColumn = newColumnDefinition.ComputeColumn; }
-                if (definitionRow.ContainsKey("OrderByColumns")) { newColumnDefinition.OrderByColumns = definitionRow["OrderByColumns"].ToString(); newColumnDefinition.SavedOrderByColumns = newColumnDefinition.OrderByColumns; }
-                if (definitionRow.ContainsKey("ItemId")) { newColumnDefinition.ItemId = definitionRow["ItemId"].ToInt(); newColumnDefinition.SavedItemId = newColumnDefinition.ItemId; }
-                if (definitionRow.ContainsKey("GenericUi")) { newColumnDefinition.GenericUi = definitionRow["GenericUi"].ToBool(); newColumnDefinition.SavedGenericUi = newColumnDefinition.GenericUi; }
-                if (definitionRow.ContainsKey("UpdateMonitor")) { newColumnDefinition.UpdateMonitor = definitionRow["UpdateMonitor"].ToBool(); newColumnDefinition.SavedUpdateMonitor = newColumnDefinition.UpdateMonitor; }
-                if (definitionRow.ContainsKey("FieldCss")) { newColumnDefinition.FieldCss = definitionRow["FieldCss"].ToString(); newColumnDefinition.SavedFieldCss = newColumnDefinition.FieldCss; }
-                if (definitionRow.ContainsKey("ControlCss")) { newColumnDefinition.ControlCss = definitionRow["ControlCss"].ToString(); newColumnDefinition.SavedControlCss = newColumnDefinition.ControlCss; }
-                if (definitionRow.ContainsKey("GridStyle")) { newColumnDefinition.GridStyle = definitionRow["GridStyle"].ToString(); newColumnDefinition.SavedGridStyle = newColumnDefinition.GridStyle; }
-                if (definitionRow.ContainsKey("Hash")) { newColumnDefinition.Hash = definitionRow["Hash"].ToBool(); newColumnDefinition.SavedHash = newColumnDefinition.Hash; }
-                if (definitionRow.ContainsKey("Calc")) { newColumnDefinition.Calc = definitionRow["Calc"].ToString(); newColumnDefinition.SavedCalc = newColumnDefinition.Calc; }
-                if (definitionRow.ContainsKey("Session")) { newColumnDefinition.Session = definitionRow["Session"].ToBool(); newColumnDefinition.SavedSession = newColumnDefinition.Session; }
-                if (definitionRow.ContainsKey("UserColumn")) { newColumnDefinition.UserColumn = definitionRow["UserColumn"].ToBool(); newColumnDefinition.SavedUserColumn = newColumnDefinition.UserColumn; }
-                if (definitionRow.ContainsKey("EnumColumn")) { newColumnDefinition.EnumColumn = definitionRow["EnumColumn"].ToBool(); newColumnDefinition.SavedEnumColumn = newColumnDefinition.EnumColumn; }
-                if (definitionRow.ContainsKey("NotEditorSettings")) { newColumnDefinition.NotEditorSettings = definitionRow["NotEditorSettings"].ToBool(); newColumnDefinition.SavedNotEditorSettings = newColumnDefinition.NotEditorSettings; }
-                if (definitionRow.ContainsKey("ControlType")) { newColumnDefinition.ControlType = definitionRow["ControlType"].ToString(); newColumnDefinition.SavedControlType = newColumnDefinition.ControlType; }
-                if (definitionRow.ContainsKey("EditorReadOnly")) { newColumnDefinition.EditorReadOnly = definitionRow["EditorReadOnly"].ToBool(); newColumnDefinition.SavedEditorReadOnly = newColumnDefinition.EditorReadOnly; }
-                if (definitionRow.ContainsKey("GridFormat")) { newColumnDefinition.GridFormat = definitionRow["GridFormat"].ToString(); newColumnDefinition.SavedGridFormat = newColumnDefinition.GridFormat; }
-                if (definitionRow.ContainsKey("EditorFormat")) { newColumnDefinition.EditorFormat = definitionRow["EditorFormat"].ToString(); newColumnDefinition.SavedEditorFormat = newColumnDefinition.EditorFormat; }
-                if (definitionRow.ContainsKey("ExportFormat")) { newColumnDefinition.ExportFormat = definitionRow["ExportFormat"].ToString(); newColumnDefinition.SavedExportFormat = newColumnDefinition.ExportFormat; }
-                if (definitionRow.ContainsKey("Aggregatable")) { newColumnDefinition.Aggregatable = definitionRow["Aggregatable"].ToBool(); newColumnDefinition.SavedAggregatable = newColumnDefinition.Aggregatable; }
-                if (definitionRow.ContainsKey("Computable")) { newColumnDefinition.Computable = definitionRow["Computable"].ToBool(); newColumnDefinition.SavedComputable = newColumnDefinition.Computable; }
-                if (definitionRow.ContainsKey("ChoicesText")) { newColumnDefinition.ChoicesText = definitionRow["ChoicesText"].ToString(); newColumnDefinition.SavedChoicesText = newColumnDefinition.ChoicesText; }
-                if (definitionRow.ContainsKey("UseSearch")) { newColumnDefinition.UseSearch = definitionRow["UseSearch"].ToBool(); newColumnDefinition.SavedUseSearch = newColumnDefinition.UseSearch; }
-                if (definitionRow.ContainsKey("DefaultInput")) { newColumnDefinition.DefaultInput = definitionRow["DefaultInput"].ToString(); newColumnDefinition.SavedDefaultInput = newColumnDefinition.DefaultInput; }
-                if (definitionRow.ContainsKey("Own")) { newColumnDefinition.Own = definitionRow["Own"].ToBool(); newColumnDefinition.SavedOwn = newColumnDefinition.Own; }
-                if (definitionRow.ContainsKey("FormName")) { newColumnDefinition.FormName = definitionRow["FormName"].ToString(); newColumnDefinition.SavedFormName = newColumnDefinition.FormName; }
-                if (definitionRow.ContainsKey("ValidateRequired")) { newColumnDefinition.ValidateRequired = definitionRow["ValidateRequired"].ToBool(); newColumnDefinition.SavedValidateRequired = newColumnDefinition.ValidateRequired; }
-                if (definitionRow.ContainsKey("ValidateNumber")) { newColumnDefinition.ValidateNumber = definitionRow["ValidateNumber"].ToBool(); newColumnDefinition.SavedValidateNumber = newColumnDefinition.ValidateNumber; }
-                if (definitionRow.ContainsKey("ValidateDate")) { newColumnDefinition.ValidateDate = definitionRow["ValidateDate"].ToBool(); newColumnDefinition.SavedValidateDate = newColumnDefinition.ValidateDate; }
-                if (definitionRow.ContainsKey("ValidateEmail")) { newColumnDefinition.ValidateEmail = definitionRow["ValidateEmail"].ToBool(); newColumnDefinition.SavedValidateEmail = newColumnDefinition.ValidateEmail; }
-                if (definitionRow.ContainsKey("ValidateEqualTo")) { newColumnDefinition.ValidateEqualTo = definitionRow["ValidateEqualTo"].ToString(); newColumnDefinition.SavedValidateEqualTo = newColumnDefinition.ValidateEqualTo; }
-                if (definitionRow.ContainsKey("DecimalPlaces")) { newColumnDefinition.DecimalPlaces = definitionRow["DecimalPlaces"].ToInt(); newColumnDefinition.SavedDecimalPlaces = newColumnDefinition.DecimalPlaces; }
-                if (definitionRow.ContainsKey("Min")) { newColumnDefinition.Min = definitionRow["Min"].ToDecimal(); newColumnDefinition.SavedMin = newColumnDefinition.Min; }
-                if (definitionRow.ContainsKey("Max")) { newColumnDefinition.Max = definitionRow["Max"].ToDecimal(); newColumnDefinition.SavedMax = newColumnDefinition.Max; }
-                if (definitionRow.ContainsKey("Step")) { newColumnDefinition.Step = definitionRow["Step"].ToDecimal(); newColumnDefinition.SavedStep = newColumnDefinition.Step; }
-                if (definitionRow.ContainsKey("StringFormat")) { newColumnDefinition.StringFormat = definitionRow["StringFormat"].ToString(); newColumnDefinition.SavedStringFormat = newColumnDefinition.StringFormat; }
-                if (definitionRow.ContainsKey("Unit")) { newColumnDefinition.Unit = definitionRow["Unit"].ToString(); newColumnDefinition.SavedUnit = newColumnDefinition.Unit; }
-                if (definitionRow.ContainsKey("NumFilterMin")) { newColumnDefinition.NumFilterMin = definitionRow["NumFilterMin"].ToDecimal(); newColumnDefinition.SavedNumFilterMin = newColumnDefinition.NumFilterMin; }
-                if (definitionRow.ContainsKey("NumFilterMax")) { newColumnDefinition.NumFilterMax = definitionRow["NumFilterMax"].ToDecimal(); newColumnDefinition.SavedNumFilterMax = newColumnDefinition.NumFilterMax; }
-                if (definitionRow.ContainsKey("NumFilterStep")) { newColumnDefinition.NumFilterStep = definitionRow["NumFilterStep"].ToDecimal(); newColumnDefinition.SavedNumFilterStep = newColumnDefinition.NumFilterStep; }
-                if (definitionRow.ContainsKey("Width")) { newColumnDefinition.Width = definitionRow["Width"].ToInt(); newColumnDefinition.SavedWidth = newColumnDefinition.Width; }
-                if (definitionRow.ContainsKey("SettingEnable")) { newColumnDefinition.SettingEnable = definitionRow["SettingEnable"].ToBool(); newColumnDefinition.SavedSettingEnable = newColumnDefinition.SettingEnable; }
-                if (definitionRow.ContainsKey("OldColumnName")) { newColumnDefinition.OldColumnName = definitionRow["OldColumnName"].ToString(); newColumnDefinition.SavedOldColumnName = newColumnDefinition.OldColumnName; }
+                var customDefinitionRow = Parameters.CustomDefinitions
+                    .Get("Column")
+                    .Get(definitionRow["Id"]);
+                definitionRow.Keys.ForEach(key =>
+                {
+                    switch (key)
+                    {
+                        case "Id":
+                            newColumnDefinition.Id = customDefinitionRow.Get("Id")?.ToString() ??
+                                definitionRow["Id"].ToString();
+                            newColumnDefinition.SavedId = newColumnDefinition.Id;
+                            break;
+                        case "ModelName":
+                            newColumnDefinition.ModelName = customDefinitionRow.Get("ModelName")?.ToString() ??
+                                definitionRow["ModelName"].ToString();
+                            newColumnDefinition.SavedModelName = newColumnDefinition.ModelName;
+                            break;
+                        case "TableName":
+                            newColumnDefinition.TableName = customDefinitionRow.Get("TableName")?.ToString() ??
+                                definitionRow["TableName"].ToString();
+                            newColumnDefinition.SavedTableName = newColumnDefinition.TableName;
+                            break;
+                        case "Base":
+                            newColumnDefinition.Base = customDefinitionRow.Get("Base")?.ToBool() ??
+                                definitionRow["Base"].ToBool();
+                            newColumnDefinition.SavedBase = newColumnDefinition.Base;
+                            break;
+                        case "EachModel":
+                            newColumnDefinition.EachModel = customDefinitionRow.Get("EachModel")?.ToBool() ??
+                                definitionRow["EachModel"].ToBool();
+                            newColumnDefinition.SavedEachModel = newColumnDefinition.EachModel;
+                            break;
+                        case "Label":
+                            newColumnDefinition.Label = customDefinitionRow.Get("Label")?.ToString() ??
+                                definitionRow["Label"].ToString();
+                            newColumnDefinition.SavedLabel = newColumnDefinition.Label;
+                            break;
+                        case "ColumnName":
+                            newColumnDefinition.ColumnName = customDefinitionRow.Get("ColumnName")?.ToString() ??
+                                definitionRow["ColumnName"].ToString();
+                            newColumnDefinition.SavedColumnName = newColumnDefinition.ColumnName;
+                            break;
+                        case "LabelText":
+                            newColumnDefinition.LabelText = customDefinitionRow.Get("LabelText")?.ToString() ??
+                                definitionRow["LabelText"].ToString();
+                            newColumnDefinition.SavedLabelText = newColumnDefinition.LabelText;
+                            break;
+                        case "No":
+                            newColumnDefinition.No = customDefinitionRow.Get("No")?.ToInt() ??
+                                definitionRow["No"].ToInt();
+                            newColumnDefinition.SavedNo = newColumnDefinition.No;
+                            break;
+                        case "History":
+                            newColumnDefinition.History = customDefinitionRow.Get("History")?.ToInt() ??
+                                definitionRow["History"].ToInt();
+                            newColumnDefinition.SavedHistory = newColumnDefinition.History;
+                            break;
+                        case "Import":
+                            newColumnDefinition.Import = customDefinitionRow.Get("Import")?.ToInt() ??
+                                definitionRow["Import"].ToInt();
+                            newColumnDefinition.SavedImport = newColumnDefinition.Import;
+                            break;
+                        case "Export":
+                            newColumnDefinition.Export = customDefinitionRow.Get("Export")?.ToInt() ??
+                                definitionRow["Export"].ToInt();
+                            newColumnDefinition.SavedExport = newColumnDefinition.Export;
+                            break;
+                        case "GridColumn":
+                            newColumnDefinition.GridColumn = customDefinitionRow.Get("GridColumn")?.ToInt() ??
+                                definitionRow["GridColumn"].ToInt();
+                            newColumnDefinition.SavedGridColumn = newColumnDefinition.GridColumn;
+                            break;
+                        case "GridEnabled":
+                            newColumnDefinition.GridEnabled = customDefinitionRow.Get("GridEnabled")?.ToBool() ??
+                                definitionRow["GridEnabled"].ToBool();
+                            newColumnDefinition.SavedGridEnabled = newColumnDefinition.GridEnabled;
+                            break;
+                        case "FilterColumn":
+                            newColumnDefinition.FilterColumn = customDefinitionRow.Get("FilterColumn")?.ToInt() ??
+                                definitionRow["FilterColumn"].ToInt();
+                            newColumnDefinition.SavedFilterColumn = newColumnDefinition.FilterColumn;
+                            break;
+                        case "FilterEnabled":
+                            newColumnDefinition.FilterEnabled = customDefinitionRow.Get("FilterEnabled")?.ToBool() ??
+                                definitionRow["FilterEnabled"].ToBool();
+                            newColumnDefinition.SavedFilterEnabled = newColumnDefinition.FilterEnabled;
+                            break;
+                        case "EditorColumn":
+                            newColumnDefinition.EditorColumn = customDefinitionRow.Get("EditorColumn")?.ToInt() ??
+                                definitionRow["EditorColumn"].ToInt();
+                            newColumnDefinition.SavedEditorColumn = newColumnDefinition.EditorColumn;
+                            break;
+                        case "EditorEnabled":
+                            newColumnDefinition.EditorEnabled = customDefinitionRow.Get("EditorEnabled")?.ToBool() ??
+                                definitionRow["EditorEnabled"].ToBool();
+                            newColumnDefinition.SavedEditorEnabled = newColumnDefinition.EditorEnabled;
+                            break;
+                        case "TitleColumn":
+                            newColumnDefinition.TitleColumn = customDefinitionRow.Get("TitleColumn")?.ToInt() ??
+                                definitionRow["TitleColumn"].ToInt();
+                            newColumnDefinition.SavedTitleColumn = newColumnDefinition.TitleColumn;
+                            break;
+                        case "LinkColumn":
+                            newColumnDefinition.LinkColumn = customDefinitionRow.Get("LinkColumn")?.ToInt() ??
+                                definitionRow["LinkColumn"].ToInt();
+                            newColumnDefinition.SavedLinkColumn = newColumnDefinition.LinkColumn;
+                            break;
+                        case "LinkEnabled":
+                            newColumnDefinition.LinkEnabled = customDefinitionRow.Get("LinkEnabled")?.ToBool() ??
+                                definitionRow["LinkEnabled"].ToBool();
+                            newColumnDefinition.SavedLinkEnabled = newColumnDefinition.LinkEnabled;
+                            break;
+                        case "HistoryColumn":
+                            newColumnDefinition.HistoryColumn = customDefinitionRow.Get("HistoryColumn")?.ToInt() ??
+                                definitionRow["HistoryColumn"].ToInt();
+                            newColumnDefinition.SavedHistoryColumn = newColumnDefinition.HistoryColumn;
+                            break;
+                        case "HistoryEnabled":
+                            newColumnDefinition.HistoryEnabled = customDefinitionRow.Get("HistoryEnabled")?.ToBool() ??
+                                definitionRow["HistoryEnabled"].ToBool();
+                            newColumnDefinition.SavedHistoryEnabled = newColumnDefinition.HistoryEnabled;
+                            break;
+                        case "ExportColumn":
+                            newColumnDefinition.ExportColumn = customDefinitionRow.Get("ExportColumn")?.ToBool() ??
+                                definitionRow["ExportColumn"].ToBool();
+                            newColumnDefinition.SavedExportColumn = newColumnDefinition.ExportColumn;
+                            break;
+                        case "TypeName":
+                            newColumnDefinition.TypeName = customDefinitionRow.Get("TypeName")?.ToString() ??
+                                definitionRow["TypeName"].ToString();
+                            newColumnDefinition.SavedTypeName = newColumnDefinition.TypeName;
+                            break;
+                        case "TypeCs":
+                            newColumnDefinition.TypeCs = customDefinitionRow.Get("TypeCs")?.ToString() ??
+                                definitionRow["TypeCs"].ToString();
+                            newColumnDefinition.SavedTypeCs = newColumnDefinition.TypeCs;
+                            break;
+                        case "RecordingData":
+                            newColumnDefinition.RecordingData = customDefinitionRow.Get("RecordingData")?.ToString() ??
+                                definitionRow["RecordingData"].ToString();
+                            newColumnDefinition.SavedRecordingData = newColumnDefinition.RecordingData;
+                            break;
+                        case "MaxLength":
+                            newColumnDefinition.MaxLength = customDefinitionRow.Get("MaxLength")?.ToInt() ??
+                                definitionRow["MaxLength"].ToInt();
+                            newColumnDefinition.SavedMaxLength = newColumnDefinition.MaxLength;
+                            break;
+                        case "Size":
+                            newColumnDefinition.Size = customDefinitionRow.Get("Size")?.ToString() ??
+                                definitionRow["Size"].ToString();
+                            newColumnDefinition.SavedSize = newColumnDefinition.Size;
+                            break;
+                        case "Pk":
+                            newColumnDefinition.Pk = customDefinitionRow.Get("Pk")?.ToInt() ??
+                                definitionRow["Pk"].ToInt();
+                            newColumnDefinition.SavedPk = newColumnDefinition.Pk;
+                            break;
+                        case "PkOrderBy":
+                            newColumnDefinition.PkOrderBy = customDefinitionRow.Get("PkOrderBy")?.ToString() ??
+                                definitionRow["PkOrderBy"].ToString();
+                            newColumnDefinition.SavedPkOrderBy = newColumnDefinition.PkOrderBy;
+                            break;
+                        case "PkHistory":
+                            newColumnDefinition.PkHistory = customDefinitionRow.Get("PkHistory")?.ToInt() ??
+                                definitionRow["PkHistory"].ToInt();
+                            newColumnDefinition.SavedPkHistory = newColumnDefinition.PkHistory;
+                            break;
+                        case "PkHistoryOrderBy":
+                            newColumnDefinition.PkHistoryOrderBy = customDefinitionRow.Get("PkHistoryOrderBy")?.ToString() ??
+                                definitionRow["PkHistoryOrderBy"].ToString();
+                            newColumnDefinition.SavedPkHistoryOrderBy = newColumnDefinition.PkHistoryOrderBy;
+                            break;
+                        case "Ix1":
+                            newColumnDefinition.Ix1 = customDefinitionRow.Get("Ix1")?.ToInt() ??
+                                definitionRow["Ix1"].ToInt();
+                            newColumnDefinition.SavedIx1 = newColumnDefinition.Ix1;
+                            break;
+                        case "Ix1OrderBy":
+                            newColumnDefinition.Ix1OrderBy = customDefinitionRow.Get("Ix1OrderBy")?.ToString() ??
+                                definitionRow["Ix1OrderBy"].ToString();
+                            newColumnDefinition.SavedIx1OrderBy = newColumnDefinition.Ix1OrderBy;
+                            break;
+                        case "Ix2":
+                            newColumnDefinition.Ix2 = customDefinitionRow.Get("Ix2")?.ToInt() ??
+                                definitionRow["Ix2"].ToInt();
+                            newColumnDefinition.SavedIx2 = newColumnDefinition.Ix2;
+                            break;
+                        case "Ix2OrderBy":
+                            newColumnDefinition.Ix2OrderBy = customDefinitionRow.Get("Ix2OrderBy")?.ToString() ??
+                                definitionRow["Ix2OrderBy"].ToString();
+                            newColumnDefinition.SavedIx2OrderBy = newColumnDefinition.Ix2OrderBy;
+                            break;
+                        case "Ix3":
+                            newColumnDefinition.Ix3 = customDefinitionRow.Get("Ix3")?.ToInt() ??
+                                definitionRow["Ix3"].ToInt();
+                            newColumnDefinition.SavedIx3 = newColumnDefinition.Ix3;
+                            break;
+                        case "Ix3OrderBy":
+                            newColumnDefinition.Ix3OrderBy = customDefinitionRow.Get("Ix3OrderBy")?.ToString() ??
+                                definitionRow["Ix3OrderBy"].ToString();
+                            newColumnDefinition.SavedIx3OrderBy = newColumnDefinition.Ix3OrderBy;
+                            break;
+                        case "Nullable":
+                            newColumnDefinition.Nullable = customDefinitionRow.Get("Nullable")?.ToBool() ??
+                                definitionRow["Nullable"].ToBool();
+                            newColumnDefinition.SavedNullable = newColumnDefinition.Nullable;
+                            break;
+                        case "Default":
+                            newColumnDefinition.Default = customDefinitionRow.Get("Default")?.ToString() ??
+                                definitionRow["Default"].ToString();
+                            newColumnDefinition.SavedDefault = newColumnDefinition.Default;
+                            break;
+                        case "DefaultCs":
+                            newColumnDefinition.DefaultCs = customDefinitionRow.Get("DefaultCs")?.ToString() ??
+                                definitionRow["DefaultCs"].ToString();
+                            newColumnDefinition.SavedDefaultCs = newColumnDefinition.DefaultCs;
+                            break;
+                        case "Identity":
+                            newColumnDefinition.Identity = customDefinitionRow.Get("Identity")?.ToBool() ??
+                                definitionRow["Identity"].ToBool();
+                            newColumnDefinition.SavedIdentity = newColumnDefinition.Identity;
+                            break;
+                        case "Unique":
+                            newColumnDefinition.Unique = customDefinitionRow.Get("Unique")?.ToBool() ??
+                                definitionRow["Unique"].ToBool();
+                            newColumnDefinition.SavedUnique = newColumnDefinition.Unique;
+                            break;
+                        case "Seed":
+                            newColumnDefinition.Seed = customDefinitionRow.Get("Seed")?.ToInt() ??
+                                definitionRow["Seed"].ToInt();
+                            newColumnDefinition.SavedSeed = newColumnDefinition.Seed;
+                            break;
+                        case "JoinTableName":
+                            newColumnDefinition.JoinTableName = customDefinitionRow.Get("JoinTableName")?.ToString() ??
+                                definitionRow["JoinTableName"].ToString();
+                            newColumnDefinition.SavedJoinTableName = newColumnDefinition.JoinTableName;
+                            break;
+                        case "JoinType":
+                            newColumnDefinition.JoinType = customDefinitionRow.Get("JoinType")?.ToString() ??
+                                definitionRow["JoinType"].ToString();
+                            newColumnDefinition.SavedJoinType = newColumnDefinition.JoinType;
+                            break;
+                        case "JoinExpression":
+                            newColumnDefinition.JoinExpression = customDefinitionRow.Get("JoinExpression")?.ToString() ??
+                                definitionRow["JoinExpression"].ToString();
+                            newColumnDefinition.SavedJoinExpression = newColumnDefinition.JoinExpression;
+                            break;
+                        case "Like":
+                            newColumnDefinition.Like = customDefinitionRow.Get("Like")?.ToBool() ??
+                                definitionRow["Like"].ToBool();
+                            newColumnDefinition.SavedLike = newColumnDefinition.Like;
+                            break;
+                        case "WhereSpecial":
+                            newColumnDefinition.WhereSpecial = customDefinitionRow.Get("WhereSpecial")?.ToBool() ??
+                                definitionRow["WhereSpecial"].ToBool();
+                            newColumnDefinition.SavedWhereSpecial = newColumnDefinition.WhereSpecial;
+                            break;
+                        case "Required":
+                            newColumnDefinition.Required = customDefinitionRow.Get("Required")?.ToBool() ??
+                                definitionRow["Required"].ToBool();
+                            newColumnDefinition.SavedRequired = newColumnDefinition.Required;
+                            break;
+                        case "ReadAccessControl":
+                            newColumnDefinition.ReadAccessControl = customDefinitionRow.Get("ReadAccessControl")?.ToString() ??
+                                definitionRow["ReadAccessControl"].ToString();
+                            newColumnDefinition.SavedReadAccessControl = newColumnDefinition.ReadAccessControl;
+                            break;
+                        case "CreateAccessControl":
+                            newColumnDefinition.CreateAccessControl = customDefinitionRow.Get("CreateAccessControl")?.ToString() ??
+                                definitionRow["CreateAccessControl"].ToString();
+                            newColumnDefinition.SavedCreateAccessControl = newColumnDefinition.CreateAccessControl;
+                            break;
+                        case "UpdateAccessControl":
+                            newColumnDefinition.UpdateAccessControl = customDefinitionRow.Get("UpdateAccessControl")?.ToString() ??
+                                definitionRow["UpdateAccessControl"].ToString();
+                            newColumnDefinition.SavedUpdateAccessControl = newColumnDefinition.UpdateAccessControl;
+                            break;
+                        case "NotEditSelf":
+                            newColumnDefinition.NotEditSelf = customDefinitionRow.Get("NotEditSelf")?.ToBool() ??
+                                definitionRow["NotEditSelf"].ToBool();
+                            newColumnDefinition.SavedNotEditSelf = newColumnDefinition.NotEditSelf;
+                            break;
+                        case "SearchIndexPriority":
+                            newColumnDefinition.SearchIndexPriority = customDefinitionRow.Get("SearchIndexPriority")?.ToInt() ??
+                                definitionRow["SearchIndexPriority"].ToInt();
+                            newColumnDefinition.SavedSearchIndexPriority = newColumnDefinition.SearchIndexPriority;
+                            break;
+                        case "NotForm":
+                            newColumnDefinition.NotForm = customDefinitionRow.Get("NotForm")?.ToBool() ??
+                                definitionRow["NotForm"].ToBool();
+                            newColumnDefinition.SavedNotForm = newColumnDefinition.NotForm;
+                            break;
+                        case "NotSelect":
+                            newColumnDefinition.NotSelect = customDefinitionRow.Get("NotSelect")?.ToBool() ??
+                                definitionRow["NotSelect"].ToBool();
+                            newColumnDefinition.SavedNotSelect = newColumnDefinition.NotSelect;
+                            break;
+                        case "NotUpdate":
+                            newColumnDefinition.NotUpdate = customDefinitionRow.Get("NotUpdate")?.ToBool() ??
+                                definitionRow["NotUpdate"].ToBool();
+                            newColumnDefinition.SavedNotUpdate = newColumnDefinition.NotUpdate;
+                            break;
+                        case "ByForm":
+                            newColumnDefinition.ByForm = customDefinitionRow.Get("ByForm")?.ToString() ??
+                                definitionRow["ByForm"].ToString();
+                            newColumnDefinition.SavedByForm = newColumnDefinition.ByForm;
+                            break;
+                        case "ByApi":
+                            newColumnDefinition.ByApi = customDefinitionRow.Get("ByApi")?.ToString() ??
+                                definitionRow["ByApi"].ToString();
+                            newColumnDefinition.SavedByApi = newColumnDefinition.ByApi;
+                            break;
+                        case "ByDataRow":
+                            newColumnDefinition.ByDataRow = customDefinitionRow.Get("ByDataRow")?.ToString() ??
+                                definitionRow["ByDataRow"].ToString();
+                            newColumnDefinition.SavedByDataRow = newColumnDefinition.ByDataRow;
+                            break;
+                        case "BySession":
+                            newColumnDefinition.BySession = customDefinitionRow.Get("BySession")?.ToString() ??
+                                definitionRow["BySession"].ToString();
+                            newColumnDefinition.SavedBySession = newColumnDefinition.BySession;
+                            break;
+                        case "SelectColumns":
+                            newColumnDefinition.SelectColumns = customDefinitionRow.Get("SelectColumns")?.ToString() ??
+                                definitionRow["SelectColumns"].ToString();
+                            newColumnDefinition.SavedSelectColumns = newColumnDefinition.SelectColumns;
+                            break;
+                        case "ComputeColumn":
+                            newColumnDefinition.ComputeColumn = customDefinitionRow.Get("ComputeColumn")?.ToString() ??
+                                definitionRow["ComputeColumn"].ToString();
+                            newColumnDefinition.SavedComputeColumn = newColumnDefinition.ComputeColumn;
+                            break;
+                        case "OrderByColumns":
+                            newColumnDefinition.OrderByColumns = customDefinitionRow.Get("OrderByColumns")?.ToString() ??
+                                definitionRow["OrderByColumns"].ToString();
+                            newColumnDefinition.SavedOrderByColumns = newColumnDefinition.OrderByColumns;
+                            break;
+                        case "ItemId":
+                            newColumnDefinition.ItemId = customDefinitionRow.Get("ItemId")?.ToInt() ??
+                                definitionRow["ItemId"].ToInt();
+                            newColumnDefinition.SavedItemId = newColumnDefinition.ItemId;
+                            break;
+                        case "GenericUi":
+                            newColumnDefinition.GenericUi = customDefinitionRow.Get("GenericUi")?.ToBool() ??
+                                definitionRow["GenericUi"].ToBool();
+                            newColumnDefinition.SavedGenericUi = newColumnDefinition.GenericUi;
+                            break;
+                        case "UpdateMonitor":
+                            newColumnDefinition.UpdateMonitor = customDefinitionRow.Get("UpdateMonitor")?.ToBool() ??
+                                definitionRow["UpdateMonitor"].ToBool();
+                            newColumnDefinition.SavedUpdateMonitor = newColumnDefinition.UpdateMonitor;
+                            break;
+                        case "FieldCss":
+                            newColumnDefinition.FieldCss = customDefinitionRow.Get("FieldCss")?.ToString() ??
+                                definitionRow["FieldCss"].ToString();
+                            newColumnDefinition.SavedFieldCss = newColumnDefinition.FieldCss;
+                            break;
+                        case "ControlCss":
+                            newColumnDefinition.ControlCss = customDefinitionRow.Get("ControlCss")?.ToString() ??
+                                definitionRow["ControlCss"].ToString();
+                            newColumnDefinition.SavedControlCss = newColumnDefinition.ControlCss;
+                            break;
+                        case "GridStyle":
+                            newColumnDefinition.GridStyle = customDefinitionRow.Get("GridStyle")?.ToString() ??
+                                definitionRow["GridStyle"].ToString();
+                            newColumnDefinition.SavedGridStyle = newColumnDefinition.GridStyle;
+                            break;
+                        case "Hash":
+                            newColumnDefinition.Hash = customDefinitionRow.Get("Hash")?.ToBool() ??
+                                definitionRow["Hash"].ToBool();
+                            newColumnDefinition.SavedHash = newColumnDefinition.Hash;
+                            break;
+                        case "Calc":
+                            newColumnDefinition.Calc = customDefinitionRow.Get("Calc")?.ToString() ??
+                                definitionRow["Calc"].ToString();
+                            newColumnDefinition.SavedCalc = newColumnDefinition.Calc;
+                            break;
+                        case "Session":
+                            newColumnDefinition.Session = customDefinitionRow.Get("Session")?.ToBool() ??
+                                definitionRow["Session"].ToBool();
+                            newColumnDefinition.SavedSession = newColumnDefinition.Session;
+                            break;
+                        case "UserColumn":
+                            newColumnDefinition.UserColumn = customDefinitionRow.Get("UserColumn")?.ToBool() ??
+                                definitionRow["UserColumn"].ToBool();
+                            newColumnDefinition.SavedUserColumn = newColumnDefinition.UserColumn;
+                            break;
+                        case "EnumColumn":
+                            newColumnDefinition.EnumColumn = customDefinitionRow.Get("EnumColumn")?.ToBool() ??
+                                definitionRow["EnumColumn"].ToBool();
+                            newColumnDefinition.SavedEnumColumn = newColumnDefinition.EnumColumn;
+                            break;
+                        case "NotEditorSettings":
+                            newColumnDefinition.NotEditorSettings = customDefinitionRow.Get("NotEditorSettings")?.ToBool() ??
+                                definitionRow["NotEditorSettings"].ToBool();
+                            newColumnDefinition.SavedNotEditorSettings = newColumnDefinition.NotEditorSettings;
+                            break;
+                        case "ControlType":
+                            newColumnDefinition.ControlType = customDefinitionRow.Get("ControlType")?.ToString() ??
+                                definitionRow["ControlType"].ToString();
+                            newColumnDefinition.SavedControlType = newColumnDefinition.ControlType;
+                            break;
+                        case "EditorReadOnly":
+                            newColumnDefinition.EditorReadOnly = customDefinitionRow.Get("EditorReadOnly")?.ToBool() ??
+                                definitionRow["EditorReadOnly"].ToBool();
+                            newColumnDefinition.SavedEditorReadOnly = newColumnDefinition.EditorReadOnly;
+                            break;
+                        case "GridFormat":
+                            newColumnDefinition.GridFormat = customDefinitionRow.Get("GridFormat")?.ToString() ??
+                                definitionRow["GridFormat"].ToString();
+                            newColumnDefinition.SavedGridFormat = newColumnDefinition.GridFormat;
+                            break;
+                        case "EditorFormat":
+                            newColumnDefinition.EditorFormat = customDefinitionRow.Get("EditorFormat")?.ToString() ??
+                                definitionRow["EditorFormat"].ToString();
+                            newColumnDefinition.SavedEditorFormat = newColumnDefinition.EditorFormat;
+                            break;
+                        case "ExportFormat":
+                            newColumnDefinition.ExportFormat = customDefinitionRow.Get("ExportFormat")?.ToString() ??
+                                definitionRow["ExportFormat"].ToString();
+                            newColumnDefinition.SavedExportFormat = newColumnDefinition.ExportFormat;
+                            break;
+                        case "Aggregatable":
+                            newColumnDefinition.Aggregatable = customDefinitionRow.Get("Aggregatable")?.ToBool() ??
+                                definitionRow["Aggregatable"].ToBool();
+                            newColumnDefinition.SavedAggregatable = newColumnDefinition.Aggregatable;
+                            break;
+                        case "Computable":
+                            newColumnDefinition.Computable = customDefinitionRow.Get("Computable")?.ToBool() ??
+                                definitionRow["Computable"].ToBool();
+                            newColumnDefinition.SavedComputable = newColumnDefinition.Computable;
+                            break;
+                        case "ChoicesText":
+                            newColumnDefinition.ChoicesText = customDefinitionRow.Get("ChoicesText")?.ToString() ??
+                                definitionRow["ChoicesText"].ToString();
+                            newColumnDefinition.SavedChoicesText = newColumnDefinition.ChoicesText;
+                            break;
+                        case "UseSearch":
+                            newColumnDefinition.UseSearch = customDefinitionRow.Get("UseSearch")?.ToBool() ??
+                                definitionRow["UseSearch"].ToBool();
+                            newColumnDefinition.SavedUseSearch = newColumnDefinition.UseSearch;
+                            break;
+                        case "DefaultInput":
+                            newColumnDefinition.DefaultInput = customDefinitionRow.Get("DefaultInput")?.ToString() ??
+                                definitionRow["DefaultInput"].ToString();
+                            newColumnDefinition.SavedDefaultInput = newColumnDefinition.DefaultInput;
+                            break;
+                        case "Own":
+                            newColumnDefinition.Own = customDefinitionRow.Get("Own")?.ToBool() ??
+                                definitionRow["Own"].ToBool();
+                            newColumnDefinition.SavedOwn = newColumnDefinition.Own;
+                            break;
+                        case "FormName":
+                            newColumnDefinition.FormName = customDefinitionRow.Get("FormName")?.ToString() ??
+                                definitionRow["FormName"].ToString();
+                            newColumnDefinition.SavedFormName = newColumnDefinition.FormName;
+                            break;
+                        case "ValidateRequired":
+                            newColumnDefinition.ValidateRequired = customDefinitionRow.Get("ValidateRequired")?.ToBool() ??
+                                definitionRow["ValidateRequired"].ToBool();
+                            newColumnDefinition.SavedValidateRequired = newColumnDefinition.ValidateRequired;
+                            break;
+                        case "ValidateNumber":
+                            newColumnDefinition.ValidateNumber = customDefinitionRow.Get("ValidateNumber")?.ToBool() ??
+                                definitionRow["ValidateNumber"].ToBool();
+                            newColumnDefinition.SavedValidateNumber = newColumnDefinition.ValidateNumber;
+                            break;
+                        case "ValidateDate":
+                            newColumnDefinition.ValidateDate = customDefinitionRow.Get("ValidateDate")?.ToBool() ??
+                                definitionRow["ValidateDate"].ToBool();
+                            newColumnDefinition.SavedValidateDate = newColumnDefinition.ValidateDate;
+                            break;
+                        case "ValidateEmail":
+                            newColumnDefinition.ValidateEmail = customDefinitionRow.Get("ValidateEmail")?.ToBool() ??
+                                definitionRow["ValidateEmail"].ToBool();
+                            newColumnDefinition.SavedValidateEmail = newColumnDefinition.ValidateEmail;
+                            break;
+                        case "ValidateEqualTo":
+                            newColumnDefinition.ValidateEqualTo = customDefinitionRow.Get("ValidateEqualTo")?.ToString() ??
+                                definitionRow["ValidateEqualTo"].ToString();
+                            newColumnDefinition.SavedValidateEqualTo = newColumnDefinition.ValidateEqualTo;
+                            break;
+                        case "DecimalPlaces":
+                            newColumnDefinition.DecimalPlaces = customDefinitionRow.Get("DecimalPlaces")?.ToInt() ??
+                                definitionRow["DecimalPlaces"].ToInt();
+                            newColumnDefinition.SavedDecimalPlaces = newColumnDefinition.DecimalPlaces;
+                            break;
+                        case "Min":
+                            newColumnDefinition.Min = customDefinitionRow.Get("Min")?.ToDecimal() ??
+                                definitionRow["Min"].ToDecimal();
+                            newColumnDefinition.SavedMin = newColumnDefinition.Min;
+                            break;
+                        case "Max":
+                            newColumnDefinition.Max = customDefinitionRow.Get("Max")?.ToDecimal() ??
+                                definitionRow["Max"].ToDecimal();
+                            newColumnDefinition.SavedMax = newColumnDefinition.Max;
+                            break;
+                        case "Step":
+                            newColumnDefinition.Step = customDefinitionRow.Get("Step")?.ToDecimal() ??
+                                definitionRow["Step"].ToDecimal();
+                            newColumnDefinition.SavedStep = newColumnDefinition.Step;
+                            break;
+                        case "StringFormat":
+                            newColumnDefinition.StringFormat = customDefinitionRow.Get("StringFormat")?.ToString() ??
+                                definitionRow["StringFormat"].ToString();
+                            newColumnDefinition.SavedStringFormat = newColumnDefinition.StringFormat;
+                            break;
+                        case "Unit":
+                            newColumnDefinition.Unit = customDefinitionRow.Get("Unit")?.ToString() ??
+                                definitionRow["Unit"].ToString();
+                            newColumnDefinition.SavedUnit = newColumnDefinition.Unit;
+                            break;
+                        case "NumFilterMin":
+                            newColumnDefinition.NumFilterMin = customDefinitionRow.Get("NumFilterMin")?.ToDecimal() ??
+                                definitionRow["NumFilterMin"].ToDecimal();
+                            newColumnDefinition.SavedNumFilterMin = newColumnDefinition.NumFilterMin;
+                            break;
+                        case "NumFilterMax":
+                            newColumnDefinition.NumFilterMax = customDefinitionRow.Get("NumFilterMax")?.ToDecimal() ??
+                                definitionRow["NumFilterMax"].ToDecimal();
+                            newColumnDefinition.SavedNumFilterMax = newColumnDefinition.NumFilterMax;
+                            break;
+                        case "NumFilterStep":
+                            newColumnDefinition.NumFilterStep = customDefinitionRow.Get("NumFilterStep")?.ToDecimal() ??
+                                definitionRow["NumFilterStep"].ToDecimal();
+                            newColumnDefinition.SavedNumFilterStep = newColumnDefinition.NumFilterStep;
+                            break;
+                        case "Width":
+                            newColumnDefinition.Width = customDefinitionRow.Get("Width")?.ToInt() ??
+                                definitionRow["Width"].ToInt();
+                            newColumnDefinition.SavedWidth = newColumnDefinition.Width;
+                            break;
+                        case "SettingEnable":
+                            newColumnDefinition.SettingEnable = customDefinitionRow.Get("SettingEnable")?.ToBool() ??
+                                definitionRow["SettingEnable"].ToBool();
+                            newColumnDefinition.SavedSettingEnable = newColumnDefinition.SettingEnable;
+                            break;
+                        case "OldColumnName":
+                            newColumnDefinition.OldColumnName = customDefinitionRow.Get("OldColumnName")?.ToString() ??
+                                definitionRow["OldColumnName"].ToString();
+                            newColumnDefinition.SavedOldColumnName = newColumnDefinition.OldColumnName;
+                            break;
+                        default: break;
+                    }
+                });
                 ColumnDefinitionCollection.Add(newColumnDefinition);
             });
         }
@@ -1991,7 +2713,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("EachModel")) { definition.EachModel = definitionRow["EachModel"].ToBool(); definition.SavedEachModel = definition.EachModel; }
             if (definitionRow.ContainsKey("Label")) { definition.Label = definitionRow["Label"].ToString(); definition.SavedLabel = definition.Label; }
             if (definitionRow.ContainsKey("ColumnName")) { definition.ColumnName = definitionRow["ColumnName"].ToString(); definition.SavedColumnName = definition.ColumnName; }
-            if (definitionRow.ContainsKey("ColumnLabel")) { definition.ColumnLabel = definitionRow["ColumnLabel"].ToString(); definition.SavedColumnLabel = definition.ColumnLabel; }
+            if (definitionRow.ContainsKey("LabelText")) { definition.LabelText = definitionRow["LabelText"].ToString(); definition.SavedLabelText = definition.LabelText; }
             if (definitionRow.ContainsKey("No")) { definition.No = definitionRow["No"].ToInt(); definition.SavedNo = definition.No; }
             if (definitionRow.ContainsKey("History")) { definition.History = definitionRow["History"].ToInt(); definition.SavedHistory = definition.History; }
             if (definitionRow.ContainsKey("Import")) { definition.Import = definitionRow["Import"].ToInt(); definition.SavedImport = definition.Import; }
@@ -2000,7 +2722,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("GridEnabled")) { definition.GridEnabled = definitionRow["GridEnabled"].ToBool(); definition.SavedGridEnabled = definition.GridEnabled; }
             if (definitionRow.ContainsKey("FilterColumn")) { definition.FilterColumn = definitionRow["FilterColumn"].ToInt(); definition.SavedFilterColumn = definition.FilterColumn; }
             if (definitionRow.ContainsKey("FilterEnabled")) { definition.FilterEnabled = definitionRow["FilterEnabled"].ToBool(); definition.SavedFilterEnabled = definition.FilterEnabled; }
-            if (definitionRow.ContainsKey("EditorColumn")) { definition.EditorColumn = definitionRow["EditorColumn"].ToBool(); definition.SavedEditorColumn = definition.EditorColumn; }
+            if (definitionRow.ContainsKey("EditorColumn")) { definition.EditorColumn = definitionRow["EditorColumn"].ToInt(); definition.SavedEditorColumn = definition.EditorColumn; }
             if (definitionRow.ContainsKey("EditorEnabled")) { definition.EditorEnabled = definitionRow["EditorEnabled"].ToBool(); definition.SavedEditorEnabled = definition.EditorEnabled; }
             if (definitionRow.ContainsKey("TitleColumn")) { definition.TitleColumn = definitionRow["TitleColumn"].ToInt(); definition.SavedTitleColumn = definition.TitleColumn; }
             if (definitionRow.ContainsKey("LinkColumn")) { definition.LinkColumn = definitionRow["LinkColumn"].ToInt(); definition.SavedLinkColumn = definition.LinkColumn; }
@@ -2600,62 +3322,296 @@ namespace Implem.DefinitionAccessor
             CssXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
             {
                 var newCssDefinition = new CssDefinition();
-                if (definitionRow.ContainsKey("Id")) { newCssDefinition.Id = definitionRow["Id"].ToString(); newCssDefinition.SavedId = newCssDefinition.Id; }
-                if (definitionRow.ContainsKey("Specific")) { newCssDefinition.Specific = definitionRow["Specific"].ToString(); newCssDefinition.SavedSpecific = newCssDefinition.Specific; }
-                if (definitionRow.ContainsKey("width")) { newCssDefinition.width = definitionRow["width"].ToString(); newCssDefinition.Savedwidth = newCssDefinition.width; }
-                if (definitionRow.ContainsKey("min-width")) { newCssDefinition.min_width = definitionRow["min-width"].ToString(); newCssDefinition.Savedmin_width = newCssDefinition.min_width; }
-                if (definitionRow.ContainsKey("max-width")) { newCssDefinition.max_width = definitionRow["max-width"].ToString(); newCssDefinition.Savedmax_width = newCssDefinition.max_width; }
-                if (definitionRow.ContainsKey("height")) { newCssDefinition.height = definitionRow["height"].ToString(); newCssDefinition.Savedheight = newCssDefinition.height; }
-                if (definitionRow.ContainsKey("min-height")) { newCssDefinition.min_height = definitionRow["min-height"].ToString(); newCssDefinition.Savedmin_height = newCssDefinition.min_height; }
-                if (definitionRow.ContainsKey("max-height")) { newCssDefinition.max_height = definitionRow["max-height"].ToString(); newCssDefinition.Savedmax_height = newCssDefinition.max_height; }
-                if (definitionRow.ContainsKey("display")) { newCssDefinition.display = definitionRow["display"].ToString(); newCssDefinition.Saveddisplay = newCssDefinition.display; }
-                if (definitionRow.ContainsKey("float")) { newCssDefinition._float = definitionRow["float"].ToString(); newCssDefinition.Saved_float = newCssDefinition._float; }
-                if (definitionRow.ContainsKey("margin")) { newCssDefinition.margin = definitionRow["margin"].ToString(); newCssDefinition.Savedmargin = newCssDefinition.margin; }
-                if (definitionRow.ContainsKey("margin-left")) { newCssDefinition.margin_left = definitionRow["margin-left"].ToString(); newCssDefinition.Savedmargin_left = newCssDefinition.margin_left; }
-                if (definitionRow.ContainsKey("margin-right")) { newCssDefinition.margin_right = definitionRow["margin-right"].ToString(); newCssDefinition.Savedmargin_right = newCssDefinition.margin_right; }
-                if (definitionRow.ContainsKey("padding")) { newCssDefinition.padding = definitionRow["padding"].ToString(); newCssDefinition.Savedpadding = newCssDefinition.padding; }
-                if (definitionRow.ContainsKey("padding-bottom")) { newCssDefinition.padding_bottom = definitionRow["padding-bottom"].ToString(); newCssDefinition.Savedpadding_bottom = newCssDefinition.padding_bottom; }
-                if (definitionRow.ContainsKey("text-align")) { newCssDefinition.text_align = definitionRow["text-align"].ToString(); newCssDefinition.Savedtext_align = newCssDefinition.text_align; }
-                if (definitionRow.ContainsKey("vertical-align")) { newCssDefinition.vertical_align = definitionRow["vertical-align"].ToString(); newCssDefinition.Savedvertical_align = newCssDefinition.vertical_align; }
-                if (definitionRow.ContainsKey("line-height")) { newCssDefinition.line_height = definitionRow["line-height"].ToString(); newCssDefinition.Savedline_height = newCssDefinition.line_height; }
-                if (definitionRow.ContainsKey("font-size")) { newCssDefinition.font_size = definitionRow["font-size"].ToString(); newCssDefinition.Savedfont_size = newCssDefinition.font_size; }
-                if (definitionRow.ContainsKey("font-family")) { newCssDefinition.font_family = definitionRow["font-family"].ToString(); newCssDefinition.Savedfont_family = newCssDefinition.font_family; }
-                if (definitionRow.ContainsKey("font-weight")) { newCssDefinition.font_weight = definitionRow["font-weight"].ToString(); newCssDefinition.Savedfont_weight = newCssDefinition.font_weight; }
-                if (definitionRow.ContainsKey("font-style")) { newCssDefinition.font_style = definitionRow["font-style"].ToString(); newCssDefinition.Savedfont_style = newCssDefinition.font_style; }
-                if (definitionRow.ContainsKey("color")) { newCssDefinition.color = definitionRow["color"].ToString(); newCssDefinition.Savedcolor = newCssDefinition.color; }
-                if (definitionRow.ContainsKey("background")) { newCssDefinition.background = definitionRow["background"].ToString(); newCssDefinition.Savedbackground = newCssDefinition.background; }
-                if (definitionRow.ContainsKey("background-color")) { newCssDefinition.background_color = definitionRow["background-color"].ToString(); newCssDefinition.Savedbackground_color = newCssDefinition.background_color; }
-                if (definitionRow.ContainsKey("border")) { newCssDefinition.border = definitionRow["border"].ToString(); newCssDefinition.Savedborder = newCssDefinition.border; }
-                if (definitionRow.ContainsKey("border-top")) { newCssDefinition.border_top = definitionRow["border-top"].ToString(); newCssDefinition.Savedborder_top = newCssDefinition.border_top; }
-                if (definitionRow.ContainsKey("border-bottom")) { newCssDefinition.border_bottom = definitionRow["border-bottom"].ToString(); newCssDefinition.Savedborder_bottom = newCssDefinition.border_bottom; }
-                if (definitionRow.ContainsKey("border-left")) { newCssDefinition.border_left = definitionRow["border-left"].ToString(); newCssDefinition.Savedborder_left = newCssDefinition.border_left; }
-                if (definitionRow.ContainsKey("border-right")) { newCssDefinition.border_right = definitionRow["border-right"].ToString(); newCssDefinition.Savedborder_right = newCssDefinition.border_right; }
-                if (definitionRow.ContainsKey("border-collapse")) { newCssDefinition.border_collapse = definitionRow["border-collapse"].ToString(); newCssDefinition.Savedborder_collapse = newCssDefinition.border_collapse; }
-                if (definitionRow.ContainsKey("border-spacing")) { newCssDefinition.border_spacing = definitionRow["border-spacing"].ToString(); newCssDefinition.Savedborder_spacing = newCssDefinition.border_spacing; }
-                if (definitionRow.ContainsKey("position")) { newCssDefinition.position = definitionRow["position"].ToString(); newCssDefinition.Savedposition = newCssDefinition.position; }
-                if (definitionRow.ContainsKey("top")) { newCssDefinition.top = definitionRow["top"].ToString(); newCssDefinition.Savedtop = newCssDefinition.top; }
-                if (definitionRow.ContainsKey("right")) { newCssDefinition.right = definitionRow["right"].ToString(); newCssDefinition.Savedright = newCssDefinition.right; }
-                if (definitionRow.ContainsKey("left")) { newCssDefinition.left = definitionRow["left"].ToString(); newCssDefinition.Savedleft = newCssDefinition.left; }
-                if (definitionRow.ContainsKey("bottom")) { newCssDefinition.bottom = definitionRow["bottom"].ToString(); newCssDefinition.Savedbottom = newCssDefinition.bottom; }
-                if (definitionRow.ContainsKey("cursor")) { newCssDefinition.cursor = definitionRow["cursor"].ToString(); newCssDefinition.Savedcursor = newCssDefinition.cursor; }
-                if (definitionRow.ContainsKey("clear")) { newCssDefinition.clear = definitionRow["clear"].ToString(); newCssDefinition.Savedclear = newCssDefinition.clear; }
-                if (definitionRow.ContainsKey("overflow")) { newCssDefinition.overflow = definitionRow["overflow"].ToString(); newCssDefinition.Savedoverflow = newCssDefinition.overflow; }
-                if (definitionRow.ContainsKey("word-wrap")) { newCssDefinition.word_wrap = definitionRow["word-wrap"].ToString(); newCssDefinition.Savedword_wrap = newCssDefinition.word_wrap; }
-                if (definitionRow.ContainsKey("word-break")) { newCssDefinition.word_break = definitionRow["word-break"].ToString(); newCssDefinition.Savedword_break = newCssDefinition.word_break; }
-                if (definitionRow.ContainsKey("white-space")) { newCssDefinition.white_space = definitionRow["white-space"].ToString(); newCssDefinition.Savedwhite_space = newCssDefinition.white_space; }
-                if (definitionRow.ContainsKey("table-layout")) { newCssDefinition.table_layout = definitionRow["table-layout"].ToString(); newCssDefinition.Savedtable_layout = newCssDefinition.table_layout; }
-                if (definitionRow.ContainsKey("text-decoration")) { newCssDefinition.text_decoration = definitionRow["text-decoration"].ToString(); newCssDefinition.Savedtext_decoration = newCssDefinition.text_decoration; }
-                if (definitionRow.ContainsKey("list-style-type")) { newCssDefinition.list_style_type = definitionRow["list-style-type"].ToString(); newCssDefinition.Savedlist_style_type = newCssDefinition.list_style_type; }
-                if (definitionRow.ContainsKey("visibility")) { newCssDefinition.visibility = definitionRow["visibility"].ToString(); newCssDefinition.Savedvisibility = newCssDefinition.visibility; }
-                if (definitionRow.ContainsKey("content")) { newCssDefinition.content = definitionRow["content"].ToString(); newCssDefinition.Savedcontent = newCssDefinition.content; }
-                if (definitionRow.ContainsKey("border-radius")) { newCssDefinition.border_radius = definitionRow["border-radius"].ToString(); newCssDefinition.Savedborder_radius = newCssDefinition.border_radius; }
-                if (definitionRow.ContainsKey("z-index")) { newCssDefinition.z_index = definitionRow["z-index"].ToString(); newCssDefinition.Savedz_index = newCssDefinition.z_index; }
-                if (definitionRow.ContainsKey("fill")) { newCssDefinition.fill = definitionRow["fill"].ToString(); newCssDefinition.Savedfill = newCssDefinition.fill; }
-                if (definitionRow.ContainsKey("fill-opacity")) { newCssDefinition.fill_opacity = definitionRow["fill-opacity"].ToString(); newCssDefinition.Savedfill_opacity = newCssDefinition.fill_opacity; }
-                if (definitionRow.ContainsKey("stroke")) { newCssDefinition.stroke = definitionRow["stroke"].ToString(); newCssDefinition.Savedstroke = newCssDefinition.stroke; }
-                if (definitionRow.ContainsKey("stroke-width")) { newCssDefinition.stroke_width = definitionRow["stroke-width"].ToString(); newCssDefinition.Savedstroke_width = newCssDefinition.stroke_width; }
-                if (definitionRow.ContainsKey("text-anchor")) { newCssDefinition.text_anchor = definitionRow["text-anchor"].ToString(); newCssDefinition.Savedtext_anchor = newCssDefinition.text_anchor; }
-                if (definitionRow.ContainsKey("shape-rendering")) { newCssDefinition.shape_rendering = definitionRow["shape-rendering"].ToString(); newCssDefinition.Savedshape_rendering = newCssDefinition.shape_rendering; }
+                var customDefinitionRow = Parameters.CustomDefinitions
+                    .Get("Css")
+                    .Get(definitionRow["Id"]);
+                definitionRow.Keys.ForEach(key =>
+                {
+                    switch (key)
+                    {
+                        case "Id":
+                            newCssDefinition.Id = customDefinitionRow.Get("Id")?.ToString() ??
+                                definitionRow["Id"].ToString();
+                            newCssDefinition.SavedId = newCssDefinition.Id;
+                            break;
+                        case "Specific":
+                            newCssDefinition.Specific = customDefinitionRow.Get("Specific")?.ToString() ??
+                                definitionRow["Specific"].ToString();
+                            newCssDefinition.SavedSpecific = newCssDefinition.Specific;
+                            break;
+                        case "width":
+                            newCssDefinition.width = customDefinitionRow.Get("width")?.ToString() ??
+                                definitionRow["width"].ToString();
+                            newCssDefinition.Savedwidth = newCssDefinition.width;
+                            break;
+                        case "min-width":
+                            newCssDefinition.min_width = customDefinitionRow.Get("min-width")?.ToString() ??
+                                definitionRow["min-width"].ToString();
+                            newCssDefinition.Savedmin_width = newCssDefinition.min_width;
+                            break;
+                        case "max-width":
+                            newCssDefinition.max_width = customDefinitionRow.Get("max-width")?.ToString() ??
+                                definitionRow["max-width"].ToString();
+                            newCssDefinition.Savedmax_width = newCssDefinition.max_width;
+                            break;
+                        case "height":
+                            newCssDefinition.height = customDefinitionRow.Get("height")?.ToString() ??
+                                definitionRow["height"].ToString();
+                            newCssDefinition.Savedheight = newCssDefinition.height;
+                            break;
+                        case "min-height":
+                            newCssDefinition.min_height = customDefinitionRow.Get("min-height")?.ToString() ??
+                                definitionRow["min-height"].ToString();
+                            newCssDefinition.Savedmin_height = newCssDefinition.min_height;
+                            break;
+                        case "max-height":
+                            newCssDefinition.max_height = customDefinitionRow.Get("max-height")?.ToString() ??
+                                definitionRow["max-height"].ToString();
+                            newCssDefinition.Savedmax_height = newCssDefinition.max_height;
+                            break;
+                        case "display":
+                            newCssDefinition.display = customDefinitionRow.Get("display")?.ToString() ??
+                                definitionRow["display"].ToString();
+                            newCssDefinition.Saveddisplay = newCssDefinition.display;
+                            break;
+                        case "float":
+                            newCssDefinition._float = customDefinitionRow.Get("float")?.ToString() ??
+                                definitionRow["float"].ToString();
+                            newCssDefinition.Saved_float = newCssDefinition._float;
+                            break;
+                        case "margin":
+                            newCssDefinition.margin = customDefinitionRow.Get("margin")?.ToString() ??
+                                definitionRow["margin"].ToString();
+                            newCssDefinition.Savedmargin = newCssDefinition.margin;
+                            break;
+                        case "margin-left":
+                            newCssDefinition.margin_left = customDefinitionRow.Get("margin-left")?.ToString() ??
+                                definitionRow["margin-left"].ToString();
+                            newCssDefinition.Savedmargin_left = newCssDefinition.margin_left;
+                            break;
+                        case "margin-right":
+                            newCssDefinition.margin_right = customDefinitionRow.Get("margin-right")?.ToString() ??
+                                definitionRow["margin-right"].ToString();
+                            newCssDefinition.Savedmargin_right = newCssDefinition.margin_right;
+                            break;
+                        case "padding":
+                            newCssDefinition.padding = customDefinitionRow.Get("padding")?.ToString() ??
+                                definitionRow["padding"].ToString();
+                            newCssDefinition.Savedpadding = newCssDefinition.padding;
+                            break;
+                        case "padding-bottom":
+                            newCssDefinition.padding_bottom = customDefinitionRow.Get("padding-bottom")?.ToString() ??
+                                definitionRow["padding-bottom"].ToString();
+                            newCssDefinition.Savedpadding_bottom = newCssDefinition.padding_bottom;
+                            break;
+                        case "text-align":
+                            newCssDefinition.text_align = customDefinitionRow.Get("text-align")?.ToString() ??
+                                definitionRow["text-align"].ToString();
+                            newCssDefinition.Savedtext_align = newCssDefinition.text_align;
+                            break;
+                        case "vertical-align":
+                            newCssDefinition.vertical_align = customDefinitionRow.Get("vertical-align")?.ToString() ??
+                                definitionRow["vertical-align"].ToString();
+                            newCssDefinition.Savedvertical_align = newCssDefinition.vertical_align;
+                            break;
+                        case "line-height":
+                            newCssDefinition.line_height = customDefinitionRow.Get("line-height")?.ToString() ??
+                                definitionRow["line-height"].ToString();
+                            newCssDefinition.Savedline_height = newCssDefinition.line_height;
+                            break;
+                        case "font-size":
+                            newCssDefinition.font_size = customDefinitionRow.Get("font-size")?.ToString() ??
+                                definitionRow["font-size"].ToString();
+                            newCssDefinition.Savedfont_size = newCssDefinition.font_size;
+                            break;
+                        case "font-family":
+                            newCssDefinition.font_family = customDefinitionRow.Get("font-family")?.ToString() ??
+                                definitionRow["font-family"].ToString();
+                            newCssDefinition.Savedfont_family = newCssDefinition.font_family;
+                            break;
+                        case "font-weight":
+                            newCssDefinition.font_weight = customDefinitionRow.Get("font-weight")?.ToString() ??
+                                definitionRow["font-weight"].ToString();
+                            newCssDefinition.Savedfont_weight = newCssDefinition.font_weight;
+                            break;
+                        case "font-style":
+                            newCssDefinition.font_style = customDefinitionRow.Get("font-style")?.ToString() ??
+                                definitionRow["font-style"].ToString();
+                            newCssDefinition.Savedfont_style = newCssDefinition.font_style;
+                            break;
+                        case "color":
+                            newCssDefinition.color = customDefinitionRow.Get("color")?.ToString() ??
+                                definitionRow["color"].ToString();
+                            newCssDefinition.Savedcolor = newCssDefinition.color;
+                            break;
+                        case "background":
+                            newCssDefinition.background = customDefinitionRow.Get("background")?.ToString() ??
+                                definitionRow["background"].ToString();
+                            newCssDefinition.Savedbackground = newCssDefinition.background;
+                            break;
+                        case "background-color":
+                            newCssDefinition.background_color = customDefinitionRow.Get("background-color")?.ToString() ??
+                                definitionRow["background-color"].ToString();
+                            newCssDefinition.Savedbackground_color = newCssDefinition.background_color;
+                            break;
+                        case "border":
+                            newCssDefinition.border = customDefinitionRow.Get("border")?.ToString() ??
+                                definitionRow["border"].ToString();
+                            newCssDefinition.Savedborder = newCssDefinition.border;
+                            break;
+                        case "border-top":
+                            newCssDefinition.border_top = customDefinitionRow.Get("border-top")?.ToString() ??
+                                definitionRow["border-top"].ToString();
+                            newCssDefinition.Savedborder_top = newCssDefinition.border_top;
+                            break;
+                        case "border-bottom":
+                            newCssDefinition.border_bottom = customDefinitionRow.Get("border-bottom")?.ToString() ??
+                                definitionRow["border-bottom"].ToString();
+                            newCssDefinition.Savedborder_bottom = newCssDefinition.border_bottom;
+                            break;
+                        case "border-left":
+                            newCssDefinition.border_left = customDefinitionRow.Get("border-left")?.ToString() ??
+                                definitionRow["border-left"].ToString();
+                            newCssDefinition.Savedborder_left = newCssDefinition.border_left;
+                            break;
+                        case "border-right":
+                            newCssDefinition.border_right = customDefinitionRow.Get("border-right")?.ToString() ??
+                                definitionRow["border-right"].ToString();
+                            newCssDefinition.Savedborder_right = newCssDefinition.border_right;
+                            break;
+                        case "border-collapse":
+                            newCssDefinition.border_collapse = customDefinitionRow.Get("border-collapse")?.ToString() ??
+                                definitionRow["border-collapse"].ToString();
+                            newCssDefinition.Savedborder_collapse = newCssDefinition.border_collapse;
+                            break;
+                        case "border-spacing":
+                            newCssDefinition.border_spacing = customDefinitionRow.Get("border-spacing")?.ToString() ??
+                                definitionRow["border-spacing"].ToString();
+                            newCssDefinition.Savedborder_spacing = newCssDefinition.border_spacing;
+                            break;
+                        case "position":
+                            newCssDefinition.position = customDefinitionRow.Get("position")?.ToString() ??
+                                definitionRow["position"].ToString();
+                            newCssDefinition.Savedposition = newCssDefinition.position;
+                            break;
+                        case "top":
+                            newCssDefinition.top = customDefinitionRow.Get("top")?.ToString() ??
+                                definitionRow["top"].ToString();
+                            newCssDefinition.Savedtop = newCssDefinition.top;
+                            break;
+                        case "right":
+                            newCssDefinition.right = customDefinitionRow.Get("right")?.ToString() ??
+                                definitionRow["right"].ToString();
+                            newCssDefinition.Savedright = newCssDefinition.right;
+                            break;
+                        case "left":
+                            newCssDefinition.left = customDefinitionRow.Get("left")?.ToString() ??
+                                definitionRow["left"].ToString();
+                            newCssDefinition.Savedleft = newCssDefinition.left;
+                            break;
+                        case "bottom":
+                            newCssDefinition.bottom = customDefinitionRow.Get("bottom")?.ToString() ??
+                                definitionRow["bottom"].ToString();
+                            newCssDefinition.Savedbottom = newCssDefinition.bottom;
+                            break;
+                        case "cursor":
+                            newCssDefinition.cursor = customDefinitionRow.Get("cursor")?.ToString() ??
+                                definitionRow["cursor"].ToString();
+                            newCssDefinition.Savedcursor = newCssDefinition.cursor;
+                            break;
+                        case "clear":
+                            newCssDefinition.clear = customDefinitionRow.Get("clear")?.ToString() ??
+                                definitionRow["clear"].ToString();
+                            newCssDefinition.Savedclear = newCssDefinition.clear;
+                            break;
+                        case "overflow":
+                            newCssDefinition.overflow = customDefinitionRow.Get("overflow")?.ToString() ??
+                                definitionRow["overflow"].ToString();
+                            newCssDefinition.Savedoverflow = newCssDefinition.overflow;
+                            break;
+                        case "word-wrap":
+                            newCssDefinition.word_wrap = customDefinitionRow.Get("word-wrap")?.ToString() ??
+                                definitionRow["word-wrap"].ToString();
+                            newCssDefinition.Savedword_wrap = newCssDefinition.word_wrap;
+                            break;
+                        case "word-break":
+                            newCssDefinition.word_break = customDefinitionRow.Get("word-break")?.ToString() ??
+                                definitionRow["word-break"].ToString();
+                            newCssDefinition.Savedword_break = newCssDefinition.word_break;
+                            break;
+                        case "white-space":
+                            newCssDefinition.white_space = customDefinitionRow.Get("white-space")?.ToString() ??
+                                definitionRow["white-space"].ToString();
+                            newCssDefinition.Savedwhite_space = newCssDefinition.white_space;
+                            break;
+                        case "table-layout":
+                            newCssDefinition.table_layout = customDefinitionRow.Get("table-layout")?.ToString() ??
+                                definitionRow["table-layout"].ToString();
+                            newCssDefinition.Savedtable_layout = newCssDefinition.table_layout;
+                            break;
+                        case "text-decoration":
+                            newCssDefinition.text_decoration = customDefinitionRow.Get("text-decoration")?.ToString() ??
+                                definitionRow["text-decoration"].ToString();
+                            newCssDefinition.Savedtext_decoration = newCssDefinition.text_decoration;
+                            break;
+                        case "list-style-type":
+                            newCssDefinition.list_style_type = customDefinitionRow.Get("list-style-type")?.ToString() ??
+                                definitionRow["list-style-type"].ToString();
+                            newCssDefinition.Savedlist_style_type = newCssDefinition.list_style_type;
+                            break;
+                        case "visibility":
+                            newCssDefinition.visibility = customDefinitionRow.Get("visibility")?.ToString() ??
+                                definitionRow["visibility"].ToString();
+                            newCssDefinition.Savedvisibility = newCssDefinition.visibility;
+                            break;
+                        case "content":
+                            newCssDefinition.content = customDefinitionRow.Get("content")?.ToString() ??
+                                definitionRow["content"].ToString();
+                            newCssDefinition.Savedcontent = newCssDefinition.content;
+                            break;
+                        case "border-radius":
+                            newCssDefinition.border_radius = customDefinitionRow.Get("border-radius")?.ToString() ??
+                                definitionRow["border-radius"].ToString();
+                            newCssDefinition.Savedborder_radius = newCssDefinition.border_radius;
+                            break;
+                        case "z-index":
+                            newCssDefinition.z_index = customDefinitionRow.Get("z-index")?.ToString() ??
+                                definitionRow["z-index"].ToString();
+                            newCssDefinition.Savedz_index = newCssDefinition.z_index;
+                            break;
+                        case "fill":
+                            newCssDefinition.fill = customDefinitionRow.Get("fill")?.ToString() ??
+                                definitionRow["fill"].ToString();
+                            newCssDefinition.Savedfill = newCssDefinition.fill;
+                            break;
+                        case "fill-opacity":
+                            newCssDefinition.fill_opacity = customDefinitionRow.Get("fill-opacity")?.ToString() ??
+                                definitionRow["fill-opacity"].ToString();
+                            newCssDefinition.Savedfill_opacity = newCssDefinition.fill_opacity;
+                            break;
+                        case "stroke":
+                            newCssDefinition.stroke = customDefinitionRow.Get("stroke")?.ToString() ??
+                                definitionRow["stroke"].ToString();
+                            newCssDefinition.Savedstroke = newCssDefinition.stroke;
+                            break;
+                        case "stroke-width":
+                            newCssDefinition.stroke_width = customDefinitionRow.Get("stroke-width")?.ToString() ??
+                                definitionRow["stroke-width"].ToString();
+                            newCssDefinition.Savedstroke_width = newCssDefinition.stroke_width;
+                            break;
+                        case "text-anchor":
+                            newCssDefinition.text_anchor = customDefinitionRow.Get("text-anchor")?.ToString() ??
+                                definitionRow["text-anchor"].ToString();
+                            newCssDefinition.Savedtext_anchor = newCssDefinition.text_anchor;
+                            break;
+                        case "shape-rendering":
+                            newCssDefinition.shape_rendering = customDefinitionRow.Get("shape-rendering")?.ToString() ??
+                                definitionRow["shape-rendering"].ToString();
+                            newCssDefinition.Savedshape_rendering = newCssDefinition.shape_rendering;
+                            break;
+                        default: break;
+                    }
+                });
                 CssDefinitionCollection.Add(newCssDefinition);
             });
         }
@@ -3145,152 +4101,746 @@ namespace Implem.DefinitionAccessor
             DemoXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
             {
                 var newDemoDefinition = new DemoDefinition();
-                if (definitionRow.ContainsKey("Id")) { newDemoDefinition.Id = definitionRow["Id"].ToString(); newDemoDefinition.SavedId = newDemoDefinition.Id; }
-                if (definitionRow.ContainsKey("Body")) { newDemoDefinition.Body = definitionRow["Body"].ToString(); newDemoDefinition.SavedBody = newDemoDefinition.Body; }
-                if (definitionRow.ContainsKey("Type")) { newDemoDefinition.Type = definitionRow["Type"].ToString(); newDemoDefinition.SavedType = newDemoDefinition.Type; }
-                if (definitionRow.ContainsKey("ParentId")) { newDemoDefinition.ParentId = definitionRow["ParentId"].ToString(); newDemoDefinition.SavedParentId = newDemoDefinition.ParentId; }
-                if (definitionRow.ContainsKey("Title")) { newDemoDefinition.Title = definitionRow["Title"].ToString(); newDemoDefinition.SavedTitle = newDemoDefinition.Title; }
-                if (definitionRow.ContainsKey("WorkValue")) { newDemoDefinition.WorkValue = definitionRow["WorkValue"].ToDecimal(); newDemoDefinition.SavedWorkValue = newDemoDefinition.WorkValue; }
-                if (definitionRow.ContainsKey("ProgressRate")) { newDemoDefinition.ProgressRate = definitionRow["ProgressRate"].ToDecimal(); newDemoDefinition.SavedProgressRate = newDemoDefinition.ProgressRate; }
-                if (definitionRow.ContainsKey("Status")) { newDemoDefinition.Status = definitionRow["Status"].ToInt(); newDemoDefinition.SavedStatus = newDemoDefinition.Status; }
-                if (definitionRow.ContainsKey("ClassA")) { newDemoDefinition.ClassA = definitionRow["ClassA"].ToString(); newDemoDefinition.SavedClassA = newDemoDefinition.ClassA; }
-                if (definitionRow.ContainsKey("ClassB")) { newDemoDefinition.ClassB = definitionRow["ClassB"].ToString(); newDemoDefinition.SavedClassB = newDemoDefinition.ClassB; }
-                if (definitionRow.ContainsKey("ClassC")) { newDemoDefinition.ClassC = definitionRow["ClassC"].ToString(); newDemoDefinition.SavedClassC = newDemoDefinition.ClassC; }
-                if (definitionRow.ContainsKey("ClassD")) { newDemoDefinition.ClassD = definitionRow["ClassD"].ToString(); newDemoDefinition.SavedClassD = newDemoDefinition.ClassD; }
-                if (definitionRow.ContainsKey("ClassE")) { newDemoDefinition.ClassE = definitionRow["ClassE"].ToString(); newDemoDefinition.SavedClassE = newDemoDefinition.ClassE; }
-                if (definitionRow.ContainsKey("ClassF")) { newDemoDefinition.ClassF = definitionRow["ClassF"].ToString(); newDemoDefinition.SavedClassF = newDemoDefinition.ClassF; }
-                if (definitionRow.ContainsKey("ClassG")) { newDemoDefinition.ClassG = definitionRow["ClassG"].ToString(); newDemoDefinition.SavedClassG = newDemoDefinition.ClassG; }
-                if (definitionRow.ContainsKey("ClassH")) { newDemoDefinition.ClassH = definitionRow["ClassH"].ToString(); newDemoDefinition.SavedClassH = newDemoDefinition.ClassH; }
-                if (definitionRow.ContainsKey("ClassI")) { newDemoDefinition.ClassI = definitionRow["ClassI"].ToString(); newDemoDefinition.SavedClassI = newDemoDefinition.ClassI; }
-                if (definitionRow.ContainsKey("ClassJ")) { newDemoDefinition.ClassJ = definitionRow["ClassJ"].ToString(); newDemoDefinition.SavedClassJ = newDemoDefinition.ClassJ; }
-                if (definitionRow.ContainsKey("ClassK")) { newDemoDefinition.ClassK = definitionRow["ClassK"].ToString(); newDemoDefinition.SavedClassK = newDemoDefinition.ClassK; }
-                if (definitionRow.ContainsKey("ClassL")) { newDemoDefinition.ClassL = definitionRow["ClassL"].ToString(); newDemoDefinition.SavedClassL = newDemoDefinition.ClassL; }
-                if (definitionRow.ContainsKey("ClassM")) { newDemoDefinition.ClassM = definitionRow["ClassM"].ToString(); newDemoDefinition.SavedClassM = newDemoDefinition.ClassM; }
-                if (definitionRow.ContainsKey("ClassN")) { newDemoDefinition.ClassN = definitionRow["ClassN"].ToString(); newDemoDefinition.SavedClassN = newDemoDefinition.ClassN; }
-                if (definitionRow.ContainsKey("ClassO")) { newDemoDefinition.ClassO = definitionRow["ClassO"].ToString(); newDemoDefinition.SavedClassO = newDemoDefinition.ClassO; }
-                if (definitionRow.ContainsKey("ClassP")) { newDemoDefinition.ClassP = definitionRow["ClassP"].ToString(); newDemoDefinition.SavedClassP = newDemoDefinition.ClassP; }
-                if (definitionRow.ContainsKey("ClassQ")) { newDemoDefinition.ClassQ = definitionRow["ClassQ"].ToString(); newDemoDefinition.SavedClassQ = newDemoDefinition.ClassQ; }
-                if (definitionRow.ContainsKey("ClassR")) { newDemoDefinition.ClassR = definitionRow["ClassR"].ToString(); newDemoDefinition.SavedClassR = newDemoDefinition.ClassR; }
-                if (definitionRow.ContainsKey("ClassS")) { newDemoDefinition.ClassS = definitionRow["ClassS"].ToString(); newDemoDefinition.SavedClassS = newDemoDefinition.ClassS; }
-                if (definitionRow.ContainsKey("ClassT")) { newDemoDefinition.ClassT = definitionRow["ClassT"].ToString(); newDemoDefinition.SavedClassT = newDemoDefinition.ClassT; }
-                if (definitionRow.ContainsKey("ClassU")) { newDemoDefinition.ClassU = definitionRow["ClassU"].ToString(); newDemoDefinition.SavedClassU = newDemoDefinition.ClassU; }
-                if (definitionRow.ContainsKey("ClassV")) { newDemoDefinition.ClassV = definitionRow["ClassV"].ToString(); newDemoDefinition.SavedClassV = newDemoDefinition.ClassV; }
-                if (definitionRow.ContainsKey("ClassW")) { newDemoDefinition.ClassW = definitionRow["ClassW"].ToString(); newDemoDefinition.SavedClassW = newDemoDefinition.ClassW; }
-                if (definitionRow.ContainsKey("ClassX")) { newDemoDefinition.ClassX = definitionRow["ClassX"].ToString(); newDemoDefinition.SavedClassX = newDemoDefinition.ClassX; }
-                if (definitionRow.ContainsKey("ClassY")) { newDemoDefinition.ClassY = definitionRow["ClassY"].ToString(); newDemoDefinition.SavedClassY = newDemoDefinition.ClassY; }
-                if (definitionRow.ContainsKey("ClassZ")) { newDemoDefinition.ClassZ = definitionRow["ClassZ"].ToString(); newDemoDefinition.SavedClassZ = newDemoDefinition.ClassZ; }
-                if (definitionRow.ContainsKey("NumA")) { newDemoDefinition.NumA = definitionRow["NumA"].ToDecimal(); newDemoDefinition.SavedNumA = newDemoDefinition.NumA; }
-                if (definitionRow.ContainsKey("NumB")) { newDemoDefinition.NumB = definitionRow["NumB"].ToDecimal(); newDemoDefinition.SavedNumB = newDemoDefinition.NumB; }
-                if (definitionRow.ContainsKey("NumC")) { newDemoDefinition.NumC = definitionRow["NumC"].ToDecimal(); newDemoDefinition.SavedNumC = newDemoDefinition.NumC; }
-                if (definitionRow.ContainsKey("NumD")) { newDemoDefinition.NumD = definitionRow["NumD"].ToDecimal(); newDemoDefinition.SavedNumD = newDemoDefinition.NumD; }
-                if (definitionRow.ContainsKey("NumE")) { newDemoDefinition.NumE = definitionRow["NumE"].ToDecimal(); newDemoDefinition.SavedNumE = newDemoDefinition.NumE; }
-                if (definitionRow.ContainsKey("NumF")) { newDemoDefinition.NumF = definitionRow["NumF"].ToDecimal(); newDemoDefinition.SavedNumF = newDemoDefinition.NumF; }
-                if (definitionRow.ContainsKey("NumG")) { newDemoDefinition.NumG = definitionRow["NumG"].ToDecimal(); newDemoDefinition.SavedNumG = newDemoDefinition.NumG; }
-                if (definitionRow.ContainsKey("NumH")) { newDemoDefinition.NumH = definitionRow["NumH"].ToDecimal(); newDemoDefinition.SavedNumH = newDemoDefinition.NumH; }
-                if (definitionRow.ContainsKey("NumI")) { newDemoDefinition.NumI = definitionRow["NumI"].ToDecimal(); newDemoDefinition.SavedNumI = newDemoDefinition.NumI; }
-                if (definitionRow.ContainsKey("NumJ")) { newDemoDefinition.NumJ = definitionRow["NumJ"].ToDecimal(); newDemoDefinition.SavedNumJ = newDemoDefinition.NumJ; }
-                if (definitionRow.ContainsKey("NumK")) { newDemoDefinition.NumK = definitionRow["NumK"].ToDecimal(); newDemoDefinition.SavedNumK = newDemoDefinition.NumK; }
-                if (definitionRow.ContainsKey("NumL")) { newDemoDefinition.NumL = definitionRow["NumL"].ToDecimal(); newDemoDefinition.SavedNumL = newDemoDefinition.NumL; }
-                if (definitionRow.ContainsKey("NumM")) { newDemoDefinition.NumM = definitionRow["NumM"].ToDecimal(); newDemoDefinition.SavedNumM = newDemoDefinition.NumM; }
-                if (definitionRow.ContainsKey("NumN")) { newDemoDefinition.NumN = definitionRow["NumN"].ToDecimal(); newDemoDefinition.SavedNumN = newDemoDefinition.NumN; }
-                if (definitionRow.ContainsKey("NumO")) { newDemoDefinition.NumO = definitionRow["NumO"].ToDecimal(); newDemoDefinition.SavedNumO = newDemoDefinition.NumO; }
-                if (definitionRow.ContainsKey("NumP")) { newDemoDefinition.NumP = definitionRow["NumP"].ToDecimal(); newDemoDefinition.SavedNumP = newDemoDefinition.NumP; }
-                if (definitionRow.ContainsKey("NumQ")) { newDemoDefinition.NumQ = definitionRow["NumQ"].ToDecimal(); newDemoDefinition.SavedNumQ = newDemoDefinition.NumQ; }
-                if (definitionRow.ContainsKey("NumR")) { newDemoDefinition.NumR = definitionRow["NumR"].ToDecimal(); newDemoDefinition.SavedNumR = newDemoDefinition.NumR; }
-                if (definitionRow.ContainsKey("NumS")) { newDemoDefinition.NumS = definitionRow["NumS"].ToDecimal(); newDemoDefinition.SavedNumS = newDemoDefinition.NumS; }
-                if (definitionRow.ContainsKey("NumT")) { newDemoDefinition.NumT = definitionRow["NumT"].ToDecimal(); newDemoDefinition.SavedNumT = newDemoDefinition.NumT; }
-                if (definitionRow.ContainsKey("NumU")) { newDemoDefinition.NumU = definitionRow["NumU"].ToDecimal(); newDemoDefinition.SavedNumU = newDemoDefinition.NumU; }
-                if (definitionRow.ContainsKey("NumV")) { newDemoDefinition.NumV = definitionRow["NumV"].ToDecimal(); newDemoDefinition.SavedNumV = newDemoDefinition.NumV; }
-                if (definitionRow.ContainsKey("NumW")) { newDemoDefinition.NumW = definitionRow["NumW"].ToDecimal(); newDemoDefinition.SavedNumW = newDemoDefinition.NumW; }
-                if (definitionRow.ContainsKey("NumX")) { newDemoDefinition.NumX = definitionRow["NumX"].ToDecimal(); newDemoDefinition.SavedNumX = newDemoDefinition.NumX; }
-                if (definitionRow.ContainsKey("NumY")) { newDemoDefinition.NumY = definitionRow["NumY"].ToDecimal(); newDemoDefinition.SavedNumY = newDemoDefinition.NumY; }
-                if (definitionRow.ContainsKey("NumZ")) { newDemoDefinition.NumZ = definitionRow["NumZ"].ToDecimal(); newDemoDefinition.SavedNumZ = newDemoDefinition.NumZ; }
-                if (definitionRow.ContainsKey("DateA")) { newDemoDefinition.DateA = definitionRow["DateA"].ToDateTime(); newDemoDefinition.SavedDateA = newDemoDefinition.DateA; }
-                if (definitionRow.ContainsKey("DateB")) { newDemoDefinition.DateB = definitionRow["DateB"].ToDateTime(); newDemoDefinition.SavedDateB = newDemoDefinition.DateB; }
-                if (definitionRow.ContainsKey("DateC")) { newDemoDefinition.DateC = definitionRow["DateC"].ToDateTime(); newDemoDefinition.SavedDateC = newDemoDefinition.DateC; }
-                if (definitionRow.ContainsKey("DateD")) { newDemoDefinition.DateD = definitionRow["DateD"].ToDateTime(); newDemoDefinition.SavedDateD = newDemoDefinition.DateD; }
-                if (definitionRow.ContainsKey("DateE")) { newDemoDefinition.DateE = definitionRow["DateE"].ToDateTime(); newDemoDefinition.SavedDateE = newDemoDefinition.DateE; }
-                if (definitionRow.ContainsKey("DateF")) { newDemoDefinition.DateF = definitionRow["DateF"].ToDateTime(); newDemoDefinition.SavedDateF = newDemoDefinition.DateF; }
-                if (definitionRow.ContainsKey("DateG")) { newDemoDefinition.DateG = definitionRow["DateG"].ToDateTime(); newDemoDefinition.SavedDateG = newDemoDefinition.DateG; }
-                if (definitionRow.ContainsKey("DateH")) { newDemoDefinition.DateH = definitionRow["DateH"].ToDateTime(); newDemoDefinition.SavedDateH = newDemoDefinition.DateH; }
-                if (definitionRow.ContainsKey("DateI")) { newDemoDefinition.DateI = definitionRow["DateI"].ToDateTime(); newDemoDefinition.SavedDateI = newDemoDefinition.DateI; }
-                if (definitionRow.ContainsKey("DateJ")) { newDemoDefinition.DateJ = definitionRow["DateJ"].ToDateTime(); newDemoDefinition.SavedDateJ = newDemoDefinition.DateJ; }
-                if (definitionRow.ContainsKey("DateK")) { newDemoDefinition.DateK = definitionRow["DateK"].ToDateTime(); newDemoDefinition.SavedDateK = newDemoDefinition.DateK; }
-                if (definitionRow.ContainsKey("DateL")) { newDemoDefinition.DateL = definitionRow["DateL"].ToDateTime(); newDemoDefinition.SavedDateL = newDemoDefinition.DateL; }
-                if (definitionRow.ContainsKey("DateM")) { newDemoDefinition.DateM = definitionRow["DateM"].ToDateTime(); newDemoDefinition.SavedDateM = newDemoDefinition.DateM; }
-                if (definitionRow.ContainsKey("DateN")) { newDemoDefinition.DateN = definitionRow["DateN"].ToDateTime(); newDemoDefinition.SavedDateN = newDemoDefinition.DateN; }
-                if (definitionRow.ContainsKey("DateO")) { newDemoDefinition.DateO = definitionRow["DateO"].ToDateTime(); newDemoDefinition.SavedDateO = newDemoDefinition.DateO; }
-                if (definitionRow.ContainsKey("DateP")) { newDemoDefinition.DateP = definitionRow["DateP"].ToDateTime(); newDemoDefinition.SavedDateP = newDemoDefinition.DateP; }
-                if (definitionRow.ContainsKey("DateQ")) { newDemoDefinition.DateQ = definitionRow["DateQ"].ToDateTime(); newDemoDefinition.SavedDateQ = newDemoDefinition.DateQ; }
-                if (definitionRow.ContainsKey("DateR")) { newDemoDefinition.DateR = definitionRow["DateR"].ToDateTime(); newDemoDefinition.SavedDateR = newDemoDefinition.DateR; }
-                if (definitionRow.ContainsKey("DateS")) { newDemoDefinition.DateS = definitionRow["DateS"].ToDateTime(); newDemoDefinition.SavedDateS = newDemoDefinition.DateS; }
-                if (definitionRow.ContainsKey("DateT")) { newDemoDefinition.DateT = definitionRow["DateT"].ToDateTime(); newDemoDefinition.SavedDateT = newDemoDefinition.DateT; }
-                if (definitionRow.ContainsKey("DateU")) { newDemoDefinition.DateU = definitionRow["DateU"].ToDateTime(); newDemoDefinition.SavedDateU = newDemoDefinition.DateU; }
-                if (definitionRow.ContainsKey("DateV")) { newDemoDefinition.DateV = definitionRow["DateV"].ToDateTime(); newDemoDefinition.SavedDateV = newDemoDefinition.DateV; }
-                if (definitionRow.ContainsKey("DateW")) { newDemoDefinition.DateW = definitionRow["DateW"].ToDateTime(); newDemoDefinition.SavedDateW = newDemoDefinition.DateW; }
-                if (definitionRow.ContainsKey("DateX")) { newDemoDefinition.DateX = definitionRow["DateX"].ToDateTime(); newDemoDefinition.SavedDateX = newDemoDefinition.DateX; }
-                if (definitionRow.ContainsKey("DateY")) { newDemoDefinition.DateY = definitionRow["DateY"].ToDateTime(); newDemoDefinition.SavedDateY = newDemoDefinition.DateY; }
-                if (definitionRow.ContainsKey("DateZ")) { newDemoDefinition.DateZ = definitionRow["DateZ"].ToDateTime(); newDemoDefinition.SavedDateZ = newDemoDefinition.DateZ; }
-                if (definitionRow.ContainsKey("DescriptionA")) { newDemoDefinition.DescriptionA = definitionRow["DescriptionA"].ToString(); newDemoDefinition.SavedDescriptionA = newDemoDefinition.DescriptionA; }
-                if (definitionRow.ContainsKey("DescriptionB")) { newDemoDefinition.DescriptionB = definitionRow["DescriptionB"].ToString(); newDemoDefinition.SavedDescriptionB = newDemoDefinition.DescriptionB; }
-                if (definitionRow.ContainsKey("DescriptionC")) { newDemoDefinition.DescriptionC = definitionRow["DescriptionC"].ToString(); newDemoDefinition.SavedDescriptionC = newDemoDefinition.DescriptionC; }
-                if (definitionRow.ContainsKey("DescriptionD")) { newDemoDefinition.DescriptionD = definitionRow["DescriptionD"].ToString(); newDemoDefinition.SavedDescriptionD = newDemoDefinition.DescriptionD; }
-                if (definitionRow.ContainsKey("DescriptionE")) { newDemoDefinition.DescriptionE = definitionRow["DescriptionE"].ToString(); newDemoDefinition.SavedDescriptionE = newDemoDefinition.DescriptionE; }
-                if (definitionRow.ContainsKey("DescriptionF")) { newDemoDefinition.DescriptionF = definitionRow["DescriptionF"].ToString(); newDemoDefinition.SavedDescriptionF = newDemoDefinition.DescriptionF; }
-                if (definitionRow.ContainsKey("DescriptionG")) { newDemoDefinition.DescriptionG = definitionRow["DescriptionG"].ToString(); newDemoDefinition.SavedDescriptionG = newDemoDefinition.DescriptionG; }
-                if (definitionRow.ContainsKey("DescriptionH")) { newDemoDefinition.DescriptionH = definitionRow["DescriptionH"].ToString(); newDemoDefinition.SavedDescriptionH = newDemoDefinition.DescriptionH; }
-                if (definitionRow.ContainsKey("DescriptionI")) { newDemoDefinition.DescriptionI = definitionRow["DescriptionI"].ToString(); newDemoDefinition.SavedDescriptionI = newDemoDefinition.DescriptionI; }
-                if (definitionRow.ContainsKey("DescriptionJ")) { newDemoDefinition.DescriptionJ = definitionRow["DescriptionJ"].ToString(); newDemoDefinition.SavedDescriptionJ = newDemoDefinition.DescriptionJ; }
-                if (definitionRow.ContainsKey("DescriptionK")) { newDemoDefinition.DescriptionK = definitionRow["DescriptionK"].ToString(); newDemoDefinition.SavedDescriptionK = newDemoDefinition.DescriptionK; }
-                if (definitionRow.ContainsKey("DescriptionL")) { newDemoDefinition.DescriptionL = definitionRow["DescriptionL"].ToString(); newDemoDefinition.SavedDescriptionL = newDemoDefinition.DescriptionL; }
-                if (definitionRow.ContainsKey("DescriptionM")) { newDemoDefinition.DescriptionM = definitionRow["DescriptionM"].ToString(); newDemoDefinition.SavedDescriptionM = newDemoDefinition.DescriptionM; }
-                if (definitionRow.ContainsKey("DescriptionN")) { newDemoDefinition.DescriptionN = definitionRow["DescriptionN"].ToString(); newDemoDefinition.SavedDescriptionN = newDemoDefinition.DescriptionN; }
-                if (definitionRow.ContainsKey("DescriptionO")) { newDemoDefinition.DescriptionO = definitionRow["DescriptionO"].ToString(); newDemoDefinition.SavedDescriptionO = newDemoDefinition.DescriptionO; }
-                if (definitionRow.ContainsKey("DescriptionP")) { newDemoDefinition.DescriptionP = definitionRow["DescriptionP"].ToString(); newDemoDefinition.SavedDescriptionP = newDemoDefinition.DescriptionP; }
-                if (definitionRow.ContainsKey("DescriptionQ")) { newDemoDefinition.DescriptionQ = definitionRow["DescriptionQ"].ToString(); newDemoDefinition.SavedDescriptionQ = newDemoDefinition.DescriptionQ; }
-                if (definitionRow.ContainsKey("DescriptionR")) { newDemoDefinition.DescriptionR = definitionRow["DescriptionR"].ToString(); newDemoDefinition.SavedDescriptionR = newDemoDefinition.DescriptionR; }
-                if (definitionRow.ContainsKey("DescriptionS")) { newDemoDefinition.DescriptionS = definitionRow["DescriptionS"].ToString(); newDemoDefinition.SavedDescriptionS = newDemoDefinition.DescriptionS; }
-                if (definitionRow.ContainsKey("DescriptionT")) { newDemoDefinition.DescriptionT = definitionRow["DescriptionT"].ToString(); newDemoDefinition.SavedDescriptionT = newDemoDefinition.DescriptionT; }
-                if (definitionRow.ContainsKey("DescriptionU")) { newDemoDefinition.DescriptionU = definitionRow["DescriptionU"].ToString(); newDemoDefinition.SavedDescriptionU = newDemoDefinition.DescriptionU; }
-                if (definitionRow.ContainsKey("DescriptionV")) { newDemoDefinition.DescriptionV = definitionRow["DescriptionV"].ToString(); newDemoDefinition.SavedDescriptionV = newDemoDefinition.DescriptionV; }
-                if (definitionRow.ContainsKey("DescriptionW")) { newDemoDefinition.DescriptionW = definitionRow["DescriptionW"].ToString(); newDemoDefinition.SavedDescriptionW = newDemoDefinition.DescriptionW; }
-                if (definitionRow.ContainsKey("DescriptionX")) { newDemoDefinition.DescriptionX = definitionRow["DescriptionX"].ToString(); newDemoDefinition.SavedDescriptionX = newDemoDefinition.DescriptionX; }
-                if (definitionRow.ContainsKey("DescriptionY")) { newDemoDefinition.DescriptionY = definitionRow["DescriptionY"].ToString(); newDemoDefinition.SavedDescriptionY = newDemoDefinition.DescriptionY; }
-                if (definitionRow.ContainsKey("DescriptionZ")) { newDemoDefinition.DescriptionZ = definitionRow["DescriptionZ"].ToString(); newDemoDefinition.SavedDescriptionZ = newDemoDefinition.DescriptionZ; }
-                if (definitionRow.ContainsKey("CheckA")) { newDemoDefinition.CheckA = definitionRow["CheckA"].ToBool(); newDemoDefinition.SavedCheckA = newDemoDefinition.CheckA; }
-                if (definitionRow.ContainsKey("CheckB")) { newDemoDefinition.CheckB = definitionRow["CheckB"].ToBool(); newDemoDefinition.SavedCheckB = newDemoDefinition.CheckB; }
-                if (definitionRow.ContainsKey("CheckC")) { newDemoDefinition.CheckC = definitionRow["CheckC"].ToBool(); newDemoDefinition.SavedCheckC = newDemoDefinition.CheckC; }
-                if (definitionRow.ContainsKey("CheckD")) { newDemoDefinition.CheckD = definitionRow["CheckD"].ToBool(); newDemoDefinition.SavedCheckD = newDemoDefinition.CheckD; }
-                if (definitionRow.ContainsKey("CheckE")) { newDemoDefinition.CheckE = definitionRow["CheckE"].ToBool(); newDemoDefinition.SavedCheckE = newDemoDefinition.CheckE; }
-                if (definitionRow.ContainsKey("CheckF")) { newDemoDefinition.CheckF = definitionRow["CheckF"].ToBool(); newDemoDefinition.SavedCheckF = newDemoDefinition.CheckF; }
-                if (definitionRow.ContainsKey("CheckG")) { newDemoDefinition.CheckG = definitionRow["CheckG"].ToBool(); newDemoDefinition.SavedCheckG = newDemoDefinition.CheckG; }
-                if (definitionRow.ContainsKey("CheckH")) { newDemoDefinition.CheckH = definitionRow["CheckH"].ToBool(); newDemoDefinition.SavedCheckH = newDemoDefinition.CheckH; }
-                if (definitionRow.ContainsKey("CheckI")) { newDemoDefinition.CheckI = definitionRow["CheckI"].ToBool(); newDemoDefinition.SavedCheckI = newDemoDefinition.CheckI; }
-                if (definitionRow.ContainsKey("CheckJ")) { newDemoDefinition.CheckJ = definitionRow["CheckJ"].ToBool(); newDemoDefinition.SavedCheckJ = newDemoDefinition.CheckJ; }
-                if (definitionRow.ContainsKey("CheckK")) { newDemoDefinition.CheckK = definitionRow["CheckK"].ToBool(); newDemoDefinition.SavedCheckK = newDemoDefinition.CheckK; }
-                if (definitionRow.ContainsKey("CheckL")) { newDemoDefinition.CheckL = definitionRow["CheckL"].ToBool(); newDemoDefinition.SavedCheckL = newDemoDefinition.CheckL; }
-                if (definitionRow.ContainsKey("CheckM")) { newDemoDefinition.CheckM = definitionRow["CheckM"].ToBool(); newDemoDefinition.SavedCheckM = newDemoDefinition.CheckM; }
-                if (definitionRow.ContainsKey("CheckN")) { newDemoDefinition.CheckN = definitionRow["CheckN"].ToBool(); newDemoDefinition.SavedCheckN = newDemoDefinition.CheckN; }
-                if (definitionRow.ContainsKey("CheckO")) { newDemoDefinition.CheckO = definitionRow["CheckO"].ToBool(); newDemoDefinition.SavedCheckO = newDemoDefinition.CheckO; }
-                if (definitionRow.ContainsKey("CheckP")) { newDemoDefinition.CheckP = definitionRow["CheckP"].ToBool(); newDemoDefinition.SavedCheckP = newDemoDefinition.CheckP; }
-                if (definitionRow.ContainsKey("CheckQ")) { newDemoDefinition.CheckQ = definitionRow["CheckQ"].ToBool(); newDemoDefinition.SavedCheckQ = newDemoDefinition.CheckQ; }
-                if (definitionRow.ContainsKey("CheckR")) { newDemoDefinition.CheckR = definitionRow["CheckR"].ToBool(); newDemoDefinition.SavedCheckR = newDemoDefinition.CheckR; }
-                if (definitionRow.ContainsKey("CheckS")) { newDemoDefinition.CheckS = definitionRow["CheckS"].ToBool(); newDemoDefinition.SavedCheckS = newDemoDefinition.CheckS; }
-                if (definitionRow.ContainsKey("CheckT")) { newDemoDefinition.CheckT = definitionRow["CheckT"].ToBool(); newDemoDefinition.SavedCheckT = newDemoDefinition.CheckT; }
-                if (definitionRow.ContainsKey("CheckU")) { newDemoDefinition.CheckU = definitionRow["CheckU"].ToBool(); newDemoDefinition.SavedCheckU = newDemoDefinition.CheckU; }
-                if (definitionRow.ContainsKey("CheckV")) { newDemoDefinition.CheckV = definitionRow["CheckV"].ToBool(); newDemoDefinition.SavedCheckV = newDemoDefinition.CheckV; }
-                if (definitionRow.ContainsKey("CheckW")) { newDemoDefinition.CheckW = definitionRow["CheckW"].ToBool(); newDemoDefinition.SavedCheckW = newDemoDefinition.CheckW; }
-                if (definitionRow.ContainsKey("CheckX")) { newDemoDefinition.CheckX = definitionRow["CheckX"].ToBool(); newDemoDefinition.SavedCheckX = newDemoDefinition.CheckX; }
-                if (definitionRow.ContainsKey("CheckY")) { newDemoDefinition.CheckY = definitionRow["CheckY"].ToBool(); newDemoDefinition.SavedCheckY = newDemoDefinition.CheckY; }
-                if (definitionRow.ContainsKey("CheckZ")) { newDemoDefinition.CheckZ = definitionRow["CheckZ"].ToBool(); newDemoDefinition.SavedCheckZ = newDemoDefinition.CheckZ; }
-                if (definitionRow.ContainsKey("Manager")) { newDemoDefinition.Manager = definitionRow["Manager"].ToString(); newDemoDefinition.SavedManager = newDemoDefinition.Manager; }
-                if (definitionRow.ContainsKey("Owner")) { newDemoDefinition.Owner = definitionRow["Owner"].ToString(); newDemoDefinition.SavedOwner = newDemoDefinition.Owner; }
-                if (definitionRow.ContainsKey("Creator")) { newDemoDefinition.Creator = definitionRow["Creator"].ToString(); newDemoDefinition.SavedCreator = newDemoDefinition.Creator; }
-                if (definitionRow.ContainsKey("Updator")) { newDemoDefinition.Updator = definitionRow["Updator"].ToString(); newDemoDefinition.SavedUpdator = newDemoDefinition.Updator; }
-                if (definitionRow.ContainsKey("StartTime")) { newDemoDefinition.StartTime = definitionRow["StartTime"].ToDateTime(); newDemoDefinition.SavedStartTime = newDemoDefinition.StartTime; }
-                if (definitionRow.ContainsKey("CompletionTime")) { newDemoDefinition.CompletionTime = definitionRow["CompletionTime"].ToDateTime(); newDemoDefinition.SavedCompletionTime = newDemoDefinition.CompletionTime; }
-                if (definitionRow.ContainsKey("CreatedTime")) { newDemoDefinition.CreatedTime = definitionRow["CreatedTime"].ToDateTime(); newDemoDefinition.SavedCreatedTime = newDemoDefinition.CreatedTime; }
-                if (definitionRow.ContainsKey("UpdatedTime")) { newDemoDefinition.UpdatedTime = definitionRow["UpdatedTime"].ToDateTime(); newDemoDefinition.SavedUpdatedTime = newDemoDefinition.UpdatedTime; }
+                var customDefinitionRow = Parameters.CustomDefinitions
+                    .Get("Demo")
+                    .Get(definitionRow["Id"]);
+                definitionRow.Keys.ForEach(key =>
+                {
+                    switch (key)
+                    {
+                        case "Id":
+                            newDemoDefinition.Id = customDefinitionRow.Get("Id")?.ToString() ??
+                                definitionRow["Id"].ToString();
+                            newDemoDefinition.SavedId = newDemoDefinition.Id;
+                            break;
+                        case "Body":
+                            newDemoDefinition.Body = customDefinitionRow.Get("Body")?.ToString() ??
+                                definitionRow["Body"].ToString();
+                            newDemoDefinition.SavedBody = newDemoDefinition.Body;
+                            break;
+                        case "Type":
+                            newDemoDefinition.Type = customDefinitionRow.Get("Type")?.ToString() ??
+                                definitionRow["Type"].ToString();
+                            newDemoDefinition.SavedType = newDemoDefinition.Type;
+                            break;
+                        case "ParentId":
+                            newDemoDefinition.ParentId = customDefinitionRow.Get("ParentId")?.ToString() ??
+                                definitionRow["ParentId"].ToString();
+                            newDemoDefinition.SavedParentId = newDemoDefinition.ParentId;
+                            break;
+                        case "Title":
+                            newDemoDefinition.Title = customDefinitionRow.Get("Title")?.ToString() ??
+                                definitionRow["Title"].ToString();
+                            newDemoDefinition.SavedTitle = newDemoDefinition.Title;
+                            break;
+                        case "WorkValue":
+                            newDemoDefinition.WorkValue = customDefinitionRow.Get("WorkValue")?.ToDecimal() ??
+                                definitionRow["WorkValue"].ToDecimal();
+                            newDemoDefinition.SavedWorkValue = newDemoDefinition.WorkValue;
+                            break;
+                        case "ProgressRate":
+                            newDemoDefinition.ProgressRate = customDefinitionRow.Get("ProgressRate")?.ToDecimal() ??
+                                definitionRow["ProgressRate"].ToDecimal();
+                            newDemoDefinition.SavedProgressRate = newDemoDefinition.ProgressRate;
+                            break;
+                        case "Status":
+                            newDemoDefinition.Status = customDefinitionRow.Get("Status")?.ToInt() ??
+                                definitionRow["Status"].ToInt();
+                            newDemoDefinition.SavedStatus = newDemoDefinition.Status;
+                            break;
+                        case "ClassA":
+                            newDemoDefinition.ClassA = customDefinitionRow.Get("ClassA")?.ToString() ??
+                                definitionRow["ClassA"].ToString();
+                            newDemoDefinition.SavedClassA = newDemoDefinition.ClassA;
+                            break;
+                        case "ClassB":
+                            newDemoDefinition.ClassB = customDefinitionRow.Get("ClassB")?.ToString() ??
+                                definitionRow["ClassB"].ToString();
+                            newDemoDefinition.SavedClassB = newDemoDefinition.ClassB;
+                            break;
+                        case "ClassC":
+                            newDemoDefinition.ClassC = customDefinitionRow.Get("ClassC")?.ToString() ??
+                                definitionRow["ClassC"].ToString();
+                            newDemoDefinition.SavedClassC = newDemoDefinition.ClassC;
+                            break;
+                        case "ClassD":
+                            newDemoDefinition.ClassD = customDefinitionRow.Get("ClassD")?.ToString() ??
+                                definitionRow["ClassD"].ToString();
+                            newDemoDefinition.SavedClassD = newDemoDefinition.ClassD;
+                            break;
+                        case "ClassE":
+                            newDemoDefinition.ClassE = customDefinitionRow.Get("ClassE")?.ToString() ??
+                                definitionRow["ClassE"].ToString();
+                            newDemoDefinition.SavedClassE = newDemoDefinition.ClassE;
+                            break;
+                        case "ClassF":
+                            newDemoDefinition.ClassF = customDefinitionRow.Get("ClassF")?.ToString() ??
+                                definitionRow["ClassF"].ToString();
+                            newDemoDefinition.SavedClassF = newDemoDefinition.ClassF;
+                            break;
+                        case "ClassG":
+                            newDemoDefinition.ClassG = customDefinitionRow.Get("ClassG")?.ToString() ??
+                                definitionRow["ClassG"].ToString();
+                            newDemoDefinition.SavedClassG = newDemoDefinition.ClassG;
+                            break;
+                        case "ClassH":
+                            newDemoDefinition.ClassH = customDefinitionRow.Get("ClassH")?.ToString() ??
+                                definitionRow["ClassH"].ToString();
+                            newDemoDefinition.SavedClassH = newDemoDefinition.ClassH;
+                            break;
+                        case "ClassI":
+                            newDemoDefinition.ClassI = customDefinitionRow.Get("ClassI")?.ToString() ??
+                                definitionRow["ClassI"].ToString();
+                            newDemoDefinition.SavedClassI = newDemoDefinition.ClassI;
+                            break;
+                        case "ClassJ":
+                            newDemoDefinition.ClassJ = customDefinitionRow.Get("ClassJ")?.ToString() ??
+                                definitionRow["ClassJ"].ToString();
+                            newDemoDefinition.SavedClassJ = newDemoDefinition.ClassJ;
+                            break;
+                        case "ClassK":
+                            newDemoDefinition.ClassK = customDefinitionRow.Get("ClassK")?.ToString() ??
+                                definitionRow["ClassK"].ToString();
+                            newDemoDefinition.SavedClassK = newDemoDefinition.ClassK;
+                            break;
+                        case "ClassL":
+                            newDemoDefinition.ClassL = customDefinitionRow.Get("ClassL")?.ToString() ??
+                                definitionRow["ClassL"].ToString();
+                            newDemoDefinition.SavedClassL = newDemoDefinition.ClassL;
+                            break;
+                        case "ClassM":
+                            newDemoDefinition.ClassM = customDefinitionRow.Get("ClassM")?.ToString() ??
+                                definitionRow["ClassM"].ToString();
+                            newDemoDefinition.SavedClassM = newDemoDefinition.ClassM;
+                            break;
+                        case "ClassN":
+                            newDemoDefinition.ClassN = customDefinitionRow.Get("ClassN")?.ToString() ??
+                                definitionRow["ClassN"].ToString();
+                            newDemoDefinition.SavedClassN = newDemoDefinition.ClassN;
+                            break;
+                        case "ClassO":
+                            newDemoDefinition.ClassO = customDefinitionRow.Get("ClassO")?.ToString() ??
+                                definitionRow["ClassO"].ToString();
+                            newDemoDefinition.SavedClassO = newDemoDefinition.ClassO;
+                            break;
+                        case "ClassP":
+                            newDemoDefinition.ClassP = customDefinitionRow.Get("ClassP")?.ToString() ??
+                                definitionRow["ClassP"].ToString();
+                            newDemoDefinition.SavedClassP = newDemoDefinition.ClassP;
+                            break;
+                        case "ClassQ":
+                            newDemoDefinition.ClassQ = customDefinitionRow.Get("ClassQ")?.ToString() ??
+                                definitionRow["ClassQ"].ToString();
+                            newDemoDefinition.SavedClassQ = newDemoDefinition.ClassQ;
+                            break;
+                        case "ClassR":
+                            newDemoDefinition.ClassR = customDefinitionRow.Get("ClassR")?.ToString() ??
+                                definitionRow["ClassR"].ToString();
+                            newDemoDefinition.SavedClassR = newDemoDefinition.ClassR;
+                            break;
+                        case "ClassS":
+                            newDemoDefinition.ClassS = customDefinitionRow.Get("ClassS")?.ToString() ??
+                                definitionRow["ClassS"].ToString();
+                            newDemoDefinition.SavedClassS = newDemoDefinition.ClassS;
+                            break;
+                        case "ClassT":
+                            newDemoDefinition.ClassT = customDefinitionRow.Get("ClassT")?.ToString() ??
+                                definitionRow["ClassT"].ToString();
+                            newDemoDefinition.SavedClassT = newDemoDefinition.ClassT;
+                            break;
+                        case "ClassU":
+                            newDemoDefinition.ClassU = customDefinitionRow.Get("ClassU")?.ToString() ??
+                                definitionRow["ClassU"].ToString();
+                            newDemoDefinition.SavedClassU = newDemoDefinition.ClassU;
+                            break;
+                        case "ClassV":
+                            newDemoDefinition.ClassV = customDefinitionRow.Get("ClassV")?.ToString() ??
+                                definitionRow["ClassV"].ToString();
+                            newDemoDefinition.SavedClassV = newDemoDefinition.ClassV;
+                            break;
+                        case "ClassW":
+                            newDemoDefinition.ClassW = customDefinitionRow.Get("ClassW")?.ToString() ??
+                                definitionRow["ClassW"].ToString();
+                            newDemoDefinition.SavedClassW = newDemoDefinition.ClassW;
+                            break;
+                        case "ClassX":
+                            newDemoDefinition.ClassX = customDefinitionRow.Get("ClassX")?.ToString() ??
+                                definitionRow["ClassX"].ToString();
+                            newDemoDefinition.SavedClassX = newDemoDefinition.ClassX;
+                            break;
+                        case "ClassY":
+                            newDemoDefinition.ClassY = customDefinitionRow.Get("ClassY")?.ToString() ??
+                                definitionRow["ClassY"].ToString();
+                            newDemoDefinition.SavedClassY = newDemoDefinition.ClassY;
+                            break;
+                        case "ClassZ":
+                            newDemoDefinition.ClassZ = customDefinitionRow.Get("ClassZ")?.ToString() ??
+                                definitionRow["ClassZ"].ToString();
+                            newDemoDefinition.SavedClassZ = newDemoDefinition.ClassZ;
+                            break;
+                        case "NumA":
+                            newDemoDefinition.NumA = customDefinitionRow.Get("NumA")?.ToDecimal() ??
+                                definitionRow["NumA"].ToDecimal();
+                            newDemoDefinition.SavedNumA = newDemoDefinition.NumA;
+                            break;
+                        case "NumB":
+                            newDemoDefinition.NumB = customDefinitionRow.Get("NumB")?.ToDecimal() ??
+                                definitionRow["NumB"].ToDecimal();
+                            newDemoDefinition.SavedNumB = newDemoDefinition.NumB;
+                            break;
+                        case "NumC":
+                            newDemoDefinition.NumC = customDefinitionRow.Get("NumC")?.ToDecimal() ??
+                                definitionRow["NumC"].ToDecimal();
+                            newDemoDefinition.SavedNumC = newDemoDefinition.NumC;
+                            break;
+                        case "NumD":
+                            newDemoDefinition.NumD = customDefinitionRow.Get("NumD")?.ToDecimal() ??
+                                definitionRow["NumD"].ToDecimal();
+                            newDemoDefinition.SavedNumD = newDemoDefinition.NumD;
+                            break;
+                        case "NumE":
+                            newDemoDefinition.NumE = customDefinitionRow.Get("NumE")?.ToDecimal() ??
+                                definitionRow["NumE"].ToDecimal();
+                            newDemoDefinition.SavedNumE = newDemoDefinition.NumE;
+                            break;
+                        case "NumF":
+                            newDemoDefinition.NumF = customDefinitionRow.Get("NumF")?.ToDecimal() ??
+                                definitionRow["NumF"].ToDecimal();
+                            newDemoDefinition.SavedNumF = newDemoDefinition.NumF;
+                            break;
+                        case "NumG":
+                            newDemoDefinition.NumG = customDefinitionRow.Get("NumG")?.ToDecimal() ??
+                                definitionRow["NumG"].ToDecimal();
+                            newDemoDefinition.SavedNumG = newDemoDefinition.NumG;
+                            break;
+                        case "NumH":
+                            newDemoDefinition.NumH = customDefinitionRow.Get("NumH")?.ToDecimal() ??
+                                definitionRow["NumH"].ToDecimal();
+                            newDemoDefinition.SavedNumH = newDemoDefinition.NumH;
+                            break;
+                        case "NumI":
+                            newDemoDefinition.NumI = customDefinitionRow.Get("NumI")?.ToDecimal() ??
+                                definitionRow["NumI"].ToDecimal();
+                            newDemoDefinition.SavedNumI = newDemoDefinition.NumI;
+                            break;
+                        case "NumJ":
+                            newDemoDefinition.NumJ = customDefinitionRow.Get("NumJ")?.ToDecimal() ??
+                                definitionRow["NumJ"].ToDecimal();
+                            newDemoDefinition.SavedNumJ = newDemoDefinition.NumJ;
+                            break;
+                        case "NumK":
+                            newDemoDefinition.NumK = customDefinitionRow.Get("NumK")?.ToDecimal() ??
+                                definitionRow["NumK"].ToDecimal();
+                            newDemoDefinition.SavedNumK = newDemoDefinition.NumK;
+                            break;
+                        case "NumL":
+                            newDemoDefinition.NumL = customDefinitionRow.Get("NumL")?.ToDecimal() ??
+                                definitionRow["NumL"].ToDecimal();
+                            newDemoDefinition.SavedNumL = newDemoDefinition.NumL;
+                            break;
+                        case "NumM":
+                            newDemoDefinition.NumM = customDefinitionRow.Get("NumM")?.ToDecimal() ??
+                                definitionRow["NumM"].ToDecimal();
+                            newDemoDefinition.SavedNumM = newDemoDefinition.NumM;
+                            break;
+                        case "NumN":
+                            newDemoDefinition.NumN = customDefinitionRow.Get("NumN")?.ToDecimal() ??
+                                definitionRow["NumN"].ToDecimal();
+                            newDemoDefinition.SavedNumN = newDemoDefinition.NumN;
+                            break;
+                        case "NumO":
+                            newDemoDefinition.NumO = customDefinitionRow.Get("NumO")?.ToDecimal() ??
+                                definitionRow["NumO"].ToDecimal();
+                            newDemoDefinition.SavedNumO = newDemoDefinition.NumO;
+                            break;
+                        case "NumP":
+                            newDemoDefinition.NumP = customDefinitionRow.Get("NumP")?.ToDecimal() ??
+                                definitionRow["NumP"].ToDecimal();
+                            newDemoDefinition.SavedNumP = newDemoDefinition.NumP;
+                            break;
+                        case "NumQ":
+                            newDemoDefinition.NumQ = customDefinitionRow.Get("NumQ")?.ToDecimal() ??
+                                definitionRow["NumQ"].ToDecimal();
+                            newDemoDefinition.SavedNumQ = newDemoDefinition.NumQ;
+                            break;
+                        case "NumR":
+                            newDemoDefinition.NumR = customDefinitionRow.Get("NumR")?.ToDecimal() ??
+                                definitionRow["NumR"].ToDecimal();
+                            newDemoDefinition.SavedNumR = newDemoDefinition.NumR;
+                            break;
+                        case "NumS":
+                            newDemoDefinition.NumS = customDefinitionRow.Get("NumS")?.ToDecimal() ??
+                                definitionRow["NumS"].ToDecimal();
+                            newDemoDefinition.SavedNumS = newDemoDefinition.NumS;
+                            break;
+                        case "NumT":
+                            newDemoDefinition.NumT = customDefinitionRow.Get("NumT")?.ToDecimal() ??
+                                definitionRow["NumT"].ToDecimal();
+                            newDemoDefinition.SavedNumT = newDemoDefinition.NumT;
+                            break;
+                        case "NumU":
+                            newDemoDefinition.NumU = customDefinitionRow.Get("NumU")?.ToDecimal() ??
+                                definitionRow["NumU"].ToDecimal();
+                            newDemoDefinition.SavedNumU = newDemoDefinition.NumU;
+                            break;
+                        case "NumV":
+                            newDemoDefinition.NumV = customDefinitionRow.Get("NumV")?.ToDecimal() ??
+                                definitionRow["NumV"].ToDecimal();
+                            newDemoDefinition.SavedNumV = newDemoDefinition.NumV;
+                            break;
+                        case "NumW":
+                            newDemoDefinition.NumW = customDefinitionRow.Get("NumW")?.ToDecimal() ??
+                                definitionRow["NumW"].ToDecimal();
+                            newDemoDefinition.SavedNumW = newDemoDefinition.NumW;
+                            break;
+                        case "NumX":
+                            newDemoDefinition.NumX = customDefinitionRow.Get("NumX")?.ToDecimal() ??
+                                definitionRow["NumX"].ToDecimal();
+                            newDemoDefinition.SavedNumX = newDemoDefinition.NumX;
+                            break;
+                        case "NumY":
+                            newDemoDefinition.NumY = customDefinitionRow.Get("NumY")?.ToDecimal() ??
+                                definitionRow["NumY"].ToDecimal();
+                            newDemoDefinition.SavedNumY = newDemoDefinition.NumY;
+                            break;
+                        case "NumZ":
+                            newDemoDefinition.NumZ = customDefinitionRow.Get("NumZ")?.ToDecimal() ??
+                                definitionRow["NumZ"].ToDecimal();
+                            newDemoDefinition.SavedNumZ = newDemoDefinition.NumZ;
+                            break;
+                        case "DateA":
+                            newDemoDefinition.DateA = customDefinitionRow.Get("DateA")?.ToDateTime() ??
+                                definitionRow["DateA"].ToDateTime();
+                            newDemoDefinition.SavedDateA = newDemoDefinition.DateA;
+                            break;
+                        case "DateB":
+                            newDemoDefinition.DateB = customDefinitionRow.Get("DateB")?.ToDateTime() ??
+                                definitionRow["DateB"].ToDateTime();
+                            newDemoDefinition.SavedDateB = newDemoDefinition.DateB;
+                            break;
+                        case "DateC":
+                            newDemoDefinition.DateC = customDefinitionRow.Get("DateC")?.ToDateTime() ??
+                                definitionRow["DateC"].ToDateTime();
+                            newDemoDefinition.SavedDateC = newDemoDefinition.DateC;
+                            break;
+                        case "DateD":
+                            newDemoDefinition.DateD = customDefinitionRow.Get("DateD")?.ToDateTime() ??
+                                definitionRow["DateD"].ToDateTime();
+                            newDemoDefinition.SavedDateD = newDemoDefinition.DateD;
+                            break;
+                        case "DateE":
+                            newDemoDefinition.DateE = customDefinitionRow.Get("DateE")?.ToDateTime() ??
+                                definitionRow["DateE"].ToDateTime();
+                            newDemoDefinition.SavedDateE = newDemoDefinition.DateE;
+                            break;
+                        case "DateF":
+                            newDemoDefinition.DateF = customDefinitionRow.Get("DateF")?.ToDateTime() ??
+                                definitionRow["DateF"].ToDateTime();
+                            newDemoDefinition.SavedDateF = newDemoDefinition.DateF;
+                            break;
+                        case "DateG":
+                            newDemoDefinition.DateG = customDefinitionRow.Get("DateG")?.ToDateTime() ??
+                                definitionRow["DateG"].ToDateTime();
+                            newDemoDefinition.SavedDateG = newDemoDefinition.DateG;
+                            break;
+                        case "DateH":
+                            newDemoDefinition.DateH = customDefinitionRow.Get("DateH")?.ToDateTime() ??
+                                definitionRow["DateH"].ToDateTime();
+                            newDemoDefinition.SavedDateH = newDemoDefinition.DateH;
+                            break;
+                        case "DateI":
+                            newDemoDefinition.DateI = customDefinitionRow.Get("DateI")?.ToDateTime() ??
+                                definitionRow["DateI"].ToDateTime();
+                            newDemoDefinition.SavedDateI = newDemoDefinition.DateI;
+                            break;
+                        case "DateJ":
+                            newDemoDefinition.DateJ = customDefinitionRow.Get("DateJ")?.ToDateTime() ??
+                                definitionRow["DateJ"].ToDateTime();
+                            newDemoDefinition.SavedDateJ = newDemoDefinition.DateJ;
+                            break;
+                        case "DateK":
+                            newDemoDefinition.DateK = customDefinitionRow.Get("DateK")?.ToDateTime() ??
+                                definitionRow["DateK"].ToDateTime();
+                            newDemoDefinition.SavedDateK = newDemoDefinition.DateK;
+                            break;
+                        case "DateL":
+                            newDemoDefinition.DateL = customDefinitionRow.Get("DateL")?.ToDateTime() ??
+                                definitionRow["DateL"].ToDateTime();
+                            newDemoDefinition.SavedDateL = newDemoDefinition.DateL;
+                            break;
+                        case "DateM":
+                            newDemoDefinition.DateM = customDefinitionRow.Get("DateM")?.ToDateTime() ??
+                                definitionRow["DateM"].ToDateTime();
+                            newDemoDefinition.SavedDateM = newDemoDefinition.DateM;
+                            break;
+                        case "DateN":
+                            newDemoDefinition.DateN = customDefinitionRow.Get("DateN")?.ToDateTime() ??
+                                definitionRow["DateN"].ToDateTime();
+                            newDemoDefinition.SavedDateN = newDemoDefinition.DateN;
+                            break;
+                        case "DateO":
+                            newDemoDefinition.DateO = customDefinitionRow.Get("DateO")?.ToDateTime() ??
+                                definitionRow["DateO"].ToDateTime();
+                            newDemoDefinition.SavedDateO = newDemoDefinition.DateO;
+                            break;
+                        case "DateP":
+                            newDemoDefinition.DateP = customDefinitionRow.Get("DateP")?.ToDateTime() ??
+                                definitionRow["DateP"].ToDateTime();
+                            newDemoDefinition.SavedDateP = newDemoDefinition.DateP;
+                            break;
+                        case "DateQ":
+                            newDemoDefinition.DateQ = customDefinitionRow.Get("DateQ")?.ToDateTime() ??
+                                definitionRow["DateQ"].ToDateTime();
+                            newDemoDefinition.SavedDateQ = newDemoDefinition.DateQ;
+                            break;
+                        case "DateR":
+                            newDemoDefinition.DateR = customDefinitionRow.Get("DateR")?.ToDateTime() ??
+                                definitionRow["DateR"].ToDateTime();
+                            newDemoDefinition.SavedDateR = newDemoDefinition.DateR;
+                            break;
+                        case "DateS":
+                            newDemoDefinition.DateS = customDefinitionRow.Get("DateS")?.ToDateTime() ??
+                                definitionRow["DateS"].ToDateTime();
+                            newDemoDefinition.SavedDateS = newDemoDefinition.DateS;
+                            break;
+                        case "DateT":
+                            newDemoDefinition.DateT = customDefinitionRow.Get("DateT")?.ToDateTime() ??
+                                definitionRow["DateT"].ToDateTime();
+                            newDemoDefinition.SavedDateT = newDemoDefinition.DateT;
+                            break;
+                        case "DateU":
+                            newDemoDefinition.DateU = customDefinitionRow.Get("DateU")?.ToDateTime() ??
+                                definitionRow["DateU"].ToDateTime();
+                            newDemoDefinition.SavedDateU = newDemoDefinition.DateU;
+                            break;
+                        case "DateV":
+                            newDemoDefinition.DateV = customDefinitionRow.Get("DateV")?.ToDateTime() ??
+                                definitionRow["DateV"].ToDateTime();
+                            newDemoDefinition.SavedDateV = newDemoDefinition.DateV;
+                            break;
+                        case "DateW":
+                            newDemoDefinition.DateW = customDefinitionRow.Get("DateW")?.ToDateTime() ??
+                                definitionRow["DateW"].ToDateTime();
+                            newDemoDefinition.SavedDateW = newDemoDefinition.DateW;
+                            break;
+                        case "DateX":
+                            newDemoDefinition.DateX = customDefinitionRow.Get("DateX")?.ToDateTime() ??
+                                definitionRow["DateX"].ToDateTime();
+                            newDemoDefinition.SavedDateX = newDemoDefinition.DateX;
+                            break;
+                        case "DateY":
+                            newDemoDefinition.DateY = customDefinitionRow.Get("DateY")?.ToDateTime() ??
+                                definitionRow["DateY"].ToDateTime();
+                            newDemoDefinition.SavedDateY = newDemoDefinition.DateY;
+                            break;
+                        case "DateZ":
+                            newDemoDefinition.DateZ = customDefinitionRow.Get("DateZ")?.ToDateTime() ??
+                                definitionRow["DateZ"].ToDateTime();
+                            newDemoDefinition.SavedDateZ = newDemoDefinition.DateZ;
+                            break;
+                        case "DescriptionA":
+                            newDemoDefinition.DescriptionA = customDefinitionRow.Get("DescriptionA")?.ToString() ??
+                                definitionRow["DescriptionA"].ToString();
+                            newDemoDefinition.SavedDescriptionA = newDemoDefinition.DescriptionA;
+                            break;
+                        case "DescriptionB":
+                            newDemoDefinition.DescriptionB = customDefinitionRow.Get("DescriptionB")?.ToString() ??
+                                definitionRow["DescriptionB"].ToString();
+                            newDemoDefinition.SavedDescriptionB = newDemoDefinition.DescriptionB;
+                            break;
+                        case "DescriptionC":
+                            newDemoDefinition.DescriptionC = customDefinitionRow.Get("DescriptionC")?.ToString() ??
+                                definitionRow["DescriptionC"].ToString();
+                            newDemoDefinition.SavedDescriptionC = newDemoDefinition.DescriptionC;
+                            break;
+                        case "DescriptionD":
+                            newDemoDefinition.DescriptionD = customDefinitionRow.Get("DescriptionD")?.ToString() ??
+                                definitionRow["DescriptionD"].ToString();
+                            newDemoDefinition.SavedDescriptionD = newDemoDefinition.DescriptionD;
+                            break;
+                        case "DescriptionE":
+                            newDemoDefinition.DescriptionE = customDefinitionRow.Get("DescriptionE")?.ToString() ??
+                                definitionRow["DescriptionE"].ToString();
+                            newDemoDefinition.SavedDescriptionE = newDemoDefinition.DescriptionE;
+                            break;
+                        case "DescriptionF":
+                            newDemoDefinition.DescriptionF = customDefinitionRow.Get("DescriptionF")?.ToString() ??
+                                definitionRow["DescriptionF"].ToString();
+                            newDemoDefinition.SavedDescriptionF = newDemoDefinition.DescriptionF;
+                            break;
+                        case "DescriptionG":
+                            newDemoDefinition.DescriptionG = customDefinitionRow.Get("DescriptionG")?.ToString() ??
+                                definitionRow["DescriptionG"].ToString();
+                            newDemoDefinition.SavedDescriptionG = newDemoDefinition.DescriptionG;
+                            break;
+                        case "DescriptionH":
+                            newDemoDefinition.DescriptionH = customDefinitionRow.Get("DescriptionH")?.ToString() ??
+                                definitionRow["DescriptionH"].ToString();
+                            newDemoDefinition.SavedDescriptionH = newDemoDefinition.DescriptionH;
+                            break;
+                        case "DescriptionI":
+                            newDemoDefinition.DescriptionI = customDefinitionRow.Get("DescriptionI")?.ToString() ??
+                                definitionRow["DescriptionI"].ToString();
+                            newDemoDefinition.SavedDescriptionI = newDemoDefinition.DescriptionI;
+                            break;
+                        case "DescriptionJ":
+                            newDemoDefinition.DescriptionJ = customDefinitionRow.Get("DescriptionJ")?.ToString() ??
+                                definitionRow["DescriptionJ"].ToString();
+                            newDemoDefinition.SavedDescriptionJ = newDemoDefinition.DescriptionJ;
+                            break;
+                        case "DescriptionK":
+                            newDemoDefinition.DescriptionK = customDefinitionRow.Get("DescriptionK")?.ToString() ??
+                                definitionRow["DescriptionK"].ToString();
+                            newDemoDefinition.SavedDescriptionK = newDemoDefinition.DescriptionK;
+                            break;
+                        case "DescriptionL":
+                            newDemoDefinition.DescriptionL = customDefinitionRow.Get("DescriptionL")?.ToString() ??
+                                definitionRow["DescriptionL"].ToString();
+                            newDemoDefinition.SavedDescriptionL = newDemoDefinition.DescriptionL;
+                            break;
+                        case "DescriptionM":
+                            newDemoDefinition.DescriptionM = customDefinitionRow.Get("DescriptionM")?.ToString() ??
+                                definitionRow["DescriptionM"].ToString();
+                            newDemoDefinition.SavedDescriptionM = newDemoDefinition.DescriptionM;
+                            break;
+                        case "DescriptionN":
+                            newDemoDefinition.DescriptionN = customDefinitionRow.Get("DescriptionN")?.ToString() ??
+                                definitionRow["DescriptionN"].ToString();
+                            newDemoDefinition.SavedDescriptionN = newDemoDefinition.DescriptionN;
+                            break;
+                        case "DescriptionO":
+                            newDemoDefinition.DescriptionO = customDefinitionRow.Get("DescriptionO")?.ToString() ??
+                                definitionRow["DescriptionO"].ToString();
+                            newDemoDefinition.SavedDescriptionO = newDemoDefinition.DescriptionO;
+                            break;
+                        case "DescriptionP":
+                            newDemoDefinition.DescriptionP = customDefinitionRow.Get("DescriptionP")?.ToString() ??
+                                definitionRow["DescriptionP"].ToString();
+                            newDemoDefinition.SavedDescriptionP = newDemoDefinition.DescriptionP;
+                            break;
+                        case "DescriptionQ":
+                            newDemoDefinition.DescriptionQ = customDefinitionRow.Get("DescriptionQ")?.ToString() ??
+                                definitionRow["DescriptionQ"].ToString();
+                            newDemoDefinition.SavedDescriptionQ = newDemoDefinition.DescriptionQ;
+                            break;
+                        case "DescriptionR":
+                            newDemoDefinition.DescriptionR = customDefinitionRow.Get("DescriptionR")?.ToString() ??
+                                definitionRow["DescriptionR"].ToString();
+                            newDemoDefinition.SavedDescriptionR = newDemoDefinition.DescriptionR;
+                            break;
+                        case "DescriptionS":
+                            newDemoDefinition.DescriptionS = customDefinitionRow.Get("DescriptionS")?.ToString() ??
+                                definitionRow["DescriptionS"].ToString();
+                            newDemoDefinition.SavedDescriptionS = newDemoDefinition.DescriptionS;
+                            break;
+                        case "DescriptionT":
+                            newDemoDefinition.DescriptionT = customDefinitionRow.Get("DescriptionT")?.ToString() ??
+                                definitionRow["DescriptionT"].ToString();
+                            newDemoDefinition.SavedDescriptionT = newDemoDefinition.DescriptionT;
+                            break;
+                        case "DescriptionU":
+                            newDemoDefinition.DescriptionU = customDefinitionRow.Get("DescriptionU")?.ToString() ??
+                                definitionRow["DescriptionU"].ToString();
+                            newDemoDefinition.SavedDescriptionU = newDemoDefinition.DescriptionU;
+                            break;
+                        case "DescriptionV":
+                            newDemoDefinition.DescriptionV = customDefinitionRow.Get("DescriptionV")?.ToString() ??
+                                definitionRow["DescriptionV"].ToString();
+                            newDemoDefinition.SavedDescriptionV = newDemoDefinition.DescriptionV;
+                            break;
+                        case "DescriptionW":
+                            newDemoDefinition.DescriptionW = customDefinitionRow.Get("DescriptionW")?.ToString() ??
+                                definitionRow["DescriptionW"].ToString();
+                            newDemoDefinition.SavedDescriptionW = newDemoDefinition.DescriptionW;
+                            break;
+                        case "DescriptionX":
+                            newDemoDefinition.DescriptionX = customDefinitionRow.Get("DescriptionX")?.ToString() ??
+                                definitionRow["DescriptionX"].ToString();
+                            newDemoDefinition.SavedDescriptionX = newDemoDefinition.DescriptionX;
+                            break;
+                        case "DescriptionY":
+                            newDemoDefinition.DescriptionY = customDefinitionRow.Get("DescriptionY")?.ToString() ??
+                                definitionRow["DescriptionY"].ToString();
+                            newDemoDefinition.SavedDescriptionY = newDemoDefinition.DescriptionY;
+                            break;
+                        case "DescriptionZ":
+                            newDemoDefinition.DescriptionZ = customDefinitionRow.Get("DescriptionZ")?.ToString() ??
+                                definitionRow["DescriptionZ"].ToString();
+                            newDemoDefinition.SavedDescriptionZ = newDemoDefinition.DescriptionZ;
+                            break;
+                        case "CheckA":
+                            newDemoDefinition.CheckA = customDefinitionRow.Get("CheckA")?.ToBool() ??
+                                definitionRow["CheckA"].ToBool();
+                            newDemoDefinition.SavedCheckA = newDemoDefinition.CheckA;
+                            break;
+                        case "CheckB":
+                            newDemoDefinition.CheckB = customDefinitionRow.Get("CheckB")?.ToBool() ??
+                                definitionRow["CheckB"].ToBool();
+                            newDemoDefinition.SavedCheckB = newDemoDefinition.CheckB;
+                            break;
+                        case "CheckC":
+                            newDemoDefinition.CheckC = customDefinitionRow.Get("CheckC")?.ToBool() ??
+                                definitionRow["CheckC"].ToBool();
+                            newDemoDefinition.SavedCheckC = newDemoDefinition.CheckC;
+                            break;
+                        case "CheckD":
+                            newDemoDefinition.CheckD = customDefinitionRow.Get("CheckD")?.ToBool() ??
+                                definitionRow["CheckD"].ToBool();
+                            newDemoDefinition.SavedCheckD = newDemoDefinition.CheckD;
+                            break;
+                        case "CheckE":
+                            newDemoDefinition.CheckE = customDefinitionRow.Get("CheckE")?.ToBool() ??
+                                definitionRow["CheckE"].ToBool();
+                            newDemoDefinition.SavedCheckE = newDemoDefinition.CheckE;
+                            break;
+                        case "CheckF":
+                            newDemoDefinition.CheckF = customDefinitionRow.Get("CheckF")?.ToBool() ??
+                                definitionRow["CheckF"].ToBool();
+                            newDemoDefinition.SavedCheckF = newDemoDefinition.CheckF;
+                            break;
+                        case "CheckG":
+                            newDemoDefinition.CheckG = customDefinitionRow.Get("CheckG")?.ToBool() ??
+                                definitionRow["CheckG"].ToBool();
+                            newDemoDefinition.SavedCheckG = newDemoDefinition.CheckG;
+                            break;
+                        case "CheckH":
+                            newDemoDefinition.CheckH = customDefinitionRow.Get("CheckH")?.ToBool() ??
+                                definitionRow["CheckH"].ToBool();
+                            newDemoDefinition.SavedCheckH = newDemoDefinition.CheckH;
+                            break;
+                        case "CheckI":
+                            newDemoDefinition.CheckI = customDefinitionRow.Get("CheckI")?.ToBool() ??
+                                definitionRow["CheckI"].ToBool();
+                            newDemoDefinition.SavedCheckI = newDemoDefinition.CheckI;
+                            break;
+                        case "CheckJ":
+                            newDemoDefinition.CheckJ = customDefinitionRow.Get("CheckJ")?.ToBool() ??
+                                definitionRow["CheckJ"].ToBool();
+                            newDemoDefinition.SavedCheckJ = newDemoDefinition.CheckJ;
+                            break;
+                        case "CheckK":
+                            newDemoDefinition.CheckK = customDefinitionRow.Get("CheckK")?.ToBool() ??
+                                definitionRow["CheckK"].ToBool();
+                            newDemoDefinition.SavedCheckK = newDemoDefinition.CheckK;
+                            break;
+                        case "CheckL":
+                            newDemoDefinition.CheckL = customDefinitionRow.Get("CheckL")?.ToBool() ??
+                                definitionRow["CheckL"].ToBool();
+                            newDemoDefinition.SavedCheckL = newDemoDefinition.CheckL;
+                            break;
+                        case "CheckM":
+                            newDemoDefinition.CheckM = customDefinitionRow.Get("CheckM")?.ToBool() ??
+                                definitionRow["CheckM"].ToBool();
+                            newDemoDefinition.SavedCheckM = newDemoDefinition.CheckM;
+                            break;
+                        case "CheckN":
+                            newDemoDefinition.CheckN = customDefinitionRow.Get("CheckN")?.ToBool() ??
+                                definitionRow["CheckN"].ToBool();
+                            newDemoDefinition.SavedCheckN = newDemoDefinition.CheckN;
+                            break;
+                        case "CheckO":
+                            newDemoDefinition.CheckO = customDefinitionRow.Get("CheckO")?.ToBool() ??
+                                definitionRow["CheckO"].ToBool();
+                            newDemoDefinition.SavedCheckO = newDemoDefinition.CheckO;
+                            break;
+                        case "CheckP":
+                            newDemoDefinition.CheckP = customDefinitionRow.Get("CheckP")?.ToBool() ??
+                                definitionRow["CheckP"].ToBool();
+                            newDemoDefinition.SavedCheckP = newDemoDefinition.CheckP;
+                            break;
+                        case "CheckQ":
+                            newDemoDefinition.CheckQ = customDefinitionRow.Get("CheckQ")?.ToBool() ??
+                                definitionRow["CheckQ"].ToBool();
+                            newDemoDefinition.SavedCheckQ = newDemoDefinition.CheckQ;
+                            break;
+                        case "CheckR":
+                            newDemoDefinition.CheckR = customDefinitionRow.Get("CheckR")?.ToBool() ??
+                                definitionRow["CheckR"].ToBool();
+                            newDemoDefinition.SavedCheckR = newDemoDefinition.CheckR;
+                            break;
+                        case "CheckS":
+                            newDemoDefinition.CheckS = customDefinitionRow.Get("CheckS")?.ToBool() ??
+                                definitionRow["CheckS"].ToBool();
+                            newDemoDefinition.SavedCheckS = newDemoDefinition.CheckS;
+                            break;
+                        case "CheckT":
+                            newDemoDefinition.CheckT = customDefinitionRow.Get("CheckT")?.ToBool() ??
+                                definitionRow["CheckT"].ToBool();
+                            newDemoDefinition.SavedCheckT = newDemoDefinition.CheckT;
+                            break;
+                        case "CheckU":
+                            newDemoDefinition.CheckU = customDefinitionRow.Get("CheckU")?.ToBool() ??
+                                definitionRow["CheckU"].ToBool();
+                            newDemoDefinition.SavedCheckU = newDemoDefinition.CheckU;
+                            break;
+                        case "CheckV":
+                            newDemoDefinition.CheckV = customDefinitionRow.Get("CheckV")?.ToBool() ??
+                                definitionRow["CheckV"].ToBool();
+                            newDemoDefinition.SavedCheckV = newDemoDefinition.CheckV;
+                            break;
+                        case "CheckW":
+                            newDemoDefinition.CheckW = customDefinitionRow.Get("CheckW")?.ToBool() ??
+                                definitionRow["CheckW"].ToBool();
+                            newDemoDefinition.SavedCheckW = newDemoDefinition.CheckW;
+                            break;
+                        case "CheckX":
+                            newDemoDefinition.CheckX = customDefinitionRow.Get("CheckX")?.ToBool() ??
+                                definitionRow["CheckX"].ToBool();
+                            newDemoDefinition.SavedCheckX = newDemoDefinition.CheckX;
+                            break;
+                        case "CheckY":
+                            newDemoDefinition.CheckY = customDefinitionRow.Get("CheckY")?.ToBool() ??
+                                definitionRow["CheckY"].ToBool();
+                            newDemoDefinition.SavedCheckY = newDemoDefinition.CheckY;
+                            break;
+                        case "CheckZ":
+                            newDemoDefinition.CheckZ = customDefinitionRow.Get("CheckZ")?.ToBool() ??
+                                definitionRow["CheckZ"].ToBool();
+                            newDemoDefinition.SavedCheckZ = newDemoDefinition.CheckZ;
+                            break;
+                        case "Manager":
+                            newDemoDefinition.Manager = customDefinitionRow.Get("Manager")?.ToString() ??
+                                definitionRow["Manager"].ToString();
+                            newDemoDefinition.SavedManager = newDemoDefinition.Manager;
+                            break;
+                        case "Owner":
+                            newDemoDefinition.Owner = customDefinitionRow.Get("Owner")?.ToString() ??
+                                definitionRow["Owner"].ToString();
+                            newDemoDefinition.SavedOwner = newDemoDefinition.Owner;
+                            break;
+                        case "Creator":
+                            newDemoDefinition.Creator = customDefinitionRow.Get("Creator")?.ToString() ??
+                                definitionRow["Creator"].ToString();
+                            newDemoDefinition.SavedCreator = newDemoDefinition.Creator;
+                            break;
+                        case "Updator":
+                            newDemoDefinition.Updator = customDefinitionRow.Get("Updator")?.ToString() ??
+                                definitionRow["Updator"].ToString();
+                            newDemoDefinition.SavedUpdator = newDemoDefinition.Updator;
+                            break;
+                        case "StartTime":
+                            newDemoDefinition.StartTime = customDefinitionRow.Get("StartTime")?.ToDateTime() ??
+                                definitionRow["StartTime"].ToDateTime();
+                            newDemoDefinition.SavedStartTime = newDemoDefinition.StartTime;
+                            break;
+                        case "CompletionTime":
+                            newDemoDefinition.CompletionTime = customDefinitionRow.Get("CompletionTime")?.ToDateTime() ??
+                                definitionRow["CompletionTime"].ToDateTime();
+                            newDemoDefinition.SavedCompletionTime = newDemoDefinition.CompletionTime;
+                            break;
+                        case "CreatedTime":
+                            newDemoDefinition.CreatedTime = customDefinitionRow.Get("CreatedTime")?.ToDateTime() ??
+                                definitionRow["CreatedTime"].ToDateTime();
+                            newDemoDefinition.SavedCreatedTime = newDemoDefinition.CreatedTime;
+                            break;
+                        case "UpdatedTime":
+                            newDemoDefinition.UpdatedTime = customDefinitionRow.Get("UpdatedTime")?.ToDateTime() ??
+                                definitionRow["UpdatedTime"].ToDateTime();
+                            newDemoDefinition.SavedUpdatedTime = newDemoDefinition.UpdatedTime;
+                            break;
+                        default: break;
+                    }
+                });
                 DemoDefinitionCollection.Add(newDemoDefinition);
             });
         }
@@ -3505,8 +5055,26 @@ namespace Implem.DefinitionAccessor
             SqlXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
             {
                 var newSqlDefinition = new SqlDefinition();
-                if (definitionRow.ContainsKey("Id")) { newSqlDefinition.Id = definitionRow["Id"].ToString(); newSqlDefinition.SavedId = newSqlDefinition.Id; }
-                if (definitionRow.ContainsKey("Body")) { newSqlDefinition.Body = definitionRow["Body"].ToString(); newSqlDefinition.SavedBody = newSqlDefinition.Body; }
+                var customDefinitionRow = Parameters.CustomDefinitions
+                    .Get("Sql")
+                    .Get(definitionRow["Id"]);
+                definitionRow.Keys.ForEach(key =>
+                {
+                    switch (key)
+                    {
+                        case "Id":
+                            newSqlDefinition.Id = customDefinitionRow.Get("Id")?.ToString() ??
+                                definitionRow["Id"].ToString();
+                            newSqlDefinition.SavedId = newSqlDefinition.Id;
+                            break;
+                        case "Body":
+                            newSqlDefinition.Body = customDefinitionRow.Get("Body")?.ToString() ??
+                                definitionRow["Body"].ToString();
+                            newSqlDefinition.SavedBody = newSqlDefinition.Body;
+                            break;
+                        default: break;
+                    }
+                });
                 SqlDefinitionCollection.Add(newSqlDefinition);
             });
         }
@@ -3745,30 +5313,136 @@ namespace Implem.DefinitionAccessor
             TemplateXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
             {
                 var newTemplateDefinition = new TemplateDefinition();
-                if (definitionRow.ContainsKey("Id")) { newTemplateDefinition.Id = definitionRow["Id"].ToString(); newTemplateDefinition.SavedId = newTemplateDefinition.Id; }
-                if (definitionRow.ContainsKey("SiteSettingsTemplate")) { newTemplateDefinition.SiteSettingsTemplate = definitionRow["SiteSettingsTemplate"].ToString(); newTemplateDefinition.SavedSiteSettingsTemplate = newTemplateDefinition.SiteSettingsTemplate; }
-                if (definitionRow.ContainsKey("Title")) { newTemplateDefinition.Title = definitionRow["Title"].ToString(); newTemplateDefinition.SavedTitle = newTemplateDefinition.Title; }
-                if (definitionRow.ContainsKey("Body")) { newTemplateDefinition.Body = definitionRow["Body"].ToString(); newTemplateDefinition.SavedBody = newTemplateDefinition.Body; }
-                if (definitionRow.ContainsKey("Description")) { newTemplateDefinition.Description = definitionRow["Description"].ToString(); newTemplateDefinition.SavedDescription = newTemplateDefinition.Description; }
-                if (definitionRow.ContainsKey("Tags")) { newTemplateDefinition.Tags = definitionRow["Tags"].ToString(); newTemplateDefinition.SavedTags = newTemplateDefinition.Tags; }
-                if (definitionRow.ContainsKey("Standard")) { newTemplateDefinition.Standard = definitionRow["Standard"].ToInt(); newTemplateDefinition.SavedStandard = newTemplateDefinition.Standard; }
-                if (definitionRow.ContainsKey("Project")) { newTemplateDefinition.Project = definitionRow["Project"].ToInt(); newTemplateDefinition.SavedProject = newTemplateDefinition.Project; }
-                if (definitionRow.ContainsKey("BusinessImprovement")) { newTemplateDefinition.BusinessImprovement = definitionRow["BusinessImprovement"].ToInt(); newTemplateDefinition.SavedBusinessImprovement = newTemplateDefinition.BusinessImprovement; }
-                if (definitionRow.ContainsKey("Sales")) { newTemplateDefinition.Sales = definitionRow["Sales"].ToInt(); newTemplateDefinition.SavedSales = newTemplateDefinition.Sales; }
-                if (definitionRow.ContainsKey("Customer")) { newTemplateDefinition.Customer = definitionRow["Customer"].ToInt(); newTemplateDefinition.SavedCustomer = newTemplateDefinition.Customer; }
-                if (definitionRow.ContainsKey("Store")) { newTemplateDefinition.Store = definitionRow["Store"].ToInt(); newTemplateDefinition.SavedStore = newTemplateDefinition.Store; }
-                if (definitionRow.ContainsKey("ResearchAndDevelopment")) { newTemplateDefinition.ResearchAndDevelopment = definitionRow["ResearchAndDevelopment"].ToInt(); newTemplateDefinition.SavedResearchAndDevelopment = newTemplateDefinition.ResearchAndDevelopment; }
-                if (definitionRow.ContainsKey("Marketing")) { newTemplateDefinition.Marketing = definitionRow["Marketing"].ToInt(); newTemplateDefinition.SavedMarketing = newTemplateDefinition.Marketing; }
-                if (definitionRow.ContainsKey("Manufacture")) { newTemplateDefinition.Manufacture = definitionRow["Manufacture"].ToInt(); newTemplateDefinition.SavedManufacture = newTemplateDefinition.Manufacture; }
-                if (definitionRow.ContainsKey("InformationSystem")) { newTemplateDefinition.InformationSystem = definitionRow["InformationSystem"].ToInt(); newTemplateDefinition.SavedInformationSystem = newTemplateDefinition.InformationSystem; }
-                if (definitionRow.ContainsKey("CorporatePlanning")) { newTemplateDefinition.CorporatePlanning = definitionRow["CorporatePlanning"].ToInt(); newTemplateDefinition.SavedCorporatePlanning = newTemplateDefinition.CorporatePlanning; }
-                if (definitionRow.ContainsKey("HumanResourcesAndGeneralAffairs")) { newTemplateDefinition.HumanResourcesAndGeneralAffairs = definitionRow["HumanResourcesAndGeneralAffairs"].ToInt(); newTemplateDefinition.SavedHumanResourcesAndGeneralAffairs = newTemplateDefinition.HumanResourcesAndGeneralAffairs; }
-                if (definitionRow.ContainsKey("Education")) { newTemplateDefinition.Education = definitionRow["Education"].ToInt(); newTemplateDefinition.SavedEducation = newTemplateDefinition.Education; }
-                if (definitionRow.ContainsKey("Purchase")) { newTemplateDefinition.Purchase = definitionRow["Purchase"].ToInt(); newTemplateDefinition.SavedPurchase = newTemplateDefinition.Purchase; }
-                if (definitionRow.ContainsKey("Logistics")) { newTemplateDefinition.Logistics = definitionRow["Logistics"].ToInt(); newTemplateDefinition.SavedLogistics = newTemplateDefinition.Logistics; }
-                if (definitionRow.ContainsKey("LegalAffairs")) { newTemplateDefinition.LegalAffairs = definitionRow["LegalAffairs"].ToInt(); newTemplateDefinition.SavedLegalAffairs = newTemplateDefinition.LegalAffairs; }
-                if (definitionRow.ContainsKey("ProductList")) { newTemplateDefinition.ProductList = definitionRow["ProductList"].ToInt(); newTemplateDefinition.SavedProductList = newTemplateDefinition.ProductList; }
-                if (definitionRow.ContainsKey("Classification")) { newTemplateDefinition.Classification = definitionRow["Classification"].ToInt(); newTemplateDefinition.SavedClassification = newTemplateDefinition.Classification; }
+                var customDefinitionRow = Parameters.CustomDefinitions
+                    .Get("Template")
+                    .Get(definitionRow["Id"]);
+                definitionRow.Keys.ForEach(key =>
+                {
+                    switch (key)
+                    {
+                        case "Id":
+                            newTemplateDefinition.Id = customDefinitionRow.Get("Id")?.ToString() ??
+                                definitionRow["Id"].ToString();
+                            newTemplateDefinition.SavedId = newTemplateDefinition.Id;
+                            break;
+                        case "SiteSettingsTemplate":
+                            newTemplateDefinition.SiteSettingsTemplate = customDefinitionRow.Get("SiteSettingsTemplate")?.ToString() ??
+                                definitionRow["SiteSettingsTemplate"].ToString();
+                            newTemplateDefinition.SavedSiteSettingsTemplate = newTemplateDefinition.SiteSettingsTemplate;
+                            break;
+                        case "Title":
+                            newTemplateDefinition.Title = customDefinitionRow.Get("Title")?.ToString() ??
+                                definitionRow["Title"].ToString();
+                            newTemplateDefinition.SavedTitle = newTemplateDefinition.Title;
+                            break;
+                        case "Body":
+                            newTemplateDefinition.Body = customDefinitionRow.Get("Body")?.ToString() ??
+                                definitionRow["Body"].ToString();
+                            newTemplateDefinition.SavedBody = newTemplateDefinition.Body;
+                            break;
+                        case "Description":
+                            newTemplateDefinition.Description = customDefinitionRow.Get("Description")?.ToString() ??
+                                definitionRow["Description"].ToString();
+                            newTemplateDefinition.SavedDescription = newTemplateDefinition.Description;
+                            break;
+                        case "Tags":
+                            newTemplateDefinition.Tags = customDefinitionRow.Get("Tags")?.ToString() ??
+                                definitionRow["Tags"].ToString();
+                            newTemplateDefinition.SavedTags = newTemplateDefinition.Tags;
+                            break;
+                        case "Standard":
+                            newTemplateDefinition.Standard = customDefinitionRow.Get("Standard")?.ToInt() ??
+                                definitionRow["Standard"].ToInt();
+                            newTemplateDefinition.SavedStandard = newTemplateDefinition.Standard;
+                            break;
+                        case "Project":
+                            newTemplateDefinition.Project = customDefinitionRow.Get("Project")?.ToInt() ??
+                                definitionRow["Project"].ToInt();
+                            newTemplateDefinition.SavedProject = newTemplateDefinition.Project;
+                            break;
+                        case "BusinessImprovement":
+                            newTemplateDefinition.BusinessImprovement = customDefinitionRow.Get("BusinessImprovement")?.ToInt() ??
+                                definitionRow["BusinessImprovement"].ToInt();
+                            newTemplateDefinition.SavedBusinessImprovement = newTemplateDefinition.BusinessImprovement;
+                            break;
+                        case "Sales":
+                            newTemplateDefinition.Sales = customDefinitionRow.Get("Sales")?.ToInt() ??
+                                definitionRow["Sales"].ToInt();
+                            newTemplateDefinition.SavedSales = newTemplateDefinition.Sales;
+                            break;
+                        case "Customer":
+                            newTemplateDefinition.Customer = customDefinitionRow.Get("Customer")?.ToInt() ??
+                                definitionRow["Customer"].ToInt();
+                            newTemplateDefinition.SavedCustomer = newTemplateDefinition.Customer;
+                            break;
+                        case "Store":
+                            newTemplateDefinition.Store = customDefinitionRow.Get("Store")?.ToInt() ??
+                                definitionRow["Store"].ToInt();
+                            newTemplateDefinition.SavedStore = newTemplateDefinition.Store;
+                            break;
+                        case "ResearchAndDevelopment":
+                            newTemplateDefinition.ResearchAndDevelopment = customDefinitionRow.Get("ResearchAndDevelopment")?.ToInt() ??
+                                definitionRow["ResearchAndDevelopment"].ToInt();
+                            newTemplateDefinition.SavedResearchAndDevelopment = newTemplateDefinition.ResearchAndDevelopment;
+                            break;
+                        case "Marketing":
+                            newTemplateDefinition.Marketing = customDefinitionRow.Get("Marketing")?.ToInt() ??
+                                definitionRow["Marketing"].ToInt();
+                            newTemplateDefinition.SavedMarketing = newTemplateDefinition.Marketing;
+                            break;
+                        case "Manufacture":
+                            newTemplateDefinition.Manufacture = customDefinitionRow.Get("Manufacture")?.ToInt() ??
+                                definitionRow["Manufacture"].ToInt();
+                            newTemplateDefinition.SavedManufacture = newTemplateDefinition.Manufacture;
+                            break;
+                        case "InformationSystem":
+                            newTemplateDefinition.InformationSystem = customDefinitionRow.Get("InformationSystem")?.ToInt() ??
+                                definitionRow["InformationSystem"].ToInt();
+                            newTemplateDefinition.SavedInformationSystem = newTemplateDefinition.InformationSystem;
+                            break;
+                        case "CorporatePlanning":
+                            newTemplateDefinition.CorporatePlanning = customDefinitionRow.Get("CorporatePlanning")?.ToInt() ??
+                                definitionRow["CorporatePlanning"].ToInt();
+                            newTemplateDefinition.SavedCorporatePlanning = newTemplateDefinition.CorporatePlanning;
+                            break;
+                        case "HumanResourcesAndGeneralAffairs":
+                            newTemplateDefinition.HumanResourcesAndGeneralAffairs = customDefinitionRow.Get("HumanResourcesAndGeneralAffairs")?.ToInt() ??
+                                definitionRow["HumanResourcesAndGeneralAffairs"].ToInt();
+                            newTemplateDefinition.SavedHumanResourcesAndGeneralAffairs = newTemplateDefinition.HumanResourcesAndGeneralAffairs;
+                            break;
+                        case "Education":
+                            newTemplateDefinition.Education = customDefinitionRow.Get("Education")?.ToInt() ??
+                                definitionRow["Education"].ToInt();
+                            newTemplateDefinition.SavedEducation = newTemplateDefinition.Education;
+                            break;
+                        case "Purchase":
+                            newTemplateDefinition.Purchase = customDefinitionRow.Get("Purchase")?.ToInt() ??
+                                definitionRow["Purchase"].ToInt();
+                            newTemplateDefinition.SavedPurchase = newTemplateDefinition.Purchase;
+                            break;
+                        case "Logistics":
+                            newTemplateDefinition.Logistics = customDefinitionRow.Get("Logistics")?.ToInt() ??
+                                definitionRow["Logistics"].ToInt();
+                            newTemplateDefinition.SavedLogistics = newTemplateDefinition.Logistics;
+                            break;
+                        case "LegalAffairs":
+                            newTemplateDefinition.LegalAffairs = customDefinitionRow.Get("LegalAffairs")?.ToInt() ??
+                                definitionRow["LegalAffairs"].ToInt();
+                            newTemplateDefinition.SavedLegalAffairs = newTemplateDefinition.LegalAffairs;
+                            break;
+                        case "ProductList":
+                            newTemplateDefinition.ProductList = customDefinitionRow.Get("ProductList")?.ToInt() ??
+                                definitionRow["ProductList"].ToInt();
+                            newTemplateDefinition.SavedProductList = newTemplateDefinition.ProductList;
+                            break;
+                        case "Classification":
+                            newTemplateDefinition.Classification = customDefinitionRow.Get("Classification")?.ToInt() ??
+                                definitionRow["Classification"].ToInt();
+                            newTemplateDefinition.SavedClassification = newTemplateDefinition.Classification;
+                            break;
+                        default: break;
+                    }
+                });
                 TemplateDefinitionCollection.Add(newTemplateDefinition);
             });
         }
@@ -3842,14 +5516,56 @@ namespace Implem.DefinitionAccessor
             ViewModeXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
             {
                 var newViewModeDefinition = new ViewModeDefinition();
-                if (definitionRow.ContainsKey("Id")) { newViewModeDefinition.Id = definitionRow["Id"].ToString(); newViewModeDefinition.SavedId = newViewModeDefinition.Id; }
-                if (definitionRow.ContainsKey("ReferenceType")) { newViewModeDefinition.ReferenceType = definitionRow["ReferenceType"].ToString(); newViewModeDefinition.SavedReferenceType = newViewModeDefinition.ReferenceType; }
-                if (definitionRow.ContainsKey("Name")) { newViewModeDefinition.Name = definitionRow["Name"].ToString(); newViewModeDefinition.SavedName = newViewModeDefinition.Name; }
-                if (definitionRow.ContainsKey("Option1")) { newViewModeDefinition.Option1 = definitionRow["Option1"].ToString(); newViewModeDefinition.SavedOption1 = newViewModeDefinition.Option1; }
-                if (definitionRow.ContainsKey("Option2")) { newViewModeDefinition.Option2 = definitionRow["Option2"].ToString(); newViewModeDefinition.SavedOption2 = newViewModeDefinition.Option2; }
-                if (definitionRow.ContainsKey("Option3")) { newViewModeDefinition.Option3 = definitionRow["Option3"].ToString(); newViewModeDefinition.SavedOption3 = newViewModeDefinition.Option3; }
-                if (definitionRow.ContainsKey("Option4")) { newViewModeDefinition.Option4 = definitionRow["Option4"].ToString(); newViewModeDefinition.SavedOption4 = newViewModeDefinition.Option4; }
-                if (definitionRow.ContainsKey("Option5")) { newViewModeDefinition.Option5 = definitionRow["Option5"].ToString(); newViewModeDefinition.SavedOption5 = newViewModeDefinition.Option5; }
+                var customDefinitionRow = Parameters.CustomDefinitions
+                    .Get("ViewMode")
+                    .Get(definitionRow["Id"]);
+                definitionRow.Keys.ForEach(key =>
+                {
+                    switch (key)
+                    {
+                        case "Id":
+                            newViewModeDefinition.Id = customDefinitionRow.Get("Id")?.ToString() ??
+                                definitionRow["Id"].ToString();
+                            newViewModeDefinition.SavedId = newViewModeDefinition.Id;
+                            break;
+                        case "ReferenceType":
+                            newViewModeDefinition.ReferenceType = customDefinitionRow.Get("ReferenceType")?.ToString() ??
+                                definitionRow["ReferenceType"].ToString();
+                            newViewModeDefinition.SavedReferenceType = newViewModeDefinition.ReferenceType;
+                            break;
+                        case "Name":
+                            newViewModeDefinition.Name = customDefinitionRow.Get("Name")?.ToString() ??
+                                definitionRow["Name"].ToString();
+                            newViewModeDefinition.SavedName = newViewModeDefinition.Name;
+                            break;
+                        case "Option1":
+                            newViewModeDefinition.Option1 = customDefinitionRow.Get("Option1")?.ToString() ??
+                                definitionRow["Option1"].ToString();
+                            newViewModeDefinition.SavedOption1 = newViewModeDefinition.Option1;
+                            break;
+                        case "Option2":
+                            newViewModeDefinition.Option2 = customDefinitionRow.Get("Option2")?.ToString() ??
+                                definitionRow["Option2"].ToString();
+                            newViewModeDefinition.SavedOption2 = newViewModeDefinition.Option2;
+                            break;
+                        case "Option3":
+                            newViewModeDefinition.Option3 = customDefinitionRow.Get("Option3")?.ToString() ??
+                                definitionRow["Option3"].ToString();
+                            newViewModeDefinition.SavedOption3 = newViewModeDefinition.Option3;
+                            break;
+                        case "Option4":
+                            newViewModeDefinition.Option4 = customDefinitionRow.Get("Option4")?.ToString() ??
+                                definitionRow["Option4"].ToString();
+                            newViewModeDefinition.SavedOption4 = newViewModeDefinition.Option4;
+                            break;
+                        case "Option5":
+                            newViewModeDefinition.Option5 = customDefinitionRow.Get("Option5")?.ToString() ??
+                                definitionRow["Option5"].ToString();
+                            newViewModeDefinition.SavedOption5 = newViewModeDefinition.Option5;
+                            break;
+                        default: break;
+                    }
+                });
                 ViewModeDefinitionCollection.Add(newViewModeDefinition);
             });
         }
@@ -3980,7 +5696,7 @@ namespace Implem.DefinitionAccessor
                         case "EachModel": columnDefinition.EachModel = optionValue.ToBool(); break;
                         case "Label": columnDefinition.Label = optionValue.ToString(); break;
                         case "ColumnName": columnDefinition.ColumnName = optionValue.ToString(); break;
-                        case "ColumnLabel": columnDefinition.ColumnLabel = optionValue.ToString(); break;
+                        case "LabelText": columnDefinition.LabelText = optionValue.ToString(); break;
                         case "No": columnDefinition.No = optionValue.ToInt(); break;
                         case "History": columnDefinition.History = optionValue.ToInt(); break;
                         case "Import": columnDefinition.Import = optionValue.ToInt(); break;
@@ -3989,7 +5705,7 @@ namespace Implem.DefinitionAccessor
                         case "GridEnabled": columnDefinition.GridEnabled = optionValue.ToBool(); break;
                         case "FilterColumn": columnDefinition.FilterColumn = optionValue.ToInt(); break;
                         case "FilterEnabled": columnDefinition.FilterEnabled = optionValue.ToBool(); break;
-                        case "EditorColumn": columnDefinition.EditorColumn = optionValue.ToBool(); break;
+                        case "EditorColumn": columnDefinition.EditorColumn = optionValue.ToInt(); break;
                         case "EditorEnabled": columnDefinition.EditorEnabled = optionValue.ToBool(); break;
                         case "TitleColumn": columnDefinition.TitleColumn = optionValue.ToInt(); break;
                         case "LinkColumn": columnDefinition.LinkColumn = optionValue.ToInt(); break;
@@ -5784,7 +7500,7 @@ namespace Implem.DefinitionAccessor
         public bool EachModel; public bool SavedEachModel;
         public string Label; public string SavedLabel;
         public string ColumnName; public string SavedColumnName;
-        public string ColumnLabel; public string SavedColumnLabel;
+        public string LabelText; public string SavedLabelText;
         public int No; public int SavedNo;
         public int History; public int SavedHistory;
         public int Import; public int SavedImport;
@@ -5793,7 +7509,7 @@ namespace Implem.DefinitionAccessor
         public bool GridEnabled; public bool SavedGridEnabled;
         public int FilterColumn; public int SavedFilterColumn;
         public bool FilterEnabled; public bool SavedFilterEnabled;
-        public bool EditorColumn; public bool SavedEditorColumn;
+        public int EditorColumn; public int SavedEditorColumn;
         public bool EditorEnabled; public bool SavedEditorEnabled;
         public int TitleColumn; public int SavedTitleColumn;
         public int LinkColumn; public int SavedLinkColumn;
@@ -5898,7 +7614,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("EachModel")) EachModel = propertyCollection["EachModel"].ToBool(); else EachModel = false;
             if (propertyCollection.ContainsKey("Label")) Label = propertyCollection["Label"].ToString(); else Label = string.Empty;
             if (propertyCollection.ContainsKey("ColumnName")) ColumnName = propertyCollection["ColumnName"].ToString(); else ColumnName = string.Empty;
-            if (propertyCollection.ContainsKey("ColumnLabel")) ColumnLabel = propertyCollection["ColumnLabel"].ToString(); else ColumnLabel = string.Empty;
+            if (propertyCollection.ContainsKey("LabelText")) LabelText = propertyCollection["LabelText"].ToString(); else LabelText = string.Empty;
             if (propertyCollection.ContainsKey("No")) No = propertyCollection["No"].ToInt(); else No = 0;
             if (propertyCollection.ContainsKey("History")) History = propertyCollection["History"].ToInt(); else History = 0;
             if (propertyCollection.ContainsKey("Import")) Import = propertyCollection["Import"].ToInt(); else Import = 0;
@@ -5907,7 +7623,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("GridEnabled")) GridEnabled = propertyCollection["GridEnabled"].ToBool(); else GridEnabled = false;
             if (propertyCollection.ContainsKey("FilterColumn")) FilterColumn = propertyCollection["FilterColumn"].ToInt(); else FilterColumn = 0;
             if (propertyCollection.ContainsKey("FilterEnabled")) FilterEnabled = propertyCollection["FilterEnabled"].ToBool(); else FilterEnabled = false;
-            if (propertyCollection.ContainsKey("EditorColumn")) EditorColumn = propertyCollection["EditorColumn"].ToBool(); else EditorColumn = false;
+            if (propertyCollection.ContainsKey("EditorColumn")) EditorColumn = propertyCollection["EditorColumn"].ToInt(); else EditorColumn = 0;
             if (propertyCollection.ContainsKey("EditorEnabled")) EditorEnabled = propertyCollection["EditorEnabled"].ToBool(); else EditorEnabled = false;
             if (propertyCollection.ContainsKey("TitleColumn")) TitleColumn = propertyCollection["TitleColumn"].ToInt(); else TitleColumn = 0;
             if (propertyCollection.ContainsKey("LinkColumn")) LinkColumn = propertyCollection["LinkColumn"].ToInt(); else LinkColumn = 0;
@@ -6012,7 +7728,7 @@ namespace Implem.DefinitionAccessor
                     case "EachModel": return EachModel;
                     case "Label": return Label;
                     case "ColumnName": return ColumnName;
-                    case "ColumnLabel": return ColumnLabel;
+                    case "LabelText": return LabelText;
                     case "No": return No;
                     case "History": return History;
                     case "Import": return Import;
@@ -6126,7 +7842,7 @@ namespace Implem.DefinitionAccessor
             EachModel = SavedEachModel;
             Label = SavedLabel;
             ColumnName = SavedColumnName;
-            ColumnLabel = SavedColumnLabel;
+            LabelText = SavedLabelText;
             No = SavedNo;
             History = SavedHistory;
             Import = SavedImport;
@@ -6495,32 +8211,6 @@ namespace Implem.DefinitionAccessor
         public string Users_CheckX;
         public string Users_CheckY;
         public string Users_CheckZ;
-        public string Users_AttachmentsA;
-        public string Users_AttachmentsB;
-        public string Users_AttachmentsC;
-        public string Users_AttachmentsD;
-        public string Users_AttachmentsE;
-        public string Users_AttachmentsF;
-        public string Users_AttachmentsG;
-        public string Users_AttachmentsH;
-        public string Users_AttachmentsI;
-        public string Users_AttachmentsJ;
-        public string Users_AttachmentsK;
-        public string Users_AttachmentsL;
-        public string Users_AttachmentsM;
-        public string Users_AttachmentsN;
-        public string Users_AttachmentsO;
-        public string Users_AttachmentsP;
-        public string Users_AttachmentsQ;
-        public string Users_AttachmentsR;
-        public string Users_AttachmentsS;
-        public string Users_AttachmentsT;
-        public string Users_AttachmentsU;
-        public string Users_AttachmentsV;
-        public string Users_AttachmentsW;
-        public string Users_AttachmentsX;
-        public string Users_AttachmentsY;
-        public string Users_AttachmentsZ;
         public string LoginKeys_LoginId;
         public string LoginKeys_Key;
         public string LoginKeys_TenantNames;
@@ -7413,32 +9103,6 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_CheckX = new ColumnDefinition();
         public ColumnDefinition Users_CheckY = new ColumnDefinition();
         public ColumnDefinition Users_CheckZ = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsA = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsB = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsC = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsD = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsE = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsF = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsG = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsH = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsI = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsJ = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsK = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsL = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsM = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsN = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsO = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsP = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsQ = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsR = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsS = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsT = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsU = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsV = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsW = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsX = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsY = new ColumnDefinition();
-        public ColumnDefinition Users_AttachmentsZ = new ColumnDefinition();
         public ColumnDefinition LoginKeys_LoginId = new ColumnDefinition();
         public ColumnDefinition LoginKeys_Key = new ColumnDefinition();
         public ColumnDefinition LoginKeys_TenantNames = new ColumnDefinition();

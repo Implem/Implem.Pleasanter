@@ -328,6 +328,18 @@ namespace Implem.Pleasanter.Models
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.UserCode)
                             : hb.Td(column: column, value: string.Empty);
+                    case "Password":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.Password)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "PasswordValidate":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.PasswordValidate)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "PasswordDummy":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.PasswordDummy)
+                            : hb.Td(column: column, value: string.Empty);
                     case "Birthday":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.Birthday)
@@ -340,6 +352,10 @@ namespace Implem.Pleasanter.Models
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.Language)
                             : hb.Td(column: column, value: string.Empty);
+                    case "TimeZone":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.TimeZone)
+                            : hb.Td(column: column, value: string.Empty);
                     case "TimeZoneInfo":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.TimeZoneInfo)
@@ -347,6 +363,10 @@ namespace Implem.Pleasanter.Models
                     case "DeptCode":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.DeptCode)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "DeptId":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.DeptId)
                             : hb.Td(column: column, value: string.Empty);
                     case "Dept":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
@@ -904,110 +924,6 @@ namespace Implem.Pleasanter.Models
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.CheckZ)
                             : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsA":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsA)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsB":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsB)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsC":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsC)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsD":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsD)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsE":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsE)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsF":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsF)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsG":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsG)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsH":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsH)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsI":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsI)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsJ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsJ)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsK":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsK)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsL":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsL)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsM":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsM)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsN":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsN)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsO":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsO)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsP":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsP)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsQ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsQ)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsR":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsR)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsS":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsS)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsT":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsT)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsU":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsU)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsV":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsV)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsW":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsW)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsX":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsX)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsY":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsY)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "AttachmentsZ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.AttachmentsZ)
-                            : hb.Td(column: column, value: string.Empty);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.Comments)
@@ -1046,11 +962,16 @@ namespace Implem.Pleasanter.Models
                     case "LoginId": value = userModel.LoginId.GridText(column: column); break;
                     case "Name": value = userModel.Name.GridText(column: column); break;
                     case "UserCode": value = userModel.UserCode.GridText(column: column); break;
+                    case "Password": value = userModel.Password.GridText(column: column); break;
+                    case "PasswordValidate": value = userModel.PasswordValidate.GridText(column: column); break;
+                    case "PasswordDummy": value = userModel.PasswordDummy.GridText(column: column); break;
                     case "Birthday": value = userModel.Birthday.GridText(column: column); break;
                     case "Gender": value = userModel.Gender.GridText(column: column); break;
                     case "Language": value = userModel.Language.GridText(column: column); break;
+                    case "TimeZone": value = userModel.TimeZone.GridText(column: column); break;
                     case "TimeZoneInfo": value = userModel.TimeZoneInfo.GridText(column: column); break;
                     case "DeptCode": value = userModel.DeptCode.GridText(column: column); break;
+                    case "DeptId": value = userModel.DeptId.GridText(column: column); break;
                     case "Dept": value = userModel.Dept.GridText(column: column); break;
                     case "Body": value = userModel.Body.GridText(column: column); break;
                     case "LastLoginTime": value = userModel.LastLoginTime.GridText(column: column); break;
@@ -1190,32 +1111,6 @@ namespace Implem.Pleasanter.Models
                     case "CheckX": value = userModel.CheckX.GridText(column: column); break;
                     case "CheckY": value = userModel.CheckY.GridText(column: column); break;
                     case "CheckZ": value = userModel.CheckZ.GridText(column: column); break;
-                    case "AttachmentsA": value = userModel.AttachmentsA.GridText(column: column); break;
-                    case "AttachmentsB": value = userModel.AttachmentsB.GridText(column: column); break;
-                    case "AttachmentsC": value = userModel.AttachmentsC.GridText(column: column); break;
-                    case "AttachmentsD": value = userModel.AttachmentsD.GridText(column: column); break;
-                    case "AttachmentsE": value = userModel.AttachmentsE.GridText(column: column); break;
-                    case "AttachmentsF": value = userModel.AttachmentsF.GridText(column: column); break;
-                    case "AttachmentsG": value = userModel.AttachmentsG.GridText(column: column); break;
-                    case "AttachmentsH": value = userModel.AttachmentsH.GridText(column: column); break;
-                    case "AttachmentsI": value = userModel.AttachmentsI.GridText(column: column); break;
-                    case "AttachmentsJ": value = userModel.AttachmentsJ.GridText(column: column); break;
-                    case "AttachmentsK": value = userModel.AttachmentsK.GridText(column: column); break;
-                    case "AttachmentsL": value = userModel.AttachmentsL.GridText(column: column); break;
-                    case "AttachmentsM": value = userModel.AttachmentsM.GridText(column: column); break;
-                    case "AttachmentsN": value = userModel.AttachmentsN.GridText(column: column); break;
-                    case "AttachmentsO": value = userModel.AttachmentsO.GridText(column: column); break;
-                    case "AttachmentsP": value = userModel.AttachmentsP.GridText(column: column); break;
-                    case "AttachmentsQ": value = userModel.AttachmentsQ.GridText(column: column); break;
-                    case "AttachmentsR": value = userModel.AttachmentsR.GridText(column: column); break;
-                    case "AttachmentsS": value = userModel.AttachmentsS.GridText(column: column); break;
-                    case "AttachmentsT": value = userModel.AttachmentsT.GridText(column: column); break;
-                    case "AttachmentsU": value = userModel.AttachmentsU.GridText(column: column); break;
-                    case "AttachmentsV": value = userModel.AttachmentsV.GridText(column: column); break;
-                    case "AttachmentsW": value = userModel.AttachmentsW.GridText(column: column); break;
-                    case "AttachmentsX": value = userModel.AttachmentsX.GridText(column: column); break;
-                    case "AttachmentsY": value = userModel.AttachmentsY.GridText(column: column); break;
-                    case "AttachmentsZ": value = userModel.AttachmentsZ.GridText(column: column); break;
                     case "Comments": value = userModel.Comments.GridText(column: column); break;
                     case "Creator": value = userModel.Creator.GridText(column: column); break;
                     case "Updator": value = userModel.Updator.GridText(column: column); break;
@@ -2816,240 +2711,6 @@ namespace Implem.Pleasanter.Models
                             column,
                             userModel.MethodType,
                             userModel.CheckZ.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsA":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsA.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsB":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsB.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsC":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsC.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsD":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsD.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsE":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsE.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsF":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsF.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsG":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsG.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsH":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsH.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsI":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsI.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsJ":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsJ.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsK":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsK.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsL":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsL.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsM":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsM.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsN":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsN.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsO":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsO.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsP":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsP.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsQ":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsQ.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsR":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsR.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsS":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsS.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsT":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsT.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsU":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsU.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsV":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsV.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsW":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsW.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsX":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsX.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsY":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsY.ToControl(ss, column),
-                            column.ColumnPermissionType(),
-                            preview: preview);
-                        break;
-                    case "AttachmentsZ":
-                        hb.Field(
-                            ss,
-                            column,
-                            userModel.MethodType,
-                            userModel.AttachmentsZ.ToControl(ss, column),
                             column.ColumnPermissionType(),
                             preview: preview);
                         break;

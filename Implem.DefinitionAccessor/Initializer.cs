@@ -74,6 +74,7 @@ namespace Implem.DefinitionAccessor
             Parameters.BackgroundTask = Read<ParameterAccessor.Parts.BackgroundTask>();
             Parameters.BinaryStorage = Read<ParameterAccessor.Parts.BinaryStorage>();
             Parameters.ExcludeColumns = Read<ParameterAccessor.Parts.ExcludeColumns>();
+            Parameters.CustomDefinitions = CustomDefinitionsHash();
             Parameters.ExtendedColumnsSet = ExtendedColumnsSet();
             Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.ExtendedStyles = ExtendedStyles();
@@ -102,6 +103,40 @@ namespace Implem.DefinitionAccessor
                 Parameters.SyntaxErrors.Add(name + ".json");
             }
             return data;
+        }
+
+        private static Dictionary<string, Dictionary<string, Dictionary<string, string>>> CustomDefinitionsHash(
+            string path = null,
+            Dictionary<string, Dictionary<string, Dictionary<string, string>>> hash = null)
+        {
+            hash = hash ?? new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "CustomDefinitions");
+            var dir = new DirectoryInfo(path);
+            if (dir.Exists)
+            {
+                foreach (var file in dir.GetFiles("*.json"))
+                {
+                    var customDefinitions = Files.Read(file.FullName)
+                        .Deserialize<Dictionary<string, Dictionary<string, string>>>();
+                    if (customDefinitions != null)
+                    {
+                        hash.Add(Path.ChangeExtension(file.Name, null), customDefinitions);
+                    }
+                    else
+                    {
+                        Parameters.SyntaxErrors.Add(file.Name);
+                    }
+                }
+                foreach (var sub in dir.GetDirectories())
+                {
+                    hash = CustomDefinitionsHash(sub.FullName, hash);
+                }
+            }
+            return hash;
         }
 
         private static List<ParameterAccessor.Parts.ExtendedColumns> ExtendedColumnsSet(
@@ -280,8 +315,8 @@ namespace Implem.DefinitionAccessor
                         def.TableName = extendedColumns.TableName;
                         def.Label = extendedColumns.Label ?? def.Label;
                         def.ColumnName = columnName;
-                        def.ColumnLabel = def.ColumnLabel
-                            .Substring(0, def.ColumnLabel.Length -1) + id;
+                        def.LabelText = def.LabelText
+                            .Substring(0, def.LabelText.Length -1) + id;
                         Def.ColumnDefinitionCollection.Add(def);
                     }
                 });
@@ -385,7 +420,7 @@ namespace Implem.DefinitionAccessor
             Displays.DisplayHash = DisplayHash();
             Def.ColumnDefinitionCollection
                 .Where(o => !o.Base)
-                .Select(o => new { Id = o.Id, Body = o.ColumnLabel })
+                .Select(o => new { o.Id, Body = o.LabelText })
                 .Union(Def.ColumnDefinitionCollection
                     .Where(o => !o.Base)
                     .Select(o => new { Id = o.TableName, Body = o.Label })
