@@ -192,32 +192,6 @@ namespace Implem.Pleasanter.Models
         public bool CheckX = false;
         public bool CheckY = false;
         public bool CheckZ = false;
-        public Attachments AttachmentsA = new Attachments();
-        public Attachments AttachmentsB = new Attachments();
-        public Attachments AttachmentsC = new Attachments();
-        public Attachments AttachmentsD = new Attachments();
-        public Attachments AttachmentsE = new Attachments();
-        public Attachments AttachmentsF = new Attachments();
-        public Attachments AttachmentsG = new Attachments();
-        public Attachments AttachmentsH = new Attachments();
-        public Attachments AttachmentsI = new Attachments();
-        public Attachments AttachmentsJ = new Attachments();
-        public Attachments AttachmentsK = new Attachments();
-        public Attachments AttachmentsL = new Attachments();
-        public Attachments AttachmentsM = new Attachments();
-        public Attachments AttachmentsN = new Attachments();
-        public Attachments AttachmentsO = new Attachments();
-        public Attachments AttachmentsP = new Attachments();
-        public Attachments AttachmentsQ = new Attachments();
-        public Attachments AttachmentsR = new Attachments();
-        public Attachments AttachmentsS = new Attachments();
-        public Attachments AttachmentsT = new Attachments();
-        public Attachments AttachmentsU = new Attachments();
-        public Attachments AttachmentsV = new Attachments();
-        public Attachments AttachmentsW = new Attachments();
-        public Attachments AttachmentsX = new Attachments();
-        public Attachments AttachmentsY = new Attachments();
-        public Attachments AttachmentsZ = new Attachments();
 
         public TimeZoneInfo TimeZoneInfo
         {
@@ -412,32 +386,6 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public bool SavedCheckX = false;
         [NonSerialized] public bool SavedCheckY = false;
         [NonSerialized] public bool SavedCheckZ = false;
-        [NonSerialized] public string SavedAttachmentsA = "[]";
-        [NonSerialized] public string SavedAttachmentsB = "[]";
-        [NonSerialized] public string SavedAttachmentsC = "[]";
-        [NonSerialized] public string SavedAttachmentsD = "[]";
-        [NonSerialized] public string SavedAttachmentsE = "[]";
-        [NonSerialized] public string SavedAttachmentsF = "[]";
-        [NonSerialized] public string SavedAttachmentsG = "[]";
-        [NonSerialized] public string SavedAttachmentsH = "[]";
-        [NonSerialized] public string SavedAttachmentsI = "[]";
-        [NonSerialized] public string SavedAttachmentsJ = "[]";
-        [NonSerialized] public string SavedAttachmentsK = "[]";
-        [NonSerialized] public string SavedAttachmentsL = "[]";
-        [NonSerialized] public string SavedAttachmentsM = "[]";
-        [NonSerialized] public string SavedAttachmentsN = "[]";
-        [NonSerialized] public string SavedAttachmentsO = "[]";
-        [NonSerialized] public string SavedAttachmentsP = "[]";
-        [NonSerialized] public string SavedAttachmentsQ = "[]";
-        [NonSerialized] public string SavedAttachmentsR = "[]";
-        [NonSerialized] public string SavedAttachmentsS = "[]";
-        [NonSerialized] public string SavedAttachmentsT = "[]";
-        [NonSerialized] public string SavedAttachmentsU = "[]";
-        [NonSerialized] public string SavedAttachmentsV = "[]";
-        [NonSerialized] public string SavedAttachmentsW = "[]";
-        [NonSerialized] public string SavedAttachmentsX = "[]";
-        [NonSerialized] public string SavedAttachmentsY = "[]";
-        [NonSerialized] public string SavedAttachmentsZ = "[]";
 
         public bool TenantId_Updated(Column column = null)
         {
@@ -1455,214 +1403,6 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckZ);
         }
 
-        public bool AttachmentsA_Updated(Column column = null)
-        {
-            return AttachmentsA.RecordingJson() != SavedAttachmentsA && AttachmentsA.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsA.RecordingJson());
-        }
-
-        public bool AttachmentsB_Updated(Column column = null)
-        {
-            return AttachmentsB.RecordingJson() != SavedAttachmentsB && AttachmentsB.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsB.RecordingJson());
-        }
-
-        public bool AttachmentsC_Updated(Column column = null)
-        {
-            return AttachmentsC.RecordingJson() != SavedAttachmentsC && AttachmentsC.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsC.RecordingJson());
-        }
-
-        public bool AttachmentsD_Updated(Column column = null)
-        {
-            return AttachmentsD.RecordingJson() != SavedAttachmentsD && AttachmentsD.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsD.RecordingJson());
-        }
-
-        public bool AttachmentsE_Updated(Column column = null)
-        {
-            return AttachmentsE.RecordingJson() != SavedAttachmentsE && AttachmentsE.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsE.RecordingJson());
-        }
-
-        public bool AttachmentsF_Updated(Column column = null)
-        {
-            return AttachmentsF.RecordingJson() != SavedAttachmentsF && AttachmentsF.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsF.RecordingJson());
-        }
-
-        public bool AttachmentsG_Updated(Column column = null)
-        {
-            return AttachmentsG.RecordingJson() != SavedAttachmentsG && AttachmentsG.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsG.RecordingJson());
-        }
-
-        public bool AttachmentsH_Updated(Column column = null)
-        {
-            return AttachmentsH.RecordingJson() != SavedAttachmentsH && AttachmentsH.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsH.RecordingJson());
-        }
-
-        public bool AttachmentsI_Updated(Column column = null)
-        {
-            return AttachmentsI.RecordingJson() != SavedAttachmentsI && AttachmentsI.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsI.RecordingJson());
-        }
-
-        public bool AttachmentsJ_Updated(Column column = null)
-        {
-            return AttachmentsJ.RecordingJson() != SavedAttachmentsJ && AttachmentsJ.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsJ.RecordingJson());
-        }
-
-        public bool AttachmentsK_Updated(Column column = null)
-        {
-            return AttachmentsK.RecordingJson() != SavedAttachmentsK && AttachmentsK.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsK.RecordingJson());
-        }
-
-        public bool AttachmentsL_Updated(Column column = null)
-        {
-            return AttachmentsL.RecordingJson() != SavedAttachmentsL && AttachmentsL.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsL.RecordingJson());
-        }
-
-        public bool AttachmentsM_Updated(Column column = null)
-        {
-            return AttachmentsM.RecordingJson() != SavedAttachmentsM && AttachmentsM.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsM.RecordingJson());
-        }
-
-        public bool AttachmentsN_Updated(Column column = null)
-        {
-            return AttachmentsN.RecordingJson() != SavedAttachmentsN && AttachmentsN.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsN.RecordingJson());
-        }
-
-        public bool AttachmentsO_Updated(Column column = null)
-        {
-            return AttachmentsO.RecordingJson() != SavedAttachmentsO && AttachmentsO.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsO.RecordingJson());
-        }
-
-        public bool AttachmentsP_Updated(Column column = null)
-        {
-            return AttachmentsP.RecordingJson() != SavedAttachmentsP && AttachmentsP.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsP.RecordingJson());
-        }
-
-        public bool AttachmentsQ_Updated(Column column = null)
-        {
-            return AttachmentsQ.RecordingJson() != SavedAttachmentsQ && AttachmentsQ.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsQ.RecordingJson());
-        }
-
-        public bool AttachmentsR_Updated(Column column = null)
-        {
-            return AttachmentsR.RecordingJson() != SavedAttachmentsR && AttachmentsR.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsR.RecordingJson());
-        }
-
-        public bool AttachmentsS_Updated(Column column = null)
-        {
-            return AttachmentsS.RecordingJson() != SavedAttachmentsS && AttachmentsS.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsS.RecordingJson());
-        }
-
-        public bool AttachmentsT_Updated(Column column = null)
-        {
-            return AttachmentsT.RecordingJson() != SavedAttachmentsT && AttachmentsT.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsT.RecordingJson());
-        }
-
-        public bool AttachmentsU_Updated(Column column = null)
-        {
-            return AttachmentsU.RecordingJson() != SavedAttachmentsU && AttachmentsU.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsU.RecordingJson());
-        }
-
-        public bool AttachmentsV_Updated(Column column = null)
-        {
-            return AttachmentsV.RecordingJson() != SavedAttachmentsV && AttachmentsV.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsV.RecordingJson());
-        }
-
-        public bool AttachmentsW_Updated(Column column = null)
-        {
-            return AttachmentsW.RecordingJson() != SavedAttachmentsW && AttachmentsW.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsW.RecordingJson());
-        }
-
-        public bool AttachmentsX_Updated(Column column = null)
-        {
-            return AttachmentsX.RecordingJson() != SavedAttachmentsX && AttachmentsX.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsX.RecordingJson());
-        }
-
-        public bool AttachmentsY_Updated(Column column = null)
-        {
-            return AttachmentsY.RecordingJson() != SavedAttachmentsY && AttachmentsY.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsY.RecordingJson());
-        }
-
-        public bool AttachmentsZ_Updated(Column column = null)
-        {
-            return AttachmentsZ.RecordingJson() != SavedAttachmentsZ && AttachmentsZ.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AttachmentsZ.RecordingJson());
-        }
-
         public bool Birthday_Updated(Column column = null)
         {
             return Birthday.Value != SavedBirthday &&
@@ -2176,32 +1916,6 @@ namespace Implem.Pleasanter.Models
                     case "CheckX": data.CheckX = CheckX; break;
                     case "CheckY": data.CheckY = CheckY; break;
                     case "CheckZ": data.CheckZ = CheckZ; break;
-                    case "AttachmentsA": data.AttachmentsA = AttachmentsA.RecordingJson(); break;
-                    case "AttachmentsB": data.AttachmentsB = AttachmentsB.RecordingJson(); break;
-                    case "AttachmentsC": data.AttachmentsC = AttachmentsC.RecordingJson(); break;
-                    case "AttachmentsD": data.AttachmentsD = AttachmentsD.RecordingJson(); break;
-                    case "AttachmentsE": data.AttachmentsE = AttachmentsE.RecordingJson(); break;
-                    case "AttachmentsF": data.AttachmentsF = AttachmentsF.RecordingJson(); break;
-                    case "AttachmentsG": data.AttachmentsG = AttachmentsG.RecordingJson(); break;
-                    case "AttachmentsH": data.AttachmentsH = AttachmentsH.RecordingJson(); break;
-                    case "AttachmentsI": data.AttachmentsI = AttachmentsI.RecordingJson(); break;
-                    case "AttachmentsJ": data.AttachmentsJ = AttachmentsJ.RecordingJson(); break;
-                    case "AttachmentsK": data.AttachmentsK = AttachmentsK.RecordingJson(); break;
-                    case "AttachmentsL": data.AttachmentsL = AttachmentsL.RecordingJson(); break;
-                    case "AttachmentsM": data.AttachmentsM = AttachmentsM.RecordingJson(); break;
-                    case "AttachmentsN": data.AttachmentsN = AttachmentsN.RecordingJson(); break;
-                    case "AttachmentsO": data.AttachmentsO = AttachmentsO.RecordingJson(); break;
-                    case "AttachmentsP": data.AttachmentsP = AttachmentsP.RecordingJson(); break;
-                    case "AttachmentsQ": data.AttachmentsQ = AttachmentsQ.RecordingJson(); break;
-                    case "AttachmentsR": data.AttachmentsR = AttachmentsR.RecordingJson(); break;
-                    case "AttachmentsS": data.AttachmentsS = AttachmentsS.RecordingJson(); break;
-                    case "AttachmentsT": data.AttachmentsT = AttachmentsT.RecordingJson(); break;
-                    case "AttachmentsU": data.AttachmentsU = AttachmentsU.RecordingJson(); break;
-                    case "AttachmentsV": data.AttachmentsV = AttachmentsV.RecordingJson(); break;
-                    case "AttachmentsW": data.AttachmentsW = AttachmentsW.RecordingJson(); break;
-                    case "AttachmentsX": data.AttachmentsX = AttachmentsX.RecordingJson(); break;
-                    case "AttachmentsY": data.AttachmentsY = AttachmentsY.RecordingJson(); break;
-                    case "AttachmentsZ": data.AttachmentsZ = AttachmentsZ.RecordingJson(); break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(); break;
@@ -2263,32 +1977,6 @@ namespace Implem.Pleasanter.Models
                         this, setDefault: true, otherInitValue: otherInitValue)),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated),
             });
-            if (AttachmentsA_Updated()) AttachmentsA.Write(statements, UserId);
-            if (AttachmentsB_Updated()) AttachmentsB.Write(statements, UserId);
-            if (AttachmentsC_Updated()) AttachmentsC.Write(statements, UserId);
-            if (AttachmentsD_Updated()) AttachmentsD.Write(statements, UserId);
-            if (AttachmentsE_Updated()) AttachmentsE.Write(statements, UserId);
-            if (AttachmentsF_Updated()) AttachmentsF.Write(statements, UserId);
-            if (AttachmentsG_Updated()) AttachmentsG.Write(statements, UserId);
-            if (AttachmentsH_Updated()) AttachmentsH.Write(statements, UserId);
-            if (AttachmentsI_Updated()) AttachmentsI.Write(statements, UserId);
-            if (AttachmentsJ_Updated()) AttachmentsJ.Write(statements, UserId);
-            if (AttachmentsK_Updated()) AttachmentsK.Write(statements, UserId);
-            if (AttachmentsL_Updated()) AttachmentsL.Write(statements, UserId);
-            if (AttachmentsM_Updated()) AttachmentsM.Write(statements, UserId);
-            if (AttachmentsN_Updated()) AttachmentsN.Write(statements, UserId);
-            if (AttachmentsO_Updated()) AttachmentsO.Write(statements, UserId);
-            if (AttachmentsP_Updated()) AttachmentsP.Write(statements, UserId);
-            if (AttachmentsQ_Updated()) AttachmentsQ.Write(statements, UserId);
-            if (AttachmentsR_Updated()) AttachmentsR.Write(statements, UserId);
-            if (AttachmentsS_Updated()) AttachmentsS.Write(statements, UserId);
-            if (AttachmentsT_Updated()) AttachmentsT.Write(statements, UserId);
-            if (AttachmentsU_Updated()) AttachmentsU.Write(statements, UserId);
-            if (AttachmentsV_Updated()) AttachmentsV.Write(statements, UserId);
-            if (AttachmentsW_Updated()) AttachmentsW.Write(statements, UserId);
-            if (AttachmentsX_Updated()) AttachmentsX.Write(statements, UserId);
-            if (AttachmentsY_Updated()) AttachmentsY.Write(statements, UserId);
-            if (AttachmentsZ_Updated()) AttachmentsZ.Write(statements, UserId);
             return statements;
         }
 
@@ -2353,32 +2041,6 @@ namespace Implem.Pleasanter.Models
                     countRecord: true),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated),
             });
-            if (AttachmentsA_Updated()) AttachmentsA.Write(statements, UserId);
-            if (AttachmentsB_Updated()) AttachmentsB.Write(statements, UserId);
-            if (AttachmentsC_Updated()) AttachmentsC.Write(statements, UserId);
-            if (AttachmentsD_Updated()) AttachmentsD.Write(statements, UserId);
-            if (AttachmentsE_Updated()) AttachmentsE.Write(statements, UserId);
-            if (AttachmentsF_Updated()) AttachmentsF.Write(statements, UserId);
-            if (AttachmentsG_Updated()) AttachmentsG.Write(statements, UserId);
-            if (AttachmentsH_Updated()) AttachmentsH.Write(statements, UserId);
-            if (AttachmentsI_Updated()) AttachmentsI.Write(statements, UserId);
-            if (AttachmentsJ_Updated()) AttachmentsJ.Write(statements, UserId);
-            if (AttachmentsK_Updated()) AttachmentsK.Write(statements, UserId);
-            if (AttachmentsL_Updated()) AttachmentsL.Write(statements, UserId);
-            if (AttachmentsM_Updated()) AttachmentsM.Write(statements, UserId);
-            if (AttachmentsN_Updated()) AttachmentsN.Write(statements, UserId);
-            if (AttachmentsO_Updated()) AttachmentsO.Write(statements, UserId);
-            if (AttachmentsP_Updated()) AttachmentsP.Write(statements, UserId);
-            if (AttachmentsQ_Updated()) AttachmentsQ.Write(statements, UserId);
-            if (AttachmentsR_Updated()) AttachmentsR.Write(statements, UserId);
-            if (AttachmentsS_Updated()) AttachmentsS.Write(statements, UserId);
-            if (AttachmentsT_Updated()) AttachmentsT.Write(statements, UserId);
-            if (AttachmentsU_Updated()) AttachmentsU.Write(statements, UserId);
-            if (AttachmentsV_Updated()) AttachmentsV.Write(statements, UserId);
-            if (AttachmentsW_Updated()) AttachmentsW.Write(statements, UserId);
-            if (AttachmentsX_Updated()) AttachmentsX.Write(statements, UserId);
-            if (AttachmentsY_Updated()) AttachmentsY.Write(statements, UserId);
-            if (AttachmentsZ_Updated()) AttachmentsZ.Write(statements, UserId);
             if (additionalStatements?.Any() == true)
             {
                 statements.AddRange(additionalStatements);
@@ -3140,136 +2802,6 @@ namespace Implem.Pleasanter.Models
                 column.CheckZ(function: Sqls.Functions.SingleColumn);
                 param.CheckZ();
             }
-            if (!AttachmentsA.InitialValue())
-            {
-                column.AttachmentsA(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsA();
-            }
-            if (!AttachmentsB.InitialValue())
-            {
-                column.AttachmentsB(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsB();
-            }
-            if (!AttachmentsC.InitialValue())
-            {
-                column.AttachmentsC(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsC();
-            }
-            if (!AttachmentsD.InitialValue())
-            {
-                column.AttachmentsD(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsD();
-            }
-            if (!AttachmentsE.InitialValue())
-            {
-                column.AttachmentsE(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsE();
-            }
-            if (!AttachmentsF.InitialValue())
-            {
-                column.AttachmentsF(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsF();
-            }
-            if (!AttachmentsG.InitialValue())
-            {
-                column.AttachmentsG(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsG();
-            }
-            if (!AttachmentsH.InitialValue())
-            {
-                column.AttachmentsH(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsH();
-            }
-            if (!AttachmentsI.InitialValue())
-            {
-                column.AttachmentsI(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsI();
-            }
-            if (!AttachmentsJ.InitialValue())
-            {
-                column.AttachmentsJ(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsJ();
-            }
-            if (!AttachmentsK.InitialValue())
-            {
-                column.AttachmentsK(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsK();
-            }
-            if (!AttachmentsL.InitialValue())
-            {
-                column.AttachmentsL(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsL();
-            }
-            if (!AttachmentsM.InitialValue())
-            {
-                column.AttachmentsM(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsM();
-            }
-            if (!AttachmentsN.InitialValue())
-            {
-                column.AttachmentsN(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsN();
-            }
-            if (!AttachmentsO.InitialValue())
-            {
-                column.AttachmentsO(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsO();
-            }
-            if (!AttachmentsP.InitialValue())
-            {
-                column.AttachmentsP(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsP();
-            }
-            if (!AttachmentsQ.InitialValue())
-            {
-                column.AttachmentsQ(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsQ();
-            }
-            if (!AttachmentsR.InitialValue())
-            {
-                column.AttachmentsR(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsR();
-            }
-            if (!AttachmentsS.InitialValue())
-            {
-                column.AttachmentsS(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsS();
-            }
-            if (!AttachmentsT.InitialValue())
-            {
-                column.AttachmentsT(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsT();
-            }
-            if (!AttachmentsU.InitialValue())
-            {
-                column.AttachmentsU(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsU();
-            }
-            if (!AttachmentsV.InitialValue())
-            {
-                column.AttachmentsV(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsV();
-            }
-            if (!AttachmentsW.InitialValue())
-            {
-                column.AttachmentsW(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsW();
-            }
-            if (!AttachmentsX.InitialValue())
-            {
-                column.AttachmentsX(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsX();
-            }
-            if (!AttachmentsY.InitialValue())
-            {
-                column.AttachmentsY(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsY();
-            }
-            if (!AttachmentsZ.InitialValue())
-            {
-                column.AttachmentsZ(function: Sqls.Functions.SingleColumn);
-                param.AttachmentsZ();
-            }
             if (!Comments.InitialValue())
             {
                 column.Comments(function: Sqls.Functions.SingleColumn);
@@ -3498,32 +3030,6 @@ namespace Implem.Pleasanter.Models
                     case "Users_CheckX": CheckX = Forms.Data(controlId).ToBool(); break;
                     case "Users_CheckY": CheckY = Forms.Data(controlId).ToBool(); break;
                     case "Users_CheckZ": CheckZ = Forms.Data(controlId).ToBool(); break;
-                    case "Users_AttachmentsA": AttachmentsA = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsB": AttachmentsB = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsC": AttachmentsC = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsD": AttachmentsD = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsE": AttachmentsE = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsF": AttachmentsF = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsG": AttachmentsG = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsH": AttachmentsH = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsI": AttachmentsI = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsJ": AttachmentsJ = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsK": AttachmentsK = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsL": AttachmentsL = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsM": AttachmentsM = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsN": AttachmentsN = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsO": AttachmentsO = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsP": AttachmentsP = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsQ": AttachmentsQ = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsR": AttachmentsR = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsS": AttachmentsS = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsT": AttachmentsT = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsU": AttachmentsU = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsV": AttachmentsV = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsW": AttachmentsW = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsX": AttachmentsX = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsY": AttachmentsY = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Users_AttachmentsZ": AttachmentsZ = Forms.Data(controlId).Deserialize<Attachments>(); break;
                     case "Users_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
@@ -4383,110 +3889,6 @@ namespace Implem.Pleasanter.Models
                             CheckZ = dataRow[column.ColumnName].ToBool();
                             SavedCheckZ = CheckZ;
                             break;
-                        case "AttachmentsA":
-                            AttachmentsA = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsA = AttachmentsA.RecordingJson();
-                            break;
-                        case "AttachmentsB":
-                            AttachmentsB = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsB = AttachmentsB.RecordingJson();
-                            break;
-                        case "AttachmentsC":
-                            AttachmentsC = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsC = AttachmentsC.RecordingJson();
-                            break;
-                        case "AttachmentsD":
-                            AttachmentsD = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsD = AttachmentsD.RecordingJson();
-                            break;
-                        case "AttachmentsE":
-                            AttachmentsE = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsE = AttachmentsE.RecordingJson();
-                            break;
-                        case "AttachmentsF":
-                            AttachmentsF = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsF = AttachmentsF.RecordingJson();
-                            break;
-                        case "AttachmentsG":
-                            AttachmentsG = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsG = AttachmentsG.RecordingJson();
-                            break;
-                        case "AttachmentsH":
-                            AttachmentsH = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsH = AttachmentsH.RecordingJson();
-                            break;
-                        case "AttachmentsI":
-                            AttachmentsI = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsI = AttachmentsI.RecordingJson();
-                            break;
-                        case "AttachmentsJ":
-                            AttachmentsJ = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsJ = AttachmentsJ.RecordingJson();
-                            break;
-                        case "AttachmentsK":
-                            AttachmentsK = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsK = AttachmentsK.RecordingJson();
-                            break;
-                        case "AttachmentsL":
-                            AttachmentsL = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsL = AttachmentsL.RecordingJson();
-                            break;
-                        case "AttachmentsM":
-                            AttachmentsM = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsM = AttachmentsM.RecordingJson();
-                            break;
-                        case "AttachmentsN":
-                            AttachmentsN = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsN = AttachmentsN.RecordingJson();
-                            break;
-                        case "AttachmentsO":
-                            AttachmentsO = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsO = AttachmentsO.RecordingJson();
-                            break;
-                        case "AttachmentsP":
-                            AttachmentsP = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsP = AttachmentsP.RecordingJson();
-                            break;
-                        case "AttachmentsQ":
-                            AttachmentsQ = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsQ = AttachmentsQ.RecordingJson();
-                            break;
-                        case "AttachmentsR":
-                            AttachmentsR = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsR = AttachmentsR.RecordingJson();
-                            break;
-                        case "AttachmentsS":
-                            AttachmentsS = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsS = AttachmentsS.RecordingJson();
-                            break;
-                        case "AttachmentsT":
-                            AttachmentsT = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsT = AttachmentsT.RecordingJson();
-                            break;
-                        case "AttachmentsU":
-                            AttachmentsU = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsU = AttachmentsU.RecordingJson();
-                            break;
-                        case "AttachmentsV":
-                            AttachmentsV = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsV = AttachmentsV.RecordingJson();
-                            break;
-                        case "AttachmentsW":
-                            AttachmentsW = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsW = AttachmentsW.RecordingJson();
-                            break;
-                        case "AttachmentsX":
-                            AttachmentsX = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsX = AttachmentsX.RecordingJson();
-                            break;
-                        case "AttachmentsY":
-                            AttachmentsY = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsY = AttachmentsY.RecordingJson();
-                            break;
-                        case "AttachmentsZ":
-                            AttachmentsZ = dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments();
-                            SavedAttachmentsZ = AttachmentsZ.RecordingJson();
-                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -4674,32 +4076,6 @@ namespace Implem.Pleasanter.Models
                 CheckX_Updated() ||
                 CheckY_Updated() ||
                 CheckZ_Updated() ||
-                AttachmentsA_Updated() ||
-                AttachmentsB_Updated() ||
-                AttachmentsC_Updated() ||
-                AttachmentsD_Updated() ||
-                AttachmentsE_Updated() ||
-                AttachmentsF_Updated() ||
-                AttachmentsG_Updated() ||
-                AttachmentsH_Updated() ||
-                AttachmentsI_Updated() ||
-                AttachmentsJ_Updated() ||
-                AttachmentsK_Updated() ||
-                AttachmentsL_Updated() ||
-                AttachmentsM_Updated() ||
-                AttachmentsN_Updated() ||
-                AttachmentsO_Updated() ||
-                AttachmentsP_Updated() ||
-                AttachmentsQ_Updated() ||
-                AttachmentsR_Updated() ||
-                AttachmentsS_Updated() ||
-                AttachmentsT_Updated() ||
-                AttachmentsU_Updated() ||
-                AttachmentsV_Updated() ||
-                AttachmentsW_Updated() ||
-                AttachmentsX_Updated() ||
-                AttachmentsY_Updated() ||
-                AttachmentsZ_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
                 Updator_Updated();

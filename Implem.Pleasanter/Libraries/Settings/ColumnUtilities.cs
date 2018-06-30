@@ -62,11 +62,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             this Dictionary<string, ColumnDefinition> definitions, bool enableOnly = false)
         {
             return definitions.Values
-                .Where(o => o.EditorColumn)
+                .Where(o => o.EditorColumn > 0)
                 .Where(o => o.EditorEnabled || !enableOnly)
                 .Where(o => !o.NotEditorSettings)
                 .Where(o => Contract.Attachments() || o.ControlType != "Attachments")
-                .OrderBy(o => o.No);
+                .OrderBy(o => o.EditorColumn);
         }
 
         public static IEnumerable<ColumnDefinition> TitleDefinitions(
@@ -102,7 +102,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             this Dictionary<string, ColumnDefinition> definitions)
         {
             return definitions.Values
-                .Where(o => o.EditorColumn || o.ColumnName == "Comments")
+                .Where(o => o.EditorColumn > 0 || o.ColumnName == "Comments")
                 .Where(o => !o.NotEditorSettings)
                 .Where(o => !o.Unique)
                 .Where(o => o.ControlType != "Attachment")

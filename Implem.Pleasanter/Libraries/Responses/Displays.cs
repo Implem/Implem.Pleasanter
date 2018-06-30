@@ -829,32 +829,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_CheckX(params string[] data) { return Get("Users_CheckX", data); }
         public static string Users_CheckY(params string[] data) { return Get("Users_CheckY", data); }
         public static string Users_CheckZ(params string[] data) { return Get("Users_CheckZ", data); }
-        public static string Users_AttachmentsA(params string[] data) { return Get("Users_AttachmentsA", data); }
-        public static string Users_AttachmentsB(params string[] data) { return Get("Users_AttachmentsB", data); }
-        public static string Users_AttachmentsC(params string[] data) { return Get("Users_AttachmentsC", data); }
-        public static string Users_AttachmentsD(params string[] data) { return Get("Users_AttachmentsD", data); }
-        public static string Users_AttachmentsE(params string[] data) { return Get("Users_AttachmentsE", data); }
-        public static string Users_AttachmentsF(params string[] data) { return Get("Users_AttachmentsF", data); }
-        public static string Users_AttachmentsG(params string[] data) { return Get("Users_AttachmentsG", data); }
-        public static string Users_AttachmentsH(params string[] data) { return Get("Users_AttachmentsH", data); }
-        public static string Users_AttachmentsI(params string[] data) { return Get("Users_AttachmentsI", data); }
-        public static string Users_AttachmentsJ(params string[] data) { return Get("Users_AttachmentsJ", data); }
-        public static string Users_AttachmentsK(params string[] data) { return Get("Users_AttachmentsK", data); }
-        public static string Users_AttachmentsL(params string[] data) { return Get("Users_AttachmentsL", data); }
-        public static string Users_AttachmentsM(params string[] data) { return Get("Users_AttachmentsM", data); }
-        public static string Users_AttachmentsN(params string[] data) { return Get("Users_AttachmentsN", data); }
-        public static string Users_AttachmentsO(params string[] data) { return Get("Users_AttachmentsO", data); }
-        public static string Users_AttachmentsP(params string[] data) { return Get("Users_AttachmentsP", data); }
-        public static string Users_AttachmentsQ(params string[] data) { return Get("Users_AttachmentsQ", data); }
-        public static string Users_AttachmentsR(params string[] data) { return Get("Users_AttachmentsR", data); }
-        public static string Users_AttachmentsS(params string[] data) { return Get("Users_AttachmentsS", data); }
-        public static string Users_AttachmentsT(params string[] data) { return Get("Users_AttachmentsT", data); }
-        public static string Users_AttachmentsU(params string[] data) { return Get("Users_AttachmentsU", data); }
-        public static string Users_AttachmentsV(params string[] data) { return Get("Users_AttachmentsV", data); }
-        public static string Users_AttachmentsW(params string[] data) { return Get("Users_AttachmentsW", data); }
-        public static string Users_AttachmentsX(params string[] data) { return Get("Users_AttachmentsX", data); }
-        public static string Users_AttachmentsY(params string[] data) { return Get("Users_AttachmentsY", data); }
-        public static string Users_AttachmentsZ(params string[] data) { return Get("Users_AttachmentsZ", data); }
         public static string LoginKeys_LoginId(params string[] data) { return Get("LoginKeys_LoginId", data); }
         public static string LoginKeys_Key(params string[] data) { return Get("LoginKeys_Key", data); }
         public static string LoginKeys_TenantNames(params string[] data) { return Get("LoginKeys_TenantNames", data); }
