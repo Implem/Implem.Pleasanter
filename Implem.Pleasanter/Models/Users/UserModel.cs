@@ -4184,7 +4184,7 @@ namespace Implem.Pleasanter.Models
             PasswordExpirationTime = Parameters.Authentication.PasswordExpirationPeriod != 0
                 ? new Time(DateTime.Today.AddDays(
                     Parameters.Authentication.PasswordExpirationPeriod))
-                : new Time();
+                : PasswordExpirationTime;
         }
 
         /// <summary>
