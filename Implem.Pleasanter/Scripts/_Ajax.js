@@ -22,7 +22,7 @@
     .done(function (json, textStatus, jqXHR) {
         $p.setByJson(json, data, $control);
         ret = json.filter(function (i) {
-            return i.Method === 'Status' && i.Value === 'alert-error';
+            return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
         }).length !== 0
             ? -1
             : 0;
