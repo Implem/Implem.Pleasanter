@@ -4315,7 +4315,9 @@ namespace Implem.Pleasanter.Models
             return Parameters.Authentication.RejectUnregisteredUser &&
                 Rds.ExecuteScalar_int(statements: Rds.SelectUsers(
                     column: Rds.UsersColumn().UsersCount(),
-                    where: Rds.UsersWhere().LoginId(LoginId))) != 1;
+                    where: Rds.UsersWhere()
+                        .LoginId(LoginId)
+                        .Disabled(false))) != 1;
         }
 
         /// <summary>
