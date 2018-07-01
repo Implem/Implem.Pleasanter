@@ -22,6 +22,8 @@ namespace Implem.ParameterAccessor.Parts
         public List<LdapExtendedAttribute> LdapExtendedAttributes;
         public List<string> LdapSyncPatterns;
         public bool LdapExcludeAccountDisabled;
+        public bool AutoDisable;
+        public bool AutoEnable;
         public string LdapSyncUser;
         public string LdapSyncPassword;
     }

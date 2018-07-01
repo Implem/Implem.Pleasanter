@@ -1525,6 +1525,8 @@ namespace Implem.DefinitionAccessor
                     case "Users_CheckX": Column.Users_CheckX = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_CheckX, definitionRow, ColumnXls); break;
                     case "Users_CheckY": Column.Users_CheckY = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_CheckY, definitionRow, ColumnXls); break;
                     case "Users_CheckZ": Column.Users_CheckZ = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_CheckZ, definitionRow, ColumnXls); break;
+                    case "Users_LdapSearchRoot": Column.Users_LdapSearchRoot = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LdapSearchRoot, definitionRow, ColumnXls); break;
+                    case "Users_SynchronizedTime": Column.Users_SynchronizedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SynchronizedTime, definitionRow, ColumnXls); break;
                     case "LoginKeys_LoginId": Column.LoginKeys_LoginId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.LoginKeys_LoginId, definitionRow, ColumnXls); break;
                     case "LoginKeys_Key": Column.LoginKeys_Key = definitionRow[1].ToString(); SetColumnTable(ColumnTable.LoginKeys_Key, definitionRow, ColumnXls); break;
                     case "LoginKeys_TenantNames": Column.LoginKeys_TenantNames = definitionRow[1].ToString(); SetColumnTable(ColumnTable.LoginKeys_TenantNames, definitionRow, ColumnXls); break;
@@ -8211,6 +8213,8 @@ namespace Implem.DefinitionAccessor
         public string Users_CheckX;
         public string Users_CheckY;
         public string Users_CheckZ;
+        public string Users_LdapSearchRoot;
+        public string Users_SynchronizedTime;
         public string LoginKeys_LoginId;
         public string LoginKeys_Key;
         public string LoginKeys_TenantNames;
@@ -9103,6 +9107,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_CheckX = new ColumnDefinition();
         public ColumnDefinition Users_CheckY = new ColumnDefinition();
         public ColumnDefinition Users_CheckZ = new ColumnDefinition();
+        public ColumnDefinition Users_LdapSearchRoot = new ColumnDefinition();
+        public ColumnDefinition Users_SynchronizedTime = new ColumnDefinition();
         public ColumnDefinition LoginKeys_LoginId = new ColumnDefinition();
         public ColumnDefinition LoginKeys_Key = new ColumnDefinition();
         public ColumnDefinition LoginKeys_TenantNames = new ColumnDefinition();

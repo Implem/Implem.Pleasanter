@@ -192,6 +192,8 @@ namespace Implem.Pleasanter.Models
         public bool CheckX = false;
         public bool CheckY = false;
         public bool CheckZ = false;
+        public string LdapSearchRoot = string.Empty;
+        public DateTime SynchronizedTime = 0.ToDateTime();
 
         public TimeZoneInfo TimeZoneInfo
         {
@@ -386,6 +388,8 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public bool SavedCheckX = false;
         [NonSerialized] public bool SavedCheckY = false;
         [NonSerialized] public bool SavedCheckZ = false;
+        [NonSerialized] public string SavedLdapSearchRoot = string.Empty;
+        [NonSerialized] public DateTime SavedSynchronizedTime = 0.ToDateTime();
 
         public bool TenantId_Updated(Column column = null)
         {
@@ -1403,6 +1407,14 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckZ);
         }
 
+        public bool LdapSearchRoot_Updated(Column column = null)
+        {
+            return LdapSearchRoot != SavedLdapSearchRoot && LdapSearchRoot != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultInput.ToString() != LdapSearchRoot);
+        }
+
         public bool Birthday_Updated(Column column = null)
         {
             return Birthday.Value != SavedBirthday &&
@@ -1641,6 +1653,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.DefaultTime().Date != DateZ.Date);
+        }
+
+        public bool SynchronizedTime_Updated(Column column = null)
+        {
+            return SynchronizedTime != SavedSynchronizedTime &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != SynchronizedTime.Date);
         }
 
         public UserSettings Session_UserSettings()
@@ -1916,6 +1936,8 @@ namespace Implem.Pleasanter.Models
                     case "CheckX": data.CheckX = CheckX; break;
                     case "CheckY": data.CheckY = CheckY; break;
                     case "CheckZ": data.CheckZ = CheckZ; break;
+                    case "LdapSearchRoot": data.LdapSearchRoot = LdapSearchRoot; break;
+                    case "SynchronizedTime": data.SynchronizedTime = SynchronizedTime.ToLocal(); break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(); break;
@@ -2802,6 +2824,16 @@ namespace Implem.Pleasanter.Models
                 column.CheckZ(function: Sqls.Functions.SingleColumn);
                 param.CheckZ();
             }
+            if (!LdapSearchRoot.InitialValue())
+            {
+                column.LdapSearchRoot(function: Sqls.Functions.SingleColumn);
+                param.LdapSearchRoot();
+            }
+            if (!SynchronizedTime.InitialValue())
+            {
+                column.SynchronizedTime(function: Sqls.Functions.SingleColumn);
+                param.SynchronizedTime();
+            }
             if (!Comments.InitialValue())
             {
                 column.Comments(function: Sqls.Functions.SingleColumn);
@@ -3030,6 +3062,8 @@ namespace Implem.Pleasanter.Models
                     case "Users_CheckX": CheckX = Forms.Data(controlId).ToBool(); break;
                     case "Users_CheckY": CheckY = Forms.Data(controlId).ToBool(); break;
                     case "Users_CheckZ": CheckZ = Forms.Data(controlId).ToBool(); break;
+                    case "Users_LdapSearchRoot": LdapSearchRoot = Forms.Data(controlId).ToString(); break;
+                    case "Users_SynchronizedTime": SynchronizedTime = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
                     case "Users_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
@@ -3217,6 +3251,8 @@ namespace Implem.Pleasanter.Models
             if (data.CheckX != null) CheckX = data.CheckX.ToBool().ToBool();
             if (data.CheckY != null) CheckY = data.CheckY.ToBool().ToBool();
             if (data.CheckZ != null) CheckZ = data.CheckZ.ToBool().ToBool();
+            if (data.LdapSearchRoot != null) LdapSearchRoot = data.LdapSearchRoot.ToString().ToString();
+            if (data.SynchronizedTime != null) SynchronizedTime = data.SynchronizedTime.ToDateTime().ToDateTime().ToUniversal();
             if (data.Comments != null) Comments.Prepend(data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
         }
@@ -3889,6 +3925,14 @@ namespace Implem.Pleasanter.Models
                             CheckZ = dataRow[column.ColumnName].ToBool();
                             SavedCheckZ = CheckZ;
                             break;
+                        case "LdapSearchRoot":
+                            LdapSearchRoot = dataRow[column.ColumnName].ToString();
+                            SavedLdapSearchRoot = LdapSearchRoot;
+                            break;
+                        case "SynchronizedTime":
+                            SynchronizedTime = dataRow[column.ColumnName].ToDateTime();
+                            SavedSynchronizedTime = SynchronizedTime;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -4076,6 +4120,8 @@ namespace Implem.Pleasanter.Models
                 CheckX_Updated() ||
                 CheckY_Updated() ||
                 CheckZ_Updated() ||
+                LdapSearchRoot_Updated() ||
+                SynchronizedTime_Updated() ||
                 Comments_Updated() ||
                 Creator_Updated() ||
                 Updator_Updated();

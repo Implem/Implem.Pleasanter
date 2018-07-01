@@ -829,6 +829,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_CheckX(params string[] data) { return Get("Users_CheckX", data); }
         public static string Users_CheckY(params string[] data) { return Get("Users_CheckY", data); }
         public static string Users_CheckZ(params string[] data) { return Get("Users_CheckZ", data); }
+        public static string Users_LdapSearchRoot(params string[] data) { return Get("Users_LdapSearchRoot", data); }
+        public static string Users_SynchronizedTime(params string[] data) { return Get("Users_SynchronizedTime", data); }
         public static string LoginKeys_LoginId(params string[] data) { return Get("LoginKeys_LoginId", data); }
         public static string LoginKeys_Key(params string[] data) { return Get("LoginKeys_Key", data); }
         public static string LoginKeys_TenantNames(params string[] data) { return Get("LoginKeys_TenantNames", data); }
