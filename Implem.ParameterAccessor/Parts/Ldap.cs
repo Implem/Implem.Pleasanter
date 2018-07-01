@@ -19,6 +19,7 @@ namespace Implem.ParameterAccessor.Parts
         public string LdapLastNamePattern;
         public string LdapMailAddress;
         public string LdapMailAddressPattern;
+        public List<LdapExtendedAttribute> LdapExtendedAttributes;
         public List<string> LdapSyncPatterns;
         public bool LdapExcludeAccountDisabled;
         public string LdapSyncUser;

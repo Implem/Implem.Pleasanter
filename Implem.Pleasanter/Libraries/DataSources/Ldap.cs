@@ -86,18 +86,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .DeptName(deptName),
                     where: Rds.DeptsWhere().DeptCode(deptCode)));
             }
+            var param = Rds.UsersParam()
+                .TenantId(ldap.LdapTenantId)
+                .LoginId(loginId)
+                .UserCode(userCode)
+                .Name(name)
+                .DeptId(
+                    sub: Rds.SelectDepts(
+                        column: Rds.DeptsColumn().DeptId(),
+                        where: Rds.DeptsWhere().DeptCode(deptCode)),
+                    _using: deptExists)
+                .DeptId(0, _using: !deptExists);
+            ldap.LdapExtendedAttributes?.ForEach(attribute =>
+                param.Add(
+                    $"[Users].[{attribute.ColumnName}]",
+                    attribute.ColumnName,
+                    entry.Property(attribute.Name, attribute.Pattern)));
             statements.Add(Rds.UpdateOrInsertUsers(
-                param: Rds.UsersParam()
-                    .TenantId(ldap.LdapTenantId)
-                    .LoginId(loginId)
-                    .UserCode(userCode)
-                    .Name(name)
-                    .DeptId(
-                        sub: Rds.SelectDepts(
-                            column: Rds.DeptsColumn().DeptId(),
-                            where: Rds.DeptsWhere().DeptCode(deptCode)),
-                        _using: deptExists)
-                    .DeptId(0, _using: !deptExists),
+                param: param,
                 where: Rds.UsersWhere().LoginId(loginId)));
             if (!mailAddress.IsNullOrEmpty())
             {
