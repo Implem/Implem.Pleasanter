@@ -22,7 +22,7 @@ $p.setCalendar = function () {
             var to = new Date(element.To) < end
                 ? new Date(element.To)
                 : end;
-            while (to >= current) {
+            while ($p.shortDate(to) >= $p.shortDate(current)) {
                 if (current.getDay() === 1) {
                     rank = Rank(hash, $p.shortDateString(current));
                 }
@@ -114,7 +114,10 @@ $p.setCalendar = function () {
                 if (element.To === undefined) {
                     return width - margin;
                 } else {
-                    var diff = $p.dateDiff('d', new Date(element.To), current);
+                    var diff = $p.dateDiff(
+                        'd',
+                        $p.shortDate(new Date(element.To)),
+                        $p.shortDate(current));
                     var col = current.getDay() !== 0
                         ? current.getDay()
                         : 7;
