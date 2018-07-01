@@ -1308,6 +1308,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static UsersResponseCollection CheckZ(this UsersResponseCollection res, string value) { return res.Val("#Users_CheckZ", value); }
         public static UsersResponseCollection CheckZ_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_CheckZ", res.UserModel.CheckZ.ToResponse()); }
         public static UsersResponseCollection CheckZ_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_CheckZ", value); }
+        public static UsersResponseCollection LdapSearchRoot(this UsersResponseCollection res) { return res.Val("#Users_LdapSearchRoot", res.UserModel.LdapSearchRoot.ToResponse()); }
+        public static UsersResponseCollection LdapSearchRoot(this UsersResponseCollection res, string value) { return res.Val("#Users_LdapSearchRoot", value); }
+        public static UsersResponseCollection LdapSearchRoot_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_LdapSearchRoot", res.UserModel.LdapSearchRoot.ToResponse()); }
+        public static UsersResponseCollection LdapSearchRoot_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_LdapSearchRoot", value); }
+        public static UsersResponseCollection SynchronizedTime(this UsersResponseCollection res) { return res.Val("#Users_SynchronizedTime", res.UserModel.SynchronizedTime.ToResponse()); }
+        public static UsersResponseCollection SynchronizedTime(this UsersResponseCollection res, string value) { return res.Val("#Users_SynchronizedTime", value); }
+        public static UsersResponseCollection SynchronizedTime_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_SynchronizedTime", res.UserModel.SynchronizedTime.ToResponse()); }
+        public static UsersResponseCollection SynchronizedTime_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_SynchronizedTime", value); }
         public static UsersResponseCollection Comments(this UsersResponseCollection res) { return res.Val("#Users_Comments", res.UserModel.Comments.ToResponse()); }
         public static UsersResponseCollection Comments(this UsersResponseCollection res, string value) { return res.Val("#Users_Comments", value); }
         public static UsersResponseCollection Comments_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_Comments", res.UserModel.Comments.ToResponse()); }

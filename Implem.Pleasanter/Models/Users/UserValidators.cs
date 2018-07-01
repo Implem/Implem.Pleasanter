@@ -803,6 +803,12 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
+                    case "LdapSearchRoot":
+                        if (userModel.LdapSearchRoot_Updated(column))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
                     case "Birthday":
                         if (userModel.Birthday_Updated(column))
                         {
@@ -979,6 +985,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "DateZ":
                         if (userModel.DateZ_Updated(column))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
+                    case "SynchronizedTime":
+                        if (userModel.SynchronizedTime_Updated(column))
                         {
                             return Error.Types.HasNotPermission;
                         }
@@ -1463,6 +1475,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "CheckZ":
                         if (userModel.CheckZ_Updated()) return Error.Types.HasNotPermission;
+                        break;
+                    case "LdapSearchRoot":
+                        if (userModel.LdapSearchRoot_Updated()) return Error.Types.HasNotPermission;
+                        break;
+                    case "SynchronizedTime":
+                        if (userModel.SynchronizedTime_Updated()) return Error.Types.HasNotPermission;
                         break;
                     case "Comments":
                         if (!ss.GetColumn("Comments").CanUpdate) return Error.Types.HasNotPermission;

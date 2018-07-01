@@ -1203,6 +1203,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "CheckZ":
                             sql.Users_CheckZ(tableName: path, _as: _as);
                             break;
+                        case "LdapSearchRoot":
+                            sql.Users_LdapSearchRoot(tableName: path, _as: _as);
+                            break;
+                        case "SynchronizedTime":
+                            sql.Users_SynchronizedTime(tableName: path, _as: _as);
+                            break;
                         case "Comments":
                             sql.Users_Comments(tableName: path, _as: _as);
                             break;

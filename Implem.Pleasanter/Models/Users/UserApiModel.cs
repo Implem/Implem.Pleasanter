@@ -163,6 +163,8 @@ namespace Implem.Pleasanter.Models
         public bool? CheckX;
         public bool? CheckY;
         public bool? CheckZ;
+        public string LdapSearchRoot;
+        public DateTime? SynchronizedTime;
         public string Comments;
         public int? Creator;
         public int? Updator;

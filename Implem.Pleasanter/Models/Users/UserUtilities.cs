@@ -328,18 +328,6 @@ namespace Implem.Pleasanter.Models
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.UserCode)
                             : hb.Td(column: column, value: string.Empty);
-                    case "Password":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.Password)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "PasswordValidate":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.PasswordValidate)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "PasswordDummy":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.PasswordDummy)
-                            : hb.Td(column: column, value: string.Empty);
                     case "Birthday":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.Birthday)
@@ -352,10 +340,6 @@ namespace Implem.Pleasanter.Models
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.Language)
                             : hb.Td(column: column, value: string.Empty);
-                    case "TimeZone":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.TimeZone)
-                            : hb.Td(column: column, value: string.Empty);
                     case "TimeZoneInfo":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.TimeZoneInfo)
@@ -363,10 +347,6 @@ namespace Implem.Pleasanter.Models
                     case "DeptCode":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.DeptCode)
-                            : hb.Td(column: column, value: string.Empty);
-                    case "DeptId":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: userModel.DeptId)
                             : hb.Td(column: column, value: string.Empty);
                     case "Dept":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
@@ -924,6 +904,14 @@ namespace Implem.Pleasanter.Models
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.CheckZ)
                             : hb.Td(column: column, value: string.Empty);
+                    case "LdapSearchRoot":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.LdapSearchRoot)
+                            : hb.Td(column: column, value: string.Empty);
+                    case "SynchronizedTime":
+                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
+                            ? hb.Td(column: column, value: userModel.SynchronizedTime)
+                            : hb.Td(column: column, value: string.Empty);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
                             ? hb.Td(column: column, value: userModel.Comments)
@@ -962,16 +950,11 @@ namespace Implem.Pleasanter.Models
                     case "LoginId": value = userModel.LoginId.GridText(column: column); break;
                     case "Name": value = userModel.Name.GridText(column: column); break;
                     case "UserCode": value = userModel.UserCode.GridText(column: column); break;
-                    case "Password": value = userModel.Password.GridText(column: column); break;
-                    case "PasswordValidate": value = userModel.PasswordValidate.GridText(column: column); break;
-                    case "PasswordDummy": value = userModel.PasswordDummy.GridText(column: column); break;
                     case "Birthday": value = userModel.Birthday.GridText(column: column); break;
                     case "Gender": value = userModel.Gender.GridText(column: column); break;
                     case "Language": value = userModel.Language.GridText(column: column); break;
-                    case "TimeZone": value = userModel.TimeZone.GridText(column: column); break;
                     case "TimeZoneInfo": value = userModel.TimeZoneInfo.GridText(column: column); break;
                     case "DeptCode": value = userModel.DeptCode.GridText(column: column); break;
-                    case "DeptId": value = userModel.DeptId.GridText(column: column); break;
                     case "Dept": value = userModel.Dept.GridText(column: column); break;
                     case "Body": value = userModel.Body.GridText(column: column); break;
                     case "LastLoginTime": value = userModel.LastLoginTime.GridText(column: column); break;
@@ -1111,6 +1094,8 @@ namespace Implem.Pleasanter.Models
                     case "CheckX": value = userModel.CheckX.GridText(column: column); break;
                     case "CheckY": value = userModel.CheckY.GridText(column: column); break;
                     case "CheckZ": value = userModel.CheckZ.GridText(column: column); break;
+                    case "LdapSearchRoot": value = userModel.LdapSearchRoot.GridText(column: column); break;
+                    case "SynchronizedTime": value = userModel.SynchronizedTime.GridText(column: column); break;
                     case "Comments": value = userModel.Comments.GridText(column: column); break;
                     case "Creator": value = userModel.Creator.GridText(column: column); break;
                     case "Updator": value = userModel.Updator.GridText(column: column); break;
@@ -2711,6 +2696,24 @@ namespace Implem.Pleasanter.Models
                             column,
                             userModel.MethodType,
                             userModel.CheckZ.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "LdapSearchRoot":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.LdapSearchRoot.ToControl(ss, column),
+                            column.ColumnPermissionType(),
+                            preview: preview);
+                        break;
+                    case "SynchronizedTime":
+                        hb.Field(
+                            ss,
+                            column,
+                            userModel.MethodType,
+                            userModel.SynchronizedTime.ToControl(ss, column),
                             column.ColumnPermissionType(),
                             preview: preview);
                         break;
