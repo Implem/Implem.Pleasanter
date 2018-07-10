@@ -95,6 +95,20 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public void SetByModel(StatusModel statusModel)
+        {
+            TenantId = statusModel.TenantId;
+            StatusId = statusModel.StatusId;
+            Value = statusModel.Value;
+            Comments = statusModel.Comments;
+            Creator = statusModel.Creator;
+            Updator = statusModel.Updator;
+            CreatedTime = statusModel.CreatedTime;
+            UpdatedTime = statusModel.UpdatedTime;
+            VerUp = statusModel.VerUp;
+            Comments = statusModel.Comments;
+        }
+
         private void SetBySession()
         {
         }

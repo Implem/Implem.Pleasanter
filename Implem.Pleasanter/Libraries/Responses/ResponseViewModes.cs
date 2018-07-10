@@ -21,6 +21,8 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res
                 .Html(!bodyOnly ? "#ViewModeContainer" : bodySelector, body)
                 .View(ss: ss, view: view)
+                .ReplaceAll("#Breadcrumb", new HtmlBuilder()
+                    .Breadcrumb(ss: ss))
                 .ReplaceAll("#Aggregations", new HtmlBuilder()
                     .Aggregations(
                         ss: ss,

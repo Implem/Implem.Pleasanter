@@ -113,6 +113,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             switch (Routes.Action())
             {
                 case "histories": return 1;
+                case "deletehistory": return 1;
                 default: return 3;
             }
         }

@@ -143,8 +143,7 @@ namespace Implem.Pleasanter.Models
             ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
-                case "Sites": return SiteUtilities.SiteMenu(
-                    siteModel: Site);
+                case "Sites": return SiteUtilities.SiteMenu(siteModel: Site);
                 case "Issues": return IssueUtilities.Index(ss: Site.SiteSettings);
                 case "Results": return ResultUtilities.Index(ss: Site.SiteSettings);
                 default: return HtmlTemplates.Error(Error.Types.NotFound);
@@ -165,6 +164,50 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.IndexJson(ss: Site.SiteSettings);
                 case "Results": return ResultUtilities.IndexJson(ss: Site.SiteSettings);
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
+        public string TrashBox()
+        {
+            if (ReferenceId != 0 && ReferenceType != "Sites")
+            {
+                return HtmlTemplates.Error(Error.Types.NotFound);
+            }
+            SetSite(
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                tableType: Sqls.TableTypes.Deleted);
+            ViewModes.Set(Site.SiteId);
+            if (ReferenceId == 0)
+            {
+                return SiteUtilities.TrashBox(ss: Site.SiteSettings);
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Sites": return SiteUtilities.TrashBox(ss: Site.SiteSettings);
+                case "Issues": return IssueUtilities.TrashBox(ss: Site.SiteSettings);
+                case "Results": return ResultUtilities.TrashBox(ss: Site.SiteSettings);
+                default: return HtmlTemplates.Error(Error.Types.NotFound);
+            }
+        }
+
+        public string TrashBoxJson()
+        {
+            if (ReferenceType != "Sites")
+            {
+                return Messages.ResponseNotFound().ToJson();
+            }
+            SetSite(
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                tableType: Sqls.TableTypes.Deleted);
+            ViewModes.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Sites": return SiteUtilities.TrashBoxJson(ss: Site.SiteSettings);
+                case "Issues": return IssueUtilities.TrashBoxJson(ss: Site.SiteSettings);
+                case "Results": return ResultUtilities.TrashBoxJson(ss: Site.SiteSettings);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -692,6 +735,29 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string TrashBoxGridRows()
+        {
+            SetSite(tableType: Sqls.TableTypes.Deleted);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.GridRows(
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        tableType: Sqls.TableTypes.Deleted),
+                    offset: DataViewGrid.Offset(),
+                    action: "TrashBoxGridRows");
+                case "Results": return ResultUtilities.GridRows(
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        tableType: Sqls.TableTypes.Deleted),
+                    offset: DataViewGrid.Offset(),
+                    action: "TrashBoxGridRows");
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
         public string ImageLibNext()
         {
             SetSite();
@@ -1005,23 +1071,105 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public string Restore(long referenceId)
+        public string DeleteHistory()
         {
-            ReferenceId = referenceId;
-            Get(Sqls.TableTypes.Deleted, where: Rds.ItemsWhere().ReferenceId(ReferenceId));
-            SetSite();
-            switch (ReferenceType)
+            SetSite(initSiteSettings: true, tableType: Sqls.TableTypes.History);
+            if (SiteId == ReferenceId)
+            {
+                return SiteUtilities.DeleteHistory(
+                    ss: Site.SiteSettings, siteId: ReferenceId);
+            }
+            else
+            {
+                switch (Site.ReferenceType)
+                {
+                    case "Issues": return IssueUtilities.DeleteHistory(
+                        ss: Site.SiteSettings, issueId: ReferenceId);
+                    case "Results": return ResultUtilities.DeleteHistory(
+                        ss: Site.SiteSettings, resultId: ReferenceId);
+                    case "Wikis": return WikiUtilities.DeleteHistory(
+                        ss: Site.SiteSettings, wikiId: ReferenceId);
+                    default: return Messages.ResponseNotFound().ToJson();
+                }
+            }
+        }
+
+        public string PhysicalDelete()
+        {
+            SetSite(tableType: Sqls.TableTypes.Deleted);
+            switch (Site.ReferenceType)
+            {
+                case "Sites": return SiteUtilities.PhysicalDelete(
+                    ss: Site.SitesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        tableType: Sqls.TableTypes.Deleted));
+                case "Issues": return IssueUtilities.PhysicalDelete(
+                    ss: Site.IssuesSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        tableType: Sqls.TableTypes.Deleted));
+                case "Results": return ResultUtilities.PhysicalDelete(
+                    ss: Site.ResultsSiteSettings(
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        tableType: Sqls.TableTypes.Deleted));
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
+        public string Restore()
+        {
+            SetSite(tableType: Sqls.TableTypes.Deleted);
+            switch (Site.ReferenceType)
             {
                 case "Sites": return SiteUtilities.Restore(
-                    siteId: ReferenceId);
+                    ss: SiteSettingsUtilities.SitesSiteSettings(
+                        siteModel: Site,
+                        referenceId: ReferenceId,
+                        tableType: Sqls.TableTypes.Deleted));
                 case "Issues": return IssueUtilities.Restore(
-                    ss: SiteSettingsUtilities.IssuesSiteSettings(Site, ReferenceId),
-                    issueId: ReferenceId);
+                    ss: SiteSettingsUtilities.IssuesSiteSettings(
+                        siteModel: Site,
+                        referenceId: ReferenceId,
+                        tableType: Sqls.TableTypes.Deleted));
                 case "Results": return ResultUtilities.Restore(
-                    ss: SiteSettingsUtilities.ResultsSiteSettings(Site, ReferenceId),
+                    ss: SiteSettingsUtilities.ResultsSiteSettings(
+                        siteModel: Site,
+                        referenceId: ReferenceId,
+                        tableType: Sqls.TableTypes.Deleted));
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
+        public string RestoreFromHistory()
+        {
+            SetSite(tableType: Sqls.TableTypes.History);
+            switch (ReferenceType)
+            {
+                case "Sites": return SiteUtilities.RestoreFromHistory(
+                    ss: SiteSettingsUtilities.SitesSiteSettings(
+                        siteModel: Site,
+                        referenceId: ReferenceId,
+                        tableType: Sqls.TableTypes.History),
+                    siteId: ReferenceId);
+                case "Issues": return IssueUtilities.RestoreFromHistory(
+                    ss: SiteSettingsUtilities.IssuesSiteSettings(
+                        siteModel: Site,
+                        referenceId: ReferenceId,
+                        tableType: Sqls.TableTypes.History),
+                    issueId: ReferenceId);
+                case "Results": return ResultUtilities.RestoreFromHistory(
+                    ss: SiteSettingsUtilities.ResultsSiteSettings(
+                        siteModel: Site,
+                        referenceId: ReferenceId,
+                        tableType: Sqls.TableTypes.History),
                     resultId: ReferenceId);
-                case "Wikis": return WikiUtilities.Restore(
-                    ss: SiteSettingsUtilities.WikisSiteSettings(Site, ReferenceId),
+                case "Wikis": return WikiUtilities.RestoreFromHistory(
+                    ss: SiteSettingsUtilities.WikisSiteSettings(
+                        siteModel: Site,
+                        referenceId: ReferenceId,
+                        tableType: Sqls.TableTypes.History),
                     wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
@@ -1073,7 +1221,9 @@ namespace Implem.Pleasanter.Models
 
         public string History()
         {
-            SetSite(initSiteSettings: true);
+            SetSite(
+                initSiteSettings: true,
+                tableType: Sqls.TableTypes.History);
             switch (ReferenceType)
             {
                 case "Sites": return SiteUtilities.History(
@@ -1167,18 +1317,21 @@ namespace Implem.Pleasanter.Models
         private void SetSite(
             bool siteOnly = false,
             bool initSiteSettings = false,
-            bool setSiteIntegration = false)
+            bool setSiteIntegration = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Site = GetSite(
                 siteOnly: siteOnly,
                 initSiteSettings: initSiteSettings,
-                setSiteIntegration: setSiteIntegration);
+                setSiteIntegration: setSiteIntegration,
+                tableType: tableType);
         }
 
         public SiteModel GetSite(
             bool siteOnly = false,
             bool initSiteSettings = false,
-            bool setSiteIntegration = false)
+            bool setSiteIntegration = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             SiteModel siteModel;
             if (ReferenceType == "Sites" && Forms.Exists("Ver"))
@@ -1204,7 +1357,8 @@ namespace Implem.Pleasanter.Models
                 siteModel.SiteSettings = SiteSettingsUtilities.Get(
                     siteModel: siteModel,
                     referenceId: ReferenceId,
-                    setSiteIntegration: setSiteIntegration);
+                    setSiteIntegration: setSiteIntegration,
+                    tableType: tableType);
             }
             return siteModel;
         }

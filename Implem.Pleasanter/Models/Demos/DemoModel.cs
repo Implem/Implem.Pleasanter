@@ -202,9 +202,10 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
+            bool setBySession = true,
             bool get = true)
         {
-            SetBySession();
+            if (setBySession) SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
@@ -252,23 +253,15 @@ namespace Implem.Pleasanter.Models
             column.DemoId(function: Sqls.Functions.SingleColumn); param.DemoId();
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
             column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
             column.Passphrase(function: Sqls.Functions.SingleColumn); param.Passphrase();
             column.MailAddress(function: Sqls.Functions.SingleColumn); param.MailAddress();
             column.Initialized(function: Sqls.Functions.SingleColumn); param.Initialized();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Title.InitialValue())
-            {
-                column.Title(function: Sqls.Functions.SingleColumn);
-                param.Title();
-            }
-            if (!Comments.InitialValue())
-            {
-                column.Comments(function: Sqls.Functions.SingleColumn);
-                param.Comments();
-            }
             return Rds.InsertDemos(
                 tableType: tableType,
                 param: param,
@@ -304,8 +297,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.DemosWhere().DemoId(DemoId);
             statements.AddRange(new List<SqlStatement>
             {
-                CopyToStatement(where, Sqls.TableTypes.Deleted),
-                Rds.PhysicalDeleteDemos(where: where)
+                Rds.DeleteDemos(where: where)
             });
             var response = Rds.ExecuteScalar_response(
                 transactional: true,
@@ -375,6 +367,23 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByModel(DemoModel demoModel)
+        {
+            TenantId = demoModel.TenantId;
+            Title = demoModel.Title;
+            Passphrase = demoModel.Passphrase;
+            MailAddress = demoModel.MailAddress;
+            Initialized = demoModel.Initialized;
+            TimeLag = demoModel.TimeLag;
+            Comments = demoModel.Comments;
+            Creator = demoModel.Creator;
+            Updator = demoModel.Updator;
+            CreatedTime = demoModel.CreatedTime;
+            UpdatedTime = demoModel.UpdatedTime;
+            VerUp = demoModel.VerUp;
+            Comments = demoModel.Comments;
         }
 
         private void SetBySession()

@@ -179,21 +179,23 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             GridData gridData,
-            View view)
+            View view,
+            string action = "GridRows")
         {
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
                         .Id("Grid")
-                        .Class("grid")
+                        .Class(ss.GridCss())
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
-                        .DataAction("GridRows")
+                        .DataAction(action)
                         .DataMethod("post"),
                     action: () => hb
                         .GridRows(
                             ss: ss,
                             gridData: gridData,
-                            view: view))
+                            view: view,
+                            action: action))
                 .Hidden(
                     controlId: "GridOffset",
                     value: ss.GridNextOffset(
@@ -204,12 +206,12 @@ namespace Implem.Pleasanter.Models
                 .Button(
                     controlId: "ViewSorter",
                     controlCss: "hidden",
-                    action: "GridRows",
+                    action: action,
                     method: "post")
                 .Button(
                     controlId: "ViewSorters_Reset",
                     controlCss: "hidden",
-                    action: "GridRows",
+                    action: action,
                     method: "post");
         }
 
@@ -218,16 +220,22 @@ namespace Implem.Pleasanter.Models
             ResponseCollection res = null,
             int offset = 0,
             bool clearCheck = false,
+            string action = "GridRows",
             Message message = null)
         {
             var view = Views.GetBySession(ss);
-            var gridData = GetGridData(ss, view, offset: offset);
+            var gridData = GetGridData(
+                ss: ss,
+                view: view,
+                offset: offset);
             return (res ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .CloseDialog()
+                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+                    .CopyDirectUrlToClipboard(ss: ss))
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     ss: ss,
                     aggregations: gridData.Aggregations),
@@ -237,7 +245,8 @@ namespace Implem.Pleasanter.Models
                     gridData: gridData,
                     view: view,
                     addHeader: offset == 0,
-                    clearCheck: clearCheck))
+                    clearCheck: clearCheck,
+                    action: action))
                 .Val("#GridOffset", ss.GridNextOffset(
                     offset,
                     gridData.DataRows.Count(),
@@ -253,7 +262,8 @@ namespace Implem.Pleasanter.Models
             GridData gridData,
             View view,
             bool addHeader = true,
-            bool clearCheck = false)
+            bool clearCheck = false,
+            string action = "GridRows")
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
             var columns = ss.GetGridColumns(checkPermission: true);
@@ -264,7 +274,8 @@ namespace Implem.Pleasanter.Models
                         .GridHeader(
                             columns: columns, 
                             view: view,
-                            checkAll: checkAll))
+                            checkAll: checkAll,
+                            action: action))
                 .TBody(action: () => gridData.TBody(
                     hb: hb,
                     ss: ss,
@@ -754,27 +765,8 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(SiteSettings ss, int groupId)
-        {
-            var groupModel = new GroupModel();
-            var invalid = GroupValidators.OnRestoring();
-            switch (invalid)
-            {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson();
-            }
-            var error = groupModel.Restore(ss, groupId);
-            switch (error)
-            {
-                case Error.Types.None:
-                    var res = new GroupsResponseCollection(groupModel);
-                    return res.ToJson();
-                default:
-                    return error.MessageJson();
-            }
-        }
-
-        public static string Histories(SiteSettings ss, int groupId)
+        public static string Histories(
+            SiteSettings ss, int groupId, Message message = null)
         {
             var groupModel = new GroupModel(ss, groupId);
             ss.SetColumnAccessControls(groupModel.Mine());
@@ -784,38 +776,62 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson();
             }
             var hb = new HtmlBuilder();
-            hb.Table(
-                attributes: new HtmlAttributes().Class("grid"),
-                action: () => hb
-                    .THead(action: () => hb
-                        .GridHeader(
-                            columns: columns,
-                            sort: false,
-                            checkRow: false))
-                    .TBody(action: () =>
-                        new GroupCollection(
-                            ss: ss,
-                            column: HistoryColumn(columns),
-                            where: Rds.GroupsWhere().GroupId(groupModel.GroupId),
-                            orderBy: Rds.GroupsOrderBy().Ver(SqlOrderBy.Types.desc),
-                            tableType: Sqls.TableTypes.NormalAndHistory)
-                                .ForEach(groupModelHistory => hb
-                                    .Tr(
-                                        attributes: new HtmlAttributes()
-                                            .Class("grid-row history not-link")
-                                            .DataAction("History")
-                                            .DataMethod("post")
-                                            .DataVer(groupModelHistory.Ver)
-                                            .DataLatest(1, _using:
-                                                groupModelHistory.Ver == groupModel.Ver),
-                                        action: () => columns
-                                            .ForEach(column => hb
-                                                .TdValue(
-                                                    ss: ss,
-                                                    column: column,
-                                                    groupModel: groupModelHistory))))));
+            hb
+                .HistoryCommands()
+                .Table(
+                    attributes: new HtmlAttributes().Class("grid history"),
+                    action: () => hb
+                        .THead(action: () => hb
+                            .GridHeader(
+                                columns: columns,
+                                sort: false,
+                                checkRow: true))
+                        .TBody(action: () => hb
+                            .HistoriesTableBody(
+                                ss: ss,
+                                columns: columns,
+                                groupModel: groupModel)));
             return new GroupsResponseCollection(groupModel)
-                .Html("#FieldSetHistories", hb).ToJson();
+                .Html("#FieldSetHistories", hb)
+                .Message(message)
+                .ToJson();
+        }
+
+        private static void HistoriesTableBody(
+            this HtmlBuilder hb, SiteSettings ss, List<Column> columns, GroupModel groupModel)
+        {
+            new GroupCollection(
+                ss: ss,
+                column: HistoryColumn(columns),
+                where: Rds.GroupsWhere().GroupId(groupModel.GroupId),
+                orderBy: Rds.GroupsOrderBy().Ver(SqlOrderBy.Types.desc),
+                tableType: Sqls.TableTypes.NormalAndHistory)
+                    .ForEach(groupModelHistory => hb
+                        .Tr(
+                            attributes: new HtmlAttributes()
+                                .Class("grid-row")
+                                .DataAction("History")
+                                .DataMethod("post")
+                                .DataVer(groupModelHistory.Ver)
+                                .DataLatest(1, _using:
+                                    groupModelHistory.Ver == groupModel.Ver),
+                            action: () =>
+                            {
+                                hb.Td(
+                                    css: "grid-check-td",
+                                    action: () => hb
+                                        .CheckBox(
+                                            controlCss: "grid-check",
+                                            _checked: false,
+                                            dataId: groupModelHistory.Ver.ToString(),
+                                            _using: groupModelHistory.Ver < groupModel.Ver));
+                                columns
+                                    .ForEach(column => hb
+                                        .TdValue(
+                                            ss: ss,
+                                            column: column,
+                                            groupModel: groupModelHistory));
+                            }));
         }
 
         private static SqlColumnCollection HistoryColumn(List<Column> columns)

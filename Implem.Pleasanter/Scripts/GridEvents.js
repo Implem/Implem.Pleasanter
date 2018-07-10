@@ -30,21 +30,34 @@
         $grid.find('.select').prop('checked', $control.prop('checked'));
         $p.setData($grid);
     });
-    $(document).on('click', '.grid-row:not(.not-link) td', function () {
+    $(document).on('click', '.grid-row td', function () {
         var $control = $(this).find('.grid-check,.select');
         if ($control.length === 0) {
             var $grid = $(this).closest('.grid');
-            var func = $grid.attr('data-func');
-            var dataId = $(this).closest('.grid-row').attr('data-id');
-            if (func) {
-                $p.getData($grid)[$grid.attr('data-name')] = dataId;
-                $p[func]($grid);
-            }
-            else {
-                location.href = $('#BaseUrl').val() + dataId +
-                    ($grid.attr('data-value') === 'back'
-                        ? '?back=1'
-                        : '');
+            if (!$grid.hasClass('not-link')) {
+                if ($grid.hasClass('history')) {
+                    if (!$p.confirmReload()) return false;
+                    var $control = $(this).closest('.grid-row');
+                    var data = $p.getData($control);
+                    data.Ver = $control.attr('data-ver');
+                    data.Latest = $control.attr('data-latest');
+                    data.SwitchTargets = $('#SwitchTargets').val();
+                    $p.syncSend($control);
+                    $p.setCurrentIndex();
+                } else {
+                    var func = $grid.attr('data-func');
+                    var dataId = $(this).closest('.grid-row').attr('data-id');
+                    if (func) {
+                        $p.getData($grid)[$grid.attr('data-name')] = dataId;
+                        $p[func]($grid);
+                    }
+                    else {
+                        location.href = $('#BaseUrl').val() + dataId +
+                            ($grid.attr('data-value') === 'back'
+                                ? '?back=1'
+                                : '');
+                    }
+                }
             }
         } else if (!$p.hoverd($control)) {
             $control.trigger('click');

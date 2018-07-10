@@ -197,9 +197,10 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
+            bool setBySession = true,
             bool get = true)
         {
-            SetBySession();
+            if (setBySession) SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
@@ -247,35 +248,15 @@ namespace Implem.Pleasanter.Models
             column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
             column.TenantName(function: Sqls.Functions.SingleColumn); param.TenantName();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.ContractSettings(function: Sqls.Functions.SingleColumn); param.ContractSettings();
+            column.ContractDeadline(function: Sqls.Functions.SingleColumn); param.ContractDeadline();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Title.InitialValue())
-            {
-                column.Title(function: Sqls.Functions.SingleColumn);
-                param.Title();
-            }
-            if (!Body.InitialValue())
-            {
-                column.Body(function: Sqls.Functions.SingleColumn);
-                param.Body();
-            }
-            if (!ContractSettings.InitialValue())
-            {
-                column.ContractSettings(function: Sqls.Functions.SingleColumn);
-                param.ContractSettings();
-            }
-            if (!ContractDeadline.InitialValue())
-            {
-                column.ContractDeadline(function: Sqls.Functions.SingleColumn);
-                param.ContractDeadline();
-            }
-            if (!Comments.InitialValue())
-            {
-                column.Comments(function: Sqls.Functions.SingleColumn);
-                param.Comments();
-            }
             return Rds.InsertTenants(
                 tableType: tableType,
                 param: param,
@@ -311,8 +292,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.TenantsWhere().TenantId(TenantId);
             statements.AddRange(new List<SqlStatement>
             {
-                CopyToStatement(where, Sqls.TableTypes.Deleted),
-                Rds.PhysicalDeleteTenants(where: where)
+                Rds.DeleteTenants(where: where)
             });
             var response = Rds.ExecuteScalar_response(
                 transactional: true,
@@ -380,6 +360,22 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByModel(TenantModel tenantModel)
+        {
+            TenantName = tenantModel.TenantName;
+            Title = tenantModel.Title;
+            Body = tenantModel.Body;
+            ContractSettings = tenantModel.ContractSettings;
+            ContractDeadline = tenantModel.ContractDeadline;
+            Comments = tenantModel.Comments;
+            Creator = tenantModel.Creator;
+            Updator = tenantModel.Updator;
+            CreatedTime = tenantModel.CreatedTime;
+            UpdatedTime = tenantModel.UpdatedTime;
+            VerUp = tenantModel.VerUp;
+            Comments = tenantModel.Comments;
         }
 
         private void SetBySession()

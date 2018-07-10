@@ -209,16 +209,25 @@ pre{
 
 #Breadcrumb{
     float:left;
-    margin:0px 0px 10px 0px;
+    margin:0px 0px 5px 0px;
 }
 
 #Breadcrumb .item{
     display:block;
     float:left;
+    padding:3px 5px;
+}
+
+#Breadcrumb .item.trashbox{
+    display:block;
+    float:left;
+    color:white;
+    background-color:red;
+    border-radius:3px;
 }
 
 #Breadcrumb .separator{
-    margin:8px;
+    margin:0px 0px 0px 8px;
 }
 
 #Header{
@@ -2209,7 +2218,7 @@ pre{
     max-height:151px;
 }
 
-.grid-row:hover{
+.grid:not(.not-link) .grid-row:hover{
     background-color:whitesmoke;
     cursor:pointer;
 }

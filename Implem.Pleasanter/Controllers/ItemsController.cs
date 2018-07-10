@@ -30,6 +30,26 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public ActionResult TrashBox(long id = 0)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                var log = new SysLogModel();
+                var html = new ItemModel(id).TrashBox();
+                ViewBag.HtmlBody = html;
+                log.Finish(html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var json = new ItemModel(id).TrashBoxJson();
+                log.Finish(json.Length);
+                return Content(json);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Calendar(long id = 0)
         {
             if (!Request.IsAjaxRequest())
@@ -309,6 +329,15 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string TrashBoxGridRows(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).TrashBoxGridRows();
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPost]
         public string ImageLibNext(long id)
         {
             var log = new SysLogModel();
@@ -461,11 +490,38 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        [HttpDelete]
+        public string DeleteHistory(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).DeleteHistory();
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpDelete]
+        public string PhysicalDelete(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).PhysicalDelete();
+            log.Finish(json.Length);
+            return json;
+        }
+
         [HttpPost]
         public string Restore(long id)
         {
             var log = new SysLogModel();
-            var json = new ItemModel().Restore(id);
+            var json = new ItemModel(id).Restore();
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string RestoreFromHistory(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).RestoreFromHistory();
             log.Finish(json.Length);
             return json;
         }

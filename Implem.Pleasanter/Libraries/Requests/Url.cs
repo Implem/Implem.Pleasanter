@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Linq;
+using System.Web;
 using System.Web.Routing;
 namespace Implem.Pleasanter.Libraries.Requests
 {
@@ -41,10 +42,12 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public static string RouteData(string name)
         {
-            return RouteTable.Routes
-                .GetRouteData(new HttpContextWrapper(HttpContext.Current))
-                .Values[name]?
-                .ToString();
+            return RouteTable.Routes.Any()
+                ? RouteTable.Routes
+                    .GetRouteData(new HttpContextWrapper(HttpContext.Current))
+                    .Values[name]?
+                    .ToString()
+                : null;
         }
 
         public static string Encode(string url)

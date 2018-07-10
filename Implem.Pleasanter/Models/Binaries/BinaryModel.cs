@@ -292,9 +292,10 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
+            bool setBySession = true,
             bool get = true)
         {
-            SetBySession();
+            if (setBySession) SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
@@ -342,76 +343,24 @@ namespace Implem.Pleasanter.Models
             column.BinaryId(function: Sqls.Functions.SingleColumn); param.BinaryId();
             column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
             column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.Guid(function: Sqls.Functions.SingleColumn); param.Guid();
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.BinaryType(function: Sqls.Functions.SingleColumn); param.BinaryType();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Bin(function: Sqls.Functions.SingleColumn); param.Bin();
+            column.Thumbnail(function: Sqls.Functions.SingleColumn); param.Thumbnail();
+            column.Icon(function: Sqls.Functions.SingleColumn); param.Icon();
+            column.FileName(function: Sqls.Functions.SingleColumn); param.FileName();
+            column.Extension(function: Sqls.Functions.SingleColumn); param.Extension();
+            column.Size(function: Sqls.Functions.SingleColumn); param.Size();
+            column.ContentType(function: Sqls.Functions.SingleColumn); param.ContentType();
+            column.BinarySettings(function: Sqls.Functions.SingleColumn); param.BinarySettings();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Guid.InitialValue())
-            {
-                column.Guid(function: Sqls.Functions.SingleColumn);
-                param.Guid();
-            }
-            if (!BinaryType.InitialValue())
-            {
-                column.BinaryType(function: Sqls.Functions.SingleColumn);
-                param.BinaryType();
-            }
-            if (!Title.InitialValue())
-            {
-                column.Title(function: Sqls.Functions.SingleColumn);
-                param.Title();
-            }
-            if (!Body.InitialValue())
-            {
-                column.Body(function: Sqls.Functions.SingleColumn);
-                param.Body();
-            }
-            if (!Bin.InitialValue())
-            {
-                column.Bin(function: Sqls.Functions.SingleColumn);
-                param.Bin();
-            }
-            if (!Thumbnail.InitialValue())
-            {
-                column.Thumbnail(function: Sqls.Functions.SingleColumn);
-                param.Thumbnail();
-            }
-            if (!Icon.InitialValue())
-            {
-                column.Icon(function: Sqls.Functions.SingleColumn);
-                param.Icon();
-            }
-            if (!FileName.InitialValue())
-            {
-                column.FileName(function: Sqls.Functions.SingleColumn);
-                param.FileName();
-            }
-            if (!Extension.InitialValue())
-            {
-                column.Extension(function: Sqls.Functions.SingleColumn);
-                param.Extension();
-            }
-            if (!Size.InitialValue())
-            {
-                column.Size(function: Sqls.Functions.SingleColumn);
-                param.Size();
-            }
-            if (!ContentType.InitialValue())
-            {
-                column.ContentType(function: Sqls.Functions.SingleColumn);
-                param.ContentType();
-            }
-            if (!BinarySettings.InitialValue())
-            {
-                column.BinarySettings(function: Sqls.Functions.SingleColumn);
-                param.BinarySettings();
-            }
-            if (!Comments.InitialValue())
-            {
-                column.Comments(function: Sqls.Functions.SingleColumn);
-                param.Comments();
-            }
             return Rds.InsertBinaries(
                 tableType: tableType,
                 param: param,
@@ -447,8 +396,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.BinariesWhere().BinaryId(BinaryId);
             statements.AddRange(new List<SqlStatement>
             {
-                CopyToStatement(where, Sqls.TableTypes.Deleted),
-                Rds.PhysicalDeleteBinaries(where: where)
+                Rds.DeleteBinaries(where: where)
             });
             var response = Rds.ExecuteScalar_response(
                 transactional: true,
@@ -512,6 +460,31 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByModel(BinaryModel binaryModel)
+        {
+            TenantId = binaryModel.TenantId;
+            ReferenceId = binaryModel.ReferenceId;
+            Guid = binaryModel.Guid;
+            BinaryType = binaryModel.BinaryType;
+            Title = binaryModel.Title;
+            Body = binaryModel.Body;
+            Bin = binaryModel.Bin;
+            Thumbnail = binaryModel.Thumbnail;
+            Icon = binaryModel.Icon;
+            FileName = binaryModel.FileName;
+            Extension = binaryModel.Extension;
+            Size = binaryModel.Size;
+            ContentType = binaryModel.ContentType;
+            BinarySettings = binaryModel.BinarySettings;
+            Comments = binaryModel.Comments;
+            Creator = binaryModel.Creator;
+            Updator = binaryModel.Updator;
+            CreatedTime = binaryModel.CreatedTime;
+            UpdatedTime = binaryModel.UpdatedTime;
+            VerUp = binaryModel.VerUp;
+            Comments = binaryModel.Comments;
         }
 
         private void SetBySession()

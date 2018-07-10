@@ -105,6 +105,21 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public void SetByModel(OrderModel orderModel)
+        {
+            ReferenceId = orderModel.ReferenceId;
+            ReferenceType = orderModel.ReferenceType;
+            OwnerId = orderModel.OwnerId;
+            Data = orderModel.Data;
+            Comments = orderModel.Comments;
+            Creator = orderModel.Creator;
+            Updator = orderModel.Updator;
+            CreatedTime = orderModel.CreatedTime;
+            UpdatedTime = orderModel.UpdatedTime;
+            VerUp = orderModel.VerUp;
+            Comments = orderModel.Comments;
+        }
+
         private void SetBySession()
         {
         }

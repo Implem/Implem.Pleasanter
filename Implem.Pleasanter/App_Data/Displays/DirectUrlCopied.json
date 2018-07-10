@@ -1,0 +1,14 @@
+﻿{
+  "Id": "DirectUrlCopied",
+  "Type": 310,
+  "ClientScript": true,
+  "Languages": [
+    {
+      "Body": "Copied to Clipboard"
+    },
+    {
+      "Language": "ja",
+      "Body": "クリップボードにコピーしました"
+    }
+  ]
+}

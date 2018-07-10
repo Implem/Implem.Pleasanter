@@ -36,6 +36,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get("Items", id.ToString(), "Index");
         }
 
+        public static string ItemTrashBox(long id)
+        {
+            return Get("Items", id.ToString(), "TrashBox");
+        }
+
         public static string New(string controller)
         {
             return Get(controller, "New");

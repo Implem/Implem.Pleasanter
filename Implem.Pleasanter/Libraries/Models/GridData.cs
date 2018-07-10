@@ -22,7 +22,6 @@ namespace Implem.Pleasanter.Libraries.Models
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             int top = 0,
             int offset = 0,
             int pageSize = 0,
@@ -35,7 +34,6 @@ namespace Implem.Pleasanter.Libraries.Models
                 column: column,
                 join: join,
                 where: where,
-                tableType: tableType,
                 top: top,
                 offset: offset,
                 pageSize: pageSize,
@@ -49,7 +47,6 @@ namespace Implem.Pleasanter.Libraries.Models
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             int top = 0,
             int offset = 0,
             int pageSize = 0,
@@ -65,12 +62,12 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 Rds.Select(
                     tableName: ss.ReferenceType,
+                    tableType: ss.TableType,
                     dataTableName: "Main",
                     column: column,
                     join: join,
                     where: where,
                     orderBy: orderBy,
-                    tableType: tableType,
                     top: top,
                     offset: offset,
                     pageSize: pageSize,
@@ -159,6 +156,9 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "Users":
                     statements.AddRange(Rds.UsersAggregations(aggregations, join, where));
                     break;
+                case "Sites":
+                    statements.AddRange(Rds.SitesAggregations(aggregations, join, where));
+                    break;
                 case "Issues":
                     statements.AddRange(Rds.IssuesAggregations(aggregations, join, where));
                     break;
@@ -172,7 +172,10 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         public void TBody(
-            HtmlBuilder hb, SiteSettings ss, IEnumerable<Column> columns, bool checkAll)
+            HtmlBuilder hb,
+            SiteSettings ss,
+            IEnumerable<Column> columns,
+            bool checkAll)
         {
             var idColumn = Rds.IdColumn(ss.ReferenceType);
             DataRows.ForEach(dataRow =>
@@ -192,6 +195,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         var depts = new Dictionary<string, DeptModel>();
                         var groups = new Dictionary<string, GroupModel>();
                         var users = new Dictionary<string, UserModel>();
+                        var sites = new Dictionary<string, SiteModel>();
                         var issues = new Dictionary<string, IssueModel>();
                         var results = new Dictionary<string, ResultModel>();
                         var wikis = new Dictionary<string, WikiModel>();
@@ -232,6 +236,17 @@ namespace Implem.Pleasanter.Libraries.Models
                                         ss: column.SiteSettings,
                                         column: column,
                                         userModel: users.Get(key));
+                                    break;
+                                case "Sites":
+                                    if (!sites.ContainsKey(key))
+                                    {
+                                        sites.Add(key, new SiteModel(
+                                            dataRow, column.TableAlias));
+                                    }
+                                    hb.TdValue(
+                                        ss: column.SiteSettings,
+                                        column: column,
+                                        siteModel: sites.Get(key));
                                     break;
                                 case "Issues":
                                     if (!issues.ContainsKey(key))

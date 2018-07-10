@@ -14,7 +14,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             View view = null,
             bool sort = true,
             bool checkAll = false,
-            bool checkRow = true)
+            bool checkRow = true,
+            string action = "GridRows")
         {
             return hb.Tr(
                 css: "ui-widget-header",
@@ -37,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Id("ViewSorters__" + column.ColumnName)
                                         .Add("data-order-type", OrderBy(
                                             view, column.ColumnName))
-                                        .DataAction("GridRows")
+                                        .DataAction(action)
                                         .DataMethod("post"),
                                     action: () => hb
                                         .Span(action: () => hb

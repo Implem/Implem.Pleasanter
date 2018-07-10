@@ -2010,9 +2010,10 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
+            bool setBySession = true,
             bool get = true)
         {
-            SetBySession();
+            if (setBySession) SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
@@ -2078,767 +2079,167 @@ namespace Implem.Pleasanter.Models
             column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
             column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
+            column.GlobalId(function: Sqls.Functions.SingleColumn); param.GlobalId();
+            column.Name(function: Sqls.Functions.SingleColumn); param.Name();
+            column.UserCode(function: Sqls.Functions.SingleColumn); param.UserCode();
+            column.Password(function: Sqls.Functions.SingleColumn); param.Password();
+            column.LastName(function: Sqls.Functions.SingleColumn); param.LastName();
+            column.FirstName(function: Sqls.Functions.SingleColumn); param.FirstName();
+            column.Birthday(function: Sqls.Functions.SingleColumn); param.Birthday();
+            column.Gender(function: Sqls.Functions.SingleColumn); param.Gender();
             column.Language(function: Sqls.Functions.SingleColumn); param.Language();
+            column.TimeZone(function: Sqls.Functions.SingleColumn); param.TimeZone();
             column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
             column.FirstAndLastNameOrder(function: Sqls.Functions.SingleColumn); param.FirstAndLastNameOrder();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.LastLoginTime(function: Sqls.Functions.SingleColumn); param.LastLoginTime();
+            column.PasswordExpirationTime(function: Sqls.Functions.SingleColumn); param.PasswordExpirationTime();
+            column.PasswordChangeTime(function: Sqls.Functions.SingleColumn); param.PasswordChangeTime();
+            column.NumberOfLogins(function: Sqls.Functions.SingleColumn); param.NumberOfLogins();
+            column.NumberOfDenial(function: Sqls.Functions.SingleColumn); param.NumberOfDenial();
             column.TenantManager(function: Sqls.Functions.SingleColumn); param.TenantManager();
             column.ServiceManager(function: Sqls.Functions.SingleColumn); param.ServiceManager();
             column.Disabled(function: Sqls.Functions.SingleColumn); param.Disabled();
             column.Developer(function: Sqls.Functions.SingleColumn); param.Developer();
+            column.UserSettings(function: Sqls.Functions.SingleColumn); param.UserSettings();
+            column.ApiKey(function: Sqls.Functions.SingleColumn); param.ApiKey();
+            column.ClassA(function: Sqls.Functions.SingleColumn); param.ClassA();
+            column.ClassB(function: Sqls.Functions.SingleColumn); param.ClassB();
+            column.ClassC(function: Sqls.Functions.SingleColumn); param.ClassC();
+            column.ClassD(function: Sqls.Functions.SingleColumn); param.ClassD();
+            column.ClassE(function: Sqls.Functions.SingleColumn); param.ClassE();
+            column.ClassF(function: Sqls.Functions.SingleColumn); param.ClassF();
+            column.ClassG(function: Sqls.Functions.SingleColumn); param.ClassG();
+            column.ClassH(function: Sqls.Functions.SingleColumn); param.ClassH();
+            column.ClassI(function: Sqls.Functions.SingleColumn); param.ClassI();
+            column.ClassJ(function: Sqls.Functions.SingleColumn); param.ClassJ();
+            column.ClassK(function: Sqls.Functions.SingleColumn); param.ClassK();
+            column.ClassL(function: Sqls.Functions.SingleColumn); param.ClassL();
+            column.ClassM(function: Sqls.Functions.SingleColumn); param.ClassM();
+            column.ClassN(function: Sqls.Functions.SingleColumn); param.ClassN();
+            column.ClassO(function: Sqls.Functions.SingleColumn); param.ClassO();
+            column.ClassP(function: Sqls.Functions.SingleColumn); param.ClassP();
+            column.ClassQ(function: Sqls.Functions.SingleColumn); param.ClassQ();
+            column.ClassR(function: Sqls.Functions.SingleColumn); param.ClassR();
+            column.ClassS(function: Sqls.Functions.SingleColumn); param.ClassS();
+            column.ClassT(function: Sqls.Functions.SingleColumn); param.ClassT();
+            column.ClassU(function: Sqls.Functions.SingleColumn); param.ClassU();
+            column.ClassV(function: Sqls.Functions.SingleColumn); param.ClassV();
+            column.ClassW(function: Sqls.Functions.SingleColumn); param.ClassW();
+            column.ClassX(function: Sqls.Functions.SingleColumn); param.ClassX();
+            column.ClassY(function: Sqls.Functions.SingleColumn); param.ClassY();
+            column.ClassZ(function: Sqls.Functions.SingleColumn); param.ClassZ();
+            column.NumA(function: Sqls.Functions.SingleColumn); param.NumA();
+            column.NumB(function: Sqls.Functions.SingleColumn); param.NumB();
+            column.NumC(function: Sqls.Functions.SingleColumn); param.NumC();
+            column.NumD(function: Sqls.Functions.SingleColumn); param.NumD();
+            column.NumE(function: Sqls.Functions.SingleColumn); param.NumE();
+            column.NumF(function: Sqls.Functions.SingleColumn); param.NumF();
+            column.NumG(function: Sqls.Functions.SingleColumn); param.NumG();
+            column.NumH(function: Sqls.Functions.SingleColumn); param.NumH();
+            column.NumI(function: Sqls.Functions.SingleColumn); param.NumI();
+            column.NumJ(function: Sqls.Functions.SingleColumn); param.NumJ();
+            column.NumK(function: Sqls.Functions.SingleColumn); param.NumK();
+            column.NumL(function: Sqls.Functions.SingleColumn); param.NumL();
+            column.NumM(function: Sqls.Functions.SingleColumn); param.NumM();
+            column.NumN(function: Sqls.Functions.SingleColumn); param.NumN();
+            column.NumO(function: Sqls.Functions.SingleColumn); param.NumO();
+            column.NumP(function: Sqls.Functions.SingleColumn); param.NumP();
+            column.NumQ(function: Sqls.Functions.SingleColumn); param.NumQ();
+            column.NumR(function: Sqls.Functions.SingleColumn); param.NumR();
+            column.NumS(function: Sqls.Functions.SingleColumn); param.NumS();
+            column.NumT(function: Sqls.Functions.SingleColumn); param.NumT();
+            column.NumU(function: Sqls.Functions.SingleColumn); param.NumU();
+            column.NumV(function: Sqls.Functions.SingleColumn); param.NumV();
+            column.NumW(function: Sqls.Functions.SingleColumn); param.NumW();
+            column.NumX(function: Sqls.Functions.SingleColumn); param.NumX();
+            column.NumY(function: Sqls.Functions.SingleColumn); param.NumY();
+            column.NumZ(function: Sqls.Functions.SingleColumn); param.NumZ();
+            column.DateA(function: Sqls.Functions.SingleColumn); param.DateA();
+            column.DateB(function: Sqls.Functions.SingleColumn); param.DateB();
+            column.DateC(function: Sqls.Functions.SingleColumn); param.DateC();
+            column.DateD(function: Sqls.Functions.SingleColumn); param.DateD();
+            column.DateE(function: Sqls.Functions.SingleColumn); param.DateE();
+            column.DateF(function: Sqls.Functions.SingleColumn); param.DateF();
+            column.DateG(function: Sqls.Functions.SingleColumn); param.DateG();
+            column.DateH(function: Sqls.Functions.SingleColumn); param.DateH();
+            column.DateI(function: Sqls.Functions.SingleColumn); param.DateI();
+            column.DateJ(function: Sqls.Functions.SingleColumn); param.DateJ();
+            column.DateK(function: Sqls.Functions.SingleColumn); param.DateK();
+            column.DateL(function: Sqls.Functions.SingleColumn); param.DateL();
+            column.DateM(function: Sqls.Functions.SingleColumn); param.DateM();
+            column.DateN(function: Sqls.Functions.SingleColumn); param.DateN();
+            column.DateO(function: Sqls.Functions.SingleColumn); param.DateO();
+            column.DateP(function: Sqls.Functions.SingleColumn); param.DateP();
+            column.DateQ(function: Sqls.Functions.SingleColumn); param.DateQ();
+            column.DateR(function: Sqls.Functions.SingleColumn); param.DateR();
+            column.DateS(function: Sqls.Functions.SingleColumn); param.DateS();
+            column.DateT(function: Sqls.Functions.SingleColumn); param.DateT();
+            column.DateU(function: Sqls.Functions.SingleColumn); param.DateU();
+            column.DateV(function: Sqls.Functions.SingleColumn); param.DateV();
+            column.DateW(function: Sqls.Functions.SingleColumn); param.DateW();
+            column.DateX(function: Sqls.Functions.SingleColumn); param.DateX();
+            column.DateY(function: Sqls.Functions.SingleColumn); param.DateY();
+            column.DateZ(function: Sqls.Functions.SingleColumn); param.DateZ();
+            column.DescriptionA(function: Sqls.Functions.SingleColumn); param.DescriptionA();
+            column.DescriptionB(function: Sqls.Functions.SingleColumn); param.DescriptionB();
+            column.DescriptionC(function: Sqls.Functions.SingleColumn); param.DescriptionC();
+            column.DescriptionD(function: Sqls.Functions.SingleColumn); param.DescriptionD();
+            column.DescriptionE(function: Sqls.Functions.SingleColumn); param.DescriptionE();
+            column.DescriptionF(function: Sqls.Functions.SingleColumn); param.DescriptionF();
+            column.DescriptionG(function: Sqls.Functions.SingleColumn); param.DescriptionG();
+            column.DescriptionH(function: Sqls.Functions.SingleColumn); param.DescriptionH();
+            column.DescriptionI(function: Sqls.Functions.SingleColumn); param.DescriptionI();
+            column.DescriptionJ(function: Sqls.Functions.SingleColumn); param.DescriptionJ();
+            column.DescriptionK(function: Sqls.Functions.SingleColumn); param.DescriptionK();
+            column.DescriptionL(function: Sqls.Functions.SingleColumn); param.DescriptionL();
+            column.DescriptionM(function: Sqls.Functions.SingleColumn); param.DescriptionM();
+            column.DescriptionN(function: Sqls.Functions.SingleColumn); param.DescriptionN();
+            column.DescriptionO(function: Sqls.Functions.SingleColumn); param.DescriptionO();
+            column.DescriptionP(function: Sqls.Functions.SingleColumn); param.DescriptionP();
+            column.DescriptionQ(function: Sqls.Functions.SingleColumn); param.DescriptionQ();
+            column.DescriptionR(function: Sqls.Functions.SingleColumn); param.DescriptionR();
+            column.DescriptionS(function: Sqls.Functions.SingleColumn); param.DescriptionS();
+            column.DescriptionT(function: Sqls.Functions.SingleColumn); param.DescriptionT();
+            column.DescriptionU(function: Sqls.Functions.SingleColumn); param.DescriptionU();
+            column.DescriptionV(function: Sqls.Functions.SingleColumn); param.DescriptionV();
+            column.DescriptionW(function: Sqls.Functions.SingleColumn); param.DescriptionW();
+            column.DescriptionX(function: Sqls.Functions.SingleColumn); param.DescriptionX();
+            column.DescriptionY(function: Sqls.Functions.SingleColumn); param.DescriptionY();
+            column.DescriptionZ(function: Sqls.Functions.SingleColumn); param.DescriptionZ();
+            column.CheckA(function: Sqls.Functions.SingleColumn); param.CheckA();
+            column.CheckB(function: Sqls.Functions.SingleColumn); param.CheckB();
+            column.CheckC(function: Sqls.Functions.SingleColumn); param.CheckC();
+            column.CheckD(function: Sqls.Functions.SingleColumn); param.CheckD();
+            column.CheckE(function: Sqls.Functions.SingleColumn); param.CheckE();
+            column.CheckF(function: Sqls.Functions.SingleColumn); param.CheckF();
+            column.CheckG(function: Sqls.Functions.SingleColumn); param.CheckG();
+            column.CheckH(function: Sqls.Functions.SingleColumn); param.CheckH();
+            column.CheckI(function: Sqls.Functions.SingleColumn); param.CheckI();
+            column.CheckJ(function: Sqls.Functions.SingleColumn); param.CheckJ();
+            column.CheckK(function: Sqls.Functions.SingleColumn); param.CheckK();
+            column.CheckL(function: Sqls.Functions.SingleColumn); param.CheckL();
+            column.CheckM(function: Sqls.Functions.SingleColumn); param.CheckM();
+            column.CheckN(function: Sqls.Functions.SingleColumn); param.CheckN();
+            column.CheckO(function: Sqls.Functions.SingleColumn); param.CheckO();
+            column.CheckP(function: Sqls.Functions.SingleColumn); param.CheckP();
+            column.CheckQ(function: Sqls.Functions.SingleColumn); param.CheckQ();
+            column.CheckR(function: Sqls.Functions.SingleColumn); param.CheckR();
+            column.CheckS(function: Sqls.Functions.SingleColumn); param.CheckS();
+            column.CheckT(function: Sqls.Functions.SingleColumn); param.CheckT();
+            column.CheckU(function: Sqls.Functions.SingleColumn); param.CheckU();
+            column.CheckV(function: Sqls.Functions.SingleColumn); param.CheckV();
+            column.CheckW(function: Sqls.Functions.SingleColumn); param.CheckW();
+            column.CheckX(function: Sqls.Functions.SingleColumn); param.CheckX();
+            column.CheckY(function: Sqls.Functions.SingleColumn); param.CheckY();
+            column.CheckZ(function: Sqls.Functions.SingleColumn); param.CheckZ();
+            column.LdapSearchRoot(function: Sqls.Functions.SingleColumn); param.LdapSearchRoot();
+            column.SynchronizedTime(function: Sqls.Functions.SingleColumn); param.SynchronizedTime();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!GlobalId.InitialValue())
-            {
-                column.GlobalId(function: Sqls.Functions.SingleColumn);
-                param.GlobalId();
-            }
-            if (!Name.InitialValue())
-            {
-                column.Name(function: Sqls.Functions.SingleColumn);
-                param.Name();
-            }
-            if (!UserCode.InitialValue())
-            {
-                column.UserCode(function: Sqls.Functions.SingleColumn);
-                param.UserCode();
-            }
-            if (!Password.InitialValue())
-            {
-                column.Password(function: Sqls.Functions.SingleColumn);
-                param.Password();
-            }
-            if (!LastName.InitialValue())
-            {
-                column.LastName(function: Sqls.Functions.SingleColumn);
-                param.LastName();
-            }
-            if (!FirstName.InitialValue())
-            {
-                column.FirstName(function: Sqls.Functions.SingleColumn);
-                param.FirstName();
-            }
-            if (!Birthday.InitialValue())
-            {
-                column.Birthday(function: Sqls.Functions.SingleColumn);
-                param.Birthday();
-            }
-            if (!Gender.InitialValue())
-            {
-                column.Gender(function: Sqls.Functions.SingleColumn);
-                param.Gender();
-            }
-            if (!TimeZone.InitialValue())
-            {
-                column.TimeZone(function: Sqls.Functions.SingleColumn);
-                param.TimeZone();
-            }
-            if (!Body.InitialValue())
-            {
-                column.Body(function: Sqls.Functions.SingleColumn);
-                param.Body();
-            }
-            if (!LastLoginTime.InitialValue())
-            {
-                column.LastLoginTime(function: Sqls.Functions.SingleColumn);
-                param.LastLoginTime();
-            }
-            if (!PasswordExpirationTime.InitialValue())
-            {
-                column.PasswordExpirationTime(function: Sqls.Functions.SingleColumn);
-                param.PasswordExpirationTime();
-            }
-            if (!PasswordChangeTime.InitialValue())
-            {
-                column.PasswordChangeTime(function: Sqls.Functions.SingleColumn);
-                param.PasswordChangeTime();
-            }
-            if (!NumberOfLogins.InitialValue())
-            {
-                column.NumberOfLogins(function: Sqls.Functions.SingleColumn);
-                param.NumberOfLogins();
-            }
-            if (!NumberOfDenial.InitialValue())
-            {
-                column.NumberOfDenial(function: Sqls.Functions.SingleColumn);
-                param.NumberOfDenial();
-            }
-            if (!UserSettings.InitialValue())
-            {
-                column.UserSettings(function: Sqls.Functions.SingleColumn);
-                param.UserSettings();
-            }
-            if (!ApiKey.InitialValue())
-            {
-                column.ApiKey(function: Sqls.Functions.SingleColumn);
-                param.ApiKey();
-            }
-            if (!ClassA.InitialValue())
-            {
-                column.ClassA(function: Sqls.Functions.SingleColumn);
-                param.ClassA();
-            }
-            if (!ClassB.InitialValue())
-            {
-                column.ClassB(function: Sqls.Functions.SingleColumn);
-                param.ClassB();
-            }
-            if (!ClassC.InitialValue())
-            {
-                column.ClassC(function: Sqls.Functions.SingleColumn);
-                param.ClassC();
-            }
-            if (!ClassD.InitialValue())
-            {
-                column.ClassD(function: Sqls.Functions.SingleColumn);
-                param.ClassD();
-            }
-            if (!ClassE.InitialValue())
-            {
-                column.ClassE(function: Sqls.Functions.SingleColumn);
-                param.ClassE();
-            }
-            if (!ClassF.InitialValue())
-            {
-                column.ClassF(function: Sqls.Functions.SingleColumn);
-                param.ClassF();
-            }
-            if (!ClassG.InitialValue())
-            {
-                column.ClassG(function: Sqls.Functions.SingleColumn);
-                param.ClassG();
-            }
-            if (!ClassH.InitialValue())
-            {
-                column.ClassH(function: Sqls.Functions.SingleColumn);
-                param.ClassH();
-            }
-            if (!ClassI.InitialValue())
-            {
-                column.ClassI(function: Sqls.Functions.SingleColumn);
-                param.ClassI();
-            }
-            if (!ClassJ.InitialValue())
-            {
-                column.ClassJ(function: Sqls.Functions.SingleColumn);
-                param.ClassJ();
-            }
-            if (!ClassK.InitialValue())
-            {
-                column.ClassK(function: Sqls.Functions.SingleColumn);
-                param.ClassK();
-            }
-            if (!ClassL.InitialValue())
-            {
-                column.ClassL(function: Sqls.Functions.SingleColumn);
-                param.ClassL();
-            }
-            if (!ClassM.InitialValue())
-            {
-                column.ClassM(function: Sqls.Functions.SingleColumn);
-                param.ClassM();
-            }
-            if (!ClassN.InitialValue())
-            {
-                column.ClassN(function: Sqls.Functions.SingleColumn);
-                param.ClassN();
-            }
-            if (!ClassO.InitialValue())
-            {
-                column.ClassO(function: Sqls.Functions.SingleColumn);
-                param.ClassO();
-            }
-            if (!ClassP.InitialValue())
-            {
-                column.ClassP(function: Sqls.Functions.SingleColumn);
-                param.ClassP();
-            }
-            if (!ClassQ.InitialValue())
-            {
-                column.ClassQ(function: Sqls.Functions.SingleColumn);
-                param.ClassQ();
-            }
-            if (!ClassR.InitialValue())
-            {
-                column.ClassR(function: Sqls.Functions.SingleColumn);
-                param.ClassR();
-            }
-            if (!ClassS.InitialValue())
-            {
-                column.ClassS(function: Sqls.Functions.SingleColumn);
-                param.ClassS();
-            }
-            if (!ClassT.InitialValue())
-            {
-                column.ClassT(function: Sqls.Functions.SingleColumn);
-                param.ClassT();
-            }
-            if (!ClassU.InitialValue())
-            {
-                column.ClassU(function: Sqls.Functions.SingleColumn);
-                param.ClassU();
-            }
-            if (!ClassV.InitialValue())
-            {
-                column.ClassV(function: Sqls.Functions.SingleColumn);
-                param.ClassV();
-            }
-            if (!ClassW.InitialValue())
-            {
-                column.ClassW(function: Sqls.Functions.SingleColumn);
-                param.ClassW();
-            }
-            if (!ClassX.InitialValue())
-            {
-                column.ClassX(function: Sqls.Functions.SingleColumn);
-                param.ClassX();
-            }
-            if (!ClassY.InitialValue())
-            {
-                column.ClassY(function: Sqls.Functions.SingleColumn);
-                param.ClassY();
-            }
-            if (!ClassZ.InitialValue())
-            {
-                column.ClassZ(function: Sqls.Functions.SingleColumn);
-                param.ClassZ();
-            }
-            if (!NumA.InitialValue())
-            {
-                column.NumA(function: Sqls.Functions.SingleColumn);
-                param.NumA();
-            }
-            if (!NumB.InitialValue())
-            {
-                column.NumB(function: Sqls.Functions.SingleColumn);
-                param.NumB();
-            }
-            if (!NumC.InitialValue())
-            {
-                column.NumC(function: Sqls.Functions.SingleColumn);
-                param.NumC();
-            }
-            if (!NumD.InitialValue())
-            {
-                column.NumD(function: Sqls.Functions.SingleColumn);
-                param.NumD();
-            }
-            if (!NumE.InitialValue())
-            {
-                column.NumE(function: Sqls.Functions.SingleColumn);
-                param.NumE();
-            }
-            if (!NumF.InitialValue())
-            {
-                column.NumF(function: Sqls.Functions.SingleColumn);
-                param.NumF();
-            }
-            if (!NumG.InitialValue())
-            {
-                column.NumG(function: Sqls.Functions.SingleColumn);
-                param.NumG();
-            }
-            if (!NumH.InitialValue())
-            {
-                column.NumH(function: Sqls.Functions.SingleColumn);
-                param.NumH();
-            }
-            if (!NumI.InitialValue())
-            {
-                column.NumI(function: Sqls.Functions.SingleColumn);
-                param.NumI();
-            }
-            if (!NumJ.InitialValue())
-            {
-                column.NumJ(function: Sqls.Functions.SingleColumn);
-                param.NumJ();
-            }
-            if (!NumK.InitialValue())
-            {
-                column.NumK(function: Sqls.Functions.SingleColumn);
-                param.NumK();
-            }
-            if (!NumL.InitialValue())
-            {
-                column.NumL(function: Sqls.Functions.SingleColumn);
-                param.NumL();
-            }
-            if (!NumM.InitialValue())
-            {
-                column.NumM(function: Sqls.Functions.SingleColumn);
-                param.NumM();
-            }
-            if (!NumN.InitialValue())
-            {
-                column.NumN(function: Sqls.Functions.SingleColumn);
-                param.NumN();
-            }
-            if (!NumO.InitialValue())
-            {
-                column.NumO(function: Sqls.Functions.SingleColumn);
-                param.NumO();
-            }
-            if (!NumP.InitialValue())
-            {
-                column.NumP(function: Sqls.Functions.SingleColumn);
-                param.NumP();
-            }
-            if (!NumQ.InitialValue())
-            {
-                column.NumQ(function: Sqls.Functions.SingleColumn);
-                param.NumQ();
-            }
-            if (!NumR.InitialValue())
-            {
-                column.NumR(function: Sqls.Functions.SingleColumn);
-                param.NumR();
-            }
-            if (!NumS.InitialValue())
-            {
-                column.NumS(function: Sqls.Functions.SingleColumn);
-                param.NumS();
-            }
-            if (!NumT.InitialValue())
-            {
-                column.NumT(function: Sqls.Functions.SingleColumn);
-                param.NumT();
-            }
-            if (!NumU.InitialValue())
-            {
-                column.NumU(function: Sqls.Functions.SingleColumn);
-                param.NumU();
-            }
-            if (!NumV.InitialValue())
-            {
-                column.NumV(function: Sqls.Functions.SingleColumn);
-                param.NumV();
-            }
-            if (!NumW.InitialValue())
-            {
-                column.NumW(function: Sqls.Functions.SingleColumn);
-                param.NumW();
-            }
-            if (!NumX.InitialValue())
-            {
-                column.NumX(function: Sqls.Functions.SingleColumn);
-                param.NumX();
-            }
-            if (!NumY.InitialValue())
-            {
-                column.NumY(function: Sqls.Functions.SingleColumn);
-                param.NumY();
-            }
-            if (!NumZ.InitialValue())
-            {
-                column.NumZ(function: Sqls.Functions.SingleColumn);
-                param.NumZ();
-            }
-            if (!DateA.InitialValue())
-            {
-                column.DateA(function: Sqls.Functions.SingleColumn);
-                param.DateA();
-            }
-            if (!DateB.InitialValue())
-            {
-                column.DateB(function: Sqls.Functions.SingleColumn);
-                param.DateB();
-            }
-            if (!DateC.InitialValue())
-            {
-                column.DateC(function: Sqls.Functions.SingleColumn);
-                param.DateC();
-            }
-            if (!DateD.InitialValue())
-            {
-                column.DateD(function: Sqls.Functions.SingleColumn);
-                param.DateD();
-            }
-            if (!DateE.InitialValue())
-            {
-                column.DateE(function: Sqls.Functions.SingleColumn);
-                param.DateE();
-            }
-            if (!DateF.InitialValue())
-            {
-                column.DateF(function: Sqls.Functions.SingleColumn);
-                param.DateF();
-            }
-            if (!DateG.InitialValue())
-            {
-                column.DateG(function: Sqls.Functions.SingleColumn);
-                param.DateG();
-            }
-            if (!DateH.InitialValue())
-            {
-                column.DateH(function: Sqls.Functions.SingleColumn);
-                param.DateH();
-            }
-            if (!DateI.InitialValue())
-            {
-                column.DateI(function: Sqls.Functions.SingleColumn);
-                param.DateI();
-            }
-            if (!DateJ.InitialValue())
-            {
-                column.DateJ(function: Sqls.Functions.SingleColumn);
-                param.DateJ();
-            }
-            if (!DateK.InitialValue())
-            {
-                column.DateK(function: Sqls.Functions.SingleColumn);
-                param.DateK();
-            }
-            if (!DateL.InitialValue())
-            {
-                column.DateL(function: Sqls.Functions.SingleColumn);
-                param.DateL();
-            }
-            if (!DateM.InitialValue())
-            {
-                column.DateM(function: Sqls.Functions.SingleColumn);
-                param.DateM();
-            }
-            if (!DateN.InitialValue())
-            {
-                column.DateN(function: Sqls.Functions.SingleColumn);
-                param.DateN();
-            }
-            if (!DateO.InitialValue())
-            {
-                column.DateO(function: Sqls.Functions.SingleColumn);
-                param.DateO();
-            }
-            if (!DateP.InitialValue())
-            {
-                column.DateP(function: Sqls.Functions.SingleColumn);
-                param.DateP();
-            }
-            if (!DateQ.InitialValue())
-            {
-                column.DateQ(function: Sqls.Functions.SingleColumn);
-                param.DateQ();
-            }
-            if (!DateR.InitialValue())
-            {
-                column.DateR(function: Sqls.Functions.SingleColumn);
-                param.DateR();
-            }
-            if (!DateS.InitialValue())
-            {
-                column.DateS(function: Sqls.Functions.SingleColumn);
-                param.DateS();
-            }
-            if (!DateT.InitialValue())
-            {
-                column.DateT(function: Sqls.Functions.SingleColumn);
-                param.DateT();
-            }
-            if (!DateU.InitialValue())
-            {
-                column.DateU(function: Sqls.Functions.SingleColumn);
-                param.DateU();
-            }
-            if (!DateV.InitialValue())
-            {
-                column.DateV(function: Sqls.Functions.SingleColumn);
-                param.DateV();
-            }
-            if (!DateW.InitialValue())
-            {
-                column.DateW(function: Sqls.Functions.SingleColumn);
-                param.DateW();
-            }
-            if (!DateX.InitialValue())
-            {
-                column.DateX(function: Sqls.Functions.SingleColumn);
-                param.DateX();
-            }
-            if (!DateY.InitialValue())
-            {
-                column.DateY(function: Sqls.Functions.SingleColumn);
-                param.DateY();
-            }
-            if (!DateZ.InitialValue())
-            {
-                column.DateZ(function: Sqls.Functions.SingleColumn);
-                param.DateZ();
-            }
-            if (!DescriptionA.InitialValue())
-            {
-                column.DescriptionA(function: Sqls.Functions.SingleColumn);
-                param.DescriptionA();
-            }
-            if (!DescriptionB.InitialValue())
-            {
-                column.DescriptionB(function: Sqls.Functions.SingleColumn);
-                param.DescriptionB();
-            }
-            if (!DescriptionC.InitialValue())
-            {
-                column.DescriptionC(function: Sqls.Functions.SingleColumn);
-                param.DescriptionC();
-            }
-            if (!DescriptionD.InitialValue())
-            {
-                column.DescriptionD(function: Sqls.Functions.SingleColumn);
-                param.DescriptionD();
-            }
-            if (!DescriptionE.InitialValue())
-            {
-                column.DescriptionE(function: Sqls.Functions.SingleColumn);
-                param.DescriptionE();
-            }
-            if (!DescriptionF.InitialValue())
-            {
-                column.DescriptionF(function: Sqls.Functions.SingleColumn);
-                param.DescriptionF();
-            }
-            if (!DescriptionG.InitialValue())
-            {
-                column.DescriptionG(function: Sqls.Functions.SingleColumn);
-                param.DescriptionG();
-            }
-            if (!DescriptionH.InitialValue())
-            {
-                column.DescriptionH(function: Sqls.Functions.SingleColumn);
-                param.DescriptionH();
-            }
-            if (!DescriptionI.InitialValue())
-            {
-                column.DescriptionI(function: Sqls.Functions.SingleColumn);
-                param.DescriptionI();
-            }
-            if (!DescriptionJ.InitialValue())
-            {
-                column.DescriptionJ(function: Sqls.Functions.SingleColumn);
-                param.DescriptionJ();
-            }
-            if (!DescriptionK.InitialValue())
-            {
-                column.DescriptionK(function: Sqls.Functions.SingleColumn);
-                param.DescriptionK();
-            }
-            if (!DescriptionL.InitialValue())
-            {
-                column.DescriptionL(function: Sqls.Functions.SingleColumn);
-                param.DescriptionL();
-            }
-            if (!DescriptionM.InitialValue())
-            {
-                column.DescriptionM(function: Sqls.Functions.SingleColumn);
-                param.DescriptionM();
-            }
-            if (!DescriptionN.InitialValue())
-            {
-                column.DescriptionN(function: Sqls.Functions.SingleColumn);
-                param.DescriptionN();
-            }
-            if (!DescriptionO.InitialValue())
-            {
-                column.DescriptionO(function: Sqls.Functions.SingleColumn);
-                param.DescriptionO();
-            }
-            if (!DescriptionP.InitialValue())
-            {
-                column.DescriptionP(function: Sqls.Functions.SingleColumn);
-                param.DescriptionP();
-            }
-            if (!DescriptionQ.InitialValue())
-            {
-                column.DescriptionQ(function: Sqls.Functions.SingleColumn);
-                param.DescriptionQ();
-            }
-            if (!DescriptionR.InitialValue())
-            {
-                column.DescriptionR(function: Sqls.Functions.SingleColumn);
-                param.DescriptionR();
-            }
-            if (!DescriptionS.InitialValue())
-            {
-                column.DescriptionS(function: Sqls.Functions.SingleColumn);
-                param.DescriptionS();
-            }
-            if (!DescriptionT.InitialValue())
-            {
-                column.DescriptionT(function: Sqls.Functions.SingleColumn);
-                param.DescriptionT();
-            }
-            if (!DescriptionU.InitialValue())
-            {
-                column.DescriptionU(function: Sqls.Functions.SingleColumn);
-                param.DescriptionU();
-            }
-            if (!DescriptionV.InitialValue())
-            {
-                column.DescriptionV(function: Sqls.Functions.SingleColumn);
-                param.DescriptionV();
-            }
-            if (!DescriptionW.InitialValue())
-            {
-                column.DescriptionW(function: Sqls.Functions.SingleColumn);
-                param.DescriptionW();
-            }
-            if (!DescriptionX.InitialValue())
-            {
-                column.DescriptionX(function: Sqls.Functions.SingleColumn);
-                param.DescriptionX();
-            }
-            if (!DescriptionY.InitialValue())
-            {
-                column.DescriptionY(function: Sqls.Functions.SingleColumn);
-                param.DescriptionY();
-            }
-            if (!DescriptionZ.InitialValue())
-            {
-                column.DescriptionZ(function: Sqls.Functions.SingleColumn);
-                param.DescriptionZ();
-            }
-            if (!CheckA.InitialValue())
-            {
-                column.CheckA(function: Sqls.Functions.SingleColumn);
-                param.CheckA();
-            }
-            if (!CheckB.InitialValue())
-            {
-                column.CheckB(function: Sqls.Functions.SingleColumn);
-                param.CheckB();
-            }
-            if (!CheckC.InitialValue())
-            {
-                column.CheckC(function: Sqls.Functions.SingleColumn);
-                param.CheckC();
-            }
-            if (!CheckD.InitialValue())
-            {
-                column.CheckD(function: Sqls.Functions.SingleColumn);
-                param.CheckD();
-            }
-            if (!CheckE.InitialValue())
-            {
-                column.CheckE(function: Sqls.Functions.SingleColumn);
-                param.CheckE();
-            }
-            if (!CheckF.InitialValue())
-            {
-                column.CheckF(function: Sqls.Functions.SingleColumn);
-                param.CheckF();
-            }
-            if (!CheckG.InitialValue())
-            {
-                column.CheckG(function: Sqls.Functions.SingleColumn);
-                param.CheckG();
-            }
-            if (!CheckH.InitialValue())
-            {
-                column.CheckH(function: Sqls.Functions.SingleColumn);
-                param.CheckH();
-            }
-            if (!CheckI.InitialValue())
-            {
-                column.CheckI(function: Sqls.Functions.SingleColumn);
-                param.CheckI();
-            }
-            if (!CheckJ.InitialValue())
-            {
-                column.CheckJ(function: Sqls.Functions.SingleColumn);
-                param.CheckJ();
-            }
-            if (!CheckK.InitialValue())
-            {
-                column.CheckK(function: Sqls.Functions.SingleColumn);
-                param.CheckK();
-            }
-            if (!CheckL.InitialValue())
-            {
-                column.CheckL(function: Sqls.Functions.SingleColumn);
-                param.CheckL();
-            }
-            if (!CheckM.InitialValue())
-            {
-                column.CheckM(function: Sqls.Functions.SingleColumn);
-                param.CheckM();
-            }
-            if (!CheckN.InitialValue())
-            {
-                column.CheckN(function: Sqls.Functions.SingleColumn);
-                param.CheckN();
-            }
-            if (!CheckO.InitialValue())
-            {
-                column.CheckO(function: Sqls.Functions.SingleColumn);
-                param.CheckO();
-            }
-            if (!CheckP.InitialValue())
-            {
-                column.CheckP(function: Sqls.Functions.SingleColumn);
-                param.CheckP();
-            }
-            if (!CheckQ.InitialValue())
-            {
-                column.CheckQ(function: Sqls.Functions.SingleColumn);
-                param.CheckQ();
-            }
-            if (!CheckR.InitialValue())
-            {
-                column.CheckR(function: Sqls.Functions.SingleColumn);
-                param.CheckR();
-            }
-            if (!CheckS.InitialValue())
-            {
-                column.CheckS(function: Sqls.Functions.SingleColumn);
-                param.CheckS();
-            }
-            if (!CheckT.InitialValue())
-            {
-                column.CheckT(function: Sqls.Functions.SingleColumn);
-                param.CheckT();
-            }
-            if (!CheckU.InitialValue())
-            {
-                column.CheckU(function: Sqls.Functions.SingleColumn);
-                param.CheckU();
-            }
-            if (!CheckV.InitialValue())
-            {
-                column.CheckV(function: Sqls.Functions.SingleColumn);
-                param.CheckV();
-            }
-            if (!CheckW.InitialValue())
-            {
-                column.CheckW(function: Sqls.Functions.SingleColumn);
-                param.CheckW();
-            }
-            if (!CheckX.InitialValue())
-            {
-                column.CheckX(function: Sqls.Functions.SingleColumn);
-                param.CheckX();
-            }
-            if (!CheckY.InitialValue())
-            {
-                column.CheckY(function: Sqls.Functions.SingleColumn);
-                param.CheckY();
-            }
-            if (!CheckZ.InitialValue())
-            {
-                column.CheckZ(function: Sqls.Functions.SingleColumn);
-                param.CheckZ();
-            }
-            if (!LdapSearchRoot.InitialValue())
-            {
-                column.LdapSearchRoot(function: Sqls.Functions.SingleColumn);
-                param.LdapSearchRoot();
-            }
-            if (!SynchronizedTime.InitialValue())
-            {
-                column.SynchronizedTime(function: Sqls.Functions.SingleColumn);
-                param.SynchronizedTime();
-            }
-            if (!Comments.InitialValue())
-            {
-                column.Comments(function: Sqls.Functions.SingleColumn);
-                param.Comments();
-            }
             return Rds.InsertUsers(
                 tableType: tableType,
                 param: param,
@@ -2852,8 +2253,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.UsersWhere().UserId(UserId);
             statements.AddRange(new List<SqlStatement>
             {
-                CopyToStatement(where, Sqls.TableTypes.Deleted),
-                Rds.PhysicalDeleteUsers(where: where),
+                Rds.DeleteUsers(where: where),
                 StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated),
             });
             var response = Rds.ExecuteScalar_response(
@@ -3089,6 +2489,187 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByModel(UserModel userModel)
+        {
+            TenantId = userModel.TenantId;
+            LoginId = userModel.LoginId;
+            GlobalId = userModel.GlobalId;
+            Name = userModel.Name;
+            UserCode = userModel.UserCode;
+            Password = userModel.Password;
+            PasswordValidate = userModel.PasswordValidate;
+            PasswordDummy = userModel.PasswordDummy;
+            RememberMe = userModel.RememberMe;
+            LastName = userModel.LastName;
+            FirstName = userModel.FirstName;
+            Birthday = userModel.Birthday;
+            Gender = userModel.Gender;
+            Language = userModel.Language;
+            TimeZone = userModel.TimeZone;
+            DeptCode = userModel.DeptCode;
+            DeptId = userModel.DeptId;
+            FirstAndLastNameOrder = userModel.FirstAndLastNameOrder;
+            Body = userModel.Body;
+            LastLoginTime = userModel.LastLoginTime;
+            PasswordExpirationTime = userModel.PasswordExpirationTime;
+            PasswordChangeTime = userModel.PasswordChangeTime;
+            NumberOfLogins = userModel.NumberOfLogins;
+            NumberOfDenial = userModel.NumberOfDenial;
+            TenantManager = userModel.TenantManager;
+            ServiceManager = userModel.ServiceManager;
+            Disabled = userModel.Disabled;
+            Developer = userModel.Developer;
+            UserSettings = userModel.UserSettings;
+            ApiKey = userModel.ApiKey;
+            OldPassword = userModel.OldPassword;
+            ChangedPassword = userModel.ChangedPassword;
+            ChangedPasswordValidator = userModel.ChangedPasswordValidator;
+            AfterResetPassword = userModel.AfterResetPassword;
+            AfterResetPasswordValidator = userModel.AfterResetPasswordValidator;
+            MailAddresses = userModel.MailAddresses;
+            DemoMailAddress = userModel.DemoMailAddress;
+            SessionGuid = userModel.SessionGuid;
+            ClassA = userModel.ClassA;
+            ClassB = userModel.ClassB;
+            ClassC = userModel.ClassC;
+            ClassD = userModel.ClassD;
+            ClassE = userModel.ClassE;
+            ClassF = userModel.ClassF;
+            ClassG = userModel.ClassG;
+            ClassH = userModel.ClassH;
+            ClassI = userModel.ClassI;
+            ClassJ = userModel.ClassJ;
+            ClassK = userModel.ClassK;
+            ClassL = userModel.ClassL;
+            ClassM = userModel.ClassM;
+            ClassN = userModel.ClassN;
+            ClassO = userModel.ClassO;
+            ClassP = userModel.ClassP;
+            ClassQ = userModel.ClassQ;
+            ClassR = userModel.ClassR;
+            ClassS = userModel.ClassS;
+            ClassT = userModel.ClassT;
+            ClassU = userModel.ClassU;
+            ClassV = userModel.ClassV;
+            ClassW = userModel.ClassW;
+            ClassX = userModel.ClassX;
+            ClassY = userModel.ClassY;
+            ClassZ = userModel.ClassZ;
+            NumA = userModel.NumA;
+            NumB = userModel.NumB;
+            NumC = userModel.NumC;
+            NumD = userModel.NumD;
+            NumE = userModel.NumE;
+            NumF = userModel.NumF;
+            NumG = userModel.NumG;
+            NumH = userModel.NumH;
+            NumI = userModel.NumI;
+            NumJ = userModel.NumJ;
+            NumK = userModel.NumK;
+            NumL = userModel.NumL;
+            NumM = userModel.NumM;
+            NumN = userModel.NumN;
+            NumO = userModel.NumO;
+            NumP = userModel.NumP;
+            NumQ = userModel.NumQ;
+            NumR = userModel.NumR;
+            NumS = userModel.NumS;
+            NumT = userModel.NumT;
+            NumU = userModel.NumU;
+            NumV = userModel.NumV;
+            NumW = userModel.NumW;
+            NumX = userModel.NumX;
+            NumY = userModel.NumY;
+            NumZ = userModel.NumZ;
+            DateA = userModel.DateA;
+            DateB = userModel.DateB;
+            DateC = userModel.DateC;
+            DateD = userModel.DateD;
+            DateE = userModel.DateE;
+            DateF = userModel.DateF;
+            DateG = userModel.DateG;
+            DateH = userModel.DateH;
+            DateI = userModel.DateI;
+            DateJ = userModel.DateJ;
+            DateK = userModel.DateK;
+            DateL = userModel.DateL;
+            DateM = userModel.DateM;
+            DateN = userModel.DateN;
+            DateO = userModel.DateO;
+            DateP = userModel.DateP;
+            DateQ = userModel.DateQ;
+            DateR = userModel.DateR;
+            DateS = userModel.DateS;
+            DateT = userModel.DateT;
+            DateU = userModel.DateU;
+            DateV = userModel.DateV;
+            DateW = userModel.DateW;
+            DateX = userModel.DateX;
+            DateY = userModel.DateY;
+            DateZ = userModel.DateZ;
+            DescriptionA = userModel.DescriptionA;
+            DescriptionB = userModel.DescriptionB;
+            DescriptionC = userModel.DescriptionC;
+            DescriptionD = userModel.DescriptionD;
+            DescriptionE = userModel.DescriptionE;
+            DescriptionF = userModel.DescriptionF;
+            DescriptionG = userModel.DescriptionG;
+            DescriptionH = userModel.DescriptionH;
+            DescriptionI = userModel.DescriptionI;
+            DescriptionJ = userModel.DescriptionJ;
+            DescriptionK = userModel.DescriptionK;
+            DescriptionL = userModel.DescriptionL;
+            DescriptionM = userModel.DescriptionM;
+            DescriptionN = userModel.DescriptionN;
+            DescriptionO = userModel.DescriptionO;
+            DescriptionP = userModel.DescriptionP;
+            DescriptionQ = userModel.DescriptionQ;
+            DescriptionR = userModel.DescriptionR;
+            DescriptionS = userModel.DescriptionS;
+            DescriptionT = userModel.DescriptionT;
+            DescriptionU = userModel.DescriptionU;
+            DescriptionV = userModel.DescriptionV;
+            DescriptionW = userModel.DescriptionW;
+            DescriptionX = userModel.DescriptionX;
+            DescriptionY = userModel.DescriptionY;
+            DescriptionZ = userModel.DescriptionZ;
+            CheckA = userModel.CheckA;
+            CheckB = userModel.CheckB;
+            CheckC = userModel.CheckC;
+            CheckD = userModel.CheckD;
+            CheckE = userModel.CheckE;
+            CheckF = userModel.CheckF;
+            CheckG = userModel.CheckG;
+            CheckH = userModel.CheckH;
+            CheckI = userModel.CheckI;
+            CheckJ = userModel.CheckJ;
+            CheckK = userModel.CheckK;
+            CheckL = userModel.CheckL;
+            CheckM = userModel.CheckM;
+            CheckN = userModel.CheckN;
+            CheckO = userModel.CheckO;
+            CheckP = userModel.CheckP;
+            CheckQ = userModel.CheckQ;
+            CheckR = userModel.CheckR;
+            CheckS = userModel.CheckS;
+            CheckT = userModel.CheckT;
+            CheckU = userModel.CheckU;
+            CheckV = userModel.CheckV;
+            CheckW = userModel.CheckW;
+            CheckX = userModel.CheckX;
+            CheckY = userModel.CheckY;
+            CheckZ = userModel.CheckZ;
+            LdapSearchRoot = userModel.LdapSearchRoot;
+            SynchronizedTime = userModel.SynchronizedTime;
+            Comments = userModel.Comments;
+            Creator = userModel.Creator;
+            Updator = userModel.Updator;
+            CreatedTime = userModel.CreatedTime;
+            UpdatedTime = userModel.UpdatedTime;
+            VerUp = userModel.VerUp;
+            Comments = userModel.Comments;
         }
 
         public void SetByApi(SiteSettings ss)

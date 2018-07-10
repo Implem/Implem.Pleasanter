@@ -1,0 +1,13 @@
+﻿{
+  "Id": "DeletedTime",
+  "Type": 110,
+  "Languages": [
+    {
+      "Body": "Deleted time"
+    },
+    {
+      "Language": "ja",
+      "Body": "削除日時"
+    }
+  ]
+}

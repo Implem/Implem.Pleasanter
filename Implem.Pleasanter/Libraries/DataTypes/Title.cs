@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Implem.Libraries.DataSources.SqlServer;
+
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -160,12 +162,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         protected void TdTitle(HtmlBuilder hb, Column column)
         {
-            switch (Url.RouteData("action").ToLower())
+            switch (column.SiteSettings.TableType)
             {
-                case "histories":
-                    hb.Text(text: DisplayValue);
-                    break;
-                default:
+
+                case Sqls.TableTypes.Normal:
                     hb.A(
                         href: Locations.ItemEdit(Id) +
                             (column.Joined ||
@@ -174,6 +174,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                 ? "?back=1"
                                 : string.Empty),
                         text: DisplayValue);
+                    break;
+                default:
+                    hb.Text(text: DisplayValue);
                     break;
             }
         }

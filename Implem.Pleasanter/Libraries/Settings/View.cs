@@ -662,28 +662,27 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlWhereCollection where = null,
             bool checkPermission = true)
         {
-            var tableName = ss.ReferenceType;
             if (where == null) where = new SqlWhereCollection();
-            SetGeneralsWhere(ss, where, tableName);
-            SetColumnsWhere(ss, where, tableName);
-            SetSearchWhere(ss, where, tableName);
+            SetGeneralsWhere(ss, where);
+            SetColumnsWhere(ss, where);
+            SetSearchWhere(ss, where);
             Permissions.SetCanReadWhere(ss, where, checkPermission);
             return where;
         }
 
-        private void SetGeneralsWhere(SiteSettings ss, SqlWhereCollection where, string tableName)
+        private void SetGeneralsWhere(SiteSettings ss, SqlWhereCollection where)
         {
             if (Incomplete == true)
             {
                 where.Add(
-                    tableName: tableName,
+                    tableName: ss.ReferenceType,
                     columnBrackets: "[Status]".ToSingleArray(),
                     _operator: "<" + Parameters.General.CompletionCode);
             }
             if (Own == true)
             {
                 where.Add(
-                    tableName: tableName,
+                    tableName: ss.ReferenceType,
                     columnBrackets: new string[] { "[Manager]", "[Owner]" },
                     name: "_U",
                     value: Sessions.UserId());
@@ -691,7 +690,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (NearCompletionTime == true)
             {
                 where.Add(
-                    tableName: tableName,
+                    tableName: ss.ReferenceType,
                     columnBrackets: "[CompletionTime]".ToSingleArray(),
                     _operator: " between '{0}' and '{1}'".Params(
                         DateTime.Now.ToLocal().Date
@@ -705,12 +704,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 where
                     .Add(
-                        tableName: tableName,
+                        tableName: ss.ReferenceType,
                         columnBrackets: "[Status]".ToSingleArray(),
                         name: "_U",
                         _operator: "<{0}".Params(Parameters.General.CompletionCode))
                     .Add(
-                        tableName: tableName,
+                        tableName: ss.ReferenceType,
                         columnBrackets: "[ProgressRate]".ToSingleArray(),
                         _operator: "<",
                         raw: Def.Sql.ProgressRateDelay
@@ -720,18 +719,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 where
                     .Add(
-                        tableName: tableName,
+                        tableName: ss.ReferenceType,
                         columnBrackets: "[Status]".ToSingleArray(),
                         name: "_U",
                         _operator: "<{0}".Params(Parameters.General.CompletionCode))
                     .Add(
-                        tableName: tableName,
+                        tableName: ss.ReferenceType,
                         columnBrackets: "[CompletionTime]".ToSingleArray(),
                         _operator: "<getdate()");
             }
         }
 
-        private void SetColumnsWhere(SiteSettings ss, SqlWhereCollection where, string tableName)
+        private void SetColumnsWhere(SiteSettings ss, SqlWhereCollection where)
         {
             var prefix = "ViewFilters_" + ss.ReferenceType + "_";
             var prefixLength = prefix.Length;
@@ -1007,7 +1006,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : orderBy;
         }
 
-        private void SetSearchWhere(SiteSettings ss, SqlWhereCollection where, string tableName)
+        private void SetSearchWhere(SiteSettings ss, SqlWhereCollection where)
         {
             if (Search.IsNullOrEmpty()) return;
             var select = SearchIndexUtilities.Select(
@@ -1022,7 +1021,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     case "Issues":
                         where.Add(
-                            tableName: tableName,
+                            tableName: ss.ReferenceType,
                             columnBrackets: "[IssueId]".ToSingleArray(),
                             name: "IssueId",
                             _operator: " in ",
@@ -1031,7 +1030,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     case "Results":
                         where.Add(
-                            tableName: tableName,
+                            tableName: ss.ReferenceType,
                             columnBrackets: "[ResultId]".ToSingleArray(),
                             name: "ResultId",
                             _operator: " in ",
@@ -1040,7 +1039,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     case "Wikis":
                         where.Add(
-                            tableName: tableName,
+                            tableName: ss.ReferenceType,
                             columnBrackets: "[WikiId]".ToSingleArray(),
                             name: "WikiId",
                             _operator: " in ",
