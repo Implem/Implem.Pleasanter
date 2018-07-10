@@ -264,6 +264,8 @@
     <Compile Include="Libraries\HtmlParts\HtmlCalendar.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlCrosstab.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlExport.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlTrashBoxCommands.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlHistoryCommands.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlImageLib.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Initializers\ParametersInitializer.cs" />
@@ -301,6 +303,7 @@
     <Compile Include="Libraries\Server\Contract.cs" />
     <Compile Include="Libraries\Server\TenantCache.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
+    <Compile Include="Libraries\Settings\Context.cs" />
     <Compile Include="Libraries\Settings\Reminder.cs" />
     <Compile Include="Libraries\Settings\ColumnAccessControl.cs" />
     <Compile Include="Libraries\Settings\ColumnNameInfo.cs" />
@@ -556,6 +559,7 @@
     <Content Include="Scripts\BasketEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
+    <Content Include="Scripts\Clipboard.js" />
     <Content Include="Scripts\Grid.js" />
     <Content Include="Scripts\ImageLibEvents.js" />
     <Content Include="Scripts\ImageLib.js" />
@@ -590,7 +594,6 @@
     <Content Include="Scripts\Gantt.js" />
     <Content Include="Scripts\GanttEvents.js" />
     <Content Include="Scripts\GridEvents.js" />
-    <Content Include="Scripts\HistoryEvents.js" />
     <Content Include="Scripts\Import.js" />
     <Content Include="Scripts\Item.js" />
     <Content Include="Scripts\Kamban.js" />
@@ -1304,11 +1307,26 @@
     <Content Include="App_Data\Displays\NoDuplication.json" />
     <Content Include="App_Data\Displays\Duplicated.json" />
     <Content Include="App_Data\Displays\CopyByDefault.json" />
+    <Content Include="App_Data\Displays\Restore.json" />
+    <Content Include="App_Data\Displays\ConfirmRestore.json" />
+    <Content Include="App_Data\Displays\DeleteHistory.json" />
+    <Content Include="App_Data\Displays\TrashBox.json" />
+    <Content Include="App_Data\Displays\DeleteFromTrashBox.json" />
+    <Content Include="App_Data\Displays\ConfirmPhyscalDelete.json" />
+    <Content Include="App_Data\Displays\Year.json" />
+    <Content Include="App_Data\Displays\DirectUrlCopied.json" />
+    <Content Include="App_Data\Displays\BulkRestored.json" />
+    <Content Include="App_Data\Displays\Deleter.json" />
+    <Content Include="App_Data\Displays\DeletedTime.json" />
+    <Content Include="App_Data\Displays\PhysicalDeleted.json" />
+    <Content Include="App_Data\Displays\HistoryDeleted.json" />
+    <Content Include="App_Data\Displays\RestoredFromHistory.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
     <Content Include="Views\Items\ImageLib.cshtml" />
     <Content Include="Views\Errors\ParameterSyntaxError.cshtml" />
+    <Content Include="Views\Items\TrashBox.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

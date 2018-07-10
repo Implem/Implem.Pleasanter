@@ -105,6 +105,21 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public void SetByModel(GroupMemberModel groupMemberModel)
+        {
+            GroupId = groupMemberModel.GroupId;
+            DeptId = groupMemberModel.DeptId;
+            UserId = groupMemberModel.UserId;
+            Admin = groupMemberModel.Admin;
+            Comments = groupMemberModel.Comments;
+            Creator = groupMemberModel.Creator;
+            Updator = groupMemberModel.Updator;
+            CreatedTime = groupMemberModel.CreatedTime;
+            UpdatedTime = groupMemberModel.UpdatedTime;
+            VerUp = groupMemberModel.VerUp;
+            Comments = groupMemberModel.Comments;
+        }
+
         private void SetBySession()
         {
         }

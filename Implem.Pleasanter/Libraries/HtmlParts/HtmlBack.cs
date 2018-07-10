@@ -60,6 +60,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             switch (Routes.Action())
                             {
                                 case "new":
+                                case "trashbox":
                                     return Locations.ItemIndex(siteId);
                                 case "edit":
                                     switch (siteReferenceType)
@@ -89,6 +90,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 "Items",
                                                 siteId.ToString(),
                                                 Requests.ViewModes.GetBySession(siteId));
+                                case "trashbox":
+                                    return Locations.ItemIndex(siteId);
                                 default:
                                     return Locations.ItemIndex(parentId);
                             }

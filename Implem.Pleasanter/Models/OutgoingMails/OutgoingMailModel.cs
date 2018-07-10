@@ -271,9 +271,10 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
+            bool setBySession = true,
             bool get = true)
         {
-            SetBySession();
+            if (setBySession) SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
@@ -326,60 +327,20 @@ namespace Implem.Pleasanter.Models
             column.ReferenceVer(function: Sqls.Functions.SingleColumn); param.ReferenceVer();
             column.OutgoingMailId(function: Sqls.Functions.SingleColumn); param.OutgoingMailId();
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Host(function: Sqls.Functions.SingleColumn); param.Host();
+            column.Port(function: Sqls.Functions.SingleColumn); param.Port();
+            column.From(function: Sqls.Functions.SingleColumn); param.From();
+            column.To(function: Sqls.Functions.SingleColumn); param.To();
+            column.Cc(function: Sqls.Functions.SingleColumn); param.Cc();
+            column.Bcc(function: Sqls.Functions.SingleColumn); param.Bcc();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.SentTime(function: Sqls.Functions.SingleColumn); param.SentTime();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Host.InitialValue())
-            {
-                column.Host(function: Sqls.Functions.SingleColumn);
-                param.Host();
-            }
-            if (!Port.InitialValue())
-            {
-                column.Port(function: Sqls.Functions.SingleColumn);
-                param.Port();
-            }
-            if (!From.InitialValue())
-            {
-                column.From(function: Sqls.Functions.SingleColumn);
-                param.From();
-            }
-            if (!To.InitialValue())
-            {
-                column.To(function: Sqls.Functions.SingleColumn);
-                param.To();
-            }
-            if (!Cc.InitialValue())
-            {
-                column.Cc(function: Sqls.Functions.SingleColumn);
-                param.Cc();
-            }
-            if (!Bcc.InitialValue())
-            {
-                column.Bcc(function: Sqls.Functions.SingleColumn);
-                param.Bcc();
-            }
-            if (!Title.InitialValue())
-            {
-                column.Title(function: Sqls.Functions.SingleColumn);
-                param.Title();
-            }
-            if (!Body.InitialValue())
-            {
-                column.Body(function: Sqls.Functions.SingleColumn);
-                param.Body();
-            }
-            if (!SentTime.InitialValue())
-            {
-                column.SentTime(function: Sqls.Functions.SingleColumn);
-                param.SentTime();
-            }
-            if (!Comments.InitialValue())
-            {
-                column.Comments(function: Sqls.Functions.SingleColumn);
-                param.Comments();
-            }
             return Rds.InsertOutgoingMails(
                 tableType: tableType,
                 param: param,
@@ -415,8 +376,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId);
             statements.AddRange(new List<SqlStatement>
             {
-                CopyToStatement(where, Sqls.TableTypes.Deleted),
-                Rds.PhysicalDeleteOutgoingMails(where: where)
+                Rds.DeleteOutgoingMails(where: where)
             });
             var response = Rds.ExecuteScalar_response(
                 transactional: true,
@@ -488,6 +448,31 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByModel(OutgoingMailModel outgoingMailModel)
+        {
+            ReferenceType = outgoingMailModel.ReferenceType;
+            ReferenceId = outgoingMailModel.ReferenceId;
+            ReferenceVer = outgoingMailModel.ReferenceVer;
+            Host = outgoingMailModel.Host;
+            Port = outgoingMailModel.Port;
+            From = outgoingMailModel.From;
+            To = outgoingMailModel.To;
+            Cc = outgoingMailModel.Cc;
+            Bcc = outgoingMailModel.Bcc;
+            Title = outgoingMailModel.Title;
+            Body = outgoingMailModel.Body;
+            SentTime = outgoingMailModel.SentTime;
+            DestinationSearchRange = outgoingMailModel.DestinationSearchRange;
+            DestinationSearchText = outgoingMailModel.DestinationSearchText;
+            Comments = outgoingMailModel.Comments;
+            Creator = outgoingMailModel.Creator;
+            Updator = outgoingMailModel.Updator;
+            CreatedTime = outgoingMailModel.CreatedTime;
+            UpdatedTime = outgoingMailModel.UpdatedTime;
+            VerUp = outgoingMailModel.VerUp;
+            Comments = outgoingMailModel.Comments;
         }
 
         private void SetBySession()

@@ -69,6 +69,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.BulkMoved(data), "alert-success");
         }
 
+        public static Message BulkRestored(params string[] data)
+        {
+            return Get(Displays.BulkRestored(data), "alert-success");
+        }
+
         public static Message CanNotChangeInheritance(params string[] data)
         {
             return Get(Displays.CanNotChangeInheritance(data), "alert-error");
@@ -234,6 +239,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.HasNotPermission(data), "alert-error");
         }
 
+        public static Message HistoryDeleted(params string[] data)
+        {
+            return Get(Displays.HistoryDeleted(data), "alert-success");
+        }
+
         public static Message Imported(params string[] data)
         {
             return Get(Displays.Imported(data), "alert-success");
@@ -384,6 +394,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.PermissionNotSelfChange(data), "alert-error");
         }
 
+        public static Message PhysicalDeleted(params string[] data)
+        {
+            return Get(Displays.PhysicalDeleted(data), "alert-success");
+        }
+
         public static Message ReadOnlyBecausePreviousVer(params string[] data)
         {
             return Get(Displays.ReadOnlyBecausePreviousVer(data), "alert-info");
@@ -397,6 +412,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message RequireTo(params string[] data)
         {
             return Get(Displays.RequireTo(data), "alert-error");
+        }
+
+        public static Message RestoredFromHistory(params string[] data)
+        {
+            return Get(Displays.RestoredFromHistory(data), "alert-success");
         }
 
         public static Message Restricted(params string[] data)
@@ -532,6 +552,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseBulkMoved(params string[] data)
         {
             return ResponseMessage(BulkMoved(data));
+        }
+
+        public static ResponseCollection ResponseBulkRestored(params string[] data)
+        {
+            return ResponseMessage(BulkRestored(data));
         }
 
         public static ResponseCollection ResponseCanNotChangeInheritance(params string[] data)
@@ -699,6 +724,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(HasNotPermission(data));
         }
 
+        public static ResponseCollection ResponseHistoryDeleted(params string[] data)
+        {
+            return ResponseMessage(HistoryDeleted(data));
+        }
+
         public static ResponseCollection ResponseImported(params string[] data)
         {
             return ResponseMessage(Imported(data));
@@ -849,6 +879,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(PermissionNotSelfChange(data));
         }
 
+        public static ResponseCollection ResponsePhysicalDeleted(params string[] data)
+        {
+            return ResponseMessage(PhysicalDeleted(data));
+        }
+
         public static ResponseCollection ResponseReadOnlyBecausePreviousVer(params string[] data)
         {
             return ResponseMessage(ReadOnlyBecausePreviousVer(data));
@@ -862,6 +897,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseRequireTo(params string[] data)
         {
             return ResponseMessage(RequireTo(data));
+        }
+
+        public static ResponseCollection ResponseRestoredFromHistory(params string[] data)
+        {
+            return ResponseMessage(RestoredFromHistory(data));
         }
 
         public static ResponseCollection ResponseRestricted(params string[] data)

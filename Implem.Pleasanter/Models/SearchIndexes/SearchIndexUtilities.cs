@@ -91,12 +91,14 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Search()
         {
+            var ss = new SiteSettings();
             var dataSet = Get(
                 searchText: QueryStrings.Data("text"),
                 dataTableName: "SearchResults",
                 offset: QueryStrings.Int("offset"),
                 pageSize: Parameters.General.SearchPageSize);
             return MainContainer(
+                ss: ss,
                 text: QueryStrings.Data("text"),
                 offset: 0,
                 results: dataSet?.Tables["SearchResults"].AsEnumerable(),
@@ -108,6 +110,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string SearchJson()
         {
+            var ss = new SiteSettings();
             var offset = QueryStrings.Int("offset");
             var searchText = QueryStrings.Data("text");
             var dataSet = Get(
@@ -122,6 +125,7 @@ namespace Implem.Pleasanter.Models
                     .ReplaceAll(
                         "#MainContainer",
                         MainContainer(
+                            ss: ss,
                             text: searchText,
                             offset: 0,
                             results: results,
@@ -132,7 +136,10 @@ namespace Implem.Pleasanter.Models
                     .Append(
                         "#SearchResults",
                         new HtmlBuilder().Results(
-                            text: searchText, offset: offset, results: results))
+                            ss: ss,
+                            text: searchText,
+                            offset: offset,
+                            results: results))
                     .Val(
                         "#SearchOffset",
                         (results != null &&
@@ -147,6 +154,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder MainContainer(
+            SiteSettings ss,
             string text,
             int offset,
             EnumerableRowCollection<DataRow> results,
@@ -168,7 +176,11 @@ namespace Implem.Pleasanter.Models
                     .Div(id: "SearchResults", action: () => hb
                         .Command(text: text)
                         .Count(count: count)
-                        .Results(text: text, offset: offset, results: results))
+                        .Results(
+                            ss: ss,
+                            text: text,
+                            offset: offset,
+                            results: results))
                     .Hidden(
                         controlId: "SearchOffset",
                         value: Parameters.General.SearchPageSize.ToString()));
@@ -204,7 +216,11 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder Results(
-            this HtmlBuilder hb, string text, int offset, EnumerableRowCollection<DataRow> results)
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            string text,
+            int offset,
+            EnumerableRowCollection<DataRow> results)
         {
             if (results?.Any() == true)
             {
@@ -234,7 +250,7 @@ namespace Implem.Pleasanter.Models
                                 .Class("result")
                                 .Add("data-href", href),
                             action: () => hb
-                                .Breadcrumb(dataRow["SiteId"].ToLong())
+                                .Breadcrumb(ss: ss)
                                 .H(number: 3, action: () => hb
                                      .A(
                                          href: href,

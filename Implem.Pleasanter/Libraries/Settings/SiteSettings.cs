@@ -31,6 +31,8 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public decimal Version;
         [NonSerialized]
+        public Context Context= new Context();
+        [NonSerialized]
         public List<SiteSettings> Destinations;
         [NonSerialized]
         public List<SiteSettings> Sources;
@@ -44,6 +46,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Title;
         [NonSerialized]
         public long ParentId;
+        [NonSerialized]
+        public Sqls.TableTypes TableType = Sqls.TableTypes.Normal;
         [NonSerialized]
         public List<long> AllowedIntegratedSites;
         [NonSerialized]
@@ -139,10 +143,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GridScript;
 
         public SiteSettings()
-        {
-        }
-
-        public SiteSettings(long id)
         {
         }
 
@@ -310,12 +310,12 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool IsSite()
         {
-            return SiteId != 0 && SiteId == ReferenceId;
+            return SiteId == Context.Id;
         }
 
         public bool IsSiteEditor()
         {
-            return IsSite() && Routes.Action() == "edit";
+            return IsSite() && Context.Action == "edit";
         }
 
         public string RecordingJson()
@@ -988,8 +988,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     (columnDefinition.Unique && columnDefinition.TypeName == "bigint") ||
                     columnDefinition.ColumnName == "Ver";
                 column.ColumnName = column.ColumnName ?? columnDefinition.ColumnName;
-                column.LabelText = column.LabelText ?? columnDefinition.LabelText;
-                column.GridLabelText = column.GridLabelText ?? column.LabelText;
+                column.LabelText = ModifiedLabelText(column, columnDefinition)
+                    ?? column.LabelText
+                    ?? columnDefinition.LabelText;
+                column.GridLabelText = ModifiedLabelText(column, columnDefinition)
+                    ?? column.GridLabelText
+                    ?? column.LabelText;
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
                 column.UseSearch = column.UseSearch ?? columnDefinition.UseSearch;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
@@ -1062,6 +1066,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : SiteId;
                 column.Joined = columnNameInfo.Joined;
             }
+        }
+
+        private string ModifiedLabelText(Column column, ColumnDefinition columnDefinition)
+        {
+            switch (TableType)
+            {
+                case Sqls.TableTypes.Deleted:
+                    switch (column.ColumnName)
+                    {
+                        case "Updator":
+                            return Displays.Deleter();
+                        case "UpdatedTime":
+                            return Displays.DeletedTime();
+                    }
+                    break;
+            }
+            return null;
         }
 
         private void UpdateColumnHash()
@@ -1759,6 +1780,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return new Dictionary<string, string>
             {
+                { "Yearly", Displays.Year() },
                 { "Monthly", Displays.Month() },
                 { "Weekly", Displays.Week() },
                 { "Daily", Displays.Day() }
@@ -2925,6 +2947,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Where(script => peredicate(script))
                     .Select(o => o.Body).Join("\n")
                 : null;
+        }
+
+        public string GridCss()
+        {
+            switch (TableType)
+            {
+                case Sqls.TableTypes.History:
+                    return "grid history";
+                case Sqls.TableTypes.Deleted:
+                    return "grid deleted not-link";
+                default:
+                    return "grid";
+            }
         }
 
         public bool InitialValue()

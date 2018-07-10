@@ -114,10 +114,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 if (!errorType.Has())
                 {
                     hb.Nav(css: "both cf", action: () => hb
-                        .Breadcrumb(
-                            siteId: siteId,
-                            ss: ss,
-                            _using: useBreadcrumb));
+                        .Breadcrumb(ss: ss, _using: useBreadcrumb));
                     if (useTitle)
                     {
                         hb.Title(ss: ss, siteId: siteId, text: title);

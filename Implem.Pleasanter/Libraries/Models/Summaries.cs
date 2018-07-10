@@ -2252,7 +2252,7 @@ namespace Implem.Pleasanter.Libraries.Models
             SiteSettings ss, View view, SqlWhereCollection where)
         {
             return view != null
-                ? view.Where(ss, where)
+                ? view.Where(ss: ss, where: where)
                 : where;
         }
     }

@@ -56,6 +56,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             var columnBracket = ColumnBracket(column);
             switch (timePeriod)
             {
+                case "Yearly":
+                    return "substring(convert(varchar,{0},111),1,4)".Params(columnBracket);
                 case "Monthly":
                     return "substring(convert(varchar,{0},111),1,7)".Params(columnBracket);
                 case "Weekly":
@@ -83,12 +85,23 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         {
             switch (timePeriod)
             {
+                case "Yearly":
+                    var year = new DateTime(month.Year, 1, 1);
+                    return new SqlWhereCollection(new SqlWhere(
+                        tableName: column.TableName(),
+                        columnBrackets: new string[]
+                        {
+                            "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
+                                column.Name,
+                                year.AddYears(-11).ToUniversal(),
+                                year.AddYears(1).AddMilliseconds(-3).ToUniversal())
+                        }, _operator: null));
                 case "Monthly":
                     return new SqlWhereCollection(new SqlWhere(
                         tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
-                            "[{0}] between '{1}' and '{2}'".Params(
+                            "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
                                 month.AddMonths(-11).ToUniversal(),
                                 month.AddMonths(1).AddMilliseconds(-3).ToUniversal())
@@ -99,7 +112,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
-                            "[{0}] between '{1}' and '{2}'".Params(
+                            "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
                                 end.AddDays(-77).ToUniversal(),
                                 end.AddDays(7).AddMilliseconds(-3).ToUniversal())
@@ -109,7 +122,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
-                            "[{0}] between '{1}' and '{2}'".Params(
+                            "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
                                 month.ToUniversal(),
                                 month.AddMonths(1).AddMilliseconds(-3).ToUniversal())
@@ -276,11 +289,23 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         {
             switch (timePeriod)
             {
+                case "Yearly": return Yearly(date);
                 case "Monthly": return Monthly(date);
                 case "Weekly": return Weekly(date);
                 case "Daily": return Daily(date);
                 default: return null;
             }
+        }
+
+        private static Dictionary<string, ControlData> Yearly(DateTime date)
+        {
+            var hash = new Dictionary<string, ControlData>();
+            for (var i = -11; i <= 0; i++)
+            {
+                var day = date.AddYears(i);
+                hash.Add(day.ToString("yyyy"), new ControlData(day.ToString("yyyy")));
+            }
+            return hash;
         }
 
         private static Dictionary<string, ControlData> Monthly(DateTime date)

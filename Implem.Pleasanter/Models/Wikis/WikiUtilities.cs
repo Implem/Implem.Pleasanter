@@ -456,7 +456,8 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None:
                     var res = new WikisResponseCollection(wikiModel);
-                    res.ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(ss.SiteId));
+                    res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
+                        .Breadcrumb(ss: ss));
                     return ResponseByUpdate(res, ss, wikiModel)
                         .PrependComment(
                             ss,
@@ -529,27 +530,113 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(SiteSettings ss, long wikiId)
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string Restore(SiteSettings ss)
         {
-            var wikiModel = new WikiModel();
-            var invalid = WikiValidators.OnRestoring();
+            if (ss.CanManageSite())
+            {
+                var selector = new GridSelector();
+                var count = 0;
+                if (selector.All)
+                {
+                    count = Restore(ss, selector.Selected, negative: true);
+                }
+                else
+                {
+                    if (selector.Selected.Any())
+                    {
+                        count = Restore(ss, selector.Selected);
+                    }
+                    else
+                    {
+                        return Messages.ResponseSelectTargets().ToJson();
+                    }
+                }
+                Summaries.Synchronize(ss);
+                return "";
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+        }
+
+        public static int Restore(SiteSettings ss, List<long> selected, bool negative = false)
+        {
+            var where = Rds.WikisWhere()
+                .SiteId(
+                    value: ss.SiteId,
+                    tableName: "Wikis_Deleted")
+                .WikiId_In(
+                    value: selected,
+                    tableName: "Wikis_Deleted",
+                    negative: negative,
+                    _using: selected.Any())
+                .WikiId_In(
+                    tableName: "Wikis_Deleted",
+                    sub: Rds.SelectWikis(
+                        tableType: Sqls.TableTypes.Deleted,
+                        column: Rds.WikisColumn().WikiId(),
+                        where: Views.GetBySession(ss).Where(ss: ss)));
+            return Rds.ExecuteScalar_response(
+                connectionString: Parameters.Rds.OwnerConnectionString,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreItems(where: Rds.ItemsWhere().ReferenceId_In(sub:
+                        Rds.SelectWikis(
+                            tableType: Sqls.TableTypes.Deleted,
+                            _as: "Wikis_Deleted",
+                            column: Rds.WikisColumn()
+                                .WikiId(tableName: "Wikis_Deleted"),
+                            where: where))),
+                    Rds.RestoreWikis(where: where, countRecord: true)
+                }).Count.ToInt();
+        }
+
+        public static string RestoreFromHistory(SiteSettings ss, long wikiId)
+        {
+            var wikiModel = new WikiModel(ss, wikiId);
+            var invalid = WikiValidators.OnUpdating(ss, wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = wikiModel.Restore(ss, wikiId);
+            var ver = Forms.Data("GridCheckedItems")
+                .Split(',')
+                .Where(o => !o.IsNullOrEmpty())
+                .ToList();
+            if (ver.Count() != 1)
+            {
+                return Error.Types.SelectOne.MessageJson();
+            }
+            wikiModel.SetByModel(new WikiModel().Get(
+                ss: ss,
+                tableType: Sqls.TableTypes.History,
+                where: Rds.WikisWhere()
+                    .SiteId(ss.SiteId)
+                    .WikiId(wikiId)
+                    .Ver(ver.First())));
+            wikiModel.VerUp = true;
+            var error = wikiModel.Update(ss, otherInitValue: true);
             switch (error)
             {
                 case Error.Types.None:
-                    var res = new WikisResponseCollection(wikiModel);
-                    return res.ToJson();
+                    Sessions.Set("Message", Messages.RestoredFromHistory(ver.First().ToString()));
+                    return  new ResponseCollection()
+                        .SetMemory("formChanged", false)
+                        .Href(Locations.ItemEdit(wikiId))
+                        .ToJson();
                 default:
                     return error.MessageJson();
             }
         }
 
-        public static string Histories(SiteSettings ss, long wikiId)
+        public static string Histories(
+            SiteSettings ss, long wikiId, Message message = null)
         {
             var wikiModel = new WikiModel(ss, wikiId);
             ss.SetColumnAccessControls(wikiModel.Mine());
@@ -559,38 +646,62 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson();
             }
             var hb = new HtmlBuilder();
-            hb.Table(
-                attributes: new HtmlAttributes().Class("grid"),
-                action: () => hb
-                    .THead(action: () => hb
-                        .GridHeader(
-                            columns: columns,
-                            sort: false,
-                            checkRow: false))
-                    .TBody(action: () =>
-                        new WikiCollection(
-                            ss: ss,
-                            column: HistoryColumn(columns),
-                            where: Rds.WikisWhere().WikiId(wikiModel.WikiId),
-                            orderBy: Rds.WikisOrderBy().Ver(SqlOrderBy.Types.desc),
-                            tableType: Sqls.TableTypes.NormalAndHistory)
-                                .ForEach(wikiModelHistory => hb
-                                    .Tr(
-                                        attributes: new HtmlAttributes()
-                                            .Class("grid-row history not-link")
-                                            .DataAction("History")
-                                            .DataMethod("post")
-                                            .DataVer(wikiModelHistory.Ver)
-                                            .DataLatest(1, _using:
-                                                wikiModelHistory.Ver == wikiModel.Ver),
-                                        action: () => columns
-                                            .ForEach(column => hb
-                                                .TdValue(
-                                                    ss: ss,
-                                                    column: column,
-                                                    wikiModel: wikiModelHistory))))));
+            hb
+                .HistoryCommands()
+                .Table(
+                    attributes: new HtmlAttributes().Class("grid history"),
+                    action: () => hb
+                        .THead(action: () => hb
+                            .GridHeader(
+                                columns: columns,
+                                sort: false,
+                                checkRow: true))
+                        .TBody(action: () => hb
+                            .HistoriesTableBody(
+                                ss: ss,
+                                columns: columns,
+                                wikiModel: wikiModel)));
             return new WikisResponseCollection(wikiModel)
-                .Html("#FieldSetHistories", hb).ToJson();
+                .Html("#FieldSetHistories", hb)
+                .Message(message)
+                .ToJson();
+        }
+
+        private static void HistoriesTableBody(
+            this HtmlBuilder hb, SiteSettings ss, List<Column> columns, WikiModel wikiModel)
+        {
+            new WikiCollection(
+                ss: ss,
+                column: HistoryColumn(columns),
+                where: Rds.WikisWhere().WikiId(wikiModel.WikiId),
+                orderBy: Rds.WikisOrderBy().Ver(SqlOrderBy.Types.desc),
+                tableType: Sqls.TableTypes.NormalAndHistory)
+                    .ForEach(wikiModelHistory => hb
+                        .Tr(
+                            attributes: new HtmlAttributes()
+                                .Class("grid-row")
+                                .DataAction("History")
+                                .DataMethod("post")
+                                .DataVer(wikiModelHistory.Ver)
+                                .DataLatest(1, _using:
+                                    wikiModelHistory.Ver == wikiModel.Ver),
+                            action: () =>
+                            {
+                                hb.Td(
+                                    css: "grid-check-td",
+                                    action: () => hb
+                                        .CheckBox(
+                                            controlCss: "grid-check",
+                                            _checked: false,
+                                            dataId: wikiModelHistory.Ver.ToString(),
+                                            _using: wikiModelHistory.Ver < wikiModel.Ver));
+                                columns
+                                    .ForEach(column => hb
+                                        .TdValue(
+                                            ss: ss,
+                                            column: column,
+                                            wikiModel: wikiModelHistory));
+                            }));
         }
 
         private static SqlColumnCollection HistoryColumn(List<Column> columns)
@@ -616,6 +727,73 @@ namespace Implem.Pleasanter.Models
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(ss, wikiModel).ToJson();
+        }
+
+        public static string DeleteHistory(SiteSettings ss, long wikiId)
+        {
+            if (ss.CanManageSite())
+            {
+                var selector = new GridSelector();
+                var selected = selector
+                    .Selected
+                    .Select(o => o.ToInt())
+                    .ToList();
+                var count = 0;
+                if (selector.All)
+                {
+                    count = DeleteHistory(ss, wikiId, selected, negative: true);
+                }
+                else
+                {
+                    if (selector.Selected.Any())
+                    {
+                        count = DeleteHistory(ss, wikiId, selected);
+                    }
+                    else
+                    {
+                        return Messages.ResponseSelectTargets().ToJson();
+                    }
+                }
+                return Histories(
+                    ss: ss,
+                    wikiId: wikiId,
+                    message: Messages.HistoryDeleted(count.ToString()));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+        }
+
+        private static int DeleteHistory(
+            SiteSettings ss,
+            long wikiId,
+            List<int> selected,
+            bool negative = false)
+        {
+            return Rds.ExecuteScalar_response(
+                transactional: true,
+                statements: Rds.PhysicalDeleteWikis(
+                    tableType: Sqls.TableTypes.History,
+                    where: Rds.WikisWhere()
+                        .SiteId(
+                            value: ss.SiteId,
+                            tableName: "Wikis_History")
+                        .WikiId(
+                            value: wikiId,
+                            tableName: "Wikis_History")
+                        .Ver_In(
+                            value: selected,
+                            tableName: "Wikis_History",
+                            negative: negative,
+                            _using: selected.Any())
+                        .WikiId_In(
+                            tableName: "Wikis_History",
+                            sub: Rds.SelectWikis(
+                                tableType: Sqls.TableTypes.History,
+                                column: Rds.WikisColumn().WikiId(),
+                                where: Views.GetBySession(ss).Where(ss: ss))),
+                    countRecord: true)).Count.ToInt();
         }
 
         /// <summary>

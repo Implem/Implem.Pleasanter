@@ -360,13 +360,14 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
+            bool setBySession = true,
             bool get = true)
         {
             if (Contract.Notice() && notice)
             {
                 CheckNotificationConditions(ss, before: true);
             }
-            SetBySession();
+            if (setBySession) SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             if (extendedSqls) statements.OnUpdatingExtendedSqls(SiteId, WikiId, timestamp);
@@ -446,19 +447,11 @@ namespace Implem.Pleasanter.Models
             column.WikiId(function: Sqls.Functions.SingleColumn); param.WikiId();
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
             column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            if (!Body.InitialValue())
-            {
-                column.Body(function: Sqls.Functions.SingleColumn);
-                param.Body();
-            }
-            if (!Comments.InitialValue())
-            {
-                column.Comments(function: Sqls.Functions.SingleColumn);
-                param.Comments();
-            }
             return Rds.InsertWikis(
                 tableType: tableType,
                 param: param,
@@ -540,11 +533,11 @@ namespace Implem.Pleasanter.Models
             statements.OnDeletingExtendedSqls(SiteId, WikiId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.PhysicalDeleteItems(
+                Rds.DeleteItems(
                     where: Rds.ItemsWhere().ReferenceId(WikiId)),
                 Rds.DeleteWikis(
                     where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId)),
-                Rds.PhysicalDeleteItems(
+                Rds.DeleteItems(
                     where: Rds.ItemsWhere().ReferenceId(SiteId)),
                 Rds.DeleteSites(
                     where: Rds.SitesWhere().SiteId(SiteId))
@@ -621,6 +614,20 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByModel(WikiModel wikiModel)
+        {
+            SiteId = wikiModel.SiteId;
+            UpdatedTime = wikiModel.UpdatedTime;
+            Title = wikiModel.Title;
+            Body = wikiModel.Body;
+            Comments = wikiModel.Comments;
+            Creator = wikiModel.Creator;
+            Updator = wikiModel.Updator;
+            CreatedTime = wikiModel.CreatedTime;
+            VerUp = wikiModel.VerUp;
+            Comments = wikiModel.Comments;
         }
 
         public void SetByApi(SiteSettings ss)
@@ -727,8 +734,8 @@ namespace Implem.Pleasanter.Models
                                     ? o.BeforeCondition
                                     : o.AfterCondition)?
                                         .Where(
-                                            ss,
-                                            Rds.WikisWhere().WikiId(WikiId)) ??
+                                            ss: ss,
+                                            where: Rds.WikisWhere().WikiId(WikiId)) ??
                                                 Rds.WikisWhere().WikiId(WikiId)))
                                                     .ToArray()));
             }

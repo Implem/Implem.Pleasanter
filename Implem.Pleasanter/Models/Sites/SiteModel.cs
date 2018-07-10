@@ -412,9 +412,10 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
+            bool setBySession = true,
             bool get = true)
         {
-            SetBySession();
+            if (setBySession) SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
@@ -483,27 +484,15 @@ namespace Implem.Pleasanter.Models
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
             column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
             column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
             column.ParentId(function: Sqls.Functions.SingleColumn); param.ParentId();
             column.InheritPermission(function: Sqls.Functions.SingleColumn); param.InheritPermission();
+            column.SiteSettings(function: Sqls.Functions.SingleColumn); param.SiteSettings();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            if (!Body.InitialValue())
-            {
-                column.Body(function: Sqls.Functions.SingleColumn);
-                param.Body();
-            }
-            if (!SiteSettings.InitialValue())
-            {
-                column.SiteSettings(function: Sqls.Functions.SingleColumn);
-                param.SiteSettings();
-            }
-            if (!Comments.InitialValue())
-            {
-                column.Comments(function: Sqls.Functions.SingleColumn);
-                param.Comments();
-            }
             return Rds.InsertSites(
                 tableType: tableType,
                 param: param,
@@ -580,7 +569,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.PhysicalDeleteItems(
+                    Rds.DeleteItems(
                         where: Rds.ItemsWhere().SiteId_In(siteMenu.Select(o => o.SiteId))),
                     Rds.DeleteIssues(
                         where: Rds.IssuesWhere().SiteId_In(siteMenu
@@ -668,6 +657,29 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByModel(SiteModel siteModel)
+        {
+            TenantId = siteModel.TenantId;
+            UpdatedTime = siteModel.UpdatedTime;
+            Title = siteModel.Title;
+            Body = siteModel.Body;
+            ReferenceType = siteModel.ReferenceType;
+            ParentId = siteModel.ParentId;
+            InheritPermission = siteModel.InheritPermission;
+            SiteSettings = siteModel.SiteSettings;
+            Ancestors = siteModel.Ancestors;
+            SiteMenu = siteModel.SiteMenu;
+            MonitorChangesColumns = siteModel.MonitorChangesColumns;
+            TitleColumns = siteModel.TitleColumns;
+            Export = siteModel.Export;
+            Comments = siteModel.Comments;
+            Creator = siteModel.Creator;
+            Updator = siteModel.Updator;
+            CreatedTime = siteModel.CreatedTime;
+            VerUp = siteModel.VerUp;
+            Comments = siteModel.Comments;
         }
 
         public void SetByApi()

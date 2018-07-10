@@ -23,6 +23,281 @@ namespace Implem.Pleasanter.Models
 {
     public static class SiteUtilities
     {
+        public static string Index(SiteSettings ss)
+        {
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(ss, view);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            return hb.ViewModeTemplate(
+                ss: ss,
+                gridData: gridData,
+                view: view,
+                viewMode: viewMode,
+                viewModeBody: () => hb.Grid(
+                   gridData: gridData,
+                   ss: ss,
+                   view: view));
+        }
+
+        private static string ViewModeTemplate(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            GridData gridData,
+            View view,
+            string viewMode,
+            Action viewModeBody)
+        {
+            var invalid = SiteValidators.OnEntry(ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(invalid);
+            }
+            return hb.Template(
+                ss: ss,
+                verType: Versions.VerTypes.Latest,
+                methodType: BaseModel.MethodTypes.Index,
+                siteId: ss.SiteId,
+                parentId: ss.ParentId,
+                referenceType: "Sites",
+                script: JavaScripts.ViewMode(viewMode),
+                userScript: ss.ViewModeScripts(Routes.Action()),
+                userStyle: ss.ViewModeStyles(Routes.Action()),
+                action: () => hb
+                    .Form(
+                        attributes: new HtmlAttributes()
+                            .Id("SitesForm")
+                            .Class("main-form")
+                            .Action(Locations.ItemAction(ss.SiteId)),
+                        action: () => hb
+                            .ViewSelector(ss: ss, view: view)
+                            .ViewFilters(ss: ss, view: view)
+                            .Aggregations(
+                                ss: ss,
+                                aggregations: gridData.Aggregations)
+                            .Div(id: "ViewModeContainer", action: () => viewModeBody())
+                            .MainCommands(
+                                ss: ss,
+                                siteId: ss.SiteId,
+                                verType: Versions.VerTypes.Latest)
+                            .Div(css: "margin-bottom")
+                            .Hidden(controlId: "TableName", value: "Sites")
+                            .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
+                    .DropDownSearchDialog("items", ss.SiteId)
+                    .MoveDialog(bulk: true)
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("ExportSelectorDialog")
+                        .Class("dialog")
+                        .Title(Displays.Export())))
+                    .ToString();
+        }
+
+        public static string IndexJson(SiteSettings ss)
+        {
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(ss, view);
+            return new ResponseCollection()
+                .ViewMode(
+                    ss: ss,
+                    view: view,
+                    gridData: gridData,
+                    invoke: "setGrid",
+                    body: new HtmlBuilder()
+                        .Grid(
+                            ss: ss,
+                            gridData: gridData,
+                            view: view))
+                .ToJson();
+        }
+
+        private static GridData GetGridData(SiteSettings ss, View view, int offset = 0)
+        {
+            ss.SetColumnAccessControls();
+            return new GridData(
+                ss: ss,
+                view: view,
+                where: Rds.SitesWhere().TenantId(Sessions.TenantId()),
+                offset: offset,
+                pageSize: ss.GridPageSize.ToInt(),
+                countRecord: true,
+                aggregations: ss.Aggregations);
+        }
+
+        private static HtmlBuilder Grid(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            GridData gridData,
+            View view,
+            string action = "GridRows")
+        {
+            return hb
+                .Table(
+                    attributes: new HtmlAttributes()
+                        .Id("Grid")
+                        .Class(ss.GridCss())
+                        .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
+                        .DataAction(action)
+                        .DataMethod("post"),
+                    action: () => hb
+                        .GridRows(
+                            ss: ss,
+                            gridData: gridData,
+                            view: view,
+                            action: action))
+                .Hidden(
+                    controlId: "GridOffset",
+                    value: ss.GridNextOffset(
+                        0,
+                        gridData.DataRows.Count(),
+                        gridData.Aggregations.TotalCount)
+                            .ToString())
+                .Button(
+                    controlId: "ViewSorter",
+                    controlCss: "hidden",
+                    action: action,
+                    method: "post")
+                .Button(
+                    controlId: "ViewSorters_Reset",
+                    controlCss: "hidden",
+                    action: action,
+                    method: "post");
+        }
+
+        public static string GridRows(
+            SiteSettings ss,
+            ResponseCollection res = null,
+            int offset = 0,
+            bool clearCheck = false,
+            string action = "GridRows",
+            Message message = null)
+        {
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(
+                ss: ss,
+                view: view,
+                offset: offset);
+            return (res ?? new ResponseCollection())
+                .Remove(".grid tr", _using: offset == 0)
+                .ClearFormData("GridCheckAll", _using: clearCheck)
+                .ClearFormData("GridUnCheckedItems", _using: clearCheck)
+                .ClearFormData("GridCheckedItems", _using: clearCheck)
+                .CloseDialog()
+                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+                    .CopyDirectUrlToClipboard(ss: ss))
+                .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
+                    ss: ss,
+                    aggregations: gridData.Aggregations),
+                    _using: offset == 0)
+                .Append("#Grid", new HtmlBuilder().GridRows(
+                    ss: ss,
+                    gridData: gridData,
+                    view: view,
+                    addHeader: offset == 0,
+                    clearCheck: clearCheck,
+                    action: action))
+                .Val("#GridOffset", ss.GridNextOffset(
+                    offset,
+                    gridData.DataRows.Count(),
+                    gridData.Aggregations.TotalCount))
+                .Paging("#Grid")
+                .Message(message)
+                .ToJson();
+        }
+
+        private static HtmlBuilder GridRows(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            GridData gridData,
+            View view,
+            bool addHeader = true,
+            bool clearCheck = false,
+            string action = "GridRows")
+        {
+            var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
+            var columns = ss.GetGridColumns(checkPermission: true);
+            return hb
+                .THead(
+                    _using: addHeader,
+                    action: () => hb
+                        .GridHeader(
+                            columns: columns, 
+                            view: view,
+                            sort: false,
+                            checkAll: checkAll,
+                            action: action))
+                .TBody(action: () => gridData.TBody(
+                    hb: hb,
+                    ss: ss,
+                    columns: columns,
+                    checkAll: checkAll));
+        }
+
+        private static SqlColumnCollection GridSqlColumnCollection(SiteSettings ss)
+        {
+            var sqlColumnCollection = Rds.SitesColumn();
+            new List<string> { "SiteId", "SiteId", "Creator", "Updator" }
+                .Concat(ss.GridColumns)
+                .Concat(ss.IncludedColumns())
+                .Concat(ss.GetUseSearchLinks().Select(o => o.ColumnName))
+                .Concat(ss.TitleColumns)
+                    .Distinct().ForEach(column =>
+                        sqlColumnCollection.SitesColumn(column));
+            return sqlColumnCollection;
+        }
+
+        private static SqlColumnCollection DefaultSqlColumns(SiteSettings ss)
+        {
+            var sqlColumnCollection = Rds.SitesColumn();
+            new List<string> { "SiteId", "SiteId", "Creator", "Updator" }
+                .Concat(ss.IncludedColumns())
+                .Concat(ss.GetUseSearchLinks().Select(o => o.ColumnName))
+                .Concat(ss.TitleColumns)
+                    .Distinct().ForEach(column =>
+                        sqlColumnCollection.SitesColumn(column));
+            return sqlColumnCollection;
+        }
+
+        public static string TrashBox(SiteSettings ss)
+        {
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(ss: ss, view: view);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            return hb.ViewModeTemplate(
+                ss: ss,
+                gridData: gridData,
+                view: view,
+                viewMode: viewMode,
+                viewModeBody: () => hb
+                    .TrashBoxCommands()
+                    .Grid(
+                        gridData: gridData,
+                        ss: ss,
+                        view: view,
+                        action: "TrashBoxGridRows"));
+        }
+
+        public static string TrashBoxJson(SiteSettings ss)
+        {
+            var view = Views.GetBySession(ss);
+            var gridData = GetGridData(ss: ss, view: view);
+            return new ResponseCollection()
+                .ViewMode(
+                    ss: ss,
+                    view: view,
+                    gridData: gridData,
+                    invoke: "setGrid",
+                    body: new HtmlBuilder()
+                        .TrashBoxCommands()
+                        .Grid(
+                            ss: ss,
+                            gridData: gridData,
+                            view: view,
+                            action: "TrashBoxGridRows"))
+                .ToJson();
+        }
+
         public static HtmlBuilder TdValue(
             this HtmlBuilder hb, SiteSettings ss, Column column, SiteModel siteModel)
         {
@@ -233,7 +508,8 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None:
                     var res = new SitesResponseCollection(siteModel);
-                    res.ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(siteId));
+                    res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
+                        .Breadcrumb(ss: ss));
                     return ResponseByUpdate(res, siteModel)
                         .PrependComment(
                             ss,
@@ -314,27 +590,109 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(long siteId)
+        public static string Restore(SiteSettings ss)
         {
-            var siteModel = new SiteModel();
-            var invalid = SiteValidators.OnRestoring();
+            if (ss.CanManageSite())
+            {
+                var selector = new GridSelector();
+                var count = 0;
+                if (selector.All)
+                {
+                    count = Restore(ss, selector.Selected, negative: true);
+                }
+                else
+                {
+                    if (selector.Selected.Any())
+                    {
+                        count = Restore(ss, selector.Selected);
+                    }
+                    else
+                    {
+                        return Messages.ResponseSelectTargets().ToJson();
+                    }
+                }
+                return GridRows(
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.BulkRestored(count.ToString()));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+        }
+
+        public static int Restore(SiteSettings ss, List<long> selected, bool negative = false)
+        {
+            var where = Rds.SitesWhere()
+                .SiteId_In(
+                    value: selected,
+                    tableName: "Sites_Deleted",
+                    negative: negative,
+                    _using: selected.Any());
+            var sub = Rds.SelectSites(
+                tableType: Sqls.TableTypes.Deleted,
+                _as: "Sites_Deleted",
+                column: Rds.SitesColumn()
+                    .SiteId(tableName: "Sites_Deleted"),
+                where: where);
+            return Rds.ExecuteScalar_response(
+                connectionString: Parameters.Rds.OwnerConnectionString,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreItems(where: Rds.ItemsWhere()
+                        .ReferenceId_In(sub:
+                            Rds.SelectWikis(
+                                tableType: Sqls.TableTypes.Deleted,
+                                column: Rds.WikisColumn().WikiId(),
+                                where: Rds.WikisWhere().SiteId_In(sub: sub)))
+                        .ReferenceType("Wikis")),
+                    Rds.RestoreWikis(where: Rds.WikisWhere().SiteId_In(sub: sub)),
+                    Rds.RestoreItems(where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+                    Rds.RestoreSites(where: where, countRecord: true)
+                }).Count.ToInt();
+        }
+
+        public static string RestoreFromHistory(SiteSettings ss, long siteId)
+        {
+            var siteModel = new SiteModel(siteId);
+            var invalid = SiteValidators.OnUpdating(ss, siteModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = siteModel.Restore(siteId);
+            var ver = Forms.Data("GridCheckedItems")
+                .Split(',')
+                .Where(o => !o.IsNullOrEmpty())
+                .ToList();
+            if (ver.Count() != 1)
+            {
+                return Error.Types.SelectOne.MessageJson();
+            }
+            siteModel.SetByModel(new SiteModel().Get(
+                tableType: Sqls.TableTypes.History,
+                where: Rds.SitesWhere()
+                    .SiteId(ss.SiteId)
+                    .SiteId(siteId)
+                    .Ver(ver.First())));
+            siteModel.VerUp = true;
+            var error = siteModel.Update(ss, otherInitValue: true);
             switch (error)
             {
                 case Error.Types.None:
-                    var res = new SitesResponseCollection(siteModel);
-                    return res.ToJson();
+                    Sessions.Set("Message", Messages.RestoredFromHistory(ver.First().ToString()));
+                    return  new ResponseCollection()
+                        .SetMemory("formChanged", false)
+                        .Href(Locations.ItemEdit(siteId))
+                        .ToJson();
                 default:
                     return error.MessageJson();
             }
         }
 
-        public static string Histories(SiteModel siteModel)
+        public static string Histories(SiteModel siteModel, Message message = null)
         {
             var ss = siteModel.SiteSettings;
             var columns = new SiteSettings("Sites").GetHistoryColumns();
@@ -343,37 +701,61 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson();
             }
             var hb = new HtmlBuilder();
-            hb.Table(
-                attributes: new HtmlAttributes().Class("grid"),
-                action: () => hb
-                    .THead(action: () => hb
-                        .GridHeader(
-                            columns: columns,
-                            sort: false,
-                            checkRow: false))
-                    .TBody(action: () =>
-                        new SiteCollection(
-                            column: HistoryColumn(columns),
-                            where: Rds.SitesWhere().SiteId(siteModel.SiteId),
-                            orderBy: Rds.SitesOrderBy().Ver(SqlOrderBy.Types.desc),
-                            tableType: Sqls.TableTypes.NormalAndHistory)
-                                .ForEach(siteModelHistory => hb
-                                    .Tr(
-                                        attributes: new HtmlAttributes()
-                                            .Class("grid-row history not-link")
-                                            .DataAction("History")
-                                            .DataMethod("post")
-                                            .DataVer(siteModelHistory.Ver)
-                                            .DataLatest(1, _using:
-                                                siteModelHistory.Ver == siteModel.Ver),
-                                        action: () => columns
-                                            .ForEach(column => hb
-                                                .TdValue(
-                                                    ss: ss,
-                                                    column: column,
-                                                    siteModel: siteModelHistory))))));
+            hb
+                .HistoryCommands()
+                .Table(
+                    attributes: new HtmlAttributes().Class("grid history"),
+                    action: () => hb
+                        .THead(action: () => hb
+                            .GridHeader(
+                                columns: columns,
+                                sort: false,
+                                checkRow: true))
+                        .TBody(action: () => hb
+                            .HistoriesTableBody(
+                                ss: ss,
+                                columns: columns,
+                                siteModel: siteModel)));
             return new SitesResponseCollection(siteModel)
-                .Html("#FieldSetHistories", hb).ToJson();
+                .Html("#FieldSetHistories", hb)
+                .Message(message)
+                .ToJson();
+        }
+
+        private static void HistoriesTableBody(
+            this HtmlBuilder hb, SiteSettings ss, List<Column> columns, SiteModel siteModel)
+        {
+            new SiteCollection(
+                column: HistoryColumn(columns),
+                where: Rds.SitesWhere().SiteId(siteModel.SiteId),
+                orderBy: Rds.SitesOrderBy().Ver(SqlOrderBy.Types.desc),
+                tableType: Sqls.TableTypes.NormalAndHistory)
+                    .ForEach(siteModelHistory => hb
+                        .Tr(
+                            attributes: new HtmlAttributes()
+                                .Class("grid-row")
+                                .DataAction("History")
+                                .DataMethod("post")
+                                .DataVer(siteModelHistory.Ver)
+                                .DataLatest(1, _using:
+                                    siteModelHistory.Ver == siteModel.Ver),
+                            action: () =>
+                            {
+                                hb.Td(
+                                    css: "grid-check-td",
+                                    action: () => hb
+                                        .CheckBox(
+                                            controlCss: "grid-check",
+                                            _checked: false,
+                                            dataId: siteModelHistory.Ver.ToString(),
+                                            _using: siteModelHistory.Ver < siteModel.Ver));
+                                columns
+                                    .ForEach(column => hb
+                                        .TdValue(
+                                            ss: ss,
+                                            column: column,
+                                            siteModel: siteModelHistory));
+                            }));
         }
 
         private static SqlColumnCollection HistoryColumn(List<Column> columns)
@@ -388,6 +770,150 @@ namespace Implem.Pleasanter.Models
         public static string History(SiteModel siteModel)
         {
             return EditorResponse(siteModel).ToJson();
+        }
+
+        public static string DeleteHistory(SiteSettings ss, long siteId)
+        {
+            if (ss.CanManageSite())
+            {
+                var selector = new GridSelector();
+                var selected = selector
+                    .Selected
+                    .Select(o => o.ToInt())
+                    .ToList();
+                var count = 0;
+                if (selector.All)
+                {
+                    count = DeleteHistory(ss, siteId, selected, negative: true);
+                }
+                else
+                {
+                    if (selector.Selected.Any())
+                    {
+                        count = DeleteHistory(ss, siteId, selected);
+                    }
+                    else
+                    {
+                        return Messages.ResponseSelectTargets().ToJson();
+                    }
+                }
+                var siteModel = new SiteModel(siteId);
+                siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                    siteModel: siteModel,
+                    referenceId: siteId,
+                    tableType: ss.TableType);
+                return Histories(
+                    siteModel: siteModel,
+                    message: Messages.HistoryDeleted(count.ToString()));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+        }
+
+        private static int DeleteHistory(
+            SiteSettings ss,
+            long siteId,
+            List<int> selected,
+            bool negative = false)
+        {
+            return Rds.ExecuteScalar_response(
+                transactional: true,
+                statements: Rds.PhysicalDeleteSites(
+                    tableType: Sqls.TableTypes.History,
+                    where: Rds.SitesWhere()
+                        .TenantId(
+                            value: ss.Context.TenantId,
+                            tableName: "Sites_History")
+                        .SiteId(
+                            value: ss.SiteId,
+                            tableName: "Sites_History")
+                        .Ver_In(
+                            value: selected,
+                            tableName: "Sites_History",
+                            negative: negative,
+                            _using: selected.Any()),
+                    countRecord: true)).Count.ToInt();
+        }
+
+        public static string PhysicalDelete(SiteSettings ss)
+        {
+            if (ss.CanManageSite())
+            {
+                var selector = new GridSelector();
+                var count = 0;
+                if (selector.All)
+                {
+                    count = PhysicalDelete(ss, selector.Selected, negative: true);
+                }
+                else
+                {
+                    if (selector.Selected.Any())
+                    {
+                        count = PhysicalDelete(ss, selector.Selected);
+                    }
+                    else
+                    {
+                        return Messages.ResponseSelectTargets().ToJson();
+                    }
+                }
+                return GridRows(
+                    ss,
+                    clearCheck: true,
+                    message: Messages.PhysicalDeleted(count.ToString()));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+        }
+
+        private static int PhysicalDelete(
+            SiteSettings ss, List<long> selected, bool negative = false)
+        {
+            var where = Rds.SitesWhere()
+                .TenantId(
+                    value: ss.Context.TenantId,
+                    tableName: "Sites_Deleted")
+                .ParentId(
+                    value: ss.SiteId,
+                    tableName: "Sites_Deleted")
+                .SiteId_In(
+                    value: selected,
+                    tableName: "Sites_Deleted",
+                    negative: negative,
+                    _using: selected.Any());
+            var sub = Rds.SelectSites(
+                tableType: Sqls.TableTypes.Deleted,
+                _as: "Sites_Deleted",
+                column: Rds.SitesColumn()
+                    .SiteId(tableName: "Sites_Deleted"),
+                where: where);
+            return Rds.ExecuteScalar_response(
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.PhysicalDeleteItems(
+                        tableType: Sqls.TableTypes.Deleted,
+                        where: Rds.ItemsWhere()
+                            .ReferenceId_In(sub:
+                                Rds.SelectWikis(
+                                    tableType: Sqls.TableTypes.Deleted,
+                                    column: Rds.WikisColumn().WikiId(),
+                                    where: Rds.WikisWhere().SiteId_In(sub: sub)))
+                            .ReferenceType("Wikis")),
+                    Rds.PhysicalDeleteWikis(
+                        tableType: Sqls.TableTypes.Deleted,
+                        where: Rds.WikisWhere().SiteId_In(sub: sub)),
+                    Rds.PhysicalDeleteItems(
+                        tableType: Sqls.TableTypes.Deleted,
+                        where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+                    Rds.PhysicalDeleteSites(
+                        tableType: Sqls.TableTypes.Deleted,
+                        where: where,
+                        countRecord: true)
+                }).Count.ToInt();
         }
 
         /// <summary>
@@ -1484,10 +2010,14 @@ namespace Implem.Pleasanter.Models
                             column: Rds.WikisColumn().WikiId(),
                             where: Rds.WikisWhere().SiteId(siteId))));
                 default:
-                    return Locations.Get(
-                        "Items",
-                        siteId.ToString(),
-                        ViewModes.GetBySession(siteId));
+                    var viewMode = ViewModes.GetBySession(siteId);
+                    switch (viewMode.ToLower())
+                    {
+                        case "trashbox":
+                            viewMode = "index";
+                            break;
+                    }
+                    return Locations.Get("Items", siteId.ToString(), viewMode);
             }
         }
 

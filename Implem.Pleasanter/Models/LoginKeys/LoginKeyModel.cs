@@ -115,6 +115,22 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public void SetByModel(LoginKeyModel loginKeyModel)
+        {
+            LoginId = loginKeyModel.LoginId;
+            Key = loginKeyModel.Key;
+            TenantNames = loginKeyModel.TenantNames;
+            TenantId = loginKeyModel.TenantId;
+            UserId = loginKeyModel.UserId;
+            Comments = loginKeyModel.Comments;
+            Creator = loginKeyModel.Creator;
+            Updator = loginKeyModel.Updator;
+            CreatedTime = loginKeyModel.CreatedTime;
+            UpdatedTime = loginKeyModel.UpdatedTime;
+            VerUp = loginKeyModel.VerUp;
+            Comments = loginKeyModel.Comments;
+        }
+
         private void SetBySession()
         {
         }

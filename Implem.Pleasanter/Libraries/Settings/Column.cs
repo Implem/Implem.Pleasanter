@@ -1,9 +1,9 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using System;
@@ -516,6 +516,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SelectColumns(
                 sql: sql,
                 tableName: tableName,
+                tableType: ss.TableType,
                 columnName: Name,
                 path: Joined
                     ? TableAlias
@@ -638,6 +639,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void SelectColumns(
             SqlColumnCollection sql,
             string tableName,
+            Sqls.TableTypes tableType,
             string columnName,
             string path,
             string _as)
@@ -1761,6 +1763,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .Issues_Title(tableName: path, _as: _as)
                                 .ItemTitle(
                                     tableName: path,
+                                    tableType: tableType,
                                     idColumn: Rds.IdColumn(SiteSettings.ReferenceType),
                                     _as: Joined
                                         ? path + ",ItemTitle"
@@ -2288,6 +2291,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .Results_Title(tableName: path, _as: _as)
                                 .ItemTitle(
                                     tableName: path,
+                                    tableType: tableType,
                                     idColumn: Rds.IdColumn(SiteSettings.ReferenceType),
                                     _as: Joined
                                         ? path + ",ItemTitle"

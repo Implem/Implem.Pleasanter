@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -14,7 +15,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             long siteId,
             long referenceId = 0,
             bool setSiteIntegration = false,
-            bool setAllChoices = false)
+            bool setAllChoices = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             return Get(
                 new SiteModel(siteId),
@@ -22,7 +24,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? referenceId
                     : siteId,
                 setSiteIntegration: setSiteIntegration,
-                setAllChoices: setAllChoices);
+                setAllChoices: setAllChoices,
+                tableType: tableType);
         }
 
         public static SiteSettings Get(DataRow dataRow)
@@ -62,7 +65,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteModel siteModel,
             long referenceId,
             bool setSiteIntegration = false,
-            bool setAllChoices = false)
+            bool setAllChoices = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             switch (siteModel.ReferenceType)
             {
@@ -70,22 +74,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                     siteModel: siteModel,
                     referenceId: referenceId,
                     setSiteIntegration: setSiteIntegration,
-                    setAllChoices: setAllChoices);
+                    setAllChoices: setAllChoices,
+                    tableType: tableType);
                 case "Issues": return IssuesSiteSettings(
                     siteModel: siteModel,
                     referenceId: referenceId,
                     setSiteIntegration: setSiteIntegration,
-                    setAllChoices: setAllChoices);
+                    setAllChoices: setAllChoices,
+                    tableType: tableType);
                 case "Results": return ResultsSiteSettings(
                     siteModel: siteModel,
                     referenceId: referenceId,
                     setSiteIntegration: setSiteIntegration,
-                    setAllChoices: setAllChoices);
+                    setAllChoices: setAllChoices,
+                    tableType: tableType);
                 case "Wikis": return WikisSiteSettings(
                     siteModel: siteModel,
                     referenceId: referenceId,
                     setSiteIntegration: setSiteIntegration,
-                    setAllChoices: setAllChoices);
+                    setAllChoices: setAllChoices,
+                    tableType: tableType);
                 default: return new SiteSettings() { SiteId = siteModel.SiteId };
             }
         }
@@ -279,9 +287,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             this SiteModel siteModel,
             long referenceId,
             bool setSiteIntegration = false,
-            bool setAllChoices = false)
+            bool setAllChoices = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
+            ss.TableType = tableType;
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
             ss.Title = siteModel.Title.Value;
@@ -310,9 +320,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             this SiteModel siteModel,
             long referenceId,
             bool setSiteIntegration = false,
-            bool setAllChoices = false)
+            bool setAllChoices = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
+            ss.TableType = tableType;
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
             ss.Title = siteModel.Title.Value;
@@ -343,9 +355,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             this SiteModel siteModel,
             long referenceId,
             bool setSiteIntegration = false,
-            bool setAllChoices = false)
+            bool setAllChoices = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
+            ss.TableType = tableType;
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
             ss.Title = siteModel.Title.Value;
@@ -376,9 +390,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             this SiteModel siteModel,
             long referenceId,
             bool setSiteIntegration = false,
-            bool setAllChoices = false)
+            bool setAllChoices = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
+            ss.TableType = tableType;
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
             ss.Title = siteModel.Title.Value;

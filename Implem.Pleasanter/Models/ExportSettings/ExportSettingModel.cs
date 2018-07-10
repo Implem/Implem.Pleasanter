@@ -236,9 +236,10 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
+            bool setBySession = true,
             bool get = true)
         {
-            SetBySession();
+            if (setBySession) SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
@@ -290,15 +291,11 @@ namespace Implem.Pleasanter.Models
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
             column.AddHeader(function: Sqls.Functions.SingleColumn); param.AddHeader();
             column.ExportColumns(function: Sqls.Functions.SingleColumn); param.ExportColumns();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Comments.InitialValue())
-            {
-                column.Comments(function: Sqls.Functions.SingleColumn);
-                param.Comments();
-            }
             return Rds.InsertExportSettings(
                 tableType: tableType,
                 param: param,
@@ -334,8 +331,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId);
             statements.AddRange(new List<SqlStatement>
             {
-                CopyToStatement(where, Sqls.TableTypes.Deleted),
-                Rds.PhysicalDeleteExportSettings(where: where)
+                Rds.DeleteExportSettings(where: where)
             });
             var response = Rds.ExecuteScalar_response(
                 transactional: true,
@@ -403,6 +399,22 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByModel(ExportSettingModel exportSettingModel)
+        {
+            ReferenceType = exportSettingModel.ReferenceType;
+            ReferenceId = exportSettingModel.ReferenceId;
+            Title = exportSettingModel.Title;
+            AddHeader = exportSettingModel.AddHeader;
+            ExportColumns = exportSettingModel.ExportColumns;
+            Comments = exportSettingModel.Comments;
+            Creator = exportSettingModel.Creator;
+            Updator = exportSettingModel.Updator;
+            CreatedTime = exportSettingModel.CreatedTime;
+            UpdatedTime = exportSettingModel.UpdatedTime;
+            VerUp = exportSettingModel.VerUp;
+            Comments = exportSettingModel.Comments;
         }
 
         private void SetBySession()

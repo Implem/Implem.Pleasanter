@@ -197,9 +197,10 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
+            bool setBySession = true,
             bool get = true)
         {
-            SetBySession();
+            if (setBySession) SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
@@ -251,15 +252,11 @@ namespace Implem.Pleasanter.Models
             column.ItemCount(function: Sqls.Functions.SingleColumn); param.ItemCount();
             column.ErrorCount(function: Sqls.Functions.SingleColumn); param.ErrorCount();
             column.Elapsed(function: Sqls.Functions.SingleColumn); param.Elapsed();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Comments.InitialValue())
-            {
-                column.Comments(function: Sqls.Functions.SingleColumn);
-                param.Comments();
-            }
             return Rds.InsertHealths(
                 tableType: tableType,
                 param: param,
@@ -295,8 +292,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.HealthsWhere().HealthId(HealthId);
             statements.AddRange(new List<SqlStatement>
             {
-                CopyToStatement(where, Sqls.TableTypes.Deleted),
-                Rds.PhysicalDeleteHealths(where: where)
+                Rds.DeleteHealths(where: where)
             });
             var response = Rds.ExecuteScalar_response(
                 transactional: true,
@@ -365,6 +361,22 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByModel(HealthModel healthModel)
+        {
+            TenantCount = healthModel.TenantCount;
+            UserCount = healthModel.UserCount;
+            ItemCount = healthModel.ItemCount;
+            ErrorCount = healthModel.ErrorCount;
+            Elapsed = healthModel.Elapsed;
+            Comments = healthModel.Comments;
+            Creator = healthModel.Creator;
+            Updator = healthModel.Updator;
+            CreatedTime = healthModel.CreatedTime;
+            UpdatedTime = healthModel.UpdatedTime;
+            VerUp = healthModel.VerUp;
+            Comments = healthModel.Comments;
         }
 
         private void SetBySession()

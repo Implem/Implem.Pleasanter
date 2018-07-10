@@ -1,0 +1,13 @@
+﻿{
+  "Id": "DeleteHistory",
+  "Type": 110,
+  "Languages": [
+    {
+      "Body": "Delete change history"
+    },
+    {
+      "Language": "ja",
+      "Body": "変更履歴を削除"
+    }
+  ]
+}

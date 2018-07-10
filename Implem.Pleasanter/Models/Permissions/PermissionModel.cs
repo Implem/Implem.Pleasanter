@@ -121,6 +121,25 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public void SetByModel(PermissionModel permissionModel)
+        {
+            ReferenceId = permissionModel.ReferenceId;
+            DeptId = permissionModel.DeptId;
+            GroupId = permissionModel.GroupId;
+            UserId = permissionModel.UserId;
+            DeptName = permissionModel.DeptName;
+            GroupName = permissionModel.GroupName;
+            Name = permissionModel.Name;
+            PermissionType = permissionModel.PermissionType;
+            Comments = permissionModel.Comments;
+            Creator = permissionModel.Creator;
+            Updator = permissionModel.Updator;
+            CreatedTime = permissionModel.CreatedTime;
+            UpdatedTime = permissionModel.UpdatedTime;
+            VerUp = permissionModel.VerUp;
+            Comments = permissionModel.Comments;
+        }
+
         private void SetBySession()
         {
         }

@@ -55,7 +55,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             var columnNameCollection = new List<string>();
             if (AddUpdatorParam) columnNameCollection.Add("[Updator] = @_U");
             if (AddUpdatedTimeParam) columnNameCollection.Add("[UpdatedTime] = getdate()");
-            SqlParamCollection
+            SqlParamCollection?
                 .Where(o => (o as SqlParam).Using)
                 .Where(o => (o as SqlParam).Updating)
                 .ForEach(sqlParam =>

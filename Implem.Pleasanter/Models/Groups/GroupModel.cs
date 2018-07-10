@@ -229,9 +229,10 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
+            bool setBySession = true,
             bool get = true)
         {
-            SetBySession();
+            if (setBySession) SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
@@ -307,20 +308,12 @@ namespace Implem.Pleasanter.Models
             column.GroupId(function: Sqls.Functions.SingleColumn); param.GroupId();
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
             column.GroupName(function: Sqls.Functions.SingleColumn); param.GroupName();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Body.InitialValue())
-            {
-                column.Body(function: Sqls.Functions.SingleColumn);
-                param.Body();
-            }
-            if (!Comments.InitialValue())
-            {
-                column.Comments(function: Sqls.Functions.SingleColumn);
-                param.Comments();
-            }
             return Rds.InsertGroups(
                 tableType: tableType,
                 param: param,
@@ -358,8 +351,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.GroupsWhere().GroupId(GroupId);
             statements.AddRange(new List<SqlStatement>
             {
-                CopyToStatement(where, Sqls.TableTypes.Deleted),
-                Rds.PhysicalDeleteGroups(where: where),
+                Rds.DeleteGroups(where: where),
                 Rds.PhysicalDeleteGroupMembers(
                     where: Rds.GroupMembersWhere()
                         .GroupId(GroupId)),
@@ -431,6 +423,20 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByModel(GroupModel groupModel)
+        {
+            TenantId = groupModel.TenantId;
+            GroupName = groupModel.GroupName;
+            Body = groupModel.Body;
+            Comments = groupModel.Comments;
+            Creator = groupModel.Creator;
+            Updator = groupModel.Updator;
+            CreatedTime = groupModel.CreatedTime;
+            UpdatedTime = groupModel.UpdatedTime;
+            VerUp = groupModel.VerUp;
+            Comments = groupModel.Comments;
         }
 
         public void SetByApi(SiteSettings ss)

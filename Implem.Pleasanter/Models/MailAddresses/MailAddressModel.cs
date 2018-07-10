@@ -186,9 +186,10 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
+            bool setBySession = true,
             bool get = true)
         {
-            SetBySession();
+            if (setBySession) SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
@@ -238,15 +239,11 @@ namespace Implem.Pleasanter.Models
             column.MailAddressId(function: Sqls.Functions.SingleColumn); param.MailAddressId();
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
             column.MailAddress(function: Sqls.Functions.SingleColumn); param.MailAddress();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
             column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            if (!Comments.InitialValue())
-            {
-                column.Comments(function: Sqls.Functions.SingleColumn);
-                param.Comments();
-            }
             return Rds.InsertMailAddresses(
                 tableType: tableType,
                 param: param,
@@ -282,8 +279,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.MailAddressesWhere().MailAddressId(MailAddressId);
             statements.AddRange(new List<SqlStatement>
             {
-                CopyToStatement(where, Sqls.TableTypes.Deleted),
-                Rds.PhysicalDeleteMailAddresses(where: where)
+                Rds.DeleteMailAddresses(where: where)
             });
             var response = Rds.ExecuteScalar_response(
                 transactional: true,
@@ -350,6 +346,20 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+        }
+
+        public void SetByModel(MailAddressModel mailAddressModel)
+        {
+            OwnerId = mailAddressModel.OwnerId;
+            OwnerType = mailAddressModel.OwnerType;
+            MailAddress = mailAddressModel.MailAddress;
+            Comments = mailAddressModel.Comments;
+            Creator = mailAddressModel.Creator;
+            Updator = mailAddressModel.Updator;
+            CreatedTime = mailAddressModel.CreatedTime;
+            UpdatedTime = mailAddressModel.UpdatedTime;
+            VerUp = mailAddressModel.VerUp;
+            Comments = mailAddressModel.Comments;
         }
 
         private void SetBySession()

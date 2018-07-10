@@ -13,28 +13,30 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder ViewFilters(this HtmlBuilder hb, SiteSettings ss, View view)
         {
-            return !Reduced(ss.SiteId)
-                ? hb.Div(
-                    id: "ViewFilters",
-                    action: () => hb
-                        .DisplayControl(
-                            id: "ReduceViewFilters",
-                            icon: "ui-icon-close")
-                        .Reset()
-                        .Incomplete(ss: ss, view: view)
-                        .Own(ss: ss, view: view)
-                        .NearCompletionTime(ss: ss, view: view)
-                        .Delay(ss: ss, view: view)
-                        .Limit(ss: ss, view: view)
-                        .Columns(ss: ss, view: view)
-                        .Search(view: view))
-                : hb.Div(
-                    id: "ViewFilters",
-                    css: "reduced",
-                    action: () => hb
-                        .DisplayControl(
-                            id: "ExpandViewFilters",
-                            icon: "ui-icon-folder-open"));
+            return ss.ReferenceType != "Sites"
+                ? !Reduced(ss.SiteId)
+                    ? hb.Div(
+                        id: "ViewFilters",
+                        action: () => hb
+                            .DisplayControl(
+                                id: "ReduceViewFilters",
+                                icon: "ui-icon-close")
+                            .Reset()
+                            .Incomplete(ss: ss, view: view)
+                            .Own(ss: ss, view: view)
+                            .NearCompletionTime(ss: ss, view: view)
+                            .Delay(ss: ss, view: view)
+                            .Limit(ss: ss, view: view)
+                            .Columns(ss: ss, view: view)
+                            .Search(view: view))
+                    : hb.Div(
+                        id: "ViewFilters",
+                        css: "reduced",
+                        action: () => hb
+                            .DisplayControl(
+                                id: "ExpandViewFilters",
+                                icon: "ui-icon-folder-open"))
+                : hb;
         }
 
         private static bool Reduced(long? siteId)

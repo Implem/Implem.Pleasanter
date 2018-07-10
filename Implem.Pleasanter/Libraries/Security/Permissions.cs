@@ -110,25 +110,35 @@ namespace Implem.Pleasanter.Libraries.Security
             SqlWhereCollection where,
             bool checkPermission = true)
         {
-            if (ss.ColumnHash.ContainsKey("SiteId"))
+            if (ss.IsSite() && ss.ReferenceType == "Sites")
             {
-                if (ss.AllowedIntegratedSites != null)
+                where.Add(
+                    tableName: "Sites",
+                    raw: $"[Sites].[ParentId] in ({ss.SiteId})");
+            }
+            else
+            {
+                if (ss.ColumnHash.ContainsKey("SiteId"))
                 {
-                    where.Or(new SqlWhereCollection()
-                        .Add(
-                            tableName: ss.ReferenceType,
-                            raw: "#TableBracket#.[SiteId] in ({0})".Params(
-                                ss.AllowedIntegratedSites.Join()))
-                        .CheckRecordPermission(ss, ss.IntegratedSites));
-                }
-                else
-                {
-                    where.Add(
-                        tableName: ss.ReferenceType,
-                        raw: "#TableBracket#.[SiteId]={0}".Params(ss.SiteId));
-                    if (!ss.CanRead(site: true) && checkPermission)
+                    if (ss.AllowedIntegratedSites != null)
                     {
-                        where.CheckRecordPermission(ss);
+                        where.Or(new SqlWhereCollection()
+                            .Add(
+                                tableName: ss.ReferenceType,
+                                raw: "[{0}].[SiteId] in ({1})".Params(
+                                    ss.ReferenceType, ss.AllowedIntegratedSites.Join()))
+                            .CheckRecordPermission(ss, ss.IntegratedSites));
+                    }
+                    else
+                    {
+                        where.Add(
+                            tableName: ss.ReferenceType,
+                            raw: "[{0}].[SiteId] in ({1})".Params(
+                                ss.ReferenceType, ss.SiteId));
+                        if (!ss.CanRead(site: true) && checkPermission)
+                        {
+                            where.CheckRecordPermission(ss);
+                        }
                     }
                 }
             }

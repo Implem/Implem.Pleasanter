@@ -95,6 +95,20 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public void SetByModel(ReminderScheduleModel reminderScheduleModel)
+        {
+            SiteId = reminderScheduleModel.SiteId;
+            Id = reminderScheduleModel.Id;
+            ScheduledTime = reminderScheduleModel.ScheduledTime;
+            Comments = reminderScheduleModel.Comments;
+            Creator = reminderScheduleModel.Creator;
+            Updator = reminderScheduleModel.Updator;
+            CreatedTime = reminderScheduleModel.CreatedTime;
+            UpdatedTime = reminderScheduleModel.UpdatedTime;
+            VerUp = reminderScheduleModel.VerUp;
+            Comments = reminderScheduleModel.Comments;
+        }
+
         private void SetBySession()
         {
         }

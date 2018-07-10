@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
@@ -6,12 +7,12 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlBreadcrumb
     {
-        public static HtmlBuilder Breadcrumb(
-            this HtmlBuilder hb, SiteSettings ss, long siteId, bool _using)
+        public static HtmlBuilder Breadcrumb(this HtmlBuilder hb, SiteSettings ss, bool _using)
         {
             if (!Sessions.LoggedIn() || !_using)
             {
@@ -21,53 +22,75 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (controller)
             {
                 case "admins":
-                    return Breadcrumb(hb, controller);
+                    return Breadcrumb(
+                        hb: hb,
+                        ss: ss,
+                        controller: controller);
                 case "depts":
-                    return Breadcrumb(hb, controller, Displays.Depts());
+                    return Breadcrumb(
+                        hb: hb,
+                        ss: ss,
+                        controller: controller,
+                        display: Displays.Depts());
                 case "groups":
                     return Permissions.CanManageTenant()
-                        ? Breadcrumb(hb, controller, Displays.Groups())
-                        : Breadcrumb(hb);
+                        ? Breadcrumb(
+                            hb: hb,
+                            ss: ss,
+                            controller: controller,
+                            display: Displays.Groups())
+                        : Breadcrumb(
+                            hb: hb,
+                            ss: ss);
                 case "users":
                     switch (Routes.Action())
                     {
                         case "editapi":
-                            return hb.Breadcrumb(new Dictionary<string, string>
+                            return hb.Breadcrumb(ss: ss, data: new Dictionary<string, string>
                             {
                                 { Locations.Get("Users", "EditApi"), Displays.ApiSettings() }
                             });
                         default:
                             return Permissions.CanManageTenant()
-                                ? Breadcrumb(hb, controller, Displays.Users())
-                                : Breadcrumb(hb);
+                                ? Breadcrumb(
+                                    hb: hb,
+                                    ss: ss,
+                                    controller: controller,
+                                    display: Displays.Users())
+                                : Breadcrumb(
+                                    hb: hb,
+                                    ss: ss);
                     }
                 case "items":
+                    return hb
+                        .Breadcrumb(ss: ss)
+                        .CopyDirectUrlToClipboard(ss: ss);
                 case "permissions":
-                    return hb.Breadcrumb(siteId);
+                    return hb.Breadcrumb(ss: ss);
                 default:
                     return hb;
             }
         }
 
         private static HtmlBuilder Breadcrumb(
-            HtmlBuilder hb, string controller, string display = null)
+            HtmlBuilder hb, SiteSettings ss, string controller, string display = null)
         {
             return display != null
-                ? hb.Breadcrumb(new Dictionary<string, string>
+                ? hb.Breadcrumb(ss: ss, data: new Dictionary<string, string>
                 {
                     { Locations.Index("Admins"), Displays.Admin() },
                     { Locations.Index(controller), display }
                 })
-                : hb.Breadcrumb(new Dictionary<string, string>
+                : hb.Breadcrumb(ss: ss, data: new Dictionary<string, string>
                 {
                     { Locations.Index("Admins"), Displays.Admin() }
                 });
         }
 
-        public static HtmlBuilder Breadcrumb(this HtmlBuilder hb, long siteId)
+        public static HtmlBuilder Breadcrumb(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.Breadcrumb(data: SiteInfo.TenantCaches[Sessions.TenantId()]
-                .SiteMenu.Breadcrumb(siteId)
+            return hb.Breadcrumb(ss: ss, data: SiteInfo.TenantCaches[Sessions.TenantId()]
+                .SiteMenu.Breadcrumb(siteId: ss.SiteId)
                     .ToDictionary(
                         o => !o.HasOnlyOneChild()
                             ? Locations.ItemIndex(o.SiteId)
@@ -76,13 +99,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Breadcrumb(
-            this HtmlBuilder hb, Dictionary<string, string> data = null)
+            this HtmlBuilder hb, SiteSettings ss, Dictionary<string, string> data = null)
         {
             return hb.Ul(id: "Breadcrumb", action: () =>
             {
                 hb.Li(Locations.Top(), Displays.Top());
                 data?.ForEach(item => hb
                     .Li(href: item.Key, text: item.Value));
+                hb.TrashBox(ss: ss);
             });
         }
 
@@ -92,6 +116,43 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .A(href: href, text: text)
                 .Span(css: "separator", action: () => hb
                     .Text(text: ">")));
+        }
+
+        public static HtmlBuilder TrashBox(this HtmlBuilder hb, SiteSettings ss)
+        {
+            switch (ss.Context.Action)
+            {
+                case "trashbox":
+                    return hb.Li(
+                        css: "item trashbox",
+                        action: () => hb
+                            .Span(action: () => hb
+                                .Text(text: Displays.TrashBox())));
+                default:
+                    return hb;
+            }
+        }
+
+        public static HtmlBuilder CopyDirectUrlToClipboard(this HtmlBuilder hb, SiteSettings ss)
+        {
+            var queryString = HttpUtility.ParseQueryString(HttpContext.Current.Request.Url.Query);
+            var view = (HttpContext.Current.Session["View" + ss.SiteId] as View)?.ToJson();
+            if (!view.IsNullOrEmpty())
+            {
+                queryString["View"] = view;
+            }
+            var directUrl = new System.UriBuilder(HttpContext.Current.Request.Url.AbsoluteUri)
+            {
+                Query = queryString.ToString()
+            }.ToString();
+            return hb.Div(
+                attributes: new HtmlAttributes()
+                    .Id("CopyDirectUrlToClipboard")
+                    .Class("display-control")
+                    .OnClick("$p.copyDirectUrlToClipboard('" + directUrl + "');"),
+                action: () => hb
+                    .Span(css: "ui-icon ui-icon-link")
+                    .Text(text: ""));
         }
     }
 }

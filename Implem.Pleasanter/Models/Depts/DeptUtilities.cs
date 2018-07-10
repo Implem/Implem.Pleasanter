@@ -171,21 +171,23 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             GridData gridData,
-            View view)
+            View view,
+            string action = "GridRows")
         {
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
                         .Id("Grid")
-                        .Class("grid")
+                        .Class(ss.GridCss())
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
-                        .DataAction("GridRows")
+                        .DataAction(action)
                         .DataMethod("post"),
                     action: () => hb
                         .GridRows(
                             ss: ss,
                             gridData: gridData,
-                            view: view))
+                            view: view,
+                            action: action))
                 .Hidden(
                     controlId: "GridOffset",
                     value: ss.GridNextOffset(
@@ -196,12 +198,12 @@ namespace Implem.Pleasanter.Models
                 .Button(
                     controlId: "ViewSorter",
                     controlCss: "hidden",
-                    action: "GridRows",
+                    action: action,
                     method: "post")
                 .Button(
                     controlId: "ViewSorters_Reset",
                     controlCss: "hidden",
-                    action: "GridRows",
+                    action: action,
                     method: "post");
         }
 
@@ -210,16 +212,22 @@ namespace Implem.Pleasanter.Models
             ResponseCollection res = null,
             int offset = 0,
             bool clearCheck = false,
+            string action = "GridRows",
             Message message = null)
         {
             var view = Views.GetBySession(ss);
-            var gridData = GetGridData(ss, view, offset: offset);
+            var gridData = GetGridData(
+                ss: ss,
+                view: view,
+                offset: offset);
             return (res ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .CloseDialog()
+                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+                    .CopyDirectUrlToClipboard(ss: ss))
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     ss: ss,
                     aggregations: gridData.Aggregations),
@@ -229,7 +237,8 @@ namespace Implem.Pleasanter.Models
                     gridData: gridData,
                     view: view,
                     addHeader: offset == 0,
-                    clearCheck: clearCheck))
+                    clearCheck: clearCheck,
+                    action: action))
                 .Val("#GridOffset", ss.GridNextOffset(
                     offset,
                     gridData.DataRows.Count(),
@@ -245,7 +254,8 @@ namespace Implem.Pleasanter.Models
             GridData gridData,
             View view,
             bool addHeader = true,
-            bool clearCheck = false)
+            bool clearCheck = false,
+            string action = "GridRows")
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
             var columns = ss.GetGridColumns(checkPermission: true);
@@ -256,7 +266,8 @@ namespace Implem.Pleasanter.Models
                         .GridHeader(
                             columns: columns, 
                             view: view,
-                            checkAll: checkAll))
+                            checkAll: checkAll,
+                            action: action))
                 .TBody(action: () => gridData.TBody(
                     hb: hb,
                     ss: ss,
@@ -746,27 +757,8 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Restore(SiteSettings ss, int deptId)
-        {
-            var deptModel = new DeptModel();
-            var invalid = DeptValidators.OnRestoring();
-            switch (invalid)
-            {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson();
-            }
-            var error = deptModel.Restore(ss, deptId);
-            switch (error)
-            {
-                case Error.Types.None:
-                    var res = new DeptsResponseCollection(deptModel);
-                    return res.ToJson();
-                default:
-                    return error.MessageJson();
-            }
-        }
-
-        public static string Histories(SiteSettings ss, int deptId)
+        public static string Histories(
+            SiteSettings ss, int deptId, Message message = null)
         {
             var deptModel = new DeptModel(ss, deptId);
             ss.SetColumnAccessControls(deptModel.Mine());
@@ -776,38 +768,62 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson();
             }
             var hb = new HtmlBuilder();
-            hb.Table(
-                attributes: new HtmlAttributes().Class("grid"),
-                action: () => hb
-                    .THead(action: () => hb
-                        .GridHeader(
-                            columns: columns,
-                            sort: false,
-                            checkRow: false))
-                    .TBody(action: () =>
-                        new DeptCollection(
-                            ss: ss,
-                            column: HistoryColumn(columns),
-                            where: Rds.DeptsWhere().DeptId(deptModel.DeptId),
-                            orderBy: Rds.DeptsOrderBy().Ver(SqlOrderBy.Types.desc),
-                            tableType: Sqls.TableTypes.NormalAndHistory)
-                                .ForEach(deptModelHistory => hb
-                                    .Tr(
-                                        attributes: new HtmlAttributes()
-                                            .Class("grid-row history not-link")
-                                            .DataAction("History")
-                                            .DataMethod("post")
-                                            .DataVer(deptModelHistory.Ver)
-                                            .DataLatest(1, _using:
-                                                deptModelHistory.Ver == deptModel.Ver),
-                                        action: () => columns
-                                            .ForEach(column => hb
-                                                .TdValue(
-                                                    ss: ss,
-                                                    column: column,
-                                                    deptModel: deptModelHistory))))));
+            hb
+                .HistoryCommands()
+                .Table(
+                    attributes: new HtmlAttributes().Class("grid history"),
+                    action: () => hb
+                        .THead(action: () => hb
+                            .GridHeader(
+                                columns: columns,
+                                sort: false,
+                                checkRow: true))
+                        .TBody(action: () => hb
+                            .HistoriesTableBody(
+                                ss: ss,
+                                columns: columns,
+                                deptModel: deptModel)));
             return new DeptsResponseCollection(deptModel)
-                .Html("#FieldSetHistories", hb).ToJson();
+                .Html("#FieldSetHistories", hb)
+                .Message(message)
+                .ToJson();
+        }
+
+        private static void HistoriesTableBody(
+            this HtmlBuilder hb, SiteSettings ss, List<Column> columns, DeptModel deptModel)
+        {
+            new DeptCollection(
+                ss: ss,
+                column: HistoryColumn(columns),
+                where: Rds.DeptsWhere().DeptId(deptModel.DeptId),
+                orderBy: Rds.DeptsOrderBy().Ver(SqlOrderBy.Types.desc),
+                tableType: Sqls.TableTypes.NormalAndHistory)
+                    .ForEach(deptModelHistory => hb
+                        .Tr(
+                            attributes: new HtmlAttributes()
+                                .Class("grid-row")
+                                .DataAction("History")
+                                .DataMethod("post")
+                                .DataVer(deptModelHistory.Ver)
+                                .DataLatest(1, _using:
+                                    deptModelHistory.Ver == deptModel.Ver),
+                            action: () =>
+                            {
+                                hb.Td(
+                                    css: "grid-check-td",
+                                    action: () => hb
+                                        .CheckBox(
+                                            controlCss: "grid-check",
+                                            _checked: false,
+                                            dataId: deptModelHistory.Ver.ToString(),
+                                            _using: deptModelHistory.Ver < deptModel.Ver));
+                                columns
+                                    .ForEach(column => hb
+                                        .TdValue(
+                                            ss: ss,
+                                            column: column,
+                                            deptModel: deptModelHistory));
+                            }));
         }
 
         private static SqlColumnCollection HistoryColumn(List<Column> columns)

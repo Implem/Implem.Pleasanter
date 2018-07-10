@@ -95,6 +95,24 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public void SetByModel(LinkModel linkModel)
+        {
+            DestinationId = linkModel.DestinationId;
+            SourceId = linkModel.SourceId;
+            ReferenceType = linkModel.ReferenceType;
+            SiteId = linkModel.SiteId;
+            Title = linkModel.Title;
+            Subset = linkModel.Subset;
+            SiteTitle = linkModel.SiteTitle;
+            Comments = linkModel.Comments;
+            Creator = linkModel.Creator;
+            Updator = linkModel.Updator;
+            CreatedTime = linkModel.CreatedTime;
+            UpdatedTime = linkModel.UpdatedTime;
+            VerUp = linkModel.VerUp;
+            Comments = linkModel.Comments;
+        }
+
         private void SetBySession()
         {
         }

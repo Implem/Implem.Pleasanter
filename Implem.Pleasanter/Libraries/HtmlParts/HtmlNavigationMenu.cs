@@ -46,6 +46,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var canManageSite = siteId != 0 && ss.CanManageSite(site: true);
             var canManageDepts = Permissions.CanManageTenant();
             var canManageUsers = Permissions.CanManageTenant();
+            var canManageTrashBox = CanManageTrashBox(ss: ss);
             return hb.Ul(
                 id: "NavigationMenu",
                 action: () => hb
@@ -65,7 +66,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Text(text: Displays.New()))),
                         _using: ss.ReferenceType == "Sites" && Routes.Action() == "index"
                             ? ss.CanManageSite()
-                            : ss.CanCreate() && ss.ReferenceType != "Wikis")
+                            : ss.CanCreate()
+                                && ss.ReferenceType != "Wikis"
+                                && ss.Context.Action != "trashbox")
                     .Li(
                         css: "sub-menu",
                         action: () => hb
@@ -91,7 +94,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 canManageSite: canManageSite,
                                 canManageDepts: canManageDepts,
                                 canManageGroups: canManageGroups,
-                                canManageUsers: canManageUsers),
+                                canManageUsers: canManageUsers,
+                                canManageTrashBox: canManageTrashBox),
                         _using:
                             canManageSite ||
                             canManageDepts ||
@@ -187,7 +191,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool canManageSite,
             bool canManageDepts,
             bool canManageGroups,
-            bool canManageUsers)
+            bool canManageUsers,
+            bool canManageTrashBox)
         {
             return hb.Ul(
                 id: "SettingsMenu",
@@ -224,7 +229,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
                                     .Text(text: Displays.UserAdmin())),
-                        _using: canManageUsers));
+                        _using: canManageUsers)
+                    .Li(
+                        action: () => hb
+                            .A(
+                                href: Locations.ItemTrashBox(siteId),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-trash")
+                                    .Text(text: Displays.TrashBox())),
+                        _using: canManageTrashBox));
         }
 
         private static string SiteSettingsDisplayName(SiteSettings ss)
@@ -321,6 +334,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlCss: " w150 redirect",
                             placeholder: Displays.Search()))
                 : hb;
+        }
+
+        private static bool CanManageTrashBox(SiteSettings ss)
+        {
+            return ss.Context.Controller == "items"
+                && ss.CanManageSite()
+                && (ss.Context.Id != 0 || ss.Context.HasPrivilege);
         }
     }
 }

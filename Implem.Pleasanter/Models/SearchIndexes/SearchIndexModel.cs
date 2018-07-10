@@ -103,6 +103,24 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public void SetByModel(SearchIndexModel searchIndexModel)
+        {
+            Word = searchIndexModel.Word;
+            ReferenceId = searchIndexModel.ReferenceId;
+            Priority = searchIndexModel.Priority;
+            ReferenceType = searchIndexModel.ReferenceType;
+            Title = searchIndexModel.Title;
+            Subset = searchIndexModel.Subset;
+            InheritPermission = searchIndexModel.InheritPermission;
+            Comments = searchIndexModel.Comments;
+            Creator = searchIndexModel.Creator;
+            Updator = searchIndexModel.Updator;
+            CreatedTime = searchIndexModel.CreatedTime;
+            UpdatedTime = searchIndexModel.UpdatedTime;
+            VerUp = searchIndexModel.VerUp;
+            Comments = searchIndexModel.Comments;
+        }
+
         private void SetBySession()
         {
         }
