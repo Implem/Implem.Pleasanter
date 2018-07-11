@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         text: Displays.DeleteHistory(),
                         controlCss: "button-icon",
                         onClick: "$p.send($(this));",
-                        icon: "ui-icon-arrowreturnthick-1-n",
+                        icon: "ui-icon-closethick",
                         action: "DeleteHistory",
                         method: "delete",
                         confirm: "ConfirmPhysicalDelete",
