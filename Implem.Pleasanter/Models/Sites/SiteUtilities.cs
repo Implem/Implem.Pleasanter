@@ -4090,15 +4090,15 @@ namespace Implem.Pleasanter.Models
                                 controlId: "SummaryDestinationCondition",
                                 controlCss: " always-send",
                                 labelText: Displays.Condition(),
-                                optionCollection: destinationSs.ViewSelectableOptions(),
+                                optionCollection: destinationSs?.ViewSelectableOptions(),
                                 selectedValue: summary.DestinationCondition.ToString(),
                                 insertBlank: true,
-                                _using: destinationSs.Views?.Any() == true)
+                                _using: destinationSs?.Views?.Any() == true)
                             .FieldCheckBox(
                                 fieldId: "SummarySetZeroWhenOutOfConditionField",
                                 controlId: "SummarySetZeroWhenOutOfCondition",
                                 fieldCss: "field-auto-thin right" +
-                                    (destinationSs.Views?.Any(o =>
+                                    (destinationSs?.Views?.Any(o =>
                                         o.Id == summary.DestinationCondition) == true
                                             ? null
                                             : " hidden"),
