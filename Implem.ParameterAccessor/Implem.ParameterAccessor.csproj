@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Parameters.cs" />
+    <Compile Include="Parts\History.cs" />
+    <Compile Include="Parts\Deleted.cs" />
     <Compile Include="Parts\Authentication.cs" />
     <Compile Include="Parts\BackgroundTask.cs" />
     <Compile Include="Parts\BinaryStorage.cs" />

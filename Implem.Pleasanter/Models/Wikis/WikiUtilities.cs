@@ -598,6 +598,10 @@ namespace Implem.Pleasanter.Models
 
         public static string RestoreFromHistory(SiteSettings ss, long wikiId)
         {
+            if (!Parameters.History.Restore)
+            {
+                return Error.Types.InvalidRequest.MessageJson();
+            }
             var wikiModel = new WikiModel(ss, wikiId);
             var invalid = WikiValidators.OnUpdating(ss, wikiModel);
             switch (invalid)
@@ -647,7 +651,7 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb
-                .HistoryCommands()
+                .HistoryCommands(ss: ss)
                 .Table(
                     attributes: new HtmlAttributes().Class("grid history"),
                     action: () => hb
@@ -731,6 +735,10 @@ namespace Implem.Pleasanter.Models
 
         public static string DeleteHistory(SiteSettings ss, long wikiId)
         {
+            if (!Parameters.History.PhysicalDelete)
+            {
+                return Error.Types.InvalidRequest.MessageJson();
+            }
             if (ss.CanManageSite())
             {
                 var selector = new GridSelector();
