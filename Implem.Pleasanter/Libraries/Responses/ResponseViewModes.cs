@@ -23,6 +23,8 @@ namespace Implem.Pleasanter.Libraries.Responses
                 .View(ss: ss, view: view)
                 .ReplaceAll("#Breadcrumb", new HtmlBuilder()
                     .Breadcrumb(ss: ss))
+                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+                    .CopyDirectUrlToClipboard(ss: ss))
                 .ReplaceAll("#Aggregations", new HtmlBuilder()
                     .Aggregations(
                         ss: ss,
