@@ -686,7 +686,7 @@ namespace Implem.Pleasanter.Models
                     .SiteId(siteId)
                     .Ver(ver.First())));
             siteModel.VerUp = true;
-            var error = siteModel.Update(ss, otherInitValue: true);
+            var error = siteModel.Update(ss, setBySession: false, otherInitValue: true);
             switch (error)
             {
                 case Error.Types.None:
