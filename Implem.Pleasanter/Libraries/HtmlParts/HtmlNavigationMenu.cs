@@ -338,7 +338,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static bool CanManageTrashBox(SiteSettings ss)
         {
-            return ss.Context.Controller == "items"
+            return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
+                && ss.Context.Controller == "items"
                 && ss.CanManageSite()
                 && (ss.Context.Id != 0 || ss.Context.HasPrivilege);
         }

@@ -777,7 +777,7 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb
-                .HistoryCommands()
+                .HistoryCommands(ss: ss)
                 .Table(
                     attributes: new HtmlAttributes().Class("grid history"),
                     action: () => hb

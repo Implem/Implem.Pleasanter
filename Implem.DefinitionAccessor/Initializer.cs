@@ -73,8 +73,9 @@ namespace Implem.DefinitionAccessor
             Parameters.Authentication = Read<ParameterAccessor.Parts.Authentication>();
             Parameters.BackgroundTask = Read<ParameterAccessor.Parts.BackgroundTask>();
             Parameters.BinaryStorage = Read<ParameterAccessor.Parts.BinaryStorage>();
-            Parameters.ExcludeColumns = Read<ParameterAccessor.Parts.ExcludeColumns>();
             Parameters.CustomDefinitions = CustomDefinitionsHash();
+            Parameters.Deleted = Read<ParameterAccessor.Parts.Deleted>();
+            Parameters.ExcludeColumns = Read<ParameterAccessor.Parts.ExcludeColumns>();
             Parameters.ExtendedColumnsSet = ExtendedColumnsSet();
             Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.ExtendedStyles = ExtendedStyles();
@@ -82,6 +83,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Formats = Read<ParameterAccessor.Parts.Formats>();
             Parameters.General = Read<ParameterAccessor.Parts.General>();
             Parameters.Health = Read<ParameterAccessor.Parts.Health>();
+            Parameters.History = Read<ParameterAccessor.Parts.History>();
             Parameters.Mail = Read<ParameterAccessor.Parts.Mail>();
             Parameters.Notification = Read<ParameterAccessor.Parts.Notification>();
             Parameters.Path = Read<ParameterAccessor.Parts.Path>();

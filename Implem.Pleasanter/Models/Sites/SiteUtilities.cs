@@ -270,7 +270,7 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 viewMode: viewMode,
                 viewModeBody: () => hb
-                    .TrashBoxCommands()
+                    .TrashBoxCommands(ss: ss)
                     .Grid(
                         gridData: gridData,
                         ss: ss,
@@ -289,7 +289,7 @@ namespace Implem.Pleasanter.Models
                     gridData: gridData,
                     invoke: "setGrid",
                     body: new HtmlBuilder()
-                        .TrashBoxCommands()
+                        .TrashBoxCommands(ss: ss)
                         .Grid(
                             ss: ss,
                             gridData: gridData,
@@ -592,7 +592,11 @@ namespace Implem.Pleasanter.Models
 
         public static string Restore(SiteSettings ss)
         {
-            if (ss.CanManageSite())
+            if (!Parameters.Deleted.Restore)
+            {
+                return Error.Types.InvalidRequest.MessageJson();
+            }
+            else if (ss.CanManageSite())
             {
                 var selector = new GridSelector();
                 var count = 0;
@@ -656,6 +660,10 @@ namespace Implem.Pleasanter.Models
 
         public static string RestoreFromHistory(SiteSettings ss, long siteId)
         {
+            if (!Parameters.History.Restore)
+            {
+                return Error.Types.InvalidRequest.MessageJson();
+            }
             var siteModel = new SiteModel(siteId);
             var invalid = SiteValidators.OnUpdating(ss, siteModel);
             switch (invalid)
@@ -702,7 +710,7 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb
-                .HistoryCommands()
+                .HistoryCommands(ss: ss)
                 .Table(
                     attributes: new HtmlAttributes().Class("grid history"),
                     action: () => hb
@@ -774,6 +782,10 @@ namespace Implem.Pleasanter.Models
 
         public static string DeleteHistory(SiteSettings ss, long siteId)
         {
+            if (!Parameters.History.PhysicalDelete)
+            {
+                return Error.Types.InvalidRequest.MessageJson();
+            }
             if (ss.CanManageSite())
             {
                 var selector = new GridSelector();
@@ -839,6 +851,10 @@ namespace Implem.Pleasanter.Models
 
         public static string PhysicalDelete(SiteSettings ss)
         {
+            if (!Parameters.Deleted.PhysicalDelete)
+            {
+                return Error.Types.InvalidRequest.MessageJson();
+            }
             if (ss.CanManageSite())
             {
                 var selector = new GridSelector();

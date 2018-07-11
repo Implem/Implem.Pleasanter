@@ -1321,6 +1321,8 @@
     <Content Include="App_Data\Displays\PhysicalDeleted.json" />
     <Content Include="App_Data\Displays\HistoryDeleted.json" />
     <Content Include="App_Data\Displays\RestoredFromHistory.json" />
+    <Content Include="App_Data\Parameters\Deleted.json" />
+    <Content Include="App_Data\Parameters\History.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

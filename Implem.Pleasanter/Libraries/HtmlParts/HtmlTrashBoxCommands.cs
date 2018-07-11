@@ -1,10 +1,13 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlTrashBoxCommands
     {
-        public static HtmlBuilder TrashBoxCommands(this HtmlBuilder hb)
+        public static HtmlBuilder TrashBoxCommands(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.Div(
                 css: "command-left",
@@ -16,7 +19,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         icon: "ui-icon-arrowreturnthick-1-n",
                         action: "Restore",
                         method: "post",
-                        confirm: "ConfirmRestore")
+                        confirm: "ConfirmRestore",
+                        _using: Parameters.Deleted.Restore)
                     .Button(
                         text: Displays.DeleteFromTrashBox(),
                         controlCss: "button-icon",
@@ -24,7 +28,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         icon: "ui-icon-arrowreturnthick-1-n",
                         action: "PhysicalDelete",
                         method: "delete",
-                        confirm: "ConfirmPhysicalDelete"));
+                        confirm: "ConfirmPhysicalDelete",
+                        _using: Parameters.Deleted.PhysicalDelete),
+                _using: (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
+                    && ss.Context.Controller == "items"
+                    && ss.CanManageSite());
         }
     }
 }
