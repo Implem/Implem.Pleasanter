@@ -1,4 +1,5 @@
-﻿$p.setByJson = function (json, data, $control) {
+﻿$p.setByJson = function (url, methodType, data, $control, async, json) {
+    $p.before_set($p.eventArgs(url, methodType, data, $control, async, undefined, json));
     if (json) {
         $.each(json, function () {
             $p.setByJsonElement(this, data, $control);
@@ -13,6 +14,7 @@
         $p.apply();
         $p.applyValidator();
     }
+    $p.after_set($p.eventArgs(url, methodType, data, $control, async, undefined, json));
 }
 
 $p.setByJsonElement = function (jsonElement, data, $control) {
