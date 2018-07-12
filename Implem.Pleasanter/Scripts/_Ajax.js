@@ -53,7 +53,7 @@ $p.upload = function (url, methodType, data, $control) {
         data: data
     })
     .done(function (json, textStatus, jqXHR) {
-        $p.setByJson(url, methodType, data, $control, true, json);
+        $p.setByJson(url, methodType, data, $control, true, JSON.parse(json));
         return true;
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
