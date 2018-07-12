@@ -1,4 +1,5 @@
-﻿$p.ajax = function (requestUrl, methodType, data, $control, async) {
+﻿$p.ajax = function (url, methodType, data, $control, async) {
+    $p.before_send($p.eventArgs(url, methodType, data, $control, async));
     if ($control) {
         var _confirm = $control.attr('data-confirm');
         if (_confirm !== undefined) {
@@ -12,7 +13,7 @@
     async = async !== undefined ? async : true;
     $p.clearMessage();
     $.ajax({
-        url: requestUrl,
+        url: url,
         type: methodType,
         async: async,
         cache: false,
@@ -20,7 +21,7 @@
         dataType: 'json'
     })
     .done(function (json, textStatus, jqXHR) {
-        $p.setByJson(json, data, $control);
+        $p.setByJson(url, methodType, data, $control, async, json);
         ret = json.filter(function (i) {
             return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
         }).length !== 0
@@ -35,23 +36,24 @@
     .always(function (jqXHR, textStatus) {
         $p.clearData('ControlId', data);
         $p.loaded();
-    });
+        });
+    $p.after_send($p.eventArgs(url, methodType, data, $control, async, ret));
     return ret;
 }
 
-$p.upload = function (requestUrl, methodType, data, $control) {
+$p.upload = function (url, methodType, data, $control) {
     $p.loading($control);
     $p.clearMessage();
     return $.ajax({
-        url: requestUrl,
+        url: url,
         type: methodType,
         cache: false,
         contentType: false,
         processData: false,
         data: data
     })
-    .done(function (response, textStatus, jqXHR) {
-        $p.setByJson(JSON.parse(response), data, $control);
+    .done(function (json, textStatus, jqXHR) {
+        $p.setByJson(url, methodType, data, $control, true, json);
         return true;
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
@@ -65,8 +67,9 @@ $p.upload = function (requestUrl, methodType, data, $control) {
     });
 }
 
-$p.multiUpload = function (url, data, statusBar) {
+$p.multiUpload = function (url, data, $control, statusBar) {
     $p.clearMessage();
+    var methodType = 'POST';
     var uploader = $.ajax({
         xhr: function () {
             var uploadobj = $.ajaxSettings.xhr();
@@ -86,7 +89,7 @@ $p.multiUpload = function (url, data, statusBar) {
             return uploadobj;
         },
         url: url,
-        type: 'POST',
+        type: methodType,
         contentType: false,
         processData: false,
         cache: false,
@@ -97,8 +100,8 @@ $p.multiUpload = function (url, data, statusBar) {
             }
         }
     })
-        .done(function (response, textStatus, jqXHR) {
-            $p.setByJson(JSON.parse(response), data);
+        .done(function (json, textStatus, jqXHR) {
+            $p.setByJson(url, methodType, data, $control, true, JSON.parse(json));
             return true;
         })
         .fail(function (jqXHR, textStatus, errorThrown) {

@@ -560,6 +560,7 @@
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
     <Content Include="Scripts\Clipboard.js" />
+    <Content Include="Scripts\_Event.js" />
     <Content Include="Scripts\Grid.js" />
     <Content Include="Scripts\ImageLibEvents.js" />
     <Content Include="Scripts\ImageLib.js" />

@@ -51,8 +51,19 @@ $p.send = function ($control, formId, async) {
     $form = formId !== undefined
         ? $('#' + formId)
         : $control.closest('form');
+    var action = $control.attr('data-action');
+    var methodType = $control.attr('data-method');
+    var data = $p.getData($form);
+    var url = action !== undefined
+        ? $form.attr('action').replace('_action_', action.toLowerCase())
+        : location.href;
     async = async !== undefined ? async : true;
+    if (methodType !== 'get') {
+        data.ControlId = $control.attr('id');
+        $p.setMustData($form, action);
+    }
     if ($control.hasClass('validate')) {
+        $p.before_validate($p.eventArgs(url, methodType, data, $control, async));
         $form.validate();
         if (!$form.valid()) {
             $p.setValidationError($form);
@@ -60,21 +71,13 @@ $p.send = function ($control, formId, async) {
             $("html,body").animate({ scrollTop: $('.error:first').offset().top });
             return false;
         }
+        $p.after_validate($p.eventArgs(url, methodType, data, $control, async));
     }
-    var action = $control.attr('data-action');
-    var method = $control.attr('data-method');
-    if (method !== undefined) {
-        var data = $p.getData($form);
-        if (method !== 'get') {
-            data.ControlId = $control.attr('id');
-            $p.setMustData($form, action);
-        }
+    if (methodType !== undefined) {
         return $p.ajax(
-            action !== undefined
-                ? $form.attr('action').replace('_action_', action.toLowerCase())
-                : location.href,
-            method,
-            method !== 'get' ? data : null,
+            url,
+            methodType,
+            methodType !== 'get' ? data : null,
             $control,
             async);
     }

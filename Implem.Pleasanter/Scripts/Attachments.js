@@ -1,7 +1,7 @@
-﻿$p.uploadAttachments = function ($upload, files) {
-    var columnName = $upload.attr('data-name');
-    var controlId = $upload.parent().find('.control-attachments').attr('id');
-    var url = $('.main-form').attr('action').replace('_action_', $upload.attr('data-action'));
+﻿$p.uploadAttachments = function ($control, files) {
+    var columnName = $control.attr('data-name');
+    var controlId = $control.parent().find('.control-attachments').attr('id');
+    var url = $('.main-form').attr('action').replace('_action_', $control.attr('data-action'));
     var data = new FormData();
     for (var i = 0; i < files.length; i++) {
         data.append('file', files[i]);
@@ -15,7 +15,7 @@
         $('[id="' + columnName + '.progress"]'),
         $('[id="' + columnName + '.abort"]'));
     $status.show();
-    $p.multiUpload(url, data, statusBar);
+    $p.multiUpload(url, data, $control, statusBar);
 
     function createStatusbar(status, progressBar, abort) {
         this.progressBar = progressBar;
