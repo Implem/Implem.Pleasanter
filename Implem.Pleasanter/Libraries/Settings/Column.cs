@@ -377,6 +377,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     SiteUserHash = SiteInfo.SiteUsers(tenantId, siteId)
                         .Where(o => userHash.ContainsKey(o))
+                        .GroupBy(o => o)
+                        .Select(o => o.First())
                         .ToDictionary(o => userHash[o].Name, o => o);
                 }
                 var userId = SiteUserHash.Get(value);
