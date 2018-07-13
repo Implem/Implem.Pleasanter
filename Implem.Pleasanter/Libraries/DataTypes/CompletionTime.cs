@@ -45,12 +45,19 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Status status,
             bool byForm = false) : base(value, byForm)
         {
-            Value = byForm
-                ? value
+            if (byForm)
+            {
+                Value = value
                     .ToUniversal()
-                    .AddDifferenceOfDates(ss.GetColumn("CompletionTime")?.EditorFormat)
-                : value;
-            DisplayValue = value.ToLocal();
+                    .AddDifferenceOfDates(ss.GetColumn("CompletionTime")?.EditorFormat);
+                DisplayValue = value;
+            }
+            else
+            {
+                Value = value
+                    .AddDifferenceOfDates(ss.GetColumn("CompletionTime")?.EditorFormat);
+                DisplayValue = value.ToLocal();
+            }
             Status = status;
         }
 
