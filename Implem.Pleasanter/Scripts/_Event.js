@@ -12,7 +12,7 @@
 
 $p.execEvents = function (event, args) {
     exec(event);
-    if (args.$control !== undefined) {
+    if (args.$control) {
         exec(event + '_' + args.$control.attr('id'));
         exec(event + '_' + args.$control.attr('data-action'));
     }
