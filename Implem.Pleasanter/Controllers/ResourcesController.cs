@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using System.Web.UI;
 namespace Implem.Pleasanter.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     [CheckContract]
     [ValidateInput(false)]
     [RefleshSiteInfo]
