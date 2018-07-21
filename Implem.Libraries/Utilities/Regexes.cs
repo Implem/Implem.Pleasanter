@@ -32,6 +32,11 @@ namespace Implem.Libraries.Utilities
             return Regex.Matches(self, pattern, regexOptions);
         }
 
+        public static MatchCollection RegexLike(this string self, string pattern)
+        {
+            return Regex.Matches(self, Regex.Escape(pattern), RegexOptions.IgnoreCase);
+        }
+
         public static IEnumerable<string> RegexValues(
             this string self,
             string pattern,
