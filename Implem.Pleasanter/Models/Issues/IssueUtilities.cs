@@ -1262,7 +1262,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         issueModel: issueModel)
                     .Hidden(controlId: "TableName", value: "Issues")
-                    .Hidden(controlId: "Id", value: issueModel.IssueId.ToString()))
+                    .Hidden(controlId: "Id", value: issueModel.IssueId.ToString())
+                    .Hidden(controlId: "TriggerRelatingColumns", value: Jsons.ToJson(ss.RelatingColumns))
+                    .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
                         .ToString();
         }
 

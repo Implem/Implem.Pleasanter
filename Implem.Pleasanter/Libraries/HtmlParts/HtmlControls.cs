@@ -257,6 +257,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column column = null,
             bool _using = true)
         {
+            var match = column == null ? null : System.Text.RegularExpressions.Regex.Match(column.ChoicesText, @"\[\[(\d+)\]\]");
+            string srcId = (match?.Success == true) ? match.Groups[1].ToString() : "";
             return _using
                 ? hb.Select(
                     attributes: new HtmlAttributes()
@@ -268,6 +270,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ? " has-css"
                                     : string.Empty),
                             controlCss))
+                        .DataId(srcId)
                         .Multiple(multiple)
                         .Disabled(disabled)
                         .OnChange(onChange)
@@ -689,6 +692,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ? "ui-widget-content ui-selected"
                                     : "ui-widget-content")
                             .Title(listItem.Value?.Title)
+                            .DataOrder(listItem.Value?.Order)
                             .DataValue(listItem.Key, _using: listItem.Value?.Text != listItem.Key),
                         action: () =>
                         {

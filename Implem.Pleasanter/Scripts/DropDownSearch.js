@@ -17,6 +17,8 @@ $p.openDropDownSearchDialog = function ($control) {
     var id = $control.attr('id');
     var $text = $('#DropDownSearchText');
     var $target = $('#DropDownSearchTarget');
+    $('#DropDownSearchParentClass').val($("#" + id).attr('parent-data-class'));
+    $('#DropDownSearchParentDataId').val($("#" + id).attr('parent-data-id'));
     $('#DropDownSearchResults').empty();
     $target.val(id);
     $text.val('');

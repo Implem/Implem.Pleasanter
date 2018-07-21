@@ -120,7 +120,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static Dictionary<string, ControlData> SelectableOptions(
-            SiteSettings ss, IEnumerable<string> columns, string labelType = null)
+            SiteSettings ss, IEnumerable<string> columns, string labelType = null, List<string> order = null)
         {
             return columns
                 .Distinct()
@@ -129,22 +129,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                     columnName => SelectableOptionsControlData(
                         ss: ss.GetJoinedSs(columnName),
                         columnName: columnName,
-                        labelType: labelType));
+                        labelType: labelType,
+                        order: order?.IndexOf(columnName)));
         }
 
         public static Dictionary<string, ControlData> SelectableSourceOptions(
-            SiteSettings ss, IEnumerable<string> columns, string labelType = null)
+            SiteSettings ss, IEnumerable<string> columns, string labelType = null, List<string> order = null)
         {
             return columns.ToDictionary(
                 columnName => columnName,
                 columnName => SelectableOptionsControlData(
                     ss: ss,
                     columnName: columnName,
-                    labelType: labelType));
+                    labelType: labelType,
+                    order: order?.IndexOf(columnName)));
         }
 
         private static ControlData SelectableOptionsControlData(
-            SiteSettings ss, string columnName, string labelType)
+            SiteSettings ss, string columnName, string labelType, int? order = null)
         {
             var column = ss.GetColumn(columnName.Split(',').Last());
             var labelText = column.LabelText;
@@ -159,7 +161,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return column != null
                 ? new ControlData(
                     text: "[" + ss.Title + "] " + Displays.Get(labelText),
-                    title: labelTextDefault)
+                    title: labelTextDefault,
+                    order: order)
                 : new ControlData(string.Empty);
         }
 

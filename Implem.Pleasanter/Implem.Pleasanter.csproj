@@ -304,6 +304,7 @@
     <Compile Include="Libraries\Server\TenantCache.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Settings\Context.cs" />
+    <Compile Include="Libraries\Settings\RelatingColumn.cs" />
     <Compile Include="Libraries\Settings\Reminder.cs" />
     <Compile Include="Libraries\Settings\ColumnAccessControl.cs" />
     <Compile Include="Libraries\Settings\ColumnNameInfo.cs" />
@@ -560,6 +561,8 @@
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
     <Content Include="Scripts\Clipboard.js" />
+    <Content Include="Scripts\FieldSelectable.js" />
+    <Content Include="Scripts\RelatingColumns.js" />
     <Content Include="Scripts\_Event.js" />
     <Content Include="Scripts\Grid.js" />
     <Content Include="Scripts\ImageLibEvents.js" />
@@ -1324,6 +1327,8 @@
     <Content Include="App_Data\Displays\RestoredFromHistory.json" />
     <Content Include="App_Data\Parameters\Deleted.json" />
     <Content Include="App_Data\Parameters\History.json" />
+    <Content Include="App_Data\Displays\RelatingColumnSettings.json" />
+    <Content Include="App_Data\Displays\RelatingColumn.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

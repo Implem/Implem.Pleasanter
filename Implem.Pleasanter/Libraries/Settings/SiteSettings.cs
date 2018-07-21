@@ -97,6 +97,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Export> Exports;
         public SettingList<Style> Styles;
         public SettingList<Script> Scripts;
+        public SettingList<RelatingColumn> RelatingColumns;
         public bool? AllowEditingComments;
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
@@ -199,6 +200,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Reminders == null) Reminders = new SettingList<Reminder>();
             if (Exports == null) Exports = new SettingList<Export>();
             if (Scripts == null) Scripts = new SettingList<Script>();
+            if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
             if (Styles == null) Styles = new SettingList<Style>();
             AllowEditingComments = AllowEditingComments ?? false;
             EnableCalendar = EnableCalendar ?? true;
@@ -250,6 +252,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             });
             Destinations = SiteSettingsList(dataSet.Tables["Destinations"]);
             Sources = SiteSettingsList(dataSet.Tables["Sources"]);
+            SetRelatingColumnsLinkedClass();
         }
 
         public void SetPermissions(long referenceId)
@@ -498,6 +501,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Scripts = new SettingList<Script>();
                 }
                 ss.Scripts.Add(script.GetRecordingData());
+            });
+            RelatingColumns?.ForEach(relatingColumn =>
+            {
+                if (ss.RelatingColumns == null)
+                {
+                    ss.RelatingColumns = new SettingList<RelatingColumn>();
+                }
+                ss.RelatingColumns.Add(relatingColumn.GetRecordingData());
             });
             Styles?.ForEach(style =>
             {
@@ -2405,7 +2416,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             string searchText = null,
             IEnumerable<string> selectedValues = null,
             int offset = 0,
-            bool noLimit = false)
+            bool noLimit = false,
+            string parentClass = "",
+            int parentId = 0)
         {
             var hash = new Dictionary<string, List<string>>();
             Links?
@@ -2415,9 +2428,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o.FirstOrDefault())
                 .ForEach(link =>
                 {
-                    if (Rds.ExecuteScalar_string(statements: Rds.SelectSites(
+                    var refType = Rds.ExecuteScalar_string(statements: Rds.SelectSites(
                         column: Rds.SitesColumn().ReferenceType(),
-                        where: Rds.SitesWhere().SiteId(link.SiteId))) == "Wikis")
+                        where: Rds.SitesWhere().SiteId(link.SiteId)));
+                    if (refType == "Wikis")
                     {
                         WikisLinkHash(
                             searchText: searchText,
@@ -2434,7 +2448,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                             link: link,
                             hash: hash,
                             offset: offset,
-                            noLimit: noLimit);
+                            noLimit: noLimit,
+                            refType: refType,
+                            parentColumn: GetColumn(parentClass),
+                            parentId: parentId);
                     }
                 });
             return hash;
@@ -2485,7 +2502,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             Link link,
             Dictionary<string, List<string>> hash,
             int offset,
-            bool noLimit)
+            bool noLimit,
+            string refType,
+            Column parentColumn,
+            int parentId)
         {
             var select = SearchIndexUtilities.Select(
                 searchType: Destinations?.Get(link.SiteId)?.SearchType,
@@ -2513,6 +2533,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ReferenceId_In(
                             selectedValues,
                             _using: selectedValues?.Any() == true)
+                        .ReferenceId_In(
+                            sub: new SqlStatement(LinkHashSubQuery(refType, parentColumn, parentId)),
+                            _using: (refType == "Results" || refType == "Issues") && parentId != 0 && parentColumn != null)
                         .ReferenceType("Sites", _operator: "<>")
                         .SiteId(link.SiteId)
                         .CanRead("[Items].[ReferenceId]"),
@@ -2965,6 +2988,75 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool InitialValue()
         {
             return RecordingJson() == "[]";
+        }
+
+        public RelatingColumn GetRelatingColumn(int id)
+        {
+            return RelatingColumns?.FirstOrDefault(o => o.Id == id) ?? new RelatingColumn();
+        }
+
+        public Dictionary<string, ControlData> RelatingColumnSelectableOptions(int id, bool enabled = true)
+        {
+            return enabled
+                ? ColumnUtilities.SelectableOptions(
+                    ss: this,
+                    columns: GetRelatingColumn(id).Columns ?? new List<string>(),
+                    order: EditorColumns
+                        .Where(o => o.StartsWith("Class")).ToList<string>())
+                : ColumnUtilities.SelectableSourceOptions(
+                    ss: this,
+                    columns: EditorColumns
+                        .Where(o => o.StartsWith("Class")
+                            && GetRelatingColumn(id).Columns?.Contains(o) != true),
+                    order: EditorColumns
+                        .Where(o => o.StartsWith("Class")).ToList<string>());
+        }
+
+        private static string LinkHashSubQuery(string refType, Column parentColumn, int parentId)
+        {
+            if (parentColumn == null) return null;
+            return (refType == "Results") ? "select [ResultId] from [Results] where [" + parentColumn.ColumnName + "] = " + parentId
+                : (refType == "Issues") ? "select [IssueId] from [Issues] where [" + parentColumn.ColumnName + "] = " + parentId
+                : null;
+        }
+
+        public void SetRelatingColumnsLinkedClass()
+        {
+            Dictionary<string, string> linkedClasses = new Dictionary<string, string>();
+            foreach(var relcol in RelatingColumns.Where(o => o.Columns != null).Select(o => o))
+            {
+                var precol = "";
+                foreach (var col in relcol.Columns)
+                {
+                    if(precol != "")
+                    {
+                        linkedClasses[col] = GetParentLinkedClass(precol, col);
+                    }
+                    precol = col;
+                }
+                relcol.ColumnsLinkedClass = linkedClasses;
+            }
+        }
+
+        private string GetParentLinkedClass(string parentClassName, string childClassName)
+        {
+            var parentSiteId = Links.Where(o => o.ColumnName == parentClassName).Select(o => o.SiteId).FirstOrDefault();
+            var childSiteId = Links.Where(o => o.ColumnName == childClassName).Select(o => o.SiteId).FirstOrDefault();
+            return Destinations
+                .Where(dest => dest.SiteId == childSiteId)
+                .Select(dest =>
+                    dest.Links
+                    .Where(l => l.SiteId == parentSiteId)
+                    .Select(l => new {
+                        l.ColumnName,
+                        OrderNo = dest.EditorColumns.Contains(l.ColumnName)
+                            ? dest.EditorColumns.Select((v,k) => new { Key = k, Value = v }).Where(d => d.Value == l.ColumnName).Select(d => d.Key).First()
+                            : int.MaxValue
+                    })
+                    .OrderBy(o => o.OrderNo)
+                    .Select(o => o.ColumnName)
+                    .FirstOrDefault())
+                .SingleOrDefault();
         }
     }
 }

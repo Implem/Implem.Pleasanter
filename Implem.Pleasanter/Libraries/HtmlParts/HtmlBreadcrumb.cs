@@ -147,12 +147,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }.ToString();
             return hb.Div(
                 attributes: new HtmlAttributes()
+                    .Id("CopyToClipboards"),
+                action: () => hb
+                    .Div(
+                attributes: new HtmlAttributes()
                     .Id("CopyDirectUrlToClipboard")
                     .Class("display-control")
                     .OnClick("$p.copyDirectUrlToClipboard('" + directUrl + "');"),
                 action: () => hb
                     .Span(css: "ui-icon ui-icon-link")
-                    .Text(text: ""));
+                    .Text(text: "")));
         }
     }
 }
