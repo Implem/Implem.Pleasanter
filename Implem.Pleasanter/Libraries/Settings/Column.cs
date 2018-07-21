@@ -215,7 +215,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => searchIndexes?.Any() != true ||
                             searchIndexes.All(p =>
                                 o.Key == p.ToInt() ||
-                                o.Value.Name.Contains(p)))
+                                o.Value.Name.RegexLike(p).Any()))
                         .ForEach(o => AddToChoiceHash(
                             o.Key.ToString(),
                             SiteInfo.Dept(o.Key).Name));
@@ -226,8 +226,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ToDictionary(o => o.ToString(), o => SiteInfo.UserName(o))
                         .Where(o => searchIndexes?.Any() != true ||
                             searchIndexes.All(p =>
-                                o.Key.Contains(p) ||
-                                o.Value.Contains(p)))
+                                o.Key.RegexLike(p).Any() ||
+                                o.Value.RegexLike(p).Any()))
                         .ForEach(o => AddToChoiceHash(o.Key, o.Value));
                     break;
                 case "[[Users*]]":
@@ -237,8 +237,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ToDictionary(o => o.Key.ToString(), o => o.Value.Name)
                         .Where(o => searchIndexes?.Any() != true ||
                             searchIndexes.All(p =>
-                                o.Key.Contains(p) ||
-                                o.Value.Contains(p)))
+                                o.Key.RegexLike(p).Any() ||
+                                o.Value.RegexLike(p).Any()))
                         .ForEach(o => AddToChoiceHash(o.Key, o.Value));
                     break;
                 case "[[TimeZones]]":
@@ -259,7 +259,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     else if (TypeName != "bit")
                     {
                         if (searchIndexes == null ||
-                            searchIndexes.All(o => line.Contains(o)))
+                            searchIndexes.All(o => line.RegexLike(o).Any()))
                         {
                             AddToChoiceHash(line);
                         }

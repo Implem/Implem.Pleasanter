@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
+
 namespace Implem.Libraries.Utilities
 {
     public static class Linqs
@@ -57,6 +59,11 @@ namespace Implem.Libraries.Utilities
         public static T[] ToSingleArray<T>(this T self)
         {
             return new T[] { self };
+        }
+
+        public static bool Any(this MatchCollection self)
+        {
+            return self?.Count > 0;
         }
     }
 }
