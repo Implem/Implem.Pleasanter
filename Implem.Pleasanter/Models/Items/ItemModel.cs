@@ -582,19 +582,21 @@ namespace Implem.Pleasanter.Models
             SetSite();
             var controlId = Forms.Data("DropDownSearchTarget");
             var searchText = Forms.Data("DropDownSearchText");
+            string parentClass = Forms.Data("DropDownSearchParentClass");
+            int parentId = Forms.Int("DropDownSearchParentDataId");
             switch (Forms.ControlId())
             {
                 case "DropDownSearchResults":
-                    return AppendSearchDropDown(controlId, searchText);
+                    return AppendSearchDropDown(controlId, searchText, parentClass, parentId);
                 default:
-                    return SearchDropDown(controlId, searchText);
+                    return SearchDropDown(controlId, searchText, parentClass, parentId);
             }
         }
 
-        private string AppendSearchDropDown(string controlId, string searchText)
+        private string AppendSearchDropDown(string controlId, string searchText, string parentClass = "", int parentId = 0)
         {
             var offset = Forms.Int("DropDownSearchResultsOffset");
-            var column = SearchDropDownColumn(controlId, searchText, offset);
+            var column = SearchDropDownColumn(controlId, searchText, offset, parentClass, parentId);
             var nextOffset = Paging.NextOffset(
                 offset, column.TotalCount, Parameters.General.DropDownSearchPageSize);
             return new ResponseCollection()
@@ -605,9 +607,9 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        private string SearchDropDown(string controlId, string searchText)
+        private string SearchDropDown(string controlId, string searchText, string parentClass = "", int parentId = 0)
         {
-            var column = SearchDropDownColumn(controlId, searchText);
+            var column = SearchDropDownColumn(controlId, searchText, parentClass: parentClass, parentId: parentId);
             var nextOffset = Paging.NextOffset(
                 0, column.TotalCount, Parameters.General.DropDownSearchPageSize);
             return new ResponseCollection()
@@ -648,7 +650,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private Column SearchDropDownColumn(string controlId, string searchText, int offset = 0)
+        private Column SearchDropDownColumn(string controlId, string searchText, int offset = 0, string parentClass = "", int parentId = 0)
         {
             var ss = SiteSettingsUtilities.Get(Site, ReferenceId, setSiteIntegration: true);
             var column = ss.GetColumn(controlId.Substring(
@@ -662,7 +664,9 @@ namespace Implem.Pleasanter.Models
                     linkHash: column.SiteSettings.LinkHash(
                         columnName: column.Name,
                         searchText: searchText,
-                        offset: offset),
+                        offset: offset,
+                        parentClass: parentClass,
+                        parentId: parentId),
                     searchIndexes: searchText.SearchIndexes());    
             }
             else
@@ -694,6 +698,7 @@ namespace Implem.Pleasanter.Models
                             multiple: multiple,
                             insertBlank: editor))
                     .Invoke("setDropDownSearch")
+                    .Trigger("#" + controlId, "change")
                     .ToJson()
                 : new ResponseCollection()
                     .Message(Messages.NotFound())

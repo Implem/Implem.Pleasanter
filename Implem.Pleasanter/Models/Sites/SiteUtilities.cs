@@ -2518,6 +2518,11 @@ namespace Implem.Pleasanter.Models
                         .Class("dialog")
                         .Title(Displays.Script()),
                     _using: Contract.Script())
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("RelatingColumnDialog")
+                        .Class("dialog")
+                        .Title(Displays.RelatingColumn()))
                 .PermissionsDialog()
                 .PermissionForCreatingDialog()
                 .ColumnAccessControlDialog());
@@ -3222,7 +3227,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "EditorColumns",
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
-                            controlWrapperCss: " h350",
+                            controlWrapperCss: " h250",
                             labelText: Displays.CurrentSettings(),
                             listItemCollection: ss.EditorSelectableOptions(),
                             commandOptionPositionIsTop: true,
@@ -3264,7 +3269,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "EditorSourceColumns",
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
-                            controlWrapperCss: " h350",
+                            controlWrapperCss: " h250",
                             labelText: Displays.OptionList(),
                             listItemCollection: ss.EditorSelectableOptions(enabled: false),
                             commandOptionPositionIsTop: true,
@@ -3282,7 +3287,46 @@ namespace Implem.Pleasanter.Models
                         controlId: "AllowEditingComments",
                         fieldCss: "field-auto-thin both",
                         labelText: Displays.AllowEditingComments(),
-                        _checked: ss.AllowEditingComments == true));
+                        _checked: ss.AllowEditingComments == true)
+                .FieldSet(id: "RelatingColumnsSettingsEditor",
+                    css: " enclosed",
+                    legendText: Displays.RelatingColumnSettings(),
+                    action: () => hb
+                    .Div(css: "command-left", action: () => hb
+                        .Button(
+                            controlId: "MoveUpRelatingColumns",
+                            controlCss: "button-icon",
+                            text: Displays.MoveUp(),
+                            onClick: "$p.setAndSend('#EditRelatingColumns', $(this));",
+                            icon: "ui-icon-circle-triangle-n",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "MoveDownRelatingColumns",
+                            controlCss: "button-icon",
+                            text: Displays.MoveDown(),
+                            onClick: "$p.setAndSend('#EditRelatingColumns', $(this));",
+                            icon: "ui-icon-circle-triangle-s",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "NewRelatingColumn",
+                            text: Displays.New(),
+                            controlCss: "button-icon",
+                            onClick: "$p.openRelatingColumnDialog($(this));",
+                            icon: "ui-icon-gear",
+                            action: "SetSiteSettings",
+                            method: "put")
+                        .Button(
+                            controlId: "DeleteRelatingColumns",
+                            text: Displays.Delete(),
+                            controlCss: "button-icon",
+                            onClick: "$p.setAndSend('#EditRelatingColumns', $(this));",
+                            icon: "ui-icon-trash",
+                            action: "SetSiteSettings",
+                            method: "delete",
+                            confirm: Displays.ConfirmDelete()))
+                    .EditRelatingColumns(ss)));
         }
 
         /// <summary>
@@ -6922,6 +6966,176 @@ namespace Implem.Pleasanter.Models
                 FormulaUtilities.Synchronize(siteModel, selected);
                 return Messages.ResponseSynchronizationCompleted().ToJson();
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditRelatingColumns(this HtmlBuilder hb, SiteSettings ss)
+        {
+            var selected = Forms.Data("EditRelatingColumns").Deserialize<IEnumerable<int>>();
+            return hb.Table(
+                id: "EditRelatingColumns",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("RelatingColumnId")
+                    .DataFunc("openRelatingColumnDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditRelatingColumnsHeader(ss: ss, selected: selected)
+                    .EditRelatingColumnsBody(ss: ss, selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditRelatingColumnsHeader(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: false))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Title()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Links()))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditRelatingColumnsBody(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => ss
+                .RelatingColumns?.ForEach(relatingColumn => hb
+                    .Tr(
+                        css: "grid-row",
+                        attributes: new HtmlAttributes()
+                            .DataId(relatingColumn.Id.ToString()),
+                        action: () => hb
+                            .Td(action: () => hb
+                                .CheckBox(
+                                    controlCss: "select",
+                                    _checked: selected?
+                                        .Contains(relatingColumn.Id) == true))
+                            .Td(action: () => hb
+                                .Text(text: relatingColumn.Title))
+                            .Td(action: () => hb
+                                .Text(text: relatingColumn.Columns?.Select(o => GetClassLabelText(ss, o)).Join(", "))))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string GetClassLabelText(SiteSettings ss, string className)
+        {
+            return (ss?.ColumnHash?.FirstOrDefault(o => o.Key == className))?.Value?.LabelText ?? className;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder RelatingColumnDialog(
+            SiteSettings ss, string controlId, RelatingColumn relatingColumn)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("RelatingColumnForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "RelatingColumnId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(),
+                        text: relatingColumn.Id.ToString(),
+                        _using: controlId == "EditRelatingColumns")
+                    .FieldTextBox(
+                        controlId: "RelatingColumnTitle",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Title(),
+                        text: relatingColumn.Title,
+                        validateRequired: true)
+                .FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.RelatingColumnSettings(),
+                    action: () => hb
+                        .FieldSelectable(
+                            controlId: "RelatingColumnColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            controlCss: " always-send send-all",
+                            labelText: Displays.CurrentSettings(),
+                            listItemCollection: ss.RelatingColumnSelectableOptions(relatingColumn.Id),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "MoveUpRelatingColumnColumnsLocal",
+                                        text: Displays.MoveUp(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumns($(this));",
+                                        icon: "ui-icon-circle-triangle-n")
+                                    .Button(
+                                        controlId: "MoveDownRelatingColumnColumnsLocal",
+                                        text: Displays.MoveDown(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumns($(this));",
+                                        icon: "ui-icon-circle-triangle-s")
+                                    .Button(
+                                        controlId: "ToDisableRelatingColumnColumnsLocal",
+                                        text: Displays.ToDisable(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumns($(this));",
+                                        icon: "ui-icon-circle-triangle-e")))
+                        .FieldSelectable(
+                            controlId: "RelatingColumnSourceColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            labelText: Displays.OptionList(),
+                            listItemCollection: ss.RelatingColumnSelectableOptions(relatingColumn.Id, enabled: false),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "ToEnableRelatingColumnColumnsLocal",
+                                        text: Displays.ToEnable(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumns($(this));",
+                                        icon: "ui-icon-circle-triangle-w"))))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddRelatingColumn",
+                            text: Displays.Add(),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.setRelatingColumn($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewRelatingColumn")
+                        .Button(
+                            controlId: "UpdateRelatingColumn",
+                            text: Displays.Change(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.setRelatingColumn($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditRelatingColumns")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
         }
     }
 }

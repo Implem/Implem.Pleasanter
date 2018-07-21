@@ -1492,5 +1492,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Issues(params string[] data) { return Get("Issues", data); }
         public static string Results(params string[] data) { return Get("Results", data); }
         public static string Wikis(params string[] data) { return Get("Wikis", data); }
+        public static string RelatingColumn(params string[] data) { return Get("RelatingColumn", data); }
+        public static string RelatingColumnSettings(params string[] data) { return Get("RelatingColumnSettings", data); }
     }
 }

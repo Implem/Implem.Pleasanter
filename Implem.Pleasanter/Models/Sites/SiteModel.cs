@@ -1213,6 +1213,23 @@ namespace Implem.Pleasanter.Models
                 case "DeleteScripts":
                     DeleteScripts(res);
                     break;
+                case "MoveUpRelatingColumns":
+                case "MoveDownRelatingColumns":
+                    SetRelatingColumnsOrder(res, controlId);
+                    break;
+                case "NewRelatingColumn":
+                case "EditRelatingColumns":
+                    OpenRelatingColumnDialog(res, controlId);
+                    break;
+                case "AddRelatingColumn":
+                    AddRelatingColumn(res, controlId);
+                    break;
+                case "UpdateRelatingColumn":
+                    UpdateRelatingColumn(res, controlId);
+                    break;
+                case "DeleteRelatingColumns":
+                    DeleteRelatingColumns(res);
+                    break;
                 default:
                     Forms.All()
                         .Where(o => o.Key != controlId)
@@ -3218,6 +3235,108 @@ namespace Implem.Pleasanter.Models
             res
                 .Message(message)
                 .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetRelatingColumnsOrder(ResponseCollection res, string controlId)
+        {
+            var selected = Forms.IntList("EditRelatingColumns");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets()).ToJson();
+            }
+            else
+            {
+                SiteSettings.RelatingColumns.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
+                res.Html("#EditRelatingColumns", new HtmlBuilder()
+                    .EditRelatingColumns(ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenRelatingColumnDialog(ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewRelatingColumn")
+            {
+                var RelatingColumn = new RelatingColumn() { };
+                OpenRelatingColumnDialog(res, RelatingColumn);
+            }
+            else
+            {
+                var RelatingColumn = SiteSettings.RelatingColumns?.Get(Forms.Int("RelatingColumnId"));
+                if (RelatingColumn == null)
+                {
+                    OpenDialogError(res, Messages.SelectOne());
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(this, SiteId);
+                    OpenRelatingColumnDialog(res, RelatingColumn);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenRelatingColumnDialog(ResponseCollection res, RelatingColumn RelatingColumn)
+        {
+            res.Html("#RelatingColumnDialog", SiteUtilities.RelatingColumnDialog(
+                ss: SiteSettings, controlId: Forms.ControlId(), relatingColumn: RelatingColumn));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddRelatingColumn(ResponseCollection res, string controlId)
+        {
+            SiteSettings.RelatingColumns.Add(new RelatingColumn(
+                id: SiteSettings.RelatingColumns.MaxOrDefault(o => o.Id) + 1,
+                title: Forms.Data("RelatingColumnTitle"),
+                columns: Forms.List("RelatingColumnColumnsAll")));
+            res
+                .ReplaceAll("#EditRelatingColumns", new HtmlBuilder()
+                    .EditRelatingColumns(ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateRelatingColumn(ResponseCollection res, string controlId)
+        {
+            SiteSettings.RelatingColumns?
+                .FirstOrDefault(o => o.Id == Forms.Int("RelatingColumnId"))?
+                .Update(
+                    title: Forms.Data("RelatingColumnTitle"),
+                    columns: Forms.List("RelatingColumnColumnsAll"));
+            res
+                .Html("#EditRelatingColumns", new HtmlBuilder()
+                    .EditRelatingColumns(ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteRelatingColumns(ResponseCollection res)
+        {
+            var selected = Forms.IntList("EditRelatingColumns");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets()).ToJson();
+            }
+            else
+            {
+                SiteSettings.RelatingColumns.Delete(selected);
+                res.ReplaceAll("#EditRelatingColumns", new HtmlBuilder()
+                    .EditRelatingColumns(ss: SiteSettings));
+            }
         }
     }
 }

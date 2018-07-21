@@ -145,3 +145,13 @@ $p.addSummary = function ($control) {
     $p.setData($('#SummarySourceColumn'));
     $p.send($control);
 }
+
+$p.openRelatingColumnDialog = function ($control) {
+    $p.data.RelatingColumnForm = {};
+    $p.openSiteSettingsDialog($control, '#RelatingColumnDialog');
+}
+
+$p.setRelatingColumn = function ($control) {
+    $p.setData($('#EditRelatingColumns'), $p.getData($control));
+    $p.send($control);
+}

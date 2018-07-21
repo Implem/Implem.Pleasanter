@@ -603,5 +603,15 @@ namespace Implem.Pleasanter.Libraries.Html
             }
             return this;
         }
+
+        public HtmlAttributes DataOrder(int? value, bool _using = true)
+        {
+            if (_using && value >= 0)
+            {
+                Add("data-order");
+                Add(value.ToString());
+            }
+            return this;
+        }
     }
 }

@@ -48,6 +48,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlId: "DropDownSearchResultsOffset",
                                 value: "0",
                                 css: "always-send")
+                            .Hidden(
+                                controlId: "DropDownSearchParentClass",
+                                value: "",
+                                css: "always-send")
+                            .Hidden(
+                                controlId: "DropDownSearchParentDataId",
+                                value: "0",
+                                css: "always-send")
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
