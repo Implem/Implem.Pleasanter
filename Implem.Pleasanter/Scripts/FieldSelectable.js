@@ -69,8 +69,8 @@
             if ($('#' + formId + ' li[data-value="' + selected[i] + '"]').attr('data-order') !== undefined) {
                 for (j = 0; j < afterSourceColumns.length; j++) {
                     if ($('#' + formId + ' li[data-value="' + afterSourceColumns[j] + '"]').attr('data-order') === undefined) break;
-                    if ($('#' + formId + ' li[data-value="' + selected[i] + '"]').attr('data-order')
-                        < $('#' + formId + ' li[data-value="' + afterSourceColumns[j] + '"]').attr('data-order')) {
+                    if (parseInt($('#' + formId + ' li[data-value="' + selected[i] + '"]').attr('data-order'), 10)
+                        < parseInt($('#' + formId + ' li[data-value="' + afterSourceColumns[j] + '"]').attr('data-order'), 10)) {
                         pos = j;
                         break;
                     }
