@@ -1,4 +1,5 @@
-﻿namespace Implem.ParameterAccessor.Parts
+﻿using System.Collections.Generic;
+namespace Implem.ParameterAccessor.Parts
 {
     public class ExtendedColumns
     {
@@ -11,5 +12,6 @@
         public int Description;
         public int Check;
         public int Attachments;
+        public List<string> DisabledColumns;
     }
 }
