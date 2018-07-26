@@ -322,6 +322,10 @@ namespace Implem.DefinitionAccessor
                         Def.ColumnDefinitionCollection.Add(def);
                     }
                 });
+                Def.ColumnDefinitionCollection.RemoveAll(def =>
+                    extendedColumns.DisabledColumns?
+                        .Select(columnName => $"{extendedColumns.TableName}_{columnName}")
+                        .Contains(def.Id) == true);
             });
         }
 
