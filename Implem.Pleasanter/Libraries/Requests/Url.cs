@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public static string RouteData(string name)
         {
-            return RouteTable.Routes.Any()
+            return RouteTable.Routes.Any() && HttpContext.Current != null
                 ? RouteTable.Routes
                     .GetRouteData(new HttpContextWrapper(HttpContext.Current))
                     .Values[name]?
