@@ -4024,13 +4024,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types ChangePassword()
         {
-            PasswordExpirationPeriod();
             Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
                 where: Rds.UsersWhereDefault(this),
-                param: Rds.UsersParam()
-                    .Password(ChangedPassword)
-                    .PasswordExpirationTime(PasswordExpirationTime.Value)
-                    .PasswordChangeTime(raw: "getdate()")));
+                param: ChangePasswordParam()));
             Get(SiteSettingsUtilities.UsersSiteSettings());
             return Error.Types.None;
         }
@@ -4040,13 +4036,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types ChangePasswordAtLogin()
         {
-            PasswordExpirationPeriod();
             Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
                 where: Rds.UsersWhereDefault(this),
-                param: Rds.UsersParam()
-                    .Password(ChangedPassword)
-                    .PasswordExpirationTime(PasswordExpirationTime.Value)
-                    .PasswordChangeTime(raw: "getdate()")));
+                param: ChangePasswordParam(changeAtLogin: true)));
             return Error.Types.None;
         }
 
@@ -4055,15 +4047,25 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types ResetPassword()
         {
-            PasswordExpirationPeriod();
             Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
                 where: Rds.UsersWhereDefault(this),
-                param: Rds.UsersParam()
-                    .Password(AfterResetPassword)
-                    .PasswordExpirationTime(PasswordExpirationTime.Value)
-                    .PasswordChangeTime(raw: "getdate()")));
+                param: ChangePasswordParam()));
             Get(SiteSettingsUtilities.UsersSiteSettings());
             return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public SqlParamCollection ChangePasswordParam(bool changeAtLogin = false)
+        {
+            PasswordExpirationPeriod();
+            var param = Rds.UsersParam()
+                .Password(ChangedPassword)
+                .PasswordChangeTime(raw: "getdate()");
+            return Parameters.Authentication.PasswordExpirationPeriod > 0 || !changeAtLogin
+                ? param.PasswordExpirationTime(PasswordExpirationTime.Value)
+                : param.PasswordExpirationTime(raw: "null");
         }
 
         /// <summary>
