@@ -23,6 +23,7 @@ namespace Implem.Pleasanter
             return new string[] {
                 "~/Scripts/_Init.js",
                 "~/Scripts/_Ajax.js",
+                "~/Scripts/_Api.js",
                 "~/Scripts/_Data.js",
                 "~/Scripts/_Dispatch.js",
                 "~/Scripts/_Event.js",

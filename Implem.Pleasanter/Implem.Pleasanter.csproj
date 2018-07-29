@@ -563,6 +563,7 @@
     <Content Include="Scripts\Clipboard.js" />
     <Content Include="Scripts\FieldSelectable.js" />
     <Content Include="Scripts\RelatingColumns.js" />
+    <Content Include="Scripts\_Api.js" />
     <Content Include="Scripts\_Event.js" />
     <Content Include="Scripts\Grid.js" />
     <Content Include="Scripts\ImageLibEvents.js" />
