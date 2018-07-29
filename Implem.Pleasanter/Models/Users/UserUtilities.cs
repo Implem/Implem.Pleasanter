@@ -2742,7 +2742,12 @@ namespace Implem.Pleasanter.Models
         {
             if (userModel.VerType == Versions.VerTypes.Latest &&
                 userModel.MethodType != BaseModel.MethodTypes.New &&
-                Parameters.Authentication.Provider == null)
+                Rds.ExecuteScalar_bool(statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn().UsersCount(),
+                    where: Rds.UsersWhere()
+                        .TenantId(ss.Context.TenantId)
+                        .UserId(userModel.UserId)
+                        .Password(_operator: "is not null"))))
             {
                 if (userModel.Self())
                 {
