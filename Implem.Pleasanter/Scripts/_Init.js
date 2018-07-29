@@ -1,5 +1,5 @@
 ﻿var $p = {
     data: {},
     events: {},
-    user: {}
+    users: {}
 };
