@@ -4026,7 +4026,7 @@ namespace Implem.Pleasanter.Models
         {
             Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
                 where: Rds.UsersWhereDefault(this),
-                param: ChangePasswordParam()));
+                param: ChangePasswordParam(ChangedPassword)));
             Get(SiteSettingsUtilities.UsersSiteSettings());
             return Error.Types.None;
         }
@@ -4038,7 +4038,7 @@ namespace Implem.Pleasanter.Models
         {
             Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
                 where: Rds.UsersWhereDefault(this),
-                param: ChangePasswordParam(changeAtLogin: true)));
+                param: ChangePasswordParam(ChangedPassword, changeAtLogin: true)));
             return Error.Types.None;
         }
 
@@ -4049,7 +4049,7 @@ namespace Implem.Pleasanter.Models
         {
             Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
                 where: Rds.UsersWhereDefault(this),
-                param: ChangePasswordParam()));
+                param: ChangePasswordParam(AfterResetPassword)));
             Get(SiteSettingsUtilities.UsersSiteSettings());
             return Error.Types.None;
         }
@@ -4057,11 +4057,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public SqlParamCollection ChangePasswordParam(bool changeAtLogin = false)
+        public SqlParamCollection ChangePasswordParam(string password, bool changeAtLogin = false)
         {
             PasswordExpirationPeriod();
             var param = Rds.UsersParam()
-                .Password(ChangedPassword)
+                .Password(password)
                 .PasswordChangeTime(raw: "getdate()");
             return Parameters.Authentication.PasswordExpirationPeriod > 0 || !changeAtLogin
                 ? param.PasswordExpirationTime(PasswordExpirationTime.Value)
