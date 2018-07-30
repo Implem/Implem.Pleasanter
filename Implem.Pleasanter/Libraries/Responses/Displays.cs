@@ -437,6 +437,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string RecordAccessControl(params string[] data) { return Get("RecordAccessControl", data); }
         public static string ReCreate(params string[] data) { return Get("ReCreate", data); }
         public static string Register(params string[] data) { return Get("Register", data); }
+        public static string RelatingColumn(params string[] data) { return Get("RelatingColumn", data); }
+        public static string RelatingColumnSettings(params string[] data) { return Get("RelatingColumnSettings", data); }
         public static string Reload(params string[] data) { return Get("Reload", data); }
         public static string Reminders(params string[] data) { return Get("Reminders", data); }
         public static string Reply(params string[] data) { return Get("Reply", data); }
@@ -1492,7 +1494,5 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Issues(params string[] data) { return Get("Issues", data); }
         public static string Results(params string[] data) { return Get("Results", data); }
         public static string Wikis(params string[] data) { return Get("Wikis", data); }
-        public static string RelatingColumn(params string[] data) { return Get("RelatingColumn", data); }
-        public static string RelatingColumnSettings(params string[] data) { return Get("RelatingColumnSettings", data); }
     }
 }
