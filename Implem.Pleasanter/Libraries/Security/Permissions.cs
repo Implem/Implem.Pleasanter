@@ -421,7 +421,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static ColumnPermissionTypes ColumnPermissionType(this Column self)
         {
-            switch(Url.RouteData("action").ToLower())
+            switch(self.SiteSettings.Context.Action)
             {
                 case "new":
                     return self.CanCreate
