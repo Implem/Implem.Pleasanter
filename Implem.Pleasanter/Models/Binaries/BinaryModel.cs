@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Models
         public byte[] Icon = null;
         public string FileName = string.Empty;
         public string Extension = string.Empty;
-        public int Size = 0;
+        public long Size = 0;
         public string ContentType = string.Empty;
         public BinarySettings BinarySettings = new BinarySettings();
         [NonSerialized] public long SavedBinaryId = 0;
@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public byte[] SavedIcon = null;
         [NonSerialized] public string SavedFileName = string.Empty;
         [NonSerialized] public string SavedExtension = string.Empty;
-        [NonSerialized] public int SavedSize = 0;
+        [NonSerialized] public long SavedSize = 0;
         [NonSerialized] public string SavedContentType = string.Empty;
         [NonSerialized] public string SavedBinarySettings = "[]";
 
@@ -131,7 +131,7 @@ namespace Implem.Pleasanter.Models
             return Size != SavedSize &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != Size);
+                column.DefaultInput.ToLong() != Size);
         }
 
         public bool ContentType_Updated(Column column = null)
@@ -568,7 +568,7 @@ namespace Implem.Pleasanter.Models
                             SavedExtension = Extension;
                             break;
                         case "Size":
-                            Size = dataRow[column.ColumnName].ToInt();
+                            Size = dataRow[column.ColumnName].ToLong();
                             SavedSize = Size;
                             break;
                         case "ContentType":
