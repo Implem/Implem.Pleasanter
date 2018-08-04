@@ -15,9 +15,14 @@ namespace Implem.Pleasanter.Libraries.ViewModes
     public static class CrosstabUtilities
     {
         public static List<string> JoinColumns(
-            View view, Column groupByX, Column groupByY, List<Column> columns)
+            View view, Column groupByX, Column groupByY, List<Column> columns, Column value)
         {
-            var data = new List<string>() { groupByX?.ColumnName, groupByY?.ColumnName };
+            var data = new List<string>()
+            {
+                groupByX?.ColumnName,
+                groupByY?.ColumnName,
+                value?.ColumnName
+            };
             if (view.CrosstabGroupByY == "Columns")
             {
                 columns?.ForEach(o => data.Add(o.ColumnName));
