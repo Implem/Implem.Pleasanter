@@ -2110,9 +2110,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DateFilterHalf": column.DateFilterHalf = value.ToBool(); break;
                 case "DateFilterQuarter": column.DateFilterQuarter = value.ToBool(); break;
                 case "DateFilterMonth": column.DateFilterMonth = value.ToBool(); break;
-                case "LimitQuantity": column.LimitQuantity = value.ToInt(); break;
-                case "LimitSize": column.LimitSize = value.ToInt(); break;
-                case "LimitTotalSize": column.TotalLimitSize = value.ToInt(); break;
+                case "LimitQuantity": column.LimitQuantity = value.ToDecimal(); break;
+                case "LimitSize": column.LimitSize = value.ToDecimal(); break;
+                case "LimitTotalSize": column.TotalLimitSize = value.ToDecimal(); break;
                 case "TitleSeparator": TitleSeparator = value; break;
             }
         }

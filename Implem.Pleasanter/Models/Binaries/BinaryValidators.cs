@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.BadRequest;
             }
-            var newTotalFileSize = files.Sum(x => x.ContentLength);
+            var newTotalFileSize = files.Sum(x => x.ContentLength.ToDecimal());
             if (OverTenantStorageSize(
                 BinaryUtilities.UsedTenantStorageSize(),
                 newTotalFileSize,
@@ -111,7 +111,10 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.BadRequest;
             }
-            if (OverLimitQuantity(attachments.Count(), files.Count(), column.LimitQuantity))
+            if (OverLimitQuantity(
+                attachments.Count().ToDecimal(),
+                files.Count().ToDecimal(),
+                column.LimitQuantity))
             {
                 return Error.Types.OverLimitQuantity;
             }
@@ -119,9 +122,9 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.OverLimitSize;
             }
-            var newTotalFileSize = files.Sum(x => x.ContentLength);
+            var newTotalFileSize = files.Sum(x => x.ContentLength.ToDecimal());
             if (OverTotalLimitSize(
-                attachments.Select(x => x.Size.ToLong()).Sum(),
+                attachments.Select(x => x.Size.ToDecimal()).Sum(),
                 newTotalFileSize,
                 column.TotalLimitSize))
             {
@@ -140,7 +143,8 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool OverLimitQuantity(long fileCount, long newFileCount, int? limit)
+        private static bool OverLimitQuantity(
+            decimal fileCount, decimal newFileCount, decimal? limit)
         {
             if ((fileCount + newFileCount) > limit) return true;
             return false;
@@ -149,11 +153,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool OverLimitSize(System.Web.HttpPostedFileBase[] files, int? limit)
+        private static bool OverLimitSize(System.Web.HttpPostedFileBase[] files, decimal? limit)
         {
             foreach (var item in files)
             {
-                if (item.ContentLength > (long)limit * 1024 * 1024) return true;
+                if (item.ContentLength > limit * 1024 * 1024) return true;
             }
             return false;
         }
@@ -162,9 +166,9 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static bool OverTotalLimitSize(
-            long totalFileSize, long newTotalFileSize, int? limit)
+            decimal totalFileSize, decimal newTotalFileSize, decimal? limit)
         {
-            if ((totalFileSize + newTotalFileSize) > (long)limit * 1024 * 1024) return true;
+            if ((totalFileSize + newTotalFileSize) > limit * 1024 * 1024) return true;
             return false;
         }
 
@@ -172,10 +176,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static bool OverTenantStorageSize(
-            long totalFileSize, long newTotalFileSize, int? limit)
+            decimal totalFileSize, decimal newTotalFileSize, decimal? limit)
         {
             if (limit != null &&
-                (totalFileSize + newTotalFileSize) > (long)limit * 1024 * 1024 * 1024) return true;
+                (totalFileSize + newTotalFileSize) > limit * 1024 * 1024 * 1024) return true;
             return false;
         }
     }

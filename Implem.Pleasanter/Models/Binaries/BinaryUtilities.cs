@@ -329,9 +329,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static long UsedTenantStorageSize()
+        public static decimal UsedTenantStorageSize()
         {
-            return Rds.ExecuteScalar_long(statements: Rds.SelectBinaries(
+            return Rds.ExecuteScalar_decimal(statements: Rds.SelectBinaries(
                 column: Rds.BinariesColumn().Size(function: Sqls.Functions.Sum),
                 where: Rds.BinariesWhere().TenantId(Sessions.TenantId())));
         }

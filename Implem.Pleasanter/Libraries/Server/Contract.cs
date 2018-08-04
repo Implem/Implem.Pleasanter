@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 Attachments();
         }
 
-        public static int? TenantStorageSize()
+        public static decimal? TenantStorageSize()
         {
             return ContractHash.Get(Sessions.TenantId())?.StorageSize;
         }
