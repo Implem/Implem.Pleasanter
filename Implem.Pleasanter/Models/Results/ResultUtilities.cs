@@ -5810,7 +5810,7 @@ namespace Implem.Pleasanter.Models
         {
             EnumerableRowCollection<DataRow> dataRows;
             var join = ss.Join(columns: Libraries.ViewModes.CrosstabUtilities
-                .JoinColumns(view, groupByX, groupByY, columns));
+                .JoinColumns(view, groupByX, groupByY, columns, value));
             if (groupByX?.TypeName != "datetime")
             {
                 dataRows = Rds.ExecuteTable(statements:
