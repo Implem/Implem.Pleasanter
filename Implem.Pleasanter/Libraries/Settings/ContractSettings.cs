@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? Users;
         public long? Sites;
         public long? Items;
-        public int? StorageSize;
+        public decimal? StorageSize;
         public bool? Import;
         public bool? Export;
         public bool? Notice;

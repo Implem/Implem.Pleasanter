@@ -57,9 +57,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? DateFilterHalf;
         public bool? DateFilterQuarter;
         public bool? DateFilterMonth;
-        public int? LimitQuantity;
-        public int? LimitSize;
-        public int? TotalLimitSize;
+        public decimal? LimitQuantity;
+        public decimal? LimitSize;
+        public decimal? TotalLimitSize;
         [NonSerialized]
         public int? No;
         [NonSerialized]

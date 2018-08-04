@@ -6,15 +6,15 @@
         public string Path;
         public bool Attachments;
         public bool Images;
-        public int LimitQuantity;
-        public int LimitSize;
-        public int LimitTotalSize;
-        public int MinQuantity;
-        public int MaxQuantity;
-        public int MinSize;
-        public int MaxSize;
-        public int TotalMinSize;
-        public int TotalMaxSize;
+        public decimal LimitQuantity;
+        public decimal LimitSize;
+        public decimal LimitTotalSize;
+        public decimal MinQuantity;
+        public decimal MaxQuantity;
+        public decimal MinSize;
+        public decimal MaxSize;
+        public decimal TotalMinSize;
+        public decimal TotalMaxSize;
 
         public bool IsLocal()
         {
