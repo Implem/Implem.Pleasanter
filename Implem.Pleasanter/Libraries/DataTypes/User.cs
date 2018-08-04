@@ -56,12 +56,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 }
                 else
                 {
-                    SetAnonymouse();
+                    SetAnonymous();
                 }
             }
             else
             {
-                SetAnonymouse();
+                SetAnonymous();
             }
         }
 
@@ -82,7 +82,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Disabled = dataRow.Bool("Disabled");
         }
 
-        private void SetAnonymouse()
+        private void SetAnonymous()
         {
             TenantId = 0;
             Id = UserTypes.Anonymous.ToInt();

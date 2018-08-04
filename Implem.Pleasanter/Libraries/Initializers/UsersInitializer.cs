@@ -21,7 +21,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                     tenantManager: true);
                 Create(
                     0,
-                    "Anonymouse",
+                    "Anonymous",
                     string.Empty,
                     disabled: true);
             }

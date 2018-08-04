@@ -110,13 +110,13 @@ namespace Implem.Pleasanter
                 else
                 {
                     Authentications.SignOut();
-                    SetAnonymouseSession();
+                    SetAnonymousSession();
                     Response.Redirect(HttpContext.Current.Request.Url.ToString());
                 }
             }
             else
             {
-                SetAnonymouseSession();
+                SetAnonymousSession();
             }
             switch (Request.AppRelativeCurrentExecutionFilePath.ToLower())
             {
@@ -129,7 +129,7 @@ namespace Implem.Pleasanter
             }
         }
 
-        private void SetAnonymouseSession()
+        private void SetAnonymousSession()
         {
             var userModel = new UserModel();
             Session["Language"] = userModel.Language;
