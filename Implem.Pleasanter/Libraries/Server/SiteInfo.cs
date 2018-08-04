@@ -171,10 +171,10 @@ namespace Implem.Pleasanter.Libraries.Server
             return TenantCaches.Get(Sessions.TenantId())?.UserHash?
                 .Where(o => o.Key == userId)
                 .Select(o => o.Value)
-                .FirstOrDefault() ?? Anonymouse();
+                .FirstOrDefault() ?? Anonymous();
         }
 
-        private static User Anonymouse()
+        private static User Anonymous()
         {
             return new User(DataTypes.User.UserTypes.Anonymous.ToInt());
         }
