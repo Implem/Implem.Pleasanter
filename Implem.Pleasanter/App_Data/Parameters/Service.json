@@ -1,12 +1,13 @@
 ﻿{
-    "Name": "Implem.Pleasanter",
-    "TimeZoneDefault": "Tokyo Standard Time",
-    "DefaultPassword": "pleasanter",
-    "AbsoluteUri": null,
-    "RequireHttps": false,
-    "ImportData": false,
-    "ShowTenantTitle": false,
-    "ShowProfiles": true,
-    "Demo": false,
-    "DemoUsagePeriod": 30
+  "Name": "Implem.Pleasanter",
+  "TimeZoneDefault": "Tokyo Standard Time",
+  "DefaultPassword": "pleasanter",
+  "DefaultLanguage": "ja",
+  "AbsoluteUri": null,
+  "RequireHttps": false,
+  "ImportData": false,
+  "ShowTenantTitle": false,
+  "ShowProfiles": true,
+  "Demo": false,
+  "DemoUsagePeriod": 30
 }

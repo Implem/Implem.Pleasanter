@@ -5,6 +5,7 @@
         public string Name;
         public string TimeZoneDefault;
         public string DefaultPassword;
+        public string DefaultLanguage;
         public string AbsoluteUri;
         public bool RequireHttps;
         public bool ImportData;

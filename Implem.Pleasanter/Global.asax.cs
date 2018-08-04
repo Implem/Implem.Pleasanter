@@ -132,7 +132,7 @@ namespace Implem.Pleasanter
         private void SetAnonymousSession()
         {
             var userModel = new UserModel();
-            Session["Language"] = userModel.Language;
+            Session["Language"] = Parameters.Service.DefaultLanguage ?? userModel.Language;
             Session["RdsUser"] = userModel.RdsUser();
             Session["Developer"] = userModel.Developer;
         }
