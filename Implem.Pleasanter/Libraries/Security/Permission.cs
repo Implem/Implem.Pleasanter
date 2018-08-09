@@ -69,11 +69,13 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (Name)
             {
                 case "Dept":
+                    var dept = SiteInfo.Dept(Id);
                     return DisplayText(
                         Displays.Depts(),
                         Id != 0
-                            ? SiteInfo.Dept(Id)?.Name
+                            ? dept?.Name
                             : null,
+                        dept.Code,
                         withType);
                 case "Group":
                     var groupModel = Id != 0
@@ -84,33 +86,44 @@ namespace Implem.Pleasanter.Libraries.Security
                         groupModel?.AccessStatus == Databases.AccessStatuses.Selected
                             ? groupModel.GroupName
                             : null,
+                        null,
                         withType);
                 case "User":
+                    var user = SiteInfo.User(Id);
                     return DisplayText(
                         Displays.Users(),
                         Id != 0
-                            ? SiteInfo.User(Id)?.Name
+                            ? user?.Name
+                            : null,
+                        Id != 0
+                            ? user?.LoginId
                             : null,
                         withType);
                 default:
                     var column = ss?.GetColumn(Name);
-                    return DisplayText(Displays.Column(), column?.LabelText, withType);
+                    return DisplayText(
+                        Displays.Column(),
+                        column?.LabelText,
+                        column?.LabelTextDefault,
+                        withType);
             }
         }
 
-        private ControlData DisplayText(string title, string name, bool withType)
+        private ControlData DisplayText(string text, string name, string title, bool withType)
         {
-            return new ControlData("[" + title +
-                (Id != 0
-                    ? " " + Id
-                    : string.Empty) +
-                "]" +
-                (name != null
-                    ? " " + name
-                    : string.Empty) +
-                (withType
-                    ? " - [" + DisplayTypeName() + "]"
-                    : string.Empty));
+            return new ControlData(
+                text: "[" + text +
+                    (Id != 0
+                        ? " " + Id
+                        : string.Empty) +
+                    "]" +
+                    (name != null
+                        ? " " + name
+                        : string.Empty) +
+                    (withType
+                        ? " - [" + DisplayTypeName() + "]"
+                        : string.Empty),
+                title: title);
         }
 
         private string DisplayTypeName()

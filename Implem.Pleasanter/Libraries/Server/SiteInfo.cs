@@ -39,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.Server
                         column: Rds.DeptsColumn()
                             .TenantId()
                             .DeptId()
+                            .DeptCode()
                             .DeptName(),
                         where: Rds.DeptsWhere().TenantId(tenantId),
                         _using: monitor.DeptsUpdated || force),
