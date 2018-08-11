@@ -969,12 +969,6 @@ namespace Implem.Pleasanter.Models
             SiteSettings.SetJoinedSsHash();
             switch (controlId)
             {
-                case "MoveUpGridColumns":
-                case "MoveDownGridColumns":
-                case "ToDisableGridColumns":
-                case "ToEnableGridColumns":
-                    SetGridColumns(res, controlId);
-                    break;
                 case "OpenGridColumnDialog":
                     OpenGridColumnDialog(res);
                     break;
@@ -983,12 +977,6 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "GridJoin":
                     SetGridColumnsSelectable(res);
-                    break;
-                case "MoveUpFilterColumns":
-                case "MoveDownFilterColumns":
-                case "ToDisableFilterColumns":
-                case "ToEnableFilterColumns":
-                    SetFilterColumns(res, controlId);
                     break;
                 case "OpenFilterColumnDialog":
                     OpenFilterColumnDialog(res);
@@ -1001,18 +989,10 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "AddAggregations":
                 case "DeleteAggregations":
-                case "MoveUpAggregations":
-                case "MoveDownAggregations":
                     SetAggregations(res, controlId);
                     break;
                 case "SetAggregationDetails":
                     SetAggregationDetails(res);
-                    break;
-                case "MoveUpEditorColumns":
-                case "MoveDownEditorColumns":
-                case "ToDisableEditorColumns":
-                case "ToEnableEditorColumns":
-                    SetEditorColumns(res, controlId);
                     break;
                 case "OpenEditorColumnDialog":
                     OpenEditorColumnDialog(res);
@@ -1022,24 +1002,6 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "ResetEditorColumn":
                     ResetEditorColumn(res);
-                    break;
-                case "MoveUpTitleColumns":
-                case "MoveDownTitleColumns":
-                case "ToDisableTitleColumns":
-                case "ToEnableTitleColumns":
-                    SetTitleColumns(res, controlId);
-                    break;
-                case "MoveUpLinkColumns":
-                case "MoveDownLinkColumns":
-                case "ToDisableLinkColumns":
-                case "ToEnableLinkColumns":
-                    SetLinkColumns(res, controlId);
-                    break;
-                case "MoveUpHistoryColumns":
-                case "MoveDownHistoryColumns":
-                case "ToDisableHistoryColumns":
-                case "ToEnableHistoryColumns":
-                    SetHistoryColumns(res, controlId);
                     break;
                 case "MoveUpSummaries":
                 case "MoveDownSummaries":
@@ -1081,10 +1043,6 @@ namespace Implem.Pleasanter.Models
                 case "DeleteFormulas":
                     DeleteFormulas(res);
                     break;
-                case "MoveUpViews":
-                case "MoveDownViews":
-                    SetViewsOrder(res, controlId);
-                    break;
                 case "NewView":
                 case "EditView":
                     OpenViewDialog(res, controlId);
@@ -1117,12 +1075,6 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "DeleteNotifications":
                     DeleteNotifications(res);
-                    break;
-                case "MoveUpMonitorChangesColumns":
-                case "MoveDownMonitorChangesColumns":
-                case "ToDisableMonitorChangesColumns":
-                case "ToEnableMonitorChangesColumns":
-                    SetMonitorChangesColumns(res, controlId);
                     break;
                 case "NewReminder":
                 case "EditReminder":
@@ -1166,12 +1118,6 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "SearchExportColumns":
                     SetExportColumnsSelectableBySearch(res);
-                    break;
-                case "MoveUpExportColumns":
-                case "MoveDownExportColumns":
-                case "ToDisableExportColumns":
-                case "ToEnableExportColumns":
-                    SetExportColumns(res, controlId);
                     break;
                 case "OpenExportColumnsDialog":
                     OpenExportColumnsDialog(res, controlId);
@@ -1256,25 +1202,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetGridColumns(ResponseCollection res, string controlId)
-        {
-            var command = ColumnUtilities.ChangeCommand(controlId);
-            var selectedColumns = Forms.List("GridColumns");
-            var selectedSourceColumns = Forms.List("GridSourceColumns");
-            SiteSettings.SetGridColumns(command, selectedColumns, selectedSourceColumns);
-            SetResponseAfterChangeColumns(
-                res,
-                command,
-                "Grid",
-                SiteSettings.GridSelectableOptions(),
-                selectedColumns,
-                SiteSettings.GridSelectableOptions(enabled: false, join: Forms.Data("GridJoin")),
-                selectedSourceColumns);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private void OpenGridColumnDialog(ResponseCollection res)
         {
             var selectedColumns = Forms.List("GridColumns");
@@ -1295,6 +1222,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
+                    SiteSettings.GridColumns = Forms.List("GridColumnsAll");
                     res.Html(
                         "#GridColumnDialog",
                         SiteUtilities.GridColumnDialog(ss: SiteSettings, column: column));
@@ -1346,6 +1274,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetGridColumnsSelectable(ResponseCollection res)
         {
+            SiteSettings.GridColumns = Forms.List("GridColumnsAll");
             var listItemCollection = SiteSettings
                 .GridSelectableOptions(enabled: false, join: Forms.Data("GridJoin"));
             if (!listItemCollection.Any())
@@ -1357,26 +1286,6 @@ namespace Implem.Pleasanter.Models
                 res.Html("#GridSourceColumns", new HtmlBuilder()
                     .SelectableItems(listItemCollection: listItemCollection));
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void SetFilterColumns(ResponseCollection res, string controlId)
-        {
-            var command = ColumnUtilities.ChangeCommand(controlId);
-            var selectedColumns = Forms.List("FilterColumns");
-            var selectedSourceColumns = Forms.List("FilterSourceColumns");
-            SiteSettings.SetFilterColumns(command, selectedColumns, selectedSourceColumns);
-            SetResponseAfterChangeColumns(
-                res,
-                command,
-                "Filter",
-                SiteSettings.FilterSelectableOptions(),
-                selectedColumns,
-                SiteSettings.FilterSelectableOptions(
-                    enabled: false, join: Forms.Data("FilterJoin")),
-                selectedSourceColumns);
         }
 
         /// <summary>
@@ -1401,6 +1310,7 @@ namespace Implem.Pleasanter.Models
                     res.Message(Messages.CanNotPerformed());
                 }
                 {
+                    SiteSettings.FilterColumns = Forms.List("FilterColumnsAll");
                     res.Html(
                         "#FilterColumnDialog",
                         SiteUtilities.FilterColumnDialog(ss: SiteSettings, column: column));
@@ -1436,6 +1346,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetFilterColumnsSelectable(ResponseCollection res)
         {
+            SiteSettings.FilterColumns = Forms.List("FilterColumnsAll");
             var listItemCollection = SiteSettings
                 .FilterSelectableOptions(enabled: false, join: Forms.Data("FilterJoin"));
             if (!listItemCollection.Any())
@@ -1458,6 +1369,27 @@ namespace Implem.Pleasanter.Models
             var selectedSourceColumns = Forms.List("AggregationSource");
             if (selectedColumns.Any() || selectedSourceColumns.Any())
             {
+                int id = 1;
+                List<Libraries.Settings.Aggregation> aggregations = new List<Libraries.Settings.Aggregation>();
+                List<string> refactSelectedColumns = new List<string>();
+                Forms.List("AggregationDestinationAll").ForEach(a =>
+                {
+                    var aggrigation = SiteSettings.Aggregations.Where(o => o.Id == a.ToInt()).FirstOrDefault();
+                    if (selectedColumns.Contains(aggrigation.Id.ToString()))
+                    {
+                        refactSelectedColumns.Add(id.ToString());
+                    }
+                    aggregations.Add(new Libraries.Settings.Aggregation()
+                    {
+                        Id = id++,
+                        GroupBy = aggrigation.GroupBy,
+                        Type = aggrigation.Type,
+                        Target = aggrigation.Target,
+                        Data = aggrigation.Data
+                    });
+                });
+                SiteSettings.Aggregations = aggregations;
+                selectedColumns = refactSelectedColumns;
                 SiteSettings.SetAggregations(
                     controlId,
                     selectedColumns,
@@ -1485,6 +1417,27 @@ namespace Implem.Pleasanter.Models
             var selectedSourceColumns = Forms.List("AggregationSource");
             if (selectedColumns.Any() || selectedSourceColumns.Any())
             {
+                int id = 1;
+                List<Libraries.Settings.Aggregation> aggregations = new List<Libraries.Settings.Aggregation>();
+                List<string> refactSelectedColumns = new List<string>();
+                Forms.List("AggregationDestinationAll").ForEach(a =>
+                {
+                    var aggrigation = SiteSettings.Aggregations.Where(o => o.Id == a.ToInt()).FirstOrDefault();
+                    if (selectedColumns.Contains(aggrigation.Id.ToString()))
+                    {
+                        refactSelectedColumns.Add(id.ToString());
+                    }
+                    aggregations.Add(new Libraries.Settings.Aggregation()
+                    {
+                        Id = id++,
+                        GroupBy = aggrigation.GroupBy,
+                        Type = aggrigation.Type,
+                        Target = aggrigation.Target,
+                        Data = aggrigation.Data
+                    });
+                });
+                SiteSettings.Aggregations = aggregations;
+                selectedColumns = refactSelectedColumns;
                 SiteSettings.SetAggregationDetails(
                     type,
                     target,
@@ -1496,35 +1449,6 @@ namespace Implem.Pleasanter.Models
                             listItemCollection: SiteSettings.AggregationDestination(),
                             selectedValueTextCollection: selectedColumns))
                     .SetFormData("AggregationDestination", selectedColumns?.ToJson());
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void SetEditorColumns(ResponseCollection res, string controlId)
-        {
-            var command = ColumnUtilities.ChangeCommand(controlId);
-            var selectedColumns = Forms.List("EditorColumns");
-            var selectedSourceColumns = Forms.List("EditorSourceColumns");
-            if (controlId == "ToDisableEditorColumns" &&
-                selectedColumns.Any(o => SiteSettings.EditorColumn(o).Required))
-            {
-                res.Message(Messages.CanNotDisabled(
-                    SiteSettings.EditorColumn(selectedColumns.FirstOrDefault(o =>
-                        SiteSettings.EditorColumn(o).Required)).LabelText));
-            }
-            else
-            {
-                SiteSettings.SetEditorColumns(command, selectedColumns, selectedSourceColumns);
-                SetResponseAfterChangeColumns(
-                    res,
-                    command,
-                    "Editor",
-                    SiteSettings.EditorSelectableOptions(),
-                    selectedColumns,
-                    SiteSettings.EditorSelectableOptions(enabled: false),
-                    selectedSourceColumns);
             }
         }
 
@@ -1552,6 +1476,7 @@ namespace Implem.Pleasanter.Models
                     {
                         Session_TitleColumns(titleColumns);
                     }
+                    SiteSettings.EditorColumns = Forms.List("EditorColumnsAll");
                     res.Html(
                         "#EditorColumnDialog",
                         SiteUtilities.EditorColumnDialog(
@@ -1577,7 +1502,7 @@ namespace Implem.Pleasanter.Models
             {
                 if (column.ColumnName == "Title")
                 {
-                    SiteSettings.TitleColumns = Session_TitleColumns();
+                    SiteSettings.TitleColumns = Forms.List("TitleColumnsAll");
                 }
                 Forms.All().ForEach(data =>
                     SiteSettings.SetColumnProperty(column, data.Key, data.Value));
@@ -1601,69 +1526,6 @@ namespace Implem.Pleasanter.Models
                     ss: SiteSettings,
                     column: ss.GetColumn(Forms.Data("EditorColumnName")),
                     titleColumns: ss.TitleColumns));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void SetTitleColumns(ResponseCollection res, string controlId)
-        {
-            TitleColumns = Session_TitleColumns();
-            var command = ColumnUtilities.ChangeCommand(controlId);
-            var selectedColumns = Forms.List("TitleColumns");
-            var selectedSourceColumns = Forms.List("TitleSourceColumns");
-            TitleColumns = ColumnUtilities.GetChanged(
-                TitleColumns,
-                ColumnUtilities.ChangeCommand(controlId),
-                selectedColumns,
-                selectedSourceColumns);
-            SetResponseAfterChangeColumns(
-                res,
-                command,
-                "Title",
-                SiteSettings.TitleSelectableOptions(TitleColumns),
-                selectedColumns,
-                SiteSettings.TitleSelectableOptions(TitleColumns, enabled: false),
-                selectedSourceColumns);
-            Session_TitleColumns(TitleColumns);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void SetLinkColumns(ResponseCollection res, string controlId)
-        {
-            var command = ColumnUtilities.ChangeCommand(controlId);
-            var selectedColumns = Forms.List("LinkColumns");
-            var selectedSourceColumns = Forms.List("LinkSourceColumns");
-            SiteSettings.SetLinkColumns(command, selectedColumns, selectedSourceColumns);
-            SetResponseAfterChangeColumns(
-                res,
-                command,
-                "Link",
-                SiteSettings.LinkSelectableOptions(),
-                selectedColumns,
-                SiteSettings.LinkSelectableOptions(enabled: false),
-                selectedSourceColumns);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void SetHistoryColumns(ResponseCollection res, string controlId)
-        {
-            var command = ColumnUtilities.ChangeCommand(controlId);
-            var selectedColumns = Forms.List("HistoryColumns");
-            var selectedSourceColumns = Forms.List("HistorySourceColumns");
-            SiteSettings.SetHistoryColumns(command, selectedColumns, selectedSourceColumns);
-            SetResponseAfterChangeColumns(
-                res,
-                command,
-                "History",
-                SiteSettings.HistorySelectableOptions(),
-                selectedColumns,
-                SiteSettings.HistorySelectableOptions(enabled: false),
-                selectedSourceColumns);
         }
 
         /// <summary>
@@ -1968,23 +1830,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetViewsOrder(ResponseCollection res, string controlId)
-        {
-            var command = ColumnUtilities.ChangeCommand(controlId);
-            var selectedColumns = Forms.IntList("Views");
-            SiteSettings.SetViewsOrder(command, selectedColumns);
-            res
-                .Html(
-                    "#Views",
-                    new HtmlBuilder().SelectableItems(
-                        listItemCollection: SiteSettings.ViewSelectableOptions(),
-                        selectedValueTextCollection: selectedColumns.Select(o => o.ToString())))
-                .SetFormData("Views", selectedColumns.ToJson());
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private void OpenViewDialog(ResponseCollection res, string controlId)
         {
             View view;
@@ -2009,6 +1854,12 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
+                        SiteSettings.Views = SiteSettings.Views.Join(
+                            Forms.List("ViewsAll").Select((val, key) => new { Key = key, Val = val }), v => v.Id, l => l.Val.ToInt(),
+                                (v, l) => new { Views = v, OrderNo = l.Key })
+                                .OrderBy(v => v.OrderNo)
+                                .Select(v => v.Views)
+                                .ToList();
                         SiteSettingsUtilities.Get(this, SiteId);
                         OpenViewDialog(res, view);
                     }
@@ -2151,7 +2002,7 @@ namespace Implem.Pleasanter.Models
                     Forms.Data("NotificationPrefix"),
                     Forms.Data("NotificationAddress"),
                     Forms.Data("NotificationToken"),
-                    Session_MonitorChangesColumns(),
+                    Forms.List("MonitorChangesColumnsAll"),
                     Forms.Int("BeforeCondition"),
                     Forms.Int("AfterCondition"),
                     (Notification.Expressions)Forms.Int("Expression")));
@@ -2182,7 +2033,7 @@ namespace Implem.Pleasanter.Models
                         Forms.Data("NotificationPrefix"),
                         Forms.Data("NotificationAddress"),
                         Forms.Data("NotificationToken"),
-                        Session_MonitorChangesColumns(),
+                        Forms.List("MonitorChangesColumnsAll"),
                         Forms.Int("BeforeCondition"),
                         Forms.Int("AfterCondition"),
                         (Notification.Expressions)Forms.Int("Expression"));
@@ -2232,48 +2083,6 @@ namespace Implem.Pleasanter.Models
                     .ReplaceAll("#EditNotification", new HtmlBuilder()
                         .EditNotification(ss: SiteSettings))
                     .CloseDialog();
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void SetMonitorChangesColumns(ResponseCollection res, string controlId)
-        {
-            if (!Contract.Notice())
-            {
-                res.Message(Messages.Restricted());
-            }
-            else
-            {
-                var notification = SiteSettings.Notifications.Get(Forms.Int("NotificationId"));
-                MonitorChangesColumns = Session_MonitorChangesColumns();
-                if (notification == null && controlId == "EditNotification")
-                {
-                    res.Message(Messages.NotFound());
-                }
-                else
-                {
-                    var command = ColumnUtilities.ChangeCommand(controlId);
-                    var selectedColumns = Forms.List("MonitorChangesColumns");
-                    var selectedSourceColumns = Forms.List("MonitorChangesSourceColumns");
-                    MonitorChangesColumns = ColumnUtilities.GetChanged(
-                        MonitorChangesColumns,
-                        ColumnUtilities.ChangeCommand(controlId),
-                        selectedColumns,
-                        selectedSourceColumns);
-                    SetResponseAfterChangeColumns(
-                        res,
-                        command,
-                        "MonitorChanges",
-                        SiteSettings.MonitorChangesSelectableOptions(
-                            MonitorChangesColumns),
-                        selectedColumns,
-                        SiteSettings.MonitorChangesSelectableOptions(
-                            MonitorChangesColumns, enabled: false),
-                        selectedSourceColumns);
-                    Session_MonitorChangesColumns(MonitorChangesColumns);
-                }
             }
         }
 
@@ -2589,13 +2398,39 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.SetExports();
-                var export = Session_Export();
-                export.Id = SiteSettings.Exports.MaxOrDefault(o => o.Id) + 1;
-                export.Name = Forms.Data("ExportName");
-                export.Header = Forms.Bool("ExportHeader");
-                export.Join = Forms.Data("ExportJoin").Deserialize<Join>();
-                SiteSettings.Exports.Add(export);
-                SetExportsResponseCollection(res);
+                Export = Session_Export();
+                if (Export == null && controlId == "EditExport")
+                {
+                    res.Message(Messages.NotFound());
+                }
+                else
+                {
+                    SiteSettings.SetExport(Export);
+                    int id = 1;
+                    var columns = new List<ExportColumn>();
+                    Forms.List("ExportColumnsAll").ForEach(o =>
+                    {
+                        var exp = o.Deserialize<ExportColumn>() ?? Session_Export().Columns.Where(c => c.Id.ToString() == o).FirstOrDefault();
+                        columns.Add(new ExportColumn()
+                        {
+                            SiteId = exp.SiteId,
+                            Id = id++,
+                            ColumnName = exp.ColumnName,
+                            LabelText = exp.LabelText,
+                            Type = exp.Type,
+                            Format = exp.Format,
+                            SiteTitle = exp.SiteTitle,
+                            Column = exp.Column
+                        });
+                    });
+                    Export.Columns = columns;
+                    Export.Id = SiteSettings.Exports.MaxOrDefault(o => o.Id) + 1;
+                    Export.Name = Forms.Data("ExportName");
+                    Export.Header = Forms.Bool("ExportHeader");
+                    Export.Join = Forms.Data("ExportJoin").Deserialize<Join>();
+                    SiteSettings.Exports.Add(Export);
+                    SetExportsResponseCollection(res);
+                }
             }
         }
 
@@ -2618,11 +2453,28 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     SiteSettings.SetExports();
+                    int id = 1;
+                    var columns = new List<ExportColumn>();
+                    Forms.List("ExportColumnsAll").ForEach(o =>
+                    {
+                        var exp = o.Deserialize<ExportColumn>() ?? Session_Export().Columns.Where(c => c.Id.ToString() == o).FirstOrDefault();
+                        columns.Add(new ExportColumn()
+                        {
+                            SiteId = exp.SiteId,
+                            Id = id++,
+                            ColumnName = exp.ColumnName,
+                            LabelText = exp.LabelText,
+                            Type = exp.Type,
+                            Format = exp.Format,
+                            SiteTitle = exp.SiteTitle,
+                            Column = exp.Column
+                        });
+                    });
                     export.Update(
                         Forms.Data("ExportName"),
                         Forms.Bool("ExportHeader"),
                         Forms.Data("ExportJoin").Deserialize<Join>(),
-                        Session_Export().Columns);
+                        columns);
                     SetExportsResponseCollection(res);
                 }
             }
@@ -2732,89 +2584,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetExportColumns(ResponseCollection res, string controlId)
-        {
-            if (!Contract.Export())
-            {
-                res.Message(Messages.Restricted());
-            }
-            else
-            {
-                Export = Session_Export();
-                if (Export == null && controlId == "EditExport")
-                {
-                    res.Message(Messages.NotFound());
-                }
-                else
-                {
-                    SiteSettings.SetExport(Export);
-                    var command = ColumnUtilities.ChangeCommand(controlId);
-                    var selectedColumns = Forms.List("ExportColumns");
-                    var selectedSourceColumns = Forms.List("ExportSourceColumns");
-                    switch (command)
-                    {
-                        case "ToDisable":
-                            Export.Columns.RemoveAll(o =>
-                                selectedColumns.Any(p => p == o.Id.ToString()));
-                            selectedColumns = new List<string>();
-                            break;
-                        case "ToEnable":
-                            var columns = new List<string>();
-                            selectedSourceColumns
-                                .Select(o => o.Deserialize<ExportColumn>())
-                                .Where(o => o != null)
-                                .ForEach(exportColumn =>
-                                {
-                                    exportColumn.Id = Export.NewColumnId();
-                                    exportColumn.Init(SiteSettings.JoinedSsHash
-                                        .Get(exportColumn.SiteId));
-                                    Export.Columns.Add(exportColumn);
-                                    columns.Add(exportColumn.Id.ToString());
-                                });
-                            selectedColumns = columns;
-                            ExportSourceColumnResponse(res);
-                            break;
-                        default:
-                            Export.Columns = ColumnUtilities.GetChanged(
-                                Export.Columns.Select(o => o.Id.ToString()).ToList(),
-                                command,
-                                selectedColumns,
-                                selectedSourceColumns)
-                                    .Select(o => Export.Columns
-                                        .FirstOrDefault(p => o == p.Id.ToString()))
-                                    .ToList();
-                            break;
-                    }
-                    res
-                        .Html("#ExportColumns", new HtmlBuilder()
-                            .SelectableItems(
-                                listItemCollection: ExportUtilities
-                                    .CurrentColumnOptions(Export.Columns),
-                                selectedValueTextCollection: selectedColumns))
-                        .SetFormData("ExportColumns", selectedColumns.ToJson());
-                    Session_Export(Export);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void ExportSourceColumnResponse(ResponseCollection res)
-        {
-            res
-                .Html("#ExportSourceColumns", new HtmlBuilder()
-                    .SelectableItems(listItemCollection: ExportUtilities
-                        .SourceColumnOptions(
-                            SiteSettings,
-                            Forms.Data("ExportJoin").Deserialize<Join>(),
-                            Forms.Data("SearchExportColumns"))))
-                .SetFormData("ExportSourceColumns", "[]");
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private void DeleteExports(ResponseCollection res)
         {
             if (!Contract.Export())
@@ -2851,8 +2620,30 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                SiteSettings.SetExports();
+                int id = 1;
+                var columns = new List<ExportColumn>();
+                var selectedNewId = "";
+                Forms.List("ExportColumnsAll").ForEach(o =>
+                {
+                    var exp = o.Deserialize<ExportColumn>() ?? Export.Columns.Where(c => c.Id.ToString() == o).FirstOrDefault();
+                    if (exp.Id.ToString() == selected[0]) selectedNewId = id.ToString();
+                    columns.Add(new ExportColumn()
+                    {
+                        SiteId = exp.SiteId,
+                        Id = id++,
+                        ColumnName = exp.ColumnName,
+                        LabelText = exp.LabelText,
+                        Type = exp.Type,
+                        Format = exp.Format,
+                        SiteTitle = exp.SiteTitle,
+                        Column = exp.Column
+                    });
+                });
+                Export.Columns = columns;
+                SiteSettings.SetExport(Export);
                 var column = Export.Columns.FirstOrDefault(o =>
-                    o.Id.ToString() == selected[0]);
+                    o.Id.ToString() == selectedNewId);
                 if (column == null)
                 {
                     res.Message(Messages.NotFound());
@@ -3181,40 +2972,6 @@ namespace Implem.Pleasanter.Models
         public SiteModel InheritSite()
         {
             return new SiteModel(InheritPermission);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static void SetResponseAfterChangeColumns(
-            ResponseCollection res,
-            string command,
-            string typeName,
-            Dictionary<string, ControlData> selectableOptions,
-            List<string> selectedColumns,
-            Dictionary<string, ControlData> selectableSourceOptions,
-            List<string> selectedSourceColumns)
-        {
-            switch (command)
-            {
-                case "ToDisable":
-                    Move(selectedColumns, selectedSourceColumns);
-                    break;
-                case "ToEnable":
-                    Move(selectedSourceColumns, selectedColumns);
-                    break;
-            }
-            res
-                .Html("#" + typeName + "Columns",
-                    new HtmlBuilder().SelectableItems(
-                        listItemCollection: selectableOptions,
-                        selectedValueTextCollection: selectedColumns))
-                .SetFormData(typeName + "Columns", selectedColumns.ToJson())
-                .Html("#" + typeName + "SourceColumns",
-                    new HtmlBuilder().SelectableItems(
-                        listItemCollection: selectableSourceOptions,
-                        selectedValueTextCollection: selectedSourceColumns))
-                .SetFormData(typeName + "SourceColumns", selectedSourceColumns.ToJson());
         }
 
         /// <summary>
