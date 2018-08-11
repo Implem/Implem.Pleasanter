@@ -63,8 +63,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     }
                 case "items":
                     return hb
-                        .Breadcrumb(ss: ss)
-                        .CopyDirectUrlToClipboard(ss: ss);
+                        .CopyDirectUrlToClipboard(ss: ss)
+                        .Breadcrumb(ss: ss);
                 case "permissions":
                     return hb.Breadcrumb(ss: ss);
                 default:

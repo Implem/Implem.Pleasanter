@@ -230,6 +230,11 @@ pre{
     margin:0px 0px 0px 8px;
 }
 
+#CopyToClipboards > .display-control{
+    float:left;
+    cursor:pointer;
+}
+
 #Header{
     width:100%;
     height:42px;
@@ -488,14 +493,6 @@ pre{
     padding:5px 10px 5px 0px;
     font-weight:bold;
     cursor:pointer;
-}
-
-#CopyToClipboards > .display-control{
-    float: left;
-    margin: 0px 5px 0px 20px;
-    padding: 0px 5px 0px 5px;
-    font-weight: bold;
-    cursor: pointer;
 }
 
 #CalendarMonth{
