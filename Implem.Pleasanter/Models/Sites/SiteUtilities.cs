@@ -2730,6 +2730,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlWrapperCss: " h350",
+                        controlCss: " always-send send-all",
                         labelText: Displays.CurrentSettings(),
                         listItemCollection: ss.GridSelectableOptions(),
                         selectedValueCollection: new List<string>(),
@@ -2740,18 +2741,14 @@ namespace Implem.Pleasanter.Models
                                     controlId: "MoveUpGridColumns",
                                     controlCss: "button-icon",
                                     text: Displays.MoveUp(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-n",
-                                    action: "SetSiteSettings",
-                                    method: "post")
+                                    onClick: "$p.moveColumns($(this),'Grid',false,true);",
+                                    icon: "ui-icon-circle-triangle-n")
                                 .Button(
                                     controlId: "MoveDownGridColumns",
                                     controlCss: "button-icon",
                                     text: Displays.MoveDown(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-s",
-                                    action: "SetSiteSettings",
-                                    method: "post")
+                                    onClick: "$p.moveColumns($(this),'Grid',false,true);",
+                                    icon: "ui-icon-circle-triangle-s")
                                 .Button(
                                     controlId: "OpenGridColumnDialog",
                                     text: Displays.AdvancedSetting(),
@@ -2764,10 +2761,8 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ToDisableGridColumns",
                                     controlCss: "button-icon",
                                     text: Displays.ToDisable(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-e",
-                                    action: "SetSiteSettings",
-                                    method: "put")))
+                                    onClick: "$p.moveColumns($(this),'Grid',false,true);",
+                                    icon: "ui-icon-circle-triangle-e")))
                     .FieldSelectable(
                         controlId: "GridSourceColumns",
                         fieldCss: "field-vertical",
@@ -2782,10 +2777,8 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ToEnableGridColumns",
                                     text: Displays.ToEnable(),
                                     controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-w",
-                                    action: "SetSiteSettings",
-                                    method: "put")
+                                    onClick: "$p.moveColumns($(this),'Grid',false,true);",
+                                    icon: "ui-icon-circle-triangle-w")
                                 .FieldDropDown(
                                     controlId: "GridJoin",
                                     fieldCss: "w150",
@@ -2889,6 +2882,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
+                            controlCss: " always-send send-all",
                             labelText: Displays.CurrentSettings(),
                             listItemCollection: ss.FilterSelectableOptions(),
                             selectedValueCollection: new List<string>(),
@@ -2899,18 +2893,14 @@ namespace Implem.Pleasanter.Models
                                         controlId: "MoveUpFilterColumns",
                                         controlCss: "button-icon",
                                         text: Displays.MoveUp(),
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-n",
-                                        action: "SetSiteSettings",
-                                        method: "post")
+                                        onClick: "$p.moveColumns($(this),'Filter',false,true);",
+                                        icon: "ui-icon-circle-triangle-n")
                                     .Button(
                                         controlId: "MoveDownFilterColumns",
                                         controlCss: "button-icon",
                                         text: Displays.MoveDown(),
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-s",
-                                        action: "SetSiteSettings",
-                                        method: "post")
+                                        onClick: "$p.moveColumns($(this),'Filter',false,true);",
+                                        icon: "ui-icon-circle-triangle-s")
                                     .Button(
                                         controlId: "OpenFilterColumnDialog",
                                         text: Displays.AdvancedSetting(),
@@ -2923,10 +2913,8 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ToDisableFilterColumns",
                                         controlCss: "button-icon",
                                         text: Displays.ToDisable(),
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-e",
-                                        action: "SetSiteSettings",
-                                        method: "put")))
+                                        onClick: "$p.moveColumns($(this),'Filter',false,true);",
+                                        icon: "ui-icon-circle-triangle-e")))
                         .FieldSelectable(
                             controlId: "FilterSourceColumns",
                             fieldCss: "field-vertical",
@@ -2941,10 +2929,8 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ToEnableFilterColumns",
                                         text: Displays.ToEnable(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-w",
-                                        action: "SetSiteSettings",
-                                        method: "put")
+                                        onClick: "$p.moveColumns($(this),'Filter',false,true);",
+                                        icon: "ui-icon-circle-triangle-w")
                                     .FieldDropDown(
                                         controlId: "FilterJoin",
                                         fieldCss: "w150",
@@ -3108,6 +3094,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical both",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
+                            controlCss: " always-send send-all",
                             labelText: Displays.CurrentSettings(),
                             listItemCollection: ss.AggregationDestination(),
                             selectedValueCollection: new List<string>(),
@@ -3118,18 +3105,14 @@ namespace Implem.Pleasanter.Models
                                         controlId: "MoveUpAggregations",
                                         controlCss: "button-icon",
                                         text: Displays.MoveUp(),
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-n",
-                                        action: "SetSiteSettings",
-                                        method: "post")
+                                        onClick: "$p.moveColumnsById($(this),'AggregationDestination','',false,true);",
+                                        icon: "ui-icon-circle-triangle-n")
                                     .Button(
                                         controlId: "MoveDownAggregations",
                                         controlCss: "button-icon",
                                         text: Displays.MoveDown(),
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-s",
-                                        action: "SetSiteSettings",
-                                        method: "post")
+                                        onClick: "$p.moveColumnsById($(this),'AggregationDestination','',false,true);",
+                                        icon: "ui-icon-circle-triangle-n")
                                     .Button(
                                         text: Displays.AdvancedSetting(),
                                         controlCss: "button-icon open-dialog",
@@ -3228,27 +3211,32 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h250",
+                            controlCss: " always-send send-all",
                             labelText: Displays.CurrentSettings(),
                             listItemCollection: ss.EditorSelectableOptions(),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
                                 .Div(css: "command-center", action: () => hb
+                                    .Hidden(controlId: "EditorColumnsNessesaryMessage",
+                                        value: Messages.CanNotDisabled("COLUMNNAME").Text)
+                                    .Hidden(
+                                        controlId: "EditorColumnsNessesaryColumns",
+                                        value: Jsons.ToJson(
+                                            ss.EditorColumns?
+                                            .Where(o => ss.EditorColumn(o).Required)
+                                            .Select(o => o)))
                                     .Button(
                                         controlId: "MoveUpEditorColumns",
                                         text: Displays.MoveUp(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-n",
-                                        action: "SetSiteSettings",
-                                        method: "post")
+                                        onClick: "$p.moveColumns($(this),'Editor');",
+                                        icon: "ui-icon-circle-triangle-n")
                                     .Button(
                                         controlId: "MoveDownEditorColumns",
                                         text: Displays.MoveDown(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-s",
-                                        action: "SetSiteSettings",
-                                        method: "post")
+                                        onClick: "$p.moveColumns($(this),'Editor');",
+                                        icon: "ui-icon-circle-triangle-s")
                                     .Button(
                                         controlId: "OpenEditorColumnDialog",
                                         text: Displays.AdvancedSetting(),
@@ -3261,10 +3249,8 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ToDisableEditorColumns",
                                         text: Displays.ToDisable(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-e",
-                                        action: "SetSiteSettings",
-                                        method: "put")))
+                                        onClick: "$p.moveColumns($(this),'Editor');",
+                                        icon: "ui-icon-circle-triangle-e")))
                         .FieldSelectable(
                             controlId: "EditorSourceColumns",
                             fieldCss: "field-vertical",
@@ -3279,10 +3265,8 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ToEnableEditorColumns",
                                         text: Displays.ToEnable(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-w",
-                                        action: "SetSiteSettings",
-                                        method: "put"))))
+                                        onClick: "$p.moveColumns($(this),'Editor');",
+                                        icon: "ui-icon-circle-triangle-w"))))
                     .FieldCheckBox(
                         controlId: "AllowEditingComments",
                         fieldCss: "field-auto-thin both",
@@ -3701,6 +3685,7 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-vertical",
                     controlContainerCss: "container-selectable",
                     controlWrapperCss: " h200",
+                    controlCss: " always-send send-all",
                     labelText: Displays.CurrentSettings(),
                     listItemCollection: ss
                         .TitleSelectableOptions(titleColumns),
@@ -3711,26 +3696,20 @@ namespace Implem.Pleasanter.Models
                                 controlId: "MoveUpTitleColumns",
                                 text: Displays.MoveUp(),
                                 controlCss: "button-icon",
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-circle-triangle-n",
-                                action: "SetSiteSettings",
-                                method: "post")
+                                onClick: "$p.moveColumns($(this),'Title');",
+                                icon: "ui-icon-circle-triangle-n")
                             .Button(
                                 controlId: "MoveDownTitleColumns",
                                 text: Displays.MoveDown(),
                                 controlCss: "button-icon",
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-circle-triangle-s",
-                                action: "SetSiteSettings",
-                                method: "post")
+                                onClick: "$p.moveColumns($(this),'Title');",
+                                icon: "ui-icon-circle-triangle-s")
                             .Button(
                                 controlId: "ToDisableTitleColumns",
                                 text: Displays.ToDisable(),
                                 controlCss: "button-icon",
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-circle-triangle-e",
-                                action: "SetSiteSettings",
-                                method: "put")
+                                onClick: "$p.moveColumns($(this),'Title');",
+                                icon: "ui-icon-circle-triangle-e")
                             .Button(
                                 controlCss: "button-icon",
                                 text: Displays.Synchronize(),
@@ -3754,10 +3733,8 @@ namespace Implem.Pleasanter.Models
                                 controlId: "ToEnableTitleColumns",
                                 text: Displays.ToEnable(),
                                 controlCss: "button-icon",
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-circle-triangle-w",
-                                action: "SetSiteSettings",
-                                method: "put")))
+                                onClick: "$p.moveColumns($(this),'Title');",
+                                icon: "ui-icon-circle-triangle-w")))
                 .FieldTextBox(
                     controlId: "TitleSeparator",
                     fieldCss: " both",
@@ -3802,6 +3779,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
+                            controlCss: " always-send send-all",
                             labelText: Displays.CurrentSettings(),
                             listItemCollection: ss.LinkSelectableOptions(),
                             commandOptionPositionIsTop: true,
@@ -3811,26 +3789,20 @@ namespace Implem.Pleasanter.Models
                                         controlId: "MoveUpLinkColumns",
                                         text: Displays.MoveUp(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-n",
-                                        action: "SetSiteSettings",
-                                        method: "post")
+                                        onClick: "$p.moveColumns($(this),'Link');",
+                                        icon: "ui-icon-circle-triangle-n")
                                     .Button(
                                         controlId: "MoveDownLinkColumns",
                                         text: Displays.MoveDown(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-s",
-                                        action: "SetSiteSettings",
-                                        method: "post")
+                                        onClick: "$p.moveColumns($(this),'Link');",
+                                        icon: "ui-icon-circle-triangle-s")
                                     .Button(
                                         controlId: "ToDisableLinkColumns",
                                         text: Displays.ToDisable(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-e",
-                                        action: "SetSiteSettings",
-                                        method: "put")))
+                                        onClick: "$p.moveColumns($(this),'Link');",
+                                        icon: "ui-icon-circle-triangle-e")))
                         .FieldSelectable(
                             controlId: "LinkSourceColumns",
                             fieldCss: "field-vertical",
@@ -3845,10 +3817,8 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ToEnableLinkColumns",
                                         text: Displays.ToEnable(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-w",
-                                        action: "SetSiteSettings",
-                                        method: "put")))));
+                                        onClick: "$p.moveColumns($(this),'Link');",
+                                        icon: "ui-icon-circle-triangle-w")))));
         }
 
         /// <summary>
@@ -3866,6 +3836,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
+                            controlCss: " always-send send-all",
                             labelText: Displays.CurrentSettings(),
                             listItemCollection: ss.HistorySelectableOptions(),
                             commandOptionPositionIsTop: true,
@@ -3875,26 +3846,20 @@ namespace Implem.Pleasanter.Models
                                         controlId: "MoveUpHistoryColumns",
                                         text: Displays.MoveUp(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-n",
-                                        action: "SetSiteSettings",
-                                        method: "post")
+                                        onClick: "$p.moveColumns($(this),'History');",
+                                        icon: "ui-icon-circle-triangle-n")
                                     .Button(
                                         controlId: "MoveDownHistoryColumns",
                                         text: Displays.MoveDown(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-s",
-                                        action: "SetSiteSettings",
-                                        method: "post")
+                                        onClick: "$p.moveColumns($(this),'History');",
+                                        icon: "ui-icon-circle-triangle-s")
                                     .Button(
                                         controlId: "ToDisableHistoryColumns",
                                         text: Displays.ToDisable(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-e",
-                                        action: "SetSiteSettings",
-                                        method: "put")))
+                                        onClick: "$p.moveColumns($(this),'History');",
+                                        icon: "ui-icon-circle-triangle-e")))
                         .FieldSelectable(
                             controlId: "HistorySourceColumns",
                             fieldCss: "field-vertical",
@@ -3909,10 +3874,8 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ToEnableHistoryColumns",
                                         text: Displays.ToEnable(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-circle-triangle-w",
-                                        action: "SetSiteSettings",
-                                        method: "put")))));
+                                        onClick: "$p.moveColumns($(this),'History');",
+                                        icon: "ui-icon-circle-triangle-w")))));
         }
 
         /// <summary>
@@ -4532,6 +4495,7 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-vertical w400",
                     controlContainerCss: "container-selectable",
                     controlWrapperCss: " h350",
+                    controlCss: " always-send send-all",
                     listItemCollection: ss.ViewSelectableOptions(),
                     commandOptionPositionIsTop: true,
                     commandOptionAction: () => hb
@@ -4540,18 +4504,14 @@ namespace Implem.Pleasanter.Models
                                 controlId: "MoveUpViews",
                                 text: Displays.MoveUp(),
                                 controlCss: "button-icon",
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-circle-triangle-n",
-                                action: "SetSiteSettings",
-                                method: "post")
+                                onClick: "$p.moveColumnsById($(this),'Views', '');",
+                                icon: "ui-icon-circle-triangle-n")
                             .Button(
                                 controlId: "MoveDownViews",
                                 text: Displays.MoveDown(),
                                 controlCss: "button-icon",
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-circle-triangle-s",
-                                action: "SetSiteSettings",
-                                method: "post")
+                                onClick: "$p.moveColumnsById($(this),'Views', '');",
+                                icon: "ui-icon-circle-triangle-s")
                             .Button(
                                 controlId: "NewView",
                                 text: Displays.New(),
@@ -5289,6 +5249,7 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-vertical",
                                 controlContainerCss: "container-selectable",
                                 controlWrapperCss: " h200",
+                                controlCss: " always-send send-all",
                                 labelText: Displays.CurrentSettings(),
                                 listItemCollection: ss
                                     .MonitorChangesSelectableOptions(
@@ -5300,26 +5261,20 @@ namespace Implem.Pleasanter.Models
                                             controlId: "MoveUpMonitorChangesColumns",
                                             text: Displays.MoveUp(),
                                             controlCss: "button-icon",
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-circle-triangle-n",
-                                            action: "SetSiteSettings",
-                                            method: "post")
+                                            onClick: "$p.moveColumns($(this),'MonitorChanges');",
+                                            icon: "ui-icon-circle-triangle-n")
                                         .Button(
                                             controlId: "MoveDownMonitorChangesColumns",
                                             text: Displays.MoveDown(),
                                             controlCss: "button-icon",
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-circle-triangle-s",
-                                            action: "SetSiteSettings",
-                                            method: "post")
+                                            onClick: "$p.moveColumns($(this),'MonitorChanges');",
+                                            icon: "ui-icon-circle-triangle-s")
                                         .Button(
                                             controlId: "ToDisableMonitorChangesColumns",
                                             text: Displays.ToDisable(),
                                             controlCss: "button-icon",
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-circle-triangle-e",
-                                            action: "SetSiteSettings",
-                                            method: "put")))
+                                            onClick: "$p.moveColumns($(this),'MonitorChanges');",
+                                            icon: "ui-icon-circle-triangle-e")))
                             .FieldSelectable(
                                 controlId: "MonitorChangesSourceColumns",
                                 fieldCss: "field-vertical",
@@ -5337,10 +5292,8 @@ namespace Implem.Pleasanter.Models
                                             controlId: "ToEnableMonitorChangesColumns",
                                             text: Displays.ToEnable(),
                                             controlCss: "button-icon",
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-circle-triangle-w",
-                                            action: "SetSiteSettings",
-                                            method: "put"))))
+                                            onClick: "$p.moveColumns($(this),'MonitorChanges');",
+                                            icon: "ui-icon-circle-triangle-w"))))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -5861,6 +5814,7 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-vertical",
                                 controlContainerCss: "container-selectable",
                                 controlWrapperCss: " h300",
+                                controlCss: " always-send send-all",
                                 labelText: Displays.CurrentSettings(),
                                 listItemCollection: ExportUtilities
                                     .CurrentColumnOptions(export.Columns),
@@ -5871,18 +5825,14 @@ namespace Implem.Pleasanter.Models
                                             controlId: "MoveUpExportColumns",
                                             text: Displays.MoveUp(),
                                             controlCss: "button-icon",
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-circle-triangle-n",
-                                            action: "SetSiteSettings",
-                                            method: "post")
+                                            onClick: "$p.moveColumns($(this),'Export',true);",
+                                            icon: "ui-icon-circle-triangle-n")
                                         .Button(
                                             controlId: "MoveDownExportColumns",
                                             text: Displays.MoveDown(),
                                             controlCss: "button-icon",
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-circle-triangle-s",
-                                            action: "SetSiteSettings",
-                                            method: "post")
+                                            onClick: "$p.moveColumns($(this),'Export',true);",
+                                            icon: "ui-icon-circle-triangle-s")
                                         .Button(
                                             controlId: "OpenExportColumnsDialog",
                                             text: Displays.AdvancedSetting(),
@@ -5895,10 +5845,8 @@ namespace Implem.Pleasanter.Models
                                             controlId: "ToDisableExportColumns",
                                             text: Displays.ToDisable(),
                                             controlCss: "button-icon",
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-circle-triangle-e",
-                                            action: "SetSiteSettings",
-                                            method: "put")))
+                                            onClick: "$p.moveColumns($(this),'Export',true);",
+                                            icon: "ui-icon-circle-triangle-e")))
                             .FieldSelectable(
                                 controlId: "ExportSourceColumns",
                                 fieldCss: "field-vertical",
@@ -5914,10 +5862,8 @@ namespace Implem.Pleasanter.Models
                                             controlId: "ToEnableExportColumns",
                                             text: Displays.ToEnable(),
                                             controlCss: "button-icon",
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-circle-triangle-w",
-                                            action: "SetSiteSettings",
-                                            method: "put")
+                                            onClick: "$p.moveColumns($(this),'Export',true);",
+                                            icon: "ui-icon-circle-triangle-w")
                                         .Span(css: "ui-icon ui-icon-search")
                                         .TextBox(
                                             controlId: "SearchExportColumns",
@@ -7081,19 +7027,19 @@ namespace Implem.Pleasanter.Models
                                         controlId: "MoveUpRelatingColumnColumnsLocal",
                                         text: Displays.MoveUp(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this));",
+                                        onClick: "$p.moveColumns($(this),'RelatingColumn');",
                                         icon: "ui-icon-circle-triangle-n")
                                     .Button(
                                         controlId: "MoveDownRelatingColumnColumnsLocal",
                                         text: Displays.MoveDown(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this));",
+                                        onClick: "$p.moveColumns($(this),'RelatingColumn');",
                                         icon: "ui-icon-circle-triangle-s")
                                     .Button(
                                         controlId: "ToDisableRelatingColumnColumnsLocal",
                                         text: Displays.ToDisable(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this));",
+                                        onClick: "$p.moveColumns($(this),'RelatingColumn');",
                                         icon: "ui-icon-circle-triangle-e")))
                         .FieldSelectable(
                             controlId: "RelatingColumnSourceColumns",
@@ -7109,7 +7055,7 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ToEnableRelatingColumnColumnsLocal",
                                         text: Displays.ToEnable(),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this));",
+                                        onClick: "$p.moveColumns($(this),'RelatingColumn');",
                                         icon: "ui-icon-circle-triangle-w"))))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb

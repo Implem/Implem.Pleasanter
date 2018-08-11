@@ -1423,7 +1423,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? ColumnUtilities.SelectableOptions(
                     ss: currentSs,
                     columns: GridColumns,
-                    labelType: "Grid")
+                    labelType: "Grid",
+                    order: currentSs?.ColumnDefinitionHash?.GridDefinitions()?
+                        .OrderBy(o => o.No)
+                        .Select(o => join.IsNullOrEmpty()
+                            ? o.ColumnName
+                            : join + "," + o.ColumnName).ToList())
                 : ColumnUtilities.SelectableSourceOptions(
                     ss: currentSs,
                     columns: currentSs.ColumnDefinitionHash.GridDefinitions()
@@ -1432,7 +1437,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ? o.ColumnName
                             : join + "," + o.ColumnName)
                         .Where(o => !GridColumns.Contains(o)),
-                    labelType: "Grid");
+                    labelType: "Grid",
+                    order: currentSs?.ColumnDefinitionHash?.GridDefinitions()?
+                        .OrderBy(o => o.No)
+                        .Select(o => join.IsNullOrEmpty()
+                            ? o.ColumnName
+                            : join + "," + o.ColumnName).ToList());
         }
 
         public Dictionary<string, ControlData> FilterSelectableOptions(
@@ -1443,7 +1453,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             return enabled
                 ? ColumnUtilities.SelectableOptions(
                     ss: currentSs,
-                    columns: FilterColumns)
+                    columns: FilterColumns,
+                    order: currentSs?.ColumnDefinitionHash?.FilterDefinitions()?
+                        .OrderBy(o => o.No)
+                        .Select(o => join.IsNullOrEmpty()
+                            ? o.ColumnName
+                            : join + "," + o.ColumnName).ToList())
                 : ColumnUtilities.SelectableSourceOptions(
                     ss: currentSs,
                     columns: currentSs.ColumnDefinitionHash.FilterDefinitions()
@@ -1451,7 +1466,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => join.IsNullOrEmpty()
                             ? o.ColumnName
                             : join + "," + o.ColumnName)
-                        .Where(o => !FilterColumns.Contains(o)));
+                        .Where(o => !FilterColumns.Contains(o)),
+                    order: currentSs?.ColumnDefinitionHash?.FilterDefinitions()?
+                        .OrderBy(o => o.No)
+                        .Select(o => join.IsNullOrEmpty()
+                            ? o.ColumnName
+                            : join + "," + o.ColumnName).ToList());
         }
 
         public Dictionary<string, string> ViewFilterOptions()
@@ -1499,46 +1519,82 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> EditorSelectableOptions(bool enabled = true)
         {
             return enabled
-                ? ColumnUtilities.SelectableOptions(this, EditorColumns)
+                ? ColumnUtilities.SelectableOptions(
+                    ss: this,
+                    columns: EditorColumns,
+                    order: ColumnDefinitionHash.EditorDefinitions()
+                        .OrderBy(o => o.EditorColumn)
+                        .Select(o => o.ColumnName).ToList())
                 : ColumnUtilities.SelectableOptions(
-                    this, ColumnDefinitionHash.EditorDefinitions()
+                    ss: this,
+                    columns: ColumnDefinitionHash.EditorDefinitions()
                         .Where(o => !EditorColumns.Contains(o.ColumnName))
                         .OrderBy(o => o.EditorColumn)
-                        .Select(o => o.ColumnName));
+                        .Select(o => o.ColumnName),
+                    order: ColumnDefinitionHash?.EditorDefinitions()?
+                        .OrderBy(o => o.EditorColumn)
+                        .Select(o => o.ColumnName).ToList());
         }
 
         public Dictionary<string, ControlData> TitleSelectableOptions(
             IEnumerable<string> titleColumns, bool enabled = true)
         {
             return enabled
-                ? ColumnUtilities.SelectableOptions(this, titleColumns)
+                ? ColumnUtilities.SelectableOptions(
+                    ss: this,
+                    columns: titleColumns,
+                    order: ColumnDefinitionHash?.TitleDefinitions()?
+                        .OrderBy(o => o.TitleColumn)
+                        .Select(o => o.ColumnName).ToList())
                 : ColumnUtilities.SelectableOptions(
-                    this, ColumnDefinitionHash.TitleDefinitions()
+                    ss: this,
+                    columns: ColumnDefinitionHash.TitleDefinitions()
                         .Where(o => !titleColumns.Contains(o.ColumnName))
                         .OrderBy(o => o.TitleColumn)
-                        .Select(o => o.ColumnName));
+                        .Select(o => o.ColumnName),
+                    order: ColumnDefinitionHash?.TitleDefinitions()?
+                        .OrderBy(o => o.TitleColumn)
+                        .Select(o => o.ColumnName).ToList());
         }
 
         public Dictionary<string, ControlData> LinkSelectableOptions(bool enabled = true)
         {
             return enabled
-                ? ColumnUtilities.SelectableOptions(this, LinkColumns)
+                ? ColumnUtilities.SelectableOptions(
+                    ss: this,
+                    columns: LinkColumns,
+                    order: ColumnDefinitionHash.LinkDefinitions()
+                        .OrderBy(o => o.LinkColumn)
+                        .Select(o => o.ColumnName).ToList())
                 : ColumnUtilities.SelectableOptions(
-                    this, ColumnDefinitionHash.LinkDefinitions()
+                    ss: this,
+                    columns: ColumnDefinitionHash.LinkDefinitions()
                         .Where(o => !LinkColumns.Contains(o.ColumnName))
                         .OrderBy(o => o.LinkColumn)
-                        .Select(o => o.ColumnName));
+                        .Select(o => o.ColumnName),
+                    order: ColumnDefinitionHash?.LinkDefinitions()
+                        .OrderBy(o => o.LinkColumn)
+                        .Select(o => o.ColumnName).ToList());
         }
 
         public Dictionary<string, ControlData> HistorySelectableOptions(bool enabled = true)
         {
             return enabled
-                ? ColumnUtilities.SelectableOptions(this, HistoryColumns)
+                ? ColumnUtilities.SelectableOptions(
+                    ss: this,
+                    columns: HistoryColumns,
+                    order: ColumnDefinitionHash.HistoryDefinitions()
+                        .OrderBy(o => o.HistoryColumn)
+                        .Select(o => o.ColumnName).ToList())
                 : ColumnUtilities.SelectableOptions(
-                    this, ColumnDefinitionHash.HistoryDefinitions()
+                    ss: this,
+                    columns: ColumnDefinitionHash.HistoryDefinitions()
                         .Where(o => !HistoryColumns.Contains(o.ColumnName))
                         .OrderBy(o => o.HistoryColumn)
-                        .Select(o => o.ColumnName));
+                        .Select(o => o.ColumnName),
+                    order: ColumnDefinitionHash?.HistoryDefinitions()?
+                        .OrderBy(o => o.HistoryColumn)
+                        .Select(o => o.ColumnName).ToList());
         }
 
         public Dictionary<string, ControlData> FormulaTargetSelectableOptions()
@@ -1567,12 +1623,21 @@ namespace Implem.Pleasanter.Libraries.Settings
             IEnumerable<string> monitorChangesColumns, bool enabled = true)
         {
             return enabled
-                ? ColumnUtilities.SelectableOptions(this, monitorChangesColumns)
+                ? ColumnUtilities.SelectableOptions(
+                    ss: this,
+                    columns: monitorChangesColumns,
+                    order: ColumnDefinitionHash?.MonitorChangesDefinitions()
+                        .OrderBy(o => o.EditorColumn)
+                        .Select(o => o.ColumnName).ToList())
                 : ColumnUtilities.SelectableOptions(
-                    this, ColumnDefinitionHash.MonitorChangesDefinitions()
+                    ss: this,
+                    columns: ColumnDefinitionHash.MonitorChangesDefinitions()
                         .Where(o => !monitorChangesColumns.Contains(o.ColumnName))
                         .OrderBy(o => o.EditorColumn)
-                        .Select(o => o.ColumnName));
+                        .Select(o => o.ColumnName),
+                    order: ColumnDefinitionHash?.MonitorChangesDefinitions()?
+                        .OrderBy(o => o.EditorColumn)
+                        .Select(o => o.ColumnName).ToList());
         }
 
         public Dictionary<string, ControlData> ReminderColumnOptions()
@@ -1950,6 +2015,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "CreateColumnAccessControlAll": SetCreateColumnAccessControl(value); break;
                 case "ReadColumnAccessControlAll": SetReadColumnAccessControl(value); break;
                 case "UpdateColumnAccessControlAll": SetUpdateColumnAccessControl(value); break;
+                case "GridColumnsAll": GridColumns = Forms.List(propertyName); break;
+                case "FilterColumnsAll": FilterColumns = Forms.List(propertyName); break;
+                case "EditorColumnsAll": EditorColumns = Forms.List(propertyName); break;
+                case "TitleColumnsAll": TitleColumns = Forms.List(propertyName); break;
+                case "LinkColumnsAll": LinkColumns = Forms.List(propertyName); break;
+                case "HistoryColumnsAll": HistoryColumns = Forms.List(propertyName); break;
+                case "ViewsAll":
+                    Views = Views?.Join(Forms.List(propertyName).Select((val, key) => new { Key = key, Val = val }), v => v.Id, l => l.Val.ToInt(),
+                        (v, l) => new { Views = v, OrderNo = l.Key })
+                        .OrderBy(v => v.OrderNo)
+                        .Select(v => v.Views)
+                        .ToList();
+                    break;
             }
         }
 
@@ -2012,47 +2090,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     aggregation.Type = type;
                     aggregation.Target = target;
                 });
-        }
-
-        public void SetGridColumns(
-            string command, List<string> selectedColumns, List<string> selectedSourceColumns)
-        {
-            GridColumns = ColumnUtilities.GetChanged(
-                GridColumns, command, selectedColumns, selectedSourceColumns);
-        }
-
-        public void SetFilterColumns(
-            string command, List<string> selectedColumns, List<string> selectedSourceColumns)
-        {
-            FilterColumns = ColumnUtilities.GetChanged(
-                FilterColumns, command, selectedColumns, selectedSourceColumns);
-        }
-
-        public void SetEditorColumns(
-            string command, List<string> selectedColumns, List<string> selectedSourceColumns)
-        {
-            EditorColumns = ColumnUtilities.GetChanged(
-                EditorColumns, command, selectedColumns, selectedSourceColumns);
-        }
-
-        public void SetLinkColumns(
-            string command, List<string> selectedColumns, List<string> selectedSourceColumns)
-        {
-            LinkColumns = ColumnUtilities.GetChanged(
-                LinkColumns, command, selectedColumns, selectedSourceColumns);
-        }
-
-        public void SetHistoryColumns(
-            string command, List<string> selectedColumns, List<string> selectedSourceColumns)
-        {
-            HistoryColumns = ColumnUtilities.GetChanged(
-                HistoryColumns, command, selectedColumns, selectedSourceColumns);
-        }
-
-        public void SetViewsOrder(string command, IEnumerable<int> selectedColumns)
-        {
-            Views = ColumnUtilities.GetChanged(
-                Views, command, Views.Where(o => selectedColumns.Contains(o.Id)).ToList());
         }
 
         public void SetColumnProperty(Column column, string propertyName, string value)
@@ -2428,10 +2465,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o.FirstOrDefault())
                 .ForEach(link =>
                 {
-                    var refType = Rds.ExecuteScalar_string(statements: Rds.SelectSites(
-                        column: Rds.SitesColumn().ReferenceType(),
-                        where: Rds.SitesWhere().SiteId(link.SiteId)));
-                    if (refType == "Wikis")
+                    var referenceType = Destinations?
+                        .Where(d => d.SiteId == link.SiteId)
+                        .Select(d => d.ReferenceType)
+                        .FirstOrDefault();
+                    if (referenceType == "Wikis")
                     {
                         WikisLinkHash(
                             searchText: searchText,
@@ -2449,7 +2487,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             hash: hash,
                             offset: offset,
                             noLimit: noLimit,
-                            refType: refType,
+                            referenceType: referenceType,
                             parentColumn: GetColumn(parentClass),
                             parentId: parentId);
                     }
@@ -2503,7 +2541,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<string, List<string>> hash,
             int offset,
             bool noLimit,
-            string refType,
+            string referenceType,
             Column parentColumn,
             int parentId)
         {
@@ -2534,8 +2572,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             selectedValues,
                             _using: selectedValues?.Any() == true)
                         .ReferenceId_In(
-                            sub: new SqlStatement(LinkHashSubQuery(refType, parentColumn, parentId)),
-                            _using: (refType == "Results" || refType == "Issues") && parentId != 0 && parentColumn != null)
+                            sub: new SqlStatement(LinkHashRelatingColumnsSubQuery(referenceType, parentColumn, parentId)),
+                            _using: (referenceType == "Results" || referenceType == "Issues") && parentId != 0 && parentColumn != null)
                         .ReferenceType("Sites", _operator: "<>")
                         .SiteId(link.SiteId)
                         .CanRead("[Items].[ReferenceId]"),
@@ -3012,12 +3050,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => o.StartsWith("Class")).ToList<string>());
         }
 
-        private static string LinkHashSubQuery(string refType, Column parentColumn, int parentId)
+        private static string LinkHashRelatingColumnsSubQuery(string referenceType, Column parentColumn, int parentId)
         {
-            if (parentColumn == null) return null;
-            return (refType == "Results") ? "select [ResultId] from [Results] where [" + parentColumn.ColumnName + "] = " + parentId
-                : (refType == "Issues") ? "select [IssueId] from [Issues] where [" + parentColumn.ColumnName + "] = " + parentId
-                : null;
+            return (parentColumn == null || referenceType == "Wikis" || referenceType == "Sites") ? null
+                : $"select [{Rds.IdColumn(referenceType)}] from [{referenceType}] where [{parentColumn.ColumnName}] = {parentId}";
         }
 
         public void SetRelatingColumnsLinkedClass()
