@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.Settings
     {
         public int Id;
         public string Name;
+        public List<string> GridColumns;
         public bool? Incomplete;
         public bool? Own;
         public bool? NearCompletionTime;
@@ -59,9 +60,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
-        public View(SiteSettings ss)
+        public View(Context context, SiteSettings ss)
         {
-            SetByForm(ss);
+            SetByForm(context: context, ss: ss);
         }
 
         [OnDeserialized]
@@ -94,9 +95,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             return GetCalendarFromTo(ss).Split_2nd('-');
         }
 
-        public string GetCrosstabGroupByX(SiteSettings ss)
+        public string GetCrosstabGroupByX(Context context, SiteSettings ss)
         {
-            var options = ss.CrosstabGroupByXOptions();
+            var options = ss.CrosstabGroupByXOptions(context: context);
             if (CrosstabGroupByX.IsNullOrEmpty())
             {
                 CrosstabGroupByX = options.ContainsKey(Definition(ss, "Crosstab")?.Option1)
@@ -106,9 +107,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             return CrosstabGroupByX;
         }
 
-        public string GetCrosstabGroupByY(SiteSettings ss)
+        public string GetCrosstabGroupByY(Context context, SiteSettings ss)
         {
-            var options = ss.CrosstabGroupByYOptions();
+            var options = ss.CrosstabGroupByYOptions(context: context);
             if (CrosstabGroupByY.IsNullOrEmpty())
             {
                 CrosstabGroupByY = options.ContainsKey(Definition(ss, "Crosstab")?.Option2)
@@ -262,7 +263,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.Id == ss.ReferenceType + "_" + name);
         }
 
-        public void SetByForm(SiteSettings ss)
+        public void SetByForm(Context context, SiteSettings ss)
         {
             var columnFilterPrefix = "ViewFilters__";
             var columnSorterPrefix = "ViewSorters__";
@@ -287,6 +288,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     case "ViewName":
                         Name = String(controlId);
+                        break;
+                    case "ViewGridColumnsAll":
+                        GridColumns = String(controlId).Deserialize<List<string>>();
                         break;
                     case "ViewFilters_Incomplete":
                         Incomplete = Bool(controlId);
@@ -379,16 +383,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                         if (controlId.StartsWith(columnFilterPrefix))
                         {
                             AddColumnFilterHash(
-                                ss,
-                                controlId.Substring(columnFilterPrefix.Length),
-                                Forms.Data(controlId));
+                                context: context,
+                                ss: ss,
+                                columnName: controlId.Substring(columnFilterPrefix.Length),
+                                value: Forms.Data(controlId));
                         }
                         else if (controlId.StartsWith(columnSorterPrefix))
                         {
                             AddColumnSorterHash(
-                                ss,
-                                controlId.Substring(columnSorterPrefix.Length),
-                                OrderByType(Forms.Data(controlId)));
+                                context: context,
+                                ss: ss,
+                                columnName: controlId.Substring(columnSorterPrefix.Length),
+                                value: OrderByType(Forms.Data(controlId)));
                         }
                         break;
                 }
@@ -449,13 +455,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : SqlOrderBy.Types.release;
         }
 
-        private void AddColumnFilterHash(SiteSettings ss, string columnName, string value)
+        private void AddColumnFilterHash(
+            Context context, SiteSettings ss, string columnName, string value)
         {
             if (ColumnFilterHash == null)
             {
                 ColumnFilterHash = new Dictionary<string, string>();
             }
-            var column = ss.GetColumn(columnName);
+            var column = ss.GetColumn(context: context, columnName: columnName);
             if (column != null)
             {
                 if (value != string.Empty)
@@ -477,13 +484,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private void AddColumnSorterHash(
-            SiteSettings ss, string columnName, SqlOrderBy.Types value)
+            Context context, SiteSettings ss, string columnName, SqlOrderBy.Types value)
         {
             if (ColumnSorterHash == null)
             {
                 ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
             }
-            var column = ss.GetColumn(columnName);
+            var column = ss.GetColumn(context: context, columnName: columnName);
             if (column != null)
             {
                 if (value != SqlOrderBy.Types.release)
@@ -541,11 +548,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public View GetRecordingData()
+        public View GetRecordingData(SiteSettings ss)
         {
             var view = new View();
             view.Id = Id;
             view.Name = Name;
+            if (GridColumns != null && GridColumns.Join() != ss.GridColumns.Join())
+            {
+                view.GridColumns = GridColumns;
+            }
             if (Incomplete == true)
             {
                 view.Incomplete = true;
@@ -658,19 +669,21 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public SqlWhereCollection Where(
+            Context context,
             SiteSettings ss,
             SqlWhereCollection where = null,
             bool checkPermission = true)
         {
             if (where == null) where = new SqlWhereCollection();
-            SetGeneralsWhere(ss, where);
-            SetColumnsWhere(ss, where);
-            SetSearchWhere(ss, where);
-            Permissions.SetCanReadWhere(ss, where, checkPermission);
+            SetGeneralsWhere(context: context, ss: ss, where: where);
+            SetColumnsWhere(context: context, ss: ss, where: where);
+            SetSearchWhere(context: context, ss: ss, where: where);
+            Permissions.SetCanReadWhere(
+                context: context, ss: ss, where: where, checkPermission: checkPermission);
             return where;
         }
 
-        private void SetGeneralsWhere(SiteSettings ss, SqlWhereCollection where)
+        private void SetGeneralsWhere(Context context, SiteSettings ss, SqlWhereCollection where)
         {
             if (Incomplete == true)
             {
@@ -685,7 +698,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     tableName: ss.ReferenceType,
                     columnBrackets: new string[] { "[Manager]", "[Owner]" },
                     name: "_U",
-                    value: Sessions.UserId());
+                    value: context.UserId);
             }
             if (NearCompletionTime == true)
             {
@@ -730,23 +743,26 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void SetColumnsWhere(SiteSettings ss, SqlWhereCollection where)
+        private void SetColumnsWhere(Context context, SiteSettings ss, SqlWhereCollection where)
         {
             var prefix = "ViewFilters_" + ss.ReferenceType + "_";
             var prefixLength = prefix.Length;
             ColumnFilterHash?
                 .Select(data => new
                 {
-                    Column = ss.GetColumn(data.Key),
+                    Column = ss.GetColumn(context: context, columnName: data.Key),
                     ColumnName = data.Key,
-                    Value = data.Value
+                    data.Value
                 })
                 .Where(o => o.Column != null)
                 .ForEach(data =>
                 {
                     if (data.ColumnName == "SiteTitle")
                     {
-                        CsNumericColumns(ss.GetColumn("SiteId"), data.Value, where);
+                        CsNumericColumns(
+                            column: ss.GetColumn(context: context, columnName: "SiteId"),
+                            value: data.Value,
+                            where: where);
                     }
                     else
                     {
@@ -990,13 +1006,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public SqlOrderByCollection OrderBy(
-            SiteSettings ss, SqlOrderByCollection orderBy = null, int pageSize = 0)
+            Context context,
+            SiteSettings ss,
+            SqlOrderByCollection orderBy = null,
+            int pageSize = 0)
         {
             orderBy = orderBy ?? new SqlOrderByCollection();
             if (ColumnSorterHash?.Any() == true)
             {
                 ColumnSorterHash?.ForEach(data =>
-                    orderBy.Add(ss.GetColumn(data.Key), data.Value));
+                    orderBy.Add(
+                        column: ss.GetColumn(context: context, columnName: data.Key),
+                        orderType: data.Value));
             }
             return pageSize > 0 && orderBy?.Any() != true
                 ? new SqlOrderByCollection().Add(
@@ -1006,10 +1027,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : orderBy;
         }
 
-        private void SetSearchWhere(SiteSettings ss, SqlWhereCollection where)
+        private void SetSearchWhere(Context context, SiteSettings ss, SqlWhereCollection where)
         {
             if (Search.IsNullOrEmpty()) return;
             var select = SearchIndexUtilities.Select(
+                context: context,
                 searchType: ss.SearchType,
                 searchText: Search,
                 siteIdList: ss.AllowedIntegratedSites != null

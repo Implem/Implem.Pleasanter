@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Responses;
+﻿using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
 using System;
 using System.Web.Mvc;
@@ -9,13 +10,14 @@ namespace Implem.Pleasanter.Filters
     {
         public void OnException(ExceptionContext filterContext)
         {
+            var context = new Context();
             if (filterContext == null)
             {
                 throw new ArgumentNullException("No ExceptionContext");
             }
             try
             {
-                new SysLogModel(filterContext);
+                new SysLogModel(context: context, filterContext: filterContext);
             }
             catch
             {

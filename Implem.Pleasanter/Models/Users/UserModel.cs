@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Models
     [Serializable]
     public class UserModel : BaseModel, Interfaces.IConvertable
     {
-        public int TenantId = Sessions.TenantId();
+        public int TenantId = 0;
         public int UserId = 0;
         public string LoginId = string.Empty;
         public string GlobalId = string.Empty;
@@ -207,7 +207,7 @@ namespace Implem.Pleasanter.Models
         {
             get
             {
-                return SiteInfo.Dept(DeptId);
+                return SiteInfo.Dept(tenantId: TenantId, deptId: DeptId);
             }
         }
 
@@ -219,7 +219,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        [NonSerialized] public int SavedTenantId = Sessions.TenantId();
+        [NonSerialized] public int SavedTenantId = 0;
         [NonSerialized] public int SavedUserId = 0;
         [NonSerialized] public string SavedLoginId = string.Empty;
         [NonSerialized] public string SavedGlobalId = string.Empty;
@@ -391,7 +391,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedLdapSearchRoot = string.Empty;
         [NonSerialized] public DateTime SavedSynchronizedTime = 0.ToDateTime();
 
-        public bool TenantId_Updated(Column column = null)
+        public bool TenantId_Updated(Context context, Column column = null)
         {
             return TenantId != SavedTenantId &&
                 (column == null ||
@@ -399,7 +399,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != TenantId);
         }
 
-        public bool UserId_Updated(Column column = null)
+        public bool UserId_Updated(Context context, Column column = null)
         {
             return UserId != SavedUserId &&
                 (column == null ||
@@ -407,7 +407,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != UserId);
         }
 
-        public bool LoginId_Updated(Column column = null)
+        public bool LoginId_Updated(Context context, Column column = null)
         {
             return LoginId != SavedLoginId && LoginId != null &&
                 (column == null ||
@@ -415,7 +415,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != LoginId);
         }
 
-        public bool GlobalId_Updated(Column column = null)
+        public bool GlobalId_Updated(Context context, Column column = null)
         {
             return GlobalId != SavedGlobalId && GlobalId != null &&
                 (column == null ||
@@ -423,7 +423,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != GlobalId);
         }
 
-        public bool Name_Updated(Column column = null)
+        public bool Name_Updated(Context context, Column column = null)
         {
             return Name != SavedName && Name != null &&
                 (column == null ||
@@ -431,7 +431,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Name);
         }
 
-        public bool UserCode_Updated(Column column = null)
+        public bool UserCode_Updated(Context context, Column column = null)
         {
             return UserCode != SavedUserCode && UserCode != null &&
                 (column == null ||
@@ -439,7 +439,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != UserCode);
         }
 
-        public bool Password_Updated(Column column = null)
+        public bool Password_Updated(Context context, Column column = null)
         {
             return Password != SavedPassword && Password != null &&
                 (column == null ||
@@ -447,7 +447,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Password);
         }
 
-        public bool LastName_Updated(Column column = null)
+        public bool LastName_Updated(Context context, Column column = null)
         {
             return LastName != SavedLastName && LastName != null &&
                 (column == null ||
@@ -455,7 +455,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != LastName);
         }
 
-        public bool FirstName_Updated(Column column = null)
+        public bool FirstName_Updated(Context context, Column column = null)
         {
             return FirstName != SavedFirstName && FirstName != null &&
                 (column == null ||
@@ -463,7 +463,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != FirstName);
         }
 
-        public bool Gender_Updated(Column column = null)
+        public bool Gender_Updated(Context context, Column column = null)
         {
             return Gender != SavedGender && Gender != null &&
                 (column == null ||
@@ -471,7 +471,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Gender);
         }
 
-        public bool Language_Updated(Column column = null)
+        public bool Language_Updated(Context context, Column column = null)
         {
             return Language != SavedLanguage && Language != null &&
                 (column == null ||
@@ -479,7 +479,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Language);
         }
 
-        public bool TimeZone_Updated(Column column = null)
+        public bool TimeZone_Updated(Context context, Column column = null)
         {
             return TimeZone != SavedTimeZone && TimeZone != null &&
                 (column == null ||
@@ -487,7 +487,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != TimeZone);
         }
 
-        public bool DeptId_Updated(Column column = null)
+        public bool DeptId_Updated(Context context, Column column = null)
         {
             return DeptId != SavedDeptId &&
                 (column == null ||
@@ -495,7 +495,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != DeptId);
         }
 
-        public bool FirstAndLastNameOrder_Updated(Column column = null)
+        public bool FirstAndLastNameOrder_Updated(Context context, Column column = null)
         {
             return FirstAndLastNameOrder.ToInt() != SavedFirstAndLastNameOrder &&
                 (column == null ||
@@ -503,7 +503,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != FirstAndLastNameOrder.ToInt());
         }
 
-        public bool Body_Updated(Column column = null)
+        public bool Body_Updated(Context context, Column column = null)
         {
             return Body != SavedBody && Body != null &&
                 (column == null ||
@@ -511,7 +511,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Body);
         }
 
-        public bool NumberOfLogins_Updated(Column column = null)
+        public bool NumberOfLogins_Updated(Context context, Column column = null)
         {
             return NumberOfLogins != SavedNumberOfLogins &&
                 (column == null ||
@@ -519,7 +519,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != NumberOfLogins);
         }
 
-        public bool NumberOfDenial_Updated(Column column = null)
+        public bool NumberOfDenial_Updated(Context context, Column column = null)
         {
             return NumberOfDenial != SavedNumberOfDenial &&
                 (column == null ||
@@ -527,7 +527,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != NumberOfDenial);
         }
 
-        public bool TenantManager_Updated(Column column = null)
+        public bool TenantManager_Updated(Context context, Column column = null)
         {
             return TenantManager != SavedTenantManager &&
                 (column == null ||
@@ -535,7 +535,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != TenantManager);
         }
 
-        public bool ServiceManager_Updated(Column column = null)
+        public bool ServiceManager_Updated(Context context, Column column = null)
         {
             return ServiceManager != SavedServiceManager &&
                 (column == null ||
@@ -543,7 +543,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != ServiceManager);
         }
 
-        public bool Disabled_Updated(Column column = null)
+        public bool Disabled_Updated(Context context, Column column = null)
         {
             return Disabled != SavedDisabled &&
                 (column == null ||
@@ -551,7 +551,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != Disabled);
         }
 
-        public bool Developer_Updated(Column column = null)
+        public bool Developer_Updated(Context context, Column column = null)
         {
             return Developer != SavedDeveloper &&
                 (column == null ||
@@ -559,7 +559,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != Developer);
         }
 
-        public bool UserSettings_Updated(Column column = null)
+        public bool UserSettings_Updated(Context context, Column column = null)
         {
             return UserSettings.RecordingJson() != SavedUserSettings && UserSettings.RecordingJson() != null &&
                 (column == null ||
@@ -567,7 +567,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != UserSettings.RecordingJson());
         }
 
-        public bool ApiKey_Updated(Column column = null)
+        public bool ApiKey_Updated(Context context, Column column = null)
         {
             return ApiKey != SavedApiKey && ApiKey != null &&
                 (column == null ||
@@ -575,7 +575,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ApiKey);
         }
 
-        public bool ClassA_Updated(Column column = null)
+        public bool ClassA_Updated(Context context, Column column = null)
         {
             return ClassA != SavedClassA && ClassA != null &&
                 (column == null ||
@@ -583,7 +583,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassA);
         }
 
-        public bool ClassB_Updated(Column column = null)
+        public bool ClassB_Updated(Context context, Column column = null)
         {
             return ClassB != SavedClassB && ClassB != null &&
                 (column == null ||
@@ -591,7 +591,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassB);
         }
 
-        public bool ClassC_Updated(Column column = null)
+        public bool ClassC_Updated(Context context, Column column = null)
         {
             return ClassC != SavedClassC && ClassC != null &&
                 (column == null ||
@@ -599,7 +599,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassC);
         }
 
-        public bool ClassD_Updated(Column column = null)
+        public bool ClassD_Updated(Context context, Column column = null)
         {
             return ClassD != SavedClassD && ClassD != null &&
                 (column == null ||
@@ -607,7 +607,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassD);
         }
 
-        public bool ClassE_Updated(Column column = null)
+        public bool ClassE_Updated(Context context, Column column = null)
         {
             return ClassE != SavedClassE && ClassE != null &&
                 (column == null ||
@@ -615,7 +615,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassE);
         }
 
-        public bool ClassF_Updated(Column column = null)
+        public bool ClassF_Updated(Context context, Column column = null)
         {
             return ClassF != SavedClassF && ClassF != null &&
                 (column == null ||
@@ -623,7 +623,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassF);
         }
 
-        public bool ClassG_Updated(Column column = null)
+        public bool ClassG_Updated(Context context, Column column = null)
         {
             return ClassG != SavedClassG && ClassG != null &&
                 (column == null ||
@@ -631,7 +631,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassG);
         }
 
-        public bool ClassH_Updated(Column column = null)
+        public bool ClassH_Updated(Context context, Column column = null)
         {
             return ClassH != SavedClassH && ClassH != null &&
                 (column == null ||
@@ -639,7 +639,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassH);
         }
 
-        public bool ClassI_Updated(Column column = null)
+        public bool ClassI_Updated(Context context, Column column = null)
         {
             return ClassI != SavedClassI && ClassI != null &&
                 (column == null ||
@@ -647,7 +647,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassI);
         }
 
-        public bool ClassJ_Updated(Column column = null)
+        public bool ClassJ_Updated(Context context, Column column = null)
         {
             return ClassJ != SavedClassJ && ClassJ != null &&
                 (column == null ||
@@ -655,7 +655,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassJ);
         }
 
-        public bool ClassK_Updated(Column column = null)
+        public bool ClassK_Updated(Context context, Column column = null)
         {
             return ClassK != SavedClassK && ClassK != null &&
                 (column == null ||
@@ -663,7 +663,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassK);
         }
 
-        public bool ClassL_Updated(Column column = null)
+        public bool ClassL_Updated(Context context, Column column = null)
         {
             return ClassL != SavedClassL && ClassL != null &&
                 (column == null ||
@@ -671,7 +671,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassL);
         }
 
-        public bool ClassM_Updated(Column column = null)
+        public bool ClassM_Updated(Context context, Column column = null)
         {
             return ClassM != SavedClassM && ClassM != null &&
                 (column == null ||
@@ -679,7 +679,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassM);
         }
 
-        public bool ClassN_Updated(Column column = null)
+        public bool ClassN_Updated(Context context, Column column = null)
         {
             return ClassN != SavedClassN && ClassN != null &&
                 (column == null ||
@@ -687,7 +687,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassN);
         }
 
-        public bool ClassO_Updated(Column column = null)
+        public bool ClassO_Updated(Context context, Column column = null)
         {
             return ClassO != SavedClassO && ClassO != null &&
                 (column == null ||
@@ -695,7 +695,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassO);
         }
 
-        public bool ClassP_Updated(Column column = null)
+        public bool ClassP_Updated(Context context, Column column = null)
         {
             return ClassP != SavedClassP && ClassP != null &&
                 (column == null ||
@@ -703,7 +703,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassP);
         }
 
-        public bool ClassQ_Updated(Column column = null)
+        public bool ClassQ_Updated(Context context, Column column = null)
         {
             return ClassQ != SavedClassQ && ClassQ != null &&
                 (column == null ||
@@ -711,7 +711,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassQ);
         }
 
-        public bool ClassR_Updated(Column column = null)
+        public bool ClassR_Updated(Context context, Column column = null)
         {
             return ClassR != SavedClassR && ClassR != null &&
                 (column == null ||
@@ -719,7 +719,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassR);
         }
 
-        public bool ClassS_Updated(Column column = null)
+        public bool ClassS_Updated(Context context, Column column = null)
         {
             return ClassS != SavedClassS && ClassS != null &&
                 (column == null ||
@@ -727,7 +727,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassS);
         }
 
-        public bool ClassT_Updated(Column column = null)
+        public bool ClassT_Updated(Context context, Column column = null)
         {
             return ClassT != SavedClassT && ClassT != null &&
                 (column == null ||
@@ -735,7 +735,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassT);
         }
 
-        public bool ClassU_Updated(Column column = null)
+        public bool ClassU_Updated(Context context, Column column = null)
         {
             return ClassU != SavedClassU && ClassU != null &&
                 (column == null ||
@@ -743,7 +743,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassU);
         }
 
-        public bool ClassV_Updated(Column column = null)
+        public bool ClassV_Updated(Context context, Column column = null)
         {
             return ClassV != SavedClassV && ClassV != null &&
                 (column == null ||
@@ -751,7 +751,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassV);
         }
 
-        public bool ClassW_Updated(Column column = null)
+        public bool ClassW_Updated(Context context, Column column = null)
         {
             return ClassW != SavedClassW && ClassW != null &&
                 (column == null ||
@@ -759,7 +759,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassW);
         }
 
-        public bool ClassX_Updated(Column column = null)
+        public bool ClassX_Updated(Context context, Column column = null)
         {
             return ClassX != SavedClassX && ClassX != null &&
                 (column == null ||
@@ -767,7 +767,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassX);
         }
 
-        public bool ClassY_Updated(Column column = null)
+        public bool ClassY_Updated(Context context, Column column = null)
         {
             return ClassY != SavedClassY && ClassY != null &&
                 (column == null ||
@@ -775,7 +775,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassY);
         }
 
-        public bool ClassZ_Updated(Column column = null)
+        public bool ClassZ_Updated(Context context, Column column = null)
         {
             return ClassZ != SavedClassZ && ClassZ != null &&
                 (column == null ||
@@ -783,7 +783,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassZ);
         }
 
-        public bool NumA_Updated(Column column = null)
+        public bool NumA_Updated(Context context, Column column = null)
         {
             return NumA != SavedNumA &&
                 (column == null ||
@@ -791,7 +791,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumA);
         }
 
-        public bool NumB_Updated(Column column = null)
+        public bool NumB_Updated(Context context, Column column = null)
         {
             return NumB != SavedNumB &&
                 (column == null ||
@@ -799,7 +799,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumB);
         }
 
-        public bool NumC_Updated(Column column = null)
+        public bool NumC_Updated(Context context, Column column = null)
         {
             return NumC != SavedNumC &&
                 (column == null ||
@@ -807,7 +807,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumC);
         }
 
-        public bool NumD_Updated(Column column = null)
+        public bool NumD_Updated(Context context, Column column = null)
         {
             return NumD != SavedNumD &&
                 (column == null ||
@@ -815,7 +815,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumD);
         }
 
-        public bool NumE_Updated(Column column = null)
+        public bool NumE_Updated(Context context, Column column = null)
         {
             return NumE != SavedNumE &&
                 (column == null ||
@@ -823,7 +823,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumE);
         }
 
-        public bool NumF_Updated(Column column = null)
+        public bool NumF_Updated(Context context, Column column = null)
         {
             return NumF != SavedNumF &&
                 (column == null ||
@@ -831,7 +831,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumF);
         }
 
-        public bool NumG_Updated(Column column = null)
+        public bool NumG_Updated(Context context, Column column = null)
         {
             return NumG != SavedNumG &&
                 (column == null ||
@@ -839,7 +839,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumG);
         }
 
-        public bool NumH_Updated(Column column = null)
+        public bool NumH_Updated(Context context, Column column = null)
         {
             return NumH != SavedNumH &&
                 (column == null ||
@@ -847,7 +847,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumH);
         }
 
-        public bool NumI_Updated(Column column = null)
+        public bool NumI_Updated(Context context, Column column = null)
         {
             return NumI != SavedNumI &&
                 (column == null ||
@@ -855,7 +855,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumI);
         }
 
-        public bool NumJ_Updated(Column column = null)
+        public bool NumJ_Updated(Context context, Column column = null)
         {
             return NumJ != SavedNumJ &&
                 (column == null ||
@@ -863,7 +863,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumJ);
         }
 
-        public bool NumK_Updated(Column column = null)
+        public bool NumK_Updated(Context context, Column column = null)
         {
             return NumK != SavedNumK &&
                 (column == null ||
@@ -871,7 +871,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumK);
         }
 
-        public bool NumL_Updated(Column column = null)
+        public bool NumL_Updated(Context context, Column column = null)
         {
             return NumL != SavedNumL &&
                 (column == null ||
@@ -879,7 +879,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumL);
         }
 
-        public bool NumM_Updated(Column column = null)
+        public bool NumM_Updated(Context context, Column column = null)
         {
             return NumM != SavedNumM &&
                 (column == null ||
@@ -887,7 +887,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumM);
         }
 
-        public bool NumN_Updated(Column column = null)
+        public bool NumN_Updated(Context context, Column column = null)
         {
             return NumN != SavedNumN &&
                 (column == null ||
@@ -895,7 +895,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumN);
         }
 
-        public bool NumO_Updated(Column column = null)
+        public bool NumO_Updated(Context context, Column column = null)
         {
             return NumO != SavedNumO &&
                 (column == null ||
@@ -903,7 +903,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumO);
         }
 
-        public bool NumP_Updated(Column column = null)
+        public bool NumP_Updated(Context context, Column column = null)
         {
             return NumP != SavedNumP &&
                 (column == null ||
@@ -911,7 +911,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumP);
         }
 
-        public bool NumQ_Updated(Column column = null)
+        public bool NumQ_Updated(Context context, Column column = null)
         {
             return NumQ != SavedNumQ &&
                 (column == null ||
@@ -919,7 +919,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumQ);
         }
 
-        public bool NumR_Updated(Column column = null)
+        public bool NumR_Updated(Context context, Column column = null)
         {
             return NumR != SavedNumR &&
                 (column == null ||
@@ -927,7 +927,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumR);
         }
 
-        public bool NumS_Updated(Column column = null)
+        public bool NumS_Updated(Context context, Column column = null)
         {
             return NumS != SavedNumS &&
                 (column == null ||
@@ -935,7 +935,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumS);
         }
 
-        public bool NumT_Updated(Column column = null)
+        public bool NumT_Updated(Context context, Column column = null)
         {
             return NumT != SavedNumT &&
                 (column == null ||
@@ -943,7 +943,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumT);
         }
 
-        public bool NumU_Updated(Column column = null)
+        public bool NumU_Updated(Context context, Column column = null)
         {
             return NumU != SavedNumU &&
                 (column == null ||
@@ -951,7 +951,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumU);
         }
 
-        public bool NumV_Updated(Column column = null)
+        public bool NumV_Updated(Context context, Column column = null)
         {
             return NumV != SavedNumV &&
                 (column == null ||
@@ -959,7 +959,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumV);
         }
 
-        public bool NumW_Updated(Column column = null)
+        public bool NumW_Updated(Context context, Column column = null)
         {
             return NumW != SavedNumW &&
                 (column == null ||
@@ -967,7 +967,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumW);
         }
 
-        public bool NumX_Updated(Column column = null)
+        public bool NumX_Updated(Context context, Column column = null)
         {
             return NumX != SavedNumX &&
                 (column == null ||
@@ -975,7 +975,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumX);
         }
 
-        public bool NumY_Updated(Column column = null)
+        public bool NumY_Updated(Context context, Column column = null)
         {
             return NumY != SavedNumY &&
                 (column == null ||
@@ -983,7 +983,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumY);
         }
 
-        public bool NumZ_Updated(Column column = null)
+        public bool NumZ_Updated(Context context, Column column = null)
         {
             return NumZ != SavedNumZ &&
                 (column == null ||
@@ -991,7 +991,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumZ);
         }
 
-        public bool DescriptionA_Updated(Column column = null)
+        public bool DescriptionA_Updated(Context context, Column column = null)
         {
             return DescriptionA != SavedDescriptionA && DescriptionA != null &&
                 (column == null ||
@@ -999,7 +999,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionA);
         }
 
-        public bool DescriptionB_Updated(Column column = null)
+        public bool DescriptionB_Updated(Context context, Column column = null)
         {
             return DescriptionB != SavedDescriptionB && DescriptionB != null &&
                 (column == null ||
@@ -1007,7 +1007,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionB);
         }
 
-        public bool DescriptionC_Updated(Column column = null)
+        public bool DescriptionC_Updated(Context context, Column column = null)
         {
             return DescriptionC != SavedDescriptionC && DescriptionC != null &&
                 (column == null ||
@@ -1015,7 +1015,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionC);
         }
 
-        public bool DescriptionD_Updated(Column column = null)
+        public bool DescriptionD_Updated(Context context, Column column = null)
         {
             return DescriptionD != SavedDescriptionD && DescriptionD != null &&
                 (column == null ||
@@ -1023,7 +1023,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionD);
         }
 
-        public bool DescriptionE_Updated(Column column = null)
+        public bool DescriptionE_Updated(Context context, Column column = null)
         {
             return DescriptionE != SavedDescriptionE && DescriptionE != null &&
                 (column == null ||
@@ -1031,7 +1031,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionE);
         }
 
-        public bool DescriptionF_Updated(Column column = null)
+        public bool DescriptionF_Updated(Context context, Column column = null)
         {
             return DescriptionF != SavedDescriptionF && DescriptionF != null &&
                 (column == null ||
@@ -1039,7 +1039,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionF);
         }
 
-        public bool DescriptionG_Updated(Column column = null)
+        public bool DescriptionG_Updated(Context context, Column column = null)
         {
             return DescriptionG != SavedDescriptionG && DescriptionG != null &&
                 (column == null ||
@@ -1047,7 +1047,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionG);
         }
 
-        public bool DescriptionH_Updated(Column column = null)
+        public bool DescriptionH_Updated(Context context, Column column = null)
         {
             return DescriptionH != SavedDescriptionH && DescriptionH != null &&
                 (column == null ||
@@ -1055,7 +1055,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionH);
         }
 
-        public bool DescriptionI_Updated(Column column = null)
+        public bool DescriptionI_Updated(Context context, Column column = null)
         {
             return DescriptionI != SavedDescriptionI && DescriptionI != null &&
                 (column == null ||
@@ -1063,7 +1063,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionI);
         }
 
-        public bool DescriptionJ_Updated(Column column = null)
+        public bool DescriptionJ_Updated(Context context, Column column = null)
         {
             return DescriptionJ != SavedDescriptionJ && DescriptionJ != null &&
                 (column == null ||
@@ -1071,7 +1071,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionJ);
         }
 
-        public bool DescriptionK_Updated(Column column = null)
+        public bool DescriptionK_Updated(Context context, Column column = null)
         {
             return DescriptionK != SavedDescriptionK && DescriptionK != null &&
                 (column == null ||
@@ -1079,7 +1079,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionK);
         }
 
-        public bool DescriptionL_Updated(Column column = null)
+        public bool DescriptionL_Updated(Context context, Column column = null)
         {
             return DescriptionL != SavedDescriptionL && DescriptionL != null &&
                 (column == null ||
@@ -1087,7 +1087,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionL);
         }
 
-        public bool DescriptionM_Updated(Column column = null)
+        public bool DescriptionM_Updated(Context context, Column column = null)
         {
             return DescriptionM != SavedDescriptionM && DescriptionM != null &&
                 (column == null ||
@@ -1095,7 +1095,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionM);
         }
 
-        public bool DescriptionN_Updated(Column column = null)
+        public bool DescriptionN_Updated(Context context, Column column = null)
         {
             return DescriptionN != SavedDescriptionN && DescriptionN != null &&
                 (column == null ||
@@ -1103,7 +1103,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionN);
         }
 
-        public bool DescriptionO_Updated(Column column = null)
+        public bool DescriptionO_Updated(Context context, Column column = null)
         {
             return DescriptionO != SavedDescriptionO && DescriptionO != null &&
                 (column == null ||
@@ -1111,7 +1111,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionO);
         }
 
-        public bool DescriptionP_Updated(Column column = null)
+        public bool DescriptionP_Updated(Context context, Column column = null)
         {
             return DescriptionP != SavedDescriptionP && DescriptionP != null &&
                 (column == null ||
@@ -1119,7 +1119,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionP);
         }
 
-        public bool DescriptionQ_Updated(Column column = null)
+        public bool DescriptionQ_Updated(Context context, Column column = null)
         {
             return DescriptionQ != SavedDescriptionQ && DescriptionQ != null &&
                 (column == null ||
@@ -1127,7 +1127,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionQ);
         }
 
-        public bool DescriptionR_Updated(Column column = null)
+        public bool DescriptionR_Updated(Context context, Column column = null)
         {
             return DescriptionR != SavedDescriptionR && DescriptionR != null &&
                 (column == null ||
@@ -1135,7 +1135,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionR);
         }
 
-        public bool DescriptionS_Updated(Column column = null)
+        public bool DescriptionS_Updated(Context context, Column column = null)
         {
             return DescriptionS != SavedDescriptionS && DescriptionS != null &&
                 (column == null ||
@@ -1143,7 +1143,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionS);
         }
 
-        public bool DescriptionT_Updated(Column column = null)
+        public bool DescriptionT_Updated(Context context, Column column = null)
         {
             return DescriptionT != SavedDescriptionT && DescriptionT != null &&
                 (column == null ||
@@ -1151,7 +1151,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionT);
         }
 
-        public bool DescriptionU_Updated(Column column = null)
+        public bool DescriptionU_Updated(Context context, Column column = null)
         {
             return DescriptionU != SavedDescriptionU && DescriptionU != null &&
                 (column == null ||
@@ -1159,7 +1159,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionU);
         }
 
-        public bool DescriptionV_Updated(Column column = null)
+        public bool DescriptionV_Updated(Context context, Column column = null)
         {
             return DescriptionV != SavedDescriptionV && DescriptionV != null &&
                 (column == null ||
@@ -1167,7 +1167,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionV);
         }
 
-        public bool DescriptionW_Updated(Column column = null)
+        public bool DescriptionW_Updated(Context context, Column column = null)
         {
             return DescriptionW != SavedDescriptionW && DescriptionW != null &&
                 (column == null ||
@@ -1175,7 +1175,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionW);
         }
 
-        public bool DescriptionX_Updated(Column column = null)
+        public bool DescriptionX_Updated(Context context, Column column = null)
         {
             return DescriptionX != SavedDescriptionX && DescriptionX != null &&
                 (column == null ||
@@ -1183,7 +1183,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionX);
         }
 
-        public bool DescriptionY_Updated(Column column = null)
+        public bool DescriptionY_Updated(Context context, Column column = null)
         {
             return DescriptionY != SavedDescriptionY && DescriptionY != null &&
                 (column == null ||
@@ -1191,7 +1191,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionY);
         }
 
-        public bool DescriptionZ_Updated(Column column = null)
+        public bool DescriptionZ_Updated(Context context, Column column = null)
         {
             return DescriptionZ != SavedDescriptionZ && DescriptionZ != null &&
                 (column == null ||
@@ -1199,7 +1199,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionZ);
         }
 
-        public bool CheckA_Updated(Column column = null)
+        public bool CheckA_Updated(Context context, Column column = null)
         {
             return CheckA != SavedCheckA &&
                 (column == null ||
@@ -1207,7 +1207,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckA);
         }
 
-        public bool CheckB_Updated(Column column = null)
+        public bool CheckB_Updated(Context context, Column column = null)
         {
             return CheckB != SavedCheckB &&
                 (column == null ||
@@ -1215,7 +1215,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckB);
         }
 
-        public bool CheckC_Updated(Column column = null)
+        public bool CheckC_Updated(Context context, Column column = null)
         {
             return CheckC != SavedCheckC &&
                 (column == null ||
@@ -1223,7 +1223,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckC);
         }
 
-        public bool CheckD_Updated(Column column = null)
+        public bool CheckD_Updated(Context context, Column column = null)
         {
             return CheckD != SavedCheckD &&
                 (column == null ||
@@ -1231,7 +1231,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckD);
         }
 
-        public bool CheckE_Updated(Column column = null)
+        public bool CheckE_Updated(Context context, Column column = null)
         {
             return CheckE != SavedCheckE &&
                 (column == null ||
@@ -1239,7 +1239,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckE);
         }
 
-        public bool CheckF_Updated(Column column = null)
+        public bool CheckF_Updated(Context context, Column column = null)
         {
             return CheckF != SavedCheckF &&
                 (column == null ||
@@ -1247,7 +1247,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckF);
         }
 
-        public bool CheckG_Updated(Column column = null)
+        public bool CheckG_Updated(Context context, Column column = null)
         {
             return CheckG != SavedCheckG &&
                 (column == null ||
@@ -1255,7 +1255,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckG);
         }
 
-        public bool CheckH_Updated(Column column = null)
+        public bool CheckH_Updated(Context context, Column column = null)
         {
             return CheckH != SavedCheckH &&
                 (column == null ||
@@ -1263,7 +1263,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckH);
         }
 
-        public bool CheckI_Updated(Column column = null)
+        public bool CheckI_Updated(Context context, Column column = null)
         {
             return CheckI != SavedCheckI &&
                 (column == null ||
@@ -1271,7 +1271,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckI);
         }
 
-        public bool CheckJ_Updated(Column column = null)
+        public bool CheckJ_Updated(Context context, Column column = null)
         {
             return CheckJ != SavedCheckJ &&
                 (column == null ||
@@ -1279,7 +1279,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckJ);
         }
 
-        public bool CheckK_Updated(Column column = null)
+        public bool CheckK_Updated(Context context, Column column = null)
         {
             return CheckK != SavedCheckK &&
                 (column == null ||
@@ -1287,7 +1287,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckK);
         }
 
-        public bool CheckL_Updated(Column column = null)
+        public bool CheckL_Updated(Context context, Column column = null)
         {
             return CheckL != SavedCheckL &&
                 (column == null ||
@@ -1295,7 +1295,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckL);
         }
 
-        public bool CheckM_Updated(Column column = null)
+        public bool CheckM_Updated(Context context, Column column = null)
         {
             return CheckM != SavedCheckM &&
                 (column == null ||
@@ -1303,7 +1303,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckM);
         }
 
-        public bool CheckN_Updated(Column column = null)
+        public bool CheckN_Updated(Context context, Column column = null)
         {
             return CheckN != SavedCheckN &&
                 (column == null ||
@@ -1311,7 +1311,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckN);
         }
 
-        public bool CheckO_Updated(Column column = null)
+        public bool CheckO_Updated(Context context, Column column = null)
         {
             return CheckO != SavedCheckO &&
                 (column == null ||
@@ -1319,7 +1319,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckO);
         }
 
-        public bool CheckP_Updated(Column column = null)
+        public bool CheckP_Updated(Context context, Column column = null)
         {
             return CheckP != SavedCheckP &&
                 (column == null ||
@@ -1327,7 +1327,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckP);
         }
 
-        public bool CheckQ_Updated(Column column = null)
+        public bool CheckQ_Updated(Context context, Column column = null)
         {
             return CheckQ != SavedCheckQ &&
                 (column == null ||
@@ -1335,7 +1335,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckQ);
         }
 
-        public bool CheckR_Updated(Column column = null)
+        public bool CheckR_Updated(Context context, Column column = null)
         {
             return CheckR != SavedCheckR &&
                 (column == null ||
@@ -1343,7 +1343,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckR);
         }
 
-        public bool CheckS_Updated(Column column = null)
+        public bool CheckS_Updated(Context context, Column column = null)
         {
             return CheckS != SavedCheckS &&
                 (column == null ||
@@ -1351,7 +1351,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckS);
         }
 
-        public bool CheckT_Updated(Column column = null)
+        public bool CheckT_Updated(Context context, Column column = null)
         {
             return CheckT != SavedCheckT &&
                 (column == null ||
@@ -1359,7 +1359,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckT);
         }
 
-        public bool CheckU_Updated(Column column = null)
+        public bool CheckU_Updated(Context context, Column column = null)
         {
             return CheckU != SavedCheckU &&
                 (column == null ||
@@ -1367,7 +1367,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckU);
         }
 
-        public bool CheckV_Updated(Column column = null)
+        public bool CheckV_Updated(Context context, Column column = null)
         {
             return CheckV != SavedCheckV &&
                 (column == null ||
@@ -1375,7 +1375,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckV);
         }
 
-        public bool CheckW_Updated(Column column = null)
+        public bool CheckW_Updated(Context context, Column column = null)
         {
             return CheckW != SavedCheckW &&
                 (column == null ||
@@ -1383,7 +1383,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckW);
         }
 
-        public bool CheckX_Updated(Column column = null)
+        public bool CheckX_Updated(Context context, Column column = null)
         {
             return CheckX != SavedCheckX &&
                 (column == null ||
@@ -1391,7 +1391,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckX);
         }
 
-        public bool CheckY_Updated(Column column = null)
+        public bool CheckY_Updated(Context context, Column column = null)
         {
             return CheckY != SavedCheckY &&
                 (column == null ||
@@ -1399,7 +1399,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckY);
         }
 
-        public bool CheckZ_Updated(Column column = null)
+        public bool CheckZ_Updated(Context context, Column column = null)
         {
             return CheckZ != SavedCheckZ &&
                 (column == null ||
@@ -1407,7 +1407,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckZ);
         }
 
-        public bool LdapSearchRoot_Updated(Column column = null)
+        public bool LdapSearchRoot_Updated(Context context, Column column = null)
         {
             return LdapSearchRoot != SavedLdapSearchRoot && LdapSearchRoot != null &&
                 (column == null ||
@@ -1415,7 +1415,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != LdapSearchRoot);
         }
 
-        public bool Birthday_Updated(Column column = null)
+        public bool Birthday_Updated(Context context, Column column = null)
         {
             return Birthday.Value != SavedBirthday &&
                 (column == null ||
@@ -1423,7 +1423,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != Birthday.Value.Date);
         }
 
-        public bool LastLoginTime_Updated(Column column = null)
+        public bool LastLoginTime_Updated(Context context, Column column = null)
         {
             return LastLoginTime.Value != SavedLastLoginTime &&
                 (column == null ||
@@ -1431,7 +1431,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != LastLoginTime.Value.Date);
         }
 
-        public bool PasswordExpirationTime_Updated(Column column = null)
+        public bool PasswordExpirationTime_Updated(Context context, Column column = null)
         {
             return PasswordExpirationTime.Value != SavedPasswordExpirationTime &&
                 (column == null ||
@@ -1439,7 +1439,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != PasswordExpirationTime.Value.Date);
         }
 
-        public bool PasswordChangeTime_Updated(Column column = null)
+        public bool PasswordChangeTime_Updated(Context context, Column column = null)
         {
             return PasswordChangeTime.Value != SavedPasswordChangeTime &&
                 (column == null ||
@@ -1447,7 +1447,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != PasswordChangeTime.Value.Date);
         }
 
-        public bool DateA_Updated(Column column = null)
+        public bool DateA_Updated(Context context, Column column = null)
         {
             return DateA != SavedDateA &&
                 (column == null ||
@@ -1455,7 +1455,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateA.Date);
         }
 
-        public bool DateB_Updated(Column column = null)
+        public bool DateB_Updated(Context context, Column column = null)
         {
             return DateB != SavedDateB &&
                 (column == null ||
@@ -1463,7 +1463,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateB.Date);
         }
 
-        public bool DateC_Updated(Column column = null)
+        public bool DateC_Updated(Context context, Column column = null)
         {
             return DateC != SavedDateC &&
                 (column == null ||
@@ -1471,7 +1471,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateC.Date);
         }
 
-        public bool DateD_Updated(Column column = null)
+        public bool DateD_Updated(Context context, Column column = null)
         {
             return DateD != SavedDateD &&
                 (column == null ||
@@ -1479,7 +1479,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateD.Date);
         }
 
-        public bool DateE_Updated(Column column = null)
+        public bool DateE_Updated(Context context, Column column = null)
         {
             return DateE != SavedDateE &&
                 (column == null ||
@@ -1487,7 +1487,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateE.Date);
         }
 
-        public bool DateF_Updated(Column column = null)
+        public bool DateF_Updated(Context context, Column column = null)
         {
             return DateF != SavedDateF &&
                 (column == null ||
@@ -1495,7 +1495,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateF.Date);
         }
 
-        public bool DateG_Updated(Column column = null)
+        public bool DateG_Updated(Context context, Column column = null)
         {
             return DateG != SavedDateG &&
                 (column == null ||
@@ -1503,7 +1503,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateG.Date);
         }
 
-        public bool DateH_Updated(Column column = null)
+        public bool DateH_Updated(Context context, Column column = null)
         {
             return DateH != SavedDateH &&
                 (column == null ||
@@ -1511,7 +1511,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateH.Date);
         }
 
-        public bool DateI_Updated(Column column = null)
+        public bool DateI_Updated(Context context, Column column = null)
         {
             return DateI != SavedDateI &&
                 (column == null ||
@@ -1519,7 +1519,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateI.Date);
         }
 
-        public bool DateJ_Updated(Column column = null)
+        public bool DateJ_Updated(Context context, Column column = null)
         {
             return DateJ != SavedDateJ &&
                 (column == null ||
@@ -1527,7 +1527,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateJ.Date);
         }
 
-        public bool DateK_Updated(Column column = null)
+        public bool DateK_Updated(Context context, Column column = null)
         {
             return DateK != SavedDateK &&
                 (column == null ||
@@ -1535,7 +1535,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateK.Date);
         }
 
-        public bool DateL_Updated(Column column = null)
+        public bool DateL_Updated(Context context, Column column = null)
         {
             return DateL != SavedDateL &&
                 (column == null ||
@@ -1543,7 +1543,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateL.Date);
         }
 
-        public bool DateM_Updated(Column column = null)
+        public bool DateM_Updated(Context context, Column column = null)
         {
             return DateM != SavedDateM &&
                 (column == null ||
@@ -1551,7 +1551,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateM.Date);
         }
 
-        public bool DateN_Updated(Column column = null)
+        public bool DateN_Updated(Context context, Column column = null)
         {
             return DateN != SavedDateN &&
                 (column == null ||
@@ -1559,7 +1559,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateN.Date);
         }
 
-        public bool DateO_Updated(Column column = null)
+        public bool DateO_Updated(Context context, Column column = null)
         {
             return DateO != SavedDateO &&
                 (column == null ||
@@ -1567,7 +1567,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateO.Date);
         }
 
-        public bool DateP_Updated(Column column = null)
+        public bool DateP_Updated(Context context, Column column = null)
         {
             return DateP != SavedDateP &&
                 (column == null ||
@@ -1575,7 +1575,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateP.Date);
         }
 
-        public bool DateQ_Updated(Column column = null)
+        public bool DateQ_Updated(Context context, Column column = null)
         {
             return DateQ != SavedDateQ &&
                 (column == null ||
@@ -1583,7 +1583,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateQ.Date);
         }
 
-        public bool DateR_Updated(Column column = null)
+        public bool DateR_Updated(Context context, Column column = null)
         {
             return DateR != SavedDateR &&
                 (column == null ||
@@ -1591,7 +1591,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateR.Date);
         }
 
-        public bool DateS_Updated(Column column = null)
+        public bool DateS_Updated(Context context, Column column = null)
         {
             return DateS != SavedDateS &&
                 (column == null ||
@@ -1599,7 +1599,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateS.Date);
         }
 
-        public bool DateT_Updated(Column column = null)
+        public bool DateT_Updated(Context context, Column column = null)
         {
             return DateT != SavedDateT &&
                 (column == null ||
@@ -1607,7 +1607,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateT.Date);
         }
 
-        public bool DateU_Updated(Column column = null)
+        public bool DateU_Updated(Context context, Column column = null)
         {
             return DateU != SavedDateU &&
                 (column == null ||
@@ -1615,7 +1615,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateU.Date);
         }
 
-        public bool DateV_Updated(Column column = null)
+        public bool DateV_Updated(Context context, Column column = null)
         {
             return DateV != SavedDateV &&
                 (column == null ||
@@ -1623,7 +1623,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateV.Date);
         }
 
-        public bool DateW_Updated(Column column = null)
+        public bool DateW_Updated(Context context, Column column = null)
         {
             return DateW != SavedDateW &&
                 (column == null ||
@@ -1631,7 +1631,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateW.Date);
         }
 
-        public bool DateX_Updated(Column column = null)
+        public bool DateX_Updated(Context context, Column column = null)
         {
             return DateX != SavedDateX &&
                 (column == null ||
@@ -1639,7 +1639,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateX.Date);
         }
 
-        public bool DateY_Updated(Column column = null)
+        public bool DateY_Updated(Context context, Column column = null)
         {
             return DateY != SavedDateY &&
                 (column == null ||
@@ -1647,7 +1647,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateY.Date);
         }
 
-        public bool DateZ_Updated(Column column = null)
+        public bool DateZ_Updated(Context context, Column column = null)
         {
             return DateZ != SavedDateZ &&
                 (column == null ||
@@ -1655,7 +1655,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateZ.Date);
         }
 
-        public bool SynchronizedTime_Updated(Column column = null)
+        public bool SynchronizedTime_Updated(Context context, Column column = null)
         {
             return SynchronizedTime != SavedSynchronizedTime &&
                 (column == null ||
@@ -1663,7 +1663,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != SynchronizedTime.Date);
         }
 
-        public UserSettings Session_UserSettings()
+        public UserSettings Session_UserSettings(Context context)
         {
             return this.PageSession("UserSettings") != null
                 ? this.PageSession("UserSettings")?.ToString().Deserialize<UserSettings>() ?? new UserSettings()
@@ -1675,7 +1675,7 @@ namespace Implem.Pleasanter.Models
             this.PageSession("UserSettings", value);
         }
 
-        public List<string> Session_MailAddresses()
+        public List<string> Session_MailAddresses(Context context)
         {
             return this.PageSession("MailAddresses") != null
                 ? this.PageSession("MailAddresses") as List<string>
@@ -1694,19 +1694,23 @@ namespace Implem.Pleasanter.Models
         }
 
         public UserModel(
+            Context context,
             SiteSettings ss,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
-            if (setByForm) SetByForm(ss);
-            if (setByApi) SetByApi(ss);
+            OnConstructing(context: context);
+            Context = context;
+            TenantId = context.TenantId;
+            if (setByForm) SetByForm(context: context, ss: ss);
+            if (setByApi) SetByApi(context: context, ss: ss);
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
         public UserModel(
+            Context context,
             SiteSettings ss,
             int userId,
             bool clearSessions = false,
@@ -1715,29 +1719,33 @@ namespace Implem.Pleasanter.Models
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
+            OnConstructing(context: context);
+            Context = context;
+            TenantId = context.TenantId;
             UserId = userId;
-            Get(ss);
+            Get(context: context, ss: ss);
             if (clearSessions) ClearSessions();
-            if (setByForm) SetByForm(ss);
-            if (setByApi) SetByApi(ss);
+            if (setByForm) SetByForm(context: context, ss: ss);
+            if (setByApi) SetByApi(context: context, ss: ss);
             SwitchTargets = switchTargets;
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
-        public UserModel(SiteSettings ss, DataRow dataRow, string tableAlias = null)
+        public UserModel(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
-            OnConstructing();
-            Set(ss, dataRow, tableAlias);
-            OnConstructed();
+            OnConstructing(context: context);
+            Context = context;
+            TenantId = context.TenantId;
+            if (dataRow != null) Set(context, ss, dataRow, tableAlias);
+            OnConstructed(context: context);
         }
 
-        private void OnConstructing()
+        private void OnConstructing(Context context)
         {
         }
 
-        private void OnConstructed()
+        private void OnConstructed(Context context)
         {
         }
 
@@ -1748,6 +1756,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public UserModel Get(
+            Context context,
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
@@ -1758,15 +1767,17 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(ss, Rds.ExecuteTable(statements: Rds.SelectUsers(
-                tableType: tableType,
-                column: column ?? Rds.UsersDefaultColumns(),
-                join: join ??  Rds.UsersJoinDefault(),
-                where: where ?? Rds.UsersWhereDefault(this),
-                orderBy: orderBy,
-                param: param,
-                distinct: distinct,
-                top: top)));
+            Set(context, ss, Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectUsers(
+                    tableType: tableType,
+                    column: column ?? Rds.UsersDefaultColumns(),
+                    join: join ??  Rds.UsersJoinDefault(),
+                    where: where ?? Rds.UsersWhereDefault(this),
+                    orderBy: orderBy,
+                    param: param,
+                    distinct: distinct,
+                    top: top)));
             return this;
         }
 
@@ -1949,20 +1960,21 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types Create(
+            Context context,
             SiteSettings ss,
-            RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool otherInitValue = false,
             bool get = true)
         {
+            TenantId = context.TenantId;
             PasswordExpirationPeriod();
             var statements = new List<SqlStatement>();
-            CreateStatements(ss, statements, tableType, param, otherInitValue);
+            CreateStatements(context, ss, statements, tableType, param, otherInitValue);
             try
             {
                 var response = Rds.ExecuteScalar_response(
-                    rdsUser: rdsUser,
+                    context: context,
                     transactional: true,
                     selectIdentity: true,
                     statements: statements.ToArray());
@@ -1979,11 +1991,12 @@ namespace Implem.Pleasanter.Models
                     throw;
                 }
             }
-            if (get) Get(ss);
+            if (get) Get(context: context, ss: ss);
             return Error.Types.None;
         }
 
         public List<SqlStatement> CreateStatements(
+            Context context,
             SiteSettings ss,
             List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -1996,13 +2009,19 @@ namespace Implem.Pleasanter.Models
                     tableType: tableType,
                     setIdentity: true,
                     param: param ?? Rds.UsersParamDefault(
-                        this, setDefault: true, otherInitValue: otherInitValue)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated),
+                        context: context,
+                        userModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue)),
+                StatusUtilities.UpdateStatus(
+                    tenantId: context.TenantId,
+                    type: StatusUtilities.Types.UsersUpdated),
             });
             return statements;
         }
 
         public Error.Types Update(
+            Context context,
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
@@ -2013,14 +2032,21 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
-            if (setBySession) SetBySession();
+            if (setBySession) SetBySession(context: context);
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
+            UpdateStatements(
+                context: context,
+                ss: ss,
+                statements: statements,
+                timestamp: timestamp,
+                param: param,
+                otherInitValue: otherInitValue,
+                additionalStatements: additionalStatements);
             try
             {
                 var response = Rds.ExecuteScalar_response(
-                    rdsUser: rdsUser,
+                    context: context,
                     transactional: true,
                     statements: statements.ToArray());
                 if (response.Count == 0) return Error.Types.UpdateConflicts;
@@ -2036,13 +2062,15 @@ namespace Implem.Pleasanter.Models
                     throw;
                 }
             }
-            if (get) Get(ss);
-            UpdateMailAddresses();
-            SetSiteInfo();
+            if (get) Get(context: context, ss: ss);
+            UpdateMailAddresses(context: context);
+            SetSiteInfo(context: context);
             return Error.Types.None;
         }
 
         private List<SqlStatement> UpdateStatements(
+            Context context,
+            SiteSettings ss,
             List<SqlStatement> statements,
             DateTime timestamp,
             SqlParamCollection param,
@@ -2060,9 +2088,12 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateUsers(
                     where: where,
-                    param: param ?? Rds.UsersParamDefault(this, otherInitValue: otherInitValue),
+                    param: param ?? Rds.UsersParamDefault(
+                        context: context, userModel: this, otherInitValue: otherInitValue),
                     countRecord: true),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated),
+                StatusUtilities.UpdateStatus(
+                    tenantId: context.TenantId,
+                    type: StatusUtilities.Types.UsersUpdated),
             });
             if (additionalStatements?.Any() == true)
             {
@@ -2247,19 +2278,22 @@ namespace Implem.Pleasanter.Models
                 addUpdatorParam: false);
         }
 
-        public Error.Types Delete(SiteSettings ss, bool notice = false)
+        public Error.Types Delete(Context context, SiteSettings ss, bool notice = false)
         {
             var statements = new List<SqlStatement>();
             var where = Rds.UsersWhere().UserId(UserId);
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.DeleteUsers(where: where),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated),
+                StatusUtilities.UpdateStatus(
+                    tenantId: context.TenantId,
+                    type: StatusUtilities.Types.UsersUpdated),
             });
             var response = Rds.ExecuteScalar_response(
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
-            var userHash = SiteInfo.TenantCaches[Sessions.TenantId()].UserHash;
+            var userHash = SiteInfo.TenantCaches.Get(context.TenantId)?.UserHash;
             if (userHash.Keys.Contains(UserId))
             {
                 userHash.Remove(UserId);
@@ -2267,25 +2301,29 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public Error.Types Restore(SiteSettings ss,int userId)
+        public Error.Types Restore(Context context, SiteSettings ss,int userId)
         {
             UserId = userId;
             Rds.ExecuteNonQuery(
+                context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreUsers(
                         where: Rds.UsersWhere().UserId(UserId)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.UsersUpdated),
+                    StatusUtilities.UpdateStatus(
+                        tenantId: context.TenantId,
+                        type: StatusUtilities.Types.UsersUpdated),
                 });
             return Error.Types.None;
         }
 
         public Error.Types PhysicalDelete(
-            SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
+                context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteUsers(
                     tableType: tableType,
@@ -2293,7 +2331,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public void SetByForm(SiteSettings ss)
+        public void SetByForm(Context context, SiteSettings ss)
         {
             Forms.Keys().ForEach(controlId =>
             {
@@ -2358,32 +2396,32 @@ namespace Implem.Pleasanter.Models
                     case "Users_ClassX": ClassX = Forms.Data(controlId).ToString(); break;
                     case "Users_ClassY": ClassY = Forms.Data(controlId).ToString(); break;
                     case "Users_ClassZ": ClassZ = Forms.Data(controlId).ToString(); break;
-                    case "Users_NumA": NumA = ss.GetColumn("NumA").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumB": NumB = ss.GetColumn("NumB").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumC": NumC = ss.GetColumn("NumC").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumD": NumD = ss.GetColumn("NumD").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumE": NumE = ss.GetColumn("NumE").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumF": NumF = ss.GetColumn("NumF").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumG": NumG = ss.GetColumn("NumG").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumH": NumH = ss.GetColumn("NumH").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumI": NumI = ss.GetColumn("NumI").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumJ": NumJ = ss.GetColumn("NumJ").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumK": NumK = ss.GetColumn("NumK").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumL": NumL = ss.GetColumn("NumL").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumM": NumM = ss.GetColumn("NumM").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumN": NumN = ss.GetColumn("NumN").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumO": NumO = ss.GetColumn("NumO").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumP": NumP = ss.GetColumn("NumP").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumQ": NumQ = ss.GetColumn("NumQ").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumR": NumR = ss.GetColumn("NumR").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumS": NumS = ss.GetColumn("NumS").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumT": NumT = ss.GetColumn("NumT").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumU": NumU = ss.GetColumn("NumU").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumV": NumV = ss.GetColumn("NumV").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumW": NumW = ss.GetColumn("NumW").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumX": NumX = ss.GetColumn("NumX").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumY": NumY = ss.GetColumn("NumY").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumZ": NumZ = ss.GetColumn("NumZ").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumA": NumA = ss.GetColumn(context: context, columnName: "NumA").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumB": NumB = ss.GetColumn(context: context, columnName: "NumB").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumC": NumC = ss.GetColumn(context: context, columnName: "NumC").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumD": NumD = ss.GetColumn(context: context, columnName: "NumD").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumE": NumE = ss.GetColumn(context: context, columnName: "NumE").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumF": NumF = ss.GetColumn(context: context, columnName: "NumF").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumG": NumG = ss.GetColumn(context: context, columnName: "NumG").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumH": NumH = ss.GetColumn(context: context, columnName: "NumH").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumI": NumI = ss.GetColumn(context: context, columnName: "NumI").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumJ": NumJ = ss.GetColumn(context: context, columnName: "NumJ").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumK": NumK = ss.GetColumn(context: context, columnName: "NumK").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumL": NumL = ss.GetColumn(context: context, columnName: "NumL").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumM": NumM = ss.GetColumn(context: context, columnName: "NumM").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumN": NumN = ss.GetColumn(context: context, columnName: "NumN").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumO": NumO = ss.GetColumn(context: context, columnName: "NumO").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumP": NumP = ss.GetColumn(context: context, columnName: "NumP").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumQ": NumQ = ss.GetColumn(context: context, columnName: "NumQ").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumR": NumR = ss.GetColumn(context: context, columnName: "NumR").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumS": NumS = ss.GetColumn(context: context, columnName: "NumS").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumT": NumT = ss.GetColumn(context: context, columnName: "NumT").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumU": NumU = ss.GetColumn(context: context, columnName: "NumU").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumV": NumV = ss.GetColumn(context: context, columnName: "NumV").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumW": NumW = ss.GetColumn(context: context, columnName: "NumW").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumX": NumX = ss.GetColumn(context: context, columnName: "NumX").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumY": NumY = ss.GetColumn(context: context, columnName: "NumY").Round(Forms.Decimal(controlId)); break;
+                    case "Users_NumZ": NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(Forms.Decimal(controlId)); break;
                     case "Users_DateA": DateA = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
                     case "Users_DateB": DateB = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
                     case "Users_DateC": DateC = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
@@ -2465,14 +2503,16 @@ namespace Implem.Pleasanter.Models
                     case "Users_LdapSearchRoot": LdapSearchRoot = Forms.Data(controlId).ToString(); break;
                     case "Users_SynchronizedTime": SynchronizedTime = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
                     case "Users_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(context: context, ss: ss, body: Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
                         {
                             Comments.Update(
-                                controlId.Substring("Comment".Length).ToInt(),
-                                Forms.Data(controlId));
+                                context: context,
+                                ss: ss,
+                                commentId: controlId.Substring("Comment".Length).ToInt(),
+                                body: Forms.Data(controlId));
                         }
                         break;
                 }
@@ -2672,7 +2712,7 @@ namespace Implem.Pleasanter.Models
             Comments = userModel.Comments;
         }
 
-        public void SetByApi(SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss)
         {
             var data = Forms.String().Deserialize<UserApiModel>();
             if (data == null)
@@ -2728,32 +2768,32 @@ namespace Implem.Pleasanter.Models
             if (data.ClassX != null) ClassX = data.ClassX.ToString().ToString();
             if (data.ClassY != null) ClassY = data.ClassY.ToString().ToString();
             if (data.ClassZ != null) ClassZ = data.ClassZ.ToString().ToString();
-            if (data.NumA != null) NumA = ss.GetColumn("NumA").Round(data.NumA.ToDecimal());
-            if (data.NumB != null) NumB = ss.GetColumn("NumB").Round(data.NumB.ToDecimal());
-            if (data.NumC != null) NumC = ss.GetColumn("NumC").Round(data.NumC.ToDecimal());
-            if (data.NumD != null) NumD = ss.GetColumn("NumD").Round(data.NumD.ToDecimal());
-            if (data.NumE != null) NumE = ss.GetColumn("NumE").Round(data.NumE.ToDecimal());
-            if (data.NumF != null) NumF = ss.GetColumn("NumF").Round(data.NumF.ToDecimal());
-            if (data.NumG != null) NumG = ss.GetColumn("NumG").Round(data.NumG.ToDecimal());
-            if (data.NumH != null) NumH = ss.GetColumn("NumH").Round(data.NumH.ToDecimal());
-            if (data.NumI != null) NumI = ss.GetColumn("NumI").Round(data.NumI.ToDecimal());
-            if (data.NumJ != null) NumJ = ss.GetColumn("NumJ").Round(data.NumJ.ToDecimal());
-            if (data.NumK != null) NumK = ss.GetColumn("NumK").Round(data.NumK.ToDecimal());
-            if (data.NumL != null) NumL = ss.GetColumn("NumL").Round(data.NumL.ToDecimal());
-            if (data.NumM != null) NumM = ss.GetColumn("NumM").Round(data.NumM.ToDecimal());
-            if (data.NumN != null) NumN = ss.GetColumn("NumN").Round(data.NumN.ToDecimal());
-            if (data.NumO != null) NumO = ss.GetColumn("NumO").Round(data.NumO.ToDecimal());
-            if (data.NumP != null) NumP = ss.GetColumn("NumP").Round(data.NumP.ToDecimal());
-            if (data.NumQ != null) NumQ = ss.GetColumn("NumQ").Round(data.NumQ.ToDecimal());
-            if (data.NumR != null) NumR = ss.GetColumn("NumR").Round(data.NumR.ToDecimal());
-            if (data.NumS != null) NumS = ss.GetColumn("NumS").Round(data.NumS.ToDecimal());
-            if (data.NumT != null) NumT = ss.GetColumn("NumT").Round(data.NumT.ToDecimal());
-            if (data.NumU != null) NumU = ss.GetColumn("NumU").Round(data.NumU.ToDecimal());
-            if (data.NumV != null) NumV = ss.GetColumn("NumV").Round(data.NumV.ToDecimal());
-            if (data.NumW != null) NumW = ss.GetColumn("NumW").Round(data.NumW.ToDecimal());
-            if (data.NumX != null) NumX = ss.GetColumn("NumX").Round(data.NumX.ToDecimal());
-            if (data.NumY != null) NumY = ss.GetColumn("NumY").Round(data.NumY.ToDecimal());
-            if (data.NumZ != null) NumZ = ss.GetColumn("NumZ").Round(data.NumZ.ToDecimal());
+            if (data.NumA != null) NumA = ss.GetColumn(context: context, columnName: "NumA").Round(data.NumA.ToDecimal());
+            if (data.NumB != null) NumB = ss.GetColumn(context: context, columnName: "NumB").Round(data.NumB.ToDecimal());
+            if (data.NumC != null) NumC = ss.GetColumn(context: context, columnName: "NumC").Round(data.NumC.ToDecimal());
+            if (data.NumD != null) NumD = ss.GetColumn(context: context, columnName: "NumD").Round(data.NumD.ToDecimal());
+            if (data.NumE != null) NumE = ss.GetColumn(context: context, columnName: "NumE").Round(data.NumE.ToDecimal());
+            if (data.NumF != null) NumF = ss.GetColumn(context: context, columnName: "NumF").Round(data.NumF.ToDecimal());
+            if (data.NumG != null) NumG = ss.GetColumn(context: context, columnName: "NumG").Round(data.NumG.ToDecimal());
+            if (data.NumH != null) NumH = ss.GetColumn(context: context, columnName: "NumH").Round(data.NumH.ToDecimal());
+            if (data.NumI != null) NumI = ss.GetColumn(context: context, columnName: "NumI").Round(data.NumI.ToDecimal());
+            if (data.NumJ != null) NumJ = ss.GetColumn(context: context, columnName: "NumJ").Round(data.NumJ.ToDecimal());
+            if (data.NumK != null) NumK = ss.GetColumn(context: context, columnName: "NumK").Round(data.NumK.ToDecimal());
+            if (data.NumL != null) NumL = ss.GetColumn(context: context, columnName: "NumL").Round(data.NumL.ToDecimal());
+            if (data.NumM != null) NumM = ss.GetColumn(context: context, columnName: "NumM").Round(data.NumM.ToDecimal());
+            if (data.NumN != null) NumN = ss.GetColumn(context: context, columnName: "NumN").Round(data.NumN.ToDecimal());
+            if (data.NumO != null) NumO = ss.GetColumn(context: context, columnName: "NumO").Round(data.NumO.ToDecimal());
+            if (data.NumP != null) NumP = ss.GetColumn(context: context, columnName: "NumP").Round(data.NumP.ToDecimal());
+            if (data.NumQ != null) NumQ = ss.GetColumn(context: context, columnName: "NumQ").Round(data.NumQ.ToDecimal());
+            if (data.NumR != null) NumR = ss.GetColumn(context: context, columnName: "NumR").Round(data.NumR.ToDecimal());
+            if (data.NumS != null) NumS = ss.GetColumn(context: context, columnName: "NumS").Round(data.NumS.ToDecimal());
+            if (data.NumT != null) NumT = ss.GetColumn(context: context, columnName: "NumT").Round(data.NumT.ToDecimal());
+            if (data.NumU != null) NumU = ss.GetColumn(context: context, columnName: "NumU").Round(data.NumU.ToDecimal());
+            if (data.NumV != null) NumV = ss.GetColumn(context: context, columnName: "NumV").Round(data.NumV.ToDecimal());
+            if (data.NumW != null) NumW = ss.GetColumn(context: context, columnName: "NumW").Round(data.NumW.ToDecimal());
+            if (data.NumX != null) NumX = ss.GetColumn(context: context, columnName: "NumX").Round(data.NumX.ToDecimal());
+            if (data.NumY != null) NumY = ss.GetColumn(context: context, columnName: "NumY").Round(data.NumY.ToDecimal());
+            if (data.NumZ != null) NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(data.NumZ.ToDecimal());
             if (data.DateA != null) DateA = data.DateA.ToDateTime().ToDateTime().ToUniversal();
             if (data.DateB != null) DateB = data.DateB.ToDateTime().ToDateTime().ToUniversal();
             if (data.DateC != null) DateC = data.DateC.ToDateTime().ToDateTime().ToUniversal();
@@ -2834,27 +2874,27 @@ namespace Implem.Pleasanter.Models
             if (data.CheckZ != null) CheckZ = data.CheckZ.ToBool().ToBool();
             if (data.LdapSearchRoot != null) LdapSearchRoot = data.LdapSearchRoot.ToString().ToString();
             if (data.SynchronizedTime != null) SynchronizedTime = data.SynchronizedTime.ToDateTime().ToDateTime().ToUniversal();
-            if (data.Comments != null) Comments.Prepend(data.Comments);
+            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
         }
 
-        private void SetBySession()
+        private void SetBySession(Context context)
         {
-            if (!Forms.HasData("Users_UserSettings")) UserSettings = Session_UserSettings();
-            if (!Forms.HasData("Users_MailAddresses")) MailAddresses = Session_MailAddresses();
+            if (!Forms.HasData("Users_UserSettings")) UserSettings = Session_UserSettings(context: context);
+            if (!Forms.HasData("Users_MailAddresses")) MailAddresses = Session_MailAddresses(context: context);
         }
 
-        private void Set(SiteSettings ss, DataTable dataTable)
+        private void Set(Context context, SiteSettings ss, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(ss, dataTable.Rows[0]); break;
+                case 1: Set(context, ss, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(SiteSettings ss, DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -3519,11 +3559,11 @@ namespace Implem.Pleasanter.Models
                             SavedComments = Comments.ToJson();
                             break;
                         case "Creator":
-                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedCreator = Creator.Id;
                             break;
                         case "Updator":
-                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
@@ -3540,178 +3580,178 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool Updated()
+        public bool Updated(Context context)
         {
             return
-                TenantId_Updated() ||
-                UserId_Updated() ||
-                Ver_Updated() ||
-                LoginId_Updated() ||
-                GlobalId_Updated() ||
-                Name_Updated() ||
-                UserCode_Updated() ||
-                Password_Updated() ||
-                LastName_Updated() ||
-                FirstName_Updated() ||
-                Birthday_Updated() ||
-                Gender_Updated() ||
-                Language_Updated() ||
-                TimeZone_Updated() ||
-                DeptId_Updated() ||
-                FirstAndLastNameOrder_Updated() ||
-                Body_Updated() ||
-                LastLoginTime_Updated() ||
-                PasswordExpirationTime_Updated() ||
-                PasswordChangeTime_Updated() ||
-                NumberOfLogins_Updated() ||
-                NumberOfDenial_Updated() ||
-                TenantManager_Updated() ||
-                ServiceManager_Updated() ||
-                Disabled_Updated() ||
-                Developer_Updated() ||
-                UserSettings_Updated() ||
-                ApiKey_Updated() ||
-                ClassA_Updated() ||
-                ClassB_Updated() ||
-                ClassC_Updated() ||
-                ClassD_Updated() ||
-                ClassE_Updated() ||
-                ClassF_Updated() ||
-                ClassG_Updated() ||
-                ClassH_Updated() ||
-                ClassI_Updated() ||
-                ClassJ_Updated() ||
-                ClassK_Updated() ||
-                ClassL_Updated() ||
-                ClassM_Updated() ||
-                ClassN_Updated() ||
-                ClassO_Updated() ||
-                ClassP_Updated() ||
-                ClassQ_Updated() ||
-                ClassR_Updated() ||
-                ClassS_Updated() ||
-                ClassT_Updated() ||
-                ClassU_Updated() ||
-                ClassV_Updated() ||
-                ClassW_Updated() ||
-                ClassX_Updated() ||
-                ClassY_Updated() ||
-                ClassZ_Updated() ||
-                NumA_Updated() ||
-                NumB_Updated() ||
-                NumC_Updated() ||
-                NumD_Updated() ||
-                NumE_Updated() ||
-                NumF_Updated() ||
-                NumG_Updated() ||
-                NumH_Updated() ||
-                NumI_Updated() ||
-                NumJ_Updated() ||
-                NumK_Updated() ||
-                NumL_Updated() ||
-                NumM_Updated() ||
-                NumN_Updated() ||
-                NumO_Updated() ||
-                NumP_Updated() ||
-                NumQ_Updated() ||
-                NumR_Updated() ||
-                NumS_Updated() ||
-                NumT_Updated() ||
-                NumU_Updated() ||
-                NumV_Updated() ||
-                NumW_Updated() ||
-                NumX_Updated() ||
-                NumY_Updated() ||
-                NumZ_Updated() ||
-                DateA_Updated() ||
-                DateB_Updated() ||
-                DateC_Updated() ||
-                DateD_Updated() ||
-                DateE_Updated() ||
-                DateF_Updated() ||
-                DateG_Updated() ||
-                DateH_Updated() ||
-                DateI_Updated() ||
-                DateJ_Updated() ||
-                DateK_Updated() ||
-                DateL_Updated() ||
-                DateM_Updated() ||
-                DateN_Updated() ||
-                DateO_Updated() ||
-                DateP_Updated() ||
-                DateQ_Updated() ||
-                DateR_Updated() ||
-                DateS_Updated() ||
-                DateT_Updated() ||
-                DateU_Updated() ||
-                DateV_Updated() ||
-                DateW_Updated() ||
-                DateX_Updated() ||
-                DateY_Updated() ||
-                DateZ_Updated() ||
-                DescriptionA_Updated() ||
-                DescriptionB_Updated() ||
-                DescriptionC_Updated() ||
-                DescriptionD_Updated() ||
-                DescriptionE_Updated() ||
-                DescriptionF_Updated() ||
-                DescriptionG_Updated() ||
-                DescriptionH_Updated() ||
-                DescriptionI_Updated() ||
-                DescriptionJ_Updated() ||
-                DescriptionK_Updated() ||
-                DescriptionL_Updated() ||
-                DescriptionM_Updated() ||
-                DescriptionN_Updated() ||
-                DescriptionO_Updated() ||
-                DescriptionP_Updated() ||
-                DescriptionQ_Updated() ||
-                DescriptionR_Updated() ||
-                DescriptionS_Updated() ||
-                DescriptionT_Updated() ||
-                DescriptionU_Updated() ||
-                DescriptionV_Updated() ||
-                DescriptionW_Updated() ||
-                DescriptionX_Updated() ||
-                DescriptionY_Updated() ||
-                DescriptionZ_Updated() ||
-                CheckA_Updated() ||
-                CheckB_Updated() ||
-                CheckC_Updated() ||
-                CheckD_Updated() ||
-                CheckE_Updated() ||
-                CheckF_Updated() ||
-                CheckG_Updated() ||
-                CheckH_Updated() ||
-                CheckI_Updated() ||
-                CheckJ_Updated() ||
-                CheckK_Updated() ||
-                CheckL_Updated() ||
-                CheckM_Updated() ||
-                CheckN_Updated() ||
-                CheckO_Updated() ||
-                CheckP_Updated() ||
-                CheckQ_Updated() ||
-                CheckR_Updated() ||
-                CheckS_Updated() ||
-                CheckT_Updated() ||
-                CheckU_Updated() ||
-                CheckV_Updated() ||
-                CheckW_Updated() ||
-                CheckX_Updated() ||
-                CheckY_Updated() ||
-                CheckZ_Updated() ||
-                LdapSearchRoot_Updated() ||
-                SynchronizedTime_Updated() ||
-                Comments_Updated() ||
-                Creator_Updated() ||
-                Updator_Updated();
+                TenantId_Updated(context: context) ||
+                UserId_Updated(context: context) ||
+                Ver_Updated(context: context) ||
+                LoginId_Updated(context: context) ||
+                GlobalId_Updated(context: context) ||
+                Name_Updated(context: context) ||
+                UserCode_Updated(context: context) ||
+                Password_Updated(context: context) ||
+                LastName_Updated(context: context) ||
+                FirstName_Updated(context: context) ||
+                Birthday_Updated(context: context) ||
+                Gender_Updated(context: context) ||
+                Language_Updated(context: context) ||
+                TimeZone_Updated(context: context) ||
+                DeptId_Updated(context: context) ||
+                FirstAndLastNameOrder_Updated(context: context) ||
+                Body_Updated(context: context) ||
+                LastLoginTime_Updated(context: context) ||
+                PasswordExpirationTime_Updated(context: context) ||
+                PasswordChangeTime_Updated(context: context) ||
+                NumberOfLogins_Updated(context: context) ||
+                NumberOfDenial_Updated(context: context) ||
+                TenantManager_Updated(context: context) ||
+                ServiceManager_Updated(context: context) ||
+                Disabled_Updated(context: context) ||
+                Developer_Updated(context: context) ||
+                UserSettings_Updated(context: context) ||
+                ApiKey_Updated(context: context) ||
+                ClassA_Updated(context: context) ||
+                ClassB_Updated(context: context) ||
+                ClassC_Updated(context: context) ||
+                ClassD_Updated(context: context) ||
+                ClassE_Updated(context: context) ||
+                ClassF_Updated(context: context) ||
+                ClassG_Updated(context: context) ||
+                ClassH_Updated(context: context) ||
+                ClassI_Updated(context: context) ||
+                ClassJ_Updated(context: context) ||
+                ClassK_Updated(context: context) ||
+                ClassL_Updated(context: context) ||
+                ClassM_Updated(context: context) ||
+                ClassN_Updated(context: context) ||
+                ClassO_Updated(context: context) ||
+                ClassP_Updated(context: context) ||
+                ClassQ_Updated(context: context) ||
+                ClassR_Updated(context: context) ||
+                ClassS_Updated(context: context) ||
+                ClassT_Updated(context: context) ||
+                ClassU_Updated(context: context) ||
+                ClassV_Updated(context: context) ||
+                ClassW_Updated(context: context) ||
+                ClassX_Updated(context: context) ||
+                ClassY_Updated(context: context) ||
+                ClassZ_Updated(context: context) ||
+                NumA_Updated(context: context) ||
+                NumB_Updated(context: context) ||
+                NumC_Updated(context: context) ||
+                NumD_Updated(context: context) ||
+                NumE_Updated(context: context) ||
+                NumF_Updated(context: context) ||
+                NumG_Updated(context: context) ||
+                NumH_Updated(context: context) ||
+                NumI_Updated(context: context) ||
+                NumJ_Updated(context: context) ||
+                NumK_Updated(context: context) ||
+                NumL_Updated(context: context) ||
+                NumM_Updated(context: context) ||
+                NumN_Updated(context: context) ||
+                NumO_Updated(context: context) ||
+                NumP_Updated(context: context) ||
+                NumQ_Updated(context: context) ||
+                NumR_Updated(context: context) ||
+                NumS_Updated(context: context) ||
+                NumT_Updated(context: context) ||
+                NumU_Updated(context: context) ||
+                NumV_Updated(context: context) ||
+                NumW_Updated(context: context) ||
+                NumX_Updated(context: context) ||
+                NumY_Updated(context: context) ||
+                NumZ_Updated(context: context) ||
+                DateA_Updated(context: context) ||
+                DateB_Updated(context: context) ||
+                DateC_Updated(context: context) ||
+                DateD_Updated(context: context) ||
+                DateE_Updated(context: context) ||
+                DateF_Updated(context: context) ||
+                DateG_Updated(context: context) ||
+                DateH_Updated(context: context) ||
+                DateI_Updated(context: context) ||
+                DateJ_Updated(context: context) ||
+                DateK_Updated(context: context) ||
+                DateL_Updated(context: context) ||
+                DateM_Updated(context: context) ||
+                DateN_Updated(context: context) ||
+                DateO_Updated(context: context) ||
+                DateP_Updated(context: context) ||
+                DateQ_Updated(context: context) ||
+                DateR_Updated(context: context) ||
+                DateS_Updated(context: context) ||
+                DateT_Updated(context: context) ||
+                DateU_Updated(context: context) ||
+                DateV_Updated(context: context) ||
+                DateW_Updated(context: context) ||
+                DateX_Updated(context: context) ||
+                DateY_Updated(context: context) ||
+                DateZ_Updated(context: context) ||
+                DescriptionA_Updated(context: context) ||
+                DescriptionB_Updated(context: context) ||
+                DescriptionC_Updated(context: context) ||
+                DescriptionD_Updated(context: context) ||
+                DescriptionE_Updated(context: context) ||
+                DescriptionF_Updated(context: context) ||
+                DescriptionG_Updated(context: context) ||
+                DescriptionH_Updated(context: context) ||
+                DescriptionI_Updated(context: context) ||
+                DescriptionJ_Updated(context: context) ||
+                DescriptionK_Updated(context: context) ||
+                DescriptionL_Updated(context: context) ||
+                DescriptionM_Updated(context: context) ||
+                DescriptionN_Updated(context: context) ||
+                DescriptionO_Updated(context: context) ||
+                DescriptionP_Updated(context: context) ||
+                DescriptionQ_Updated(context: context) ||
+                DescriptionR_Updated(context: context) ||
+                DescriptionS_Updated(context: context) ||
+                DescriptionT_Updated(context: context) ||
+                DescriptionU_Updated(context: context) ||
+                DescriptionV_Updated(context: context) ||
+                DescriptionW_Updated(context: context) ||
+                DescriptionX_Updated(context: context) ||
+                DescriptionY_Updated(context: context) ||
+                DescriptionZ_Updated(context: context) ||
+                CheckA_Updated(context: context) ||
+                CheckB_Updated(context: context) ||
+                CheckC_Updated(context: context) ||
+                CheckD_Updated(context: context) ||
+                CheckE_Updated(context: context) ||
+                CheckF_Updated(context: context) ||
+                CheckG_Updated(context: context) ||
+                CheckH_Updated(context: context) ||
+                CheckI_Updated(context: context) ||
+                CheckJ_Updated(context: context) ||
+                CheckK_Updated(context: context) ||
+                CheckL_Updated(context: context) ||
+                CheckM_Updated(context: context) ||
+                CheckN_Updated(context: context) ||
+                CheckO_Updated(context: context) ||
+                CheckP_Updated(context: context) ||
+                CheckQ_Updated(context: context) ||
+                CheckR_Updated(context: context) ||
+                CheckS_Updated(context: context) ||
+                CheckT_Updated(context: context) ||
+                CheckU_Updated(context: context) ||
+                CheckV_Updated(context: context) ||
+                CheckW_Updated(context: context) ||
+                CheckX_Updated(context: context) ||
+                CheckY_Updated(context: context) ||
+                CheckZ_Updated(context: context) ||
+                LdapSearchRoot_Updated(context: context) ||
+                SynchronizedTime_Updated(context: context) ||
+                Comments_Updated(context: context) ||
+                Creator_Updated(context: context) ||
+                Updator_Updated(context: context);
         }
 
-        public List<string> Mine()
+        public List<string> Mine(Context context)
         {
             var mine = new List<string>();
-            var userId = Sessions.UserId();
+            var userId = context.UserId;
             if (SavedCreator == userId) mine.Add("Creator");
             if (SavedUpdator == userId) mine.Add("Updator");
             return mine;
@@ -3729,10 +3769,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void UpdateMailAddresses()
+        private void UpdateMailAddresses(Context context)
         {
             var statements = new List<SqlStatement>();
-            Session_MailAddresses()?.ForEach(mailAddress =>
+            Session_MailAddresses(context: context)?.ForEach(mailAddress =>
                 statements.Add(Rds.InsertMailAddresses(
                     param: Rds.MailAddressesParam()
                         .OwnerId(UserId)
@@ -3744,17 +3784,20 @@ namespace Implem.Pleasanter.Models
                     where: Rds.MailAddressesWhere()
                         .OwnerId(UserId)
                         .OwnerType("Users")));
-                Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
+                Rds.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: statements.ToArray());
             }
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetSiteInfo()
+        private void SetSiteInfo(Context context)
         {
-            SiteInfo.Reflesh();
-            if (Self()) SetSession();
+            SiteInfo.Reflesh(context: context);
+            if (Self(context: context)) SetSession();
         }
 
         /// <summary>
@@ -3783,38 +3826,42 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public UserModel(RdsUser.UserTypes userType)
+        public UserModel(Context context, RdsUser.UserTypes userType)
         {
-            OnConstructing();
+            OnConstructing(context: context);
             UserId = userType.ToInt();
-            Get(SiteSettingsUtilities.UsersSiteSettings());
-            OnConstructed();
+            Get(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+            OnConstructed(context: context);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public UserModel(string loginId)
+        public UserModel(Context context, SiteSettings ss, string loginId)
         {
-            var ss = SiteSettingsUtilities.UsersSiteSettings();
-            SetByForm(ss);
-            Get(ss, where: Rds.UsersWhere().LoginId(loginId));
+            SetByForm(context: context, ss: ss);
+            Get(
+                context: context,
+                ss: ss,
+                where: Rds.UsersWhere().LoginId(loginId));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public bool Self()
+        public bool Self(Context context)
         {
-            return Sessions.UserId() == UserId;
+            return UserId == context.UserId;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Authenticate(string returnUrl)
+        public string Authenticate(Context context, string returnUrl)
         {
-            if (Authenticate())
+            if (Authenticate(context: context))
             {
                 if (PasswordExpired())
                 {
@@ -3822,19 +3869,23 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    return Allow(returnUrl);
+                    return Allow(
+                        context: context,
+                        returnUrl: returnUrl);
                 }
             }
             else
             {
-                var tenantOptions = TenantOptions();
+                var tenantOptions = TenantOptions(context: context);
                 if (tenantOptions?.Any() == true)
                 {
-                    return TenantsDropDown(tenantOptions);
+                    return TenantsDropDown(
+                        context: context,
+                        tenantOptions: tenantOptions);
                 }
                 else
                 {
-                    return Deny();
+                    return Deny(context: context);
                 }
             }
         }
@@ -3842,46 +3893,69 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public bool Authenticate()
+        public bool Authenticate(Context context)
         {
             var ret = false;
-            if (!RejectUnregisteredUser())
+            if (!RejectUnregisteredUser(context: context))
             {
                 switch (Parameters.Authentication.Provider)
                 {
                     case "LDAP":
-                        ret = Ldap.Authenticate(LoginId, Forms.Data("Users_Password"));
+                        ret = Ldap.Authenticate(
+                            context: context,
+                            loginId: LoginId,
+                            password: Forms.Data("Users_Password"));
                         if (ret)
                         {
-                            Get(SiteSettingsUtilities.UsersSiteSettings(),
+                            Get(
+                                context: context,
+                                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                                 where: Rds.UsersWhere().LoginId(LoginId));
                         }
                         break;
                     case "LDAP+Local":
-                        ret = Ldap.Authenticate(LoginId, Forms.Data("Users_Password"));
+                        ret = Ldap.Authenticate(
+                            context: context,
+                            loginId: LoginId,
+                            password: Forms.Data("Users_Password"));
                         if (ret)
                         {
-                            Get(SiteSettingsUtilities.UsersSiteSettings(),
+                            Get(
+                                context: context,
+                                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                                 where: Rds.UsersWhere().LoginId(LoginId));
                         }
                         else
                         {
-                            ret = GetByCredentials(LoginId, Password, Forms.Int("SelectedTenantId"));
+                            ret = GetByCredentials(
+                                context: context,
+                                loginId: LoginId,
+                                password: Password,
+                                tenantId: Forms.Int("SelectedTenantId"));
                         }
                         break;
                     case "Extension":
-                        var user = Extension.Authenticate(LoginId, Password);
+                        var user = Extension.Authenticate(
+                            context: context,
+                            loginId: LoginId,
+                            password: Password);
                         ret = user != null;
                         if (ret)
                         {
-                            Get(SiteSettingsUtilities.UsersSiteSettings(),
+                            Get(
+                                context: context,
+                                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                                 where: Rds.UsersWhere()
                                     .TenantId(user.TenantId)
                                     .UserId(user.Id));
                         }
                         break;
                     default:
-                        ret = GetByCredentials(LoginId, Password, Forms.Int("SelectedTenantId"));
+                        ret = GetByCredentials(
+                            context: context,
+                            loginId: LoginId,
+                            password: Password,
+                            tenantId: Forms.Int("SelectedTenantId"));
                         break;
                 }
             }
@@ -3891,22 +3965,27 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private bool RejectUnregisteredUser()
+        private bool RejectUnregisteredUser(Context context)
         {
             return Parameters.Authentication.RejectUnregisteredUser &&
-                Rds.ExecuteScalar_int(statements: Rds.SelectUsers(
-                    column: Rds.UsersColumn().UsersCount(),
-                    where: Rds.UsersWhere()
-                        .LoginId(LoginId)
-                        .Disabled(false))) != 1;
+                Rds.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectUsers(
+                        column: Rds.UsersColumn().UsersCount(),
+                        where: Rds.UsersWhere()
+                            .LoginId(LoginId)
+                            .Disabled(false))) != 1;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public bool GetByCredentials(string loginId, string password, int tenantId = 0)
+        public bool GetByCredentials(
+            Context context, string loginId, string password, int tenantId = 0)
         {
-            Get(SiteSettingsUtilities.UsersSiteSettings(),
+            Get(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 where: Rds.UsersWhere()
                     .LoginId(loginId)
                     .Password(password)
@@ -3917,10 +3996,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string TenantsDropDown(Dictionary<string, string> tenantOptions)
+        private string TenantsDropDown(
+            Context context, Dictionary<string, string> tenantOptions)
         {
             return new ResponseCollection()
                 .Html("#Tenants", new HtmlBuilder().FieldDropDown(
+                    context: context,
                     controlId: "SelectedTenantId",
                     fieldCss: " field-wide",
                     controlCss: " always-send",
@@ -3931,10 +4012,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private Dictionary<string, string> TenantOptions()
+        private Dictionary<string, string> TenantOptions(Context context)
         {
-            return Rds.ExecuteScalar_string(statements:
-                Rds.SelectLoginKeys(
+            return Rds.ExecuteScalar_string(
+                context: context,
+                statements: Rds.SelectLoginKeys(
                     column: Rds.LoginKeysColumn().TenantNames(),
                     where: Rds.LoginKeysWhere()
                         .LoginId(LoginId)))
@@ -3944,13 +4026,15 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Allow(string returnUrl, bool atLogin = false)
+        public string Allow(Context context, string returnUrl, bool atLogin = false)
         {
-            Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
-                where: Rds.UsersWhereDefault(this),
-                param: Rds.UsersParam()
-                    .NumberOfLogins(raw: "[NumberOfLogins] + 1")
-                    .LastLoginTime(DateTime.Now)));
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateUsers(
+                    where: Rds.UsersWhereDefault(this),
+                    param: Rds.UsersParam()
+                        .NumberOfLogins(raw: "[NumberOfLogins] + 1")
+                        .LastLoginTime(DateTime.Now)));
             SetFormsAuthentication(returnUrl);
             return new UsersResponseCollection(this)
                 .CloseDialog(_using: atLogin)
@@ -3963,13 +4047,15 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string Deny()
+        private string Deny(Context context)
         {
-            Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
-                param: Rds.UsersParam()
-                    .NumberOfDenial(raw: "[NumberOfDenial] + 1"),
-                where: Rds.UsersWhere()
-                    .LoginId(LoginId)));
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateUsers(
+                    param: Rds.UsersParam()
+                        .NumberOfDenial(raw: "[NumberOfDenial] + 1"),
+                    where: Rds.UsersWhere()
+                        .LoginId(LoginId)));
             return Messages.ResponseAuthentication().Focus("#Password").ToJson();
         }
 
@@ -3999,10 +4085,13 @@ namespace Implem.Pleasanter.Models
         public void SetFormsAuthentication(string returnUrl)
         {
             System.Web.Security.FormsAuthentication.SetAuthCookie(
-                UserId.ToString(), Forms.Bool("Users_RememberMe"));
-            Sessions.SetTenantId(TenantId);
+                userName: LoginId,
+                createPersistentCookie: Forms.Bool("Users_RememberMe"));
             SetSession();
-            Libraries.Initializers.StatusesInitializer.Initialize(TenantId);
+            Libraries.Initializers.StatusesInitializer.Initialize(new Context(
+                tenantId: TenantId,
+                deptId: DeptId,
+                userId: UserId));
         }
 
         /// <summary>
@@ -4010,47 +4099,82 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void SetSession()
         {
+            Sessions.Set("TenantId", TenantId);
+            Sessions.Set("DeptId", DeptId);
             Sessions.Set("UserId", UserId);
             Sessions.Set("Language", Language);
             Sessions.Set("Developer", Developer);
             Sessions.Set("TimeZoneInfo", TimeZoneInfo);
             Sessions.Set("RdsUser", RdsUser());
             Sessions.Set("UserSettings", UserSettings.ToJson());
-            Contract.Set();
+            Sessions.Set("HasPrivilege", Parameters.Security.PrivilegedUsers?.Contains(LoginId));
+            Contract.Set(new Context(
+                tenantId: TenantId,
+                deptId: DeptId,
+                userId: UserId));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types ChangePassword()
+        public Context GetContext()
         {
-            Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
-                where: Rds.UsersWhereDefault(this),
-                param: ChangePasswordParam(ChangedPassword)));
-            Get(SiteSettingsUtilities.UsersSiteSettings());
+            return new Context()
+            {
+                TenantId = TenantId,
+                DeptId = DeptId,
+                UserId = UserId,
+                LoginId = LoginId,
+                Developer = Developer,
+                TimeZoneInfo = TimeZoneInfo,
+                RdsUser = RdsUser(),
+                UserSettings = UserSettings,
+                HasPrivilege = Parameters.Security.PrivilegedUsers?.Contains(LoginId) == true
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public Error.Types ChangePassword(Context context)
+        {
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateUsers(
+                    where: Rds.UsersWhereDefault(this),
+                    param: ChangePasswordParam(ChangedPassword)));
+            Get(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
             return Error.Types.None;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types ChangePasswordAtLogin()
+        public Error.Types ChangePasswordAtLogin(Context context)
         {
-            Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
-                where: Rds.UsersWhereDefault(this),
-                param: ChangePasswordParam(ChangedPassword, changeAtLogin: true)));
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateUsers(
+                    where: Rds.UsersWhereDefault(this),
+                    param: ChangePasswordParam(ChangedPassword, changeAtLogin: true)));
             return Error.Types.None;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types ResetPassword()
+        public Error.Types ResetPassword(Context context)
         {
-            Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
-                where: Rds.UsersWhereDefault(this),
-                param: ChangePasswordParam(AfterResetPassword)));
-            Get(SiteSettingsUtilities.UsersSiteSettings());
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateUsers(
+                    where: Rds.UsersWhereDefault(this),
+                    param: ChangePasswordParam(AfterResetPassword)));
+            Get(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
             return Error.Types.None;
         }
 
@@ -4071,7 +4195,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ToControl(SiteSettings ss, Column column)
+        public string ToControl(Context context, SiteSettings ss, Column column)
         {
             return UserId.ToString();
         }
@@ -4079,7 +4203,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ToResponse()
+        public string ToResponse(Context context)
         {
             return string.Empty;
         }
@@ -4087,28 +4211,33 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public HtmlBuilder Td(HtmlBuilder hb, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             return UserId != 0 ?
                 hb.Td(action: () => hb
-                    .HtmlUser(UserId)) :
+                    .HtmlUser(
+                        context: context,
+                        id: UserId)) :
                 hb.Td(action: () => { });
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ToExport(Column column, ExportColumn exportColumn = null)
+        public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
-            return SiteInfo.UserName(UserId);
+            return SiteInfo.UserName(
+                context: context,
+                userId: UserId);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types AddMailAddress(string mailAddress, IEnumerable<string> selected)
+        public Error.Types AddMailAddress(
+            Context context, string mailAddress, IEnumerable<string> selected)
         {
-            MailAddresses = Session_MailAddresses() ?? new List<string>();
+            MailAddresses = Session_MailAddresses(context: context) ?? new List<string>();
             if (MailAddresses.Contains(mailAddress))
             {
                 return Error.Types.AlreadyAdded;
@@ -4124,9 +4253,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types DeleteMailAddresses(IEnumerable<string> selected)
+        public Error.Types DeleteMailAddresses(Context context, IEnumerable<string> selected)
         {
-            MailAddresses = Session_MailAddresses() ?? new List<string>();
+            MailAddresses = Session_MailAddresses(context: context) ?? new List<string>();
             MailAddresses.RemoveAll(o => selected.Contains(o));
             Session_MailAddresses(MailAddresses);
             return Error.Types.None;
@@ -4135,25 +4264,25 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types CreateApiKey(SiteSettings ss)
+        public Error.Types CreateApiKey(Context context, SiteSettings ss)
         {
             ApiKey = Guid.NewGuid().ToString().Sha512Cng();
-            return Update(ss);
+            return Update(context: context, ss: ss);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types DeleteApiKey(SiteSettings ss)
+        public Error.Types DeleteApiKey(Context context, SiteSettings ss)
         {
             ApiKey = string.Empty;
-            return Update(ss);
+            return Update(context: context, ss: ss);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public bool InitialValue()
+        public bool InitialValue(Context context)
         {
             return UserId == 0;
         }

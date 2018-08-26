@@ -2,8 +2,8 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Libraries.Server;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -12,10 +12,11 @@ namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class FileContentResults
     {
-        public static FileContentResult Download(string guid)
+        public static FileContentResult Download(Context context, string guid)
         {
-            var dataRow = Rds.ExecuteTable(statements:
-                Rds.SelectBinaries(
+            var dataRow = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBinaries(
                     column: Rds.BinariesColumn()
                         .Guid()
                         .BinaryType()
@@ -32,11 +33,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                     where: Rds.BinariesWhere()
-                        .TenantId(Sessions.TenantId())
+                        .TenantId(context.TenantId)
                         .Guid(guid)
-                        .CanRead("[Binaries].[ReferenceId]")))
-                            .AsEnumerable()
-                            .FirstOrDefault();
+                        .CanRead(
+                            context: context,
+                            idColumnBracket: "[Binaries].[ReferenceId]")))
+                                .AsEnumerable()
+                                .FirstOrDefault();
             return dataRow != null
                 ? new ResponseFile(
                     new MemoryStream(Bytes(dataRow), false),

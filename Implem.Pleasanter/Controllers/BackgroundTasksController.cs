@@ -15,17 +15,18 @@ namespace Implem.Pleasanter.Controllers
         [HttpGet]
         public string Do()
         {
+            var context = new Context();
             if (Parameters.BackgroundTask.Enabled)
             {
                 if (QueryStrings.Bool("NoLog"))
                 {
-                    return BackgroundTasks.Do();
+                    return BackgroundTasks.Do(context);
                 }
                 else
                 {
-                    var log = new SysLogModel();
-                    var html = BackgroundTasks.Do();
-                    log.Finish(html.Length);
+                    var log = new SysLogModel(context: context);
+                    var html = BackgroundTasks.Do(context: context);
+                    log.Finish(context: context, responseSize: html.Length);
                     return html;
                 }
             }

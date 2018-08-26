@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
 using System.Web;
@@ -17,9 +18,12 @@ namespace Implem.Pleasanter.Controllers
         [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
         public ActionResult SiteImageThumbnail(string reference, long id)
         {
+            var context = new Context();
             if (reference.ToLower() == "items")
             {
-                var bytes = BinaryUtilities.SiteImageThumbnail(new SiteModel(id));
+                var bytes = BinaryUtilities.SiteImageThumbnail(
+                    context: context,
+                    siteModel: new SiteModel(context: context, siteId: id));
                 return new FileContentResult(bytes, "image/png");
             }
             else
@@ -32,9 +36,12 @@ namespace Implem.Pleasanter.Controllers
         [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
         public ActionResult SiteImageIcon(string reference, long id)
         {
+            var context = new Context();
             if (reference.ToLower() == "items")
             {
-                var bytes = BinaryUtilities.SiteImageIcon(new SiteModel(id));
+                var bytes = BinaryUtilities.SiteImageIcon(
+                    context: context,
+                    siteModel: new SiteModel(context: context, siteId: id));
                 return new FileContentResult(bytes, "image/png");
             }
             else
@@ -46,49 +53,64 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public string UpdateSiteImage(string reference, long id)
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var json = reference.ToLower() == "items"
-                ? BinaryUtilities.UpdateSiteImage(new SiteModel(id))
+                ? BinaryUtilities.UpdateSiteImage(
+                    context: context,
+                    siteModel: new SiteModel(context: context, siteId: id))
                 : new ResponseCollection().ToJson();
-            log.Finish(0);
+            log.Finish(context: context);
             return json;
         }
 
         [HttpDelete]
         public string DeleteSiteImage(string reference, long id)
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var json = reference.ToLower() == "items"
-                ? BinaryUtilities.DeleteSiteImage(new SiteModel(id))
+                ? BinaryUtilities.DeleteSiteImage(
+                    context: context,
+                    siteModel: new SiteModel(context: context, siteId: id))
                 : new ResponseCollection().ToJson();
-            log.Finish(0);
+            log.Finish(context: context);
             return json;
         }
 
         [HttpPost]
         public string UploadImage(string reference, long id, HttpPostedFileBase[] file)
         {
-            var log = new SysLogModel();
-            var json = BinaryUtilities.UploadImage(file, id);
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = BinaryUtilities.UploadImage(
+                context: context,
+                files: file,
+                id: id);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
         [HttpDelete]
         public string DeleteImage(string reference, string guid)
         {
-            var log = new SysLogModel();
-            var json = BinaryUtilities.DeleteImage(guid);
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = BinaryUtilities.DeleteImage(context: context, guid: guid);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
         [HttpPost]
         public string MultiUpload(string reference, long id, HttpPostedFileBase[] file)
         {
-            var log = new SysLogModel();
-            var json = BinaryUtilities.MultiUpload(file, id);
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = BinaryUtilities.MultiUpload(
+                context: context,
+                files: file,
+                id: id);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
@@ -96,9 +118,10 @@ namespace Implem.Pleasanter.Controllers
         [OutputCache(Duration = int.MaxValue, VaryByParam = "*")]
         public FileContentResult Download(string reference, string guid)
         {
-            var log = new SysLogModel();
-            var file = BinaryUtilities.Donwload(guid);
-            log.Finish(file?.FileContents.Length ?? 0);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var file = BinaryUtilities.Donwload(context: context, guid: guid);
+            log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
             return file;
         }
 
@@ -106,9 +129,10 @@ namespace Implem.Pleasanter.Controllers
         [OutputCache(Duration = int.MaxValue, VaryByParam = "*")]
         public FileContentResult DownloadTemp(string reference, string guid)
         {
-            var log = new SysLogModel();
-            var file = BinaryUtilities.DownloadTemp(guid);
-            log.Finish(file?.FileContents.Length ?? 0);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var file = BinaryUtilities.DownloadTemp(context: context, guid: guid);
+            log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
             return file;
         }
 
@@ -116,9 +140,10 @@ namespace Implem.Pleasanter.Controllers
         [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
         public ActionResult Show(string reference, string guid)
         {
-            var log = new SysLogModel();
-            var file = BinaryUtilities.Donwload(guid);
-            log.Finish(file?.FileContents.Length ?? 0);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var file = BinaryUtilities.Donwload(context: context, guid: guid);
+            log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
             return file != null
                 ? File(file.FileContents, file.ContentType)
                 : null;
@@ -128,9 +153,10 @@ namespace Implem.Pleasanter.Controllers
         [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
         public ActionResult ShowTemp(string reference, string guid)
         {
-            var log = new SysLogModel();
-            var file = BinaryUtilities.DownloadTemp(guid);
-            log.Finish(file?.FileContents.Length ?? 0);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var file = BinaryUtilities.DownloadTemp(context: context, guid: guid);
+            log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
             return file != null
                 ? File(file.FileContents, file.ContentType)
                 : null;
@@ -139,9 +165,10 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public string DeleteTemp(string reference, long id)
         {
-            var log = new SysLogModel();
-            var json = BinaryUtilities.DeleteTemp();
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = BinaryUtilities.DeleteTemp(context: context);
+            log.Finish(context: context, responseSize: json.Length);
             return json.ToString();
         }
     }

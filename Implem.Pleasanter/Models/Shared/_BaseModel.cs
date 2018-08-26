@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 namespace Implem.Pleasanter.Models
@@ -16,6 +17,7 @@ namespace Implem.Pleasanter.Models
             Edit
         }
 
+        [NonSerialized] public Context Context;
         [NonSerialized] public Databases.AccessStatuses AccessStatus = Databases.AccessStatuses.Initialized;
         [NonSerialized] public MethodTypes MethodType = MethodTypes.NotSet;
         [NonSerialized] public Versions.VerTypes VerType = Versions.VerTypes.Latest;
@@ -37,7 +39,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedTimestamp = string.Empty;
         [NonSerialized] public string SavedComments = "[]";
 
-        public bool Ver_Updated(Column column = null)
+        public bool Ver_Updated(Context context, Column column = null)
         {
             return Ver != SavedVer &&
                 (column == null ||
@@ -45,7 +47,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != Ver);
         }
 
-        public bool Comments_Updated(Column column = null)
+        public bool Comments_Updated(Context context, Column column = null)
         {
             return Comments.ToJson() != SavedComments && Comments.ToJson() != null &&
                 (column == null ||
@@ -53,7 +55,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Comments.ToJson());
         }
 
-        public bool Creator_Updated(Column column = null)
+        public bool Creator_Updated(Context context, Column column = null)
         {
             return Creator.Id != SavedCreator &&
                 (column == null ||
@@ -61,7 +63,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != Creator.Id);
         }
 
-        public bool Updator_Updated(Column column = null)
+        public bool Updator_Updated(Context context, Column column = null)
         {
             return Updator.Id != SavedUpdator &&
                 (column == null ||
@@ -79,7 +81,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedTitle = string.Empty;
         [NonSerialized] public string SavedBody = string.Empty;
 
-        public bool SiteId_Updated(Column column = null)
+        public bool SiteId_Updated(Context context, Column column = null)
         {
             return SiteId != SavedSiteId &&
                 (column == null ||
@@ -87,7 +89,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != SiteId);
         }
 
-        public bool Title_Updated(Column column = null)
+        public bool Title_Updated(Context context, Column column = null)
         {
             return Title.Value != SavedTitle && Title.Value != null &&
                 (column == null ||
@@ -95,7 +97,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Title.Value);
         }
 
-        public bool Body_Updated(Column column = null)
+        public bool Body_Updated(Context context, Column column = null)
         {
             return Body != SavedBody && Body != null &&
                 (column == null ||

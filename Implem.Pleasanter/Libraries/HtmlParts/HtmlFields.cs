@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -33,6 +32,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Field(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Column column,
             BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
@@ -58,9 +58,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Text(text: column.Section));
                 }
                 value = methodType == BaseModel.MethodTypes.New
-                    ? value.ToLinkId(ss, column)
+                    ? value.ToLinkId(context: context, ss: ss, column: column)
                     : value;
                 return hb.SwitchField(
+                    context: context,
+                    ss: ss,
                     column: column,
                     columnPermissionType: columnPermissionType,
                     controlId: !preview
@@ -72,7 +74,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlCss: Strings.CoalesceEmpty(controlCss, column.ControlCss),
                     controlType: ControlType(column),
                     value: value,
-                    optionCollection: EditChoices(ss, column, value),
+                    optionCollection: EditChoices(
+                        context: context, ss: ss, column: column, value: value),
                     mobile: ss.Mobile,
                     preview: preview);
             }
@@ -91,7 +94,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static Dictionary<string, ControlData> EditChoices(
-            SiteSettings ss, Column column, string value)
+            Context context, SiteSettings ss, Column column, string value)
         {
             var editChoices = column.EditChoices();
             if (column.UseSearch != true)
@@ -110,7 +113,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 var referenceId = value.ToLong();
                 if (referenceId > 0 && ss.Links?.Any() == true)
                 {
-                    var title = ss.LinkedItemTitle(referenceId, ss.Links.Select(o => o.SiteId));
+                    var title = ss.LinkedItemTitle(
+                        context: context,
+                        referenceId: referenceId,
+                        siteIdList: ss.Links.Select(o => o.SiteId));
                     if (title != null)
                     {
                         return new Dictionary<string, ControlData>()
@@ -125,6 +131,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder SwitchField(
             this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
             Column column,
             Permissions.ColumnPermissionTypes columnPermissionType,
             string controlId,
@@ -167,6 +175,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 disabled: true);
                         case ControlTypes.MarkDown:
                             return hb.FieldMarkDown(
+                                context: context,
+                                ss: ss,
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
@@ -220,6 +230,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         case ControlTypes.DropDown:
                             return hb.FieldDropDown(
+                                context: context,
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
@@ -272,6 +283,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 validateMaxLength: column.ValidateMaxLength ?? 0);
                         case ControlTypes.MarkDown:
                             return hb.FieldMarkDown(
+                                context: context,
+                                ss: ss,
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
@@ -427,7 +440,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static string ToLinkId(this string self, SiteSettings ss, Column column)
+        private static string ToLinkId(
+            this string self, Context context, SiteSettings ss, Column column)
         {
             if (column.Linked(ss, QueryStrings.Long("FromSiteId")))
             {
@@ -435,6 +449,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 if (column.UseSearch == true)
                 {
                     ss.SetChoiceHash(
+                        context: context,
                         columnName: column?.ColumnName,
                         selectedValues: id.ToSingleList());
                 }
@@ -742,6 +757,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldMarkDown(
             this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
             string fieldId = null,
             string controlId = null,
             string fieldCss = null,
@@ -775,6 +792,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelRequired: labelRequired,
                     controlAction: () => hb
                         .MarkDown(
+                            context: context,
                             controlId: controlId,
                             controlCss: controlCss,
                             text: text,
@@ -826,6 +844,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldDropDown(
             this HtmlBuilder hb,
+            Context context,
             string fieldId = null,
             string controlId = null,
             string fieldCss = null,
@@ -862,6 +881,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelRequired: labelRequired,
                     controlAction: () => hb
                         .DropDown(
+                            context: context,
                             controlId: controlId,
                             controlCss: controlCss,
                             optionCollection: optionCollection?.ToDictionary(
@@ -881,6 +901,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldDropDown(
             this HtmlBuilder hb,
+            Context context,
             string fieldId = null,
             string controlId = null,
             string fieldCss = null,
@@ -917,6 +938,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelRequired: labelRequired,
                     controlAction: () => hb
                         .DropDown(
+                            context: context,
                             controlId: controlId,
                             controlCss: controlCss,
                             optionCollection: optionCollection,

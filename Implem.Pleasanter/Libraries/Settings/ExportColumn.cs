@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using System;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -20,13 +21,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
-        public ExportColumn(SiteSettings ss, string columnName, int id = 0)
+        public ExportColumn(Context context, SiteSettings ss, string columnName, int id = 0)
         {
             Id = id;
             SiteId = ss.SiteId;
             SiteTitle = ss.Title;
             ColumnName = columnName;
-            Init(ss);
+            Init(context: context, ss: ss);
         }
 
         public enum Types
@@ -36,11 +37,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             TextMini
         }
 
-        public void Init(SiteSettings ss)
+        public void Init(Context context, SiteSettings ss)
         {
             SiteId = ss.SiteId;
             SiteTitle = ss.Title;
-            Column = ss.GetColumn(ColumnName);
+            Column = ss.GetColumn(context: context, columnName: ColumnName);
         }
 
         public string GetColumnLabelText()

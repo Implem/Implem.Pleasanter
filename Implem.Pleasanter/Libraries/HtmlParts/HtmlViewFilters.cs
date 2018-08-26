@@ -11,7 +11,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlViewFilters
     {
-        public static HtmlBuilder ViewFilters(this HtmlBuilder hb, SiteSettings ss, View view)
+        public static HtmlBuilder ViewFilters(
+            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
             return ss.ReferenceType != "Sites"
                 ? !Reduced(ss.SiteId)
@@ -27,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .NearCompletionTime(ss: ss, view: view)
                             .Delay(ss: ss, view: view)
                             .Limit(ss: ss, view: view)
-                            .Columns(ss: ss, view: view)
+                            .Columns(context: context, ss: ss, view: view)
                             .Search(view: view))
                     : hb.Div(
                         id: "ViewFilters",
@@ -157,20 +158,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss.EditorColumns.Contains(columnName);
         }
 
-        private static HtmlBuilder Columns(this HtmlBuilder hb, SiteSettings ss, View view)
+        private static HtmlBuilder Columns(
+            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
-            ss.GetFilterColumns(checkPermission: true).ForEach(column =>
+            ss.GetFilterColumns(context: context, checkPermission: true).ForEach(column =>
             {
                 switch (column.TypeName.CsTypeSummary())
                 {
                     case Types.CsBool:
                         hb.CheckBox(
+                            context: context,
                             ss: ss,
                             column: column,
                             view: view);
                         break;
                     case Types.CsNumeric:
                         hb.DropDown(
+                            context: context,
                             ss: ss,
                             column: column,
                             view: view,
@@ -180,6 +184,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         break;
                     case Types.CsDateTime:
                         hb.DropDown(
+                            context: context,
                             ss: ss,
                             column: column,
                             view: view,
@@ -195,11 +200,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     o.ColumnName == column.ColumnName) == true)
                             {
                                 currentSs.SetChoiceHash(
+                                    context: context,
                                     columnName: column?.ColumnName,
                                     selectedValues: view.ColumnFilter(column.ColumnName)
                                         .Deserialize<List<string>>());
                             }
                             hb.DropDown(
+                                context: context,
                                 ss: ss,
                                 column: column,
                                 view: view,
@@ -225,7 +232,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder CheckBox(
-            this HtmlBuilder hb, SiteSettings ss, Column column, View view)
+            this HtmlBuilder hb, Context context, SiteSettings ss, Column column, View view)
         {
             var currentSs = column.SiteSettings;
             if (currentSs.GridColumns.Contains(column.ColumnName) ||
@@ -244,6 +251,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             method: "post");
                     case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
                         return hb.FieldDropDown(
+                            context: context,
                             controlId: "ViewFilters__" + column.ColumnName,
                             fieldCss: "field-auto-thin",
                             controlCss: " auto-postback",
@@ -261,12 +269,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder DropDown(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Column column,
             View view,
             Dictionary<string, ControlData> optionCollection)
         {
             return hb.FieldDropDown(
+                context: context,
                 controlId: "ViewFilters__" + column.ColumnName,
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback" + (column.UseSearch == true

@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder SeparateSettings(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             string title,
             decimal workValue,
@@ -26,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var max = Parameters.General.SeparateMax;
             var min = Parameters.General.SeparateMin;
-            var column = ss.GetColumn("WorkValue");
+            var column = ss.GetColumn(context: context, columnName: "WorkValue");
             return hb.Div(id: "SeparateSettings", action: () => hb
                 .FieldSpinner(
                     controlId: "SeparateNumber",
@@ -55,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " w100",
                         labelText: Displays.WorkValue() + "-1",
-                        text: workValue.ToControl(ss, column),
+                        text: workValue.ToControl(context: context, ss: ss, column: column),
                         dataValue: workValue.ToString())
                     .Hidden(
                         controlId: "WorkValueUnit",

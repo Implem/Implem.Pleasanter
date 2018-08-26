@@ -9,32 +9,33 @@ namespace Implem.Pleasanter.Models
 {
     public static class ResultValidators
     {
-        public static Error.Types OnEntry(SiteSettings ss)
+        public static Error.Types OnEntry(Context context, SiteSettings ss)
         {
-            return ss.HasPermission()
+            return context.HasPermission(ss: ss)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnReading(SiteSettings ss)
+        public static Error.Types OnReading(Context context, SiteSettings ss)
         {
-            return ss.CanRead()
+            return context.CanRead(ss: ss)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnEditing(SiteSettings ss, ResultModel resultModel)
+        public static Error.Types OnEditing(
+            Context context, SiteSettings ss, ResultModel resultModel)
         {
             switch (resultModel.MethodType)
             {
                 case BaseModel.MethodTypes.Edit:
                     return
-                        ss.CanRead()&&
+                        context.CanRead(ss: ss)&&
                         resultModel.AccessStatus != Databases.AccessStatuses.NotFound
                             ? Error.Types.None
                             : Error.Types.NotFound;        
                 case BaseModel.MethodTypes.New:
-                    return ss.CanCreate()
+                    return context.CanCreate(ss: ss)
                         ? Error.Types.None
                         : Error.Types.HasNotPermission;
                 default:
@@ -42,13 +43,14 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static Error.Types OnCreating(SiteSettings ss, ResultModel resultModel)
+        public static Error.Types OnCreating(
+            Context context, SiteSettings ss, ResultModel resultModel)
         {
-            if (!ss.CanCreate())
+            if (!context.CanCreate(ss: ss))
             {
                 return Error.Types.HasNotPermission;
             }
-            ss.SetColumnAccessControls(resultModel.Mine());
+            ss.SetColumnAccessControls(context: context, mine: resultModel.Mine(context: context));
             foreach (var column in ss.Columns
                 .Where(o => !o.CanCreate)
                 .Where(o => !ss.FormulaTarget(o.ColumnName))
@@ -57,986 +59,990 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "Title":
-                        if (resultModel.Title_Updated(column))
+                        if (resultModel.Title_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Body":
-                        if (resultModel.Body_Updated(column))
+                        if (resultModel.Body_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Status":
-                        if (resultModel.Status_Updated(column))
+                        if (resultModel.Status_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Manager":
-                        if (resultModel.Manager_Updated(column))
+                        if (resultModel.Manager_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Owner":
-                        if (resultModel.Owner_Updated(column))
+                        if (resultModel.Owner_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassA":
-                        if (resultModel.ClassA_Updated(column))
+                        if (resultModel.ClassA_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassB":
-                        if (resultModel.ClassB_Updated(column))
+                        if (resultModel.ClassB_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassC":
-                        if (resultModel.ClassC_Updated(column))
+                        if (resultModel.ClassC_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassD":
-                        if (resultModel.ClassD_Updated(column))
+                        if (resultModel.ClassD_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassE":
-                        if (resultModel.ClassE_Updated(column))
+                        if (resultModel.ClassE_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassF":
-                        if (resultModel.ClassF_Updated(column))
+                        if (resultModel.ClassF_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassG":
-                        if (resultModel.ClassG_Updated(column))
+                        if (resultModel.ClassG_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassH":
-                        if (resultModel.ClassH_Updated(column))
+                        if (resultModel.ClassH_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassI":
-                        if (resultModel.ClassI_Updated(column))
+                        if (resultModel.ClassI_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassJ":
-                        if (resultModel.ClassJ_Updated(column))
+                        if (resultModel.ClassJ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassK":
-                        if (resultModel.ClassK_Updated(column))
+                        if (resultModel.ClassK_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassL":
-                        if (resultModel.ClassL_Updated(column))
+                        if (resultModel.ClassL_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassM":
-                        if (resultModel.ClassM_Updated(column))
+                        if (resultModel.ClassM_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassN":
-                        if (resultModel.ClassN_Updated(column))
+                        if (resultModel.ClassN_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassO":
-                        if (resultModel.ClassO_Updated(column))
+                        if (resultModel.ClassO_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassP":
-                        if (resultModel.ClassP_Updated(column))
+                        if (resultModel.ClassP_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassQ":
-                        if (resultModel.ClassQ_Updated(column))
+                        if (resultModel.ClassQ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassR":
-                        if (resultModel.ClassR_Updated(column))
+                        if (resultModel.ClassR_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassS":
-                        if (resultModel.ClassS_Updated(column))
+                        if (resultModel.ClassS_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassT":
-                        if (resultModel.ClassT_Updated(column))
+                        if (resultModel.ClassT_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassU":
-                        if (resultModel.ClassU_Updated(column))
+                        if (resultModel.ClassU_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassV":
-                        if (resultModel.ClassV_Updated(column))
+                        if (resultModel.ClassV_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassW":
-                        if (resultModel.ClassW_Updated(column))
+                        if (resultModel.ClassW_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassX":
-                        if (resultModel.ClassX_Updated(column))
+                        if (resultModel.ClassX_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassY":
-                        if (resultModel.ClassY_Updated(column))
+                        if (resultModel.ClassY_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "ClassZ":
-                        if (resultModel.ClassZ_Updated(column))
+                        if (resultModel.ClassZ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumA":
-                        if (resultModel.NumA_Updated(column))
+                        if (resultModel.NumA_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumB":
-                        if (resultModel.NumB_Updated(column))
+                        if (resultModel.NumB_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumC":
-                        if (resultModel.NumC_Updated(column))
+                        if (resultModel.NumC_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumD":
-                        if (resultModel.NumD_Updated(column))
+                        if (resultModel.NumD_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumE":
-                        if (resultModel.NumE_Updated(column))
+                        if (resultModel.NumE_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumF":
-                        if (resultModel.NumF_Updated(column))
+                        if (resultModel.NumF_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumG":
-                        if (resultModel.NumG_Updated(column))
+                        if (resultModel.NumG_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumH":
-                        if (resultModel.NumH_Updated(column))
+                        if (resultModel.NumH_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumI":
-                        if (resultModel.NumI_Updated(column))
+                        if (resultModel.NumI_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumJ":
-                        if (resultModel.NumJ_Updated(column))
+                        if (resultModel.NumJ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumK":
-                        if (resultModel.NumK_Updated(column))
+                        if (resultModel.NumK_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumL":
-                        if (resultModel.NumL_Updated(column))
+                        if (resultModel.NumL_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumM":
-                        if (resultModel.NumM_Updated(column))
+                        if (resultModel.NumM_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumN":
-                        if (resultModel.NumN_Updated(column))
+                        if (resultModel.NumN_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumO":
-                        if (resultModel.NumO_Updated(column))
+                        if (resultModel.NumO_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumP":
-                        if (resultModel.NumP_Updated(column))
+                        if (resultModel.NumP_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumQ":
-                        if (resultModel.NumQ_Updated(column))
+                        if (resultModel.NumQ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumR":
-                        if (resultModel.NumR_Updated(column))
+                        if (resultModel.NumR_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumS":
-                        if (resultModel.NumS_Updated(column))
+                        if (resultModel.NumS_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumT":
-                        if (resultModel.NumT_Updated(column))
+                        if (resultModel.NumT_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumU":
-                        if (resultModel.NumU_Updated(column))
+                        if (resultModel.NumU_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumV":
-                        if (resultModel.NumV_Updated(column))
+                        if (resultModel.NumV_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumW":
-                        if (resultModel.NumW_Updated(column))
+                        if (resultModel.NumW_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumX":
-                        if (resultModel.NumX_Updated(column))
+                        if (resultModel.NumX_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumY":
-                        if (resultModel.NumY_Updated(column))
+                        if (resultModel.NumY_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "NumZ":
-                        if (resultModel.NumZ_Updated(column))
+                        if (resultModel.NumZ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionA":
-                        if (resultModel.DescriptionA_Updated(column))
+                        if (resultModel.DescriptionA_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionB":
-                        if (resultModel.DescriptionB_Updated(column))
+                        if (resultModel.DescriptionB_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionC":
-                        if (resultModel.DescriptionC_Updated(column))
+                        if (resultModel.DescriptionC_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionD":
-                        if (resultModel.DescriptionD_Updated(column))
+                        if (resultModel.DescriptionD_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionE":
-                        if (resultModel.DescriptionE_Updated(column))
+                        if (resultModel.DescriptionE_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionF":
-                        if (resultModel.DescriptionF_Updated(column))
+                        if (resultModel.DescriptionF_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionG":
-                        if (resultModel.DescriptionG_Updated(column))
+                        if (resultModel.DescriptionG_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionH":
-                        if (resultModel.DescriptionH_Updated(column))
+                        if (resultModel.DescriptionH_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionI":
-                        if (resultModel.DescriptionI_Updated(column))
+                        if (resultModel.DescriptionI_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionJ":
-                        if (resultModel.DescriptionJ_Updated(column))
+                        if (resultModel.DescriptionJ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionK":
-                        if (resultModel.DescriptionK_Updated(column))
+                        if (resultModel.DescriptionK_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionL":
-                        if (resultModel.DescriptionL_Updated(column))
+                        if (resultModel.DescriptionL_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionM":
-                        if (resultModel.DescriptionM_Updated(column))
+                        if (resultModel.DescriptionM_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionN":
-                        if (resultModel.DescriptionN_Updated(column))
+                        if (resultModel.DescriptionN_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionO":
-                        if (resultModel.DescriptionO_Updated(column))
+                        if (resultModel.DescriptionO_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionP":
-                        if (resultModel.DescriptionP_Updated(column))
+                        if (resultModel.DescriptionP_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionQ":
-                        if (resultModel.DescriptionQ_Updated(column))
+                        if (resultModel.DescriptionQ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionR":
-                        if (resultModel.DescriptionR_Updated(column))
+                        if (resultModel.DescriptionR_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionS":
-                        if (resultModel.DescriptionS_Updated(column))
+                        if (resultModel.DescriptionS_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionT":
-                        if (resultModel.DescriptionT_Updated(column))
+                        if (resultModel.DescriptionT_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionU":
-                        if (resultModel.DescriptionU_Updated(column))
+                        if (resultModel.DescriptionU_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionV":
-                        if (resultModel.DescriptionV_Updated(column))
+                        if (resultModel.DescriptionV_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionW":
-                        if (resultModel.DescriptionW_Updated(column))
+                        if (resultModel.DescriptionW_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionX":
-                        if (resultModel.DescriptionX_Updated(column))
+                        if (resultModel.DescriptionX_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionY":
-                        if (resultModel.DescriptionY_Updated(column))
+                        if (resultModel.DescriptionY_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DescriptionZ":
-                        if (resultModel.DescriptionZ_Updated(column))
+                        if (resultModel.DescriptionZ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckA":
-                        if (resultModel.CheckA_Updated(column))
+                        if (resultModel.CheckA_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckB":
-                        if (resultModel.CheckB_Updated(column))
+                        if (resultModel.CheckB_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckC":
-                        if (resultModel.CheckC_Updated(column))
+                        if (resultModel.CheckC_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckD":
-                        if (resultModel.CheckD_Updated(column))
+                        if (resultModel.CheckD_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckE":
-                        if (resultModel.CheckE_Updated(column))
+                        if (resultModel.CheckE_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckF":
-                        if (resultModel.CheckF_Updated(column))
+                        if (resultModel.CheckF_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckG":
-                        if (resultModel.CheckG_Updated(column))
+                        if (resultModel.CheckG_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckH":
-                        if (resultModel.CheckH_Updated(column))
+                        if (resultModel.CheckH_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckI":
-                        if (resultModel.CheckI_Updated(column))
+                        if (resultModel.CheckI_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckJ":
-                        if (resultModel.CheckJ_Updated(column))
+                        if (resultModel.CheckJ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckK":
-                        if (resultModel.CheckK_Updated(column))
+                        if (resultModel.CheckK_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckL":
-                        if (resultModel.CheckL_Updated(column))
+                        if (resultModel.CheckL_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckM":
-                        if (resultModel.CheckM_Updated(column))
+                        if (resultModel.CheckM_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckN":
-                        if (resultModel.CheckN_Updated(column))
+                        if (resultModel.CheckN_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckO":
-                        if (resultModel.CheckO_Updated(column))
+                        if (resultModel.CheckO_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckP":
-                        if (resultModel.CheckP_Updated(column))
+                        if (resultModel.CheckP_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckQ":
-                        if (resultModel.CheckQ_Updated(column))
+                        if (resultModel.CheckQ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckR":
-                        if (resultModel.CheckR_Updated(column))
+                        if (resultModel.CheckR_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckS":
-                        if (resultModel.CheckS_Updated(column))
+                        if (resultModel.CheckS_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckT":
-                        if (resultModel.CheckT_Updated(column))
+                        if (resultModel.CheckT_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckU":
-                        if (resultModel.CheckU_Updated(column))
+                        if (resultModel.CheckU_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckV":
-                        if (resultModel.CheckV_Updated(column))
+                        if (resultModel.CheckV_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckW":
-                        if (resultModel.CheckW_Updated(column))
+                        if (resultModel.CheckW_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckX":
-                        if (resultModel.CheckX_Updated(column))
+                        if (resultModel.CheckX_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckY":
-                        if (resultModel.CheckY_Updated(column))
+                        if (resultModel.CheckY_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "CheckZ":
-                        if (resultModel.CheckZ_Updated(column))
+                        if (resultModel.CheckZ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsA":
-                        if (resultModel.AttachmentsA_Updated(column))
+                        if (resultModel.AttachmentsA_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsB":
-                        if (resultModel.AttachmentsB_Updated(column))
+                        if (resultModel.AttachmentsB_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsC":
-                        if (resultModel.AttachmentsC_Updated(column))
+                        if (resultModel.AttachmentsC_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsD":
-                        if (resultModel.AttachmentsD_Updated(column))
+                        if (resultModel.AttachmentsD_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsE":
-                        if (resultModel.AttachmentsE_Updated(column))
+                        if (resultModel.AttachmentsE_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsF":
-                        if (resultModel.AttachmentsF_Updated(column))
+                        if (resultModel.AttachmentsF_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsG":
-                        if (resultModel.AttachmentsG_Updated(column))
+                        if (resultModel.AttachmentsG_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsH":
-                        if (resultModel.AttachmentsH_Updated(column))
+                        if (resultModel.AttachmentsH_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsI":
-                        if (resultModel.AttachmentsI_Updated(column))
+                        if (resultModel.AttachmentsI_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsJ":
-                        if (resultModel.AttachmentsJ_Updated(column))
+                        if (resultModel.AttachmentsJ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsK":
-                        if (resultModel.AttachmentsK_Updated(column))
+                        if (resultModel.AttachmentsK_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsL":
-                        if (resultModel.AttachmentsL_Updated(column))
+                        if (resultModel.AttachmentsL_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsM":
-                        if (resultModel.AttachmentsM_Updated(column))
+                        if (resultModel.AttachmentsM_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsN":
-                        if (resultModel.AttachmentsN_Updated(column))
+                        if (resultModel.AttachmentsN_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsO":
-                        if (resultModel.AttachmentsO_Updated(column))
+                        if (resultModel.AttachmentsO_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsP":
-                        if (resultModel.AttachmentsP_Updated(column))
+                        if (resultModel.AttachmentsP_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsQ":
-                        if (resultModel.AttachmentsQ_Updated(column))
+                        if (resultModel.AttachmentsQ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsR":
-                        if (resultModel.AttachmentsR_Updated(column))
+                        if (resultModel.AttachmentsR_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsS":
-                        if (resultModel.AttachmentsS_Updated(column))
+                        if (resultModel.AttachmentsS_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsT":
-                        if (resultModel.AttachmentsT_Updated(column))
+                        if (resultModel.AttachmentsT_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsU":
-                        if (resultModel.AttachmentsU_Updated(column))
+                        if (resultModel.AttachmentsU_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsV":
-                        if (resultModel.AttachmentsV_Updated(column))
+                        if (resultModel.AttachmentsV_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsW":
-                        if (resultModel.AttachmentsW_Updated(column))
+                        if (resultModel.AttachmentsW_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsX":
-                        if (resultModel.AttachmentsX_Updated(column))
+                        if (resultModel.AttachmentsX_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsY":
-                        if (resultModel.AttachmentsY_Updated(column))
+                        if (resultModel.AttachmentsY_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "AttachmentsZ":
-                        if (resultModel.AttachmentsZ_Updated(column))
+                        if (resultModel.AttachmentsZ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateA":
-                        if (resultModel.DateA_Updated(column))
+                        if (resultModel.DateA_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateB":
-                        if (resultModel.DateB_Updated(column))
+                        if (resultModel.DateB_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateC":
-                        if (resultModel.DateC_Updated(column))
+                        if (resultModel.DateC_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateD":
-                        if (resultModel.DateD_Updated(column))
+                        if (resultModel.DateD_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateE":
-                        if (resultModel.DateE_Updated(column))
+                        if (resultModel.DateE_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateF":
-                        if (resultModel.DateF_Updated(column))
+                        if (resultModel.DateF_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateG":
-                        if (resultModel.DateG_Updated(column))
+                        if (resultModel.DateG_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateH":
-                        if (resultModel.DateH_Updated(column))
+                        if (resultModel.DateH_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateI":
-                        if (resultModel.DateI_Updated(column))
+                        if (resultModel.DateI_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateJ":
-                        if (resultModel.DateJ_Updated(column))
+                        if (resultModel.DateJ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateK":
-                        if (resultModel.DateK_Updated(column))
+                        if (resultModel.DateK_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateL":
-                        if (resultModel.DateL_Updated(column))
+                        if (resultModel.DateL_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateM":
-                        if (resultModel.DateM_Updated(column))
+                        if (resultModel.DateM_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateN":
-                        if (resultModel.DateN_Updated(column))
+                        if (resultModel.DateN_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateO":
-                        if (resultModel.DateO_Updated(column))
+                        if (resultModel.DateO_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateP":
-                        if (resultModel.DateP_Updated(column))
+                        if (resultModel.DateP_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateQ":
-                        if (resultModel.DateQ_Updated(column))
+                        if (resultModel.DateQ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateR":
-                        if (resultModel.DateR_Updated(column))
+                        if (resultModel.DateR_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateS":
-                        if (resultModel.DateS_Updated(column))
+                        if (resultModel.DateS_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateT":
-                        if (resultModel.DateT_Updated(column))
+                        if (resultModel.DateT_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateU":
-                        if (resultModel.DateU_Updated(column))
+                        if (resultModel.DateU_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateV":
-                        if (resultModel.DateV_Updated(column))
+                        if (resultModel.DateV_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateW":
-                        if (resultModel.DateW_Updated(column))
+                        if (resultModel.DateW_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateX":
-                        if (resultModel.DateX_Updated(column))
+                        if (resultModel.DateX_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateY":
-                        if (resultModel.DateY_Updated(column))
+                        if (resultModel.DateY_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "DateZ":
-                        if (resultModel.DateZ_Updated(column))
+                        if (resultModel.DateZ_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Comments":
-                        if (!ss.GetColumn("Comments").CanUpdate) return Error.Types.HasNotPermission;
+                        if (!ss.GetColumn(context: context, columnName: "Comments").CanUpdate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                 }
             }
             return Error.Types.None;
         }
 
-        public static Error.Types OnUpdating(SiteSettings ss, ResultModel resultModel)
+        public static Error.Types OnUpdating(
+            Context context, SiteSettings ss, ResultModel resultModel)
         {
-            if (!ss.CanUpdate())
+            if (!context.CanUpdate(ss: ss))
             {
                 return Error.Types.HasNotPermission;
             }
-            ss.SetColumnAccessControls(resultModel.Mine());
+            ss.SetColumnAccessControls(context: context, mine: resultModel.Mine(context: context));
             foreach (var column in ss.Columns
                 .Where(o => !o.CanUpdate)
                 .Where(o => !ss.FormulaTarget(o.ColumnName)))
@@ -1044,522 +1050,1010 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "Title":
-                        if (resultModel.Title_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.Title_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "Body":
-                        if (resultModel.Body_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.Body_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "Status":
-                        if (resultModel.Status_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.Status_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "Manager":
-                        if (resultModel.Manager_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.Manager_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "Owner":
-                        if (resultModel.Owner_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.Owner_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassA":
-                        if (resultModel.ClassA_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassA_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassB":
-                        if (resultModel.ClassB_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassB_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassC":
-                        if (resultModel.ClassC_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassC_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassD":
-                        if (resultModel.ClassD_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassD_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassE":
-                        if (resultModel.ClassE_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassE_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassF":
-                        if (resultModel.ClassF_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassF_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassG":
-                        if (resultModel.ClassG_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassG_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassH":
-                        if (resultModel.ClassH_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassH_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassI":
-                        if (resultModel.ClassI_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassI_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassJ":
-                        if (resultModel.ClassJ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassJ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassK":
-                        if (resultModel.ClassK_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassK_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassL":
-                        if (resultModel.ClassL_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassL_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassM":
-                        if (resultModel.ClassM_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassM_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassN":
-                        if (resultModel.ClassN_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassN_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassO":
-                        if (resultModel.ClassO_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassO_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassP":
-                        if (resultModel.ClassP_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassP_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassQ":
-                        if (resultModel.ClassQ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassQ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassR":
-                        if (resultModel.ClassR_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassR_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassS":
-                        if (resultModel.ClassS_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassS_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassT":
-                        if (resultModel.ClassT_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassT_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassU":
-                        if (resultModel.ClassU_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassU_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassV":
-                        if (resultModel.ClassV_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassV_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassW":
-                        if (resultModel.ClassW_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassW_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassX":
-                        if (resultModel.ClassX_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassX_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassY":
-                        if (resultModel.ClassY_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassY_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "ClassZ":
-                        if (resultModel.ClassZ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.ClassZ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumA":
-                        if (resultModel.NumA_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumA_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumB":
-                        if (resultModel.NumB_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumB_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumC":
-                        if (resultModel.NumC_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumC_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumD":
-                        if (resultModel.NumD_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumD_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumE":
-                        if (resultModel.NumE_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumE_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumF":
-                        if (resultModel.NumF_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumF_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumG":
-                        if (resultModel.NumG_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumG_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumH":
-                        if (resultModel.NumH_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumH_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumI":
-                        if (resultModel.NumI_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumI_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumJ":
-                        if (resultModel.NumJ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumJ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumK":
-                        if (resultModel.NumK_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumK_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumL":
-                        if (resultModel.NumL_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumL_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumM":
-                        if (resultModel.NumM_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumM_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumN":
-                        if (resultModel.NumN_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumN_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumO":
-                        if (resultModel.NumO_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumO_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumP":
-                        if (resultModel.NumP_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumP_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumQ":
-                        if (resultModel.NumQ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumQ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumR":
-                        if (resultModel.NumR_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumR_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumS":
-                        if (resultModel.NumS_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumS_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumT":
-                        if (resultModel.NumT_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumT_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumU":
-                        if (resultModel.NumU_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumU_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumV":
-                        if (resultModel.NumV_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumV_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumW":
-                        if (resultModel.NumW_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumW_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumX":
-                        if (resultModel.NumX_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumX_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumY":
-                        if (resultModel.NumY_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumY_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "NumZ":
-                        if (resultModel.NumZ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.NumZ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateA":
-                        if (resultModel.DateA_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateA_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateB":
-                        if (resultModel.DateB_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateB_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateC":
-                        if (resultModel.DateC_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateC_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateD":
-                        if (resultModel.DateD_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateD_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateE":
-                        if (resultModel.DateE_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateE_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateF":
-                        if (resultModel.DateF_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateF_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateG":
-                        if (resultModel.DateG_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateG_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateH":
-                        if (resultModel.DateH_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateH_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateI":
-                        if (resultModel.DateI_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateI_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateJ":
-                        if (resultModel.DateJ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateJ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateK":
-                        if (resultModel.DateK_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateK_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateL":
-                        if (resultModel.DateL_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateL_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateM":
-                        if (resultModel.DateM_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateM_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateN":
-                        if (resultModel.DateN_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateN_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateO":
-                        if (resultModel.DateO_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateO_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateP":
-                        if (resultModel.DateP_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateP_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateQ":
-                        if (resultModel.DateQ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateQ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateR":
-                        if (resultModel.DateR_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateR_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateS":
-                        if (resultModel.DateS_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateS_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateT":
-                        if (resultModel.DateT_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateT_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateU":
-                        if (resultModel.DateU_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateU_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateV":
-                        if (resultModel.DateV_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateV_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateW":
-                        if (resultModel.DateW_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateW_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateX":
-                        if (resultModel.DateX_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateX_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateY":
-                        if (resultModel.DateY_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateY_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DateZ":
-                        if (resultModel.DateZ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DateZ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionA":
-                        if (resultModel.DescriptionA_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionA_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionB":
-                        if (resultModel.DescriptionB_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionB_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionC":
-                        if (resultModel.DescriptionC_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionC_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionD":
-                        if (resultModel.DescriptionD_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionD_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionE":
-                        if (resultModel.DescriptionE_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionE_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionF":
-                        if (resultModel.DescriptionF_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionF_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionG":
-                        if (resultModel.DescriptionG_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionG_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionH":
-                        if (resultModel.DescriptionH_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionH_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionI":
-                        if (resultModel.DescriptionI_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionI_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionJ":
-                        if (resultModel.DescriptionJ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionJ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionK":
-                        if (resultModel.DescriptionK_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionK_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionL":
-                        if (resultModel.DescriptionL_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionL_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionM":
-                        if (resultModel.DescriptionM_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionM_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionN":
-                        if (resultModel.DescriptionN_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionN_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionO":
-                        if (resultModel.DescriptionO_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionO_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionP":
-                        if (resultModel.DescriptionP_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionP_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionQ":
-                        if (resultModel.DescriptionQ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionQ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionR":
-                        if (resultModel.DescriptionR_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionR_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionS":
-                        if (resultModel.DescriptionS_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionS_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionT":
-                        if (resultModel.DescriptionT_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionT_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionU":
-                        if (resultModel.DescriptionU_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionU_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionV":
-                        if (resultModel.DescriptionV_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionV_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionW":
-                        if (resultModel.DescriptionW_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionW_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionX":
-                        if (resultModel.DescriptionX_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionX_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionY":
-                        if (resultModel.DescriptionY_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionY_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "DescriptionZ":
-                        if (resultModel.DescriptionZ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.DescriptionZ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckA":
-                        if (resultModel.CheckA_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckA_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckB":
-                        if (resultModel.CheckB_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckB_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckC":
-                        if (resultModel.CheckC_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckC_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckD":
-                        if (resultModel.CheckD_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckD_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckE":
-                        if (resultModel.CheckE_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckE_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckF":
-                        if (resultModel.CheckF_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckF_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckG":
-                        if (resultModel.CheckG_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckG_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckH":
-                        if (resultModel.CheckH_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckH_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckI":
-                        if (resultModel.CheckI_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckI_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckJ":
-                        if (resultModel.CheckJ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckJ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckK":
-                        if (resultModel.CheckK_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckK_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckL":
-                        if (resultModel.CheckL_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckL_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckM":
-                        if (resultModel.CheckM_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckM_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckN":
-                        if (resultModel.CheckN_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckN_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckO":
-                        if (resultModel.CheckO_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckO_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckP":
-                        if (resultModel.CheckP_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckP_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckQ":
-                        if (resultModel.CheckQ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckQ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckR":
-                        if (resultModel.CheckR_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckR_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckS":
-                        if (resultModel.CheckS_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckS_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckT":
-                        if (resultModel.CheckT_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckT_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckU":
-                        if (resultModel.CheckU_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckU_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckV":
-                        if (resultModel.CheckV_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckV_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckW":
-                        if (resultModel.CheckW_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckW_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckX":
-                        if (resultModel.CheckX_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckX_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckY":
-                        if (resultModel.CheckY_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckY_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "CheckZ":
-                        if (resultModel.CheckZ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.CheckZ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsA":
-                        if (resultModel.AttachmentsA_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsA_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsB":
-                        if (resultModel.AttachmentsB_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsB_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsC":
-                        if (resultModel.AttachmentsC_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsC_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsD":
-                        if (resultModel.AttachmentsD_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsD_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsE":
-                        if (resultModel.AttachmentsE_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsE_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsF":
-                        if (resultModel.AttachmentsF_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsF_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsG":
-                        if (resultModel.AttachmentsG_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsG_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsH":
-                        if (resultModel.AttachmentsH_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsH_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsI":
-                        if (resultModel.AttachmentsI_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsI_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsJ":
-                        if (resultModel.AttachmentsJ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsJ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsK":
-                        if (resultModel.AttachmentsK_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsK_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsL":
-                        if (resultModel.AttachmentsL_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsL_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsM":
-                        if (resultModel.AttachmentsM_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsM_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsN":
-                        if (resultModel.AttachmentsN_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsN_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsO":
-                        if (resultModel.AttachmentsO_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsO_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsP":
-                        if (resultModel.AttachmentsP_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsP_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsQ":
-                        if (resultModel.AttachmentsQ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsQ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsR":
-                        if (resultModel.AttachmentsR_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsR_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsS":
-                        if (resultModel.AttachmentsS_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsS_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsT":
-                        if (resultModel.AttachmentsT_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsT_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsU":
-                        if (resultModel.AttachmentsU_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsU_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsV":
-                        if (resultModel.AttachmentsV_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsV_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsW":
-                        if (resultModel.AttachmentsW_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsW_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsX":
-                        if (resultModel.AttachmentsX_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsX_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsY":
-                        if (resultModel.AttachmentsY_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsY_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "AttachmentsZ":
-                        if (resultModel.AttachmentsZ_Updated()) return Error.Types.HasNotPermission;
+                        if (resultModel.AttachmentsZ_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "Comments":
-                        if (!ss.GetColumn("Comments").CanUpdate) return Error.Types.HasNotPermission;
+                        if (!ss.GetColumn(context: context, columnName: "Comments").CanUpdate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                 }
             }
             return Error.Types.None;
         }
 
-        public static Error.Types OnMoving(SiteSettings source, SiteSettings destination)
+        public static Error.Types OnMoving(
+            Context context, SiteSettings source, SiteSettings destination)
         {
-            if (!Permissions.CanMove(source, destination))
+            if (!Permissions.CanMove(context: context, source: source, destination: destination))
             {
                 return Error.Types.HasNotPermission;
             }
             return Error.Types.None;
         }
 
-        public static Error.Types OnDeleting(SiteSettings ss, ResultModel resultModel)
+        public static Error.Types OnDeleting(
+            Context context, SiteSettings ss, ResultModel resultModel)
         {
-            return ss.CanDelete()
+            return context.CanDelete(ss: ss)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnRestoring()
+        public static Error.Types OnRestoring(Context context)
         {
-            return Permissions.CanManageTenant()
+            return Permissions.CanManageTenant(context: context)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnExporting(SiteSettings ss)
+        public static Error.Types OnExporting(Context context, SiteSettings ss)
         {
-            return ss.CanExport()
+            return context.CanExport(ss: ss)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }

@@ -12,9 +12,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnUpdating(SiteSettings ss)
+        public static Error.Types OnUpdating(Context context, SiteSettings ss)
         {
-            if (!ss.CanManagePermission())
+            if (!context.CanManagePermission(ss: ss))
             {
                 return Error.Types.HasNotPermission;
             }
@@ -23,7 +23,9 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "InheritPermission":
-                        var type = SiteValidators.InheritPermission(ss);
+                        var type = SiteValidators.InheritPermission(
+                            context: context,
+                            ss: ss);
                         if (type != Error.Types.None) return type;
                         break;
                 }

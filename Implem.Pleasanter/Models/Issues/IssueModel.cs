@@ -371,7 +371,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedAttachmentsY = "[]";
         [NonSerialized] public string SavedAttachmentsZ = "[]";
 
-        public bool WorkValue_Updated(Column column = null)
+        public bool WorkValue_Updated(Context context, Column column = null)
         {
             return WorkValue.Value != SavedWorkValue &&
                 (column == null ||
@@ -379,7 +379,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != WorkValue.Value);
         }
 
-        public bool ProgressRate_Updated(Column column = null)
+        public bool ProgressRate_Updated(Context context, Column column = null)
         {
             return ProgressRate.Value != SavedProgressRate &&
                 (column == null ||
@@ -387,7 +387,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != ProgressRate.Value);
         }
 
-        public bool Status_Updated(Column column = null)
+        public bool Status_Updated(Context context, Column column = null)
         {
             return Status.Value != SavedStatus &&
                 (column == null ||
@@ -395,7 +395,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != Status.Value);
         }
 
-        public bool Manager_Updated(Column column = null)
+        public bool Manager_Updated(Context context, Column column = null)
         {
             return Manager.Id != SavedManager &&
                 (column == null ||
@@ -403,7 +403,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != Manager.Id);
         }
 
-        public bool Owner_Updated(Column column = null)
+        public bool Owner_Updated(Context context, Column column = null)
         {
             return Owner.Id != SavedOwner &&
                 (column == null ||
@@ -411,7 +411,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != Owner.Id);
         }
 
-        public bool ClassA_Updated(Column column = null)
+        public bool ClassA_Updated(Context context, Column column = null)
         {
             return ClassA != SavedClassA && ClassA != null &&
                 (column == null ||
@@ -419,7 +419,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassA);
         }
 
-        public bool ClassB_Updated(Column column = null)
+        public bool ClassB_Updated(Context context, Column column = null)
         {
             return ClassB != SavedClassB && ClassB != null &&
                 (column == null ||
@@ -427,7 +427,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassB);
         }
 
-        public bool ClassC_Updated(Column column = null)
+        public bool ClassC_Updated(Context context, Column column = null)
         {
             return ClassC != SavedClassC && ClassC != null &&
                 (column == null ||
@@ -435,7 +435,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassC);
         }
 
-        public bool ClassD_Updated(Column column = null)
+        public bool ClassD_Updated(Context context, Column column = null)
         {
             return ClassD != SavedClassD && ClassD != null &&
                 (column == null ||
@@ -443,7 +443,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassD);
         }
 
-        public bool ClassE_Updated(Column column = null)
+        public bool ClassE_Updated(Context context, Column column = null)
         {
             return ClassE != SavedClassE && ClassE != null &&
                 (column == null ||
@@ -451,7 +451,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassE);
         }
 
-        public bool ClassF_Updated(Column column = null)
+        public bool ClassF_Updated(Context context, Column column = null)
         {
             return ClassF != SavedClassF && ClassF != null &&
                 (column == null ||
@@ -459,7 +459,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassF);
         }
 
-        public bool ClassG_Updated(Column column = null)
+        public bool ClassG_Updated(Context context, Column column = null)
         {
             return ClassG != SavedClassG && ClassG != null &&
                 (column == null ||
@@ -467,7 +467,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassG);
         }
 
-        public bool ClassH_Updated(Column column = null)
+        public bool ClassH_Updated(Context context, Column column = null)
         {
             return ClassH != SavedClassH && ClassH != null &&
                 (column == null ||
@@ -475,7 +475,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassH);
         }
 
-        public bool ClassI_Updated(Column column = null)
+        public bool ClassI_Updated(Context context, Column column = null)
         {
             return ClassI != SavedClassI && ClassI != null &&
                 (column == null ||
@@ -483,7 +483,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassI);
         }
 
-        public bool ClassJ_Updated(Column column = null)
+        public bool ClassJ_Updated(Context context, Column column = null)
         {
             return ClassJ != SavedClassJ && ClassJ != null &&
                 (column == null ||
@@ -491,7 +491,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassJ);
         }
 
-        public bool ClassK_Updated(Column column = null)
+        public bool ClassK_Updated(Context context, Column column = null)
         {
             return ClassK != SavedClassK && ClassK != null &&
                 (column == null ||
@@ -499,7 +499,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassK);
         }
 
-        public bool ClassL_Updated(Column column = null)
+        public bool ClassL_Updated(Context context, Column column = null)
         {
             return ClassL != SavedClassL && ClassL != null &&
                 (column == null ||
@@ -507,7 +507,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassL);
         }
 
-        public bool ClassM_Updated(Column column = null)
+        public bool ClassM_Updated(Context context, Column column = null)
         {
             return ClassM != SavedClassM && ClassM != null &&
                 (column == null ||
@@ -515,7 +515,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassM);
         }
 
-        public bool ClassN_Updated(Column column = null)
+        public bool ClassN_Updated(Context context, Column column = null)
         {
             return ClassN != SavedClassN && ClassN != null &&
                 (column == null ||
@@ -523,7 +523,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassN);
         }
 
-        public bool ClassO_Updated(Column column = null)
+        public bool ClassO_Updated(Context context, Column column = null)
         {
             return ClassO != SavedClassO && ClassO != null &&
                 (column == null ||
@@ -531,7 +531,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassO);
         }
 
-        public bool ClassP_Updated(Column column = null)
+        public bool ClassP_Updated(Context context, Column column = null)
         {
             return ClassP != SavedClassP && ClassP != null &&
                 (column == null ||
@@ -539,7 +539,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassP);
         }
 
-        public bool ClassQ_Updated(Column column = null)
+        public bool ClassQ_Updated(Context context, Column column = null)
         {
             return ClassQ != SavedClassQ && ClassQ != null &&
                 (column == null ||
@@ -547,7 +547,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassQ);
         }
 
-        public bool ClassR_Updated(Column column = null)
+        public bool ClassR_Updated(Context context, Column column = null)
         {
             return ClassR != SavedClassR && ClassR != null &&
                 (column == null ||
@@ -555,7 +555,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassR);
         }
 
-        public bool ClassS_Updated(Column column = null)
+        public bool ClassS_Updated(Context context, Column column = null)
         {
             return ClassS != SavedClassS && ClassS != null &&
                 (column == null ||
@@ -563,7 +563,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassS);
         }
 
-        public bool ClassT_Updated(Column column = null)
+        public bool ClassT_Updated(Context context, Column column = null)
         {
             return ClassT != SavedClassT && ClassT != null &&
                 (column == null ||
@@ -571,7 +571,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassT);
         }
 
-        public bool ClassU_Updated(Column column = null)
+        public bool ClassU_Updated(Context context, Column column = null)
         {
             return ClassU != SavedClassU && ClassU != null &&
                 (column == null ||
@@ -579,7 +579,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassU);
         }
 
-        public bool ClassV_Updated(Column column = null)
+        public bool ClassV_Updated(Context context, Column column = null)
         {
             return ClassV != SavedClassV && ClassV != null &&
                 (column == null ||
@@ -587,7 +587,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassV);
         }
 
-        public bool ClassW_Updated(Column column = null)
+        public bool ClassW_Updated(Context context, Column column = null)
         {
             return ClassW != SavedClassW && ClassW != null &&
                 (column == null ||
@@ -595,7 +595,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassW);
         }
 
-        public bool ClassX_Updated(Column column = null)
+        public bool ClassX_Updated(Context context, Column column = null)
         {
             return ClassX != SavedClassX && ClassX != null &&
                 (column == null ||
@@ -603,7 +603,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassX);
         }
 
-        public bool ClassY_Updated(Column column = null)
+        public bool ClassY_Updated(Context context, Column column = null)
         {
             return ClassY != SavedClassY && ClassY != null &&
                 (column == null ||
@@ -611,7 +611,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassY);
         }
 
-        public bool ClassZ_Updated(Column column = null)
+        public bool ClassZ_Updated(Context context, Column column = null)
         {
             return ClassZ != SavedClassZ && ClassZ != null &&
                 (column == null ||
@@ -619,7 +619,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ClassZ);
         }
 
-        public bool NumA_Updated(Column column = null)
+        public bool NumA_Updated(Context context, Column column = null)
         {
             return NumA != SavedNumA &&
                 (column == null ||
@@ -627,7 +627,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumA);
         }
 
-        public bool NumB_Updated(Column column = null)
+        public bool NumB_Updated(Context context, Column column = null)
         {
             return NumB != SavedNumB &&
                 (column == null ||
@@ -635,7 +635,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumB);
         }
 
-        public bool NumC_Updated(Column column = null)
+        public bool NumC_Updated(Context context, Column column = null)
         {
             return NumC != SavedNumC &&
                 (column == null ||
@@ -643,7 +643,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumC);
         }
 
-        public bool NumD_Updated(Column column = null)
+        public bool NumD_Updated(Context context, Column column = null)
         {
             return NumD != SavedNumD &&
                 (column == null ||
@@ -651,7 +651,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumD);
         }
 
-        public bool NumE_Updated(Column column = null)
+        public bool NumE_Updated(Context context, Column column = null)
         {
             return NumE != SavedNumE &&
                 (column == null ||
@@ -659,7 +659,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumE);
         }
 
-        public bool NumF_Updated(Column column = null)
+        public bool NumF_Updated(Context context, Column column = null)
         {
             return NumF != SavedNumF &&
                 (column == null ||
@@ -667,7 +667,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumF);
         }
 
-        public bool NumG_Updated(Column column = null)
+        public bool NumG_Updated(Context context, Column column = null)
         {
             return NumG != SavedNumG &&
                 (column == null ||
@@ -675,7 +675,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumG);
         }
 
-        public bool NumH_Updated(Column column = null)
+        public bool NumH_Updated(Context context, Column column = null)
         {
             return NumH != SavedNumH &&
                 (column == null ||
@@ -683,7 +683,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumH);
         }
 
-        public bool NumI_Updated(Column column = null)
+        public bool NumI_Updated(Context context, Column column = null)
         {
             return NumI != SavedNumI &&
                 (column == null ||
@@ -691,7 +691,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumI);
         }
 
-        public bool NumJ_Updated(Column column = null)
+        public bool NumJ_Updated(Context context, Column column = null)
         {
             return NumJ != SavedNumJ &&
                 (column == null ||
@@ -699,7 +699,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumJ);
         }
 
-        public bool NumK_Updated(Column column = null)
+        public bool NumK_Updated(Context context, Column column = null)
         {
             return NumK != SavedNumK &&
                 (column == null ||
@@ -707,7 +707,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumK);
         }
 
-        public bool NumL_Updated(Column column = null)
+        public bool NumL_Updated(Context context, Column column = null)
         {
             return NumL != SavedNumL &&
                 (column == null ||
@@ -715,7 +715,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumL);
         }
 
-        public bool NumM_Updated(Column column = null)
+        public bool NumM_Updated(Context context, Column column = null)
         {
             return NumM != SavedNumM &&
                 (column == null ||
@@ -723,7 +723,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumM);
         }
 
-        public bool NumN_Updated(Column column = null)
+        public bool NumN_Updated(Context context, Column column = null)
         {
             return NumN != SavedNumN &&
                 (column == null ||
@@ -731,7 +731,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumN);
         }
 
-        public bool NumO_Updated(Column column = null)
+        public bool NumO_Updated(Context context, Column column = null)
         {
             return NumO != SavedNumO &&
                 (column == null ||
@@ -739,7 +739,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumO);
         }
 
-        public bool NumP_Updated(Column column = null)
+        public bool NumP_Updated(Context context, Column column = null)
         {
             return NumP != SavedNumP &&
                 (column == null ||
@@ -747,7 +747,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumP);
         }
 
-        public bool NumQ_Updated(Column column = null)
+        public bool NumQ_Updated(Context context, Column column = null)
         {
             return NumQ != SavedNumQ &&
                 (column == null ||
@@ -755,7 +755,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumQ);
         }
 
-        public bool NumR_Updated(Column column = null)
+        public bool NumR_Updated(Context context, Column column = null)
         {
             return NumR != SavedNumR &&
                 (column == null ||
@@ -763,7 +763,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumR);
         }
 
-        public bool NumS_Updated(Column column = null)
+        public bool NumS_Updated(Context context, Column column = null)
         {
             return NumS != SavedNumS &&
                 (column == null ||
@@ -771,7 +771,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumS);
         }
 
-        public bool NumT_Updated(Column column = null)
+        public bool NumT_Updated(Context context, Column column = null)
         {
             return NumT != SavedNumT &&
                 (column == null ||
@@ -779,7 +779,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumT);
         }
 
-        public bool NumU_Updated(Column column = null)
+        public bool NumU_Updated(Context context, Column column = null)
         {
             return NumU != SavedNumU &&
                 (column == null ||
@@ -787,7 +787,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumU);
         }
 
-        public bool NumV_Updated(Column column = null)
+        public bool NumV_Updated(Context context, Column column = null)
         {
             return NumV != SavedNumV &&
                 (column == null ||
@@ -795,7 +795,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumV);
         }
 
-        public bool NumW_Updated(Column column = null)
+        public bool NumW_Updated(Context context, Column column = null)
         {
             return NumW != SavedNumW &&
                 (column == null ||
@@ -803,7 +803,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumW);
         }
 
-        public bool NumX_Updated(Column column = null)
+        public bool NumX_Updated(Context context, Column column = null)
         {
             return NumX != SavedNumX &&
                 (column == null ||
@@ -811,7 +811,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumX);
         }
 
-        public bool NumY_Updated(Column column = null)
+        public bool NumY_Updated(Context context, Column column = null)
         {
             return NumY != SavedNumY &&
                 (column == null ||
@@ -819,7 +819,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumY);
         }
 
-        public bool NumZ_Updated(Column column = null)
+        public bool NumZ_Updated(Context context, Column column = null)
         {
             return NumZ != SavedNumZ &&
                 (column == null ||
@@ -827,7 +827,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToDecimal() != NumZ);
         }
 
-        public bool DescriptionA_Updated(Column column = null)
+        public bool DescriptionA_Updated(Context context, Column column = null)
         {
             return DescriptionA != SavedDescriptionA && DescriptionA != null &&
                 (column == null ||
@@ -835,7 +835,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionA);
         }
 
-        public bool DescriptionB_Updated(Column column = null)
+        public bool DescriptionB_Updated(Context context, Column column = null)
         {
             return DescriptionB != SavedDescriptionB && DescriptionB != null &&
                 (column == null ||
@@ -843,7 +843,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionB);
         }
 
-        public bool DescriptionC_Updated(Column column = null)
+        public bool DescriptionC_Updated(Context context, Column column = null)
         {
             return DescriptionC != SavedDescriptionC && DescriptionC != null &&
                 (column == null ||
@@ -851,7 +851,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionC);
         }
 
-        public bool DescriptionD_Updated(Column column = null)
+        public bool DescriptionD_Updated(Context context, Column column = null)
         {
             return DescriptionD != SavedDescriptionD && DescriptionD != null &&
                 (column == null ||
@@ -859,7 +859,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionD);
         }
 
-        public bool DescriptionE_Updated(Column column = null)
+        public bool DescriptionE_Updated(Context context, Column column = null)
         {
             return DescriptionE != SavedDescriptionE && DescriptionE != null &&
                 (column == null ||
@@ -867,7 +867,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionE);
         }
 
-        public bool DescriptionF_Updated(Column column = null)
+        public bool DescriptionF_Updated(Context context, Column column = null)
         {
             return DescriptionF != SavedDescriptionF && DescriptionF != null &&
                 (column == null ||
@@ -875,7 +875,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionF);
         }
 
-        public bool DescriptionG_Updated(Column column = null)
+        public bool DescriptionG_Updated(Context context, Column column = null)
         {
             return DescriptionG != SavedDescriptionG && DescriptionG != null &&
                 (column == null ||
@@ -883,7 +883,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionG);
         }
 
-        public bool DescriptionH_Updated(Column column = null)
+        public bool DescriptionH_Updated(Context context, Column column = null)
         {
             return DescriptionH != SavedDescriptionH && DescriptionH != null &&
                 (column == null ||
@@ -891,7 +891,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionH);
         }
 
-        public bool DescriptionI_Updated(Column column = null)
+        public bool DescriptionI_Updated(Context context, Column column = null)
         {
             return DescriptionI != SavedDescriptionI && DescriptionI != null &&
                 (column == null ||
@@ -899,7 +899,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionI);
         }
 
-        public bool DescriptionJ_Updated(Column column = null)
+        public bool DescriptionJ_Updated(Context context, Column column = null)
         {
             return DescriptionJ != SavedDescriptionJ && DescriptionJ != null &&
                 (column == null ||
@@ -907,7 +907,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionJ);
         }
 
-        public bool DescriptionK_Updated(Column column = null)
+        public bool DescriptionK_Updated(Context context, Column column = null)
         {
             return DescriptionK != SavedDescriptionK && DescriptionK != null &&
                 (column == null ||
@@ -915,7 +915,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionK);
         }
 
-        public bool DescriptionL_Updated(Column column = null)
+        public bool DescriptionL_Updated(Context context, Column column = null)
         {
             return DescriptionL != SavedDescriptionL && DescriptionL != null &&
                 (column == null ||
@@ -923,7 +923,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionL);
         }
 
-        public bool DescriptionM_Updated(Column column = null)
+        public bool DescriptionM_Updated(Context context, Column column = null)
         {
             return DescriptionM != SavedDescriptionM && DescriptionM != null &&
                 (column == null ||
@@ -931,7 +931,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionM);
         }
 
-        public bool DescriptionN_Updated(Column column = null)
+        public bool DescriptionN_Updated(Context context, Column column = null)
         {
             return DescriptionN != SavedDescriptionN && DescriptionN != null &&
                 (column == null ||
@@ -939,7 +939,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionN);
         }
 
-        public bool DescriptionO_Updated(Column column = null)
+        public bool DescriptionO_Updated(Context context, Column column = null)
         {
             return DescriptionO != SavedDescriptionO && DescriptionO != null &&
                 (column == null ||
@@ -947,7 +947,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionO);
         }
 
-        public bool DescriptionP_Updated(Column column = null)
+        public bool DescriptionP_Updated(Context context, Column column = null)
         {
             return DescriptionP != SavedDescriptionP && DescriptionP != null &&
                 (column == null ||
@@ -955,7 +955,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionP);
         }
 
-        public bool DescriptionQ_Updated(Column column = null)
+        public bool DescriptionQ_Updated(Context context, Column column = null)
         {
             return DescriptionQ != SavedDescriptionQ && DescriptionQ != null &&
                 (column == null ||
@@ -963,7 +963,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionQ);
         }
 
-        public bool DescriptionR_Updated(Column column = null)
+        public bool DescriptionR_Updated(Context context, Column column = null)
         {
             return DescriptionR != SavedDescriptionR && DescriptionR != null &&
                 (column == null ||
@@ -971,7 +971,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionR);
         }
 
-        public bool DescriptionS_Updated(Column column = null)
+        public bool DescriptionS_Updated(Context context, Column column = null)
         {
             return DescriptionS != SavedDescriptionS && DescriptionS != null &&
                 (column == null ||
@@ -979,7 +979,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionS);
         }
 
-        public bool DescriptionT_Updated(Column column = null)
+        public bool DescriptionT_Updated(Context context, Column column = null)
         {
             return DescriptionT != SavedDescriptionT && DescriptionT != null &&
                 (column == null ||
@@ -987,7 +987,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionT);
         }
 
-        public bool DescriptionU_Updated(Column column = null)
+        public bool DescriptionU_Updated(Context context, Column column = null)
         {
             return DescriptionU != SavedDescriptionU && DescriptionU != null &&
                 (column == null ||
@@ -995,7 +995,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionU);
         }
 
-        public bool DescriptionV_Updated(Column column = null)
+        public bool DescriptionV_Updated(Context context, Column column = null)
         {
             return DescriptionV != SavedDescriptionV && DescriptionV != null &&
                 (column == null ||
@@ -1003,7 +1003,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionV);
         }
 
-        public bool DescriptionW_Updated(Column column = null)
+        public bool DescriptionW_Updated(Context context, Column column = null)
         {
             return DescriptionW != SavedDescriptionW && DescriptionW != null &&
                 (column == null ||
@@ -1011,7 +1011,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionW);
         }
 
-        public bool DescriptionX_Updated(Column column = null)
+        public bool DescriptionX_Updated(Context context, Column column = null)
         {
             return DescriptionX != SavedDescriptionX && DescriptionX != null &&
                 (column == null ||
@@ -1019,7 +1019,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionX);
         }
 
-        public bool DescriptionY_Updated(Column column = null)
+        public bool DescriptionY_Updated(Context context, Column column = null)
         {
             return DescriptionY != SavedDescriptionY && DescriptionY != null &&
                 (column == null ||
@@ -1027,7 +1027,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionY);
         }
 
-        public bool DescriptionZ_Updated(Column column = null)
+        public bool DescriptionZ_Updated(Context context, Column column = null)
         {
             return DescriptionZ != SavedDescriptionZ && DescriptionZ != null &&
                 (column == null ||
@@ -1035,7 +1035,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != DescriptionZ);
         }
 
-        public bool CheckA_Updated(Column column = null)
+        public bool CheckA_Updated(Context context, Column column = null)
         {
             return CheckA != SavedCheckA &&
                 (column == null ||
@@ -1043,7 +1043,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckA);
         }
 
-        public bool CheckB_Updated(Column column = null)
+        public bool CheckB_Updated(Context context, Column column = null)
         {
             return CheckB != SavedCheckB &&
                 (column == null ||
@@ -1051,7 +1051,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckB);
         }
 
-        public bool CheckC_Updated(Column column = null)
+        public bool CheckC_Updated(Context context, Column column = null)
         {
             return CheckC != SavedCheckC &&
                 (column == null ||
@@ -1059,7 +1059,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckC);
         }
 
-        public bool CheckD_Updated(Column column = null)
+        public bool CheckD_Updated(Context context, Column column = null)
         {
             return CheckD != SavedCheckD &&
                 (column == null ||
@@ -1067,7 +1067,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckD);
         }
 
-        public bool CheckE_Updated(Column column = null)
+        public bool CheckE_Updated(Context context, Column column = null)
         {
             return CheckE != SavedCheckE &&
                 (column == null ||
@@ -1075,7 +1075,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckE);
         }
 
-        public bool CheckF_Updated(Column column = null)
+        public bool CheckF_Updated(Context context, Column column = null)
         {
             return CheckF != SavedCheckF &&
                 (column == null ||
@@ -1083,7 +1083,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckF);
         }
 
-        public bool CheckG_Updated(Column column = null)
+        public bool CheckG_Updated(Context context, Column column = null)
         {
             return CheckG != SavedCheckG &&
                 (column == null ||
@@ -1091,7 +1091,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckG);
         }
 
-        public bool CheckH_Updated(Column column = null)
+        public bool CheckH_Updated(Context context, Column column = null)
         {
             return CheckH != SavedCheckH &&
                 (column == null ||
@@ -1099,7 +1099,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckH);
         }
 
-        public bool CheckI_Updated(Column column = null)
+        public bool CheckI_Updated(Context context, Column column = null)
         {
             return CheckI != SavedCheckI &&
                 (column == null ||
@@ -1107,7 +1107,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckI);
         }
 
-        public bool CheckJ_Updated(Column column = null)
+        public bool CheckJ_Updated(Context context, Column column = null)
         {
             return CheckJ != SavedCheckJ &&
                 (column == null ||
@@ -1115,7 +1115,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckJ);
         }
 
-        public bool CheckK_Updated(Column column = null)
+        public bool CheckK_Updated(Context context, Column column = null)
         {
             return CheckK != SavedCheckK &&
                 (column == null ||
@@ -1123,7 +1123,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckK);
         }
 
-        public bool CheckL_Updated(Column column = null)
+        public bool CheckL_Updated(Context context, Column column = null)
         {
             return CheckL != SavedCheckL &&
                 (column == null ||
@@ -1131,7 +1131,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckL);
         }
 
-        public bool CheckM_Updated(Column column = null)
+        public bool CheckM_Updated(Context context, Column column = null)
         {
             return CheckM != SavedCheckM &&
                 (column == null ||
@@ -1139,7 +1139,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckM);
         }
 
-        public bool CheckN_Updated(Column column = null)
+        public bool CheckN_Updated(Context context, Column column = null)
         {
             return CheckN != SavedCheckN &&
                 (column == null ||
@@ -1147,7 +1147,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckN);
         }
 
-        public bool CheckO_Updated(Column column = null)
+        public bool CheckO_Updated(Context context, Column column = null)
         {
             return CheckO != SavedCheckO &&
                 (column == null ||
@@ -1155,7 +1155,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckO);
         }
 
-        public bool CheckP_Updated(Column column = null)
+        public bool CheckP_Updated(Context context, Column column = null)
         {
             return CheckP != SavedCheckP &&
                 (column == null ||
@@ -1163,7 +1163,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckP);
         }
 
-        public bool CheckQ_Updated(Column column = null)
+        public bool CheckQ_Updated(Context context, Column column = null)
         {
             return CheckQ != SavedCheckQ &&
                 (column == null ||
@@ -1171,7 +1171,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckQ);
         }
 
-        public bool CheckR_Updated(Column column = null)
+        public bool CheckR_Updated(Context context, Column column = null)
         {
             return CheckR != SavedCheckR &&
                 (column == null ||
@@ -1179,7 +1179,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckR);
         }
 
-        public bool CheckS_Updated(Column column = null)
+        public bool CheckS_Updated(Context context, Column column = null)
         {
             return CheckS != SavedCheckS &&
                 (column == null ||
@@ -1187,7 +1187,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckS);
         }
 
-        public bool CheckT_Updated(Column column = null)
+        public bool CheckT_Updated(Context context, Column column = null)
         {
             return CheckT != SavedCheckT &&
                 (column == null ||
@@ -1195,7 +1195,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckT);
         }
 
-        public bool CheckU_Updated(Column column = null)
+        public bool CheckU_Updated(Context context, Column column = null)
         {
             return CheckU != SavedCheckU &&
                 (column == null ||
@@ -1203,7 +1203,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckU);
         }
 
-        public bool CheckV_Updated(Column column = null)
+        public bool CheckV_Updated(Context context, Column column = null)
         {
             return CheckV != SavedCheckV &&
                 (column == null ||
@@ -1211,7 +1211,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckV);
         }
 
-        public bool CheckW_Updated(Column column = null)
+        public bool CheckW_Updated(Context context, Column column = null)
         {
             return CheckW != SavedCheckW &&
                 (column == null ||
@@ -1219,7 +1219,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckW);
         }
 
-        public bool CheckX_Updated(Column column = null)
+        public bool CheckX_Updated(Context context, Column column = null)
         {
             return CheckX != SavedCheckX &&
                 (column == null ||
@@ -1227,7 +1227,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckX);
         }
 
-        public bool CheckY_Updated(Column column = null)
+        public bool CheckY_Updated(Context context, Column column = null)
         {
             return CheckY != SavedCheckY &&
                 (column == null ||
@@ -1235,7 +1235,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckY);
         }
 
-        public bool CheckZ_Updated(Column column = null)
+        public bool CheckZ_Updated(Context context, Column column = null)
         {
             return CheckZ != SavedCheckZ &&
                 (column == null ||
@@ -1243,7 +1243,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != CheckZ);
         }
 
-        public bool AttachmentsA_Updated(Column column = null)
+        public bool AttachmentsA_Updated(Context context, Column column = null)
         {
             return AttachmentsA.RecordingJson() != SavedAttachmentsA && AttachmentsA.RecordingJson() != null &&
                 (column == null ||
@@ -1251,7 +1251,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsA.RecordingJson());
         }
 
-        public bool AttachmentsB_Updated(Column column = null)
+        public bool AttachmentsB_Updated(Context context, Column column = null)
         {
             return AttachmentsB.RecordingJson() != SavedAttachmentsB && AttachmentsB.RecordingJson() != null &&
                 (column == null ||
@@ -1259,7 +1259,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsB.RecordingJson());
         }
 
-        public bool AttachmentsC_Updated(Column column = null)
+        public bool AttachmentsC_Updated(Context context, Column column = null)
         {
             return AttachmentsC.RecordingJson() != SavedAttachmentsC && AttachmentsC.RecordingJson() != null &&
                 (column == null ||
@@ -1267,7 +1267,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsC.RecordingJson());
         }
 
-        public bool AttachmentsD_Updated(Column column = null)
+        public bool AttachmentsD_Updated(Context context, Column column = null)
         {
             return AttachmentsD.RecordingJson() != SavedAttachmentsD && AttachmentsD.RecordingJson() != null &&
                 (column == null ||
@@ -1275,7 +1275,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsD.RecordingJson());
         }
 
-        public bool AttachmentsE_Updated(Column column = null)
+        public bool AttachmentsE_Updated(Context context, Column column = null)
         {
             return AttachmentsE.RecordingJson() != SavedAttachmentsE && AttachmentsE.RecordingJson() != null &&
                 (column == null ||
@@ -1283,7 +1283,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsE.RecordingJson());
         }
 
-        public bool AttachmentsF_Updated(Column column = null)
+        public bool AttachmentsF_Updated(Context context, Column column = null)
         {
             return AttachmentsF.RecordingJson() != SavedAttachmentsF && AttachmentsF.RecordingJson() != null &&
                 (column == null ||
@@ -1291,7 +1291,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsF.RecordingJson());
         }
 
-        public bool AttachmentsG_Updated(Column column = null)
+        public bool AttachmentsG_Updated(Context context, Column column = null)
         {
             return AttachmentsG.RecordingJson() != SavedAttachmentsG && AttachmentsG.RecordingJson() != null &&
                 (column == null ||
@@ -1299,7 +1299,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsG.RecordingJson());
         }
 
-        public bool AttachmentsH_Updated(Column column = null)
+        public bool AttachmentsH_Updated(Context context, Column column = null)
         {
             return AttachmentsH.RecordingJson() != SavedAttachmentsH && AttachmentsH.RecordingJson() != null &&
                 (column == null ||
@@ -1307,7 +1307,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsH.RecordingJson());
         }
 
-        public bool AttachmentsI_Updated(Column column = null)
+        public bool AttachmentsI_Updated(Context context, Column column = null)
         {
             return AttachmentsI.RecordingJson() != SavedAttachmentsI && AttachmentsI.RecordingJson() != null &&
                 (column == null ||
@@ -1315,7 +1315,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsI.RecordingJson());
         }
 
-        public bool AttachmentsJ_Updated(Column column = null)
+        public bool AttachmentsJ_Updated(Context context, Column column = null)
         {
             return AttachmentsJ.RecordingJson() != SavedAttachmentsJ && AttachmentsJ.RecordingJson() != null &&
                 (column == null ||
@@ -1323,7 +1323,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsJ.RecordingJson());
         }
 
-        public bool AttachmentsK_Updated(Column column = null)
+        public bool AttachmentsK_Updated(Context context, Column column = null)
         {
             return AttachmentsK.RecordingJson() != SavedAttachmentsK && AttachmentsK.RecordingJson() != null &&
                 (column == null ||
@@ -1331,7 +1331,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsK.RecordingJson());
         }
 
-        public bool AttachmentsL_Updated(Column column = null)
+        public bool AttachmentsL_Updated(Context context, Column column = null)
         {
             return AttachmentsL.RecordingJson() != SavedAttachmentsL && AttachmentsL.RecordingJson() != null &&
                 (column == null ||
@@ -1339,7 +1339,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsL.RecordingJson());
         }
 
-        public bool AttachmentsM_Updated(Column column = null)
+        public bool AttachmentsM_Updated(Context context, Column column = null)
         {
             return AttachmentsM.RecordingJson() != SavedAttachmentsM && AttachmentsM.RecordingJson() != null &&
                 (column == null ||
@@ -1347,7 +1347,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsM.RecordingJson());
         }
 
-        public bool AttachmentsN_Updated(Column column = null)
+        public bool AttachmentsN_Updated(Context context, Column column = null)
         {
             return AttachmentsN.RecordingJson() != SavedAttachmentsN && AttachmentsN.RecordingJson() != null &&
                 (column == null ||
@@ -1355,7 +1355,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsN.RecordingJson());
         }
 
-        public bool AttachmentsO_Updated(Column column = null)
+        public bool AttachmentsO_Updated(Context context, Column column = null)
         {
             return AttachmentsO.RecordingJson() != SavedAttachmentsO && AttachmentsO.RecordingJson() != null &&
                 (column == null ||
@@ -1363,7 +1363,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsO.RecordingJson());
         }
 
-        public bool AttachmentsP_Updated(Column column = null)
+        public bool AttachmentsP_Updated(Context context, Column column = null)
         {
             return AttachmentsP.RecordingJson() != SavedAttachmentsP && AttachmentsP.RecordingJson() != null &&
                 (column == null ||
@@ -1371,7 +1371,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsP.RecordingJson());
         }
 
-        public bool AttachmentsQ_Updated(Column column = null)
+        public bool AttachmentsQ_Updated(Context context, Column column = null)
         {
             return AttachmentsQ.RecordingJson() != SavedAttachmentsQ && AttachmentsQ.RecordingJson() != null &&
                 (column == null ||
@@ -1379,7 +1379,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsQ.RecordingJson());
         }
 
-        public bool AttachmentsR_Updated(Column column = null)
+        public bool AttachmentsR_Updated(Context context, Column column = null)
         {
             return AttachmentsR.RecordingJson() != SavedAttachmentsR && AttachmentsR.RecordingJson() != null &&
                 (column == null ||
@@ -1387,7 +1387,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsR.RecordingJson());
         }
 
-        public bool AttachmentsS_Updated(Column column = null)
+        public bool AttachmentsS_Updated(Context context, Column column = null)
         {
             return AttachmentsS.RecordingJson() != SavedAttachmentsS && AttachmentsS.RecordingJson() != null &&
                 (column == null ||
@@ -1395,7 +1395,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsS.RecordingJson());
         }
 
-        public bool AttachmentsT_Updated(Column column = null)
+        public bool AttachmentsT_Updated(Context context, Column column = null)
         {
             return AttachmentsT.RecordingJson() != SavedAttachmentsT && AttachmentsT.RecordingJson() != null &&
                 (column == null ||
@@ -1403,7 +1403,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsT.RecordingJson());
         }
 
-        public bool AttachmentsU_Updated(Column column = null)
+        public bool AttachmentsU_Updated(Context context, Column column = null)
         {
             return AttachmentsU.RecordingJson() != SavedAttachmentsU && AttachmentsU.RecordingJson() != null &&
                 (column == null ||
@@ -1411,7 +1411,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsU.RecordingJson());
         }
 
-        public bool AttachmentsV_Updated(Column column = null)
+        public bool AttachmentsV_Updated(Context context, Column column = null)
         {
             return AttachmentsV.RecordingJson() != SavedAttachmentsV && AttachmentsV.RecordingJson() != null &&
                 (column == null ||
@@ -1419,7 +1419,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsV.RecordingJson());
         }
 
-        public bool AttachmentsW_Updated(Column column = null)
+        public bool AttachmentsW_Updated(Context context, Column column = null)
         {
             return AttachmentsW.RecordingJson() != SavedAttachmentsW && AttachmentsW.RecordingJson() != null &&
                 (column == null ||
@@ -1427,7 +1427,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsW.RecordingJson());
         }
 
-        public bool AttachmentsX_Updated(Column column = null)
+        public bool AttachmentsX_Updated(Context context, Column column = null)
         {
             return AttachmentsX.RecordingJson() != SavedAttachmentsX && AttachmentsX.RecordingJson() != null &&
                 (column == null ||
@@ -1435,7 +1435,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsX.RecordingJson());
         }
 
-        public bool AttachmentsY_Updated(Column column = null)
+        public bool AttachmentsY_Updated(Context context, Column column = null)
         {
             return AttachmentsY.RecordingJson() != SavedAttachmentsY && AttachmentsY.RecordingJson() != null &&
                 (column == null ||
@@ -1443,7 +1443,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsY.RecordingJson());
         }
 
-        public bool AttachmentsZ_Updated(Column column = null)
+        public bool AttachmentsZ_Updated(Context context, Column column = null)
         {
             return AttachmentsZ.RecordingJson() != SavedAttachmentsZ && AttachmentsZ.RecordingJson() != null &&
                 (column == null ||
@@ -1451,7 +1451,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != AttachmentsZ.RecordingJson());
         }
 
-        public bool StartTime_Updated(Column column = null)
+        public bool StartTime_Updated(Context context, Column column = null)
         {
             return StartTime != SavedStartTime &&
                 (column == null ||
@@ -1459,7 +1459,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != StartTime.Date);
         }
 
-        public bool CompletionTime_Updated(Column column = null)
+        public bool CompletionTime_Updated(Context context, Column column = null)
         {
             return CompletionTime.Value != SavedCompletionTime &&
                 (column == null ||
@@ -1467,7 +1467,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != CompletionTime.Value.Date);
         }
 
-        public bool DateA_Updated(Column column = null)
+        public bool DateA_Updated(Context context, Column column = null)
         {
             return DateA != SavedDateA &&
                 (column == null ||
@@ -1475,7 +1475,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateA.Date);
         }
 
-        public bool DateB_Updated(Column column = null)
+        public bool DateB_Updated(Context context, Column column = null)
         {
             return DateB != SavedDateB &&
                 (column == null ||
@@ -1483,7 +1483,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateB.Date);
         }
 
-        public bool DateC_Updated(Column column = null)
+        public bool DateC_Updated(Context context, Column column = null)
         {
             return DateC != SavedDateC &&
                 (column == null ||
@@ -1491,7 +1491,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateC.Date);
         }
 
-        public bool DateD_Updated(Column column = null)
+        public bool DateD_Updated(Context context, Column column = null)
         {
             return DateD != SavedDateD &&
                 (column == null ||
@@ -1499,7 +1499,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateD.Date);
         }
 
-        public bool DateE_Updated(Column column = null)
+        public bool DateE_Updated(Context context, Column column = null)
         {
             return DateE != SavedDateE &&
                 (column == null ||
@@ -1507,7 +1507,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateE.Date);
         }
 
-        public bool DateF_Updated(Column column = null)
+        public bool DateF_Updated(Context context, Column column = null)
         {
             return DateF != SavedDateF &&
                 (column == null ||
@@ -1515,7 +1515,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateF.Date);
         }
 
-        public bool DateG_Updated(Column column = null)
+        public bool DateG_Updated(Context context, Column column = null)
         {
             return DateG != SavedDateG &&
                 (column == null ||
@@ -1523,7 +1523,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateG.Date);
         }
 
-        public bool DateH_Updated(Column column = null)
+        public bool DateH_Updated(Context context, Column column = null)
         {
             return DateH != SavedDateH &&
                 (column == null ||
@@ -1531,7 +1531,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateH.Date);
         }
 
-        public bool DateI_Updated(Column column = null)
+        public bool DateI_Updated(Context context, Column column = null)
         {
             return DateI != SavedDateI &&
                 (column == null ||
@@ -1539,7 +1539,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateI.Date);
         }
 
-        public bool DateJ_Updated(Column column = null)
+        public bool DateJ_Updated(Context context, Column column = null)
         {
             return DateJ != SavedDateJ &&
                 (column == null ||
@@ -1547,7 +1547,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateJ.Date);
         }
 
-        public bool DateK_Updated(Column column = null)
+        public bool DateK_Updated(Context context, Column column = null)
         {
             return DateK != SavedDateK &&
                 (column == null ||
@@ -1555,7 +1555,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateK.Date);
         }
 
-        public bool DateL_Updated(Column column = null)
+        public bool DateL_Updated(Context context, Column column = null)
         {
             return DateL != SavedDateL &&
                 (column == null ||
@@ -1563,7 +1563,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateL.Date);
         }
 
-        public bool DateM_Updated(Column column = null)
+        public bool DateM_Updated(Context context, Column column = null)
         {
             return DateM != SavedDateM &&
                 (column == null ||
@@ -1571,7 +1571,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateM.Date);
         }
 
-        public bool DateN_Updated(Column column = null)
+        public bool DateN_Updated(Context context, Column column = null)
         {
             return DateN != SavedDateN &&
                 (column == null ||
@@ -1579,7 +1579,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateN.Date);
         }
 
-        public bool DateO_Updated(Column column = null)
+        public bool DateO_Updated(Context context, Column column = null)
         {
             return DateO != SavedDateO &&
                 (column == null ||
@@ -1587,7 +1587,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateO.Date);
         }
 
-        public bool DateP_Updated(Column column = null)
+        public bool DateP_Updated(Context context, Column column = null)
         {
             return DateP != SavedDateP &&
                 (column == null ||
@@ -1595,7 +1595,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateP.Date);
         }
 
-        public bool DateQ_Updated(Column column = null)
+        public bool DateQ_Updated(Context context, Column column = null)
         {
             return DateQ != SavedDateQ &&
                 (column == null ||
@@ -1603,7 +1603,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateQ.Date);
         }
 
-        public bool DateR_Updated(Column column = null)
+        public bool DateR_Updated(Context context, Column column = null)
         {
             return DateR != SavedDateR &&
                 (column == null ||
@@ -1611,7 +1611,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateR.Date);
         }
 
-        public bool DateS_Updated(Column column = null)
+        public bool DateS_Updated(Context context, Column column = null)
         {
             return DateS != SavedDateS &&
                 (column == null ||
@@ -1619,7 +1619,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateS.Date);
         }
 
-        public bool DateT_Updated(Column column = null)
+        public bool DateT_Updated(Context context, Column column = null)
         {
             return DateT != SavedDateT &&
                 (column == null ||
@@ -1627,7 +1627,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateT.Date);
         }
 
-        public bool DateU_Updated(Column column = null)
+        public bool DateU_Updated(Context context, Column column = null)
         {
             return DateU != SavedDateU &&
                 (column == null ||
@@ -1635,7 +1635,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateU.Date);
         }
 
-        public bool DateV_Updated(Column column = null)
+        public bool DateV_Updated(Context context, Column column = null)
         {
             return DateV != SavedDateV &&
                 (column == null ||
@@ -1643,7 +1643,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateV.Date);
         }
 
-        public bool DateW_Updated(Column column = null)
+        public bool DateW_Updated(Context context, Column column = null)
         {
             return DateW != SavedDateW &&
                 (column == null ||
@@ -1651,7 +1651,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateW.Date);
         }
 
-        public bool DateX_Updated(Column column = null)
+        public bool DateX_Updated(Context context, Column column = null)
         {
             return DateX != SavedDateX &&
                 (column == null ||
@@ -1659,7 +1659,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateX.Date);
         }
 
-        public bool DateY_Updated(Column column = null)
+        public bool DateY_Updated(Context context, Column column = null)
         {
             return DateY != SavedDateY &&
                 (column == null ||
@@ -1667,7 +1667,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateY.Date);
         }
 
-        public bool DateZ_Updated(Column column = null)
+        public bool DateZ_Updated(Context context, Column column = null)
         {
             return DateZ != SavedDateZ &&
                 (column == null ||
@@ -1675,7 +1675,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != DateZ.Date);
         }
 
-        public string PropertyValue(string name)
+        public string PropertyValue(Context context, string name)
         {
             switch (name)
             {
@@ -1861,7 +1861,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public Dictionary<string, string> PropertyValues(IEnumerable<string> names)
+        public Dictionary<string, string> PropertyValues(Context context, IEnumerable<string> names)
         {
             var hash = new Dictionary<string, string>();
             names?.ForEach(name =>
@@ -2408,889 +2408,1069 @@ namespace Implem.Pleasanter.Models
         }
 
         public string CsvData(
-            SiteSettings ss, Column column, ExportColumn exportColumn, List<string> mine)
+            Context context,
+            SiteSettings ss,
+            Column column,
+            ExportColumn exportColumn,
+            List<string> mine)
         {
             var value = string.Empty;
             switch (column.Name)
             {
                 case "SiteId":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? SiteId.ToExport(column, exportColumn)
+                        ? SiteId.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "UpdatedTime":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? UpdatedTime.ToExport(column, exportColumn)
+                        ? UpdatedTime.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "IssueId":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? IssueId.ToExport(column, exportColumn)
+                        ? IssueId.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "Ver":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Ver.ToExport(column, exportColumn)
+                        ? Ver.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "Title":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Title.ToExport(column, exportColumn)
+                        ? Title.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "Body":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Body.ToExport(column, exportColumn)
+                        ? Body.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "TitleBody":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? TitleBody.ToExport(column, exportColumn)
+                        ? TitleBody.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "StartTime":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? StartTime.ToExport(column, exportColumn)
+                        ? StartTime.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CompletionTime":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CompletionTime.ToExport(column, exportColumn)
+                        ? CompletionTime.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "WorkValue":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? WorkValue.ToExport(column, exportColumn)
+                        ? WorkValue.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ProgressRate":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ProgressRate.ToExport(column, exportColumn)
+                        ? ProgressRate.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "RemainingWorkValue":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? RemainingWorkValue.ToExport(column, exportColumn)
+                        ? RemainingWorkValue.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "Status":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Status.ToExport(column, exportColumn)
+                        ? Status.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "Manager":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Manager.ToExport(column, exportColumn)
+                        ? Manager.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "Owner":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Owner.ToExport(column, exportColumn)
+                        ? Owner.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassA":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassA.ToExport(column, exportColumn)
+                        ? ClassA.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassB":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassB.ToExport(column, exportColumn)
+                        ? ClassB.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassC":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassC.ToExport(column, exportColumn)
+                        ? ClassC.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassD":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassD.ToExport(column, exportColumn)
+                        ? ClassD.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassE":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassE.ToExport(column, exportColumn)
+                        ? ClassE.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassF":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassF.ToExport(column, exportColumn)
+                        ? ClassF.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassG":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassG.ToExport(column, exportColumn)
+                        ? ClassG.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassH":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassH.ToExport(column, exportColumn)
+                        ? ClassH.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassI":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassI.ToExport(column, exportColumn)
+                        ? ClassI.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassJ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassJ.ToExport(column, exportColumn)
+                        ? ClassJ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassK":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassK.ToExport(column, exportColumn)
+                        ? ClassK.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassL":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassL.ToExport(column, exportColumn)
+                        ? ClassL.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassM":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassM.ToExport(column, exportColumn)
+                        ? ClassM.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassN":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassN.ToExport(column, exportColumn)
+                        ? ClassN.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassO":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassO.ToExport(column, exportColumn)
+                        ? ClassO.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassP":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassP.ToExport(column, exportColumn)
+                        ? ClassP.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassQ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassQ.ToExport(column, exportColumn)
+                        ? ClassQ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassR":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassR.ToExport(column, exportColumn)
+                        ? ClassR.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassS":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassS.ToExport(column, exportColumn)
+                        ? ClassS.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassT":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassT.ToExport(column, exportColumn)
+                        ? ClassT.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassU":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassU.ToExport(column, exportColumn)
+                        ? ClassU.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassV":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassV.ToExport(column, exportColumn)
+                        ? ClassV.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassW":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassW.ToExport(column, exportColumn)
+                        ? ClassW.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassX":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassX.ToExport(column, exportColumn)
+                        ? ClassX.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassY":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassY.ToExport(column, exportColumn)
+                        ? ClassY.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "ClassZ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassZ.ToExport(column, exportColumn)
+                        ? ClassZ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumA":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumA.ToExport(column, exportColumn)
+                        ? NumA.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumB":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumB.ToExport(column, exportColumn)
+                        ? NumB.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumC":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumC.ToExport(column, exportColumn)
+                        ? NumC.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumD":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumD.ToExport(column, exportColumn)
+                        ? NumD.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumE":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumE.ToExport(column, exportColumn)
+                        ? NumE.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumF":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumF.ToExport(column, exportColumn)
+                        ? NumF.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumG":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumG.ToExport(column, exportColumn)
+                        ? NumG.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumH":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumH.ToExport(column, exportColumn)
+                        ? NumH.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumI":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumI.ToExport(column, exportColumn)
+                        ? NumI.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumJ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumJ.ToExport(column, exportColumn)
+                        ? NumJ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumK":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumK.ToExport(column, exportColumn)
+                        ? NumK.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumL":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumL.ToExport(column, exportColumn)
+                        ? NumL.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumM":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumM.ToExport(column, exportColumn)
+                        ? NumM.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumN":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumN.ToExport(column, exportColumn)
+                        ? NumN.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumO":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumO.ToExport(column, exportColumn)
+                        ? NumO.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumP":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumP.ToExport(column, exportColumn)
+                        ? NumP.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumQ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumQ.ToExport(column, exportColumn)
+                        ? NumQ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumR":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumR.ToExport(column, exportColumn)
+                        ? NumR.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumS":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumS.ToExport(column, exportColumn)
+                        ? NumS.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumT":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumT.ToExport(column, exportColumn)
+                        ? NumT.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumU":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumU.ToExport(column, exportColumn)
+                        ? NumU.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumV":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumV.ToExport(column, exportColumn)
+                        ? NumV.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumW":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumW.ToExport(column, exportColumn)
+                        ? NumW.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumX":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumX.ToExport(column, exportColumn)
+                        ? NumX.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumY":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumY.ToExport(column, exportColumn)
+                        ? NumY.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "NumZ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumZ.ToExport(column, exportColumn)
+                        ? NumZ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateA":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateA.ToExport(column, exportColumn)
+                        ? DateA.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateB":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateB.ToExport(column, exportColumn)
+                        ? DateB.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateC":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateC.ToExport(column, exportColumn)
+                        ? DateC.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateD":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateD.ToExport(column, exportColumn)
+                        ? DateD.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateE":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateE.ToExport(column, exportColumn)
+                        ? DateE.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateF":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateF.ToExport(column, exportColumn)
+                        ? DateF.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateG":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateG.ToExport(column, exportColumn)
+                        ? DateG.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateH":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateH.ToExport(column, exportColumn)
+                        ? DateH.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateI":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateI.ToExport(column, exportColumn)
+                        ? DateI.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateJ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateJ.ToExport(column, exportColumn)
+                        ? DateJ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateK":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateK.ToExport(column, exportColumn)
+                        ? DateK.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateL":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateL.ToExport(column, exportColumn)
+                        ? DateL.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateM":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateM.ToExport(column, exportColumn)
+                        ? DateM.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateN":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateN.ToExport(column, exportColumn)
+                        ? DateN.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateO":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateO.ToExport(column, exportColumn)
+                        ? DateO.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateP":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateP.ToExport(column, exportColumn)
+                        ? DateP.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateQ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateQ.ToExport(column, exportColumn)
+                        ? DateQ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateR":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateR.ToExport(column, exportColumn)
+                        ? DateR.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateS":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateS.ToExport(column, exportColumn)
+                        ? DateS.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateT":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateT.ToExport(column, exportColumn)
+                        ? DateT.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateU":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateU.ToExport(column, exportColumn)
+                        ? DateU.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateV":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateV.ToExport(column, exportColumn)
+                        ? DateV.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateW":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateW.ToExport(column, exportColumn)
+                        ? DateW.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateX":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateX.ToExport(column, exportColumn)
+                        ? DateX.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateY":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateY.ToExport(column, exportColumn)
+                        ? DateY.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DateZ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateZ.ToExport(column, exportColumn)
+                        ? DateZ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionA":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionA.ToExport(column, exportColumn)
+                        ? DescriptionA.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionB":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionB.ToExport(column, exportColumn)
+                        ? DescriptionB.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionC":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionC.ToExport(column, exportColumn)
+                        ? DescriptionC.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionD":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionD.ToExport(column, exportColumn)
+                        ? DescriptionD.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionE":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionE.ToExport(column, exportColumn)
+                        ? DescriptionE.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionF":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionF.ToExport(column, exportColumn)
+                        ? DescriptionF.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionG":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionG.ToExport(column, exportColumn)
+                        ? DescriptionG.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionH":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionH.ToExport(column, exportColumn)
+                        ? DescriptionH.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionI":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionI.ToExport(column, exportColumn)
+                        ? DescriptionI.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionJ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionJ.ToExport(column, exportColumn)
+                        ? DescriptionJ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionK":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionK.ToExport(column, exportColumn)
+                        ? DescriptionK.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionL":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionL.ToExport(column, exportColumn)
+                        ? DescriptionL.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionM":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionM.ToExport(column, exportColumn)
+                        ? DescriptionM.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionN":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionN.ToExport(column, exportColumn)
+                        ? DescriptionN.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionO":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionO.ToExport(column, exportColumn)
+                        ? DescriptionO.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionP":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionP.ToExport(column, exportColumn)
+                        ? DescriptionP.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionQ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionQ.ToExport(column, exportColumn)
+                        ? DescriptionQ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionR":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionR.ToExport(column, exportColumn)
+                        ? DescriptionR.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionS":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionS.ToExport(column, exportColumn)
+                        ? DescriptionS.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionT":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionT.ToExport(column, exportColumn)
+                        ? DescriptionT.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionU":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionU.ToExport(column, exportColumn)
+                        ? DescriptionU.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionV":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionV.ToExport(column, exportColumn)
+                        ? DescriptionV.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionW":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionW.ToExport(column, exportColumn)
+                        ? DescriptionW.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionX":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionX.ToExport(column, exportColumn)
+                        ? DescriptionX.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionY":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionY.ToExport(column, exportColumn)
+                        ? DescriptionY.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "DescriptionZ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionZ.ToExport(column, exportColumn)
+                        ? DescriptionZ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckA":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckA.ToExport(column, exportColumn)
+                        ? CheckA.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckB":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckB.ToExport(column, exportColumn)
+                        ? CheckB.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckC":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckC.ToExport(column, exportColumn)
+                        ? CheckC.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckD":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckD.ToExport(column, exportColumn)
+                        ? CheckD.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckE":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckE.ToExport(column, exportColumn)
+                        ? CheckE.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckF":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckF.ToExport(column, exportColumn)
+                        ? CheckF.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckG":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckG.ToExport(column, exportColumn)
+                        ? CheckG.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckH":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckH.ToExport(column, exportColumn)
+                        ? CheckH.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckI":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckI.ToExport(column, exportColumn)
+                        ? CheckI.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckJ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckJ.ToExport(column, exportColumn)
+                        ? CheckJ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckK":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckK.ToExport(column, exportColumn)
+                        ? CheckK.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckL":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckL.ToExport(column, exportColumn)
+                        ? CheckL.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckM":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckM.ToExport(column, exportColumn)
+                        ? CheckM.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckN":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckN.ToExport(column, exportColumn)
+                        ? CheckN.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckO":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckO.ToExport(column, exportColumn)
+                        ? CheckO.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckP":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckP.ToExport(column, exportColumn)
+                        ? CheckP.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckQ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckQ.ToExport(column, exportColumn)
+                        ? CheckQ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckR":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckR.ToExport(column, exportColumn)
+                        ? CheckR.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckS":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckS.ToExport(column, exportColumn)
+                        ? CheckS.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckT":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckT.ToExport(column, exportColumn)
+                        ? CheckT.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckU":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckU.ToExport(column, exportColumn)
+                        ? CheckU.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckV":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckV.ToExport(column, exportColumn)
+                        ? CheckV.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckW":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckW.ToExport(column, exportColumn)
+                        ? CheckW.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckX":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckX.ToExport(column, exportColumn)
+                        ? CheckX.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckY":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckY.ToExport(column, exportColumn)
+                        ? CheckY.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CheckZ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckZ.ToExport(column, exportColumn)
+                        ? CheckZ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsA":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsA.ToExport(column, exportColumn)
+                        ? AttachmentsA.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsB":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsB.ToExport(column, exportColumn)
+                        ? AttachmentsB.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsC":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsC.ToExport(column, exportColumn)
+                        ? AttachmentsC.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsD":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsD.ToExport(column, exportColumn)
+                        ? AttachmentsD.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsE":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsE.ToExport(column, exportColumn)
+                        ? AttachmentsE.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsF":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsF.ToExport(column, exportColumn)
+                        ? AttachmentsF.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsG":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsG.ToExport(column, exportColumn)
+                        ? AttachmentsG.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsH":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsH.ToExport(column, exportColumn)
+                        ? AttachmentsH.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsI":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsI.ToExport(column, exportColumn)
+                        ? AttachmentsI.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsJ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsJ.ToExport(column, exportColumn)
+                        ? AttachmentsJ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsK":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsK.ToExport(column, exportColumn)
+                        ? AttachmentsK.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsL":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsL.ToExport(column, exportColumn)
+                        ? AttachmentsL.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsM":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsM.ToExport(column, exportColumn)
+                        ? AttachmentsM.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsN":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsN.ToExport(column, exportColumn)
+                        ? AttachmentsN.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsO":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsO.ToExport(column, exportColumn)
+                        ? AttachmentsO.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsP":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsP.ToExport(column, exportColumn)
+                        ? AttachmentsP.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsQ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsQ.ToExport(column, exportColumn)
+                        ? AttachmentsQ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsR":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsR.ToExport(column, exportColumn)
+                        ? AttachmentsR.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsS":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsS.ToExport(column, exportColumn)
+                        ? AttachmentsS.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsT":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsT.ToExport(column, exportColumn)
+                        ? AttachmentsT.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsU":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsU.ToExport(column, exportColumn)
+                        ? AttachmentsU.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsV":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsV.ToExport(column, exportColumn)
+                        ? AttachmentsV.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsW":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsW.ToExport(column, exportColumn)
+                        ? AttachmentsW.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsX":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsX.ToExport(column, exportColumn)
+                        ? AttachmentsX.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsY":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsY.ToExport(column, exportColumn)
+                        ? AttachmentsY.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "AttachmentsZ":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsZ.ToExport(column, exportColumn)
+                        ? AttachmentsZ.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "SiteTitle":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? SiteTitle.ToExport(column, exportColumn)
+                        ? SiteTitle.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "Comments":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Comments.ToExport(column, exportColumn)
+                        ? Comments.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "Creator":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Creator.ToExport(column, exportColumn)
+                        ? Creator.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "Updator":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Updator.ToExport(column, exportColumn)
+                        ? Updator.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 case "CreatedTime":
                     value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CreatedTime.ToExport(column, exportColumn)
+                        ? CreatedTime.ToExport(
+                            context: context, column: column, exportColumn: exportColumn)
                         : string.Empty;
                     break;
                 default: return string.Empty;
@@ -3305,21 +3485,24 @@ namespace Implem.Pleasanter.Models
         }
 
         public IssueModel(
+            Context context,
             SiteSettings ss,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
+            OnConstructing(context: context);
+            Context = context;
             SiteId = ss.SiteId;
-            if (IssueId == 0) SetDefault(ss);
-            if (setByForm) SetByForm(ss);
-            if (setByApi) SetByApi(ss);
+            if (IssueId == 0) SetDefault(context: context, ss: ss);
+            if (setByForm) SetByForm(context: context, ss: ss);
+            if (setByApi) SetByApi(context: context, ss: ss);
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
         public IssueModel(
+            Context context,
             SiteSettings ss,
             long issueId,
             bool clearSessions = false,
@@ -3328,31 +3511,33 @@ namespace Implem.Pleasanter.Models
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
+            OnConstructing(context: context);
+            Context = context;
             IssueId = issueId;
             SiteId = ss.SiteId;
-            Get(ss);
+            Get(context: context, ss: ss);
             if (clearSessions) ClearSessions();
-            if (IssueId == 0) SetDefault(ss);
-            if (setByForm) SetByForm(ss);
-            if (setByApi) SetByApi(ss);
+            if (IssueId == 0) SetDefault(context: context, ss: ss);
+            if (setByForm) SetByForm(context: context, ss: ss);
+            if (setByApi) SetByApi(context: context, ss: ss);
             SwitchTargets = switchTargets;
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
-        public IssueModel(SiteSettings ss, DataRow dataRow, string tableAlias = null)
+        public IssueModel(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
-            OnConstructing();
-            Set(ss, dataRow, tableAlias);
-            OnConstructed();
+            OnConstructing(context: context);
+            Context = context;
+            if (dataRow != null) Set(context, ss, dataRow, tableAlias);
+            OnConstructed(context: context);
         }
 
-        private void OnConstructing()
+        private void OnConstructing(Context context)
         {
         }
 
-        private void OnConstructed()
+        private void OnConstructed(Context context)
         {
         }
 
@@ -3361,6 +3546,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public IssueModel Get(
+            Context context,
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
@@ -3371,15 +3557,17 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(ss, Rds.ExecuteTable(statements: Rds.SelectIssues(
-                tableType: tableType,
-                column: column ?? Rds.IssuesEditorColumns(ss),
-                join: join ??  Rds.IssuesJoinDefault(),
-                where: where ?? Rds.IssuesWhereDefault(this),
-                orderBy: orderBy,
-                param: param,
-                distinct: distinct,
-                top: top)));
+            Set(context, ss, Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectIssues(
+                    tableType: tableType,
+                    column: column ?? Rds.IssuesEditorColumns(ss),
+                    join: join ??  Rds.IssuesJoinDefault(),
+                    where: where ?? Rds.IssuesWhereDefault(this),
+                    orderBy: orderBy,
+                    param: param,
+                    distinct: distinct,
+                    top: top)));
             return this;
         }
 
@@ -3570,451 +3758,460 @@ namespace Implem.Pleasanter.Models
         }
 
         public string FullText(
-            SiteSettings ss, bool backgroundTask = false, bool onCreating = false)
+            Context context,
+            SiteSettings ss,
+            bool backgroundTask = false,
+            bool onCreating = false)
         {
             if (Parameters.Search.Provider != "FullText") return null;
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
             if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
             var fullText = new List<string>();
-            SiteInfo.TenantCaches[Sessions.TenantId()]
-                .SiteMenu.Breadcrumb(SiteId).FullText(fullText);
-            SiteId.FullText(fullText);
+            SiteInfo.TenantCaches
+                .Get(context.TenantId)?
+                .SiteMenu.Breadcrumb(context: context, siteId: SiteId)
+                .FullText(context, fullText);
+            SiteId.FullText(context, fullText);
             ss.EditorColumns.ForEach(columnName =>
             {
                 switch (columnName)
                 {
                     case "IssueId":
-                        IssueId.FullText(fullText);
+                        IssueId.FullText(context, fullText);
                         break;
                     case "Title":
-                        Title.FullText(fullText);
+                        Title.FullText(context, fullText);
                         break;
                     case "Body":
-                        Body.FullText(fullText);
+                        Body.FullText(context, fullText);
                         break;
                     case "StartTime":
-                        StartTime.FullText(fullText);
+                        StartTime.FullText(context, fullText);
                         break;
                     case "CompletionTime":
-                        CompletionTime.FullText(fullText);
+                        CompletionTime.FullText(context, fullText);
                         break;
                     case "WorkValue":
-                        WorkValue.FullText(fullText);
+                        WorkValue.FullText(context, fullText);
                         break;
                     case "ProgressRate":
-                        ProgressRate.FullText(fullText);
+                        ProgressRate.FullText(context, fullText);
                         break;
                     case "Status":
-                        Status.FullText(ss.GetColumn("Status"), fullText);
+                        Status.FullText(context, ss.GetColumn(context: context, columnName: "Status"), fullText);
                         break;
                     case "Manager":
-                        Manager.FullText(fullText);
+                        Manager.FullText(context, fullText);
                         break;
                     case "Owner":
-                        Owner.FullText(fullText);
+                        Owner.FullText(context, fullText);
                         break;
                     case "ClassA":
-                        ClassA.FullText(ss.GetColumn("ClassA"), fullText);
+                        ClassA.FullText(context, ss.GetColumn(context: context, columnName: "ClassA"), fullText);
                         break;
                     case "ClassB":
-                        ClassB.FullText(ss.GetColumn("ClassB"), fullText);
+                        ClassB.FullText(context, ss.GetColumn(context: context, columnName: "ClassB"), fullText);
                         break;
                     case "ClassC":
-                        ClassC.FullText(ss.GetColumn("ClassC"), fullText);
+                        ClassC.FullText(context, ss.GetColumn(context: context, columnName: "ClassC"), fullText);
                         break;
                     case "ClassD":
-                        ClassD.FullText(ss.GetColumn("ClassD"), fullText);
+                        ClassD.FullText(context, ss.GetColumn(context: context, columnName: "ClassD"), fullText);
                         break;
                     case "ClassE":
-                        ClassE.FullText(ss.GetColumn("ClassE"), fullText);
+                        ClassE.FullText(context, ss.GetColumn(context: context, columnName: "ClassE"), fullText);
                         break;
                     case "ClassF":
-                        ClassF.FullText(ss.GetColumn("ClassF"), fullText);
+                        ClassF.FullText(context, ss.GetColumn(context: context, columnName: "ClassF"), fullText);
                         break;
                     case "ClassG":
-                        ClassG.FullText(ss.GetColumn("ClassG"), fullText);
+                        ClassG.FullText(context, ss.GetColumn(context: context, columnName: "ClassG"), fullText);
                         break;
                     case "ClassH":
-                        ClassH.FullText(ss.GetColumn("ClassH"), fullText);
+                        ClassH.FullText(context, ss.GetColumn(context: context, columnName: "ClassH"), fullText);
                         break;
                     case "ClassI":
-                        ClassI.FullText(ss.GetColumn("ClassI"), fullText);
+                        ClassI.FullText(context, ss.GetColumn(context: context, columnName: "ClassI"), fullText);
                         break;
                     case "ClassJ":
-                        ClassJ.FullText(ss.GetColumn("ClassJ"), fullText);
+                        ClassJ.FullText(context, ss.GetColumn(context: context, columnName: "ClassJ"), fullText);
                         break;
                     case "ClassK":
-                        ClassK.FullText(ss.GetColumn("ClassK"), fullText);
+                        ClassK.FullText(context, ss.GetColumn(context: context, columnName: "ClassK"), fullText);
                         break;
                     case "ClassL":
-                        ClassL.FullText(ss.GetColumn("ClassL"), fullText);
+                        ClassL.FullText(context, ss.GetColumn(context: context, columnName: "ClassL"), fullText);
                         break;
                     case "ClassM":
-                        ClassM.FullText(ss.GetColumn("ClassM"), fullText);
+                        ClassM.FullText(context, ss.GetColumn(context: context, columnName: "ClassM"), fullText);
                         break;
                     case "ClassN":
-                        ClassN.FullText(ss.GetColumn("ClassN"), fullText);
+                        ClassN.FullText(context, ss.GetColumn(context: context, columnName: "ClassN"), fullText);
                         break;
                     case "ClassO":
-                        ClassO.FullText(ss.GetColumn("ClassO"), fullText);
+                        ClassO.FullText(context, ss.GetColumn(context: context, columnName: "ClassO"), fullText);
                         break;
                     case "ClassP":
-                        ClassP.FullText(ss.GetColumn("ClassP"), fullText);
+                        ClassP.FullText(context, ss.GetColumn(context: context, columnName: "ClassP"), fullText);
                         break;
                     case "ClassQ":
-                        ClassQ.FullText(ss.GetColumn("ClassQ"), fullText);
+                        ClassQ.FullText(context, ss.GetColumn(context: context, columnName: "ClassQ"), fullText);
                         break;
                     case "ClassR":
-                        ClassR.FullText(ss.GetColumn("ClassR"), fullText);
+                        ClassR.FullText(context, ss.GetColumn(context: context, columnName: "ClassR"), fullText);
                         break;
                     case "ClassS":
-                        ClassS.FullText(ss.GetColumn("ClassS"), fullText);
+                        ClassS.FullText(context, ss.GetColumn(context: context, columnName: "ClassS"), fullText);
                         break;
                     case "ClassT":
-                        ClassT.FullText(ss.GetColumn("ClassT"), fullText);
+                        ClassT.FullText(context, ss.GetColumn(context: context, columnName: "ClassT"), fullText);
                         break;
                     case "ClassU":
-                        ClassU.FullText(ss.GetColumn("ClassU"), fullText);
+                        ClassU.FullText(context, ss.GetColumn(context: context, columnName: "ClassU"), fullText);
                         break;
                     case "ClassV":
-                        ClassV.FullText(ss.GetColumn("ClassV"), fullText);
+                        ClassV.FullText(context, ss.GetColumn(context: context, columnName: "ClassV"), fullText);
                         break;
                     case "ClassW":
-                        ClassW.FullText(ss.GetColumn("ClassW"), fullText);
+                        ClassW.FullText(context, ss.GetColumn(context: context, columnName: "ClassW"), fullText);
                         break;
                     case "ClassX":
-                        ClassX.FullText(ss.GetColumn("ClassX"), fullText);
+                        ClassX.FullText(context, ss.GetColumn(context: context, columnName: "ClassX"), fullText);
                         break;
                     case "ClassY":
-                        ClassY.FullText(ss.GetColumn("ClassY"), fullText);
+                        ClassY.FullText(context, ss.GetColumn(context: context, columnName: "ClassY"), fullText);
                         break;
                     case "ClassZ":
-                        ClassZ.FullText(ss.GetColumn("ClassZ"), fullText);
+                        ClassZ.FullText(context, ss.GetColumn(context: context, columnName: "ClassZ"), fullText);
                         break;
                     case "NumA":
-                        NumA.FullText(fullText);
+                        NumA.FullText(context, fullText);
                         break;
                     case "NumB":
-                        NumB.FullText(fullText);
+                        NumB.FullText(context, fullText);
                         break;
                     case "NumC":
-                        NumC.FullText(fullText);
+                        NumC.FullText(context, fullText);
                         break;
                     case "NumD":
-                        NumD.FullText(fullText);
+                        NumD.FullText(context, fullText);
                         break;
                     case "NumE":
-                        NumE.FullText(fullText);
+                        NumE.FullText(context, fullText);
                         break;
                     case "NumF":
-                        NumF.FullText(fullText);
+                        NumF.FullText(context, fullText);
                         break;
                     case "NumG":
-                        NumG.FullText(fullText);
+                        NumG.FullText(context, fullText);
                         break;
                     case "NumH":
-                        NumH.FullText(fullText);
+                        NumH.FullText(context, fullText);
                         break;
                     case "NumI":
-                        NumI.FullText(fullText);
+                        NumI.FullText(context, fullText);
                         break;
                     case "NumJ":
-                        NumJ.FullText(fullText);
+                        NumJ.FullText(context, fullText);
                         break;
                     case "NumK":
-                        NumK.FullText(fullText);
+                        NumK.FullText(context, fullText);
                         break;
                     case "NumL":
-                        NumL.FullText(fullText);
+                        NumL.FullText(context, fullText);
                         break;
                     case "NumM":
-                        NumM.FullText(fullText);
+                        NumM.FullText(context, fullText);
                         break;
                     case "NumN":
-                        NumN.FullText(fullText);
+                        NumN.FullText(context, fullText);
                         break;
                     case "NumO":
-                        NumO.FullText(fullText);
+                        NumO.FullText(context, fullText);
                         break;
                     case "NumP":
-                        NumP.FullText(fullText);
+                        NumP.FullText(context, fullText);
                         break;
                     case "NumQ":
-                        NumQ.FullText(fullText);
+                        NumQ.FullText(context, fullText);
                         break;
                     case "NumR":
-                        NumR.FullText(fullText);
+                        NumR.FullText(context, fullText);
                         break;
                     case "NumS":
-                        NumS.FullText(fullText);
+                        NumS.FullText(context, fullText);
                         break;
                     case "NumT":
-                        NumT.FullText(fullText);
+                        NumT.FullText(context, fullText);
                         break;
                     case "NumU":
-                        NumU.FullText(fullText);
+                        NumU.FullText(context, fullText);
                         break;
                     case "NumV":
-                        NumV.FullText(fullText);
+                        NumV.FullText(context, fullText);
                         break;
                     case "NumW":
-                        NumW.FullText(fullText);
+                        NumW.FullText(context, fullText);
                         break;
                     case "NumX":
-                        NumX.FullText(fullText);
+                        NumX.FullText(context, fullText);
                         break;
                     case "NumY":
-                        NumY.FullText(fullText);
+                        NumY.FullText(context, fullText);
                         break;
                     case "NumZ":
-                        NumZ.FullText(fullText);
+                        NumZ.FullText(context, fullText);
                         break;
                     case "DateA":
-                        DateA.FullText(fullText);
+                        DateA.FullText(context, fullText);
                         break;
                     case "DateB":
-                        DateB.FullText(fullText);
+                        DateB.FullText(context, fullText);
                         break;
                     case "DateC":
-                        DateC.FullText(fullText);
+                        DateC.FullText(context, fullText);
                         break;
                     case "DateD":
-                        DateD.FullText(fullText);
+                        DateD.FullText(context, fullText);
                         break;
                     case "DateE":
-                        DateE.FullText(fullText);
+                        DateE.FullText(context, fullText);
                         break;
                     case "DateF":
-                        DateF.FullText(fullText);
+                        DateF.FullText(context, fullText);
                         break;
                     case "DateG":
-                        DateG.FullText(fullText);
+                        DateG.FullText(context, fullText);
                         break;
                     case "DateH":
-                        DateH.FullText(fullText);
+                        DateH.FullText(context, fullText);
                         break;
                     case "DateI":
-                        DateI.FullText(fullText);
+                        DateI.FullText(context, fullText);
                         break;
                     case "DateJ":
-                        DateJ.FullText(fullText);
+                        DateJ.FullText(context, fullText);
                         break;
                     case "DateK":
-                        DateK.FullText(fullText);
+                        DateK.FullText(context, fullText);
                         break;
                     case "DateL":
-                        DateL.FullText(fullText);
+                        DateL.FullText(context, fullText);
                         break;
                     case "DateM":
-                        DateM.FullText(fullText);
+                        DateM.FullText(context, fullText);
                         break;
                     case "DateN":
-                        DateN.FullText(fullText);
+                        DateN.FullText(context, fullText);
                         break;
                     case "DateO":
-                        DateO.FullText(fullText);
+                        DateO.FullText(context, fullText);
                         break;
                     case "DateP":
-                        DateP.FullText(fullText);
+                        DateP.FullText(context, fullText);
                         break;
                     case "DateQ":
-                        DateQ.FullText(fullText);
+                        DateQ.FullText(context, fullText);
                         break;
                     case "DateR":
-                        DateR.FullText(fullText);
+                        DateR.FullText(context, fullText);
                         break;
                     case "DateS":
-                        DateS.FullText(fullText);
+                        DateS.FullText(context, fullText);
                         break;
                     case "DateT":
-                        DateT.FullText(fullText);
+                        DateT.FullText(context, fullText);
                         break;
                     case "DateU":
-                        DateU.FullText(fullText);
+                        DateU.FullText(context, fullText);
                         break;
                     case "DateV":
-                        DateV.FullText(fullText);
+                        DateV.FullText(context, fullText);
                         break;
                     case "DateW":
-                        DateW.FullText(fullText);
+                        DateW.FullText(context, fullText);
                         break;
                     case "DateX":
-                        DateX.FullText(fullText);
+                        DateX.FullText(context, fullText);
                         break;
                     case "DateY":
-                        DateY.FullText(fullText);
+                        DateY.FullText(context, fullText);
                         break;
                     case "DateZ":
-                        DateZ.FullText(fullText);
+                        DateZ.FullText(context, fullText);
                         break;
                     case "DescriptionA":
-                        DescriptionA.FullText(fullText);
+                        DescriptionA.FullText(context, fullText);
                         break;
                     case "DescriptionB":
-                        DescriptionB.FullText(fullText);
+                        DescriptionB.FullText(context, fullText);
                         break;
                     case "DescriptionC":
-                        DescriptionC.FullText(fullText);
+                        DescriptionC.FullText(context, fullText);
                         break;
                     case "DescriptionD":
-                        DescriptionD.FullText(fullText);
+                        DescriptionD.FullText(context, fullText);
                         break;
                     case "DescriptionE":
-                        DescriptionE.FullText(fullText);
+                        DescriptionE.FullText(context, fullText);
                         break;
                     case "DescriptionF":
-                        DescriptionF.FullText(fullText);
+                        DescriptionF.FullText(context, fullText);
                         break;
                     case "DescriptionG":
-                        DescriptionG.FullText(fullText);
+                        DescriptionG.FullText(context, fullText);
                         break;
                     case "DescriptionH":
-                        DescriptionH.FullText(fullText);
+                        DescriptionH.FullText(context, fullText);
                         break;
                     case "DescriptionI":
-                        DescriptionI.FullText(fullText);
+                        DescriptionI.FullText(context, fullText);
                         break;
                     case "DescriptionJ":
-                        DescriptionJ.FullText(fullText);
+                        DescriptionJ.FullText(context, fullText);
                         break;
                     case "DescriptionK":
-                        DescriptionK.FullText(fullText);
+                        DescriptionK.FullText(context, fullText);
                         break;
                     case "DescriptionL":
-                        DescriptionL.FullText(fullText);
+                        DescriptionL.FullText(context, fullText);
                         break;
                     case "DescriptionM":
-                        DescriptionM.FullText(fullText);
+                        DescriptionM.FullText(context, fullText);
                         break;
                     case "DescriptionN":
-                        DescriptionN.FullText(fullText);
+                        DescriptionN.FullText(context, fullText);
                         break;
                     case "DescriptionO":
-                        DescriptionO.FullText(fullText);
+                        DescriptionO.FullText(context, fullText);
                         break;
                     case "DescriptionP":
-                        DescriptionP.FullText(fullText);
+                        DescriptionP.FullText(context, fullText);
                         break;
                     case "DescriptionQ":
-                        DescriptionQ.FullText(fullText);
+                        DescriptionQ.FullText(context, fullText);
                         break;
                     case "DescriptionR":
-                        DescriptionR.FullText(fullText);
+                        DescriptionR.FullText(context, fullText);
                         break;
                     case "DescriptionS":
-                        DescriptionS.FullText(fullText);
+                        DescriptionS.FullText(context, fullText);
                         break;
                     case "DescriptionT":
-                        DescriptionT.FullText(fullText);
+                        DescriptionT.FullText(context, fullText);
                         break;
                     case "DescriptionU":
-                        DescriptionU.FullText(fullText);
+                        DescriptionU.FullText(context, fullText);
                         break;
                     case "DescriptionV":
-                        DescriptionV.FullText(fullText);
+                        DescriptionV.FullText(context, fullText);
                         break;
                     case "DescriptionW":
-                        DescriptionW.FullText(fullText);
+                        DescriptionW.FullText(context, fullText);
                         break;
                     case "DescriptionX":
-                        DescriptionX.FullText(fullText);
+                        DescriptionX.FullText(context, fullText);
                         break;
                     case "DescriptionY":
-                        DescriptionY.FullText(fullText);
+                        DescriptionY.FullText(context, fullText);
                         break;
                     case "DescriptionZ":
-                        DescriptionZ.FullText(fullText);
+                        DescriptionZ.FullText(context, fullText);
                         break;
                     case "AttachmentsA":
-                        AttachmentsA.FullText(fullText);
+                        AttachmentsA.FullText(context, fullText);
                         break;
                     case "AttachmentsB":
-                        AttachmentsB.FullText(fullText);
+                        AttachmentsB.FullText(context, fullText);
                         break;
                     case "AttachmentsC":
-                        AttachmentsC.FullText(fullText);
+                        AttachmentsC.FullText(context, fullText);
                         break;
                     case "AttachmentsD":
-                        AttachmentsD.FullText(fullText);
+                        AttachmentsD.FullText(context, fullText);
                         break;
                     case "AttachmentsE":
-                        AttachmentsE.FullText(fullText);
+                        AttachmentsE.FullText(context, fullText);
                         break;
                     case "AttachmentsF":
-                        AttachmentsF.FullText(fullText);
+                        AttachmentsF.FullText(context, fullText);
                         break;
                     case "AttachmentsG":
-                        AttachmentsG.FullText(fullText);
+                        AttachmentsG.FullText(context, fullText);
                         break;
                     case "AttachmentsH":
-                        AttachmentsH.FullText(fullText);
+                        AttachmentsH.FullText(context, fullText);
                         break;
                     case "AttachmentsI":
-                        AttachmentsI.FullText(fullText);
+                        AttachmentsI.FullText(context, fullText);
                         break;
                     case "AttachmentsJ":
-                        AttachmentsJ.FullText(fullText);
+                        AttachmentsJ.FullText(context, fullText);
                         break;
                     case "AttachmentsK":
-                        AttachmentsK.FullText(fullText);
+                        AttachmentsK.FullText(context, fullText);
                         break;
                     case "AttachmentsL":
-                        AttachmentsL.FullText(fullText);
+                        AttachmentsL.FullText(context, fullText);
                         break;
                     case "AttachmentsM":
-                        AttachmentsM.FullText(fullText);
+                        AttachmentsM.FullText(context, fullText);
                         break;
                     case "AttachmentsN":
-                        AttachmentsN.FullText(fullText);
+                        AttachmentsN.FullText(context, fullText);
                         break;
                     case "AttachmentsO":
-                        AttachmentsO.FullText(fullText);
+                        AttachmentsO.FullText(context, fullText);
                         break;
                     case "AttachmentsP":
-                        AttachmentsP.FullText(fullText);
+                        AttachmentsP.FullText(context, fullText);
                         break;
                     case "AttachmentsQ":
-                        AttachmentsQ.FullText(fullText);
+                        AttachmentsQ.FullText(context, fullText);
                         break;
                     case "AttachmentsR":
-                        AttachmentsR.FullText(fullText);
+                        AttachmentsR.FullText(context, fullText);
                         break;
                     case "AttachmentsS":
-                        AttachmentsS.FullText(fullText);
+                        AttachmentsS.FullText(context, fullText);
                         break;
                     case "AttachmentsT":
-                        AttachmentsT.FullText(fullText);
+                        AttachmentsT.FullText(context, fullText);
                         break;
                     case "AttachmentsU":
-                        AttachmentsU.FullText(fullText);
+                        AttachmentsU.FullText(context, fullText);
                         break;
                     case "AttachmentsV":
-                        AttachmentsV.FullText(fullText);
+                        AttachmentsV.FullText(context, fullText);
                         break;
                     case "AttachmentsW":
-                        AttachmentsW.FullText(fullText);
+                        AttachmentsW.FullText(context, fullText);
                         break;
                     case "AttachmentsX":
-                        AttachmentsX.FullText(fullText);
+                        AttachmentsX.FullText(context, fullText);
                         break;
                     case "AttachmentsY":
-                        AttachmentsY.FullText(fullText);
+                        AttachmentsY.FullText(context, fullText);
                         break;
                     case "AttachmentsZ":
-                        AttachmentsZ.FullText(fullText);
+                        AttachmentsZ.FullText(context, fullText);
                         break;
                     case "Comments":
-                        Comments.FullText(fullText);
+                        Comments.FullText(context, fullText);
                         break;
                 }
             });
-            Creator.FullText(fullText);
-            Updator.FullText(fullText);
-            CreatedTime.FullText(fullText);
-            UpdatedTime.FullText(fullText);
+            Creator.FullText(context, fullText);
+            Updator.FullText(context, fullText);
+            CreatedTime.FullText(context, fullText);
+            UpdatedTime.FullText(context, fullText);
             if (!onCreating)
             {
-                FullTextExtensions.OutgoingMailsFullText(fullText, "Issues", IssueId);
+                FullTextExtensions.OutgoingMailsFullText(
+                    context: context,
+                    fullText: fullText,
+                    referenceType: "Issues",
+                    referenceId: IssueId);
             }
             return fullText
                 .Where(o => !o.IsNullOrEmpty())
@@ -4023,7 +4220,7 @@ namespace Implem.Pleasanter.Models
                 .Join(" ");
         }
 
-        public Dictionary<string, int> SearchIndexHash(SiteSettings ss)
+        public Dictionary<string, int> SearchIndexHash(Context context, SiteSettings ss)
         {
             if (AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -4032,163 +4229,168 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var searchIndexHash = new Dictionary<string, int>();
-                SiteInfo.TenantCaches[Sessions.TenantId()]
-                    .SiteMenu.Breadcrumb(SiteId).SearchIndexes(searchIndexHash, 100);
-                SiteId.SearchIndexes(searchIndexHash, 200);
-                UpdatedTime.SearchIndexes(searchIndexHash, 200);
-                IssueId.SearchIndexes(searchIndexHash, 1);
-                Title.SearchIndexes(searchIndexHash, 4);
-                Body.SearchIndexes(searchIndexHash, 200);
-                StartTime.SearchIndexes(searchIndexHash, 200);
-                CompletionTime.SearchIndexes(searchIndexHash, 200);
-                WorkValue.SearchIndexes(searchIndexHash, 200);
-                ProgressRate.SearchIndexes(searchIndexHash, 200);
-                Status.SearchIndexes(ss.GetColumn("Status"), searchIndexHash, 200);
-                Manager.SearchIndexes(searchIndexHash, 100);
-                Owner.SearchIndexes(searchIndexHash, 100);
-                ClassA.SearchIndexes(ss.GetColumn("ClassA"), searchIndexHash, 200);
-                ClassB.SearchIndexes(ss.GetColumn("ClassB"), searchIndexHash, 200);
-                ClassC.SearchIndexes(ss.GetColumn("ClassC"), searchIndexHash, 200);
-                ClassD.SearchIndexes(ss.GetColumn("ClassD"), searchIndexHash, 200);
-                ClassE.SearchIndexes(ss.GetColumn("ClassE"), searchIndexHash, 200);
-                ClassF.SearchIndexes(ss.GetColumn("ClassF"), searchIndexHash, 200);
-                ClassG.SearchIndexes(ss.GetColumn("ClassG"), searchIndexHash, 200);
-                ClassH.SearchIndexes(ss.GetColumn("ClassH"), searchIndexHash, 200);
-                ClassI.SearchIndexes(ss.GetColumn("ClassI"), searchIndexHash, 200);
-                ClassJ.SearchIndexes(ss.GetColumn("ClassJ"), searchIndexHash, 200);
-                ClassK.SearchIndexes(ss.GetColumn("ClassK"), searchIndexHash, 200);
-                ClassL.SearchIndexes(ss.GetColumn("ClassL"), searchIndexHash, 200);
-                ClassM.SearchIndexes(ss.GetColumn("ClassM"), searchIndexHash, 200);
-                ClassN.SearchIndexes(ss.GetColumn("ClassN"), searchIndexHash, 200);
-                ClassO.SearchIndexes(ss.GetColumn("ClassO"), searchIndexHash, 200);
-                ClassP.SearchIndexes(ss.GetColumn("ClassP"), searchIndexHash, 200);
-                ClassQ.SearchIndexes(ss.GetColumn("ClassQ"), searchIndexHash, 200);
-                ClassR.SearchIndexes(ss.GetColumn("ClassR"), searchIndexHash, 200);
-                ClassS.SearchIndexes(ss.GetColumn("ClassS"), searchIndexHash, 200);
-                ClassT.SearchIndexes(ss.GetColumn("ClassT"), searchIndexHash, 200);
-                ClassU.SearchIndexes(ss.GetColumn("ClassU"), searchIndexHash, 200);
-                ClassV.SearchIndexes(ss.GetColumn("ClassV"), searchIndexHash, 200);
-                ClassW.SearchIndexes(ss.GetColumn("ClassW"), searchIndexHash, 200);
-                ClassX.SearchIndexes(ss.GetColumn("ClassX"), searchIndexHash, 200);
-                ClassY.SearchIndexes(ss.GetColumn("ClassY"), searchIndexHash, 200);
-                ClassZ.SearchIndexes(ss.GetColumn("ClassZ"), searchIndexHash, 200);
-                NumA.SearchIndexes(searchIndexHash, 200);
-                NumB.SearchIndexes(searchIndexHash, 200);
-                NumC.SearchIndexes(searchIndexHash, 200);
-                NumD.SearchIndexes(searchIndexHash, 200);
-                NumE.SearchIndexes(searchIndexHash, 200);
-                NumF.SearchIndexes(searchIndexHash, 200);
-                NumG.SearchIndexes(searchIndexHash, 200);
-                NumH.SearchIndexes(searchIndexHash, 200);
-                NumI.SearchIndexes(searchIndexHash, 200);
-                NumJ.SearchIndexes(searchIndexHash, 200);
-                NumK.SearchIndexes(searchIndexHash, 200);
-                NumL.SearchIndexes(searchIndexHash, 200);
-                NumM.SearchIndexes(searchIndexHash, 200);
-                NumN.SearchIndexes(searchIndexHash, 200);
-                NumO.SearchIndexes(searchIndexHash, 200);
-                NumP.SearchIndexes(searchIndexHash, 200);
-                NumQ.SearchIndexes(searchIndexHash, 200);
-                NumR.SearchIndexes(searchIndexHash, 200);
-                NumS.SearchIndexes(searchIndexHash, 200);
-                NumT.SearchIndexes(searchIndexHash, 200);
-                NumU.SearchIndexes(searchIndexHash, 200);
-                NumV.SearchIndexes(searchIndexHash, 200);
-                NumW.SearchIndexes(searchIndexHash, 200);
-                NumX.SearchIndexes(searchIndexHash, 200);
-                NumY.SearchIndexes(searchIndexHash, 200);
-                NumZ.SearchIndexes(searchIndexHash, 200);
-                DateA.SearchIndexes(searchIndexHash, 200);
-                DateB.SearchIndexes(searchIndexHash, 200);
-                DateC.SearchIndexes(searchIndexHash, 200);
-                DateD.SearchIndexes(searchIndexHash, 200);
-                DateE.SearchIndexes(searchIndexHash, 200);
-                DateF.SearchIndexes(searchIndexHash, 200);
-                DateG.SearchIndexes(searchIndexHash, 200);
-                DateH.SearchIndexes(searchIndexHash, 200);
-                DateI.SearchIndexes(searchIndexHash, 200);
-                DateJ.SearchIndexes(searchIndexHash, 200);
-                DateK.SearchIndexes(searchIndexHash, 200);
-                DateL.SearchIndexes(searchIndexHash, 200);
-                DateM.SearchIndexes(searchIndexHash, 200);
-                DateN.SearchIndexes(searchIndexHash, 200);
-                DateO.SearchIndexes(searchIndexHash, 200);
-                DateP.SearchIndexes(searchIndexHash, 200);
-                DateQ.SearchIndexes(searchIndexHash, 200);
-                DateR.SearchIndexes(searchIndexHash, 200);
-                DateS.SearchIndexes(searchIndexHash, 200);
-                DateT.SearchIndexes(searchIndexHash, 200);
-                DateU.SearchIndexes(searchIndexHash, 200);
-                DateV.SearchIndexes(searchIndexHash, 200);
-                DateW.SearchIndexes(searchIndexHash, 200);
-                DateX.SearchIndexes(searchIndexHash, 200);
-                DateY.SearchIndexes(searchIndexHash, 200);
-                DateZ.SearchIndexes(searchIndexHash, 200);
-                DescriptionA.SearchIndexes(searchIndexHash, 200);
-                DescriptionB.SearchIndexes(searchIndexHash, 200);
-                DescriptionC.SearchIndexes(searchIndexHash, 200);
-                DescriptionD.SearchIndexes(searchIndexHash, 200);
-                DescriptionE.SearchIndexes(searchIndexHash, 200);
-                DescriptionF.SearchIndexes(searchIndexHash, 200);
-                DescriptionG.SearchIndexes(searchIndexHash, 200);
-                DescriptionH.SearchIndexes(searchIndexHash, 200);
-                DescriptionI.SearchIndexes(searchIndexHash, 200);
-                DescriptionJ.SearchIndexes(searchIndexHash, 200);
-                DescriptionK.SearchIndexes(searchIndexHash, 200);
-                DescriptionL.SearchIndexes(searchIndexHash, 200);
-                DescriptionM.SearchIndexes(searchIndexHash, 200);
-                DescriptionN.SearchIndexes(searchIndexHash, 200);
-                DescriptionO.SearchIndexes(searchIndexHash, 200);
-                DescriptionP.SearchIndexes(searchIndexHash, 200);
-                DescriptionQ.SearchIndexes(searchIndexHash, 200);
-                DescriptionR.SearchIndexes(searchIndexHash, 200);
-                DescriptionS.SearchIndexes(searchIndexHash, 200);
-                DescriptionT.SearchIndexes(searchIndexHash, 200);
-                DescriptionU.SearchIndexes(searchIndexHash, 200);
-                DescriptionV.SearchIndexes(searchIndexHash, 200);
-                DescriptionW.SearchIndexes(searchIndexHash, 200);
-                DescriptionX.SearchIndexes(searchIndexHash, 200);
-                DescriptionY.SearchIndexes(searchIndexHash, 200);
-                DescriptionZ.SearchIndexes(searchIndexHash, 200);
-                AttachmentsA.SearchIndexes(searchIndexHash, 200);
-                AttachmentsB.SearchIndexes(searchIndexHash, 200);
-                AttachmentsC.SearchIndexes(searchIndexHash, 200);
-                AttachmentsD.SearchIndexes(searchIndexHash, 200);
-                AttachmentsE.SearchIndexes(searchIndexHash, 200);
-                AttachmentsF.SearchIndexes(searchIndexHash, 200);
-                AttachmentsG.SearchIndexes(searchIndexHash, 200);
-                AttachmentsH.SearchIndexes(searchIndexHash, 200);
-                AttachmentsI.SearchIndexes(searchIndexHash, 200);
-                AttachmentsJ.SearchIndexes(searchIndexHash, 200);
-                AttachmentsK.SearchIndexes(searchIndexHash, 200);
-                AttachmentsL.SearchIndexes(searchIndexHash, 200);
-                AttachmentsM.SearchIndexes(searchIndexHash, 200);
-                AttachmentsN.SearchIndexes(searchIndexHash, 200);
-                AttachmentsO.SearchIndexes(searchIndexHash, 200);
-                AttachmentsP.SearchIndexes(searchIndexHash, 200);
-                AttachmentsQ.SearchIndexes(searchIndexHash, 200);
-                AttachmentsR.SearchIndexes(searchIndexHash, 200);
-                AttachmentsS.SearchIndexes(searchIndexHash, 200);
-                AttachmentsT.SearchIndexes(searchIndexHash, 200);
-                AttachmentsU.SearchIndexes(searchIndexHash, 200);
-                AttachmentsV.SearchIndexes(searchIndexHash, 200);
-                AttachmentsW.SearchIndexes(searchIndexHash, 200);
-                AttachmentsX.SearchIndexes(searchIndexHash, 200);
-                AttachmentsY.SearchIndexes(searchIndexHash, 200);
-                AttachmentsZ.SearchIndexes(searchIndexHash, 200);
-                Comments.SearchIndexes(searchIndexHash, 200);
-                Creator.SearchIndexes(searchIndexHash, 100);
-                Updator.SearchIndexes(searchIndexHash, 100);
-                CreatedTime.SearchIndexes(searchIndexHash, 200);
+                SiteInfo.TenantCaches.Get(context.TenantId)?
+                    .SiteMenu
+                    .Breadcrumb(context: context, siteId: SiteId)
+                    .SearchIndexes(context, searchIndexHash, 100);
+                SiteId.SearchIndexes(context, searchIndexHash, 200);
+                UpdatedTime.SearchIndexes(context, searchIndexHash, 200);
+                IssueId.SearchIndexes(context, searchIndexHash, 1);
+                Title.SearchIndexes(context, searchIndexHash, 4);
+                Body.SearchIndexes(context, searchIndexHash, 200);
+                StartTime.SearchIndexes(context, searchIndexHash, 200);
+                CompletionTime.SearchIndexes(context, searchIndexHash, 200);
+                WorkValue.SearchIndexes(context, searchIndexHash, 200);
+                ProgressRate.SearchIndexes(context, searchIndexHash, 200);
+                Status.SearchIndexes(context, ss.GetColumn(context: context, columnName: "Status"), searchIndexHash, 200);
+                Manager.SearchIndexes(context, searchIndexHash, 100);
+                Owner.SearchIndexes(context, searchIndexHash, 100);
+                ClassA.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassA"), searchIndexHash, 200);
+                ClassB.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassB"), searchIndexHash, 200);
+                ClassC.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassC"), searchIndexHash, 200);
+                ClassD.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassD"), searchIndexHash, 200);
+                ClassE.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassE"), searchIndexHash, 200);
+                ClassF.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassF"), searchIndexHash, 200);
+                ClassG.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassG"), searchIndexHash, 200);
+                ClassH.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassH"), searchIndexHash, 200);
+                ClassI.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassI"), searchIndexHash, 200);
+                ClassJ.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassJ"), searchIndexHash, 200);
+                ClassK.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassK"), searchIndexHash, 200);
+                ClassL.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassL"), searchIndexHash, 200);
+                ClassM.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassM"), searchIndexHash, 200);
+                ClassN.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassN"), searchIndexHash, 200);
+                ClassO.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassO"), searchIndexHash, 200);
+                ClassP.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassP"), searchIndexHash, 200);
+                ClassQ.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassQ"), searchIndexHash, 200);
+                ClassR.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassR"), searchIndexHash, 200);
+                ClassS.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassS"), searchIndexHash, 200);
+                ClassT.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassT"), searchIndexHash, 200);
+                ClassU.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassU"), searchIndexHash, 200);
+                ClassV.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassV"), searchIndexHash, 200);
+                ClassW.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassW"), searchIndexHash, 200);
+                ClassX.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassX"), searchIndexHash, 200);
+                ClassY.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassY"), searchIndexHash, 200);
+                ClassZ.SearchIndexes(context, ss.GetColumn(context: context, columnName: "ClassZ"), searchIndexHash, 200);
+                NumA.SearchIndexes(context, searchIndexHash, 200);
+                NumB.SearchIndexes(context, searchIndexHash, 200);
+                NumC.SearchIndexes(context, searchIndexHash, 200);
+                NumD.SearchIndexes(context, searchIndexHash, 200);
+                NumE.SearchIndexes(context, searchIndexHash, 200);
+                NumF.SearchIndexes(context, searchIndexHash, 200);
+                NumG.SearchIndexes(context, searchIndexHash, 200);
+                NumH.SearchIndexes(context, searchIndexHash, 200);
+                NumI.SearchIndexes(context, searchIndexHash, 200);
+                NumJ.SearchIndexes(context, searchIndexHash, 200);
+                NumK.SearchIndexes(context, searchIndexHash, 200);
+                NumL.SearchIndexes(context, searchIndexHash, 200);
+                NumM.SearchIndexes(context, searchIndexHash, 200);
+                NumN.SearchIndexes(context, searchIndexHash, 200);
+                NumO.SearchIndexes(context, searchIndexHash, 200);
+                NumP.SearchIndexes(context, searchIndexHash, 200);
+                NumQ.SearchIndexes(context, searchIndexHash, 200);
+                NumR.SearchIndexes(context, searchIndexHash, 200);
+                NumS.SearchIndexes(context, searchIndexHash, 200);
+                NumT.SearchIndexes(context, searchIndexHash, 200);
+                NumU.SearchIndexes(context, searchIndexHash, 200);
+                NumV.SearchIndexes(context, searchIndexHash, 200);
+                NumW.SearchIndexes(context, searchIndexHash, 200);
+                NumX.SearchIndexes(context, searchIndexHash, 200);
+                NumY.SearchIndexes(context, searchIndexHash, 200);
+                NumZ.SearchIndexes(context, searchIndexHash, 200);
+                DateA.SearchIndexes(context, searchIndexHash, 200);
+                DateB.SearchIndexes(context, searchIndexHash, 200);
+                DateC.SearchIndexes(context, searchIndexHash, 200);
+                DateD.SearchIndexes(context, searchIndexHash, 200);
+                DateE.SearchIndexes(context, searchIndexHash, 200);
+                DateF.SearchIndexes(context, searchIndexHash, 200);
+                DateG.SearchIndexes(context, searchIndexHash, 200);
+                DateH.SearchIndexes(context, searchIndexHash, 200);
+                DateI.SearchIndexes(context, searchIndexHash, 200);
+                DateJ.SearchIndexes(context, searchIndexHash, 200);
+                DateK.SearchIndexes(context, searchIndexHash, 200);
+                DateL.SearchIndexes(context, searchIndexHash, 200);
+                DateM.SearchIndexes(context, searchIndexHash, 200);
+                DateN.SearchIndexes(context, searchIndexHash, 200);
+                DateO.SearchIndexes(context, searchIndexHash, 200);
+                DateP.SearchIndexes(context, searchIndexHash, 200);
+                DateQ.SearchIndexes(context, searchIndexHash, 200);
+                DateR.SearchIndexes(context, searchIndexHash, 200);
+                DateS.SearchIndexes(context, searchIndexHash, 200);
+                DateT.SearchIndexes(context, searchIndexHash, 200);
+                DateU.SearchIndexes(context, searchIndexHash, 200);
+                DateV.SearchIndexes(context, searchIndexHash, 200);
+                DateW.SearchIndexes(context, searchIndexHash, 200);
+                DateX.SearchIndexes(context, searchIndexHash, 200);
+                DateY.SearchIndexes(context, searchIndexHash, 200);
+                DateZ.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionA.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionB.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionC.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionD.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionE.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionF.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionG.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionH.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionI.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionJ.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionK.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionL.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionM.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionN.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionO.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionP.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionQ.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionR.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionS.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionT.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionU.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionV.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionW.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionX.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionY.SearchIndexes(context, searchIndexHash, 200);
+                DescriptionZ.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsA.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsB.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsC.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsD.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsE.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsF.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsG.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsH.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsI.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsJ.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsK.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsL.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsM.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsN.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsO.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsP.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsQ.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsR.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsS.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsT.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsU.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsV.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsW.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsX.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsY.SearchIndexes(context, searchIndexHash, 200);
+                AttachmentsZ.SearchIndexes(context, searchIndexHash, 200);
+                Comments.SearchIndexes(context, searchIndexHash, 200);
+                Creator.SearchIndexes(context, searchIndexHash, 100);
+                Updator.SearchIndexes(context, searchIndexHash, 100);
+                CreatedTime.SearchIndexes(context, searchIndexHash, 200);
                 SearchIndexExtensions.OutgoingMailsSearchIndexes(
-                    searchIndexHash, "Issues", IssueId);
+                    context: context,
+                    searchIndexHash: searchIndexHash,
+                    referenceType: "Issues",
+                    referenceId: IssueId);
                 return searchIndexHash;
             }
         }
 
         public Error.Types Create(
+            Context context,
             SiteSettings ss,
-            RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool extendedSqls = true,
@@ -4201,29 +4403,41 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             IfDuplicatedStatements(ss, statements);
             if (extendedSqls) statements.OnCreatingExtendedSqls(SiteId);
-            CreateStatements(ss, statements, tableType, param, otherInitValue);
-            statements.CreatePermissions(ss, ss.Columns
-                .Where(o => o.UserColumn)
-                .ToDictionary(o =>
-                    o.ColumnName,
-                    o => SiteInfo.User(PropertyValue(o.ColumnName).ToInt())));
+            CreateStatements(context, ss, statements, tableType, param, otherInitValue);
+            statements.CreatePermissions(
+                context: context,
+                ss: ss,
+                users: ss.Columns
+                    .Where(o => o.UserColumn)
+                    .ToDictionary(o =>
+                        o.ColumnName,
+                        o => SiteInfo.User(
+                            context: context,
+                            userId: PropertyValue(
+                                context: context,
+                                name: o.ColumnName).ToInt())));
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             if (response.Event == "Duplicated") return Duplicated(ss, response);
             IssueId = (response.Identity ?? IssueId).ToLong();
-            if (synchronizeSummary) SynchronizeSummary(ss, forceSynchronizeSourceSummary);
-            if (Contract.Notice() && notice)
+            if (synchronizeSummary) SynchronizeSummary(context, ss, forceSynchronizeSourceSummary);
+            if (Contract.Notice(context: context) && notice)
             {
-                SetTitle(ss);
-                CheckNotificationConditions(ss);
-                Notice(ss, "Created");
+                SetTitle(context: context, ss: ss);
+                CheckNotificationConditions(context: context, ss: ss);
+                Notice(context: context, ss: ss, type: "Created");
             }
-            if (get) Get(ss);
-            if (ss.PermissionForCreating != null) ss.SetPermissions(IssueId);
-            var fullText = FullText(ss, onCreating: true);
+            if (get) Get(context: context, ss: ss);
+            if (ss.PermissionForCreating != null)
+            {
+                ss.SetPermissions(
+                    context: context,
+                    referenceId: IssueId);
+            }
+            var fullText = FullText(context, ss: ss, onCreating: true);
             statements = new List<SqlStatement>();
             statements.Add(Rds.UpdateItems(
                 param: Rds.ItemsParam()
@@ -4231,21 +4445,26 @@ namespace Implem.Pleasanter.Models
                     .FullText(fullText, _using: fullText != null)
                     .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
                 where: Rds.ItemsWhere().ReferenceId(IssueId)));
-            statements.Add(BinaryUtilities.UpdateReferenceId(ss, IssueId, fullText));
+            statements.Add(BinaryUtilities.UpdateReferenceId(
+                context: context,
+                ss: ss,
+                referenceId: IssueId,
+                values: fullText));
             if (extendedSqls) statements.OnCreatedExtendedSqls(SiteId, IssueId);
             Rds.ExecuteNonQuery(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
-            Libraries.Search.Indexes.Create(ss, this);
+            Libraries.Search.Indexes.Create(context, ss, this);
             if (get && Rds.ExtendedSqls(SiteId, IssueId)?.Any(o => o.OnCreated) == true)
             {
-                Get(ss);
+                Get(context: context, ss: ss);
             }
             return Error.Types.None;
         }
 
         public List<SqlStatement> CreateStatements(
+            Context context,
             SiteSettings ss,
             List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -4263,39 +4482,121 @@ namespace Implem.Pleasanter.Models
                 Rds.InsertIssues(
                     tableType: tableType,
                     param: param ?? Rds.IssuesParamDefault(
-                        this, setDefault: true, otherInitValue: otherInitValue)),
+                        context: context,
+                        issueModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue)),
                 InsertLinks(ss, setIdentity: true),
             });
-            if (AttachmentsA_Updated()) AttachmentsA.Write(statements, IssueId);
-            if (AttachmentsB_Updated()) AttachmentsB.Write(statements, IssueId);
-            if (AttachmentsC_Updated()) AttachmentsC.Write(statements, IssueId);
-            if (AttachmentsD_Updated()) AttachmentsD.Write(statements, IssueId);
-            if (AttachmentsE_Updated()) AttachmentsE.Write(statements, IssueId);
-            if (AttachmentsF_Updated()) AttachmentsF.Write(statements, IssueId);
-            if (AttachmentsG_Updated()) AttachmentsG.Write(statements, IssueId);
-            if (AttachmentsH_Updated()) AttachmentsH.Write(statements, IssueId);
-            if (AttachmentsI_Updated()) AttachmentsI.Write(statements, IssueId);
-            if (AttachmentsJ_Updated()) AttachmentsJ.Write(statements, IssueId);
-            if (AttachmentsK_Updated()) AttachmentsK.Write(statements, IssueId);
-            if (AttachmentsL_Updated()) AttachmentsL.Write(statements, IssueId);
-            if (AttachmentsM_Updated()) AttachmentsM.Write(statements, IssueId);
-            if (AttachmentsN_Updated()) AttachmentsN.Write(statements, IssueId);
-            if (AttachmentsO_Updated()) AttachmentsO.Write(statements, IssueId);
-            if (AttachmentsP_Updated()) AttachmentsP.Write(statements, IssueId);
-            if (AttachmentsQ_Updated()) AttachmentsQ.Write(statements, IssueId);
-            if (AttachmentsR_Updated()) AttachmentsR.Write(statements, IssueId);
-            if (AttachmentsS_Updated()) AttachmentsS.Write(statements, IssueId);
-            if (AttachmentsT_Updated()) AttachmentsT.Write(statements, IssueId);
-            if (AttachmentsU_Updated()) AttachmentsU.Write(statements, IssueId);
-            if (AttachmentsV_Updated()) AttachmentsV.Write(statements, IssueId);
-            if (AttachmentsW_Updated()) AttachmentsW.Write(statements, IssueId);
-            if (AttachmentsX_Updated()) AttachmentsX.Write(statements, IssueId);
-            if (AttachmentsY_Updated()) AttachmentsY.Write(statements, IssueId);
-            if (AttachmentsZ_Updated()) AttachmentsZ.Write(statements, IssueId);
+            if (AttachmentsA_Updated(context: context))
+            {
+                AttachmentsA.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsB_Updated(context: context))
+            {
+                AttachmentsB.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsC_Updated(context: context))
+            {
+                AttachmentsC.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsD_Updated(context: context))
+            {
+                AttachmentsD.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsE_Updated(context: context))
+            {
+                AttachmentsE.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsF_Updated(context: context))
+            {
+                AttachmentsF.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsG_Updated(context: context))
+            {
+                AttachmentsG.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsH_Updated(context: context))
+            {
+                AttachmentsH.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsI_Updated(context: context))
+            {
+                AttachmentsI.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsJ_Updated(context: context))
+            {
+                AttachmentsJ.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsK_Updated(context: context))
+            {
+                AttachmentsK.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsL_Updated(context: context))
+            {
+                AttachmentsL.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsM_Updated(context: context))
+            {
+                AttachmentsM.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsN_Updated(context: context))
+            {
+                AttachmentsN.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsO_Updated(context: context))
+            {
+                AttachmentsO.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsP_Updated(context: context))
+            {
+                AttachmentsP.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsQ_Updated(context: context))
+            {
+                AttachmentsQ.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsR_Updated(context: context))
+            {
+                AttachmentsR.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsS_Updated(context: context))
+            {
+                AttachmentsS.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsT_Updated(context: context))
+            {
+                AttachmentsT.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsU_Updated(context: context))
+            {
+                AttachmentsU.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsV_Updated(context: context))
+            {
+                AttachmentsV.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsW_Updated(context: context))
+            {
+                AttachmentsW.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsX_Updated(context: context))
+            {
+                AttachmentsX.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsY_Updated(context: context))
+            {
+                AttachmentsY.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsZ_Updated(context: context))
+            {
+                AttachmentsZ.Write(context: context, statements: statements, referenceId: IssueId);
+            }
             return statements;
         }
 
         public Error.Types Update(
+            Context context,
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
@@ -4310,42 +4611,51 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
-            if (Contract.Notice() && notice)
+            if (Contract.Notice(context: context) && notice)
             {
-                CheckNotificationConditions(ss, before: true);
+                CheckNotificationConditions(context: context, ss: ss, before: true);
             }
-            if (setBySession) SetBySession();
+            if (setBySession) SetBySession(context: context);
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             IfDuplicatedStatements(ss, statements);
             if (extendedSqls) statements.OnUpdatingExtendedSqls(SiteId, IssueId, timestamp);
-            UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
+            UpdateStatements(
+                context: context,
+                ss: ss,
+                statements: statements,
+                timestamp: timestamp,
+                param: param,
+                otherInitValue: otherInitValue,
+                additionalStatements: additionalStatements);
             if (permissionChanged)
             {
-                statements.UpdatePermissions(ss, IssueId, permissions);
+                statements.UpdatePermissions(context, ss, IssueId, permissions);
             }
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             if (response.Event == "Duplicated") return Duplicated(ss, response);
             if (response.Count == 0) return Error.Types.UpdateConflicts;
-            if (synchronizeSummary) SynchronizeSummary(ss, forceSynchronizeSourceSummary);
-            if (Contract.Notice() && notice)
+            if (synchronizeSummary) SynchronizeSummary(context, ss, forceSynchronizeSourceSummary);
+            if (Contract.Notice(context: context) && notice)
             {
-                CheckNotificationConditions(ss);
-                Notice(ss, "Updated");
+                CheckNotificationConditions(context: context, ss: ss);
+                Notice(context: context, ss: ss, type: "Updated");
             }
-            if (get) Get(ss);
-            UpdateRelatedRecords(ss, extendedSqls);
+            if (get) Get(context: context, ss: ss);
+            UpdateRelatedRecords(context: context, ss: ss, extendedSqls: extendedSqls);
             if (get && Rds.ExtendedSqls(SiteId, IssueId)?.Any(o => o.OnUpdated) == true)
             {
-                Get(ss);
+                Get(context: context, ss: ss);
             }
             return Error.Types.None;
         }
 
         private List<SqlStatement> UpdateStatements(
+            Context context,
+            SiteSettings ss,
             List<SqlStatement> statements,
             DateTime timestamp,
             SqlParamCollection param,
@@ -4363,35 +4673,114 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateIssues(
                     where: where,
-                    param: param ?? Rds.IssuesParamDefault(this, otherInitValue: otherInitValue),
+                    param: param ?? Rds.IssuesParamDefault(
+                        context: context, issueModel: this, otherInitValue: otherInitValue),
                     countRecord: true)
             });
-            if (AttachmentsA_Updated()) AttachmentsA.Write(statements, IssueId);
-            if (AttachmentsB_Updated()) AttachmentsB.Write(statements, IssueId);
-            if (AttachmentsC_Updated()) AttachmentsC.Write(statements, IssueId);
-            if (AttachmentsD_Updated()) AttachmentsD.Write(statements, IssueId);
-            if (AttachmentsE_Updated()) AttachmentsE.Write(statements, IssueId);
-            if (AttachmentsF_Updated()) AttachmentsF.Write(statements, IssueId);
-            if (AttachmentsG_Updated()) AttachmentsG.Write(statements, IssueId);
-            if (AttachmentsH_Updated()) AttachmentsH.Write(statements, IssueId);
-            if (AttachmentsI_Updated()) AttachmentsI.Write(statements, IssueId);
-            if (AttachmentsJ_Updated()) AttachmentsJ.Write(statements, IssueId);
-            if (AttachmentsK_Updated()) AttachmentsK.Write(statements, IssueId);
-            if (AttachmentsL_Updated()) AttachmentsL.Write(statements, IssueId);
-            if (AttachmentsM_Updated()) AttachmentsM.Write(statements, IssueId);
-            if (AttachmentsN_Updated()) AttachmentsN.Write(statements, IssueId);
-            if (AttachmentsO_Updated()) AttachmentsO.Write(statements, IssueId);
-            if (AttachmentsP_Updated()) AttachmentsP.Write(statements, IssueId);
-            if (AttachmentsQ_Updated()) AttachmentsQ.Write(statements, IssueId);
-            if (AttachmentsR_Updated()) AttachmentsR.Write(statements, IssueId);
-            if (AttachmentsS_Updated()) AttachmentsS.Write(statements, IssueId);
-            if (AttachmentsT_Updated()) AttachmentsT.Write(statements, IssueId);
-            if (AttachmentsU_Updated()) AttachmentsU.Write(statements, IssueId);
-            if (AttachmentsV_Updated()) AttachmentsV.Write(statements, IssueId);
-            if (AttachmentsW_Updated()) AttachmentsW.Write(statements, IssueId);
-            if (AttachmentsX_Updated()) AttachmentsX.Write(statements, IssueId);
-            if (AttachmentsY_Updated()) AttachmentsY.Write(statements, IssueId);
-            if (AttachmentsZ_Updated()) AttachmentsZ.Write(statements, IssueId);
+            if (AttachmentsA_Updated(context: context))
+            {
+                AttachmentsA.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsB_Updated(context: context))
+            {
+                AttachmentsB.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsC_Updated(context: context))
+            {
+                AttachmentsC.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsD_Updated(context: context))
+            {
+                AttachmentsD.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsE_Updated(context: context))
+            {
+                AttachmentsE.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsF_Updated(context: context))
+            {
+                AttachmentsF.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsG_Updated(context: context))
+            {
+                AttachmentsG.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsH_Updated(context: context))
+            {
+                AttachmentsH.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsI_Updated(context: context))
+            {
+                AttachmentsI.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsJ_Updated(context: context))
+            {
+                AttachmentsJ.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsK_Updated(context: context))
+            {
+                AttachmentsK.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsL_Updated(context: context))
+            {
+                AttachmentsL.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsM_Updated(context: context))
+            {
+                AttachmentsM.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsN_Updated(context: context))
+            {
+                AttachmentsN.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsO_Updated(context: context))
+            {
+                AttachmentsO.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsP_Updated(context: context))
+            {
+                AttachmentsP.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsQ_Updated(context: context))
+            {
+                AttachmentsQ.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsR_Updated(context: context))
+            {
+                AttachmentsR.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsS_Updated(context: context))
+            {
+                AttachmentsS.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsT_Updated(context: context))
+            {
+                AttachmentsT.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsU_Updated(context: context))
+            {
+                AttachmentsU.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsV_Updated(context: context))
+            {
+                AttachmentsV.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsW_Updated(context: context))
+            {
+                AttachmentsW.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsX_Updated(context: context))
+            {
+                AttachmentsX.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsY_Updated(context: context))
+            {
+                AttachmentsY.Write(context: context, statements: statements, referenceId: IssueId);
+            }
+            if (AttachmentsZ_Updated(context: context))
+            {
+                AttachmentsZ.Write(context: context, statements: statements, referenceId: IssueId);
+            }
             if (additionalStatements?.Any() == true)
             {
                 statements.AddRange(additionalStatements);
@@ -4584,6 +4973,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public void UpdateRelatedRecords(
+            Context context,
             SiteSettings ss,
             bool extendedSqls,
             RdsUser rdsUser = null,
@@ -4591,7 +4981,7 @@ namespace Implem.Pleasanter.Models
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
-            var fullText = FullText(ss);
+            var fullText = FullText(context, ss: ss);
             var statements = new List<SqlStatement>();
             statements.Add(Rds.UpdateItems(
                 where: Rds.ItemsWhere().ReferenceId(IssueId),
@@ -4608,14 +4998,17 @@ namespace Implem.Pleasanter.Models
             statements.Add(InsertLinks(ss));
             if (extendedSqls) statements.OnUpdatedExtendedSqls(SiteId, IssueId);
             Rds.ExecuteNonQuery(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             if (ss.Sources?.Any() == true)
             {
-                ItemUtilities.UpdateTitles(SiteId, IssueId);
+                ItemUtilities.UpdateTitles(
+                    context: context,
+                    siteId: SiteId,
+                    id: IssueId);
             }
-            Libraries.Search.Indexes.Create(ss, this);
+            Libraries.Search.Indexes.Create(context, ss, this);
         }
 
         private SqlInsert InsertLinks(SiteSettings ss, bool setIdentity = false)
@@ -4788,12 +5181,13 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types UpdateOrCreate(
+            Context context,
             SiteSettings ss,
             RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
-            SetBySession();
+            SetBySession(context: context);
             var statements = new List<SqlStatement>
             {
                 Rds.InsertItems(
@@ -4804,24 +5198,25 @@ namespace Implem.Pleasanter.Models
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertIssues(
                     where: where ?? Rds.IssuesWhereDefault(this),
-                    param: param ?? Rds.IssuesParamDefault(this, setDefault: true))
+                    param: param ?? Rds.IssuesParamDefault(
+                        context: context, issueModel: this, setDefault: true))
             };
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             IssueId = (response.Identity ?? IssueId).ToLong();
-            Get(ss);
-            Libraries.Search.Indexes.Create(ss, this);
+            Get(context: context, ss: ss);
+            Libraries.Search.Indexes.Create(context, ss, this);
             return Error.Types.None;
         }
 
-        public Error.Types Move(SiteSettings ss, SiteSettings targetSs)
+        public Error.Types Move(Context context, SiteSettings ss, SiteSettings targetSs)
         {
             SiteId = targetSs.SiteId;
             var statements = new List<SqlStatement>();
-            var fullText = FullText(targetSs);
+            var fullText = FullText(context, targetSs);
             IfDuplicatedStatements(targetSs, statements);
             statements.AddRange(new List<SqlStatement>
             {
@@ -4835,20 +5230,21 @@ namespace Implem.Pleasanter.Models
                     param: Rds.IssuesParam().SiteId(SiteId))
             });
             var response = Rds.ExecuteScalar_response(
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             if (response.Event == "Duplicated") return Duplicated(targetSs, response);
-            SynchronizeSummary(ss);
-            Get(targetSs);
-            Libraries.Search.Indexes.Create(targetSs, this);
+            SynchronizeSummary(context: context, ss: ss);
+            Get(context: context, ss: targetSs);
+            Libraries.Search.Indexes.Create(context, targetSs, this);
             return Error.Types.None;
         }
 
-        public Error.Types Delete(SiteSettings ss, bool notice = false)
+        public Error.Types Delete(Context context, SiteSettings ss, bool notice = false)
         {
-            if (Contract.Notice() && notice)
+            if (Contract.Notice(context: context) && notice)
             {
-                CheckNotificationConditions(ss, before: true);
+                CheckNotificationConditions(context: context, ss: ss, before: true);
             }
             var statements = new List<SqlStatement>();
             var where = Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId);
@@ -4859,28 +5255,30 @@ namespace Implem.Pleasanter.Models
                     where: Rds.ItemsWhere().ReferenceId(IssueId)),
                 Rds.DeleteBinaries(
                     where: Rds.BinariesWhere()
-                        .TenantId(Sessions.TenantId())
+                        .TenantId(context.TenantId)
                         .ReferenceId(IssueId)),
                 Rds.DeleteIssues(where: where)
             });
             statements.OnDeletedExtendedSqls(SiteId, IssueId);
             var response = Rds.ExecuteScalar_response(
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
-            SynchronizeSummary(ss);
-            if (Contract.Notice() && notice)
+            SynchronizeSummary(context, ss);
+            if (Contract.Notice(context: context) && notice)
             {
-                CheckNotificationConditions(ss);
-                Notice(ss, "Deleted");
+                CheckNotificationConditions(context, ss);
+                Notice(context: context, ss: ss, type: "Deleted");
             }
-            Libraries.Search.Indexes.Create(ss, this);
+            Libraries.Search.Indexes.Create(context, ss, this);
             return Error.Types.None;
         }
 
-        public Error.Types Restore(SiteSettings ss,long issueId)
+        public Error.Types Restore(Context context, SiteSettings ss,long issueId)
         {
             IssueId = issueId;
             Rds.ExecuteNonQuery(
+                context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -4890,19 +5288,20 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreIssues(
                         where: Rds.IssuesWhere().IssueId(IssueId))
                 });
-            Libraries.Search.Indexes.Create(ss, this);
+            Libraries.Search.Indexes.Create(context, ss, this);
             return Error.Types.None;
         }
 
         public Error.Types PhysicalDelete(
-            SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
+                context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteIssues(
                     tableType: tableType,
                     param: Rds.IssuesParam().SiteId(SiteId).IssueId(IssueId)));
-            Libraries.Search.Indexes.Create(ss, this);
+            Libraries.Search.Indexes.Create(context, ss, this);
             return Error.Types.None;
         }
 
@@ -5490,355 +5889,355 @@ namespace Implem.Pleasanter.Models
             return Error.Types.Duplicated;
         }
 
-        public void SetDefault(SiteSettings ss)
+        public void SetDefault(Context context, SiteSettings ss)
         {
             ss.Columns
                 .Where(o => !o.DefaultInput.IsNullOrEmpty())
-                .ForEach(column => SetDefault(ss, column));
+                .ForEach(column => SetDefault(context: context, ss: ss, column: column));
         }
 
-        public void SetDefault(SiteSettings ss, Column column)
+        public void SetDefault(Context context, SiteSettings ss, Column column)
         {
             switch (column.ColumnName)
             {
                 case "IssueId":
-                    IssueId = column.GetDefaultInput().ToLong();
+                    IssueId = column.GetDefaultInput(context: context).ToLong();
                     break;
                 case "Title":
-                    Title.Value = column.GetDefaultInput().ToString();
+                    Title.Value = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "Body":
-                    Body = column.GetDefaultInput().ToString();
+                    Body = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "WorkValue":
-                    WorkValue.Value = column.GetDefaultInput().ToDecimal();
+                    WorkValue.Value = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "ProgressRate":
-                    ProgressRate.Value = column.GetDefaultInput().ToDecimal();
+                    ProgressRate.Value = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "Status":
-                    Status.Value = column.GetDefaultInput().ToInt();
+                    Status.Value = column.GetDefaultInput(context: context).ToInt();
                     break;
                 case "Manager":
-                    Manager.Id = column.GetDefaultInput().ToInt();
+                    Manager.Id = column.GetDefaultInput(context: context).ToInt();
                     break;
                 case "Owner":
-                    Owner.Id = column.GetDefaultInput().ToInt();
+                    Owner.Id = column.GetDefaultInput(context: context).ToInt();
                     break;
                 case "ClassA":
-                    ClassA = column.GetDefaultInput().ToString();
+                    ClassA = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassB":
-                    ClassB = column.GetDefaultInput().ToString();
+                    ClassB = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassC":
-                    ClassC = column.GetDefaultInput().ToString();
+                    ClassC = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassD":
-                    ClassD = column.GetDefaultInput().ToString();
+                    ClassD = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassE":
-                    ClassE = column.GetDefaultInput().ToString();
+                    ClassE = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassF":
-                    ClassF = column.GetDefaultInput().ToString();
+                    ClassF = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassG":
-                    ClassG = column.GetDefaultInput().ToString();
+                    ClassG = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassH":
-                    ClassH = column.GetDefaultInput().ToString();
+                    ClassH = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassI":
-                    ClassI = column.GetDefaultInput().ToString();
+                    ClassI = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassJ":
-                    ClassJ = column.GetDefaultInput().ToString();
+                    ClassJ = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassK":
-                    ClassK = column.GetDefaultInput().ToString();
+                    ClassK = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassL":
-                    ClassL = column.GetDefaultInput().ToString();
+                    ClassL = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassM":
-                    ClassM = column.GetDefaultInput().ToString();
+                    ClassM = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassN":
-                    ClassN = column.GetDefaultInput().ToString();
+                    ClassN = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassO":
-                    ClassO = column.GetDefaultInput().ToString();
+                    ClassO = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassP":
-                    ClassP = column.GetDefaultInput().ToString();
+                    ClassP = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassQ":
-                    ClassQ = column.GetDefaultInput().ToString();
+                    ClassQ = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassR":
-                    ClassR = column.GetDefaultInput().ToString();
+                    ClassR = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassS":
-                    ClassS = column.GetDefaultInput().ToString();
+                    ClassS = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassT":
-                    ClassT = column.GetDefaultInput().ToString();
+                    ClassT = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassU":
-                    ClassU = column.GetDefaultInput().ToString();
+                    ClassU = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassV":
-                    ClassV = column.GetDefaultInput().ToString();
+                    ClassV = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassW":
-                    ClassW = column.GetDefaultInput().ToString();
+                    ClassW = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassX":
-                    ClassX = column.GetDefaultInput().ToString();
+                    ClassX = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassY":
-                    ClassY = column.GetDefaultInput().ToString();
+                    ClassY = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "ClassZ":
-                    ClassZ = column.GetDefaultInput().ToString();
+                    ClassZ = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "NumA":
-                    NumA = column.GetDefaultInput().ToDecimal();
+                    NumA = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumB":
-                    NumB = column.GetDefaultInput().ToDecimal();
+                    NumB = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumC":
-                    NumC = column.GetDefaultInput().ToDecimal();
+                    NumC = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumD":
-                    NumD = column.GetDefaultInput().ToDecimal();
+                    NumD = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumE":
-                    NumE = column.GetDefaultInput().ToDecimal();
+                    NumE = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumF":
-                    NumF = column.GetDefaultInput().ToDecimal();
+                    NumF = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumG":
-                    NumG = column.GetDefaultInput().ToDecimal();
+                    NumG = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumH":
-                    NumH = column.GetDefaultInput().ToDecimal();
+                    NumH = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumI":
-                    NumI = column.GetDefaultInput().ToDecimal();
+                    NumI = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumJ":
-                    NumJ = column.GetDefaultInput().ToDecimal();
+                    NumJ = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumK":
-                    NumK = column.GetDefaultInput().ToDecimal();
+                    NumK = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumL":
-                    NumL = column.GetDefaultInput().ToDecimal();
+                    NumL = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumM":
-                    NumM = column.GetDefaultInput().ToDecimal();
+                    NumM = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumN":
-                    NumN = column.GetDefaultInput().ToDecimal();
+                    NumN = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumO":
-                    NumO = column.GetDefaultInput().ToDecimal();
+                    NumO = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumP":
-                    NumP = column.GetDefaultInput().ToDecimal();
+                    NumP = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumQ":
-                    NumQ = column.GetDefaultInput().ToDecimal();
+                    NumQ = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumR":
-                    NumR = column.GetDefaultInput().ToDecimal();
+                    NumR = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumS":
-                    NumS = column.GetDefaultInput().ToDecimal();
+                    NumS = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumT":
-                    NumT = column.GetDefaultInput().ToDecimal();
+                    NumT = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumU":
-                    NumU = column.GetDefaultInput().ToDecimal();
+                    NumU = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumV":
-                    NumV = column.GetDefaultInput().ToDecimal();
+                    NumV = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumW":
-                    NumW = column.GetDefaultInput().ToDecimal();
+                    NumW = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumX":
-                    NumX = column.GetDefaultInput().ToDecimal();
+                    NumX = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumY":
-                    NumY = column.GetDefaultInput().ToDecimal();
+                    NumY = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "NumZ":
-                    NumZ = column.GetDefaultInput().ToDecimal();
+                    NumZ = column.GetDefaultInput(context: context).ToDecimal();
                     break;
                 case "DescriptionA":
-                    DescriptionA = column.GetDefaultInput().ToString();
+                    DescriptionA = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionB":
-                    DescriptionB = column.GetDefaultInput().ToString();
+                    DescriptionB = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionC":
-                    DescriptionC = column.GetDefaultInput().ToString();
+                    DescriptionC = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionD":
-                    DescriptionD = column.GetDefaultInput().ToString();
+                    DescriptionD = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionE":
-                    DescriptionE = column.GetDefaultInput().ToString();
+                    DescriptionE = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionF":
-                    DescriptionF = column.GetDefaultInput().ToString();
+                    DescriptionF = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionG":
-                    DescriptionG = column.GetDefaultInput().ToString();
+                    DescriptionG = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionH":
-                    DescriptionH = column.GetDefaultInput().ToString();
+                    DescriptionH = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionI":
-                    DescriptionI = column.GetDefaultInput().ToString();
+                    DescriptionI = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionJ":
-                    DescriptionJ = column.GetDefaultInput().ToString();
+                    DescriptionJ = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionK":
-                    DescriptionK = column.GetDefaultInput().ToString();
+                    DescriptionK = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionL":
-                    DescriptionL = column.GetDefaultInput().ToString();
+                    DescriptionL = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionM":
-                    DescriptionM = column.GetDefaultInput().ToString();
+                    DescriptionM = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionN":
-                    DescriptionN = column.GetDefaultInput().ToString();
+                    DescriptionN = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionO":
-                    DescriptionO = column.GetDefaultInput().ToString();
+                    DescriptionO = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionP":
-                    DescriptionP = column.GetDefaultInput().ToString();
+                    DescriptionP = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionQ":
-                    DescriptionQ = column.GetDefaultInput().ToString();
+                    DescriptionQ = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionR":
-                    DescriptionR = column.GetDefaultInput().ToString();
+                    DescriptionR = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionS":
-                    DescriptionS = column.GetDefaultInput().ToString();
+                    DescriptionS = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionT":
-                    DescriptionT = column.GetDefaultInput().ToString();
+                    DescriptionT = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionU":
-                    DescriptionU = column.GetDefaultInput().ToString();
+                    DescriptionU = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionV":
-                    DescriptionV = column.GetDefaultInput().ToString();
+                    DescriptionV = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionW":
-                    DescriptionW = column.GetDefaultInput().ToString();
+                    DescriptionW = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionX":
-                    DescriptionX = column.GetDefaultInput().ToString();
+                    DescriptionX = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionY":
-                    DescriptionY = column.GetDefaultInput().ToString();
+                    DescriptionY = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "DescriptionZ":
-                    DescriptionZ = column.GetDefaultInput().ToString();
+                    DescriptionZ = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "CheckA":
-                    CheckA = column.GetDefaultInput().ToBool();
+                    CheckA = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckB":
-                    CheckB = column.GetDefaultInput().ToBool();
+                    CheckB = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckC":
-                    CheckC = column.GetDefaultInput().ToBool();
+                    CheckC = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckD":
-                    CheckD = column.GetDefaultInput().ToBool();
+                    CheckD = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckE":
-                    CheckE = column.GetDefaultInput().ToBool();
+                    CheckE = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckF":
-                    CheckF = column.GetDefaultInput().ToBool();
+                    CheckF = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckG":
-                    CheckG = column.GetDefaultInput().ToBool();
+                    CheckG = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckH":
-                    CheckH = column.GetDefaultInput().ToBool();
+                    CheckH = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckI":
-                    CheckI = column.GetDefaultInput().ToBool();
+                    CheckI = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckJ":
-                    CheckJ = column.GetDefaultInput().ToBool();
+                    CheckJ = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckK":
-                    CheckK = column.GetDefaultInput().ToBool();
+                    CheckK = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckL":
-                    CheckL = column.GetDefaultInput().ToBool();
+                    CheckL = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckM":
-                    CheckM = column.GetDefaultInput().ToBool();
+                    CheckM = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckN":
-                    CheckN = column.GetDefaultInput().ToBool();
+                    CheckN = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckO":
-                    CheckO = column.GetDefaultInput().ToBool();
+                    CheckO = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckP":
-                    CheckP = column.GetDefaultInput().ToBool();
+                    CheckP = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckQ":
-                    CheckQ = column.GetDefaultInput().ToBool();
+                    CheckQ = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckR":
-                    CheckR = column.GetDefaultInput().ToBool();
+                    CheckR = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckS":
-                    CheckS = column.GetDefaultInput().ToBool();
+                    CheckS = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckT":
-                    CheckT = column.GetDefaultInput().ToBool();
+                    CheckT = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckU":
-                    CheckU = column.GetDefaultInput().ToBool();
+                    CheckU = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckV":
-                    CheckV = column.GetDefaultInput().ToBool();
+                    CheckV = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckW":
-                    CheckW = column.GetDefaultInput().ToBool();
+                    CheckW = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckX":
-                    CheckX = column.GetDefaultInput().ToBool();
+                    CheckX = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckY":
-                    CheckY = column.GetDefaultInput().ToBool();
+                    CheckY = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "CheckZ":
-                    CheckZ = column.GetDefaultInput().ToBool();
+                    CheckZ = column.GetDefaultInput(context: context).ToBool();
                     break;
                 case "Timestamp":
-                    Timestamp = column.GetDefaultInput().ToString();
+                    Timestamp = column.GetDefaultInput(context: context).ToString();
                     break;
                 case "StartTime":
                     StartTime = column.DefaultTime();
@@ -5922,12 +6321,16 @@ namespace Implem.Pleasanter.Models
                     DateZ = column.DefaultTime();
                     break;
                 case "CompletionTime":
-                    CompletionTime = new CompletionTime(ss, column.DefaultTime(), Status);
+                    CompletionTime = new CompletionTime(
+                        context: context,
+                        ss: ss,
+                        value: column.DefaultTime(),
+                        status: Status);
                     break;
             }
         }
 
-        public void SetByForm(SiteSettings ss)
+        public void SetByForm(Context context, SiteSettings ss)
         {
             Forms.Keys().ForEach(controlId =>
             {
@@ -5936,12 +6339,12 @@ namespace Implem.Pleasanter.Models
                     case "Issues_Title": Title = new Title(IssueId, Forms.Data(controlId)); break;
                     case "Issues_Body": Body = Forms.Data(controlId).ToString(); break;
                     case "Issues_StartTime": StartTime = Forms.DateTime(controlId).ToUniversal(); ProgressRate.StartTime = StartTime; break;
-                    case "Issues_CompletionTime": CompletionTime = new CompletionTime(ss, Forms.Data(controlId).ToDateTime(), Status, byForm: true); ProgressRate.CompletionTime = CompletionTime.Value; break;
-                    case "Issues_WorkValue": WorkValue = new WorkValue(ss.GetColumn("WorkValue").Round(Forms.Decimal(controlId)), ProgressRate.Value); break;
-                    case "Issues_ProgressRate": ProgressRate = new ProgressRate(CreatedTime, StartTime, CompletionTime, ss.GetColumn("ProgressRate").Round(Forms.Decimal(controlId))); WorkValue.ProgressRate = ProgressRate.Value; break;
+                    case "Issues_CompletionTime": CompletionTime = new CompletionTime(context: context, ss: ss, value: Forms.Data(controlId).ToDateTime(), status: Status, byForm: true); ProgressRate.CompletionTime = CompletionTime.Value; break;
+                    case "Issues_WorkValue": WorkValue = new WorkValue(ss.GetColumn(context: context, columnName: "WorkValue").Round(Forms.Decimal(controlId)), ProgressRate.Value); break;
+                    case "Issues_ProgressRate": ProgressRate = new ProgressRate(CreatedTime, StartTime, CompletionTime, ss.GetColumn(context: context, columnName: "ProgressRate").Round(Forms.Decimal(controlId))); WorkValue.ProgressRate = ProgressRate.Value; break;
                     case "Issues_Status": Status = new Status(Forms.Int(controlId)); CompletionTime.Status = Status; break;
-                    case "Issues_Manager": Manager = SiteInfo.User(Forms.Int(controlId)); break;
-                    case "Issues_Owner": Owner = SiteInfo.User(Forms.Int(controlId)); break;
+                    case "Issues_Manager": Manager = SiteInfo.User(context: context, userId: Forms.Int(controlId)); break;
+                    case "Issues_Owner": Owner = SiteInfo.User(context: context, userId: Forms.Int(controlId)); break;
                     case "Issues_ClassA": ClassA = Forms.Data(controlId).ToString(); break;
                     case "Issues_ClassB": ClassB = Forms.Data(controlId).ToString(); break;
                     case "Issues_ClassC": ClassC = Forms.Data(controlId).ToString(); break;
@@ -5968,32 +6371,32 @@ namespace Implem.Pleasanter.Models
                     case "Issues_ClassX": ClassX = Forms.Data(controlId).ToString(); break;
                     case "Issues_ClassY": ClassY = Forms.Data(controlId).ToString(); break;
                     case "Issues_ClassZ": ClassZ = Forms.Data(controlId).ToString(); break;
-                    case "Issues_NumA": NumA = ss.GetColumn("NumA").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumB": NumB = ss.GetColumn("NumB").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumC": NumC = ss.GetColumn("NumC").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumD": NumD = ss.GetColumn("NumD").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumE": NumE = ss.GetColumn("NumE").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumF": NumF = ss.GetColumn("NumF").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumG": NumG = ss.GetColumn("NumG").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumH": NumH = ss.GetColumn("NumH").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumI": NumI = ss.GetColumn("NumI").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumJ": NumJ = ss.GetColumn("NumJ").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumK": NumK = ss.GetColumn("NumK").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumL": NumL = ss.GetColumn("NumL").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumM": NumM = ss.GetColumn("NumM").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumN": NumN = ss.GetColumn("NumN").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumO": NumO = ss.GetColumn("NumO").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumP": NumP = ss.GetColumn("NumP").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumQ": NumQ = ss.GetColumn("NumQ").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumR": NumR = ss.GetColumn("NumR").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumS": NumS = ss.GetColumn("NumS").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumT": NumT = ss.GetColumn("NumT").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumU": NumU = ss.GetColumn("NumU").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumV": NumV = ss.GetColumn("NumV").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumW": NumW = ss.GetColumn("NumW").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumX": NumX = ss.GetColumn("NumX").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumY": NumY = ss.GetColumn("NumY").Round(Forms.Decimal(controlId)); break;
-                    case "Issues_NumZ": NumZ = ss.GetColumn("NumZ").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumA": NumA = ss.GetColumn(context: context, columnName: "NumA").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumB": NumB = ss.GetColumn(context: context, columnName: "NumB").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumC": NumC = ss.GetColumn(context: context, columnName: "NumC").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumD": NumD = ss.GetColumn(context: context, columnName: "NumD").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumE": NumE = ss.GetColumn(context: context, columnName: "NumE").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumF": NumF = ss.GetColumn(context: context, columnName: "NumF").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumG": NumG = ss.GetColumn(context: context, columnName: "NumG").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumH": NumH = ss.GetColumn(context: context, columnName: "NumH").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumI": NumI = ss.GetColumn(context: context, columnName: "NumI").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumJ": NumJ = ss.GetColumn(context: context, columnName: "NumJ").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumK": NumK = ss.GetColumn(context: context, columnName: "NumK").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumL": NumL = ss.GetColumn(context: context, columnName: "NumL").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumM": NumM = ss.GetColumn(context: context, columnName: "NumM").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumN": NumN = ss.GetColumn(context: context, columnName: "NumN").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumO": NumO = ss.GetColumn(context: context, columnName: "NumO").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumP": NumP = ss.GetColumn(context: context, columnName: "NumP").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumQ": NumQ = ss.GetColumn(context: context, columnName: "NumQ").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumR": NumR = ss.GetColumn(context: context, columnName: "NumR").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumS": NumS = ss.GetColumn(context: context, columnName: "NumS").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumT": NumT = ss.GetColumn(context: context, columnName: "NumT").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumU": NumU = ss.GetColumn(context: context, columnName: "NumU").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumV": NumV = ss.GetColumn(context: context, columnName: "NumV").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumW": NumW = ss.GetColumn(context: context, columnName: "NumW").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumX": NumX = ss.GetColumn(context: context, columnName: "NumX").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumY": NumY = ss.GetColumn(context: context, columnName: "NumY").Round(Forms.Decimal(controlId)); break;
+                    case "Issues_NumZ": NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(Forms.Decimal(controlId)); break;
                     case "Issues_DateA": DateA = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
                     case "Issues_DateB": DateB = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
                     case "Issues_DateC": DateC = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
@@ -6099,14 +6502,16 @@ namespace Implem.Pleasanter.Models
                     case "Issues_AttachmentsY": AttachmentsY = Forms.Data(controlId).Deserialize<Attachments>(); break;
                     case "Issues_AttachmentsZ": AttachmentsZ = Forms.Data(controlId).Deserialize<Attachments>(); break;
                     case "Issues_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(context: context, ss: ss, body: Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
                         {
                             Comments.Update(
-                                controlId.Substring("Comment".Length).ToInt(),
-                                Forms.Data(controlId));
+                                context: context,
+                                ss: ss,
+                                commentId: controlId.Substring("Comment".Length).ToInt(),
+                                body: Forms.Data(controlId));
                         }
                         break;
                 }
@@ -6114,15 +6519,16 @@ namespace Implem.Pleasanter.Models
             var fromSiteId = Forms.Long("FromSiteId");
             if (fromSiteId > 0)
             {
-                var column = ss.GetColumn(ss.Links
-                    .FirstOrDefault(o => o.SiteId == fromSiteId).ColumnName);
-                if (PropertyValue(column?.ColumnName) == Forms.Data("LinkId"))
+                var column = ss.GetColumn(
+                    context: context,
+                    columnName: ss.Links.FirstOrDefault(o => o.SiteId == fromSiteId).ColumnName);
+                if (PropertyValue(context: context, name: column?.ColumnName) == Forms.Data("LinkId"))
                 {
                     column.Linking = true;
                 }
             }
-            SetByFormula(ss);
-            SetChoiceHash(ss);
+            SetByFormula(context: context, ss: ss);
+            SetChoiceHash(context: context, ss: ss);
             if (Routes.Action() == "deletecomment")
             {
                 DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
@@ -6315,7 +6721,7 @@ namespace Implem.Pleasanter.Models
             Comments = issueModel.Comments;
         }
 
-        public void SetByApi(SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss)
         {
             var data = Forms.String().Deserialize<IssueApiModel>();
             if (data == null)
@@ -6325,12 +6731,12 @@ namespace Implem.Pleasanter.Models
             if (data.Title != null) Title = new Title(data.IssueId.ToLong(), data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.StartTime != null) StartTime = data.StartTime.ToDateTime().ToUniversal(); ProgressRate.StartTime = StartTime;
-            if (data.CompletionTime != null) CompletionTime = new CompletionTime(ss, data.CompletionTime.ToDateTime(), Status, byForm: true); ProgressRate.CompletionTime = CompletionTime.Value;
-            if (data.WorkValue != null) WorkValue = new WorkValue(ss.GetColumn("WorkValue").Round(data.WorkValue.ToDecimal()), ProgressRate.Value);
-            if (data.ProgressRate != null) ProgressRate = new ProgressRate(CreatedTime, StartTime, CompletionTime, ss.GetColumn("ProgressRate").Round(data.ProgressRate.ToDecimal())); WorkValue.ProgressRate = ProgressRate.Value;
+            if (data.CompletionTime != null) CompletionTime = new CompletionTime(context: context, ss: ss, value: data.CompletionTime.ToDateTime(), status: Status, byForm: true); ProgressRate.CompletionTime = CompletionTime.Value;
+            if (data.WorkValue != null) WorkValue = new WorkValue(ss.GetColumn(context: context, columnName: "WorkValue").Round(data.WorkValue.ToDecimal()), ProgressRate.Value);
+            if (data.ProgressRate != null) ProgressRate = new ProgressRate(CreatedTime, StartTime, CompletionTime, ss.GetColumn(context: context, columnName: "ProgressRate").Round(data.ProgressRate.ToDecimal())); WorkValue.ProgressRate = ProgressRate.Value;
             if (data.Status != null) Status = new Status(data.Status.ToInt()); CompletionTime.Status = Status;
-            if (data.Manager != null) Manager = SiteInfo.User(data.Manager.ToInt());
-            if (data.Owner != null) Owner = SiteInfo.User(data.Owner.ToInt());
+            if (data.Manager != null) Manager = SiteInfo.User(context: context, userId: data.Manager.ToInt());
+            if (data.Owner != null) Owner = SiteInfo.User(context: context, userId: data.Owner.ToInt());
             if (data.ClassA != null) ClassA = data.ClassA.ToString().ToString();
             if (data.ClassB != null) ClassB = data.ClassB.ToString().ToString();
             if (data.ClassC != null) ClassC = data.ClassC.ToString().ToString();
@@ -6357,32 +6763,32 @@ namespace Implem.Pleasanter.Models
             if (data.ClassX != null) ClassX = data.ClassX.ToString().ToString();
             if (data.ClassY != null) ClassY = data.ClassY.ToString().ToString();
             if (data.ClassZ != null) ClassZ = data.ClassZ.ToString().ToString();
-            if (data.NumA != null) NumA = ss.GetColumn("NumA").Round(data.NumA.ToDecimal());
-            if (data.NumB != null) NumB = ss.GetColumn("NumB").Round(data.NumB.ToDecimal());
-            if (data.NumC != null) NumC = ss.GetColumn("NumC").Round(data.NumC.ToDecimal());
-            if (data.NumD != null) NumD = ss.GetColumn("NumD").Round(data.NumD.ToDecimal());
-            if (data.NumE != null) NumE = ss.GetColumn("NumE").Round(data.NumE.ToDecimal());
-            if (data.NumF != null) NumF = ss.GetColumn("NumF").Round(data.NumF.ToDecimal());
-            if (data.NumG != null) NumG = ss.GetColumn("NumG").Round(data.NumG.ToDecimal());
-            if (data.NumH != null) NumH = ss.GetColumn("NumH").Round(data.NumH.ToDecimal());
-            if (data.NumI != null) NumI = ss.GetColumn("NumI").Round(data.NumI.ToDecimal());
-            if (data.NumJ != null) NumJ = ss.GetColumn("NumJ").Round(data.NumJ.ToDecimal());
-            if (data.NumK != null) NumK = ss.GetColumn("NumK").Round(data.NumK.ToDecimal());
-            if (data.NumL != null) NumL = ss.GetColumn("NumL").Round(data.NumL.ToDecimal());
-            if (data.NumM != null) NumM = ss.GetColumn("NumM").Round(data.NumM.ToDecimal());
-            if (data.NumN != null) NumN = ss.GetColumn("NumN").Round(data.NumN.ToDecimal());
-            if (data.NumO != null) NumO = ss.GetColumn("NumO").Round(data.NumO.ToDecimal());
-            if (data.NumP != null) NumP = ss.GetColumn("NumP").Round(data.NumP.ToDecimal());
-            if (data.NumQ != null) NumQ = ss.GetColumn("NumQ").Round(data.NumQ.ToDecimal());
-            if (data.NumR != null) NumR = ss.GetColumn("NumR").Round(data.NumR.ToDecimal());
-            if (data.NumS != null) NumS = ss.GetColumn("NumS").Round(data.NumS.ToDecimal());
-            if (data.NumT != null) NumT = ss.GetColumn("NumT").Round(data.NumT.ToDecimal());
-            if (data.NumU != null) NumU = ss.GetColumn("NumU").Round(data.NumU.ToDecimal());
-            if (data.NumV != null) NumV = ss.GetColumn("NumV").Round(data.NumV.ToDecimal());
-            if (data.NumW != null) NumW = ss.GetColumn("NumW").Round(data.NumW.ToDecimal());
-            if (data.NumX != null) NumX = ss.GetColumn("NumX").Round(data.NumX.ToDecimal());
-            if (data.NumY != null) NumY = ss.GetColumn("NumY").Round(data.NumY.ToDecimal());
-            if (data.NumZ != null) NumZ = ss.GetColumn("NumZ").Round(data.NumZ.ToDecimal());
+            if (data.NumA != null) NumA = ss.GetColumn(context: context, columnName: "NumA").Round(data.NumA.ToDecimal());
+            if (data.NumB != null) NumB = ss.GetColumn(context: context, columnName: "NumB").Round(data.NumB.ToDecimal());
+            if (data.NumC != null) NumC = ss.GetColumn(context: context, columnName: "NumC").Round(data.NumC.ToDecimal());
+            if (data.NumD != null) NumD = ss.GetColumn(context: context, columnName: "NumD").Round(data.NumD.ToDecimal());
+            if (data.NumE != null) NumE = ss.GetColumn(context: context, columnName: "NumE").Round(data.NumE.ToDecimal());
+            if (data.NumF != null) NumF = ss.GetColumn(context: context, columnName: "NumF").Round(data.NumF.ToDecimal());
+            if (data.NumG != null) NumG = ss.GetColumn(context: context, columnName: "NumG").Round(data.NumG.ToDecimal());
+            if (data.NumH != null) NumH = ss.GetColumn(context: context, columnName: "NumH").Round(data.NumH.ToDecimal());
+            if (data.NumI != null) NumI = ss.GetColumn(context: context, columnName: "NumI").Round(data.NumI.ToDecimal());
+            if (data.NumJ != null) NumJ = ss.GetColumn(context: context, columnName: "NumJ").Round(data.NumJ.ToDecimal());
+            if (data.NumK != null) NumK = ss.GetColumn(context: context, columnName: "NumK").Round(data.NumK.ToDecimal());
+            if (data.NumL != null) NumL = ss.GetColumn(context: context, columnName: "NumL").Round(data.NumL.ToDecimal());
+            if (data.NumM != null) NumM = ss.GetColumn(context: context, columnName: "NumM").Round(data.NumM.ToDecimal());
+            if (data.NumN != null) NumN = ss.GetColumn(context: context, columnName: "NumN").Round(data.NumN.ToDecimal());
+            if (data.NumO != null) NumO = ss.GetColumn(context: context, columnName: "NumO").Round(data.NumO.ToDecimal());
+            if (data.NumP != null) NumP = ss.GetColumn(context: context, columnName: "NumP").Round(data.NumP.ToDecimal());
+            if (data.NumQ != null) NumQ = ss.GetColumn(context: context, columnName: "NumQ").Round(data.NumQ.ToDecimal());
+            if (data.NumR != null) NumR = ss.GetColumn(context: context, columnName: "NumR").Round(data.NumR.ToDecimal());
+            if (data.NumS != null) NumS = ss.GetColumn(context: context, columnName: "NumS").Round(data.NumS.ToDecimal());
+            if (data.NumT != null) NumT = ss.GetColumn(context: context, columnName: "NumT").Round(data.NumT.ToDecimal());
+            if (data.NumU != null) NumU = ss.GetColumn(context: context, columnName: "NumU").Round(data.NumU.ToDecimal());
+            if (data.NumV != null) NumV = ss.GetColumn(context: context, columnName: "NumV").Round(data.NumV.ToDecimal());
+            if (data.NumW != null) NumW = ss.GetColumn(context: context, columnName: "NumW").Round(data.NumW.ToDecimal());
+            if (data.NumX != null) NumX = ss.GetColumn(context: context, columnName: "NumX").Round(data.NumX.ToDecimal());
+            if (data.NumY != null) NumY = ss.GetColumn(context: context, columnName: "NumY").Round(data.NumY.ToDecimal());
+            if (data.NumZ != null) NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(data.NumZ.ToDecimal());
             if (data.DateA != null) DateA = data.DateA.ToDateTime().ToDateTime().ToUniversal();
             if (data.DateB != null) DateB = data.DateB.ToDateTime().ToDateTime().ToUniversal();
             if (data.DateC != null) DateC = data.DateC.ToDateTime().ToDateTime().ToUniversal();
@@ -6461,14 +6867,14 @@ namespace Implem.Pleasanter.Models
             if (data.CheckX != null) CheckX = data.CheckX.ToBool().ToBool();
             if (data.CheckY != null) CheckY = data.CheckY.ToBool().ToBool();
             if (data.CheckZ != null) CheckZ = data.CheckZ.ToBool().ToBool();
-            if (data.Comments != null) Comments.Prepend(data.Comments);
+            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            SetByFormula(ss);
-            SetChoiceHash(ss);
+            SetByFormula(context: context, ss: ss);
+            SetChoiceHash(context: context, ss: ss);
         }
 
         private void SynchronizeSummary(
-            SiteSettings ss, bool forceSynchronizeSourceSummary = false)
+            Context context, SiteSettings ss, bool forceSynchronizeSourceSummary = false)
         {
             ss.Summaries.ForEach(summary =>
             {
@@ -6476,60 +6882,68 @@ namespace Implem.Pleasanter.Models
                 var savedId = SynchronizeSummaryDestinationId(summary.LinkColumn, saved: true);
                 if (id != 0)
                 {
-                    SynchronizeSummary(ss, summary, id);
+                    SynchronizeSummary(context: context, ss: ss, summary: summary, id: id);
                 }
                 if (savedId != 0 && id != savedId)
                 {
-                    SynchronizeSummary(ss, summary, savedId);
+                    SynchronizeSummary(context: context, ss: ss, summary: summary, id: savedId);
                 }
             });
-            SynchronizeSourceSummary(ss, forceSynchronizeSourceSummary);
+            SynchronizeSourceSummary(
+                context: context,
+                ss: ss,
+                force: forceSynchronizeSourceSummary);
         }
 
-        private void SynchronizeSummary(SiteSettings ss, Summary summary, long id)
+        private void SynchronizeSummary(
+            Context context, SiteSettings ss, Summary summary, long id)
         {
-            var destinationSs = SiteSettingsUtilities.Get(summary.SiteId);
+            var destinationSs = SiteSettingsUtilities.Get(
+                context: context, siteId: summary.SiteId);
             if (destinationSs != null)
             {
                 Summaries.Synchronize(
-                    ss,
-                    destinationSs,
-                    summary.SiteId,
-                    summary.DestinationReferenceType,
-                    summary.DestinationColumn,
-                    destinationSs.Views?.Get(summary.DestinationCondition),
-                    summary.SetZeroWhenOutOfCondition == true,
-                    SiteId,
-                    "Issues",
-                    summary.LinkColumn,
-                    summary.Type,
-                    summary.SourceColumn,
-                    ss.Views?.Get(summary.SourceCondition),
-                    id);
+                    context: context,
+                    ss: ss,
+                    destinationSs: destinationSs,
+                    destinationSiteId: summary.SiteId,
+                    destinationReferenceType: summary.DestinationReferenceType,
+                    destinationColumn: summary.DestinationColumn,
+                    destinationCondition: destinationSs.Views?.Get(summary.DestinationCondition),
+                    setZeroWhenOutOfCondition: summary.SetZeroWhenOutOfCondition == true,
+                    sourceSiteId: SiteId,
+                    sourceReferenceType: "Issues",
+                    linkColumn: summary.LinkColumn,
+                    type: summary.Type,
+                    sourceColumn: summary.SourceColumn,
+                    sourceCondition: ss.Views?.Get(summary.SourceCondition),
+                    id: id);
             }
         }
 
-        private void SynchronizeSourceSummary(SiteSettings ss, bool force = false)
+        private void SynchronizeSourceSummary(
+            Context context, SiteSettings ss, bool force = false)
         {
             ss.Sources.ForEach(sourceSs =>
                 sourceSs.Summaries
                     .Where(o => ss.Views?.Get(o.DestinationCondition) != null || force)
                     .ForEach(summary =>
                         Summaries.Synchronize(
-                            sourceSs,
-                            ss,
-                            summary.SiteId,
-                            summary.DestinationReferenceType,
-                            summary.DestinationColumn,
-                            ss.Views?.Get(summary.DestinationCondition),
-                            summary.SetZeroWhenOutOfCondition == true,
-                            sourceSs.SiteId,
-                            sourceSs.ReferenceType,
-                            summary.LinkColumn,
-                            summary.Type,
-                            summary.SourceColumn,
-                            sourceSs.Views?.Get(summary.SourceCondition),
-                            IssueId)));
+                            context: context,
+                            ss: sourceSs,
+                            destinationSs: ss,
+                            destinationSiteId: summary.SiteId,
+                            destinationReferenceType: summary.DestinationReferenceType,
+                            destinationColumn: summary.DestinationColumn,
+                            destinationCondition: ss.Views?.Get(summary.DestinationCondition),
+                            setZeroWhenOutOfCondition: summary.SetZeroWhenOutOfCondition == true,
+                            sourceSiteId: sourceSs.SiteId,
+                            sourceReferenceType: sourceSs.ReferenceType,
+                            linkColumn: summary.LinkColumn,
+                            type: summary.Type,
+                            sourceColumn: summary.SourceColumn,
+                            sourceCondition: sourceSs.Views?.Get(summary.SourceCondition),
+                            id: IssueId)));
         }
 
         private long SynchronizeSummaryDestinationId(string linkColumn, bool saved = false)
@@ -6566,9 +6980,10 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void UpdateFormulaColumns(SiteSettings ss, IEnumerable<int> selected = null)
+        public void UpdateFormulaColumns(
+            Context context, SiteSettings ss, IEnumerable<int> selected = null)
         {
-            SetByFormula(ss);
+            SetByFormula(context: context, ss: ss);
             var param = Rds.IssuesParam();
             ss.Formulas?
                 .Where(o => selected == null || selected.Contains(o.Id))
@@ -6607,22 +7022,23 @@ namespace Implem.Pleasanter.Models
                         default: break;
                     }
                 });
-            Rds.ExecuteNonQuery(statements:
-                Rds.UpdateIssues(
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateIssues(
                     param: param,
                     where: Rds.IssuesWhereDefault(this),
                     addUpdatedTimeParam: false,
                     addUpdatorParam: false));
         }
 
-        public void SetByFormula(SiteSettings ss)
+        public void SetByFormula(Context context, SiteSettings ss)
         {
             ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
                 var formula = formulaSet.Formula;
                 var view = ss.Views?.Get(formulaSet.Condition);
-                if (view != null && !Matched(ss, view))
+                if (view != null && !Matched(context: context, ss: ss, view: view))
                 {
                     if (formulaSet.OutOfCondition != null)
                     {
@@ -6669,133 +7085,139 @@ namespace Implem.Pleasanter.Models
                 {
                     case "WorkValue":
                         WorkValue.Value = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "ProgressRate":
                         ProgressRate.Value = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumA":
                         NumA = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumB":
                         NumB = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumC":
                         NumC = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumD":
                         NumD = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumE":
                         NumE = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumF":
                         NumF = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumG":
                         NumG = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumH":
                         NumH = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumI":
                         NumI = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumJ":
                         NumJ = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumK":
                         NumK = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumL":
                         NumL = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumM":
                         NumM = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumN":
                         NumN = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumO":
                         NumO = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumP":
                         NumP = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumQ":
                         NumQ = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumR":
                         NumR = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumS":
                         NumS = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumT":
                         NumT = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumU":
                         NumU = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumV":
                         NumV = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumW":
                         NumW = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumX":
                         NumX = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumY":
                         NumY = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     case "NumZ":
                         NumZ = formula?.GetResult(
-                            data, ss.GetColumn(columnName)) ?? 0;
+                            data, ss.GetColumn(context: context, columnName: columnName)) ?? 0;
                         break;
                     default: break;
                 }
             });
         }
 
-        public void SetTitle(SiteSettings ss)
+        public void SetTitle(Context context, SiteSettings ss)
         {
-            Title = new Title(ss, IssueId, PropertyValues(ss.TitleColumns));
+            Title = new Title(
+                context: context,
+                ss: ss,
+                id: IssueId,
+                data: PropertyValues(
+                    context: context,
+                    names: ss.TitleColumns));
         }
 
-        private bool Matched(SiteSettings ss, View view)
+        private bool Matched(Context context, SiteSettings ss, View view)
         {
             if (view.Incomplete == true && !Status.Incomplete())
             {
                 return false;
             }
-            var userId = Sessions.UserId();
+            var userId = context.UserId;
             if (view.Own == true && !(Manager.Id == userId || Owner.Id == userId))
             {
                 return false;
@@ -6817,7 +7239,7 @@ namespace Implem.Pleasanter.Models
                 foreach (var filter in view.ColumnFilterHash)
                 {
                     var match = true;
-                    var column = ss.GetColumn(filter.Key);
+                    var column = ss.GetColumn(context: context, columnName: filter.Key);
                     switch (filter.Key)
                     {
                         case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
@@ -6968,21 +7390,23 @@ namespace Implem.Pleasanter.Models
             return true;
         }
 
-        private void CheckNotificationConditions(SiteSettings ss, bool before = false)
+        private void CheckNotificationConditions(Context context, SiteSettings ss, bool before = false)
         {
             if (ss.Notifications.Any())
             {
                 ss.Notifications?.CheckConditions(
                     views: ss.Views,
                     before: before,
-                    dataSet: Rds.ExecuteDataSet(statements:
-                        ss.Notifications.Select((o, i) =>
+                    dataSet: Rds.ExecuteDataSet(
+                        context: context,
+                        statements: ss.Notifications.Select((o, i) =>
                             Rds.SelectIssues(
                                 column: Rds.IssuesColumn().IssueId(),
                                 where: ss.Views?.Get(before
                                     ? o.BeforeCondition
                                     : o.AfterCondition)?
                                         .Where(
+                                            context: context,
                                             ss: ss,
                                             where: Rds.IssuesWhere().IssueId(IssueId)) ??
                                                 Rds.IssuesWhere().IssueId(IssueId)))
@@ -6990,7 +7414,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void Notice(SiteSettings ss, string type)
+        private void Notice(Context context, SiteSettings ss, string type)
         {
             var url = Locations.ItemEditAbsoluteUri(IssueId);
             ss.Notifications.Where(o => o.Enabled).ForEach(notification =>
@@ -6998,666 +7422,1249 @@ namespace Implem.Pleasanter.Models
                 if (notification.HasRelatedUsers())
                 {
                     var users = new List<long>();
-                    Rds.ExecuteTable(statements: Rds.SelectIssues(
-                        tableType: Sqls.TableTypes.All,
-                        distinct: true,
-                        column: Rds.IssuesColumn()
-                            .Manager()
-                            .Owner()
-                            .Creator()
-                            .Updator(),
-                        where: Rds.IssuesWhere().IssueId(IssueId)))
-                            .AsEnumerable()
-                            .ForEach(dataRow =>
-                            {
-                                users.Add(dataRow.Long("Manager"));
-                                users.Add(dataRow.Long("Owner"));
-                                users.Add(dataRow.Long("Creator"));
-                                users.Add(dataRow.Long("Updator"));
-                            });
-                    notification.ReplaceRelatedUsers(users);
+                    Rds.ExecuteTable(
+                        context: context,
+                        statements: Rds.SelectIssues(
+                            tableType: Sqls.TableTypes.All,
+                            distinct: true,
+                            column: Rds.IssuesColumn()
+                                .Manager()
+                                .Owner()
+                                .Creator()
+                                .Updator(),
+                            where: Rds.IssuesWhere().IssueId(IssueId)))
+                                .AsEnumerable()
+                                .ForEach(dataRow =>
+                                {
+                                    users.Add(dataRow.Long("Manager"));
+                                    users.Add(dataRow.Long("Owner"));
+                                    users.Add(dataRow.Long("Creator"));
+                                    users.Add(dataRow.Long("Updator"));
+                                });
+                    notification.ReplaceRelatedUsers(
+                        context: context,
+                        users: users);
                 }
                 switch (type)
                 {
                     case "Created":
                         notification.Send(
-                            Displays.Created(Title.DisplayValue).ToString(),
-                            url,
-                            NoticeBody(ss, notification));
+                            context: context,
+                            ss: ss,
+                            title: Displays.Created(Title.DisplayValue).ToString(),
+                            url: url,
+                            body: NoticeBody(
+                                context: context, ss: ss, notification: notification));
                         break;
                     case "Updated":
-                        var body = NoticeBody(ss, notification, update: true);
+                        var body = NoticeBody(
+                            context: context, ss: ss, notification: notification, update: true);
                         if (body.Length > 0)
                         {
                             notification.Send(
-                                Displays.Updated(Title.DisplayValue).ToString(),
-                                url,
-                                body);
+                                context: context,
+                                ss: ss,
+                                title: Displays.Updated(Title.DisplayValue).ToString(),
+                                url: url,
+                                body: body);
                         }
                         break;
                     case "Deleted":
                         notification.Send(
-                            Displays.Deleted(Title.DisplayValue).ToString(),
-                            url,
-                            NoticeBody(ss, notification));
+                            context: context,
+                            ss: ss,
+                            title: Displays.Deleted(Title.DisplayValue).ToString(),
+                            url: url,
+                            body: NoticeBody(
+                                context: context, ss: ss, notification: notification));
                         break;
                 }
             });
         }
 
-        private string NoticeBody(SiteSettings ss, Notification notification, bool update = false)
+        private string NoticeBody(
+            Context context, SiteSettings ss, Notification notification, bool update = false)
         {
             var body = new System.Text.StringBuilder();
-            notification.ColumnCollection(ss, update)?.ForEach(column =>
+            notification.ColumnCollection(context, ss, update)?.ForEach(column =>
             {
                 switch (column.Name)
                 {
                     case "Title":
                         body.Append(Title.ToNotice(
-                            SavedTitle, column, Title_Updated(), update));
+                            context: context,
+                            saved: SavedTitle,
+                            column: column,
+                            updated: Title_Updated(context: context),
+                            update: update));
                         break;
                     case "Body":
                         body.Append(Body.ToNotice(
-                            SavedBody, column, Body_Updated(), update));
+                            context: context,
+                            saved: SavedBody,
+                            column: column,
+                            updated: Body_Updated(context: context),
+                            update: update));
                         break;
                     case "StartTime":
                         body.Append(StartTime.ToNotice(
-                            SavedStartTime, column, StartTime_Updated(), update));
+                            context: context,
+                            saved: SavedStartTime,
+                            column: column,
+                            updated: StartTime_Updated(context: context),
+                            update: update));
                         break;
                     case "CompletionTime":
                         body.Append(CompletionTime.ToNotice(
-                            SavedCompletionTime, column, CompletionTime_Updated(), update));
+                            context: context,
+                            saved: SavedCompletionTime,
+                            column: column,
+                            updated: CompletionTime_Updated(context: context),
+                            update: update));
                         break;
                     case "WorkValue":
                         body.Append(WorkValue.ToNotice(
-                            SavedWorkValue, column, WorkValue_Updated(), update));
+                            context: context,
+                            saved: SavedWorkValue,
+                            column: column,
+                            updated: WorkValue_Updated(context: context),
+                            update: update));
                         break;
                     case "ProgressRate":
                         body.Append(ProgressRate.ToNotice(
-                            SavedProgressRate, column, ProgressRate_Updated(), update));
+                            context: context,
+                            saved: SavedProgressRate,
+                            column: column,
+                            updated: ProgressRate_Updated(context: context),
+                            update: update));
                         break;
                     case "Status":
                         body.Append(Status.ToNotice(
-                            SavedStatus, column, Status_Updated(), update));
+                            context: context,
+                            saved: SavedStatus,
+                            column: column,
+                            updated: Status_Updated(context: context),
+                            update: update));
                         break;
                     case "Manager":
                         body.Append(Manager.ToNotice(
-                            SavedManager, column, Manager_Updated(), update));
+                            context: context,
+                            saved: SavedManager,
+                            column: column,
+                            updated: Manager_Updated(context: context),
+                            update: update));
                         break;
                     case "Owner":
                         body.Append(Owner.ToNotice(
-                            SavedOwner, column, Owner_Updated(), update));
+                            context: context,
+                            saved: SavedOwner,
+                            column: column,
+                            updated: Owner_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassA":
                         body.Append(ClassA.ToNotice(
-                            SavedClassA, column, ClassA_Updated(), update));
+                            context: context,
+                            saved: SavedClassA,
+                            column: column,
+                            updated: ClassA_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassB":
                         body.Append(ClassB.ToNotice(
-                            SavedClassB, column, ClassB_Updated(), update));
+                            context: context,
+                            saved: SavedClassB,
+                            column: column,
+                            updated: ClassB_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassC":
                         body.Append(ClassC.ToNotice(
-                            SavedClassC, column, ClassC_Updated(), update));
+                            context: context,
+                            saved: SavedClassC,
+                            column: column,
+                            updated: ClassC_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassD":
                         body.Append(ClassD.ToNotice(
-                            SavedClassD, column, ClassD_Updated(), update));
+                            context: context,
+                            saved: SavedClassD,
+                            column: column,
+                            updated: ClassD_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassE":
                         body.Append(ClassE.ToNotice(
-                            SavedClassE, column, ClassE_Updated(), update));
+                            context: context,
+                            saved: SavedClassE,
+                            column: column,
+                            updated: ClassE_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassF":
                         body.Append(ClassF.ToNotice(
-                            SavedClassF, column, ClassF_Updated(), update));
+                            context: context,
+                            saved: SavedClassF,
+                            column: column,
+                            updated: ClassF_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassG":
                         body.Append(ClassG.ToNotice(
-                            SavedClassG, column, ClassG_Updated(), update));
+                            context: context,
+                            saved: SavedClassG,
+                            column: column,
+                            updated: ClassG_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassH":
                         body.Append(ClassH.ToNotice(
-                            SavedClassH, column, ClassH_Updated(), update));
+                            context: context,
+                            saved: SavedClassH,
+                            column: column,
+                            updated: ClassH_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassI":
                         body.Append(ClassI.ToNotice(
-                            SavedClassI, column, ClassI_Updated(), update));
+                            context: context,
+                            saved: SavedClassI,
+                            column: column,
+                            updated: ClassI_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassJ":
                         body.Append(ClassJ.ToNotice(
-                            SavedClassJ, column, ClassJ_Updated(), update));
+                            context: context,
+                            saved: SavedClassJ,
+                            column: column,
+                            updated: ClassJ_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassK":
                         body.Append(ClassK.ToNotice(
-                            SavedClassK, column, ClassK_Updated(), update));
+                            context: context,
+                            saved: SavedClassK,
+                            column: column,
+                            updated: ClassK_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassL":
                         body.Append(ClassL.ToNotice(
-                            SavedClassL, column, ClassL_Updated(), update));
+                            context: context,
+                            saved: SavedClassL,
+                            column: column,
+                            updated: ClassL_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassM":
                         body.Append(ClassM.ToNotice(
-                            SavedClassM, column, ClassM_Updated(), update));
+                            context: context,
+                            saved: SavedClassM,
+                            column: column,
+                            updated: ClassM_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassN":
                         body.Append(ClassN.ToNotice(
-                            SavedClassN, column, ClassN_Updated(), update));
+                            context: context,
+                            saved: SavedClassN,
+                            column: column,
+                            updated: ClassN_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassO":
                         body.Append(ClassO.ToNotice(
-                            SavedClassO, column, ClassO_Updated(), update));
+                            context: context,
+                            saved: SavedClassO,
+                            column: column,
+                            updated: ClassO_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassP":
                         body.Append(ClassP.ToNotice(
-                            SavedClassP, column, ClassP_Updated(), update));
+                            context: context,
+                            saved: SavedClassP,
+                            column: column,
+                            updated: ClassP_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassQ":
                         body.Append(ClassQ.ToNotice(
-                            SavedClassQ, column, ClassQ_Updated(), update));
+                            context: context,
+                            saved: SavedClassQ,
+                            column: column,
+                            updated: ClassQ_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassR":
                         body.Append(ClassR.ToNotice(
-                            SavedClassR, column, ClassR_Updated(), update));
+                            context: context,
+                            saved: SavedClassR,
+                            column: column,
+                            updated: ClassR_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassS":
                         body.Append(ClassS.ToNotice(
-                            SavedClassS, column, ClassS_Updated(), update));
+                            context: context,
+                            saved: SavedClassS,
+                            column: column,
+                            updated: ClassS_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassT":
                         body.Append(ClassT.ToNotice(
-                            SavedClassT, column, ClassT_Updated(), update));
+                            context: context,
+                            saved: SavedClassT,
+                            column: column,
+                            updated: ClassT_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassU":
                         body.Append(ClassU.ToNotice(
-                            SavedClassU, column, ClassU_Updated(), update));
+                            context: context,
+                            saved: SavedClassU,
+                            column: column,
+                            updated: ClassU_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassV":
                         body.Append(ClassV.ToNotice(
-                            SavedClassV, column, ClassV_Updated(), update));
+                            context: context,
+                            saved: SavedClassV,
+                            column: column,
+                            updated: ClassV_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassW":
                         body.Append(ClassW.ToNotice(
-                            SavedClassW, column, ClassW_Updated(), update));
+                            context: context,
+                            saved: SavedClassW,
+                            column: column,
+                            updated: ClassW_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassX":
                         body.Append(ClassX.ToNotice(
-                            SavedClassX, column, ClassX_Updated(), update));
+                            context: context,
+                            saved: SavedClassX,
+                            column: column,
+                            updated: ClassX_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassY":
                         body.Append(ClassY.ToNotice(
-                            SavedClassY, column, ClassY_Updated(), update));
+                            context: context,
+                            saved: SavedClassY,
+                            column: column,
+                            updated: ClassY_Updated(context: context),
+                            update: update));
                         break;
                     case "ClassZ":
                         body.Append(ClassZ.ToNotice(
-                            SavedClassZ, column, ClassZ_Updated(), update));
+                            context: context,
+                            saved: SavedClassZ,
+                            column: column,
+                            updated: ClassZ_Updated(context: context),
+                            update: update));
                         break;
                     case "NumA":
                         body.Append(NumA.ToNotice(
-                            SavedNumA, column, NumA_Updated(), update));
+                            context: context,
+                            saved: SavedNumA,
+                            column: column,
+                            updated: NumA_Updated(context: context),
+                            update: update));
                         break;
                     case "NumB":
                         body.Append(NumB.ToNotice(
-                            SavedNumB, column, NumB_Updated(), update));
+                            context: context,
+                            saved: SavedNumB,
+                            column: column,
+                            updated: NumB_Updated(context: context),
+                            update: update));
                         break;
                     case "NumC":
                         body.Append(NumC.ToNotice(
-                            SavedNumC, column, NumC_Updated(), update));
+                            context: context,
+                            saved: SavedNumC,
+                            column: column,
+                            updated: NumC_Updated(context: context),
+                            update: update));
                         break;
                     case "NumD":
                         body.Append(NumD.ToNotice(
-                            SavedNumD, column, NumD_Updated(), update));
+                            context: context,
+                            saved: SavedNumD,
+                            column: column,
+                            updated: NumD_Updated(context: context),
+                            update: update));
                         break;
                     case "NumE":
                         body.Append(NumE.ToNotice(
-                            SavedNumE, column, NumE_Updated(), update));
+                            context: context,
+                            saved: SavedNumE,
+                            column: column,
+                            updated: NumE_Updated(context: context),
+                            update: update));
                         break;
                     case "NumF":
                         body.Append(NumF.ToNotice(
-                            SavedNumF, column, NumF_Updated(), update));
+                            context: context,
+                            saved: SavedNumF,
+                            column: column,
+                            updated: NumF_Updated(context: context),
+                            update: update));
                         break;
                     case "NumG":
                         body.Append(NumG.ToNotice(
-                            SavedNumG, column, NumG_Updated(), update));
+                            context: context,
+                            saved: SavedNumG,
+                            column: column,
+                            updated: NumG_Updated(context: context),
+                            update: update));
                         break;
                     case "NumH":
                         body.Append(NumH.ToNotice(
-                            SavedNumH, column, NumH_Updated(), update));
+                            context: context,
+                            saved: SavedNumH,
+                            column: column,
+                            updated: NumH_Updated(context: context),
+                            update: update));
                         break;
                     case "NumI":
                         body.Append(NumI.ToNotice(
-                            SavedNumI, column, NumI_Updated(), update));
+                            context: context,
+                            saved: SavedNumI,
+                            column: column,
+                            updated: NumI_Updated(context: context),
+                            update: update));
                         break;
                     case "NumJ":
                         body.Append(NumJ.ToNotice(
-                            SavedNumJ, column, NumJ_Updated(), update));
+                            context: context,
+                            saved: SavedNumJ,
+                            column: column,
+                            updated: NumJ_Updated(context: context),
+                            update: update));
                         break;
                     case "NumK":
                         body.Append(NumK.ToNotice(
-                            SavedNumK, column, NumK_Updated(), update));
+                            context: context,
+                            saved: SavedNumK,
+                            column: column,
+                            updated: NumK_Updated(context: context),
+                            update: update));
                         break;
                     case "NumL":
                         body.Append(NumL.ToNotice(
-                            SavedNumL, column, NumL_Updated(), update));
+                            context: context,
+                            saved: SavedNumL,
+                            column: column,
+                            updated: NumL_Updated(context: context),
+                            update: update));
                         break;
                     case "NumM":
                         body.Append(NumM.ToNotice(
-                            SavedNumM, column, NumM_Updated(), update));
+                            context: context,
+                            saved: SavedNumM,
+                            column: column,
+                            updated: NumM_Updated(context: context),
+                            update: update));
                         break;
                     case "NumN":
                         body.Append(NumN.ToNotice(
-                            SavedNumN, column, NumN_Updated(), update));
+                            context: context,
+                            saved: SavedNumN,
+                            column: column,
+                            updated: NumN_Updated(context: context),
+                            update: update));
                         break;
                     case "NumO":
                         body.Append(NumO.ToNotice(
-                            SavedNumO, column, NumO_Updated(), update));
+                            context: context,
+                            saved: SavedNumO,
+                            column: column,
+                            updated: NumO_Updated(context: context),
+                            update: update));
                         break;
                     case "NumP":
                         body.Append(NumP.ToNotice(
-                            SavedNumP, column, NumP_Updated(), update));
+                            context: context,
+                            saved: SavedNumP,
+                            column: column,
+                            updated: NumP_Updated(context: context),
+                            update: update));
                         break;
                     case "NumQ":
                         body.Append(NumQ.ToNotice(
-                            SavedNumQ, column, NumQ_Updated(), update));
+                            context: context,
+                            saved: SavedNumQ,
+                            column: column,
+                            updated: NumQ_Updated(context: context),
+                            update: update));
                         break;
                     case "NumR":
                         body.Append(NumR.ToNotice(
-                            SavedNumR, column, NumR_Updated(), update));
+                            context: context,
+                            saved: SavedNumR,
+                            column: column,
+                            updated: NumR_Updated(context: context),
+                            update: update));
                         break;
                     case "NumS":
                         body.Append(NumS.ToNotice(
-                            SavedNumS, column, NumS_Updated(), update));
+                            context: context,
+                            saved: SavedNumS,
+                            column: column,
+                            updated: NumS_Updated(context: context),
+                            update: update));
                         break;
                     case "NumT":
                         body.Append(NumT.ToNotice(
-                            SavedNumT, column, NumT_Updated(), update));
+                            context: context,
+                            saved: SavedNumT,
+                            column: column,
+                            updated: NumT_Updated(context: context),
+                            update: update));
                         break;
                     case "NumU":
                         body.Append(NumU.ToNotice(
-                            SavedNumU, column, NumU_Updated(), update));
+                            context: context,
+                            saved: SavedNumU,
+                            column: column,
+                            updated: NumU_Updated(context: context),
+                            update: update));
                         break;
                     case "NumV":
                         body.Append(NumV.ToNotice(
-                            SavedNumV, column, NumV_Updated(), update));
+                            context: context,
+                            saved: SavedNumV,
+                            column: column,
+                            updated: NumV_Updated(context: context),
+                            update: update));
                         break;
                     case "NumW":
                         body.Append(NumW.ToNotice(
-                            SavedNumW, column, NumW_Updated(), update));
+                            context: context,
+                            saved: SavedNumW,
+                            column: column,
+                            updated: NumW_Updated(context: context),
+                            update: update));
                         break;
                     case "NumX":
                         body.Append(NumX.ToNotice(
-                            SavedNumX, column, NumX_Updated(), update));
+                            context: context,
+                            saved: SavedNumX,
+                            column: column,
+                            updated: NumX_Updated(context: context),
+                            update: update));
                         break;
                     case "NumY":
                         body.Append(NumY.ToNotice(
-                            SavedNumY, column, NumY_Updated(), update));
+                            context: context,
+                            saved: SavedNumY,
+                            column: column,
+                            updated: NumY_Updated(context: context),
+                            update: update));
                         break;
                     case "NumZ":
                         body.Append(NumZ.ToNotice(
-                            SavedNumZ, column, NumZ_Updated(), update));
+                            context: context,
+                            saved: SavedNumZ,
+                            column: column,
+                            updated: NumZ_Updated(context: context),
+                            update: update));
                         break;
                     case "DateA":
                         body.Append(DateA.ToNotice(
-                            SavedDateA, column, DateA_Updated(), update));
+                            context: context,
+                            saved: SavedDateA,
+                            column: column,
+                            updated: DateA_Updated(context: context),
+                            update: update));
                         break;
                     case "DateB":
                         body.Append(DateB.ToNotice(
-                            SavedDateB, column, DateB_Updated(), update));
+                            context: context,
+                            saved: SavedDateB,
+                            column: column,
+                            updated: DateB_Updated(context: context),
+                            update: update));
                         break;
                     case "DateC":
                         body.Append(DateC.ToNotice(
-                            SavedDateC, column, DateC_Updated(), update));
+                            context: context,
+                            saved: SavedDateC,
+                            column: column,
+                            updated: DateC_Updated(context: context),
+                            update: update));
                         break;
                     case "DateD":
                         body.Append(DateD.ToNotice(
-                            SavedDateD, column, DateD_Updated(), update));
+                            context: context,
+                            saved: SavedDateD,
+                            column: column,
+                            updated: DateD_Updated(context: context),
+                            update: update));
                         break;
                     case "DateE":
                         body.Append(DateE.ToNotice(
-                            SavedDateE, column, DateE_Updated(), update));
+                            context: context,
+                            saved: SavedDateE,
+                            column: column,
+                            updated: DateE_Updated(context: context),
+                            update: update));
                         break;
                     case "DateF":
                         body.Append(DateF.ToNotice(
-                            SavedDateF, column, DateF_Updated(), update));
+                            context: context,
+                            saved: SavedDateF,
+                            column: column,
+                            updated: DateF_Updated(context: context),
+                            update: update));
                         break;
                     case "DateG":
                         body.Append(DateG.ToNotice(
-                            SavedDateG, column, DateG_Updated(), update));
+                            context: context,
+                            saved: SavedDateG,
+                            column: column,
+                            updated: DateG_Updated(context: context),
+                            update: update));
                         break;
                     case "DateH":
                         body.Append(DateH.ToNotice(
-                            SavedDateH, column, DateH_Updated(), update));
+                            context: context,
+                            saved: SavedDateH,
+                            column: column,
+                            updated: DateH_Updated(context: context),
+                            update: update));
                         break;
                     case "DateI":
                         body.Append(DateI.ToNotice(
-                            SavedDateI, column, DateI_Updated(), update));
+                            context: context,
+                            saved: SavedDateI,
+                            column: column,
+                            updated: DateI_Updated(context: context),
+                            update: update));
                         break;
                     case "DateJ":
                         body.Append(DateJ.ToNotice(
-                            SavedDateJ, column, DateJ_Updated(), update));
+                            context: context,
+                            saved: SavedDateJ,
+                            column: column,
+                            updated: DateJ_Updated(context: context),
+                            update: update));
                         break;
                     case "DateK":
                         body.Append(DateK.ToNotice(
-                            SavedDateK, column, DateK_Updated(), update));
+                            context: context,
+                            saved: SavedDateK,
+                            column: column,
+                            updated: DateK_Updated(context: context),
+                            update: update));
                         break;
                     case "DateL":
                         body.Append(DateL.ToNotice(
-                            SavedDateL, column, DateL_Updated(), update));
+                            context: context,
+                            saved: SavedDateL,
+                            column: column,
+                            updated: DateL_Updated(context: context),
+                            update: update));
                         break;
                     case "DateM":
                         body.Append(DateM.ToNotice(
-                            SavedDateM, column, DateM_Updated(), update));
+                            context: context,
+                            saved: SavedDateM,
+                            column: column,
+                            updated: DateM_Updated(context: context),
+                            update: update));
                         break;
                     case "DateN":
                         body.Append(DateN.ToNotice(
-                            SavedDateN, column, DateN_Updated(), update));
+                            context: context,
+                            saved: SavedDateN,
+                            column: column,
+                            updated: DateN_Updated(context: context),
+                            update: update));
                         break;
                     case "DateO":
                         body.Append(DateO.ToNotice(
-                            SavedDateO, column, DateO_Updated(), update));
+                            context: context,
+                            saved: SavedDateO,
+                            column: column,
+                            updated: DateO_Updated(context: context),
+                            update: update));
                         break;
                     case "DateP":
                         body.Append(DateP.ToNotice(
-                            SavedDateP, column, DateP_Updated(), update));
+                            context: context,
+                            saved: SavedDateP,
+                            column: column,
+                            updated: DateP_Updated(context: context),
+                            update: update));
                         break;
                     case "DateQ":
                         body.Append(DateQ.ToNotice(
-                            SavedDateQ, column, DateQ_Updated(), update));
+                            context: context,
+                            saved: SavedDateQ,
+                            column: column,
+                            updated: DateQ_Updated(context: context),
+                            update: update));
                         break;
                     case "DateR":
                         body.Append(DateR.ToNotice(
-                            SavedDateR, column, DateR_Updated(), update));
+                            context: context,
+                            saved: SavedDateR,
+                            column: column,
+                            updated: DateR_Updated(context: context),
+                            update: update));
                         break;
                     case "DateS":
                         body.Append(DateS.ToNotice(
-                            SavedDateS, column, DateS_Updated(), update));
+                            context: context,
+                            saved: SavedDateS,
+                            column: column,
+                            updated: DateS_Updated(context: context),
+                            update: update));
                         break;
                     case "DateT":
                         body.Append(DateT.ToNotice(
-                            SavedDateT, column, DateT_Updated(), update));
+                            context: context,
+                            saved: SavedDateT,
+                            column: column,
+                            updated: DateT_Updated(context: context),
+                            update: update));
                         break;
                     case "DateU":
                         body.Append(DateU.ToNotice(
-                            SavedDateU, column, DateU_Updated(), update));
+                            context: context,
+                            saved: SavedDateU,
+                            column: column,
+                            updated: DateU_Updated(context: context),
+                            update: update));
                         break;
                     case "DateV":
                         body.Append(DateV.ToNotice(
-                            SavedDateV, column, DateV_Updated(), update));
+                            context: context,
+                            saved: SavedDateV,
+                            column: column,
+                            updated: DateV_Updated(context: context),
+                            update: update));
                         break;
                     case "DateW":
                         body.Append(DateW.ToNotice(
-                            SavedDateW, column, DateW_Updated(), update));
+                            context: context,
+                            saved: SavedDateW,
+                            column: column,
+                            updated: DateW_Updated(context: context),
+                            update: update));
                         break;
                     case "DateX":
                         body.Append(DateX.ToNotice(
-                            SavedDateX, column, DateX_Updated(), update));
+                            context: context,
+                            saved: SavedDateX,
+                            column: column,
+                            updated: DateX_Updated(context: context),
+                            update: update));
                         break;
                     case "DateY":
                         body.Append(DateY.ToNotice(
-                            SavedDateY, column, DateY_Updated(), update));
+                            context: context,
+                            saved: SavedDateY,
+                            column: column,
+                            updated: DateY_Updated(context: context),
+                            update: update));
                         break;
                     case "DateZ":
                         body.Append(DateZ.ToNotice(
-                            SavedDateZ, column, DateZ_Updated(), update));
+                            context: context,
+                            saved: SavedDateZ,
+                            column: column,
+                            updated: DateZ_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionA":
                         body.Append(DescriptionA.ToNotice(
-                            SavedDescriptionA, column, DescriptionA_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionA,
+                            column: column,
+                            updated: DescriptionA_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionB":
                         body.Append(DescriptionB.ToNotice(
-                            SavedDescriptionB, column, DescriptionB_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionB,
+                            column: column,
+                            updated: DescriptionB_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionC":
                         body.Append(DescriptionC.ToNotice(
-                            SavedDescriptionC, column, DescriptionC_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionC,
+                            column: column,
+                            updated: DescriptionC_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionD":
                         body.Append(DescriptionD.ToNotice(
-                            SavedDescriptionD, column, DescriptionD_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionD,
+                            column: column,
+                            updated: DescriptionD_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionE":
                         body.Append(DescriptionE.ToNotice(
-                            SavedDescriptionE, column, DescriptionE_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionE,
+                            column: column,
+                            updated: DescriptionE_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionF":
                         body.Append(DescriptionF.ToNotice(
-                            SavedDescriptionF, column, DescriptionF_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionF,
+                            column: column,
+                            updated: DescriptionF_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionG":
                         body.Append(DescriptionG.ToNotice(
-                            SavedDescriptionG, column, DescriptionG_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionG,
+                            column: column,
+                            updated: DescriptionG_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionH":
                         body.Append(DescriptionH.ToNotice(
-                            SavedDescriptionH, column, DescriptionH_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionH,
+                            column: column,
+                            updated: DescriptionH_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionI":
                         body.Append(DescriptionI.ToNotice(
-                            SavedDescriptionI, column, DescriptionI_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionI,
+                            column: column,
+                            updated: DescriptionI_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionJ":
                         body.Append(DescriptionJ.ToNotice(
-                            SavedDescriptionJ, column, DescriptionJ_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionJ,
+                            column: column,
+                            updated: DescriptionJ_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionK":
                         body.Append(DescriptionK.ToNotice(
-                            SavedDescriptionK, column, DescriptionK_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionK,
+                            column: column,
+                            updated: DescriptionK_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionL":
                         body.Append(DescriptionL.ToNotice(
-                            SavedDescriptionL, column, DescriptionL_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionL,
+                            column: column,
+                            updated: DescriptionL_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionM":
                         body.Append(DescriptionM.ToNotice(
-                            SavedDescriptionM, column, DescriptionM_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionM,
+                            column: column,
+                            updated: DescriptionM_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionN":
                         body.Append(DescriptionN.ToNotice(
-                            SavedDescriptionN, column, DescriptionN_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionN,
+                            column: column,
+                            updated: DescriptionN_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionO":
                         body.Append(DescriptionO.ToNotice(
-                            SavedDescriptionO, column, DescriptionO_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionO,
+                            column: column,
+                            updated: DescriptionO_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionP":
                         body.Append(DescriptionP.ToNotice(
-                            SavedDescriptionP, column, DescriptionP_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionP,
+                            column: column,
+                            updated: DescriptionP_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionQ":
                         body.Append(DescriptionQ.ToNotice(
-                            SavedDescriptionQ, column, DescriptionQ_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionQ,
+                            column: column,
+                            updated: DescriptionQ_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionR":
                         body.Append(DescriptionR.ToNotice(
-                            SavedDescriptionR, column, DescriptionR_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionR,
+                            column: column,
+                            updated: DescriptionR_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionS":
                         body.Append(DescriptionS.ToNotice(
-                            SavedDescriptionS, column, DescriptionS_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionS,
+                            column: column,
+                            updated: DescriptionS_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionT":
                         body.Append(DescriptionT.ToNotice(
-                            SavedDescriptionT, column, DescriptionT_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionT,
+                            column: column,
+                            updated: DescriptionT_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionU":
                         body.Append(DescriptionU.ToNotice(
-                            SavedDescriptionU, column, DescriptionU_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionU,
+                            column: column,
+                            updated: DescriptionU_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionV":
                         body.Append(DescriptionV.ToNotice(
-                            SavedDescriptionV, column, DescriptionV_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionV,
+                            column: column,
+                            updated: DescriptionV_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionW":
                         body.Append(DescriptionW.ToNotice(
-                            SavedDescriptionW, column, DescriptionW_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionW,
+                            column: column,
+                            updated: DescriptionW_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionX":
                         body.Append(DescriptionX.ToNotice(
-                            SavedDescriptionX, column, DescriptionX_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionX,
+                            column: column,
+                            updated: DescriptionX_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionY":
                         body.Append(DescriptionY.ToNotice(
-                            SavedDescriptionY, column, DescriptionY_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionY,
+                            column: column,
+                            updated: DescriptionY_Updated(context: context),
+                            update: update));
                         break;
                     case "DescriptionZ":
                         body.Append(DescriptionZ.ToNotice(
-                            SavedDescriptionZ, column, DescriptionZ_Updated(), update));
+                            context: context,
+                            saved: SavedDescriptionZ,
+                            column: column,
+                            updated: DescriptionZ_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckA":
                         body.Append(CheckA.ToNotice(
-                            SavedCheckA, column, CheckA_Updated(), update));
+                            context: context,
+                            saved: SavedCheckA,
+                            column: column,
+                            updated: CheckA_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckB":
                         body.Append(CheckB.ToNotice(
-                            SavedCheckB, column, CheckB_Updated(), update));
+                            context: context,
+                            saved: SavedCheckB,
+                            column: column,
+                            updated: CheckB_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckC":
                         body.Append(CheckC.ToNotice(
-                            SavedCheckC, column, CheckC_Updated(), update));
+                            context: context,
+                            saved: SavedCheckC,
+                            column: column,
+                            updated: CheckC_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckD":
                         body.Append(CheckD.ToNotice(
-                            SavedCheckD, column, CheckD_Updated(), update));
+                            context: context,
+                            saved: SavedCheckD,
+                            column: column,
+                            updated: CheckD_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckE":
                         body.Append(CheckE.ToNotice(
-                            SavedCheckE, column, CheckE_Updated(), update));
+                            context: context,
+                            saved: SavedCheckE,
+                            column: column,
+                            updated: CheckE_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckF":
                         body.Append(CheckF.ToNotice(
-                            SavedCheckF, column, CheckF_Updated(), update));
+                            context: context,
+                            saved: SavedCheckF,
+                            column: column,
+                            updated: CheckF_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckG":
                         body.Append(CheckG.ToNotice(
-                            SavedCheckG, column, CheckG_Updated(), update));
+                            context: context,
+                            saved: SavedCheckG,
+                            column: column,
+                            updated: CheckG_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckH":
                         body.Append(CheckH.ToNotice(
-                            SavedCheckH, column, CheckH_Updated(), update));
+                            context: context,
+                            saved: SavedCheckH,
+                            column: column,
+                            updated: CheckH_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckI":
                         body.Append(CheckI.ToNotice(
-                            SavedCheckI, column, CheckI_Updated(), update));
+                            context: context,
+                            saved: SavedCheckI,
+                            column: column,
+                            updated: CheckI_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckJ":
                         body.Append(CheckJ.ToNotice(
-                            SavedCheckJ, column, CheckJ_Updated(), update));
+                            context: context,
+                            saved: SavedCheckJ,
+                            column: column,
+                            updated: CheckJ_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckK":
                         body.Append(CheckK.ToNotice(
-                            SavedCheckK, column, CheckK_Updated(), update));
+                            context: context,
+                            saved: SavedCheckK,
+                            column: column,
+                            updated: CheckK_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckL":
                         body.Append(CheckL.ToNotice(
-                            SavedCheckL, column, CheckL_Updated(), update));
+                            context: context,
+                            saved: SavedCheckL,
+                            column: column,
+                            updated: CheckL_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckM":
                         body.Append(CheckM.ToNotice(
-                            SavedCheckM, column, CheckM_Updated(), update));
+                            context: context,
+                            saved: SavedCheckM,
+                            column: column,
+                            updated: CheckM_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckN":
                         body.Append(CheckN.ToNotice(
-                            SavedCheckN, column, CheckN_Updated(), update));
+                            context: context,
+                            saved: SavedCheckN,
+                            column: column,
+                            updated: CheckN_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckO":
                         body.Append(CheckO.ToNotice(
-                            SavedCheckO, column, CheckO_Updated(), update));
+                            context: context,
+                            saved: SavedCheckO,
+                            column: column,
+                            updated: CheckO_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckP":
                         body.Append(CheckP.ToNotice(
-                            SavedCheckP, column, CheckP_Updated(), update));
+                            context: context,
+                            saved: SavedCheckP,
+                            column: column,
+                            updated: CheckP_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckQ":
                         body.Append(CheckQ.ToNotice(
-                            SavedCheckQ, column, CheckQ_Updated(), update));
+                            context: context,
+                            saved: SavedCheckQ,
+                            column: column,
+                            updated: CheckQ_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckR":
                         body.Append(CheckR.ToNotice(
-                            SavedCheckR, column, CheckR_Updated(), update));
+                            context: context,
+                            saved: SavedCheckR,
+                            column: column,
+                            updated: CheckR_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckS":
                         body.Append(CheckS.ToNotice(
-                            SavedCheckS, column, CheckS_Updated(), update));
+                            context: context,
+                            saved: SavedCheckS,
+                            column: column,
+                            updated: CheckS_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckT":
                         body.Append(CheckT.ToNotice(
-                            SavedCheckT, column, CheckT_Updated(), update));
+                            context: context,
+                            saved: SavedCheckT,
+                            column: column,
+                            updated: CheckT_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckU":
                         body.Append(CheckU.ToNotice(
-                            SavedCheckU, column, CheckU_Updated(), update));
+                            context: context,
+                            saved: SavedCheckU,
+                            column: column,
+                            updated: CheckU_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckV":
                         body.Append(CheckV.ToNotice(
-                            SavedCheckV, column, CheckV_Updated(), update));
+                            context: context,
+                            saved: SavedCheckV,
+                            column: column,
+                            updated: CheckV_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckW":
                         body.Append(CheckW.ToNotice(
-                            SavedCheckW, column, CheckW_Updated(), update));
+                            context: context,
+                            saved: SavedCheckW,
+                            column: column,
+                            updated: CheckW_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckX":
                         body.Append(CheckX.ToNotice(
-                            SavedCheckX, column, CheckX_Updated(), update));
+                            context: context,
+                            saved: SavedCheckX,
+                            column: column,
+                            updated: CheckX_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckY":
                         body.Append(CheckY.ToNotice(
-                            SavedCheckY, column, CheckY_Updated(), update));
+                            context: context,
+                            saved: SavedCheckY,
+                            column: column,
+                            updated: CheckY_Updated(context: context),
+                            update: update));
                         break;
                     case "CheckZ":
                         body.Append(CheckZ.ToNotice(
-                            SavedCheckZ, column, CheckZ_Updated(), update));
+                            context: context,
+                            saved: SavedCheckZ,
+                            column: column,
+                            updated: CheckZ_Updated(context: context),
+                            update: update));
                         break;
                     case "Comments":
                         body.Append(Comments.ToNotice(
-                            SavedComments, column, Comments_Updated(), update));
+                            context: context,
+                            saved: SavedComments,
+                            column: column,
+                            updated: Comments_Updated(context: context),
+                            update: update));
                         break;
                     case "Creator":
                         body.Append(Creator.ToNotice(
-                            SavedCreator, column, Creator_Updated(), update));
+                            context: context,
+                            saved: SavedCreator,
+                            column: column,
+                            updated: Creator_Updated(context: context),
+                            update: update));
                         break;
                     case "Updator":
                         body.Append(Updator.ToNotice(
-                            SavedUpdator, column, Updator_Updated(), update));
+                            context: context,
+                            saved: SavedUpdator,
+                            column: column,
+                            updated: Updator_Updated(context: context),
+                            update: update));
                         break;
                 }
             });
             return body.ToString();
         }
 
-        private void SetBySession()
+        private void SetBySession(Context context)
         {
         }
 
-        private void Set(SiteSettings ss, DataTable dataTable)
+        private void Set(Context context, SiteSettings ss, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(ss, dataTable.Rows[0]); break;
+                case 1: Set(context, ss, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
-            SetChoiceHash(ss);
+            SetChoiceHash(context: context, ss: ss);
         }
 
-        private void SetChoiceHash(SiteSettings ss)
+        private void SetChoiceHash(Context context, SiteSettings ss)
         {
-            ss.GetUseSearchLinks().ForEach(link =>
+            ss.GetUseSearchLinks(context: context).ForEach(link =>
             {
-                var value = PropertyValue(link.ColumnName);
+                var value = PropertyValue(context: context, name: link.ColumnName);
                 if (!value.IsNullOrEmpty() &&
-                    ss.GetColumn(link.ColumnName)?
+                    ss.GetColumn(context: context, columnName: link.ColumnName)?
                         .ChoiceHash.Any(o => o.Value.Value == value) != true)
                 {
                     ss.SetChoiceHash(
+                        context: context,
                         columnName: link.ColumnName,
                         selectedValues: value.ToSingleList());
                 }
             });
-            SetTitle(ss);
+            SetTitle(context: context, ss: ss);
         }
 
-        private void Set(SiteSettings ss, DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -7693,7 +8700,7 @@ namespace Implem.Pleasanter.Models
                             SavedVer = Ver;
                             break;
                         case "Title":
-                            Title = new Title(ss, dataRow, column);
+                            Title = new Title(context: context, ss: ss, dataRow: dataRow, column: column);
                             SavedTitle = Title.Value;
                             break;
                         case "Body":
@@ -7705,7 +8712,7 @@ namespace Implem.Pleasanter.Models
                             SavedStartTime = StartTime;
                             break;
                         case "CompletionTime":
-                            CompletionTime = new CompletionTime(ss, dataRow, column);
+                            CompletionTime = new CompletionTime(context: context, ss: ss, dataRow: dataRow, column: column);
                             SavedCompletionTime = CompletionTime.Value;
                             break;
                         case "WorkValue":
@@ -7725,11 +8732,11 @@ namespace Implem.Pleasanter.Models
                             SavedStatus = Status.Value;
                             break;
                         case "Manager":
-                            Manager = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Manager = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedManager = Manager.Id;
                             break;
                         case "Owner":
-                            Owner = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Owner = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedOwner = Owner.Id;
                             break;
                         case "ClassA":
@@ -8361,11 +9368,11 @@ namespace Implem.Pleasanter.Models
                             SavedComments = Comments.ToJson();
                             break;
                         case "Creator":
-                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedCreator = Creator.Id;
                             break;
                         case "Updator":
-                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
@@ -8378,185 +9385,185 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool Updated()
+        public bool Updated(Context context)
         {
             return
-                SiteId_Updated() ||
-                Ver_Updated() ||
-                Title_Updated() ||
-                Body_Updated() ||
-                StartTime_Updated() ||
-                CompletionTime_Updated() ||
-                WorkValue_Updated() ||
-                ProgressRate_Updated() ||
-                Status_Updated() ||
-                Manager_Updated() ||
-                Owner_Updated() ||
-                ClassA_Updated() ||
-                ClassB_Updated() ||
-                ClassC_Updated() ||
-                ClassD_Updated() ||
-                ClassE_Updated() ||
-                ClassF_Updated() ||
-                ClassG_Updated() ||
-                ClassH_Updated() ||
-                ClassI_Updated() ||
-                ClassJ_Updated() ||
-                ClassK_Updated() ||
-                ClassL_Updated() ||
-                ClassM_Updated() ||
-                ClassN_Updated() ||
-                ClassO_Updated() ||
-                ClassP_Updated() ||
-                ClassQ_Updated() ||
-                ClassR_Updated() ||
-                ClassS_Updated() ||
-                ClassT_Updated() ||
-                ClassU_Updated() ||
-                ClassV_Updated() ||
-                ClassW_Updated() ||
-                ClassX_Updated() ||
-                ClassY_Updated() ||
-                ClassZ_Updated() ||
-                NumA_Updated() ||
-                NumB_Updated() ||
-                NumC_Updated() ||
-                NumD_Updated() ||
-                NumE_Updated() ||
-                NumF_Updated() ||
-                NumG_Updated() ||
-                NumH_Updated() ||
-                NumI_Updated() ||
-                NumJ_Updated() ||
-                NumK_Updated() ||
-                NumL_Updated() ||
-                NumM_Updated() ||
-                NumN_Updated() ||
-                NumO_Updated() ||
-                NumP_Updated() ||
-                NumQ_Updated() ||
-                NumR_Updated() ||
-                NumS_Updated() ||
-                NumT_Updated() ||
-                NumU_Updated() ||
-                NumV_Updated() ||
-                NumW_Updated() ||
-                NumX_Updated() ||
-                NumY_Updated() ||
-                NumZ_Updated() ||
-                DateA_Updated() ||
-                DateB_Updated() ||
-                DateC_Updated() ||
-                DateD_Updated() ||
-                DateE_Updated() ||
-                DateF_Updated() ||
-                DateG_Updated() ||
-                DateH_Updated() ||
-                DateI_Updated() ||
-                DateJ_Updated() ||
-                DateK_Updated() ||
-                DateL_Updated() ||
-                DateM_Updated() ||
-                DateN_Updated() ||
-                DateO_Updated() ||
-                DateP_Updated() ||
-                DateQ_Updated() ||
-                DateR_Updated() ||
-                DateS_Updated() ||
-                DateT_Updated() ||
-                DateU_Updated() ||
-                DateV_Updated() ||
-                DateW_Updated() ||
-                DateX_Updated() ||
-                DateY_Updated() ||
-                DateZ_Updated() ||
-                DescriptionA_Updated() ||
-                DescriptionB_Updated() ||
-                DescriptionC_Updated() ||
-                DescriptionD_Updated() ||
-                DescriptionE_Updated() ||
-                DescriptionF_Updated() ||
-                DescriptionG_Updated() ||
-                DescriptionH_Updated() ||
-                DescriptionI_Updated() ||
-                DescriptionJ_Updated() ||
-                DescriptionK_Updated() ||
-                DescriptionL_Updated() ||
-                DescriptionM_Updated() ||
-                DescriptionN_Updated() ||
-                DescriptionO_Updated() ||
-                DescriptionP_Updated() ||
-                DescriptionQ_Updated() ||
-                DescriptionR_Updated() ||
-                DescriptionS_Updated() ||
-                DescriptionT_Updated() ||
-                DescriptionU_Updated() ||
-                DescriptionV_Updated() ||
-                DescriptionW_Updated() ||
-                DescriptionX_Updated() ||
-                DescriptionY_Updated() ||
-                DescriptionZ_Updated() ||
-                CheckA_Updated() ||
-                CheckB_Updated() ||
-                CheckC_Updated() ||
-                CheckD_Updated() ||
-                CheckE_Updated() ||
-                CheckF_Updated() ||
-                CheckG_Updated() ||
-                CheckH_Updated() ||
-                CheckI_Updated() ||
-                CheckJ_Updated() ||
-                CheckK_Updated() ||
-                CheckL_Updated() ||
-                CheckM_Updated() ||
-                CheckN_Updated() ||
-                CheckO_Updated() ||
-                CheckP_Updated() ||
-                CheckQ_Updated() ||
-                CheckR_Updated() ||
-                CheckS_Updated() ||
-                CheckT_Updated() ||
-                CheckU_Updated() ||
-                CheckV_Updated() ||
-                CheckW_Updated() ||
-                CheckX_Updated() ||
-                CheckY_Updated() ||
-                CheckZ_Updated() ||
-                AttachmentsA_Updated() ||
-                AttachmentsB_Updated() ||
-                AttachmentsC_Updated() ||
-                AttachmentsD_Updated() ||
-                AttachmentsE_Updated() ||
-                AttachmentsF_Updated() ||
-                AttachmentsG_Updated() ||
-                AttachmentsH_Updated() ||
-                AttachmentsI_Updated() ||
-                AttachmentsJ_Updated() ||
-                AttachmentsK_Updated() ||
-                AttachmentsL_Updated() ||
-                AttachmentsM_Updated() ||
-                AttachmentsN_Updated() ||
-                AttachmentsO_Updated() ||
-                AttachmentsP_Updated() ||
-                AttachmentsQ_Updated() ||
-                AttachmentsR_Updated() ||
-                AttachmentsS_Updated() ||
-                AttachmentsT_Updated() ||
-                AttachmentsU_Updated() ||
-                AttachmentsV_Updated() ||
-                AttachmentsW_Updated() ||
-                AttachmentsX_Updated() ||
-                AttachmentsY_Updated() ||
-                AttachmentsZ_Updated() ||
-                Comments_Updated() ||
-                Creator_Updated() ||
-                Updator_Updated();
+                SiteId_Updated(context: context) ||
+                Ver_Updated(context: context) ||
+                Title_Updated(context: context) ||
+                Body_Updated(context: context) ||
+                StartTime_Updated(context: context) ||
+                CompletionTime_Updated(context: context) ||
+                WorkValue_Updated(context: context) ||
+                ProgressRate_Updated(context: context) ||
+                Status_Updated(context: context) ||
+                Manager_Updated(context: context) ||
+                Owner_Updated(context: context) ||
+                ClassA_Updated(context: context) ||
+                ClassB_Updated(context: context) ||
+                ClassC_Updated(context: context) ||
+                ClassD_Updated(context: context) ||
+                ClassE_Updated(context: context) ||
+                ClassF_Updated(context: context) ||
+                ClassG_Updated(context: context) ||
+                ClassH_Updated(context: context) ||
+                ClassI_Updated(context: context) ||
+                ClassJ_Updated(context: context) ||
+                ClassK_Updated(context: context) ||
+                ClassL_Updated(context: context) ||
+                ClassM_Updated(context: context) ||
+                ClassN_Updated(context: context) ||
+                ClassO_Updated(context: context) ||
+                ClassP_Updated(context: context) ||
+                ClassQ_Updated(context: context) ||
+                ClassR_Updated(context: context) ||
+                ClassS_Updated(context: context) ||
+                ClassT_Updated(context: context) ||
+                ClassU_Updated(context: context) ||
+                ClassV_Updated(context: context) ||
+                ClassW_Updated(context: context) ||
+                ClassX_Updated(context: context) ||
+                ClassY_Updated(context: context) ||
+                ClassZ_Updated(context: context) ||
+                NumA_Updated(context: context) ||
+                NumB_Updated(context: context) ||
+                NumC_Updated(context: context) ||
+                NumD_Updated(context: context) ||
+                NumE_Updated(context: context) ||
+                NumF_Updated(context: context) ||
+                NumG_Updated(context: context) ||
+                NumH_Updated(context: context) ||
+                NumI_Updated(context: context) ||
+                NumJ_Updated(context: context) ||
+                NumK_Updated(context: context) ||
+                NumL_Updated(context: context) ||
+                NumM_Updated(context: context) ||
+                NumN_Updated(context: context) ||
+                NumO_Updated(context: context) ||
+                NumP_Updated(context: context) ||
+                NumQ_Updated(context: context) ||
+                NumR_Updated(context: context) ||
+                NumS_Updated(context: context) ||
+                NumT_Updated(context: context) ||
+                NumU_Updated(context: context) ||
+                NumV_Updated(context: context) ||
+                NumW_Updated(context: context) ||
+                NumX_Updated(context: context) ||
+                NumY_Updated(context: context) ||
+                NumZ_Updated(context: context) ||
+                DateA_Updated(context: context) ||
+                DateB_Updated(context: context) ||
+                DateC_Updated(context: context) ||
+                DateD_Updated(context: context) ||
+                DateE_Updated(context: context) ||
+                DateF_Updated(context: context) ||
+                DateG_Updated(context: context) ||
+                DateH_Updated(context: context) ||
+                DateI_Updated(context: context) ||
+                DateJ_Updated(context: context) ||
+                DateK_Updated(context: context) ||
+                DateL_Updated(context: context) ||
+                DateM_Updated(context: context) ||
+                DateN_Updated(context: context) ||
+                DateO_Updated(context: context) ||
+                DateP_Updated(context: context) ||
+                DateQ_Updated(context: context) ||
+                DateR_Updated(context: context) ||
+                DateS_Updated(context: context) ||
+                DateT_Updated(context: context) ||
+                DateU_Updated(context: context) ||
+                DateV_Updated(context: context) ||
+                DateW_Updated(context: context) ||
+                DateX_Updated(context: context) ||
+                DateY_Updated(context: context) ||
+                DateZ_Updated(context: context) ||
+                DescriptionA_Updated(context: context) ||
+                DescriptionB_Updated(context: context) ||
+                DescriptionC_Updated(context: context) ||
+                DescriptionD_Updated(context: context) ||
+                DescriptionE_Updated(context: context) ||
+                DescriptionF_Updated(context: context) ||
+                DescriptionG_Updated(context: context) ||
+                DescriptionH_Updated(context: context) ||
+                DescriptionI_Updated(context: context) ||
+                DescriptionJ_Updated(context: context) ||
+                DescriptionK_Updated(context: context) ||
+                DescriptionL_Updated(context: context) ||
+                DescriptionM_Updated(context: context) ||
+                DescriptionN_Updated(context: context) ||
+                DescriptionO_Updated(context: context) ||
+                DescriptionP_Updated(context: context) ||
+                DescriptionQ_Updated(context: context) ||
+                DescriptionR_Updated(context: context) ||
+                DescriptionS_Updated(context: context) ||
+                DescriptionT_Updated(context: context) ||
+                DescriptionU_Updated(context: context) ||
+                DescriptionV_Updated(context: context) ||
+                DescriptionW_Updated(context: context) ||
+                DescriptionX_Updated(context: context) ||
+                DescriptionY_Updated(context: context) ||
+                DescriptionZ_Updated(context: context) ||
+                CheckA_Updated(context: context) ||
+                CheckB_Updated(context: context) ||
+                CheckC_Updated(context: context) ||
+                CheckD_Updated(context: context) ||
+                CheckE_Updated(context: context) ||
+                CheckF_Updated(context: context) ||
+                CheckG_Updated(context: context) ||
+                CheckH_Updated(context: context) ||
+                CheckI_Updated(context: context) ||
+                CheckJ_Updated(context: context) ||
+                CheckK_Updated(context: context) ||
+                CheckL_Updated(context: context) ||
+                CheckM_Updated(context: context) ||
+                CheckN_Updated(context: context) ||
+                CheckO_Updated(context: context) ||
+                CheckP_Updated(context: context) ||
+                CheckQ_Updated(context: context) ||
+                CheckR_Updated(context: context) ||
+                CheckS_Updated(context: context) ||
+                CheckT_Updated(context: context) ||
+                CheckU_Updated(context: context) ||
+                CheckV_Updated(context: context) ||
+                CheckW_Updated(context: context) ||
+                CheckX_Updated(context: context) ||
+                CheckY_Updated(context: context) ||
+                CheckZ_Updated(context: context) ||
+                AttachmentsA_Updated(context: context) ||
+                AttachmentsB_Updated(context: context) ||
+                AttachmentsC_Updated(context: context) ||
+                AttachmentsD_Updated(context: context) ||
+                AttachmentsE_Updated(context: context) ||
+                AttachmentsF_Updated(context: context) ||
+                AttachmentsG_Updated(context: context) ||
+                AttachmentsH_Updated(context: context) ||
+                AttachmentsI_Updated(context: context) ||
+                AttachmentsJ_Updated(context: context) ||
+                AttachmentsK_Updated(context: context) ||
+                AttachmentsL_Updated(context: context) ||
+                AttachmentsM_Updated(context: context) ||
+                AttachmentsN_Updated(context: context) ||
+                AttachmentsO_Updated(context: context) ||
+                AttachmentsP_Updated(context: context) ||
+                AttachmentsQ_Updated(context: context) ||
+                AttachmentsR_Updated(context: context) ||
+                AttachmentsS_Updated(context: context) ||
+                AttachmentsT_Updated(context: context) ||
+                AttachmentsU_Updated(context: context) ||
+                AttachmentsV_Updated(context: context) ||
+                AttachmentsW_Updated(context: context) ||
+                AttachmentsX_Updated(context: context) ||
+                AttachmentsY_Updated(context: context) ||
+                AttachmentsZ_Updated(context: context) ||
+                Comments_Updated(context: context) ||
+                Creator_Updated(context: context) ||
+                Updator_Updated(context: context);
         }
 
-        public List<string> Mine()
+        public List<string> Mine(Context context)
         {
             var mine = new List<string>();
-            var userId = Sessions.UserId();
+            var userId = context.UserId;
             if (SavedManager == userId) mine.Add("Manager");
             if (SavedOwner == userId) mine.Add("Owner");
             if (SavedCreator == userId) mine.Add("Creator");

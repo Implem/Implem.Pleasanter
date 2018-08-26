@@ -12,9 +12,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnEditing(SiteSettings ss)
+        public static Error.Types OnEditing(Context context, SiteSettings ss)
         {
-            if (!ss.CanSendMail())
+            if (!context.CanSendMail(ss: ss))
             {
                 return Error.Types.HasNotPermission;
             }
@@ -25,10 +25,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static Error.Types OnSending(
-            SiteSettings ss, OutgoingMailModel outgoingMailModel, out string data)
+            Context context, SiteSettings ss, OutgoingMailModel outgoingMailModel, out string data)
         {
             data = null;
-            if (!ss.CanSendMail())
+            if (!context.CanSendMail(ss: ss))
             {
                 return Error.Types.HasNotPermission;
             }

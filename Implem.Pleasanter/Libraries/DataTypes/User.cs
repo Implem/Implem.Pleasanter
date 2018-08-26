@@ -9,6 +9,7 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
+using Implem.Pleasanter.Libraries.Requests;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -33,12 +34,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public User(int userId)
+        public User(Context context, int userId)
         {
             if (userId != 0 && userId != 2)
             {
-                var dataTable = Rds.ExecuteTable(statements:
-                    Rds.SelectUsers(
+                var dataTable = Rds.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectUsers(
                         column: Rds.UsersColumn()
                             .TenantId()
                             .UserId()
@@ -92,49 +94,60 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             ServiceManager = false;
         }
 
-        public string ToControl(SiteSettings ss, Column column)
+        public string ToControl(Context context, SiteSettings ss, Column column)
         {
             return Id.ToString();
         }
 
-        public string ToResponse()
+        public string ToResponse(Context context)
         {
             return Id.ToString();
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             return Id != UserTypes.Anonymous.ToInt()
                 ? hb.Td(action: () => hb
-                    .HtmlUser(Id))
+                    .HtmlUser(
+                        context: context,
+                        id: Id))
                 : hb.Td(action: () => { });
         }
 
-        public string GridText(Column column)
+        public string GridText(Context context, Column column)
         {
             return Id != UserTypes.Anonymous.ToInt()
-                ? SiteInfo.UserName(Id)
+                ? SiteInfo.UserName(
+                    context: context,
+                    userId: Id)
                 : string.Empty;
         }
 
-        public string ToExport(Column column, ExportColumn exportColumn = null)
+        public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return !Anonymous()
-                ? column.ChoicePart(Id.ToString(), exportColumn?.Type ?? ExportColumn.Types.Text)
+                ? column.ChoicePart(
+                    context: context,
+                    selectedValue: Id.ToString(),
+                    type: exportColumn?.Type ?? ExportColumn.Types.Text)
                 : string.Empty;
         }
 
         public string ToNotice(
+            Context context,
             int saved,
             Column column,
             bool updated,
             bool update)
         {
             return Name.ToNoticeLine(
-                SiteInfo.User(saved).Name,
-                column,
-                updated,
-                update);
+                context: context,
+                saved: SiteInfo.User(
+                    context: context,
+                    userId: saved).Name,
+                column: column,
+                updated: updated,
+                update: update);
         }
 
         public bool Anonymous()
@@ -142,7 +155,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Id == UserTypes.Anonymous.ToInt();
         }
 
-        public bool InitialValue()
+        public bool InitialValue(Context context)
         {
             return Id == 0;
         }

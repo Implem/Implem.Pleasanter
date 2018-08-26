@@ -9,32 +9,33 @@ namespace Implem.Pleasanter.Models
 {
     public static class WikiValidators
     {
-        public static Error.Types OnEntry(SiteSettings ss)
+        public static Error.Types OnEntry(Context context, SiteSettings ss)
         {
-            return ss.HasPermission()
+            return context.HasPermission(ss: ss)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnReading(SiteSettings ss)
+        public static Error.Types OnReading(Context context, SiteSettings ss)
         {
-            return ss.CanRead()
+            return context.CanRead(ss: ss)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnEditing(SiteSettings ss, WikiModel wikiModel)
+        public static Error.Types OnEditing(
+            Context context, SiteSettings ss, WikiModel wikiModel)
         {
             switch (wikiModel.MethodType)
             {
                 case BaseModel.MethodTypes.Edit:
                     return
-                        ss.CanRead()&&
+                        context.CanRead(ss: ss)&&
                         wikiModel.AccessStatus != Databases.AccessStatuses.NotFound
                             ? Error.Types.None
                             : Error.Types.NotFound;        
                 case BaseModel.MethodTypes.New:
-                    return ss.CanCreate()
+                    return context.CanCreate(ss: ss)
                         ? Error.Types.None
                         : Error.Types.HasNotPermission;
                 default:
@@ -42,13 +43,14 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static Error.Types OnCreating(SiteSettings ss, WikiModel wikiModel)
+        public static Error.Types OnCreating(
+            Context context, SiteSettings ss, WikiModel wikiModel)
         {
-            if (!ss.CanCreate())
+            if (!context.CanCreate(ss: ss))
             {
                 return Error.Types.HasNotPermission;
             }
-            ss.SetColumnAccessControls(wikiModel.Mine());
+            ss.SetColumnAccessControls(context: context, mine: wikiModel.Mine(context: context));
             foreach (var column in ss.Columns
                 .Where(o => !o.CanCreate)
                 .Where(o => !ss.FormulaTarget(o.ColumnName))
@@ -57,32 +59,36 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "Title":
-                        if (wikiModel.Title_Updated(column))
+                        if (wikiModel.Title_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Body":
-                        if (wikiModel.Body_Updated(column))
+                        if (wikiModel.Body_Updated(context: context, column: column))
                         {
                             return Error.Types.HasNotPermission;
                         }
                         break;
                     case "Comments":
-                        if (!ss.GetColumn("Comments").CanUpdate) return Error.Types.HasNotPermission;
+                        if (!ss.GetColumn(context: context, columnName: "Comments").CanUpdate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                 }
             }
             return Error.Types.None;
         }
 
-        public static Error.Types OnUpdating(SiteSettings ss, WikiModel wikiModel)
+        public static Error.Types OnUpdating(
+            Context context, SiteSettings ss, WikiModel wikiModel)
         {
-            if (!ss.CanUpdate())
+            if (!context.CanUpdate(ss: ss))
             {
                 return Error.Types.HasNotPermission;
             }
-            ss.SetColumnAccessControls(wikiModel.Mine());
+            ss.SetColumnAccessControls(context: context, mine: wikiModel.Mine(context: context));
             foreach (var column in ss.Columns
                 .Where(o => !o.CanUpdate)
                 .Where(o => !ss.FormulaTarget(o.ColumnName)))
@@ -90,36 +96,46 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "Title":
-                        if (wikiModel.Title_Updated()) return Error.Types.HasNotPermission;
+                        if (wikiModel.Title_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "Body":
-                        if (wikiModel.Body_Updated()) return Error.Types.HasNotPermission;
+                        if (wikiModel.Body_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                     case "Comments":
-                        if (!ss.GetColumn("Comments").CanUpdate) return Error.Types.HasNotPermission;
+                        if (!ss.GetColumn(context: context, columnName: "Comments").CanUpdate)
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
                         break;
                 }
             }
             return Error.Types.None;
         }
 
-        public static Error.Types OnDeleting(SiteSettings ss, WikiModel wikiModel)
+        public static Error.Types OnDeleting(
+            Context context, SiteSettings ss, WikiModel wikiModel)
         {
-            return ss.CanDelete()
+            return context.CanDelete(ss: ss)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnRestoring()
+        public static Error.Types OnRestoring(Context context)
         {
-            return Permissions.CanManageTenant()
+            return Permissions.CanManageTenant(context: context)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnExporting(SiteSettings ss)
+        public static Error.Types OnExporting(Context context, SiteSettings ss)
         {
-            return ss.CanExport()
+            return context.CanExport(ss: ss)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }

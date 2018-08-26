@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
@@ -44,37 +45,31 @@ namespace Implem.Pleasanter.Libraries.Server
             return HttpContext.Current?.Session != null;
         }
 
-        public static void SetTenantId(int tenantId)
+        public static void Set(Context context)
         {
-            HttpContext.Current.Session["TenantId"] = tenantId;
-            SiteInfo.Reflesh();
-        }
-
-        public static void Set(int tenantId, int userId)
-        {
-            HttpContext.Current.Session["TenantId"] = tenantId;
+            HttpContext.Current.Session["TenantId"] = context.TenantId;
             HttpContext.Current.Session["RdsUser"] =
-                Rds.ExecuteTable(statements: Rds.SelectUsers(
-                    column: Rds.UsersColumn().UserId().DeptId(),
-                    where: Rds.UsersWhere().UserId(userId)))
-                        .AsEnumerable()
-                        .Select(dataRow => new RdsUser()
-                        {
-                            DeptId = dataRow.Int("DeptId"),
-                            UserId = dataRow.Int("UserId")
-                        })
-                        .FirstOrDefault();
-            if (!SiteInfo.TenantCaches.ContainsKey(TenantId()))
+                Rds.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectUsers(
+                        column: Rds.UsersColumn().UserId().DeptId(),
+                        where: Rds.UsersWhere().UserId(context.UserId)))
+                            .AsEnumerable()
+                            .Select(dataRow => new RdsUser()
+                            {
+                                DeptId = dataRow.Int("DeptId"),
+                                UserId = dataRow.Int("UserId")
+                            })
+                            .FirstOrDefault();
+            if (!SiteInfo.TenantCaches.ContainsKey(context.TenantId))
             {
-                SiteInfo.Reflesh();
+                SiteInfo.Reflesh(context: context);
             }
         }
 
         public static int TenantId()
         {
-            return HttpContext.Current?.Session != null
-                ? HttpContext.Current.Session["TenantId"].ToInt()
-                : 0;
+            return HttpContext.Current?.Session?["TenantId"].ToInt() ?? 0;
         }
 
         public static bool LoggedIn()
@@ -82,52 +77,7 @@ namespace Implem.Pleasanter.Libraries.Server
             return
                 HttpContext.Current?.User?.Identity.Name.IsNullOrEmpty() == false &&
                 HttpContext.Current?.User.Identity.Name !=
-                    Implem.Libraries.Classes.RdsUser.UserTypes.Anonymous.ToInt().ToString();
-        }
-
-        private static int UserIdentity()
-        {
-            var id = HttpContext.Current.Session["UserId"].ToInt();
-            if (id != 0)
-            {
-                return id.ToInt();
-            }
-            else
-            {
-                var name = HttpContext.Current?.User.Identity.Name;
-                var userId = Authentications.Windows() && name != null
-                    ? Rds.ExecuteScalar_int(statements:
-                        Rds.SelectUsers(
-                            column: Rds.UsersColumn().UserId(),
-                            where: Rds.UsersWhere().LoginId(name)))
-                    : name.ToInt();
-                HttpContext.Current.Session["UserId"] = userId;
-                return userId;
-            }
-        }
-
-        public static int UserId()
-        {
-            return LoggedIn()
-                ? UserIdentity()
-                : Implem.Libraries.Classes.RdsUser.UserTypes.Anonymous.ToInt();
-        }
-
-        public static int DeptId()
-        {
-            return LoggedIn()
-                ? SiteInfo.User(UserIdentity()).DeptId
-                : 0;
-        }
-
-        public static User User()
-        {
-            return SiteInfo.User(UserId());
-        }
-
-        public static RdsUser RdsUser()
-        {
-            return HttpContext.Current?.Session?["RdsUser"] as RdsUser;
+                    RdsUser.UserTypes.Anonymous.ToInt().ToString();
         }
 
         public static string Language()

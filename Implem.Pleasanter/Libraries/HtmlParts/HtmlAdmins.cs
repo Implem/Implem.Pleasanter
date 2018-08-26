@@ -1,6 +1,7 @@
 ﻿using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
@@ -8,14 +9,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlAdmins
     {
-        public static string AdminsIndex(this HtmlBuilder hb)
+        public static string AdminsIndex(this HtmlBuilder hb, Context context)
         {
-            if (!Permissions.CanManageTenant())
+            if (!Permissions.CanManageTenant(context: context))
             {
-                return HtmlTemplates.Error(Error.Types.HasNotPermission);
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorType: Error.Types.HasNotPermission);
             }
             var ss = new SiteSettings();
             return hb.Template(
+                context: context,
                 ss: ss,
                 methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
                 title: Displays.Admin(),
@@ -49,6 +53,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Text(Displays.Users()))
                                         .StackStyles()))))
                     .MainCommands(
+                        context: context,
                         ss: ss,
                         siteId: 0,
                         verType: Versions.VerTypes.Latest))

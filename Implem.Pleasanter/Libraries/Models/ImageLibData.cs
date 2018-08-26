@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Data;
 namespace Implem.Pleasanter.Libraries.Models
@@ -9,11 +10,14 @@ namespace Implem.Pleasanter.Libraries.Models
         public EnumerableRowCollection<DataRow> DataRows;
         public int TotalCount;
 
-        public ImageLibData(SiteSettings ss, View view, int offset = 0, int pageSize = 0)
+        public ImageLibData(
+            Context context, SiteSettings ss, View view, int offset = 0, int pageSize = 0)
         {
             var idColumnBracket = $"[{Rds.IdColumn(ss.ReferenceType)}]";
-            var dataSet = Rds.ExecuteDataSet(statements:
-                Rds.Select(
+            var joinExpression = $"[Binaries].[ReferenceId]=[{ss.ReferenceType}].{idColumnBracket}";
+            var dataSet = Rds.ExecuteDataSet(
+                context: context,
+                statements: Rds.Select(
                     tableName: ss.ReferenceType,
                     dataTableName: "Main",
                     column: new SqlColumnCollection()
@@ -27,9 +31,12 @@ namespace Implem.Pleasanter.Libraries.Models
                         .Add(
                             tableName: "Binaries",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: $"[Binaries].[ReferenceId]=[{ss.ReferenceType}].{idColumnBracket}"),
-                    where: view.Where(ss: ss).Binaries_BinaryType("Images"),
-                    orderBy: view.OrderBy(ss: ss, pageSize: pageSize),
+                            joinExpression: joinExpression),
+                    where: view.Where(context: context, ss: ss).Binaries_BinaryType("Images"),
+                    orderBy: view.OrderBy(
+                        context: context,
+                        ss: ss,
+                        pageSize: pageSize),
                     offset: offset,
                     pageSize: pageSize,
                     countRecord: true));

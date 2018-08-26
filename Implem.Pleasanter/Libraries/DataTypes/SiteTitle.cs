@@ -3,6 +3,7 @@ using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -18,12 +19,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             SiteId = siteId;
         }
 
-        public string ToControl(SiteSettings ss, Column column)
+        public string ToControl(Context context, SiteSettings ss, Column column)
         {
             return ToString();
         }
 
-        public string ToResponse()
+        public string ToResponse(Context context)
         {
             return ToString();
         }
@@ -34,7 +35,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .SiteMenu.Get(SiteId)?.Title ?? string.Empty;
         }
 
-        public virtual HtmlBuilder Td(HtmlBuilder hb, Column column)
+        public virtual HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             return hb.Td(action: () => hb
                 .P(action: () => TdTitle(hb, column)));
@@ -45,17 +46,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             hb.Text(text: ToString());
         }
 
-        public virtual string GridText(Column column)
+        public virtual string GridText(Context context, Column column)
         {
             return ToString();
         }
 
-        public virtual string ToExport(Column column, ExportColumn exportColumn = null)
+        public virtual string ToExport(
+            Context context, Column column, ExportColumn exportColumn = null)
         {
             return ToString();
         }
 
-        public bool InitialValue()
+        public bool InitialValue(Context context)
         {
             return SiteId == 0;
         }

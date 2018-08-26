@@ -1,11 +1,12 @@
-﻿using Implem.Pleasanter.Models;
+﻿using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Models;
 namespace Implem.Pleasanter.Libraries.Initializers
 {
     public static class StatusesInitializer
     {
-        public static void Initialize(int tenantId = 0)
+        public static void Initialize(Context context)
         {
-            StatusUtilities.Initialize(tenantId);
+            StatusUtilities.Initialize(context: context);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedStatusId = 0;
         [NonSerialized] public string SavedValue = string.Empty;
 
-        public bool TenantId_Updated(Column column = null)
+        public bool TenantId_Updated(Context context, Column column = null)
         {
             return TenantId != SavedTenantId &&
                 (column == null ||
@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != TenantId);
         }
 
-        public bool StatusId_Updated(Column column = null)
+        public bool StatusId_Updated(Context context, Column column = null)
         {
             return StatusId != SavedStatusId &&
                 (column == null ||
@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != StatusId);
         }
 
-        public bool Value_Updated(Column column = null)
+        public bool Value_Updated(Context context, Column column = null)
         {
             return Value != SavedValue && Value != null &&
                 (column == null ||
@@ -54,18 +54,20 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Value);
         }
 
-        public StatusModel(DataRow dataRow, string tableAlias = null)
+        public StatusModel(Context context, DataRow dataRow, string tableAlias = null)
         {
-            OnConstructing();
-            Set(dataRow, tableAlias);
-            OnConstructed();
+            OnConstructing(context: context);
+            Context = context;
+            TenantId = context.TenantId;
+            if (dataRow != null) Set(context, dataRow, tableAlias);
+            OnConstructed(context: context);
         }
 
-        private void OnConstructing()
+        private void OnConstructing(Context context)
         {
         }
 
-        private void OnConstructed()
+        private void OnConstructed(Context context)
         {
         }
 
@@ -74,6 +76,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public StatusModel Get(
+            Context context,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -83,15 +86,17 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(Rds.ExecuteTable(statements: Rds.SelectStatuses(
-                tableType: tableType,
-                column: column ?? Rds.StatusesDefaultColumns(),
-                join: join ??  Rds.StatusesJoinDefault(),
-                where: where ?? Rds.StatusesWhereDefault(this),
-                orderBy: orderBy,
-                param: param,
-                distinct: distinct,
-                top: top)));
+            Set(context, Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectStatuses(
+                    tableType: tableType,
+                    column: column ?? Rds.StatusesDefaultColumns(),
+                    join: join ??  Rds.StatusesJoinDefault(),
+                    where: where ?? Rds.StatusesWhereDefault(this),
+                    orderBy: orderBy,
+                    param: param,
+                    distinct: distinct,
+                    top: top)));
             return this;
         }
 
@@ -109,21 +114,21 @@ namespace Implem.Pleasanter.Models
             Comments = statusModel.Comments;
         }
 
-        private void SetBySession()
+        private void SetBySession(Context context)
         {
         }
 
-        private void Set(DataTable dataTable)
+        private void Set(Context context, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(dataTable.Rows[0]); break;
+                case 1: Set(context, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -160,11 +165,11 @@ namespace Implem.Pleasanter.Models
                             SavedComments = Comments.ToJson();
                             break;
                         case "Creator":
-                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedCreator = Creator.Id;
                             break;
                         case "Updator":
-                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
@@ -181,16 +186,16 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool Updated()
+        public bool Updated(Context context)
         {
             return
-                TenantId_Updated() ||
-                StatusId_Updated() ||
-                Ver_Updated() ||
-                Value_Updated() ||
-                Comments_Updated() ||
-                Creator_Updated() ||
-                Updator_Updated();
+                TenantId_Updated(context: context) ||
+                StatusId_Updated(context: context) ||
+                Ver_Updated(context: context) ||
+                Value_Updated(context: context) ||
+                Comments_Updated(context: context) ||
+                Creator_Updated(context: context) ||
+                Updator_Updated(context: context);
         }
     }
 }

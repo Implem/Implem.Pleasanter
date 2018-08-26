@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Models
     [Serializable]
     public class GroupModel : BaseModel
     {
-        public int TenantId = Sessions.TenantId();
+        public int TenantId = 0;
         public int GroupId = 0;
         public string GroupName = string.Empty;
         public string Body = string.Empty;
@@ -36,12 +36,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        [NonSerialized] public int SavedTenantId = Sessions.TenantId();
+        [NonSerialized] public int SavedTenantId = 0;
         [NonSerialized] public int SavedGroupId = 0;
         [NonSerialized] public string SavedGroupName = string.Empty;
         [NonSerialized] public string SavedBody = string.Empty;
 
-        public bool TenantId_Updated(Column column = null)
+        public bool TenantId_Updated(Context context, Column column = null)
         {
             return TenantId != SavedTenantId &&
                 (column == null ||
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != TenantId);
         }
 
-        public bool GroupId_Updated(Column column = null)
+        public bool GroupId_Updated(Context context, Column column = null)
         {
             return GroupId != SavedGroupId &&
                 (column == null ||
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != GroupId);
         }
 
-        public bool GroupName_Updated(Column column = null)
+        public bool GroupName_Updated(Context context, Column column = null)
         {
             return GroupName != SavedGroupName && GroupName != null &&
                 (column == null ||
@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != GroupName);
         }
 
-        public bool Body_Updated(Column column = null)
+        public bool Body_Updated(Context context, Column column = null)
         {
             return Body != SavedBody && Body != null &&
                 (column == null ||
@@ -80,19 +80,23 @@ namespace Implem.Pleasanter.Models
         }
 
         public GroupModel(
+            Context context,
             SiteSettings ss,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
-            if (setByForm) SetByForm(ss);
-            if (setByApi) SetByApi(ss);
+            OnConstructing(context: context);
+            Context = context;
+            TenantId = context.TenantId;
+            if (setByForm) SetByForm(context: context, ss: ss);
+            if (setByApi) SetByApi(context: context, ss: ss);
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
         public GroupModel(
+            Context context,
             SiteSettings ss,
             int groupId,
             bool clearSessions = false,
@@ -101,29 +105,33 @@ namespace Implem.Pleasanter.Models
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
+            OnConstructing(context: context);
+            Context = context;
+            TenantId = context.TenantId;
             GroupId = groupId;
-            Get(ss);
+            Get(context: context, ss: ss);
             if (clearSessions) ClearSessions();
-            if (setByForm) SetByForm(ss);
-            if (setByApi) SetByApi(ss);
+            if (setByForm) SetByForm(context: context, ss: ss);
+            if (setByApi) SetByApi(context: context, ss: ss);
             SwitchTargets = switchTargets;
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
-        public GroupModel(SiteSettings ss, DataRow dataRow, string tableAlias = null)
+        public GroupModel(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
-            OnConstructing();
-            Set(ss, dataRow, tableAlias);
-            OnConstructed();
+            OnConstructing(context: context);
+            Context = context;
+            TenantId = context.TenantId;
+            if (dataRow != null) Set(context, ss, dataRow, tableAlias);
+            OnConstructed(context: context);
         }
 
-        private void OnConstructing()
+        private void OnConstructing(Context context)
         {
         }
 
-        private void OnConstructed()
+        private void OnConstructed(Context context)
         {
         }
 
@@ -132,6 +140,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public GroupModel Get(
+            Context context,
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
@@ -142,15 +151,17 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(ss, Rds.ExecuteTable(statements: Rds.SelectGroups(
-                tableType: tableType,
-                column: column ?? Rds.GroupsDefaultColumns(),
-                join: join ??  Rds.GroupsJoinDefault(),
-                where: where ?? Rds.GroupsWhereDefault(this),
-                orderBy: orderBy,
-                param: param,
-                distinct: distinct,
-                top: top)));
+            Set(context, ss, Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectGroups(
+                    tableType: tableType,
+                    column: column ?? Rds.GroupsDefaultColumns(),
+                    join: join ??  Rds.GroupsJoinDefault(),
+                    where: where ?? Rds.GroupsWhereDefault(this),
+                    orderBy: orderBy,
+                    param: param,
+                    distinct: distinct,
+                    top: top)));
             return this;
         }
 
@@ -177,26 +188,28 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types Create(
+            Context context,
             SiteSettings ss,
-            RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool otherInitValue = false,
             bool get = true)
         {
+            TenantId = context.TenantId;
             var statements = new List<SqlStatement>();
-            CreateStatements(ss, statements, tableType, param, otherInitValue);
+            CreateStatements(context, ss, statements, tableType, param, otherInitValue);
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             GroupId = (response.Identity ?? GroupId).ToInt();
-            if (get) Get(ss);
+            if (get) Get(context: context, ss: ss);
             return Error.Types.None;
         }
 
         public List<SqlStatement> CreateStatements(
+            Context context,
             SiteSettings ss,
             List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -209,19 +222,25 @@ namespace Implem.Pleasanter.Models
                     tableType: tableType,
                     setIdentity: true,
                     param: param ?? Rds.GroupsParamDefault(
-                        this, setDefault: true, otherInitValue: otherInitValue)),
+                        context: context,
+                        groupModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue)),
                     Rds.InsertGroupMembers(
                         tableType: tableType,
                         param: param ?? Rds.GroupMembersParam()
                             .GroupId(raw: Def.Sql.Identity)
-                            .UserId(Sessions.UserId())
+                            .UserId(context.UserId)
                             .Admin(true)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated),
+                StatusUtilities.UpdateStatus(
+                    tenantId: context.TenantId,
+                    type: StatusUtilities.Types.GroupsUpdated),
             });
             return statements;
         }
 
         public Error.Types Update(
+            Context context,
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
@@ -232,16 +251,23 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
-            if (setBySession) SetBySession();
+            if (setBySession) SetBySession(context: context);
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
+            UpdateStatements(
+                context: context,
+                ss: ss,
+                statements: statements,
+                timestamp: timestamp,
+                param: param,
+                otherInitValue: otherInitValue,
+                additionalStatements: additionalStatements);
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             if (response.Count == 0) return Error.Types.UpdateConflicts;
-            if (get) Get(ss);
+            if (get) Get(context: context, ss: ss);
             statements = new List<SqlStatement>
             {
                 Rds.PhysicalDeleteGroupMembers(
@@ -267,11 +293,16 @@ namespace Implem.Pleasanter.Models
                             .Admin(data.Split_3rd().ToBool())));
                 }
             });
-            Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
+            Rds.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: statements.ToArray());
             return Error.Types.None;
         }
 
         private List<SqlStatement> UpdateStatements(
+            Context context,
+            SiteSettings ss,
             List<SqlStatement> statements,
             DateTime timestamp,
             SqlParamCollection param,
@@ -289,9 +320,12 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateGroups(
                     where: where,
-                    param: param ?? Rds.GroupsParamDefault(this, otherInitValue: otherInitValue),
+                    param: param ?? Rds.GroupsParamDefault(
+                        context: context, groupModel: this, otherInitValue: otherInitValue),
                     countRecord: true),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated),
+                StatusUtilities.UpdateStatus(
+                    tenantId: context.TenantId,
+                    type: StatusUtilities.Types.GroupsUpdated),
             });
             if (additionalStatements?.Any() == true)
             {
@@ -322,30 +356,34 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types UpdateOrCreate(
+            Context context,
             SiteSettings ss,
             RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
-            SetBySession();
+            SetBySession(context: context);
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertGroups(
                     where: where ?? Rds.GroupsWhereDefault(this),
-                    param: param ?? Rds.GroupsParamDefault(this, setDefault: true)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated),
+                    param: param ?? Rds.GroupsParamDefault(
+                        context: context, groupModel: this, setDefault: true)),
+                StatusUtilities.UpdateStatus(
+                    tenantId: context.TenantId,
+                    type: StatusUtilities.Types.GroupsUpdated),
             };
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             GroupId = (response.Identity ?? GroupId).ToInt();
-            Get(ss);
+            Get(context: context, ss: ss);
             return Error.Types.None;
         }
 
-        public Error.Types Delete(SiteSettings ss, bool notice = false)
+        public Error.Types Delete(Context context, SiteSettings ss, bool notice = false)
         {
             var statements = new List<SqlStatement>();
             var where = Rds.GroupsWhere().GroupId(GroupId);
@@ -355,33 +393,40 @@ namespace Implem.Pleasanter.Models
                 Rds.PhysicalDeleteGroupMembers(
                     where: Rds.GroupMembersWhere()
                         .GroupId(GroupId)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated),
+                StatusUtilities.UpdateStatus(
+                    tenantId: context.TenantId,
+                    type: StatusUtilities.Types.GroupsUpdated),
             });
             var response = Rds.ExecuteScalar_response(
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             return Error.Types.None;
         }
 
-        public Error.Types Restore(SiteSettings ss,int groupId)
+        public Error.Types Restore(Context context, SiteSettings ss,int groupId)
         {
             GroupId = groupId;
             Rds.ExecuteNonQuery(
+                context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreGroups(
                         where: Rds.GroupsWhere().GroupId(GroupId)),
-                StatusUtilities.UpdateStatus(StatusUtilities.Types.GroupsUpdated),
+                    StatusUtilities.UpdateStatus(
+                        tenantId: context.TenantId,
+                        type: StatusUtilities.Types.GroupsUpdated),
                 });
             return Error.Types.None;
         }
 
         public Error.Types PhysicalDelete(
-            SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
+                context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteGroups(
                     tableType: tableType,
@@ -389,7 +434,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public void SetByForm(SiteSettings ss)
+        public void SetByForm(Context context, SiteSettings ss)
         {
             Forms.Keys().ForEach(controlId =>
             {
@@ -399,14 +444,16 @@ namespace Implem.Pleasanter.Models
                     case "Groups_GroupName": GroupName = Forms.Data(controlId).ToString(); break;
                     case "Groups_Body": Body = Forms.Data(controlId).ToString(); break;
                     case "Groups_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(context: context, ss: ss, body: Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
                         {
                             Comments.Update(
-                                controlId.Substring("Comment".Length).ToInt(),
-                                Forms.Data(controlId));
+                                context: context,
+                                ss: ss,
+                                commentId: controlId.Substring("Comment".Length).ToInt(),
+                                body: Forms.Data(controlId));
                         }
                         break;
                 }
@@ -439,7 +486,7 @@ namespace Implem.Pleasanter.Models
             Comments = groupModel.Comments;
         }
 
-        public void SetByApi(SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss)
         {
             var data = Forms.String().Deserialize<GroupApiModel>();
             if (data == null)
@@ -449,25 +496,25 @@ namespace Implem.Pleasanter.Models
             if (data.TenantId != null) TenantId = data.TenantId.ToInt().ToInt();
             if (data.GroupName != null) GroupName = data.GroupName.ToString().ToString();
             if (data.Body != null) Body = data.Body.ToString().ToString();
-            if (data.Comments != null) Comments.Prepend(data.Comments);
+            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
         }
 
-        private void SetBySession()
+        private void SetBySession(Context context)
         {
         }
 
-        private void Set(SiteSettings ss, DataTable dataTable)
+        private void Set(Context context, SiteSettings ss, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(ss, dataTable.Rows[0]); break;
+                case 1: Set(context, ss, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(SiteSettings ss, DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -508,11 +555,11 @@ namespace Implem.Pleasanter.Models
                             SavedComments = Comments.ToJson();
                             break;
                         case "Creator":
-                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedCreator = Creator.Id;
                             break;
                         case "Updator":
-                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
@@ -529,23 +576,23 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool Updated()
+        public bool Updated(Context context)
         {
             return
-                TenantId_Updated() ||
-                GroupId_Updated() ||
-                Ver_Updated() ||
-                GroupName_Updated() ||
-                Body_Updated() ||
-                Comments_Updated() ||
-                Creator_Updated() ||
-                Updator_Updated();
+                TenantId_Updated(context: context) ||
+                GroupId_Updated(context: context) ||
+                Ver_Updated(context: context) ||
+                GroupName_Updated(context: context) ||
+                Body_Updated(context: context) ||
+                Comments_Updated(context: context) ||
+                Creator_Updated(context: context) ||
+                Updator_Updated(context: context);
         }
 
-        public List<string> Mine()
+        public List<string> Mine(Context context)
         {
             var mine = new List<string>();
-            var userId = Sessions.UserId();
+            var userId = context.UserId;
             if (SavedCreator == userId) mine.Add("Creator");
             if (SavedUpdator == userId) mine.Add("Updator");
             return mine;

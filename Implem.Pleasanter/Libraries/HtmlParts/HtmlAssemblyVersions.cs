@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -11,12 +12,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlAssemblyVersions
     {
-        public static string AssemblyVersions(this HtmlBuilder hb)
+        public static string AssemblyVersions(this HtmlBuilder hb, Context context)
         {
             var ss = new SiteSettings();
-            var plan = Contract.DisplayName();
+            var plan = Contract.DisplayName(context: context);
             return hb
                 .Template(
+                    context: context,
                     ss: ss,
                     verType: Versions.VerTypes.Latest,
                     methodType: BaseModel.MethodTypes.NotSet,
@@ -48,7 +50,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         action: () => hb
                                             .Raw(text: Parameters.General.HtmlCopyright.Params(
                                                 DateTime.Now.Year))))))
-                        .MainCommands(ss: ss, siteId: 0, verType: Versions.VerTypes.Latest))
+                        .MainCommands(
+                            context: context,
+                            ss: ss,
+                            siteId: 0,
+                            verType: Versions.VerTypes.Latest))
                 .ToString();
         }
     }

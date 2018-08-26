@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
@@ -11,7 +12,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlImageLib
     {
         public static HtmlBuilder ImageLib(
-            this HtmlBuilder hb, SiteSettings ss, ImageLibData imageLibData)
+            this HtmlBuilder hb, Context context, SiteSettings ss, ImageLibData imageLibData)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
@@ -29,24 +30,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 imageLibData.TotalCount)
                                     .ToString())
                         .ImageLibBody(
+                            context: context,
                             ss: ss,
                             imageLibData: imageLibData));
         }
 
         public static HtmlBuilder ImageLibBody(
-            this HtmlBuilder hb, SiteSettings ss, ImageLibData imageLibData)
+            this HtmlBuilder hb, Context context, SiteSettings ss, ImageLibData imageLibData)
         {
             return hb.Div(
                 attributes: new HtmlAttributes().Id("ImageLibBody"),
                 action: () => imageLibData.DataRows
                     .ForEach(dataRow => hb
                         .ImageLibItem(
+                            context: context,
                             ss: ss,
                             dataRow: dataRow)));
         }
 
         public static HtmlBuilder ImageLibItem(
-            this HtmlBuilder hb, SiteSettings ss, DataRow dataRow)
+            this HtmlBuilder hb, Context context, SiteSettings ss, DataRow dataRow)
         {
             var guid = dataRow.String("Guid");
             var href = Locations.ShowFile(guid);
@@ -77,7 +80,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: Locations.DeleteImage(guid),
                         method: "delete",
                         confirm: "ConfirmDelete",
-                        _using: ss.CanUpdate()));
+                        _using: context.CanUpdate(ss: ss)));
         }
     }
 }

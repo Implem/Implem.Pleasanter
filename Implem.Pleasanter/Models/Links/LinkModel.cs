@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedSubset = string.Empty;
         [NonSerialized] public string SavedSiteTitle = string.Empty;
 
-        public bool DestinationId_Updated(Column column = null)
+        public bool DestinationId_Updated(Context context, Column column = null)
         {
             return DestinationId != SavedDestinationId &&
                 (column == null ||
@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != DestinationId);
         }
 
-        public bool SourceId_Updated(Column column = null)
+        public bool SourceId_Updated(Context context, Column column = null)
         {
             return SourceId != SavedSourceId &&
                 (column == null ||
@@ -54,18 +54,19 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != SourceId);
         }
 
-        public LinkModel(DataRow dataRow, string tableAlias = null)
+        public LinkModel(Context context, DataRow dataRow, string tableAlias = null)
         {
-            OnConstructing();
-            Set(dataRow, tableAlias);
-            OnConstructed();
+            OnConstructing(context: context);
+            Context = context;
+            if (dataRow != null) Set(context, dataRow, tableAlias);
+            OnConstructed(context: context);
         }
 
-        private void OnConstructing()
+        private void OnConstructing(Context context)
         {
         }
 
-        private void OnConstructed()
+        private void OnConstructed(Context context)
         {
         }
 
@@ -74,6 +75,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public LinkModel Get(
+            Context context,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -83,15 +85,17 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(Rds.ExecuteTable(statements: Rds.SelectLinks(
-                tableType: tableType,
-                column: column ?? Rds.LinksDefaultColumns(),
-                join: join ??  Rds.LinksJoinDefault(),
-                where: where ?? Rds.LinksWhereDefault(this),
-                orderBy: orderBy,
-                param: param,
-                distinct: distinct,
-                top: top)));
+            Set(context, Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectLinks(
+                    tableType: tableType,
+                    column: column ?? Rds.LinksDefaultColumns(),
+                    join: join ??  Rds.LinksJoinDefault(),
+                    where: where ?? Rds.LinksWhereDefault(this),
+                    orderBy: orderBy,
+                    param: param,
+                    distinct: distinct,
+                    top: top)));
             return this;
         }
 
@@ -113,21 +117,21 @@ namespace Implem.Pleasanter.Models
             Comments = linkModel.Comments;
         }
 
-        private void SetBySession()
+        private void SetBySession(Context context)
         {
         }
 
-        private void Set(DataTable dataTable)
+        private void Set(Context context, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(dataTable.Rows[0]); break;
+                case 1: Set(context, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -180,11 +184,11 @@ namespace Implem.Pleasanter.Models
                             SavedComments = Comments.ToJson();
                             break;
                         case "Creator":
-                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedCreator = Creator.Id;
                             break;
                         case "Updator":
-                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
@@ -201,15 +205,15 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool Updated()
+        public bool Updated(Context context)
         {
             return
-                DestinationId_Updated() ||
-                SourceId_Updated() ||
-                Ver_Updated() ||
-                Comments_Updated() ||
-                Creator_Updated() ||
-                Updator_Updated();
+                DestinationId_Updated(context: context) ||
+                SourceId_Updated(context: context) ||
+                Ver_Updated(context: context) ||
+                Comments_Updated(context: context) ||
+                Creator_Updated(context: context) ||
+                Updator_Updated(context: context);
         }
     }
 }

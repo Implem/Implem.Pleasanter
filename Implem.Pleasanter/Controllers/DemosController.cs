@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
@@ -15,16 +16,17 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public string Register()
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             if (Parameters.Service.Demo)
             {
-                var json = DemoUtilities.Register();
-                log.Finish(json.Length);
+                var json = DemoUtilities.Register(context: context);
+                log.Finish(context: context, responseSize: json.Length);
                 return json;
             }
             else
             {
-                log.Finish();
+                log.Finish(context: context);
                 return null;
             }
         }
@@ -33,16 +35,17 @@ namespace Implem.Pleasanter.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             if (Parameters.Service.Demo)
             {
-                DemoUtilities.Login();
-                log.Finish();
+                DemoUtilities.Login(context: context);
+                log.Finish(context: context);
                 return Redirect(Locations.Get());
             }
             else
             {
-                log.Finish();
+                log.Finish(context: context);
                 return RedirectToAction("Errors", "NotFound");
             }
         }

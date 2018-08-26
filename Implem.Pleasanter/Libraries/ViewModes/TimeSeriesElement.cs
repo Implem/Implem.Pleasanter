@@ -1,6 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
-using Implem.Pleasanter.Libraries.Settings;
 using System;
 namespace Implem.Pleasanter.Libraries.ViewModes
 {
@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public bool Latest;
 
         public TimeSeriesElement(
+            Context context,
             bool userColumn,
             long id,
             int ver,
@@ -26,11 +27,13 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             Id = id;
             Ver = ver;
             UpdatedTime = updatedTime;
-            Index = userColumn && SiteInfo.User(index.ToInt()).Anonymous()
-                ? "\t"
-                : index == string.Empty
+            Index = userColumn && SiteInfo.User(
+                context: context,
+                userId: index.ToInt()).Anonymous()
                     ? "\t"
-                    : index;
+                    : index == string.Empty
+                        ? "\t"
+                        : index;
             Value = value;
             IsHistory = isHistory;
         }

@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using System;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -22,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return us.ToJson();
         }
 
-        public bool InitialValue()
+        public bool InitialValue(Context context)
         {
             return RecordingJson() == "[]";
         }

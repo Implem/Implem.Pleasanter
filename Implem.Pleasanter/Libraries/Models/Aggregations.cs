@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Data;
@@ -14,9 +15,10 @@ namespace Implem.Pleasanter.Libraries.Models
         public IEnumerable<Aggregation> AggregationCollection;
 
         public void Set(
+            Context context,
+            SiteSettings ss,
             DataSet dataSet,
-            IEnumerable<Aggregation> aggregationCollection,
-            SiteSettings ss = null)
+            IEnumerable<Aggregation> aggregationCollection)
         {
             AggregationCollection = aggregationCollection;
             TotalCount = Rds.Count(dataSet);
@@ -30,7 +32,8 @@ namespace Implem.Pleasanter.Libraries.Models
                 .Where(o => dataSet.Tables.Contains("Aggregation" + o.Index))
                 .ForEach(data =>
                 {
-                    var groupByColumn = ss?.GetColumn(data.Aggregation.GroupBy);
+                    var groupByColumn = ss?.GetColumn(
+                        context: context, columnName: data.Aggregation.GroupBy);
                     dataSet.Tables["Aggregation" + data.Index]
                         .AsEnumerable()
                         .ForEach(dataRow =>

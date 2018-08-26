@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
@@ -6,12 +7,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlExport
     {
-        public static HtmlBuilder ExportSelectorDialog(this HtmlBuilder hb, SiteSettings ss)
+        public static HtmlBuilder ExportSelectorDialog(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var optionCollection = ss.Exports.ToDictionary(o => o.Id.ToString(), o => o.Name);
             optionCollection.Add("0", Displays.Standard());
             return hb
                 .FieldDropDown(
+                    context: context,
                     controlId: "ExportId",
                     controlCss: " always-send",
                     labelText: Displays.Format(),

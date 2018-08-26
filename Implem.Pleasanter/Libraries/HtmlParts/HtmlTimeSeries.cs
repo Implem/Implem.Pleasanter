@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.ViewModes;
@@ -11,15 +12,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder TimeSeries(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Column groupBy,
-            string aggregateType,
+            string aggregationType,
             Column value,
             IEnumerable<DataRow> dataRows,
             bool inRange)
         {
             return hb.Div(css: "both", action: () => hb
                 .FieldDropDown(
+                    context: context,
                     controlId: "TimeSeriesGroupBy",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
@@ -29,15 +32,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     addSelectedValue: false,
                     method: "post")
                 .FieldDropDown(
+                    context: context,
                     controlId: "TimeSeriesAggregateType",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.AggregationType(),
                     optionCollection: ss.TimeSeriesAggregationTypeOptions(),
-                    selectedValue: aggregateType,
+                    selectedValue: aggregationType,
                     addSelectedValue: false,
                     method: "post")
                 .FieldDropDown(
+                    context: context,
                     fieldId: "TimeSeriesValueField",
                     controlId: "TimeSeriesValue",
                     fieldCss: "field-auto-thin",
@@ -49,9 +54,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     method: "post")
                 .Div(id: "TimeSeriesBody", action: () => hb
                     .TimeSeriesBody(
+                        context: context,
                         ss: ss,
                         groupBy: groupBy,
-                        aggregateType: aggregateType,
+                        aggregationType: aggregationType,
                         value: value,
                         dataRows: dataRows,
                         inRange: inRange)));
@@ -59,9 +65,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder TimeSeriesBody(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Column groupBy,
-            string aggregateType,
+            string aggregationType,
             Column value,
             IEnumerable<DataRow> dataRows,
             bool inRange)
@@ -69,7 +76,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (inRange && dataRows != null && dataRows.Any())
             {
                 var timeSeries = new TimeSeries(
-                    ss, groupBy, aggregateType, value, dataRows);
+                    context: context,
+                    ss: ss,
+                    groupBy: groupBy,
+                    aggregationType: aggregationType,
+                    value: value,
+                    dataRows: dataRows);
                 return hb
                     .Svg(id: "TimeSeries")
                     .Hidden(

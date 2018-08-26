@@ -26,18 +26,19 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void Maintain()
+        public static void Maintain(Context context)
         {
             var thisHour = DateTime.Now.ToString("yyyy/MM/dd HH:00:00").ToDateTime();
             if (thisHour.Hour % Parameters.Health.Interval == 0)
             {
-                if (Rds.ExecuteScalar_datetime(statements:
-                    Rds.SelectHealths(
+                if (Rds.ExecuteScalar_datetime(
+                    context: context,
+                    statements: Rds.SelectHealths(
                         column: Rds.HealthsColumn().CreatedTime(),
                         orderBy: Rds.HealthsOrderBy().HealthId(orderType: SqlOrderBy.Types.desc),
                         top: 1)) < thisHour)
                 {
-                    new HealthModel(thisHour);
+                    new HealthModel(context: context, time: thisHour);
                 }
             }
         }

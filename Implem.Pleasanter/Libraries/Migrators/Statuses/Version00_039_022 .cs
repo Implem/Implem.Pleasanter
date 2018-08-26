@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Data;
@@ -8,17 +9,18 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
 {
     public static class Version00_039_022
     {
-        public static void Migrate()
+        public static void Migrate(Context context)
         {
-            new ExportSettingCollection()
+            new ExportSettingCollection(context: context)
                 .ForEach(exportSettingModel =>
-                    Migrate(exportSettingModel));
+                    Migrate(context: context, exportSettingModel: exportSettingModel));
         }
 
-        private static void Migrate(ExportSettingModel exportSettingModel)
+        private static void Migrate(Context context, ExportSettingModel exportSettingModel)
         {
-            var ss = Rds.ExecuteScalar_string(statements:
-                Rds.SelectSites(
+            var ss = Rds.ExecuteScalar_string(
+                context: context,
+                statements: Rds.SelectSites(
                     column: Rds.SitesColumn().SiteSettings(),
                     where: Rds.SitesWhere().SiteId(exportSettingModel.ReferenceId)))
                         .Deserialize<SiteSettings>();
@@ -34,11 +36,16 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
                     header: exportSettingModel.AddHeader,
                     columns: exportSettingModel.ExportColumns.Columns
                         .Where(o => o.Value)
-                        .Select((o, i) => new ExportColumn(ss, o.Key, i + 1))
+                        .Select((o, i) => new ExportColumn(
+                            context: context,
+                            ss: ss,
+                            columnName: o.Key,
+                            id: i + 1))
                         .ToList()));
-                Rds.ExecuteNonQuery(statements:
-                    Rds.UpdateSites(
-                        param: Rds.SitesParam().SiteSettings(ss.RecordingJson()),
+                Rds.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.UpdateSites(
+                        param: Rds.SitesParam().SiteSettings(ss.RecordingJson(context: context)),
                         where: Rds.SitesWhere().SiteId(exportSettingModel.ReferenceId)));
             }
         }

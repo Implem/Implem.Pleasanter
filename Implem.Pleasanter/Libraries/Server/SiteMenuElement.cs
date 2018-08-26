@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
 using System;
 namespace Implem.Pleasanter.Libraries.Server
 {
@@ -13,13 +14,13 @@ namespace Implem.Pleasanter.Libraries.Server
         public DateTime CreatedTime;
 
         public SiteMenuElement(
-            int tenantId,
+            Context context,
             long siteId,
             string referenceType,
             long parentId,
             string title)
         {
-            TenantId = tenantId;
+            TenantId = context.TenantId;
             SiteId = siteId;
             ReferenceType = referenceType;
             ParentId = parentId;
@@ -27,8 +28,9 @@ namespace Implem.Pleasanter.Libraries.Server
             CreatedTime = DateTime.Now;
             if (HasOnlyOneChild())
             {
-                OnlyOneChildId = Rds.ExecuteScalar_long(statements:
-                    Rds.SelectWikis(
+                OnlyOneChildId = Rds.ExecuteScalar_long(
+                    context: context,
+                    statements: Rds.SelectWikis(
                         column: Rds.WikisColumn().WikiId(),
                         where: Rds.WikisWhere().SiteId(siteId)));
             }

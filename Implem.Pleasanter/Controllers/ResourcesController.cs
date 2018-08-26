@@ -1,4 +1,5 @@
 using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
@@ -15,9 +16,10 @@ namespace Implem.Pleasanter.Controllers
         [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
         public ContentResult Scripts()
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var result = JavaScripts.Get();
-            log.Finish(result.Content.Length);
+            log.Finish(context: context, responseSize: result.Content.Length);
             return result;
         }
 
@@ -25,9 +27,10 @@ namespace Implem.Pleasanter.Controllers
         [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
         public ContentResult Styles()
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var result = Css.Get();
-            log.Finish(result.Content.Length);
+            log.Finish(context: context, responseSize: result.Content.Length);
             return result;
         }
     }

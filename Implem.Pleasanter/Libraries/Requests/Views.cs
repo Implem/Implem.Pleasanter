@@ -6,7 +6,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 {
     public static class Views
     {
-        public static View GetBySession(SiteSettings ss)
+        public static View GetBySession(Context context, SiteSettings ss)
         {
             var view = !Request.IsAjax()
                 ? QueryStrings.Data("View")?.Deserialize<View>()
@@ -21,19 +21,21 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
             else if (Forms.ControlId() == "ViewSelector")
             {
-                view = ss.Views?.Get(Forms.Int("ViewSelector")) ?? new View(ss);
+                view = ss.Views?.Get(Forms.Int("ViewSelector"))
+                    ?? new View(context: context, ss: ss);
                 HttpContext.Current.Session[key] = view;
                 return view;
             }
             else if (HttpContext.Current.Session[key] != null)
             {
                 view = (HttpContext.Current.Session[key] as View);
-                view.SetByForm(ss);
+                view.SetByForm(context: context, ss: ss);
                 return view;
             }
             else
             {
-                view = ss.Views?.Get(ss.GridView) ?? new View(ss);
+                view = ss.Views?.Get(ss.GridView)
+                    ?? new View(context: context, ss: ss);
                 HttpContext.Current.Session[key] = view;
                 return view;
             }

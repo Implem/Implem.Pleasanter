@@ -2,6 +2,7 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -12,18 +13,21 @@ namespace Implem.Pleasanter.Libraries.Initializers
 {
     public static class ItemsInitializer
     {
-        public static void Initialize()
+        public static void Initialize(Context context)
         {
             var siteExists = "not exists (select * from [{0}] where [{0}].[ReferenceId]=[Sites].[SiteId])";
             new SiteCollection(
+                context: context,
                 where: Rds.SitesWhere().Add(raw: siteExists.Params("Items")),
                 tableType: Sqls.TableTypes.Normal)
                     .ForEach(siteModel =>
                     {
                         if (siteModel.SiteSettings != null)
                         {
-                            var fullText = siteModel.FullText(siteModel.SiteSettings);
+                            var fullText = siteModel.FullText(
+                                context: context, ss: siteModel.SiteSettings);
                             Rds.ExecuteNonQuery(
+                                context: context,
                                 connectionString: Parameters.Rds.OwnerConnectionString,
                                 statements: new SqlStatement[]
                                 {
@@ -41,6 +45,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         }
                     });
             new SiteCollection(
+                context: context,
                 where: Rds.SitesWhere().Add(raw: siteExists.Params("Items_Deleted")),
                 tableType: Sqls.TableTypes.Deleted)
                     .ForEach(siteModel =>
@@ -48,6 +53,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         if (siteModel.SiteSettings != null)
                         {
                             Rds.ExecuteNonQuery(
+                                context: context,
                                 statements: new SqlStatement[]
                                 {
                                     Rds.InsertItems(
@@ -61,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                 });
                 }
             });
-            Rds.ExecuteTable(statements: Rds.SelectIssues(
+            Rds.ExecuteTable(context: context, statements: Rds.SelectIssues(
                 tableType: Sqls.TableTypes.Normal,
                 column: Rds.IssuesColumn()
                     .SiteId()
@@ -80,21 +86,27 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             .ForEach(dataRow =>
                             {
                                 var siteId = dataRow["SiteId"].ToLong();
-                                var ss = new SiteModel().Get(where:
-                                    Rds.SitesWhere().SiteId(siteId))?
-                                        .IssuesSiteSettings(dataRow["IssueId"].ToLong());
-                                var issueModel = new IssueModel(ss).Get(
-                                    ss: ss,
-                                    tableType: Sqls.TableTypes.Normal,
-                                    where: Rds.IssuesWhere()
-                                        .SiteId(dataRow["SiteId"].ToLong())
-                                        .IssueId(dataRow["IssueId"].ToLong())
-                                        .Ver(dataRow["Ver"].ToInt()));
+                                var ss = new SiteModel().Get(
+                                    context: context,
+                                    where: Rds.SitesWhere().SiteId(siteId))?
+                                        .IssuesSiteSettings(
+                                            context: context,
+                                            referenceId: dataRow.Long("IssueId"));
+                                var issueModel = new IssueModel(context: context, ss: ss)
+                                    .Get(
+                                        context: context,
+                                        ss: ss,
+                                        tableType: Sqls.TableTypes.Normal,
+                                        where: Rds.IssuesWhere()
+                                            .SiteId(dataRow["SiteId"].ToLong())
+                                            .IssueId(dataRow["IssueId"].ToLong())
+                                            .Ver(dataRow["Ver"].ToInt()));
                                 if (ss != null &&
                                     issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                                 {
-                                    var fullText = issueModel.FullText(ss);
+                                    var fullText = issueModel.FullText(context: context, ss: ss);
                                     Rds.ExecuteNonQuery(
+                                        context: context,
                                         connectionString: Parameters.Rds.OwnerConnectionString,
                                         statements: new SqlStatement[]
                                         {
@@ -111,7 +123,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         });
                                 }
                             });
-            Rds.ExecuteTable(statements: Rds.SelectIssues(
+            Rds.ExecuteTable(context: context, statements: Rds.SelectIssues(
                 tableType: Sqls.TableTypes.Deleted,
                 column: Rds.IssuesColumn()
                     .SiteId()
@@ -130,20 +142,26 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             .ForEach(dataRow =>
                             {
                                 var siteId = dataRow["SiteId"].ToLong();
-                                var ss = new SiteModel().Get(where:
-                                    Rds.SitesWhere().SiteId(siteId))?
-                                        .IssuesSiteSettings(dataRow["IssueId"].ToLong());
-                                var issueModel = new IssueModel(ss).Get(
-                                    ss: ss,
-                                    tableType: Sqls.TableTypes.Deleted,
-                                    where: Rds.IssuesWhere()
-                                        .SiteId(dataRow["SiteId"].ToLong())
-                                        .IssueId(dataRow["IssueId"].ToLong())
-                                        .Ver(dataRow["Ver"].ToInt()));
+                                var ss = new SiteModel().Get(
+                                    context: context,
+                                    where: Rds.SitesWhere().SiteId(siteId))?
+                                        .IssuesSiteSettings(
+                                            context: context,
+                                            referenceId: dataRow.Long("IssueId"));
+                                var issueModel = new IssueModel(context: context, ss: ss)
+                                    .Get(
+                                        context: context,
+                                        ss: ss,
+                                        tableType: Sqls.TableTypes.Deleted,
+                                        where: Rds.IssuesWhere()
+                                            .SiteId(dataRow["SiteId"].ToLong())
+                                            .IssueId(dataRow["IssueId"].ToLong())
+                                            .Ver(dataRow["Ver"].ToInt()));
                                 if (ss != null &&
                                     issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                                 {
                                     Rds.ExecuteNonQuery(
+                                        context: context,
                                         statements: new SqlStatement[]
                                         {
                                             Rds.InsertItems(
@@ -157,7 +175,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         });
                                 }
                             });
-            Rds.ExecuteTable(statements: Rds.SelectResults(
+            Rds.ExecuteTable(context: context, statements: Rds.SelectResults(
                 tableType: Sqls.TableTypes.Normal,
                 column: Rds.ResultsColumn()
                     .SiteId()
@@ -176,21 +194,27 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             .ForEach(dataRow =>
                             {
                                 var siteId = dataRow["SiteId"].ToLong();
-                                var ss = new SiteModel().Get(where:
-                                    Rds.SitesWhere().SiteId(siteId))?
-                                        .ResultsSiteSettings(dataRow["ResultId"].ToLong());
-                                var resultModel = new ResultModel(ss).Get(
-                                    ss: ss,
-                                    tableType: Sqls.TableTypes.Normal,
-                                    where: Rds.ResultsWhere()
-                                        .SiteId(dataRow["SiteId"].ToLong())
-                                        .ResultId(dataRow["ResultId"].ToLong())
-                                        .Ver(dataRow["Ver"].ToInt()));
+                                var ss = new SiteModel().Get(
+                                    context: context,
+                                    where: Rds.SitesWhere().SiteId(siteId))?
+                                        .ResultsSiteSettings(
+                                            context: context,
+                                            referenceId: dataRow.Long("ResultId"));
+                                var resultModel = new ResultModel(context: context, ss: ss)
+                                    .Get(
+                                        context: context,
+                                        ss: ss,
+                                        tableType: Sqls.TableTypes.Normal,
+                                        where: Rds.ResultsWhere()
+                                            .SiteId(dataRow["SiteId"].ToLong())
+                                            .ResultId(dataRow["ResultId"].ToLong())
+                                            .Ver(dataRow["Ver"].ToInt()));
                                 if (ss != null &&
                                     resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                                 {
-                                    var fullText = resultModel.FullText(ss);
+                                    var fullText = resultModel.FullText(context: context, ss: ss);
                                     Rds.ExecuteNonQuery(
+                                        context: context,
                                         connectionString: Parameters.Rds.OwnerConnectionString,
                                         statements: new SqlStatement[]
                                         {
@@ -207,7 +231,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         });
                                 }
                             });
-            Rds.ExecuteTable(statements: Rds.SelectResults(
+            Rds.ExecuteTable(context: context, statements: Rds.SelectResults(
                 tableType: Sqls.TableTypes.Deleted,
                 column: Rds.ResultsColumn()
                     .SiteId()
@@ -226,20 +250,26 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             .ForEach(dataRow =>
                             {
                                 var siteId = dataRow["SiteId"].ToLong();
-                                var ss = new SiteModel().Get(where:
-                                    Rds.SitesWhere().SiteId(siteId))?
-                                        .ResultsSiteSettings(dataRow["ResultId"].ToLong());
-                                var resultModel = new ResultModel(ss).Get(
-                                    ss: ss,
-                                    tableType: Sqls.TableTypes.Deleted,
-                                    where: Rds.ResultsWhere()
-                                        .SiteId(dataRow["SiteId"].ToLong())
-                                        .ResultId(dataRow["ResultId"].ToLong())
-                                        .Ver(dataRow["Ver"].ToInt()));
+                                var ss = new SiteModel().Get(
+                                    context: context,
+                                    where: Rds.SitesWhere().SiteId(siteId))?
+                                        .ResultsSiteSettings(
+                                            context: context,
+                                            referenceId: dataRow.Long("ResultId"));
+                                var resultModel = new ResultModel(context: context, ss: ss)
+                                    .Get(
+                                        context: context,
+                                        ss: ss,
+                                        tableType: Sqls.TableTypes.Deleted,
+                                        where: Rds.ResultsWhere()
+                                            .SiteId(dataRow["SiteId"].ToLong())
+                                            .ResultId(dataRow["ResultId"].ToLong())
+                                            .Ver(dataRow["Ver"].ToInt()));
                                 if (ss != null &&
                                     resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                                 {
                                     Rds.ExecuteNonQuery(
+                                        context: context,
                                         statements: new SqlStatement[]
                                         {
                                             Rds.InsertItems(
@@ -253,7 +283,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         });
                                 }
                             });
-            Rds.ExecuteTable(statements: Rds.SelectWikis(
+            Rds.ExecuteTable(context: context, statements: Rds.SelectWikis(
                 tableType: Sqls.TableTypes.Normal,
                 column: Rds.WikisColumn()
                     .SiteId()
@@ -272,21 +302,27 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             .ForEach(dataRow =>
                             {
                                 var siteId = dataRow["SiteId"].ToLong();
-                                var ss = new SiteModel().Get(where:
-                                    Rds.SitesWhere().SiteId(siteId))?
-                                        .WikisSiteSettings(dataRow["WikiId"].ToLong());
-                                var wikiModel = new WikiModel(ss).Get(
-                                    ss: ss,
-                                    tableType: Sqls.TableTypes.Normal,
-                                    where: Rds.WikisWhere()
-                                        .SiteId(dataRow["SiteId"].ToLong())
-                                        .WikiId(dataRow["WikiId"].ToLong())
-                                        .Ver(dataRow["Ver"].ToInt()));
+                                var ss = new SiteModel().Get(
+                                    context: context,
+                                    where: Rds.SitesWhere().SiteId(siteId))?
+                                        .WikisSiteSettings(
+                                            context: context,
+                                            referenceId: dataRow.Long("WikiId"));
+                                var wikiModel = new WikiModel(context: context, ss: ss)
+                                    .Get(
+                                        context: context,
+                                        ss: ss,
+                                        tableType: Sqls.TableTypes.Normal,
+                                        where: Rds.WikisWhere()
+                                            .SiteId(dataRow["SiteId"].ToLong())
+                                            .WikiId(dataRow["WikiId"].ToLong())
+                                            .Ver(dataRow["Ver"].ToInt()));
                                 if (ss != null &&
                                     wikiModel.AccessStatus == Databases.AccessStatuses.Selected)
                                 {
-                                    var fullText = wikiModel.FullText(ss);
+                                    var fullText = wikiModel.FullText(context: context, ss: ss);
                                     Rds.ExecuteNonQuery(
+                                        context: context,
                                         connectionString: Parameters.Rds.OwnerConnectionString,
                                         statements: new SqlStatement[]
                                         {
@@ -303,7 +339,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         });
                                 }
                             });
-            Rds.ExecuteTable(statements: Rds.SelectWikis(
+            Rds.ExecuteTable(context: context, statements: Rds.SelectWikis(
                 tableType: Sqls.TableTypes.Deleted,
                 column: Rds.WikisColumn()
                     .SiteId()
@@ -322,20 +358,26 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             .ForEach(dataRow =>
                             {
                                 var siteId = dataRow["SiteId"].ToLong();
-                                var ss = new SiteModel().Get(where:
-                                    Rds.SitesWhere().SiteId(siteId))?
-                                        .WikisSiteSettings(dataRow["WikiId"].ToLong());
-                                var wikiModel = new WikiModel(ss).Get(
-                                    ss: ss,
-                                    tableType: Sqls.TableTypes.Deleted,
-                                    where: Rds.WikisWhere()
-                                        .SiteId(dataRow["SiteId"].ToLong())
-                                        .WikiId(dataRow["WikiId"].ToLong())
-                                        .Ver(dataRow["Ver"].ToInt()));
+                                var ss = new SiteModel().Get(
+                                    context: context,
+                                    where: Rds.SitesWhere().SiteId(siteId))?
+                                        .WikisSiteSettings(
+                                            context: context,
+                                            referenceId: dataRow.Long("WikiId"));
+                                var wikiModel = new WikiModel(context: context, ss: ss)
+                                    .Get(
+                                        context: context,
+                                        ss: ss,
+                                        tableType: Sqls.TableTypes.Deleted,
+                                        where: Rds.WikisWhere()
+                                            .SiteId(dataRow["SiteId"].ToLong())
+                                            .WikiId(dataRow["WikiId"].ToLong())
+                                            .Ver(dataRow["Ver"].ToInt()));
                                 if (ss != null &&
                                     wikiModel.AccessStatus == Databases.AccessStatuses.Selected)
                                 {
                                     Rds.ExecuteNonQuery(
+                                        context: context,
                                         statements: new SqlStatement[]
                                         {
                                             Rds.InsertItems(

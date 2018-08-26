@@ -8,6 +8,8 @@ using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
+using Implem.Pleasanter.Libraries.Requests;
+
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -32,17 +34,17 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             ProgressRate = progressRate;
         }
 
-        public string ToControl(SiteSettings ss, Column column)
+        public string ToControl(Context context, SiteSettings ss, Column column)
         {
             return column.Display(ss, Value);
         }
 
-        public string ToResponse()
+        public string ToResponse(Context context)
         {
             return Value.ToString();
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             return hb.Td(action: () => Svg(hb, column));
         }
@@ -71,30 +73,32 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     height: (Parameters.General.WorkValueHeight / 2).ToString()));
         }
 
-        public string GridText(Column column)
+        public string GridText(Context context, Column column)
         {
             return column.Display(Value, unit: true);
         }
 
-        public string ToExport(Column column, ExportColumn exportColumn = null)
+        public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return Value.ToString();
         }
 
         public string ToNotice(
+            Context context,
             decimal saved,
             Column column,
             bool updated,
             bool update)
         {
             return column.Display(Value, unit: true).ToNoticeLine(
-                column.Display(saved, unit: true),
-                column,
-                updated,
-                update);
+                context: context,
+                saved: column.Display(saved, unit: true),
+                column: column,
+                updated: updated,
+                update: update);
         }
 
-        public bool InitialValue()
+        public bool InitialValue(Context context)
         {
             return Value == 0;
         }

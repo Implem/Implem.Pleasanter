@@ -26,10 +26,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Get(int userId, bool withFullName = false)
+        public static string Get(Context context, int userId, bool withFullName = false)
         {
-            var mailAddress = Rds.ExecuteScalar_string(statements:
-                Rds.SelectMailAddresses(
+            var mailAddress = Rds.ExecuteScalar_string(
+                context: context,
+                statements: Rds.SelectMailAddresses(
                     top: 1,
                     column: Rds.MailAddressesColumn().MailAddress(),
                     where: Rds.MailAddressesWhere()
@@ -37,7 +38,7 @@ namespace Implem.Pleasanter.Models
                         .OwnerType("Users"),
                     orderBy: Rds.MailAddressesOrderBy().MailAddressId()));
             return withFullName
-                ? Get(Sessions.User().Name, mailAddress)
+                ? Get(context.User.Name, mailAddress)
                 : mailAddress;
         }
 
@@ -46,7 +47,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Get(string fullName, string mailAddress)
         {
-            return "\"{0}\" <{1}>".Params(fullName, mailAddress);
+            return $"\"{fullName}\" <{mailAddress}>";
         }
     }
 }

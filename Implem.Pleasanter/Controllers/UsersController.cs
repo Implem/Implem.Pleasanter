@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -16,21 +17,24 @@ namespace Implem.Pleasanter.Controllers
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Index()
         {
+            var context = new Context();
             if (!Request.IsAjaxRequest())
             {
-                var log = new SysLogModel();
+                var log = new SysLogModel(context: context);
                 var html = UserUtilities.Index(
-                    ss: SiteSettingsUtilities.UsersSiteSettings());
+                    context: context,
+                    ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
                 ViewBag.HtmlBody = html;
-                log.Finish(html.Length);
+                log.Finish(context: context, responseSize: html.Length);
                 return View();
             }
             else
             {
-                var log = new SysLogModel();
+                var log = new SysLogModel(context: context);
                 var json = UserUtilities.IndexJson(
-                    ss: SiteSettingsUtilities.UsersSiteSettings());
-                log.Finish(json.Length);
+                    context: context,
+                    ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+                log.Finish(context: context, responseSize: json.Length);
                 return Content(json);
             }
         }
@@ -38,35 +42,40 @@ namespace Implem.Pleasanter.Controllers
         [HttpGet]
         public ActionResult New(long id = 0)
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var html = UserUtilities.EditorNew(
-                SiteSettingsUtilities.UsersSiteSettings());
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
             ViewBag.HtmlBody = html;
-            log.Finish(html.Length);
+            log.Finish(context: context, responseSize: html.Length);
             return View();
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Edit(int id)
         {
+            var context = new Context();
             if (!Request.IsAjaxRequest())
             {
-                var log = new SysLogModel();
+                var log = new SysLogModel(context: context);
                 var html = UserUtilities.Editor(
-                    SiteSettingsUtilities.UsersSiteSettings(),
-                    id,
+                    context: context,
+                    ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                    userId: id,
                     clearSessions: true);
                 ViewBag.HtmlBody = html;
-                log.Finish(html.Length);
+                log.Finish(context: context, responseSize: html.Length);
                 return View();
             }
             else
             {
-                var log = new SysLogModel();
+                var log = new SysLogModel(context: context);
                 var json = UserUtilities.EditorJson(
-                    ss: SiteSettingsUtilities.UsersSiteSettings(),
+                    context: context,
+                    ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                     userId: id);
-                log.Finish(json.Length);
+                log.Finish(context: context, responseSize: json.Length);
                 return Content(json);
             }
         }
@@ -74,16 +83,20 @@ namespace Implem.Pleasanter.Controllers
         [HttpGet]
         public ActionResult Export(long id)
         {
-            var log = new SysLogModel();
-            var responseFile = new ItemModel(id).Export();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var responseFile = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .Export(context: context);
             if (responseFile != null)
             {
-                log.Finish(responseFile.Length);
+                log.Finish(context: context, responseSize: responseFile.Length);
                 return responseFile.ToFile();
             }
             else
             {
-                log.Finish(0);
+                log.Finish(context: context, responseSize: 0);
                 return null;
             }
         }
@@ -91,74 +104,87 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public string GridRows()
         {
-            var log = new SysLogModel();
-            var json = UserUtilities.GridRows();
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.GridRows(context: context);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
         [HttpPost]
         public string Create()
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var json = UserUtilities.Create(
-                ss: SiteSettingsUtilities.UsersSiteSettings());
-            log.Finish(json.Length);
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
         [HttpPut]
         public string Update(int id)
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var json = UserUtilities.Update(
-                ss: SiteSettingsUtilities.UsersSiteSettings(),
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 userId: id);
-            log.Finish(json.Length);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
         [HttpDelete]
         public string Delete(int id)
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var json = UserUtilities.Delete(
-                ss: SiteSettingsUtilities.UsersSiteSettings(),
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 userId: id);
-            log.Finish(json.Length);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
         [HttpDelete]
         public string DeleteComment(int id)
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var json = UserUtilities.Update(
-                ss: SiteSettingsUtilities.UsersSiteSettings(),
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 userId: id);
-            log.Finish(json.Length);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
         [HttpPost]
         public string Histories(int id)
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var json = UserUtilities.Histories(
-                ss: SiteSettingsUtilities.UsersSiteSettings(),
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 userId: id);
-            log.Finish(json.Length);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
         [HttpPost]
         public string History(int id)
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var json = UserUtilities.History(
-                ss: SiteSettingsUtilities.UsersSiteSettings(),
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 userId: id);
-            log.Finish(json.Length);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
@@ -169,23 +195,25 @@ namespace Implem.Pleasanter.Controllers
         [HttpGet]
         public ActionResult Login(string returnUrl)
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             if (Sessions.LoggedIn())
             {
-                if (Libraries.Requests.QueryStrings.Bool("new"))
+                if (QueryStrings.Bool("new"))
                 {
                     Authentications.SignOut();
                 }
-                log.Finish();
+                log.Finish(context: context);
                 return base.Redirect(Locations.Top());
             }
             var html = UserUtilities.HtmlLogin(
-                returnUrl,
-                Request.QueryString["expired"] == "1" && !Request.IsAjaxRequest()
+                context: context,
+                returnUrl: returnUrl,
+                message: Request.QueryString["expired"] == "1" && !Request.IsAjaxRequest()
                     ? Messages.Expired().Text
                     : string.Empty);
             ViewBag.HtmlBody = html;
-            log.Finish(html.Length);
+            log.Finish(context: context, responseSize: html.Length);
             return View();
         }
 
@@ -196,9 +224,10 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public string Authenticate(string returnUrl)
         {
-            var log = new SysLogModel();
-            var json = Authentications.SignIn(returnUrl);
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = Authentications.SignIn(context: context, returnUrl: returnUrl);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
@@ -209,10 +238,11 @@ namespace Implem.Pleasanter.Controllers
         [HttpGet]
         public ActionResult Logout(string returnUrl)
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             Authentications.SignOut();
             var url = Locations.Login();
-            log.Finish();
+            log.Finish(context: context);
             return Redirect(url);
         }
 
@@ -222,9 +252,10 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public string ChangePassword(int id)
         {
-            var log = new SysLogModel();
-            var json = UserUtilities.ChangePassword(id);
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.ChangePassword(context: context, userId: id);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
@@ -235,9 +266,10 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public string ChangePasswordAtLogin()
         {
-            var log = new SysLogModel();
-            var json = UserUtilities.ChangePasswordAtLogin();
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.ChangePasswordAtLogin(context: context);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
@@ -247,9 +279,10 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public string ResetPassword(int id)
         {
-            var log = new SysLogModel();
-            var json = UserUtilities.ResetPassword(id);
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.ResetPassword(context: context, userId: id);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
@@ -258,11 +291,13 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         public string AddMailAddress(int id)
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var json = UserUtilities.AddMailAddresses(
-                ss: SiteSettingsUtilities.UsersSiteSettings(),
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 userId: id);
-            log.Finish(json.Length);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
@@ -271,11 +306,13 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         public string DeleteMailAddresses(int id)
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var json = UserUtilities.DeleteMailAddresses(
-                ss: SiteSettingsUtilities.UsersSiteSettings(),
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 userId: id);
-            log.Finish(json.Length);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
@@ -285,9 +322,10 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public string SyncByLdap()
         {
-            var log = new SysLogModel();
-            var json = UserUtilities.SyncByLdap();
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.SyncByLdap(context: context);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
@@ -296,11 +334,13 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         public ActionResult EditApi()
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var html = UserUtilities.ApiEditor(
-                ss: SiteSettingsUtilities.UsersSiteSettings());
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
             ViewBag.HtmlBody = html;
-            log.Finish(html.Length);
+            log.Finish(context: context, responseSize: html.Length);
             return View();
         }
 
@@ -310,10 +350,12 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public string CreateApiKey()
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var json = UserUtilities.CreateApiKey(
-                ss: SiteSettingsUtilities.UsersSiteSettings());
-            log.Finish(json.Length);
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
@@ -323,10 +365,12 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public string DeleteApiKey()
         {
-            var log = new SysLogModel();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             var json = UserUtilities.DeleteApiKey(
-                ss: SiteSettingsUtilities.UsersSiteSettings());
-            log.Finish(json.Length);
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
     }

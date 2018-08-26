@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Extensions;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -21,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public bool? GroupSummary;
 
         public GanttElement(
+            Context context,
             string groupBy,
             object sortBy,
             long id,
@@ -44,7 +46,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             GroupBy = groupBy;
             SortBy = sortBy;
             Id = id;
-            var userNameText = SiteInfo.UserName(owner, notSet: false);
+            var userNameText = SiteInfo.UserName(
+                context: context,
+                userId: owner,
+                notSet: false);
             var statusText = statusColumn.Choice(status.ToString()).Text;
             Title = showProgressRate
                 ? "{0} ({1}{2} * {3}{4}){5}{6}".Params(
@@ -54,7 +59,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     progressRateColumn.Display(progressRate),
                     progressRateColumn.Unit,
                     !userNameText.IsNullOrEmpty()
-                        ? " " + SiteInfo.UserName(owner, notSet: false)
+                        ? " " + SiteInfo.UserName(
+                            context: context,
+                            userId: owner,
+                            notSet: false)
                         : string.Empty,
                     !statusText.IsNullOrEmpty()
                         ? " : " + statusColumn.Choice(status.ToString()).Text
@@ -62,7 +70,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 : "{0}{1}{2}".Params(
                     title,
                     !userNameText.IsNullOrEmpty()
-                        ? " (" + SiteInfo.UserName(owner, notSet: false) + ")"
+                        ? " (" + SiteInfo.UserName(
+                            context: context,
+                            userId: owner,
+                            notSet: false) + ")"
                         : string.Empty,
                     !statusText.IsNullOrEmpty()
                         ? " : " + statusColumn.Choice(status.ToString()).Text

@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedUserId = 0;
         [NonSerialized] public bool SavedAdmin = false;
 
-        public bool GroupId_Updated(Column column = null)
+        public bool GroupId_Updated(Context context, Column column = null)
         {
             return GroupId != SavedGroupId &&
                 (column == null ||
@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != GroupId);
         }
 
-        public bool DeptId_Updated(Column column = null)
+        public bool DeptId_Updated(Context context, Column column = null)
         {
             return DeptId != SavedDeptId &&
                 (column == null ||
@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != DeptId);
         }
 
-        public bool UserId_Updated(Column column = null)
+        public bool UserId_Updated(Context context, Column column = null)
         {
             return UserId != SavedUserId &&
                 (column == null ||
@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != UserId);
         }
 
-        public bool Admin_Updated(Column column = null)
+        public bool Admin_Updated(Context context, Column column = null)
         {
             return Admin != SavedAdmin &&
                 (column == null ||
@@ -64,18 +64,19 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != Admin);
         }
 
-        public GroupMemberModel(DataRow dataRow, string tableAlias = null)
+        public GroupMemberModel(Context context, DataRow dataRow, string tableAlias = null)
         {
-            OnConstructing();
-            Set(dataRow, tableAlias);
-            OnConstructed();
+            OnConstructing(context: context);
+            Context = context;
+            if (dataRow != null) Set(context, dataRow, tableAlias);
+            OnConstructed(context: context);
         }
 
-        private void OnConstructing()
+        private void OnConstructing(Context context)
         {
         }
 
-        private void OnConstructed()
+        private void OnConstructed(Context context)
         {
         }
 
@@ -84,6 +85,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public GroupMemberModel Get(
+            Context context,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -93,15 +95,17 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(Rds.ExecuteTable(statements: Rds.SelectGroupMembers(
-                tableType: tableType,
-                column: column ?? Rds.GroupMembersDefaultColumns(),
-                join: join ??  Rds.GroupMembersJoinDefault(),
-                where: where ?? Rds.GroupMembersWhereDefault(this),
-                orderBy: orderBy,
-                param: param,
-                distinct: distinct,
-                top: top)));
+            Set(context, Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectGroupMembers(
+                    tableType: tableType,
+                    column: column ?? Rds.GroupMembersDefaultColumns(),
+                    join: join ??  Rds.GroupMembersJoinDefault(),
+                    where: where ?? Rds.GroupMembersWhereDefault(this),
+                    orderBy: orderBy,
+                    param: param,
+                    distinct: distinct,
+                    top: top)));
             return this;
         }
 
@@ -120,21 +124,21 @@ namespace Implem.Pleasanter.Models
             Comments = groupMemberModel.Comments;
         }
 
-        private void SetBySession()
+        private void SetBySession(Context context)
         {
         }
 
-        private void Set(DataTable dataTable)
+        private void Set(Context context, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(dataTable.Rows[0]); break;
+                case 1: Set(context, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -178,11 +182,11 @@ namespace Implem.Pleasanter.Models
                             SavedComments = Comments.ToJson();
                             break;
                         case "Creator":
-                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedCreator = Creator.Id;
                             break;
                         case "Updator":
-                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
@@ -199,17 +203,17 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool Updated()
+        public bool Updated(Context context)
         {
             return
-                GroupId_Updated() ||
-                DeptId_Updated() ||
-                UserId_Updated() ||
-                Ver_Updated() ||
-                Admin_Updated() ||
-                Comments_Updated() ||
-                Creator_Updated() ||
-                Updator_Updated();
+                GroupId_Updated(context: context) ||
+                DeptId_Updated(context: context) ||
+                UserId_Updated(context: context) ||
+                Ver_Updated(context: context) ||
+                Admin_Updated(context: context) ||
+                Comments_Updated(context: context) ||
+                Creator_Updated(context: context) ||
+                Updator_Updated(context: context);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
@@ -7,9 +8,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlView
     {
-        public static HtmlBuilder ViewSelector(this HtmlBuilder hb, SiteSettings ss, View view)
+        public static HtmlBuilder ViewSelector(
+            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
             return hb.FieldDropDown(
+                context: context,
                 fieldId: "ViewSelectorField",
                 controlId: "ViewSelector",
                 controlCss: " auto-postback",

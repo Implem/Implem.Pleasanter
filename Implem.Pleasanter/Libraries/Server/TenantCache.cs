@@ -1,9 +1,11 @@
 ﻿using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Requests;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Server
 {
     public class TenantCache
     {
+        public Context Context;
         public int TenantId;
         public SiteMenu SiteMenu;
         public Dictionary<int, Dept> DeptHash;
@@ -11,15 +13,16 @@ namespace Implem.Pleasanter.Libraries.Server
         public Dictionary<long, List<int>> SiteUserHash;
         public UpdateMonitor UpdateMonitor;
 
-        public TenantCache(int tenantId)
+        public TenantCache(Context context)
         {
-            TenantId = tenantId;
-            UpdateMonitor = new UpdateMonitor(tenantId);
+            Context = context;
+            TenantId = context.TenantId;
+            UpdateMonitor = new UpdateMonitor(context: context);
         }
 
         public UpdateMonitor GetUpdateMonitor()
         {
-            UpdateMonitor.Monitor(TenantId);
+            UpdateMonitor.Monitor(context: Context);
             return UpdateMonitor;
         }
     }

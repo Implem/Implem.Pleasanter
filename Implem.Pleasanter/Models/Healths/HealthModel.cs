@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedErrorCount = 0;
         [NonSerialized] public double SavedElapsed = 0;
 
-        public bool HealthId_Updated(Column column = null)
+        public bool HealthId_Updated(Context context, Column column = null)
         {
             return HealthId != SavedHealthId &&
                 (column == null ||
@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != HealthId);
         }
 
-        public bool TenantCount_Updated(Column column = null)
+        public bool TenantCount_Updated(Context context, Column column = null)
         {
             return TenantCount != SavedTenantCount &&
                 (column == null ||
@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != TenantCount);
         }
 
-        public bool UserCount_Updated(Column column = null)
+        public bool UserCount_Updated(Context context, Column column = null)
         {
             return UserCount != SavedUserCount &&
                 (column == null ||
@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != UserCount);
         }
 
-        public bool ItemCount_Updated(Column column = null)
+        public bool ItemCount_Updated(Context context, Column column = null)
         {
             return ItemCount != SavedItemCount &&
                 (column == null ||
@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != ItemCount);
         }
 
-        public bool ErrorCount_Updated(Column column = null)
+        public bool ErrorCount_Updated(Context context, Column column = null)
         {
             return ErrorCount != SavedErrorCount &&
                 (column == null ||
@@ -76,7 +76,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != ErrorCount);
         }
 
-        public bool Elapsed_Updated(Column column = null)
+        public bool Elapsed_Updated(Context context, Column column = null)
         {
             return Elapsed != SavedElapsed &&
                 (column == null ||
@@ -89,44 +89,47 @@ namespace Implem.Pleasanter.Models
         }
 
         public HealthModel(
+            Context context,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
-            if (setByForm) SetByForm();
+            OnConstructing(context: context);
+            Context = context;
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
         public HealthModel(
+            Context context,
             long healthId,
             bool clearSessions = false,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
+            OnConstructing(context: context);
+            Context = context;
             HealthId = healthId;
-            Get();
+            Get(context: context);
             if (clearSessions) ClearSessions();
-            if (setByForm) SetByForm();
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
-        public HealthModel(DataRow dataRow, string tableAlias = null)
+        public HealthModel(Context context, DataRow dataRow, string tableAlias = null)
         {
-            OnConstructing();
-            Set(dataRow, tableAlias);
-            OnConstructed();
+            OnConstructing(context: context);
+            Context = context;
+            if (dataRow != null) Set(context, dataRow, tableAlias);
+            OnConstructed(context: context);
         }
 
-        private void OnConstructing()
+        private void OnConstructing(Context context)
         {
         }
 
-        private void OnConstructed()
+        private void OnConstructed(Context context)
         {
         }
 
@@ -135,6 +138,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public HealthModel Get(
+            Context context,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -144,38 +148,42 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(Rds.ExecuteTable(statements: Rds.SelectHealths(
-                tableType: tableType,
-                column: column ?? Rds.HealthsDefaultColumns(),
-                join: join ??  Rds.HealthsJoinDefault(),
-                where: where ?? Rds.HealthsWhereDefault(this),
-                orderBy: orderBy,
-                param: param,
-                distinct: distinct,
-                top: top)));
+            Set(context, Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectHealths(
+                    tableType: tableType,
+                    column: column ?? Rds.HealthsDefaultColumns(),
+                    join: join ??  Rds.HealthsJoinDefault(),
+                    where: where ?? Rds.HealthsWhereDefault(this),
+                    orderBy: orderBy,
+                    param: param,
+                    distinct: distinct,
+                    top: top)));
             return this;
         }
 
         public Error.Types Create(
-            RdsUser rdsUser = null,
+            Context context,
+            SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool otherInitValue = false,
             bool get = true)
         {
             var statements = new List<SqlStatement>();
-            CreateStatements(statements, tableType, param, otherInitValue);
+            CreateStatements(context, statements, tableType, param, otherInitValue);
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             HealthId = (response.Identity ?? HealthId).ToLong();
-            if (get) Get();
+            if (get) Get(context: context);
             return Error.Types.None;
         }
 
         public List<SqlStatement> CreateStatements(
+            Context context,
             List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
@@ -187,12 +195,17 @@ namespace Implem.Pleasanter.Models
                     tableType: tableType,
                     setIdentity: true,
                     param: param ?? Rds.HealthsParamDefault(
-                        this, setDefault: true, otherInitValue: otherInitValue))
+                        context: context,
+                        healthModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue))
             });
             return statements;
         }
 
         public Error.Types Update(
+            Context context,
+            SiteSettings ss,
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
@@ -200,20 +213,29 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
-            if (setBySession) SetBySession();
+            if (setBySession) SetBySession(context: context);
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
+            UpdateStatements(
+                context: context,
+                ss: ss,
+                statements: statements,
+                timestamp: timestamp,
+                param: param,
+                otherInitValue: otherInitValue,
+                additionalStatements: additionalStatements);
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             if (response.Count == 0) return Error.Types.UpdateConflicts;
-            if (get) Get();
+            if (get) Get(context: context);
             return Error.Types.None;
         }
 
         private List<SqlStatement> UpdateStatements(
+            Context context,
+            SiteSettings ss,
             List<SqlStatement> statements,
             DateTime timestamp,
             SqlParamCollection param,
@@ -231,7 +253,8 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateHealths(
                     where: where,
-                    param: param ?? Rds.HealthsParamDefault(this, otherInitValue: otherInitValue),
+                    param: param ?? Rds.HealthsParamDefault(
+                        context: context, healthModel: this, otherInitValue: otherInitValue),
                     countRecord: true)
             });
             if (additionalStatements?.Any() == true)
@@ -265,28 +288,30 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types UpdateOrCreate(
+            Context context,
             RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
-            SetBySession();
+            SetBySession(context: context);
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertHealths(
                     where: where ?? Rds.HealthsWhereDefault(this),
-                    param: param ?? Rds.HealthsParamDefault(this, setDefault: true))
+                    param: param ?? Rds.HealthsParamDefault(
+                        context: context, healthModel: this, setDefault: true))
             };
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             HealthId = (response.Identity ?? HealthId).ToLong();
-            Get();
+            Get(context: context);
             return Error.Types.None;
         }
 
-        public Error.Types Delete()
+        public Error.Types Delete(Context context)
         {
             var statements = new List<SqlStatement>();
             var where = Rds.HealthsWhere().HealthId(HealthId);
@@ -295,15 +320,17 @@ namespace Implem.Pleasanter.Models
                 Rds.DeleteHealths(where: where)
             });
             var response = Rds.ExecuteScalar_response(
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             return Error.Types.None;
         }
 
-        public Error.Types Restore(long healthId)
+        public Error.Types Restore(Context context, long healthId)
         {
             HealthId = healthId;
             Rds.ExecuteNonQuery(
+                context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -315,52 +342,15 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types PhysicalDelete(
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            Context context, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
+                context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteHealths(
                     tableType: tableType,
                     param: Rds.HealthsParam().HealthId(HealthId)));
             return Error.Types.None;
-        }
-
-        public void SetByForm()
-        {
-            Forms.Keys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    case "Healths_TenantCount": TenantCount = Forms.Data(controlId).ToInt(); break;
-                    case "Healths_UserCount": UserCount = Forms.Data(controlId).ToInt(); break;
-                    case "Healths_ItemCount": ItemCount = Forms.Data(controlId).ToInt(); break;
-                    case "Healths_ErrorCount": ErrorCount = Forms.Data(controlId).ToInt(); break;
-                    case "Healths_Elapsed": Elapsed = Forms.Data(controlId).ToDouble(); break;
-                    case "Healths_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
-                    case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
-                    default:
-                        if (controlId.RegexExists("Comment[0-9]+"))
-                        {
-                            Comments.Update(
-                                controlId.Substring("Comment".Length).ToInt(),
-                                Forms.Data(controlId));
-                        }
-                        break;
-                }
-            });
-            if (Routes.Action() == "deletecomment")
-            {
-                DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
-            Forms.FileKeys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    default: break;
-                }
-            });
         }
 
         public void SetByModel(HealthModel healthModel)
@@ -379,21 +369,21 @@ namespace Implem.Pleasanter.Models
             Comments = healthModel.Comments;
         }
 
-        private void SetBySession()
+        private void SetBySession(Context context)
         {
         }
 
-        private void Set(DataTable dataTable)
+        private void Set(Context context, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(dataTable.Rows[0]); break;
+                case 1: Set(context, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -439,11 +429,11 @@ namespace Implem.Pleasanter.Models
                             SavedComments = Comments.ToJson();
                             break;
                         case "Creator":
-                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedCreator = Creator.Id;
                             break;
                         case "Updator":
-                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
@@ -460,51 +450,53 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool Updated()
+        public bool Updated(Context context)
         {
             return
-                HealthId_Updated() ||
-                Ver_Updated() ||
-                TenantCount_Updated() ||
-                UserCount_Updated() ||
-                ItemCount_Updated() ||
-                ErrorCount_Updated() ||
-                Elapsed_Updated() ||
-                Comments_Updated() ||
-                Creator_Updated() ||
-                Updator_Updated();
+                HealthId_Updated(context: context) ||
+                Ver_Updated(context: context) ||
+                TenantCount_Updated(context: context) ||
+                UserCount_Updated(context: context) ||
+                ItemCount_Updated(context: context) ||
+                ErrorCount_Updated(context: context) ||
+                Elapsed_Updated(context: context) ||
+                Comments_Updated(context: context) ||
+                Creator_Updated(context: context) ||
+                Updator_Updated(context: context);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public HealthModel(DateTime time)
+        public HealthModel(Context context, DateTime time)
         {
             var now = DateTime.Now;
-            var dataTable = Rds.ExecuteDataSet(statements: new SqlStatement[]
-            {
-                Rds.SelectTenants(
-                    dataTableName: "TenantCount",
-                    column: Rds.TenantsColumn().TenantsCount()),
-                Rds.SelectUsers(
-                    dataTableName: "UserCount",
-                    column: Rds.UsersColumn().UsersCount()),
-                Rds.SelectItems(
-                    dataTableName: "ItemCount",
-                    column: Rds.ItemsColumn().ItemsCount()),
-                Rds.SelectSysLogs(
-                    dataTableName: "ErrorCount",
-                    column: Rds.SysLogsColumn().SysLogsCount(),
-                    where: Rds.SysLogsWhere()
-                        .CreatedTime(time, _operator: ">=")
-                        .ErrMessage(_operator: " is not null"))
-            });
+            var dataTable = Rds.ExecuteDataSet(
+                context: context,
+                statements: new SqlStatement[]
+                {
+                    Rds.SelectTenants(
+                        dataTableName: "TenantCount",
+                        column: Rds.TenantsColumn().TenantsCount()),
+                    Rds.SelectUsers(
+                        dataTableName: "UserCount",
+                        column: Rds.UsersColumn().UsersCount()),
+                    Rds.SelectItems(
+                        dataTableName: "ItemCount",
+                        column: Rds.ItemsColumn().ItemsCount()),
+                    Rds.SelectSysLogs(
+                        dataTableName: "ErrorCount",
+                        column: Rds.SysLogsColumn().SysLogsCount(),
+                        where: Rds.SysLogsWhere()
+                            .CreatedTime(time, _operator: ">=")
+                            .ErrMessage(_operator: " is not null"))
+                });
             TenantCount = dataTable.Tables["TenantCount"].Rows[0][0].ToInt();
             UserCount = dataTable.Tables["UserCount"].Rows[0][0].ToInt();
             ItemCount = dataTable.Tables["ItemCount"].Rows[0][0].ToInt();
             ErrorCount = dataTable.Tables["ErrorCount"].Rows[0][0].ToInt();
             Elapsed = (DateTime.Now - now).Milliseconds;
-            Create();
+            Create(context: context, ss: new SiteSettings());
         }
     }
 }

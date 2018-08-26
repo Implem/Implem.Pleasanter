@@ -11,6 +11,8 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
 using System.Runtime.Serialization;
+using Implem.Pleasanter.Libraries.Requests;
+
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -25,13 +27,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public CompletionTime(SiteSettings ss, DataRow dataRow, ColumnNameInfo column = null)
+        public CompletionTime(
+            Context context, SiteSettings ss, DataRow dataRow, ColumnNameInfo column = null)
         {
             column = column ?? new ColumnNameInfo("CompletionTime");
             Value = dataRow.DateTime(Rds.DataColumnName(column, "CompletionTime"));
             DisplayValue = Value
                 .ToLocal()
-                .AddDifferenceOfDates(ss.GetColumn("CompletionTime")?.EditorFormat, minus: true);
+                .AddDifferenceOfDates(ss.GetColumn(
+                    context: context,
+                    columnName: "CompletionTime")?.EditorFormat, minus: true);
             Status = new Status(dataRow, column);
             UpdatedTime = dataRow.DateTime(Rds.DataColumnName(column, "UpdatedTime"));
             VerType = dataRow.Bool(Rds.DataColumnName(column, "IsHistory"))
@@ -40,6 +45,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         }
 
         public CompletionTime(
+            Context context,
             SiteSettings ss,
             DateTime value,
             Status status,
@@ -49,24 +55,30 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             {
                 Value = value
                     .ToUniversal()
-                    .AddDifferenceOfDates(ss.GetColumn("CompletionTime")?.EditorFormat);
+                    .AddDifferenceOfDates(ss.GetColumn(
+                        context: context,
+                        columnName: "CompletionTime")?.EditorFormat);
                 DisplayValue = value;
             }
             else
             {
                 Value = value
-                    .AddDifferenceOfDates(ss.GetColumn("CompletionTime")?.EditorFormat);
+                    .AddDifferenceOfDates(ss.GetColumn(
+                        context: context,
+                        columnName: "CompletionTime")?.EditorFormat);
                 DisplayValue = value.ToLocal();
             }
             Status = status;
         }
 
-        public CompletionTime(SiteSettings ss, DateTime value)
+        public CompletionTime(Context context, SiteSettings ss, DateTime value)
         {
             Value = value;
             DisplayValue = Value
                 .ToLocal()
-                .AddDifferenceOfDates(ss.GetColumn("CompletionTime")?.EditorFormat, minus: true);
+                .AddDifferenceOfDates(ss.GetColumn(
+                    context: context,
+                    columnName: "CompletionTime")?.EditorFormat, minus: true);
         }
 
         [OnDeserialized]
@@ -75,7 +87,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             DisplayValue = Value.ToUniversal();
         }
 
-        public override HtmlBuilder Td(HtmlBuilder hb, Column column)
+        public override HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             return hb.Td(action: () =>
             {
@@ -194,20 +206,26 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
-        public override string GridText(Column column)
+        public override string GridText(Context context, Column column)
         {
             return column.DisplayGrid(DisplayValue);
         }
 
-        public override string ToNotice(DateTime saved, Column column, bool updated, bool update)
+        public override string ToNotice(
+            Context context,
+            DateTime saved,
+            Column column,
+            bool updated,
+            bool update)
         {
             return column.DisplayControl(DisplayValue).ToNoticeLine(
-                column.DisplayControl(saved
+                context: context,
+                saved: column.DisplayControl(saved
                     .ToLocal()
                     .AddDifferenceOfDates(column.EditorFormat, minus: true)),
-                column,
-                updated,
-                update);
+                column: column,
+                updated: updated,
+                update: update);
         }
     }
 }

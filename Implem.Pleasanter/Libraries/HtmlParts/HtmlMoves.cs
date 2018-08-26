@@ -1,11 +1,13 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlMoves
     {
-        public static HtmlBuilder MoveDialog(this HtmlBuilder hb, bool bulk = false)
+        public static HtmlBuilder MoveDialog(
+            this HtmlBuilder hb, Context context, bool bulk = false)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
@@ -14,6 +16,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Title(Displays.MoveSettings()),
                 action: () => hb
                     .FieldDropDown(
+                        context: context,
                         controlId: "MoveTargets",
                         controlCss: " always-send",
                         labelText: Displays.Destination(),

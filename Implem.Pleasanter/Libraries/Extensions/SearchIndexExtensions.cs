@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -12,64 +13,57 @@ namespace Implem.Pleasanter.Libraries.Extensions
     public static class SearchIndexExtensions
     {
         public static void SearchIndexes(
-            this int self, Dictionary<string, int> searchIndexHash, int searchPriority)
+            this int self,
+            Context context,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
         {
             Update(searchIndexHash, self.ToString(), searchPriority);
         }
 
         public static void SearchIndexes(
-            this long self, Dictionary<string, int> searchIndexHash, int searchPriority)
+            this long self,
+            Context context,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
         {
             Update(searchIndexHash, self.ToString(), searchPriority);
         }
 
         public static void SearchIndexes(
-            this decimal self, Dictionary<string, int> searchIndexHash, int searchPriority)
+            this decimal self,
+            Context context,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
         {
             Update(searchIndexHash, self.ToString(), searchPriority);
         }
 
         public static void SearchIndexes(
-            this DateTime self, Dictionary<string, int> searchIndexHash, int searchPriority)
+            this DateTime self,
+            Context context,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
         {
             Update(searchIndexHash, self.ToLocal().ToString(), searchPriority);
         }
 
         public static void SearchIndexes(
-            this string self, Dictionary<string, int> searchIndexHash, int searchPriority)
-        {
-            SearchIndexes(searchIndexHash, self, searchPriority);
-        }
-
-        public static void SearchIndexes(
-            this string self, Column column, Dictionary<string, int> searchIndexHash, int searchPriority)
-        {
-            if (column?.HasChoices() == true)
-            {
-                SearchIndexes(searchIndexHash, column.Choice(self).SearchText(), searchPriority);
-            }
-            else
-            {
-                SearchIndexes(searchIndexHash, self, searchPriority);
-            }
-        }
-
-        public static void SearchIndexes(
-            this IEnumerable<SiteMenuElement> self,
+            this string self,
+            Context context,
             Dictionary<string, int> searchIndexHash,
             int searchPriority)
         {
-            SearchIndexes(searchIndexHash, self.Select(o => o.Title).Join(" "), searchPriority);
+            SearchIndexes(
+                context: context,
+                searchIndexHash: searchIndexHash,
+                text: self,
+                searchPriority: searchPriority);
         }
 
         public static void SearchIndexes(
-            this ProgressRate self, Dictionary<string, int> searchIndexHash, int searchPriority)
-        {
-            SearchIndexes(searchIndexHash, self.Value.ToString(), searchPriority);
-        }
-
-        public static void SearchIndexes(
-            this Status self,
+            this string self,
+            Context context,
             Column column,
             Dictionary<string, int> searchIndexHash,
             int searchPriority)
@@ -77,84 +71,184 @@ namespace Implem.Pleasanter.Libraries.Extensions
             if (column?.HasChoices() == true)
             {
                 SearchIndexes(
-                    searchIndexHash,
-                    column.Choice(self.Value.ToString()).SearchText(),
-                    searchPriority);
+                    context: context,
+                    searchIndexHash: searchIndexHash,
+                    text: column.Choice(self).SearchText(),
+                    searchPriority: searchPriority);
             }
             else
             {
-                SearchIndexes(searchIndexHash, self.Value.ToString(), searchPriority);
+                SearchIndexes(
+                    context: context,
+                    searchIndexHash: searchIndexHash,
+                    text: self,
+                    searchPriority: searchPriority);
             }
         }
 
         public static void SearchIndexes(
-            this Time self, Dictionary<string, int> searchIndexHash, int searchPriority)
-        {
-            SearchIndexes(searchIndexHash, self.Value.ToLocal().ToString(), searchPriority);
-        }
-
-        public static void SearchIndexes(
-            this Title self, Dictionary<string, int> searchIndexHash, int searchPriority)
-        {
-            SearchIndexes(searchIndexHash, self.Value, searchPriority);
-        }
-
-        public static void SearchIndexes(
-            this User self, Dictionary<string, int> searchIndexHash, int searchPriority)
-        {
-            SearchIndexes(searchIndexHash, self.Name, searchPriority);
-        }
-
-        public static void SearchIndexes(
-            this Comments self, Dictionary<string, int> searchIndexHash, int searchPriority)
+            this IEnumerable<SiteMenuElement> self,
+            Context context,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
         {
             SearchIndexes(
-                searchIndexHash,
-                self.Select(o => SiteInfo.UserName(o.Creator) + " " + o.Body).Join(" "),
-                searchPriority);
+                context: context,
+                searchIndexHash: searchIndexHash,
+                text: self.Select(o => o.Title).Join(" "),
+                searchPriority: searchPriority);
         }
 
         public static void SearchIndexes(
-            this WorkValue self, Dictionary<string, int> searchIndexHash, int searchPriority)
-        {
-            SearchIndexes(searchIndexHash, self.Value.ToString(), searchPriority);
-        }
-
-        public static void SearchIndexes(
-            this Attachments self, Dictionary<string, int> searchIndexHash, int searchPriority)
+            this ProgressRate self,
+            Context context,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
         {
             SearchIndexes(
-                searchIndexHash,
-                self.Select(o => o.Name).Join(" "),
-                searchPriority);
+                context: context,
+                searchIndexHash: searchIndexHash,
+                text: self.Value.ToString(),
+                searchPriority: searchPriority);
+        }
+
+        public static void SearchIndexes(
+            this Status self,
+            Context context,
+            Column column,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
+        {
+            if (column?.HasChoices() == true)
+            {
+                SearchIndexes(
+                    context: context,
+                    searchIndexHash: searchIndexHash,
+                    text: column.Choice(self.Value.ToString()).SearchText(),
+                    searchPriority: searchPriority);
+            }
+            else
+            {
+                SearchIndexes(
+                    context: context,
+                    searchIndexHash: searchIndexHash,
+                    text: self.Value.ToString(),
+                    searchPriority: searchPriority);
+            }
+        }
+
+        public static void SearchIndexes(
+            this Time self,
+            Context context,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
+        {
+            SearchIndexes(
+                context: context,
+                searchIndexHash: searchIndexHash,
+                text: self.Value.ToLocal().ToString(),
+                searchPriority: searchPriority);
+        }
+
+        public static void SearchIndexes(
+            this Title self,
+            Context context,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
+        {
+            SearchIndexes(
+                context: context,
+                searchIndexHash: searchIndexHash,
+                text: self.Value,
+                searchPriority: searchPriority);
+        }
+
+        public static void SearchIndexes(
+            this User self,
+            Context context,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
+        {
+            SearchIndexes(
+                context: context,
+                searchIndexHash: searchIndexHash,
+                text: self.Name,
+                searchPriority: searchPriority);
+        }
+
+        public static void SearchIndexes(
+            this Comments self,
+            Context context,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
+        {
+            SearchIndexes(
+                context: context,
+                searchIndexHash: searchIndexHash,
+                text: self.Select(o => SiteInfo.UserName(
+                    context: context,
+                    userId: o.Creator) + " " + o.Body).Join(" "),
+                searchPriority: searchPriority);
+        }
+
+        public static void SearchIndexes(
+            this WorkValue self,
+            Context context,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
+        {
+            SearchIndexes(
+                context: context,
+                searchIndexHash: searchIndexHash,
+                text: self.Value.ToString(),
+                searchPriority: searchPriority);
+        }
+
+        public static void SearchIndexes(
+            this Attachments self,
+            Context context,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
+        {
+            SearchIndexes(
+                context: context,
+                searchIndexHash: searchIndexHash,
+                text: self.Select(o => o.Name).Join(" "),
+                searchPriority: searchPriority);
         }
 
         public static void OutgoingMailsSearchIndexes(
+            Context context,
             Dictionary<string, int> searchIndexHash,
             string referenceType,
             long referenceId)
         {
-            new OutgoingMailCollection(where: Rds.OutgoingMailsWhere()
-                .ReferenceType(referenceType)
-                .ReferenceId(referenceId)).Select(o => " ".JoinParam(
-                    o.From.ToString(),
-                    o.To,
-                    o.Cc,
-                    o.Bcc,
-                    o.Title.Value,
-                    o.Body)).Join(" ")
-                        .SearchIndexes(createIndex: true)
-                        .Distinct()
-                        .ForEach(searchIndex =>
-                           Update(searchIndexHash, searchIndex, 300));
+            new OutgoingMailCollection(
+                context: context,
+                where: Rds.OutgoingMailsWhere()
+                    .ReferenceType(referenceType)
+                    .ReferenceId(referenceId)).Select(o => " ".JoinParam(
+                        o.From.ToString(),
+                        o.To,
+                        o.Cc,
+                        o.Bcc,
+                        o.Title.Value,
+                        o.Body)).Join(" ")
+                            .SearchIndexes(
+                                context: context,
+                                createIndex: true)
+                            .Distinct()
+                            .ForEach(searchIndex =>
+                               Update(searchIndexHash, searchIndex, 300));
         }
 
         private static void SearchIndexes(
+            Context context,
             Dictionary<string, int> searchIndexHash,
             string text,
             int searchPriority)
         {
-            SearchIndexes(text, createIndex: true).ForEach(searchIndex =>
+            text.SearchIndexes(context: context, createIndex: true).ForEach(searchIndex =>
                 Update(searchIndexHash, searchIndex, searchPriority));
         }
 
@@ -177,7 +271,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
             }
         }
 
-        public static IEnumerable<string> SearchIndexes(this string self, bool createIndex = false)
+        public static IEnumerable<string> SearchIndexes(
+            this string self, Context context, bool createIndex = false)
         {
             return new Search.WordBreaker(self, createIndex).Results
                 .Select(o => o.Trim().ToLower())

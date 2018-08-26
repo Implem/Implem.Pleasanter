@@ -1,6 +1,7 @@
 ﻿using Implem.Pleasanter.Filters;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
@@ -12,10 +13,11 @@ namespace Implem.Pleasanter.Controllers
     {
         public ActionResult Index()
         {
-            var log = new SysLogModel();
-            var html = new HtmlBuilder().AssemblyVersions();
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var html = new HtmlBuilder().AssemblyVersions(context: context);
             ViewBag.HtmlBody = html;
-            log.Finish(html.Length);
+            log.Finish(context: context, responseSize: html.Length);
             return View();
         }
     }

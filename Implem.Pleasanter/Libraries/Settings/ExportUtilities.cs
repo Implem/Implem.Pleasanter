@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static Dictionary<string, ControlData> SourceColumnOptions(
-            SiteSettings ss, Join join, string searchText = null)
+            Context context, SiteSettings ss, Join join, string searchText = null)
         {
             var sources = new List<ExportColumn>();
             var allows = join?
@@ -38,42 +38,55 @@ namespace Implem.Pleasanter.Libraries.Settings
             allows?.Reverse();
             allows?.ForEach(link =>
                 sources.AddRange(ss.JoinedSsHash.Get(link.SiteId)
-                    .ExportColumns(searchText)));
-            sources.AddRange(ss.ExportColumns(searchText));
+                    .ExportColumns(
+                        context: context,
+                        searchText: searchText)));
+            sources.AddRange(ss.ExportColumns(
+                context: context,
+                searchText: searchText));
             return SourceColumnOptions(sources);
         }
 
-        public static ResponseFile Csv(SiteSettings ss, Export export)
+        public static ResponseFile Csv(Context context, SiteSettings ss, Export export)
         {
-            ss.SetExports();
-            ss.JoinedSsHash.Values.ForEach(currentSs => currentSs.SetChoiceHash(all: true));
+            ss.SetExports(context: context);
+            ss.JoinedSsHash.Values.ForEach(currentSs => currentSs
+                .SetChoiceHash(context: context, all: true));
             var data = new Dictionary<long, Dictionary<long, Dictionary<int, string>>>();
             Dictionary<long, long> keys = null;
             var keyColumns = KeyColumns(export, ss.SiteId);
-            var view = Views.GetBySession(ss);
+            var view = Views.GetBySession(context: context, ss: ss);
             switch (ss.ReferenceType)
             {
                 case "Issues":
                     keys = IssueData(
-                        ss,
-                        data,
-                        view.Where(ss),
-                        view.OrderBy(ss, Rds.IssuesOrderBy()
-                            .UpdatedTime(SqlOrderBy.Types.desc)),
-                        export,
-                        keys,
-                        keyColumns);
+                        context: context,
+                        ss: ss,
+                        data: data,
+                        where: view.Where(context: context, ss: ss),
+                        orderBy: view.OrderBy(
+                            context: context,
+                            ss: ss,
+                            orderBy: Rds.IssuesOrderBy()
+                                .UpdatedTime(SqlOrderBy.Types.desc)),
+                        export: export,
+                        keys: keys,
+                        keyColumns: keyColumns);
                     break;
                 case "Results":
                     keys = ResultData(
-                        ss,
-                        data,
-                        view.Where(ss),
-                        view.OrderBy(ss, Rds.ResultsOrderBy()
-                            .UpdatedTime(SqlOrderBy.Types.desc)),
-                        export,
-                        keys,
-                        keyColumns);
+                        context: context,
+                        ss: ss,
+                        data: data,
+                        where: view.Where(context: context, ss: ss),
+                        orderBy: view.OrderBy(
+                            context: context,
+                            ss: ss,
+                            orderBy: Rds.ResultsOrderBy()
+                                .UpdatedTime(SqlOrderBy.Types.desc)),
+                        export: export,
+                        keys: keys,
+                        keyColumns: keyColumns);
                     break;
             }
             export.Join?.ForEach(link =>
@@ -83,23 +96,25 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     case "Issues":
                         keys = IssueData(
-                            currentSs,
-                            data,
-                            Rds.IssuesWhere().IssueId_In(keys.Values),
-                            null,
-                            export,
-                            keys,
-                            keyColumns);
+                            context: context,
+                            ss: currentSs,
+                            data: data,
+                            where: Rds.IssuesWhere().IssueId_In(keys.Values),
+                            orderBy: null,
+                            export: export,
+                            keys: keys,
+                            keyColumns: keyColumns);
                         break;
                     case "Results":
                         keys = ResultData(
-                            currentSs,
-                            data,
-                            Rds.ResultsWhere().ResultId_In(keys.Values),
-                            null,
-                            export,
-                            keys,
-                            keyColumns);
+                            context: context,
+                            ss: currentSs,
+                            data: data,
+                            where: Rds.ResultsWhere().ResultId_In(keys.Values),
+                            orderBy: null,
+                            export: export,
+                            keys: keys,
+                            keyColumns: keyColumns);
                         break;
                 }
             });
@@ -139,6 +154,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private static Dictionary<long, long> IssueData(
+            Context context,
             SiteSettings ss,
             Dictionary<long, Dictionary<long, Dictionary<int, string>>> data,
             SqlWhereCollection where,
@@ -147,12 +163,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<long, long> keys,
             Dictionary<long, string> keyColumns)
         {
-            ss.SetColumnAccessControls();
+            ss.SetColumnAccessControls(context: context);
             var keyColumn = keyColumns.Get(ss.SiteId);
             var issueHash = new IssueCollection(
+                context: context,
                 ss: ss,
-                column: IssuesColumn(ss, export, ss.GetColumn(keyColumn)),
-                join: ss.Join(withColumn: true),
+                column: IssuesColumn(ss, export, ss.GetColumn(
+                    context: context,
+                    columnName: keyColumn)),
+                join: ss.Join(context: context, withColumn: true),
                 where: where,
                 orderBy: orderBy)
                     .ToDictionary(o => o.IssueId, o => o);
@@ -160,19 +179,29 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 data.Add(ss.SiteId, issueHash.ToDictionary(
                     o => o.Value.IssueId,
-                    o => IssueData(ss, export, o.Value)));
+                    o => IssueData(
+                        context: context,
+                        ss: ss,
+                        export: export,
+                        issueModel: o.Value)));
                 return issueHash.ToDictionary(
                     o => o.Key,
-                    o => o.Value.PropertyValue(keyColumn).ToLong());
+                    o => o.Value.PropertyValue(
+                        context: context, name: keyColumn).ToLong());
             }
             else
             {
                 data.Add(ss.SiteId, keys.ToDictionary(
                     o => o.Key,
-                    o => IssueData(ss, export, issueHash.Get(o.Value))));
+                    o => IssueData(
+                        context: context,
+                        ss: ss,
+                        export: export,
+                        issueModel: issueHash.Get(o.Value))));
                 return keys.ToDictionary(
                     o => o.Key,
-                    o => issueHash.Get(o.Value)?.PropertyValue(keyColumn).ToLong() ?? 0);
+                    o => issueHash.Get(o.Value)?.PropertyValue(
+                        context: context, name: keyColumn).ToLong() ?? 0);
             }
         }
 
@@ -191,20 +220,22 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private static Dictionary<int, string> IssueData(
-            SiteSettings ss, Export export, IssueModel issueModel)
+            Context context, SiteSettings ss, Export export, IssueModel issueModel)
         {
             return export.Columns
-                .Where(o => o.SiteId == ss.SiteId)
+                .Where(exportColumn => exportColumn.SiteId == ss.SiteId)
                 .ToDictionary(
-                    o => o.Id,
-                    o => issueModel?.CsvData(
-                        ss,
-                        o.Column,
-                        o,
-                        issueModel.Mine()));
+                    exportColumn => exportColumn.Id,
+                    exportColumn => issueModel?.CsvData(
+                        context: context,
+                        ss: ss,
+                        column: exportColumn.Column,
+                        exportColumn: exportColumn,
+                        mine: issueModel.Mine(context: context)));
         }
 
         private static Dictionary<long, long> ResultData(
+            Context context,
             SiteSettings ss,
             Dictionary<long, Dictionary<long, Dictionary<int, string>>> data,
             SqlWhereCollection where,
@@ -213,12 +244,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<long, long> keys,
             Dictionary<long, string> keyColumns)
         {
-            ss.SetColumnAccessControls();
+            ss.SetColumnAccessControls(context: context);
             var keyColumn = keyColumns.Get(ss.SiteId);
             var resultHash = new ResultCollection(
+                context: context,
                 ss: ss,
-                column: ResultsColumn(ss, export, ss.GetColumn(keyColumn)),
-                join: ss.Join(withColumn: true),
+                column: ResultsColumn(ss, export, ss.GetColumn(
+                    context: context,
+                    columnName: keyColumn)),
+                join: ss.Join(context: context, withColumn: true),
                 where: where,
                 orderBy: orderBy)
                     .ToDictionary(o => o.ResultId, o => o);
@@ -226,19 +260,29 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 data.Add(ss.SiteId, resultHash.ToDictionary(
                     o => o.Value.ResultId,
-                    o => ResultData(ss, export, o.Value)));
+                    o => ResultData(
+                        context: context,
+                        ss: ss,
+                        export: export,
+                        resultModel: o.Value)));
                 return resultHash.ToDictionary(
                     o => o.Key,
-                    o => o.Value.PropertyValue(keyColumn).ToLong());
+                    o => o.Value.PropertyValue(
+                        context: context, name: keyColumn).ToLong());
             }
             else
             {
                 data.Add(ss.SiteId, keys.ToDictionary(
                     o => o.Key,
-                    o => ResultData(ss, export, resultHash.Get(o.Value))));
+                    o => ResultData(
+                        context: context,
+                        ss: ss,
+                        export: export,
+                        resultModel: resultHash.Get(o.Value))));
                 return keys.ToDictionary(
                     o => o.Key,
-                    o => resultHash.Get(o.Value)?.PropertyValue(keyColumn).ToLong() ?? 0);
+                    o => resultHash.Get(o.Value)?.PropertyValue(
+                        context: context, name: keyColumn).ToLong() ?? 0);
             }
         }
 
@@ -257,17 +301,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private static Dictionary<int, string> ResultData(
-            SiteSettings ss, Export export, ResultModel resultModel)
+            Context context, SiteSettings ss, Export export, ResultModel resultModel)
         {
             return export.Columns
-                .Where(o => o.SiteId == ss.SiteId)
+                .Where(exportColumn => exportColumn.SiteId == ss.SiteId)
                 .ToDictionary(
-                    o => o.Id,
-                    o => resultModel?.CsvData(
-                        ss,
-                        o.Column,
-                        o,
-                        resultModel.Mine()));
+                    exportColumn => exportColumn.Id,
+                    exportColumn => resultModel?.CsvData(
+                        context: context,
+                        ss: ss,
+                        column: exportColumn.Column,
+                        exportColumn: exportColumn,
+                        mine: resultModel.Mine(context: context)));
         }
     }
 }

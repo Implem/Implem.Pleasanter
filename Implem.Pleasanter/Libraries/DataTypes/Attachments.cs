@@ -4,6 +4,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             return hb.Td(action: () => hb
                 .Ol(action: () => ForEach(item => hb
@@ -27,17 +28,17 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                 .Text(text: item.Name))))));
         }
 
-        public string ToControl(SiteSettings ss, Column column)
+        public string ToControl(Context context, SiteSettings ss, Column column)
         {
             return this.ToJson();
         }
 
-        public string ToExport(Column column, ExportColumn exportColumn)
+        public string ToExport(Context context, Column column, ExportColumn exportColumn)
         {
             return string.Empty;
         }
 
-        public string ToResponse()
+        public string ToResponse(Context context)
         {
             return string.Empty;
         }
@@ -56,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return attachments.ToJson();
         }
 
-        public void Write(List<SqlStatement> statements, long referenceId)
+        public void Write(Context context, List<SqlStatement> statements, long referenceId)
         {
             ForEach(attachment =>
             {
@@ -64,11 +65,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 {
                     attachment.WriteToLocal();
                 }
-                attachment.SqlStatement(statements, referenceId);
+                attachment.SqlStatement(
+                    context: context, statements: statements, referenceId: referenceId);
             });
         }
 
-        public bool InitialValue()
+        public bool InitialValue(Context context)
         {
             return this?.Any() != true;
         }

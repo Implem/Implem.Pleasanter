@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -15,6 +16,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Crosstab(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             View view,
             Column groupByX,
@@ -31,22 +33,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 hb
                     .FieldDropDown(
+                        context: context,
                         controlId: "CrosstabGroupByX",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.GroupByX(),
-                        optionCollection: ss.CrosstabGroupByXOptions(),
+                        optionCollection: ss.CrosstabGroupByXOptions(context: context),
                         selectedValue: view.CrosstabGroupByX,
                         method: "post")
                     .FieldDropDown(
+                        context: context,
                         controlId: "CrosstabGroupByY",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.GroupByY(),
-                        optionCollection: ss.CrosstabGroupByYOptions(),
+                        optionCollection: ss.CrosstabGroupByYOptions(context: context),
                         selectedValue: view.CrosstabGroupByY,
                         method: "post")
                     .FieldDropDown(
+                        context: context,
                         fieldId: "CrosstabColumnsField",
                         controlId: "CrosstabColumns",
                         fieldCss: "field-auto-thin",
@@ -57,6 +62,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         multiple: true,
                         method: "post")
                     .FieldDropDown(
+                        context: context,
                         controlId: "CrosstabAggregateType",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
@@ -65,6 +71,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         selectedValue: aggregateType,
                         method: "post")
                     .FieldDropDown(
+                        context: context,
                         fieldId: "CrosstabValueField",
                         controlId: "CrosstabValue",
                         fieldCss: "field-auto-thin",
@@ -75,6 +82,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         addSelectedValue: false,
                         method: "post")
                     .FieldDropDown(
+                        context: context,
                         fieldId: "CrosstabTimePeriodField",
                         controlId: "CrosstabTimePeriod",
                         fieldCss: "field-auto-thin",
@@ -84,6 +92,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         selectedValue: view.CrosstabTimePeriod,
                         method: "post")
                     .DropDown(
+                        context: context,
                         controlId: "CrosstabMonth",
                         controlCss: " w100 auto-postback",
                         optionCollection: CrosstabMonth(),
@@ -116,6 +125,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (inRange)
                         {
                             hb.CrosstabBody(
+                                context: context,
                                 ss: ss,
                                 view: view,
                                 groupByX: groupByX,
@@ -146,6 +156,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder CrosstabBody(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             View view,
             Column groupByX,
@@ -162,6 +173,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (groupByY != null)
             {
                 hb.Table(
+                    context: context,
                     ss: ss,
                     choicesX: CrosstabUtilities.ChoicesX(groupByX, timePeriod, month),
                     choicesY: CrosstabUtilities.ChoicesY(groupByY),
@@ -172,8 +184,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             else
             {
-                var columnList = CrosstabUtilities.GetColumns(ss, columns);
+                var columnList = CrosstabUtilities.GetColumns(
+                    context: context,
+                    ss: ss,
+                    columns: columns);
                 hb.Table(
+                    context: context,
                     ss: ss,
                     choicesX: CrosstabUtilities.ChoicesX(groupByX, timePeriod, month),
                     choicesY: CrosstabUtilities.ChoicesY(columnList),
@@ -217,6 +233,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Table(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Dictionary<string, ControlData> choicesX,
             Dictionary<string, ControlData> choicesY,
@@ -255,7 +272,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             var column = columns?.Any() != true
                                 ? value
-                                : ss.GetColumn(choiceY.Key);
+                                : ss.GetColumn(
+                                    context: context,
+                                    columnName: choiceY.Key);
                             hb.Tr(css: "crosstab-row", action: () =>
                             {
                                 var row = data.Where(o => o.GroupByY == choiceY.Key).ToList();

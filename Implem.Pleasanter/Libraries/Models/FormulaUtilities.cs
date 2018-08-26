@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
@@ -7,31 +8,57 @@ namespace Implem.Pleasanter.Libraries.Models
 {
     public static class FormulaUtilities
     {
-        public static void Synchronize(SiteModel siteModel, IEnumerable<int> selected = null)
+        public static void Synchronize(
+            Context context, SiteModel siteModel, IEnumerable<int> selected = null)
         {
-            Update(siteModel, 0, selected);
+            Update(
+                context: context,
+                siteModel: siteModel,
+                id: 0,
+                selected: selected);
         }
 
-        private static void Update(SiteModel siteModel, long id, IEnumerable<int> selected = null)
+        private static void Update(
+            Context context, SiteModel siteModel, long id, IEnumerable<int> selected = null)
         {
             var hasFormula = siteModel.SiteSettings.Formulas?.Any() ?? false;
-            var ss = SiteSettingsUtilities.Get(siteModel, id);
+            var ss = SiteSettingsUtilities.Get(
+                context: context, siteModel: siteModel, referenceId: id);
             switch (siteModel.ReferenceType)
             {
                 case "Issues":
-                    UpdateIssues(ss, siteModel.SiteId, id, selected, hasFormula: hasFormula);
+                    UpdateIssues(
+                        context: context,
+                        ss: ss,
+                        siteId: siteModel.SiteId,
+                        id: id,
+                        selected: selected,
+                        hasFormula: hasFormula);
                     break;
                 case "Results":
-                    UpdateResults(ss, siteModel.SiteId, id, selected, hasFormula: hasFormula);
+                    UpdateResults(
+                        context: context,
+                        ss: ss,
+                        siteId: siteModel.SiteId,
+                        id: id,
+                        selected: selected,
+                        hasFormula: hasFormula);
                     break;
                 case "Wikis":
-                    UpdateWikis(ss, siteModel.SiteId, id, selected, hasFormula: hasFormula);
+                    UpdateWikis(
+                        context: context,
+                        ss: ss,
+                        siteId: siteModel.SiteId,
+                        id: id,
+                        selected: selected,
+                        hasFormula: hasFormula);
                     break;
                 default: break;
             }
         }
 
         private static void UpdateIssues(
+            Context context,
             SiteSettings ss,
             long siteId,
             long id,
@@ -39,14 +66,17 @@ namespace Implem.Pleasanter.Libraries.Models
             bool hasFormula = false)
         {
             new IssueCollection(
+                context: context,
                 ss: ss,
                 where: Rds.IssuesWhere()
                     .SiteId(siteId)
                     .IssueId(id, _using: id != 0))
                         .ForEach(issueModel =>
                         {
-                            if (hasFormula) issueModel.UpdateFormulaColumns(ss, selected);
+                            if (hasFormula) issueModel.UpdateFormulaColumns(
+                                context: context, ss: ss, selected: selected);
                             issueModel.UpdateRelatedRecords(
+                                context: context,
                                 ss: ss,
                                 extendedSqls: true,
                                 addUpdatedTimeParam: false,
@@ -56,6 +86,7 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static void UpdateResults(
+            Context context,
             SiteSettings ss,
             long siteId,
             long id,
@@ -63,14 +94,17 @@ namespace Implem.Pleasanter.Libraries.Models
             bool hasFormula = false)
         {
             new ResultCollection(
+                context: context,
                 ss: ss,
                 where: Rds.ResultsWhere()
                     .SiteId(siteId)
                     .ResultId(id, _using: id != 0))
                         .ForEach(resultModel =>
                         {
-                            if (hasFormula) resultModel.UpdateFormulaColumns(ss, selected);
+                            if (hasFormula) resultModel.UpdateFormulaColumns(
+                                context: context, ss: ss, selected: selected);
                             resultModel.UpdateRelatedRecords(
+                                context: context,
                                 ss: ss,
                                 extendedSqls: true,
                                 addUpdatedTimeParam: false,
@@ -80,6 +114,7 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static void UpdateWikis(
+            Context context,
             SiteSettings ss,
             long siteId,
             long id,
@@ -87,14 +122,17 @@ namespace Implem.Pleasanter.Libraries.Models
             bool hasFormula = false)
         {
             new WikiCollection(
+                context: context,
                 ss: ss,
                 where: Rds.WikisWhere()
                     .SiteId(siteId)
                     .WikiId(id, _using: id != 0))
                         .ForEach(wikiModel =>
                         {
-                            if (hasFormula) wikiModel.UpdateFormulaColumns(ss, selected);
+                            if (hasFormula) wikiModel.UpdateFormulaColumns(
+                                context: context, ss: ss, selected: selected);
                             wikiModel.UpdateRelatedRecords(
+                                context: context,
                                 ss: ss,
                                 extendedSqls: true,
                                 addUpdatedTimeParam: false,
