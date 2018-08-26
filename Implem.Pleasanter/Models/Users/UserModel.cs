@@ -1665,26 +1665,32 @@ namespace Implem.Pleasanter.Models
 
         public UserSettings Session_UserSettings(Context context)
         {
-            return this.PageSession("UserSettings") != null
-                ? this.PageSession("UserSettings")?.ToString().Deserialize<UserSettings>() ?? new UserSettings()
+            return this.PageSession(context: context, name: "UserSettings") != null
+                ? this.PageSession(context: context, name: "UserSettings")?.ToString().Deserialize<UserSettings>() ?? new UserSettings()
                 : UserSettings;
         }
 
-        public void Session_UserSettings(object value)
+        public void Session_UserSettings(Context context, object value)
         {
-            this.PageSession("UserSettings", value);
+            this.PageSession(
+                context: context,
+                name: "UserSettings",
+                value: value);
         }
 
         public List<string> Session_MailAddresses(Context context)
         {
-            return this.PageSession("MailAddresses") != null
-                ? this.PageSession("MailAddresses") as List<string>
+            return this.PageSession(context: context, name: "MailAddresses") != null
+                ? this.PageSession(context: context, name: "MailAddresses") as List<string>
                 : MailAddresses;
         }
 
-        public void Session_MailAddresses(object value)
+        public void Session_MailAddresses(Context context, object value)
         {
-            this.PageSession("MailAddresses", value);
+            this.PageSession(
+                context: context,
+                name: "MailAddresses",
+                value: value);
         }
 
         public List<int> SwitchTargets;
@@ -1724,7 +1730,7 @@ namespace Implem.Pleasanter.Models
             TenantId = context.TenantId;
             UserId = userId;
             Get(context: context, ss: ss);
-            if (clearSessions) ClearSessions();
+            if (clearSessions) ClearSessions(context: context);
             if (setByForm) SetByForm(context: context, ss: ss);
             if (setByApi) SetByApi(context: context, ss: ss);
             SwitchTargets = switchTargets;
@@ -1749,10 +1755,10 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public void ClearSessions()
+        public void ClearSessions(Context context)
         {
-            Session_UserSettings(null);
-            Session_MailAddresses(null);
+            Session_UserSettings(context: context, value: null);
+            Session_MailAddresses(context: context, value: null);
         }
 
         public UserModel Get(
@@ -2517,7 +2523,7 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            if (Routes.Action() == "deletecomment")
+            if (context.Action == "deletecomment")
             {
                 DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
@@ -4245,7 +4251,9 @@ namespace Implem.Pleasanter.Models
             else
             { 
                 MailAddresses.Add(mailAddress);
-                Session_MailAddresses(MailAddresses);
+                Session_MailAddresses(
+                    context: context,
+                    value: MailAddresses);
                 return Error.Types.None;
             }
         }
@@ -4257,7 +4265,9 @@ namespace Implem.Pleasanter.Models
         {
             MailAddresses = Session_MailAddresses(context: context) ?? new List<string>();
             MailAddresses.RemoveAll(o => selected.Contains(o));
-            Session_MailAddresses(MailAddresses);
+            Session_MailAddresses(
+                context: context,
+                value: MailAddresses);
             return Error.Types.None;
         }
 

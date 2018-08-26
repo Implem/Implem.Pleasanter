@@ -16,7 +16,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Aggregations(
             this HtmlBuilder hb, Context context, SiteSettings ss, Aggregations aggregations)
         {
-            return !Reduced(ss.SiteId)
+            return !Reduced(context: context, siteId: ss.SiteId)
                 ? hb.Div(
                     id: "Aggregations",
                     action: () => hb
@@ -33,10 +33,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             icon: "ui-icon-folder-open"));
         }
 
-        private static bool Reduced(long siteId)
+        private static bool Reduced(Context context, long siteId)
         {
             var key = "ReduceAggregations_" + (siteId == 0
-                ? Pages.Key()
+                ? Pages.Key(context: context)
                 : siteId.ToString());
             if (Forms.ControlId() == "ReduceAggregations")
             {

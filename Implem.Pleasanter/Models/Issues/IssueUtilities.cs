@@ -4628,7 +4628,7 @@ namespace Implem.Pleasanter.Models
                     return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
-                            controller: Routes.Controller(),
+                            controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? Forms.Long("LinkId")
                                 : issueModel.IssueId))

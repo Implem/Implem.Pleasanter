@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Models
             TenantId = context.TenantId;
             DemoId = demoId;
             Get(context: context);
-            if (clearSessions) ClearSessions();
+            if (clearSessions) ClearSessions(context: context);
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -141,7 +141,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public void ClearSessions()
+        public void ClearSessions(Context context)
         {
         }
 

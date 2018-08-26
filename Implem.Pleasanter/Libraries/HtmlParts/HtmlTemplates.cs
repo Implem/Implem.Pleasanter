@@ -96,6 +96,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Div(id: "BottomMargin both")
                 .Footer()
                 .BackUrl(
+                    context: context,
                     siteId: siteId,
                     parentId: parentId,
                     referenceType: referenceType,

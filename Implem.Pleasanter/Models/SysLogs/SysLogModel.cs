@@ -393,7 +393,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public void ClearSessions()
+        public void ClearSessions(Context context)
         {
         }
 
@@ -692,8 +692,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public SysLogModel(Context context, Exception e, Logs logs = null)
         {
-            Class = Routes.Controller();
-            Method = Routes.Action();
+            Class = context.Controller;
+            Method = context.Action;
             ErrMessage = e.Message + (logs?.Any() == true
                 ? "\n" + logs.Select(o => o.Name + ": " + o.Value).Join("\n")
                 : string.Empty);
@@ -706,8 +706,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public SysLogModel(Context context, string errorMessage)
         {
-            Class = Routes.Controller();
-            Method = Routes.Action();
+            Class = context.Controller;
+            Method = context.Action;
             ErrMessage = errorMessage;
             WriteSysLog(context: context);
         }
@@ -717,8 +717,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public SysLogModel(Context context, System.Web.Mvc.ExceptionContext filterContext)
         {
-            Class = Routes.Controller();
-            Method = Routes.Action();
+            Class = context.Controller;
+            Method = context.Action;
             WriteSysLog(context: context);
             SysLogType = SysLogTypes.Execption;
             ErrMessage = filterContext.Exception.Message;

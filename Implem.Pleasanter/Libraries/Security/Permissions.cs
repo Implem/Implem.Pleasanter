@@ -306,7 +306,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanRead(this Context context, SiteSettings ss, bool site = false)
         {
-            switch (Routes.Controller())
+            switch (context.Controller)
             {
                 case "depts":
                     return CanManageTenant(context: context);
@@ -322,7 +322,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanCreate(this Context context, SiteSettings ss, bool site = false)
         {
-            switch (Routes.Controller())
+            switch (context.Controller)
             {
                 case "depts":
                 case "users":
@@ -336,7 +336,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanUpdate(this Context context, SiteSettings ss, bool site = false)
         {
-            switch (Routes.Controller())
+            switch (context.Controller)
             {
                 case "depts":
                     return CanManageTenant(context: context);
@@ -365,7 +365,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanDelete(this Context context, SiteSettings ss, bool site = false)
         {
-            switch (Routes.Controller())
+            switch (context.Controller)
             {
                 case "depts":
                     return CanManageTenant(context: context);
@@ -389,7 +389,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public static bool CanSendMail(this Context context, SiteSettings ss, bool site = false)
         {
             if (!Contract.Mail(context: context)) return false;
-            switch (Routes.Controller())
+            switch (context.Controller)
             {
                 case "depts":
                     return CanManageTenant(context: context);
@@ -490,7 +490,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 statements: Rds.SelectGroupMembers(
                     column: Rds.GroupMembersColumn().Admin(),
                     where: Rds.GroupMembersWhere()
-                        .GroupId(Routes.Id())
+                        .GroupId(context.Id)
                         .Add(raw: DeptOrUser("GroupMembers"))))
                             .AsEnumerable();
         }

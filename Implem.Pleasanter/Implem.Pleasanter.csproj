@@ -396,7 +396,6 @@
     <Compile Include="Libraries\Requests\DataViewGrid.cs" />
     <Compile Include="Libraries\Requests\QueryStrings.cs" />
     <Compile Include="Libraries\Requests\Request.cs" />
-    <Compile Include="Libraries\Requests\Routes.cs" />
     <Compile Include="Libraries\Requests\Url.cs" />
     <Compile Include="Libraries\Responses\ControlData.cs" />
     <Compile Include="Libraries\Responses\ResponseViews.cs" />

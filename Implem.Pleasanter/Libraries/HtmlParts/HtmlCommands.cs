@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             onClick: "$p.back();",
                             icon: "ui-icon-circle-arrow-w");
                     }
-                    if (Routes.Action() == "new")
+                    if (context.Action == "new")
                     {
                         hb.Button(
                             text: Displays.Create(),
@@ -109,9 +109,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 _using: deleteButton
                                     && context.CanDelete(ss: ss)
                                     && ss.IsSite(context: context));
-                        if (Routes.Controller() == "items" && ss.ReferenceType != "Sites")
+                        if (context.Controller == "items" && ss.ReferenceType != "Sites")
                         {
-                            switch (Routes.Action())
+                            switch (context.Action)
                             {
                                 case "index":
                                     hb

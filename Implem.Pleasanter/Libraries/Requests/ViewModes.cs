@@ -10,9 +10,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                 : "index";
         }
 
-        public static void Set(long siteId)
+        public static void Set(Context context, long siteId)
         {
-            HttpContext.Current.Session["ViewMode" + siteId] = Routes.Action().ToLower();
+            HttpContext.Current.Session["ViewMode" + siteId] = context.Action;
         }
     }
 }

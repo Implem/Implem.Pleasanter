@@ -95,50 +95,62 @@ namespace Implem.Pleasanter.Models
 
         public SiteSettings Session_SiteSettings(Context context)
         {
-            return this.PageSession("SiteSettings") != null
-                ? this.PageSession("SiteSettings")?.ToString().Deserialize<SiteSettings>() ?? new SiteSettings(context: context, referenceType: ReferenceType)
+            return this.PageSession(context: context, name: "SiteSettings") != null
+                ? this.PageSession(context: context, name: "SiteSettings")?.ToString().Deserialize<SiteSettings>() ?? new SiteSettings(context: context, referenceType: ReferenceType)
                 : SiteSettings;
         }
 
-        public void Session_SiteSettings(object value)
+        public void Session_SiteSettings(Context context, object value)
         {
-            this.PageSession("SiteSettings", value);
+            this.PageSession(
+                context: context,
+                name: "SiteSettings",
+                value: value);
         }
 
         public List<string> Session_MonitorChangesColumns(Context context)
         {
-            return this.PageSession("MonitorChangesColumns") != null
-                ? this.PageSession("MonitorChangesColumns") as List<string> ?? new List<string>()
+            return this.PageSession(context: context, name: "MonitorChangesColumns") != null
+                ? this.PageSession(context: context, name: "MonitorChangesColumns") as List<string> ?? new List<string>()
                 : MonitorChangesColumns;
         }
 
-        public void Session_MonitorChangesColumns(object value)
+        public void Session_MonitorChangesColumns(Context context, object value)
         {
-            this.PageSession("MonitorChangesColumns", value);
+            this.PageSession(
+                context: context,
+                name: "MonitorChangesColumns",
+                value: value);
         }
 
         public List<string> Session_TitleColumns(Context context)
         {
-            return this.PageSession("TitleColumns") != null
-                ? this.PageSession("TitleColumns") as List<string> ?? new List<string>()
+            return this.PageSession(context: context, name: "TitleColumns") != null
+                ? this.PageSession(context: context, name: "TitleColumns") as List<string> ?? new List<string>()
                 : TitleColumns;
         }
 
-        public void Session_TitleColumns(object value)
+        public void Session_TitleColumns(Context context, object value)
         {
-            this.PageSession("TitleColumns", value);
+            this.PageSession(
+                context: context,
+                name: "TitleColumns",
+                value: value);
         }
 
         public Export Session_Export(Context context)
         {
-            return this.PageSession("Export") != null
-                ? this.PageSession("Export") as Export ?? new Export()
+            return this.PageSession(context: context, name: "Export") != null
+                ? this.PageSession(context: context, name: "Export") as Export ?? new Export()
                 : Export;
         }
 
-        public void Session_Export(object value)
+        public void Session_Export(Context context, object value)
         {
-            this.PageSession("Export", value);
+            this.PageSession(
+                context: context,
+                name: "Export",
+                value: value);
         }
 
         public string PropertyValue(Context context, string name)
@@ -287,7 +299,7 @@ namespace Implem.Pleasanter.Models
             TenantId = context.TenantId;
             SiteId = siteId;
             Get(context: context);
-            if (clearSessions) ClearSessions();
+            if (clearSessions) ClearSessions(context: context);
             if (setByForm) SetByForm(context: context);
             SwitchTargets = switchTargets;
             MethodType = methodType;
@@ -315,12 +327,12 @@ namespace Implem.Pleasanter.Models
             SiteInfo.SetSiteUserHash(context: context, siteId: SiteId);
         }
 
-        public void ClearSessions()
+        public void ClearSessions(Context context)
         {
-            Session_SiteSettings(null);
-            Session_MonitorChangesColumns(null);
-            Session_TitleColumns(null);
-            Session_Export(null);
+            Session_SiteSettings(context: context, value: null);
+            Session_MonitorChangesColumns(context: context, value: null);
+            Session_TitleColumns(context: context, value: null);
+            Session_Export(context: context, value: null);
         }
 
         public SiteModel Get(
@@ -697,7 +709,7 @@ namespace Implem.Pleasanter.Models
                 }
             });
             SetSiteSettings(context: context);
-            if (Routes.Action() == "deletecomment")
+            if (context.Action == "deletecomment")
             {
                 DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
@@ -1021,7 +1033,9 @@ namespace Implem.Pleasanter.Models
             var res = new SitesResponseCollection(this);
             SetSiteSettingsPropertiesBySession(context: context);
             SetSiteSettings(context: context, res: res);
-            Session_SiteSettings(SiteSettings.ToJson());
+            Session_SiteSettings(
+                context: context,
+                value: SiteSettings.ToJson());
             return res
                 .SetMemory("formChanged", true)
                 .ToJson();
@@ -1563,7 +1577,9 @@ namespace Implem.Pleasanter.Models
                     var titleColumns = SiteSettings.TitleColumns;
                     if (column.ColumnName == "Title")
                     {
-                        Session_TitleColumns(titleColumns);
+                        Session_TitleColumns(
+                            context: context,
+                            value: titleColumns);
                     }
                     SiteSettings.EditorColumns = Forms.List("EditorColumnsAll");
                     res.Html(
@@ -2136,7 +2152,9 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Session_MonitorChangesColumns(notification.MonitorChangesColumns);
+                Session_MonitorChangesColumns(
+                    context: context,
+                    value: notification.MonitorChangesColumns);
                 res.Html("#NotificationDialog", SiteUtilities.NotificationDialog(
                     context: context,
                     ss: SiteSettings,
@@ -2550,7 +2568,9 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Session_Export(export);
+                Session_Export(
+                    context: context,
+                    value: export);
                 res.Html("#ExportDialog", SiteUtilities.ExportDialog(
                     context: context,
                     ss: SiteSettings,
@@ -2729,7 +2749,9 @@ namespace Implem.Pleasanter.Models
             current.AddRange(SiteSettings.DefaultExportColumns(context: context));
             sources.AddRange(SiteSettings.ExportColumns(
                 context: context, searchText: searchText));
-            Session_Export(new Export(current));
+            Session_Export(
+                context: context,
+                value: new Export(current));
             res
                 .Html("#ExportColumns", new HtmlBuilder()
                     .SelectableItems(listItemCollection: ExportUtilities

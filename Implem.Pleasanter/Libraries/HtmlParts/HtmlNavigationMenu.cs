@@ -57,8 +57,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Div(action: () => hb
                                 .A(
-                                    href: NewHref(ss),
-                                    attributes: SiteIndex(ss)
+                                    href: NewHref(context: context, ss: ss),
+                                    attributes: SiteIndex(context: context, ss: ss)
                                         ? new HtmlAttributes()
                                             .OnClick("$p.templates($(this));")
                                             .DataAction("Templates")
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: () => hb
                                         .Span(css: "ui-icon ui-icon-plus")
                                         .Text(text: Displays.New()))),
-                        _using: ss.ReferenceType == "Sites" && Routes.Action() == "index"
+                        _using: ss.ReferenceType == "Sites" && context.Action == "index"
                             ? context.CanManageSite(ss: ss)
                             : context.CanCreate(ss: ss)
                                 && ss.ReferenceType != "Wikis"
@@ -118,23 +118,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         }
 
-        private static string NewHref(SiteSettings ss)
+        private static string NewHref(Context context, SiteSettings ss)
         {
-            var controller = Routes.Controller();
-            switch (controller)
+            switch (context.Controller)
             {
                 case "items":
-                    return SiteIndex(ss)
+                    return SiteIndex(context: context, ss: ss)
                         ? "javascript:void(0);"
                         : Locations.ItemNew(ss.SiteId);
                 default:
-                    return Locations.New(controller);
+                    return Locations.New(context.Controller);
             }
         }
 
-        private static bool SiteIndex(SiteSettings ss)
+        private static bool SiteIndex(Context context, SiteSettings ss)
         {
-            return ss.ReferenceType == "Sites" && Routes.Action() == "index";
+            return ss.ReferenceType == "Sites" && context.Action == "index";
         }
 
         private static HtmlBuilder ViewModeMenu(
@@ -152,11 +151,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             siteId: ss.SiteId,
                             referenceType: ss.ReferenceType,
                             action: action,
-                            postBack: PostBack(ss)));
+                            postBack: PostBack(context: context, ss: ss)));
             });
         }
 
-        private static bool PostBack(SiteSettings ss)
+        private static bool PostBack(Context context, SiteSettings ss)
         {
             return new List<string>
             {
@@ -167,7 +166,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 "move",
                 "separate",
                 "history"
-            }.Contains(Routes.Action()) || ss.Scripts?.Any() == true || ss.Styles.Any() == true;
+            }.Contains(context.Action) || ss.Scripts?.Any() == true || ss.Styles.Any() == true;
         }
 
         private static HtmlBuilder ViewModeMenu(

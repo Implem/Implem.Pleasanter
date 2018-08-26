@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
             return ss.ReferenceType != "Sites"
-                ? !Reduced(ss.SiteId)
+                ? !Reduced(context: context, siteId: ss.SiteId)
                     ? hb.Div(
                         id: "ViewFilters",
                         action: () => hb
@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Delay(ss: ss, view: view)
                             .Limit(ss: ss, view: view)
                             .Columns(context: context, ss: ss, view: view)
-                            .Search(view: view))
+                            .Search(context: context, view: view))
                     : hb.Div(
                         id: "ViewFilters",
                         css: "reduced",
@@ -40,10 +40,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static bool Reduced(long? siteId)
+        private static bool Reduced(Context context, long? siteId)
         {
             var key = "ReduceViewFilters_" + (siteId != null
-                ? Pages.Key()
+                ? Pages.Key(context: context)
                 : siteId.ToString());
             if (Forms.ControlId() == "ReduceViewFilters")
             {
@@ -292,7 +292,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _using: Visible(column) || column.RecordedTime);
         }
 
-        private static HtmlBuilder Search(this HtmlBuilder hb, View view)
+        private static HtmlBuilder Search(this HtmlBuilder hb, Context context, View view)
         {
             return hb.FieldTextBox(
                 controlId: "ViewFilters_Search",
@@ -301,7 +301,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 labelText: Displays.Search(),
                 text: view.Search,
                 method: "post",
-                _using: Routes.Controller() == "items");
+                _using: context.Controller == "items");
         }
     }
 }

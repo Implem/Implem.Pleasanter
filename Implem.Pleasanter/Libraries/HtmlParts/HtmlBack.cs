@@ -9,6 +9,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder BackUrl(
             this HtmlBuilder hb,
+            Context context,
             long siteId,
             long parentId,
             string referenceType,
@@ -17,16 +18,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return !Request.IsAjax()
                 ? hb.Hidden(
                     controlId: "BackUrl",
-                    rawValue: BackUrl(siteId, parentId, referenceType, siteReferenceType))
+                    rawValue: BackUrl(
+                        context: context,
+                        siteId: siteId,
+                        parentId: parentId,
+                        referenceType: referenceType,
+                        siteReferenceType: siteReferenceType))
                 : hb;
         }
 
         private static string BackUrl(
-            long siteId, long parentId, string referenceType, string siteReferenceType)
+            Context context,
+            long siteId,
+            long parentId,
+            string referenceType,
+            string siteReferenceType)
         {
-            var controller = Routes.Controller();
             var referer = HttpUtility.UrlDecode(Url.UrlReferrer());
-            switch (controller)
+            switch (context.Controller)
             {
                 case "admins":
                     return Locations.Top();
@@ -37,7 +46,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "depts":
                 case "groups":
                 case "users":
-                    switch (Routes.Action())
+                    switch (context.Action)
                     {
                         case "new":
                         case "edit":
@@ -45,7 +54,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 referer?.EndsWith("/new") == false
                                     ? referer
                                     : null,
-                                Locations.Get(controller));
+                                Locations.Get(context.Controller));
                         case "editapi":
                             return referer != null
                                 ? referer
@@ -57,7 +66,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     switch (referenceType)
                     {
                         case "Sites":
-                            switch (Routes.Action())
+                            switch (context.Action)
                             {
                                 case "new":
                                 case "trashbox":
@@ -78,7 +87,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ? referer
                                 : Locations.ItemIndex(parentId);
                         default:
-                            switch (Routes.Action())
+                            switch (context.Action)
                             {
                                 case "new":
                                 case "edit":

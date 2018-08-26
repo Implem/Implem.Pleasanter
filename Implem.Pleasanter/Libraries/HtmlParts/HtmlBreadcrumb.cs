@@ -19,21 +19,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 return hb;
             }
-            var controller = Routes.Controller();
-            switch (controller)
+            switch (context.Controller)
             {
                 case "admins":
                     return Breadcrumb(
                         hb: hb,
                         context: context,
                         ss: ss,
-                        controller: controller);
+                        controller: context.Controller);
                 case "depts":
                     return Breadcrumb(
                         hb: hb,
                         context: context,
                         ss: ss,
-                        controller: controller,
+                        controller: context.Controller,
                         display: Displays.Depts());
                 case "groups":
                     return Permissions.CanManageTenant(context: context)
@@ -41,14 +40,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb: hb,
                             context: context,
                             ss: ss,
-                            controller: controller,
+                            controller: context.Controller,
                             display: Displays.Groups())
                         : Breadcrumb(
                             hb: hb,
                             context: context,
                             ss: ss);
                 case "users":
-                    switch (Routes.Action())
+                    switch (context.Action)
                     {
                         case "editapi":
                             return hb.Breadcrumb(
@@ -67,7 +66,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     hb: hb,
                                     context: context,
                                     ss: ss,
-                                    controller: controller,
+                                    controller: context.Controller,
                                     display: Displays.Users())
                                 : Breadcrumb(
                                     hb: hb,

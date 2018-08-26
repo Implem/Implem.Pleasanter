@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Web;
+using System.Web.Routing;
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public class Context
@@ -49,9 +50,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                     .Deserialize<UserSettings>()
                         ?? new UserSettings();
                 HasPrivilege = HttpContext.Current.Session["HasPrivilege"].ToBool();
-                Controller = Routes.Controller();
-                Action = Routes.Action();
-                Id = Routes.Id();
+                Controller = GetController();
+                Action = GetAction();
+                Id = GetId();
             }
         }
 
@@ -60,6 +61,32 @@ namespace Implem.Pleasanter.Libraries.Requests
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
+        }
+
+        private static string GetController()
+        {
+            return HasRoute()
+                ? Url.RouteData("controller").ToString().ToLower()
+                : StackTraces.Class();
+        }
+
+        private static string GetAction()
+        {
+            return HasRoute()
+                ? Url.RouteData("action").ToString().ToLower()
+                : StackTraces.Method();
+        }
+
+        private static long GetId()
+        {
+            return HasRoute()
+                ? Url.RouteData("id").ToLong()
+                : 0;
+        }
+
+        private static bool HasRoute()
+        {
+            return RouteTable.Routes.Count != 0 && HttpContext.Current != null;
         }
     }
 }

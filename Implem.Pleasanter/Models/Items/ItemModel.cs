@@ -102,7 +102,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public void ClearSessions()
+        public void ClearSessions(Context context)
         {
         }
 
@@ -145,7 +145,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 initSiteSettings: true,
                 setSiteIntegration: true);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Sites":
@@ -169,7 +169,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 initSiteSettings: true,
                 setSiteIntegration: true);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -192,7 +192,7 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true,
                 setSiteIntegration: true,
                 tableType: Sqls.TableTypes.Deleted);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             if (ReferenceId == 0)
             {
                 return SiteUtilities.TrashBox(context: context, ss: Site.SiteSettings);
@@ -221,7 +221,7 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true,
                 setSiteIntegration: true,
                 tableType: Sqls.TableTypes.Deleted);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Sites":
@@ -238,7 +238,7 @@ namespace Implem.Pleasanter.Models
         public string Calendar(Context context)
         {
             SetSite(context: context);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -265,7 +265,7 @@ namespace Implem.Pleasanter.Models
         public string CalendarJson(Context context)
         {
             SetSite(context: context);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -292,7 +292,7 @@ namespace Implem.Pleasanter.Models
         public string Crosstab(Context context)
         {
             SetSite(context: context);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -317,7 +317,7 @@ namespace Implem.Pleasanter.Models
         public string CrosstabJson(Context context)
         {
             SetSite(context: context);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -342,7 +342,7 @@ namespace Implem.Pleasanter.Models
         public string Gantt(Context context)
         {
             SetSite(context: context);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -361,7 +361,7 @@ namespace Implem.Pleasanter.Models
         public string GanttJson(Context context)
         {
             SetSite(context: context);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -383,7 +383,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 initSiteSettings: true,
                 setSiteIntegration: true);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -401,7 +401,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 initSiteSettings: true,
                 setSiteIntegration: true);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -433,7 +433,7 @@ namespace Implem.Pleasanter.Models
         public string TimeSeries(Context context)
         {
             SetSite(context: context);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -458,7 +458,7 @@ namespace Implem.Pleasanter.Models
         public string TimeSeriesJson(Context context)
         {
             SetSite(context: context);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -483,7 +483,7 @@ namespace Implem.Pleasanter.Models
         public string Kamban(Context context)
         {
             SetSite(context: context);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -510,7 +510,7 @@ namespace Implem.Pleasanter.Models
         public string KambanJson(Context context)
         {
             SetSite(context: context);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -537,7 +537,7 @@ namespace Implem.Pleasanter.Models
         public string ImageLib(Context context)
         {
             SetSite(context: context);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -564,7 +564,7 @@ namespace Implem.Pleasanter.Models
         public string ImageLibJson(Context context)
         {
             SetSite(context: context);
-            ViewModes.Set(Site.SiteId);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":

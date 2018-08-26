@@ -417,7 +417,7 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(Context context, SiteModel siteModel)
         {
-            siteModel.ClearSessions();
+            siteModel.ClearSessions(context: context);
             return EditorResponse(context: context, siteModel: siteModel).ToJson();
         }
 
@@ -507,7 +507,7 @@ namespace Implem.Pleasanter.Models
                     return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
-                            controller: Routes.Controller(),
+                            controller: context.Controller,
                             id: siteModel.ReferenceType == "Wikis"
                                 ? Rds.ExecuteScalar_long(
                                     context: context,

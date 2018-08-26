@@ -86,9 +86,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
-            var css = GridCss();
+            var css = GridCss(context: context);
             return hb.Td(action: () => this?
-                .Take(DisplayCount())
+                .Take(DisplayCount(context: context))
                 .ForEach(comment => comment
                     .Html(
                         hb: hb,
@@ -103,7 +103,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string GridText(Context context, Column column)
         {
-            return this?.Take(DisplayCount()).Select(comment =>
+            return this?.Take(DisplayCount(context: context)).Select(comment =>
                 "{0} {1}  \n{2}".Params(
                     comment.CreatedTimeDisplayValue(),
                     SiteInfo.UserName(
@@ -113,9 +113,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         .Join("\n\n");
         }
 
-        private int DisplayCount()
+        private int DisplayCount(Context context)
         {
-            switch (Routes.Action())
+            switch (context.Action)
             {
                 case "histories": return 1;
                 case "deletehistory": return 1;
@@ -123,9 +123,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
-        private string GridCss()
+        private string GridCss(Context context)
         {
-            if (DisplayCount() == 3)
+            if (DisplayCount(context: context) == 3)
             {
                 switch (this.Count())
                 {
@@ -154,7 +154,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool update)
         {
             var body = string.Empty;
-            if (Routes.Action() == "deletecomment")
+            if (context.Action == "deletecomment")
             {
                 body = Displays.CommentDeleted() + "\n";
             }

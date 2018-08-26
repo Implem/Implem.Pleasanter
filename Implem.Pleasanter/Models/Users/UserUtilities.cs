@@ -3272,7 +3272,7 @@ namespace Implem.Pleasanter.Models
                     return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
-                            controller: Routes.Controller(),
+                            controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? Forms.Long("LinkId")
                                 : userModel.UserId))
@@ -3952,7 +3952,9 @@ namespace Implem.Pleasanter.Models
                             .ToDictionary(
                                 o => o["MailAddress"].ToString(),
                                 o => new ControlData(o["MailAddress"].ToString()));
-            userModel.Session_MailAddresses(listItemCollection.Keys.ToList());
+            userModel.Session_MailAddresses(
+                context: context,
+                value: listItemCollection.Keys.ToList());
             return hb.FieldSet(id: "FieldSetMailAddresses", action: () => hb
                 .FieldSelectable(
                     controlId: "MailAddresses",

@@ -141,7 +141,7 @@ namespace Implem.Pleasanter.Models
             WikiId = wikiId;
             SiteId = ss.SiteId;
             Get(context: context, ss: ss);
-            if (clearSessions) ClearSessions();
+            if (clearSessions) ClearSessions(context: context);
             if (setByForm) SetByForm(context: context, ss: ss);
             if (setByApi) SetByApi(context: context, ss: ss);
             MethodType = methodType;
@@ -164,7 +164,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public void ClearSessions()
+        public void ClearSessions(Context context)
         {
         }
 
@@ -664,7 +664,7 @@ namespace Implem.Pleasanter.Models
             });
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
-            if (Routes.Action() == "deletecomment")
+            if (context.Action == "deletecomment")
             {
                 DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
