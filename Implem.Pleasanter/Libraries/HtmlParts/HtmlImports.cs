@@ -1,11 +1,13 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlImports
     {
-        public static HtmlBuilder ImportSettingsDialog(this HtmlBuilder hb)
+        public static HtmlBuilder ImportSettingsDialog(
+            this HtmlBuilder hb, Context context)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
@@ -19,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-wide",
                         labelText: Displays.CsvFile())
                     .FieldDropDown(
+                        context: context,
                         controlId: "Encoding",
                         fieldCss: "field-wide",
                         labelText: Displays.CharacterCode(),

@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Models
 
         [NonSerialized] public long SavedWikiId = 0;
 
-        public string PropertyValue(string name)
+        public string PropertyValue(Context context, string name)
         {
             switch (name)
             {
@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public Dictionary<string, string> PropertyValues(IEnumerable<string> names)
+        public Dictionary<string, string> PropertyValues(Context context, IEnumerable<string> names)
         {
             var hash = new Dictionary<string, string>();
             names?.ForEach(name =>
@@ -112,20 +112,23 @@ namespace Implem.Pleasanter.Models
         }
 
         public WikiModel(
+            Context context,
             SiteSettings ss,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
+            OnConstructing(context: context);
+            Context = context;
             SiteId = ss.SiteId;
-            if (setByForm) SetByForm(ss);
-            if (setByApi) SetByApi(ss);
+            if (setByForm) SetByForm(context: context, ss: ss);
+            if (setByApi) SetByApi(context: context, ss: ss);
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
         public WikiModel(
+            Context context,
             SiteSettings ss,
             long wikiId,
             bool clearSessions = false,
@@ -133,29 +136,31 @@ namespace Implem.Pleasanter.Models
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
+            OnConstructing(context: context);
+            Context = context;
             WikiId = wikiId;
             SiteId = ss.SiteId;
-            Get(ss);
+            Get(context: context, ss: ss);
             if (clearSessions) ClearSessions();
-            if (setByForm) SetByForm(ss);
-            if (setByApi) SetByApi(ss);
+            if (setByForm) SetByForm(context: context, ss: ss);
+            if (setByApi) SetByApi(context: context, ss: ss);
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
-        public WikiModel(SiteSettings ss, DataRow dataRow, string tableAlias = null)
+        public WikiModel(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
-            OnConstructing();
-            Set(ss, dataRow, tableAlias);
-            OnConstructed();
+            OnConstructing(context: context);
+            Context = context;
+            if (dataRow != null) Set(context, ss, dataRow, tableAlias);
+            OnConstructed(context: context);
         }
 
-        private void OnConstructing()
+        private void OnConstructing(Context context)
         {
         }
 
-        private void OnConstructed()
+        private void OnConstructed(Context context)
         {
         }
 
@@ -164,6 +169,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public WikiModel Get(
+            Context context,
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
@@ -174,15 +180,17 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(ss, Rds.ExecuteTable(statements: Rds.SelectWikis(
-                tableType: tableType,
-                column: column ?? Rds.WikisEditorColumns(ss),
-                join: join ??  Rds.WikisJoinDefault(),
-                where: where ?? Rds.WikisWhereDefault(this),
-                orderBy: orderBy,
-                param: param,
-                distinct: distinct,
-                top: top)));
+            Set(context, ss, Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectWikis(
+                    tableType: tableType,
+                    column: column ?? Rds.WikisEditorColumns(ss),
+                    join: join ??  Rds.WikisJoinDefault(),
+                    where: where ?? Rds.WikisWhereDefault(this),
+                    orderBy: orderBy,
+                    param: param,
+                    distinct: distinct,
+                    top: top)));
             return this;
         }
 
@@ -209,40 +217,49 @@ namespace Implem.Pleasanter.Models
         }
 
         public string FullText(
-            SiteSettings ss, bool backgroundTask = false, bool onCreating = false)
+            Context context,
+            SiteSettings ss,
+            bool backgroundTask = false,
+            bool onCreating = false)
         {
             if (Parameters.Search.Provider != "FullText") return null;
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
             if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
             var fullText = new List<string>();
-            SiteInfo.TenantCaches[Sessions.TenantId()]
-                .SiteMenu.Breadcrumb(SiteId).FullText(fullText);
-            SiteId.FullText(fullText);
+            SiteInfo.TenantCaches
+                .Get(context.TenantId)?
+                .SiteMenu.Breadcrumb(context: context, siteId: SiteId)
+                .FullText(context, fullText);
+            SiteId.FullText(context, fullText);
             ss.EditorColumns.ForEach(columnName =>
             {
                 switch (columnName)
                 {
                     case "WikiId":
-                        WikiId.FullText(fullText);
+                        WikiId.FullText(context, fullText);
                         break;
                     case "Title":
-                        Title.FullText(fullText);
+                        Title.FullText(context, fullText);
                         break;
                     case "Body":
-                        Body.FullText(fullText);
+                        Body.FullText(context, fullText);
                         break;
                     case "Comments":
-                        Comments.FullText(fullText);
+                        Comments.FullText(context, fullText);
                         break;
                 }
             });
-            Creator.FullText(fullText);
-            Updator.FullText(fullText);
-            CreatedTime.FullText(fullText);
-            UpdatedTime.FullText(fullText);
+            Creator.FullText(context, fullText);
+            Updator.FullText(context, fullText);
+            CreatedTime.FullText(context, fullText);
+            UpdatedTime.FullText(context, fullText);
             if (!onCreating)
             {
-                FullTextExtensions.OutgoingMailsFullText(fullText, "Wikis", WikiId);
+                FullTextExtensions.OutgoingMailsFullText(
+                    context: context,
+                    fullText: fullText,
+                    referenceType: "Wikis",
+                    referenceId: WikiId);
             }
             return fullText
                 .Where(o => !o.IsNullOrEmpty())
@@ -251,7 +268,7 @@ namespace Implem.Pleasanter.Models
                 .Join(" ");
         }
 
-        public Dictionary<string, int> SearchIndexHash(SiteSettings ss)
+        public Dictionary<string, int> SearchIndexHash(Context context, SiteSettings ss)
         {
             if (AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -260,26 +277,31 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var searchIndexHash = new Dictionary<string, int>();
-                SiteInfo.TenantCaches[Sessions.TenantId()]
-                    .SiteMenu.Breadcrumb(SiteId).SearchIndexes(searchIndexHash, 100);
-                SiteId.SearchIndexes(searchIndexHash, 200);
-                UpdatedTime.SearchIndexes(searchIndexHash, 200);
-                WikiId.SearchIndexes(searchIndexHash, 1);
-                Title.SearchIndexes(searchIndexHash, 4);
-                Body.SearchIndexes(searchIndexHash, 200);
-                Comments.SearchIndexes(searchIndexHash, 200);
-                Creator.SearchIndexes(searchIndexHash, 100);
-                Updator.SearchIndexes(searchIndexHash, 100);
-                CreatedTime.SearchIndexes(searchIndexHash, 200);
+                SiteInfo.TenantCaches.Get(context.TenantId)?
+                    .SiteMenu
+                    .Breadcrumb(context: context, siteId: SiteId)
+                    .SearchIndexes(context, searchIndexHash, 100);
+                SiteId.SearchIndexes(context, searchIndexHash, 200);
+                UpdatedTime.SearchIndexes(context, searchIndexHash, 200);
+                WikiId.SearchIndexes(context, searchIndexHash, 1);
+                Title.SearchIndexes(context, searchIndexHash, 4);
+                Body.SearchIndexes(context, searchIndexHash, 200);
+                Comments.SearchIndexes(context, searchIndexHash, 200);
+                Creator.SearchIndexes(context, searchIndexHash, 100);
+                Updator.SearchIndexes(context, searchIndexHash, 100);
+                CreatedTime.SearchIndexes(context, searchIndexHash, 200);
                 SearchIndexExtensions.OutgoingMailsSearchIndexes(
-                    searchIndexHash, "Wikis", WikiId);
+                    context: context,
+                    searchIndexHash: searchIndexHash,
+                    referenceType: "Wikis",
+                    referenceId: WikiId);
                 return searchIndexHash;
             }
         }
 
         public Error.Types Create(
+            Context context,
             SiteSettings ss,
-            RdsUser rdsUser = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool extendedSqls = true,
@@ -289,21 +311,21 @@ namespace Implem.Pleasanter.Models
         {
             var statements = new List<SqlStatement>();
             if (extendedSqls) statements.OnCreatingExtendedSqls(SiteId);
-            CreateStatements(ss, statements, tableType, param, otherInitValue);
+            CreateStatements(context, ss, statements, tableType, param, otherInitValue);
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             WikiId = (response.Identity ?? WikiId).ToLong();
-            if (Contract.Notice() && notice)
+            if (Contract.Notice(context: context) && notice)
             {
-                SetTitle(ss);
-                CheckNotificationConditions(ss);
-                Notice(ss, "Created");
+                SetTitle(context: context, ss: ss);
+                CheckNotificationConditions(context: context, ss: ss);
+                Notice(context: context, ss: ss, type: "Created");
             }
-            if (get) Get(ss);
-            var fullText = FullText(ss, onCreating: true);
+            if (get) Get(context: context, ss: ss);
+            var fullText = FullText(context, ss: ss, onCreating: true);
             statements = new List<SqlStatement>();
             statements.Add(Rds.UpdateItems(
                 param: Rds.ItemsParam()
@@ -311,21 +333,26 @@ namespace Implem.Pleasanter.Models
                     .FullText(fullText, _using: fullText != null)
                     .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
                 where: Rds.ItemsWhere().ReferenceId(WikiId)));
-            statements.Add(BinaryUtilities.UpdateReferenceId(ss, WikiId, fullText));
+            statements.Add(BinaryUtilities.UpdateReferenceId(
+                context: context,
+                ss: ss,
+                referenceId: WikiId,
+                values: fullText));
             if (extendedSqls) statements.OnCreatedExtendedSqls(SiteId, WikiId);
             Rds.ExecuteNonQuery(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
-            Libraries.Search.Indexes.Create(ss, this);
+            Libraries.Search.Indexes.Create(context, ss, this);
             if (get && Rds.ExtendedSqls(SiteId, WikiId)?.Any(o => o.OnCreated) == true)
             {
-                Get(ss);
+                Get(context: context, ss: ss);
             }
             return Error.Types.None;
         }
 
         public List<SqlStatement> CreateStatements(
+            Context context,
             SiteSettings ss,
             List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -343,12 +370,16 @@ namespace Implem.Pleasanter.Models
                 Rds.InsertWikis(
                     tableType: tableType,
                     param: param ?? Rds.WikisParamDefault(
-                        this, setDefault: true, otherInitValue: otherInitValue)),
+                        context: context,
+                        wikiModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue)),
             });
             return statements;
         }
 
         public Error.Types Update(
+            Context context,
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
@@ -363,54 +394,67 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
-            if (Contract.Notice() && notice)
+            if (Contract.Notice(context: context) && notice)
             {
-                CheckNotificationConditions(ss, before: true);
+                CheckNotificationConditions(context: context, ss: ss, before: true);
             }
-            if (setBySession) SetBySession();
+            if (setBySession) SetBySession(context: context);
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             if (extendedSqls) statements.OnUpdatingExtendedSqls(SiteId, WikiId, timestamp);
-            UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
+            UpdateStatements(
+                context: context,
+                ss: ss,
+                statements: statements,
+                timestamp: timestamp,
+                param: param,
+                otherInitValue: otherInitValue,
+                additionalStatements: additionalStatements);
             if (permissionChanged)
             {
-                statements.UpdatePermissions(ss, WikiId, permissions);
+                statements.UpdatePermissions(context, ss, WikiId, permissions);
             }
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             if (response.Count == 0) return Error.Types.UpdateConflicts;
-            if (Title_Updated())
+            if (Title_Updated(context: context))
             {
-                Rds.ExecuteNonQuery(statements: new SqlStatement[]
-                {
-                    Rds.UpdateSites(
-                        where: Rds.SitesWhere()
-                            .TenantId(Sessions.TenantId())
-                            .SiteId(SiteId),
-                        param: Rds.SitesParam().Title(Title.Value),
-                        addUpdatedTimeParam: false,
-                        addUpdatorParam: false),
-                    StatusUtilities.UpdateStatus(StatusUtilities.Types.SitesUpdated)
-                });
+                Rds.ExecuteNonQuery(
+                    context: context,
+                    statements: new SqlStatement[]
+                    {
+                        Rds.UpdateSites(
+                            where: Rds.SitesWhere()
+                                .TenantId(context.TenantId)
+                                .SiteId(SiteId),
+                            param: Rds.SitesParam().Title(Title.Value),
+                            addUpdatedTimeParam: false,
+                            addUpdatorParam: false),
+                        StatusUtilities.UpdateStatus(
+                            tenantId: context.TenantId,
+                            type: StatusUtilities.Types.SitesUpdated)
+                    });
             }
-            if (Contract.Notice() && notice)
+            if (Contract.Notice(context: context) && notice)
             {
-                CheckNotificationConditions(ss);
-                Notice(ss, "Updated");
+                CheckNotificationConditions(context: context, ss: ss);
+                Notice(context: context, ss: ss, type: "Updated");
             }
-            if (get) Get(ss);
-            UpdateRelatedRecords(ss, extendedSqls);
+            if (get) Get(context: context, ss: ss);
+            UpdateRelatedRecords(context: context, ss: ss, extendedSqls: extendedSqls);
             if (get && Rds.ExtendedSqls(SiteId, WikiId)?.Any(o => o.OnUpdated) == true)
             {
-                Get(ss);
+                Get(context: context, ss: ss);
             }
-            SiteInfo.Reflesh();
+            SiteInfo.Reflesh(context: context);
             return Error.Types.None;
         }
 
         private List<SqlStatement> UpdateStatements(
+            Context context,
+            SiteSettings ss,
             List<SqlStatement> statements,
             DateTime timestamp,
             SqlParamCollection param,
@@ -428,7 +472,8 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateWikis(
                     where: where,
-                    param: param ?? Rds.WikisParamDefault(this, otherInitValue: otherInitValue),
+                    param: param ?? Rds.WikisParamDefault(
+                        context: context, wikiModel: this, otherInitValue: otherInitValue),
                     countRecord: true)
             });
             if (additionalStatements?.Any() == true)
@@ -460,6 +505,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public void UpdateRelatedRecords(
+            Context context,
             SiteSettings ss,
             bool extendedSqls,
             RdsUser rdsUser = null,
@@ -467,7 +513,7 @@ namespace Implem.Pleasanter.Models
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
-            var fullText = FullText(ss);
+            var fullText = FullText(context, ss: ss);
             var statements = new List<SqlStatement>();
             statements.Add(Rds.UpdateItems(
                 where: Rds.ItemsWhere().ReferenceId(WikiId),
@@ -484,23 +530,27 @@ namespace Implem.Pleasanter.Models
                 param: Rds.SitesParam().Title(Title.Value)));
             if (extendedSqls) statements.OnUpdatedExtendedSqls(SiteId, WikiId);
             Rds.ExecuteNonQuery(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             if (ss.Sources?.Any() == true)
             {
-                ItemUtilities.UpdateTitles(SiteId, WikiId);
+                ItemUtilities.UpdateTitles(
+                    context: context,
+                    siteId: SiteId,
+                    id: WikiId);
             }
-            Libraries.Search.Indexes.Create(ss, this);
+            Libraries.Search.Indexes.Create(context, ss, this);
         }
 
         public Error.Types UpdateOrCreate(
+            Context context,
             SiteSettings ss,
             RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
-            SetBySession();
+            SetBySession(context: context);
             var statements = new List<SqlStatement>
             {
                 Rds.InsertItems(
@@ -511,23 +561,24 @@ namespace Implem.Pleasanter.Models
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertWikis(
                     where: where ?? Rds.WikisWhereDefault(this),
-                    param: param ?? Rds.WikisParamDefault(this, setDefault: true))
+                    param: param ?? Rds.WikisParamDefault(
+                        context: context, wikiModel: this, setDefault: true))
             };
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             WikiId = (response.Identity ?? WikiId).ToLong();
-            Get(ss);
-            Libraries.Search.Indexes.Create(ss, this);
+            Get(context: context, ss: ss);
+            Libraries.Search.Indexes.Create(context, ss, this);
             return Error.Types.None;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types Delete(SiteSettings ss, bool notice = false)
+        public Error.Types Delete(Context context, SiteSettings ss, bool notice = false)
         {
             var statements = new List<SqlStatement>();
             statements.OnDeletingExtendedSqls(SiteId, WikiId);
@@ -544,16 +595,24 @@ namespace Implem.Pleasanter.Models
             });
             statements.OnDeletedExtendedSqls(SiteId, WikiId);
             Rds.ExecuteNonQuery(
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
-            if (Contract.Notice() && notice) Notice(ss, "Deleted");
+            if (Contract.Notice(context: context) && notice)
+            {
+                Notice(
+                    context: context,
+                    ss: ss,
+                    type: "Deleted");
+            }
             return Error.Types.None;
         }
 
-        public Error.Types Restore(SiteSettings ss,long wikiId)
+        public Error.Types Restore(Context context, SiteSettings ss,long wikiId)
         {
             WikiId = wikiId;
             Rds.ExecuteNonQuery(
+                context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -563,23 +622,24 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreWikis(
                         where: Rds.WikisWhere().WikiId(WikiId))
                 });
-            Libraries.Search.Indexes.Create(ss, this);
+            Libraries.Search.Indexes.Create(context, ss, this);
             return Error.Types.None;
         }
 
         public Error.Types PhysicalDelete(
-            SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
+                context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteWikis(
                     tableType: tableType,
                     param: Rds.WikisParam().SiteId(SiteId).WikiId(WikiId)));
-            Libraries.Search.Indexes.Create(ss, this);
+            Libraries.Search.Indexes.Create(context, ss, this);
             return Error.Types.None;
         }
 
-        public void SetByForm(SiteSettings ss)
+        public void SetByForm(Context context, SiteSettings ss)
         {
             Forms.Keys().ForEach(controlId =>
             {
@@ -588,20 +648,22 @@ namespace Implem.Pleasanter.Models
                     case "Wikis_Title": Title = new Title(WikiId, Forms.Data(controlId)); break;
                     case "Wikis_Body": Body = Forms.Data(controlId).ToString(); break;
                     case "Wikis_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
+                    case "Comments": Comments.Prepend(context: context, ss: ss, body: Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
                         {
                             Comments.Update(
-                                controlId.Substring("Comment".Length).ToInt(),
-                                Forms.Data(controlId));
+                                context: context,
+                                ss: ss,
+                                commentId: controlId.Substring("Comment".Length).ToInt(),
+                                body: Forms.Data(controlId));
                         }
                         break;
                 }
             });
-            SetByFormula(ss);
-            SetChoiceHash(ss);
+            SetByFormula(context: context, ss: ss);
+            SetChoiceHash(context: context, ss: ss);
             if (Routes.Action() == "deletecomment")
             {
                 DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
@@ -630,7 +692,7 @@ namespace Implem.Pleasanter.Models
             Comments = wikiModel.Comments;
         }
 
-        public void SetByApi(SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss)
         {
             var data = Forms.String().Deserialize<WikiApiModel>();
             if (data == null)
@@ -639,15 +701,16 @@ namespace Implem.Pleasanter.Models
             }
             if (data.Title != null) Title = new Title(data.WikiId.ToLong(), data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
-            if (data.Comments != null) Comments.Prepend(data.Comments);
+            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            SetByFormula(ss);
-            SetChoiceHash(ss);
+            SetByFormula(context: context, ss: ss);
+            SetChoiceHash(context: context, ss: ss);
         }
 
-        public void UpdateFormulaColumns(SiteSettings ss, IEnumerable<int> selected = null)
+        public void UpdateFormulaColumns(
+            Context context, SiteSettings ss, IEnumerable<int> selected = null)
         {
-            SetByFormula(ss);
+            SetByFormula(context: context, ss: ss);
             var param = Rds.WikisParam();
             ss.Formulas?
                 .Where(o => selected == null || selected.Contains(o.Id))
@@ -658,22 +721,23 @@ namespace Implem.Pleasanter.Models
                         default: break;
                     }
                 });
-            Rds.ExecuteNonQuery(statements:
-                Rds.UpdateWikis(
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateWikis(
                     param: param,
                     where: Rds.WikisWhereDefault(this),
                     addUpdatedTimeParam: false,
                     addUpdatorParam: false));
         }
 
-        public void SetByFormula(SiteSettings ss)
+        public void SetByFormula(Context context, SiteSettings ss)
         {
             ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
                 var formula = formulaSet.Formula;
                 var view = ss.Views?.Get(formulaSet.Condition);
-                if (view != null && !Matched(ss, view))
+                if (view != null && !Matched(context: context, ss: ss, view: view))
                 {
                     if (formulaSet.OutOfCondition != null)
                     {
@@ -694,19 +758,25 @@ namespace Implem.Pleasanter.Models
             });
         }
 
-        public void SetTitle(SiteSettings ss)
+        public void SetTitle(Context context, SiteSettings ss)
         {
-            Title = new Title(ss, WikiId, PropertyValues(ss.TitleColumns));
+            Title = new Title(
+                context: context,
+                ss: ss,
+                id: WikiId,
+                data: PropertyValues(
+                    context: context,
+                    names: ss.TitleColumns));
         }
 
-        private bool Matched(SiteSettings ss, View view)
+        private bool Matched(Context context, SiteSettings ss, View view)
         {
             if (view.ColumnFilterHash != null)
             {
                 foreach (var filter in view.ColumnFilterHash)
                 {
                     var match = true;
-                    var column = ss.GetColumn(filter.Key);
+                    var column = ss.GetColumn(context: context, columnName: filter.Key);
                     switch (filter.Key)
                     {
                         case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
@@ -719,21 +789,23 @@ namespace Implem.Pleasanter.Models
             return true;
         }
 
-        private void CheckNotificationConditions(SiteSettings ss, bool before = false)
+        private void CheckNotificationConditions(Context context, SiteSettings ss, bool before = false)
         {
             if (ss.Notifications.Any())
             {
                 ss.Notifications?.CheckConditions(
                     views: ss.Views,
                     before: before,
-                    dataSet: Rds.ExecuteDataSet(statements:
-                        ss.Notifications.Select((o, i) =>
+                    dataSet: Rds.ExecuteDataSet(
+                        context: context,
+                        statements: ss.Notifications.Select((o, i) =>
                             Rds.SelectWikis(
                                 column: Rds.WikisColumn().WikiId(),
                                 where: ss.Views?.Get(before
                                     ? o.BeforeCondition
                                     : o.AfterCondition)?
                                         .Where(
+                                            context: context,
                                             ss: ss,
                                             where: Rds.WikisWhere().WikiId(WikiId)) ??
                                                 Rds.WikisWhere().WikiId(WikiId)))
@@ -741,7 +813,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void Notice(SiteSettings ss, string type)
+        private void Notice(Context context, SiteSettings ss, string type)
         {
             var url = Locations.ItemEditAbsoluteUri(WikiId);
             ss.Notifications.Where(o => o.Enabled).ForEach(notification =>
@@ -749,114 +821,149 @@ namespace Implem.Pleasanter.Models
                 if (notification.HasRelatedUsers())
                 {
                     var users = new List<long>();
-                    Rds.ExecuteTable(statements: Rds.SelectWikis(
-                        tableType: Sqls.TableTypes.All,
-                        distinct: true,
-                        column: Rds.WikisColumn()
-                            .Creator()
-                            .Updator(),
-                        where: Rds.WikisWhere().WikiId(WikiId)))
-                            .AsEnumerable()
-                            .ForEach(dataRow =>
-                            {
-                                users.Add(dataRow.Long("Creator"));
-                                users.Add(dataRow.Long("Updator"));
-                            });
-                    notification.ReplaceRelatedUsers(users);
+                    Rds.ExecuteTable(
+                        context: context,
+                        statements: Rds.SelectWikis(
+                            tableType: Sqls.TableTypes.All,
+                            distinct: true,
+                            column: Rds.WikisColumn()
+                                .Creator()
+                                .Updator(),
+                            where: Rds.WikisWhere().WikiId(WikiId)))
+                                .AsEnumerable()
+                                .ForEach(dataRow =>
+                                {
+                                    users.Add(dataRow.Long("Creator"));
+                                    users.Add(dataRow.Long("Updator"));
+                                });
+                    notification.ReplaceRelatedUsers(
+                        context: context,
+                        users: users);
                 }
                 switch (type)
                 {
                     case "Created":
                         notification.Send(
-                            Displays.Created(Title.DisplayValue).ToString(),
-                            url,
-                            NoticeBody(ss, notification));
+                            context: context,
+                            ss: ss,
+                            title: Displays.Created(Title.DisplayValue).ToString(),
+                            url: url,
+                            body: NoticeBody(
+                                context: context, ss: ss, notification: notification));
                         break;
                     case "Updated":
-                        var body = NoticeBody(ss, notification, update: true);
+                        var body = NoticeBody(
+                            context: context, ss: ss, notification: notification, update: true);
                         if (body.Length > 0)
                         {
                             notification.Send(
-                                Displays.Updated(Title.DisplayValue).ToString(),
-                                url,
-                                body);
+                                context: context,
+                                ss: ss,
+                                title: Displays.Updated(Title.DisplayValue).ToString(),
+                                url: url,
+                                body: body);
                         }
                         break;
                     case "Deleted":
                         notification.Send(
-                            Displays.Deleted(Title.DisplayValue).ToString(),
-                            url,
-                            NoticeBody(ss, notification));
+                            context: context,
+                            ss: ss,
+                            title: Displays.Deleted(Title.DisplayValue).ToString(),
+                            url: url,
+                            body: NoticeBody(
+                                context: context, ss: ss, notification: notification));
                         break;
                 }
             });
         }
 
-        private string NoticeBody(SiteSettings ss, Notification notification, bool update = false)
+        private string NoticeBody(
+            Context context, SiteSettings ss, Notification notification, bool update = false)
         {
             var body = new System.Text.StringBuilder();
-            notification.ColumnCollection(ss, update)?.ForEach(column =>
+            notification.ColumnCollection(context, ss, update)?.ForEach(column =>
             {
                 switch (column.Name)
                 {
                     case "Title":
                         body.Append(Title.ToNotice(
-                            SavedTitle, column, Title_Updated(), update));
+                            context: context,
+                            saved: SavedTitle,
+                            column: column,
+                            updated: Title_Updated(context: context),
+                            update: update));
                         break;
                     case "Body":
                         body.Append(Body.ToNotice(
-                            SavedBody, column, Body_Updated(), update));
+                            context: context,
+                            saved: SavedBody,
+                            column: column,
+                            updated: Body_Updated(context: context),
+                            update: update));
                         break;
                     case "Comments":
                         body.Append(Comments.ToNotice(
-                            SavedComments, column, Comments_Updated(), update));
+                            context: context,
+                            saved: SavedComments,
+                            column: column,
+                            updated: Comments_Updated(context: context),
+                            update: update));
                         break;
                     case "Creator":
                         body.Append(Creator.ToNotice(
-                            SavedCreator, column, Creator_Updated(), update));
+                            context: context,
+                            saved: SavedCreator,
+                            column: column,
+                            updated: Creator_Updated(context: context),
+                            update: update));
                         break;
                     case "Updator":
                         body.Append(Updator.ToNotice(
-                            SavedUpdator, column, Updator_Updated(), update));
+                            context: context,
+                            saved: SavedUpdator,
+                            column: column,
+                            updated: Updator_Updated(context: context),
+                            update: update));
                         break;
                 }
             });
             return body.ToString();
         }
 
-        private void SetBySession()
+        private void SetBySession(Context context)
         {
         }
 
-        private void Set(SiteSettings ss, DataTable dataTable)
+        private void Set(Context context, SiteSettings ss, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(ss, dataTable.Rows[0]); break;
+                case 1: Set(context, ss, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
-            SetChoiceHash(ss);
+            SetChoiceHash(context: context, ss: ss);
         }
 
-        private void SetChoiceHash(SiteSettings ss)
+        private void SetChoiceHash(Context context, SiteSettings ss)
         {
-            ss.GetUseSearchLinks().ForEach(link =>
+            ss.GetUseSearchLinks(context: context).ForEach(link =>
             {
-                var value = PropertyValue(link.ColumnName);
+                var value = PropertyValue(context: context, name: link.ColumnName);
                 if (!value.IsNullOrEmpty() &&
-                    ss.GetColumn(link.ColumnName)?
+                    ss.GetColumn(context: context, columnName: link.ColumnName)?
                         .ChoiceHash.Any(o => o.Value.Value == value) != true)
                 {
                     ss.SetChoiceHash(
+                        context: context,
                         columnName: link.ColumnName,
                         selectedValues: value.ToSingleList());
                 }
             });
-            SetTitle(ss);
+            SetTitle(context: context, ss: ss);
         }
 
-        private void Set(SiteSettings ss, DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -892,7 +999,7 @@ namespace Implem.Pleasanter.Models
                             SavedVer = Ver;
                             break;
                         case "Title":
-                            Title = new Title(ss, dataRow, column);
+                            Title = new Title(context: context, ss: ss, dataRow: dataRow, column: column);
                             SavedTitle = Title.Value;
                             break;
                         case "Body":
@@ -904,11 +1011,11 @@ namespace Implem.Pleasanter.Models
                             SavedComments = Comments.ToJson();
                             break;
                         case "Creator":
-                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedCreator = Creator.Id;
                             break;
                         case "Updator":
-                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
@@ -921,22 +1028,22 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool Updated()
+        public bool Updated(Context context)
         {
             return
-                SiteId_Updated() ||
-                Ver_Updated() ||
-                Title_Updated() ||
-                Body_Updated() ||
-                Comments_Updated() ||
-                Creator_Updated() ||
-                Updator_Updated();
+                SiteId_Updated(context: context) ||
+                Ver_Updated(context: context) ||
+                Title_Updated(context: context) ||
+                Body_Updated(context: context) ||
+                Comments_Updated(context: context) ||
+                Creator_Updated(context: context) ||
+                Updator_Updated(context: context);
         }
 
-        public List<string> Mine()
+        public List<string> Mine(Context context)
         {
             var mine = new List<string>();
-            var userId = Sessions.UserId();
+            var userId = context.UserId;
             if (SavedCreator == userId) mine.Add("Creator");
             if (SavedUpdator == userId) mine.Add("Updator");
             return mine;

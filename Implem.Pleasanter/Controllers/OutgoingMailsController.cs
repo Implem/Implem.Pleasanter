@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
@@ -12,36 +13,53 @@ namespace Implem.Pleasanter.Controllers
         [HttpPut]
         public string Edit(string reference, long id)
         {
-            var log = new SysLogModel();
-            var json = OutgoingMailUtilities.Editor(reference, id);
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = OutgoingMailUtilities.Editor(
+                context: context,
+                reference: reference,
+                id: id);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
         [HttpPut]
         public string Reply(string reference, long id)
         {
-            var log = new SysLogModel();
-            var json = OutgoingMailUtilities.Editor(reference, id);
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = OutgoingMailUtilities.Editor(
+                context: context,
+                reference: reference,
+                id: id);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
         [HttpPut]
         public string GetDestinations(string reference, long id)
         {
-            var log = new SysLogModel();
-            var json = new OutgoingMailModel(reference, id).GetDestinations();
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new OutgoingMailModel(
+                context: context, 
+                reference: reference,
+                referenceId: id)
+                    .GetDestinations(context: context);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
         [HttpPost]
         public string Send(string reference, long id)
         {
-            var log = new SysLogModel();
-            var json = OutgoingMailUtilities.Send(reference, id);
-            log.Finish(json.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = OutgoingMailUtilities.Send(
+                context: context,
+                reference: reference,
+                id: id);
+            log.Finish(context: context, responseSize: json.Length);
             return json;
         }
     }

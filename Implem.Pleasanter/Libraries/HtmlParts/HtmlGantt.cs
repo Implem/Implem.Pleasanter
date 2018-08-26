@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -15,6 +16,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Gantt(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Column groupBy,
             Column sortBy,
@@ -26,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(css: "both", action: () => hb
                 .FieldDropDown(
+                    context: context,
                     controlId: "GanttGroupBy",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
@@ -35,11 +38,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     insertBlank: true,
                     method: "post")
                 .FieldDropDown(
+                    context: context,
                     controlId: "GanttSortBy",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.SortBy(),
-                    optionCollection: ss.GanttSortByOptions(),
+                    optionCollection: ss.GanttSortByOptions(context: context),
                     selectedValue: sortBy?.ColumnName,
                     insertBlank: true,
                     method: "post")
@@ -94,6 +98,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     method: "post")
                 .Div(id: "GanttBody", action: () => hb
                     .GanttBody(
+                        context: context,
                         ss: ss,
                         groupBy: groupBy,
                         sortBy: sortBy,
@@ -120,6 +125,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder GanttBody(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Column groupBy,
             Column sortBy,
@@ -164,8 +170,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Svg(id: "GanttAxis")
                     .Hidden(
                         controlId: "GanttJson",
-                        value: new Gantt(ss, dataRows, groupBy, sortBy)
-                            .Json(groupBy, sortBy))
+                        value: new Gantt(
+                            context: context,
+                            ss: ss,
+                            dataRows: dataRows,
+                            groupBy: groupBy,
+                            sortBy: sortBy)
+                                .Json(groupBy, sortBy))
                 : hb;
         }
     }

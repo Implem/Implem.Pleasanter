@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
@@ -9,14 +10,20 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 {
     public class Gantt : List<GanttElement>
     {
-        public Gantt(SiteSettings ss, IEnumerable<DataRow> dataRows, Column groupBy, Column sortBy)
+        public Gantt(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<DataRow> dataRows,
+            Column groupBy,
+            Column sortBy)
         {
-            var status = ss.GetColumn("Status");
-            var completionTime = ss.GetColumn("CompletionTime");
-            var workValue = ss.GetColumn("WorkValue");
-            var progressRate = ss.GetColumn("ProgressRate");
+            var status = ss.GetColumn(context: context, columnName: "Status");
+            var completionTime = ss.GetColumn(context: context, columnName: "CompletionTime");
+            var workValue = ss.GetColumn(context: context, columnName: "WorkValue");
+            var progressRate = ss.GetColumn(context: context, columnName: "ProgressRate");
             dataRows.ForEach(dataRow =>
                 Add(new GanttElement(
+                    context: context,
                     groupBy: groupBy != null
                         ? dataRow.String(groupBy.ColumnName)
                         : string.Empty,
@@ -40,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     progressRateColumn: progressRate,
                     showProgressRate: ss.ShowGanttProgressRate.ToBool())));
             AddSummary(
+                context: context,
                 ss: ss,
                 dataRows: dataRows,
                 groupBy: groupBy,
@@ -50,6 +58,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         }
 
         private void AddSummary(
+            Context context,
             SiteSettings ss,
             IEnumerable<DataRow> dataRows,
             Column groupBy,
@@ -69,6 +78,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     {
                         groupCount++;
                         AddSummary(
+                            context: context,
                             ss: ss,
                             groupBy: choice.Key,
                             title: choice.Value.Text,
@@ -86,6 +96,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 {
                     groupCount++;
                     AddSummary(
+                        context: context,
                         ss: ss,
                         groupBy: string.Empty,
                         title: string.Empty,
@@ -99,6 +110,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         }
 
         private void AddSummary(
+            Context context,
             SiteSettings ss,
             string groupBy,
             string title,
@@ -110,6 +122,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         {
             var workValueData = dataRows.Sum(o => o.Decimal("WorkValue"));
             Add(new GanttElement(
+                context: context,
                 groupBy: groupBy,
                 sortBy: string.Empty,
                 id: 0,

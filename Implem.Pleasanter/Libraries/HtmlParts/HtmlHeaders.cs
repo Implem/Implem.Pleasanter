@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -12,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Header(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             long siteId,
             string referenceType,
@@ -28,8 +30,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 id: "CorpLogo",
                                 src: Locations.Images("logo-corp.png"))
                             .Span(id: "ProductLogo", action: () => hb
-                                .Text(text: Title()))))
+                                .Text(text: Title(context: context)))))
                 .NavigationMenu(
+                    context: context,
                     ss: ss,
                     siteId: siteId,
                     referenceType: referenceType,
@@ -38,14 +41,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useSearch: useSearch));
         }
 
-        private static string Title()
+        private static string Title(Context context)
         {
             if (Sessions.LoggedIn() && Parameters.Service.ShowTenantTitle)
             {
-                var title = Rds.ExecuteScalar_string(statements:
-                    Rds.SelectTenants(
+                var title = Rds.ExecuteScalar_string(
+                    context: context,
+                    statements: Rds.SelectTenants(
                         column: Rds.TenantsColumn().Title(),
-                        where: Rds.TenantsWhere().TenantId(Sessions.TenantId())));
+                        where: Rds.TenantsWhere().TenantId(context.TenantId)));
                 return !title.IsNullOrEmpty()
                     ? title
                     : Displays.ProductName();

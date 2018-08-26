@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using System;
@@ -40,12 +41,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static IEnumerable<ColumnDefinition> GridDefinitions(
-            this Dictionary<string, ColumnDefinition> definitions, bool enableOnly = false)
+            this Dictionary<string, ColumnDefinition> definitions,
+            Context context,
+            bool enableOnly = false)
         {
             return definitions.Values
                 .Where(o => o.GridColumn > 0)
                 .Where(o => o.GridEnabled || !enableOnly)
-                .Where(o => Contract.Attachments() || o.ControlType != "Attachments")
+                .Where(o => Contract.Attachments(context: context)
+                    || o.ControlType != "Attachments")
                 .OrderBy(o => o.GridColumn);
         }
 
@@ -59,13 +63,16 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static IEnumerable<ColumnDefinition> EditorDefinitions(
-            this Dictionary<string, ColumnDefinition> definitions, bool enableOnly = false)
+            this Dictionary<string, ColumnDefinition> definitions,
+            Context context,
+            bool enableOnly = false)
         {
             return definitions.Values
                 .Where(o => o.EditorColumn > 0)
                 .Where(o => o.EditorEnabled || !enableOnly)
                 .Where(o => !o.NotEditorSettings)
-                .Where(o => Contract.Attachments() || o.ControlType != "Attachments")
+                .Where(o => Contract.Attachments(context: context)
+                    || o.ControlType != "Attachments")
                 .OrderBy(o => o.EditorColumn);
         }
 
@@ -79,22 +86,28 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static IEnumerable<ColumnDefinition> LinkDefinitions(
-            this Dictionary<string, ColumnDefinition> definitions, bool enableOnly = false)
+            this Dictionary<string, ColumnDefinition> definitions,
+            Context context,
+            bool enableOnly = false)
         {
             return definitions.Values
                 .Where(o => o.LinkColumn > 0)
                 .Where(o => o.LinkEnabled || !enableOnly)
-                .Where(o => Contract.Attachments() || o.ControlType != "Attachments")
+                .Where(o => Contract.Attachments(context: context)
+                    || o.ControlType != "Attachments")
                 .OrderBy(o => o.LinkColumn);
         }
 
         public static IEnumerable<ColumnDefinition> HistoryDefinitions(
-            this Dictionary<string, ColumnDefinition> definitions, bool enableOnly = false)
+            this Dictionary<string, ColumnDefinition> definitions,
+            Context context,
+            bool enableOnly = false)
         {
             return definitions.Values
                 .Where(o => o.HistoryColumn > 0)
                 .Where(o => o.HistoryEnabled || !enableOnly)
-                .Where(o => Contract.Attachments() || o.ControlType != "Attachments")
+                .Where(o => Contract.Attachments(context: context)
+                    || o.ControlType != "Attachments")
                 .OrderBy(o => o.HistoryColumn);
         }
 
@@ -120,13 +133,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static Dictionary<string, ControlData> SelectableOptions(
-            SiteSettings ss, IEnumerable<string> columns, string labelType = null, List<string> order = null)
+            Context context,
+            SiteSettings ss,
+            IEnumerable<string> columns,
+            string labelType = null,
+            List<string> order = null)
         {
             return columns
                 .Distinct()
                 .ToDictionary(
                     columnName => columnName,
                     columnName => SelectableOptionsControlData(
+                        context: context,
                         ss: ss.GetJoinedSs(columnName),
                         columnName: columnName,
                         labelType: labelType,
@@ -134,11 +152,16 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static Dictionary<string, ControlData> SelectableSourceOptions(
-            SiteSettings ss, IEnumerable<string> columns, string labelType = null, List<string> order = null)
+            Context context,
+            SiteSettings ss,
+            IEnumerable<string> columns,
+            string labelType = null,
+            List<string> order = null)
         {
             return columns.ToDictionary(
                 columnName => columnName,
                 columnName => SelectableOptionsControlData(
+                    context: context,
                     ss: ss,
                     columnName: columnName,
                     labelType: labelType,
@@ -146,9 +169,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private static ControlData SelectableOptionsControlData(
-            SiteSettings ss, string columnName, string labelType, int? order = null)
+            Context context,
+            SiteSettings ss,
+            string columnName,
+            string labelType,
+            int? order = null)
         {
-            var column = ss.GetColumn(columnName.Split(',').Last());
+            var column = ss.GetColumn(
+                context: context,
+                columnName: columnName.Split(',').Last());
             var labelText = column.LabelText;
             var labelTextDefault = column.LabelTextDefault;
             switch (labelType)

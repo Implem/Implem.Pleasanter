@@ -1,6 +1,7 @@
 ﻿using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -10,17 +11,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Comments(
             this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
             Comments comments,
             Column column,
             Versions.VerTypes verType,
             Permissions.ColumnPermissionTypes columnPermissionType)
         {
             var readOnly = verType != Versions.VerTypes.Latest ||
-                !column.SiteSettings.CanUpdate() ||
+                !context.CanUpdate(ss: ss) ||
                 column?.EditorReadOnly == true ||
                 columnPermissionType != Permissions.ColumnPermissionTypes.Update;
             return hb
                 .TextArea(
+                    context: context,
+                    ss: ss,
                     title: column?.Description,
                     labelText: column?.LabelText,
                     allowImage: column?.AllowImage == true,
@@ -29,7 +34,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Div(id: "CommentList", action: () => comments
                     .ForEach(comment => hb
                         .Comment(
-                            ss: column?.SiteSettings,
+                            context: context,
+                            ss: ss,
                             column: column,
                             comment: comment,
                             readOnly: readOnly)));
@@ -37,6 +43,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Comment(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Column column,
             Comment comment,
@@ -44,6 +51,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return comment.Html(
                 hb: hb,
+                context: context,
+                ss: ss,
                 allowEditing: ss.AllowEditingComments == true,
                 allowImage: column.AllowImage == true,
                 mobile: ss.Mobile,
@@ -55,6 +64,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder TextArea(
             this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
             string title,
             string labelText,
             bool allowImage,
@@ -67,31 +78,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .TextArea(
                             attributes: new HtmlAttributes()
                                 .Id("Comments")
-                                .Class("control-textarea" + (Contract.Images() && allowImage
-                                    ? " upload-image"
-                                    : string.Empty))
+                                .Class("control-textarea" +
+                                    (Contract.Images(context: context) && allowImage
+                                        ? " upload-image"
+                                        : string.Empty))
                                 .Title(title)
                                 .Placeholder(labelText))
                         .MarkDownCommands(
+                            context: context,
                             controlId: "Comments",
                             readOnly: false,
                             allowImage: allowImage,
                             mobile: mobile,
                             preview: false))
-                : hb;
-        }
-
-        private static HtmlBuilder EditComment(
-            this HtmlBuilder hb, Comment comment, bool readOnly)
-        {
-            return !readOnly && comment.Creator == Sessions.UserId()
-                ? hb.P(
-                    attributes: new HtmlAttributes()
-                        .Id("EditComment," + comment.CommentId)
-                        .Class("button edit")
-                        .OnClick("$p.editComment($(this));"),
-                    action: () => hb
-                        .Icon(iconCss: "ui-icon ui-icon-pencil"))
                 : hb;
         }
 

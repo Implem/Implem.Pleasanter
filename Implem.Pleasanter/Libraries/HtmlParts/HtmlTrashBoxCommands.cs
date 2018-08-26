@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
@@ -7,7 +8,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlTrashBoxCommands
     {
-        public static HtmlBuilder TrashBoxCommands(this HtmlBuilder hb, SiteSettings ss)
+        public static HtmlBuilder TrashBoxCommands(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             return hb.Div(
                 css: "command-left",
@@ -31,8 +33,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         confirm: "ConfirmPhysicalDelete",
                         _using: Parameters.Deleted.PhysicalDelete),
                 _using: (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
-                    && ss.Context.Controller == "items"
-                    && ss.CanManageSite());
+                    && context.Controller == "items"
+                    && context.CanManageSite(ss: ss));
         }
     }
 }

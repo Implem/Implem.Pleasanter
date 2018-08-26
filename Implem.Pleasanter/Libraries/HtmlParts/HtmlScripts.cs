@@ -14,7 +14,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Scripts(
             this HtmlBuilder hb,
-            SiteSettings ss = null,
+            Context context,
+            SiteSettings ss,
             string script = null,
             string userScript = null)
         {
@@ -36,11 +37,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _using: Parameters.ExtendedScripts?.Any() == true)
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(
-                        script: ss?.GetScriptBody(o => o.All == true),
-                        _using: Contract.Script() && ss?.Scripts?.Any() == true)
+                        script: ss.GetScriptBody(context: context, peredicate: o => o.All == true),
+                        _using: Contract.Script(context: context) && ss.Scripts?.Any() == true)
                     .Script(
                         script: userScript,
-                        _using: Contract.Script() && !userScript.IsNullOrEmpty())
+                        _using: Contract.Script(context: context) && !userScript.IsNullOrEmpty())
                 : hb;
         }
 

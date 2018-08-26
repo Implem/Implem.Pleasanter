@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public long SavedMailAddressId = 0;
         [NonSerialized] public string SavedMailAddress = string.Empty;
 
-        public bool OwnerId_Updated(Column column = null)
+        public bool OwnerId_Updated(Context context, Column column = null)
         {
             return OwnerId != SavedOwnerId &&
                 (column == null ||
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != OwnerId);
         }
 
-        public bool OwnerType_Updated(Column column = null)
+        public bool OwnerType_Updated(Context context, Column column = null)
         {
             return OwnerType != SavedOwnerType && OwnerType != null &&
                 (column == null ||
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != OwnerType);
         }
 
-        public bool MailAddressId_Updated(Column column = null)
+        public bool MailAddressId_Updated(Context context, Column column = null)
         {
             return MailAddressId != SavedMailAddressId &&
                 (column == null ||
@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != MailAddressId);
         }
 
-        public bool MailAddress_Updated(Column column = null)
+        public bool MailAddress_Updated(Context context, Column column = null)
         {
             return MailAddress != SavedMailAddress && MailAddress != null &&
                 (column == null ||
@@ -78,44 +78,47 @@ namespace Implem.Pleasanter.Models
         }
 
         public MailAddressModel(
+            Context context,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
-            if (setByForm) SetByForm();
+            OnConstructing(context: context);
+            Context = context;
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
         public MailAddressModel(
+            Context context,
             long mailAddressId,
             bool clearSessions = false,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
+            OnConstructing(context: context);
+            Context = context;
             MailAddressId = mailAddressId;
-            Get();
+            Get(context: context);
             if (clearSessions) ClearSessions();
-            if (setByForm) SetByForm();
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
-        public MailAddressModel(DataRow dataRow, string tableAlias = null)
+        public MailAddressModel(Context context, DataRow dataRow, string tableAlias = null)
         {
-            OnConstructing();
-            Set(dataRow, tableAlias);
-            OnConstructed();
+            OnConstructing(context: context);
+            Context = context;
+            if (dataRow != null) Set(context, dataRow, tableAlias);
+            OnConstructed(context: context);
         }
 
-        private void OnConstructing()
+        private void OnConstructing(Context context)
         {
         }
 
-        private void OnConstructed()
+        private void OnConstructed(Context context)
         {
         }
 
@@ -124,6 +127,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public MailAddressModel Get(
+            Context context,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -133,38 +137,42 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(Rds.ExecuteTable(statements: Rds.SelectMailAddresses(
-                tableType: tableType,
-                column: column ?? Rds.MailAddressesDefaultColumns(),
-                join: join ??  Rds.MailAddressesJoinDefault(),
-                where: where ?? Rds.MailAddressesWhereDefault(this),
-                orderBy: orderBy,
-                param: param,
-                distinct: distinct,
-                top: top)));
+            Set(context, Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectMailAddresses(
+                    tableType: tableType,
+                    column: column ?? Rds.MailAddressesDefaultColumns(),
+                    join: join ??  Rds.MailAddressesJoinDefault(),
+                    where: where ?? Rds.MailAddressesWhereDefault(this),
+                    orderBy: orderBy,
+                    param: param,
+                    distinct: distinct,
+                    top: top)));
             return this;
         }
 
         public Error.Types Create(
-            RdsUser rdsUser = null,
+            Context context,
+            SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool otherInitValue = false,
             bool get = true)
         {
             var statements = new List<SqlStatement>();
-            CreateStatements(statements, tableType, param, otherInitValue);
+            CreateStatements(context, statements, tableType, param, otherInitValue);
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             MailAddressId = (response.Identity ?? MailAddressId).ToLong();
-            if (get) Get();
+            if (get) Get(context: context);
             return Error.Types.None;
         }
 
         public List<SqlStatement> CreateStatements(
+            Context context,
             List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
@@ -176,12 +184,17 @@ namespace Implem.Pleasanter.Models
                     tableType: tableType,
                     setIdentity: true,
                     param: param ?? Rds.MailAddressesParamDefault(
-                        this, setDefault: true, otherInitValue: otherInitValue))
+                        context: context,
+                        mailAddressModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue))
             });
             return statements;
         }
 
         public Error.Types Update(
+            Context context,
+            SiteSettings ss,
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
@@ -189,20 +202,29 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
-            if (setBySession) SetBySession();
+            if (setBySession) SetBySession(context: context);
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
+            UpdateStatements(
+                context: context,
+                ss: ss,
+                statements: statements,
+                timestamp: timestamp,
+                param: param,
+                otherInitValue: otherInitValue,
+                additionalStatements: additionalStatements);
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             if (response.Count == 0) return Error.Types.UpdateConflicts;
-            if (get) Get();
+            if (get) Get(context: context);
             return Error.Types.None;
         }
 
         private List<SqlStatement> UpdateStatements(
+            Context context,
+            SiteSettings ss,
             List<SqlStatement> statements,
             DateTime timestamp,
             SqlParamCollection param,
@@ -220,7 +242,8 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateMailAddresses(
                     where: where,
-                    param: param ?? Rds.MailAddressesParamDefault(this, otherInitValue: otherInitValue),
+                    param: param ?? Rds.MailAddressesParamDefault(
+                        context: context, mailAddressModel: this, otherInitValue: otherInitValue),
                     countRecord: true)
             });
             if (additionalStatements?.Any() == true)
@@ -252,28 +275,30 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types UpdateOrCreate(
+            Context context,
             RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
-            SetBySession();
+            SetBySession(context: context);
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertMailAddresses(
                     where: where ?? Rds.MailAddressesWhereDefault(this),
-                    param: param ?? Rds.MailAddressesParamDefault(this, setDefault: true))
+                    param: param ?? Rds.MailAddressesParamDefault(
+                        context: context, mailAddressModel: this, setDefault: true))
             };
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             MailAddressId = (response.Identity ?? MailAddressId).ToLong();
-            Get();
+            Get(context: context);
             return Error.Types.None;
         }
 
-        public Error.Types Delete()
+        public Error.Types Delete(Context context)
         {
             var statements = new List<SqlStatement>();
             var where = Rds.MailAddressesWhere().MailAddressId(MailAddressId);
@@ -282,15 +307,17 @@ namespace Implem.Pleasanter.Models
                 Rds.DeleteMailAddresses(where: where)
             });
             var response = Rds.ExecuteScalar_response(
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             return Error.Types.None;
         }
 
-        public Error.Types Restore(long mailAddressId)
+        public Error.Types Restore(Context context, long mailAddressId)
         {
             MailAddressId = mailAddressId;
             Rds.ExecuteNonQuery(
+                context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -302,50 +329,15 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types PhysicalDelete(
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            Context context, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
+                context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteMailAddresses(
                     tableType: tableType,
                     param: Rds.MailAddressesParam().MailAddressId(MailAddressId)));
             return Error.Types.None;
-        }
-
-        public void SetByForm()
-        {
-            Forms.Keys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    case "MailAddresses_OwnerId": OwnerId = Forms.Data(controlId).ToLong(); break;
-                    case "MailAddresses_OwnerType": OwnerType = Forms.Data(controlId).ToString(); break;
-                    case "MailAddresses_MailAddress": MailAddress = Forms.Data(controlId).ToString(); break;
-                    case "MailAddresses_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
-                    case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
-                    default:
-                        if (controlId.RegexExists("Comment[0-9]+"))
-                        {
-                            Comments.Update(
-                                controlId.Substring("Comment".Length).ToInt(),
-                                Forms.Data(controlId));
-                        }
-                        break;
-                }
-            });
-            if (Routes.Action() == "deletecomment")
-            {
-                DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
-            Forms.FileKeys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    default: break;
-                }
-            });
         }
 
         public void SetByModel(MailAddressModel mailAddressModel)
@@ -362,21 +354,21 @@ namespace Implem.Pleasanter.Models
             Comments = mailAddressModel.Comments;
         }
 
-        private void SetBySession()
+        private void SetBySession(Context context)
         {
         }
 
-        private void Set(DataTable dataTable)
+        private void Set(Context context, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(dataTable.Rows[0]); break;
+                case 1: Set(context, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -420,11 +412,11 @@ namespace Implem.Pleasanter.Models
                             SavedComments = Comments.ToJson();
                             break;
                         case "Creator":
-                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedCreator = Creator.Id;
                             break;
                         case "Updator":
-                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
@@ -441,25 +433,26 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool Updated()
+        public bool Updated(Context context)
         {
             return
-                OwnerId_Updated() ||
-                OwnerType_Updated() ||
-                MailAddressId_Updated() ||
-                Ver_Updated() ||
-                MailAddress_Updated() ||
-                Comments_Updated() ||
-                Creator_Updated() ||
-                Updator_Updated();
+                OwnerId_Updated(context: context) ||
+                OwnerType_Updated(context: context) ||
+                MailAddressId_Updated(context: context) ||
+                Ver_Updated(context: context) ||
+                MailAddress_Updated(context: context) ||
+                Comments_Updated(context: context) ||
+                Creator_Updated(context: context) ||
+                Updator_Updated(context: context);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public MailAddressModel(long userId)
+        public MailAddressModel(Context context, long userId)
         {
             Get(
+                context: context,
                 where: Rds.MailAddressesWhere()
                     .OwnerId(userId)
                     .OwnerType("Users"),

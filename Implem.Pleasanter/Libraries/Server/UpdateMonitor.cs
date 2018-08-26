@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Models;
+﻿using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Server
@@ -23,14 +24,14 @@ namespace Implem.Pleasanter.Libraries.Server
         public bool PermissionsUpdated;
         public bool SitesUpdated;
 
-        public UpdateMonitor(int tenantId)
+        public UpdateMonitor(Context context)
         {
-            Monitor(tenantId);
+            Monitor(context: context);
         }
 
-        public void Monitor(int tenantId)
+        public void Monitor(Context context)
         {
-            Set(tenantId);
+            Set(context: context);
             DeptsUpdated = DeptsUpdatedTime != NowDeptsUpdatedTime;
             GroupsUpdated = GroupsUpdatedTime != NowGroupsUpdatedTime;
             UsersUpdated = UsersUpdatedTime != NowUsersUpdatedTime;
@@ -39,9 +40,9 @@ namespace Implem.Pleasanter.Libraries.Server
             Updated = DeptsUpdated || GroupsUpdated || UsersUpdated || SitesUpdated || PermissionsUpdated;
         }
 
-        private void Set(int tenantId)
+        private void Set(Context context)
         {
-            var hash = StatusUtilities.Monitors(tenantId);
+            var hash = StatusUtilities.Monitors(context: context);
             NowDeptsUpdatedTime = hash[StatusUtilities.Types.DeptsUpdated];
             NowGroupsUpdatedTime = hash[StatusUtilities.Types.GroupsUpdated];
             NowUsersUpdatedTime = hash[StatusUtilities.Types.UsersUpdated];

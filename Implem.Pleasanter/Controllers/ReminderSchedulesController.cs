@@ -14,17 +14,18 @@ namespace Implem.Pleasanter.Controllers
         [HttpGet]
         public string Remind()
         {
+            var context = new Context();
             if (Parameters.Reminder.Enabled)
             {
                 if (QueryStrings.Bool("NoLog"))
                 {
-                    return ReminderScheduleUtilities.Remind();
+                    return ReminderScheduleUtilities.Remind(context: context);
                 }
                 else
                 {
-                    var log = new SysLogModel();
-                    var json = ReminderScheduleUtilities.Remind();
-                    log.Finish(json.Length);
+                    var log = new SysLogModel(context: context);
+                    var json = ReminderScheduleUtilities.Remind(context: context);
+                    log.Finish(context: context, responseSize: json.Length);
                     return json;
                 }
             }

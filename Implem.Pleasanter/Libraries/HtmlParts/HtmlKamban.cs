@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.ViewModes;
@@ -14,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Kamban(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             View view,
             Column groupByX,
@@ -29,6 +31,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 hb
                     .FieldDropDown(
+                        context: context,
                         controlId: "KambanGroupByX",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
@@ -37,6 +40,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         selectedValue: groupByX.ColumnName,
                         method: "post")
                     .FieldDropDown(
+                        context: context,
                         controlId: "KambanGroupByY",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
@@ -45,6 +49,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         selectedValue: groupByY?.ColumnName,
                         method: "post")
                     .FieldDropDown(
+                        context: context,
                         controlId: "KambanAggregateType",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
@@ -53,6 +58,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         selectedValue: aggregateType,
                         method: "post")
                     .FieldDropDown(
+                        context: context,
                         fieldId: "KambanValueField",
                         controlId: "KambanValue",
                         fieldCss: "field-auto-thin",
@@ -62,6 +68,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         selectedValue: value.ColumnName,
                         method: "post")
                     .FieldDropDown(
+                        context: context,
                         controlId: "KambanColumns",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
@@ -80,6 +87,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _checked: aggregationView,
                         method: "post")
                     .KambanBody(
+                        context: context,
                         ss: ss,
                         view: view,
                         groupByX: groupByX,
@@ -95,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder KambanBody(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             View view,
             Column groupByX,

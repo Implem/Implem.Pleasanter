@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -14,17 +15,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder BurnDown(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             IEnumerable<DataRow> dataRows,
             string ownerLabelText,
             Column column)
         {
-            var burnDown = new BurnDown(ss, dataRows);
+            var burnDown = new BurnDown(context: context, ss: ss, dataRows: dataRows);
             return hb
                 .Body(burnDown: burnDown)
                 .Details(
-                    burnDown: burnDown,
+                    context: context,
                     ss: ss,
+                    burnDown: burnDown,
                     ownerLabelText: ownerLabelText,
                     column: column);
         }
@@ -40,8 +43,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Details(
             this HtmlBuilder hb,
-            BurnDown burnDown,
+            Context context,
             SiteSettings ss,
+            BurnDown burnDown,
             string ownerLabelText,
             Column column)
         {
@@ -58,13 +62,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .ToList();
                 hb.Table(id: "BurnDownDetails", css: "grid", action: () => hb
                     .THead(action: () => hb.DetailsHeader(
+                        context: context,
                         burnDown: burnDown,
                         updators: updators,
                         ownerLabelText: ownerLabelText,
                         column: column))
                     .DetailsBody(
-                        burnDown: burnDown,
+                        context: context,
                         ss: ss,
+                        burnDown: burnDown,
                         updators: updators,
                         column: column));
             }
@@ -73,8 +79,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder DetailsBody(
             this HtmlBuilder hb,
-            BurnDown burnDown,
+            Context context,
             SiteSettings ss,
+            BurnDown burnDown,
             IEnumerable<int> updators,
             Column column)
         {
@@ -100,9 +107,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (first)
                         {
                             hb.BurnDownRecordDetails(
+                                context: context,
                                 elements: burnDown.Where(o => o.UpdatedTime == currentTime),
-                                progressRateColumn: ss.GetColumn("ProgressRate"),
-                                statusColumn: ss.GetColumn("Status"),
+                                progressRateColumn: ss.GetColumn(
+                                    context: context, columnName: "ProgressRate"),
+                                statusColumn: ss.GetColumn(
+                                    context: context, columnName: "Status"),
                                 colspan: updators.Count() + 5,
                                 unit: column.Unit);
                             first = false;
@@ -114,6 +124,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder DetailsHeader(
             this HtmlBuilder hb,
+            Context context,
             BurnDown burnDown,
             IEnumerable<int> updators,
             string ownerLabelText,
@@ -134,11 +145,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Text(text: ownerLabelText + " " + Displays.Total()));
                 updators.ForEach(updatorId => hb
                     .Th(action: () => hb
-                        .Text(text: SiteInfo.User(updatorId).Name +
-                            " ({0})".Params(column.Display(burnDown
-                                .Where(p => p.Updator == updatorId)
-                                .Select(p => p.EarnedValueAdditions)
-                                .Sum()) + column.Unit))));
+                        .Text(text: SiteInfo.User(
+                            context: context,
+                            userId: updatorId).Name +
+                                " ({0})".Params(column.Display(burnDown
+                                    .Where(p => p.Updator == updatorId)
+                                    .Select(p => p.EarnedValueAdditions)
+                                    .Sum()) + column.Unit))));
             });
         }
 
@@ -207,6 +220,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder BurnDownRecordDetails(
             this HtmlBuilder hb,
+            Context context,
             IEnumerable<BurnDownElement> elements,
             Column progressRateColumn,
             Column statusColumn,
@@ -223,7 +237,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Distinct()
                             .ForEach(updatorId =>
                                 hb.BurnDownRecordDetail(
-                                    fullName: SiteInfo.User(updatorId).Name,
+                                    fullName: SiteInfo.User(
+                                        context: context,
+                                        userId: updatorId).Name,
                                     updatorId: updatorId,
                                     earndValue: elements
                                         .Where(o => o.Updator == updatorId)

@@ -11,6 +11,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder MainCommands(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             long siteId,
             Versions.VerTypes verType,
@@ -47,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: "Create",
                             method: "post");
                     }
-                    else if (ss.CanRead() && verType == Versions.VerTypes.Latest)
+                    else if (context.CanRead(ss: ss) && verType == Versions.VerTypes.Latest)
                     {
                         hb
                             .Button(
@@ -58,7 +59,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 icon: "ui-icon-disk",
                                 action: "Update",
                                 method: "put",
-                                _using: updateButton && ss.CanUpdate())
+                                _using: updateButton && context.CanUpdate(ss: ss))
                             .Button(
                                 text: Displays.Copy(),
                                 controlCss: "button-icon open-dialog",
@@ -66,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 onClick: "$p.openDialog($(this));",
                                 icon: "ui-icon-copy",
                                 selector: "#CopyDialog",
-                                _using: copyButton && ss.CanCreate())
+                                _using: copyButton && context.CanCreate(ss: ss))
                             .Button(
                                 text: Displays.Move(),
                                 controlCss: "button-icon open-dialog",
@@ -76,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 selector: "#MoveDialog",
                                 action: "MoveTargets",
                                 method: "get",
-                                _using: moveButton && ss.CanUpdate())
+                                _using: moveButton && context.CanUpdate(ss: ss))
                             .Button(
                                 controlId: "EditOutgoingMail",
                                 text: Displays.Mail(),
@@ -86,7 +87,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: "Edit",
                                 method: "put",
                                 accessKey: "m",
-                                _using: mailButton && ss.CanSendMail())
+                                _using: mailButton && context.CanSendMail(ss: ss))
                             .Button(
                                 text: Displays.Delete(),
                                 controlCss: "button-icon",
@@ -96,14 +97,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: "Delete",
                                 method: "delete",
                                 confirm: "ConfirmDelete",
-                                _using: deleteButton && ss.CanDelete() && !ss.IsSite())
+                                _using: deleteButton
+                                    && context.CanDelete(ss: ss)
+                                    && !ss.IsSite(context: context))
                             .Button(
                                 text: Displays.DeleteSite(),
                                 controlCss: "button-icon",
                                 accessKey: "r",
                                 onClick: "$p.openDeleteSiteDialog($(this));",
                                 icon: "ui-icon-trash",
-                                _using: deleteButton && ss.CanDelete() && ss.IsSite());
+                                _using: deleteButton
+                                    && context.CanDelete(ss: ss)
+                                    && ss.IsSite(context: context));
                         if (Routes.Controller() == "items" && ss.ReferenceType != "Sites")
                         {
                             switch (Routes.Action())
@@ -119,7 +124,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             selector: "#MoveDialog",
                                             action: "MoveTargets",
                                             method: "get",
-                                            _using: ss.CanUpdate())
+                                            _using: context.CanUpdate(ss: ss))
                                         .Button(
                                             text: Displays.BulkDelete(),
                                             controlCss: "button-icon",
@@ -129,7 +134,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             action: "BulkDelete",
                                             method: "delete",
                                             confirm: "ConfirmDelete",
-                                            _using: ss.CanDelete())
+                                            _using: context.CanDelete(ss: ss))
                                         .Button(
                                             controlId: "EditImportSettings",
                                             text: Displays.Import(),
@@ -138,7 +143,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             onClick: "$p.openImportSettingsDialog($(this));",
                                             icon: "ui-icon-arrowreturnthick-1-e",
                                             selector: "#ImportSettingsDialog",
-                                            _using: ss.CanImport())
+                                            _using: context.CanImport(ss: ss))
                                         .Button(
                                             text: Displays.Export(),
                                             controlCss: "button-icon",
@@ -147,7 +152,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             icon: "ui-icon-arrowreturnthick-1-w",
                                             action: "OpenExportSelectorDialog",
                                             method: "post",
-                                            _using: ss.CanExport());
+                                            _using: context.CanExport(ss: ss));
                                     break;
                                 case "crosstab":
                                     hb.Button(
@@ -156,7 +161,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         accessKey: "x",
                                         onClick: "$p.exportCrosstab();",
                                         icon: "ui-icon-arrowreturnthick-1-w",
-                                        _using: ss.CanExport());
+                                        _using: context.CanExport(ss: ss));
                                     break;
                             }
                         }

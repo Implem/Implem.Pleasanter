@@ -4,6 +4,7 @@ using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Mails;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System;
@@ -103,9 +104,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             Expression = expression;
         }
 
-        public void Send(string title, string url, string body)
+        public void Send(Context context, SiteSettings ss, string title, string url, string body)
         {
-            var from = MailAddressUtilities.Get(Sessions.UserId(), withFullName: true);
+            var from = MailAddressUtilities.Get(
+                context: context,
+                userId: context.UserId,
+                withFullName: true);
             switch (Type)
             {
                 case Types.Mail:
@@ -123,7 +127,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 : string.Empty),
                             From = mailFrom,
                             To = Address
-                        }.Send();
+                        }.Send(context: context, ss: ss);
                     }
                     break;
                 case Types.Slack:
@@ -150,12 +154,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public IEnumerable<Column> ColumnCollection(SiteSettings ss, bool update)
+        public IEnumerable<Column> ColumnCollection(Context context, SiteSettings ss, bool update)
         {
             return (update
                 ? MonitorChangesColumns
                 : ss.EditorColumns)?
-                    .Select(o => ss.GetColumn(o))
+                    .Select(columnName => ss.GetColumn(
+                        context: context,
+                        columnName: columnName))
                     .Where(o => o != null)
                     .ToList();
         }
@@ -165,29 +171,35 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Type == Types.Mail && Address?.Contains("[RelatedUsers]") == true;
         }
 
-        public void ReplaceRelatedUsers(IEnumerable<long> users)
+        public void ReplaceRelatedUsers(Context context, IEnumerable<long> users)
         {
             Address = Address.Replace(
                 "[RelatedUsers]",
-                Rds.ExecuteTable(statements: Rds.SelectMailAddresses(
-                    column: Rds.MailAddressesColumn()
-                        .OwnerId()
-                        .MailAddress(),
-                    where: Rds.MailAddressesWhere()
-                        .OwnerId_In(users.Distinct())))
-                            .AsEnumerable()
-                            .GroupBy(o => o["OwnerId"])
-                            .Select(o => MailAddressUtilities.Get(
-                                SiteInfo.UserName(o.First()["OwnerId"].ToInt()),
-                                o.First()["MailAddress"].ToString()))
-                            .Join(";"));
+                Rds.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectMailAddresses(
+                        column: Rds.MailAddressesColumn()
+                            .OwnerId()
+                            .MailAddress(),
+                        where: Rds.MailAddressesWhere()
+                            .OwnerId_In(users.Distinct())))
+                                .AsEnumerable()
+                                .GroupBy(o => o["OwnerId"])
+                                .Select(o => MailAddressUtilities.Get(
+                                    SiteInfo.UserName(
+                                        context: context,
+                                        userId: o.First().Int("OwnerId")),
+                                    o.First()["MailAddress"].ToString()))
+                                .Join(";"));
         }
 
         public Notification GetRecordingData()
         {
-            var notification = new Notification();
-            notification.Id = Id;
-            notification.Type = Type;
+            var notification = new Notification
+            {
+                Id = Id,
+                Type = Type
+            };
             if (!Prefix.IsNullOrEmpty())
             {
                 notification.Prefix = Prefix;

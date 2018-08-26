@@ -26,23 +26,24 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Register()
+        public static string Register(Context context)
         {
+            var ss = new SiteSettings();
             var passphrase = Strings.NewGuid();
             var mailAddress = Forms.Data("Users_DemoMailAddress");
             var tenantModel = new TenantModel()
             {
                 TenantName = mailAddress
             };
-            tenantModel.Create();
+            tenantModel.Create(context: context, ss: ss);
             var demoModel = new DemoModel()
             {
                 TenantId = tenantModel.TenantId,
                 Passphrase = passphrase,
                 MailAddress = mailAddress
             };
-            demoModel.Create();
-            demoModel.Initialize(new OutgoingMailModel()
+            demoModel.Create(context: context, ss: ss);
+            demoModel.Initialize(context: context, outgoingMailModel: new OutgoingMailModel()
             {
                 Title = new Title(Displays.DemoMailTitle()),
                 Body = Displays.DemoMailBody(
@@ -60,9 +61,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static bool Login()
+        public static bool Login(Context context)
         {
             var demoModel = new DemoModel().Get(
+                context: context,
                 where: Rds.DemosWhere()
                     .Passphrase(QueryStrings.Data("passphrase"))
                     .CreatedTime(
@@ -75,20 +77,24 @@ namespace Implem.Pleasanter.Models
                 if (!demoModel.Initialized)
                 {
                     var idHash = new Dictionary<string, long>();
-                    demoModel.Initialize(idHash, password);
+                    demoModel.Initialize(context: context, idHash: idHash, password: password);
                 }
                 else
                 {
-                    Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
-                        param: Rds.UsersParam().Password(password),
-                        where: Rds.UsersWhere().LoginId(loginId)));
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        statements: Rds.UpdateUsers(
+                            param: Rds.UsersParam().Password(password),
+                            where: Rds.UsersWhere().LoginId(loginId)));
                 }
                 new UserModel()
                 {
                     LoginId = loginId,
                     Password = password
-                }.Authenticate(string.Empty);
-                SiteInfo.Reflesh(force: true);
+                }.Authenticate(
+                    context: context,
+                    returnUrl: string.Empty);
+                SiteInfo.Reflesh(context: context, force: true);
                 return Sessions.LoggedIn();
             }
             else
@@ -101,15 +107,14 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static void Initialize(
-            this DemoModel demoModel, OutgoingMailModel outgoingMailModel)
+            this DemoModel demoModel, Context context, OutgoingMailModel outgoingMailModel)
         {
             var idHash = new Dictionary<string, long>();
-            var loginId = LoginId(demoModel, "User1");
             var password = Strings.NewGuid().Sha512Cng();
             System.Threading.Tasks.Task.Run(() =>
             {
-                demoModel.Initialize(idHash, password);
-                outgoingMailModel.Send();
+                demoModel.Initialize(context: context, idHash: idHash, password: password);
+                outgoingMailModel.Send(context: context, ss: new SiteSettings());
             });
         }
 
@@ -117,38 +122,65 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static void Initialize(
-            this DemoModel demoModel, Dictionary<string, long> idHash, string password)
+            this DemoModel demoModel,
+            Context context,
+            Dictionary<string, long> idHash,
+            string password)
         {
             demoModel.InitializeTimeLag();
-            InitializeDepts(demoModel, idHash);
-            InitializeUsers(demoModel, idHash, password);
-            SiteInfo.Reflesh(force: true);
-            InitializeSites(demoModel, idHash);
+            InitializeDepts(
+                context: context,
+                demoModel: demoModel,
+                idHash: idHash);
+            InitializeUsers(
+                context: context,
+                demoModel: demoModel,
+                idHash: idHash,
+                password: password);
+            var userModel = new UserModel(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                loginId: LoginId(demoModel, "User1"));
+            userModel.SetSession();
+            context.SetBySession();
+            SiteInfo.Reflesh(context: context);
+            InitializeSites(context: context, demoModel: demoModel, idHash: idHash);
             Def.DemoDefinitionCollection
                 .Where(o => o.Type == "Sites")
                 .OrderBy(o => o.Id)
                 .ForEach(o =>
                 {
-                    InitializeIssues(demoModel, o.Id, idHash);
-                    InitializeResults(demoModel, o.Id, idHash);
+                    InitializeIssues(
+                        context: context, demoModel: demoModel, parentId: o.Id, idHash: idHash);
+                    InitializeResults(
+                        context: context, demoModel: demoModel, parentId: o.Id, idHash: idHash);
                 });
-            InitializeLinks(demoModel, idHash);
-            InitializePermissions(idHash);
-            Rds.ExecuteNonQuery(statements: Rds.UpdateDemos(
-                param: Rds.DemosParam().Initialized(true),
-                where: Rds.DemosWhere().Passphrase(demoModel.Passphrase)));
-            Libraries.Migrators.SiteSettingsMigrator.Migrate();
+            InitializeLinks(
+                context: context,
+                demoModel: demoModel,
+                idHash: idHash);
+            InitializePermissions(
+                context: context,
+                idHash: idHash);
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateDemos(
+                    param: Rds.DemosParam().Initialized(true),
+                    where: Rds.DemosWhere().Passphrase(demoModel.Passphrase)));
+            Libraries.Migrators.SiteSettingsMigrator.Migrate(context: context);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void InitializeDepts(DemoModel demoModel, Dictionary<string, long> idHash)
+        private static void InitializeDepts(
+            Context context, DemoModel demoModel, Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.Type == "Depts")
                 .ForEach(demoDefinition => idHash.Add(
                     demoDefinition.Id, Rds.ExecuteScalar_response(
+                        context: context,
                         selectIdentity: true,
                         statements: new SqlStatement[]
                         {
@@ -167,7 +199,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static void InitializeUsers(
-            DemoModel demoModel, Dictionary<string, long> idHash, string password)
+            Context context, DemoModel demoModel, Dictionary<string, long> idHash, string password)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.Type == "Users")
@@ -175,6 +207,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var loginId = LoginId(demoModel, demoDefinition.Id);
                     idHash.Add(demoDefinition.Id, Rds.ExecuteScalar_response(
+                        context: context,
                         selectIdentity: true,
                         statements: new SqlStatement[]
                         {
@@ -202,37 +235,48 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void InitializeSites(DemoModel demoModel, Dictionary<string, long> idHash)
+        private static void InitializeSites(
+            Context context, DemoModel demoModel, Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.Type == "Sites" && o.ParentId == string.Empty)
-                .ForEach(o => InitializeSites(demoModel, idHash, o.Id));
-            new SiteCollection(where: Rds.SitesWhere().TenantId(demoModel.TenantId))
+                .ForEach(o => InitializeSites(
+                    context: context,
+                    demoModel: demoModel,
+                    idHash: idHash,
+                    topId: o.Id));
+            new SiteCollection(
+                context: context,
+                where: Rds.SitesWhere().TenantId(demoModel.TenantId))
                 .ForEach(siteModel =>
-                {
-                    var fullText = siteModel.FullText(siteModel.SiteSettings);
-                    Rds.ExecuteNonQuery(statements: Rds.UpdateItems(
-                        param: Rds.ItemsParam()
-                            .SiteId(siteModel.SiteId)
-                            .Title(siteModel.Title.DisplayValue)
-                            .FullText(fullText, _using: fullText != null),
-                        where: Rds.ItemsWhere().ReferenceId(siteModel.SiteId),
-                        addUpdatorParam: false,
-                        addUpdatedTimeParam: false));
-                });
+                    {
+                        var fullText = siteModel.FullText(
+                            context: context, ss: siteModel.SiteSettings);
+                        Rds.ExecuteNonQuery(
+                            context: context,
+                            statements: Rds.UpdateItems(
+                                param: Rds.ItemsParam()
+                                    .SiteId(siteModel.SiteId)
+                                    .Title(siteModel.Title.DisplayValue)
+                                    .FullText(fullText, _using: fullText != null),
+                                where: Rds.ItemsWhere().ReferenceId(siteModel.SiteId),
+                                addUpdatorParam: false,
+                                addUpdatedTimeParam: false));
+                    });
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static void InitializeSites(
-            DemoModel demoModel, Dictionary<string, long> idHash, string topId)
+            Context context, DemoModel demoModel, Dictionary<string, long> idHash, string topId)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.Id == topId || o.ParentId == topId)
                 .ForEach(demoDefinition => idHash.Add(
                     demoDefinition.Id, Rds.ExecuteScalar_response(
+                        context: context,
                         selectIdentity: true,
                         statements: new SqlStatement[]
                         {
@@ -282,7 +326,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static void InitializeIssues(
-            DemoModel demoModel, string parentId, Dictionary<string, long> idHash)
+            Context context,
+            DemoModel demoModel,
+            string parentId,
+            Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.ParentId == parentId)
@@ -290,6 +337,7 @@ namespace Implem.Pleasanter.Models
                 .ForEach(demoDefinition =>
                 {
                     var issueId = Rds.ExecuteScalar_response(
+                        context: context,
                         selectIdentity: true,
                         statements: new SqlStatement[]
                         {
@@ -455,12 +503,17 @@ namespace Implem.Pleasanter.Models
                         }).Identity.ToLong();
                     idHash.Add(demoDefinition.Id, issueId);
                     var siteModel = new SiteModel().Get(
+                        context: context,
                         where: Rds.SitesWhere().SiteId(idHash.Get(demoDefinition.ParentId)));
-                    var ss = siteModel.IssuesSiteSettings(issueId);
-                    var issueModel = new IssueModel(ss, issueId);
-                    var fullText = issueModel.FullText(ss);
-                    Rds.ExecuteNonQuery(statements:
-                        Rds.UpdateItems(
+                    var ss = siteModel.IssuesSiteSettings(context: context, referenceId: issueId);
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: ss,
+                        issueId: issueId);
+                    var fullText = issueModel.FullText(context: context, ss: ss);
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        statements: Rds.UpdateItems(
                             param: Rds.ItemsParam()
                                 .SiteId(issueModel.SiteId)
                                 .Title(issueModel.Title.DisplayValue)
@@ -481,15 +534,16 @@ namespace Implem.Pleasanter.Models
                         for (var d = 0; d < days -1; d++)
                         {
                             issueModel.VerUp = true;
-                            issueModel.Update(ss);
+                            issueModel.Update(context: context, ss: ss);
                             var recordingTime = d > 0
                                 ? startTime
                                     .AddDays(d)
                                     .AddHours(-6)
                                     .AddMinutes(new Random().Next(-360, +360))
                                 : issueModel.CreatedTime.Value;
-                            Rds.ExecuteNonQuery(statements:
-                                Rds.UpdateIssues(
+                            Rds.ExecuteNonQuery(
+                                context: context,
+                                statements: Rds.UpdateIssues(
                                     tableType: Sqls.TableTypes.History,
                                     addUpdatedTimeParam: false,
                                     addUpdatorParam: false,
@@ -509,8 +563,9 @@ namespace Implem.Pleasanter.Models
                                             where: Rds.IssuesWhere()
                                                 .IssueId(issueModel.IssueId)))));
                         }
-                        Rds.ExecuteNonQuery(statements:
-                            Rds.UpdateIssues(
+                        Rds.ExecuteNonQuery(
+                            context: context,
+                            statements: Rds.UpdateIssues(
                                 addUpdatorParam: false,
                                 addUpdatedTimeParam: false,
                                 param: Rds.IssuesParam()
@@ -540,7 +595,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static void InitializeResults(
-            DemoModel demoModel, string parentId, Dictionary<string, long> idHash)
+            Context context,
+            DemoModel demoModel,
+            string parentId,
+            Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.ParentId == parentId)
@@ -548,6 +606,7 @@ namespace Implem.Pleasanter.Models
                 .ForEach(demoDefinition =>
                 {
                     var resultId = Rds.ExecuteScalar_response(
+                        context: context,
                         selectIdentity: true,
                         statements: new SqlStatement[]
                         {
@@ -708,12 +767,18 @@ namespace Implem.Pleasanter.Models
                         }).Identity.ToLong();
                     idHash.Add(demoDefinition.Id, resultId);
                     var siteModel = new SiteModel().Get(
+                        context: context,
                         where: Rds.SitesWhere().SiteId(idHash.Get(demoDefinition.ParentId)));
-                    var ss = siteModel.ResultsSiteSettings(resultId);
-                    var resultModel = new ResultModel(ss, resultId);
-                    var fullText = resultModel.FullText(ss);
-                    Rds.ExecuteNonQuery(statements:
-                        Rds.UpdateItems(
+                    var ss = siteModel.ResultsSiteSettings(
+                        context: context, referenceId: resultId);
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: ss,
+                        resultId: resultId);
+                    var fullText = resultModel.FullText(context: context, ss: ss);
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        statements: Rds.UpdateItems(
                             param: Rds.ItemsParam()
                                 .SiteId(resultModel.SiteId)
                                 .Title(resultModel.Title.DisplayValue)
@@ -721,36 +786,43 @@ namespace Implem.Pleasanter.Models
                             where: Rds.ItemsWhere().ReferenceId(resultModel.ResultId),
                             addUpdatorParam: false,
                             addUpdatedTimeParam: false));
-                    Libraries.Search.Indexes.Create(ss, resultModel);
+                    Libraries.Search.Indexes.Create(
+                        context: context,
+                        ss: ss,
+                        resultModel: resultModel);
                 });
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void InitializeLinks(DemoModel demoModel, Dictionary<string, long> idHash)
+        private static void InitializeLinks(
+            Context context, DemoModel demoModel, Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.ClassB.Trim() != string.Empty)
                 .ForEach(demoDefinition =>
-                    Rds.ExecuteNonQuery(statements:
-                        Rds.InsertLinks(param: Rds.LinksParam()
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        statements: Rds.InsertLinks(param: Rds.LinksParam()
                             .DestinationId(idHash.Get(demoDefinition.ClassB))
                             .SourceId(idHash.Get(demoDefinition.Id)))));
             Def.DemoDefinitionCollection
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.ClassC.Trim() != string.Empty)
                 .ForEach(demoDefinition =>
-                    Rds.ExecuteNonQuery(statements:
-                        Rds.InsertLinks(param: Rds.LinksParam()
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        statements: Rds.InsertLinks(param: Rds.LinksParam()
                             .DestinationId(idHash.Get(demoDefinition.ClassC))
                             .SourceId(idHash.Get(demoDefinition.Id)))));
             Def.DemoDefinitionCollection
                 .Where(o => o.ClassA.RegexExists("^#[A-Za-z0-9]+?#$"))
                 .ForEach(demoDefinition =>
-                    Rds.ExecuteNonQuery(statements:
-                        Rds.InsertLinks(param: Rds.LinksParam()
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        statements: Rds.InsertLinks(param: Rds.LinksParam()
                             .DestinationId(idHash.Get(demoDefinition.ClassA
                                 .Substring(1, demoDefinition.ClassA.Length - 2)))
                             .SourceId(idHash.Get(demoDefinition.Id)))));
@@ -759,7 +831,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void InitializePermissions(Dictionary<string, long> idHash)
+        private static void InitializePermissions(Context context, Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.Type == "Sites")
@@ -767,8 +839,9 @@ namespace Implem.Pleasanter.Models
                 .Select(o => o.Id)
                 .ForEach(id =>
             {
-                Rds.ExecuteNonQuery(statements:
-                    Rds.InsertPermissions(
+                Rds.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.InsertPermissions(
                         param: Rds.PermissionsParam()
                             .ReferenceId(idHash.Get(id))
                             .DeptId(0)
@@ -776,8 +849,9 @@ namespace Implem.Pleasanter.Models
                             .PermissionType(Permissions.Manager())));
                 idHash.Where(o => o.Key.StartsWith("Dept")).Select(o => o.Value).ForEach(deptId =>
                 {
-                    Rds.ExecuteNonQuery(statements:
-                        Rds.InsertPermissions(
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        statements: Rds.InsertPermissions(
                             param: Rds.PermissionsParam()
                                 .ReferenceId(idHash.Get(id))
                                 .DeptId(deptId)

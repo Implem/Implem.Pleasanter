@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedId = 0;
         [NonSerialized] public DateTime SavedScheduledTime = 0.ToDateTime();
 
-        public bool SiteId_Updated(Column column = null)
+        public bool SiteId_Updated(Context context, Column column = null)
         {
             return SiteId != SavedSiteId &&
                 (column == null ||
@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != SiteId);
         }
 
-        public bool Id_Updated(Column column = null)
+        public bool Id_Updated(Context context, Column column = null)
         {
             return Id != SavedId &&
                 (column == null ||
@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != Id);
         }
 
-        public bool ScheduledTime_Updated(Column column = null)
+        public bool ScheduledTime_Updated(Context context, Column column = null)
         {
             return ScheduledTime != SavedScheduledTime &&
                 (column == null ||
@@ -54,18 +54,19 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != ScheduledTime.Date);
         }
 
-        public ReminderScheduleModel(DataRow dataRow, string tableAlias = null)
+        public ReminderScheduleModel(Context context, DataRow dataRow, string tableAlias = null)
         {
-            OnConstructing();
-            Set(dataRow, tableAlias);
-            OnConstructed();
+            OnConstructing(context: context);
+            Context = context;
+            if (dataRow != null) Set(context, dataRow, tableAlias);
+            OnConstructed(context: context);
         }
 
-        private void OnConstructing()
+        private void OnConstructing(Context context)
         {
         }
 
-        private void OnConstructed()
+        private void OnConstructed(Context context)
         {
         }
 
@@ -74,6 +75,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public ReminderScheduleModel Get(
+            Context context,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -83,15 +85,17 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(Rds.ExecuteTable(statements: Rds.SelectReminderSchedules(
-                tableType: tableType,
-                column: column ?? Rds.ReminderSchedulesDefaultColumns(),
-                join: join ??  Rds.ReminderSchedulesJoinDefault(),
-                where: where ?? Rds.ReminderSchedulesWhereDefault(this),
-                orderBy: orderBy,
-                param: param,
-                distinct: distinct,
-                top: top)));
+            Set(context, Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectReminderSchedules(
+                    tableType: tableType,
+                    column: column ?? Rds.ReminderSchedulesDefaultColumns(),
+                    join: join ??  Rds.ReminderSchedulesJoinDefault(),
+                    where: where ?? Rds.ReminderSchedulesWhereDefault(this),
+                    orderBy: orderBy,
+                    param: param,
+                    distinct: distinct,
+                    top: top)));
             return this;
         }
 
@@ -109,21 +113,21 @@ namespace Implem.Pleasanter.Models
             Comments = reminderScheduleModel.Comments;
         }
 
-        private void SetBySession()
+        private void SetBySession(Context context)
         {
         }
 
-        private void Set(DataTable dataTable)
+        private void Set(Context context, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(dataTable.Rows[0]); break;
+                case 1: Set(context, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -160,11 +164,11 @@ namespace Implem.Pleasanter.Models
                             SavedComments = Comments.ToJson();
                             break;
                         case "Creator":
-                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedCreator = Creator.Id;
                             break;
                         case "Updator":
-                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
@@ -181,16 +185,16 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool Updated()
+        public bool Updated(Context context)
         {
             return
-                SiteId_Updated() ||
-                Id_Updated() ||
-                Ver_Updated() ||
-                ScheduledTime_Updated() ||
-                Comments_Updated() ||
-                Creator_Updated() ||
-                Updator_Updated();
+                SiteId_Updated(context: context) ||
+                Id_Updated(context: context) ||
+                Ver_Updated(context: context) ||
+                ScheduledTime_Updated(context: context) ||
+                Comments_Updated(context: context) ||
+                Creator_Updated(context: context) ||
+                Updator_Updated(context: context);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Settings;
+﻿using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Configuration;
 using System.Web;
@@ -8,18 +9,22 @@ namespace Implem.Pleasanter.Libraries.Security
 {
     public static class Authentications
     {
-        public static string SignIn(string returnUrl)
+        public static string SignIn(Context context, string returnUrl)
         {
             return new UserModel(
-                SiteSettingsUtilities.UsersSiteSettings(),
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 setByForm: true)
-                    .Authenticate(returnUrl);
+                    .Authenticate(context: context, returnUrl: returnUrl);
         }
 
-        public static bool Try(string loginId, string password)
+        public static bool Try(Context context, string loginId, string password)
         {
-            return new UserModel(SiteSettingsUtilities.UsersSiteSettings(), setByForm: true)
-                .Authenticate();
+            return new UserModel(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                setByForm: true)
+                    .Authenticate(context: context);
         }
 
         public static void SignOut()

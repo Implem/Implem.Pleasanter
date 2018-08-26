@@ -11,6 +11,7 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public static ResponseCollection PrependComment(
             this ResponseCollection res,
+            Context context,
             SiteSettings ss,
             Column column,
             Comments comments,
@@ -22,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                     .Focus("#Comments")
                     .Prepend("#CommentList", new HtmlBuilder()
                         .Comment(
+                            context: context,
                             ss: ss,
                             column: column,
                             comment: comments[0],
@@ -31,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static ResponseCollection Comment(
             this ResponseCollection res,
+            Context context,
             SiteSettings ss,
             Column column,
             Comments comments,
@@ -42,6 +45,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                     res.ReplaceAll(
                         Selector(comment.CommentId),
                         new HtmlBuilder().Comment(
+                            context: context,
                             ss: ss,
                             column: column,
                             comment: comment,

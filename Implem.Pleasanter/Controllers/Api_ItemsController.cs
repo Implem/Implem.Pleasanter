@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
@@ -10,36 +11,44 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public ContentResult Get(long id)
         {
-            var log = new SysLogModel();
-            var result = new ItemModel(id).GetByApi();
-            log.Finish(result.Content.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var result = new ItemModel(context: context, referenceId: id)
+                .GetByApi(context: context);
+            log.Finish(context: context, responseSize: result.Content.Length);
             return result;
         }
 
         [HttpPost]
         public ContentResult Create(long id)
         {
-            var log = new SysLogModel();
-            var result = new ItemModel(id).CreateByApi();
-            log.Finish(result.Content.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var result = new ItemModel(context: context, referenceId: id)
+                .CreateByApi(context: context);
+            log.Finish(context: context, responseSize: result.Content.Length);
             return result;
         }
 
         [HttpPost]
         public ContentResult Update(long id)
         {
-            var log = new SysLogModel();
-            var result = new ItemModel(id).UpdateByApi();
-            log.Finish(result.Content.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var result = new ItemModel(context: context, referenceId: id)
+                .UpdateByApi(context: context);
+            log.Finish(context: context, responseSize: result.Content.Length);
             return result;
         }
 
         [HttpPost]
         public ContentResult Delete(long id)
         {
-            var log = new SysLogModel();
-            var result = new ItemModel(id).DeleteByApi();
-            log.Finish(result.Content.Length);
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var result = new ItemModel(context: context, referenceId: id)
+                .DeleteByApi(context: context);
+            log.Finish(context: context, responseSize: result.Content.Length);
             return result;
         }
     }

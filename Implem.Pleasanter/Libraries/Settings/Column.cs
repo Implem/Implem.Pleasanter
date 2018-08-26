@@ -4,6 +4,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Extensions;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using System;
@@ -174,23 +175,23 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public void SetChoiceHash(
+            Context context,
             long siteId,
             Dictionary<string, List<string>> linkHash = null,
             IEnumerable<string> searchIndexes = null)
         {
-            var tenantId = Sessions.TenantId();
             ChoiceHash = new Dictionary<string, Choice>();
             ChoicesText.SplitReturn()
                 .Where(o => o.Trim() != string.Empty)
                 .Select((o, i) => new { Line = o.Trim(), Index = i })
                 .ForEach(data =>
                     SetChoiceHash(
-                        tenantId,
-                        siteId,
-                        linkHash,
-                        searchIndexes,
-                        data.Index,
-                        data.Line));
+                        context: context,
+                        siteId: siteId,
+                        linkHash: linkHash,
+                        searchIndexes: searchIndexes,
+                        index: data.Index,
+                        line: data.Line));
             if (searchIndexes?.Any() == true)
             {
                 ChoiceHash = ChoiceHash.Take(Parameters.General.DropDownSearchPageSize)
@@ -199,7 +200,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private void SetChoiceHash(
-            int tenantId,
+            Context context,
             long siteId,
             Dictionary<string, List<string>> linkHash,
             IEnumerable<string> searchIndexes,
@@ -209,21 +210,29 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (line)
             {
                 case "[[Depts]]":
-                    SiteInfo.TenantCaches.Get(tenantId)?
+                    SiteInfo.TenantCaches.Get(context.TenantId)?
                         .DeptHash
-                        .Where(o => o.Value.TenantId == tenantId)
+                        .Where(o => o.Value.TenantId == context.TenantId)
                         .Where(o => searchIndexes?.Any() != true ||
                             searchIndexes.All(p =>
                                 o.Key == p.ToInt() ||
                                 o.Value.Name.RegexLike(p).Any()))
                         .ForEach(o => AddToChoiceHash(
                             o.Key.ToString(),
-                            SiteInfo.Dept(o.Key).Name));
+                            SiteInfo.Dept(
+                                tenantId: context.TenantId,
+                                deptId: o.Key).Name));
                     break;
                 case "[[Users]]":
-                    SiteInfo.SiteUsers(tenantId, siteId)?
-                        .Where(o => !SiteInfo.User(o).Disabled)
-                        .ToDictionary(o => o.ToString(), o => SiteInfo.UserName(o))
+                    SiteInfo.SiteUsers(context: context, siteId: siteId)?
+                        .Where(userId => !SiteInfo.User(
+                            context: context,
+                            userId: userId).Disabled)
+                        .ToDictionary(
+                            userId => userId.ToString(),
+                            userId => SiteInfo.UserName(
+                                context: context,
+                                userId: userId))
                         .Where(o => searchIndexes?.Any() != true ||
                             searchIndexes.All(p =>
                                 o.Key.RegexLike(p).Any() ||
@@ -231,9 +240,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ForEach(o => AddToChoiceHash(o.Key, o.Value));
                     break;
                 case "[[Users*]]":
-                    SiteInfo.TenantCaches.Get(tenantId)?
+                    SiteInfo.TenantCaches.Get(context.TenantId)?
                         .UserHash
-                        .Where(o => o.Value.TenantId == tenantId)
+                        .Where(o => o.Value.TenantId == context.TenantId)
                         .ToDictionary(o => o.Key.ToString(), o => o.Value.Name)
                         .Where(o => searchIndexes?.Any() != true ||
                             searchIndexes.All(p =>
@@ -300,7 +309,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> EditChoices(
             bool insertBlank = false, bool shorten = false, bool addNotSet = false)
         {
-            var tenantId = Sessions.TenantId();
             var hash = new Dictionary<string, ControlData>();
             if (!HasChoices()) return hash;
             if (addNotSet && !Required)
@@ -341,9 +349,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : new Choice(nullCase);
         }
 
-        public string ChoicePart(string selectedValue, ExportColumn.Types? type)
+        public string ChoicePart(Context context, string selectedValue, ExportColumn.Types? type)
         {
-            if (UserColumn) AddNotIncludedUser(selectedValue);
+            if (UserColumn)
+            {
+                AddNotIncludedUser(
+                    context: context,
+                    selectedValue: selectedValue);
+            }
             var choice = Choice(selectedValue, nullCase: selectedValue);
             switch (type)
             {
@@ -354,11 +367,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void AddNotIncludedUser(string selectedValue)
+        private void AddNotIncludedUser(Context context, string selectedValue)
         {
             if (ChoiceHash?.ContainsKey(selectedValue) == false)
             {
-                var user = SiteInfo.User(selectedValue.ToInt());
+                var user = SiteInfo.User(
+                    context: context,
+                    userId: selectedValue.ToInt());
                 if (!user.Anonymous())
                 {
                     ChoiceHash.Add(selectedValue, new Choice(user.Name));
@@ -366,16 +381,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public string RecordingData(string value, long siteId)
+        public string RecordingData(Context context, string value, long siteId)
         {
-            var tenantId = Sessions.TenantId();
-            var userHash = SiteInfo.TenantCaches[tenantId].UserHash;
+            var userHash = SiteInfo.TenantCaches.Get(context.TenantId)?.UserHash;
             var recordingData = value;
             if (UserColumn)
             {
                 if (SiteUserHash == null)
                 {
-                    SiteUserHash = SiteInfo.SiteUsers(tenantId, siteId)
+                    SiteUserHash = SiteInfo.SiteUsers(context: context, siteId: siteId)
                         .Where(o => userHash.ContainsKey(o))
                         .GroupBy(o => o)
                         .Select(o => o.First())
@@ -388,7 +402,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else if (TypeCs == "Comments")
             {
-                return new Comments().Prepend(value).ToJson();
+                return new Comments().Prepend(
+                    context: context, ss: SiteSettings, body: value).ToJson();
             }
             else if (TypeName == "datetime")
             {
@@ -493,7 +508,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return DateTime.Now.AddDays(DefaultInput.ToInt());
         }
 
-        public string GetDefaultInput()
+        public string GetDefaultInput(Context context)
         {
             switch (DefaultInput)
             {
@@ -501,10 +516,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     switch (ChoicesText.SplitReturn().FirstOrDefault())
                     {
                         case "[[Depts]]":
-                            return Sessions.DeptId().ToString();
+                            return context.DeptId.ToString();
                         case "[[Users]]":
                         case "[[Users*]]":
-                            return Sessions.UserId().ToString();
+                            return context.UserId.ToString();
                     }
                     break;
             }
@@ -552,7 +567,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return sql;
         }
 
-        public SqlJoinCollection SqlJoinCollection(SiteSettings ss)
+        public SqlJoinCollection SqlJoinCollection(Context context, SiteSettings ss)
         {
             var sql = new SqlJoinCollection();
             if (!TableAlias.IsNullOrEmpty())
@@ -564,7 +579,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     var siteId = part.Split_2nd('~').ToLong();
                     var currentSs = ss.JoinedSsHash?.Get(siteId);
                     var tableName = currentSs?.ReferenceType;
-                    var name = currentSs?.GetColumn(part.Split_1st('~'))?.Name;
+                    var name = currentSs?.GetColumn(
+                        context: context,
+                        columnName: part.Split_1st('~'))?.Name;
                     path.Add(part);
                     var alias = path.Join("-");
                     if (tableName != null && name != null)

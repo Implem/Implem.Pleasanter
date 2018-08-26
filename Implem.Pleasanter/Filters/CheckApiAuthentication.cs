@@ -11,10 +11,12 @@ namespace Implem.Pleasanter.Filters
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
+            var context = new Context();
             var api = Forms.String().Deserialize<Api>();
             if (api?.ApiKey.IsNullOrEmpty() == false)
             {
                 var userModel = new UserModel().Get(
+                    context: context,
                     ss: null,
                     where: Rds.UsersWhere()
                         .ApiKey(api.ApiKey)
@@ -25,9 +27,8 @@ namespace Implem.Pleasanter.Filters
                 }
                 else
                 {
-                    Sessions.SetTenantId(userModel.TenantId);
                     userModel.SetSession();
-                    if (!Contract.Api())
+                    if (!Contract.Api(context: context))
                     {
                         Sessions.Abandon();
                         filterContext.Result = ApiResults.BadRequest();

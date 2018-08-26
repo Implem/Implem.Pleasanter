@@ -9,13 +9,13 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
-using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlTemplates
     {
         public static HtmlBuilder Template(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Versions.VerTypes verType,
             BaseModel.MethodTypes methodType,
@@ -35,6 +35,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb
                 .MainContainer(
+                    context: context,
                     ss: ss,
                     verType: verType,
                     methodType: methodType,
@@ -48,14 +49,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useSearch: useSearch,
                     useNavigationMenu: useNavigationMenu,
                     action: action)
-                .HiddenData(ss: ss)
-                .VideoDialog(ss: ss)
-                .Styles(ss: ss, userStyle: userStyle)
-                .Scripts(ss: ss, script: script, userScript: userScript);
+                .HiddenData(context: context)
+                .VideoDialog(context: context, ss: ss)
+                .Styles(context: context, ss: ss, userStyle: userStyle)
+                .Scripts(context: context, ss: ss, script: script, userScript: userScript);
         }
 
         public static HtmlBuilder MainContainer(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Versions.VerTypes verType,
             BaseModel.MethodTypes methodType,
@@ -74,6 +76,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(id: "MainContainer", action: () => hb
                 .Header(
+                    context: context,
                     ss: ss,
                     siteId: siteId,
                     referenceType: referenceType,
@@ -81,6 +84,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useNavigationMenu: useNavigationMenu,
                     useSearch: useSearch)
                 .Content(
+                    context: context,
                     ss: ss,
                     errorType: errorType,
                     messageData: messageData,
@@ -100,6 +104,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Content(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Error.Types errorType,
             string[] messageData,
@@ -114,10 +119,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 if (!errorType.Has())
                 {
                     hb.Nav(css: "both cf", action: () => hb
-                        .Breadcrumb(ss: ss, _using: useBreadcrumb));
+                        .Breadcrumb(context: context, ss: ss, _using: useBreadcrumb));
                     if (useTitle)
                     {
-                        hb.Title(ss: ss, siteId: siteId, text: title);
+                        hb.Title(
+                            context: context,
+                            ss: ss,
+                            siteId: siteId,
+                            text: title);
                     }
                     action?.Invoke();
                     hb.Message(message: Sessions.Message());
@@ -128,8 +137,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     hb
                         .Message(message: message)
                         .MainCommands(
-                            siteId: siteId,
+                            context: context,
                             ss: ss,
+                            siteId: siteId,
                             verType: Versions.VerTypes.Latest);
                 }
             });
@@ -146,12 +156,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Title(
-            this HtmlBuilder hb, SiteSettings ss, long siteId, string text)
+            this HtmlBuilder hb, Context context, SiteSettings ss, long siteId, string text)
         {
             return !text.IsNullOrEmpty()
                 ? hb
                     .Div(id: "SiteImageIconContainer", action: () => hb
-                        .SiteImageIcon(ss: ss, siteId: siteId))
+                        .SiteImageIcon(context: context, ss: ss, siteId: siteId))
                     .Header(id: "HeaderTitleContainer", action: () => hb
                         .H(number: 1, id: "HeaderTitle", action: () => hb
                             .Text(text: text)))
@@ -159,23 +169,31 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static HtmlBuilder SiteImageIcon(
-            this HtmlBuilder hb, SiteSettings ss, long siteId)
+            this HtmlBuilder hb, Context context, SiteSettings ss, long siteId)
         {
-            return BinaryUtilities.ExistsSiteImage(ss, siteId, ImageData.SizeTypes.Icon)
-                ? hb.Img(
-                    src: Locations.Get(
-                        "Items",
-                        siteId.ToString(),
-                        "Binaries",
-                        "SiteImageIcon",
-                        BinaryUtilities.SiteImagePrefix(ss, siteId, ImageData.SizeTypes.Icon)),
-                    css: "site-image-icon")
-                : hb;
+            return BinaryUtilities.ExistsSiteImage(
+                context: context,
+                ss: ss,
+                referenceId: siteId,
+                sizeType: ImageData.SizeTypes.Icon)
+                    ? hb.Img(
+                        src: Locations.Get(
+                            "Items",
+                            siteId.ToString(),
+                            "Binaries",
+                            "SiteImageIcon",
+                            BinaryUtilities.SiteImagePrefix(
+                                context: context,
+                                ss: ss,
+                                referenceId: siteId,
+                                sizeType: ImageData.SizeTypes.Icon)),
+                        css: "site-image-icon")
+                    : hb;
         }
 
-        private static HtmlBuilder VideoDialog(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder VideoDialog(this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return Contract.Attachments() && !ss.Mobile
+            return Contract.Attachments(context: context) && !ss.Mobile
                 ? hb
                     .Div(
                         attributes: new HtmlAttributes()
@@ -201,23 +219,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static HtmlBuilder HiddenData(this HtmlBuilder hb, SiteSettings ss = null)
+        private static HtmlBuilder HiddenData(this HtmlBuilder hb, Context context)
         {
             return !Request.IsAjax()
                 ? hb
                     .Hidden(controlId: "ApplicationPath", value: Locations.Get())
-                    .Hidden(controlId: "Language", value: Sessions.Language())
-                    .Hidden(controlId: "DeptId", value: Sessions.DeptId().ToString())
-                    .Hidden(controlId: "UserId", value: Sessions.UserId().ToString())
+                    .Hidden(controlId: "Language", value: context.Language)
+                    .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
+                    .Hidden(controlId: "UserId", value: context.UserId.ToString())
                 : hb;
         }
 
-        public static string Error(Error.Types errorType, string[] messageData = null)
+        public static string Error(
+            Context context, Error.Types errorType, string[] messageData = null)
         {
             var hb = new HtmlBuilder();
+            var ss = new SiteSettings();
             return hb
                 .MainContainer(
-                    ss: new SiteSettings(),
+                    context: context,
+                    ss: ss,
                     verType: Versions.VerTypes.Latest,
                     methodType: BaseModel.MethodTypes.NotSet,
                     messageData: messageData,
@@ -230,9 +251,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useBreadcrumb: false,
                     useTitle: false,
                     useNavigationMenu: true)
-                .HiddenData()
-                .Styles()
-                .Scripts()
+                .HiddenData(context: context)
+                .Styles(context: context, ss: ss)
+                .Scripts(context: context, ss: ss)
                 .ToString();
         }
     }

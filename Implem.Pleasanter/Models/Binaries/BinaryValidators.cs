@@ -9,18 +9,18 @@ namespace Implem.Pleasanter.Models
 {
     public static class BinaryValidators
     {
-        public static Error.Types OnGetting(SiteSettings ss)
+        public static Error.Types OnGetting(Context context, SiteSettings ss)
         {
-            if (!ss.HasPermission())
+            if (!context.HasPermission(ss: ss))
             {
                 return Error.Types.HasNotPermission;
             }
             return Error.Types.None;
         }
 
-        public static Error.Types OnUpdating(SiteSettings ss)
+        public static Error.Types OnUpdating(Context context, SiteSettings ss)
         {
-            if (!ss.CanManageSite())
+            if (!context.CanManageSite(ss: ss))
             {
                 return Error.Types.HasNotPermission;
             }
@@ -30,9 +30,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnUploadingSiteImage(SiteSettings ss, byte[] file)
+        public static Error.Types OnUploadingSiteImage(
+            Context context, SiteSettings ss, byte[] file)
         {
-            if (!ss.CanManageSite())
+            if (!context.CanManageSite(ss: ss))
             {
                 return Error.Types.HasNotPermission;
             }
@@ -54,9 +55,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnDeletingSiteImage(SiteSettings ss)
+        public static Error.Types OnDeletingSiteImage(Context context, SiteSettings ss)
         {
-            if (!ss.CanManageSite())
+            if (!context.CanManageSite(ss: ss))
             {
                 return Error.Types.HasNotPermission;
             }
@@ -66,17 +67,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnUploadingImage(System.Web.HttpPostedFileBase[] files)
+        public static Error.Types OnUploadingImage(
+            Context context, System.Web.HttpPostedFileBase[] files)
         {
-            if (!Contract.Attachments())
+            if (!Contract.Attachments(context: context))
             {
                 return Error.Types.BadRequest;
             }
             var newTotalFileSize = files.Sum(x => x.ContentLength.ToDecimal());
             if (OverTenantStorageSize(
-                BinaryUtilities.UsedTenantStorageSize(),
+                BinaryUtilities.UsedTenantStorageSize(context: context),
                 newTotalFileSize,
-                Contract.TenantStorageSize()))
+                Contract.TenantStorageSize(context: context)))
             {
                 return Error.Types.OverTenantStorageSize;
             }
@@ -86,9 +88,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnDeletingImage(SiteSettings ss, BinaryModel binaryModel)
+        public static Error.Types OnDeletingImage(
+            Context context, SiteSettings ss, BinaryModel binaryModel)
         {
-            if (!ss.CanUpdate())
+            if (!context.CanUpdate(ss: ss))
             {
                 return Error.Types.HasNotPermission;
             }
@@ -103,11 +106,12 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static Error.Types OnUploading(
+            Context context,
             Column column,
             Libraries.DataTypes.Attachments attachments,
             System.Web.HttpPostedFileBase[] files)
         {
-            if (!Contract.Attachments())
+            if (!Contract.Attachments(context: context))
             {
                 return Error.Types.BadRequest;
             }
@@ -131,9 +135,9 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.OverTotalLimitSize;
             }
             if (OverTenantStorageSize(
-                BinaryUtilities.UsedTenantStorageSize(),
+                BinaryUtilities.UsedTenantStorageSize(context: context),
                 newTotalFileSize,
-                Contract.TenantStorageSize()))
+                Contract.TenantStorageSize(context: context)))
             {
                 return Error.Types.OverTenantStorageSize;
             }

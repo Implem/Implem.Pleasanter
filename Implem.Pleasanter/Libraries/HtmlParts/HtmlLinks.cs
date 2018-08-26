@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -14,58 +15,84 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlLinks
     {
-        public static HtmlBuilder Links(this HtmlBuilder hb, SiteSettings ss, long id)
+        public static HtmlBuilder Links(
+            this HtmlBuilder hb, Context context, SiteSettings ss, long id)
         {
-            var targets = Targets(id);
-            var dataSet = DataSet(ss, targets);
+            var targets = Targets(context: context, linkId: id);
+            var dataSet = DataSet(context: context, ss: ss, targets: targets);
             return Contains(ss, dataSet)
                 ? hb.FieldSet(
                     css: " enclosed",
                     legendText: Displays.Links(),
                     action: () => hb
                         .Links(
-                            targets: targets,
+                            context: context,
                             ss: ss,
+                            targets: targets,
                             dataSet: dataSet))
                 : hb;
         }
 
-        private static EnumerableRowCollection<DataRow> Targets(long linkId)
+        private static EnumerableRowCollection<DataRow> Targets(Context context, long linkId)
         {
-            return Rds.ExecuteTable(statements: new SqlStatement[]
-            {
-                Rds.SelectLinks(
-                    column: Rds.LinksColumn()
-                        .SourceId(_as: "Id")
-                        .Add("'Source' as [Direction]"),
-                    where: Rds.LinksWhere().DestinationId(linkId)),
-                Rds.SelectLinks(
-                    unionType: Sqls.UnionTypes.UnionAll,
-                    column: Rds.LinksColumn()
-                        .DestinationId(_as: "Id")
-                        .Add("'Destination' as [Direction]"),
-                    where: Rds.LinksWhere().SourceId(linkId))
-            }).AsEnumerable();
+            return Rds.ExecuteTable(
+                context: context,
+                statements: new SqlStatement[]
+                {
+                    Rds.SelectLinks(
+                        column: Rds.LinksColumn()
+                            .SourceId(_as: "Id")
+                            .Add("'Source' as [Direction]"),
+                        where: Rds.LinksWhere().DestinationId(linkId)),
+                    Rds.SelectLinks(
+                        unionType: Sqls.UnionTypes.UnionAll,
+                        column: Rds.LinksColumn()
+                            .DestinationId(_as: "Id")
+                            .Add("'Destination' as [Direction]"),
+                        where: Rds.LinksWhere().SourceId(linkId))
+                }).AsEnumerable();
         }
 
-        private static DataSet DataSet(SiteSettings ss, EnumerableRowCollection<DataRow> targets)
+        private static DataSet DataSet(
+            Context context, SiteSettings ss, EnumerableRowCollection<DataRow> targets)
         {
             var statements = new List<SqlStatement>();
             ss.Sources.ForEach(currentSs =>
-                statements.Add(SelectIssues(currentSs, targets, "Source")));
+                statements.Add(SelectIssues(
+                    context: context,
+                    ss: currentSs,
+                    targets: targets,
+                    direction: "Source")));
             ss.Destinations.ForEach(currentSs =>
-                statements.Add(SelectIssues(currentSs, targets, "Destination")));
+                statements.Add(SelectIssues(
+                    context: context,
+                    ss: currentSs,
+                    targets: targets,
+                    direction: "Destination")));
             ss.Sources.ForEach(currentSs =>
-                statements.Add(SelectResults(currentSs, targets, "Source")));
+                statements.Add(SelectResults(
+                    context: context,
+                    ss: currentSs,
+                    targets: targets,
+                    direction: "Source")));
             ss.Destinations.ForEach(currentSs =>
-                statements.Add(SelectResults(currentSs, targets, "Destination")));
+                statements.Add(SelectResults(
+                    context: context,
+                    ss: currentSs,
+                    targets: targets,
+                    direction: "Destination")));
             return statements.Any()
-                ? Rds.ExecuteDataSet(statements: statements.ToArray())
+                ? Rds.ExecuteDataSet(
+                    context: context,
+                    statements: statements.ToArray())
                 : null;
         }
 
         private static SqlStatement SelectIssues(
-            SiteSettings ss, EnumerableRowCollection<DataRow> targets, string direction)
+            Context context,
+            SiteSettings ss,
+            EnumerableRowCollection<DataRow> targets,
+            string direction)
         {
             return Rds.SelectIssues(
                 dataTableName: "Issues" + "_" + direction + ss.SiteId,
@@ -84,7 +111,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .IssueId_In(targets
                         .Where(o => o["Direction"].ToString() == direction)
                         .Select(o => o["Id"].ToLong()))
-                    .CanRead("[Issues].[IssueId]"));
+                    .CanRead(context: context, idColumnBracket: "[Issues].[IssueId]"));
         }
 
         public static Rds.IssuesColumnCollection IssuesLinkColumns(SiteSettings ss)
@@ -97,7 +124,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static SqlStatement SelectResults(
-            SiteSettings ss, EnumerableRowCollection<DataRow> targets, string direction)
+            Context context,
+            SiteSettings ss,
+            EnumerableRowCollection<DataRow> targets,
+            string direction)
         {
             return Rds.SelectResults(
                 dataTableName: "Results" + "_" + direction + ss.SiteId,
@@ -116,7 +146,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .ResultId_In(targets
                         .Where(o => o["Direction"].ToString() == direction)
                         .Select(o => o["Id"].ToLong()))
-                    .CanRead("[Results].[ResultId]"));
+                    .CanRead(context: context, idColumnBracket: "[Results].[ResultId]"));
         }
 
         public static Rds.ResultsColumnCollection ResultsLinkColumns(SiteSettings ss)
@@ -152,17 +182,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Links(
             this HtmlBuilder hb,
-            EnumerableRowCollection<DataRow> targets,
+            Context context,
             SiteSettings ss,
+            EnumerableRowCollection<DataRow> targets,
             DataSet dataSet)
         {
             return hb.Div(action: () => hb
                 .LinkTables(
+                    context: context,
                     ssList: ss.Destinations,
                     dataSet: dataSet,
                     direction: "Destination",
                     caption: Displays.LinkDestinations())
                 .LinkTables(
+                    context: context,
                     ssList: ss.Sources,
                     dataSet: dataSet,
                     direction: "Source",
@@ -171,6 +204,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder LinkTables(
             this HtmlBuilder hb,
+            Context context,
             IEnumerable<SiteSettings> ssList,
             DataSet dataSet,
             string direction,
@@ -184,20 +218,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     var dataRows = dataSet.Tables[ss.ReferenceType + "_" + direction + ss.SiteId]?
                         .AsEnumerable()
                         .Where(o => o["SiteId"].ToLong() == ss.SiteId);
-                    var siteMenu = SiteInfo.TenantCaches[Sessions.TenantId()].SiteMenu;
+                    var siteMenu = SiteInfo.TenantCaches.Get(context.TenantId)?.SiteMenu;
                     if (dataRows != null && dataRows.Any())
                     {
-                        ss.SetColumnAccessControls();
-                        var columns = ss.GetLinkColumns(checkPermission: true);
+                        ss.SetColumnAccessControls(context: context);
+                        var columns = ss.GetLinkColumns(context: context, checkPermission: true);
                         switch (ss.ReferenceType)
                         {
                             case "Issues":
-                                var issueCollection = new IssueCollection(ss, dataRows);
-                                issueCollection.SetLinks(ss);
+                                var issueCollection = new IssueCollection(
+                                    context: context,
+                                    ss: ss,
+                                    dataRows: dataRows);
+                                issueCollection.SetLinks(context: context, ss: ss);
                                 hb
                                     .Caption(caption: "{0} : {1} - {2} {3}".Params(
                                         caption,
-                                        siteMenu.Breadcrumb(ss.SiteId)
+                                        siteMenu.Breadcrumb(context: context, siteId: ss.SiteId)
                                             .Select(o => o.Title)
                                             .Join(" > "),
                                         Displays.Quantity(),
@@ -207,7 +244,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .TBody(action: () => issueCollection
                                         .ForEach(issueModel =>
                                         {
-                                            ss.SetColumnAccessControls(issueModel.Mine());
+                                            ss.SetColumnAccessControls(
+                                                context: context,
+                                                mine: issueModel.Mine(context: context));
                                             hb.Tr(
                                                 attributes: new HtmlAttributes()
                                                     .Class("grid-row")
@@ -215,18 +254,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 action: () => columns
                                                     .ForEach(column => hb
                                                         .TdValue(
+                                                            context: context,
                                                             ss: ss,
                                                             column: column,
                                                             issueModel: issueModel)));
                                         }));
                                 break;
                             case "Results":
-                                var resultCollection = new ResultCollection(ss, dataRows);
-                                resultCollection.SetLinks(ss);
+                                var resultCollection = new ResultCollection(
+                                    context: context,
+                                    ss: ss,
+                                    dataRows: dataRows);
+                                resultCollection.SetLinks(context: context, ss: ss);
                                 hb
                                     .Caption(caption: "{0} : {1} - {2} {3}".Params(
                                         caption,
-                                        siteMenu.Breadcrumb(ss.SiteId)
+                                        siteMenu.Breadcrumb(context: context, siteId: ss.SiteId)
                                             .Select(o => o.Title)
                                             .Join(" > "),
                                         Displays.Quantity(),
@@ -236,7 +279,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .TBody(action: () => resultCollection
                                         .ForEach(resultModel =>
                                         {
-                                            ss.SetColumnAccessControls(resultModel.Mine());
+                                            ss.SetColumnAccessControls(
+                                                context: context,
+                                                mine: resultModel.Mine(context: context));
                                             hb.Tr(
                                                 attributes: new HtmlAttributes()
                                                     .Class("grid-row")
@@ -244,6 +289,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 action: () => columns
                                                     .ForEach(column => hb
                                                         .TdValue(
+                                                            context: context,
                                                             ss: ss,
                                                             column: column,
                                                             resultModel: resultModel)));

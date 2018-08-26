@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Data;
 using System.Linq;
@@ -24,27 +25,35 @@ namespace Implem.Pleasanter.Libraries.Migrators
             if (ss.Version < 1.013M) ss.Migrate1_013();
         }
 
-        public static void Migrate()
+        public static void Migrate(Context context)
         {
-            Rds.ExecuteTable(statements: Rds.SelectSites(
-                column: Rds.SitesColumn()
-                    .SiteId()
-                    .SiteSettings())).AsEnumerable().ForEach(dataRow =>
-                        MigrateSiteSettingsFormat(
-                            dataRow["SiteId"].ToLong(),
-                            dataRow["SiteSettings"].ToString().Deserialize<SiteSettings>()));
+            Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectSites(
+                    column: Rds.SitesColumn()
+                        .SiteId()
+                        .SiteSettings())).AsEnumerable().ForEach(dataRow =>
+                            MigrateSiteSettingsFormat(
+                                context: context,
+                                ss: dataRow.String("SiteSettings")
+                                    .Deserialize<SiteSettings>(),
+                                siteId: dataRow.Long("SiteId")));
         }
 
-        private static void MigrateSiteSettingsFormat(long siteId, SiteSettings ss)
+        private static void MigrateSiteSettingsFormat(
+            Context context, SiteSettings ss, long siteId)
         {
             if (ss == null) return;
             if (ss.Migrated)
             {
-                Rds.ExecuteNonQuery(statements: Rds.UpdateSites(
-                    where: Rds.SitesWhere().SiteId(siteId),
-                    param: Rds.SitesParam().SiteSettings(ss.RecordingJson()),
-                    addUpdatedTimeParam: false,
-                    addUpdatorParam: false));
+                Rds.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.UpdateSites(
+                        where: Rds.SitesWhere().SiteId(siteId),
+                        param: Rds.SitesParam().SiteSettings(
+                            ss.RecordingJson(context: context)),
+                        addUpdatedTimeParam: false,
+                        addUpdatorParam: false));
             }
         }
     }

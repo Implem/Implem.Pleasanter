@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Server;
+﻿using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Server;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Filters
 {
@@ -6,7 +7,7 @@ namespace Implem.Pleasanter.Filters
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            SiteInfo.Reflesh();
+            SiteInfo.Reflesh(context: new Context());
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
@@ -142,6 +143,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder MarkDown(
             this HtmlBuilder hb,
+            Context context,
             string controlId = null,
             string controlCss = null,
             string text = null,
@@ -171,9 +173,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         attributes: new HtmlAttributes()
                             .Id(controlId)
                             .Class(Css.Class(
-                                "control-markdown" + (CanUploadImage(readOnly, allowImage, preview)
-                                    ? " upload-image"
-                                    : string.Empty),
+                                "control-markdown" +
+                                    (CanUploadImage(context, readOnly, allowImage, preview)
+                                        ? " upload-image"
+                                        : string.Empty),
                                 controlCss))
                             .Placeholder(placeholder)
                             .DataValidateRequired(validateRequired, _using: !readOnly)
@@ -181,6 +184,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Text(text: text))
                     .MarkDownCommands(
+                        context: context,
                         controlId: controlId,
                         readOnly: readOnly,
                         allowImage: allowImage,
@@ -191,13 +195,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder MarkDownCommands(
             this HtmlBuilder hb,
+            Context context,
             string controlId,
             bool readOnly,
             bool allowImage,
             bool mobile,
             bool preview)
         {
-            return CanUploadImage(readOnly, allowImage, preview)
+            return CanUploadImage(context, readOnly, allowImage, preview)
                 ? hb
                     .Div(
                         attributes: new HtmlAttributes()
@@ -217,9 +222,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static bool CanUploadImage(bool readOnly, bool allowImage, bool preview)
+        private static bool CanUploadImage(
+            Context context, bool readOnly, bool allowImage, bool preview)
         {
-            return Contract.Images() && !readOnly && allowImage && !preview;
+            return Contract.Images(context: context)
+                && !readOnly && allowImage && !preview;
         }
 
         public static HtmlBuilder MarkUp(
@@ -242,6 +249,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder DropDown(
             this HtmlBuilder hb,
+            Context context,
             string controlId = null,
             string controlCss = null,
             Dictionary<string, ControlData> optionCollection = null,
@@ -279,6 +287,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataMethod(method),
                     action: () => hb
                         .OptionCollection(
+                            context: context,
                             optionCollection: optionCollection,
                             selectedValue: selectedValue,
                             multiple: multiple,
@@ -290,6 +299,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder OptionCollection(
             this HtmlBuilder hb,
+            Context context,
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValue = null,
             bool multiple = false,
@@ -304,6 +314,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ? selectedValue.Deserialize<List<string>>()
                     : null;
                 OptionCollection(
+                    context: context,
                     optionCollection: optionCollection,
                     selectedValue: selectedValue,
                     multiple: multiple,
@@ -325,6 +336,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static Dictionary<string, ControlData> OptionCollection(
+            Context context,
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValue = null,
             bool multiple = false,
@@ -351,7 +363,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 optionCollection?.Add(
                     selectedValue,
                     column != null && column.UserColumn
-                        ? new ControlData(SiteInfo.UserName(userId))
+                        ? new ControlData(SiteInfo.UserName(
+                            context: context,
+                            userId: userId))
                         : new ControlData("? " + selectedValue));
                 return optionCollection;
             }

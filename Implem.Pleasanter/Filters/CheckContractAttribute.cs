@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Responses;
+﻿using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using System.Web.Mvc;
@@ -8,8 +9,10 @@ namespace Implem.Pleasanter.Filters
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            if (Sessions.LoggedIn() && Contract.OverDeadline())
+            var context = new Context();
+            if (Sessions.LoggedIn() && Contract.OverDeadline(context: context))
             {
+
                 Authentications.SignOut();
                 filterContext.Result = new RedirectResult(Locations.Login() + "?expired=1");
             }

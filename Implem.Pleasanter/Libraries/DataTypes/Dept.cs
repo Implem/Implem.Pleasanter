@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Data;
 namespace Implem.Pleasanter.Libraries.DataTypes
@@ -25,33 +26,33 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Name = dataRow.String("DeptName");
         }
 
-        public string ToControl(SiteSettings ss, Column column)
+        public string ToControl(Context context, SiteSettings ss, Column column)
         {
             return Id.ToString();
         }
 
-        public string ToResponse()
+        public string ToResponse(Context context)
         {
             return Id.ToString();
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             return hb.Td(action: () => hb
                 .Text(text: Name));
         }
 
-        public string GridText(Column column)
+        public string GridText(Context context, Column column)
         {
             return Name;
         }
 
-        public string ToExport(Column column, ExportColumn exportColumn = null)
+        public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return Name;
         }
 
-        public bool InitialValue()
+        public bool InitialValue(Context context)
         {
             return Id == 0;
         }

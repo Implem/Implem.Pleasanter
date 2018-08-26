@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Models
         public int TotalCount;
 
         public PermissionCollection(
+            Context context,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -41,7 +42,8 @@ namespace Implem.Pleasanter.Models
         {
             if (get)
             {
-                Set(Get(
+                Set(context, Get(
+                    context: context,
                     column: column,
                     join: join,
                     where: where,
@@ -56,18 +58,18 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public PermissionCollection(EnumerableRowCollection<DataRow> dataRows)
+        public PermissionCollection(Context context,EnumerableRowCollection<DataRow> dataRows)
         {
-            Set(dataRows);
+            Set(context, dataRows);
         }
 
-        private PermissionCollection Set(EnumerableRowCollection<DataRow> dataRows)
+        private PermissionCollection Set(Context context, EnumerableRowCollection<DataRow> dataRows)
         {
             if (dataRows.Any())
             {
                 foreach (DataRow dataRow in dataRows)
                 {
-                    Add(new PermissionModel(dataRow));
+                    Add(new PermissionModel(context, dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }
@@ -79,6 +81,7 @@ namespace Implem.Pleasanter.Models
         }
 
         private EnumerableRowCollection<DataRow> Get(
+            Context context,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -109,6 +112,7 @@ namespace Implem.Pleasanter.Models
                     countRecord: countRecord)
             };
             var dataSet = Rds.ExecuteDataSet(
+                context: context,
                 transactional: false,
                 statements: statements.ToArray());
             TotalCount = Rds.Count(dataSet);
@@ -118,7 +122,8 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public PermissionCollection(long referenceId, IEnumerable<string> permissions)
+        public PermissionCollection(
+            Context context, long referenceId, IEnumerable<string> permissions)
         {
             permissions?.ForEach(line =>
             {
@@ -126,11 +131,12 @@ namespace Implem.Pleasanter.Models
                 if (parts.Count() == 3)
                 {
                     Add(new PermissionModel(
-                        referenceId,
-                        parts[0] == "Dept" ? parts[1].ToInt() : 0,
-                        parts[0] == "Group" ? parts[1].ToInt() : 0,
-                        parts[0] == "User" ? parts[1].ToInt() : 0,
-                        (Permissions.Types)parts[2].ToLong()));
+                        context: context,
+                        referenceId: referenceId,
+                        deptId: parts[0] == "Dept" ? parts[1].ToInt() : 0,
+                        groupId: parts[0] == "Group" ? parts[1].ToInt() : 0,
+                        userId: parts[0] == "User" ? parts[1].ToInt() : 0,
+                        permissionType: (Permissions.Types)parts[2].ToLong()));
                 }
             });
         }
@@ -138,33 +144,34 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public bool InTenant()
+        public bool InTenant(Context context)
         {
-            var tenantId = Sessions.TenantId();
             var depts = this.Where(o => o.DeptId > 0).Select(o => o.DeptId);
             var groups = this.Where(o => o.GroupId > 0).Select(o => o.GroupId);
             var users = this.Where(o => o.UserId > 0).Select(o => o.UserId);
-            var dataSet = Rds.ExecuteDataSet(statements: new SqlStatement[]
-            {
-                Rds.SelectDepts(
-                    dataTableName: "Depts",
-                    column: Rds.DeptsColumn().DeptId(),
-                    where: Rds.DeptsWhere()
-                        .TenantId(tenantId)
-                        .DeptId_In(depts)),
-                Rds.SelectGroups(
-                    dataTableName: "Groups",
-                    column: Rds.GroupsColumn().GroupId(),
-                    where: Rds.GroupsWhere()
-                        .TenantId(tenantId)
-                        .GroupId_In(groups)),
-                Rds.SelectUsers(
-                    dataTableName: "Users",
-                    column: Rds.UsersColumn().UserId(),
-                    where: Rds.UsersWhere()
-                        .TenantId(tenantId)
-                        .UserId_In(users))
-            });
+            var dataSet = Rds.ExecuteDataSet(
+                context: context,
+                statements: new SqlStatement[]
+                {
+                    Rds.SelectDepts(
+                        dataTableName: "Depts",
+                        column: Rds.DeptsColumn().DeptId(),
+                        where: Rds.DeptsWhere()
+                            .TenantId(context.TenantId)
+                            .DeptId_In(depts)),
+                    Rds.SelectGroups(
+                        dataTableName: "Groups",
+                        column: Rds.GroupsColumn().GroupId(),
+                        where: Rds.GroupsWhere()
+                            .TenantId(context.TenantId)
+                            .GroupId_In(groups)),
+                    Rds.SelectUsers(
+                        dataTableName: "Users",
+                        column: Rds.UsersColumn().UserId(),
+                        where: Rds.UsersWhere()
+                            .TenantId(context.TenantId)
+                            .UserId_In(users))
+                });
             var deptRecords = dataSet.Tables["Depts"]
                 .AsEnumerable()
                 .Select(p => p["DeptId"].ToInt());

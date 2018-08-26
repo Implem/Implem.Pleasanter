@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             AddRange(new List<Comment>(source));
         }
 
-        public Comments Prepend(string body)
+        public Comments Prepend(Context context, SiteSettings ss, string body)
         {
             if (body.Trim() != string.Empty)
             {
@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 {
                     CommentId = CommentId(),
                     CreatedTime = DateTime.Now,
-                    Creator = Sessions.UserId(),
+                    Creator = context.UserId,
                     Body = body,
                     Created = true
                 });
@@ -39,9 +39,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return this;
         }
 
-        public void Update(int commentId, string body)
+        public void Update(Context context, SiteSettings ss, int commentId, string body)
         {
-            this.FirstOrDefault(o => o.CommentId == commentId)?.Update(body);
+            this.FirstOrDefault(o => o.CommentId == commentId)?
+                .Update(context: context, ss: ss, body: body);
         }
 
         public new string ToString()
@@ -73,17 +74,17 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return comments;
         }
 
-        public string ToControl(SiteSettings ss, Column column)
+        public string ToControl(Context context, SiteSettings ss, Column column)
         {
             return string.Empty;
         }
 
-        public string ToResponse()
+        public string ToResponse(Context context)
         {
             return string.Empty;
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             var css = GridCss();
             return hb.Td(action: () => this?
@@ -91,6 +92,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .ForEach(comment => comment
                     .Html(
                         hb: hb,
+                        context: context,
+                        ss: column.SiteSettings,
                         allowEditing: column.SiteSettings.AllowEditingComments == true,
                         allowImage: column.AllowImage == true,
                         mobile: column.SiteSettings.Mobile,
@@ -98,12 +101,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         readOnly: true)));
         }
 
-        public string GridText(Column column)
+        public string GridText(Context context, Column column)
         {
             return this?.Take(DisplayCount()).Select(comment =>
                 "{0} {1}  \n{2}".Params(
                     comment.CreatedTimeDisplayValue(),
-                    SiteInfo.UserName(comment.Creator),
+                    SiteInfo.UserName(
+                        context: context,
+                        userId: comment.Creator),
                     comment.Body))
                         .Join("\n\n");
         }
@@ -131,15 +136,22 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return null;
         }
 
-        public string ToExport(Column column, ExportColumn exportColumn = null)
+        public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return this.Select(o =>
                 o.CreatedTime.ToLocal().ToViewText() + " " +
-                SiteInfo.UserName(o.Creator) + "\n" +
+                SiteInfo.UserName(
+                    context: context,
+                    userId: o.Creator) + "\n" +
                 o.Body).Join("\n\n");
         }
 
-        public string ToNotice(string saved, Column column, bool updated, bool update)
+        public string ToNotice(
+            Context context, 
+            string saved,
+            Column column,
+            bool updated,
+            bool update)
         {
             var body = string.Empty;
             if (Routes.Action() == "deletecomment")
@@ -151,18 +163,20 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 body += this.FirstOrDefault(o => o.Created)?
                     .Body
                         .ToNoticeLine(
-                            string.Empty,
-                            column,
-                            updated,
-                            update);
+                            context: context,
+                            saved: string.Empty,
+                            column: column,
+                            updated: updated,
+                            update: update);
                 this.Where(o => o.Updated).ForEach(comment =>
                     body += comment.Body
                         .ToNoticeLine(
-                            string.Empty,
-                            column,
-                            updated,
-                            update,
-                            Displays.CommentUpdated()));
+                            context: context,
+                            saved: string.Empty,
+                            column: column,
+                            updated: updated,
+                            update: update,
+                            suffix: Displays.CommentUpdated()));
                 return body;
             }
             else
@@ -171,7 +185,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
-        public bool InitialValue()
+        public bool InitialValue(Context context)
         {
             return this?.Any() != true;
         }

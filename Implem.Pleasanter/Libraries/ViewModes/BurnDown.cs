@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -25,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             public decimal? Earned;
         }
 
-        public BurnDown(SiteSettings ss, IEnumerable<DataRow> dataRows)
+        public BurnDown(Context context, SiteSettings ss, IEnumerable<DataRow> dataRows)
         {
             dataRows.ForEach(dataRow =>
             {
@@ -38,7 +39,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 Add(new BurnDownElement(
                     id,
                     ver,
-                    new Title(ss, dataRow).DisplayValue,
+                    new Title(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRow).DisplayValue,
                     workValue,
                     dataRow.DateTime("StartTime"),
                     dataRow.DateTime("CompletionTime"),

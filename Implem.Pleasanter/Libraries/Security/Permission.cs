@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -64,22 +65,27 @@ namespace Implem.Pleasanter.Libraries.Security
             return Name + "," + Id + "," + Type.ToInt().ToString();
         }
 
-        public ControlData ControlData(SiteSettings ss, bool withType = true)
+        public ControlData ControlData(Context context, SiteSettings ss, bool withType = true)
         {
             switch (Name)
             {
                 case "Dept":
-                    var dept = SiteInfo.Dept(Id);
+                    var dept = SiteInfo.Dept(
+                        tenantId: context.TenantId,
+                        deptId: Id);
                     return DisplayText(
                         Displays.Depts(),
                         Id != 0
                             ? dept?.Name
                             : null,
-                        dept.Code,
+                        dept?.Code,
                         withType);
                 case "Group":
                     var groupModel = Id != 0
-                        ? new GroupModel(SiteSettingsUtilities.GroupsSiteSettings(), Id)
+                        ? new GroupModel(
+                            context: context,
+                            ss: SiteSettingsUtilities.GroupsSiteSettings(context: context),
+                            groupId: Id)
                         : null;
                     return DisplayText(
                         Displays.Groups(),
@@ -89,7 +95,9 @@ namespace Implem.Pleasanter.Libraries.Security
                         null,
                         withType);
                 case "User":
-                    var user = SiteInfo.User(Id);
+                    var user = SiteInfo.User(
+                        context: context,
+                        userId: Id);
                     return DisplayText(
                         Displays.Users(),
                         Id != 0
@@ -100,7 +108,9 @@ namespace Implem.Pleasanter.Libraries.Security
                             : null,
                         withType);
                 default:
-                    var column = ss?.GetColumn(Name);
+                    var column = ss?.GetColumn(
+                        context: context,
+                        columnName: Name);
                     return DisplayText(
                         Displays.Column(),
                         column?.LabelText,

@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedSubset = string.Empty;
         [NonSerialized] public long SavedInheritPermission = 0;
 
-        public bool Word_Updated(Column column = null)
+        public bool Word_Updated(Context context, Column column = null)
         {
             return Word != SavedWord && Word != null &&
                 (column == null ||
@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Word);
         }
 
-        public bool ReferenceId_Updated(Column column = null)
+        public bool ReferenceId_Updated(Context context, Column column = null)
         {
             return ReferenceId != SavedReferenceId &&
                 (column == null ||
@@ -54,7 +54,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != ReferenceId);
         }
 
-        public bool Priority_Updated(Column column = null)
+        public bool Priority_Updated(Context context, Column column = null)
         {
             return Priority != SavedPriority &&
                 (column == null ||
@@ -62,18 +62,19 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != Priority);
         }
 
-        public SearchIndexModel(DataRow dataRow, string tableAlias = null)
+        public SearchIndexModel(Context context, DataRow dataRow, string tableAlias = null)
         {
-            OnConstructing();
-            Set(dataRow, tableAlias);
-            OnConstructed();
+            OnConstructing(context: context);
+            Context = context;
+            if (dataRow != null) Set(context, dataRow, tableAlias);
+            OnConstructed(context: context);
         }
 
-        private void OnConstructing()
+        private void OnConstructing(Context context)
         {
         }
 
-        private void OnConstructed()
+        private void OnConstructed(Context context)
         {
         }
 
@@ -82,6 +83,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public SearchIndexModel Get(
+            Context context,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -91,15 +93,17 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(Rds.ExecuteTable(statements: Rds.SelectSearchIndexes(
-                tableType: tableType,
-                column: column ?? Rds.SearchIndexesDefaultColumns(),
-                join: join ??  Rds.SearchIndexesJoinDefault(),
-                where: where ?? Rds.SearchIndexesWhereDefault(this),
-                orderBy: orderBy,
-                param: param,
-                distinct: distinct,
-                top: top)));
+            Set(context, Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectSearchIndexes(
+                    tableType: tableType,
+                    column: column ?? Rds.SearchIndexesDefaultColumns(),
+                    join: join ??  Rds.SearchIndexesJoinDefault(),
+                    where: where ?? Rds.SearchIndexesWhereDefault(this),
+                    orderBy: orderBy,
+                    param: param,
+                    distinct: distinct,
+                    top: top)));
             return this;
         }
 
@@ -121,21 +125,21 @@ namespace Implem.Pleasanter.Models
             Comments = searchIndexModel.Comments;
         }
 
-        private void SetBySession()
+        private void SetBySession(Context context)
         {
         }
 
-        private void Set(DataTable dataTable)
+        private void Set(Context context, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(dataTable.Rows[0]); break;
+                case 1: Set(context, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -188,11 +192,11 @@ namespace Implem.Pleasanter.Models
                             SavedComments = Comments.ToJson();
                             break;
                         case "Creator":
-                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedCreator = Creator.Id;
                             break;
                         case "Updator":
-                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
@@ -209,16 +213,16 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool Updated()
+        public bool Updated(Context context)
         {
             return
-                Word_Updated() ||
-                ReferenceId_Updated() ||
-                Ver_Updated() ||
-                Priority_Updated() ||
-                Comments_Updated() ||
-                Creator_Updated() ||
-                Updator_Updated();
+                Word_Updated(context: context) ||
+                ReferenceId_Updated(context: context) ||
+                Ver_Updated(context: context) ||
+                Priority_Updated(context: context) ||
+                Comments_Updated(context: context) ||
+                Creator_Updated(context: context) ||
+                Updator_Updated(context: context);
         }
     }
 }

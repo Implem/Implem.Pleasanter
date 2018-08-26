@@ -1,9 +1,11 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using System;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
@@ -22,6 +24,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public HtmlBuilder Html(
             HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
             bool allowEditing,
             bool allowImage,
             bool mobile,
@@ -41,10 +45,17 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     hb
                         .P(css: "time", action: () => hb
                             .Text(text: CreatedTimeDisplayValue()))
-                        .HtmlUser(Updator ?? Creator);
-                    if (CanEdit(allowEditing, readOnly))
+                        .HtmlUser(
+                            context: context,
+                            id: Updator ?? Creator);
+                    if (CanEdit(
+                        context: context,
+                        ss: ss,
+                        allowEditing: allowEditing,
+                        readOnly: readOnly))
                     {
                         hb.MarkDown(
+                            context: context,
                             controlId: controlId,
                             text: Body,
                             allowImage: allowImage,
@@ -66,19 +77,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : UpdatedTime
                     .ToDateTime()
                     .ToLocal(Displays.Get("YmdahmFormat"))
-                        + " [" + Displays.CommentUpdated() + "]";
+                        + $" [{Displays.CommentUpdated()}]";
         }
 
-        private bool CanEdit(bool allowEditing, bool readOnly)
+        private bool CanEdit(Context context, SiteSettings ss, bool allowEditing, bool readOnly)
         {
-            return
-                allowEditing && !readOnly && Creator == Sessions.UserId();
+            return allowEditing && !readOnly && Creator == context.UserId;
         }
 
-        public void Update(string body)
+        public void Update(Context context, SiteSettings ss, string body)
         {
             UpdatedTime = DateTime.Now;
-            Updator = Sessions.UserId();
+            Updator = context.UserId;
             Body = body;
             Updated = true;
         }

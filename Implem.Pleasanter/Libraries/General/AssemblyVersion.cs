@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 namespace Implem.Pleasanter.Libraries.General
 {
@@ -9,9 +10,9 @@ namespace Implem.Pleasanter.Libraries.General
         public int Build;
         public int Revision;
 
-        public AssemblyVersion()
+        public AssemblyVersion(Context context)
         {
-            SetByString(StatusUtilities.AssemblyVersion());
+            SetByString(StatusUtilities.AssemblyVersion(context: context));
         }
 
         public AssemblyVersion(string version)

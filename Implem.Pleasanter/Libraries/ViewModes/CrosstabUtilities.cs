@@ -2,6 +2,7 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Extensions;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -164,14 +165,17 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return (from - DateTime.Now).TotalHours.ToInt();
         }
 
-        public static List<Column> GetColumns(SiteSettings ss, List<Column> columns)
+        public static List<Column> GetColumns(
+            Context context, SiteSettings ss, List<Column> columns)
         {
             return columns?.Any() == true
                 ? columns
-                : ss.CrosstabColumnsOptions().Select(o => ss.GetColumn(o.Key)).ToList();
+                : ss.CrosstabColumnsOptions().Select(o => ss
+                    .GetColumn(context: context, columnName: o.Key)).ToList();
         }
 
         public static string Csv(
+            Context context,
             SiteSettings ss,
             View view,
             Column groupByX,
@@ -187,6 +191,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             if (groupByY != null)
             {
                 csv.Body(
+                    context: context,
                     ss: ss,
                     view: view,
                     choicesX: ChoicesX(groupByX, timePeriod, month),
@@ -200,8 +205,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }
             else
             {
-                var columnList = GetColumns(ss, columns);
+                var columnList = GetColumns(context: context, ss: ss, columns: columns);
                 csv.Body(
+                    context: context,
                     ss: ss,
                     view: view,
                     choicesX: ChoicesX(groupByX, timePeriod, month),
@@ -219,6 +225,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         private static void Body(
             this StringBuilder csv,
+            Context context,
             SiteSettings ss,
             View view,
             Dictionary<string, ControlData> choicesX,
@@ -245,7 +252,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 };
                 var column = columnList?.Any() != true
                     ? value
-                    : ss.GetColumn(choiceY.Key);
+                    : ss.GetColumn(context: context, columnName: choiceY.Key);
                 var row = data.Where(o => o.GroupByY == choiceY.Key).ToList();
                 cells.AddRange(choicesX
                     .Select(choiceX => CellText(

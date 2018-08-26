@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public bool SavedAddHeader = true;
         [NonSerialized] public string SavedExportColumns = "[]";
 
-        public bool ReferenceType_Updated(Column column = null)
+        public bool ReferenceType_Updated(Context context, Column column = null)
         {
             return ReferenceType != SavedReferenceType && ReferenceType != null &&
                 (column == null ||
@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ReferenceType);
         }
 
-        public bool ReferenceId_Updated(Column column = null)
+        public bool ReferenceId_Updated(Context context, Column column = null)
         {
             return ReferenceId != SavedReferenceId &&
                 (column == null ||
@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != ReferenceId);
         }
 
-        public bool Title_Updated(Column column = null)
+        public bool Title_Updated(Context context, Column column = null)
         {
             return Title.Value != SavedTitle && Title.Value != null &&
                 (column == null ||
@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Title.Value);
         }
 
-        public bool ExportSettingId_Updated(Column column = null)
+        public bool ExportSettingId_Updated(Context context, Column column = null)
         {
             return ExportSettingId != SavedExportSettingId &&
                 (column == null ||
@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != ExportSettingId);
         }
 
-        public bool AddHeader_Updated(Column column = null)
+        public bool AddHeader_Updated(Context context, Column column = null)
         {
             return AddHeader != SavedAddHeader &&
                 (column == null ||
@@ -76,7 +76,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToBool() != AddHeader);
         }
 
-        public bool ExportColumns_Updated(Column column = null)
+        public bool ExportColumns_Updated(Context context, Column column = null)
         {
             return ExportColumns.ToJson() != SavedExportColumns && ExportColumns.ToJson() != null &&
                 (column == null ||
@@ -84,7 +84,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ExportColumns.ToJson());
         }
 
-        public Title Session_Title()
+        public Title Session_Title(Context context)
         {
             return this.PageSession("Title") != null
                 ? this.PageSession("Title") as Title
@@ -96,7 +96,7 @@ namespace Implem.Pleasanter.Models
             this.PageSession("Title", value);
         }
 
-        public bool Session_AddHeader()
+        public bool Session_AddHeader(Context context)
         {
             return this.PageSession("AddHeader") != null
                 ? this.PageSession("AddHeader").ToBool()
@@ -108,7 +108,7 @@ namespace Implem.Pleasanter.Models
             this.PageSession("AddHeader", value);
         }
 
-        public ExportColumns Session_ExportColumns()
+        public ExportColumns Session_ExportColumns(Context context)
         {
             return this.PageSession("ExportColumns") != null
                 ? this.PageSession("ExportColumns")?.ToString().Deserialize<ExportColumns>() ?? new ExportColumns(ReferenceType)
@@ -125,44 +125,47 @@ namespace Implem.Pleasanter.Models
         }
 
         public ExportSettingModel(
+            Context context,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
-            if (setByForm) SetByForm();
+            OnConstructing(context: context);
+            Context = context;
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
         public ExportSettingModel(
+            Context context,
             long exportSettingId,
             bool clearSessions = false,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
+            OnConstructing(context: context);
+            Context = context;
             ExportSettingId = exportSettingId;
-            Get();
+            Get(context: context);
             if (clearSessions) ClearSessions();
-            if (setByForm) SetByForm();
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
-        public ExportSettingModel(DataRow dataRow, string tableAlias = null)
+        public ExportSettingModel(Context context, DataRow dataRow, string tableAlias = null)
         {
-            OnConstructing();
-            Set(dataRow, tableAlias);
-            OnConstructed();
+            OnConstructing(context: context);
+            Context = context;
+            if (dataRow != null) Set(context, dataRow, tableAlias);
+            OnConstructed(context: context);
         }
 
-        private void OnConstructing()
+        private void OnConstructing(Context context)
         {
         }
 
-        private void OnConstructed()
+        private void OnConstructed(Context context)
         {
         }
 
@@ -174,6 +177,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public ExportSettingModel Get(
+            Context context,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -183,38 +187,42 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(Rds.ExecuteTable(statements: Rds.SelectExportSettings(
-                tableType: tableType,
-                column: column ?? Rds.ExportSettingsDefaultColumns(),
-                join: join ??  Rds.ExportSettingsJoinDefault(),
-                where: where ?? Rds.ExportSettingsWhereDefault(this),
-                orderBy: orderBy,
-                param: param,
-                distinct: distinct,
-                top: top)));
+            Set(context, Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectExportSettings(
+                    tableType: tableType,
+                    column: column ?? Rds.ExportSettingsDefaultColumns(),
+                    join: join ??  Rds.ExportSettingsJoinDefault(),
+                    where: where ?? Rds.ExportSettingsWhereDefault(this),
+                    orderBy: orderBy,
+                    param: param,
+                    distinct: distinct,
+                    top: top)));
             return this;
         }
 
         public Error.Types Create(
-            RdsUser rdsUser = null,
+            Context context,
+            SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool otherInitValue = false,
             bool get = true)
         {
             var statements = new List<SqlStatement>();
-            CreateStatements(statements, tableType, param, otherInitValue);
+            CreateStatements(context, statements, tableType, param, otherInitValue);
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             ExportSettingId = (response.Identity ?? ExportSettingId).ToLong();
-            if (get) Get();
+            if (get) Get(context: context);
             return Error.Types.None;
         }
 
         public List<SqlStatement> CreateStatements(
+            Context context,
             List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
@@ -226,12 +234,17 @@ namespace Implem.Pleasanter.Models
                     tableType: tableType,
                     setIdentity: true,
                     param: param ?? Rds.ExportSettingsParamDefault(
-                        this, setDefault: true, otherInitValue: otherInitValue))
+                        context: context,
+                        exportSettingModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue))
             });
             return statements;
         }
 
         public Error.Types Update(
+            Context context,
+            SiteSettings ss,
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
@@ -239,20 +252,29 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
-            if (setBySession) SetBySession();
+            if (setBySession) SetBySession(context: context);
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
+            UpdateStatements(
+                context: context,
+                ss: ss,
+                statements: statements,
+                timestamp: timestamp,
+                param: param,
+                otherInitValue: otherInitValue,
+                additionalStatements: additionalStatements);
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             if (response.Count == 0) return Error.Types.UpdateConflicts;
-            if (get) Get();
+            if (get) Get(context: context);
             return Error.Types.None;
         }
 
         private List<SqlStatement> UpdateStatements(
+            Context context,
+            SiteSettings ss,
             List<SqlStatement> statements,
             DateTime timestamp,
             SqlParamCollection param,
@@ -270,7 +292,8 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateExportSettings(
                     where: where,
-                    param: param ?? Rds.ExportSettingsParamDefault(this, otherInitValue: otherInitValue),
+                    param: param ?? Rds.ExportSettingsParamDefault(
+                        context: context, exportSettingModel: this, otherInitValue: otherInitValue),
                     countRecord: true)
             });
             if (additionalStatements?.Any() == true)
@@ -304,28 +327,30 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types UpdateOrCreate(
+            Context context,
             RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
-            SetBySession();
+            SetBySession(context: context);
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertExportSettings(
                     where: where ?? Rds.ExportSettingsWhereDefault(this),
-                    param: param ?? Rds.ExportSettingsParamDefault(this, setDefault: true))
+                    param: param ?? Rds.ExportSettingsParamDefault(
+                        context: context, exportSettingModel: this, setDefault: true))
             };
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             ExportSettingId = (response.Identity ?? ExportSettingId).ToLong();
-            Get();
+            Get(context: context);
             return Error.Types.None;
         }
 
-        public Error.Types Delete()
+        public Error.Types Delete(Context context)
         {
             var statements = new List<SqlStatement>();
             var where = Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId);
@@ -334,15 +359,17 @@ namespace Implem.Pleasanter.Models
                 Rds.DeleteExportSettings(where: where)
             });
             var response = Rds.ExecuteScalar_response(
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             return Error.Types.None;
         }
 
-        public Error.Types Restore(long exportSettingId)
+        public Error.Types Restore(Context context, long exportSettingId)
         {
             ExportSettingId = exportSettingId;
             Rds.ExecuteNonQuery(
+                context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -354,51 +381,15 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types PhysicalDelete(
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            Context context, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
+                context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteExportSettings(
                     tableType: tableType,
                     param: Rds.ExportSettingsParam().ExportSettingId(ExportSettingId)));
             return Error.Types.None;
-        }
-
-        public void SetByForm()
-        {
-            Forms.Keys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    case "ExportSettings_ReferenceType": ReferenceType = Forms.Data(controlId).ToString(); break;
-                    case "ExportSettings_ReferenceId": ReferenceId = Forms.Data(controlId).ToLong(); break;
-                    case "ExportSettings_Title": Title = new Title(ExportSettingId, Forms.Data(controlId)); break;
-                    case "ExportSettings_AddHeader": AddHeader = Forms.Data(controlId).ToBool(); break;
-                    case "ExportSettings_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
-                    case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
-                    default:
-                        if (controlId.RegexExists("Comment[0-9]+"))
-                        {
-                            Comments.Update(
-                                controlId.Substring("Comment".Length).ToInt(),
-                                Forms.Data(controlId));
-                        }
-                        break;
-                }
-            });
-            if (Routes.Action() == "deletecomment")
-            {
-                DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
-            Forms.FileKeys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    default: break;
-                }
-            });
         }
 
         public void SetByModel(ExportSettingModel exportSettingModel)
@@ -417,24 +408,24 @@ namespace Implem.Pleasanter.Models
             Comments = exportSettingModel.Comments;
         }
 
-        private void SetBySession()
+        private void SetBySession(Context context)
         {
-            if (!Forms.HasData("ExportSettings_Title")) Title = Session_Title();
-            if (!Forms.HasData("ExportSettings_AddHeader")) AddHeader = Session_AddHeader();
-            if (!Forms.HasData("ExportSettings_ExportColumns")) ExportColumns = Session_ExportColumns();
+            if (!Forms.HasData("ExportSettings_Title")) Title = Session_Title(context: context);
+            if (!Forms.HasData("ExportSettings_AddHeader")) AddHeader = Session_AddHeader(context: context);
+            if (!Forms.HasData("ExportSettings_ExportColumns")) ExportColumns = Session_ExportColumns(context: context);
         }
 
-        private void Set(DataTable dataTable)
+        private void Set(Context context, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(dataTable.Rows[0]); break;
+                case 1: Set(context, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -489,11 +480,11 @@ namespace Implem.Pleasanter.Models
                             SavedComments = Comments.ToJson();
                             break;
                         case "Creator":
-                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedCreator = Creator.Id;
                             break;
                         case "Updator":
-                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
@@ -510,19 +501,19 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool Updated()
+        public bool Updated(Context context)
         {
             return
-                ReferenceType_Updated() ||
-                ReferenceId_Updated() ||
-                Title_Updated() ||
-                ExportSettingId_Updated() ||
-                Ver_Updated() ||
-                AddHeader_Updated() ||
-                ExportColumns_Updated() ||
-                Comments_Updated() ||
-                Creator_Updated() ||
-                Updator_Updated();
+                ReferenceType_Updated(context: context) ||
+                ReferenceId_Updated(context: context) ||
+                Title_Updated(context: context) ||
+                ExportSettingId_Updated(context: context) ||
+                Ver_Updated(context: context) ||
+                AddHeader_Updated(context: context) ||
+                ExportColumns_Updated(context: context) ||
+                Comments_Updated(context: context) ||
+                Creator_Updated(context: context) ||
+                Updator_Updated(context: context);
         }
     }
 }

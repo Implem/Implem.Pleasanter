@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -123,12 +124,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     selectedValueTextCollection: selectedValues));
         }
 
-        public Dictionary<string, Column> ColumnHash(SiteSettings ss)
+        public Dictionary<string, Column> ColumnHash(Context context, SiteSettings ss)
         {
-            return Columns.ToDictionary(o => o.Key, o => ss.GetColumn(o.Key));
+            return Columns.ToDictionary(o => o.Key, o => ss
+                .GetColumn(context: context, columnName: o.Key));
         }
 
-        public bool InitialValue()
+        public bool InitialValue(Context context)
         {
             return ToJson() == "[]";
         }

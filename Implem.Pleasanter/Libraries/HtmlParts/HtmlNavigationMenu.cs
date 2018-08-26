@@ -14,6 +14,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder NavigationMenu(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             long siteId,
             string referenceType,
@@ -27,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     css: "ui-widget-header",
                     action: () => hb
                         .NavigationMenu(
+                            context: context,
                             ss: ss,
                             siteId: siteId,
                             referenceType: referenceType,
@@ -37,16 +39,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder NavigationMenu(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             long siteId,
             string referenceType,
             bool useNavigationMenu)
         {
             var canManageGroups = Sessions.UserSettings().DisableGroupAdmin != true;
-            var canManageSite = siteId != 0 && ss.CanManageSite(site: true);
-            var canManageDepts = Permissions.CanManageTenant();
-            var canManageUsers = Permissions.CanManageTenant();
-            var canManageTrashBox = CanManageTrashBox(ss: ss);
+            var canManageSite = siteId != 0 && context.CanManageSite(ss: ss, site: true);
+            var canManageDepts = Permissions.CanManageTenant(context: context);
+            var canManageUsers = Permissions.CanManageTenant(context: context);
+            var canManageTrashBox = CanManageTrashBox(context: context, ss: ss);
             return hb.Ul(
                 id: "NavigationMenu",
                 action: () => hb
@@ -65,10 +68,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Span(css: "ui-icon ui-icon-plus")
                                         .Text(text: Displays.New()))),
                         _using: ss.ReferenceType == "Sites" && Routes.Action() == "index"
-                            ? ss.CanManageSite()
-                            : ss.CanCreate()
+                            ? context.CanManageSite(ss: ss)
+                            : context.CanCreate(ss: ss)
                                 && ss.ReferenceType != "Wikis"
-                                && ss.Context.Action != "trashbox")
+                                && context.Action != "trashbox")
                     .Li(
                         css: "sub-menu",
                         action: () => hb
@@ -77,7 +80,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-triangle-1-e")
                                     .Text(text: Displays.View()))
-                            .ViewModeMenu(ss: ss),
+                            .ViewModeMenu(context: context, ss: ss),
                         _using: Def.ViewModeDefinitionCollection
                             .Any(o => o.ReferenceType == referenceType))
                     .Li(
@@ -108,9 +111,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: new HtmlAttributes().DataId("AccountMenu"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-person")
-                                    .Text(text: SiteInfo.UserName((
-                                        Sessions.UserId()))))
-                            .AccountMenu()));
+                                    .Text(text: SiteInfo.UserName(
+                                        context: context,
+                                        userId: context.UserId)))
+                            .AccountMenu(context: context)));
 
         }
 
@@ -133,14 +137,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return ss.ReferenceType == "Sites" && Routes.Action() == "index";
         }
 
-        private static HtmlBuilder ViewModeMenu(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder ViewModeMenu(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             return hb.Ul(id: "ViewModeMenu", css: "menu", action: () =>
             {
                 Def.ViewModeDefinitionCollection
-                    .Where(o => o.ReferenceType == ss.ReferenceType)
-                    .Where(o => ss.EnableViewMode(o.Name))
-                    .Select(o => o.Name)
+                    .Where(mode => mode.ReferenceType == ss.ReferenceType)
+                    .Where(mode => ss.EnableViewMode(
+                        context: context, name: mode.Name))
+                    .Select(mode => mode.Name)
                     .ForEach(action => hb
                         .ViewModeMenu(
                             siteId: ss.SiteId,
@@ -256,7 +262,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static HtmlBuilder AccountMenu(this HtmlBuilder hb)
+        private static HtmlBuilder AccountMenu(this HtmlBuilder hb, Context context)
         {
             return hb.Ul(id: "AccountMenu", css: "menu", action: () => hb
                 .Li(action: () => hb
@@ -268,7 +274,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Li(
                     action: () => hb
                         .A(
-                            href: Locations.Edit("Users", Sessions.UserId()),
+                            href: Locations.Edit("Users", context.UserId),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-wrench")
                                 .Text(text: Displays.EditProfile())),
@@ -280,7 +286,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-link")
                                 .Text(text: Displays.ApiSettings())),
-                    _using: Contract.Api())
+                    _using: Contract.Api(context: context))
                 .Li(action: () => hb
                     .A(
                         href: Parameters.General.HtmlUsageGuideUrl,
@@ -336,12 +342,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static bool CanManageTrashBox(SiteSettings ss)
+        private static bool CanManageTrashBox(Context context, SiteSettings ss)
         {
             return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
-                && ss.Context.Controller == "items"
-                && ss.CanManageSite()
-                && (ss.Context.Id != 0 || ss.Context.HasPrivilege);
+                && context.Controller == "items"
+                && context.CanManageSite(ss: ss)
+                && (context.Id != 0 || context.HasPrivilege);
         }
     }
 }

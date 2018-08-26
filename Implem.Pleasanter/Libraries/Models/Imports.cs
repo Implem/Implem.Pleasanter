@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -9,14 +10,16 @@ namespace Implem.Pleasanter.Libraries.Models
     public static class Imports
     {
         public static string ColumnValidate(
-            SiteSettings ss, IEnumerable<string> headers, params string[] columnNames)
+            Context context,
+            SiteSettings ss,
+            IEnumerable<string> headers, params string[] columnNames)
         {
             foreach (var name in columnNames)
             {
                 if (!headers.Contains(name))
                 {
                     return Messages.ResponseNotRequiredColumn(
-                        ss.GetColumn(name).LabelText).ToJson();
+                        ss.GetColumn(context: context, columnName: name).LabelText).ToJson();
                 }
             }
             return null;

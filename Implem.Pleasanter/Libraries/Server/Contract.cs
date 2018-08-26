@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
@@ -13,176 +14,159 @@ namespace Implem.Pleasanter.Libraries.Server
         public static Dictionary<int, ContractSettings> ContractHash =
             new Dictionary<int, ContractSettings>();
 
-        public static void Set()
+        public static void Set(Context context)
         {
-            var tenantId = Sessions.TenantId();
-            var cs = ContractSettings(tenantId);
-            if (!ContractHash.ContainsKey(tenantId))
+            var cs = ContractSettings(context: context);
+            if (!ContractHash.ContainsKey(context.TenantId))
             {
-                ContractHash.Add(tenantId, cs);
+                ContractHash.Add(context.TenantId, cs);
             }
             else
             {
-                ContractHash[tenantId] = cs;
+                ContractHash[context.TenantId] = cs;
             }
         }
 
-        private static ContractSettings ContractSettings(int tenantId)
+        private static ContractSettings ContractSettings(Context context)
         {
-            var dataRow = Rds.ExecuteTable(statements:
-                Rds.SelectTenants(
+            var dataRow = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectTenants(
                     column: Rds.TenantsColumn()
                         .ContractSettings()
                         .ContractDeadline(),
-                    where: Rds.TenantsWhere().TenantId(tenantId)))
+                    where: Rds.TenantsWhere().TenantId(context.TenantId)))
                         .AsEnumerable()
                         .FirstOrDefault();
-            var cs = dataRow?["ContractSettings"]?.ToString().Deserialize<ContractSettings>();
+            var cs = dataRow?.String("ContractSettings").Deserialize<ContractSettings>();
             if (cs != null)
             {
-                cs.Deadline = dataRow["ContractDeadline"].ToDateTime();
+                cs.Deadline = dataRow.DateTime("ContractDeadline");
             }
             return cs;
         }
 
-        public static string DisplayName()
+        public static string DisplayName(Context context)
         {
-            var tenantId = Sessions.TenantId();
             return
-                ContractHash.ContainsKey(tenantId)
-                    ? ContractHash.Get(tenantId)?.DisplayName
+                ContractHash.ContainsKey(context.TenantId)
+                    ? ContractHash.Get(context.TenantId)?.DisplayName
                     : null;
         }
 
-        public static bool OverDeadline()
+        public static bool OverDeadline(Context context)
         {
-            var tenantId = Sessions.TenantId();
             return
-                ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.Deadline.InRange() == true &&
-                ContractHash.Get(tenantId)?.Deadline.ToDateTime() < DateTime.Now.ToLocal();
+                ContractHash.ContainsKey(context.TenantId) &&
+                ContractHash.Get(context.TenantId)?.Deadline.InRange() == true &&
+                ContractHash.Get(context.TenantId)?.Deadline.ToDateTime() < DateTime.Now.ToLocal();
         }
 
-        public static bool UsersLimit(int number = 1)
+        public static bool UsersLimit(Context context, int number = 1)
         {
-            var tenantId = Sessions.TenantId();
             return
-                ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.Users > 0 &&
-                Rds.ExecuteScalar_int(statements: Rds.SelectUsers(
+                ContractHash.ContainsKey(context.TenantId) &&
+                ContractHash.Get(context.TenantId)?.Users > 0 &&
+                Rds.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectUsers(
                     column: Rds.UsersColumn().UsersCount(),
-                    where: Rds.UsersWhere().TenantId(tenantId))) + number >
-                        ContractHash.Get(tenantId)?.Users;
+                        where: Rds.UsersWhere().TenantId(context.TenantId))) + number >
+                            ContractHash.Get(context.TenantId)?.Users;
         }
 
-        public static bool SitesLimit(int number = 1)
+        public static bool SitesLimit(Context context, int number = 1)
         {
-            var tenantId = Sessions.TenantId();
             return
-                ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.Sites > 0 &&
-                Rds.ExecuteScalar_int(statements: Rds.SelectSites(
-                    column: Rds.SitesColumn().SitesCount(),
-                    where: Rds.SitesWhere().TenantId(tenantId))) + number >
-                        ContractHash.Get(tenantId)?.Sites;
+                ContractHash.ContainsKey(context.TenantId) &&
+                ContractHash.Get(context.TenantId)?.Sites > 0 &&
+                Rds.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectSites(
+                        column: Rds.SitesColumn().SitesCount(),
+                        where: Rds.SitesWhere().TenantId(context.TenantId))) + number >
+                            ContractHash.Get(context.TenantId)?.Sites;
         }
 
-        public static bool ItemsLimit(long siteId, int number = 1)
+        public static bool ItemsLimit(Context context, long siteId, int number = 1)
         {
-            var tenantId = Sessions.TenantId();
             return
-                ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.Sites > 0 &&
-                Rds.ExecuteScalar_int(statements: Rds.SelectItems(
-                    column: Rds.ItemsColumn().ItemsCount(),
-                    where: Rds.ItemsWhere().SiteId(siteId))) + number >
-                        ContractHash.Get(tenantId)?.Items;
+                ContractHash.ContainsKey(context.TenantId) &&
+                ContractHash.Get(context.TenantId)?.Sites > 0 &&
+                Rds.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectItems(
+                        column: Rds.ItemsColumn().ItemsCount(),
+                        where: Rds.ItemsWhere().SiteId(siteId))) + number >
+                            ContractHash.Get(context.TenantId)?.Items;
         }
 
-        public static bool Attachments()
+        public static bool Attachments(Context context)
         {
-            var tenantId = Sessions.TenantId();
             return
                 Parameters.BinaryStorage.Attachments &&
-                ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.StorageSize != 0;
+                ContractHash.ContainsKey(context.TenantId) &&
+                ContractHash.Get(context.TenantId)?.StorageSize != 0;
         }
 
-        public static bool Images()
+        public static bool Images(Context context)
         {
-            return
-                Parameters.BinaryStorage.Images &&
-                Attachments();
+            return Parameters.BinaryStorage.Images
+                && Attachments(context);
         }
 
-        public static decimal? TenantStorageSize()
+        public static decimal? TenantStorageSize(Context context)
         {
-            return ContractHash.Get(Sessions.TenantId())?.StorageSize;
+            return ContractHash.Get(context.TenantId)?.StorageSize;
         }
 
-        public static bool Import()
+        public static bool Import(Context context)
         {
-            var tenantId = Sessions.TenantId();
-            return
-                ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.Import != false;
+            return ContractHash.ContainsKey(context.TenantId)
+                && ContractHash.Get(context.TenantId)?.Import != false;
         }
 
-        public static bool Export()
+        public static bool Export(Context context)
         {
-            var tenantId = Sessions.TenantId();
-            return
-                ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.Export != false;
+            return ContractHash.ContainsKey(context.TenantId)
+                && ContractHash.Get(context.TenantId)?.Export != false;
         }
 
-        public static bool Notice()
+        public static bool Notice(Context context)
         {
-            var tenantId = Sessions.TenantId();
-            return
-                ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.Notice != false;
+            return ContractHash.ContainsKey(context.TenantId)
+                && ContractHash.Get(context.TenantId)?.Notice != false;
         }
 
-        public static bool Remind()
+        public static bool Remind(Context context)
         {
-            var tenantId = Sessions.TenantId();
-            return
-                ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.Remind != false;
+            return ContractHash.ContainsKey(context.TenantId) 
+                && ContractHash.Get(context.TenantId)?.Remind != false;
         }
 
-        public static bool Mail()
+        public static bool Mail(Context context)
         {
-            var tenantId = Sessions.TenantId();
-            return
-                ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.Mail != false;
+            return ContractHash.ContainsKey(context.TenantId)
+                && ContractHash.Get(context.TenantId)?.Mail != false;
         }
 
-        public static bool Style()
+        public static bool Style(Context context)
         {
-            var tenantId = Sessions.TenantId();
-            return
-                ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.Style != false;
+            return ContractHash.ContainsKey(context.TenantId)
+                && ContractHash.Get(context.TenantId)?.Style != false;
         }
 
-        public static bool Script()
+        public static bool Script(Context context)
         {
-            var tenantId = Sessions.TenantId();
-            return
-                ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.Script != false;
+            return ContractHash.ContainsKey(context.TenantId)
+                && ContractHash.Get(context.TenantId)?.Script != false;
         }
 
-        public static bool Api()
+        public static bool Api(Context context)
         {
-            var tenantId = Sessions.TenantId();
-            return
-                Parameters.Api.Enabled &&
-                ContractHash.ContainsKey(tenantId) &&
-                ContractHash.Get(tenantId)?.Api != false;
+            return Parameters.Api.Enabled
+                && ContractHash.ContainsKey(context.TenantId)
+                && ContractHash.Get(context.TenantId)?.Api != false;
         }
     }
 }

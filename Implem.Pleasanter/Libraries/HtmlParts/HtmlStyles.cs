@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -21,15 +22,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static HtmlBuilder Styles(
-            this HtmlBuilder hb, SiteSettings ss = null, string userStyle = null)
+            this HtmlBuilder hb, Context context, SiteSettings ss, string userStyle = null)
         {
             return hb
                 .Style(
-                    style: ss?.GetStyleBody(o => o.All == true),
-                    _using: Contract.Style() && ss?.Styles?.Any() == true)
+                    style: ss.GetStyleBody(context: context, peredicate: o => o.All == true),
+                    _using: Contract.Style(context: context) && ss.Styles?.Any() == true)
                 .Style(
                     style: userStyle,
-                    _using: Contract.Style() && !userStyle.IsNullOrEmpty());
+                    _using: Contract.Style(context: context) && !userStyle.IsNullOrEmpty());
         }
     }
 }

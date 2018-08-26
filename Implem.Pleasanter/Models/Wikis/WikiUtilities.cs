@@ -24,7 +24,11 @@ namespace Implem.Pleasanter.Models
     public static class WikiUtilities
     {
         public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, SiteSettings ss, Column column, WikiModel wikiModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Column column,
+            WikiModel wikiModel)
         {
             if (!column.GridDesign.IsNullOrEmpty())
             {
@@ -35,53 +39,53 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var mine = wikiModel.Mine();
+                var mine = wikiModel.Mine(context: context);
                 switch (column.Name)
                 {
                     case "SiteId":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: wikiModel.SiteId)
-                            : hb.Td(column: column, value: string.Empty);
+                            ? hb.Td(context: context, column: column, value: wikiModel.SiteId)
+                            : hb.Td(context: context, column: column, value: string.Empty);
                     case "UpdatedTime":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: wikiModel.UpdatedTime)
-                            : hb.Td(column: column, value: string.Empty);
+                            ? hb.Td(context: context, column: column, value: wikiModel.UpdatedTime)
+                            : hb.Td(context: context, column: column, value: string.Empty);
                     case "WikiId":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: wikiModel.WikiId)
-                            : hb.Td(column: column, value: string.Empty);
+                            ? hb.Td(context: context, column: column, value: wikiModel.WikiId)
+                            : hb.Td(context: context, column: column, value: string.Empty);
                     case "Ver":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: wikiModel.Ver)
-                            : hb.Td(column: column, value: string.Empty);
+                            ? hb.Td(context: context, column: column, value: wikiModel.Ver)
+                            : hb.Td(context: context, column: column, value: string.Empty);
                     case "Title":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: wikiModel.Title)
-                            : hb.Td(column: column, value: string.Empty);
+                            ? hb.Td(context: context, column: column, value: wikiModel.Title)
+                            : hb.Td(context: context, column: column, value: string.Empty);
                     case "Body":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: wikiModel.Body)
-                            : hb.Td(column: column, value: string.Empty);
+                            ? hb.Td(context: context, column: column, value: wikiModel.Body)
+                            : hb.Td(context: context, column: column, value: string.Empty);
                     case "TitleBody":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: wikiModel.TitleBody)
-                            : hb.Td(column: column, value: string.Empty);
+                            ? hb.Td(context: context, column: column, value: wikiModel.TitleBody)
+                            : hb.Td(context: context, column: column, value: string.Empty);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: wikiModel.Comments)
-                            : hb.Td(column: column, value: string.Empty);
+                            ? hb.Td(context: context, column: column, value: wikiModel.Comments)
+                            : hb.Td(context: context, column: column, value: string.Empty);
                     case "Creator":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: wikiModel.Creator)
-                            : hb.Td(column: column, value: string.Empty);
+                            ? hb.Td(context: context, column: column, value: wikiModel.Creator)
+                            : hb.Td(context: context, column: column, value: string.Empty);
                     case "Updator":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: wikiModel.Updator)
-                            : hb.Td(column: column, value: string.Empty);
+                            ? hb.Td(context: context, column: column, value: wikiModel.Updator)
+                            : hb.Td(context: context, column: column, value: string.Empty);
                     case "CreatedTime":
                         return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(column: column, value: wikiModel.CreatedTime)
-                            : hb.Td(column: column, value: string.Empty);
+                            ? hb.Td(context: context, column: column, value: wikiModel.CreatedTime)
+                            : hb.Td(context: context, column: column, value: string.Empty);
                     default: return hb;
                 }
             }
@@ -117,35 +121,52 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string EditorNew(SiteSettings ss)
+        public static string EditorNew(Context context, SiteSettings ss)
         {
-            var wikiId = Rds.ExecuteScalar_long(statements: Rds.SelectWikis(
-                column: Rds.WikisColumn().WikiId(),
-                where: Rds.WikisWhere().SiteId(ss.SiteId)));
-            return Editor(ss, new WikiModel(ss, methodType: BaseModel.MethodTypes.New));
+            var wikiId = Rds.ExecuteScalar_long(
+                context: context,
+                statements: Rds.SelectWikis(
+                    column: Rds.WikisColumn().WikiId(),
+                    where: Rds.WikisWhere().SiteId(ss.SiteId)));
+            return Editor(
+                context: context,
+                ss: ss,
+                wikiModel: new WikiModel(
+                    context: context,
+                    ss: ss,
+                    methodType: BaseModel.MethodTypes.New));
         }
 
-        public static string Editor(SiteSettings ss, long wikiId, bool clearSessions)
+        public static string Editor(
+            Context context, SiteSettings ss, long wikiId, bool clearSessions)
         {
             var wikiModel = new WikiModel(
+                context: context,
                 ss: ss,
                 wikiId: wikiId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            return Editor(ss, wikiModel);
+            return Editor(
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel);
         }
 
-        public static string Editor(SiteSettings ss, WikiModel wikiModel)
+        public static string Editor(Context context, SiteSettings ss, WikiModel wikiModel)
         {
-            var invalid = WikiValidators.OnEditing(ss, wikiModel);
+            var invalid = WikiValidators.OnEditing(
+                context: context, ss: ss, wikiModel: wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(invalid);
+                default: return HtmlTemplates.Error(context, invalid);
             }
             var hb = new HtmlBuilder();
-            ss.SetColumnAccessControls(wikiModel.Mine());
+            ss.SetColumnAccessControls(
+                context: context,
+                mine: wikiModel.Mine(context: context));
             return hb.Template(
+                context: context,
                 ss: ss,
                 verType: wikiModel.VerType,
                 methodType: wikiModel.MethodType,
@@ -156,10 +177,13 @@ namespace Implem.Pleasanter.Models
                     ? Displays.New()
                     : wikiModel.Title.DisplayValue,
                 useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
-                userScript: ss.EditorScripts(wikiModel.MethodType),
-                userStyle: ss.EditorStyles(wikiModel.MethodType),
+                userScript: ss.EditorScripts(
+                    context: context, methodType: wikiModel.MethodType),
+                userStyle: ss.EditorStyles(
+                    context: context, methodType: wikiModel.MethodType),
                 action: () => hb
                     .Editor(
+                        context: context,
                         ss: ss,
                         wikiModel: wikiModel)
                     .Hidden(controlId: "TableName", value: "Wikis")
@@ -174,11 +198,15 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             WikiModel wikiModel)
         {
-            var commentsColumn = ss.GetColumn("Comments");
-            var commentsColumnPermissionType = commentsColumn.ColumnPermissionType();
+            var commentsColumn = ss.GetColumn(
+                context: context,
+                columnName: "Comments");
+            var commentsColumnPermissionType = commentsColumn
+                .ColumnPermissionType(context: context);
             var showComments = ss.ShowComments(commentsColumnPermissionType);
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
@@ -191,20 +219,27 @@ namespace Implem.Pleasanter.Models
                             : wikiModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
+                            context: context,
                             ss: ss,
                             baseModel: wikiModel,
                             tableName: "Wikis")
                         .Div(
                             id: "EditorComments", action: () => hb
                                 .Comments(
+                                    context: context,
+                                    ss: ss,
                                     comments: wikiModel.Comments,
                                     column: commentsColumn,
                                     verType: wikiModel.VerType,
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
                         .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
-                            .EditorTabs(wikiModel: wikiModel, ss: ss)
+                            .EditorTabs(
+                                context: context,
+                                ss: ss,
+                                wikiModel: wikiModel)
                             .FieldSetGeneral(
+                                context: context,
                                 ss: ss,
                                 wikiModel: wikiModel)
                             .FieldSet(
@@ -218,8 +253,9 @@ namespace Implem.Pleasanter.Models
                                     .Id("FieldSetRecordAccessControl")
                                     .DataAction("Permissions")
                                     .DataMethod("post"),
-                                _using: ss.CanManagePermission())
+                                _using: context.CanManagePermission(ss: ss))
                             .MainCommands(
+                                context: context,
                                 ss: ss,
                                 siteId: wikiModel.SiteId,
                                 verType: wikiModel.VerType,
@@ -240,14 +276,21 @@ namespace Implem.Pleasanter.Models
                             css: "always-send",
                             value: wikiModel.WikiId.ToString(),
                             _using: !Request.IsAjax() || Routes.Action() == "create"))
-                .OutgoingMailsForm("Wikis", wikiModel.WikiId, wikiModel.Ver)
+                .OutgoingMailsForm(
+                    context: context,
+                    referenceType: "Wikis",
+                    referenceId: wikiModel.WikiId,
+                    referenceVer: wikiModel.Ver)
                 .CopyDialog("items", wikiModel.WikiId)
-                .MoveDialog()
+                .MoveDialog(context: context)
                 .OutgoingMailDialog());
         }
 
         private static HtmlBuilder EditorTabs(
-            this HtmlBuilder hb, SiteSettings ss, WikiModel wikiModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            WikiModel wikiModel)
         {
             return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
@@ -259,7 +302,7 @@ namespace Implem.Pleasanter.Models
                         .A(
                             href: "#FieldSetHistories",
                             text: Displays.ChangeHistoryList()))
-                .Li(_using: ss.CanManagePermission() &&
+                .Li(_using: context.CanManagePermission(ss: ss) &&
                         wikiModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
@@ -269,88 +312,111 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             WikiModel wikiModel)
         {
-            var mine = wikiModel.Mine();
+            var mine = wikiModel.Mine(context: context);
             return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
                 .FieldSetGeneralColumns(
-                    ss: ss, wikiModel: wikiModel));
+                    context: context,
+                    ss: ss,
+                    wikiModel: wikiModel));
         }
 
         public static HtmlBuilder FieldSetGeneralColumns(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             WikiModel wikiModel,
             bool preview = false)
         {
-            ss.GetEditorColumns().ForEach(column =>
+            ss.GetEditorColumns(context: context).ForEach(column =>
             {
                 switch (column.Name)
                 {
                     case "WikiId":
                         hb.Field(
-                            ss,
-                            column,
-                            wikiModel.MethodType,
-                            wikiModel.WikiId.ToControl(ss, column),
-                            column.ColumnPermissionType(),
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            methodType: wikiModel.MethodType,
+                            value: wikiModel.WikiId
+                                .ToControl(context: context, ss: ss, column: column),
+                            columnPermissionType: column.ColumnPermissionType(context: context),
                             preview: preview);
                         break;
                     case "Ver":
                         hb.Field(
-                            ss,
-                            column,
-                            wikiModel.MethodType,
-                            wikiModel.Ver.ToControl(ss, column),
-                            column.ColumnPermissionType(),
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            methodType: wikiModel.MethodType,
+                            value: wikiModel.Ver
+                                .ToControl(context: context, ss: ss, column: column),
+                            columnPermissionType: column.ColumnPermissionType(context: context),
                             preview: preview);
                         break;
                     case "Title":
                         hb.Field(
-                            ss,
-                            column,
-                            wikiModel.MethodType,
-                            wikiModel.Title.ToControl(ss, column),
-                            column.ColumnPermissionType(),
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            methodType: wikiModel.MethodType,
+                            value: wikiModel.Title
+                                .ToControl(context: context, ss: ss, column: column),
+                            columnPermissionType: column.ColumnPermissionType(context: context),
                             preview: preview);
                         break;
                     case "Body":
                         hb.Field(
-                            ss,
-                            column,
-                            wikiModel.MethodType,
-                            wikiModel.Body.ToControl(ss, column),
-                            column.ColumnPermissionType(),
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            methodType: wikiModel.MethodType,
+                            value: wikiModel.Body
+                                .ToControl(context: context, ss: ss, column: column),
+                            columnPermissionType: column.ColumnPermissionType(context: context),
                             preview: preview);
                         break;
                 }
             });
             if (!preview)
             {
-                hb.VerUpCheckBox(wikiModel);
+                hb.VerUpCheckBox(
+                    context: context,
+                    ss: ss,
+                    baseModel: wikiModel);
             }
             return hb;
         }
 
         private static HtmlBuilder MainCommandExtensions(
-            this HtmlBuilder hb, SiteSettings ss, WikiModel wikiModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            WikiModel wikiModel)
         {
             return hb;
         }
 
         private static HtmlBuilder EditorExtensions(
-            this HtmlBuilder hb, SiteSettings ss, WikiModel wikiModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            WikiModel wikiModel)
         {
             return hb;
         }
 
-        public static string EditorJson(SiteSettings ss, long wikiId)
+        public static string EditorJson(Context context, SiteSettings ss, long wikiId)
         {
-            return EditorResponse(ss, new WikiModel(ss, wikiId)).ToJson();
+            return EditorResponse(context, ss, new WikiModel(
+                context, ss, wikiId)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
+            Context context,
             SiteSettings ss,
             WikiModel wikiModel,
             Message message = null,
@@ -359,7 +425,7 @@ namespace Implem.Pleasanter.Models
             wikiModel.MethodType = BaseModel.MethodTypes.Edit;
             return new WikisResponseCollection(wikiModel)
                 .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(ss, wikiModel))
+                .ReplaceAll("#MainContainer", Editor(context, ss, wikiModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
@@ -369,13 +435,14 @@ namespace Implem.Pleasanter.Models
 
         public static ResponseCollection FieldResponse(
             this ResponseCollection res,
+            Context context,
             SiteSettings ss,
             WikiModel wikiModel)
         {
-            var mine = wikiModel.Mine();
+            var mine = wikiModel.Mine(context: context);
             ss.EditorColumns
-                .Select(o => ss.GetColumn(o))
-                .Where(o => o != null)
+                .Select(columnName => ss.GetColumn(context: context, columnName: columnName))
+                .Where(column => column != null)
                 .ForEach(column =>
                 {
                     switch (column.Name)
@@ -383,52 +450,52 @@ namespace Implem.Pleasanter.Models
                         case "SiteId":
                             res.Val(
                                 "#Wikis_SiteId",
-                                wikiModel.SiteId.ToControl(ss, column));
+                                wikiModel.SiteId.ToControl(context: context, ss: ss, column: column));
                             break;
                         case "UpdatedTime":
                             res.Val(
                                 "#Wikis_UpdatedTime",
-                                wikiModel.UpdatedTime.ToControl(ss, column));
+                                wikiModel.UpdatedTime.ToControl(context: context, ss: ss, column: column));
                             break;
                         case "WikiId":
                             res.Val(
                                 "#Wikis_WikiId",
-                                wikiModel.WikiId.ToControl(ss, column));
+                                wikiModel.WikiId.ToControl(context: context, ss: ss, column: column));
                             break;
                         case "Ver":
                             res.Val(
                                 "#Wikis_Ver",
-                                wikiModel.Ver.ToControl(ss, column));
+                                wikiModel.Ver.ToControl(context: context, ss: ss, column: column));
                             break;
                         case "Title":
                             res.Val(
                                 "#Wikis_Title",
-                                wikiModel.Title.ToControl(ss, column));
+                                wikiModel.Title.ToControl(context: context, ss: ss, column: column));
                             break;
                         case "Body":
                             res.Val(
                                 "#Wikis_Body",
-                                wikiModel.Body.ToControl(ss, column));
+                                wikiModel.Body.ToControl(context: context, ss: ss, column: column));
                             break;
                         case "Comments":
                             res.Val(
                                 "#Wikis_Comments",
-                                wikiModel.Comments.ToControl(ss, column));
+                                wikiModel.Comments.ToControl(context: context, ss: ss, column: column));
                             break;
                         case "Creator":
                             res.Val(
                                 "#Wikis_Creator",
-                                wikiModel.Creator.ToControl(ss, column));
+                                wikiModel.Creator.ToControl(context: context, ss: ss, column: column));
                             break;
                         case "Updator":
                             res.Val(
                                 "#Wikis_Updator",
-                                wikiModel.Updator.ToControl(ss, column));
+                                wikiModel.Updator.ToControl(context: context, ss: ss, column: column));
                             break;
                         case "CreatedTime":
                             res.Val(
                                 "#Wikis_CreatedTime",
-                                wikiModel.CreatedTime.ToControl(ss, column));
+                                wikiModel.CreatedTime.ToControl(context: context, ss: ss, column: column));
                             break;
                         default: break;
                     }
@@ -436,10 +503,12 @@ namespace Implem.Pleasanter.Models
             return res;
         }
 
-        public static string Update(SiteSettings ss, long wikiId)
+        public static string Update(Context context, SiteSettings ss, long wikiId)
         {
-            var wikiModel = new WikiModel(ss, wikiId, setByForm: true);
-            var invalid = WikiValidators.OnUpdating(ss, wikiModel);
+            var wikiModel = new WikiModel(
+                context: context, ss: ss, wikiId: wikiId, setByForm: true);
+            var invalid = WikiValidators.OnUpdating(
+                context: context, ss: ss, wikiModel: wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -450,6 +519,7 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseDeleteConflicts().ToJson();
             }
             var error = wikiModel.Update(
+                context: context,
                 ss: ss,
                 notice: true,
                 permissions: Forms.List("CurrentPermissionsAll"),
@@ -459,13 +529,14 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None:
                     var res = new WikisResponseCollection(wikiModel);
                     res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
-                        .Breadcrumb(ss: ss));
-                    return ResponseByUpdate(res, ss, wikiModel)
+                        .Breadcrumb(context: context, ss: ss));
+                    return ResponseByUpdate(res, context, ss, wikiModel)
                         .PrependComment(
-                            ss,
-                            ss.GetColumn("Comments"),
-                            wikiModel.Comments,
-                            wikiModel.VerType)
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(context: context, columnName: "Comments"),
+                            comments: wikiModel.Comments,
+                            verType: wikiModel.VerType)
                         .ToJson();
                 case Error.Types.UpdateConflicts:
                     return Messages.ResponseUpdateConflicts(
@@ -478,40 +549,47 @@ namespace Implem.Pleasanter.Models
 
         private static ResponseCollection ResponseByUpdate(
             WikisResponseCollection res,
+            Context context,
             SiteSettings ss,
             WikiModel wikiModel)
         {
             return res
-                .Ver()
-                .Timestamp()
+                .Ver(context: context)
+                .Timestamp(context: context)
                 .Val("#VerUp", false)
-                .FieldResponse(ss, wikiModel)
+                .FieldResponse(context: context, ss: ss, wikiModel: wikiModel)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", wikiModel.Title.DisplayValue)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
-                    baseModel: wikiModel, tableName: "Wikis"))
+                    context: context,
+                    baseModel: wikiModel,
+                    tableName: "Wikis"))
                 .Html("#Links", new HtmlBuilder().Links(
-                    ss: ss, id: wikiModel.WikiId))
+                    context: context,
+                    ss: ss,
+                    id: wikiModel.WikiId))
                 .SetMemory("formChanged", false)
                 .Message(Messages.Updated(wikiModel.Title.DisplayValue))
                 .Comment(
-                    ss,
-                    ss.GetColumn("Comments"),
-                    wikiModel.Comments,
-                    wikiModel.DeleteCommentId)
+                    context: context,
+                    ss: ss,
+                    column: ss.GetColumn(context: context, columnName: "Comments"),
+                    comments: wikiModel.Comments,
+                    deleteCommentId: wikiModel.DeleteCommentId)
                 .ClearFormData();
         }
 
-        public static string Delete(SiteSettings ss, long wikiId)
+        public static string Delete(Context context, SiteSettings ss, long wikiId)
         {
-            var wikiModel = new WikiModel(ss, wikiId);
-            var invalid = WikiValidators.OnDeleting(ss, wikiModel);
+            var wikiModel = new WikiModel(context, ss, wikiId);
+            var invalid = WikiValidators.OnDeleting(
+                context: context, ss: ss, wikiModel: wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = wikiModel.Delete(ss, notice: true);
+            var error = wikiModel.Delete(context: context, ss: ss, notice: true);
             switch (error)
             {
                 case Error.Types.None:
@@ -519,12 +597,13 @@ namespace Implem.Pleasanter.Models
                     var res = new WikisResponseCollection(wikiModel);
                 res
                     .SetMemory("formChanged", false)
-                    .Href(Locations.ItemIndex(Rds.ExecuteScalar_long(statements:
-                        Rds.SelectSites(
+                    .Href(Locations.ItemIndex(Rds.ExecuteScalar_long(
+                        context: context,
+                        statements: Rds.SelectSites(
                             tableType: Sqls.TableTypes.Deleted,
                             column: Rds.SitesColumn().ParentId(),
                             where: Rds.SitesWhere()
-                                .TenantId(Sessions.TenantId())
+                                .TenantId(context.TenantId)
                                 .SiteId(wikiModel.SiteId)))));
                     return res.ToJson();
                 default:
@@ -535,28 +614,35 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Restore(SiteSettings ss)
+        public static string Restore(Context context, SiteSettings ss)
         {
-            if (ss.CanManageSite())
+            if (context.CanManageSite(ss: ss))
             {
                 var selector = new GridSelector();
                 var count = 0;
                 if (selector.All)
                 {
-                    count = Restore(ss, selector.Selected, negative: true);
+                    count = Restore(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected,
+                        negative: true);
                 }
                 else
                 {
                     if (selector.Selected.Any())
                     {
-                        count = Restore(ss, selector.Selected);
+                        count = Restore(
+                            context: context,
+                            ss: ss,
+                            selected: selector.Selected);
                     }
                     else
                     {
                         return Messages.ResponseSelectTargets().ToJson();
                     }
                 }
-                Summaries.Synchronize(ss);
+                Summaries.Synchronize(context: context, ss: ss);
                 return "";
             }
             else
@@ -565,7 +651,8 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static int Restore(SiteSettings ss, List<long> selected, bool negative = false)
+        public static int Restore(
+            Context context, SiteSettings ss, List<long> selected, bool negative = false)
         {
             var where = Rds.WikisWhere()
                 .SiteId(
@@ -581,8 +668,9 @@ namespace Implem.Pleasanter.Models
                     sub: Rds.SelectWikis(
                         tableType: Sqls.TableTypes.Deleted,
                         column: Rds.WikisColumn().WikiId(),
-                        where: Views.GetBySession(ss).Where(ss: ss)));
+                        where: Views.GetBySession(context: context, ss: ss).Where(context: context, ss: ss)));
             return Rds.ExecuteScalar_response(
+                context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -598,14 +686,16 @@ namespace Implem.Pleasanter.Models
                 }).Count.ToInt();
         }
 
-        public static string RestoreFromHistory(SiteSettings ss, long wikiId)
+        public static string RestoreFromHistory(
+            Context context, SiteSettings ss, long wikiId)
         {
             if (!Parameters.History.Restore)
             {
                 return Error.Types.InvalidRequest.MessageJson();
             }
-            var wikiModel = new WikiModel(ss, wikiId);
-            var invalid = WikiValidators.OnUpdating(ss, wikiModel);
+            var wikiModel = new WikiModel(context, ss, wikiId);
+            var invalid = WikiValidators.OnUpdating(
+                context: context, ss: ss, wikiModel: wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -620,6 +710,7 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.SelectOne.MessageJson();
             }
             wikiModel.SetByModel(new WikiModel().Get(
+                context: context,
                 ss: ss,
                 tableType: Sqls.TableTypes.History,
                 where: Rds.WikisWhere()
@@ -627,7 +718,10 @@ namespace Implem.Pleasanter.Models
                     .WikiId(wikiId)
                     .Ver(ver.First())));
             wikiModel.VerUp = true;
-            var error = wikiModel.Update(ss, otherInitValue: true);
+            var error = wikiModel.Update(
+                context: context,
+                ss: ss,
+                otherInitValue: true);
             switch (error)
             {
                 case Error.Types.None:
@@ -642,18 +736,20 @@ namespace Implem.Pleasanter.Models
         }
 
         public static string Histories(
-            SiteSettings ss, long wikiId, Message message = null)
+            Context context, SiteSettings ss, long wikiId, Message message = null)
         {
-            var wikiModel = new WikiModel(ss, wikiId);
-            ss.SetColumnAccessControls(wikiModel.Mine());
-            var columns = ss.GetHistoryColumns(checkPermission: true);
-            if (!ss.CanRead())
+            var wikiModel = new WikiModel(context: context, ss: ss, wikiId: wikiId);
+            ss.SetColumnAccessControls(
+                context: context,
+                mine: wikiModel.Mine(context: context));
+            var columns = ss.GetHistoryColumns(context: context, checkPermission: true);
+            if (!context.CanRead(ss: ss))
             {
                 return Error.Types.HasNotPermission.MessageJson();
             }
             var hb = new HtmlBuilder();
             hb
-                .HistoryCommands(ss: ss)
+                .HistoryCommands(context: context, ss: ss)
                 .Table(
                     attributes: new HtmlAttributes().Class("grid history"),
                     action: () => hb
@@ -664,6 +760,7 @@ namespace Implem.Pleasanter.Models
                                 checkRow: true))
                         .TBody(action: () => hb
                             .HistoriesTableBody(
+                                context: context,
                                 ss: ss,
                                 columns: columns,
                                 wikiModel: wikiModel)));
@@ -674,9 +771,14 @@ namespace Implem.Pleasanter.Models
         }
 
         private static void HistoriesTableBody(
-            this HtmlBuilder hb, SiteSettings ss, List<Column> columns, WikiModel wikiModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            List<Column> columns,
+            WikiModel wikiModel)
         {
             new WikiCollection(
+                context: context,
                 ss: ss,
                 column: HistoryColumn(columns),
                 where: Rds.WikisWhere().WikiId(wikiModel.WikiId),
@@ -704,6 +806,7 @@ namespace Implem.Pleasanter.Models
                                 columns
                                     .ForEach(column => hb
                                         .TdValue(
+                                            context: context,
                                             ss: ss,
                                             column: column,
                                             wikiModel: wikiModelHistory));
@@ -719,12 +822,15 @@ namespace Implem.Pleasanter.Models
             return sqlColumn;
         }
 
-        public static string History(SiteSettings ss, long wikiId)
+        public static string History(Context context, SiteSettings ss, long wikiId)
         {
-            var wikiModel = new WikiModel(ss, wikiId);
-            ss.SetColumnAccessControls(wikiModel.Mine());
+            var wikiModel = new WikiModel(context: context, ss: ss, wikiId: wikiId);
+            ss.SetColumnAccessControls(
+                context: context,
+                mine: wikiModel.Mine(context: context));
             wikiModel.Get(
-                ss, 
+                context: context,
+                ss: ss,
                 where: Rds.WikisWhere()
                     .WikiId(wikiModel.WikiId)
                     .Ver(Forms.Int("Ver")),
@@ -732,16 +838,16 @@ namespace Implem.Pleasanter.Models
             wikiModel.VerType = Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            return EditorResponse(ss, wikiModel).ToJson();
+            return EditorResponse(context, ss, wikiModel).ToJson();
         }
 
-        public static string DeleteHistory(SiteSettings ss, long wikiId)
+        public static string DeleteHistory(Context context, SiteSettings ss, long wikiId)
         {
             if (!Parameters.History.PhysicalDelete)
             {
                 return Error.Types.InvalidRequest.MessageJson();
             }
-            if (ss.CanManageSite())
+            if (context.CanManageSite(ss: ss))
             {
                 var selector = new GridSelector();
                 var selected = selector
@@ -751,13 +857,22 @@ namespace Implem.Pleasanter.Models
                 var count = 0;
                 if (selector.All)
                 {
-                    count = DeleteHistory(ss, wikiId, selected, negative: true);
+                    count = DeleteHistory(
+                        context: context,
+                        ss: ss,
+                        wikiId: wikiId,
+                        selected: selected,
+                        negative: true);
                 }
                 else
                 {
                     if (selector.Selected.Any())
                     {
-                        count = DeleteHistory(ss, wikiId, selected);
+                        count = DeleteHistory(
+                            context: context,
+                            ss: ss,
+                            wikiId: wikiId,
+                            selected: selected);
                     }
                     else
                     {
@@ -765,6 +880,7 @@ namespace Implem.Pleasanter.Models
                     }
                 }
                 return Histories(
+                    context: context,
                     ss: ss,
                     wikiId: wikiId,
                     message: Messages.HistoryDeleted(count.ToString()));
@@ -776,12 +892,14 @@ namespace Implem.Pleasanter.Models
         }
 
         private static int DeleteHistory(
+            Context context,
             SiteSettings ss,
             long wikiId,
             List<int> selected,
             bool negative = false)
         {
             return Rds.ExecuteScalar_response(
+                context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteWikis(
                     tableType: Sqls.TableTypes.History,
@@ -802,14 +920,15 @@ namespace Implem.Pleasanter.Models
                             sub: Rds.SelectWikis(
                                 tableType: Sqls.TableTypes.History,
                                 column: Rds.WikisColumn().WikiId(),
-                                where: Views.GetBySession(ss).Where(ss: ss))),
+                                where: Views.GetBySession(context: context, ss: ss).Where(
+                                    context: context, ss: ss))),
                     countRecord: true)).Count.ToInt();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string PreviewTemplate(SiteSettings ss, string body)
+        public static string PreviewTemplate(Context context, SiteSettings ss, string body)
         {
             var hb = new HtmlBuilder();
             var name = Strings.NewGuid();
@@ -826,6 +945,7 @@ namespace Implem.Pleasanter.Models
                         id: name + "Editor",
                         action: () => hb
                             .FieldSetGeneralColumns(
+                                context: context,
                                 ss: ss,
                                 wikiModel: new WikiModel() { Body = body },
                                 preview: true)))

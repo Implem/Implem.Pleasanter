@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlAggregations
     {
         public static HtmlBuilder Aggregations(
-            this HtmlBuilder hb, SiteSettings ss, Aggregations aggregations)
+            this HtmlBuilder hb, Context context, SiteSettings ss, Aggregations aggregations)
         {
             return !Reduced(ss.SiteId)
                 ? hb.Div(
@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DisplayControl(
                             id: "ReduceAggregations",
                             icon: "ui-icon-close")
-                        .Contents(ss, aggregations))
+                        .Contents(context: context, ss: ss, aggregations: aggregations))
                 : hb.Div(
                     id: "Aggregations",
                     css: "reduced",
@@ -63,13 +63,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Contents(
-            this HtmlBuilder hb, SiteSettings ss, Aggregations aggregations)
+            this HtmlBuilder hb, Context context, SiteSettings ss, Aggregations aggregations)
         {
             return aggregations.TotalCount != 0
                 ? hb
-                    .Total(aggregations)
-                    .Overdue(aggregations)
-                    .Parts(ss, aggregations)
+                    .Total(aggregations: aggregations)
+                    .Overdue(aggregations: aggregations)
+                    .Parts(context: context, ss: ss, aggregations: aggregations)
                 : hb.Span(css: "label", action: () => hb
                     .Text(text: Displays.NoData()));
         }
@@ -95,7 +95,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Parts(
-            this HtmlBuilder hb, SiteSettings ss, Aggregations aggregations)
+            this HtmlBuilder hb, Context context, SiteSettings ss, Aggregations aggregations)
         {
             var allowedColumns = Permissions.AllowedColumns(ss);
             aggregations.AggregationCollection
@@ -105,8 +105,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .ForEach(aggregation =>
                 {
                     var html = string.Empty;
-                    var groupBy = ss.GetColumn(aggregation.GroupBy);
-                    var targetColumn = ss.GetColumn(aggregation.Target);
+                    var groupBy = ss.GetColumn(
+                        context: context, columnName: aggregation.GroupBy);
+                    var targetColumn = ss.GetColumn(
+                        context: context, columnName: aggregation.Target);
                     if (aggregation.Data.Count > 0)
                         hb.GroupBy(
                             groupBy: groupBy,
@@ -116,6 +118,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.LabelValue(
                             label: groupBy != null
                                 ? Label(
+                                    context: context,
                                     groupBy: groupBy,
                                     selectedValue: data.Key)
                                 : string.Empty,
@@ -155,11 +158,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Text(text: text));
         }
 
-        private static string Label(Column groupBy, string selectedValue)
+        private static string Label(Context context, Column groupBy, string selectedValue)
         {
             if (groupBy.UserColumn)
             {
-                return SiteInfo.UserName(selectedValue.ToInt());
+                return SiteInfo.UserName(
+                    context: context,
+                    userId: selectedValue.ToInt());
             }
             else if (groupBy.HasChoices())
             {

@@ -27,11 +27,14 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static bool ExistsSiteImage(
+            Context context,
             SiteSettings ss,
             long referenceId,
             Libraries.Images.ImageData.SizeTypes sizeType)
         {
-            var invalid = BinaryValidators.OnGetting(ss);
+            var invalid = BinaryValidators.OnGetting(
+                context: context,
+                ss: ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -44,8 +47,9 @@ namespace Implem.Pleasanter.Models
                         referenceId, Libraries.Images.ImageData.Types.SiteImage)
                             .Exists(sizeType);
                 default:
-                    return Rds.ExecuteScalar_int(statements:
-                        Rds.SelectBinaries(
+                    return Rds.ExecuteScalar_int(
+                        context: context,
+                        statements: Rds.SelectBinaries(
                             column: Rds.BinariesColumn().BinariesCount(),
                             where: Rds.BinariesWhere()
                                 .ReferenceId(referenceId)
@@ -57,67 +61,91 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static string SiteImagePrefix(
+            Context context,
             SiteSettings ss,
             long referenceId,
             Libraries.Images.ImageData.SizeTypes sizeType)
         {
-            var invalid = BinaryValidators.OnGetting(ss);
+            var invalid = BinaryValidators.OnGetting(
+                context: context,
+                ss: ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return string.Empty;
             }
-            return new BinaryModel(referenceId).SiteImagePrefix(sizeType);
+            return new BinaryModel(referenceId).SiteImagePrefix(
+                context: context,
+                sizeType: sizeType);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static byte[] SiteImageThumbnail(SiteModel siteModel)
+        public static byte[] SiteImageThumbnail(Context context, SiteModel siteModel)
         {
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
-            var invalid = BinaryValidators.OnGetting(siteModel.SiteSettings);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: siteModel,
+                referenceId: siteModel.SiteId);
+            var invalid = BinaryValidators.OnGetting(
+                context: context,
+                ss: siteModel.SiteSettings);
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return null;
             }
             return new BinaryModel(siteModel.SiteId).SiteImage(
-                Libraries.Images.ImageData.SizeTypes.Thumbnail,
-                Rds.BinariesColumn().Thumbnail());
+                context: context,
+                sizeType: Libraries.Images.ImageData.SizeTypes.Thumbnail,
+                column: Rds.BinariesColumn().Thumbnail());
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static byte[] SiteImageIcon(SiteModel siteModel)
+        public static byte[] SiteImageIcon(Context context, SiteModel siteModel)
         {
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
-            var invalid = BinaryValidators.OnGetting(siteModel.SiteSettings);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: siteModel,
+                referenceId: siteModel.SiteId);
+            var invalid = BinaryValidators.OnGetting(
+                context: context,
+                ss: siteModel.SiteSettings);
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return null;
             }
             return new BinaryModel(siteModel.SiteId).SiteImage(
-                Libraries.Images.ImageData.SizeTypes.Icon,
-                Rds.BinariesColumn().Icon());
+                context: context,
+                sizeType: Libraries.Images.ImageData.SizeTypes.Icon,
+                column: Rds.BinariesColumn().Icon());
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string UpdateSiteImage(SiteModel siteModel)
+        public static string UpdateSiteImage(Context context, SiteModel siteModel)
         {
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: siteModel,
+                referenceId: siteModel.SiteId);
             var file = Forms.File(Libraries.Images.ImageData.Types.SiteImage.ToString());
-            var invalid = BinaryValidators.OnUploadingSiteImage(siteModel.SiteSettings, file);
+            var invalid = BinaryValidators.OnUploadingSiteImage(
+                context: context,
+                ss: siteModel.SiteSettings,
+                file: file);
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = new BinaryModel(siteModel.SiteId).UpdateSiteImage(file);
+            var error = new BinaryModel(siteModel.SiteId).UpdateSiteImage(
+                context: context, file: file);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -128,11 +156,13 @@ namespace Implem.Pleasanter.Models
                     .Html(
                         "#SiteImageIconContainer",
                         new HtmlBuilder().SiteImageIcon(
+                            context: context,
                             ss: siteModel.SiteSettings,
                             siteId: siteModel.SiteId))
                     .Html(
                         "#SiteImageSettingsEditor",
                         new HtmlBuilder().SiteImageSettingsEditor(
+                            context: context,
                             ss: siteModel.SiteSettings))
                     .Message(Messages.FileUpdateCompleted())
                     .ToJson();
@@ -142,16 +172,22 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string DeleteSiteImage(SiteModel siteModel)
+        public static string DeleteSiteImage(Context context, SiteModel siteModel)
         {
-            siteModel.SiteSettings = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
-            var invalid = BinaryValidators.OnDeletingSiteImage(siteModel.SiteSettings);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: siteModel,
+                referenceId: siteModel.SiteId);
+            var invalid = BinaryValidators.OnDeletingSiteImage(
+                context: context,
+                ss: siteModel.SiteSettings);
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = new BinaryModel(siteModel.SiteId).DeleteSiteImage();
+            var error = new BinaryModel(siteModel.SiteId)
+                .DeleteSiteImage(context: context);
             if (error.Has())
             {
                 return error.MessageJson();
@@ -162,11 +198,13 @@ namespace Implem.Pleasanter.Models
                     .Html(
                         "#SiteImageIconContainer",
                         new HtmlBuilder().SiteImageIcon(
+                            context: context,
                             ss: siteModel.SiteSettings,
                             siteId: siteModel.SiteId))
                     .Html(
                         "#SiteImageSettingsEditor",
                         new HtmlBuilder().SiteImageSettingsEditor(
+                            context: context,
                             ss: siteModel.SiteSettings))
                     .Message(Messages.FileDeleteCompleted())
                     .ToJson();
@@ -176,16 +214,24 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string UploadImage(System.Web.HttpPostedFileBase[] files, long id)
+        public static string UploadImage(
+            Context context, System.Web.HttpPostedFileBase[] files, long id)
         {
             var controlId = Forms.ControlId();
-            var ss = new ItemModel(id).GetSite(initSiteSettings: true).SiteSettings;
-            var invalid = BinaryValidators.OnUploadingImage(files);
+            var ss = new ItemModel(
+                context: context,
+                referenceId: id).GetSite(
+                    context: context,
+                    initSiteSettings: true)
+                        .SiteSettings;
+            var invalid = BinaryValidators.OnUploadingImage(
+                context: context,
+                files: files);
             switch (invalid)
             {
                 case Error.Types.OverTenantStorageSize:
                     return Messages.ResponseOverTenantStorageSize(
-                        Contract.TenantStorageSize().ToString()).ToJson();
+                        Contract.TenantStorageSize(context: context).ToString()).ToJson();
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
@@ -193,10 +239,11 @@ namespace Implem.Pleasanter.Models
             var file = files[0];
             var size = file.ContentLength;
             var bin = file.Byte();
-            Rds.ExecuteNonQuery(statements:
-                Rds.InsertBinaries(
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.InsertBinaries(
                     param: Rds.BinariesParam()
-                        .TenantId(Sessions.TenantId())
+                        .TenantId(context.TenantId)
                         .ReferenceId(id)
                         .Guid(guid)
                         .BinaryType("Images")
@@ -219,21 +266,31 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string DeleteImage(string guid)
+        public static string DeleteImage(Context context, string guid)
         {
             var binaryModel = new BinaryModel()
-                .Get(where: Rds.BinariesWhere()
-                    .TenantId(Sessions.TenantId())
-                    .Guid(guid));
-            var ss = new ItemModel(binaryModel.ReferenceId)
-                .GetSite(initSiteSettings: true).SiteSettings;
-            var invalid = BinaryValidators.OnDeletingImage(ss, binaryModel);
+                .Get(
+                    context: context,
+                    where: Rds.BinariesWhere()
+                        .TenantId(context.TenantId)
+                        .Guid(guid));
+            var ss = new ItemModel(
+                context: context,
+                referenceId: binaryModel.ReferenceId)
+                    .GetSite(
+                        context: context,
+                        initSiteSettings: true)
+                            .SiteSettings;
+            var invalid = BinaryValidators.OnDeletingImage(
+                context: context,
+                ss: ss,
+                binaryModel: binaryModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            binaryModel.Delete();
+            binaryModel.Delete(context: context);
             return new ResponseCollection()
                 .Message(Messages.DeletedImage())
                 .Remove($"#ImageLib .item[data-id=\"{guid}\"]")
@@ -243,13 +300,25 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string MultiUpload(System.Web.HttpPostedFileBase[] files, long id)
+        public static string MultiUpload(
+            Context context, System.Web.HttpPostedFileBase[] files, long id)
         {
             var controlId = Forms.ControlId();
-            var ss = new ItemModel(id).GetSite(initSiteSettings: true).SiteSettings;
-            var column = ss.GetColumn(Forms.Data("ColumnName"));
+            var ss = new ItemModel(
+                context: context,
+                referenceId: id).GetSite(
+                    context: context,
+                    initSiteSettings: true)
+                        .SiteSettings;
+            var column = ss.GetColumn(
+                context: context,
+                columnName: Forms.Data("ColumnName"));
             var attachments = Forms.Data("AttachmentsData").Deserialize<Attachments>();
-            var invalid = BinaryValidators.OnUploading(column, attachments, files);
+            var invalid = BinaryValidators.OnUploading(
+                context: context,
+                column: column,
+                attachments: attachments,
+                files: files);
             switch (invalid)
             {
                 case Error.Types.OverLimitQuantity:
@@ -263,7 +332,7 @@ namespace Implem.Pleasanter.Models
                         column.TotalLimitSize.ToString()).ToJson();
                 case Error.Types.OverTenantStorageSize:
                     return Messages.ResponseOverTenantStorageSize(
-                        Contract.TenantStorageSize().ToString()).ToJson();
+                        Contract.TenantStorageSize(context: context).ToString()).ToJson();
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
@@ -281,10 +350,12 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection()
                 .ReplaceAll($"#{controlId}Field", new HtmlBuilder()
                     .Field(
+                        context: context,
                         ss: ss,
                         column: column,
                         value: attachments.ToJson(),
-                        columnPermissionType: column.ColumnPermissionType()))
+                        columnPermissionType: column
+                            .ColumnPermissionType(context: context)))
                 .SetData("#" + controlId)
                 .ToJson();
         }
@@ -292,21 +363,21 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.FileContentResult Donwload(string guid)
+        public static System.Web.Mvc.FileContentResult Donwload(Context context, string guid)
         {
-            if (!Contract.Attachments())
+            if (!Contract.Attachments(context: context))
             {
                 return null;
             }
-            return FileContentResults.Download(guid);
+            return FileContentResults.Download(context: context, guid: guid);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.FileContentResult DownloadTemp(string guid)
+        public static System.Web.Mvc.FileContentResult DownloadTemp(Context context, string guid)
         {
-            if (!Contract.Attachments())
+            if (!Contract.Attachments(context: context))
             {
                 return null;
             }
@@ -316,9 +387,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string DeleteTemp()
+        public static string DeleteTemp(Context context)
         {
-            if (!Contract.Attachments())
+            if (!Contract.Attachments(context: context))
             {
                 return null;
             }
@@ -329,28 +400,30 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static decimal UsedTenantStorageSize()
+        public static decimal UsedTenantStorageSize(Context context)
         {
-            return Rds.ExecuteScalar_decimal(statements: Rds.SelectBinaries(
-                column: Rds.BinariesColumn().Size(function: Sqls.Functions.Sum),
-                where: Rds.BinariesWhere().TenantId(Sessions.TenantId())));
+            return Rds.ExecuteScalar_decimal(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    column: Rds.BinariesColumn().Size(function: Sqls.Functions.Sum),
+                    where: Rds.BinariesWhere().TenantId(context.TenantId)));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         public static SqlStatement UpdateReferenceId(
-            SiteSettings ss, long referenceId, string values)
+            Context context, SiteSettings ss, long referenceId, string values)
         {
             var guids = values?.RegexValues("[0-9a-z]{32}").ToList();
             return guids?.Any() == true
                 ? Rds.UpdateBinaries(
                     param: Rds.BinariesParam().ReferenceId(referenceId),
                     where: Rds.BinariesWhere()
-                        .TenantId(Sessions.TenantId())
+                        .TenantId(context.TenantId)
                         .ReferenceId(ss.SiteId)
                         .Guid(guids, multiParamOperator: " or ")
-                        .Creator(Sessions.UserId()))
+                        .Creator(context.UserId))
                 : null;
         }
     }

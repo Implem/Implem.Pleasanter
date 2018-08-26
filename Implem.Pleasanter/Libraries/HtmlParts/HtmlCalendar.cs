@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -16,6 +17,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Calendar(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Column fromColumn,
             Column toColumn,
@@ -27,17 +29,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(id: "Calendar", css: "both", action: () => hb
                 .FieldDropDown(
+                    context: context,
                     controlId: "CalendarFromTo",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.Column(),
-                    optionCollection: ss.CalendarColumnOptions(),
+                    optionCollection: ss.CalendarColumnOptions(context: context),
                     selectedValue: toColumn == null
                         ? fromColumn.ColumnName
                         : $"{fromColumn.ColumnName}-{toColumn.ColumnName}",
                     action: "Calendar",
                     method: "post")
                 .DropDown(
+                    context: context,
                     controlId: "CalendarMonth",
                     controlCss: " w100 auto-postback",
                     optionCollection: CalendarMonth(),
@@ -68,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataMethod("post"),
                     action: () => hb
                         .CalendarBody(
+                            context: context,
                             ss: ss,
                             fromColumn: fromColumn,
                             toColumn: toColumn,
@@ -93,6 +98,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder CalendarBody(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Column fromColumn,
             Column toColumn,

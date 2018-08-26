@@ -15,9 +15,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public DateTime Max;
         public int Period;
 
-        public GanttRange(SiteSettings ss, View view)
+        public GanttRange(Context context, SiteSettings ss, View view)
         {
-            Set(ss, view);
+            Set(context: context, ss: ss, view: view);
             if (view.GanttPeriod == null)
             {
                 if (view.GanttStartDate == null) view.GanttStartDate = Min;
@@ -36,10 +36,11 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }
         }
 
-        private void Set(SiteSettings ss, View view)
+        private void Set(Context context, SiteSettings ss, View view)
         {
-            var dataRow = Rds.ExecuteTable(statements:
-                Rds.SelectIssues(
+            var dataRow = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectIssues(
                     column: Rds.IssuesColumn()
                         .Add(
                             Def.Sql.StartTimeColumn,
@@ -57,8 +58,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                             "CompletionTime",
                             _as: "CompletionTimeMax",
                             function: Sqls.Functions.Max),
-                    join: ss.Join(),
-                    where: view.Where(ss: ss)))
+                    join: ss.Join(context: context),
+                    where: view.Where(context: context, ss: ss)))
                         .AsEnumerable()
                         .FirstOrDefault();
             if (dataRow != null)

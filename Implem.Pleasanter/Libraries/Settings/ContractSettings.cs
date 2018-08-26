@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using System;
 using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.Settings
@@ -41,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return null;
         }
 
-        public bool InitialValue()
+        public bool InitialValue(Context context)
         {
             return this.ToJson() == "[]";
         }

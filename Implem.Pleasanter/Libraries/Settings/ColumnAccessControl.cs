@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using System;
@@ -48,9 +49,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public ControlData ControlData(SiteSettings ss, string type)
+        public ControlData ControlData(Context context, SiteSettings ss, string type)
         {
-            var column = ss.GetColumn(ColumnName);
+            var column = ss.GetColumn(context: context, columnName: ColumnName);
             return column != null
                 ? new ControlData(column.LabelText + (!IsDefault(ss, type)
                     ? " (" + Displays.Enabled() + ")"

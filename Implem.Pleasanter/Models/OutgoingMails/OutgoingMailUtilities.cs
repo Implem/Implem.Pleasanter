@@ -27,15 +27,23 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static HtmlBuilder OutgoingMailsForm(
-            this HtmlBuilder hb, string referenceType, long referenceId, int referenceVer)
+            this HtmlBuilder hb,
+            Context context,
+            string referenceType,
+            long referenceId,
+            int referenceVer)
         {
-            var ss = SiteSettingsUtilities.GetByReference(Routes.Controller(), referenceId);
+            var ss = SiteSettingsUtilities.GetByReference(
+                context: context,
+                reference: context.Controller,
+                referenceId: referenceId);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("OutgoingMailsForm")
                     .Action(Locations.Action(Routes.Controller(), referenceId, "OutgoingMails")),
                 action: () =>
                     new OutgoingMailCollection(
+                        context: context,
                         where: Rds.OutgoingMailsWhere()
                             .ReferenceType(referenceType)
                             .ReferenceId(referenceId)
@@ -44,14 +52,19 @@ namespace Implem.Pleasanter.Models
                             .OutgoingMailId(SqlOrderBy.Types.desc))
                                 .ForEach(outgoingMailModel => hb
                                     .OutgoingMailListItem(
-                                        ss: ss, outgoingMailModel: outgoingMailModel)));
+                                        context: context,
+                                        ss: ss,
+                                        outgoingMailModel: outgoingMailModel)));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         public static HtmlBuilder OutgoingMailListItem(
-            this HtmlBuilder hb, SiteSettings ss, OutgoingMailModel outgoingMailModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            OutgoingMailModel outgoingMailModel)
         {
             return hb.Div(
                 css: "item",
@@ -97,7 +110,7 @@ namespace Implem.Pleasanter.Models
                                     icon: "ui-icon-mail-closed",
                                     action: "Reply",
                                     method: "put"),
-                            _using: ss.CanSendMail())));
+                            _using: context.CanSendMail(ss: ss))));
         }
 
         /// <summary>
@@ -128,27 +141,35 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Editor(string reference, long id)
+        public static string Editor(Context context, string reference, long id)
         {
-            if (!Contract.Mail())
+            var ss = SiteSettingsUtilities.GetByReference(
+                context: context,
+                reference: reference,
+                referenceId: id);
+            if (!Contract.Mail(context: context))
             {
                 return Error.Types.Restricted.MessageJson();
             }
-            if (MailAddressUtilities.Get(Sessions.UserId()) == string.Empty)
+            if (MailAddressUtilities.Get(
+                context: context,
+                userId: context.UserId) == string.Empty)
             {
                 return new ResponseCollection()
                     .CloseDialog()
                     .Message(Messages.MailAddressHasNotSet())
                     .ToJson();
             }
-            var ss = SiteSettingsUtilities.GetByReference(reference, id);
-            var invalid = OutgoingMailValidators.OnEditing(ss);
+            var invalid = OutgoingMailValidators.OnEditing(
+                context: context,
+                ss: ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
             var outgoingMailModel = new OutgoingMailModel().Get(
+                context: context,
                 where: Rds.OutgoingMailsWhere().OutgoingMailId(
                     Forms.Long("OutgoingMails_OutgoingMailId")));
             var hb = new HtmlBuilder();
@@ -172,6 +193,7 @@ namespace Implem.Pleasanter.Models
                                         reference, id, "OutgoingMails")),
                                 action: () => hb
                                     .Editor(
+                                        context: context,
                                         ss: ss,
                                         outgoingMailModel: outgoingMailModel)))
                         .FieldSet(id: "FieldSetAddressBook", action: () => hb
@@ -181,7 +203,7 @@ namespace Implem.Pleasanter.Models
                                     .Action(Locations.Action(
                                         reference, id, "OutgoingMails")),
                                 action: () => hb
-                                    .Destinations(ss: ss)))))
+                                    .Destinations(context: context, ss: ss)))))
                 .Invoke("initOutgoingMailDialog")
                 .Focus("#OutgoingMails_Body")
                 .ToJson();
@@ -192,12 +214,18 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             OutgoingMailModel outgoingMailModel)
         {
-            var outgoingMailSs = SiteSettingsUtilities.OutgoingMailsSiteSettings();
-            var titleColumn = outgoingMailSs.GetColumn("Title");
-            var bodyColumn = outgoingMailSs.GetColumn("Body");
+            var outgoingMailSs = SiteSettingsUtilities
+                .OutgoingMailsSiteSettings(context: context);
+            var titleColumn = outgoingMailSs.GetColumn(
+                context: context,
+                columnName: "Title");
+            var bodyColumn = outgoingMailSs.GetColumn(
+                context: context,
+                columnName: "Body");
             return hb
                 .FieldBasket(
                     controlId: "OutgoingMails_To",
@@ -259,13 +287,28 @@ namespace Implem.Pleasanter.Models
                         : "0")
                 .Hidden(
                     controlId: "To",
-                    value: MailDefault(outgoingMailModel, ss.MailToDefault, "to"))
+                    value: MailDefault(
+                        context: context,
+                        ss: ss,
+                        outgoingMailModel: outgoingMailModel,
+                        mailDefault: ss.MailToDefault,
+                        type: "to"))
                 .Hidden(
                     controlId: "Cc",
-                    value: MailDefault(outgoingMailModel, ss.MailCcDefault, "cc"))
+                    value: MailDefault(
+                        context: context,
+                        ss: ss,
+                        outgoingMailModel: outgoingMailModel,
+                        mailDefault: ss.MailCcDefault,
+                        type: "cc"))
                 .Hidden(
                     controlId: "Bcc",
-                    value: MailDefault(outgoingMailModel, ss.MailBccDefault, "bcc"));
+                    value: MailDefault(
+                        context: context,
+                        ss: ss,
+                        outgoingMailModel: outgoingMailModel,
+                        mailDefault: ss.MailBccDefault,
+                        type: "bcc"));
         }
 
         /// <summary>
@@ -299,9 +342,15 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static string MailDefault(
-            OutgoingMailModel outgoingMailModel, string mailDefault, string type)
+            Context context,
+            SiteSettings ss,
+            OutgoingMailModel outgoingMailModel,
+            string mailDefault,
+            string type)
         {
-            var myAddress = new MailAddressModel(Sessions.UserId()).MailAddress;
+            var myAddress = new MailAddressModel(
+                context: context,
+                userId: context.UserId).MailAddress;
             if (outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 switch (type)
@@ -336,7 +385,8 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Destinations(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder Destinations(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var addressBook = AddressBook(ss);
             var searchRangeDefault = ss.SiteId != 0
@@ -347,6 +397,7 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Div(css: "container-left", action: () => hb
                     .FieldDropDown(
+                        context: context,
                         controlId: "OutgoingMails_DestinationSearchRange",
                         labelText: Displays.OutgoingMails_DestinationSearchRange(),
                         optionCollection: SearchRangeOptionCollection(
@@ -369,6 +420,8 @@ namespace Implem.Pleasanter.Models
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h500",
                             listItemCollection: Destinations(
+                                context: context,
+                                ss: ss,
                                 referenceId: ss.InheritPermission,
                                 addressBook: addressBook,
                                 searchRange: searchRangeDefault),
@@ -436,6 +489,8 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static Dictionary<string, ControlData> Destinations(
+            Context context,
+            SiteSettings ss,
             long referenceId,
             Dictionary<string, ControlData> addressBook,
             string searchRange,
@@ -467,21 +522,28 @@ namespace Implem.Pleasanter.Models
                         "([Users].[UserId]=[Permissions].[UserId] and [Permissions].[UserId] <> 0) or " +
                         "([Users].[DeptId]=[Permissions].[DeptId] and [Permissions].[DeptId] <> 0)");
                     return DestinationCollection(
-                        Sqls.SqlJoinCollection(joinDepts, joinMailAddresses, joinPermissions),
-                        Rds.UsersWhere()
+                        context: context,
+                        join: Sqls.SqlJoinCollection(
+                            joinDepts,
+                            joinMailAddresses,
+                            joinPermissions),
+                        where: Rds.UsersWhere()
                             .MailAddresses_OwnerType("Users")
                             .Permissions_ReferenceId(referenceId)
                             .SearchText(searchText)
-                            .Users_TenantId(Sessions.TenantId()));
+                            .Users_TenantId(context.TenantId));
                 case "All":
                 default:
                     return !searchText.IsNullOrEmpty()
                         ? DestinationCollection(
-                            Sqls.SqlJoinCollection(joinDepts, joinMailAddresses),
-                            Rds.UsersWhere()
+                            context: context,
+                            join: Sqls.SqlJoinCollection(
+                                joinDepts,
+                                joinMailAddresses),
+                            where: Rds.UsersWhere()
                                 .MailAddresses_OwnerType("Users")
                                 .SearchText(searchText)
-                                .Users_TenantId(Sessions.TenantId()))
+                                .Users_TenantId(context.TenantId))
                         : new Dictionary<string, ControlData>();
             }
         }
@@ -514,9 +576,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static Dictionary<string, ControlData> DestinationCollection(
-            SqlJoinCollection join, SqlWhereCollection where)
+            Context context, SqlJoinCollection join, SqlWhereCollection where)
         {
             return Rds.ExecuteTable(
+                context: context,
                 transactional: false,
                 statements: Rds.SelectUsers(
                     column: Rds.UsersColumn()
@@ -526,8 +589,7 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     distinct: true)).AsEnumerable()
                         .Select((o, i) => new {
-                            Name = "\"" + o["Name"].ToString() +
-                                "\" <" + o["MailAddress"].ToString() + ">",
+                            Name = $"\"{o.String("Name")}\" <{o.String("MailAddress")}>",
                             Index = i
                         })
                         .ToDictionary(
@@ -538,26 +600,38 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Net.Mail.MailAddress From()
+        public static System.Net.Mail.MailAddress From(Context context, int userId)
         {
-            return new System.Net.Mail.MailAddress(MailAddressUtilities.Get(
-                Sessions.UserId(), withFullName: true));
+            return new System.Net.Mail.MailAddress(
+                MailAddressUtilities.Get(
+                    context: context,
+                    userId: userId,
+                    withFullName: true));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Send(string reference, long id)
+        public static string Send(Context context, string reference, long id)
         {
-            if (!Contract.Mail())
+            var ss = SiteSettingsUtilities.GetByReference(
+                context: context,
+                reference: reference,
+                referenceId: id);
+            if (!Contract.Mail(context: context))
             {
                 return Error.Types.Restricted.MessageJson();
             }
-            var ss = SiteSettingsUtilities.GetByReference(reference, id);
-            var outgoingMailModel = new OutgoingMailModel(reference, id);
+            var outgoingMailModel = new OutgoingMailModel(
+                context: context,
+                reference: reference,
+                referenceId: id);
             var invalidMailAddress = string.Empty;
             var invalid = OutgoingMailValidators.OnSending(
-                ss, outgoingMailModel, out invalidMailAddress);
+                context: context,
+                ss: ss,
+                outgoingMailModel: outgoingMailModel,
+                data: out invalidMailAddress);
             switch (invalid)
             {
                 case Error.Types.None:
@@ -568,7 +642,9 @@ namespace Implem.Pleasanter.Models
                 default:
                     return invalid.MessageJson();
             }
-            var error = outgoingMailModel.Send();
+            var error = outgoingMailModel.Send(
+                context: context,
+                ss: ss);
             return error.Has()
                 ? error.MessageJson()
                 : new OutgoingMailsResponseCollection(outgoingMailModel)
@@ -580,7 +656,9 @@ namespace Implem.Pleasanter.Models
                     .Prepend(
                         "#OutgoingMailsForm",
                         new HtmlBuilder().OutgoingMailListItem(
-                            ss: ss, outgoingMailModel: outgoingMailModel))
+                            context: context,
+                            ss: ss,
+                            outgoingMailModel: outgoingMailModel))
                     .Message(Messages.MailTransmissionCompletion())
                     .ToJson();
         }

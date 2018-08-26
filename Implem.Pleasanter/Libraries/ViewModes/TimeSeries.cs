@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -40,6 +41,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         }
 
         public TimeSeries(
+            Context context,
             SiteSettings ss,
             Column groupBy,
             string aggregationType,
@@ -50,13 +52,14 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             AggregationType = aggregationType;
             dataRows.ForEach(dataRow =>
                 Add(new TimeSeriesElement(
-                    groupBy?.UserColumn == true,
-                    dataRow["Id"].ToLong(),
-                    dataRow["Ver"].ToInt(),
-                    dataRow["UpdatedTime"].ToDateTime().ToLocal().Date,
-                    dataRow[groupBy.ColumnName].ToString(),
-                    dataRow[value.ColumnName].ToDecimal(),
-                    dataRow["IsHistory"].ToBool())));
+                    context: context,
+                    userColumn: groupBy?.UserColumn == true,
+                    id: dataRow["Id"].ToLong(),
+                    ver: dataRow["Ver"].ToInt(),
+                    updatedTime: dataRow["UpdatedTime"].ToDateTime().ToLocal().Date,
+                    index: dataRow[groupBy.ColumnName].ToString(),
+                    value: dataRow[value.ColumnName].ToDecimal(),
+                    isHistory: dataRow["IsHistory"].ToBool())));
             if (this.Any())
             {
                 MinTime = this.Select(o => o.UpdatedTime).Min().AddDays(-1);

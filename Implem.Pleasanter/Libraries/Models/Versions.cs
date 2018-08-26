@@ -1,4 +1,4 @@
-﻿using Implem.Pleasanter.Libraries.Server;
+﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 namespace Implem.Pleasanter.Libraries.Models
 {
@@ -10,10 +10,10 @@ namespace Implem.Pleasanter.Libraries.Models
             History
         }
 
-        public static bool MustVerUp(BaseModel baseModel)
+        public static bool MustVerUp(Context context, BaseModel baseModel)
         {
             return
-                baseModel.Updator.Id != Sessions.UserId() ||
+                baseModel.Updator.Id != context.UserId ||
                 baseModel.UpdatedTime.DifferentDate();
         }
     }

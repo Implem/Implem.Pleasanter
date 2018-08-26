@@ -54,7 +54,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedDestinationSearchRange = string.Empty;
         [NonSerialized] public string SavedDestinationSearchText = string.Empty;
 
-        public bool ReferenceType_Updated(Column column = null)
+        public bool ReferenceType_Updated(Context context, Column column = null)
         {
             return ReferenceType != SavedReferenceType && ReferenceType != null &&
                 (column == null ||
@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != ReferenceType);
         }
 
-        public bool ReferenceId_Updated(Column column = null)
+        public bool ReferenceId_Updated(Context context, Column column = null)
         {
             return ReferenceId != SavedReferenceId &&
                 (column == null ||
@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != ReferenceId);
         }
 
-        public bool ReferenceVer_Updated(Column column = null)
+        public bool ReferenceVer_Updated(Context context, Column column = null)
         {
             return ReferenceVer != SavedReferenceVer &&
                 (column == null ||
@@ -78,7 +78,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != ReferenceVer);
         }
 
-        public bool OutgoingMailId_Updated(Column column = null)
+        public bool OutgoingMailId_Updated(Context context, Column column = null)
         {
             return OutgoingMailId != SavedOutgoingMailId &&
                 (column == null ||
@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToLong() != OutgoingMailId);
         }
 
-        public bool Host_Updated(Column column = null)
+        public bool Host_Updated(Context context, Column column = null)
         {
             return Host != SavedHost && Host != null &&
                 (column == null ||
@@ -94,7 +94,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Host);
         }
 
-        public bool Port_Updated(Column column = null)
+        public bool Port_Updated(Context context, Column column = null)
         {
             return Port != SavedPort &&
                 (column == null ||
@@ -102,7 +102,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToInt() != Port);
         }
 
-        public bool From_Updated(Column column = null)
+        public bool From_Updated(Context context, Column column = null)
         {
             return From.ToString() != SavedFrom && From.ToString() != null &&
                 (column == null ||
@@ -110,7 +110,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != From.ToString());
         }
 
-        public bool To_Updated(Column column = null)
+        public bool To_Updated(Context context, Column column = null)
         {
             return To != SavedTo && To != null &&
                 (column == null ||
@@ -118,7 +118,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != To);
         }
 
-        public bool Cc_Updated(Column column = null)
+        public bool Cc_Updated(Context context, Column column = null)
         {
             return Cc != SavedCc && Cc != null &&
                 (column == null ||
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Cc);
         }
 
-        public bool Bcc_Updated(Column column = null)
+        public bool Bcc_Updated(Context context, Column column = null)
         {
             return Bcc != SavedBcc && Bcc != null &&
                 (column == null ||
@@ -134,7 +134,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Bcc);
         }
 
-        public bool Title_Updated(Column column = null)
+        public bool Title_Updated(Context context, Column column = null)
         {
             return Title.Value != SavedTitle && Title.Value != null &&
                 (column == null ||
@@ -142,7 +142,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Title.Value);
         }
 
-        public bool Body_Updated(Column column = null)
+        public bool Body_Updated(Context context, Column column = null)
         {
             return Body != SavedBody && Body != null &&
                 (column == null ||
@@ -150,7 +150,7 @@ namespace Implem.Pleasanter.Models
                 column.DefaultInput.ToString() != Body);
         }
 
-        public bool SentTime_Updated(Column column = null)
+        public bool SentTime_Updated(Context context, Column column = null)
         {
             return SentTime.Value != SavedSentTime &&
                 (column == null ||
@@ -163,44 +163,47 @@ namespace Implem.Pleasanter.Models
         }
 
         public OutgoingMailModel(
+            Context context,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
-            if (setByForm) SetByForm();
+            OnConstructing(context: context);
+            Context = context;
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
         public OutgoingMailModel(
+            Context context,
             long outgoingMailId,
             bool clearSessions = false,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
-            OnConstructing();
+            OnConstructing(context: context);
+            Context = context;
             OutgoingMailId = outgoingMailId;
-            Get();
+            Get(context: context);
             if (clearSessions) ClearSessions();
-            if (setByForm) SetByForm();
             MethodType = methodType;
-            OnConstructed();
+            OnConstructed(context: context);
         }
 
-        public OutgoingMailModel(DataRow dataRow, string tableAlias = null)
+        public OutgoingMailModel(Context context, DataRow dataRow, string tableAlias = null)
         {
-            OnConstructing();
-            Set(dataRow, tableAlias);
-            OnConstructed();
+            OnConstructing(context: context);
+            Context = context;
+            if (dataRow != null) Set(context, dataRow, tableAlias);
+            OnConstructed(context: context);
         }
 
-        private void OnConstructing()
+        private void OnConstructing(Context context)
         {
         }
 
-        private void OnConstructed()
+        private void OnConstructed(Context context)
         {
         }
 
@@ -209,6 +212,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public OutgoingMailModel Get(
+            Context context,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -218,38 +222,42 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(Rds.ExecuteTable(statements: Rds.SelectOutgoingMails(
-                tableType: tableType,
-                column: column ?? Rds.OutgoingMailsDefaultColumns(),
-                join: join ??  Rds.OutgoingMailsJoinDefault(),
-                where: where ?? Rds.OutgoingMailsWhereDefault(this),
-                orderBy: orderBy,
-                param: param,
-                distinct: distinct,
-                top: top)));
+            Set(context, Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectOutgoingMails(
+                    tableType: tableType,
+                    column: column ?? Rds.OutgoingMailsDefaultColumns(),
+                    join: join ??  Rds.OutgoingMailsJoinDefault(),
+                    where: where ?? Rds.OutgoingMailsWhereDefault(this),
+                    orderBy: orderBy,
+                    param: param,
+                    distinct: distinct,
+                    top: top)));
             return this;
         }
 
         public Error.Types Create(
-            RdsUser rdsUser = null,
+            Context context,
+            SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool otherInitValue = false,
             bool get = true)
         {
             var statements = new List<SqlStatement>();
-            CreateStatements(statements, tableType, param, otherInitValue);
+            CreateStatements(context, statements, tableType, param, otherInitValue);
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             OutgoingMailId = (response.Identity ?? OutgoingMailId).ToLong();
-            if (get) Get();
+            if (get) Get(context: context);
             return Error.Types.None;
         }
 
         public List<SqlStatement> CreateStatements(
+            Context context,
             List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
@@ -261,12 +269,17 @@ namespace Implem.Pleasanter.Models
                     tableType: tableType,
                     setIdentity: true,
                     param: param ?? Rds.OutgoingMailsParamDefault(
-                        this, setDefault: true, otherInitValue: otherInitValue))
+                        context: context,
+                        outgoingMailModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue))
             });
             return statements;
         }
 
         public Error.Types Update(
+            Context context,
+            SiteSettings ss,
             RdsUser rdsUser = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
@@ -274,23 +287,30 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
-            if (setBySession) SetBySession();
+            if (setBySession) SetBySession(context: context);
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            UpdateStatements(statements, timestamp, param, otherInitValue, additionalStatements);
+            UpdateStatements(
+                context: context,
+                ss: ss,
+                statements: statements,
+                timestamp: timestamp,
+                param: param,
+                otherInitValue: otherInitValue,
+                additionalStatements: additionalStatements);
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             if (response.Count == 0) return Error.Types.UpdateConflicts;
-            if (get) Get();
-            var siteModel = new ItemModel(ReferenceId).GetSite();
-            var ss = SiteSettingsUtilities.Get(siteModel, siteModel.SiteId);
-            Libraries.Search.Indexes.Create(ss, ReferenceId, force: true);
+            if (get) Get(context: context);
+            Libraries.Search.Indexes.Create(context, ss, ReferenceId, force: true);
             return Error.Types.None;
         }
 
         private List<SqlStatement> UpdateStatements(
+            Context context,
+            SiteSettings ss,
             List<SqlStatement> statements,
             DateTime timestamp,
             SqlParamCollection param,
@@ -308,7 +328,8 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.UpdateOutgoingMails(
                     where: where,
-                    param: param ?? Rds.OutgoingMailsParamDefault(this, otherInitValue: otherInitValue),
+                    param: param ?? Rds.OutgoingMailsParamDefault(
+                        context: context, outgoingMailModel: this, otherInitValue: otherInitValue),
                     countRecord: true)
             });
             if (additionalStatements?.Any() == true)
@@ -349,28 +370,30 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types UpdateOrCreate(
+            Context context,
             RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
-            SetBySession();
+            SetBySession(context: context);
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertOutgoingMails(
                     where: where ?? Rds.OutgoingMailsWhereDefault(this),
-                    param: param ?? Rds.OutgoingMailsParamDefault(this, setDefault: true))
+                    param: param ?? Rds.OutgoingMailsParamDefault(
+                        context: context, outgoingMailModel: this, setDefault: true))
             };
             var response = Rds.ExecuteScalar_response(
-                rdsUser: rdsUser,
+                context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             OutgoingMailId = (response.Identity ?? OutgoingMailId).ToLong();
-            Get();
+            Get(context: context);
             return Error.Types.None;
         }
 
-        public Error.Types Delete()
+        public Error.Types Delete(Context context)
         {
             var statements = new List<SqlStatement>();
             var where = Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId);
@@ -379,15 +402,17 @@ namespace Implem.Pleasanter.Models
                 Rds.DeleteOutgoingMails(where: where)
             });
             var response = Rds.ExecuteScalar_response(
+                context: context,
                 transactional: true,
                 statements: statements.ToArray());
             return Error.Types.None;
         }
 
-        public Error.Types Restore(long outgoingMailId)
+        public Error.Types Restore(Context context, long outgoingMailId)
         {
             OutgoingMailId = outgoingMailId;
             Rds.ExecuteNonQuery(
+                context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -399,55 +424,15 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types PhysicalDelete(
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            Context context, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
+                context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteOutgoingMails(
                     tableType: tableType,
                     param: Rds.OutgoingMailsParam().OutgoingMailId(OutgoingMailId)));
             return Error.Types.None;
-        }
-
-        public void SetByForm()
-        {
-            Forms.Keys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    case "OutgoingMails_To": To = Forms.List(controlId).Join(";"); break;
-                    case "OutgoingMails_Cc": Cc = Forms.List(controlId).Join(";"); break;
-                    case "OutgoingMails_Bcc": Bcc = Forms.List(controlId).Join(";"); break;
-                    case "OutgoingMails_Title": Title = new Title(OutgoingMailId, Forms.Data(controlId)); break;
-                    case "OutgoingMails_Body": Body = Forms.Data(controlId).ToString(); break;
-                    case "OutgoingMails_SentTime": SentTime = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
-                    case "OutgoingMails_DestinationSearchRange": DestinationSearchRange = Forms.Data(controlId).ToString(); break;
-                    case "OutgoingMails_DestinationSearchText": DestinationSearchText = Forms.Data(controlId).ToString(); break;
-                    case "OutgoingMails_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(Forms.Data("Comments")); break;
-                    case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
-                    default:
-                        if (controlId.RegexExists("Comment[0-9]+"))
-                        {
-                            Comments.Update(
-                                controlId.Substring("Comment".Length).ToInt(),
-                                Forms.Data(controlId));
-                        }
-                        break;
-                }
-            });
-            if (Routes.Action() == "deletecomment")
-            {
-                DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
-            Forms.FileKeys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    default: break;
-                }
-            });
         }
 
         public void SetByModel(OutgoingMailModel outgoingMailModel)
@@ -475,21 +460,21 @@ namespace Implem.Pleasanter.Models
             Comments = outgoingMailModel.Comments;
         }
 
-        private void SetBySession()
+        private void SetBySession(Context context)
         {
         }
 
-        private void Set(DataTable dataTable)
+        private void Set(Context context, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(dataTable.Rows[0]); break;
+                case 1: Set(context, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -572,11 +557,11 @@ namespace Implem.Pleasanter.Models
                             SavedComments = Comments.ToJson();
                             break;
                         case "Creator":
-                            Creator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedCreator = Creator.Id;
                             break;
                         case "Updator":
-                            Updator = SiteInfo.User(dataRow[column.ColumnName].ToInt());
+                            Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
@@ -593,36 +578,38 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool Updated()
+        public bool Updated(Context context)
         {
             return
-                ReferenceType_Updated() ||
-                ReferenceId_Updated() ||
-                ReferenceVer_Updated() ||
-                OutgoingMailId_Updated() ||
-                Ver_Updated() ||
-                Host_Updated() ||
-                Port_Updated() ||
-                From_Updated() ||
-                To_Updated() ||
-                Cc_Updated() ||
-                Bcc_Updated() ||
-                Title_Updated() ||
-                Body_Updated() ||
-                SentTime_Updated() ||
-                Comments_Updated() ||
-                Creator_Updated() ||
-                Updator_Updated();
+                ReferenceType_Updated(context: context) ||
+                ReferenceId_Updated(context: context) ||
+                ReferenceVer_Updated(context: context) ||
+                OutgoingMailId_Updated(context: context) ||
+                Ver_Updated(context: context) ||
+                Host_Updated(context: context) ||
+                Port_Updated(context: context) ||
+                From_Updated(context: context) ||
+                To_Updated(context: context) ||
+                Cc_Updated(context: context) ||
+                Bcc_Updated(context: context) ||
+                Title_Updated(context: context) ||
+                Body_Updated(context: context) ||
+                SentTime_Updated(context: context) ||
+                Comments_Updated(context: context) ||
+                Creator_Updated(context: context) ||
+                Updator_Updated(context: context);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public OutgoingMailModel(string reference, long referenceId)
+        public OutgoingMailModel(Context context, string reference, long referenceId)
         {
             if (reference.ToLower() == "items")
             {
-                var itemModel = new ItemModel(referenceId);
+                var itemModel = new ItemModel(
+                    context: context,
+                    referenceId: referenceId);
                 ReferenceType = itemModel.ReferenceType;
             }
             else
@@ -631,8 +618,10 @@ namespace Implem.Pleasanter.Models
             }
             ReferenceId = referenceId;
             ReferenceVer = Forms.Int("Ver");
-            From = OutgoingMailUtilities.From();
-            SetByForm();
+            From = OutgoingMailUtilities.From(
+                context: context,
+                userId: context.UserId);
+            SetByForm(context: context);
             if (Libraries.Mails.Addresses.FixedFrom(From))
             {
                 Body += "\n\n{0}<{1}>".Params(From.DisplayName, From.Address);
@@ -642,18 +631,62 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string GetDestinations()
+        public void SetByForm(Context context)
         {
-            if (!Contract.Mail())
+            var ss = SiteSettingsUtilities.OutgoingMailsSiteSettings(context: context);
+            Forms.Keys().ForEach(controlId =>
+            {
+                switch (controlId)
+                {
+                    case "OutgoingMails_To": To = Forms.List(controlId).Join(";"); break;
+                    case "OutgoingMails_Cc": Cc = Forms.List(controlId).Join(";"); break;
+                    case "OutgoingMails_Bcc": Bcc = Forms.List(controlId).Join(";"); break;
+                    case "OutgoingMails_Title": Title = new Title(OutgoingMailId, Forms.Data(controlId)); break;
+                    case "OutgoingMails_Body": Body = Forms.Data(controlId).ToString(); break;
+                    case "OutgoingMails_SentTime": SentTime = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
+                    case "OutgoingMails_DestinationSearchRange": DestinationSearchRange = Forms.Data(controlId).ToString(); break;
+                    case "OutgoingMails_DestinationSearchText": DestinationSearchText = Forms.Data(controlId).ToString(); break;
+                    case "OutgoingMails_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
+                    case "Comments":
+                        Comments.Prepend(
+                            context: context,
+                            ss: new SiteSettings(),
+                            body: Forms.Data("Comments"));
+                        break;
+                    case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
+                    default:
+                        if (controlId.RegexExists("Comment[0-9]+"))
+                        {
+                            Comments.Update(
+                                context: context,
+                                ss: ss,
+                                commentId: controlId.Substring("Comment".Length).ToInt(),
+                                body: Forms.Data(controlId));
+                        }
+                        break;
+                }
+            });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string GetDestinations(Context context)
+        {
+            var siteModel = new ItemModel(
+                context: context,
+                referenceId: ReferenceId).GetSite(context: context);
+            var ss = siteModel.SitesSiteSettings(context: context, referenceId: ReferenceId);
+            if (!Contract.Mail(context: context))
             {
                 return Error.Types.Restricted.MessageJson();
             }
-            var siteModel = new ItemModel(ReferenceId).GetSite();
-            var ss = siteModel.SitesSiteSettings(ReferenceId);
             return new OutgoingMailsResponseCollection(this)
                 .Html("#OutgoingMails_MailAddresses",
                     new HtmlBuilder().SelectableItems(
                         listItemCollection: OutgoingMailUtilities.Destinations(
+                            context: context,
+                            ss: ss,
                             referenceId: siteModel.InheritPermission,
                             addressBook: OutgoingMailUtilities.AddressBook(ss),
                             searchRange: DestinationSearchRange,
@@ -664,9 +697,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types Send(List<SqlStatement> additionalStatements = null)
+        public Error.Types Send(
+            Context context, SiteSettings ss, List<SqlStatement> additionalStatements = null)
         {
-            var error = Create();
+            var error = Create(context: context, ss: ss);
             if (error.Has()) return error;
             Host = Parameters.Mail.SmtpHost;
             Port = Parameters.Mail.SmtpPort;
@@ -676,7 +710,7 @@ namespace Implem.Pleasanter.Models
                 default: SendBySmtp(); break;
             }
             SentTime = new Time(DateTime.Now);
-            error = Update(additionalStatements: additionalStatements);
+            error = Update(context: context, ss: ss, additionalStatements: additionalStatements);
             return error.Has()
                 ? error
                 : Error.Types.None;

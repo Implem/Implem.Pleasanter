@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
@@ -12,40 +13,44 @@ namespace Implem.Pleasanter.Libraries.Models
 {
     public static class Summaries
     {
-        public static void Synchronize(SiteSettings ss)
+        public static void Synchronize(Context context, SiteSettings ss)
         {
-            ss.Summaries?.ForEach(summary => Synchronize(ss, summary));
+            ss.Summaries?.ForEach(summary => Synchronize(
+                context: context, ss: ss, summary: summary));
         }
 
-        public static void Synchronize(SiteSettings ss, int id)
+        public static void Synchronize(Context context, SiteSettings ss, int id)
         {
             var summary = ss.Summaries?.Get(id);
-            Synchronize(ss, summary);
+            Synchronize(context: context, ss: ss, summary: summary);
         }
 
-        public static void Synchronize(SiteSettings ss, Summary summary)
+        public static void Synchronize(Context context, SiteSettings ss, Summary summary)
         {
-            var destinationSs = SiteSettingsUtilities.Get(summary?.SiteId ?? 0);
+            var destinationSs = SiteSettingsUtilities.Get(
+                context: context, siteId: summary?.SiteId ?? 0);
             if (destinationSs != null && summary != null)
             {
                 Synchronize(
-                    ss,
-                    destinationSs,
-                    summary.SiteId,
-                    summary.DestinationReferenceType,
-                    summary.DestinationColumn,
-                    destinationSs.Views?.Get(summary.DestinationCondition),
-                    summary.SetZeroWhenOutOfCondition == true,
-                    ss.SiteId,
-                    ss.ReferenceType,
-                    summary.LinkColumn,
-                    summary.Type,
-                    summary.SourceColumn,
-                    ss.Views?.Get(summary.SourceCondition));
+                    context: context,
+                    ss: ss,
+                    destinationSs: destinationSs,
+                    destinationSiteId: summary.SiteId,
+                    destinationReferenceType: summary.DestinationReferenceType,
+                    destinationColumn: summary.DestinationColumn,
+                    destinationCondition: destinationSs.Views?.Get(summary.DestinationCondition),
+                    setZeroWhenOutOfCondition: summary.SetZeroWhenOutOfCondition == true,
+                    sourceSiteId: ss.SiteId,
+                    sourceReferenceType: ss.ReferenceType,
+                    linkColumn: summary.LinkColumn,
+                    type: summary.Type,
+                    sourceColumn: summary.SourceColumn,
+                    sourceCondition: ss.Views?.Get(summary.SourceCondition));
             }
         }
 
         public static string Synchronize(
+            Context context,
             SiteSettings ss,
             SiteSettings destinationSs,
             long destinationSiteId,
@@ -65,41 +70,44 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 case "Issues":
                     SynchronizeIssues(
-                        ss,
-                        destinationSs,
-                        destinationSiteId,
-                        destinationColumn,
-                        destinationCondition,
-                        setZeroWhenOutOfCondition,
-                        sourceSiteId,
-                        sourceReferenceType,
-                        linkColumn,
-                        type,
-                        sourceColumn,
-                        sourceCondition,
-                        id);
+                        context: context,
+                        ss: ss,
+                        destinationSs: destinationSs,
+                        destinationSiteId: destinationSiteId,
+                        destinationColumn: destinationColumn,
+                        destinationCondition: destinationCondition,
+                        setZeroWhenOutOfCondition: setZeroWhenOutOfCondition,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition,
+                        issueId: id);
                     break;
                 case "Results":
                     SynchronizeResults(
-                        ss,
-                        destinationSs,
-                        destinationSiteId,
-                        destinationColumn,
-                        destinationCondition,
-                        setZeroWhenOutOfCondition,
-                        sourceSiteId,
-                        sourceReferenceType,
-                        linkColumn,
-                        type,
-                        sourceColumn,
-                        sourceCondition,
-                        id);
+                        context: context,
+                        ss: ss,
+                        destinationSs: destinationSs,
+                        destinationSiteId: destinationSiteId,
+                        destinationColumn: destinationColumn,
+                        destinationCondition: destinationCondition,
+                        setZeroWhenOutOfCondition: setZeroWhenOutOfCondition,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition,
+                        resultId: id);
                     break;
             }
             return Messages.ResponseSynchronizationCompleted().ToJson();
         }
 
         private static void SynchronizeIssues(
+            Context context,
             SiteSettings ss,
             SiteSettings destinationSs,
             long destinationSiteId,
@@ -114,25 +122,35 @@ namespace Implem.Pleasanter.Libraries.Models
             View sourceCondition,
             long issueId = 0)
         {
-            if (destinationSs.CanUpdate())
+            if (context.CanUpdate(ss: destinationSs))
             {
                 var where = Rds.IssuesWhere()
                     .SiteId(destinationSiteId)
                     .IssueId(issueId, _using: issueId != 0);
                 var issueCollection = new IssueCollection(
-                    ss: destinationSs, where: Where(destinationSs, null, where));
+                    context: context,
+                    ss: destinationSs,
+                    where: Where(
+                        context: context, ss: destinationSs, view: null, where: where));
                 var matchingConditions = destinationCondition != null
-                    ? Rds.ExecuteTable(statements: Rds.SelectIssues(
-                        column: Rds.IssuesColumn().IssueId(),
-                        where: Where(destinationSs, destinationCondition, where)))
-                            .AsEnumerable()
-                            .Select(o => o["IssueId"].ToLong())
-                            .ToList()
+                    ? Rds.ExecuteTable(
+                        context: context,
+                        statements: Rds.SelectIssues(
+                            column: Rds.IssuesColumn().IssueId(),
+                            where: Where(
+                                context: context,
+                                ss: destinationSs,
+                                view: destinationCondition,
+                                where: where)))
+                                    .AsEnumerable()
+                                    .Select(dataRow => dataRow.Long("IssueId"))
+                                    .ToList()
                     : issueCollection
                         .Select(o => o.IssueId)
                         .ToList();
                 var data = issueCollection.Any()
                     ? Data(
+                        context: context,
                         ss: ss,
                         destinationColumn: destinationColumn,
                         destinations: issueCollection.Select(o => o.IssueId),
@@ -156,11 +174,13 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         Set(issueModel, destinationColumn, 0);
                     }
-                    if (issueModel.Updated())
+                    if (issueModel.Updated(context: context))
                     {
-                        issueModel.SetByFormula(destinationSs);
-                        issueModel.VerUp = Versions.MustVerUp(issueModel);
+                        issueModel.SetByFormula(context: context, ss: destinationSs);
+                        issueModel.VerUp = Versions.MustVerUp(
+                            context: context, baseModel: issueModel);
                         issueModel.Update(
+                            context: context,
                             ss: destinationSs,
                             synchronizeSummary: false,
                             get: false);
@@ -170,6 +190,7 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static EnumerableRowCollection<DataRow> IssuesDataRows(
+            Context context,
             SiteSettings ss,
             string destinationColumn,
             IEnumerable<long> destinations,
@@ -182,249 +203,330 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             switch (destinationColumn)
             {
-                case "WorkValue": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumA": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumB": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumC": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumD": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumE": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumF": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumG": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumH": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumI": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumJ": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumK": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumL": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumM": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumN": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumO": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumP": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumQ": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumR": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumS": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumT": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumU": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumV": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumW": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumX": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumY": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumZ": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
+                case "WorkValue": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumA": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumB": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumC": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumD": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumE": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumF": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumG": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumH": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumI": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumJ": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumK": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumL": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumM": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumN": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumO": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumP": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumQ": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumR": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumS": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumT": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumU": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumV": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumW": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumX": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumY": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumZ": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
                 default: return null;
             }
         }
@@ -501,6 +603,7 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static void SynchronizeResults(
+            Context context,
             SiteSettings ss,
             SiteSettings destinationSs,
             long destinationSiteId,
@@ -515,25 +618,35 @@ namespace Implem.Pleasanter.Libraries.Models
             View sourceCondition,
             long resultId = 0)
         {
-            if (destinationSs.CanUpdate())
+            if (context.CanUpdate(ss: destinationSs))
             {
                 var where = Rds.ResultsWhere()
                     .SiteId(destinationSiteId)
                     .ResultId(resultId, _using: resultId != 0);
                 var resultCollection = new ResultCollection(
-                    ss: destinationSs, where: Where(destinationSs, null, where));
+                    context: context,
+                    ss: destinationSs,
+                    where: Where(
+                        context: context, ss: destinationSs, view: null, where: where));
                 var matchingConditions = destinationCondition != null
-                    ? Rds.ExecuteTable(statements: Rds.SelectResults(
-                        column: Rds.ResultsColumn().ResultId(),
-                        where: Where(destinationSs, destinationCondition, where)))
-                            .AsEnumerable()
-                            .Select(o => o["ResultId"].ToLong())
-                            .ToList()
+                    ? Rds.ExecuteTable(
+                        context: context,
+                        statements: Rds.SelectResults(
+                            column: Rds.ResultsColumn().ResultId(),
+                            where: Where(
+                                context: context,
+                                ss: destinationSs,
+                                view: destinationCondition,
+                                where: where)))
+                                    .AsEnumerable()
+                                    .Select(dataRow => dataRow.Long("ResultId"))
+                                    .ToList()
                     : resultCollection
                         .Select(o => o.ResultId)
                         .ToList();
                 var data = resultCollection.Any()
                     ? Data(
+                        context: context,
                         ss: ss,
                         destinationColumn: destinationColumn,
                         destinations: resultCollection.Select(o => o.ResultId),
@@ -557,11 +670,13 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         Set(resultModel, destinationColumn, 0);
                     }
-                    if (resultModel.Updated())
+                    if (resultModel.Updated(context: context))
                     {
-                        resultModel.SetByFormula(destinationSs);
-                        resultModel.VerUp = Versions.MustVerUp(resultModel);
+                        resultModel.SetByFormula(context: context, ss: destinationSs);
+                        resultModel.VerUp = Versions.MustVerUp(
+                            context: context, baseModel: resultModel);
                         resultModel.Update(
+                            context: context,
                             ss: destinationSs,
                             synchronizeSummary: false,
                             get: false);
@@ -571,6 +686,7 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static EnumerableRowCollection<DataRow> ResultsDataRows(
+            Context context,
             SiteSettings ss,
             string destinationColumn,
             IEnumerable<long> destinations,
@@ -583,240 +699,318 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             switch (destinationColumn)
             {
-                case "NumA": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumB": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumC": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumD": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumE": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumF": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumG": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumH": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumI": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumJ": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumK": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumL": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumM": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumN": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumO": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumP": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumQ": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumR": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumS": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumT": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumU": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumV": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumW": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumX": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumY": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
-                case "NumZ": return Rds.ExecuteTable(statements: Select(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    type,
-                    sourceColumn,
-                    sourceCondition)).AsEnumerable();
+                case "NumA": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumB": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumC": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumD": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumE": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumF": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumG": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumH": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumI": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumJ": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumK": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumL": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumM": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumN": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumO": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumP": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumQ": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumR": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumS": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumT": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumU": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumV": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumW": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumX": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumY": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
+                case "NumZ": return Rds.ExecuteTable(
+                    context: context,
+                    statements: Select(
+                        context: context,
+                        ss: ss,
+                        destinations: destinations,
+                        sourceSiteId: sourceSiteId,
+                        sourceReferenceType: sourceReferenceType,
+                        linkColumn: linkColumn,
+                        type: type,
+                        sourceColumn: sourceColumn,
+                        sourceCondition: sourceCondition)).AsEnumerable();
                 default: return null;
             }
         }
@@ -891,6 +1085,7 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static Dictionary<long, decimal> Data(
+            Context context,
             SiteSettings ss,
             string destinationColumn,
             IEnumerable<long> destinations,
@@ -905,6 +1100,7 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 case "Issues":
                     return IssuesDataRows(
+                        context: context,
                         ss: ss,
                         destinationColumn: destinationColumn,
                         destinations: destinations,
@@ -919,6 +1115,7 @@ namespace Implem.Pleasanter.Libraries.Models
                                 o => o["Value"].ToDecimal());
                 case "Results":
                     return ResultsDataRows(
+                        context: context,
                         ss: ss,
                         destinationColumn: destinationColumn,
                         destinations: destinations,
@@ -936,6 +1133,7 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static SqlSelect Select(
+            Context context,
             SiteSettings ss,
             IEnumerable<long> destinations,
             long sourceSiteId,
@@ -948,49 +1146,55 @@ namespace Implem.Pleasanter.Libraries.Models
             switch (type)
             {
                 case "Count": return SelectCount(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    sourceCondition);
+                    context: context,
+                    ss: ss,
+                    destinations: destinations,
+                    sourceSiteId: sourceSiteId,
+                    sourceReferenceType: sourceReferenceType,
+                    linkColumn: linkColumn,
+                    sourceCondition: sourceCondition);
                 case "Total": return SelectTotal(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    sourceColumn,
-                    sourceCondition);
+                    context: context,
+                    ss: ss,
+                    destinations: destinations,
+                    sourceSiteId: sourceSiteId,
+                    sourceReferenceType: sourceReferenceType,
+                    linkColumn: linkColumn,
+                    sourceColumn: sourceColumn,
+                    sourceCondition: sourceCondition);
                 case "Average": return SelectAverage(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    sourceColumn,
-                    sourceCondition);
+                    context: context,
+                    ss: ss,
+                    destinations: destinations,
+                    sourceSiteId: sourceSiteId,
+                    sourceReferenceType: sourceReferenceType,
+                    linkColumn: linkColumn,
+                    sourceColumn: sourceColumn,
+                    sourceCondition: sourceCondition);
                 case "Min": return SelectMin(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    sourceColumn,
-                    sourceCondition);
+                    context: context,
+                    ss: ss,
+                    destinations: destinations,
+                    sourceSiteId: sourceSiteId,
+                    sourceReferenceType: sourceReferenceType,
+                    linkColumn: linkColumn,
+                    sourceColumn: sourceColumn,
+                    sourceCondition: sourceCondition);
                 case "Max": return SelectMax(
-                    ss,
-                    destinations,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    linkColumn,
-                    sourceColumn,
-                    sourceCondition);
+                    context: context,
+                    ss: ss,
+                    destinations: destinations,
+                    sourceSiteId: sourceSiteId,
+                    sourceReferenceType: sourceReferenceType,
+                    linkColumn: linkColumn,
+                    sourceColumn: sourceColumn,
+                    sourceCondition: sourceCondition);
                 default: return null;
             }
         }
 
         private static SqlSelect SelectCount(
+            Context context,
             SiteSettings ss,
             IEnumerable<long> destinations,
             long sourceSiteId,
@@ -1005,24 +1209,27 @@ namespace Implem.Pleasanter.Libraries.Models
                         .IssuesColumn(linkColumn, _as: "Id")
                         .IssuesCount(_as: "Value"),
                     where: Where(
-                        ss,
-                        sourceCondition,
-                        IssuesWhere(destinations, sourceSiteId, linkColumn)),
+                        context: context,
+                        ss: ss,
+                        view: sourceCondition,
+                        where: IssuesWhere(destinations, sourceSiteId, linkColumn)),
                     groupBy: Rds.IssuesGroupBy().IssuesGroupBy(linkColumn));
                 case "Results": return Rds.SelectResults(
                     column: Rds.ResultsColumn()
                         .ResultsColumn(linkColumn, _as: "Id")
                         .ResultsCount(_as: "Value"),
                     where: Where(
-                        ss,
-                        sourceCondition,
-                        ResultsWhere(destinations, sourceSiteId, linkColumn)),
+                        context: context,
+                        ss: ss,
+                        view: sourceCondition,
+                        where: ResultsWhere(destinations, sourceSiteId, linkColumn)),
                     groupBy: Rds.ResultsGroupBy().ResultsGroupBy(linkColumn));
                 default: return null;
             }
         }
 
         private static SqlSelect SelectTotal(
+            Context context,
             SiteSettings ss,
             IEnumerable<long> destinations,
             long sourceSiteId,
@@ -1036,16 +1243,18 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "Issues": return Rds.SelectIssues(
                     column: IssuesTotalColumn(linkColumn, sourceColumn),
                     where: Where(
-                        ss,
-                        sourceCondition,
-                        IssuesWhere(destinations, sourceSiteId, linkColumn)),
+                        context: context,
+                        ss: ss,
+                        view: sourceCondition,
+                        where: IssuesWhere(destinations, sourceSiteId, linkColumn)),
                     groupBy: Rds.IssuesGroupBy().IssuesGroupBy(linkColumn));
                 case "Results": return Rds.SelectResults(
                     column: ResultsTotalColumn(linkColumn, sourceColumn),
                     where: Where(
-                        ss,
-                        sourceCondition,
-                        ResultsWhere(destinations, sourceSiteId, linkColumn)),
+                        context: context,
+                        ss: ss,
+                        view: sourceCondition,
+                        where: ResultsWhere(destinations, sourceSiteId, linkColumn)),
                     groupBy: Rds.ResultsGroupBy().ResultsGroupBy(linkColumn));
                 default: return null;
             }
@@ -1234,6 +1443,7 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static SqlSelect SelectAverage(
+            Context context,
             SiteSettings ss,
             IEnumerable<long> destinations,
             long sourceSiteId,
@@ -1247,22 +1457,25 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "Issues": return Rds.SelectIssues(
                     column: IssuesAverageColumn(linkColumn, sourceColumn),
                     where: Where(
-                        ss,
-                        sourceCondition,
-                        IssuesWhere(destinations, sourceSiteId, linkColumn)),
+                        context: context,
+                        ss: ss,
+                        view: sourceCondition,
+                        where: IssuesWhere(destinations, sourceSiteId, linkColumn)),
                     groupBy: Rds.IssuesGroupBy().IssuesGroupBy(linkColumn));
                 case "Results": return Rds.SelectResults(
                     column: ResultsAverageColumn(linkColumn, sourceColumn),
                     where: Where(
-                        ss,
-                        sourceCondition,
-                        ResultsWhere(destinations, sourceSiteId, linkColumn)),
+                        context: context,
+                        ss: ss,
+                        view: sourceCondition,
+                        where: ResultsWhere(destinations, sourceSiteId, linkColumn)),
                     groupBy: Rds.ResultsGroupBy().ResultsGroupBy(linkColumn));
                 default: return null;
             }
         }
 
         private static SqlSelect SelectMin(
+            Context context,
             SiteSettings ss,
             IEnumerable<long> destinations,
             long sourceSiteId,
@@ -1276,16 +1489,18 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "Issues": return Rds.SelectIssues(
                     column: IssuesMinColumn(linkColumn, sourceColumn),
                     where: Where(
-                        ss,
-                        sourceCondition,
-                        IssuesWhere(destinations, sourceSiteId, linkColumn)),
+                        context: context,
+                        ss: ss,
+                        view: sourceCondition,
+                        where: IssuesWhere(destinations, sourceSiteId, linkColumn)),
                     groupBy: Rds.IssuesGroupBy().IssuesGroupBy(linkColumn));
                 case "Results": return Rds.SelectResults(
                     column: ResultsMinColumn(linkColumn, sourceColumn),
                     where: Where(
-                        ss,
-                        sourceCondition,
-                        ResultsWhere(destinations, sourceSiteId, linkColumn)),
+                        context: context,
+                        ss: ss,
+                        view: sourceCondition,
+                        where: ResultsWhere(destinations, sourceSiteId, linkColumn)),
                     groupBy: Rds.ResultsGroupBy().ResultsGroupBy(linkColumn));
                 default: return null;
             }
@@ -1656,6 +1871,7 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static SqlSelect SelectMax(
+            Context context,
             SiteSettings ss,
             IEnumerable<long> destinations,
             long sourceSiteId,
@@ -1669,16 +1885,18 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "Issues": return Rds.SelectIssues(
                     column: IssuesMaxColumn(linkColumn, sourceColumn),
                     where: Where(
-                        ss,
-                        sourceCondition,
-                        IssuesWhere(destinations, sourceSiteId, linkColumn)),
+                        context: context,
+                        ss: ss,
+                        view: sourceCondition,
+                        where: IssuesWhere(destinations, sourceSiteId, linkColumn)),
                     groupBy: Rds.IssuesGroupBy().IssuesGroupBy(linkColumn));
                 case "Results": return Rds.SelectResults(
                     column: ResultsMaxColumn(linkColumn, sourceColumn),
                     where: Where(
-                        ss,
-                        sourceCondition,
-                        ResultsWhere(destinations, sourceSiteId, linkColumn)),
+                        context: context,
+                        ss: ss,
+                        view: sourceCondition,
+                        where: ResultsWhere(destinations, sourceSiteId, linkColumn)),
                     groupBy: Rds.ResultsGroupBy().ResultsGroupBy(linkColumn));
                 default: return null;
             }
@@ -2249,10 +2467,13 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static SqlWhereCollection Where(
-            SiteSettings ss, View view, SqlWhereCollection where)
+            Context context,
+            SiteSettings ss,
+            View view,
+            SqlWhereCollection where)
         {
             return view != null
-                ? view.Where(ss: ss, where: where)
+                ? view.Where(context: context, ss: ss, where: where)
                 : where;
         }
     }
