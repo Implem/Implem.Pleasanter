@@ -110,7 +110,7 @@ namespace Implem.Pleasanter.Models
             TenantId = context.TenantId;
             GroupId = groupId;
             Get(context: context, ss: ss);
-            if (clearSessions) ClearSessions();
+            if (clearSessions) ClearSessions(context: context);
             if (setByForm) SetByForm(context: context, ss: ss);
             if (setByApi) SetByApi(context: context, ss: ss);
             SwitchTargets = switchTargets;
@@ -135,7 +135,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public void ClearSessions()
+        public void ClearSessions(Context context)
         {
         }
 
@@ -458,7 +458,7 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            if (Routes.Action() == "deletecomment")
+            if (context.Action == "deletecomment")
             {
                 DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);

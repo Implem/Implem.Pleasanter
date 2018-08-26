@@ -86,38 +86,47 @@ namespace Implem.Pleasanter.Models
 
         public Title Session_Title(Context context)
         {
-            return this.PageSession("Title") != null
-                ? this.PageSession("Title") as Title
+            return this.PageSession(context: context, name: "Title") != null
+                ? this.PageSession(context: context, name: "Title") as Title
                 : Title;
         }
 
-        public void Session_Title(object value)
+        public void Session_Title(Context context, object value)
         {
-            this.PageSession("Title", value);
+            this.PageSession(
+                context: context,
+                name: "Title",
+                value: value);
         }
 
         public bool Session_AddHeader(Context context)
         {
-            return this.PageSession("AddHeader") != null
-                ? this.PageSession("AddHeader").ToBool()
+            return this.PageSession(context: context, name: "AddHeader") != null
+                ? this.PageSession(context: context, name: "AddHeader").ToBool()
                 : AddHeader;
         }
 
-        public void Session_AddHeader(object value)
+        public void Session_AddHeader(Context context, object value)
         {
-            this.PageSession("AddHeader", value);
+            this.PageSession(
+                context: context,
+                name: "AddHeader",
+                value: value);
         }
 
         public ExportColumns Session_ExportColumns(Context context)
         {
-            return this.PageSession("ExportColumns") != null
-                ? this.PageSession("ExportColumns")?.ToString().Deserialize<ExportColumns>() ?? new ExportColumns(ReferenceType)
+            return this.PageSession(context: context, name: "ExportColumns") != null
+                ? this.PageSession(context: context, name: "ExportColumns")?.ToString().Deserialize<ExportColumns>() ?? new ExportColumns(ReferenceType)
                 : ExportColumns;
         }
 
-        public void Session_ExportColumns(object value)
+        public void Session_ExportColumns(Context context, object value)
         {
-            this.PageSession("ExportColumns", value);
+            this.PageSession(
+                context: context,
+                name: "ExportColumns",
+                value: value);
         }
 
         public ExportSettingModel()
@@ -148,7 +157,7 @@ namespace Implem.Pleasanter.Models
             Context = context;
             ExportSettingId = exportSettingId;
             Get(context: context);
-            if (clearSessions) ClearSessions();
+            if (clearSessions) ClearSessions(context: context);
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -169,11 +178,11 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public void ClearSessions()
+        public void ClearSessions(Context context)
         {
-            Session_Title(null);
-            Session_AddHeader(null);
-            Session_ExportColumns(null);
+            Session_Title(context: context, value: null);
+            Session_AddHeader(context: context, value: null);
+            Session_ExportColumns(context: context, value: null);
         }
 
         public ExportSettingModel Get(

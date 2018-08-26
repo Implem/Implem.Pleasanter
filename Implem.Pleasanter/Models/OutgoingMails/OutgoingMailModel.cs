@@ -186,7 +186,7 @@ namespace Implem.Pleasanter.Models
             Context = context;
             OutgoingMailId = outgoingMailId;
             Get(context: context);
-            if (clearSessions) ClearSessions();
+            if (clearSessions) ClearSessions(context: context);
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -207,7 +207,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public void ClearSessions()
+        public void ClearSessions(Context context)
         {
         }
 

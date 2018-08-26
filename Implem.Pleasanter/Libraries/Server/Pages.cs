@@ -6,14 +6,14 @@ namespace Implem.Pleasanter.Libraries.Server
 {
     public class Pages
     {
-        public static string Key(BaseModel baseModel, string name)
+        public static string Key(Context context, BaseModel baseModel, string name)
         {
-            return Key() + "_" + name.ToLower();
+            return Key(context: context) + "_" + name.ToLower();
         }
 
-        public static string Key()
+        public static string Key(Context context)
         {
-            var callerOfMethod = Routes.Action();
+            var callerOfMethod = context.Action;
             if (Sessions.Created())
             {
                 var path = Url.AbsolutePath().ToLower()

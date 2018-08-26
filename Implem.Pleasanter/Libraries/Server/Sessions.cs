@@ -145,14 +145,21 @@ namespace Implem.Pleasanter.Libraries.Server
             return message;
         }
 
-        public static object PageSession(this BaseModel baseModel, string name)
+        public static object PageSession(this BaseModel baseModel, Context context, string name)
         {
-            return HttpContext.Current.Session[Pages.Key(baseModel, name)];
+            return HttpContext.Current.Session[Pages.Key(
+                context: context,
+                baseModel: baseModel,
+                name: name)];
         }
 
-        public static void PageSession(this BaseModel baseModel, string name, object value)
+        public static void PageSession(
+            this BaseModel baseModel, Context context, string name, object value)
         {
-            HttpContext.Current.Session[Pages.Key(baseModel, name)] = value;
+            HttpContext.Current.Session[Pages.Key(
+                context: context,
+                baseModel: baseModel,
+                name: name)] = value;
         }
     }
 }

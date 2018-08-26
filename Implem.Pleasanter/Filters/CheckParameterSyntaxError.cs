@@ -9,7 +9,8 @@ namespace Implem.Pleasanter.Filters
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            if (Routes.Controller() != "errors" &&  Parameters.SyntaxErrors?.Any() == true)
+            var context = new Context();
+            if (context.Controller != "errors" &&  Parameters.SyntaxErrors?.Any() == true)
             {
                 filterContext.Result = new RedirectResult(Locations.ParameterSyntaxError());
             }

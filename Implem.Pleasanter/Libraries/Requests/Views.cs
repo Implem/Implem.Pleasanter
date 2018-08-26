@@ -12,7 +12,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 ? QueryStrings.Data("View")?.Deserialize<View>()
                 : null;
             var key = "View" + (ss.SiteId == 0
-                ? Pages.Key()
+                ? Pages.Key(context: context)
                 : ss.SiteId.ToString());
             if (view != null)
             {

@@ -167,14 +167,17 @@ namespace Implem.Pleasanter.Models
 
         public BinarySettings Session_BinarySettings(Context context)
         {
-            return this.PageSession("BinarySettings") != null
-                ? this.PageSession("BinarySettings")?.ToString().Deserialize<BinarySettings>() ?? new BinarySettings()
+            return this.PageSession(context: context, name: "BinarySettings") != null
+                ? this.PageSession(context: context, name: "BinarySettings")?.ToString().Deserialize<BinarySettings>() ?? new BinarySettings()
                 : BinarySettings;
         }
 
-        public void Session_BinarySettings(object value)
+        public void Session_BinarySettings(Context context, object value)
         {
-            this.PageSession("BinarySettings", value);
+            this.PageSession(
+                context: context,
+                name: "BinarySettings",
+                value: value);
         }
 
         public BinaryModel()
@@ -207,7 +210,7 @@ namespace Implem.Pleasanter.Models
             TenantId = context.TenantId;
             BinaryId = binaryId;
             Get(context: context);
-            if (clearSessions) ClearSessions();
+            if (clearSessions) ClearSessions(context: context);
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -229,9 +232,9 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public void ClearSessions()
+        public void ClearSessions(Context context)
         {
-            Session_BinarySettings(null);
+            Session_BinarySettings(context: context, value: null);
         }
 
         public BinaryModel Get(
