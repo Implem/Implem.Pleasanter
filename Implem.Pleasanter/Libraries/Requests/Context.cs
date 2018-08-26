@@ -53,14 +53,31 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Controller = GetController();
                 Action = GetAction();
                 Id = GetId();
+                SetTenantCaches();
             }
         }
 
-        public Context(int tenantId, int deptId, int userId)
+        public Context(int tenantId, int deptId = 0, int userId = 0)
         {
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
+            SetTenantCaches();
+        }
+
+        private void SetTenantCaches()
+        {
+            if (!SiteInfo.TenantCaches.ContainsKey(TenantId))
+            {
+                try
+                {
+                    SiteInfo.TenantCaches.Add(TenantId, new TenantCache(context: this));
+                    SiteInfo.Reflesh(context: this);
+                }
+                catch (Exception)
+                {
+                }
+            }
         }
 
         private static string GetController()

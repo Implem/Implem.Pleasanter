@@ -5,7 +5,6 @@ namespace Implem.Pleasanter.Libraries.Server
 {
     public class TenantCache
     {
-        public Context Context;
         public int TenantId;
         public SiteMenu SiteMenu;
         public Dictionary<int, Dept> DeptHash;
@@ -15,14 +14,13 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public TenantCache(Context context)
         {
-            Context = context;
             TenantId = context.TenantId;
             UpdateMonitor = new UpdateMonitor(context: context);
         }
 
-        public UpdateMonitor GetUpdateMonitor()
+        public UpdateMonitor GetUpdateMonitor(Context context)
         {
-            UpdateMonitor.Monitor(context: Context);
+            UpdateMonitor.Monitor(context: context);
             return UpdateMonitor;
         }
     }
