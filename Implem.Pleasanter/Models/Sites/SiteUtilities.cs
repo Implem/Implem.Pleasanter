@@ -1041,11 +1041,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Templates(Context context, SiteModel siteModel)
+        public static string Templates(Context context, long parentId, long inheritPermission)
         {
-            var ss = siteModel.SitesSiteSettings(
-                context: context, referenceId: siteModel.ParentId);
-            if (siteModel.ParentId == 0)
+            var siteModel = new SiteModel(
+                context: context,
+                parentId: parentId,
+                inheritPermission: inheritPermission);
+            var ss = siteModel.SitesSiteSettings(context: context, referenceId: parentId);
+            if (Contract.SitesLimit(context: context))
+            {
+                return Error.Types.SitesLimit.MessageJson();
+            }
+            if (parentId == 0)
             {
                 ss.PermissionType = SiteTopPermission();
             }
@@ -1346,11 +1353,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string CreateByTemplate(Context context, SiteModel siteModel)
+        public static string CreateByTemplate(Context context, long parentId, long inheritPermission)
         {
-            var ss = siteModel.SitesSiteSettings(
-                context: context, referenceId: siteModel.ParentId);
-            if (siteModel.ParentId == 0)
+            var siteModel = new SiteModel(
+                context: context,
+                parentId: parentId,
+                inheritPermission: inheritPermission);
+            var ss = siteModel.SitesSiteSettings(context: context, referenceId: parentId);
+            if (Contract.SitesLimit(context: context))
+            {
+                return Error.Types.SitesLimit.MessageJson();
+            }
+            if (parentId == 0)
             {
                 ss.PermissionType = SiteTopPermission();
             }
@@ -1378,19 +1392,18 @@ namespace Implem.Pleasanter.Models
             }
             var templateSs = templateDefinition.SiteSettingsTemplate
                 .Deserialize<SiteSettings>();
-            if (templateSs != null)
+            if (templateSs == null)
             {
-                new SiteModel()
-                {
-                    ReferenceType = templateSs.ReferenceType,
-                    ParentId = siteModel.SiteId,
-                    InheritPermission = siteModel.InheritPermission,
-                    Title = new Title(Forms.Data("SiteTitle")),
-                    Body = templateDefinition.Body,
-                    SiteSettings = templateSs
-                }.Create(context: context, otherInitValue: true);
+                return Error.Types.NotFound.MessageJson();
             }
-            return SiteMenuResponse(context: context, siteModel: siteModel);
+            siteModel.ReferenceType = templateSs.ReferenceType;
+            siteModel.Title = new Title(Forms.Data("SiteTitle"));
+            siteModel.Body = templateDefinition.Body;
+            siteModel.SiteSettings = templateSs;
+            siteModel.Create(context: context, otherInitValue: true);
+            return SiteMenuResponse(
+                context: context,
+                siteModel: new SiteModel(context: context, siteId: parentId));
         }
 
         /// <summary>
