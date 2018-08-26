@@ -54,7 +54,7 @@ namespace Implem.Pleasanter.Libraries.Server
                     tenantCache.DeptHash = dataSet.Tables["Depts"]
                         .AsEnumerable()
                         .ToDictionary(
-                            dataRow => dataRow["DeptId"].ToInt(),
+                            dataRow => dataRow.Int("DeptId"),
                             dataRow => new Dept(dataRow));
                 }
                 if (monitor.UsersUpdated || force)
@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Libraries.Server
                     tenantCache.UserHash = dataSet.Tables["Users"]
                         .AsEnumerable()
                         .ToDictionary(
-                            dataRow => dataRow["UserId"].ToInt(),
+                            dataRow => dataRow.Int("UserId"),
                             dataRow => new User(dataRow));
                 }
             }
@@ -90,7 +90,7 @@ namespace Implem.Pleasanter.Libraries.Server
                     siteId: siteId,
                     reload: true);
             }
-            return tenantCache.SiteUserHash[siteId];
+            return tenantCache.SiteUserHash.Get(siteId);
         }
 
         public static void SetSiteUserHash(Context context, long siteId, bool reload = false)
