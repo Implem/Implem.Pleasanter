@@ -390,10 +390,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (SiteUserHash == null)
                 {
                     SiteUserHash = SiteInfo.SiteUsers(context: context, siteId: siteId)
-                        .Where(o => userHash.ContainsKey(o))
-                        .GroupBy(o => o)
-                        .Select(o => o.First())
-                        .ToDictionary(o => userHash[o].Name, o => o);
+                        .Where(id => userHash.ContainsKey(id))
+                        .GroupBy(id => userHash.Get(id)?.Name)
+                        .Select(id => id.First())
+                        .ToDictionary(id => userHash.Get(id)?.Name, o => o);
                 }
                 var userId = SiteUserHash.Get(value);
                 recordingData = userId != 0
