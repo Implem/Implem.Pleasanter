@@ -25,9 +25,10 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         if (siteModel.SiteSettings != null)
                         {
                             var fullText = siteModel.FullText(
-                                context: context, ss: siteModel.SiteSettings);
+                                context: new Context(tenantId: siteModel.TenantId),
+                                ss: siteModel.SiteSettings);
                             Rds.ExecuteNonQuery(
-                                context: context,
+                                context: new Context(tenantId: siteModel.TenantId),
                                 connectionString: Parameters.Rds.OwnerConnectionString,
                                 statements: new SqlStatement[]
                                 {
@@ -53,7 +54,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         if (siteModel.SiteSettings != null)
                         {
                             Rds.ExecuteNonQuery(
-                                context: context,
+                                context: new Context(tenantId: siteModel.TenantId),
                                 statements: new SqlStatement[]
                                 {
                                     Rds.InsertItems(
@@ -72,12 +73,17 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 column: Rds.IssuesColumn()
                     .SiteId()
                     .IssueId()
-                    .Ver(),
+                    .Ver()
+                    .Sites_TenantId(),
                 join: Rds.IssuesJoinDefault()
                     .Add(
                         tableName: "Items",
                         joinType: SqlJoin.JoinTypes.LeftOuter,
-                        joinExpression: "[Items].[ReferenceId]=[Issues].[IssueId]"),
+                        joinExpression: "[Items].[ReferenceId]=[Issues].[IssueId]")
+                    .Add(
+                        tableName: "Sites",
+                        joinType: SqlJoin.JoinTypes.LeftOuter,
+                        joinExpression: "[Sites].[SiteId]=[Issues].[SiteId]"),
                 where: Rds.ItemsWhere()
                     .ReferenceId(
                         tableName: "Items",
@@ -85,28 +91,32 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             .AsEnumerable()
                             .ForEach(dataRow =>
                             {
-                                var siteId = dataRow["SiteId"].ToLong();
+                                var siteId = dataRow.Long("SiteId");
                                 var ss = new SiteModel().Get(
-                                    context: context,
+                                    context: new Context(tenantId: dataRow.Int("TenantId")),
                                     where: Rds.SitesWhere().SiteId(siteId))?
                                         .IssuesSiteSettings(
-                                            context: context,
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
                                             referenceId: dataRow.Long("IssueId"));
-                                var issueModel = new IssueModel(context: context, ss: ss)
-                                    .Get(
-                                        context: context,
-                                        ss: ss,
-                                        tableType: Sqls.TableTypes.Normal,
-                                        where: Rds.IssuesWhere()
-                                            .SiteId(dataRow["SiteId"].ToLong())
-                                            .IssueId(dataRow["IssueId"].ToLong())
-                                            .Ver(dataRow["Ver"].ToInt()));
+                                var issueModel = new IssueModel(
+                                    context: new Context(tenantId: dataRow.Int("TenantId")),
+                                    ss: ss)
+                                        .Get(
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
+                                            ss: ss,
+                                            tableType: Sqls.TableTypes.Normal,
+                                            where: Rds.IssuesWhere()
+                                                .SiteId(dataRow.Long("SiteId"))
+                                                .IssueId(dataRow.Long("IssueId"))
+                                                .Ver(dataRow.Int("Ver")));
                                 if (ss != null &&
                                     issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                                 {
-                                    var fullText = issueModel.FullText(context: context, ss: ss);
+                                    var fullText = issueModel.FullText(
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
+                                        ss: ss);
                                     Rds.ExecuteNonQuery(
-                                        context: context,
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         connectionString: Parameters.Rds.OwnerConnectionString,
                                         statements: new SqlStatement[]
                                         {
@@ -123,69 +133,82 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         });
                                 }
                             });
-            Rds.ExecuteTable(context: context, statements: Rds.SelectIssues(
-                tableType: Sqls.TableTypes.Deleted,
-                column: Rds.IssuesColumn()
-                    .SiteId()
-                    .IssueId()
-                    .Ver(),
-                join: Rds.IssuesJoinDefault()
-                    .Add(
-                        tableName: "Items_Deleted",
-                        joinType: SqlJoin.JoinTypes.LeftOuter,
-                        joinExpression: "[Items_Deleted].[ReferenceId]=[Issues].[IssueId]"),
-                where: Rds.ItemsWhere()
-                    .ReferenceId(
-                        tableName: "Items_Deleted",
-                        _operator: " is null")))
-                            .AsEnumerable()
-                            .ForEach(dataRow =>
-                            {
-                                var siteId = dataRow["SiteId"].ToLong();
-                                var ss = new SiteModel().Get(
-                                    context: context,
-                                    where: Rds.SitesWhere().SiteId(siteId))?
-                                        .IssuesSiteSettings(
-                                            context: context,
-                                            referenceId: dataRow.Long("IssueId"));
-                                var issueModel = new IssueModel(context: context, ss: ss)
-                                    .Get(
-                                        context: context,
-                                        ss: ss,
-                                        tableType: Sqls.TableTypes.Deleted,
-                                        where: Rds.IssuesWhere()
-                                            .SiteId(dataRow["SiteId"].ToLong())
-                                            .IssueId(dataRow["IssueId"].ToLong())
-                                            .Ver(dataRow["Ver"].ToInt()));
-                                if (ss != null &&
-                                    issueModel.AccessStatus == Databases.AccessStatuses.Selected)
+            Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectIssues(
+                    tableType: Sqls.TableTypes.Deleted,
+                    column: Rds.IssuesColumn()
+                        .SiteId()
+                        .IssueId()
+                        .Ver(),
+                    join: Rds.IssuesJoinDefault()
+                        .Add(
+                            tableName: "Items_Deleted",
+                            joinType: SqlJoin.JoinTypes.LeftOuter,
+                            joinExpression: "[Items_Deleted].[ReferenceId]=[Issues].[IssueId]")
+                        .Add(
+                            tableName: "Sites",
+                            joinType: SqlJoin.JoinTypes.LeftOuter,
+                            joinExpression: "[Sites].[SiteId]=[Issues].[SiteId]"),
+                    where: Rds.ItemsWhere()
+                        .ReferenceId(
+                            tableName: "Items_Deleted",
+                            _operator: " is null")))
+                                .AsEnumerable()
+                                .ForEach(dataRow =>
                                 {
-                                    Rds.ExecuteNonQuery(
-                                        context: context,
-                                        statements: new SqlStatement[]
-                                        {
-                                            Rds.InsertItems(
+                                    var siteId = dataRow.Long("SiteId");
+                                    var ss = new SiteModel().Get(
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
+                                        where: Rds.SitesWhere().SiteId(siteId))?
+                                            .IssuesSiteSettings(
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
+                                                referenceId: dataRow.Long("IssueId"));
+                                    var issueModel = new IssueModel(
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
+                                        ss: ss)
+                                            .Get(
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
+                                                ss: ss,
                                                 tableType: Sqls.TableTypes.Deleted,
-                                                param: Rds.ItemsParam()
-                                                    .ReferenceId(issueModel.IssueId)
-                                                    .Ver(issueModel.Ver)
-                                                    .ReferenceType("Issues")
-                                                    .SiteId(issueModel.SiteId)
-                                                    .Title(issueModel.Title.DisplayValue))
-                                        });
-                                }
-                            });
+                                                where: Rds.IssuesWhere()
+                                                    .SiteId(dataRow.Long("SiteId"))
+                                                    .IssueId(dataRow.Long("IssueId"))
+                                                    .Ver(dataRow.Int("Ver")));
+                                    if (ss != null &&
+                                        issueModel.AccessStatus == Databases.AccessStatuses.Selected)
+                                    {
+                                        Rds.ExecuteNonQuery(
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
+                                            statements: new SqlStatement[]
+                                            {
+                                                Rds.InsertItems(
+                                                    tableType: Sqls.TableTypes.Deleted,
+                                                    param: Rds.ItemsParam()
+                                                        .ReferenceId(issueModel.IssueId)
+                                                        .Ver(issueModel.Ver)
+                                                        .ReferenceType("Issues")
+                                                        .SiteId(issueModel.SiteId)
+                                                        .Title(issueModel.Title.DisplayValue))
+                                            });
+                                    }
+                                });
             Rds.ExecuteTable(context: context, statements: Rds.SelectResults(
                 tableType: Sqls.TableTypes.Normal,
                 column: Rds.ResultsColumn()
                     .SiteId()
                     .ResultId()
-                    .Ver(),
+                    .Ver()
+                    .Sites_TenantId(),
                 join: Rds.ResultsJoinDefault()
                     .Add(
                         tableName: "Items",
                         joinType: SqlJoin.JoinTypes.LeftOuter,
-                        joinExpression: "[Items].[ReferenceId]=[Results].[ResultId]"),
+                        joinExpression: "[Items].[ReferenceId]=[Results].[ResultId]")
+                    .Add(
+                        tableName: "Sites",
+                        joinType: SqlJoin.JoinTypes.LeftOuter,
+                        joinExpression: "[Sites].[SiteId]=[Results].[SiteId]"),
                 where: Rds.ItemsWhere()
                     .ReferenceId(
                         tableName: "Items",
@@ -193,28 +216,32 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             .AsEnumerable()
                             .ForEach(dataRow =>
                             {
-                                var siteId = dataRow["SiteId"].ToLong();
+                                var siteId = dataRow.Long("SiteId");
                                 var ss = new SiteModel().Get(
-                                    context: context,
+                                    context: new Context(tenantId: dataRow.Int("TenantId")),
                                     where: Rds.SitesWhere().SiteId(siteId))?
                                         .ResultsSiteSettings(
-                                            context: context,
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
                                             referenceId: dataRow.Long("ResultId"));
-                                var resultModel = new ResultModel(context: context, ss: ss)
-                                    .Get(
-                                        context: context,
-                                        ss: ss,
-                                        tableType: Sqls.TableTypes.Normal,
-                                        where: Rds.ResultsWhere()
-                                            .SiteId(dataRow["SiteId"].ToLong())
-                                            .ResultId(dataRow["ResultId"].ToLong())
-                                            .Ver(dataRow["Ver"].ToInt()));
+                                var resultModel = new ResultModel(
+                                    context: new Context(tenantId: dataRow.Int("TenantId")),
+                                    ss: ss)
+                                        .Get(
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
+                                            ss: ss,
+                                            tableType: Sqls.TableTypes.Normal,
+                                            where: Rds.ResultsWhere()
+                                                .SiteId(dataRow.Long("SiteId"))
+                                                .ResultId(dataRow.Long("ResultId"))
+                                                .Ver(dataRow.Int("Ver")));
                                 if (ss != null &&
                                     resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                                 {
-                                    var fullText = resultModel.FullText(context: context, ss: ss);
+                                    var fullText = resultModel.FullText(
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
+                                        ss: ss);
                                     Rds.ExecuteNonQuery(
-                                        context: context,
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         connectionString: Parameters.Rds.OwnerConnectionString,
                                         statements: new SqlStatement[]
                                         {
@@ -231,69 +258,82 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         });
                                 }
                             });
-            Rds.ExecuteTable(context: context, statements: Rds.SelectResults(
-                tableType: Sqls.TableTypes.Deleted,
-                column: Rds.ResultsColumn()
-                    .SiteId()
-                    .ResultId()
-                    .Ver(),
-                join: Rds.ResultsJoinDefault()
-                    .Add(
-                        tableName: "Items_Deleted",
-                        joinType: SqlJoin.JoinTypes.LeftOuter,
-                        joinExpression: "[Items_Deleted].[ReferenceId]=[Results].[ResultId]"),
-                where: Rds.ItemsWhere()
-                    .ReferenceId(
-                        tableName: "Items_Deleted",
-                        _operator: " is null")))
-                            .AsEnumerable()
-                            .ForEach(dataRow =>
-                            {
-                                var siteId = dataRow["SiteId"].ToLong();
-                                var ss = new SiteModel().Get(
-                                    context: context,
-                                    where: Rds.SitesWhere().SiteId(siteId))?
-                                        .ResultsSiteSettings(
-                                            context: context,
-                                            referenceId: dataRow.Long("ResultId"));
-                                var resultModel = new ResultModel(context: context, ss: ss)
-                                    .Get(
-                                        context: context,
-                                        ss: ss,
-                                        tableType: Sqls.TableTypes.Deleted,
-                                        where: Rds.ResultsWhere()
-                                            .SiteId(dataRow["SiteId"].ToLong())
-                                            .ResultId(dataRow["ResultId"].ToLong())
-                                            .Ver(dataRow["Ver"].ToInt()));
-                                if (ss != null &&
-                                    resultModel.AccessStatus == Databases.AccessStatuses.Selected)
+            Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectResults(
+                    tableType: Sqls.TableTypes.Deleted,
+                    column: Rds.ResultsColumn()
+                        .SiteId()
+                        .ResultId()
+                        .Ver(),
+                    join: Rds.ResultsJoinDefault()
+                        .Add(
+                            tableName: "Items_Deleted",
+                            joinType: SqlJoin.JoinTypes.LeftOuter,
+                            joinExpression: "[Items_Deleted].[ReferenceId]=[Results].[ResultId]")
+                        .Add(
+                            tableName: "Sites",
+                            joinType: SqlJoin.JoinTypes.LeftOuter,
+                            joinExpression: "[Sites].[SiteId]=[Results].[SiteId]"),
+                    where: Rds.ItemsWhere()
+                        .ReferenceId(
+                            tableName: "Items_Deleted",
+                            _operator: " is null")))
+                                .AsEnumerable()
+                                .ForEach(dataRow =>
                                 {
-                                    Rds.ExecuteNonQuery(
-                                        context: context,
-                                        statements: new SqlStatement[]
-                                        {
-                                            Rds.InsertItems(
+                                    var siteId = dataRow.Long("SiteId");
+                                    var ss = new SiteModel().Get(
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
+                                        where: Rds.SitesWhere().SiteId(siteId))?
+                                            .ResultsSiteSettings(
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
+                                                referenceId: dataRow.Long("ResultId"));
+                                    var resultModel = new ResultModel(
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
+                                        ss: ss)
+                                            .Get(
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
+                                                ss: ss,
                                                 tableType: Sqls.TableTypes.Deleted,
-                                                param: Rds.ItemsParam()
-                                                    .ReferenceId(resultModel.ResultId)
-                                                    .Ver(resultModel.Ver)
-                                                    .ReferenceType("Results")
-                                                    .SiteId(resultModel.SiteId)
-                                                    .Title(resultModel.Title.DisplayValue))
-                                        });
-                                }
-                            });
+                                                where: Rds.ResultsWhere()
+                                                    .SiteId(dataRow.Long("SiteId"))
+                                                    .ResultId(dataRow.Long("ResultId"))
+                                                    .Ver(dataRow.Int("Ver")));
+                                    if (ss != null &&
+                                        resultModel.AccessStatus == Databases.AccessStatuses.Selected)
+                                    {
+                                        Rds.ExecuteNonQuery(
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
+                                            statements: new SqlStatement[]
+                                            {
+                                                Rds.InsertItems(
+                                                    tableType: Sqls.TableTypes.Deleted,
+                                                    param: Rds.ItemsParam()
+                                                        .ReferenceId(resultModel.ResultId)
+                                                        .Ver(resultModel.Ver)
+                                                        .ReferenceType("Results")
+                                                        .SiteId(resultModel.SiteId)
+                                                        .Title(resultModel.Title.DisplayValue))
+                                            });
+                                    }
+                                });
             Rds.ExecuteTable(context: context, statements: Rds.SelectWikis(
                 tableType: Sqls.TableTypes.Normal,
                 column: Rds.WikisColumn()
                     .SiteId()
                     .WikiId()
-                    .Ver(),
+                    .Ver()
+                    .Sites_TenantId(),
                 join: Rds.WikisJoinDefault()
                     .Add(
                         tableName: "Items",
                         joinType: SqlJoin.JoinTypes.LeftOuter,
-                        joinExpression: "[Items].[ReferenceId]=[Wikis].[WikiId]"),
+                        joinExpression: "[Items].[ReferenceId]=[Wikis].[WikiId]")
+                    .Add(
+                        tableName: "Sites",
+                        joinType: SqlJoin.JoinTypes.LeftOuter,
+                        joinExpression: "[Sites].[SiteId]=[Wikis].[SiteId]"),
                 where: Rds.ItemsWhere()
                     .ReferenceId(
                         tableName: "Items",
@@ -301,28 +341,32 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             .AsEnumerable()
                             .ForEach(dataRow =>
                             {
-                                var siteId = dataRow["SiteId"].ToLong();
+                                var siteId = dataRow.Long("SiteId");
                                 var ss = new SiteModel().Get(
-                                    context: context,
+                                    context: new Context(tenantId: dataRow.Int("TenantId")),
                                     where: Rds.SitesWhere().SiteId(siteId))?
                                         .WikisSiteSettings(
-                                            context: context,
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
                                             referenceId: dataRow.Long("WikiId"));
-                                var wikiModel = new WikiModel(context: context, ss: ss)
-                                    .Get(
-                                        context: context,
-                                        ss: ss,
-                                        tableType: Sqls.TableTypes.Normal,
-                                        where: Rds.WikisWhere()
-                                            .SiteId(dataRow["SiteId"].ToLong())
-                                            .WikiId(dataRow["WikiId"].ToLong())
-                                            .Ver(dataRow["Ver"].ToInt()));
+                                var wikiModel = new WikiModel(
+                                    context: new Context(tenantId: dataRow.Int("TenantId")),
+                                    ss: ss)
+                                        .Get(
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
+                                            ss: ss,
+                                            tableType: Sqls.TableTypes.Normal,
+                                            where: Rds.WikisWhere()
+                                                .SiteId(dataRow.Long("SiteId"))
+                                                .WikiId(dataRow.Long("WikiId"))
+                                                .Ver(dataRow.Int("Ver")));
                                 if (ss != null &&
                                     wikiModel.AccessStatus == Databases.AccessStatuses.Selected)
                                 {
-                                    var fullText = wikiModel.FullText(context: context, ss: ss);
+                                    var fullText = wikiModel.FullText(
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
+                                        ss: ss);
                                     Rds.ExecuteNonQuery(
-                                        context: context,
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         connectionString: Parameters.Rds.OwnerConnectionString,
                                         statements: new SqlStatement[]
                                         {
@@ -339,58 +383,66 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         });
                                 }
                             });
-            Rds.ExecuteTable(context: context, statements: Rds.SelectWikis(
-                tableType: Sqls.TableTypes.Deleted,
-                column: Rds.WikisColumn()
-                    .SiteId()
-                    .WikiId()
-                    .Ver(),
-                join: Rds.WikisJoinDefault()
-                    .Add(
-                        tableName: "Items_Deleted",
-                        joinType: SqlJoin.JoinTypes.LeftOuter,
-                        joinExpression: "[Items_Deleted].[ReferenceId]=[Wikis].[WikiId]"),
-                where: Rds.ItemsWhere()
-                    .ReferenceId(
-                        tableName: "Items_Deleted",
-                        _operator: " is null")))
-                            .AsEnumerable()
-                            .ForEach(dataRow =>
-                            {
-                                var siteId = dataRow["SiteId"].ToLong();
-                                var ss = new SiteModel().Get(
-                                    context: context,
-                                    where: Rds.SitesWhere().SiteId(siteId))?
-                                        .WikisSiteSettings(
-                                            context: context,
-                                            referenceId: dataRow.Long("WikiId"));
-                                var wikiModel = new WikiModel(context: context, ss: ss)
-                                    .Get(
-                                        context: context,
-                                        ss: ss,
-                                        tableType: Sqls.TableTypes.Deleted,
-                                        where: Rds.WikisWhere()
-                                            .SiteId(dataRow["SiteId"].ToLong())
-                                            .WikiId(dataRow["WikiId"].ToLong())
-                                            .Ver(dataRow["Ver"].ToInt()));
-                                if (ss != null &&
-                                    wikiModel.AccessStatus == Databases.AccessStatuses.Selected)
+            Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectWikis(
+                    tableType: Sqls.TableTypes.Deleted,
+                    column: Rds.WikisColumn()
+                        .SiteId()
+                        .WikiId()
+                        .Ver(),
+                    join: Rds.WikisJoinDefault()
+                        .Add(
+                            tableName: "Items_Deleted",
+                            joinType: SqlJoin.JoinTypes.LeftOuter,
+                            joinExpression: "[Items_Deleted].[ReferenceId]=[Wikis].[WikiId]")
+                        .Add(
+                            tableName: "Sites",
+                            joinType: SqlJoin.JoinTypes.LeftOuter,
+                            joinExpression: "[Sites].[SiteId]=[Wikis].[SiteId]"),
+                    where: Rds.ItemsWhere()
+                        .ReferenceId(
+                            tableName: "Items_Deleted",
+                            _operator: " is null")))
+                                .AsEnumerable()
+                                .ForEach(dataRow =>
                                 {
-                                    Rds.ExecuteNonQuery(
-                                        context: context,
-                                        statements: new SqlStatement[]
-                                        {
-                                            Rds.InsertItems(
+                                    var siteId = dataRow.Long("SiteId");
+                                    var ss = new SiteModel().Get(
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
+                                        where: Rds.SitesWhere().SiteId(siteId))?
+                                            .WikisSiteSettings(
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
+                                                referenceId: dataRow.Long("WikiId"));
+                                    var wikiModel = new WikiModel(
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
+                                        ss: ss)
+                                            .Get(
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
+                                                ss: ss,
                                                 tableType: Sqls.TableTypes.Deleted,
-                                                param: Rds.ItemsParam()
-                                                    .ReferenceId(wikiModel.WikiId)
-                                                    .Ver(wikiModel.Ver)
-                                                    .ReferenceType("Wikis")
-                                                    .SiteId(wikiModel.SiteId)
-                                                    .Title(wikiModel.Title.DisplayValue))
-                                        });
-                                }
-                            });
+                                                where: Rds.WikisWhere()
+                                                    .SiteId(dataRow.Long("SiteId"))
+                                                    .WikiId(dataRow.Long("WikiId"))
+                                                    .Ver(dataRow.Int("Ver")));
+                                    if (ss != null &&
+                                        wikiModel.AccessStatus == Databases.AccessStatuses.Selected)
+                                    {
+                                        Rds.ExecuteNonQuery(
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
+                                            statements: new SqlStatement[]
+                                            {
+                                                Rds.InsertItems(
+                                                    tableType: Sqls.TableTypes.Deleted,
+                                                    param: Rds.ItemsParam()
+                                                        .ReferenceId(wikiModel.WikiId)
+                                                        .Ver(wikiModel.Ver)
+                                                        .ReferenceType("Wikis")
+                                                        .SiteId(wikiModel.SiteId)
+                                                        .Title(wikiModel.Title.DisplayValue))
+                                            });
+                                    }
+                                });
         }
     }
 }

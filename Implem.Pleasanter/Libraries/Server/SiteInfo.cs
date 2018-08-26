@@ -18,18 +18,8 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static void Reflesh(Context context, bool force = false)
         {
-            if (!TenantCaches.ContainsKey(context.TenantId))
-            {
-                try
-                {
-                    TenantCaches.Add(context.TenantId, new TenantCache(context: context));
-                }
-                catch (Exception)
-                {
-                }
-            }
             var tenantCache = TenantCaches.Get(context.TenantId);
-            var monitor = tenantCache.GetUpdateMonitor();
+            var monitor = tenantCache.GetUpdateMonitor(context: context);
             if (monitor.DeptsUpdated || monitor.UsersUpdated || force)
             {
                 var dataSet = Rds.ExecuteDataSet(
