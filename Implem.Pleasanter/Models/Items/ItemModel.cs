@@ -1164,7 +1164,8 @@ namespace Implem.Pleasanter.Models
                 case "Sites":
                     return SiteUtilities.Templates(
                         context: context,
-                        siteModel: Site);
+                        parentId: Site.SiteId,
+                        inheritPermission: Site.InheritPermission);
                 default:
                     return Messages.ResponseNotFound().ToJson();
             }
@@ -1178,7 +1179,8 @@ namespace Implem.Pleasanter.Models
                 case "Sites":
                     return SiteUtilities.CreateByTemplate(
                         context: context,
-                        siteModel: Site);
+                        parentId: Site.SiteId,
+                        inheritPermission: Site.InheritPermission);
                 default:
                     return Messages.ResponseNotFound().ToJson();
             }
