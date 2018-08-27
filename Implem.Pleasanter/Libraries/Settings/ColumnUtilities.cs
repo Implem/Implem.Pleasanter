@@ -175,24 +175,29 @@ namespace Implem.Pleasanter.Libraries.Settings
             string labelType,
             int? order = null)
         {
-            var column = ss.GetColumn(
+            var column = ss?.GetColumn(
                 context: context,
                 columnName: columnName.Split(',').Last());
-            var labelText = column.LabelText;
-            var labelTextDefault = column.LabelTextDefault;
-            switch (labelType)
+            if (column != null)
             {
-                case "Grid":
-                    labelTextDefault += $" ({labelText})";
-                    labelText = column.GridLabelText;
-                    break;
-            }
-            return column != null
-                ? new ControlData(
-                    text: "[" + ss.Title + "] " + Displays.Get(labelText),
+                var labelText = column.LabelText;
+                var labelTextDefault = column.LabelTextDefault;
+                switch (labelType)
+                {
+                    case "Grid":
+                        labelTextDefault += $" ({labelText})";
+                        labelText = column.GridLabelText;
+                        break;
+                }
+                return new ControlData(
+                    text: $"[{ss.Title}] " + Displays.Get(labelText),
                     title: labelTextDefault,
-                    order: order)
-                : new ControlData(string.Empty);
+                    order: order);
+            }
+            else
+            {
+                return new ControlData(string.Empty);
+            }
         }
 
         public static string ChangeCommand(string controlId)
