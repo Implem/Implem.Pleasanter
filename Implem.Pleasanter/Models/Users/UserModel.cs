@@ -3845,9 +3845,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public UserModel(Context context, SiteSettings ss, string loginId)
+        public UserModel(Context context, SiteSettings ss, string loginId, bool setByForm = false)
         {
-            SetByForm(context: context, ss: ss);
+            if (setByForm) SetByForm(context: context, ss: ss);
             Get(
                 context: context,
                 ss: ss,

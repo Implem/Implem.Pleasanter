@@ -502,8 +502,8 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static Types? Admins(Context context, Types? type = Types.NotSet)
         {
-            if (context.User.TenantManager) type |= Types.ManageTenant;
-            if (context.User.ServiceManager) type |= Types.ManageService;
+            if (context.User?.TenantManager == true) type |= Types.ManageTenant;
+            if (context.User?.ServiceManager == true) type |= Types.ManageService;
             return type;
         }
     }
