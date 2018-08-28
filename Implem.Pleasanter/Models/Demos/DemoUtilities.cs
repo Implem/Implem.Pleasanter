@@ -36,9 +36,9 @@ namespace Implem.Pleasanter.Models
                 TenantName = mailAddress
             };
             tenantModel.Create(context: context, ss: ss);
+            context = new Context(tenantId: tenantModel.TenantId);
             var demoModel = new DemoModel()
             {
-                TenantId = tenantModel.TenantId,
                 Passphrase = passphrase,
                 MailAddress = mailAddress
             };
@@ -87,6 +87,7 @@ namespace Implem.Pleasanter.Models
                             param: Rds.UsersParam().Password(password),
                             where: Rds.UsersWhere().LoginId(loginId)));
                 }
+                context.TenantId = demoModel.TenantId;
                 new UserModel()
                 {
                     LoginId = loginId,
@@ -141,8 +142,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 loginId: LoginId(demoModel, "User1"));
-            userModel.SetSession();
-            context.SetBySession();
+            context = userModel.GetContext();
             SiteInfo.Reflesh(context: context);
             InitializeSites(context: context, demoModel: demoModel, idHash: idHash);
             Def.DemoDefinitionCollection
