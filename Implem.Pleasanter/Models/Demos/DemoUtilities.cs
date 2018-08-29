@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Models
                             param: Rds.UsersParam().Password(password),
                             where: Rds.UsersWhere().LoginId(loginId)));
                 }
-                context.TenantId = demoModel.TenantId;
+                context = new Context(tenantId: demoModel.TenantId);
                 new UserModel()
                 {
                     LoginId = loginId,
