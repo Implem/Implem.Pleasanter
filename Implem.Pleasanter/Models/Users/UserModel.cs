@@ -4114,10 +4114,6 @@ namespace Implem.Pleasanter.Models
             Sessions.Set("RdsUser", RdsUser());
             Sessions.Set("UserSettings", UserSettings.ToJson());
             Sessions.Set("HasPrivilege", Parameters.Security.PrivilegedUsers?.Contains(LoginId));
-            Contract.Set(new Context(
-                tenantId: TenantId,
-                deptId: DeptId,
-                userId: UserId));
         }
 
         /// <summary>

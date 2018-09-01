@@ -2146,7 +2146,7 @@ namespace Implem.Pleasanter.Models
         private void OpenNotificationDialog(
             Context context, ResponseCollection res, Notification notification)
         {
-            if (!Contract.Notice(context: context))
+            if (context.ContractSettings.Notice == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2168,7 +2168,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddNotification(Context context, ResponseCollection res, string controlId)
         {
-            if (!Contract.Notice(context: context))
+            if (context.ContractSettings.Notice == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2193,7 +2193,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateNotification(Context context, ResponseCollection res, string controlId)
         {
-            if (!Contract.Notice(context: context))
+            if (context.ContractSettings.Notice == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2226,7 +2226,7 @@ namespace Implem.Pleasanter.Models
         private void SetNotificationsOrder(
             Context context, ResponseCollection res, string controlId)
         {
-            if (!Contract.Notice(context: context))
+            if (context.ContractSettings.Notice == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2252,7 +2252,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetNotificationsResponseCollection(Context context, ResponseCollection res)
         {
-            if (!Contract.Notice(context: context))
+            if (context.ContractSettings.Notice == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2270,7 +2270,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteNotifications(Context context, ResponseCollection res)
         {
-            if (!Contract.Notice(context: context))
+            if (context.ContractSettings.Notice == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2327,7 +2327,7 @@ namespace Implem.Pleasanter.Models
         private void OpenReminderDialog(
             Context context, ResponseCollection res, Reminder reminder)
         {
-            if (!Contract.Remind(context: context))
+            if (context.ContractSettings.Remind == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2346,7 +2346,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddReminder(Context context, ResponseCollection res, string controlId)
         {
-            if (!Contract.Remind(context: context))
+            if (context.ContractSettings.Remind == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2390,7 +2390,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateReminder(Context context, ResponseCollection res, string controlId)
         {
-            if (!Contract.Remind(context: context))
+            if (context.ContractSettings.Remind == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2441,7 +2441,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetRemindersOrder(Context context, ResponseCollection res, string controlId)
         {
-            if (!Contract.Remind(context: context))
+            if (context.ContractSettings.Remind == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2467,7 +2467,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetRemindersResponseCollection(Context context, ResponseCollection res)
         {
-            if (!Contract.Remind(context: context))
+            if (context.ContractSettings.Remind == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2485,7 +2485,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteReminders(Context context, ResponseCollection res)
         {
-            if (!Contract.Remind(context: context))
+            if (context.ContractSettings.Remind == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2510,7 +2510,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void TestReminders(Context context, ResponseCollection res)
         {
-            if (!Contract.Remind(context: context))
+            if (context.ContractSettings.Remind == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2562,7 +2562,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenExportDialog(Context context, ResponseCollection res, Export export)
         {
-            if (!Contract.Export(context: context))
+            if (context.ContractSettings.Export == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2584,7 +2584,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddExport(Context context, ResponseCollection res, string controlId)
         {
-            if (!Contract.Export(context: context))
+            if (context.ContractSettings.Export == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2636,7 +2636,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateExport(Context context, ResponseCollection res, string controlId)
         {
-            if (!Contract.Export(context: context))
+            if (context.ContractSettings.Export == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2686,7 +2686,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetExportsOrder(Context context, ResponseCollection res, string controlId)
         {
-            if (!Contract.Export(context: context))
+            if (context.ContractSettings.Export == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2712,7 +2712,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetExportsResponseCollection(Context context, ResponseCollection res)
         {
-            if (!Contract.Export(context: context))
+            if (context.ContractSettings.Export == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2794,7 +2794,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteExports(Context context, ResponseCollection res)
         {
-            if (!Contract.Export(context: context))
+            if (context.ContractSettings.Export == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2873,7 +2873,7 @@ namespace Implem.Pleasanter.Models
         private void OpenExportColumnsDialog(
             Context context, ResponseCollection res, ExportColumn column)
         {
-            if (!Contract.Export(context: context))
+            if (context.ContractSettings.Export == false)
             {
                 res.Message(Messages.Restricted());
             }
@@ -2892,7 +2892,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateExportColumns(Context context, ResponseCollection res, string controlId)
         {
-            if (!Contract.Export(context: context))
+            if (context.ContractSettings.Export == false)
             {
                 res.Message(Messages.Restricted());
             }

@@ -38,10 +38,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(
                         script: ss.GetScriptBody(context: context, peredicate: o => o.All == true),
-                        _using: Contract.Script(context: context) && ss.Scripts?.Any() == true)
+                        _using: context.ContractSettings.Script != false
+                            && ss.Scripts?.Any() == true)
                     .Script(
                         script: userScript,
-                        _using: Contract.Script(context: context) && !userScript.IsNullOrEmpty())
+                        _using: context.ContractSettings.Script != false
+                            && !userScript.IsNullOrEmpty())
                 : hb;
         }
 

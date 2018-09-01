@@ -4424,7 +4424,7 @@ namespace Implem.Pleasanter.Models
             if (response.Event == "Duplicated") return Duplicated(ss, response);
             IssueId = (response.Identity ?? IssueId).ToLong();
             if (synchronizeSummary) SynchronizeSummary(context, ss, forceSynchronizeSourceSummary);
-            if (Contract.Notice(context: context) && notice)
+            if (context.ContractSettings.Notice != false && notice)
             {
                 SetTitle(context: context, ss: ss);
                 CheckNotificationConditions(context: context, ss: ss);
@@ -4611,7 +4611,7 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
-            if (Contract.Notice(context: context) && notice)
+            if (context.ContractSettings.Notice != false && notice)
             {
                 CheckNotificationConditions(context: context, ss: ss, before: true);
             }
@@ -4639,7 +4639,7 @@ namespace Implem.Pleasanter.Models
             if (response.Event == "Duplicated") return Duplicated(ss, response);
             if (response.Count == 0) return Error.Types.UpdateConflicts;
             if (synchronizeSummary) SynchronizeSummary(context, ss, forceSynchronizeSourceSummary);
-            if (Contract.Notice(context: context) && notice)
+            if (context.ContractSettings.Notice != false && notice)
             {
                 CheckNotificationConditions(context: context, ss: ss);
                 Notice(context: context, ss: ss, type: "Updated");
@@ -5242,7 +5242,7 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete(Context context, SiteSettings ss, bool notice = false)
         {
-            if (Contract.Notice(context: context) && notice)
+            if (context.ContractSettings.Notice != false && notice)
             {
                 CheckNotificationConditions(context: context, ss: ss, before: true);
             }
@@ -5265,7 +5265,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             SynchronizeSummary(context, ss);
-            if (Contract.Notice(context: context) && notice)
+            if (context.ContractSettings.Notice != false && notice)
             {
                 CheckNotificationConditions(context, ss);
                 Notice(context: context, ss: ss, type: "Deleted");

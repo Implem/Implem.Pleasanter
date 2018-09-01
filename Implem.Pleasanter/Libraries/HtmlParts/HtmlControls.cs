@@ -225,7 +225,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static bool CanUploadImage(
             Context context, bool readOnly, bool allowImage, bool preview)
         {
-            return Contract.Images(context: context)
+            return context.ContractSettings.Images()
                 && !readOnly && allowImage && !preview;
         }
 

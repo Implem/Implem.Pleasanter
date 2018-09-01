@@ -147,7 +147,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 reference: reference,
                 referenceId: id);
-            if (!Contract.Mail(context: context))
+            if (context.ContractSettings.Mail == false)
             {
                 return Error.Types.Restricted.MessageJson();
             }
@@ -618,7 +618,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 reference: reference,
                 referenceId: id);
-            if (!Contract.Mail(context: context))
+            if (context.ContractSettings.Mail == false)
             {
                 return Error.Types.Restricted.MessageJson();
             }

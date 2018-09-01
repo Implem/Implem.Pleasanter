@@ -27,10 +27,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb
                 .Style(
                     style: ss.GetStyleBody(context: context, peredicate: o => o.All == true),
-                    _using: Contract.Style(context: context) && ss.Styles?.Any() == true)
+                    _using: context.ContractSettings.Style != false
+                        && ss.Styles?.Any() == true)
                 .Style(
                     style: userStyle,
-                    _using: Contract.Style(context: context) && !userStyle.IsNullOrEmpty());
+                    _using: context.ContractSettings.Style != false
+                        && !userStyle.IsNullOrEmpty());
         }
     }
 }

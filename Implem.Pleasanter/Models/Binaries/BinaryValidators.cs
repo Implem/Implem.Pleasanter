@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnUploadingImage(
             Context context, System.Web.HttpPostedFileBase[] files)
         {
-            if (!Contract.Attachments(context: context))
+            if (!context.ContractSettings.Attachments())
             {
                 return Error.Types.BadRequest;
             }
@@ -78,7 +78,7 @@ namespace Implem.Pleasanter.Models
             if (OverTenantStorageSize(
                 BinaryUtilities.UsedTenantStorageSize(context: context),
                 newTotalFileSize,
-                Contract.TenantStorageSize(context: context)))
+                context.ContractSettings.StorageSize))
             {
                 return Error.Types.OverTenantStorageSize;
             }
@@ -111,7 +111,7 @@ namespace Implem.Pleasanter.Models
             Libraries.DataTypes.Attachments attachments,
             System.Web.HttpPostedFileBase[] files)
         {
-            if (!Contract.Attachments(context: context))
+            if (!context.ContractSettings.Attachments())
             {
                 return Error.Types.BadRequest;
             }
@@ -137,7 +137,7 @@ namespace Implem.Pleasanter.Models
             if (OverTenantStorageSize(
                 BinaryUtilities.UsedTenantStorageSize(context: context),
                 newTotalFileSize,
-                Contract.TenantStorageSize(context: context)))
+                context.ContractSettings.StorageSize))
             {
                 return Error.Types.OverTenantStorageSize;
             }

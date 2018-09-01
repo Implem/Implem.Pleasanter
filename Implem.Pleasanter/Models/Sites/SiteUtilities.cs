@@ -484,7 +484,7 @@ namespace Implem.Pleasanter.Models
                 inheritPermission: inheritPermission,
                 setByForm: true);
             var ss = siteModel.SitesSiteSettings(context: context, referenceId: parentId);
-            if (Contract.SitesLimit(context: context))
+            if (context.ContractSettings.SitesLimit(context: context))
             {
                 return Error.Types.SitesLimit.MessageJson();
             }
@@ -603,7 +603,7 @@ namespace Implem.Pleasanter.Models
         public static string Copy(Context context, SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;
-            if (Contract.SitesLimit(context: context))
+            if (context.ContractSettings.SitesLimit(context: context))
             {
                 return Error.Types.SitesLimit.MessageJson();
             }
@@ -1048,7 +1048,7 @@ namespace Implem.Pleasanter.Models
                 parentId: parentId,
                 inheritPermission: inheritPermission);
             var ss = siteModel.SitesSiteSettings(context: context, referenceId: parentId);
-            if (Contract.SitesLimit(context: context))
+            if (context.ContractSettings.SitesLimit(context: context))
             {
                 return Error.Types.SitesLimit.MessageJson();
             }
@@ -1360,7 +1360,7 @@ namespace Implem.Pleasanter.Models
                 parentId: parentId,
                 inheritPermission: inheritPermission);
             var ss = siteModel.SitesSiteSettings(context: context, referenceId: parentId);
-            if (Contract.SitesLimit(context: context))
+            if (context.ContractSettings.SitesLimit(context: context))
             {
                 return Error.Types.SitesLimit.MessageJson();
             }
@@ -1385,10 +1385,6 @@ namespace Implem.Pleasanter.Models
             if (templateDefinition == null)
             {
                 return Error.Types.NotFound.MessageJson();
-            }
-            if (Contract.SitesLimit(context: context))
-            {
-                return Error.Types.SitesLimit.MessageJson();
             }
             var templateSs = templateDefinition.SiteSettingsTemplate
                 .Deserialize<SiteSettings>();
@@ -1882,7 +1878,7 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#NotificationsSettingsEditor",
                                             text: Displays.Notifications()),
-                                    _using: Contract.Notice(context: context)
+                                    _using: context.ContractSettings.Notice != false
                                         && NotificationUtilities.Types().Any())
                                 .Li(action: () => hb
                                     .A(
@@ -1893,13 +1889,13 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#StylesSettingsEditor",
                                             text: Displays.Styles()),
-                                    _using: Contract.Style(context: context))
+                                    _using: context.ContractSettings.Style != false)
                                 .Li(
                                     action: () => hb
                                         .A(
                                             href: "#ScriptsSettingsEditor",
                                             text: Displays.Scripts()),
-                                    _using: Contract.Script(context: context));
+                                    _using: context.ContractSettings.Script != false);
                             break;
                         default:
                             hb
@@ -1944,19 +1940,19 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#NotificationsSettingsEditor",
                                             text: Displays.Notifications()),
-                                    _using: Contract.Notice(context: context))
+                                    _using: context.ContractSettings.Notice != false)
                                 .Li(
                                     action: () => hb
                                         .A(
                                             href: "#RemindersSettingsEditor",
                                             text: Displays.Reminders()),
-                                    _using: Contract.Remind(context: context))
+                                    _using: context.ContractSettings.Remind != false)
                                 .Li(
                                     action: () => hb
                                         .A(
                                             href: "#ExportsSettingsEditor",
                                             text: Displays.Export()),
-                                    _using: Contract.Export(context: context))
+                                    _using: context.ContractSettings.Export != false)
                                 .Li(
                                     action: () => hb
                                         .A(
@@ -2011,7 +2007,7 @@ namespace Implem.Pleasanter.Models
                                             href: "#ImageLibSettingsEditor",
                                             text: Displays.ImageLib()),
                                     _using:
-                                        Contract.Images(context: context) &&
+                                        context.ContractSettings.Images() &&
                                         Def.ViewModeDefinitionCollection
                                             .Where(o => o.Name == "ImageLib")
                                             .Any(o => o.ReferenceType == siteModel.ReferenceType))
@@ -2024,7 +2020,7 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#MailSettingsEditor",
                                             text: Displays.Mail()),
-                                    _using: Contract.Mail(context: context))
+                                    _using: context.ContractSettings.Notice != false)
                                 .Li(action: () => hb
                                     .A(
                                         href: "#SiteIntegrationEditor",
@@ -2034,13 +2030,13 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#StylesSettingsEditor",
                                             text: Displays.Styles()),
-                                    _using: Contract.Style(context: context))
+                                    _using: context.ContractSettings.Style != false)
                                 .Li(
                                     action: () => hb
                                         .A(
                                             href: "#ScriptsSettingsEditor",
                                             text: Displays.Scripts()),
-                                    _using: Contract.Script(context: context));
+                                    _using: context.ContractSettings.Script != false);
                             break;
                     }
                     hb
@@ -2779,37 +2775,37 @@ namespace Implem.Pleasanter.Models
                         .Id("NotificationDialog")
                         .Class("dialog")
                         .Title(Displays.Notifications()),
-                    _using: Contract.Notice(context: context))
+                    _using: context.ContractSettings.Notice != false)
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("ReminderDialog")
                         .Class("dialog")
                         .Title(Displays.Reminders()),
-                    _using: Contract.Remind(context: context))
+                    _using: context.ContractSettings.Remind != false)
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("ExportDialog")
                         .Class("dialog")
                         .Title(Displays.Export()),
-                    _using: Contract.Export(context: context))
+                    _using: context.ContractSettings.Export != false)
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("ExportColumnsDialog")
                         .Class("dialog")
                         .Title(Displays.AdvancedSetting()),
-                    _using: Contract.Export(context: context))
+                    _using: context.ContractSettings.Export != false)
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("StyleDialog")
                         .Class("dialog")
                         .Title(Displays.Style()),
-                    _using: Contract.Style(context: context))
+                    _using: context.ContractSettings.Style != false)
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("ScriptDialog")
                         .Class("dialog")
                         .Title(Displays.Script()),
-                    _using: Contract.Script(context: context))
+                    _using: context.ContractSettings.Script != false)
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("RelatingColumnDialog")
@@ -3877,7 +3873,7 @@ namespace Implem.Pleasanter.Models
                                             labelText: Displays.AllowImage(),
                                             _checked: column.AllowImage == true,
                                             _using:
-                                                Contract.Images(context: context)
+                                                context.ContractSettings.Images()
                                                 && (column.ControlType == "MarkDown"
                                                 || column.ColumnName == "Comments"))
                                         .FieldTextBox(
@@ -5555,7 +5551,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder NotificationsSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            if (!Contract.Notice(context: context)) return hb;
+            if (context.ContractSettings.Notice == false) return hb;
             return hb.FieldSet(id: "NotificationsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
@@ -5863,7 +5859,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder RemindersSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            if (!Contract.Remind(context: context)) return hb;
+            if (context.ContractSettings.Remind == false) return hb;
             return hb.FieldSet(id: "RemindersSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
@@ -6196,7 +6192,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ExportsSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            if (!Contract.Export(context: context)) return hb;
+            if (context.ContractSettings.Export == false) return hb;
             return hb.FieldSet(id: "ExportsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
@@ -6634,7 +6630,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ImageLibSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            if (!Contract.Images(context: context)) return hb;
+            if (context.ContractSettings.Images() == false) return hb;
             return Def.ViewModeDefinitionCollection
                 .Where(o => o.Name == "ImageLib")
                 .Any(o => o.ReferenceType == ss.ReferenceType)
@@ -6696,7 +6692,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder MailSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            if (!Contract.Mail(context: context)) return hb;
+            if (context.ContractSettings.Mail == false) return hb;
             return hb.FieldSet(id: "MailSettingsEditor", action: () => hb
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
@@ -6747,7 +6743,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder StylesSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            if (!Contract.Style(context: context)) return hb;
+            if (context.ContractSettings.Style == false) return hb;
             return hb.FieldSet(id: "StylesSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
@@ -7054,7 +7050,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ScriptsSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            if (!Contract.Script(context: context)) return hb;
+            if (context.ContractSettings.Script == false) return hb;
             return hb.FieldSet(id: "ScriptsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(

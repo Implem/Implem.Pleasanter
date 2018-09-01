@@ -1,9 +1,12 @@
 ﻿using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using System.Data;
+using System.Linq;
 using System.Web;
 using System.Web.Routing;
 namespace Implem.Pleasanter.Libraries.Requests
@@ -25,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string Controller;
         public string Action;
         public long Id;
+        public ContractSettings ContractSettings;
 
         public Context(bool empty = false)
         {
@@ -54,6 +58,11 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Action = GetAction();
                 Id = GetId();
                 SetTenantCaches();
+                SetContractSettings();
+            }
+            else
+            {
+                ContractSettings = new ContractSettings();
             }
         }
 
@@ -63,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             DeptId = deptId;
             UserId = userId;
             SetTenantCaches();
+            SetContractSettings();
         }
 
         private void SetTenantCaches()
@@ -78,6 +88,22 @@ namespace Implem.Pleasanter.Libraries.Requests
                 {
                 }
             }
+        }
+
+        private void SetContractSettings()
+        {
+            var dataRow = Rds.ExecuteTable(
+                context: this,
+                statements: Rds.SelectTenants(
+                    column: Rds.TenantsColumn()
+                        .ContractSettings()
+                        .ContractDeadline(),
+                    where: Rds.TenantsWhere().TenantId(TenantId)))
+                        .AsEnumerable()
+                        .FirstOrDefault();
+            ContractSettings = dataRow?.String("ContractSettings").Deserialize<ContractSettings>()
+                ?? new ContractSettings();
+            ContractSettings.Deadline = dataRow?.DateTime("ContractDeadline") ;
         }
 
         private static string GetController()

@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static string AssemblyVersions(this HtmlBuilder hb, Context context)
         {
             var ss = new SiteSettings();
-            var plan = Contract.DisplayName(context: context);
+            var plan = context.ContractSettings.DisplayName;
             return hb
                 .Template(
                     context: context,

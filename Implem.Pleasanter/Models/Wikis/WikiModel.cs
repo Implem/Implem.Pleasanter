@@ -318,7 +318,7 @@ namespace Implem.Pleasanter.Models
                 selectIdentity: true,
                 statements: statements.ToArray());
             WikiId = (response.Identity ?? WikiId).ToLong();
-            if (Contract.Notice(context: context) && notice)
+            if (context.ContractSettings.Notice != false && notice)
             {
                 SetTitle(context: context, ss: ss);
                 CheckNotificationConditions(context: context, ss: ss);
@@ -394,7 +394,7 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
-            if (Contract.Notice(context: context) && notice)
+            if (context.ContractSettings.Notice != false && notice)
             {
                 CheckNotificationConditions(context: context, ss: ss, before: true);
             }
@@ -437,7 +437,7 @@ namespace Implem.Pleasanter.Models
                             type: StatusUtilities.Types.SitesUpdated)
                     });
             }
-            if (Contract.Notice(context: context) && notice)
+            if (context.ContractSettings.Notice != false && notice)
             {
                 CheckNotificationConditions(context: context, ss: ss);
                 Notice(context: context, ss: ss, type: "Updated");
@@ -598,7 +598,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
-            if (Contract.Notice(context: context) && notice)
+            if (context.ContractSettings.Notice != false && notice)
             {
                 Notice(
                     context: context,
