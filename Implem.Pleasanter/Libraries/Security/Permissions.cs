@@ -197,7 +197,7 @@ namespace Implem.Pleasanter.Libraries.Security
                         .Add(raw: DeptOrUser("Permissions"))));
         }
 
-        private static string DeptOrUser(string tableName)
+        public static string DeptOrUser(string tableName)
         {
             return "((@_D <> 0 and [{0}].[DeptId]=@_D) or(@_U <> 0 and [{0}].[UserId]=@_U))"
                 .Params(tableName);
@@ -493,11 +493,6 @@ namespace Implem.Pleasanter.Libraries.Security
                         .GroupId(context.Id)
                         .Add(raw: DeptOrUser("GroupMembers"))))
                             .AsEnumerable();
-        }
-
-        public static SqlWhereCollection GroupMembersWhere()
-        {
-            return Rds.GroupMembersWhere().Add(raw: DeptOrUser("GroupMembers"));
         }
 
         public static Types? Admins(Context context, Types? type = Types.NotSet)

@@ -527,11 +527,9 @@ namespace Implem.Pleasanter.Models
                         .GroupId_In(sub: Rds.SelectGroupMembers(
                             column: Rds.GroupMembersColumn().GroupId(),
                             where: Rds.GroupMembersWhere()
-                                .Or(Rds.GroupMembersWhere()
-                                    .DeptId(context.DeptId)
-                                    .UserId(context.UserId))))))
-                                        .AsEnumerable()
-                                        .Select(o => o["GroupId"].ToInt());
+                                .Add(raw: Permissions.DeptOrUser("GroupMembers"))))))
+                                    .AsEnumerable()
+                                    .Select(o => o.Int("GroupId"));
         }
 
         /// <summary>
