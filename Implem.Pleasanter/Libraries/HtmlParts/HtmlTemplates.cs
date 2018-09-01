@@ -194,7 +194,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder VideoDialog(this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return Contract.Attachments(context: context) && !ss.Mobile
+            return context.ContractSettings.Attachments() != false && !ss.Mobile
                 ? hb
                     .Div(
                         attributes: new HtmlAttributes()

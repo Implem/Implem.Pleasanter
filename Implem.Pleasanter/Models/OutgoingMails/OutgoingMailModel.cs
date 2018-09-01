@@ -677,7 +677,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 referenceId: ReferenceId).GetSite(context: context);
             var ss = siteModel.SitesSiteSettings(context: context, referenceId: ReferenceId);
-            if (!Contract.Mail(context: context))
+            if (context.ContractSettings.Mail == false)
             {
                 return Error.Types.Restricted.MessageJson();
             }

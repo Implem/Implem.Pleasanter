@@ -1221,7 +1221,7 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew(Context context, SiteSettings ss)
         {
-            if (Contract.ItemsLimit(context: context, siteId: ss.SiteId))
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
             {
                 return HtmlTemplates.Error(context, Error.Types.ItemsLimit);
             }
@@ -4494,7 +4494,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Create(Context context, SiteSettings ss)
         {
-            if (Contract.ItemsLimit(context: context, siteId: ss.SiteId))
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
             {
                 return Error.Types.ItemsLimit.MessageJson();
             }
@@ -4530,7 +4530,7 @@ namespace Implem.Pleasanter.Models
 
         public static System.Web.Mvc.ContentResult CreateByApi(Context context, SiteSettings ss)
         {
-            if (Contract.ItemsLimit(context: context, siteId: ss.SiteId))
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
             {
                 return ApiResults.Error(Error.Types.ItemsLimit);
             }
@@ -4695,7 +4695,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Copy(Context context, SiteSettings ss, long resultId)
         {
-            if (Contract.ItemsLimit(context: context, siteId: ss.SiteId))
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
             {
                 return Error.Types.ItemsLimit.MessageJson();
             }
@@ -4750,7 +4750,7 @@ namespace Implem.Pleasanter.Models
         public static string Move(Context context, SiteSettings ss, long resultId)
         {
             var siteId = Forms.Long("MoveTargets");
-            if (Contract.ItemsLimit(context: context, siteId: siteId))
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: siteId))
             {
                 return Error.Types.ItemsLimit.MessageJson();
             }
@@ -5099,7 +5099,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 siteId: siteId,
                 selector: selector);
-            if (Contract.ItemsLimit(context: context, siteId: siteId, number: count))
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: siteId, number: count))
             {
                 return Error.Types.ItemsLimit.MessageJson();
             }
@@ -5462,7 +5462,10 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 referenceId: siteModel.SiteId,
                 setAllChoices: true);
-            if (!Contract.Import(context: context)) return null;
+            if (context.ContractSettings.Import == false)
+            {
+                return Messages.ResponseRestricted().ToJson();
+            }
             if (!context.CanCreate(ss: ss))
             {
                 return Messages.ResponseHasNotPermission().ToJson();
@@ -5482,7 +5485,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.ImportMax.MessageJson(Parameters.General.ImportMax.ToString());
             }
-            if (Contract.ItemsLimit(context: context, siteId: ss.SiteId, number: count))
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: count))
             {
                 return Error.Types.ItemsLimit.MessageJson();
             }
@@ -6033,7 +6036,7 @@ namespace Implem.Pleasanter.Models
         public static string OpenExportSelectorDialog(
             Context context, SiteSettings ss, SiteModel siteModel)
         {
-            if (!Contract.Export(context: context))
+            if (context.ContractSettings.Export == false)
             {
                 return HtmlTemplates.Error(context, Error.Types.InvalidRequest);
             }
@@ -6056,7 +6059,10 @@ namespace Implem.Pleasanter.Models
         public static ResponseFile Export(
             Context context, SiteSettings ss, SiteModel siteModel)
         {
-            if (!Contract.Export(context: context)) return null;
+            if (context.ContractSettings.Export == false)
+            {
+                return null;
+            }
             var invalid = ResultValidators.OnExporting(
                 context: context, ss: ss);
             switch (invalid)
@@ -6075,7 +6081,7 @@ namespace Implem.Pleasanter.Models
         public static ResponseFile ExportCrosstab(
             Context context, SiteSettings ss, SiteModel siteModel)
         {
-            if (!Contract.Export(context: context)) return null;
+            if (context.ContractSettings.Export == false) return null;
             var invalid = ResultValidators.OnExporting(
                 context: context, ss: ss);
             switch (invalid)

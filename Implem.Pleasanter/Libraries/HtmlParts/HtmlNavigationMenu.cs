@@ -285,7 +285,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-link")
                                 .Text(text: Displays.ApiSettings())),
-                    _using: Contract.Api(context: context))
+                    _using: context.ContractSettings.Api != false)
                 .Li(action: () => hb
                     .A(
                         href: Parameters.General.HtmlUsageGuideUrl,

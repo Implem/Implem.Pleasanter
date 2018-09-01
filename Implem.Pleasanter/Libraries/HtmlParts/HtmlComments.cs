@@ -79,7 +79,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             attributes: new HtmlAttributes()
                                 .Id("Comments")
                                 .Class("control-textarea" +
-                                    (Contract.Images(context: context) && allowImage
+                                    (context.ContractSettings.Images() && allowImage
                                         ? " upload-image"
                                         : string.Empty))
                                 .Title(title)

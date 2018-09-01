@@ -388,7 +388,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanSendMail(this Context context, SiteSettings ss, bool site = false)
         {
-            if (!Contract.Mail(context: context)) return false;
+            if (context.ContractSettings.Mail != false) return false;
             switch (context.Controller)
             {
                 case "depts":
@@ -412,13 +412,13 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanImport(this Context context, SiteSettings ss, bool site = false)
         {
-            return Contract.Import(context: context)
+            return context.ContractSettings.Import != false
                 && context.Can(ss: ss, type: Types.Import, site: site);
         }
 
         public static bool CanExport(this Context context, SiteSettings ss, bool site = false)
         {
-            return Contract.Export(context: context)
+            return context.ContractSettings.Export != false
                 && context.Can(ss: ss, type: Types.Export, site: site);
         }
 

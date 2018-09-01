@@ -231,7 +231,7 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.OverTenantStorageSize:
                     return Messages.ResponseOverTenantStorageSize(
-                        Contract.TenantStorageSize(context: context).ToString()).ToJson();
+                        context.ContractSettings.StorageSize.ToString()).ToJson();
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
@@ -332,7 +332,7 @@ namespace Implem.Pleasanter.Models
                         column.TotalLimitSize.ToString()).ToJson();
                 case Error.Types.OverTenantStorageSize:
                     return Messages.ResponseOverTenantStorageSize(
-                        Contract.TenantStorageSize(context: context).ToString()).ToJson();
+                        context.ContractSettings.StorageSize.ToString()).ToJson();
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
@@ -365,7 +365,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.FileContentResult Donwload(Context context, string guid)
         {
-            if (!Contract.Attachments(context: context))
+            if (!context.ContractSettings.Attachments())
             {
                 return null;
             }
@@ -377,7 +377,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.FileContentResult DownloadTemp(Context context, string guid)
         {
-            if (!Contract.Attachments(context: context))
+            if (!context.ContractSettings.Attachments())
             {
                 return null;
             }
@@ -389,7 +389,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string DeleteTemp(Context context)
         {
-            if (!Contract.Attachments(context: context))
+            if (!context.ContractSettings.Attachments())
             {
                 return null;
             }

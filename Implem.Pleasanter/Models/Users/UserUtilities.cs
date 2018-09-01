@@ -1156,7 +1156,7 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew(Context context, SiteSettings ss)
         {
-            if (Contract.UsersLimit(context: context))
+            if (context.ContractSettings.UsersLimit(context: context))
             {
                 return HtmlTemplates.Error(context, Error.Types.UsersLimit);
             }
@@ -3252,7 +3252,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Create(Context context, SiteSettings ss)
         {
-            if (Contract.UsersLimit(context: context))
+            if (context.ContractSettings.UsersLimit(context: context))
             {
                 return Error.Types.UsersLimit.MessageJson();
             }

@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return definitions.Values
                 .Where(o => o.GridColumn > 0)
                 .Where(o => o.GridEnabled || !enableOnly)
-                .Where(o => Contract.Attachments(context: context)
+                .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .OrderBy(o => o.GridColumn);
         }
@@ -71,7 +71,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.EditorColumn > 0)
                 .Where(o => o.EditorEnabled || !enableOnly)
                 .Where(o => !o.NotEditorSettings)
-                .Where(o => Contract.Attachments(context: context)
+                .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .OrderBy(o => o.EditorColumn);
         }
@@ -93,7 +93,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return definitions.Values
                 .Where(o => o.LinkColumn > 0)
                 .Where(o => o.LinkEnabled || !enableOnly)
-                .Where(o => Contract.Attachments(context: context)
+                .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .OrderBy(o => o.LinkColumn);
         }
@@ -106,7 +106,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return definitions.Values
                 .Where(o => o.HistoryColumn > 0)
                 .Where(o => o.HistoryEnabled || !enableOnly)
-                .Where(o => Contract.Attachments(context: context)
+                .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .OrderBy(o => o.HistoryColumn);
         }

@@ -2101,7 +2101,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnApiEditing(Context context, UserModel userModel)
         {
-            if (!Contract.Api(context: context))
+            if (context.ContractSettings.Api == false)
             {
                 return Error.Types.InvalidRequest;
             }
@@ -2117,7 +2117,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnApiCreating(Context context, UserModel userModel)
         {
-            if (!Contract.Api(context: context))
+            if (context.ContractSettings.Api == false)
             {
                 return Error.Types.InvalidRequest;
             }
@@ -2133,7 +2133,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnApiDeleting(Context context, UserModel userModel)
         {
-            if (!Contract.Api(context: context))
+            if (context.ContractSettings.Api == false)
             {
                 return Error.Types.InvalidRequest;
             }

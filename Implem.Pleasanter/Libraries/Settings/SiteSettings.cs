@@ -1377,7 +1377,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(columnName => GetColumn(context: context, columnName: columnName))
                 .Where(column => column != null)
                 .AllowedColumns(checkPermission, ReadColumnAccessControls)
-                .Where(o => Contract.Attachments(context: context)
+                .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .ToList();
         }
@@ -1396,7 +1396,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return EditorColumns
                 .Select(columnName => GetColumn(context: context, columnName: columnName))
                 .Where(column => column != null)
-                .Where(o => Contract.Attachments(context: context)
+                .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .ToList();
         }
@@ -1415,7 +1415,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(columnName => GetColumn(context: context, columnName: columnName))
                 .Where(column => column != null)
                 .AllowedColumns(checkPermission, ReadColumnAccessControls)
-                .Where(o => Contract.Attachments(context: context)
+                .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .ToList();
         }
@@ -1426,7 +1426,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(columnName => GetColumn(context: context, columnName: columnName))
                 .Where(column => column != null)
                 .AllowedColumns(checkPermission, ReadColumnAccessControls)
-                .Where(o => Contract.Attachments(context: context)
+                .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .ToList();
         }
@@ -2872,7 +2872,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "BurnDown": return canRead && EnableBurnDown == true;
                 case "TimeSeries": return canRead && EnableTimeSeries == true;
                 case "Kamban": return canRead && EnableKamban == true;
-                case "ImageLib": return Contract.Images(context: context)
+                case "ImageLib": return context.ContractSettings.Images()
                         && canRead && EnableImageLib == true;
                 default: return false;
             }

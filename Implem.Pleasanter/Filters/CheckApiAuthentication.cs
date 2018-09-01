@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.Filters
                 else
                 {
                     userModel.SetSession();
-                    if (!Contract.Api(context: context))
+                    if (context.ContractSettings.Api == false)
                     {
                         Sessions.Abandon();
                         filterContext.Result = ApiResults.BadRequest();
