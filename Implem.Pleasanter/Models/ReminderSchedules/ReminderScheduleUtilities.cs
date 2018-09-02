@@ -62,9 +62,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static void Remind(Context context, DataRow dataRow)
         {
-            context.TenantId = dataRow.Int("TenantId");
-            context.UserId = dataRow.Int("Updator");
-            context.DeptId = dataRow.Int("DeptId");
+            context = new Context(
+                tenantId: dataRow.Int("TenantId"),
+                userId: dataRow.Int("Updator"),
+                deptId: dataRow.Int("DeptId"));
             SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dataRow.Long("SiteId"),
