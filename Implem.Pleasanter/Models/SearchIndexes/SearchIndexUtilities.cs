@@ -630,9 +630,9 @@ namespace Implem.Pleasanter.Models
                         join: Rds.ItemsJoinDefault().Add(new SqlJoin(
                             tableBracket: "[Users]",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "")),
+                            joinExpression: "[Users].[UserId]=[Items].[Updator]")),
                         where: Rds.ItemsWhere().Add(
-                            raw: "[SearchIndexCreatedTime] is null or [SearchIndexCreatedTime]<>[UpdatedTime]"),
+                            raw: "[Items].[SearchIndexCreatedTime] is null or [Items].[SearchIndexCreatedTime]<>[Items].[UpdatedTime]"),
                         top: Parameters.BackgroundTask.CreateSearchIndexLot))
                             .AsEnumerable()
                             .Select(o => new
