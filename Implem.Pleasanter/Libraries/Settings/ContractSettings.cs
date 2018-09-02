@@ -90,7 +90,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool Attachments()
         {
-            return Parameters.BinaryStorage.Attachments && StorageSize > 0;
+            return Parameters.BinaryStorage.Attachments && StorageSize != 0;
         }
 
         public bool Images()
