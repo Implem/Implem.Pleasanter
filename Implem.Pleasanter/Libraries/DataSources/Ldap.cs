@@ -176,11 +176,42 @@ namespace Implem.Pleasanter.Libraries.DataSources
             var synchronizedTime = DateTime.Now;
             Parameters.Authentication.LdapParameters
                 .ForEach(ldap => ldap.LdapSyncPatterns?
-                    .ForEach(pattern => Sync(
-                        context: context,
-                        ldap: ldap,
-                        pattern: pattern,
-                        synchronizedTime: synchronizedTime)));
+                    .ForEach(pattern =>
+                    {
+                        Sync(
+                          context: context,
+                          ldap: ldap,
+                          pattern: pattern,
+                          synchronizedTime: synchronizedTime);
+                        if (ldap.AutoDisable)
+                        {
+                            Rds.ExecuteNonQuery(
+                                context: context,
+                                statements: Rds.UpdateUsers(
+                                    param: Rds.UsersParam().Disabled(true),
+                                    where: Rds.UsersWhere()
+                                        .Disabled(false)
+                                        .LdapSearchRoot(ldap.LdapSearchRoot)
+                                        .SynchronizedTime(_operator: " is not null")
+                                        .SynchronizedTime(synchronizedTime, _operator: "<>"),
+                                    addUpdatorParam: false,
+                                    addUpdatedTimeParam: false));
+                        }
+                        if (ldap.AutoEnable)
+                        {
+                            Rds.ExecuteNonQuery(
+                                context: context,
+                                statements: Rds.UpdateUsers(
+                                    param: Rds.UsersParam().Disabled(false),
+                                    where: Rds.UsersWhere()
+                                        .Disabled(true)
+                                        .LdapSearchRoot(ldap.LdapSearchRoot)
+                                        .SynchronizedTime(_operator: " is not null")
+                                        .SynchronizedTime(synchronizedTime),
+                                    addUpdatorParam: false,
+                                    addUpdatedTimeParam: false));
+                        }
+                    }));
         }
 
         private static void Sync(
@@ -235,30 +266,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 synchronizedTime: synchronizedTime);
                         }
                     }
-                }
-                if (ldap.AutoDisable)
-                {
-                    Rds.ExecuteNonQuery(
-                        context: context,
-                        statements: Rds.UpdateUsers(
-                            param: Rds.UsersParam().Disabled(true),
-                            where: Rds.UsersWhere()
-                                .Disabled(false)
-                                .LdapSearchRoot(ldap.LdapSearchRoot)
-                                .SynchronizedTime(_operator: " is not null")
-                                .SynchronizedTime(synchronizedTime, _operator: "<>")));
-                }
-                if (ldap.AutoEnable)
-                {
-                    Rds.ExecuteNonQuery(
-                        context: context,
-                        statements: Rds.UpdateUsers(
-                            param: Rds.UsersParam().Disabled(false),
-                            where: Rds.UsersWhere()
-                                .Disabled(true)
-                                .LdapSearchRoot(ldap.LdapSearchRoot)
-                                .SynchronizedTime(_operator: " is not null")
-                                .SynchronizedTime(synchronizedTime)));
                 }
             }
             catch (Exception e)
