@@ -388,7 +388,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanSendMail(this Context context, SiteSettings ss, bool site = false)
         {
-            if (context.ContractSettings.Mail != false) return false;
+            if (context.ContractSettings.Mail == false) return false;
             switch (context.Controller)
             {
                 case "depts":
