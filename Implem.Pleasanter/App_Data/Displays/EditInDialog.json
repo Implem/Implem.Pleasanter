@@ -1,0 +1,13 @@
+﻿{
+  "Id": "EditInDialog",
+  "Type": 110,
+  "Languages": [
+    {
+      "Body": "Edit in dialog"
+    },
+    {
+      "Language": "ja",
+      "Body": "ダイアログで編集"
+    }
+  ]
+}

@@ -799,25 +799,53 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             DeptModel deptModel)
         {
-            return res
-                .Ver(context: context)
-                .Timestamp(context: context)
-                .Val("#VerUp", false)
-                .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", deptModel.Title.Value)
-                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+            if (Forms.Bool("IsDialogEditorForm"))
+            {
+                var view = Views.GetBySession(
                     context: context,
-                    baseModel: deptModel,
-                    tableName: "Depts"))
-                .SetMemory("formChanged", false)
-                .Message(Messages.Updated(deptModel.Title.Value))
-                .Comment(
+                    ss: ss);
+                var gridData = new GridData(
                     context: context,
                     ss: ss,
-                    column: ss.GetColumn(context: context, columnName: "Comments"),
-                    comments: deptModel.Comments,
-                    deleteCommentId: deptModel.DeleteCommentId)
-                .ClearFormData();
+                    view: view,
+                    where: Rds.DeptsWhere().DeptId(deptModel.DeptId));
+                var columns = ss.GetGridColumns(
+                    context: context,
+                    checkPermission: true);
+                return res
+                    .ReplaceAll(
+                        $"[data-id=\"{deptModel.DeptId}\"]",
+                        gridData.TBody(
+                            hb: new HtmlBuilder(),
+                            context: context,
+                            ss: ss,
+                            columns: columns,
+                            checkAll: false))
+                    .CloseDialog()
+                    .Message(Messages.Updated(deptModel.Title.DisplayValue));
+            }
+            else
+            {
+                return res
+                    .Ver(context: context)
+                    .Timestamp(context: context)
+                    .Val("#VerUp", false)
+                    .Disabled("#VerUp", false)
+                    .Html("#HeaderTitle", deptModel.Title.Value)
+                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                        context: context,
+                        baseModel: deptModel,
+                        tableName: "Depts"))
+                    .SetMemory("formChanged", false)
+                    .Message(Messages.Updated(deptModel.Title.Value))
+                    .Comment(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(context: context, columnName: "Comments"),
+                        comments: deptModel.Comments,
+                        deleteCommentId: deptModel.DeleteCommentId)
+                    .ClearFormData();
+            }
         }
 
         public static string Delete(Context context, SiteSettings ss, int deptId)

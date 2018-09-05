@@ -187,6 +187,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Duplicated(params string[] data) { return Get("Duplicated", data); }
         public static string EarnedValue(params string[] data) { return Get("EarnedValue", data); }
         public static string Edit(params string[] data) { return Get("Edit", data); }
+        public static string EditInDialog(params string[] data) { return Get("EditInDialog", data); }
         public static string Editor(params string[] data) { return Get("Editor", data); }
         public static string EditorFormat(params string[] data) { return Get("EditorFormat", data); }
         public static string EditorSettings(params string[] data) { return Get("EditorSettings", data); }

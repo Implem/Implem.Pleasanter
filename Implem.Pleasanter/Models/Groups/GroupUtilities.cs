@@ -809,25 +809,53 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             GroupModel groupModel)
         {
-            return res
-                .Ver(context: context)
-                .Timestamp(context: context)
-                .Val("#VerUp", false)
-                .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", groupModel.Title.Value)
-                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+            if (Forms.Bool("IsDialogEditorForm"))
+            {
+                var view = Views.GetBySession(
                     context: context,
-                    baseModel: groupModel,
-                    tableName: "Groups"))
-                .SetMemory("formChanged", false)
-                .Message(Messages.Updated(groupModel.Title.Value))
-                .Comment(
+                    ss: ss);
+                var gridData = new GridData(
                     context: context,
                     ss: ss,
-                    column: ss.GetColumn(context: context, columnName: "Comments"),
-                    comments: groupModel.Comments,
-                    deleteCommentId: groupModel.DeleteCommentId)
-                .ClearFormData();
+                    view: view,
+                    where: Rds.GroupsWhere().GroupId(groupModel.GroupId));
+                var columns = ss.GetGridColumns(
+                    context: context,
+                    checkPermission: true);
+                return res
+                    .ReplaceAll(
+                        $"[data-id=\"{groupModel.GroupId}\"]",
+                        gridData.TBody(
+                            hb: new HtmlBuilder(),
+                            context: context,
+                            ss: ss,
+                            columns: columns,
+                            checkAll: false))
+                    .CloseDialog()
+                    .Message(Messages.Updated(groupModel.Title.DisplayValue));
+            }
+            else
+            {
+                return res
+                    .Ver(context: context)
+                    .Timestamp(context: context)
+                    .Val("#VerUp", false)
+                    .Disabled("#VerUp", false)
+                    .Html("#HeaderTitle", groupModel.Title.Value)
+                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                        context: context,
+                        baseModel: groupModel,
+                        tableName: "Groups"))
+                    .SetMemory("formChanged", false)
+                    .Message(Messages.Updated(groupModel.Title.Value))
+                    .Comment(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(context: context, columnName: "Comments"),
+                        comments: groupModel.Comments,
+                        deleteCommentId: groupModel.DeleteCommentId)
+                    .ClearFormData();
+            }
         }
 
         public static string Delete(Context context, SiteSettings ss, int groupId)

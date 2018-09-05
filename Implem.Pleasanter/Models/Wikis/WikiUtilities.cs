@@ -152,10 +152,16 @@ namespace Implem.Pleasanter.Models
                 wikiModel: wikiModel);
         }
 
-        public static string Editor(Context context, SiteSettings ss, WikiModel wikiModel)
+        public static string Editor(
+            Context context,
+            SiteSettings ss,
+            WikiModel wikiModel,
+            bool editInDialog = false)
         {
             var invalid = WikiValidators.OnEditing(
-                context: context, ss: ss, wikiModel: wikiModel);
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -165,32 +171,43 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: wikiModel.Mine(context: context));
-            return hb.Template(
-                context: context,
-                ss: ss,
-                verType: wikiModel.VerType,
-                methodType: wikiModel.MethodType,
-                siteId: wikiModel.SiteId,
-                parentId: ss.ParentId,
-                referenceType: "Wikis",
-                title: wikiModel.MethodType == BaseModel.MethodTypes.New
-                    ? Displays.New()
-                    : wikiModel.Title.DisplayValue,
-                useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
-                userScript: ss.EditorScripts(
-                    context: context, methodType: wikiModel.MethodType),
-                userStyle: ss.EditorStyles(
-                    context: context, methodType: wikiModel.MethodType),
-                action: () => hb
-                    .Editor(
-                        context: context,
-                        ss: ss,
-                        wikiModel: wikiModel)
-                    .Hidden(controlId: "TableName", value: "Wikis")
-                    .Hidden(controlId: "Id", value: wikiModel.WikiId.ToString())
-                    .Hidden(controlId: "TriggerRelatingColumns", value: Jsons.ToJson(ss.RelatingColumns))
-                    .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
-                        .ToString();
+            return editInDialog
+                ? hb.DialogEditorForm(
+                    siteId: wikiModel.SiteId,
+                    referenceId: wikiModel.WikiId,
+                    action: () => hb
+                        .FieldSetGeneral(
+                            context: context,
+                            ss: ss,
+                            wikiModel: wikiModel,
+                            editInDialog: editInDialog))
+                                .ToString()
+                : hb.Template(
+                    context: context,
+                    ss: ss,
+                    verType: wikiModel.VerType,
+                    methodType: wikiModel.MethodType,
+                    siteId: wikiModel.SiteId,
+                    parentId: ss.ParentId,
+                    referenceType: "Wikis",
+                    title: wikiModel.MethodType == BaseModel.MethodTypes.New
+                        ? Displays.New()
+                        : wikiModel.Title.DisplayValue,
+                    useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
+                    userScript: ss.EditorScripts(
+                        context: context, methodType: wikiModel.MethodType),
+                    userStyle: ss.EditorStyles(
+                        context: context, methodType: wikiModel.MethodType),
+                    action: () => hb
+                        .Editor(
+                            context: context,
+                            ss: ss,
+                            wikiModel: wikiModel)
+                        .Hidden(controlId: "TableName", value: "Wikis")
+                        .Hidden(controlId: "Id", value: wikiModel.WikiId.ToString())
+                        .Hidden(controlId: "TriggerRelatingColumns", value: Jsons.ToJson(ss.RelatingColumns))
+                        .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
+                            .ToString();
         }
 
         /// <summary>
@@ -314,14 +331,16 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            WikiModel wikiModel)
+            WikiModel wikiModel,
+            bool editInDialog = false)
         {
             var mine = wikiModel.Mine(context: context);
             return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
                 .FieldSetGeneralColumns(
                     context: context,
                     ss: ss,
-                    wikiModel: wikiModel));
+                    wikiModel: wikiModel,
+                    editInDialog: editInDialog));
         }
 
         public static HtmlBuilder FieldSetGeneralColumns(
@@ -329,7 +348,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             WikiModel wikiModel,
-            bool preview = false)
+            bool preview = false,
+            bool editInDialog = false)
         {
             ss.GetEditorColumns(context: context).ForEach(column =>
             {
@@ -553,30 +573,58 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             WikiModel wikiModel)
         {
-            return res
-                .Ver(context: context)
-                .Timestamp(context: context)
-                .Val("#VerUp", false)
-                .FieldResponse(context: context, ss: ss, wikiModel: wikiModel)
-                .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", wikiModel.Title.DisplayValue)
-                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+            if (Forms.Bool("IsDialogEditorForm"))
+            {
+                var view = Views.GetBySession(
                     context: context,
-                    baseModel: wikiModel,
-                    tableName: "Wikis"))
-                .Html("#Links", new HtmlBuilder().Links(
+                    ss: ss);
+                var gridData = new GridData(
                     context: context,
                     ss: ss,
-                    id: wikiModel.WikiId))
-                .SetMemory("formChanged", false)
-                .Message(Messages.Updated(wikiModel.Title.DisplayValue))
-                .Comment(
+                    view: view,
+                    where: Rds.WikisWhere().WikiId(wikiModel.WikiId));
+                var columns = ss.GetGridColumns(
                     context: context,
-                    ss: ss,
-                    column: ss.GetColumn(context: context, columnName: "Comments"),
-                    comments: wikiModel.Comments,
-                    deleteCommentId: wikiModel.DeleteCommentId)
-                .ClearFormData();
+                    checkPermission: true);
+                return res
+                    .ReplaceAll(
+                        $"[data-id=\"{wikiModel.WikiId}\"]",
+                        gridData.TBody(
+                            hb: new HtmlBuilder(),
+                            context: context,
+                            ss: ss,
+                            columns: columns,
+                            checkAll: false))
+                    .CloseDialog()
+                    .Message(Messages.Updated(wikiModel.Title.DisplayValue));
+            }
+            else
+            {
+                return res
+                    .Ver(context: context)
+                    .Timestamp(context: context)
+                    .Val("#VerUp", false)
+                    .FieldResponse(context: context, ss: ss, wikiModel: wikiModel)
+                    .Disabled("#VerUp", false)
+                    .Html("#HeaderTitle", wikiModel.Title.DisplayValue)
+                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                        context: context,
+                        baseModel: wikiModel,
+                        tableName: "Wikis"))
+                    .Html("#Links", new HtmlBuilder().Links(
+                        context: context,
+                        ss: ss,
+                        id: wikiModel.WikiId))
+                    .SetMemory("formChanged", false)
+                    .Message(Messages.Updated(wikiModel.Title.DisplayValue))
+                    .Comment(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(context: context, columnName: "Comments"),
+                        comments: wikiModel.Comments,
+                        deleteCommentId: wikiModel.DeleteCommentId)
+                    .ClearFormData();
+            }
         }
 
         public static string Delete(Context context, SiteSettings ss, long wikiId)
