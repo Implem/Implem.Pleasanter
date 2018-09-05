@@ -90,6 +90,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Issues")
                             .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
+                    .EditorDialog(context: context, ss: ss)
                     .DropDownSearchDialog("items", ss.SiteId)
                     .MoveDialog(context: context, bulk: true)
                     .ImportSettingsDialog(context: context)
@@ -1279,10 +1280,16 @@ namespace Implem.Pleasanter.Models
                 issueModel: issueModel);
         }
 
-        public static string Editor(Context context, SiteSettings ss, IssueModel issueModel)
+        public static string Editor(
+            Context context,
+            SiteSettings ss,
+            IssueModel issueModel,
+            bool editInDialog = false)
         {
             var invalid = IssueValidators.OnEditing(
-                context: context, ss: ss, issueModel: issueModel);
+                context: context,
+                ss: ss,
+                issueModel: issueModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -1292,32 +1299,43 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: issueModel.Mine(context: context));
-            return hb.Template(
-                context: context,
-                ss: ss,
-                verType: issueModel.VerType,
-                methodType: issueModel.MethodType,
-                siteId: issueModel.SiteId,
-                parentId: ss.ParentId,
-                referenceType: "Issues",
-                title: issueModel.MethodType == BaseModel.MethodTypes.New
-                    ? Displays.New()
-                    : issueModel.Title.DisplayValue,
-                useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
-                userScript: ss.EditorScripts(
-                    context: context, methodType: issueModel.MethodType),
-                userStyle: ss.EditorStyles(
-                    context: context, methodType: issueModel.MethodType),
-                action: () => hb
-                    .Editor(
-                        context: context,
-                        ss: ss,
-                        issueModel: issueModel)
-                    .Hidden(controlId: "TableName", value: "Issues")
-                    .Hidden(controlId: "Id", value: issueModel.IssueId.ToString())
-                    .Hidden(controlId: "TriggerRelatingColumns", value: Jsons.ToJson(ss.RelatingColumns))
-                    .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
-                        .ToString();
+            return editInDialog
+                ? hb.DialogEditorForm(
+                    siteId: issueModel.SiteId,
+                    referenceId: issueModel.IssueId,
+                    action: () => hb
+                        .FieldSetGeneral(
+                            context: context,
+                            ss: ss,
+                            issueModel: issueModel,
+                            editInDialog: editInDialog))
+                                .ToString()
+                : hb.Template(
+                    context: context,
+                    ss: ss,
+                    verType: issueModel.VerType,
+                    methodType: issueModel.MethodType,
+                    siteId: issueModel.SiteId,
+                    parentId: ss.ParentId,
+                    referenceType: "Issues",
+                    title: issueModel.MethodType == BaseModel.MethodTypes.New
+                        ? Displays.New()
+                        : issueModel.Title.DisplayValue,
+                    useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
+                    userScript: ss.EditorScripts(
+                        context: context, methodType: issueModel.MethodType),
+                    userStyle: ss.EditorStyles(
+                        context: context, methodType: issueModel.MethodType),
+                    action: () => hb
+                        .Editor(
+                            context: context,
+                            ss: ss,
+                            issueModel: issueModel)
+                        .Hidden(controlId: "TableName", value: "Issues")
+                        .Hidden(controlId: "Id", value: issueModel.IssueId.ToString())
+                        .Hidden(controlId: "TriggerRelatingColumns", value: Jsons.ToJson(ss.RelatingColumns))
+                        .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
+                            .ToString();
         }
 
         private static HtmlBuilder Editor(
@@ -1498,14 +1516,16 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            IssueModel issueModel)
+            IssueModel issueModel,
+            bool editInDialog = false)
         {
             var mine = issueModel.Mine(context: context);
             return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
                 .FieldSetGeneralColumns(
                     context: context,
                     ss: ss,
-                    issueModel: issueModel));
+                    issueModel: issueModel,
+                    editInDialog: editInDialog));
         }
 
         public static HtmlBuilder FieldSetGeneralColumns(
@@ -1513,7 +1533,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             IssueModel issueModel,
-            bool preview = false)
+            bool preview = false,
+            bool editInDialog = false)
         {
             ss.GetEditorColumns(context: context).ForEach(column =>
             {
@@ -3375,18 +3396,21 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     baseModel: issueModel);
-                hb
-                    .Div(id: "LinkCreations", css: "links", action: () => hb
-                        .LinkCreations(
-                            context: context,
-                            ss: ss,
-                            linkId: issueModel.IssueId,
-                            methodType: issueModel.MethodType))
-                    .Div(id: "Links", css: "links", action: () => hb
-                        .Links(
-                            context: context,
-                            ss: ss,
-                            id: issueModel.IssueId));
+                if (!editInDialog)
+                {
+                    hb
+                        .Div(id: "LinkCreations", css: "links", action: () => hb
+                            .LinkCreations(
+                                context: context,
+                                ss: ss,
+                                linkId: issueModel.IssueId,
+                                methodType: issueModel.MethodType))
+                        .Div(id: "Links", css: "links", action: () => hb
+                            .Links(
+                                context: context,
+                                ss: ss,
+                                id: issueModel.IssueId));
+                }
             }
             return hb;
         }
@@ -3437,14 +3461,23 @@ namespace Implem.Pleasanter.Models
             string switchTargets = null)
         {
             issueModel.MethodType = BaseModel.MethodTypes.Edit;
-            return new IssuesResponseCollection(issueModel)
-                .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(context, ss, issueModel))
-                .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
-                .SetMemory("formChanged", false)
-                .Invoke("setCurrentIndex")
-                .Message(message)
-                .ClearFormData();
+            var editInDialog = Forms.Bool("EditInDialog");
+            return editInDialog
+                ? new IssuesResponseCollection(issueModel)
+                    .Html("#EditInDialogBody", Editor(
+                        context: context,
+                        ss: ss,
+                        issueModel: issueModel,
+                        editInDialog: editInDialog))
+                    .Invoke("openEditorDialog")
+                : new IssuesResponseCollection(issueModel)
+                    .Invoke("clearDialogs")
+                    .ReplaceAll("#MainContainer", Editor(context, ss, issueModel))
+                    .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                    .SetMemory("formChanged", false)
+                    .Invoke("setCurrentIndex")
+                    .Message(message)
+                    .ClearFormData();
         }
 
         private static List<long> GetSwitchTargets(Context context, SiteSettings ss, long issueId, long siteId)
@@ -4741,30 +4774,58 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IssueModel issueModel)
         {
-            return res
-                .Ver(context: context)
-                .Timestamp(context: context)
-                .Val("#VerUp", false)
-                .FieldResponse(context: context, ss: ss, issueModel: issueModel)
-                .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", issueModel.Title.DisplayValue)
-                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+            if (Forms.Bool("IsDialogEditorForm"))
+            {
+                var view = Views.GetBySession(
                     context: context,
-                    baseModel: issueModel,
-                    tableName: "Issues"))
-                .Html("#Links", new HtmlBuilder().Links(
+                    ss: ss);
+                var gridData = new GridData(
                     context: context,
                     ss: ss,
-                    id: issueModel.IssueId))
-                .SetMemory("formChanged", false)
-                .Message(Messages.Updated(issueModel.Title.DisplayValue))
-                .Comment(
+                    view: view,
+                    where: Rds.IssuesWhere().IssueId(issueModel.IssueId));
+                var columns = ss.GetGridColumns(
                     context: context,
-                    ss: ss,
-                    column: ss.GetColumn(context: context, columnName: "Comments"),
-                    comments: issueModel.Comments,
-                    deleteCommentId: issueModel.DeleteCommentId)
-                .ClearFormData();
+                    checkPermission: true);
+                return res
+                    .ReplaceAll(
+                        $"[data-id=\"{issueModel.IssueId}\"]",
+                        gridData.TBody(
+                            hb: new HtmlBuilder(),
+                            context: context,
+                            ss: ss,
+                            columns: columns,
+                            checkAll: false))
+                    .CloseDialog()
+                    .Message(Messages.Updated(issueModel.Title.DisplayValue));
+            }
+            else
+            {
+                return res
+                    .Ver(context: context)
+                    .Timestamp(context: context)
+                    .Val("#VerUp", false)
+                    .FieldResponse(context: context, ss: ss, issueModel: issueModel)
+                    .Disabled("#VerUp", false)
+                    .Html("#HeaderTitle", issueModel.Title.DisplayValue)
+                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                        context: context,
+                        baseModel: issueModel,
+                        tableName: "Issues"))
+                    .Html("#Links", new HtmlBuilder().Links(
+                        context: context,
+                        ss: ss,
+                        id: issueModel.IssueId))
+                    .SetMemory("formChanged", false)
+                    .Message(Messages.Updated(issueModel.Title.DisplayValue))
+                    .Comment(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(context: context, columnName: "Comments"),
+                        comments: issueModel.Comments,
+                        deleteCommentId: issueModel.DeleteCommentId)
+                    .ClearFormData();
+            }
         }
 
         public static System.Web.Mvc.ContentResult UpdateByApi(

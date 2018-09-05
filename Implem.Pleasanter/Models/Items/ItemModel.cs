@@ -943,7 +943,7 @@ namespace Implem.Pleasanter.Models
                 .ToDictionary(o => o.Key, o => o.Value);
             return optionCollection?.Any() == true
                 ? new ResponseCollection()
-                    .CloseDialog()
+                    .CloseDialog("#DropDownSearchDialog")
                     .Html("[id=\"" + controlId + "\"]", new HtmlBuilder()
                         .OptionCollection(
                             context: context,

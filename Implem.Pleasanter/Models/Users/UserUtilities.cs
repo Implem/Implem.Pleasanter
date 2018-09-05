@@ -3330,25 +3330,53 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             UserModel userModel)
         {
-            return res
-                .Ver(context: context)
-                .Timestamp(context: context)
-                .Val("#VerUp", false)
-                .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", userModel.Title.Value)
-                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+            if (Forms.Bool("IsDialogEditorForm"))
+            {
+                var view = Views.GetBySession(
                     context: context,
-                    baseModel: userModel,
-                    tableName: "Users"))
-                .SetMemory("formChanged", false)
-                .Message(Messages.Updated(userModel.Title.Value))
-                .Comment(
+                    ss: ss);
+                var gridData = new GridData(
                     context: context,
                     ss: ss,
-                    column: ss.GetColumn(context: context, columnName: "Comments"),
-                    comments: userModel.Comments,
-                    deleteCommentId: userModel.DeleteCommentId)
-                .ClearFormData();
+                    view: view,
+                    where: Rds.UsersWhere().UserId(userModel.UserId));
+                var columns = ss.GetGridColumns(
+                    context: context,
+                    checkPermission: true);
+                return res
+                    .ReplaceAll(
+                        $"[data-id=\"{userModel.UserId}\"]",
+                        gridData.TBody(
+                            hb: new HtmlBuilder(),
+                            context: context,
+                            ss: ss,
+                            columns: columns,
+                            checkAll: false))
+                    .CloseDialog()
+                    .Message(Messages.Updated(userModel.Title.DisplayValue));
+            }
+            else
+            {
+                return res
+                    .Ver(context: context)
+                    .Timestamp(context: context)
+                    .Val("#VerUp", false)
+                    .Disabled("#VerUp", false)
+                    .Html("#HeaderTitle", userModel.Title.Value)
+                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                        context: context,
+                        baseModel: userModel,
+                        tableName: "Users"))
+                    .SetMemory("formChanged", false)
+                    .Message(Messages.Updated(userModel.Title.Value))
+                    .Comment(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(context: context, columnName: "Comments"),
+                        comments: userModel.Comments,
+                        deleteCommentId: userModel.DeleteCommentId)
+                    .ClearFormData();
+            }
         }
 
         public static string Delete(Context context, SiteSettings ss, int userId)

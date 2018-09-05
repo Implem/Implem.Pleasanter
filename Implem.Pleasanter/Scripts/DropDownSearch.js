@@ -24,7 +24,6 @@ $p.openDropDownSearchDialog = function ($control) {
     $text.val('');
     $('#DropDownSearchOnEditor').val($('#Editor').length === 1);
     $('#DropDownSearchMultiple').val($control.attr('multiple') === 'multiple');
-    $p.send($text);
     $($('#DropDownSearchDialog')).dialog({
         title: $('label[for="' + id + '"]').text(),
         modal: true,
@@ -33,6 +32,7 @@ $p.openDropDownSearchDialog = function ($control) {
             $('#' + $target.val()).prop("disabled", false);
         }
     });
+    $p.send($text);
     $p.setPaging('DropDownSearchResults');
     $control.prop("disabled", true);
     $text.focus();

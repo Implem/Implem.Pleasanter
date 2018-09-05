@@ -75,6 +75,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? NearCompletionTimeBeforeDays;
         public int? GridPageSize;
         public int? GridView;
+        public bool? EditInDialog;
         public int? FirstDayOfWeek;
         public int? FirstMonth;
         public List<string> GridColumns;
@@ -349,6 +350,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (GridView != 0)
             {
                 ss.GridView = GridView;
+            }
+            if (EditInDialog == true)
+            {
+                ss.EditInDialog = EditInDialog;
             }
             if (FirstDayOfWeek != param.FirstDayOfWeek)
             {
@@ -2081,6 +2086,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NearCompletionTimeAfterDays": NearCompletionTimeAfterDays = value.ToInt(); break;
                 case "GridPageSize": GridPageSize = value.ToInt(); break;
                 case "GridView": GridView = value.ToInt(); break;
+                case "EditInDialog": EditInDialog = value.ToBool(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;

@@ -90,6 +90,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Sites")
                             .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
+                    .EditorDialog(context: context, ss: ss)
                     .DropDownSearchDialog("items", ss.SiteId)
                     .MoveDialog(context: context, bulk: true)
                     .Div(attributes: new HtmlAttributes()
@@ -579,25 +580,53 @@ namespace Implem.Pleasanter.Models
             SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;
-            return res
-                .Ver(context: context)
-                .Timestamp(context: context)
-                .Val("#VerUp", false)
-                .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", siteModel.Title.Value)
-                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+            if (Forms.Bool("IsDialogEditorForm"))
+            {
+                var view = Views.GetBySession(
                     context: context,
-                    baseModel: siteModel,
-                    tableName: "Sites"))
-                .SetMemory("formChanged", false)
-                .Message(Messages.Updated(siteModel.Title.Value))
-                .Comment(
+                    ss: ss);
+                var gridData = new GridData(
                     context: context,
                     ss: ss,
-                    column: ss.GetColumn(context: context, columnName: "Comments"),
-                    comments: siteModel.Comments,
-                    deleteCommentId: siteModel.DeleteCommentId)
-                .ClearFormData();
+                    view: view,
+                    where: Rds.SitesWhere().SiteId(siteModel.SiteId));
+                var columns = ss.GetGridColumns(
+                    context: context,
+                    checkPermission: true);
+                return res
+                    .ReplaceAll(
+                        $"[data-id=\"{siteModel.SiteId}\"]",
+                        gridData.TBody(
+                            hb: new HtmlBuilder(),
+                            context: context,
+                            ss: ss,
+                            columns: columns,
+                            checkAll: false))
+                    .CloseDialog()
+                    .Message(Messages.Updated(siteModel.Title.DisplayValue));
+            }
+            else
+            {
+                return res
+                    .Ver(context: context)
+                    .Timestamp(context: context)
+                    .Val("#VerUp", false)
+                    .Disabled("#VerUp", false)
+                    .Html("#HeaderTitle", siteModel.Title.Value)
+                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                        context: context,
+                        baseModel: siteModel,
+                        tableName: "Sites"))
+                    .SetMemory("formChanged", false)
+                    .Message(Messages.Updated(siteModel.Title.Value))
+                    .Comment(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(context: context, columnName: "Comments"),
+                        comments: siteModel.Comments,
+                        deleteCommentId: siteModel.DeleteCommentId)
+                    .ClearFormData();
+            }
         }
 
         public static string Copy(Context context, SiteModel siteModel)
@@ -3022,6 +3051,11 @@ namespace Implem.Pleasanter.Models
                     selectedValue: ss.GridView?.ToString(),
                     insertBlank: true,
                     _using: ss.Views?.Any() == true)
+                .FieldCheckBox(
+                    controlId: "EditInDialog",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.EditInDialog(),
+                    _checked: ss.EditInDialog == true)
                 .AggregationDetailsDialog(context: context, ss: ss));
         }
 

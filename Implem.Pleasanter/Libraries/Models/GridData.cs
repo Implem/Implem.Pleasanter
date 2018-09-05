@@ -202,7 +202,7 @@ namespace Implem.Pleasanter.Libraries.Models
             }
         }
 
-        public void TBody(
+        public HtmlBuilder TBody(
             HtmlBuilder hb,
             Context context,
             SiteSettings ss,
@@ -344,6 +344,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         });
                     });
             });
+            return hb;
         }
     }
 }

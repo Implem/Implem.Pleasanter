@@ -52,10 +52,17 @@
                         $p[func]($grid);
                     }
                     else {
-                        location.href = $('#BaseUrl').val() + dataId +
-                            ($grid.attr('data-value') === 'back'
-                                ? '?back=1'
-                                : '');
+                        if ($('#EditorDialog').length === 1) {
+                            var data = {};
+                            data.EditInDialog = true;
+                            url = $('#BaseUrl').val() + dataId;
+                            $p.ajax(url, 'post', data);
+                        } else {
+                            location.href = $('#BaseUrl').val() + dataId +
+                                ($grid.attr('data-value') === 'back'
+                                    ? '?back=1'
+                                    : '');
+                        }
                     }
                 }
             }
