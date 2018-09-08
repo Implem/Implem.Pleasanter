@@ -3657,6 +3657,7 @@ namespace Implem.Pleasanter.Models
                     case "Comments": data.Comments = Comments.ToLocal().ToJson(); break;
                 }
             });
+            data.ItemTitle = Title.DisplayValue;
             return data;
         }
 

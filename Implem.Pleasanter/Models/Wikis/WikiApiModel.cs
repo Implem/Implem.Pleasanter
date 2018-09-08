@@ -14,6 +14,7 @@ namespace Implem.Pleasanter.Models
         public int? Creator;
         public int? Updator;
         public DateTime? CreatedTime;
+        public string ItemTitle;
         public bool? VerUp;
     }
 }
