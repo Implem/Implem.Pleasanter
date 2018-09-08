@@ -54,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public Context(int tenantId, int deptId = 0, int userId = 0)
         {
+            Authenticated = Sessions.LoggedIn();
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
@@ -100,7 +101,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public void SetBySession()
         {
             Authenticated = Sessions.LoggedIn();
-            LoginId = HttpContext.Current?.User?.Identity.Name;
+            LoginId = HttpContext.Current.User.Identity.Name;
             TenantId = HttpContext.Current.Session["TenantId"].ToInt();
             DeptId = HttpContext.Current.Session["DeptId"].ToInt();
             UserId = HttpContext.Current.Session["UserId"].ToInt();
@@ -109,7 +110,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             Language = HttpContext.Current.Session["Language"].ToStr();
             Developer = HttpContext.Current.Session["Developer"].ToBool();
             TimeZoneInfo = HttpContext.Current.Session["TimeZoneInfo"] as TimeZoneInfo;
-            RdsUser = HttpContext.Current?.Session?["RdsUser"] as RdsUser;
+            RdsUser = HttpContext.Current.Session["RdsUser"] as RdsUser;
             UserSettings = HttpContext.Current.Session["UserSettings"]?
                 .ToString()
                 .Deserialize<UserSettings>()

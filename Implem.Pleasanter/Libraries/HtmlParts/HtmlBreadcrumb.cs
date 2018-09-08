@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Breadcrumb(
             this HtmlBuilder hb, Context context, SiteSettings ss, bool _using)
         {
-            if (!Sessions.LoggedIn() || !_using)
+            if (!context.Authenticated || !_using)
             {
                 return hb;
             }

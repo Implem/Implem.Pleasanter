@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string Title(Context context)
         {
-            if (Sessions.LoggedIn() && Parameters.Service.ShowTenantTitle)
+            if (context.Authenticated && Parameters.Service.ShowTenantTitle)
             {
                 var title = Rds.ExecuteScalar_string(
                     context: context,
