@@ -221,7 +221,6 @@
     <Compile Include="Controllers\ResourcesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VersionsController.cs" />
-    <Compile Include="Filters\CheckApiAuthentication.cs" />
     <Compile Include="Filters\CheckParameterSyntaxError.cs" />
     <Compile Include="Filters\CheckUserAttributes.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
