@@ -96,7 +96,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     returnUrl: string.Empty);
                 SiteInfo.Reflesh(context: context, force: true);
-                return Sessions.LoggedIn();
+                return context.Authenticated;
             }
             else
             {

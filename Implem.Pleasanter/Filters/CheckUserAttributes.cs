@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Filters
         public void OnAuthorization(AuthorizationContext filterContext)
         {
             var context = new Context();
-            if (Sessions.LoggedIn())
+            if (context.Authenticated)
             {
                 var userModel = new UserModel().Get(
                     context: context,

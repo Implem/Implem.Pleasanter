@@ -93,7 +93,7 @@ namespace Implem.Pleasanter
             Session["StartTime"] = DateTime.Now;
             Session["LastAccessTime"] = Session["StartTime"];
             Session["SessionGuid"] = Strings.NewGuid();
-            if (Sessions.LoggedIn())
+            if (context.Authenticated)
             {
                 if (Authentications.Windows())
                 {

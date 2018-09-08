@@ -197,7 +197,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            if (Sessions.LoggedIn())
+            if (context.Authenticated)
             {
                 if (QueryStrings.Bool("new"))
                 {
