@@ -27,7 +27,6 @@ namespace Implem.Pleasanter
             Application["LastAccessTime"] = Application["StartTime"];
             Initialize();
             var log = new SysLogModel(context: context);
-            SiteInfo.TenantCaches.Add(0, new TenantCache(context: context));
             UsersInitializer.Initialize(context: context);
             ItemsInitializer.Initialize(context: context);
             StatusesMigrator.Migrate(context: context);

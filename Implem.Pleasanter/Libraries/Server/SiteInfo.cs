@@ -18,6 +18,10 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static void Reflesh(Context context, bool force = false)
         {
+            if (context.TenantId == 0)
+            {
+                return;
+            }
             var tenantCache = TenantCaches.Get(context.TenantId);
             var monitor = tenantCache.GetUpdateMonitor(context: context);
             if (monitor.DeptsUpdated || monitor.UsersUpdated || force)
@@ -82,6 +86,10 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static IEnumerable<int> SiteUsers(Context context, long siteId)
         {
+            if (context.TenantId == 0)
+            {
+                return new List<int>();
+            }
             var tenantCache = TenantCaches.Get(context.TenantId);
             if (!tenantCache.SiteUserHash.ContainsKey(siteId))
             {
@@ -95,6 +103,10 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static void SetSiteUserHash(Context context, long siteId, bool reload = false)
         {
+            if (context.TenantId == 0)
+            {
+                return;
+            }
             var tenantCache = TenantCaches.Get(context.TenantId);
             if (!tenantCache.SiteUserHash.ContainsKey(siteId))
             {
@@ -164,6 +176,10 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static Dept Dept(int tenantId, int deptId)
         {
+            if (tenantId == 0)
+            {
+                return new Dept();
+            }
             return TenantCaches.Get(tenantId)?.DeptHash?
                 .Where(o => o.Key == deptId)
                 .Select(o => o.Value)
@@ -172,6 +188,10 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static User User(Context context, int userId)
         {
+            if (context.TenantId == 0)
+            {
+                return new User();
+            }
             return TenantCaches.Get(context.TenantId)?.UserHash?
                 .Where(o => o.Key == userId)
                 .Select(o => o.Value)

@@ -148,7 +148,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private void SetTenantCaches()
         {
-            if (!SiteInfo.TenantCaches.ContainsKey(TenantId))
+            if (TenantId != 0 && !SiteInfo.TenantCaches.ContainsKey(TenantId))
             {
                 try
                 {
