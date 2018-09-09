@@ -82,22 +82,25 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public IEnumerable<SiteMenuElement> Children(
             Context context,
-            SiteSettings ss,
+            long siteId,
             List<SiteMenuElement> data = null,
             bool withParent = false)
         {
             if (data == null)
             {
                 data = new List<SiteMenuElement>();
-                if (withParent) data.Add(Get(context: context, siteId: ss.SiteId));
+                if (withParent) data.Add(Get(context: context, siteId: siteId));
             }
             this.Select(o => o.Value)
                 .Where(o => o.TenantId == context.TenantId)
-                .Where(o => o.ParentId == ss.SiteId)
+                .Where(o => o.ParentId == siteId)
                 .ForEach(element =>
                 {
                     data.Add(element);
-                    Children(context: context, ss: ss, data: data);
+                    Children(
+                        context: context,
+                        siteId: element.SiteId,
+                        data: data);
                 });
             return data;
         }
